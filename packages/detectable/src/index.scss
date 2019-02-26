@@ -1,0 +1,531 @@
+// FONTS
+@font-face {
+  src: url("fonts/SourceSansPro-Regular.otf.woff") format("woff");
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url("fonts/SourceSansPro-It.otf.woff") format("woff");
+  font-family: "Source Sans Pro";
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url("fonts/SourceSansPro-Semibold.otf.woff") format("woff");
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url("fonts/SourceSansPro-SemiboldIt.otf.woff") format("woff");
+  font-family: "Source Sans Pro";
+  font-style: italic;
+  font-weight: 600;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url("fonts/SourceSansPro-Bold.otf.woff") format("woff");
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url("fonts/SourceSansPro-BoldIt.otf.woff") format("woff");
+  font-family: "Source Sans Pro";
+  font-style: italic;
+  font-weight: 700;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url("fonts/SourceSerifPro-Regular.otf.woff") format("woff");
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url("fonts/SourceSerifPro-It.otf.woff") format("woff");
+  font-family: "Source Serif Pro";
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url("fonts/SourceSerifPro-Semibold.otf.woff") format("woff");
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url("fonts/SourceSerifPro-SemiboldIt.otf.woff") format("woff");
+  font-family: "Source Serif Pro";
+  font-style: italic;
+  font-weight: 600;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url("fonts/SourceSerifPro-Bold.otf.woff") format("woff");
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url("fonts/SourceSerifPro-BoldIt.otf.woff") format("woff");
+  font-family: "Source Serif Pro";
+  font-style: italic;
+  font-weight: 700;
+  font-stretch: normal;
+}
+
+//////////////////////////////////////////////////
+// COLOR
+//////////////////////////////////////////////////
+
+// SCSS variables
+// http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
+$color-map: (
+  h: #4daf4a, // green (CB3)
+  m: #ff7f00, // orange (CB5)
+  fa: #377eb8, // blue (CB2)
+  cr: #e41a1c, // red (CB1)
+  hr: #ffff33, // yellow (CB6)
+  far:#984ea3, // purple (CB4)
+  d: #f781bf, // pink (CB8)
+  c: #a65628, // brown (CB7)
+  acc: #999999, // grey (CB9)
+  present: #f032e6, // magenta
+  absent: #10dbc9, // cyan
+);
+
+// Greys:
+$color-grey-base: #999999; // baseline grey
+
+$color-white: #ffffff; // 100% lightness #ffffff
+$color-grey-light75: mix(#ffffff, $color-grey-base, 75%); // 90% lightness #e6e6e6
+$color-grey-light50: mix(#ffffff, $color-grey-base, 50%); // 80% lightness #cccccc
+$color-grey-light25: mix(#ffffff, $color-grey-base, 25%); // 70% lightness #b3b3b3
+$color-grey: $color-grey-base; // 60% lightness #999999
+$color-grey-dark25: mix(#000000, $color-grey-base, 25%); // 45% lightness #737373
+$color-grey-dark50: mix(#000000, $color-grey-base, 50%); // 30% lightness #4d4d4d
+$color-grey-dark75: mix(#000000, $color-grey-base, 75%); // 15% lightness #262626
+$color-black: #000000;  // 0% lightness #000000
+
+// Bootstrap SCSS variables
+$body-bg: $color-white;
+$border-color: $color-grey-light75;
+$body-color: $color-grey-dark75;
+$link-color: $color-grey-dark25;
+
+// CSS variables
+:root {
+  @each $name, $color in $color-map {
+    --color-#{$name}: #{$color};
+    --color-#{$name}-light: #{mix(#ffffff, $color, 50%)};
+    --color-#{$name}-dark: #{mix(#000000, $color, 50%)};
+  }
+  --color-background: #{$body-bg};
+  --color-border: #{$border-color};
+  --color-text: #{$body-color};
+  --color-link: #{$link-color};
+  --color-element-background: #{$color-grey-light75};
+  --color-element-disabled: #{$color-grey-light50};
+  --color-element-enabled: #{$color-grey};
+  --color-element-border: #{$color-grey-dark50};
+  --color-element-emphasis: #{$color-grey-dark75};
+}
+
+// TODO
+// cleanup Links
+
+// BOOTSTRAP VARIABLES
+$font-family-base: "Source Sans Pro", sans-serif;
+$grid-gutter-width: 2rem;
+$border-width: 1px;
+$border-radius: 0.25rem;
+
+// SCSS VARIABLES
+$font-family-math: "Source Serif Pro", serif; // Not in Bootstrap
+$border: $border-width solid $border-color;
+
+// Shadows based on Material Design
+// https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
+$shadow-baseline-color: #000000;
+$shadow-umbra-opacity: 0.2;
+$shadow-penumbra-opacity: 0.14;
+$shadow-ambient-opacity: 0.12;
+$shadow-opacity-boost: 0.2;
+
+$shadow-umbra-map: (
+  0: "0px 0px 0px 0px",
+  2: "1.5px 3px 1px -2px",
+  4: "1px 2px 4px -1px",
+  8: "2.5px 5px 5px -3px",
+  16: "4px 8px 10px -5px");
+
+$shadow-penumbra-map: (
+  0: "0px 0px 0px 0px",
+  2: "1px 2px 2px 0px",
+  4: "2px 4px 5px 0px",
+  8: "4px 8px 10px 1px",
+  16: "8px 16px 24px 2px"
+);
+
+$shadow-ambient-map: (
+  0: "0px 0px 0px 0px",
+  2: "0.5px 1px 5px 0px",
+  4: "0.5px 1px 10px 0px",
+  8: "1.5px 3px 14px 2px",
+  16: "3px 6px 30px 5px"
+);
+
+@mixin shadow($shadow-level) {
+  $shadow-umbra: map-get($shadow-umbra-map, $shadow-level);
+  $shadow-penumbra: map-get($shadow-penumbra-map, $shadow-level);
+  $shadow-ambient: map-get($shadow-ambient-map, $shadow-level);
+
+  $shadow-umbra-color: rgba($shadow-baseline-color, $shadow-umbra-opacity + $shadow-opacity-boost);
+  $shadow-penumbra-color: rgba($shadow-baseline-color, $shadow-penumbra-opacity + $shadow-opacity-boost);
+  $shadow-ambient-color: rgba($shadow-baseline-color, $shadow-ambient-opacity + $shadow-opacity-boost);
+
+  box-shadow:
+    #{$shadow-umbra} #{$shadow-umbra-color},
+    #{$shadow-penumbra} #{$shadow-penumbra-color},
+    #{$shadow-ambient} #{$shadow-ambient-color};
+}
+
+
+// CSS VARIABLES for SDT
+:root { /* stylelint-disable-line no-duplicate-selectors */
+  --font-family-base: #{$font-family-base};
+  --font-family-math: #{$font-family-math};
+  --border: #{$border};
+  --border-radius: #{$border-radius};
+}
+
+
+// BOOTSTRAP IMPORTS
+// Structure
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+// Core
+@import "node_modules/bootstrap/scss/reboot";
+@import "node_modules/bootstrap/scss/type";
+// @import "node_modules/bootstrap/scss/images";
+@import "node_modules/bootstrap/scss/grid";
+// Elements
+// @import "node_modules/bootstrap/scss/tables";
+@import "node_modules/bootstrap/scss/buttons";
+@import "node_modules/bootstrap/scss/transitions";
+@import "node_modules/bootstrap/scss/dropdown";
+// @import "node_modules/bootstrap/scss/card";
+@import "node_modules/bootstrap/scss/nav";
+@import "node_modules/bootstrap/scss/navbar";
+// @import "node_modules/bootstrap/scss/alert";
+// @import "node_modules/bootstrap/scss/list-group";
+// @import "node_modules/bootstrap/scss/close";
+// @import "node_modules/bootstrap/scss/modal";
+// Utility
+@import "node_modules/bootstrap/scss/utilities";
+
+
+// CUSTOM CSS
+
+// Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
+html {
+  font-size: 1rem;
+}
+
+@include media-breakpoint-down(sm) {
+  html {
+    font-size: 0.9rem;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  html {
+    font-size: 0.8rem;
+  }
+}
+
+body {
+  font-size: 1.125rem;
+}
+
+.math-var {
+  font-family: $font-family-math;
+  font-style: italic;
+}
+
+// CLEAN
+.sdt-page {
+  @include make-container();
+}
+
+.sdt-layout {
+  @include make-row();
+}
+
+.sdt-sidebar {
+  @include make-col-ready();
+  @include make-col(12);
+
+  order: 0;
+
+  border-bottom: $border;
+
+  @include media-breakpoint-up(md) {
+    @include make-col(2);
+
+    min-height: 100vh;
+
+    border-right: $border;
+
+    @supports (position: sticky) or (position: -webkit-sticky) {
+      position: -webkit-sticky; /* stylelint-disable-line value-no-vendor-prefix */
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      height: 100vh;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    flex: 0 1 20rem;
+  }
+
+  .sdt-detectable {
+    font-size: 1.5rem;
+  }
+}
+
+.sdt-brandnav {
+  position: relative;
+  display: flex;
+
+  align-items: center;
+
+  padding: 0.5rem;
+  margin-right: ($grid-gutter-width / -2);
+  margin-left: ($grid-gutter-width / -2);
+}
+
+.sdt-tocnav-toggle {
+  @extend .btn;
+  @extend .btn-link;
+
+  padding: 0.1875rem 0.5rem;
+  margin: 0;
+
+  line-height: 1;
+  color: $body-color;
+
+  border: 0;
+
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+
+  &:hover {
+    @include shadow(2);
+
+    color: $body-color;
+  }
+
+  &:focus {
+    @include shadow(2);
+
+    color: $body-color;
+  }
+
+  &:active {
+    @include shadow(4);
+
+    color: $body-color;
+  }
+
+  svg {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
+}
+
+.sdt-brand-link {
+  @extend .navbar-brand;
+
+  padding: 0 0.5rem;
+  margin: 0;
+
+  font-weight: 600;
+  color: $body-color;
+
+  border-radius: 0.25rem;
+  outline: none;
+
+  &:hover {
+    @include shadow(2);
+
+    color: $body-color;
+    text-decoration: none;
+  }
+
+  &:focus {
+    @include shadow(2);
+
+    color: $body-color;
+    text-decoration: none;
+  }
+
+  &:active {
+    @include shadow(4);
+
+    color: $body-color;
+    text-decoration: none;
+  }
+}
+
+.sdt-tocnav {
+  padding-top: 0.25rem;
+  padding-bottom: 0.5rem;
+  margin-right: ($grid-gutter-width / -2);
+  margin-left: ($grid-gutter-width / -2);
+
+  @include media-breakpoint-up(md) {
+    @supports (position: sticky) {
+      max-height: calc(100vh - 3.5rem);
+      overflow-y: auto;
+    }
+  }
+  // Override collapse behaviors
+  @include media-breakpoint-up(md) {
+    display: block !important;
+  }
+}
+
+.sdt-toc {
+  @extend .nav;
+
+  display: block;
+}
+
+.sdt-toclink {
+  padding: 0.375rem 0.5rem;
+
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: $link-color;
+
+  border-radius: 0.25rem;
+  outline: none;
+
+  &:hover {
+    @include shadow(2);
+
+    color: $body-color;
+    text-decoration: none;
+  }
+
+  &:focus {
+    @include shadow(2);
+
+    color: $body-color;
+    text-decoration: none;
+  }
+
+  &:active {
+    @include shadow(4);
+
+    color: $body-color;
+    text-decoration: none;
+  }
+
+}
+
+.sdt-tocitem .sdt-toclink {
+  display: block;
+
+  padding: 0.375rem 0.5rem;
+  margin: 0 0.5rem;
+}
+
+.sdt-tocitem-active .sdt-toclink,
+.sdt-tocitem-active:hover .sdt-toclink {
+  font-weight: 700;
+  color: $body-color;
+}
+
+.sdt-tocitem-extra.sdt-tocitem-1 {
+  padding-top: 1.25rem;
+}
+
+.sdt-main {
+  @include make-col-ready();
+  @include make-col(12);
+
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  @include media-breakpoint-up(md) {
+    @include make-col(10);
+  }
+
+  @include media-breakpoint-up(xl) {
+    @include make-col(8);
+    border-right: $border;
+  }
+}
+
+.sdt-content {
+  padding-bottom: 1rem;
+
+  // STYLING FOR MARKDOWN
+  h2 {
+    padding-top: 1rem;
+  }
+}
+
+.sdt-footer {
+  @include make-row();
+
+  padding-top: 1rem;
+
+  border-top: $border;
+}
+
+.sdt-footer-item {
+  @include make-col-ready();
+
+  flex: 0 0 auto;
+
+  width: auto;
+  max-width: none;
+  padding: 0 0.5rem;
+
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.1;
+
+  &.sdt-footer-item-left {
+    margin-right: auto;
+  }
+}
