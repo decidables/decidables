@@ -349,6 +349,10 @@ export default class SDTElement extends LitElement {
     return (h + cr) / (h + m + fa + cr);
   }
 
+  static hrfar2acc(hr, far) {
+    return (hr + (1 - far)) / 2;
+  }
+
   static hrfar2d(hr, far) {
     return (jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1));
   }

@@ -712,7 +712,7 @@ export default class ROCSpace extends SDTElement {
           const far = this.zRoc
             ? SDTElement.zfar2far(((1 - j / n) * 6) - 3)
             : (1 - j / n);
-          values[k] = (hr + (1 - far)) / 2;
+          values[k] = SDTElement.hrfar2acc(hr, far);
         }
       }
       const thresholds = d3.range(0, 1, 0.05);
