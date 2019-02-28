@@ -42,33 +42,32 @@ export default class SDTExample extends SDTElement {
           margin: 0.625rem;
         }
 
-        /* HACK: Sibling selectors not working with ::slotted
-           .body > rdk-task + sdt-response,
-           ::slotted(rdk-task) + ::slotted(sdt-response) { */
+        /* HACK: Sibling selectors not working with ::slotted */
+        /* .body > rdk-task + sdt-response,
+        ::slotted(rdk-task) + ::slotted(sdt-response) { */
         .body ::slotted(sdt-response) {
           margin-left: 0;
         }
 
-        /* HACK: Sibling selectors not working with ::slotted
-           .body > sdt-control + rdk-task,
-           ::slotted(sdt-control) + ::slotted(rdk-task) {
-           .body ::slotted(rdk-task) {
-             margin-left: 0;
-           } */
+        /* HACK: Sibling selectors not working with ::slotted */
+        /* .body > sdt-control + rdk-task,
+        ::slotted(sdt-control) + ::slotted(rdk-task) {
+          margin-left: 0;
+        } */
         .body ::slotted(rdk-task) {
-          width: 150px;
-          height: 150px;
+          width: 10rem;
+          height: 10rem;
           margin-left: 0;
         }
 
         .body ::slotted(roc-space) {
-          width: 320px;
-          height: 320px;
+          width: 20rem;
+          height: 20rem;
         }
 
         .body ::slotted(sdt-model) {
-          width: 432px;
-          height: 240px;
+          width: 27rem;
+          height: 15rem;
         }
       `,
     ];
