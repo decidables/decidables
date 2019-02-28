@@ -83,6 +83,11 @@ export default class ROCSpace extends SDTElement {
         type: Number,
         reflect: false,
       },
+      rem: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
     };
   }
 
@@ -117,6 +122,7 @@ export default class ROCSpace extends SDTElement {
 
     this.width = NaN;
     this.height = NaN;
+    this.rem = NaN;
 
     this.alignState();
   }
@@ -307,16 +313,29 @@ export default class ROCSpace extends SDTElement {
     `;
   }
 
+  getDimensions() {
+    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
+    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
+    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
+    console.log(`roc-space: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this.getDimensions.bind(this));
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('resize', this.getDimensions.bind(this));
+    window.disconnectedCallback();
+  }
+
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties);
 
     // Get the width and height after initial render/update has occurred
     // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
-    window.setTimeout(() => {
-      this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-      this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-      // console.log(`roc-space(timeout): width = ${this.width}, height = ${this.height}`);
-    }, 0);
+    window.setTimeout(this.getDimensions.bind(this), 0);
   }
 
   update(changedProperties) {
@@ -324,8 +343,8 @@ export default class ROCSpace extends SDTElement {
 
     this.alignState();
 
-    // Bail out if we can't get the width/height
-    if (Number.isNaN(this.width) || Number.isNaN(this.height)) {
+    // Bail out if we can't get the width/height/rem
+    if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
       return;
     }
 
@@ -413,138 +432,64 @@ export default class ROCSpace extends SDTElement {
       .x((datum) => { return xScale(this.zRoc ? SDTElement.far2zfar(datum.far) : datum.far); })
       .y((datum) => { return yScale(this.zRoc ? SDTElement.hr2zhr(datum.hr) : datum.hr); });
 
-    // DATA JOIN - Plot
+    // Svg
+    //  DATA JOIN
     const svgUpdate = d3.select(this.renderRoot).selectAll('svg.main')
-      .data([{}]);
-
-    // ENTER - Plot
+      .data([{
+        width: this.width,
+        height: this.height,
+        rem: this.rem,
+      }]);
+    //  ENTER
     const svgEnter = svgUpdate.enter().append('svg')
-      .classed('main', true)
+      .classed('main', true);
+    //  MERGE
+    const svgMerge = svgEnter.merge(svgUpdate)
       .attr('viewBox', `0 0 ${elementSize} ${elementSize}`);
 
+    // Plot
+    //  ENTER
     const plotEnter = svgEnter.append('g')
-      .classed('plot', true)
+      .classed('plot', true);
+    //  MERGE
+    const plotMerge = svgMerge.select('.plot')
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-    const clipPathEnter = plotEnter.append('clipPath')
-      .attr('id', 'clip');
-    clipPathEnter.append('rect')
+    // Clippath
+    //  ENTER
+    plotEnter.append('clipPath')
+      .attr('id', 'clip')
+      .append('rect');
+    //  MERGE
+    plotMerge.select('clipPath rect')
       .attr('height', height + 1)
       .attr('width', width + 1);
 
-    // Plot Structure
+    // Underlayer
+    //  ENTER
     const underlayerEnter = plotEnter.append('g')
       .classed('underlayer', true);
+    // MERGE
+    const underlayerMerge = plotMerge.select('.underlayer');
 
-    // Plot Background
+    // Background
+    //  ENTER
     underlayerEnter.append('rect')
-      .classed('background', true)
+      .classed('background', true);
+    //  MERGE
+    underlayerMerge.select('.background')
       .attr('height', height)
       .attr('width', width);
 
     // Bias Plot
-    underlayerEnter.append('g')
-      .classed('c-plot', true);
-    const cLegendEnter = underlayerEnter.append('g')
-      .classed('c-legend', true)
-      .attr('transform', `translate(${(width + 20)}, ${25})`);
-    cLegendEnter.append('g')
-      .classed('c-axis', true);
-    underlayerEnter.append('text')
-      .classed('c-title math-var', true)
-      .attr('text-anchor', 'middle')
-      .attr('transform', `translate(${(width + 20 + 3)}, ${15})`);
-
-    // Sensitivity Plot
-    underlayerEnter.append('g')
-      .classed('d-plot', true);
-    const dLegendEnter = underlayerEnter.append('g')
-      .classed('d-legend', true)
-      .attr('transform', `translate(${(width + 20)}, ${25})`);
-    dLegendEnter.append('g')
-      .classed('d-axis', true);
-    underlayerEnter.append('text')
-      .classed('d-title math-var', true)
-      .attr('text-anchor', 'middle')
-      .attr('transform', `translate(${(width + 20 + 3)}, ${15})`);
-
-    // Accuracy Plot
-    underlayerEnter.append('g')
-      .classed('acc-plot', true);
-    const accLegendEnter = underlayerEnter.append('g')
-      .classed('acc-legend', true)
-      .attr('transform', `translate(${(width + 24)}, ${25})`);
-    accLegendEnter.append('g')
-      .classed('acc-axis', true);
-    underlayerEnter.append('text')
-      .classed('acc-title', true)
-      .attr('text-anchor', 'middle')
-      .attr('transform', `translate(${(width + 20 + 3)}, ${15})`);
-
-    // X Axis
-    underlayerEnter.append('g')
-      .classed('axis-x', true)
-      .attr('transform', `translate(0, ${height})`);
-
-    // X Axis Title
-    const xTitle = underlayerEnter.append('text')
-      .classed('title-x', true)
-      .attr('text-anchor', 'middle')
-      .attr('transform', `translate(${(width / 2)}, ${(height + 35)})`);
-
-    xTitle.append('tspan')
-      .classed('z math-var', true);
-
-    xTitle.append('tspan')
-      .classed('name', true);
-
-    // Y Axis
-    underlayerEnter.append('g')
-      .classed('axis-y', true);
-
-    // Y Axis Title
-    const yTitle = underlayerEnter.append('text')
-      .classed('title-y', true)
-      .attr('text-anchor', 'middle')
-      .attr('transform', `translate(${-30}, ${(height / 2)})rotate(-90)`);
-
-    yTitle.append('tspan')
-      .classed('z math-var', true);
-
-    yTitle.append('tspan')
-      .classed('name', true);
-
-    // No-Information Line
-    underlayerEnter.append('line')
-      .classed('diagonal', true)
-      .attr('x1', this.zRoc ? xScale(-3) : xScale(0))
-      .attr('y1', this.zRoc ? yScale(-3) : yScale(0))
-      .attr('x2', this.zRoc ? xScale(3) : xScale(1))
-      .attr('y2', this.zRoc ? yScale(3) : yScale(1));
-
-    // Plot Content
-    const contentEnter = plotEnter.append('g')
-      .classed('content', true);
-
-    // Iso-sensitivity Curve
-    if (this.isoD === 'all' || this.isoD === 'first') {
-      contentEnter.append('path')
-        .classed('curve-iso-d', true)
-        .attr('clip-path', 'url(#clip)');
-    }
-
-    // Iso-bias Curve
-    if (this.isoC === 'all' || this.isoC === 'first') {
-      contentEnter.append('path')
-        .classed('curve-iso-c', true)
-        .attr('clip-path', 'url(#clip)');
-    }
-
-    // MERGE - Plot
-    const svgMerge = svgEnter.merge(svgUpdate);
-
-    // Bias Plot
-    if (this.contour === 'bias' && (changedProperties.has('zRoc') || this.firstUpdate)) {
+    if (this.contour === 'bias' && (
+      this.firstUpdate
+      || changedProperties.has('zRoc')
+      || changedProperties.has('width')
+      || changedProperties.has('height')
+      || changedProperties.has('rem')
+      || changedProperties.has('contour')
+    )) {
       const n = 100;
       const values = []; // new Array(n * n);
       for (let j = 0.5, k = 0; j < n; j += 1) {
@@ -567,8 +512,37 @@ export default class ROCSpace extends SDTElement {
       const color = d3.scaleLinear()
         .domain(d3.extent(thresholds))
         .interpolate(() => { return d3.interpolateRgb(colorBackground, colorC); });
+      //  ENTER
+      underlayerEnter.append('g')
+        .classed('c-plot', true);
+      //  MERGE
+      const cPlotMerge = underlayerMerge.select('.c-plot');
 
-      // Bias Legend
+      // Bias Contours
+      //  DATA-JOIN
+      const cContoursUpdate = cPlotMerge.selectAll('.contour')
+        .data(contours(values));
+      //  ENTER
+      const cContoursEnter = cContoursUpdate.enter().append('path')
+        .classed('contour', true);
+      //  MERGE
+      cContoursEnter.merge(cContoursUpdate).transition()
+        .duration(1000)
+        .ease(d3.easeCubicOut)
+        .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
+        .attr('fill', (datum) => { return color(datum.value); });
+
+      // Bias Legend Title
+      //  ENTER
+      underlayerEnter.append('text')
+        .classed('c-title math-var', true)
+        .attr('text-anchor', 'middle');
+      //  MERGE
+      underlayerMerge.select('.c-title')
+        .attr('transform', `translate(${(width + 20 + 3)}, ${15})`)
+        .text('c');
+
+      // Bias Legend Plot
       const l = 100;
       const lValues = []; // new Array(4 * l);
       for (let i = 0.5, k = 0; i < l; i += 1, k += 4) {
@@ -583,38 +557,45 @@ export default class ROCSpace extends SDTElement {
       const cScale = d3.scaleLinear()
         .domain([3, -3]) // c
         .range([0, 150]);
-      svgMerge.select('.c-axis')
+      //  ENTER
+      const cLegendEnter = underlayerEnter.append('g')
+        .classed('c-legend', true);
+      //  MERGE
+      underlayerMerge.select('.c-legend')
+        .attr('transform', `translate(${(width + 20)}, ${25})`);
+
+      // Bias Legend Axis
+      //  ENTER
+      cLegendEnter.append('g')
+        .classed('c-axis', true);
+      //  MERGE
+      underlayerMerge.select('.c-axis')
         .call(d3.axisLeft(cScale).ticks(7).tickSize(0))
         .attr('font-size', null)
         .attr('font-family', null);
-      const lContoursUpdate = svgMerge.select('.c-legend').selectAll('.contour')
+
+      // Bias Legend Contours
+      //  DATA-JOIN
+      const lContoursUpdate = underlayerMerge.select('.c-legend').selectAll('.contour')
         .data(lContours(lValues));
+      //  ENTER
       const lContoursEnter = lContoursUpdate.enter().append('path')
         .classed('contour', true);
+      //  MERGE
       lContoursEnter.merge(lContoursUpdate)
         .attr('d', d3.geoPath(d3.geoIdentity().scale(150 / l))) // ????
-        .attr('fill', (datum) => { return color(datum.value); });
-      svgMerge.select('.c-title')
-        .text('c');
-
-      // DATA-JOIN - Bias Contours
-      const cContoursUpdate = svgMerge.select('.c-plot').selectAll('.contour')
-        .data(contours(values));
-
-      // ENTER - Bias Contours
-      const cContoursEnter = cContoursUpdate.enter().append('path')
-        .classed('contour', true);
-
-      // MERGE - Bias Contours
-      cContoursEnter.merge(cContoursUpdate).transition()
-        .duration(1000)
-        .ease(d3.easeCubicOut)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
         .attr('fill', (datum) => { return color(datum.value); });
     }
 
     // Sensitivity Plot
-    if (this.contour === 'sensitivity' && (changedProperties.has('zRoc') || this.firstUpdate)) {
+    if (this.contour === 'sensitivity' && (
+      this.firstUpdate
+      || changedProperties.has('zRoc')
+      || changedProperties.has('width')
+      || changedProperties.has('height')
+      || changedProperties.has('rem')
+      || changedProperties.has('contour')
+    )) {
       const n = 100;
       const values = []; // new Array(n * n);
       for (let j = 0.5, k = 0; j < n; j += 1) {
@@ -637,8 +618,37 @@ export default class ROCSpace extends SDTElement {
       const color = d3.scaleLinear()
         .domain(d3.extent(thresholds))
         .interpolate(() => { return d3.interpolateRgb(colorD, colorBackground); });
+      //  ENTER
+      underlayerEnter.append('g')
+        .classed('d-plot', true);
+      //  MERGE
+      const dPlotMerge = underlayerMerge.select('.d-plot');
 
-      // Sensitivity Legend
+      // Sensitivity Contours
+      //  DATA-JOIN
+      const dContoursUpdate = dPlotMerge.selectAll('.contour')
+        .data(contours(values));
+      //  ENTER
+      const dContoursEnter = dContoursUpdate.enter().append('path')
+        .classed('contour', true);
+      // MERGE
+      dContoursEnter.merge(dContoursUpdate).transition()
+        .duration(1000)
+        .ease(d3.easeCubicOut)
+        .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
+        .attr('fill', (datum) => { return color(datum.value); });
+
+      // Sensitivity Legend Title
+      //  ENTER
+      underlayerEnter.append('text')
+        .classed('d-title math-var', true)
+        .attr('text-anchor', 'middle');
+      //  MERGE
+      underlayerMerge.select('.d-title')
+        .attr('transform', `translate(${(width + 20 + 3)}, ${15})`)
+        .text('d\u2032');
+
+      // Sensitivity Legend Plot
       const l = 100;
       const lValues = []; // new Array(4 * l);
       for (let i = 0.5, k = 0; i < l; i += 1, k += 4) {
@@ -653,38 +663,45 @@ export default class ROCSpace extends SDTElement {
       const dScale = d3.scaleLinear()
         .domain([6, -6]) // c
         .range([0, 150]);
-      svgMerge.select('.d-axis')
+      //  ENTER
+      const dLegendEnter = underlayerEnter.append('g')
+        .classed('d-legend', true);
+      //  MERGE
+      underlayerMerge.select('.d-legend')
+        .attr('transform', `translate(${(width + 20)}, ${25})`);
+
+      // Sensitivity Legend Axis
+      //  ENTER
+      dLegendEnter.append('g')
+        .classed('d-axis', true);
+      //  MERGE
+      underlayerMerge.select('.d-axis')
         .call(d3.axisLeft(dScale).ticks(7).tickSize(0))
         .attr('font-size', null)
         .attr('font-family', null);
-      const lContoursUpdate = svgMerge.select('.d-legend').selectAll('.contour')
+
+      // Sensitivity Legend Contours
+      //  DATA-JOIN
+      const lContoursUpdate = underlayerMerge.select('.d-legend').selectAll('.contour')
         .data(lContours(lValues));
+      //  ENTER
       const lContoursEnter = lContoursUpdate.enter().append('path')
         .classed('contour', true);
+      // MERGE
       lContoursEnter.merge(lContoursUpdate)
         .attr('d', d3.geoPath(d3.geoIdentity().scale(150 / l))) // ????
-        .attr('fill', (datum) => { return color(datum.value); });
-      svgMerge.select('.d-title')
-        .text('d\u2032');
-
-      // DATA-JOIN - Sensitivity Contours
-      const dContoursUpdate = svgMerge.select('.d-plot').selectAll('.contour')
-        .data(contours(values));
-
-      // ENTER - Sensitivity Contours
-      const dContoursEnter = dContoursUpdate.enter().append('path')
-        .classed('contour', true);
-
-      // MERGE - Sensitivity Contours
-      dContoursEnter.merge(dContoursUpdate).transition()
-        .duration(1000)
-        .ease(d3.easeCubicOut)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
         .attr('fill', (datum) => { return color(datum.value); });
     }
 
     // Accuracy Plot
-    if (this.contour === 'accuracy' && (changedProperties.has('zRoc') || this.firstUpdate)) {
+    if (this.contour === 'accuracy' && (
+      this.firstUpdate
+      || changedProperties.has('zRoc')
+      || changedProperties.has('width')
+      || changedProperties.has('height')
+      || changedProperties.has('rem')
+      || changedProperties.has('contour')
+    )) {
       const n = 100;
       const values = []; // new Array(n * n);
       for (let j = 0.5, k = 0; j < n; j += 1) {
@@ -707,8 +724,37 @@ export default class ROCSpace extends SDTElement {
       const color = d3.scaleLinear()
         .domain(d3.extent(thresholds))
         .interpolate(() => { return d3.interpolateRgb(colorAcc, colorBackground); });
+      //  ENTER
+      underlayerEnter.append('g')
+        .classed('acc-plot', true);
+      //  MERGE
+      const accPlotMerge = underlayerMerge.select('.acc-plot');
 
-      // Accuracy Legend
+      // Accuracy Contours
+      //  DATA-JOIN
+      const accContoursUpdate = accPlotMerge.selectAll('.contour')
+        .data(contours(values));
+      //  ENTER
+      const accContoursEnter = accContoursUpdate.enter().append('path')
+        .classed('contour', true);
+      // MERGE
+      accContoursEnter.merge(accContoursUpdate).transition()
+        .duration(1000)
+        .ease(d3.easeCubicOut)
+        .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
+        .attr('fill', (datum) => { return color(datum.value); });
+
+      // Accuracy Legend Title
+      //  ENTER
+      underlayerEnter.append('text')
+        .classed('acc-title', true)
+        .attr('text-anchor', 'middle');
+      //  MERGE
+      underlayerMerge.select('.acc-title')
+        .attr('transform', `translate(${(width + 20 + 3)}, ${15})`)
+        .text('Acc');
+
+      // Accuracy Legend Plot
       const l = 100;
       const lValues = []; // new Array(4 * l);
       for (let i = 0.5, k = 0; i < l; i += 1, k += 4) {
@@ -723,75 +769,127 @@ export default class ROCSpace extends SDTElement {
       const accScale = d3.scaleLinear()
         .domain([1, 0]) // c
         .range([0, 150]);
-      svgMerge.select('.acc-axis')
+      //  ENTER
+      const accLegendEnter = underlayerEnter.append('g')
+        .classed('acc-legend', true);
+      //  MERGE
+      underlayerMerge.select('.acc-legend')
+        .attr('transform', `translate(${(width + 24)}, ${25})`);
+
+      // Accuracy Legend Axis
+      //  ENTER
+      accLegendEnter.append('g')
+        .classed('acc-axis', true);
+      //  MERGE
+      underlayerMerge.select('.acc-axis')
         .call(d3.axisLeft(accScale).ticks(7).tickSize(0))
         .attr('font-size', null)
         .attr('font-family', null);
-      const lContoursUpdate = svgMerge.select('.acc-legend').selectAll('.contour')
+
+      // Accuracy Legend Contours
+      //  DATA-JOIN
+      const lContoursUpdate = underlayerMerge.select('.acc-legend').selectAll('.contour')
         .data(lContours(lValues));
+      //  ENTER
       const lContoursEnter = lContoursUpdate.enter().append('path')
         .classed('contour', true);
+      //  MERGE
       lContoursEnter.merge(lContoursUpdate)
         .attr('d', d3.geoPath(d3.geoIdentity().scale(150 / l))) // ????
         .attr('fill', (datum) => { return color(datum.value); });
-      svgMerge.select('.acc-title')
-        .text('Acc');
-
-      // DATA-JOIN - Accuracy Contours
-      const accContoursUpdate = svgMerge.select('.acc-plot').selectAll('.contour')
-        .data(contours(values));
-
-      // ENTER - Accuracy Contours
-      const accContoursEnter = accContoursUpdate.enter().append('path')
-        .classed('contour', true);
-
-      // MERGE - Accuracy Contours
-      accContoursEnter.merge(accContoursUpdate).transition()
-        .duration(1000)
-        .ease(d3.easeCubicOut)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
-        .attr('fill', (datum) => { return color(datum.value); });
     }
 
-    // Axes & Titles
-    if (changedProperties.has('zRoc') || this.firstUpdate) {
-      const axisXTransition = svgMerge.select('.axis-x').transition()
-        .duration(1000)
-        .ease(d3.easeCubicOut)
-        .call(d3.axisBottom(xScale))
-        .attr('font-size', null)
-        .attr('font-family', null);
-      axisXTransition.selectAll('line, path')
-        .attr('stroke', null);
+    // X Axis
+    //  ENTER
+    underlayerEnter.append('g')
+      .classed('axis-x', true);
+    //  MERGE
+    const axisXMerge = underlayerMerge.select('.axis-x')
+      .attr('transform', `translate(0, ${height})`);
+    const axisXTransition = axisXMerge.transition()
+      .duration(1000)
+      .ease(d3.easeCubicOut)
+      .call(d3.axisBottom(xScale))
+      .attr('font-size', null)
+      .attr('font-family', null);
+    axisXTransition.selectAll('line, path')
+      .attr('stroke', null);
 
-      svgMerge.select('.title-x tspan.z')
-        .text(this.zRoc ? 'z' : '');
+    // X Axis Title
+    //  ENTER
+    const titleXEnter = underlayerEnter.append('text')
+      .classed('title-x', true)
+      .attr('text-anchor', 'middle');
+    titleXEnter.append('tspan')
+      .classed('z math-var', true);
+    titleXEnter.append('tspan')
+      .classed('name', true);
+    //  MERGE
+    const titleXMerge = underlayerMerge.select('.title-x')
+      .attr('transform', `translate(${(width / 2)}, ${(height + 35)})`);
+    titleXMerge.select('tspan.z')
+      .text(this.zRoc ? 'z' : '');
+    titleXMerge.select('tspan.name')
+      .text(this.zRoc ? '(False Alarm Rate)' : 'False Alarm Rate');
 
-      svgMerge.select('.title-x tspan.name')
-        .text(this.zRoc ? '(False Alarm Rate)' : 'False Alarm Rate');
+    // Y Axis
+    //  ENTER
+    underlayerEnter.append('g')
+      .classed('axis-y', true);
+    // MERGE
+    const axisYTransition = underlayerMerge.select('.axis-y').transition()
+      .duration(1000)
+      .ease(d3.easeCubicOut)
+      .call(d3.axisLeft(yScale))
+      .attr('font-size', null)
+      .attr('font-family', null);
+    axisYTransition.selectAll('line, path')
+      .attr('stroke', null);
 
-      const axisYTransition = svgMerge.select('.axis-y').transition()
-        .duration(1000)
-        .ease(d3.easeCubicOut)
-        .call(d3.axisLeft(yScale))
-        .attr('font-size', null)
-        .attr('font-family', null);
-      axisYTransition.selectAll('line, path')
-        .attr('stroke', null);
+    // Y Axis Title
+    //  ENTER
+    const yTitle = underlayerEnter.append('text')
+      .classed('title-y', true)
+      .attr('text-anchor', 'middle');
+    yTitle.append('tspan')
+      .classed('z math-var', true);
+    yTitle.append('tspan')
+      .classed('name', true);
+    //  MERGE
+    const titleYMerge = underlayerMerge.select('.title-y')
+      .attr('transform', `translate(${-30}, ${(height / 2)})rotate(-90)`);
+    titleYMerge.select('tspan.z')
+      .text(this.zRoc ? 'z' : '');
+    titleYMerge.select('tspan.name')
+      .text(this.zRoc ? '(Hit Rate)' : 'Hit Rate');
 
-      svgMerge.select('.title-y tspan.z')
-        .text(this.zRoc ? 'z' : '');
+    // No-Information Line
+    //  ENTER
+    underlayerEnter.append('line')
+      .classed('diagonal', true);
+    //  MERGE
+    underlayerMerge.select('.diagonal')
+      .attr('x1', this.zRoc ? xScale(-3) : xScale(0))
+      .attr('y1', this.zRoc ? yScale(-3) : yScale(0))
+      .attr('x2', this.zRoc ? xScale(3) : xScale(1))
+      .attr('y2', this.zRoc ? yScale(3) : yScale(1));
 
-      svgMerge.select('.title-y tspan.name')
-        .text(this.zRoc ? '(Hit Rate)' : 'Hit Rate');
-    }
-
-    const contentMerge = svgMerge.select('.content');
+    // Content
+    //  ENTER
+    const contentEnter = plotEnter.append('g')
+      .classed('content', true);
+    //  MERGE
+    const contentMerge = plotMerge.select('.content');
 
     // Iso-sensitivity Curve
     if (this.isoD === 'all' || this.isoD === 'first') {
+      //  ENTER
+      contentEnter.append('path')
+        .classed('curve-iso-d', true)
+        .attr('clip-path', 'url(#clip)');
+      //  MERGE
       if (changedProperties.has('zRoc') || this.firstUpdate) {
-        svgMerge.select('.curve-iso-d').transition()
+        contentMerge.select('.curve-iso-d').transition()
           .duration(this.drag ? 0 : 1000)
           .ease(d3.easeCubicOut)
           .attr('d', line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
@@ -805,7 +903,7 @@ export default class ROCSpace extends SDTElement {
             };
           })));
       } else if (this.sdt) {
-        svgMerge.select('.curve-iso-d').transition()
+        contentMerge.select('.curve-iso-d').transition()
           .duration(this.drag ? 0 : 500)
           .ease(d3.easeCubicOut)
           .attrTween('d', (datum, index, elements) => {
@@ -832,7 +930,7 @@ export default class ROCSpace extends SDTElement {
             };
           });
       } else {
-        svgMerge.select('.curve-iso-d').transition()
+        contentMerge.select('.curve-iso-d').transition()
           .duration(this.drag ? 0 : 500)
           .ease(d3.easeCubicOut)
           .attrTween('d', (datum, index, elements) => {
@@ -874,8 +972,13 @@ export default class ROCSpace extends SDTElement {
 
     // Iso-bias Curve
     if (this.isoC === 'all' || this.isoC === 'first') {
+      //  ENTER
+      contentEnter.append('path')
+        .classed('curve-iso-c', true)
+        .attr('clip-path', 'url(#clip)');
+      //  MERGE
       if (changedProperties.has('zRoc') || this.firstUpdate) {
-        svgMerge.select('.curve-iso-c').transition()
+        contentMerge.select('.curve-iso-c').transition()
           .duration(this.drag ? 0 : 1000)
           .ease(d3.easeCubicOut)
           .attr('d', line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
@@ -889,7 +992,7 @@ export default class ROCSpace extends SDTElement {
             };
           })));
       } else if (this.sdt) {
-        svgMerge.select('.curve-iso-c').transition()
+        contentMerge.select('.curve-iso-c').transition()
           .duration(this.drag ? 0 : 500)
           .ease(d3.easeCubicOut)
           .attrTween('d', (datum, index, elements) => {
@@ -916,7 +1019,7 @@ export default class ROCSpace extends SDTElement {
             };
           });
       } else {
-        svgMerge.select('.curve-iso-c').transition()
+        contentMerge.select('.curve-iso-c').transition()
           .duration(this.drag ? 0 : 500)
           .ease(d3.easeCubicOut)
           .attrTween('d', (datum, index, elements) => {
@@ -958,11 +1061,10 @@ export default class ROCSpace extends SDTElement {
 
     // Point
     if (this.point === 'all' || this.point === 'first') {
-      // DATA-JOIN - Point
+      //  DATA-JOIN
       const pointUpdate = contentMerge.selectAll('.point')
         .data(this.points);
-
-      // ENTER - Point
+      //  ENTER
       const pointEnter = pointUpdate.enter().append('circle')
         .classed('point', true)
         .attr('r', 6); /* HACK: Firefox does not support CSS SVG Geometry Properties */
@@ -1042,8 +1144,7 @@ export default class ROCSpace extends SDTElement {
           .on('drag', null)
           .on('keydown', null);
       }
-
-      // MERGE - Point
+      //  MERGE
       const pointMerge = pointEnter.merge(pointUpdate);
       if (changedProperties.has('zRoc') || this.firstUpdate) {
         pointMerge.transition()
