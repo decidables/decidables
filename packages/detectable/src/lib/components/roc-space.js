@@ -353,10 +353,10 @@ export default class ROCSpace extends SDTElement {
     const elementSize = Math.min(elementWidth, elementHeight);
 
     const margin = {
-      top: 35,
-      bottom: 45,
-      left: 45,
-      right: 35,
+      top: 2 * this.rem,
+      bottom: 3 * this.rem,
+      left: 3 * this.rem,
+      right: 2 * this.rem,
     };
     const height = elementSize - (margin.top + margin.bottom);
     const width = elementSize - (margin.left + margin.right);
@@ -539,7 +539,7 @@ export default class ROCSpace extends SDTElement {
         .attr('text-anchor', 'middle');
       //  MERGE
       underlayerMerge.select('.c-title')
-        .attr('transform', `translate(${(width + 20 + 3)}, ${15})`)
+        .attr('transform', `translate(${(width + (1.25 * this.rem))}, ${this.rem})`)
         .text('c');
 
       // Bias Legend Plot
@@ -556,13 +556,13 @@ export default class ROCSpace extends SDTElement {
         .thresholds(thresholds);
       const cScale = d3.scaleLinear()
         .domain([3, -3]) // c
-        .range([0, 150]);
+        .range([0, (10 * this.rem)]);
       //  ENTER
       const cLegendEnter = underlayerEnter.append('g')
         .classed('c-legend', true);
       //  MERGE
       underlayerMerge.select('.c-legend')
-        .attr('transform', `translate(${(width + 20)}, ${25})`);
+        .attr('transform', `translate(${(width + (1.25 * this.rem))}, ${(1.5 * this.rem)})`);
 
       // Bias Legend Axis
       //  ENTER
@@ -583,7 +583,7 @@ export default class ROCSpace extends SDTElement {
         .classed('contour', true);
       //  MERGE
       lContoursEnter.merge(lContoursUpdate)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale(150 / l))) // ????
+        .attr('d', d3.geoPath(d3.geoIdentity().scale((10 * this.rem) / l))) // ????
         .attr('fill', (datum) => { return color(datum.value); });
     }
 
@@ -645,7 +645,7 @@ export default class ROCSpace extends SDTElement {
         .attr('text-anchor', 'middle');
       //  MERGE
       underlayerMerge.select('.d-title')
-        .attr('transform', `translate(${(width + 20 + 3)}, ${15})`)
+        .attr('transform', `translate(${(width + (1.25 * this.rem))}, ${this.rem})`)
         .text('d\u2032');
 
       // Sensitivity Legend Plot
@@ -661,14 +661,14 @@ export default class ROCSpace extends SDTElement {
         .size([4, l])
         .thresholds(thresholds);
       const dScale = d3.scaleLinear()
-        .domain([6, -6]) // c
-        .range([0, 150]);
+        .domain([6, -6]) // d
+        .range([0, (10 * this.rem)]);
       //  ENTER
       const dLegendEnter = underlayerEnter.append('g')
         .classed('d-legend', true);
       //  MERGE
       underlayerMerge.select('.d-legend')
-        .attr('transform', `translate(${(width + 20)}, ${25})`);
+        .attr('transform', `translate(${(width + (1.25 * this.rem))}, ${(1.5 * this.rem)})`);
 
       // Sensitivity Legend Axis
       //  ENTER
@@ -689,7 +689,7 @@ export default class ROCSpace extends SDTElement {
         .classed('contour', true);
       // MERGE
       lContoursEnter.merge(lContoursUpdate)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale(150 / l))) // ????
+        .attr('d', d3.geoPath(d3.geoIdentity().scale((10 * this.rem) / l))) // ????
         .attr('fill', (datum) => { return color(datum.value); });
     }
 
@@ -751,7 +751,7 @@ export default class ROCSpace extends SDTElement {
         .attr('text-anchor', 'middle');
       //  MERGE
       underlayerMerge.select('.acc-title')
-        .attr('transform', `translate(${(width + 20 + 3)}, ${15})`)
+        .attr('transform', `translate(${(width + (1.125 * this.rem))}, ${this.rem})`)
         .text('Acc');
 
       // Accuracy Legend Plot
@@ -767,14 +767,14 @@ export default class ROCSpace extends SDTElement {
         .size([4, l])
         .thresholds(thresholds);
       const accScale = d3.scaleLinear()
-        .domain([1, 0]) // c
-        .range([0, 150]);
+        .domain([1, 0]) // acc
+        .range([0, (10 * this.rem)]);
       //  ENTER
       const accLegendEnter = underlayerEnter.append('g')
         .classed('acc-legend', true);
       //  MERGE
       underlayerMerge.select('.acc-legend')
-        .attr('transform', `translate(${(width + 24)}, ${25})`);
+        .attr('transform', `translate(${(width + (1.5 * this.rem))}, ${(1.5 * this.rem)})`);
 
       // Accuracy Legend Axis
       //  ENTER
@@ -795,7 +795,7 @@ export default class ROCSpace extends SDTElement {
         .classed('contour', true);
       //  MERGE
       lContoursEnter.merge(lContoursUpdate)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale(150 / l))) // ????
+      .attr('d', d3.geoPath(d3.geoIdentity().scale((10 * this.rem) / l))) // ????
         .attr('fill', (datum) => { return color(datum.value); });
     }
 
@@ -826,7 +826,7 @@ export default class ROCSpace extends SDTElement {
       .classed('name', true);
     //  MERGE
     const titleXMerge = underlayerMerge.select('.title-x')
-      .attr('transform', `translate(${(width / 2)}, ${(height + 35)})`);
+      .attr('transform', `translate(${(width / 2)}, ${(height + (2.25 * this.rem))})`);
     titleXMerge.select('tspan.z')
       .text(this.zRoc ? 'z' : '');
     titleXMerge.select('tspan.name')
@@ -857,7 +857,7 @@ export default class ROCSpace extends SDTElement {
       .classed('name', true);
     //  MERGE
     const titleYMerge = underlayerMerge.select('.title-y')
-      .attr('transform', `translate(${-30}, ${(height / 2)})rotate(-90)`);
+      .attr('transform', `translate(${-2 * this.rem}, ${(height / 2)})rotate(-90)`);
     titleYMerge.select('tspan.z')
       .text(this.zRoc ? 'z' : '');
     titleYMerge.select('tspan.name')
