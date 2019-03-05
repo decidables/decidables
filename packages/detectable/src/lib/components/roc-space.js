@@ -225,12 +225,8 @@ export default class ROCSpace extends SDTElement {
           height: 100%;
         }
 
-        .c-plot,
-        .d-plot,
-        .acc-plot,
-        .c-legend .contour,
-        .d-legend .contour,
-        .acc-legend .contour {
+        .contour-plot,
+        .contour-legend .contour {
           stroke: var(---color-background);
           stroke-width: 0.5;
         }
@@ -280,9 +276,7 @@ export default class ROCSpace extends SDTElement {
 
         .title-x,
         .title-y,
-        .c-title,
-        .d-title,
-        .acc-title {
+        .contour-title {
           font-weight: 600;
 
           fill: currentColor;
@@ -299,9 +293,7 @@ export default class ROCSpace extends SDTElement {
           stroke: var(---color-element-border);
         }
 
-        .c-axis .domain,
-        .d-axis .domain,
-        .acc-axis .domain {
+        .contour-axis .domain {
           stroke: none;
         }
 
@@ -506,322 +498,204 @@ export default class ROCSpace extends SDTElement {
       .attr('height', height)
       .attr('width', width);
 
-    // Bias Plot
-    if (this.contour === 'bias' && (
+    // Contour Plotting
+    //  Handles: Bias, Sensitivity, & Accuracy
+    if (
       this.firstUpdate
+      || changedProperties.has('contour')
       || changedProperties.has('zRoc')
       || changedProperties.has('width')
       || changedProperties.has('height')
       || changedProperties.has('rem')
-      || changedProperties.has('contour')
-    )) {
-      const n = 100;
-      const values = []; // new Array(n * n);
-      for (let j = 0.5, k = 0; j < n; j += 1) {
-        for (let i = 0.5; i < n; i += 1, k += 1) {
-          const hr = this.zRoc
-            ? SDTElement.zhr2hr(((i / n) * 6) - 3)
-            : i / n;
-          const far = this.zRoc
-            ? SDTElement.zfar2far(((1 - j / n) * 6) - 3)
-            : (1 - j / n);
-          values[k] = SDTElement.hrfar2c(hr, far);
+    ) {
+      if (this.contour !== undefined) {
+        // Contour Plot
+        const n = 100; // Resolution
+        const values = [];
+        for (let j = 0.5, k = 0; j < n; j += 1) {
+          for (let i = 0.5; i < n; i += 1, k += 1) {
+            const hr = this.zRoc
+              ? SDTElement.zhr2hr(((i / n) * 6) - 3)
+              : i / n;
+            const far = this.zRoc
+              ? SDTElement.zfar2far(((1 - j / n) * 6) - 3)
+              : (1 - j / n);
+            values[k] = (this.contour === 'bias')
+              ? SDTElement.hrfar2c(hr, far)
+              : (this.contour === 'sensitivity')
+                ? SDTElement.hrfar2d(hr, far)
+                : (this.contour === 'accuracy')
+                  ? SDTElement.hrfar2acc(hr, far)
+                  : null;
+          }
         }
-      }
-      const thresholds = d3.range(-3, 3, 0.25);
-      const contours = d3.contours()
-        .size([n, n])
-        .thresholds(thresholds);
-      const colorBackground = this.getComputedStyleValue('---color-element-background');
-      const colorC = this.getComputedStyleValue('---color-c');
-      const color = d3.scaleLinear()
-        .domain(d3.extent(thresholds))
-        .interpolate(() => { return d3.interpolateRgb(colorBackground, colorC); });
-      //  ENTER
-      underlayerEnter.append('g')
-        .classed('c-plot', true);
-      //  MERGE
-      const cPlotMerge = underlayerMerge.select('.c-plot');
+        const thresholds = (this.contour === 'bias')
+          ? d3.range(-3, 3, 0.25)
+          : (this.contour === 'sensitivity')
+            ? d3.range(-6, 6, 0.5)
+            : (this.contour === 'accuracy')
+              ? d3.range(0, 1, 0.05)
+              : null;
+        const contours = d3.contours()
+          .size([n, n])
+          .thresholds(thresholds);
+        const colorStart = this.getComputedStyleValue((this.contour === 'bias')
+          ? '---color-element-background'
+          : (this.contour === 'sensitivity')
+            ? '---color-d'
+            : (this.contour === 'accuracy')
+              ? '---color-acc-dark'
+              : null);
+        const colorEnd = this.getComputedStyleValue((this.contour === 'bias')
+          ? '---color-c'
+          : (this.contour === 'sensitivity')
+            ? '---color-element-background'
+            : (this.contour === 'accuracy')
+              ? '---color-element-background'
+              : null);
+        const color = d3.scaleLinear()
+          .domain(d3.extent(thresholds))
+          .interpolate(() => { return d3.interpolateRgb(colorStart, colorEnd); });
+        //  DATA-JOIN
+        const contourPlotUpdate = underlayerMerge.selectAll('.contour-plot')
+          .data([this.contour]);
+        //  ENTER
+        const contourPlotEnter = contourPlotUpdate.enter().append('g')
+          .classed('contour-plot', true);
+        //  MERGE
+        const contourPlotMerge = contourPlotEnter.merge(contourPlotUpdate);
 
-      // Bias Contours
-      //  DATA-JOIN
-      const cContoursUpdate = cPlotMerge.selectAll('.contour')
-        .data(contours(values));
-      //  ENTER
-      const cContoursEnter = cContoursUpdate.enter().append('path')
-        .classed('contour', true);
-      //  MERGE
-      cContoursEnter.merge(cContoursUpdate).transition()
-        .duration(1000)
-        .ease(d3.easeCubicOut)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
-        .attr('fill', (datum) => { return color(datum.value); });
+        // Contour Plot Contours
+        //  DATA-JOIN
+        const contoursUpdate = contourPlotMerge.selectAll('.contour')
+          .data(contours(values));
+        //  ENTER
+        const contoursEnter = contoursUpdate.enter().append('path')
+          .classed('contour', true);
+        //  MERGE
+        contoursEnter.merge(contoursUpdate).transition()
+          .duration(1000)
+          .ease(d3.easeCubicOut)
+          .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
+          .attr('fill', (datum) => { return color(datum.value); });
+        //  EXIT
+        contoursUpdate.exit().remove();
 
-      // Bias Legend Title
-      //  ENTER
-      underlayerEnter.append('text')
-        .classed('c-title math-var', true)
-        .attr('text-anchor', 'middle');
-      //  MERGE
-      underlayerMerge.select('.c-title')
-        .attr('transform', `translate(${(width + (1.25 * this.rem))}, ${this.rem})`)
-        .text('c');
+        // Contour Title
+        //  DATA-JOIN
+        const contourTitleUpdate = underlayerMerge.selectAll('.contour-title')
+          .data([this.contour]);
+        //  ENTER
+        const contourTitleEnter = contourTitleUpdate.enter().append('text')
+          .classed('contour-title math-var', true)
+          .attr('text-anchor', 'middle');
+        //  MERGE
+        contourTitleEnter.merge(contourTitleUpdate)
+          .attr('transform', (this.contour === 'bias')
+            ? `translate(${(width + (1.25 * this.rem))}, ${this.rem})`
+            : (this.contour === 'sensitivity')
+              ? `translate(${(width + (1.25 * this.rem))}, ${this.rem})`
+              : (this.contour === 'accuracy')
+                ? `translate(${(width + (1.125 * this.rem))}, ${this.rem})`
+                : null)
+          .text((this.contour === 'bias')
+            ? 'c'
+            : (this.contour === 'sensitivity')
+              ? 'd\u2032'
+              : (this.contour === 'accuracy')
+                ? 'Acc'
+                : null);
 
-      // Bias Legend Plot
-      const l = 100;
-      const lValues = []; // new Array(4 * l);
-      for (let i = 0.5, k = 0; i < l; i += 1, k += 4) {
-        lValues[k] = -(((i / n) * 6) - 3);
-        lValues[k + 1] = lValues[k];
-        lValues[k + 2] = lValues[k];
-        lValues[k + 3] = lValues[k];
-      }
-      const lContours = d3.contours()
-        .size([4, l])
-        .thresholds(thresholds);
-      const cScale = d3.scaleLinear()
-        .domain([3, -3]) // c
-        .range([0, (10 * this.rem)]);
-      //  ENTER
-      const cLegendEnter = underlayerEnter.append('g')
-        .classed('c-legend', true);
-      //  MERGE
-      underlayerMerge.select('.c-legend')
-        .attr('transform', `translate(${(width + (1.25 * this.rem))}, ${(1.5 * this.rem)})`);
-
-      // Bias Legend Axis
-      //  ENTER
-      cLegendEnter.append('g')
-        .classed('c-axis', true);
-      //  MERGE
-      underlayerMerge.select('.c-axis')
-        .call(d3.axisLeft(cScale).ticks(7).tickSize(0))
-        .attr('font-size', null)
-        .attr('font-family', null);
-
-      // Bias Legend Contours
-      //  DATA-JOIN
-      const lContoursUpdate = underlayerMerge.select('.c-legend').selectAll('.contour')
-        .data(lContours(lValues));
-      //  ENTER
-      const lContoursEnter = lContoursUpdate.enter().append('path')
-        .classed('contour', true);
-      //  MERGE
-      lContoursEnter.merge(lContoursUpdate)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale((10 * this.rem) / l))) // ????
-        .attr('fill', (datum) => { return color(datum.value); });
-    }
-
-    // Sensitivity Plot
-    if (this.contour === 'sensitivity' && (
-      this.firstUpdate
-      || changedProperties.has('zRoc')
-      || changedProperties.has('width')
-      || changedProperties.has('height')
-      || changedProperties.has('rem')
-      || changedProperties.has('contour')
-    )) {
-      const n = 100;
-      const values = []; // new Array(n * n);
-      for (let j = 0.5, k = 0; j < n; j += 1) {
-        for (let i = 0.5; i < n; i += 1, k += 1) {
-          const hr = this.zRoc
-            ? SDTElement.zhr2hr(((i / n) * 6) - 3)
-            : i / n;
-          const far = this.zRoc
-            ? SDTElement.zfar2far(((1 - j / n) * 6) - 3)
-            : (1 - j / n);
-          values[k] = SDTElement.hrfar2d(hr, far);
+        // Contour Legend
+        const l = 100;
+        const lValues = []; // new Array(4 * l);
+        for (let i = 0.5, k = 0; i < l; i += 1, k += 4) {
+          lValues[k] = (this.contour === 'bias')
+            ? -(((i / n) * 6) - 3)
+            : (this.contour === 'sensitivity')
+              ? ((i / n) * 12) - 6
+              : (this.contour === 'accuracy')
+                ? (i / n)
+                : null;
+          lValues[k + 1] = lValues[k];
+          lValues[k + 2] = lValues[k];
+          lValues[k + 3] = lValues[k];
         }
+        const lContours = d3.contours()
+          .size([4, l])
+          .thresholds(thresholds);
+        const lScale = d3.scaleLinear()
+          .domain((this.contour === 'bias')
+            ? [3, -3]
+            : (this.contour === 'sensitivity')
+              ? [6, -6]
+              : (this.contour === 'accuracy')
+                ? [1, 0]
+                : null)
+          .range([0, (10 * this.rem)]);
+        //  DATA-JOIN
+        const contourLegendUpdate = underlayerMerge.selectAll('.contour-legend')
+          .data([this.contour]);
+        //  ENTER
+        const contourLegendEnter = contourLegendUpdate.enter().append('g')
+          .classed('contour-legend', true);
+        //  MERGE
+        const contourLegendMerge = contourLegendEnter.merge(contourLegendUpdate)
+          .attr('transform', (this.contour === 'bias')
+            ? `translate(${(width + (1.25 * this.rem))}, ${(1.5 * this.rem)})`
+            : (this.contour === 'sensitivity')
+              ? `translate(${(width + (1.25 * this.rem))}, ${(1.5 * this.rem)})`
+              : (this.contour === 'accuracy')
+                ? `translate(${(width + (1.5 * this.rem))}, ${(1.5 * this.rem)})`
+                : null);
+        //  EXIT
+        contourLegendUpdate.exit().remove();
+
+        // Contour Legend Axis
+        //  ENTER
+        contourLegendEnter.append('g')
+          .classed('contour-axis', true);
+        //  MERGE
+        contourLegendMerge.select('.contour-axis')
+          .call(d3.axisLeft(lScale).ticks(7).tickSize(0))
+          .attr('font-size', null)
+          .attr('font-family', null);
+
+        // Contour Legend Contours
+        //  DATA-JOIN
+        const lContoursUpdate = contourLegendMerge.selectAll('.contour')
+          .data(lContours(lValues));
+        //  ENTER
+        const lContoursEnter = lContoursUpdate.enter().append('path')
+          .classed('contour', true);
+        //  MERGE
+        lContoursEnter.merge(lContoursUpdate)
+          .attr('d', d3.geoPath(d3.geoIdentity().scale((10 * this.rem) / l))) // ????
+          .attr('fill', (datum) => { return color(datum.value); });
+        //  EXIT
+        lContoursUpdate.exit().remove();
+      } else {
+        // Contour Plot
+        //  DATA-JOIN
+        const contourPlotUpdate = underlayerMerge.selectAll('.contour-plot')
+          .data([]);
+        //  EXIT
+        contourPlotUpdate.exit().remove();
+
+        // Contour Title
+        //  DATA-JOIN
+        const contourTitleUpdate = underlayerMerge.selectAll('.contour-title')
+          .data([]);
+        //  EXIT
+        contourTitleUpdate.exit().remove();
+
+        // Contour Legend
+        //  DATA-JOIN
+        const contourLegendUpdate = underlayerMerge.selectAll('.contour-legend')
+          .data([]);
+        //  EXIT
+        contourLegendUpdate.exit().remove();
       }
-      const thresholds = d3.range(-6, 6, 0.5);
-      const contours = d3.contours()
-        .size([n, n])
-        .thresholds(thresholds);
-      const colorBackground = this.getComputedStyleValue('---color-element-background');
-      const colorD = this.getComputedStyleValue('---color-d');
-      const color = d3.scaleLinear()
-        .domain(d3.extent(thresholds))
-        .interpolate(() => { return d3.interpolateRgb(colorD, colorBackground); });
-      //  ENTER
-      underlayerEnter.append('g')
-        .classed('d-plot', true);
-      //  MERGE
-      const dPlotMerge = underlayerMerge.select('.d-plot');
-
-      // Sensitivity Contours
-      //  DATA-JOIN
-      const dContoursUpdate = dPlotMerge.selectAll('.contour')
-        .data(contours(values));
-      //  ENTER
-      const dContoursEnter = dContoursUpdate.enter().append('path')
-        .classed('contour', true);
-      // MERGE
-      dContoursEnter.merge(dContoursUpdate).transition()
-        .duration(1000)
-        .ease(d3.easeCubicOut)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
-        .attr('fill', (datum) => { return color(datum.value); });
-
-      // Sensitivity Legend Title
-      //  ENTER
-      underlayerEnter.append('text')
-        .classed('d-title math-var', true)
-        .attr('text-anchor', 'middle');
-      //  MERGE
-      underlayerMerge.select('.d-title')
-        .attr('transform', `translate(${(width + (1.25 * this.rem))}, ${this.rem})`)
-        .text('d\u2032');
-
-      // Sensitivity Legend Plot
-      const l = 100;
-      const lValues = []; // new Array(4 * l);
-      for (let i = 0.5, k = 0; i < l; i += 1, k += 4) {
-        lValues[k] = ((i / n) * 12) - 6;
-        lValues[k + 1] = lValues[k];
-        lValues[k + 2] = lValues[k];
-        lValues[k + 3] = lValues[k];
-      }
-      const lContours = d3.contours()
-        .size([4, l])
-        .thresholds(thresholds);
-      const dScale = d3.scaleLinear()
-        .domain([6, -6]) // d
-        .range([0, (10 * this.rem)]);
-      //  ENTER
-      const dLegendEnter = underlayerEnter.append('g')
-        .classed('d-legend', true);
-      //  MERGE
-      underlayerMerge.select('.d-legend')
-        .attr('transform', `translate(${(width + (1.25 * this.rem))}, ${(1.5 * this.rem)})`);
-
-      // Sensitivity Legend Axis
-      //  ENTER
-      dLegendEnter.append('g')
-        .classed('d-axis', true);
-      //  MERGE
-      underlayerMerge.select('.d-axis')
-        .call(d3.axisLeft(dScale).ticks(7).tickSize(0))
-        .attr('font-size', null)
-        .attr('font-family', null);
-
-      // Sensitivity Legend Contours
-      //  DATA-JOIN
-      const lContoursUpdate = underlayerMerge.select('.d-legend').selectAll('.contour')
-        .data(lContours(lValues));
-      //  ENTER
-      const lContoursEnter = lContoursUpdate.enter().append('path')
-        .classed('contour', true);
-      // MERGE
-      lContoursEnter.merge(lContoursUpdate)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale((10 * this.rem) / l))) // ????
-        .attr('fill', (datum) => { return color(datum.value); });
-    }
-
-    // Accuracy Plot
-    if (this.contour === 'accuracy' && (
-      this.firstUpdate
-      || changedProperties.has('zRoc')
-      || changedProperties.has('width')
-      || changedProperties.has('height')
-      || changedProperties.has('rem')
-      || changedProperties.has('contour')
-    )) {
-      const n = 100;
-      const values = []; // new Array(n * n);
-      for (let j = 0.5, k = 0; j < n; j += 1) {
-        for (let i = 0.5; i < n; i += 1, k += 1) {
-          const hr = this.zRoc
-            ? SDTElement.zhr2hr(((i / n) * 6) - 3)
-            : i / n;
-          const far = this.zRoc
-            ? SDTElement.zfar2far(((1 - j / n) * 6) - 3)
-            : (1 - j / n);
-          values[k] = SDTElement.hrfar2acc(hr, far);
-        }
-      }
-      const thresholds = d3.range(0, 1, 0.05);
-      const contours = d3.contours()
-        .size([n, n])
-        .thresholds(thresholds);
-      const colorBackground = this.getComputedStyleValue('---color-element-background');
-      const colorAcc = this.getComputedStyleValue('---color-acc-dark');
-      const color = d3.scaleLinear()
-        .domain(d3.extent(thresholds))
-        .interpolate(() => { return d3.interpolateRgb(colorAcc, colorBackground); });
-      //  ENTER
-      underlayerEnter.append('g')
-        .classed('acc-plot', true);
-      //  MERGE
-      const accPlotMerge = underlayerMerge.select('.acc-plot');
-
-      // Accuracy Contours
-      //  DATA-JOIN
-      const accContoursUpdate = accPlotMerge.selectAll('.contour')
-        .data(contours(values));
-      //  ENTER
-      const accContoursEnter = accContoursUpdate.enter().append('path')
-        .classed('contour', true);
-      // MERGE
-      accContoursEnter.merge(accContoursUpdate).transition()
-        .duration(1000)
-        .ease(d3.easeCubicOut)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
-        .attr('fill', (datum) => { return color(datum.value); });
-
-      // Accuracy Legend Title
-      //  ENTER
-      underlayerEnter.append('text')
-        .classed('acc-title', true)
-        .attr('text-anchor', 'middle');
-      //  MERGE
-      underlayerMerge.select('.acc-title')
-        .attr('transform', `translate(${(width + (1.125 * this.rem))}, ${this.rem})`)
-        .text('Acc');
-
-      // Accuracy Legend Plot
-      const l = 100;
-      const lValues = []; // new Array(4 * l);
-      for (let i = 0.5, k = 0; i < l; i += 1, k += 4) {
-        lValues[k] = (i / n);
-        lValues[k + 1] = lValues[k];
-        lValues[k + 2] = lValues[k];
-        lValues[k + 3] = lValues[k];
-      }
-      const lContours = d3.contours()
-        .size([4, l])
-        .thresholds(thresholds);
-      const accScale = d3.scaleLinear()
-        .domain([1, 0]) // acc
-        .range([0, (10 * this.rem)]);
-      //  ENTER
-      const accLegendEnter = underlayerEnter.append('g')
-        .classed('acc-legend', true);
-      //  MERGE
-      underlayerMerge.select('.acc-legend')
-        .attr('transform', `translate(${(width + (1.5 * this.rem))}, ${(1.5 * this.rem)})`);
-
-      // Accuracy Legend Axis
-      //  ENTER
-      accLegendEnter.append('g')
-        .classed('acc-axis', true);
-      //  MERGE
-      underlayerMerge.select('.acc-axis')
-        .call(d3.axisLeft(accScale).ticks(7).tickSize(0))
-        .attr('font-size', null)
-        .attr('font-family', null);
-
-      // Accuracy Legend Contours
-      //  DATA-JOIN
-      const lContoursUpdate = underlayerMerge.select('.acc-legend').selectAll('.contour')
-        .data(lContours(lValues));
-      //  ENTER
-      const lContoursEnter = lContoursUpdate.enter().append('path')
-        .classed('contour', true);
-      //  MERGE
-      lContoursEnter.merge(lContoursUpdate)
-        .attr('d', d3.geoPath(d3.geoIdentity().scale((10 * this.rem) / l))) // ????
-        .attr('fill', (datum) => { return color(datum.value); });
     }
 
     // X Axis
