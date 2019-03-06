@@ -1,6 +1,5 @@
 
 import {html, css} from 'lit-element';
-// import {LitElement, html, css} from 'lit-element';
 import * as d3 from 'd3';
 
 import SDTElement from '../sdt-element';
@@ -13,7 +12,6 @@ import SDTElement from '../sdt-element';
   Dots; Coherence;
   # Direction, Speed, Lifetime
 */
-// export default class RDKTask extends LitElement {
 export default class RDKTask extends SDTElement {
   static get properties() {
     return {
@@ -84,11 +82,19 @@ export default class RDKTask extends SDTElement {
         type: Number,
         reflect: false,
       },
+      rem: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
     };
   }
 
   constructor() {
     super();
+
+    this.firstUpdate = true;
+
     this.coherence = 0.5;
     this.count = 100;
     this.direction = -1;
@@ -121,6 +127,7 @@ export default class RDKTask extends SDTElement {
 
     this.width = NaN;
     this.height = NaN;
+    this.rem = NaN;
   }
 
   static get styles() {
@@ -131,9 +138,7 @@ export default class RDKTask extends SDTElement {
           display: inline-block;
         }
 
-        svg {
-          box-sizing: border-box;
-
+        .main {
           width: 100%;
           height: 100%;
         }
@@ -178,120 +183,147 @@ export default class RDKTask extends SDTElement {
     return html``;
   }
 
+  getDimensions() {
+    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
+    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
+    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
+    console.log(`rdk-task: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this.getDimensions.bind(this));
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('resize', this.getDimensions.bind(this));
+    window.disconnectedCallback();
+  }
+
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties);
 
     // Get the width and height after initial render/update has occurred
     // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
-    window.setTimeout(() => {
-      this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-      this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-      // console.log(`rdk-task(timeout): width = ${this.width}, height = ${this.height}`);
-    }, 0);
+    window.setTimeout(this.getDimensions.bind(this), 0);
   }
 
   update(changedProperties) {
     super.update(changedProperties);
 
-    // Bail out if we can't get the width/height
-    if (Number.isNaN(this.width) || Number.isNaN(this.height)) {
+    // Bail out if we can't get the width/height/rem
+    if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
       return;
     }
 
-    const aspectRatio = 1;
-    const hostWidth = this.width;
-    const hostHeight = this.height;
-    let elementWidth;
-    let elementHeight;
-    if ((hostWidth / aspectRatio) < (hostHeight * aspectRatio)) {
-      elementWidth = hostHeight * aspectRatio;
-      elementHeight = elementWidth / aspectRatio;
-    } else {
-      elementHeight = hostWidth / aspectRatio;
-      elementWidth = elementHeight * aspectRatio;
-    }
+    const elementWidth = this.width;
+    const elementHeight = this.height;
+    const elementSize = Math.min(elementWidth, elementHeight);
 
     const margin = {
-      top: 4,
-      bottom: 4,
-      left: 4,
-      right: 4,
+      top: 0.25 * this.rem,
+      bottom: 0.25 * this.rem,
+      left: 0.25 * this.rem,
+      right: 0.25 * this.rem,
     };
-    const innerWidth = elementWidth - (margin.left + margin.right);
-    const innerHeight = elementHeight - (margin.top + margin.bottom);
-    const size = (innerWidth < innerHeight) ? innerWidth : innerHeight;
+    const height = elementSize - (margin.top + margin.bottom);
+    const width = elementSize - (margin.left + margin.right);
 
-    // Scales
+    // X Scale
     this.xScale = d3.scaleLinear()
       .domain([-1, 1])
-      .range([0, size]);
+      .range([0, width]);
 
+    // Y Scale
     this.yScale = d3.scaleLinear()
       .domain([1, -1])
-      .range([0, size]);
+      .range([0, height]);
 
-    // DATA JOIN - Plot
-    const svgUpdate = d3.select(this.renderRoot).selectAll('svg')
-      .data([{that: this}]);
-
-    // ENTER - Plot
+    // Svg
+    //  DATA JOIN
+    const svgUpdate = d3.select(this.renderRoot).selectAll('.main')
+      .data([{
+        width: this.width,
+        height: this.height,
+        rem: this.rem,
+      }]);
+    //  ENTER
     const svgEnter = svgUpdate.enter().append('svg')
-      .attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`);
+      .classed('main', true);
+    //  MERGE
+    const svgMerge = svgEnter.merge(svgUpdate)
+      .attr('viewBox', `0 0 ${elementSize} ${elementSize}`);
 
-    const clipPathEnter = svgEnter.append('clipPath')
-      .attr('id', 'clipPath');
-
-    clipPathEnter.append('circle')
+    // Clippath
+    //  ENTER
+    svgEnter.append('clipPath')
+      .attr('id', 'clip-rdk-task')
+      .append('circle');
+    //  MERGE
+    svgMerge.select('clipPath circle')
       .attr('cx', this.xScale(0))
       .attr('cy', this.yScale(0))
       .attr('r', this.xScale(1) - this.xScale(0));
 
+    // Plot
+    //  ENTER
     const plotEnter = svgEnter.append('g')
-      .classed('plot', true)
+      .classed('plot', true);
+    //  MERGE
+    const plotMerge = svgMerge.select('.plot')
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-    // Plot Underlay
-    const underlayEnter = plotEnter.append('g')
-      .classed('underlay', true);
-
-    // Plot Content
-    plotEnter.append('g')
-      .classed('content', true)
-      .attr('clip-path', 'url(#clipPath)');
-
-    // Plot Overlay
-    const overlayEnter = plotEnter.append('g')
-      .classed('overlay', true);
+    // Underlayer
+    //  ENTER
+    const underlayerEnter = plotEnter.append('g')
+      .classed('underlayer', true);
+    // MERGE
+    const underlayerMerge = plotMerge.select('.underlayer');
 
     // Background
-    underlayEnter.append('circle')
-      .classed('background', true)
+    //  ENTER
+    underlayerEnter.append('circle')
+      .classed('background', true);
+    //  MERGE
+    underlayerMerge.select('.background')
       .attr('cx', this.xScale(0))
       .attr('cy', this.yScale(0))
       .attr('r', this.xScale(1) - this.xScale(0));
 
-    // Outline
-    overlayEnter.append('circle')
-      .classed('outline', true)
-      .attr('cx', this.xScale(0))
-      .attr('cy', this.yScale(0))
-      .attr('r', this.xScale(1) - this.yScale(0));
+    // Content
+    //  ENTER
+    plotEnter.append('g')
+      .classed('content', true)
+      .attr('clip-path', 'url(#clip-rdk-task)');
+    //  MERGE
+    const contentMerge = plotMerge.select('.content');
 
-    // MERGE - Plot
-    const svgMerge = svgEnter.merge(svgUpdate);
-
-    // DATA JOIN - Dot Groups
-    const dotsUpdate = svgMerge.select('.content').selectAll('.dots')
+    // Dot Groups
+    //  DATA JOIN
+    const dotsUpdate = contentMerge.selectAll('.dots')
       .data([[], []]);
-
-    // ENTER - Dot Groups
-    const dotsEnter = dotsUpdate.enter().append('g')
+    //  ENTER
+    dotsUpdate.enter().append('g')
       .classed('dots', true)
       .classed('coherent', (datum, index) => { return index === this.COHERENT; })
       .classed('random', (datum, index) => { return index === this.RANDOM; });
 
-    // MERGE - Dot Groups
-    dotsEnter.merge(dotsUpdate);
+    // Overlayer
+    //  ENTER
+    const overlayerEnter = plotEnter.append('g')
+      .classed('overlayer', true);
+    // MERGE
+    const overlayerMerge = plotMerge.select('.overlayer');
+
+    // Outline
+    //  ENTER
+    overlayerEnter.append('circle')
+      .classed('outline', true);
+    //  MERGE
+    overlayerMerge.select('.outline')
+      .attr('cx', this.xScale(0))
+      .attr('cy', this.yScale(0))
+      .attr('r', this.xScale(1) - this.yScale(0));
 
     // Start or stop trial block
     if (changedProperties.has('running')) {
@@ -462,11 +494,11 @@ export default class RDKTask extends SDTElement {
       }
     }
 
-    // DATA JOIN - Fixation
+    // Fixation
+    //  DATA JOIN
     const fixationUpdate = d3.select(this.renderRoot).select('.content').selectAll('.fixation')
       .data((this.state === 'iti') ? [true] : []);
-
-    // ENTER - Fixation
+    //  ENTER
     const fixationEnter = fixationUpdate.enter().append('g')
       .classed('fixation', true);
     fixationEnter.append('line')
@@ -479,35 +511,31 @@ export default class RDKTask extends SDTElement {
       .attr('y1', this.xScale(-0.1))
       .attr('x2', this.xScale(0))
       .attr('y2', this.xScale(0.1));
-
-    // EXIT - Fixation
+    //  EXIT
     fixationUpdate.exit().remove();
 
-    // DATA JOIN - Dots
+    // Dots
+    //  DATA JOIN
     const dotsUpdate = d3.select(this.renderRoot).select('.content').selectAll('.dots')
       .data((this.state === 'stimulus') ? this.dots : [[], []]);
-
     const dotUpdate = dotsUpdate.selectAll('.dot')
       .data((datum) => { return datum; });
-
-    // ENTER - Dots
+    //  ENTER
     const dotEnter = dotUpdate.enter().append('circle')
       .classed('dot', true)
       .attr('r', 2); /* HACK: Firefox does not support CSS SVG Geometry Properties */
-
-    // MERGE - Dots
+    //  MERGE
     dotEnter.merge(dotUpdate)
       .attr('cx', (datum) => { return datum.x; })
       .attr('cy', (datum) => { return datum.y; });
-
-    // EXIT - Dots
+    //  EXIT
     dotUpdate.exit().remove();
 
-    // DATA JOIN - Query
+    // Query
+    //  DATA JOIN
     const queryUpdate = d3.select(this.renderRoot).select('.content').selectAll('.query')
       .data((this.state === 'wait') ? [true] : []);
-
-    // ENTER - Query
+    //  ENTER
     const queryEnter = queryUpdate.enter().append('g')
       .classed('query', true);
     queryEnter.append('text')
@@ -516,8 +544,7 @@ export default class RDKTask extends SDTElement {
       .attr('text-anchor', 'middle')
       .attr('alignment-baseline', 'middle')
       .text('?');
-
-    // EXIT - Query
+    //  EXIT
     queryUpdate.exit().remove();
   }
 }
