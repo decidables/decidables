@@ -225,8 +225,8 @@ export default class ROCSpace extends SDTElement {
           height: 100%;
         }
 
-        .contour-plot,
-        .contour-legend .contour {
+        .plot-contour,
+        .legend-contour .contour {
           stroke: var(---color-background);
           stroke-width: 0.5;
         }
@@ -276,7 +276,7 @@ export default class ROCSpace extends SDTElement {
 
         .title-x,
         .title-y,
-        .contour-title {
+        .title-contour {
           font-weight: 600;
 
           fill: currentColor;
@@ -293,7 +293,7 @@ export default class ROCSpace extends SDTElement {
           stroke: var(---color-element-border);
         }
 
-        .contour-axis .domain {
+        .axis-contour .domain {
           stroke: none;
         }
 
@@ -511,7 +511,7 @@ export default class ROCSpace extends SDTElement {
       if (this.contour !== undefined) {
         // Contour Plot
         const n = 100; // Resolution
-        const values = [];
+        const contourValues = [];
         for (let j = 0.5, k = 0; j < n; j += 1) {
           for (let i = 0.5; i < n; i += 1, k += 1) {
             const hr = this.zRoc
@@ -520,7 +520,7 @@ export default class ROCSpace extends SDTElement {
             const far = this.zRoc
               ? SDTElement.zfar2far(((1 - j / n) * 6) - 3)
               : (1 - j / n);
-            values[k] = (this.contour === 'bias')
+            contourValues[k] = (this.contour === 'bias')
               ? SDTElement.hrfar2c(hr, far)
               : (this.contour === 'sensitivity')
                 ? SDTElement.hrfar2d(hr, far)
@@ -529,7 +529,7 @@ export default class ROCSpace extends SDTElement {
                   : null;
           }
         }
-        const thresholds = (this.contour === 'bias')
+        const contourThresholds = (this.contour === 'bias')
           ? d3.range(-3, 3, 0.25)
           : (this.contour === 'sensitivity')
             ? d3.range(-6, 6, 0.5)
@@ -538,37 +538,37 @@ export default class ROCSpace extends SDTElement {
               : null;
         const contours = d3.contours()
           .size([n, n])
-          .thresholds(thresholds);
-        const colorStart = this.getComputedStyleValue((this.contour === 'bias')
+          .thresholds(contourThresholds);
+        const contourColorStart = this.getComputedStyleValue((this.contour === 'bias')
           ? '---color-element-background'
           : (this.contour === 'sensitivity')
             ? '---color-d'
             : (this.contour === 'accuracy')
               ? '---color-acc-dark'
               : null);
-        const colorEnd = this.getComputedStyleValue((this.contour === 'bias')
+        const contourColorEnd = this.getComputedStyleValue((this.contour === 'bias')
           ? '---color-c'
           : (this.contour === 'sensitivity')
             ? '---color-element-background'
             : (this.contour === 'accuracy')
               ? '---color-element-background'
               : null);
-        const color = d3.scaleLinear()
-          .domain(d3.extent(thresholds))
-          .interpolate(() => { return d3.interpolateRgb(colorStart, colorEnd); });
+        const contourColor = d3.scaleLinear()
+          .domain(d3.extent(contourThresholds))
+          .interpolate(() => { return d3.interpolateRgb(contourColorStart, contourColorEnd); });
         //  DATA-JOIN
-        const contourPlotUpdate = underlayerMerge.selectAll('.contour-plot')
+        const contourPlotUpdate = underlayerMerge.selectAll('.plot-contour')
           .data([this.contour]);
         //  ENTER
         const contourPlotEnter = contourPlotUpdate.enter().append('g')
-          .classed('contour-plot', true);
+          .classed('plot-contour', true);
         //  MERGE
         const contourPlotMerge = contourPlotEnter.merge(contourPlotUpdate);
 
         // Contour Plot Contours
         //  DATA-JOIN
         const contoursUpdate = contourPlotMerge.selectAll('.contour')
-          .data(contours(values));
+          .data(contours(contourValues));
         //  ENTER
         const contoursEnter = contoursUpdate.enter().append('path')
           .classed('contour', true);
@@ -577,17 +577,17 @@ export default class ROCSpace extends SDTElement {
           .duration(1000)
           .ease(d3.easeCubicOut)
           .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
-          .attr('fill', (datum) => { return color(datum.value); });
+          .attr('fill', (datum) => { return contourColor(datum.value); });
         //  EXIT
         contoursUpdate.exit().remove();
 
         // Contour Title
         //  DATA-JOIN
-        const contourTitleUpdate = underlayerMerge.selectAll('.contour-title')
+        const contourTitleUpdate = underlayerMerge.selectAll('.title-contour')
           .data([this.contour]);
         //  ENTER
         const contourTitleEnter = contourTitleUpdate.enter().append('text')
-          .classed('contour-title math-var', true)
+          .classed('title-contour math-var', true)
           .attr('text-anchor', 'middle');
         //  MERGE
         contourTitleEnter.merge(contourTitleUpdate)
@@ -608,23 +608,23 @@ export default class ROCSpace extends SDTElement {
 
         // Contour Legend
         const l = 100;
-        const lValues = []; // new Array(4 * l);
+        const contourLegendValues = []; // new Array(4 * l);
         for (let i = 0.5, k = 0; i < l; i += 1, k += 4) {
-          lValues[k] = (this.contour === 'bias')
+          contourLegendValues[k] = (this.contour === 'bias')
             ? -(((i / n) * 6) - 3)
             : (this.contour === 'sensitivity')
               ? ((i / n) * 12) - 6
               : (this.contour === 'accuracy')
                 ? (i / n)
                 : null;
-          lValues[k + 1] = lValues[k];
-          lValues[k + 2] = lValues[k];
-          lValues[k + 3] = lValues[k];
+          contourLegendValues[k + 1] = contourLegendValues[k];
+          contourLegendValues[k + 2] = contourLegendValues[k];
+          contourLegendValues[k + 3] = contourLegendValues[k];
         }
-        const lContours = d3.contours()
+        const legendContours = d3.contours()
           .size([4, l])
-          .thresholds(thresholds);
-        const lScale = d3.scaleLinear()
+          .thresholds(contourThresholds);
+        const legendScale = d3.scaleLinear()
           .domain((this.contour === 'bias')
             ? [3, -3]
             : (this.contour === 'sensitivity')
@@ -634,11 +634,11 @@ export default class ROCSpace extends SDTElement {
                 : null)
           .range([0, (10 * this.rem)]);
         //  DATA-JOIN
-        const contourLegendUpdate = underlayerMerge.selectAll('.contour-legend')
+        const contourLegendUpdate = underlayerMerge.selectAll('.legend-contour')
           .data([this.contour]);
         //  ENTER
         const contourLegendEnter = contourLegendUpdate.enter().append('g')
-          .classed('contour-legend', true);
+          .classed('legend-contour', true);
         //  MERGE
         const contourLegendMerge = contourLegendEnter.merge(contourLegendUpdate)
           .attr('transform', (this.contour === 'bias')
@@ -654,44 +654,44 @@ export default class ROCSpace extends SDTElement {
         // Contour Legend Axis
         //  ENTER
         contourLegendEnter.append('g')
-          .classed('contour-axis', true);
+          .classed('axis-contour', true);
         //  MERGE
-        contourLegendMerge.select('.contour-axis')
-          .call(d3.axisLeft(lScale).ticks(7).tickSize(0))
+        contourLegendMerge.select('.axis-contour')
+          .call(d3.axisLeft(legendScale).ticks(7).tickSize(0))
           .attr('font-size', null)
           .attr('font-family', null);
 
         // Contour Legend Contours
         //  DATA-JOIN
-        const lContoursUpdate = contourLegendMerge.selectAll('.contour')
-          .data(lContours(lValues));
+        const legendContoursUpdate = contourLegendMerge.selectAll('.contour')
+          .data(legendContours(contourLegendValues));
         //  ENTER
-        const lContoursEnter = lContoursUpdate.enter().append('path')
+        const legendContoursEnter = legendContoursUpdate.enter().append('path')
           .classed('contour', true);
         //  MERGE
-        lContoursEnter.merge(lContoursUpdate)
+        legendContoursEnter.merge(legendContoursUpdate)
           .attr('d', d3.geoPath(d3.geoIdentity().scale((10 * this.rem) / l))) // ????
-          .attr('fill', (datum) => { return color(datum.value); });
+          .attr('fill', (datum) => { return contourColor(datum.value); });
         //  EXIT
-        lContoursUpdate.exit().remove();
+        legendContoursUpdate.exit().remove();
       } else {
         // Contour Plot
         //  DATA-JOIN
-        const contourPlotUpdate = underlayerMerge.selectAll('.contour-plot')
+        const contourPlotUpdate = underlayerMerge.selectAll('.plot-contour')
           .data([]);
         //  EXIT
         contourPlotUpdate.exit().remove();
 
         // Contour Title
         //  DATA-JOIN
-        const contourTitleUpdate = underlayerMerge.selectAll('.contour-title')
+        const contourTitleUpdate = underlayerMerge.selectAll('.title-contour')
           .data([]);
         //  EXIT
         contourTitleUpdate.exit().remove();
 
         // Contour Legend
         //  DATA-JOIN
-        const contourLegendUpdate = underlayerMerge.selectAll('.contour-legend')
+        const contourLegendUpdate = underlayerMerge.selectAll('.legend-contour')
           .data([]);
         //  EXIT
         contourLegendUpdate.exit().remove();
