@@ -219,8 +219,6 @@ export default class ROCSpace extends SDTElement {
         }
 
         .main {
-          box-sizing: border-box;
-
           width: 100%;
           height: 100%;
         }
@@ -451,7 +449,7 @@ export default class ROCSpace extends SDTElement {
 
     // Svg
     //  DATA JOIN
-    const svgUpdate = d3.select(this.renderRoot).selectAll('svg.main')
+    const svgUpdate = d3.select(this.renderRoot).selectAll('.main')
       .data([{
         width: this.width,
         height: this.height,
@@ -475,7 +473,7 @@ export default class ROCSpace extends SDTElement {
     // Clippath
     //  ENTER
     plotEnter.append('clipPath')
-      .attr('id', 'clip')
+      .attr('id', 'clip-roc-space')
       .append('rect');
     //  MERGE
     plotMerge.select('clipPath rect')
@@ -787,7 +785,7 @@ export default class ROCSpace extends SDTElement {
     //  ENTER
     const isoDEnter = isoDUpdate.enter().append('path')
       .classed('curve-iso-d', true)
-      .attr('clip-path', 'url(#clip)');
+      .attr('clip-path', 'url(#clip-roc-space)');
     //  MERGE
     const isoDMerge = isoDEnter.merge(isoDUpdate);
     if (changedProperties.has('zRoc') || this.firstUpdate) {
@@ -883,7 +881,7 @@ export default class ROCSpace extends SDTElement {
     //  ENTER
     const isoCEnter = isoCUpdate.enter().append('path')
       .classed('curve-iso-c', true)
-      .attr('clip-path', 'url(#clip)');
+      .attr('clip-path', 'url(#clip-roc-space)');
     //  MERGE
     const isoCMerge = isoCEnter.merge(isoCUpdate);
     if (changedProperties.has('zRoc') || this.firstUpdate) {
