@@ -585,10 +585,11 @@ export default class ROCSpace extends SDTElement {
           .data([this.contour]);
         //  ENTER
         const contourTitleEnter = contourTitleUpdate.enter().append('text')
-          .classed('title-contour math-var', true)
+          .classed('title-contour', true)
           .attr('text-anchor', 'middle');
         //  MERGE
         contourTitleEnter.merge(contourTitleUpdate)
+          .classed('math-var', (this.contour === 'bias') || (this.contour === 'sensitivity'))
           .attr('transform', (this.contour === 'bias')
             ? `translate(${(width + (1.25 * this.rem))}, ${this.rem})`
             : (this.contour === 'sensitivity')
