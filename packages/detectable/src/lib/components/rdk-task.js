@@ -93,8 +93,6 @@ export default class RDKTask extends SDTElement {
   constructor() {
     super();
 
-    this.firstUpdate = true;
-
     this.coherence = 0.5;
     this.count = 100;
     this.direction = -1;
