@@ -185,7 +185,7 @@ export default class RDKTask extends SDTElement {
     this.width = parseFloat(this.getComputedStyleValue('width'), 10);
     this.height = parseFloat(this.getComputedStyleValue('height'), 10);
     this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    console.log(`rdk-task: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
+    // console.log(`rdk-task: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
   }
 
   connectedCallback() {
