@@ -93,6 +93,11 @@ export default class SDTModel extends SDTElement {
         type: Number,
         reflect: false,
       },
+      rem: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
     };
   }
 
@@ -127,6 +132,7 @@ export default class SDTModel extends SDTElement {
 
     this.width = NaN;
     this.height = NaN;
+    this.rem = NaN;
 
     this.alignState();
   }
@@ -148,18 +154,6 @@ export default class SDTModel extends SDTElement {
     this.alignTrial(trial);
 
     this.trials.push(trial);
-
-    // this.dispatchEvent(new CustomEvent('sdt-response', {
-    //   detail: {
-    //     stimulus: trial.signal,
-    //     response: trial.response,
-    //     outcome: trial.outcome,
-    //     h: this.h,
-    //     m: this.m,
-    //     fa: this.fa,
-    //     cr: this.cr,
-    //     nr: 0},
-    //   bubbles: true}));
 
     this.requestUpdate();
   }
@@ -211,8 +205,6 @@ export default class SDTModel extends SDTElement {
         }
 
         .main {
-          box-sizing: border-box;
-
           width: 100%;
           height: 100%;
         }
@@ -244,7 +236,6 @@ export default class SDTModel extends SDTElement {
 
           filter: url("#shadow-2");
           outline: none;
-          /* transition: filter 280ms cubic-bezier(.4, 0, 1, 1); NOT WORKING */
         }
 
         .signal-noise.interactive:hover,
@@ -415,16 +406,29 @@ export default class SDTModel extends SDTElement {
     }));
   }
 
+  getDimensions() {
+    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
+    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
+    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
+    console.log(`sdt-model: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this.getDimensions.bind(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('resize', this.getDimensions.bind(this));
+    super.disconnectedCallback();
+  }
+
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties);
 
     // Get the width and height after initial render/update has occurred
     // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
-    window.setTimeout(() => {
-      this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-      this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-      // console.log(`sdt-model(timeout): width = ${this.width}, height = ${this.height}`);
-    }, 0);
+    window.setTimeout(this.getDimensions.bind(this), 0);
   }
 
   update(changedProperties) {
@@ -433,32 +437,34 @@ export default class SDTModel extends SDTElement {
     this.alignState();
 
     // Bail out if we can't get the width/height
-    if (Number.isNaN(this.width) || Number.isNaN(this.height)) {
+    if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
       return;
     }
 
-    const aspectRatio = 1.8;
     const hostWidth = this.width;
     const hostHeight = this.height;
+    const hostAspectRatio = hostWidth / hostHeight;
+
+    const elementAspectRatio = 1.8;
     let elementWidth;
     let elementHeight;
-    if ((hostWidth / aspectRatio) < (hostHeight * aspectRatio)) {
-      elementWidth = hostHeight * aspectRatio;
-      elementHeight = elementWidth / aspectRatio;
+
+    if (hostAspectRatio > elementAspectRatio) {
+      elementHeight = hostHeight;
+      elementWidth = elementHeight * elementAspectRatio;
     } else {
-      elementHeight = hostWidth / aspectRatio;
-      elementWidth = elementHeight * aspectRatio;
+      elementWidth = hostWidth;
+      elementHeight = elementWidth / elementAspectRatio;
     }
 
-    const marginRight = (this.histogram && this.distributions) ? 45 : 10;
     const margin = {
-      top: 30,
-      bottom: 45,
-      left: 45,
-      right: marginRight,
+      top: 2 * this.rem,
+      bottom: 3 * this.rem,
+      left: 3 * this.rem,
+      right: ((this.histogram && this.distributions) ? 3 : 0.75) * this.rem,
     };
-    const width = elementWidth - (margin.left + margin.right);
     const height = elementHeight - (margin.top + margin.bottom);
+    const width = elementWidth - (margin.left + margin.right);
 
     // X Scale
     const xScale = d3.scaleLinear()
@@ -560,582 +566,664 @@ export default class SDTModel extends SDTElement {
       .x((datum) => { return xScale(datum.e); })
       .y((datum) => { return yScale(datum.p); });
 
-    // DATA JOIN - Plot
-    const svgUpdate = d3.select(this.renderRoot).selectAll('svg.main')
-      .data([{}]);
-
-    // ENTER - Plot
+    // Svg
+    //  DATA-JOIN
+    const svgUpdate = d3.select(this.renderRoot).selectAll('.main')
+      .data([{
+        width: this.width,
+        height: this.height,
+        rem: this.rem,
+      }]);
+    // ENTER
     const svgEnter = svgUpdate.enter().append('svg')
-      .classed('main', true)
+      .classed('main', true);
+    // MERGE
+    const svgMerge = svgEnter.merge(svgUpdate)
       .attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`);
 
+    // Plot
+    //  ENTER
     const plotEnter = svgEnter.append('g')
-      .classed('plot', true)
+      .classed('plot', true);
+    //  MERGE
+    const plotMerge = svgMerge.select('.plot')
       .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-    // plotEnter.append('clipPath')
-    //   .attr('id', 'clip')
-    //   .append('rect')
-    //     .attr('y', -margin.top)
-    //     .attr('height', height + margin.top)
-    //   .attr('width', width);
-
-    // Plot Structure
+    // Underlayer
+    //  ENTER
     const underlayerEnter = plotEnter.append('g')
       .classed('underlayer', true);
+    // MERGE
+    const underlayerMerge = plotMerge.select('.underlayer');
 
-    // Plot Content
-    const contentEnter = plotEnter.append('g')
-      .classed('content', true);
-      // .attr('clip-path', 'url(#clip)');
-
-    // Plot Structure
-    const overlayerEnter = plotEnter.append('g')
-      .classed('overlayer', true);
-
-    // Plot Background
+    // Background
+    //  ENTER
     underlayerEnter.append('rect')
-      .classed('background', true)
-      .attr('height', height)
-      .attr('width', width);
-
-    // Plot Background
-    overlayerEnter.append('rect')
-      .classed('background', true)
+      .classed('background', true);
+    //  MERGE
+    underlayerMerge.select('.background')
       .attr('height', height)
       .attr('width', width);
 
     // X Axis
-    const xAxisEnter = underlayerEnter.append('g')
-      .classed('axis-x', true)
+    //  ENTER
+    underlayerEnter.append('g')
+      .classed('axis-x', true);
+    const axisXMerge = underlayerMerge.select('.axis-x')
       .attr('transform', `translate(0, ${height})`)
       .call(d3.axisBottom(xScale))
       .attr('font-size', null)
       .attr('font-family', null);
-    xAxisEnter.selectAll('line, path')
+    axisXMerge.selectAll('line, path')
       .attr('stroke', null);
 
     // X Axis Title
+    //  ENTER
     underlayerEnter.append('text')
       .classed('title-x', true)
       .attr('text-anchor', 'middle')
-      .attr('transform', `translate(${width / 2}, ${height + 35})`)
       .text('Evidence');
+    underlayerMerge.select('.title-x')
+      .attr('transform', `translate(${width / 2}, ${height + (2.25 * this.rem)})`);
 
-    if (this.distributions) {
-      // Y Axis
-      const yAxisEnter = underlayerEnter.append('g')
-        .classed('axis-y', true)
-        .call(d3.axisLeft(yScale).ticks(5))
-        .attr('font-size', null)
-        .attr('font-family', null);
-      yAxisEnter.selectAll('line, path')
-        .attr('stroke', null);
+    // Y Axis
+    //  DATA-JOIN
+    const axisYUpdate = underlayerMerge.selectAll('.axis-y')
+      .data(this.distributions ? [{}] : []);
+    //  ENTER
+    const axisYEnter = axisYUpdate.enter().append('g')
+      .classed('axis-y', true);
+    //  MERGE
+    const axisYMerge = axisYEnter.merge(axisYUpdate)
+      .call(d3.axisLeft(yScale).ticks(5))
+      .attr('font-size', null)
+      .attr('font-family', null);
+    axisYMerge.selectAll('line, path')
+      .attr('stroke', null);
+    //  EXIT
+    axisYUpdate.exit().remove();
 
-      // Y Axis Title
-      underlayerEnter.append('text')
-        .classed('title-y', true)
-        .attr('text-anchor', 'middle')
-        .attr('transform', `translate(-30, ${height / 2})rotate(-90)`)
-        .text('Probability');
-    }
+    // Y Axis Title
+    //  DATA-JOIN
+    const titleYUpdate = underlayerMerge.selectAll('.title-y')
+      .data(this.distributions ? [{}] : []);
+    //  ENTER
+    const titleYEnter = titleYUpdate.enter().append('text')
+      .classed('title-y', true)
+      .attr('text-anchor', 'middle')
+      .text('Probability');
+    //  MERGE
+    titleYEnter.merge(titleYUpdate)
+      .attr('transform', `translate(${-2 * this.rem}, ${height / 2})rotate(-90)`);
+    //  EXIT
+    titleYUpdate.exit().remove();
 
-    if (this.histogram && !this.distributions) {
-      // 2nd Y Axis
-      const yAxis2Enter = underlayerEnter.append('g')
-        .classed('axis-y2', true)
-        .call(d3.axisLeft(y2Scale).ticks(10))
-        .attr('font-size', null)
-        .attr('font-family', null);
-      yAxis2Enter.selectAll('line, path')
-        .attr('stroke', null);
+    // 2nd Y Axis
+    //  DATA-JOIN
+    const axisY2Update = underlayerMerge.selectAll('.axis-y2')
+      .data(this.histogram ? [{}] : []);
+    //  ENTER
+    const axisY2Enter = axisY2Update.enter().append('g')
+      .classed('axis-y2', true);
+    //  MERGE
+    const axisY2Merge = axisY2Enter.merge(axisY2Update)
+      .attr('transform', this.distributions ? `translate(${width}, 0)` : 'none')
+      .call(this.distributions ? d3.axisRight(y2Scale).ticks(10) : d3.axisLeft(y2Scale).ticks(10))
+      .attr('font-size', null)
+      .attr('font-family', null);
+    axisY2Merge.selectAll('line, path')
+      .attr('stroke', null);
+    //  EXIT
+    axisY2Update.exit().remove();
 
-      // 2nd Y Axis Title
-      underlayerEnter.append('text')
-        .classed('title-y2', true)
-        .attr('text-anchor', 'middle')
-        .attr('transform', `translate(-30, ${height / 2})rotate(-90)`)
-        .text('Count');
-    }
+    // 2nd Y Axis Title
+    //  DATA-JOIN
+    const titleY2Update = underlayerMerge.selectAll('.title-y2')
+      .data(this.histogram ? [{}] : []);
+    //  ENTER
+    const titleY2Enter = titleY2Update.enter().append('text')
+      .classed('title-y2', true)
+      .attr('text-anchor', 'middle')
+      .text('Count');
+    //  MERGE
+    titleY2Enter.merge(titleY2Update)
+      .attr('transform', this.distributions
+        ? `translate(${width + (1.5 * this.rem)}, ${height / 2})rotate(90)`
+        : `translate(${-1.5 * this.rem}, ${height / 2})rotate(-90)`);
+    //  EXIT
+    titleY2Update.exit().remove();
 
-    if (this.histogram && this.distributions) {
-      // 2nd Y Axis
-      const yAxis2Enter = underlayerEnter.append('g')
-        .classed('axis-y2', true)
-        .attr('transform', `translate(${width}, 0)`)
-        .call(d3.axisRight(y2Scale).ticks(10))
-        .attr('font-size', null)
-        .attr('font-family', null);
-      yAxis2Enter.selectAll('line, path')
-        .attr('stroke', null);
+    // Plot Content
+    plotEnter.append('g')
+      .classed('content', true);
+    //  MERGE
+    const contentMerge = plotMerge.select('.content');
 
-      // 2nd Y Axis Title
-      underlayerEnter.append('text')
-        .classed('title-y2', true)
-        .attr('text-anchor', 'middle')
-        .attr('transform', `translate(${width + 25}, ${height / 2})rotate(90)`)
-        .text('Count');
-    }
-
-    if (this.distributions) {
-      // Noise & Signal + Noise Curves
-      const signalNoiseEnter = contentEnter.append('g')
-        .classed('signal-noise', true);
-      if (this.interactive) {
-        signalNoiseEnter
-          .attr('tabindex', 0)
-          .classed('interactive', true)
-          .on('keydown', (/* datum */) => {
-            if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-              let d = this.d; // eslint-disable-line prefer-destructuring
-              switch (d3.event.key) {
-                case 'ArrowRight':
-                  d += d3.event.shiftKey ? 0.01 : 0.1;
-                  break;
-                case 'ArrowLeft':
-                  d -= d3.event.shiftKey ? 0.01 : 0.1;
-                  break;
-                default:
-              }
-              // Clamp C to visible extent
-              d = (d < xScale.domain()[0])
-                ? xScale.domain()[0]
-                : (d > xScale.domain()[1])
-                  ? xScale.domain()[1]
-                  : d;
-              if (d !== this.d) {
-                this.d = d;
-                this.alignState();
-                this.sendEvent();
-              }
-              d3.event.preventDefault();
+    // Noise & Signal + Noise Distributions
+    //  DATA-JOIN
+    const signalNoiseUpdate = contentMerge.selectAll('.signal-noise')
+      .data(this.distributions ? [{}] : []);
+    //  ENTER
+    const signalNoiseEnter = signalNoiseUpdate.enter().append('g')
+      .classed('signal-noise', true);
+    //  MERGE
+    const signalNoiseMerge = signalNoiseEnter.merge(signalNoiseUpdate)
+      .attr('tabindex', this.interactive ? 0 : null)
+      .classed('interactive', this.interactive)
+      .on('keydown', this.interactive
+        ? (/* datum */) => {
+          if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+            let d = this.d; // eslint-disable-line prefer-destructuring
+            switch (d3.event.key) {
+              case 'ArrowRight':
+                d += d3.event.shiftKey ? 0.01 : 0.1;
+                break;
+              case 'ArrowLeft':
+                d -= d3.event.shiftKey ? 0.01 : 0.1;
+                break;
+              default:
             }
-          });
-      } else {
-        signalNoiseEnter
-          .attr('tabindex', null)
-          .classed('interactive', false)
-          .on('keydown', null);
-      }
+            // Clamp C to visible extent
+            d = (d < xScale.domain()[0])
+              ? xScale.domain()[0]
+              : (d > xScale.domain()[1])
+                ? xScale.domain()[1]
+                : d;
+            if (d !== this.d) {
+              this.d = d;
+              this.alignState();
+              this.sendEvent();
+            }
+            d3.event.preventDefault();
+          }
+        }
+        : null);
+    //  EXIT
+    signalNoiseUpdate.exit().remove();
 
-      // Noise Curve
-      const noiseEnter = signalNoiseEnter.append('g')
-        .classed('noise', true);
-      if (this.interactive) {
-        noiseEnter.call(dragNoise);
-      } else {
-        noiseEnter.on('.drag', null);
-      }
-      noiseEnter.append('path')
-        .classed('curve-cr', true);
-      noiseEnter.append('path')
-        .classed('curve-fa', true);
-      noiseEnter.append('path')
-        .classed('curve-noise', true);
-
-      // Signal + Noise Curve
-      const signalEnter = signalNoiseEnter.append('g')
-        .classed('signal', true);
-      if (this.interactive) {
-        signalEnter.call(dragSignal);
-      } else {
-        signalEnter.on('.drag', null);
-      }
-      signalEnter.append('path')
-        .classed('curve-m', true);
-      signalEnter.append('path')
-        .classed('curve-h', true);
-      signalEnter.append('path')
-        .classed('curve-signal', true);
+    // Noise Distribution
+    //  ENTER
+    const noiseEnter = signalNoiseEnter.append('g')
+      .classed('noise', true);
+    //  MERGE
+    const noiseMerge = signalNoiseMerge.selectAll('.noise');
+    if (this.interactive) {
+      noiseMerge.call(dragNoise);
+    } else {
+      noiseMerge.on('.drag', null);
     }
+
+    // CR Curve
+    //  ENTER
+    noiseEnter.append('path')
+      .classed('curve-cr', true);
+    //  MERGE
+    noiseMerge.select('.curve-cr').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateD = d3.interpolate(
+          (element.d !== undefined) ? element.d : this.d,
+          this.d,
+        );
+        const interpolateC = d3.interpolate(
+          (element.c !== undefined) ? element.c : this.c,
+          this.c,
+        );
+        return (time) => {
+          element.d = interpolateD(time);
+          element.c = interpolateC(time);
+          const correctRejections = d3.range(
+            xScale.domain()[0],
+            element.c,
+            0.05,
+          ).map((e) => {
+            return {
+              e: e,
+              p: jStat.normal.pdf(e, -element.d / 2, 1),
+            };
+          });
+          correctRejections.push({
+            e: element.c,
+            p: jStat.normal.pdf(element.c, -element.d / 2, 1),
+          });
+          correctRejections.push({
+            e: element.c,
+            p: 0,
+          });
+          correctRejections.push({
+            e: xScale.domain()[0],
+            p: 0,
+          });
+          return line(correctRejections);
+        };
+      });
+
+    // FA Curve
+    //  ENTER
+    noiseEnter.append('path')
+      .classed('curve-fa', true);
+    //  MERGE
+    noiseMerge.select('.curve-fa').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateD = d3.interpolate(
+          (element.d !== undefined) ? element.d : this.d,
+          this.d,
+        );
+        const interpolateC = d3.interpolate(
+          (element.c !== undefined) ? element.c : this.c,
+          this.c,
+        );
+        return (time) => {
+          element.d = interpolateD(time);
+          element.c = interpolateC(time);
+          const falseAlarms = d3.range(
+            element.c,
+            xScale.domain()[1],
+            0.05,
+          ).map((e) => {
+            return {
+              e: e,
+              p: jStat.normal.pdf(e, -element.d / 2, 1),
+            };
+          });
+          falseAlarms.push({
+            e: xScale.domain()[1],
+            p: jStat.normal.pdf(xScale.domain()[1], -element.d / 2, 1),
+          });
+          falseAlarms.push({
+            e: xScale.domain()[1],
+            p: 0,
+          });
+          falseAlarms.push({
+            e: element.c,
+            p: 0,
+          });
+          return line(falseAlarms);
+        };
+      });
+
+    // Noise Curve
+    //  ENTER
+    noiseEnter.append('path')
+      .classed('curve-noise', true);
+    //  MERGE
+    noiseMerge.select('.curve-noise').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateD = d3.interpolate(
+          (element.d !== undefined) ? element.d : this.d,
+          this.d,
+        );
+        return (time) => {
+          element.d = interpolateD(time);
+          const noise = d3.range(
+            xScale.domain()[0],
+            xScale.domain()[1],
+            0.05,
+          ).map((e) => {
+            return {
+              e: e,
+              p: jStat.normal.pdf(e, -element.d / 2, 1),
+            };
+          });
+          noise.push({
+            e: xScale.domain()[1],
+            p: jStat.normal.pdf(xScale.domain()[1], -element.d / 2, 1),
+          });
+          return line(noise);
+        };
+      });
+
+    // Signal + Noise Distribution
+    //  ENTER
+    const signalEnter = signalNoiseEnter.append('g')
+      .classed('signal', true);
+    //  MERGE
+    const signalMerge = signalNoiseMerge.selectAll('.signal');
+    if (this.interactive) {
+      signalMerge.call(dragSignal);
+    } else {
+      signalMerge.on('.drag', null);
+    }
+
+    // M Curve
+    //  ENTER
+    signalEnter.append('path')
+      .classed('curve-m', true);
+    //  MERGE
+    signalMerge.select('.curve-m').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateD = d3.interpolate(
+          (element.d !== undefined) ? element.d : this.d,
+          this.d,
+        );
+        const interpolateC = d3.interpolate(
+          (element.c !== undefined) ? element.c : this.c,
+          this.c,
+        );
+        return (time) => {
+          element.d = interpolateD(time);
+          element.c = interpolateC(time);
+          const misses = d3.range(
+            xScale.domain()[0],
+            element.c,
+            0.05,
+          ).map((e) => {
+            return {
+              e: e,
+              p: jStat.normal.pdf(e, element.d / 2, 1),
+            };
+          });
+          misses.push({
+            e: element.c,
+            p: jStat.normal.pdf(element.c, element.d / 2, 1),
+          });
+          misses.push({
+            e: element.c,
+            p: 0,
+          });
+          misses.push({
+            e: xScale.domain()[0],
+            p: 0,
+          });
+          return line(misses);
+        };
+      });
+
+    // H Curve
+    //  ENTER
+    signalEnter.append('path')
+      .classed('curve-h', true);
+    //  MERGE
+    signalMerge.select('.curve-h').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateD = d3.interpolate(
+          (element.d !== undefined) ? element.d : this.d,
+          this.d,
+        );
+        const interpolateC = d3.interpolate(
+          (element.c !== undefined) ? element.c : this.c,
+          this.c,
+        );
+        return (time) => {
+          element.d = interpolateD(time);
+          element.c = interpolateC(time);
+          const hits = d3.range(
+            element.c,
+            xScale.domain()[1],
+            0.05,
+          ).map((e) => {
+            return {
+              e: e,
+              p: jStat.normal.pdf(e, element.d / 2, 1),
+            };
+          });
+          hits.push({
+            e: xScale.domain()[1],
+            p: jStat.normal.pdf(xScale.domain()[1], element.d / 2, 1),
+          });
+          hits.push({
+            e: xScale.domain()[1],
+            p: 0,
+          });
+          hits.push({
+            e: element.c,
+            p: 0,
+          });
+          return line(hits);
+        };
+      });
+
+    // Signal Curve
+    //  ENTER
+    signalEnter.append('path')
+      .classed('curve-signal', true);
+    //  MERGE
+    signalMerge.select('.curve-signal').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateD = d3.interpolate(
+          (element.d !== undefined) ? element.d : this.d,
+          this.d,
+        );
+        return (time) => {
+          element.d = interpolateD(time);
+          const signal = d3.range(
+            xScale.domain()[0],
+            xScale.domain()[1],
+            0.05,
+          ).map((e) => {
+            return {
+              e: e,
+              p: jStat.normal.pdf(e, element.d / 2, 1),
+            };
+          });
+          signal.push({
+            e: xScale.domain()[1],
+            p: jStat.normal.pdf(xScale.domain()[1], element.d / 2, 1),
+          });
+          return line(signal);
+        };
+      });
 
     // d' Measure
-    if (this.sensitivity) {
-      const dEnter = contentEnter.append('g')
-        .classed('measure-d', true);
-      dEnter.append('line')
-        .classed('line', true);
-      dEnter.append('line')
-        .classed('cap-left', true);
-      dEnter.append('line')
-        .classed('cap-right', true);
-      const dLabel = dEnter.append('text')
-        .classed('label', true);
-      dLabel.append('tspan')
-        .classed('d math-var', true)
-        .text('d\u2032');
-      dLabel.append('tspan')
-        .classed('equals', true)
-        .text(' = ');
-      dLabel.append('tspan')
-        .classed('value', true);
-    }
+    //  DATA-JOIN
+    const dUpdate = contentMerge.selectAll('.measure-d')
+      .data(this.sensitivity ? [{}] : []);
+    //  ENTER
+    const dEnter = dUpdate.enter().append('g')
+      .classed('measure-d', true);
+    dEnter.append('line')
+      .classed('line', true);
+    dEnter.append('line')
+      .classed('cap-left', true);
+    dEnter.append('line')
+      .classed('cap-right', true);
+    const dLabel = dEnter.append('text')
+      .classed('label', true);
+    dLabel.append('tspan')
+      .classed('d math-var', true)
+      .text('d\u2032');
+    dLabel.append('tspan')
+      .classed('equals', true)
+      .text(' = ');
+    dLabel.append('tspan')
+      .classed('value', true);
+    //  MERGE
+    const dMerge = dEnter.merge(dUpdate);
+    dMerge.select('.line').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x1', xScale(-this.d / 2))
+      .attr('y1', yScale(0.43))
+      .attr('x2', xScale(this.d / 2))
+      .attr('y2', yScale(0.43));
+    dMerge.select('.cap-left').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x1', xScale(-this.d / 2))
+      .attr('y1', yScale(0.43) + 5)
+      .attr('x2', xScale(-this.d / 2))
+      .attr('y2', yScale(0.43) - 5);
+    dMerge.select('.cap-right').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x1', xScale(this.d / 2))
+      .attr('y1', yScale(0.43) + 5)
+      .attr('x2', xScale(this.d / 2))
+      .attr('y2', yScale(0.43) - 5);
+    const dLabelTransition = dMerge.select('.label').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x', xScale(Math.abs(this.d) / 2) + 5)
+      .attr('y', yScale(0.43) + 3);
+    dLabelTransition.select('.value')
+      .tween('text', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateD = d3.interpolate(
+          (element.d !== undefined) ? element.d : this.d,
+          this.d,
+        );
+        return (time) => {
+          element.d = interpolateD(time);
+          d3.select(element).text(+(element.d).toFixed(3));
+        };
+      });
+    //  EXIT
+    dUpdate.exit().remove();
 
     // c Measure
-    if (this.bias) {
-      const cEnter = contentEnter.append('g')
-        .classed('measure-c', true);
-      cEnter.append('line')
-        .classed('line', true);
-      cEnter.append('line')
-        .classed('cap-zero', true);
-      const cLabel = cEnter.append('text')
-        .classed('label', true);
-      cLabel.append('tspan')
-        .classed('c math-var', true)
-        .text('c');
-      cLabel.append('tspan')
-        .classed('equals', true)
-        .text(' = ');
-      cLabel.append('tspan')
-        .classed('value', true);
-    }
+    //  DATA-JOIN
+    const cUpdate = contentMerge.selectAll('.measure-c')
+      .data(this.bias ? [{}] : []);
+    //  ENTER
+    const cEnter = cUpdate.enter().append('g')
+      .classed('measure-c', true);
+    cEnter.append('line')
+      .classed('line', true);
+    cEnter.append('line')
+      .classed('cap-zero', true);
+    const cLabel = cEnter.append('text')
+      .classed('label', true);
+    cLabel.append('tspan')
+      .classed('c math-var', true)
+      .text('c');
+    cLabel.append('tspan')
+      .classed('equals', true)
+      .text(' = ');
+    cLabel.append('tspan')
+      .classed('value', true);
+    //  MERGE
+    const cMerge = cEnter.merge(cUpdate);
+    cMerge.select('.line').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x1', xScale(this.c))
+      .attr('y1', yScale(0.47))
+      .attr('x2', xScale(0))
+      .attr('y2', yScale(0.47));
+    cMerge.select('.cap-zero').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x1', xScale(0))
+      .attr('y1', yScale(0.47) + 5)
+      .attr('x2', xScale(0))
+      .attr('y2', yScale(0.47) - 5);
+    const cLabelTransition = cMerge.select('.label').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x', xScale(0) + ((this.c < 0) ? 5 : -5))
+      .attr('y', yScale(0.47) + 3)
+      .attr('text-anchor', (this.c < 0) ? 'start' : 'end');
+    cLabelTransition.select('.value')
+      .tween('text', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateC = d3.interpolate(
+          (element.c !== undefined) ? element.c : this.c,
+          this.c,
+        );
+        return (time) => {
+          element.c = interpolateC(time);
+          d3.select(element).text(+(element.c).toFixed(3));
+        };
+      });
+    //  EXIT
+    cUpdate.exit().remove();
 
     // Threshold Line
-    if (this.threshold) {
-      const thresholdEnter = contentEnter.append('g')
-        .classed('threshold', true);
-      if (this.interactive) {
-        thresholdEnter
-          .attr('tabindex', 0)
-          .classed('interactive', true)
-          .call(dragThreshold)
-          .on('keydown', (/* datum */) => {
-            if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-              let c = this.c; // eslint-disable-line prefer-destructuring
-              switch (d3.event.key) {
-                case 'ArrowRight':
-                  c += d3.event.shiftKey ? 0.01 : 0.1;
-                  break;
-                case 'ArrowLeft':
-                  c -= d3.event.shiftKey ? 0.01 : 0.1;
-                  break;
-                default:
-              }
-              // Clamp C to visible extent
-              c = (c < xScale.domain()[0])
-                ? xScale.domain()[0]
-                : (c > xScale.domain()[1])
-                  ? xScale.domain()[1]
-                  : c;
-              if (c !== this.c) {
-                this.c = c;
-                this.alignState();
-                this.sendEvent();
-              }
-              d3.event.preventDefault();
+    //  DATA-JOIN
+    const thresholdUpdate = contentMerge.selectAll('.threshold')
+      .data(this.threshold ? [{}] : []);
+    //  ENTER
+    const thresholdEnter = thresholdUpdate.enter().append('g')
+      .classed('threshold', true);
+    thresholdEnter.append('line')
+      .classed('line', true);
+    thresholdEnter.append('circle')
+      .classed('handle', true)
+      .attr('r', 6); /* HACK: Firefox does not support CSS SVG Geometry Properties */
+    //  MERGE
+    const thresholdMerge = thresholdEnter.merge(thresholdUpdate)
+      .attr('tabindex', this.interactive ? 0 : null)
+      .classed('interactive', this.interactive);
+    if (this.interactive) {
+      thresholdMerge
+        .call(dragThreshold)
+        .on('keydown', (/* datum */) => {
+          if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+            let c = this.c; // eslint-disable-line prefer-destructuring
+            switch (d3.event.key) {
+              case 'ArrowRight':
+                c += d3.event.shiftKey ? 0.01 : 0.1;
+                break;
+              case 'ArrowLeft':
+                c -= d3.event.shiftKey ? 0.01 : 0.1;
+                break;
+              default:
             }
-          });
-      } else {
-        thresholdEnter
-          .attr('tabindex', null)
-          .classed('interactive', false)
-          .on('drag', null)
-          .on('keydown', null);
-      }
-      thresholdEnter.append('line')
-        .classed('line', true);
-      thresholdEnter.append('circle')
-        .classed('handle', true)
-        .attr('r', 6); /* HACK: Firefox does not support CSS SVG Geometry Properties */
+            // Clamp C to visible extent
+            c = (c < xScale.domain()[0])
+              ? xScale.domain()[0]
+              : (c > xScale.domain()[1])
+                ? xScale.domain()[1]
+                : c;
+            if (c !== this.c) {
+              this.c = c;
+              this.alignState();
+              this.sendEvent();
+            }
+            d3.event.preventDefault();
+          }
+        });
+    } else {
+      thresholdMerge
+        .on('drag', null)
+        .on('keydown', null);
     }
+    thresholdMerge.select('.line').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x1', xScale(this.c))
+      .attr('y1', yScale(0))
+      .attr('x2', xScale(this.c))
+      .attr('y2', yScale(0.54));
+    thresholdMerge.select('.handle').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('cx', xScale(this.c))
+      .attr('cy', yScale(0.54));
+    //  EXIT
+    thresholdUpdate.exit().remove();
 
     // Histogram
-    contentEnter.append('g')
+    //  DATA-JOIN
+    const histogramUpdate = contentMerge.selectAll('.histogram')
+      .data(this.histogram ? [{}] : []);
+    //  ENTER
+    const histogramEnter = histogramUpdate.enter().append('g')
       .classed('histogram', true);
+    //  MERGE
+    const histogramMerge = histogramEnter.merge(histogramUpdate);
+    //  EXIT
+    histogramUpdate.exit().remove();
 
-    // MERGE - Plot
-    const svgMerge = svgEnter.merge(svgUpdate);
-
-    if (this.distributions) {
-      // Noise Curve
-      svgMerge.select('.curve-cr').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attrTween('d', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolateD = d3.interpolate(
-            (element.d !== undefined) ? element.d : this.d,
-            this.d,
-          );
-          const interpolateC = d3.interpolate(
-            (element.c !== undefined) ? element.c : this.c,
-            this.c,
-          );
-          return (time) => {
-            element.d = interpolateD(time);
-            element.c = interpolateC(time);
-            const correctRejections = d3.range(
-              xScale.domain()[0],
-              element.c + 0.05,
-              0.05,
-            ).map((e) => {
-              return {
-                e: e,
-                p: jStat.normal.pdf(e, -element.d / 2, 1),
-              };
-            });
-            correctRejections.unshift({
-              e: xScale.domain()[0],
-              p: 0,
-            });
-            correctRejections.push({
-              e: element.c,
-              p: 0,
-            });
-            return line(correctRejections);
-          };
-        });
-
-      svgMerge.select('.curve-fa').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attrTween('d', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolateD = d3.interpolate(
-            (element.d !== undefined) ? element.d : this.d,
-            this.d,
-          );
-          const interpolateC = d3.interpolate(
-            (element.c !== undefined) ? element.c : this.c,
-            this.c,
-          );
-          return (time) => {
-            element.d = interpolateD(time);
-            element.c = interpolateC(time);
-            const falseAlarms = d3.range(element.c, xScale.domain()[1] + 0.05, 0.05).map((e) => {
-              return {
-                e: e,
-                p: jStat.normal.pdf(e, -element.d / 2, 1),
-              };
-            });
-            falseAlarms.unshift({
-              e: element.c,
-              p: 0,
-            });
-            falseAlarms.push({
-              e: xScale.domain()[1],
-              p: 0,
-            });
-            return line(falseAlarms);
-          };
-        });
-
-      svgMerge.select('.curve-noise').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attrTween('d', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolateD = d3.interpolate(
-            (element.d !== undefined) ? element.d : this.d,
-            this.d,
-          );
-          return (time) => {
-            element.d = interpolateD(time);
-            const noise = d3.range(xScale.domain()[0], xScale.domain()[1] + 0.05, 0.05).map((e) => {
-              return {
-                e: e,
-                p: jStat.normal.pdf(e, -element.d / 2, 1),
-              };
-            });
-            return line(noise);
-          };
-        });
-
-      // Signal + Noise Curve
-      svgMerge.select('.curve-m').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attrTween('d', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolateD = d3.interpolate(
-            (element.d !== undefined) ? element.d : this.d,
-            this.d,
-          );
-          const interpolateC = d3.interpolate(
-            (element.c !== undefined) ? element.c : this.c,
-            this.c,
-          );
-          return (time) => {
-            element.d = interpolateD(time);
-            element.c = interpolateC(time);
-            const misses = d3.range(xScale.domain()[0], element.c + 0.05, 0.05).map((e) => {
-              return {
-                e: e,
-                p: jStat.normal.pdf(e, element.d / 2, 1),
-              };
-            });
-            misses.unshift({
-              e: xScale.domain()[0],
-              p: 0,
-            });
-            misses.push({
-              e: element.c,
-              p: 0,
-            });
-            return line(misses);
-          };
-        });
-
-      svgMerge.select('.curve-h').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attrTween('d', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolateD = d3.interpolate(
-            (element.d !== undefined) ? element.d : this.d,
-            this.d,
-          );
-          const interpolateC = d3.interpolate(
-            (element.c !== undefined) ? element.c : this.c,
-            this.c,
-          );
-          return (time) => {
-            element.d = interpolateD(time);
-            element.c = interpolateC(time);
-            const hits = d3.range(element.c, xScale.domain()[1] + 0.05, 0.05).map((e) => {
-              return {
-                e: e,
-                p: jStat.normal.pdf(e, element.d / 2, 1),
-              };
-            });
-            hits.unshift({
-              e: element.c,
-              p: 0,
-            });
-            hits.push({
-              e: xScale.domain()[1],
-              p: 0,
-            });
-            return line(hits);
-          };
-        });
-
-      svgMerge.select('.curve-signal').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attrTween('d', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolateD = d3.interpolate(
-            (element.d !== undefined) ? element.d : this.d,
-            this.d,
-          );
-          return (time) => {
-            element.d = interpolateD(time);
-            const signal = d3.range(
-              xScale.domain()[0],
-              xScale.domain()[1] + 0.05,
-              0.05,
-            ).map((e) => {
-              return {
-                e: e,
-                p: jStat.normal.pdf(e, element.d / 2, 1),
-              };
-            });
-            return line(signal);
-          };
-        });
-    }
-
-    // d' Measure
-    if (this.sensitivity) {
-      const dMerge = svgMerge.select('.measure-d');
-      dMerge.select('.line').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attr('x1', xScale(-this.d / 2))
-        .attr('y1', yScale(0.43))
-        .attr('x2', xScale(this.d / 2))
-        .attr('y2', yScale(0.43));
-      dMerge.select('.cap-left').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attr('x1', xScale(-this.d / 2))
-        .attr('y1', yScale(0.43) + 5)
-        .attr('x2', xScale(-this.d / 2))
-        .attr('y2', yScale(0.43) - 5);
-      dMerge.select('.cap-right').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attr('x1', xScale(this.d / 2))
-        .attr('y1', yScale(0.43) + 5)
-        .attr('x2', xScale(this.d / 2))
-        .attr('y2', yScale(0.43) - 5);
-      const dLabelTransition = dMerge.select('.label').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attr('x', xScale(Math.abs(this.d) / 2) + 5)
-        .attr('y', yScale(0.43) + 3);
-      dLabelTransition.select('.value')
-        .tween('text', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolateD = d3.interpolate(
-            (element.d !== undefined) ? element.d : this.d,
-            this.d,
-          );
-          return (time) => {
-            element.d = interpolateD(time);
-            d3.select(element).text(+(element.d).toFixed(3));
-          };
-        });
-    }
-
-    // c Measure
-    if (this.bias) {
-      const cMerge = svgMerge.select('.measure-c');
-      cMerge.select('.line').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attr('x1', xScale(this.c))
-        .attr('y1', yScale(0.47))
-        .attr('x2', xScale(0))
-        .attr('y2', yScale(0.47));
-      cMerge.select('.cap-zero').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attr('x1', xScale(0))
-        .attr('y1', yScale(0.47) + 5)
-        .attr('x2', xScale(0))
-        .attr('y2', yScale(0.47) - 5);
-      const cLabelTransition = cMerge.select('.label').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attr('x', xScale(0) + ((this.c < 0) ? 5 : -5))
-        .attr('y', yScale(0.47) + 3)
-        .attr('text-anchor', (this.c < 0) ? 'start' : 'end');
-      cLabelTransition.select('.value')
-        .tween('text', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolateC = d3.interpolate(
-            (element.c !== undefined) ? element.c : this.c,
-            this.c,
-          );
-          return (time) => {
-            element.c = interpolateC(time);
-            d3.select(element).text(+(element.c).toFixed(3));
-          };
-        });
-    }
-
-    // Threshold Line
-    if (this.threshold) {
-      const thresholdMerge = svgMerge.select('.threshold');
-      thresholdMerge.select('.line').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attr('x1', xScale(this.c))
-        .attr('y1', yScale(0))
-        .attr('x2', xScale(this.c))
-        .attr('y2', yScale(0.54));
-      thresholdMerge.select('.handle').transition()
-        .duration(this.drag ? 0 : 500)
-        .ease(d3.easeCubicOut)
-        .attr('cx', xScale(this.c))
-        .attr('cy', yScale(0.54));
-    }
-
+    // Trials
     if (this.histogram) {
-      // Histogram
       const histogram = d3.histogram()
         .value((datum) => { return datum.trueEvidence; })
         .domain(xScale.domain())
@@ -1164,14 +1252,12 @@ export default class SDTModel extends SDTElement {
           this.trials[i].binValue = hist[hist.length - 1].x0;
         }
       }
-
-      const trialUpdate = svgMerge.select('.histogram').selectAll('.trial')
+      //  DATA-JOIN
+      const trialUpdate = histogramMerge.selectAll('.trial')
         .data(this.trials, (datum) => { return datum.trial; });
-
+      //  ENTER
       const trialEnter = trialUpdate.enter().append('rect')
         .attr('stroke-width', strokeWidth)
-        .attr('width', binWidth - strokeWidth)
-        .attr('height', binWidth - strokeWidth)
         .attr('stroke', this.getComputedStyleValue('---color-acc'))
         .attr('fill', this.getComputedStyleValue('---color-acc-light'));
       trialEnter.transition()
@@ -1240,7 +1326,7 @@ export default class SDTModel extends SDTElement {
             bubbles: true,
           }));
         });
-
+      //  UPDATE
       trialUpdate.transition()
         .duration(500)
         .ease(d3.easeCubicOut)
@@ -1272,8 +1358,12 @@ export default class SDTModel extends SDTElement {
                 ? this.getComputedStyleValue(`---color-${datum.outcome}-light`)
                 : this.getComputedStyleValue('---color-acc-light');
         });
+      //  MERGE
       trialEnter.merge(trialUpdate)
-        .attr('class', (datum) => { return `trial ${datum.outcome}`; });
+        .attr('class', (datum) => { return `trial ${datum.outcome}`; })
+        .attr('width', binWidth - strokeWidth)
+        .attr('height', binWidth - strokeWidth);
+      //  EXIT
       trialUpdate.exit().transition()
         .duration(500)
         .ease(d3.easeLinear)
@@ -1305,6 +1395,22 @@ export default class SDTModel extends SDTElement {
         })
         .remove();
     }
+
+    // Overlayer
+    //  ENTER
+    const overlayerEnter = plotEnter.append('g')
+      .classed('overlayer', true);
+    // MERGE
+    const overlayerMerge = plotMerge.select('.overlayer');
+
+    // Background
+    //  ENTER
+    overlayerEnter.append('rect')
+      .classed('background', true);
+    //  MERGE
+    overlayerMerge.select('.background')
+      .attr('height', height)
+      .attr('width', width);
 
     this.drag = false;
   }
