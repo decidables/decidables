@@ -194,8 +194,8 @@ export default class RDKTask extends SDTElement {
   }
 
   disconnectedCallback() {
-    document.removeEventListener('resize', this.getDimensions.bind(this));
-    window.disconnectedCallback();
+    window.removeEventListener('resize', this.getDimensions.bind(this));
+    super.disconnectedCallback();
   }
 
   firstUpdated(changedProperties) {
@@ -238,7 +238,7 @@ export default class RDKTask extends SDTElement {
       .range([0, height]);
 
     // Svg
-    //  DATA JOIN
+    //  DATA-JOIN
     const svgUpdate = d3.select(this.renderRoot).selectAll('.main')
       .data([{
         width: this.width,
@@ -297,7 +297,7 @@ export default class RDKTask extends SDTElement {
     const contentMerge = plotMerge.select('.content');
 
     // Dot Groups
-    //  DATA JOIN
+    //  DATA-JOIN
     const dotsUpdate = contentMerge.selectAll('.dots')
       .data([[], []]);
     //  ENTER
@@ -493,7 +493,7 @@ export default class RDKTask extends SDTElement {
     }
 
     // Fixation
-    //  DATA JOIN
+    //  DATA-JOIN
     const fixationUpdate = d3.select(this.renderRoot).select('.content').selectAll('.fixation')
       .data((this.state === 'iti') ? [true] : []);
     //  ENTER
@@ -513,7 +513,7 @@ export default class RDKTask extends SDTElement {
     fixationUpdate.exit().remove();
 
     // Dots
-    //  DATA JOIN
+    //  DATA-JOIN
     const dotsUpdate = d3.select(this.renderRoot).select('.content').selectAll('.dots')
       .data((this.state === 'stimulus') ? this.dots : [[], []]);
     const dotUpdate = dotsUpdate.selectAll('.dot')
@@ -530,7 +530,7 @@ export default class RDKTask extends SDTElement {
     dotUpdate.exit().remove();
 
     // Query
-    //  DATA JOIN
+    //  DATA-JOIN
     const queryUpdate = d3.select(this.renderRoot).select('.content').selectAll('.query')
       .data((this.state === 'wait') ? [true] : []);
     //  ENTER

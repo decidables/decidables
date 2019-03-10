@@ -341,8 +341,8 @@ export default class ROCSpace extends SDTElement {
   }
 
   disconnectedCallback() {
-    document.removeEventListener('resize', this.getDimensions.bind(this));
-    window.disconnectedCallback();
+    window.removeEventListener('resize', this.getDimensions.bind(this));
+    super.disconnectedCallback();
   }
 
   firstUpdated(changedProperties) {
@@ -448,7 +448,7 @@ export default class ROCSpace extends SDTElement {
       .y((datum) => { return yScale(this.zRoc ? SDTElement.hr2zhr(datum.hr) : datum.hr); });
 
     // Svg
-    //  DATA JOIN
+    //  DATA-JOIN
     const svgUpdate = d3.select(this.renderRoot).selectAll('.main')
       .data([{
         width: this.width,
