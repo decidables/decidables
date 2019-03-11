@@ -105,6 +105,7 @@ export default class SDTModel extends SDTElement {
   constructor() {
     super();
 
+    this.firstUpdate = true;
     this.drag = false;
 
     this.colors = ['outcome', 'response', 'stimulus', 'none'];
@@ -365,6 +366,15 @@ export default class SDTModel extends SDTElement {
           fill: var(---color-element-emphasis);
 
           /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */
+        }
+
+        /* Make a larger target for touch users */
+        @media (pointer: coarse) {
+          .threshold.interactive .handle {
+            stroke: #000000;
+            stroke-opacity: 0;
+            stroke-width: 12px;
+          }
         }
 
         .measure-c .line,
@@ -747,10 +757,15 @@ export default class SDTModel extends SDTElement {
       .classed('noise', true);
     //  MERGE
     const noiseMerge = signalNoiseMerge.selectAll('.noise');
-    if (this.interactive) {
-      noiseMerge.call(dragNoise);
-    } else {
-      noiseMerge.on('.drag', null);
+    if (
+      this.firstUpdate
+      || changedProperties.has('interactive')
+    ) {
+      if (this.interactive) {
+        noiseMerge.call(dragNoise);
+      } else {
+        noiseMerge.on('.drag', null);
+      }
     }
 
     // CR Curve
@@ -887,10 +902,15 @@ export default class SDTModel extends SDTElement {
       .classed('signal', true);
     //  MERGE
     const signalMerge = signalNoiseMerge.selectAll('.signal');
-    if (this.interactive) {
-      signalMerge.call(dragSignal);
-    } else {
-      signalMerge.on('.drag', null);
+    if (
+      this.firstUpdate
+      || changedProperties.has('interactive')
+    ) {
+      if (this.interactive) {
+        signalMerge.call(dragSignal);
+      } else {
+        signalMerge.on('.drag', null);
+      }
     }
 
     // M Curve
@@ -1161,39 +1181,44 @@ export default class SDTModel extends SDTElement {
     const thresholdMerge = thresholdEnter.merge(thresholdUpdate)
       .attr('tabindex', this.interactive ? 0 : null)
       .classed('interactive', this.interactive);
-    if (this.interactive) {
-      thresholdMerge
-        .call(dragThreshold)
-        .on('keydown', (/* datum */) => {
-          if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-            let c = this.c; // eslint-disable-line prefer-destructuring
-            switch (d3.event.key) {
-              case 'ArrowRight':
-                c += d3.event.shiftKey ? 0.01 : 0.1;
-                break;
-              case 'ArrowLeft':
-                c -= d3.event.shiftKey ? 0.01 : 0.1;
-                break;
-              default:
+    if (
+      this.firstUpdate
+      || changedProperties.has('interactive')
+    ) {
+      if (this.interactive) {
+        thresholdMerge
+          .call(dragThreshold)
+          .on('keydown', (/* datum */) => {
+            if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+              let c = this.c; // eslint-disable-line prefer-destructuring
+              switch (d3.event.key) {
+                case 'ArrowRight':
+                  c += d3.event.shiftKey ? 0.01 : 0.1;
+                  break;
+                case 'ArrowLeft':
+                  c -= d3.event.shiftKey ? 0.01 : 0.1;
+                  break;
+                default:
+              }
+              // Clamp C to visible extent
+              c = (c < xScale.domain()[0])
+                ? xScale.domain()[0]
+                : (c > xScale.domain()[1])
+                  ? xScale.domain()[1]
+                  : c;
+              if (c !== this.c) {
+                this.c = c;
+                this.alignState();
+                this.sendEvent();
+              }
+              d3.event.preventDefault();
             }
-            // Clamp C to visible extent
-            c = (c < xScale.domain()[0])
-              ? xScale.domain()[0]
-              : (c > xScale.domain()[1])
-                ? xScale.domain()[1]
-                : c;
-            if (c !== this.c) {
-              this.c = c;
-              this.alignState();
-              this.sendEvent();
-            }
-            d3.event.preventDefault();
-          }
-        });
-    } else {
-      thresholdMerge
-        .on('drag', null)
-        .on('keydown', null);
+          });
+      } else {
+        thresholdMerge
+          .on('drag', null)
+          .on('keydown', null);
+      }
     }
     thresholdMerge.select('.line').transition()
       .duration(this.drag ? 0 : 500)
@@ -1413,6 +1438,7 @@ export default class SDTModel extends SDTElement {
       .attr('width', width);
 
     this.drag = false;
+    this.firstUpdate = false;
   }
 }
 

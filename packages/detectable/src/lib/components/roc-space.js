@@ -244,6 +244,15 @@ export default class ROCSpace extends SDTElement {
           outline: none;
         }
 
+        /* Make a larger target for touch users */
+        @media (pointer: coarse) {
+          .point.interactive {
+            stroke: #000000;
+            stroke-opacity: 0;
+            stroke-width: 12px;
+          }
+        }
+
         .point.interactive:hover {
           filter: url("#shadow-4");
 
@@ -979,84 +988,89 @@ export default class ROCSpace extends SDTElement {
     const pointEnter = pointUpdate.enter().append('circle')
       .classed('point', true)
       .attr('r', 6); /* HACK: Firefox does not support CSS SVG Geometry Properties */
-    if (this.interactive) {
-      pointEnter
-        .attr('tabindex', 0)
-        .classed('interactive', true)
-        .call(drag)
-        .on('keydown', (datum) => {
-          if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-            let hr = this.zRoc ? SDTElement.hr2zhr(datum.hr) : datum.hr;
-            let far = this.zRoc ? SDTElement.far2zfar(datum.far) : datum.far;
-            switch (d3.event.key) {
-              case 'ArrowUp':
-                hr += this.zRoc
-                  ? (d3.event.shiftKey ? 0.05 : 0.25)
-                  : (d3.event.shiftKey ? 0.01 : 0.05);
-                break;
-              case 'ArrowDown':
-                hr -= this.zRoc
-                  ? (d3.event.shiftKey ? 0.05 : 0.25)
-                  : (d3.event.shiftKey ? 0.01 : 0.05);
-                break;
-              case 'ArrowRight':
-                far += this.zRoc
-                  ? (d3.event.shiftKey ? 0.05 : 0.25)
-                  : (d3.event.shiftKey ? 0.01 : 0.05);
-                break;
-              case 'ArrowLeft':
-                far -= this.zRoc
-                  ? (d3.event.shiftKey ? 0.05 : 0.25)
-                  : (d3.event.shiftKey ? 0.01 : 0.05);
-                break;
-              default:
-                // no-op
-            }
-            hr = this.zRoc ? SDTElement.zhr2hr(hr) : hr;
-            far = this.zRoc ? SDTElement.zfar2far(far) : far;
-            // Clamp FAR and HR to ROC Space
-            hr = (hr < 0.001)
-              ? 0.001
-              : (hr > 0.999)
-                ? 0.999
-                : hr;
-            far = (far < 0.001)
-              ? 0.001
-              : (far > 0.999)
-                ? 0.999
-                : far;
-            if ((hr !== datum.hr) || (far !== datum.far)) {
-              datum.hr = hr;
-              datum.far = far;
-              if (datum.name === 'default') {
-                this.hr = datum.hr;
-                this.far = datum.far;
-              }
-              this.alignState();
-              this.requestUpdate();
-              this.dispatchEvent(new CustomEvent('roc-point-change', {
-                detail: {
-                  name: datum.name,
-                  far: datum.far,
-                  hr: datum.hr,
-                  d: datum.d,
-                  c: datum.c,
-                },
-                bubbles: true,
-              }));
-            }
-            d3.event.preventDefault();
-          }
-        });
-    } else {
-      pointEnter
-        .attr('tabindex', null)
-        .classed('interactive', false)
-        .on('drag', null)
-        .on('keydown', null);
-    }
     //  MERGE
     const pointMerge = pointEnter.merge(pointUpdate);
+    if (
+      this.firstUpdate
+      || changedProperties.has('interactive')
+    ) {
+      if (this.interactive) {
+        pointMerge
+          .attr('tabindex', 0)
+          .classed('interactive', true)
+          .call(drag)
+          .on('keydown', (datum) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+              let hr = this.zRoc ? SDTElement.hr2zhr(datum.hr) : datum.hr;
+              let far = this.zRoc ? SDTElement.far2zfar(datum.far) : datum.far;
+              switch (d3.event.key) {
+                case 'ArrowUp':
+                  hr += this.zRoc
+                    ? (d3.event.shiftKey ? 0.05 : 0.25)
+                    : (d3.event.shiftKey ? 0.01 : 0.05);
+                  break;
+                case 'ArrowDown':
+                  hr -= this.zRoc
+                    ? (d3.event.shiftKey ? 0.05 : 0.25)
+                    : (d3.event.shiftKey ? 0.01 : 0.05);
+                  break;
+                case 'ArrowRight':
+                  far += this.zRoc
+                    ? (d3.event.shiftKey ? 0.05 : 0.25)
+                    : (d3.event.shiftKey ? 0.01 : 0.05);
+                  break;
+                case 'ArrowLeft':
+                  far -= this.zRoc
+                    ? (d3.event.shiftKey ? 0.05 : 0.25)
+                    : (d3.event.shiftKey ? 0.01 : 0.05);
+                  break;
+                default:
+                  // no-op
+              }
+              hr = this.zRoc ? SDTElement.zhr2hr(hr) : hr;
+              far = this.zRoc ? SDTElement.zfar2far(far) : far;
+              // Clamp FAR and HR to ROC Space
+              hr = (hr < 0.001)
+                ? 0.001
+                : (hr > 0.999)
+                  ? 0.999
+                  : hr;
+              far = (far < 0.001)
+                ? 0.001
+                : (far > 0.999)
+                  ? 0.999
+                  : far;
+              if ((hr !== datum.hr) || (far !== datum.far)) {
+                datum.hr = hr;
+                datum.far = far;
+                if (datum.name === 'default') {
+                  this.hr = datum.hr;
+                  this.far = datum.far;
+                }
+                this.alignState();
+                this.requestUpdate();
+                this.dispatchEvent(new CustomEvent('roc-point-change', {
+                  detail: {
+                    name: datum.name,
+                    far: datum.far,
+                    hr: datum.hr,
+                    d: datum.d,
+                    c: datum.c,
+                  },
+                  bubbles: true,
+                }));
+              }
+              d3.event.preventDefault();
+            }
+          });
+      } else {
+        pointMerge
+          .attr('tabindex', null)
+          .classed('interactive', false)
+          .on('drag', null)
+          .on('keydown', null);
+      }
+    }
     if (changedProperties.has('zRoc') || this.firstUpdate) {
       pointMerge.transition()
         .duration(this.drag ? 0 : 1000)
