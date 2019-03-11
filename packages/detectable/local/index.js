@@ -59948,7 +59948,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        .plot-contour,\n        .legend-contour .contour {\n          stroke: var(---color-background);\n          stroke-width: 0.5;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .point.interactive {\n          cursor: move;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .point.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .point.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .point.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .background {\n          fill: var(---color-element-background);\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-contour {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line {\n          stroke: var(---color-element-border);\n        }\n\n        .axis-contour .domain {\n          stroke: none;\n        }\n\n        .diagonal {\n          stroke: var(---color-element-border);\n          stroke-dasharray: 4;\n          stroke-width: 1;\n        }\n\n        .curve-iso-d {\n          fill: none;\n          stroke: var(---color-d);\n          stroke-width: 2;\n        }\n\n        .curve-iso-c {\n          fill: none;\n          stroke: var(---color-c);\n          stroke-width: 2;\n        }\n\n        .point {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        .plot-contour,\n        .legend-contour .contour {\n          stroke: var(---color-background);\n          stroke-width: 0.5;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .point.interactive {\n          cursor: move;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .point.interactive {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .point.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .point.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .point.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .background {\n          fill: var(---color-element-background);\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-contour {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line {\n          stroke: var(---color-element-border);\n        }\n\n        .axis-contour .domain {\n          stroke: none;\n        }\n\n        .diagonal {\n          stroke: var(---color-element-border);\n          stroke-dasharray: 4;\n          stroke-width: 1;\n        }\n\n        .curve-iso-d {\n          fill: none;\n          stroke: var(---color-d);\n          stroke-width: 2;\n        }\n\n        .curve-iso-c {\n          fill: none;\n          stroke: var(---color-c);\n          stroke-width: 2;\n        }\n\n        .point {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -60629,75 +60629,77 @@ function (_SDTElement) {
 
       var pointEnter = pointUpdate.enter().append('circle').classed('point', true).attr('r', 6);
       /* HACK: Firefox does not support CSS SVG Geometry Properties */
-
-      if (this.interactive) {
-        pointEnter.attr('tabindex', 0).classed('interactive', true).call(drag).on('keydown', function (datum) {
-          if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-            var _hr = _this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr;
-
-            var _far = _this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far;
-
-            switch (d3.event.key) {
-              case 'ArrowUp':
-                _hr += _this3.zRoc ? d3.event.shiftKey ? 0.05 : 0.25 : d3.event.shiftKey ? 0.01 : 0.05;
-                break;
-
-              case 'ArrowDown':
-                _hr -= _this3.zRoc ? d3.event.shiftKey ? 0.05 : 0.25 : d3.event.shiftKey ? 0.01 : 0.05;
-                break;
-
-              case 'ArrowRight':
-                _far += _this3.zRoc ? d3.event.shiftKey ? 0.05 : 0.25 : d3.event.shiftKey ? 0.01 : 0.05;
-                break;
-
-              case 'ArrowLeft':
-                _far -= _this3.zRoc ? d3.event.shiftKey ? 0.05 : 0.25 : d3.event.shiftKey ? 0.01 : 0.05;
-                break;
-
-              default: // no-op
-
-            }
-
-            _hr = _this3.zRoc ? _sdtElement.default.zhr2hr(_hr) : _hr;
-            _far = _this3.zRoc ? _sdtElement.default.zfar2far(_far) : _far; // Clamp FAR and HR to ROC Space
-
-            _hr = _hr < 0.001 ? 0.001 : _hr > 0.999 ? 0.999 : _hr;
-            _far = _far < 0.001 ? 0.001 : _far > 0.999 ? 0.999 : _far;
-
-            if (_hr !== datum.hr || _far !== datum.far) {
-              datum.hr = _hr;
-              datum.far = _far;
-
-              if (datum.name === 'default') {
-                _this3.hr = datum.hr;
-                _this3.far = datum.far;
-              }
-
-              _this3.alignState();
-
-              _this3.requestUpdate();
-
-              _this3.dispatchEvent(new CustomEvent('roc-point-change', {
-                detail: {
-                  name: datum.name,
-                  far: datum.far,
-                  hr: datum.hr,
-                  d: datum.d,
-                  c: datum.c
-                },
-                bubbles: true
-              }));
-            }
-
-            d3.event.preventDefault();
-          }
-        });
-      } else {
-        pointEnter.attr('tabindex', null).classed('interactive', false).on('drag', null).on('keydown', null);
-      } //  MERGE
-
+      //  MERGE
 
       var pointMerge = pointEnter.merge(pointUpdate);
+
+      if (this.firstUpdate || changedProperties.has('interactive')) {
+        if (this.interactive) {
+          pointMerge.attr('tabindex', 0).classed('interactive', true).call(drag).on('keydown', function (datum) {
+            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+              var _hr = _this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr;
+
+              var _far = _this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far;
+
+              switch (d3.event.key) {
+                case 'ArrowUp':
+                  _hr += _this3.zRoc ? d3.event.shiftKey ? 0.05 : 0.25 : d3.event.shiftKey ? 0.01 : 0.05;
+                  break;
+
+                case 'ArrowDown':
+                  _hr -= _this3.zRoc ? d3.event.shiftKey ? 0.05 : 0.25 : d3.event.shiftKey ? 0.01 : 0.05;
+                  break;
+
+                case 'ArrowRight':
+                  _far += _this3.zRoc ? d3.event.shiftKey ? 0.05 : 0.25 : d3.event.shiftKey ? 0.01 : 0.05;
+                  break;
+
+                case 'ArrowLeft':
+                  _far -= _this3.zRoc ? d3.event.shiftKey ? 0.05 : 0.25 : d3.event.shiftKey ? 0.01 : 0.05;
+                  break;
+
+                default: // no-op
+
+              }
+
+              _hr = _this3.zRoc ? _sdtElement.default.zhr2hr(_hr) : _hr;
+              _far = _this3.zRoc ? _sdtElement.default.zfar2far(_far) : _far; // Clamp FAR and HR to ROC Space
+
+              _hr = _hr < 0.001 ? 0.001 : _hr > 0.999 ? 0.999 : _hr;
+              _far = _far < 0.001 ? 0.001 : _far > 0.999 ? 0.999 : _far;
+
+              if (_hr !== datum.hr || _far !== datum.far) {
+                datum.hr = _hr;
+                datum.far = _far;
+
+                if (datum.name === 'default') {
+                  _this3.hr = datum.hr;
+                  _this3.far = datum.far;
+                }
+
+                _this3.alignState();
+
+                _this3.requestUpdate();
+
+                _this3.dispatchEvent(new CustomEvent('roc-point-change', {
+                  detail: {
+                    name: datum.name,
+                    far: datum.far,
+                    hr: datum.hr,
+                    d: datum.d,
+                    c: datum.c
+                  },
+                  bubbles: true
+                }));
+              }
+
+              d3.event.preventDefault();
+            }
+          });
+        } else {
+          pointMerge.attr('tabindex', null).classed('interactive', false).on('drag', null).on('keydown', null);
+        }
+      }
 
       if (changedProperties.has('zRoc') || this.firstUpdate) {
         pointMerge.transition().duration(this.drag ? 0 : 1000).ease(d3.easeCubicOut).attr('cx', function (datum, index, elements) {
@@ -61117,7 +61119,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line,\n        .axis-y2 path,\n        .axis-y2 line {\n          stroke: var(---color-element-border);\n        }\n\n        .signal-noise.interactive,\n        .threshold.interactive {\n          cursor: ew-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal-noise.interactive:hover,\n        .threshold.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .signal-noise.interactive:active,\n        .threshold.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .signal-noise.interactive:focus,\n        :host(.keyboard) .threshold.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .underlayer .background {\n          fill: var(---color-element-background);\n          stroke: none;\n        }\n\n        .overlayer .background {\n          fill: none;\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-y2 {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .curve-cr {\n          fill: var(---color-cr);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-fa {\n          fill: var(---color-fa);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-m {\n          fill: var(---color-m);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-h {\n          fill: var(---color-h);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        :host([color=\"stimulus\"]) .curve-cr,\n        :host([color=\"stimulus\"]) .curve-fa {\n          fill: var(---color-far);\n        }\n\n        :host([color=\"stimulus\"]) .curve-m,\n        :host([color=\"stimulus\"]) .curve-h {\n          fill: var(---color-hr);\n        }\n\n        :host([color=\"response\"]) .curve-cr,\n        :host([color=\"response\"]) .curve-m {\n          fill: var(---color-absent);\n        }\n\n        :host([color=\"response\"]) .curve-fa,\n        :host([color=\"response\"]) .curve-h {\n          fill: var(---color-present);\n        }\n\n        :host([color=\"none\"]) .curve-cr,\n        :host([color=\"none\"]) .curve-fa,\n        :host([color=\"none\"]) .curve-m,\n        :host([color=\"none\"]) .curve-h {\n          fill: var(---color-element-enabled);\n        }\n\n        .curve-noise,\n        .curve-signal {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .measure-d .line,\n        .measure-d .cap-left,\n        .measure-d .cap-right {\n          stroke: var(---color-d);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-d .label {\n          font-size: 0.75rem;\n\n          alignment-baseline: middle;\n          text-anchor: start;\n          fill: currentColor;\n        }\n\n        .threshold .line {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .threshold .handle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        .measure-c .line,\n        .measure-c .cap-zero {\n          stroke: var(---color-c);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-c .label {\n          font-size: 0.75rem;\n\n          alignment-baseline: middle;\n          fill: currentColor;\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line,\n        .axis-y2 path,\n        .axis-y2 line {\n          stroke: var(---color-element-border);\n        }\n\n        .signal-noise.interactive,\n        .threshold.interactive {\n          cursor: ew-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal-noise.interactive:hover,\n        .threshold.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .signal-noise.interactive:active,\n        .threshold.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .signal-noise.interactive:focus,\n        :host(.keyboard) .threshold.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .underlayer .background {\n          fill: var(---color-element-background);\n          stroke: none;\n        }\n\n        .overlayer .background {\n          fill: none;\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-y2 {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .curve-cr {\n          fill: var(---color-cr);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-fa {\n          fill: var(---color-fa);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-m {\n          fill: var(---color-m);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-h {\n          fill: var(---color-h);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        :host([color=\"stimulus\"]) .curve-cr,\n        :host([color=\"stimulus\"]) .curve-fa {\n          fill: var(---color-far);\n        }\n\n        :host([color=\"stimulus\"]) .curve-m,\n        :host([color=\"stimulus\"]) .curve-h {\n          fill: var(---color-hr);\n        }\n\n        :host([color=\"response\"]) .curve-cr,\n        :host([color=\"response\"]) .curve-m {\n          fill: var(---color-absent);\n        }\n\n        :host([color=\"response\"]) .curve-fa,\n        :host([color=\"response\"]) .curve-h {\n          fill: var(---color-present);\n        }\n\n        :host([color=\"none\"]) .curve-cr,\n        :host([color=\"none\"]) .curve-fa,\n        :host([color=\"none\"]) .curve-m,\n        :host([color=\"none\"]) .curve-h {\n          fill: var(---color-element-enabled);\n        }\n\n        .curve-noise,\n        .curve-signal {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .measure-d .line,\n        .measure-d .cap-left,\n        .measure-d .cap-right {\n          stroke: var(---color-d);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-d .label {\n          font-size: 0.75rem;\n\n          alignment-baseline: middle;\n          text-anchor: start;\n          fill: currentColor;\n        }\n\n        .threshold .line {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .threshold .handle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .threshold.interactive .handle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .measure-c .line,\n        .measure-c .cap-zero {\n          stroke: var(---color-c);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-c .label {\n          font-size: 0.75rem;\n\n          alignment-baseline: middle;\n          fill: currentColor;\n        }\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -61266,6 +61268,7 @@ function (_SDTElement) {
     _classCallCheck(this, SDTModel);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTModel).call(this));
+    _this.firstUpdate = true;
     _this.drag = false;
     _this.colors = ['outcome', 'response', 'stimulus', 'none'];
     _this.color = 'outcome';
@@ -61667,10 +61670,12 @@ function (_SDTElement) {
 
       var noiseMerge = signalNoiseMerge.selectAll('.noise');
 
-      if (this.interactive) {
-        noiseMerge.call(dragNoise);
-      } else {
-        noiseMerge.on('.drag', null);
+      if (this.firstUpdate || changedProperties.has('interactive')) {
+        if (this.interactive) {
+          noiseMerge.call(dragNoise);
+        } else {
+          noiseMerge.on('.drag', null);
+        }
       } // CR Curve
       //  ENTER
 
@@ -61765,10 +61770,12 @@ function (_SDTElement) {
 
       var signalMerge = signalNoiseMerge.selectAll('.signal');
 
-      if (this.interactive) {
-        signalMerge.call(dragSignal);
-      } else {
-        signalMerge.on('.drag', null);
+      if (this.firstUpdate || changedProperties.has('interactive')) {
+        if (this.interactive) {
+          signalMerge.call(dragSignal);
+        } else {
+          signalMerge.on('.drag', null);
+        }
       } // M Curve
       //  ENTER
 
@@ -61923,41 +61930,43 @@ function (_SDTElement) {
 
       var thresholdMerge = thresholdEnter.merge(thresholdUpdate).attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive);
 
-      if (this.interactive) {
-        thresholdMerge.call(dragThreshold).on('keydown', function ()
-        /* datum */
-        {
-          if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-            var c = _this2.c; // eslint-disable-line prefer-destructuring
+      if (this.firstUpdate || changedProperties.has('interactive')) {
+        if (this.interactive) {
+          thresholdMerge.call(dragThreshold).on('keydown', function ()
+          /* datum */
+          {
+            if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+              var c = _this2.c; // eslint-disable-line prefer-destructuring
 
-            switch (d3.event.key) {
-              case 'ArrowRight':
-                c += d3.event.shiftKey ? 0.01 : 0.1;
-                break;
+              switch (d3.event.key) {
+                case 'ArrowRight':
+                  c += d3.event.shiftKey ? 0.01 : 0.1;
+                  break;
 
-              case 'ArrowLeft':
-                c -= d3.event.shiftKey ? 0.01 : 0.1;
-                break;
+                case 'ArrowLeft':
+                  c -= d3.event.shiftKey ? 0.01 : 0.1;
+                  break;
 
-              default:
-            } // Clamp C to visible extent
+                default:
+              } // Clamp C to visible extent
 
 
-            c = c < xScale.domain()[0] ? xScale.domain()[0] : c > xScale.domain()[1] ? xScale.domain()[1] : c;
+              c = c < xScale.domain()[0] ? xScale.domain()[0] : c > xScale.domain()[1] ? xScale.domain()[1] : c;
 
-            if (c !== _this2.c) {
-              _this2.c = c;
+              if (c !== _this2.c) {
+                _this2.c = c;
 
-              _this2.alignState();
+                _this2.alignState();
 
-              _this2.sendEvent();
+                _this2.sendEvent();
+              }
+
+              d3.event.preventDefault();
             }
-
-            d3.event.preventDefault();
-          }
-        });
-      } else {
-        thresholdMerge.on('drag', null).on('keydown', null);
+          });
+        } else {
+          thresholdMerge.on('drag', null).on('keydown', null);
+        }
       }
 
       thresholdMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.c)).attr('y1', yScale(0)).attr('x2', xScale(this.c)).attr('y2', yScale(0.54));
@@ -62104,6 +62113,7 @@ function (_SDTElement) {
 
       overlayerMerge.select('.background').attr('height', height).attr('width', width);
       this.drag = false;
+      this.firstUpdate = false;
     }
   }], [{
     key: "styles",
