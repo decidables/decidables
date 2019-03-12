@@ -286,14 +286,14 @@ body {
 
 .sdt-sidebar {
   @include make-col-ready();
-  @include make-col(12);
+  @include make-col(10, 10);
 
   order: 0;
 
   border-bottom: $border;
 
   @include media-breakpoint-up(md) {
-    @include make-col(2);
+    @include make-col(2, 10);
 
     min-height: 100vh;
 
@@ -307,6 +307,10 @@ body {
 
       height: 100vh;
     }
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include make-col(2, 12);
   }
 
   @include media-breakpoint-up(xl) {
@@ -480,17 +484,21 @@ body {
 
 .sdt-main {
   @include make-col-ready();
-  @include make-col(12);
+  @include make-col(10, 10);
 
   padding-top: 1rem;
   padding-bottom: 1rem;
 
   @include media-breakpoint-up(md) {
-    @include make-col(10);
+    @include make-col(8, 10);
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include make-col(10, 12);
   }
 
   @include media-breakpoint-up(xl) {
-    @include make-col(8);
+    @include make-col(8, 12);
     border-right: $border;
   }
 }
