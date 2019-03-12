@@ -4507,8 +4507,8 @@ body {
   border-bottom: 1px solid #e6e6e6; }
   @media (min-width: 768px) {
     .sdt-sidebar {
-      flex: 0 0 16.66667%;
-      max-width: 16.66667%;
+      flex: 0 0 20%;
+      max-width: 20%;
       min-height: 100vh;
       border-right: 1px solid #e6e6e6; }
       @supports (position: sticky) or (position: -webkit-sticky) {
@@ -4519,6 +4519,10 @@ body {
           top: 0;
           z-index: 1000;
           height: 100vh; } } }
+  @media (min-width: 992px) {
+    .sdt-sidebar {
+      flex: 0 0 16.66667%;
+      max-width: 16.66667%; } }
   @media (min-width: 1200px) {
     .sdt-sidebar {
       flex: 0 1 20rem; } }
@@ -4636,6 +4640,10 @@ body {
   padding-top: 1rem;
   padding-bottom: 1rem; }
   @media (min-width: 768px) {
+    .sdt-main {
+      flex: 0 0 80%;
+      max-width: 80%; } }
+  @media (min-width: 992px) {
     .sdt-main {
       flex: 0 0 83.33333%;
       max-width: 83.33333%; } }
