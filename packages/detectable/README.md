@@ -6,7 +6,6 @@
 
 ### High Importance
 
-- Adjust SVGs to scale correctly based on rem
 - accuracy/hr/far "valid value" 3 digits? rounding?
 - change 'browserslist' to `last 1 version, not dead, > 0.2%`?
 - iOS no shadows for spinners
