@@ -220,8 +220,11 @@ export default class SDTTable extends SDTElement {
 
           background: none;
           border: 0;
+          border-radius: 0;
           outline: none;
           box-shadow: var(---shadow-2);
+
+          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
         }
 
         input:hover {

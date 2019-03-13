@@ -407,8 +407,11 @@ export default class SDTControl extends SDTElement {
 
           background: var(---color-background);
           border: 0;
+          border-radius: 0;
           outline: none;
           box-shadow: var(---shadow-2);
+
+          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
         }
 
         input[type=number]:hover {
