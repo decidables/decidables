@@ -6,8 +6,6 @@
 
 ### High Importance
 
-- accuracy/hr/far "valid value" 3 digits? rounding?
-
 ### Medium Importance
 
 ### Low Importance
@@ -16,7 +14,7 @@
 - Optimize update() based on changedProperties?
 - Linting and transpiling in tagged template literals?
 - Change 'browserslist' to `last 1 version, not dead, > 0.2%`?
-
+- Custom spinner that looks better than User Agent spinners?
 
 - Edge/IE11 - slider shadow is clipped
 - Edge/IE11 - minor edge defects between SVG element and shadow
