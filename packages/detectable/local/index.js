@@ -62580,7 +62580,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 far\">\n                  <label>\n                    <span>False Alarm Rate</span>\n                    <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\"", "\" .value=\"", "\" @input=", "></label>\n                </td>"]);
+  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 far\">\n                  <label>\n                    <span>False Alarm Rate</span>\n                    <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", "></label>\n                </td>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -62600,7 +62600,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["\n                <td class=\"td td3 acc\" rowspan=\"2\">\n                  <label>\n                    <span>Accuracy</span>\n                    <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\"", "\" .value=\"", "\" @input=", "></label>\n                </td>"]);
+  var data = _taggedTemplateLiteral(["\n                <td class=\"td td3 acc\" rowspan=\"2\">\n                  <label>\n                    <span>Accuracy</span>\n                    <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", "></label>\n                </td>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -62620,7 +62620,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 hr\">\n                  <label>\n                    <span>Hit Rate</span>\n                    <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\"", "\" .value=\"", "\" @input=", "></label>\n                </td>"]);
+  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 hr\">\n                  <label>\n                    <span>Hit Rate</span>\n                    <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", "></label>\n                </td>"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -62852,7 +62852,7 @@ function (_SDTElement) {
     key: "render",
     value: function render() {
       this.alignState();
-      return (0, _litElement.html)(_templateObject(), !this.interactive, this.h, this.hInput.bind(this), !this.interactive, this.m, this.mInput.bind(this), this.display === 'rates' || this.display === 'accuracy' ? (0, _litElement.html)(_templateObject2(), !this.interactive, 1 / (this.h + this.m), this.hr, this.hrInput.bind(this)) : (0, _litElement.html)(_templateObject3()), this.display === 'accuracy' ? (0, _litElement.html)(_templateObject4(), !this.interactive, 2 / (this.h + this.m + this.fa + this.cr), this.acc, this.accInput.bind(this)) : (0, _litElement.html)(_templateObject5()), !this.interactive, this.fa, this.faInput.bind(this), !this.interactive, this.cr, this.crInput.bind(this), this.display === 'rates' || this.display === 'accuracy' ? (0, _litElement.html)(_templateObject6(), !this.interactive, 1 / (this.fa + this.cr), this.far, this.farInput.bind(this)) : (0, _litElement.html)(_templateObject7()));
+      return (0, _litElement.html)(_templateObject(), !this.interactive, this.h, this.hInput.bind(this), !this.interactive, this.m, this.mInput.bind(this), this.display === 'rates' || this.display === 'accuracy' ? (0, _litElement.html)(_templateObject2(), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this)) : (0, _litElement.html)(_templateObject3()), this.display === 'accuracy' ? (0, _litElement.html)(_templateObject4(), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this)) : (0, _litElement.html)(_templateObject5()), !this.interactive, this.fa, this.faInput.bind(this), !this.interactive, this.cr, this.crInput.bind(this), this.display === 'rates' || this.display === 'accuracy' ? (0, _litElement.html)(_templateObject6(), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this)) : (0, _litElement.html)(_templateObject7()));
     }
   }], [{
     key: "styles",

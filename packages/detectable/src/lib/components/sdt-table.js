@@ -370,7 +370,7 @@ export default class SDTTable extends SDTElement {
                 <td class="td td2 hr">
                   <label>
                     <span>Hit Rate</span>
-                    <input ?disabled=${!this.interactive} type="number" min="0" max="1" step="${1 / (this.h + this.m)}" .value="${this.hr}" @input=${this.hrInput.bind(this)}></label>
+                    <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}" @input=${this.hrInput.bind(this)}></label>
                 </td>`
               : html``}
             ${(this.display === 'accuracy')
@@ -378,7 +378,7 @@ export default class SDTTable extends SDTElement {
                 <td class="td td3 acc" rowspan="2">
                   <label>
                     <span>Accuracy</span>
-                    <input ?disabled=${!this.interactive} type="number" min="0" max="1" step="${2 / (this.h + this.m + this.fa + this.cr)}" .value="${this.acc}" @input=${this.accInput.bind(this)}></label>
+                    <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}" @input=${this.accInput.bind(this)}></label>
                 </td>`
               : html``}
           </tr>
@@ -401,7 +401,7 @@ export default class SDTTable extends SDTElement {
                 <td class="td td2 far">
                   <label>
                     <span>False Alarm Rate</span>
-                    <input ?disabled=${!this.interactive} type="number" min="0" max="1" step="${1 / (this.fa + this.cr)}" .value="${this.far}" @input=${this.farInput.bind(this)}></label>
+                    <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}" @input=${this.farInput.bind(this)}></label>
                 </td>`
               : html``}
           </tr>
