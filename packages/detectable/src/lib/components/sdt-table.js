@@ -2,6 +2,7 @@
 import {html, css} from 'lit-element';
 
 import SDTElement from '../sdt-element';
+import SDTMixinStyleInputNumber from '../mixins/styleInputNumber';
 
 /*
   SDTTable element
@@ -10,7 +11,7 @@ import SDTElement from '../sdt-element';
   Attributes:
   Hit; Miss; FalseAlarm; CorrectRejection;
 */
-export default class SDTTable extends SDTElement {
+export default class SDTTable extends SDTMixinStyleInputNumber(SDTElement) {
   static get properties() {
     return {
       display: {
@@ -213,36 +214,7 @@ export default class SDTTable extends SDTElement {
 
         /* User interaction <input> */
         input {
-          font-family: var(---font-family-base);
-          font-size: 1.125rem;
-          color: inherit;
-          text-align: right;
-
           background: none;
-          border: 0;
-          border-radius: 0;
-          outline: none;
-          box-shadow: var(---shadow-2);
-
-          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
-        }
-
-        input:hover {
-          box-shadow: var(---shadow-4);
-        }
-
-        input:focus,
-        input:active {
-          box-shadow: var(---shadow-8);
-        }
-
-        input:disabled {
-          border: 0;
-          box-shadow: none;
-
-          /* HACK: Use correct text color in Safari */
-          -webkit-opacity: 1;
-          -webkit-text-fill-color: var(---color-text);
         }
 
         .td1 input {

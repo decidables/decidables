@@ -2,6 +2,7 @@
 import {html, css} from 'lit-element';
 
 import SDTElement from '../sdt-element';
+import SDTMixinStyleInputNumber from '../mixins/styleInputNumber';
 
 /*
   SDTControl element
@@ -10,7 +11,7 @@ import SDTElement from '../sdt-element';
   Attributes:
 
 */
-export default class SDTControl extends SDTElement {
+export default class SDTControl extends SDTMixinStyleInputNumber(SDTElement) {
   static get properties() {
     return {
       trials: {
@@ -400,34 +401,7 @@ export default class SDTControl extends SDTElement {
           width: 3.5rem;
           margin: 0 0.25rem 0.25rem;
 
-          font-family: var(---font-family-base);
-          font-size: 1.125rem;
-          color: inherit;
-          text-align: right;
-
           background: var(---color-background);
-          border: 0;
-          border-radius: 0;
-          outline: none;
-          box-shadow: var(---shadow-2);
-
-          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
-        }
-
-        input[type=number]:hover {
-          box-shadow: var(---shadow-4);
-        }
-
-        input[type=number]:focus,
-        input[type=number]:active {
-          box-shadow: var(---shadow-8);
-        }
-
-        input[type=number]:disabled {
-          color: var(---color-text);
-
-          border: 0;
-          box-shadow: none;
         }
 
         /* BUTTON */

@@ -2,12 +2,13 @@
 import {css} from 'lit-element';
 
 import SDTElement from '../sdt-element';
+import SDTMixinStyleInputNumber from '../mixins/styleInputNumber';
 
 /*
   SDTEquation Base Class - Not intended for instantiation!
   <sdt-equation>
 */
-export default class SDTEquation extends SDTElement {
+export default class SDTEquation extends SDTMixinStyleInputNumber(SDTElement) {
   static get properties() {
     return {
       numeric: {
@@ -98,38 +99,7 @@ export default class SDTEquation extends SDTElement {
         input {
           width: 4rem;
 
-          font-family: var(---font-family-base);
-          font-size: 1.125rem;
-          color: inherit;
-          text-align: right;
-
           background: none;
-          border: 0;
-          border-radius: 0;
-          outline: none;
-          box-shadow: var(---shadow-2);
-
-          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
-        }
-
-        input:hover {
-          box-shadow: var(---shadow-4);
-        }
-
-        input:focus,
-        input:active {
-          box-shadow: var(---shadow-8);
-        }
-
-        input:disabled {
-          color: var(---color-text);
-
-          border: 0;
-          box-shadow: none;
-
-          /* HACK: Use correct text color in Safari */
-          -webkit-opacity: 1;
-          -webkit-text-fill-color: var(---color-text);
         }
 
         /* Color scheme */
