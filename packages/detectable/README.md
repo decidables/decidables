@@ -93,6 +93,7 @@ Dependencies update 1/29/2019.
 ## Project File Organization
 
 - `SDT/`
+  - `.gitattributes` (Config for *git*)
   - `.gitignore` (Config for *git*)
   - `.eslintrc.json` (Config for *eslint*)
   - `.remarkrc` (Config for *remark-lint*)
