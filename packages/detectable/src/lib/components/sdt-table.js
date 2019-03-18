@@ -282,17 +282,6 @@ export default class SDTTable extends SDTMixinStyleInputNumber(SDTElement) {
         .acc input {
           background: var(---color-acc-light);
         }
-
-        /* HACK: Hide spinners in disabled input for Firefox and Safari */
-        input[type=number]:disabled {
-          -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */
-        }
-
-        input[type=number]:disabled::-webkit-outer-spin-button,
-        input[type=number]:disabled::-webkit-inner-spin-button {
-          margin: 0;
-          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
-        }
       `,
     ];
   }

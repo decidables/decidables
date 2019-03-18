@@ -37,7 +37,17 @@ const SDTMixinStyleInputNumber = (superclass) => {
 
             /* HACK: Use correct text color in Safari */
             -webkit-opacity: 1;
+            /* HACK: Hide spinners in disabled input for Firefox and Safari */
+            -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */
+            /* HACK: Use correct text color in Safari */
             -webkit-text-fill-color: var(---color-text);
+          }
+
+          /* HACK: Hide spinners in disabled input for Firefox and Safari */
+          input[type=number]:disabled::-webkit-outer-spin-button,
+          input[type=number]:disabled::-webkit-inner-spin-button {
+            margin: 0;
+            -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
           }
         `,
       ];
