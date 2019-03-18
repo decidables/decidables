@@ -3,6 +3,7 @@ import {html, css} from 'lit-element';
 
 import SDTElement from '../sdt-element';
 import SDTMixinStyleInputNumber from '../mixins/styleInputNumber';
+import SDTMixinStyleButton from '../mixins/styleButton';
 
 /*
   SDTControl element
@@ -11,7 +12,7 @@ import SDTMixinStyleInputNumber from '../mixins/styleInputNumber';
   Attributes:
 
 */
-export default class SDTControl extends SDTMixinStyleInputNumber(SDTElement) {
+export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleInputNumber(SDTElement)) {
   static get properties() {
     return {
       trials: {
@@ -405,53 +406,6 @@ export default class SDTControl extends SDTMixinStyleInputNumber(SDTElement) {
         }
 
         /* BUTTON */
-        button {
-          padding: 0.375rem 0.75rem;
-          margin: 0.25rem;
-
-          font-family: var(---font-family-base);
-          font-size: 1.125rem;
-          line-height: 1.5;
-          color: var(---color-background);
-
-          border: 0;
-          border-radius: 0.25rem;
-          outline: none;
-        }
-
-        button:disabled {
-          background-color: var(---color-element-disabled);
-          outline: none;
-          box-shadow: none;
-        }
-
-        button:enabled {
-          cursor: pointer;
-
-          background-color: var(---color-element-enabled);
-          outline: none;
-          box-shadow: var(---shadow-2);
-        }
-
-        button:enabled:hover {
-          outline: none;
-          box-shadow: var(---shadow-4);
-        }
-
-        button:enabled:active {
-          outline: none;
-          box-shadow: var(---shadow-8);
-        }
-
-        :host(.keyboard) button:enabled:focus {
-          outline: none;
-          box-shadow: var(---shadow-4);
-        }
-
-        :host(.keyboard) button:enabled:focus:active {
-          outline: none;
-          box-shadow: var(---shadow-8);
-        }
 
         /* SWITCH */
         .switch {
