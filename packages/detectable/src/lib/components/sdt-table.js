@@ -2,7 +2,7 @@
 import {html, css} from 'lit-element';
 
 import SDTElement from '../sdt-element';
-import SDTMixinStyleInputNumber from '../mixins/styleInputNumber';
+import SDTMixinStyleSpinner from '../mixins/styleSpinner';
 
 /*
   SDTTable element
@@ -11,7 +11,7 @@ import SDTMixinStyleInputNumber from '../mixins/styleInputNumber';
   Attributes:
   Hit; Miss; FalseAlarm; CorrectRejection;
 */
-export default class SDTTable extends SDTMixinStyleInputNumber(SDTElement) {
+export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
   static get properties() {
     return {
       display: {

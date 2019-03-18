@@ -2,13 +2,13 @@
 import {css} from 'lit-element';
 
 import SDTElement from '../sdt-element';
-import SDTMixinStyleInputNumber from '../mixins/styleInputNumber';
+import SDTMixinStyleSpinner from '../mixins/styleSpinner';
 
 /*
   SDTEquation Base Class - Not intended for instantiation!
   <sdt-equation>
 */
-export default class SDTEquation extends SDTMixinStyleInputNumber(SDTElement) {
+export default class SDTEquation extends SDTMixinStyleSpinner(SDTElement) {
   static get properties() {
     return {
       numeric: {

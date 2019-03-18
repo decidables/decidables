@@ -2,7 +2,7 @@
 import {html, css} from 'lit-element';
 
 import SDTElement from '../sdt-element';
-import SDTMixinStyleInputNumber from '../mixins/styleInputNumber';
+import SDTMixinStyleSpinner from '../mixins/styleSpinner';
 import SDTMixinStyleButton from '../mixins/styleButton';
 
 /*
@@ -12,7 +12,7 @@ import SDTMixinStyleButton from '../mixins/styleButton';
   Attributes:
 
 */
-export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleInputNumber(SDTElement)) {
+export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSpinner(SDTElement)) {
   static get properties() {
     return {
       trials: {

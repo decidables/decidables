@@ -1,6 +1,6 @@
 import {css} from 'lit-element';
 
-const SDTMixinStyleInputNumber = (superclass) => {
+const SDTMixinStyleSpinner = (superclass) => {
   return class extends superclass {
     static get styles() {
       return [
@@ -55,4 +55,4 @@ const SDTMixinStyleInputNumber = (superclass) => {
   };
 };
 
-export {SDTMixinStyleInputNumber as default};
+export {SDTMixinStyleSpinner as default};
