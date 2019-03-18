@@ -59927,7 +59927,7 @@ function (_SDTElement) {
 exports.default = RDKTask;
 customElements.define('rdk-task', RDKTask);
 
-},{"../sdt-element":363,"d3":315,"lit-element":321}],342:[function(require,module,exports){
+},{"../sdt-element":367,"d3":315,"lit-element":321}],342:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60763,7 +60763,7 @@ function (_SDTElement) {
 exports.default = ROCSpace;
 customElements.define('roc-space', ROCSpace);
 
-},{"../sdt-element":363,"d3":315,"lit-element":321}],343:[function(require,module,exports){
+},{"../sdt-element":367,"d3":315,"lit-element":321}],343:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60775,12 +60775,20 @@ var _litElement = require("lit-element");
 
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
+var _styleButton = _interopRequireDefault(require("../mixins/styleButton"));
+
+var _styleSlider = _interopRequireDefault(require("../mixins/styleSlider"));
+
+var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
+
+var _styleSwitch = _interopRequireDefault(require("../mixins/styleSwitch"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject14() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rot90: -3px 1.5px 1px -2px rgba(0, 0, 0, 0.4), -2px 1px 2px 0 rgba(0, 0, 0, 0.34), -1px 0.5px 5px 0 rgba(0, 0, 0, 0.32);\n          ---shadow-4-rot90: -2px 1px 4px -1px rgba(0, 0, 0, 0.4), -4px 2px 5px 0 rgba(0, 0, 0, 0.34), -1px 0.5px 10px 0 rgba(0, 0, 0, 0.32);\n          ---shadow-8-rot90: -5px 2.5px 5px -3px rgba(0, 0, 0, 0.4), -8px 4px 10px 1px rgba(0, 0, 0, 0.34), -3px 1.5px 14px 2px rgba(0, 0, 0, 0.32);\n\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .slider {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        /* SLIDER */\n        /* Adapted from http://danielstern.ca/range.css/#/ */\n        /* Overall */\n        input[type=range] {\n          width: 4.75rem;\n          height: 3.5rem;\n          padding: 0;\n          margin: 0;\n\n          background-color: unset;\n\n          transform: rotate(-90deg);\n          transform-origin: 2.375rem 2.375rem;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:enabled {\n          cursor: ns-resize;\n        }\n\n        input[type=range]:focus {\n          outline: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-tooltip {\n          display: none;\n        }\n\n        /* Track */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-runnable-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        input[type=range]:focus::-webkit-slider-runnable-track {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-track {\n          width: 100%;\n          height: 4px;\n\n          color: transparent;\n\n          background: transparent;\n          border-color: transparent;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-lower {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-upper {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-lower {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-upper {\n          background: var(---color-element-disabled);\n        }\n\n        /* Thumb */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: -8px;\n\n          border: 0;\n          border-radius: 4px;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:disabled::-webkit-slider-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=range]:enabled::-webkit-slider-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rot90);\n        }\n\n        input[type=range]:enabled:hover::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rot90);\n        }\n\n        input[type=range]:enabled:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rot90);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rot90);\n        }\n\n        :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rot90);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-thumb {\n          width: 10px;\n          height: 20px;\n\n          border: 0;\n          border-radius: 4px;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-moz-range-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-moz-range-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rot90);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rot90);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rot90);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rot90);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rot90);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: 0;\n\n          background: #999999;\n          /* background: var(---color-element-enabled); */\n          border: 0;\n          border-radius: 4px;\n          box-shadow: var(---shadow-2-rot90);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-ms-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-ms-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rot90);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-ms-thumb {\n          box-shadow: var(---shadow-4-rot90);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rot90);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {\n          box-shadow: var(---shadow-4-rot90);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rot90);\n        }\n\n        /* NUMERIC */\n        input[type=number] {\n          width: 3.5rem;\n          margin: 0 0.25rem 0.25rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          color: inherit;\n          text-align: right;\n\n          background: var(---color-background);\n          border: 0;\n          border-radius: 0;\n          outline: none;\n          box-shadow: var(---shadow-2);\n\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n\n        input[type=number]:hover {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=number]:focus,\n        input[type=number]:active {\n          box-shadow: var(---shadow-8);\n        }\n\n        input[type=number]:disabled {\n          color: var(---color-text);\n\n          border: 0;\n          box-shadow: none;\n        }\n\n        /* BUTTON */\n        button {\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-background);\n\n          border: 0;\n          border-radius: 0.25rem;\n          outline: none;\n        }\n\n        button:disabled {\n          background-color: var(---color-element-disabled);\n          outline: none;\n          box-shadow: none;\n        }\n\n        button:enabled {\n          cursor: pointer;\n\n          background-color: var(---color-element-enabled);\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        button:enabled:hover {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        button:enabled:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(.keyboard) button:enabled:focus {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) button:enabled:focus:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        /* SWITCH */\n        .switch {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */\n        input[type=checkbox] {\n          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n          position: absolute;\n\n          width: 1px;\n          height: 1px;\n          padding: 0;\n          margin: -1px;\n          overflow: hidden;\n          clip: rect(0 0 0 0);\n\n          white-space: nowrap;\n\n          border: 0;\n          clip-path: inset(100%);\n        }\n\n        input[type=checkbox] + label {\n          order: 1;\n\n          margin: 0 0.25rem 0.25rem;\n\n          font-weight: 400;\n        }\n\n        input[type=checkbox] + label + label {\n          position: relative;\n\n          min-width: 24px;\n          padding: 0 0 36px;\n          margin: 0.25rem 0.25rem 0;\n\n          font-weight: 400;\n\n          outline: none;\n        }\n\n        input[type=checkbox] + label + label::before,\n        input[type=checkbox] + label + label::after {\n          position: absolute;\n\n          left: 50%;\n\n          margin: 0;\n\n          content: \"\";\n\n          outline: 0;\n\n          transition: all 0.3s ease;\n          transform: translate(-50%, 0);\n        }\n\n        input[type=checkbox] + label + label::before {\n          bottom: 1px;\n\n          width: 8px;\n          height: 34px;\n\n          background-color: var(---color-element-disabled);\n          border-radius: 4px;\n        }\n\n        input[type=checkbox] + label + label::after {\n          bottom: 0;\n\n          width: 18px;\n          height: 18px;\n\n          background-color: var(---color-element-enabled);\n          border-radius: 50%;\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=checkbox]:checked + label + label::after {\n          transform: translate(-50%, -100%);\n        }\n\n        input[type=checkbox]:disabled + label + label::after {\n          background-color: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=checkbox]:enabled + label,\n        input[type=checkbox]:enabled + label + label {\n          cursor: pointer;\n        }\n\n        input[type=checkbox]:enabled + label:hover + label::after,\n        input[type=checkbox]:enabled + label + label:hover::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=checkbox]:enabled + label:active + label::after,\n        input[type=checkbox]:enabled + label + label:active::after {\n          box-shadow: var(---shadow-8);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,\n        :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {\n          box-shadow: var(---shadow-8);\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rot90: -3px 1.5px 1px -2px rgba(0, 0, 0, 0.4), -2px 1px 2px 0 rgba(0, 0, 0, 0.34), -1px 0.5px 5px 0 rgba(0, 0, 0, 0.32);\n          ---shadow-4-rot90: -2px 1px 4px -1px rgba(0, 0, 0, 0.4), -4px 2px 5px 0 rgba(0, 0, 0, 0.34), -1px 0.5px 10px 0 rgba(0, 0, 0, 0.32);\n          ---shadow-8-rot90: -5px 2.5px 5px -3px rgba(0, 0, 0, 0.4), -8px 4px 10px 1px rgba(0, 0, 0, 0.34), -3px 1.5px 14px 2px rgba(0, 0, 0, 0.32);\n\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        .slider {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .switch {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        /* BUTTON */\n\n        /* SLIDER */\n\n        /* SPINNER */\n        input[type=number] {\n          width: 3.5rem;\n          margin: 0 0.25rem 0.25rem;\n\n          background: var(---color-background);\n        }\n\n        /* SWITCH */\n      "]);
 
   _templateObject14 = function _templateObject14() {
     return data;
@@ -60950,11 +60958,12 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 */
 var SDTControl =
 /*#__PURE__*/
-function (_SDTElement) {
-  _inherits(SDTControl, _SDTElement);
+function (_SDTMixinStyleButton) {
+  _inherits(SDTControl, _SDTMixinStyleButton);
 
   _createClass(SDTControl, null, [{
     key: "properties",
+    // eslint-disable-line max-len
     get: function get() {
       return {
         trials: {
@@ -61091,12 +61100,12 @@ function (_SDTElement) {
   }]);
 
   return SDTControl;
-}(_sdtElement.default);
+}((0, _styleButton.default)((0, _styleSlider.default)((0, _styleSpinner.default)((0, _styleSwitch.default)(_sdtElement.default)))));
 
 exports.default = SDTControl;
 customElements.define('sdt-control', SDTControl);
 
-},{"../sdt-element":363,"lit-element":321}],344:[function(require,module,exports){
+},{"../mixins/styleButton":363,"../mixins/styleSlider":364,"../mixins/styleSpinner":365,"../mixins/styleSwitch":366,"../sdt-element":367,"lit-element":321}],344:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62128,7 +62137,7 @@ function (_SDTElement) {
 exports.default = SDTModel;
 customElements.define('sdt-model', SDTModel);
 
-},{"../sdt-element":363,"d3":315,"jstat":317,"lit-element":321}],345:[function(require,module,exports){
+},{"../sdt-element":367,"d3":315,"jstat":317,"lit-element":321}],345:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62140,12 +62149,14 @@ var _litElement = require("lit-element");
 
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
+var _styleButton = _interopRequireDefault(require("../mixins/styleButton"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject16() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall container */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n        }\n\n        /* Response buttons */\n        .responses {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        button {\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-background);\n\n          border: 0;\n          border-radius: 0.25rem;\n          outline: none;\n        }\n\n        button:disabled {\n          background-color: var(---color-element-disabled);\n          outline: none;\n          box-shadow: none;\n        }\n\n        button:enabled {\n          cursor: pointer;\n\n          background-color: var(---color-element-enabled);\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        button:enabled:hover {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        button:enabled:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(.keyboard) button:enabled:focus {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) button:enabled:focus:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        .selected[name=\"present\"]:disabled {\n          background-color: var(---color-present);\n        }\n\n        .selected[name=\"absent\"]:disabled {\n          background-color: var(---color-absent);\n        }\n\n        /* Feedback messages */\n        .feedbacks {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        .feedback {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          width: 4.25rem;\n          height: 3rem;\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          text-align: center;\n\n          background-color: var(---color-element-background);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .feedback.h {\n          background-color: var(---color-h-light);\n        }\n\n        .feedback.m {\n          background-color: var(---color-m-light);\n        }\n\n        .feedback.fa {\n          background-color: var(---color-fa-light);\n        }\n\n        .feedback.cr {\n          background-color: var(---color-cr-light);\n        }\n\n        .feedback.nr {\n          background-color: var(---color-element-background);\n        }\n\n        .feedback.c {\n          background-color: var(---color-background);\n        }\n\n        .feedback.e {\n          color: var(---color-background);\n\n          background-color: var(---color-text);\n        }\n\n        .feedback .outcome {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n\n        :host([payoff=\"trial\"]) .feedback,\n        :host([payoff=\"total\"]) .feedback {\n          height: 4rem;\n        }\n\n        /* Payoff outcomes */\n        .payoffs {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        .payoffs .payoff {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          margin: 0.25rem;\n\n          text-align: center;\n        }\n\n        .payoffs .payoff .label {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall container */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n        }\n\n        /* Response buttons */\n        .responses {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .selected[name=\"present\"]:disabled {\n          background-color: var(---color-present);\n        }\n\n        .selected[name=\"absent\"]:disabled {\n          background-color: var(---color-absent);\n        }\n\n        /* Feedback messages */\n        .feedbacks {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        .feedback {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          width: 6rem;\n          height: 3.5rem;\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          text-align: center;\n\n          background-color: var(---color-element-background);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .feedback.h {\n          background-color: var(---color-h-light);\n        }\n\n        .feedback.m {\n          background-color: var(---color-m-light);\n        }\n\n        .feedback.fa {\n          background-color: var(---color-fa-light);\n        }\n\n        .feedback.cr {\n          background-color: var(---color-cr-light);\n        }\n\n        .feedback.nr {\n          background-color: var(---color-element-background);\n        }\n\n        .feedback.c {\n          background-color: var(---color-background);\n        }\n\n        .feedback.e {\n          color: var(---color-background);\n\n          background-color: var(---color-text);\n        }\n\n        .feedback .outcome {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n\n        :host([payoff=\"trial\"]) .feedback,\n        :host([payoff=\"total\"]) .feedback {\n          height: 4rem;\n        }\n\n        /* Payoff outcomes */\n        .payoffs {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        .payoffs .payoff {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          margin: 0.25rem;\n\n          text-align: center;\n        }\n\n        .payoffs .payoff .label {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n      "]);
 
   _templateObject16 = function _templateObject16() {
     return data;
@@ -62335,8 +62346,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 */
 var SDTResponse =
 /*#__PURE__*/
-function (_SDTElement) {
-  _inherits(SDTResponse, _SDTElement);
+function (_SDTMixinStyleButton) {
+  _inherits(SDTResponse, _SDTMixinStyleButton);
 
   _createClass(SDTResponse, null, [{
     key: "properties",
@@ -62538,12 +62549,12 @@ function (_SDTElement) {
   }]);
 
   return SDTResponse;
-}(_sdtElement.default);
+}((0, _styleButton.default)(_sdtElement.default));
 
 exports.default = SDTResponse;
 customElements.define('sdt-response', SDTResponse);
 
-},{"../sdt-element":363,"lit-element":321}],346:[function(require,module,exports){
+},{"../mixins/styleButton":363,"../sdt-element":367,"lit-element":321}],346:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62555,12 +62566,14 @@ var _litElement = require("lit-element");
 
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
+var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th1 {\n          font-weight: bold;\n        }\n\n        .th2 {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        /* Cells */\n        .td {\n          width: 7rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n        }\n\n        /* Labels */\n        label {\n          margin: 0;\n        }\n\n        label span {\n          display: block;\n\n          font-size: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        input {\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          color: inherit;\n          text-align: right;\n\n          background: none;\n          border: 0;\n          border-radius: 0;\n          outline: none;\n          box-shadow: var(---shadow-2);\n\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n\n        input:hover {\n          box-shadow: var(---shadow-4);\n        }\n\n        input:focus,\n        input:active {\n          box-shadow: var(---shadow-8);\n        }\n\n        input:disabled {\n          border: 0;\n          box-shadow: none;\n\n          /* HACK: Use correct text color in Safari */\n          -webkit-opacity: 1;\n          -webkit-text-fill-color: var(---color-text);\n        }\n\n        .td1 input {\n          width: 3.5rem;\n        }\n\n        .td2 input,\n        .td3 input {\n          width: 4.5rem;\n        }\n\n        /* Table emphasis */\n        .h {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        /* Color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        /* HACK: Hide spinners in disabled input for Firefox and Safari */\n        input[type=number]:disabled {\n          -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n\n        input[type=number]:disabled::-webkit-outer-spin-button,\n        input[type=number]:disabled::-webkit-inner-spin-button {\n          margin: 0;\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th1 {\n          font-weight: bold;\n        }\n\n        .th2 {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        /* Cells */\n        .td {\n          width: 7rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n        }\n\n        /* Labels */\n        label {\n          margin: 0;\n        }\n\n        label span {\n          display: block;\n\n          font-size: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        input {\n          background: none;\n        }\n\n        .td1 input {\n          width: 3.5rem;\n        }\n\n        .td2 input,\n        .td3 input {\n          width: 4.5rem;\n        }\n\n        /* Table emphasis */\n        .h {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        /* Color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n      "]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -62670,8 +62683,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 */
 var SDTTable =
 /*#__PURE__*/
-function (_SDTElement) {
-  _inherits(SDTTable, _SDTElement);
+function (_SDTMixinStyleSpinner) {
+  _inherits(SDTTable, _SDTMixinStyleSpinner);
 
   _createClass(SDTTable, null, [{
     key: "properties",
@@ -62862,12 +62875,12 @@ function (_SDTElement) {
   }]);
 
   return SDTTable;
-}(_sdtElement.default);
+}((0, _styleSpinner.default)(_sdtElement.default));
 
 exports.default = SDTTable;
 customElements.define('sdt-table', SDTTable);
 
-},{"../sdt-element":363,"lit-element":321}],347:[function(require,module,exports){
+},{"../mixins/styleSpinner":365,"../sdt-element":367,"lit-element":321}],347:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -64454,12 +64467,14 @@ var _litElement = require("lit-element");
 
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
+var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n\n          margin: 1rem;\n        }\n\n        /* Containing <div> */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          justify-content: left;\n        }\n\n        /* Overall <table> */\n        .equation {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Modifies <td> */\n        .underline {\n          border-bottom: 1px solid var(---color-text);\n        }\n\n        /* Basic <span> and <var> w/modifiers */\n        span,\n        var {\n          padding: 0 0.25rem;\n\n          font-style: normal;\n        }\n\n        .tight {\n          padding: 0;\n        }\n\n        .paren {\n          font-size: 150%;\n        }\n\n        /* Input wrapping <label> */\n        label {\n          display: inline-flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          padding: 0.125rem 0.375rem 0.375rem;\n\n          vertical-align: middle;\n        }\n\n        .bottom {\n          vertical-align: bottom;\n        }\n\n        /* Nested <var> */\n        label var {\n          font-size: 0.75rem;\n        }\n\n        /* User <input> */\n        input {\n          width: 4rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          color: inherit;\n          text-align: right;\n\n          background: none;\n          border: 0;\n          border-radius: 0;\n          outline: none;\n          box-shadow: var(---shadow-2);\n\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n\n        input:hover {\n          box-shadow: var(---shadow-4);\n        }\n\n        input:focus,\n        input:active {\n          box-shadow: var(---shadow-8);\n        }\n\n        input:disabled {\n          color: var(---color-text);\n\n          border: 0;\n          box-shadow: none;\n\n          /* HACK: Use correct text color in Safari */\n          -webkit-opacity: 1;\n          -webkit-text-fill-color: var(---color-text);\n        }\n\n        /* Color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .d,\n        .d input {\n          background: var(---color-d-light);\n        }\n\n        .c,\n        .c input {\n          background: var(---color-c-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        /* HACK: Hide spinners in disabled input for Firefox and Safari */\n        input[type=number]:disabled {\n          -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n\n        input[type=number]:disabled::-webkit-outer-spin-button,\n        input[type=number]:disabled::-webkit-inner-spin-button {\n          margin: 0;\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n\n          margin: 1rem;\n        }\n\n        /* Containing <div> */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          justify-content: left;\n        }\n\n        /* Overall <table> */\n        .equation {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Modifies <td> */\n        .underline {\n          border-bottom: 1px solid var(---color-text);\n        }\n\n        /* Basic <span> and <var> w/modifiers */\n        span,\n        var {\n          padding: 0 0.25rem;\n\n          font-style: normal;\n        }\n\n        .tight {\n          padding: 0;\n        }\n\n        .paren {\n          font-size: 150%;\n        }\n\n        /* Input wrapping <label> */\n        label {\n          display: inline-flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          padding: 0.125rem 0.375rem 0.375rem;\n\n          vertical-align: middle;\n        }\n\n        .bottom {\n          vertical-align: bottom;\n        }\n\n        /* Nested <var> */\n        label var {\n          font-size: 0.75rem;\n        }\n\n        /* User <input> */\n        input {\n          width: 4rem;\n\n          background: none;\n        }\n\n        /* Color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .d,\n        .d input {\n          background: var(---color-d-light);\n        }\n\n        .c,\n        .c input {\n          background: var(---color-c-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -64496,8 +64511,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 */
 var SDTEquation =
 /*#__PURE__*/
-function (_SDTElement) {
-  _inherits(SDTEquation, _SDTElement);
+function (_SDTMixinStyleSpinner) {
+  _inherits(SDTEquation, _SDTMixinStyleSpinner);
 
   _createClass(SDTEquation, null, [{
     key: "properties",
@@ -64530,11 +64545,11 @@ function (_SDTElement) {
   }]);
 
   return SDTEquation;
-}(_sdtElement.default);
+}((0, _styleSpinner.default)(_sdtElement.default));
 
 exports.default = SDTEquation;
 
-},{"../sdt-element":363,"lit-element":321}],356:[function(require,module,exports){
+},{"../mixins/styleSpinner":365,"../sdt-element":367,"lit-element":321}],356:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65483,7 +65498,287 @@ function (_SDTElement) {
 exports.default = SDTExample;
 customElements.define('sdt-example', SDTExample);
 
-},{"../sdt-element":363,"lit-element":321}],363:[function(require,module,exports){
+},{"../sdt-element":367,"lit-element":321}],363:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _litElement = require("lit-element");
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n          button {\n            padding: 0.375rem 0.75rem;\n            margin: 0.25rem;\n\n            font-family: var(---font-family-base);\n            font-size: 1.125rem;\n            line-height: 1.5;\n            color: var(---color-background);\n\n            border: 0;\n            border-radius: 0.25rem;\n            outline: none;\n          }\n\n          button:disabled {\n            background-color: var(---color-element-disabled);\n            outline: none;\n            box-shadow: none;\n          }\n\n          button:enabled {\n            cursor: pointer;\n\n            background-color: var(---color-element-enabled);\n            outline: none;\n            box-shadow: var(---shadow-2);\n          }\n\n          button:enabled:hover {\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          button:enabled:active {\n            outline: none;\n            box-shadow: var(---shadow-8);\n          }\n\n          :host(.keyboard) button:enabled:focus {\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          :host(.keyboard) button:enabled:focus:active {\n            outline: none;\n            box-shadow: var(---shadow-8);\n          }\n        "]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var SDTMixinStyleButton = function SDTMixinStyleButton(superclass) {
+  return (
+    /*#__PURE__*/
+    function (_superclass) {
+      _inherits(_class, _superclass);
+
+      function _class() {
+        _classCallCheck(this, _class);
+
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
+      }
+
+      _createClass(_class, null, [{
+        key: "styles",
+        get: function get() {
+          return [_get(_getPrototypeOf(_class), "styles", this), (0, _litElement.css)(_templateObject())];
+        }
+      }]);
+
+      return _class;
+    }(superclass)
+  );
+};
+
+exports.default = SDTMixinStyleButton;
+
+},{"lit-element":321}],364:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _litElement = require("lit-element");
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n          /* Adapted from http://danielstern.ca/range.css/#/ */\n          /* Overall */\n          input[type=range] {\n            width: 4.75rem;\n            height: 3.5rem;\n            padding: 0;\n            margin: 0;\n\n            background-color: unset;\n\n            transform: rotate(-90deg);\n            transform-origin: 2.375rem 2.375rem;\n\n            /* stylelint-disable-next-line property-no-vendor-prefix */\n            -webkit-appearance: none;\n          }\n\n          input[type=range]:enabled {\n            cursor: ns-resize;\n          }\n\n          input[type=range]:focus {\n            outline: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-tooltip {\n            display: none;\n          }\n\n          /* Track */\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-webkit-slider-runnable-track {\n            width: 100%;\n            height: 4px;\n\n            background: var(---color-element-disabled);\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          input[type=range]:focus::-webkit-slider-runnable-track {\n            background: var(---color-element-disabled);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-moz-range-track {\n            width: 100%;\n            height: 4px;\n\n            background: var(---color-element-disabled);\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-track {\n            width: 100%;\n            height: 4px;\n\n            color: transparent;\n\n            background: transparent;\n            border-color: transparent;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-fill-lower {\n            background: #cccccc;\n            /* background: var(---color-element-disabled); */\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-fill-upper {\n            background: #cccccc;\n            /* background: var(---color-element-disabled); */\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:focus::-ms-fill-lower {\n            background: var(---color-element-disabled);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:focus::-ms-fill-upper {\n            background: var(---color-element-disabled);\n          }\n\n          /* Thumb */\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-webkit-slider-thumb {\n            width: 10px;\n            height: 20px;\n            margin-top: -8px;\n\n            border: 0;\n            border-radius: 4px;\n\n            /* stylelint-disable-next-line property-no-vendor-prefix */\n            -webkit-appearance: none;\n          }\n\n          input[type=range]:disabled::-webkit-slider-thumb {\n            background: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          input[type=range]:enabled::-webkit-slider-thumb {\n            background: var(---color-element-enabled);\n            box-shadow: var(---shadow-2-rot90);\n          }\n\n          input[type=range]:enabled:hover::-webkit-slider-thumb {\n            box-shadow: var(---shadow-4-rot90);\n          }\n\n          input[type=range]:enabled:active::-webkit-slider-thumb {\n            box-shadow: var(---shadow-8-rot90);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {\n            box-shadow: var(---shadow-4-rot90);\n          }\n\n          :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {\n            box-shadow: var(---shadow-8-rot90);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-moz-range-thumb {\n            width: 10px;\n            height: 20px;\n\n            border: 0;\n            border-radius: 4px;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:disabled::-moz-range-thumb {\n            background: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled::-moz-range-thumb {\n            background: var(---color-element-enabled);\n            box-shadow: var(---shadow-2-rot90);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:hover::-moz-range-thumb {\n            box-shadow: var(---shadow-4-rot90);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:active::-moz-range-thumb {\n            box-shadow: var(---shadow-8-rot90);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {\n            box-shadow: var(---shadow-4-rot90);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {\n            box-shadow: var(---shadow-8-rot90);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-thumb {\n            width: 10px;\n            height: 20px;\n            margin-top: 0;\n\n            background: #999999;\n            /* background: var(---color-element-enabled); */\n            border: 0;\n            border-radius: 4px;\n            box-shadow: var(---shadow-2-rot90);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:disabled::-ms-thumb {\n            background: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled::-ms-thumb {\n            background: var(---color-element-enabled);\n            box-shadow: var(---shadow-2-rot90);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:hover::-ms-thumb {\n            box-shadow: var(---shadow-4-rot90);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:active::-ms-thumb {\n            box-shadow: var(---shadow-8-rot90);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {\n            box-shadow: var(---shadow-4-rot90);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {\n            box-shadow: var(---shadow-8-rot90);\n          }\n        "]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var SDTMixinStyleSpinner = function SDTMixinStyleSpinner(superclass) {
+  return (
+    /*#__PURE__*/
+    function (_superclass) {
+      _inherits(_class, _superclass);
+
+      function _class() {
+        _classCallCheck(this, _class);
+
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
+      }
+
+      _createClass(_class, null, [{
+        key: "styles",
+        get: function get() {
+          return [_get(_getPrototypeOf(_class), "styles", this), (0, _litElement.css)(_templateObject())];
+        }
+      }]);
+
+      return _class;
+    }(superclass)
+  );
+};
+
+exports.default = SDTMixinStyleSpinner;
+
+},{"lit-element":321}],365:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _litElement = require("lit-element");
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n          input[type=number] {\n            font-family: var(---font-family-base);\n            font-size: 1.125rem;\n            color: inherit;\n            text-align: right;\n\n            border: 0;\n            border-radius: 0;\n            outline: none;\n            box-shadow: var(---shadow-2);\n\n            -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n          }\n\n          input[type=number]:hover {\n            box-shadow: var(---shadow-4);\n          }\n\n          input[type=number]:focus,\n          input[type=number]:active {\n            box-shadow: var(---shadow-8);\n          }\n\n          input[type=number]:disabled {\n            color: var(---color-text);\n\n            border: 0;\n            box-shadow: none;\n\n            /* HACK: Use correct text color in Safari */\n            -webkit-opacity: 1;\n            /* HACK: Hide spinners in disabled input for Firefox and Safari */\n            -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */\n            /* HACK: Use correct text color in Safari */\n            -webkit-text-fill-color: var(---color-text);\n          }\n\n          /* HACK: Hide spinners in disabled input for Firefox and Safari */\n          input[type=number]:disabled::-webkit-outer-spin-button,\n          input[type=number]:disabled::-webkit-inner-spin-button {\n            margin: 0;\n            -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n          }\n        "]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var SDTMixinStyleSpinner = function SDTMixinStyleSpinner(superclass) {
+  return (
+    /*#__PURE__*/
+    function (_superclass) {
+      _inherits(_class, _superclass);
+
+      function _class() {
+        _classCallCheck(this, _class);
+
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
+      }
+
+      _createClass(_class, null, [{
+        key: "styles",
+        get: function get() {
+          return [_get(_getPrototypeOf(_class), "styles", this), (0, _litElement.css)(_templateObject())];
+        }
+      }]);
+
+      return _class;
+    }(superclass)
+  );
+};
+
+exports.default = SDTMixinStyleSpinner;
+
+},{"lit-element":321}],366:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _litElement = require("lit-element");
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n          /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */\n          input[type=checkbox] {\n            /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n            position: absolute;\n\n            width: 1px;\n            height: 1px;\n            padding: 0;\n            margin: -1px;\n            overflow: hidden;\n            clip: rect(0 0 0 0);\n\n            white-space: nowrap;\n\n            border: 0;\n            clip-path: inset(100%);\n          }\n\n          input[type=checkbox] + label {\n            order: 1;\n\n            margin: 0 0.25rem 0.25rem;\n\n            font-weight: 400;\n          }\n\n          input[type=checkbox] + label + label {\n            position: relative;\n\n            min-width: 24px;\n            padding: 0 0 36px;\n            margin: 0.25rem 0.25rem 0;\n\n            font-weight: 400;\n\n            outline: none;\n          }\n\n          input[type=checkbox] + label + label::before,\n          input[type=checkbox] + label + label::after {\n            position: absolute;\n\n            left: 50%;\n\n            margin: 0;\n\n            content: \"\";\n\n            outline: 0;\n\n            transition: all 0.3s ease;\n            transform: translate(-50%, 0);\n          }\n\n          input[type=checkbox] + label + label::before {\n            bottom: 1px;\n\n            width: 8px;\n            height: 34px;\n\n            background-color: var(---color-element-disabled);\n            border-radius: 4px;\n          }\n\n          input[type=checkbox] + label + label::after {\n            bottom: 0;\n\n            width: 18px;\n            height: 18px;\n\n            background-color: var(---color-element-enabled);\n            border-radius: 50%;\n            box-shadow: var(---shadow-2);\n          }\n\n          input[type=checkbox]:checked + label + label::after {\n            transform: translate(-50%, -100%);\n          }\n\n          input[type=checkbox]:disabled + label + label::after {\n            background-color: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          input[type=checkbox]:enabled + label,\n          input[type=checkbox]:enabled + label + label {\n            cursor: pointer;\n          }\n\n          input[type=checkbox]:enabled + label:hover + label::after,\n          input[type=checkbox]:enabled + label + label:hover::after {\n            box-shadow: var(---shadow-4);\n          }\n\n          input[type=checkbox]:enabled + label:active + label::after,\n          input[type=checkbox]:enabled + label + label:active::after {\n            box-shadow: var(---shadow-8);\n          }\n\n          /* stylelint-disable-next-line selector-max-compound-selectors */\n          :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {\n            box-shadow: var(---shadow-4);\n          }\n\n          /* stylelint-disable-next-line selector-max-compound-selectors */\n          :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,\n          :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {\n            box-shadow: var(---shadow-8);\n          }\n        "]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var SDTMixinStyleSwitch = function SDTMixinStyleSwitch(superclass) {
+  return (
+    /*#__PURE__*/
+    function (_superclass) {
+      _inherits(_class, _superclass);
+
+      function _class() {
+        _classCallCheck(this, _class);
+
+        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
+      }
+
+      _createClass(_class, null, [{
+        key: "styles",
+        get: function get() {
+          return [_get(_getPrototypeOf(_class), "styles", this), (0, _litElement.css)(_templateObject())];
+        }
+      }]);
+
+      return _class;
+    }(superclass)
+  );
+};
+
+exports.default = SDTMixinStyleSwitch;
+
+},{"lit-element":321}],367:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
