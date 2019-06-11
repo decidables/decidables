@@ -12,7 +12,9 @@
     ["lint-maximum-heading-length", 100],
     ["lint-maximum-line-length", 100],
     ["lint-no-missing-blank-lines", {"exceptTightLists": true}],
-    "lint-no-tabs"
+    ["lint-no-shortcut-reference-link", false],
+    "lint-no-tabs",
+    ["lint-no-undefined-references", false]
   ],
   "quiet": true
 }
