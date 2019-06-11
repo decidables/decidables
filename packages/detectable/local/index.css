@@ -4681,4 +4681,8 @@ body {
   .sdt-footer-item.sdt-footer-item-left {
     margin-right: auto; }
 
+.csl-entry {
+  padding-left: 2rem;
+  text-indent: -2rem; }
+
 /*# sourceMappingURL=index.css.map */
