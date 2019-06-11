@@ -6,6 +6,9 @@
 // Node native modules
 const http = require('http');
 
+/* Local! */
+const remarkCiteproc = require('./remark-citeproc');
+
 // Load all devDependencies into global scope
 // Uses camelCase for names, e.g. gulp-ssh -> gulpSsh
 // 'pattern' includes list of packages to avoid
@@ -41,9 +44,18 @@ gulp.task('compile:fonts', () => {
 });
 
 gulp.task('compile:markdown', () => {
+  remarkCiteproc({
+    initialize: true,
+    locale: localeEnUs,
+    style: styleApa,
+    bibliographyFile: './src/references.bib',
+    referencesLink: 'references.html',
+  });
   return gulp.src('src/*.md')
-    .pipe(gulpFrontMatter({property: 'data'}))
-    .pipe(gulpRemark({detectConfig: false, quiet: true}).use(remarkHtml))
+    .pipe(gulpFrontMatter({property: 'data', remove: true}))
+    .pipe(gulpRemark({detectConfig: false, quiet: true})
+      .use(remarkCiteproc)
+      .use(remarkHtml))
     .on('data', (file) => {
       return gulp.src(`src/${file.data.layout}.ejs`)
         .pipe(gulpFrontMatter({property: 'data'}))
