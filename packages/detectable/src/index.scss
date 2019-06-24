@@ -458,6 +458,11 @@ body {
     border-radius: 0.25rem;
   }
 
+  .csl-entry {
+    padding-left: 2rem;
+
+    text-indent: -2rem;
+  }
 }
 
 .sdt-footer {
@@ -484,10 +489,4 @@ body {
   &.sdt-footer-item-left {
     margin-right: auto;
   }
-}
-
-.csl-entry {
-  padding-left: 2rem;
-
-  text-indent: -2rem;
 }
