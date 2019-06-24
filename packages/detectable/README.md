@@ -2,6 +2,27 @@
 # d'etectable
 <!--lint enable first-level-heading -->
 
+## Write-up
+
+- Technology for explorable explanations
+  - Build: git + node + yarn + gulp + plugins
+  - Text: markdown (remark) + citeproc
+  - Formatting: bootstrap + scss + ejs
+  - Interactive content: d3 + web components + lit-element
+- Content for learning cognitive psychology/neuroscience
+  - Example task
+  - Empirical data collection
+  - Live computational model
+  - Fit data to model
+  - Generate data from model
+- Learning through interaction
+  - Understanding relationships through perception-action loops
+    - <https://arxiv.org/pdf/1112.1125.pdf>
+    - <https://blog.mindresearch.org/blog/perception-action-cycle>
+    - <https://doi.org/10.1186/s41235-017-0053-8>
+  - Learning & constructionism (Papert)
+    - <https://en.wikipedia.org/wiki/Constructionist_learning>
+
 ## Features/Bugs
 
 ### High Importance
