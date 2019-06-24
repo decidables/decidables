@@ -251,7 +251,7 @@ gulp.task('deploy:clean', () => {
   const sftp = new ssh2SftpClient();
   return sftp.connect(sftpConfig)
     .then(() => {
-      return sftp.rmdir('/www/sdt', true);
+      return sftp.rmdir('/www/detectable', true);
     })
     .then((data) => {
       console.log(data);
@@ -269,7 +269,7 @@ gulp.task('deploy:dist', () => {
     sshConfig: sftpConfig,
   });
   return gulp.src(['dist/**/*', 'dist/**/.*'])
-    .pipe(sftp.dest('/www/sdt/'));
+    .pipe(sftp.dest('/www/detectable/'));
 });
 
 gulp.task('deploy:all', gulp.parallel(
