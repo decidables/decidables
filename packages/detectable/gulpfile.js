@@ -38,8 +38,9 @@ gulp.task('compile:config', () => {
 
 gulp.task('compile:fonts', () => {
   return gulp.src([
-    'node_modules/source-serif-pro/WOFF/OTF/SourceSerifPro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff',
-    'node_modules/source-sans-pro/WOFF/OTF/SourceSansPro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'])
+    'node_modules/source-code-pro/WOFF/OTF/SourceCodePro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff',
+    'node_modules/source-sans-pro/WOFF/OTF/SourceSansPro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff',
+    'node_modules/source-serif-pro/WOFF/OTF/SourceSerifPro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'])
     .pipe(gulp.dest('local/fonts'));
 });
 
