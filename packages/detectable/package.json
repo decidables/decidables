@@ -1,6 +1,6 @@
 {
-  "name": "sdt",
-  "description": "Explorable Explanation of Signal Detection Theory",
+  "name": "detectable",
+  "description": "An Explorable Explanation of Signal Detection Theory",
   "version": "0.0.1",
   "private": true,
   "main": "index.html",
