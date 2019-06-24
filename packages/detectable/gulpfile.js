@@ -52,7 +52,7 @@ gulp.task('compile:markdown', () => {
     bibliographyFile: './src/references.bib',
     referencesLink: 'references.html',
   });
-  return gulp.src('src/*.md')
+  return gulp.src(['src/!(references).md', 'src/references.md']) // Insure that reference list includes references from all other files
     .pipe(gulpFrontMatter({property: 'data', remove: true}))
     .pipe(gulpRemark({detectConfig: false, quiet: true})
       .use(remarkCiteproc)
