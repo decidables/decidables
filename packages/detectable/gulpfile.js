@@ -115,15 +115,15 @@ gulp.task('compile', gulp.series(
 
 /* Watch */
 gulp.task('watch:markdown', () => {
-  gulp.watch('src/*.{md,ejs}', gulp.series('compile:markdown'));
+  gulp.watch('src/*.{md,ejs}', {ignoreInitial: false}, gulp.series('compile:markdown'));
 });
 
 gulp.task('watch:scripts', () => {
-  gulp.watch(['src/*.js', 'src/lib/**/*.js'], gulp.series('compile:scripts'));
+  gulp.watch(['src/*.js', 'src/lib/**/*.js'], {ignoreInitial: false}, gulp.series('compile:scripts'));
 });
 
 gulp.task('watch:styles', () => {
-  gulp.watch('src/*.scss', gulp.series('compile:styles'));
+  gulp.watch('src/*.scss', {ignoreInitial: false}, gulp.series('compile:styles'));
 });
 
 gulp.task('watch:all', gulp.parallel(
