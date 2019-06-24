@@ -48100,8 +48100,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     // always returning a new instance whether "new" was used or not.
 
     jStat._init = function _init(args) {
-      var i; // If first argument is an array, must be vector or matrix.
-
+      // If first argument is an array, must be vector or matrix.
       if (isArray(args[0])) {
         // Check if matrix.
         if (isArray(args[0][0])) {
@@ -48144,8 +48143,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       isFunction: isFunction,
       isNumber: isNumber,
       toVector: toVector
+    };
+    jStat._random_fn = Math.random;
+
+    jStat.setRandom = function setRandom(fn) {
+      if (typeof fn !== 'function') throw new TypeError('fn is not a function');
+      jStat._random_fn = fn;
     }; // Easily extend the jStat object.
     // TODO: is this seriously necessary?
+
 
     jStat.extend = function extend(obj) {
       var i, j;
@@ -48158,7 +48164,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return this;
       }
 
-      for (var i = 1; i < arguments.length; i++) {
+      for (i = 1; i < arguments.length; i++) {
         for (j in arguments[i]) {
           obj[j] = arguments[i][j];
         }
@@ -48206,7 +48212,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     jStat.col = function col(arr, index) {
       if (isArray(index)) {
-        var submat = jStat.arange(arr.length).map(function (i) {
+        var submat = jStat.arange(arr.length).map(function () {
           return new Array(index.length);
         });
         index.forEach(function (ind, i) {
@@ -48267,7 +48273,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       rows = arr.length;
       cols = arr[0].length;
 
-      for (var i = 0; i < cols; i++) {
+      for (i = 0; i < cols; i++) {
         objArr = new Array(rows);
 
         for (j = 0; j < rows; j++) {
@@ -48338,7 +48344,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         cols = rows;
       }
 
-      for (var i = 0; i < rows; i++) {
+      for (i = 0; i < rows; i++) {
         res[i] = new Array(cols);
 
         for (j = 0; j < cols; j++) {
@@ -48372,7 +48378,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     jStat.rand = function rand(rows, cols) {
       if (!isNumber(cols)) cols = rows;
-      return jStat.create(rows, cols, Math.random);
+      return jStat.create(rows, cols, jStat._random_fn);
     };
 
     function retIdent(i, j) {
@@ -48387,7 +48393,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
     jStat.symmetric = function symmetric(arr) {
-      var issymmetric = true;
       var size = arr.length;
       var row, col;
       if (arr.length !== arr[0].length) return false;
@@ -48428,6 +48433,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     jStat.arange = function arange(start, end, step) {
       var rl = [];
+      var i;
       step = step || 1;
 
       if (end === undefined) {
@@ -48507,23 +48513,24 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       function slice(list, rcSlice) {
+        var colSlice, rowSlice;
         rcSlice = rcSlice || {};
 
         if (isNumber(rcSlice.row)) {
           if (isNumber(rcSlice.col)) return list[rcSlice.row][rcSlice.col];
           var row = jStat.rowa(list, rcSlice.row);
-          var colSlice = rcSlice.col || {};
+          colSlice = rcSlice.col || {};
           return _slice(row, colSlice.start, colSlice.end, colSlice.step);
         }
 
         if (isNumber(rcSlice.col)) {
           var col = jStat.cola(list, rcSlice.col);
-          var rowSlice = rcSlice.row || {};
+          rowSlice = rcSlice.row || {};
           return _slice(col, rowSlice.start, rowSlice.end, rowSlice.step);
         }
 
-        var rowSlice = rcSlice.row || {};
-        var colSlice = rcSlice.col || {};
+        rowSlice = rcSlice.row || {};
+        colSlice = rcSlice.col || {};
 
         var rows = _slice(list, rowSlice.start, rowSlice.end, rowSlice.step);
 
@@ -48539,13 +48546,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
     jStat.sliceAssign = function sliceAssign(A, rcSlice, B) {
+      var nl, ml;
+
       if (isNumber(rcSlice.row)) {
         if (isNumber(rcSlice.col)) return A[rcSlice.row][rcSlice.col] = B;
         rcSlice.col = rcSlice.col || {};
         rcSlice.col.start = rcSlice.col.start || 0;
         rcSlice.col.end = rcSlice.col.end || A[0].length;
         rcSlice.col.step = rcSlice.col.step || 1;
-        var nl = jStat.arange(rcSlice.col.start, Math.min(A.length, rcSlice.col.end), rcSlice.col.step);
+        nl = jStat.arange(rcSlice.col.start, Math.min(A.length, rcSlice.col.end), rcSlice.col.step);
         var m = rcSlice.row;
         nl.forEach(function (n, i) {
           A[m][n] = B[i];
@@ -48558,7 +48567,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         rcSlice.row.start = rcSlice.row.start || 0;
         rcSlice.row.end = rcSlice.row.end || A.length;
         rcSlice.row.step = rcSlice.row.step || 1;
-        var ml = jStat.arange(rcSlice.row.start, Math.min(A[0].length, rcSlice.row.end), rcSlice.row.step);
+        ml = jStat.arange(rcSlice.row.start, Math.min(A[0].length, rcSlice.row.end), rcSlice.row.step);
         var n = rcSlice.col;
         ml.forEach(function (m, j) {
           A[m][n] = B[j];
@@ -48576,8 +48585,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       rcSlice.col.start = rcSlice.col.start || 0;
       rcSlice.col.end = rcSlice.col.end || A[0].length;
       rcSlice.col.step = rcSlice.col.step || 1;
-      var ml = jStat.arange(rcSlice.row.start, Math.min(A.length, rcSlice.row.end), rcSlice.row.step);
-      var nl = jStat.arange(rcSlice.col.start, Math.min(A[0].length, rcSlice.col.end), rcSlice.col.step);
+      ml = jStat.arange(rcSlice.row.start, Math.min(A.length, rcSlice.row.end), rcSlice.row.step);
+      nl = jStat.arange(rcSlice.col.start, Math.min(A[0].length, rcSlice.col.end), rcSlice.col.step);
       ml.forEach(function (m, i) {
         nl.forEach(function (n, j) {
           A[m][n] = B[i][j];
@@ -48687,7 +48696,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     (function (funcs) {
       for (var i = 0; i < funcs.length; i++) {
         (function (passfunc) {
-          jProto[passfunc] = new Function('return jStat(jStat.' + passfunc + '.apply(null, arguments));');
+          jProto[passfunc] = function () {
+            return jStat(jStat[passfunc].apply(null, arguments));
+          };
         })(funcs[i]);
       }
     })('create zeros ones rand identity'.split(' ')); // Exposing jStat.
@@ -48855,7 +48866,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var arrLen = arr.length;
       var i;
 
-      for (var i = 1; i < arrLen; i++) {
+      for (i = 1; i < arrLen; i++) {
         diffs.push(arr[i] - arr[i - 1]);
       }
 
@@ -48867,15 +48878,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var arrlen = arr.length;
       var sorted = arr.slice().sort(ascNum);
       var ranks = new Array(arrlen);
+      var val;
 
       for (var i = 0; i < arrlen; i++) {
         var first = sorted.indexOf(arr[i]);
         var last = sorted.lastIndexOf(arr[i]);
 
         if (first === last) {
-          var val = first;
+          val = first;
         } else {
-          var val = (first + last) / 2;
+          val = (first + last) / 2;
         }
 
         ranks[i] = val + 1;
@@ -48898,7 +48910,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var mode_arr = [];
       var i;
 
-      for (var i = 0; i < arrLen; i++) {
+      for (i = 0; i < arrLen; i++) {
         if (_arr[i] === _arr[i + 1]) {
           count++;
         } else {
@@ -49014,7 +49026,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (typeof alphap === 'undefined') alphap = 3 / 8;
       if (typeof betap === 'undefined') betap = 3 / 8;
 
-      for (var i = 0; i < quantilesArray.length; i++) {
+      for (i = 0; i < quantilesArray.length; i++) {
         p = quantilesArray[i];
         m = alphap + p * (1 - alphap - betap);
         aleph = n * p + m;
@@ -49024,21 +49036,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       return quantileVals;
-    }; // Returns the k-th percentile of values in a range, where k is in the
-    // range 0..1, exclusive.
+    }; // Return the k-th percentile of values in a range, where k is in the range 0..1, inclusive.
+    // Passing true for the exclusive parameter excludes both endpoints of the range.
 
 
-    jStat.percentile = function percentile(arr, k) {
+    jStat.percentile = function percentile(arr, k, exclusive) {
       var _arr = arr.slice().sort(ascNum);
 
-      var realIndex = k * (_arr.length - 1);
+      var realIndex = k * (_arr.length + (exclusive ? 1 : -1)) + (exclusive ? 0 : 1);
       var index = parseInt(realIndex);
       var frac = realIndex - index;
 
       if (index + 1 < _arr.length) {
-        return _arr[index] * (1 - frac) + _arr[index + 1] * frac;
+        return _arr[index - 1] + frac * (_arr[index] - _arr[index - 1]);
       } else {
-        return _arr[index];
+        return _arr[index - 1];
       }
     }; // The percentile rank of score in a given array. Returns the percentage
     // of all values in the input array that are less than (kind='strict') or
@@ -49052,7 +49064,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var value, i;
       if (kind === 'strict') strict = true;
 
-      for (var i = 0; i < len; i++) {
+      for (i = 0; i < len; i++) {
         value = arr[i];
 
         if (strict && value < score || !strict && value <= score) {
@@ -49064,19 +49076,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     }; // Histogram (bin count) data
 
 
-    jStat.histogram = function histogram(arr, bins) {
+    jStat.histogram = function histogram(arr, binCnt) {
+      binCnt = binCnt || 4;
       var first = jStat.min(arr);
-      var binCnt = bins || 4;
       var binWidth = (jStat.max(arr) - first) / binCnt;
       var len = arr.length;
       var bins = [];
       var i;
 
-      for (var i = 0; i < binCnt; i++) {
+      for (i = 0; i < binCnt; i++) {
         bins[i] = 0;
       }
 
-      for (var i = 0; i < len; i++) {
+      for (i = 0; i < len; i++) {
         bins[Math.min(Math.floor((arr[i] - first) / binWidth), binCnt - 1)] += 1;
       }
 
@@ -49091,7 +49103,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var sq_dev = new Array(arr1Len);
       var i;
 
-      for (var i = 0; i < arr1Len; i++) {
+      for (i = 0; i < arr1Len; i++) {
         sq_dev[i] = (arr1[i] - u) * (arr2[i] - v);
       }
 
@@ -49233,18 +49245,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var arr = [];
             var i = 0;
             var tmpthis = this;
-            var args = Array.prototype.slice.call(arguments); // If the last argument is a function, we assume it's a callback; we
+            var args = Array.prototype.slice.call(arguments);
+            var callbackFunction; // If the last argument is a function, we assume it's a callback; we
             // strip the callback out and call the function again.
 
             if (isFunction(args[args.length - 1])) {
-              var callbackFunction = args[args.length - 1];
+              callbackFunction = args[args.length - 1];
               var argsToPass = args.slice(0, args.length - 1);
               setTimeout(function () {
                 callbackFunction.call(tmpthis, jProto[passfunc].apply(tmpthis, argsToPass));
               });
               return this; // Otherwise we curry the function args and call normally.
             } else {
-              var callbackFunction = undefined;
+              callbackFunction = undefined;
 
               var curriedFunction = function curriedFunction(vector) {
                 return jStat[passfunc].apply(tmpthis, [vector].concat(args));
@@ -49297,7 +49310,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var xden = 0;
       var xnum = 0;
       var y = x;
-      var i, z, yi, res, sum, ysq;
+      var i, z, yi, res;
 
       if (y <= 0) {
         res = y % 1 + 3.6e-16;
@@ -49318,7 +49331,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         z = (y -= n = (y | 0) - 1) - 1;
       }
 
-      for (var i = 0; i < 8; ++i) {
+      for (i = 0; i < 8; ++i) {
         xnum = (xnum + p[i]) * z;
         xden = xden * z + q[i];
       }
@@ -49328,7 +49341,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (yi < y) {
         res /= yi;
       } else if (yi > y) {
-        for (var i = 0; i < n; ++i) {
+        for (i = 0; i < n; ++i) {
           res *= y;
           y++;
         }
@@ -49360,7 +49373,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var i = 1; // calculate maximum number of itterations required for a
 
       var ITMAX = -~(Math.log(a >= 1 ? a : 1 / a) * 8.5 + a * 0.4 + 17);
-      var an, endval;
+      var an;
 
       if (x < 0 || a <= 0) {
         return NaN;
@@ -49607,15 +49620,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
     jStat.randn = function randn(n, m) {
-      var u, v, x, y, q, mat;
+      var u, v, x, y, q;
       if (!m) m = n;
       if (n) return jStat.create(n, m, function () {
         return jStat.randn();
       });
 
       do {
-        u = Math.random();
-        v = 1.7156 * (Math.random() - 0.5);
+        u = jStat._random_fn();
+        v = 1.7156 * (jStat._random_fn() - 0.5);
         x = u - 0.449871;
         y = Math.abs(v) + 0.386595;
         q = x * x + y * (0.19600 * y - 0.25472 * x);
@@ -49650,14 +49663,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         } while (v <= 0);
 
         v = v * v * v;
-        u = Math.random();
+        u = jStat._random_fn();
       } while (u > 1 - 0.331 * Math.pow(x, 4) && Math.log(u) > 0.5 * x * x + a1 * (1 - v + Math.log(v))); // alpha > 1
 
 
       if (shape == oalph) return a1 * v; // alpha < 1
 
       do {
-        u = Math.random();
+        u = jStat._random_fn();
       } while (u === 0);
 
       return Math.pow(u, 1 / oalph) * a1 * v;
@@ -49857,10 +49870,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       inv: function inv(p, local, scale) {
         return local + scale * Math.tan(Math.PI * (p - 0.5));
       },
-      median: function median(local, scale) {
+      median: function median(local
+      /*, scale*/
+      ) {
         return local;
       },
-      mode: function mode(local, scale) {
+      mode: function mode(local
+      /*, scale*/
+      ) {
         return local;
       },
       sample: function sample(local, scale) {
@@ -49914,11 +49931,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       median: function median(rate) {
         return 1 / rate * Math.log(2);
       },
-      mode: function mode(rate) {
+      mode: function mode()
+      /*rate*/
+      {
         return 0;
       },
       sample: function sample(rate) {
-        return -1 / rate * Math.log(Math.random());
+        return -1 / rate * Math.log(jStat._random_fn());
       },
       variance: function variance(rate) {
         return Math.pow(rate, -2);
@@ -50001,7 +50020,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (!(alpha >= 1 && beta >= 1 && alpha !== 1 && beta !== 1)) return undefined;
         return Math.pow((alpha - 1) / (alpha * beta - 1), 1 / alpha);
       },
-      variance: function variance(alpha, beta) {
+      variance: function variance()
+      /*alpha, beta*/
+      {
         throw new Error('variance not yet implemented'); // TODO: complete this
       }
     }); // extend lognormal function with static methods
@@ -50021,7 +50042,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       mean: function mean(mu, sigma) {
         return Math.exp(mu + sigma * sigma / 2);
       },
-      median: function median(mu, sigma) {
+      median: function median(mu
+      /*, sigma*/
+      ) {
         return Math.exp(mu);
       },
       mode: function mode(mu, sigma) {
@@ -50098,13 +50121,19 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       inv: function inv(p, mean, std) {
         return -1.41421356237309505 * std * jStat.erfcinv(2 * p) + mean;
       },
-      mean: function mean(_mean, std) {
+      mean: function mean(_mean
+      /*, std*/
+      ) {
         return _mean;
       },
-      median: function median(mean, std) {
+      median: function median(mean
+      /*, std*/
+      ) {
         return mean;
       },
-      mode: function mode(mean, std) {
+      mode: function mode(mean
+      /*, std*/
+      ) {
         return mean;
       },
       sample: function sample(mean, std) {
@@ -50134,7 +50163,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       median: function median(scale, shape) {
         return scale * (shape * Math.SQRT2);
       },
-      mode: function mode(scale, shape) {
+      mode: function mode(scale
+      /*, shape*/
+      ) {
         return scale;
       },
       variance: function variance(scale, shape) {
@@ -50160,10 +50191,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       mean: function mean(dof) {
         return dof > 1 ? 0 : undefined;
       },
-      median: function median(dof) {
+      median: function median()
+      /*dof*/
+      {
         return 0;
       },
-      mode: function mode(dof) {
+      mode: function mode()
+      /*dof*/
+      {
         return 0;
       },
       sample: function sample(dof) {
@@ -50196,7 +50231,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return scale * Math.pow((shape - 1) / shape, 1 / shape);
       },
       sample: function sample(scale, shape) {
-        return scale * Math.pow(-Math.log(Math.random()), 1 / shape);
+        return scale * Math.pow(-Math.log(jStat._random_fn()), 1 / shape);
       },
       variance: function variance(scale, shape) {
         return scale * scale * jStat.gammafn(1 + 2 / shape) - Math.pow(jStat.weibull.mean(scale, shape), 2);
@@ -50220,38 +50255,65 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       median: function median(a, b) {
         return jStat.mean(a, b);
       },
-      mode: function mode(a, b) {
+      mode: function mode()
+      /*a, b*/
+      {
         throw new Error('mode is not yet implemented');
       },
       sample: function sample(a, b) {
-        return a / 2 + b / 2 + (b / 2 - a / 2) * (2 * Math.random() - 1);
+        return a / 2 + b / 2 + (b / 2 - a / 2) * (2 * jStat._random_fn() - 1);
       },
       variance: function variance(a, b) {
         return Math.pow(b - a, 2) / 12;
       }
-    }); // extend uniform function with static methods
+    }); // Got this from http://www.math.ucla.edu/~tom/distributions/binomial.html
+
+    function betinc(x, a, b, eps) {
+      var a0 = 0;
+      var b0 = 1;
+      var a1 = 1;
+      var b1 = 1;
+      var m9 = 0;
+      var a2 = 0;
+      var c9;
+
+      while (Math.abs((a1 - a2) / a1) > eps) {
+        a2 = a1;
+        c9 = -(a + m9) * (a + b + m9) * x / (a + 2 * m9) / (a + 2 * m9 + 1);
+        a0 = a1 + c9 * a0;
+        b0 = b1 + c9 * b0;
+        m9 = m9 + 1;
+        c9 = m9 * (b - m9) * x / (a + 2 * m9 - 1) / (a + 2 * m9);
+        a1 = a0 + c9 * a1;
+        b1 = b0 + c9 * b1;
+        a0 = a0 / b1;
+        b0 = b0 / b1;
+        a1 = a1 / b1;
+        b1 = 1;
+      }
+
+      return a1 / a;
+    } // extend uniform function with static methods
+
 
     jStat.extend(jStat.binomial, {
       pdf: function pdf(k, n, p) {
         return p === 0 || p === 1 ? n * p === k ? 1 : 0 : jStat.combination(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
       },
       cdf: function cdf(x, n, p) {
-        var binomarr = [],
-            k = 0;
-
-        if (x < 0) {
-          return 0;
-        }
-
-        if (x < n) {
-          for (; k <= x; k++) {
-            binomarr[k] = jStat.binomial.pdf(k, n, p);
-          }
-
-          return jStat.sum(binomarr);
-        }
-
-        return 1;
+        var betacdf;
+        var eps = 1e-10;
+        if (x < 0) return 0;
+        if (x >= n) return 1;
+        if (p < 0 || p > 1 || n <= 0) return NaN;
+        x = Math.floor(x);
+        var z = p;
+        var a = x + 1;
+        var b = n - x;
+        var s = a + b;
+        var bt = Math.exp(jStat.gammaln(s) - jStat.gammaln(b) - jStat.gammaln(a) + a * Math.log(z) + b * Math.log(1 - z));
+        if (z < (a + 1) / (s + 2)) betacdf = bt * betinc(z, a, b, eps);else betacdf = 1 - bt * betinc(1 - z, b, a, eps);
+        return Math.round((1 - betacdf) * (1 / eps)) / (1 / eps);
       }
     }); // extend uniform function with static methods
 
@@ -50453,7 +50515,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         do {
           k++;
-          p *= Math.random();
+          p *= jStat._random_fn();
         } while (p > L);
 
         return k - 1;
@@ -50509,7 +50571,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return c;
       },
       sample: function sample(a, b, c) {
-        var u = Math.random();
+        var u = jStat._random_fn();
+
         if (u < (c - a) / (b - a)) return a + Math.sqrt(u * (b - a) * (c - a));
         return b - Math.sqrt((1 - u) * (b - a) * (b - c));
       },
@@ -50538,7 +50601,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (b <= a) return NaN;
         return (a + b) / 2;
       },
-      mode: function mode(a, b) {
+      mode: function mode()
+      /*a, b*/
+      {
         throw new Error('mode is not yet implemented');
       },
       sample: function sample(a, b) {
@@ -50569,20 +50634,26 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           return 1 - 0.5 * Math.exp(-(x - mu) / b);
         }
       },
-      mean: function mean(mu, b) {
+      mean: function mean(mu
+      /*, b*/
+      ) {
         return mu;
       },
-      median: function median(mu, b) {
+      median: function median(mu
+      /*, b*/
+      ) {
         return mu;
       },
-      mode: function mode(mu, b) {
+      mode: function mode(mu
+      /*, b*/
+      ) {
         return mu;
       },
       variance: function variance(mu, b) {
         return 2 * b * b;
       },
       sample: function sample(mu, b) {
-        var u = Math.random() - 0.5;
+        var u = jStat._random_fn() - 0.5;
         return mu - b * laplaceSign(u) * Math.log(1 - 2 * Math.abs(u));
       }
     });
@@ -51011,12 +51082,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // Note: this function returns a matrix, not a jStat object
       aug: function aug(a, b) {
         var newarr = [];
+        var i;
 
-        for (var i = 0; i < a.length; i++) {
+        for (i = 0; i < a.length; i++) {
           newarr.push(a[i].slice());
         }
 
-        for (var i = 0; i < newarr.length; i++) {
+        for (i = 0; i < newarr.length; i++) {
           push.apply(newarr[i], b[i]);
         }
 
@@ -51065,7 +51137,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           vals[i] = 1;
         }
 
-        for (var i = 0; i < alen; i++) {
+        for (i = 0; i < alen; i++) {
           for (j = 0; j < alen; j++) {
             vals[mrow < 0 ? mrow + alen : mrow] *= a[i][j];
             vals[mcol < alen ? mcol + alen : mcol] *= a[i][j];
@@ -51077,7 +51149,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           mcol = --colshift;
         }
 
-        for (var i = 0; i < alen; i++) {
+        for (i = 0; i < alen; i++) {
           result += vals[i];
         }
 
@@ -51102,7 +51174,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         a = jStat.aug(a, b);
         maug = a[0].length;
 
-        for (var i = 0; i < n; i++) {
+        for (i = 0; i < n; i++) {
           pivot = a[i][i];
           j = i;
 
@@ -51130,7 +51202,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
 
-        for (var i = n - 1; i >= 0; i--) {
+        for (i = n - 1; i >= 0; i--) {
           sum = 0;
 
           for (j = i + 1; j <= n - 1; j++) {
@@ -51143,15 +51215,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return x;
       },
       gauss_jordan: function gauss_jordan(a, b) {
-        var m = jStat.aug(a, b),
-            h = m.length,
-            w = m[0].length;
-        var c = 0; // find max pivot
+        var m = jStat.aug(a, b);
+        var h = m.length;
+        var w = m[0].length;
+        var c = 0;
+        var x, y, y2; // find max pivot
 
-        for (var y = 0; y < h; y++) {
+        for (y = 0; y < h; y++) {
           var maxrow = y;
 
-          for (var y2 = y + 1; y2 < h; y2++) {
+          for (y2 = y + 1; y2 < h; y2++) {
             if (Math.abs(m[y2][y]) > Math.abs(m[maxrow][y])) maxrow = y2;
           }
 
@@ -51159,28 +51232,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           m[y] = m[maxrow];
           m[maxrow] = tmp;
 
-          for (var y2 = y + 1; y2 < h; y2++) {
+          for (y2 = y + 1; y2 < h; y2++) {
             c = m[y2][y] / m[y][y];
 
-            for (var x = y; x < w; x++) {
+            for (x = y; x < w; x++) {
               m[y2][x] -= m[y][x] * c;
             }
           }
         } // backsubstitute
 
 
-        for (var y = h - 1; y >= 0; y--) {
+        for (y = h - 1; y >= 0; y--) {
           c = m[y][y];
 
-          for (var y2 = 0; y2 < y; y2++) {
-            for (var x = w - 1; x > y - 1; x--) {
+          for (y2 = 0; y2 < y; y2++) {
+            for (x = w - 1; x > y - 1; x--) {
               m[y2][x] -= m[y][x] * m[y2][y] / c;
             }
           }
 
           m[y][y] /= c;
 
-          for (var x = h; x < w; x++) {
+          for (x = h; x < w; x++) {
             m[y][x] /= c;
           }
         }
@@ -51270,7 +51343,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             parts = jStat.arange(l).map(function (jj) {
               return L[l][jj] * R[jj][j];
             });
-            R[l][j] = A[i][j] - jStat.sum(parts);
+            R[l][j] = A[parts.length][j] - jStat.sum(parts);
           });
         });
         return [L, R];
@@ -51463,55 +51536,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var sum = jStat.sum;
         var range = jStat.arange;
 
-        function get_Q1(x) {
-          var size = x.length;
-          var norm_x = jStat.norm(x, 2);
-          var e1 = jStat.zeros(1, size)[0];
-          e1[0] = 1;
-          var u = jStat.add(jStat.multiply(jStat.multiply(e1, norm_x), -1), x);
-          var norm_u = jStat.norm(u, 2);
-          var v = jStat.divide(u, norm_u);
-          var Q = jStat.subtract(jStat.identity(size), jStat.multiply(jStat.outer(v, v), 2));
-          return Q;
-        }
-
-        function qr(A) {
-          var size = A[0].length;
-          var QList = [];
-          jStat.arange(size).forEach(function (i) {
-            var x = jStat.slice(A, {
-              row: {
-                start: i
-              },
-              col: i
-            });
-            var Q = get_Q1(x);
-            var Qn = jStat.identity(A.length);
-            Qn = jStat.sliceAssign(Qn, {
-              row: {
-                start: i
-              },
-              col: {
-                start: i
-              }
-            }, Q);
-            A = jStat.multiply(Qn, A);
-            QList.push(Qn);
-          });
-          var Q = QList.reduce(function (x, y) {
-            return jStat.multiply(x, y);
-          });
-          var R = A;
-          return [Q, R];
-        }
-
         function qr2(x) {
           // quick impletation
           // https://www.stat.wisc.edu/~larget/math496/qr.html
           var n = x.length;
           var p = x[0].length;
+          var r = jStat.zeros(p, p);
           x = jStat.copy(x);
-          r = jStat.zeros(p, p);
           var i, j, k;
 
           for (j = 0; j < p; j++) {
@@ -51539,7 +51570,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         return qr2;
       }(),
-      lstsq: function (A, b) {
+      lstsq: function () {
         // solve least squard problem for Ax=b as QR decomposition way if b is
         // [[b1],[b2],[b3]] form will return [[x1],[x2],[x3]] array form solution
         // else b is [b1,b2,b3] form will return [x1,x2,x3] array form solution
@@ -51631,19 +51662,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }(),
       jacobi: function jacobi(a) {
         var condition = 1;
-        var count = 0;
         var n = a.length;
         var e = jStat.identity(n, n);
         var ev = [];
         var b, i, j, p, q, maxim, theta, s; // condition === 1 only if tolerance is not reached
 
         while (condition === 1) {
-          count++;
           maxim = a[0][1];
           p = 0;
           q = 1;
 
-          for (var i = 0; i < n; i++) {
+          for (i = 0; i < n; i++) {
             for (j = 0; j < n; j++) {
               if (i != j) {
                 if (maxim < Math.abs(a[i][j])) {
@@ -51667,7 +51696,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           a = b;
           condition = 0;
 
-          for (var i = 1; i < n; i++) {
+          for (i = 1; i < n; i++) {
             for (j = 1; j < n; j++) {
               if (i != j && Math.abs(a[i][j]) > 0.001) {
                 condition = 1;
@@ -51676,7 +51705,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
 
-        for (var i = 0; i < n; i++) {
+        for (i = 0; i < n; i++) {
           ev.push(a[i][i]);
         } //returns both the eigenvalue and eigenmatrix
 
@@ -51716,7 +51745,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var x = [];
         var h1 = [];
         var g = [];
-        var m, a1, j, k, I, d;
+        var m, a1, j, k, I;
 
         while (i < order / 2) {
           I = f(a);
@@ -51766,16 +51795,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           return p;
         }
 
-        var n = X.length,
-            h_min = Math.abs(x - X[pos(X, x) + 1]),
-            i = 0,
-            g = [],
-            h1 = [],
-            y1,
-            y2,
-            m,
-            a,
-            j;
+        var h_min = Math.abs(x - X[pos(X, x) + 1]);
+        var i = 0;
+        var g = [];
+        var h1 = [];
+        var y1, y2, m, a, j;
 
         while (h >= h_min) {
           y1 = pos(X, x + h);
@@ -51890,11 +51914,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         alpha[0] = 0;
 
-        for (var i = 1; i < n - 1; i++) {
+        for (i = 1; i < n - 1; i++) {
           alpha[i] = 3 / h[i] * (F[i + 1] - F[i]) - 3 / h[i - 1] * (F[i] - F[i - 1]);
         }
 
-        for (var i = 1; i < n - 1; i++) {
+        for (i = 1; i < n - 1; i++) {
           A[i] = [];
           B[i] = [];
           A[i][i - 1] = h[i - 1];
@@ -51923,7 +51947,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       PCA: function PCA(X) {
         var m = X.length;
         var n = X[0].length;
-        var flag = false;
         var i = 0;
         var j, temp1;
         var u = [];
@@ -51937,11 +51960,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var V = [];
         var Vt = [];
 
-        for (var i = 0; i < m; i++) {
+        for (i = 0; i < m; i++) {
           u[i] = jStat.sum(X[i]) / n;
         }
 
-        for (var i = 0; i < n; i++) {
+        for (i = 0; i < n; i++) {
           B[i] = [];
 
           for (j = 0; j < m; j++) {
@@ -51951,7 +51974,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         B = jStat.transpose(B);
 
-        for (var i = 0; i < m; i++) {
+        for (i = 0; i < m; i++) {
           C[i] = [];
 
           for (j = 0; j < m; j++) {
@@ -51964,7 +51987,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         D = result[1];
         Vt = jStat.transpose(V);
 
-        for (var i = 0; i < D.length; i++) {
+        for (i = 0; i < D.length; i++) {
           for (j = i; j < D.length; j++) {
             if (D[i] < D[j]) {
               temp1 = D[i];
@@ -51979,7 +52002,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         Bt = jStat.transpose(B);
 
-        for (var i = 0; i < m; i++) {
+        for (i = 0; i < m; i++) {
           Y[i] = [];
 
           for (j = 0; j < Bt.length; j++) {
@@ -52123,22 +52146,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if (args.length === 1) {
           tmpargs = new Array(args[0].length);
 
-          for (var i = 0; i < args[0].length; i++) {
+          for (i = 0; i < args[0].length; i++) {
             tmpargs[i] = args[0][i];
           }
 
           args = tmpargs;
-        } // 2 sample case
-
-
-        if (args.length === 2) {
-          return jStat.variance(args[0]) / jStat.variance(args[1]);
         } // Builds sample array
 
 
         sample = new Array();
 
-        for (var i = 0; i < args.length; i++) {
+        for (i = 0; i < args.length; i++) {
           sample = sample.concat(args[i]);
         }
 
@@ -52146,7 +52164,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         expVar = 0;
 
-        for (var i = 0; i < args.length; i++) {
+        for (i = 0; i < args.length; i++) {
           expVar = expVar + args[i].length * Math.pow(jStat.mean(args[i]) - sampMean, 2);
         }
 
@@ -52154,7 +52172,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
         unexpVar = 0;
 
-        for (var i = 0; i < args.length; i++) {
+        for (i = 0; i < args.length; i++) {
           sampSampMean = jStat.mean(args[i]);
 
           for (j = 0; j < args[i].length; j++) {
@@ -52179,11 +52197,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           return 1 - jStat.centralF.cdf(args[0], args[1], args[2]);
         }
 
-        anovafscore = jStat.anovafscore(args);
+        var anovafscore = jStat.anovafscore(args);
         df1 = args.length - 1;
         n = 0;
 
-        for (var i = 0; i < args.length; i++) {
+        for (i = 0; i < args.length; i++) {
           n = n + args[i].length;
         }
 
@@ -52202,7 +52220,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var n = 0;
         var i;
 
-        for (var i = 0; i < this.length; i++) {
+        for (i = 0; i < this.length; i++) {
           n = n + this[i].length;
         }
 
@@ -52352,10 +52370,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   })(jStat, Math);
 
   jStat.models = function () {
-    function sub_regress(endog, exog) {
-      return ols(endog, exog);
-    }
-
     function sub_regress(exog) {
       var var_count = exog[0].length;
       var modelList = jStat.arange(var_count).map(function (endog_index) {
@@ -52476,8 +52490,202 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     return {
       ols: ols_wrap
     };
-  }(); // Make it compatible with previous version.
+  }(); //To regress, simply build X matrix
+  //(append column of 1's) using
+  //buildxmatrix and build the Y
+  //matrix using buildymatrix
+  //(simply the transpose)
+  //and run regress.
+  //Regressions
 
+
+  jStat.extend({
+    buildxmatrix: function buildxmatrix() {
+      //Parameters will be passed in as such
+      //(array1,array2,array3,...)
+      //as (x1,x2,x3,...)
+      //needs to be (1,x1,x2,x3,...)
+      var matrixRows = new Array(arguments.length);
+
+      for (var i = 0; i < arguments.length; i++) {
+        var array = [1];
+        matrixRows[i] = array.concat(arguments[i]);
+      }
+
+      return jStat(matrixRows);
+    },
+    builddxmatrix: function builddxmatrix() {
+      //Paramters will be passed in as such
+      //([array1,array2,...]
+      var matrixRows = new Array(arguments[0].length);
+
+      for (var i = 0; i < arguments[0].length; i++) {
+        var array = [1];
+        matrixRows[i] = array.concat(arguments[0][i]);
+      }
+
+      return jStat(matrixRows);
+    },
+    buildjxmatrix: function buildjxmatrix(jMat) {
+      //Builds from jStat Matrix
+      var pass = new Array(jMat.length);
+
+      for (var i = 0; i < jMat.length; i++) {
+        pass[i] = jMat[i];
+      }
+
+      return jStat.builddxmatrix(pass);
+    },
+    buildymatrix: function buildymatrix(array) {
+      return jStat(array).transpose();
+    },
+    buildjymatrix: function buildjymatrix(jMat) {
+      return jMat.transpose();
+    },
+    matrixmult: function matrixmult(A, B) {
+      var i, j, k, result, sum;
+
+      if (A.cols() == B.rows()) {
+        if (B.rows() > 1) {
+          result = [];
+
+          for (i = 0; i < A.rows(); i++) {
+            result[i] = [];
+
+            for (j = 0; j < B.cols(); j++) {
+              sum = 0;
+
+              for (k = 0; k < A.cols(); k++) {
+                sum += A.toArray()[i][k] * B.toArray()[k][j];
+              }
+
+              result[i][j] = sum;
+            }
+          }
+
+          return jStat(result);
+        }
+
+        result = [];
+
+        for (i = 0; i < A.rows(); i++) {
+          result[i] = [];
+
+          for (j = 0; j < B.cols(); j++) {
+            sum = 0;
+
+            for (k = 0; k < A.cols(); k++) {
+              sum += A.toArray()[i][k] * B.toArray()[j];
+            }
+
+            result[i][j] = sum;
+          }
+        }
+
+        return jStat(result);
+      }
+    },
+    //regress and regresst to be fixed
+    regress: function regress(jMatX, jMatY) {
+      //print("regressin!");
+      //print(jMatX.toArray());
+      var innerinv = jStat.xtranspxinv(jMatX); //print(innerinv);
+
+      var xtransp = jMatX.transpose();
+      var next = jStat.matrixmult(jStat(innerinv), xtransp);
+      return jStat.matrixmult(next, jMatY);
+    },
+    regresst: function regresst(jMatX, jMatY, sides) {
+      var beta = jStat.regress(jMatX, jMatY);
+      var compile = {};
+      compile.anova = {};
+      var jMatYBar = jStat.jMatYBar(jMatX, beta);
+      compile.yBar = jMatYBar;
+      var yAverage = jMatY.mean();
+      compile.anova.residuals = jStat.residuals(jMatY, jMatYBar);
+      compile.anova.ssr = jStat.ssr(jMatYBar, yAverage);
+      compile.anova.msr = compile.anova.ssr / (jMatX[0].length - 1);
+      compile.anova.sse = jStat.sse(jMatY, jMatYBar);
+      compile.anova.mse = compile.anova.sse / (jMatY.length - (jMatX[0].length - 1) - 1);
+      compile.anova.sst = jStat.sst(jMatY, yAverage);
+      compile.anova.mst = compile.anova.sst / (jMatY.length - 1);
+      compile.anova.r2 = 1 - compile.anova.sse / compile.anova.sst;
+      if (compile.anova.r2 < 0) compile.anova.r2 = 0;
+      compile.anova.fratio = compile.anova.msr / compile.anova.mse;
+      compile.anova.pvalue = jStat.anovaftest(compile.anova.fratio, jMatX[0].length - 1, jMatY.length - (jMatX[0].length - 1) - 1);
+      compile.anova.rmse = Math.sqrt(compile.anova.mse);
+      compile.anova.r2adj = 1 - compile.anova.mse / compile.anova.mst;
+      if (compile.anova.r2adj < 0) compile.anova.r2adj = 0;
+      compile.stats = new Array(jMatX[0].length);
+      var covar = jStat.xtranspxinv(jMatX);
+      var sds, ts, ps;
+
+      for (var i = 0; i < beta.length; i++) {
+        sds = Math.sqrt(compile.anova.mse * Math.abs(covar[i][i]));
+        ts = Math.abs(beta[i] / sds);
+        ps = jStat.ttest(ts, jMatY.length - jMatX[0].length - 1, sides);
+        compile.stats[i] = [beta[i], sds, ts, ps];
+      }
+
+      compile.regress = beta;
+      return compile;
+    },
+    xtranspx: function xtranspx(jMatX) {
+      return jStat.matrixmult(jMatX.transpose(), jMatX);
+    },
+    xtranspxinv: function xtranspxinv(jMatX) {
+      var inner = jStat.matrixmult(jMatX.transpose(), jMatX);
+      var innerinv = jStat.inv(inner);
+      return innerinv;
+    },
+    jMatYBar: function jMatYBar(jMatX, beta) {
+      var yBar = jStat.matrixmult(jMatX, beta);
+      return new jStat(yBar);
+    },
+    residuals: function residuals(jMatY, jMatYBar) {
+      return jStat.matrixsubtract(jMatY, jMatYBar);
+    },
+    ssr: function ssr(jMatYBar, yAverage) {
+      var ssr = 0;
+
+      for (var i = 0; i < jMatYBar.length; i++) {
+        ssr += Math.pow(jMatYBar[i] - yAverage, 2);
+      }
+
+      return ssr;
+    },
+    sse: function sse(jMatY, jMatYBar) {
+      var sse = 0;
+
+      for (var i = 0; i < jMatY.length; i++) {
+        sse += Math.pow(jMatY[i] - jMatYBar[i], 2);
+      }
+
+      return sse;
+    },
+    sst: function sst(jMatY, yAverage) {
+      var sst = 0;
+
+      for (var i = 0; i < jMatY.length; i++) {
+        sst += Math.pow(jMatY[i] - yAverage, 2);
+      }
+
+      return sst;
+    },
+    matrixsubtract: function matrixsubtract(A, B) {
+      var ans = new Array(A.length);
+
+      for (var i = 0; i < A.length; i++) {
+        ans[i] = new Array(A[i].length);
+
+        for (var j = 0; j < A[i].length; j++) {
+          ans[i][j] = A[i][j] - B[i][j];
+        }
+      }
+
+      return jStat(ans);
+    }
+  }); // Make it compatible with previous version.
 
   jStat.jStat = jStat;
   return jStat;
@@ -52572,6 +52780,8 @@ exports.unsafeCSS = unsafeCSS;
 var textFromCSSResult = function textFromCSSResult(value) {
   if (value instanceof CSSResult) {
     return value.cssText;
+  } else if (typeof value === 'number') {
+    return value;
   } else {
     throw new Error("Value passed to 'css' function must be a 'css' function result: ".concat(value, ". Use 'unsafeCSS' to pass non-literal values, but\n            take care to ensure page security."));
   }
@@ -52687,7 +52897,6 @@ var standardProperty = function standardProperty(options, element) {
       //     initializer: descriptor.initializer,
       //   }
       // ],
-      // tslint:disable-next-line:no-any decorator
       initializer: function initializer() {
         if (typeof element.initializer === 'function') {
           this[element.key] = element.initializer.call(this);
@@ -53006,7 +53215,8 @@ function (_HTMLElement) {
      * registered properties.
      */
     value: function initialize() {
-      this._saveInstanceProperties(); // ensures first update will be caught by an early access of `updateComplete`
+      this._saveInstanceProperties(); // ensures first update will be caught by an early access of
+      // `updateComplete`
 
 
       this._requestUpdate();
@@ -53065,10 +53275,10 @@ function (_HTMLElement) {
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
-      this._updateState = this._updateState | STATE_HAS_CONNECTED; // Ensure first connection completes an update. Updates cannot complete before
-      // connection and if one is pending connection the `_hasConnectionResolver`
-      // will exist. If so, resolve it to complete the update, otherwise
-      // requestUpdate.
+      this._updateState = this._updateState | STATE_HAS_CONNECTED; // Ensure first connection completes an update. Updates cannot complete
+      // before connection and if one is pending connection the
+      // `_hasConnectionResolver` will exist. If so, resolve it to complete the
+      // update, otherwise requestUpdate.
 
       if (this._hasConnectedResolver) {
         this._hasConnectedResolver();
@@ -53522,9 +53732,7 @@ function (_HTMLElement) {
           return this[key];
         },
         set: function set(value) {
-          // tslint:disable-next-line:no-any no symbol in index
-          var oldValue = this[name]; // tslint:disable-next-line:no-any no symbol in index
-
+          var oldValue = this[name];
           this[key] = value;
 
           this._requestUpdate(name, oldValue);
@@ -53799,7 +54007,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 // IMPORTANT: do not change the property name or the assignment expression.
 // This line will be used in regexes to search for LitElement usage.
 // TODO(justinfagnani): inject version number at build time
-(window['litElementVersions'] || (window['litElementVersions'] = [])).push('2.0.1');
+(window['litElementVersions'] || (window['litElementVersions'] = [])).push('2.2.0');
 /**
  * Minimal implementation of Array.prototype.flat
  * @param arr the array to flatten
@@ -66219,7 +66427,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          ---border: var(--border, 1px solid var(---color-border));\n          display: inline-block;\n\n          /* This makes IE11 happy */\n          width: 100%;\n        }\n\n        .holder {\n          display: flex;\n        }\n\n        .body {\n          display: flex;\n\n          flex-wrap: wrap;\n\n          align-items: center;\n          justify-content: left;\n\n          padding: 0.625rem;\n\n          border: var(---border);\n          border-radius: 0.25rem;\n        }\n\n        .body ::slotted(*) {\n          margin: 0.625rem;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > rdk-task + sdt-response,\n        ::slotted(rdk-task) + ::slotted(sdt-response) { */\n        .body ::slotted(sdt-response) {\n          margin-left: 0;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > sdt-control + rdk-task,\n        ::slotted(sdt-control) + ::slotted(rdk-task) {\n          margin-left: 0;\n        } */\n        .body ::slotted(rdk-task) {\n          width: 10rem;\n          height: 10rem;\n          margin-left: 0;\n        }\n\n        .body ::slotted(roc-space) {\n          width: 20rem;\n          height: 20rem;\n        }\n\n        .body ::slotted(sdt-model) {\n          width: 27rem;\n          height: 15rem;\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          ---border: var(--border, 1px solid var(---color-border));\n          display: inline-block;\n\n          /* This makes IE11 happy */\n          width: 100%;\n\n          margin-bottom: 1rem;\n        }\n\n        .holder {\n          display: flex;\n        }\n\n        .body {\n          display: flex;\n\n          flex-wrap: wrap;\n\n          align-items: center;\n          justify-content: left;\n\n          padding: 0.625rem;\n\n          border: var(---border);\n          border-radius: 0.25rem;\n        }\n\n        .body ::slotted(*) {\n          margin: 0.625rem;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > rdk-task + sdt-response,\n        ::slotted(rdk-task) + ::slotted(sdt-response) { */\n        .body ::slotted(sdt-response) {\n          margin-left: 0;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > sdt-control + rdk-task,\n        ::slotted(sdt-control) + ::slotted(rdk-task) {\n          margin-left: 0;\n        } */\n        .body ::slotted(rdk-task) {\n          width: 10rem;\n          height: 10rem;\n          margin-left: 0;\n        }\n\n        .body ::slotted(roc-space) {\n          width: 20rem;\n          height: 20rem;\n        }\n\n        .body ::slotted(sdt-model) {\n          width: 27rem;\n          height: 15rem;\n        }\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;

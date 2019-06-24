@@ -1,4 +1,46 @@
 @font-face {
+  src: url("fonts/SourceCodePro-Regular.otf.woff") format("woff");
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal; }
+
+@font-face {
+  src: url("fonts/SourceCodePro-It.otf.woff") format("woff");
+  font-family: "Source Code Pro";
+  font-style: italic;
+  font-weight: 400;
+  font-stretch: normal; }
+
+@font-face {
+  src: url("fonts/SourceCodePro-Semibold.otf.woff") format("woff");
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: normal; }
+
+@font-face {
+  src: url("fonts/SourceCodePro-SemiboldIt.otf.woff") format("woff");
+  font-family: "Source Code Pro";
+  font-style: italic;
+  font-weight: 600;
+  font-stretch: normal; }
+
+@font-face {
+  src: url("fonts/SourceCodePro-Bold.otf.woff") format("woff");
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: normal; }
+
+@font-face {
+  src: url("fonts/SourceCodePro-BoldIt.otf.woff") format("woff");
+  font-family: "Source Code Pro";
+  font-style: italic;
+  font-weight: 700;
+  font-stretch: normal; }
+
+@font-face {
   src: url("fonts/SourceSansPro-Regular.otf.woff") format("woff");
   font-family: "Source Sans Pro";
   font-style: normal;
@@ -4657,6 +4699,17 @@ body {
   padding-bottom: 1rem; }
   .sdt-content h2 {
     padding-top: 1rem; }
+  .sdt-content code {
+    padding: 0.125rem 0.25rem;
+    font-family: "Source Code Pro", monospace;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    background-color: var(--color-element-background);
+    border-radius: 0.25rem; }
+  .sdt-content .csl-entry {
+    padding-left: 2rem;
+    text-indent: -2rem; }
 
 .sdt-footer {
   display: flex;
@@ -4680,9 +4733,5 @@ body {
   line-height: 1.1; }
   .sdt-footer-item.sdt-footer-item-left {
     margin-right: auto; }
-
-.csl-entry {
-  padding-left: 2rem;
-  text-indent: -2rem; }
 
 /*# sourceMappingURL=index.css.map */
