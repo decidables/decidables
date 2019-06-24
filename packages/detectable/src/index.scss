@@ -1,103 +1,38 @@
 // FONTS
-@font-face {
-  src: url("fonts/SourceSansPro-Regular.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-stretch: normal;
+
+$font-map: (
+  // filename: (family, style, weight, stretch)
+  SourceCodePro-Regular: ("Source Code Pro", normal, 400, normal),
+  SourceCodePro-It: ("Source Code Pro", italic, 400, normal),
+  SourceCodePro-Semibold: ("Source Code Pro", normal, 600, normal),
+  SourceCodePro-SemiboldIt: ("Source Code Pro", italic, 600, normal),
+  SourceCodePro-Bold: ("Source Code Pro", normal, 700, normal),
+  SourceCodePro-BoldIt: ("Source Code Pro", italic, 700, normal),
+  SourceSansPro-Regular: ("Source Sans Pro", normal, 400, normal),
+  SourceSansPro-It: ("Source Sans Pro", italic, 400, normal),
+  SourceSansPro-Semibold: ("Source Sans Pro", normal, 600, normal),
+  SourceSansPro-SemiboldIt: ("Source Sans Pro", italic, 600, normal),
+  SourceSansPro-Bold: ("Source Sans Pro", normal, 700, normal),
+  SourceSansPro-BoldIt: ("Source Sans Pro", italic, 700, normal),
+  SourceSerifPro-Regular: ("Source Serif Pro", normal, 400, normal),
+  SourceSerifPro-It: ("Source Serif Pro", italic, 400, normal),
+  SourceSerifPro-Semibold: ("Source Serif Pro", normal, 600, normal),
+  SourceSerifPro-SemiboldIt: ("Source Serif Pro", italic, 600, normal),
+  SourceSerifPro-Bold: ("Source Serif Pro", normal, 700, normal),
+  SourceSerifPro-BoldIt: ("Source Serif Pro", italic, 700, normal),
+);
+
+@each $file, $font-list in $font-map {
+  @font-face {
+    src: url("fonts/#{$file}.otf.woff") format("woff");
+    font-family: nth($font-list, 1);
+    font-style: nth($font-list, 2);
+    font-weight: nth($font-list, 3);
+    font-stretch: nth($font-list, 4);
+  }
 }
 
-@font-face {
-  src: url("fonts/SourceSansPro-It.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
-  font-style: italic;
-  font-weight: 400;
-  font-stretch: normal;
-}
-
-@font-face {
-  src: url("fonts/SourceSansPro-Semibold.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 600;
-  font-stretch: normal;
-}
-
-@font-face {
-  src: url("fonts/SourceSansPro-SemiboldIt.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
-  font-style: italic;
-  font-weight: 600;
-  font-stretch: normal;
-}
-
-@font-face {
-  src: url("fonts/SourceSansPro-Bold.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
-  font-style: normal;
-  font-weight: 700;
-  font-stretch: normal;
-}
-
-@font-face {
-  src: url("fonts/SourceSansPro-BoldIt.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
-  font-style: italic;
-  font-weight: 700;
-  font-stretch: normal;
-}
-
-@font-face {
-  src: url("fonts/SourceSerifPro-Regular.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-stretch: normal;
-}
-
-@font-face {
-  src: url("fonts/SourceSerifPro-It.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
-  font-style: italic;
-  font-weight: 400;
-  font-stretch: normal;
-}
-
-@font-face {
-  src: url("fonts/SourceSerifPro-Semibold.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
-  font-style: normal;
-  font-weight: 600;
-  font-stretch: normal;
-}
-
-@font-face {
-  src: url("fonts/SourceSerifPro-SemiboldIt.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
-  font-style: italic;
-  font-weight: 600;
-  font-stretch: normal;
-}
-
-@font-face {
-  src: url("fonts/SourceSerifPro-Bold.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
-  font-style: normal;
-  font-weight: 700;
-  font-stretch: normal;
-}
-
-@font-face {
-  src: url("fonts/SourceSerifPro-BoldIt.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
-  font-style: italic;
-  font-weight: 700;
-  font-stretch: normal;
-}
-
-//////////////////////////////////////////////////
 // COLOR
-//////////////////////////////////////////////////
 
 // SCSS variables
 // http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
@@ -510,6 +445,19 @@ body {
   h2 {
     padding-top: 1rem;
   }
+
+  code {
+    padding: 0.125rem 0.25rem;
+
+    font-family: "Source Code Pro", monospace;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+
+    background-color: var(--color-element-background);
+    border-radius: 0.25rem;
+  }
+
 }
 
 .sdt-footer {
