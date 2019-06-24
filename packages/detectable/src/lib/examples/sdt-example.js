@@ -18,6 +18,8 @@ export default class SDTExample extends SDTElement {
 
           /* This makes IE11 happy */
           width: 100%;
+
+          margin-bottom: 1rem;
         }
 
         .holder {
