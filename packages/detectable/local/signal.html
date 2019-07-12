@@ -207,7 +207,7 @@
 <p>What's a signal? Well, it could be your friend's voice at a party, or a distant boat on the sea, or
 the smell of truffles under the earth. Any stimulus that you are trying to perceive can be
 thought of as a signal.</p>
-<p>Our signal will be coherent dot motion. Go ahead and push the <code>Run</code> button to see what it looks
+<p>Our signal will be coherent dot motion. Go ahead and push the <code class="Run">Run</code> button to see what it looks
 like:</p>
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
@@ -215,14 +215,14 @@ like:</p>
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
 <p>This is <em>coherent</em> motion because the dots are moving together in the same direction. (Push the
-<code>Pause</code> button to temporarily freeze the dots, or push the <code>Reset</code> button to reinitialize the demo
+<code class="Pause">Pause</code> button to temporarily freeze the dots, or push the <code class="Reset">Reset</code> button to reinitialize the demo
 with a new direction of motion.)</p>
 <h2>Noise</h2>
 <p>Now, when there is <em>only</em> signal, detecting it is not much of a challenge, but we typically also
 have noise. Noise is the music and other voices at the party, the swirling clouds of fog on the sea,
 the mélange of other smells wafting up from the soil. All of the other stimuli you are not
 interested in, but that are interfering with your ability to detect the signal.</p>
-<p>Our noise will be random dot motion. Give it a try (<code>Run</code> to start, <code>Pause</code> to freeze, <code>Reset</code> to
+<p>Our noise will be random dot motion. Give it a try (<code class="Run">Run</code> to start, <code class="Pause">Pause</code> to freeze, <code class="Reset">Reset</code> to
 reinitialize):</p>
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
@@ -248,7 +248,7 @@ moving in different, random directions — the noise.</p>
 extreme to "pure" noise at the other. And this brings us to one of the motivations for using
 random-dot kinematograms (that's what these are called!) as stimuli — by varying the proportion of
 dots that are moving coherently between one and zero, we can elegantly vary our stimulus from "pure"
-signal to "pure" noise, or anywhere in between (move the <code>Coherence</code> slider up and down or edit the
+signal to "pure" noise, or anywhere in between (move the <code class="Coherence">Coherence</code> slider up and down or edit the
 number to adjust the proportion of coherence — even while the dots are moving!):</p>
 <sdt-example-human>
   <sdt-control run pause reset coherence="0.5"></sdt-control>

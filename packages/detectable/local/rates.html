@@ -207,7 +207,7 @@
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
   <sdt-response feedback="outcome"></sdt-response>
-  <sdt-table display="outcomes" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+  <sdt-table numeric display="outcomes" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
 </sdt-example-human>
 <h2>Hit Rate</h2>
@@ -219,21 +219,21 @@
   </sdt-equation-facr2far>
 <h2>A table of outcomes and rates</h2>
 <sdt-example-interactive>
-  <sdt-table interactive display="rates"></sdt-table>
+  <sdt-table interactive numeric display="rates"></sdt-table>
 </sdt-example-interactive>
 <h2>Accuracy</h2>
 <p><sdt-equation-hmfacr2acc></sdt-equation-hmfacr2acc></p>
 <p><sdt-equation-hmfacr2acc numeric interactive hits="5" misses="5"
   false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
 <sdt-example-interactive>
-  <sdt-table interactive display="accuracy"></sdt-table>
+  <sdt-table interactive numeric display="accuracy"></sdt-table>
 </sdt-example-interactive>
 <h2>Tabulating outcomes, rates, &#x26; accuracy</h2>
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
   <sdt-response feedback="outcome"></sdt-response>
-  <sdt-table display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+  <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
 </sdt-example-human>
 

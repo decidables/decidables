@@ -63576,8 +63576,148 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _templateObject22() {
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th1 {\n          font-weight: bold;\n        }\n\n        .th2 {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        label {\n          margin: 0;\n        }\n\n        label span {\n          display: block;\n\n          font-size: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        input {\n          background: none;\n        }\n\n        .td1 input {\n          width: 3.5rem;\n        }\n\n        .td2 input,\n        .td3 input {\n          width: 4.5rem;\n        }\n\n        /* Table emphasis */\n        .h {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        /* Color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n      "]);
+
+  _templateObject22 = function _templateObject22() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject21() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject21 = function _templateObject21() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject20() {
+  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 far\">\n                  ", "\n                </td>"]);
+
+  _templateObject20 = function _templateObject20() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject19() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject19 = function _templateObject19() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject18() {
+  var data = _taggedTemplateLiteral(["\n                <td class=\"td td3 acc\" rowspan=\"2\">\n                  ", "\n                </td>"]);
+
+  _templateObject18 = function _templateObject18() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject17() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject17 = function _templateObject17() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject16() {
+  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 hr\">\n                  ", "\n                </td>"]);
+
+  _templateObject16 = function _templateObject16() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject15() {
+  var data = _taggedTemplateLiteral(["\n      <table class=", ">\n        <thead>\n          <tr>\n            <th colspan=\"2\" rowspan=\"2\"></th>\n            <th class=\"th th1\" colspan=\"2\" scope=\"col\">\n              Response\n            </th>\n            <th colspan=\"2\" rowspan=\"2\"></th>\n          </tr>\n          <tr>\n            <th class=\"th th2\" scope=\"col\">\n              \"Present\"\n            </th>\n            <th class=\"th th2\" scope=\"col\">\n              \"Absent\"\n            </th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr>\n            <th class=\"th th1\" rowspan=\"2\" scope=\"row\">\n              Signal\n            </th>\n            <th class=\"th th2\" scope=\"row\">\n              Present\n            </th>\n            <td class=\"td td1 h\">\n              ", "\n            </td>\n            <td class=\"td td1 m\">\n              ", "\n            </td>\n            ", "\n            ", "\n          </tr>\n          <tr>\n            <th class=\"th th2\" scope=\"row\">\n              Absent\n            </th>\n            <td class=\"td td1 fa\">\n              ", "\n            </td>\n            <td class=\"td td1 cr\">\n              ", "\n            </td>\n            ", "\n          </tr>\n        </tbody>\n      </table>"]);
+
+  _templateObject15 = function _templateObject15() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject14() {
+  var data = _taggedTemplateLiteral(["<span>Accuracy</span>"]);
+
+  _templateObject14 = function _templateObject14() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject13() {
+  var data = _taggedTemplateLiteral(["<span>False Alarm Rate</span>"]);
+
+  _templateObject13 = function _templateObject13() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject12() {
+  var data = _taggedTemplateLiteral(["<span>Hit Rate</span>"]);
+
+  _templateObject12 = function _templateObject12() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject11() {
+  var data = _taggedTemplateLiteral(["<span>Correct Rejections</span>"]);
+
+  _templateObject11 = function _templateObject11() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject10() {
+  var data = _taggedTemplateLiteral(["<span>False Alarms</span>"]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["<span>Misses</span>"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th1 {\n          font-weight: bold;\n        }\n\n        .th2 {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        /* Cells */\n        .td {\n          width: 7rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n        }\n\n        /* Labels */\n        label {\n          margin: 0;\n        }\n\n        label span {\n          display: block;\n\n          font-size: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        input {\n          background: none;\n        }\n\n        .td1 input {\n          width: 3.5rem;\n        }\n\n        .td2 input,\n        .td3 input {\n          width: 4.5rem;\n        }\n\n        /* Table emphasis */\n        .h {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        /* Color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["<span>Hits</span>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -63587,7 +63727,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral([""]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>Accuracy</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -63597,7 +63737,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 far\">\n                  <label>\n                    <span>False Alarm Rate</span>\n                    <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", "></label>\n                </td>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>False Alarm Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -63607,7 +63747,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral([""]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>Hit Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -63617,7 +63757,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["\n                <td class=\"td td3 acc\" rowspan=\"2\">\n                  <label>\n                    <span>Accuracy</span>\n                    <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", "></label>\n                </td>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>Correct Rejections</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -63627,7 +63767,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral([""]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>False Alarms</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -63637,7 +63777,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 hr\">\n                  <label>\n                    <span>Hit Rate</span>\n                    <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", "></label>\n                </td>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>Misses</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -63647,7 +63787,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n      <table>\n        <thead>\n          <tr>\n            <th colspan=\"2\" rowspan=\"2\"></th>\n            <th class=\"th th1\" colspan=\"2\" scope=\"col\">\n              Response\n            </th>\n            <th colspan=\"2\" rowspan=\"2\"></th>\n          </tr>\n          <tr>\n            <th class=\"th th2\" scope=\"col\">\n              \"Present\"\n            </th>\n            <th class=\"th th2\" scope=\"col\">\n              \"Absent\"\n            </th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr>\n            <th class=\"th th1\" rowspan=\"2\" scope=\"row\">\n              Signal\n            </th>\n            <th class=\"th th2\" scope=\"row\">\n              Present\n            </th>\n            <td class=\"td td1 h\">\n              <label>\n                <span>Hits</span>\n                <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n              </label>\n            </td>\n            <td class=\"td td1 m\">\n              <label>\n                <span>Misses</span>\n                <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", "></label>\n            </td>\n            ", "\n            ", "\n          </tr>\n          <tr>\n            <th class=\"th th2\" scope=\"row\">\n              Absent\n            </th>\n            <td class=\"td td1 fa\">\n              <label>\n                <span>False Alarms</span>\n                <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", "></label>\n            </td>\n            <td class=\"td td1 cr\">\n              <label>\n                <span>Correct Rejections</span>\n                <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", "></label>\n            </td>\n            ", "\n          </tr>\n        </tbody>\n      </table>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>Hits</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -63694,6 +63834,11 @@ function (_SDTMixinStyleSpinner) {
     key: "properties",
     get: function get() {
       return {
+        numeric: {
+          attribute: 'numeric',
+          type: Boolean,
+          reflect: true
+        },
         display: {
           attribute: 'display',
           type: String,
@@ -63744,6 +63889,7 @@ function (_SDTMixinStyleSpinner) {
     _classCallCheck(this, SDTTable);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTTable).call(this));
+    _this.numeric = false;
     _this.displays = ['outcomes', 'rates', 'accuracy'];
     _this.display = 'accuracy';
     _this.h = 40;
@@ -63869,12 +64015,38 @@ function (_SDTMixinStyleSpinner) {
     key: "render",
     value: function render() {
       this.alignState();
-      return (0, _litElement.html)(_templateObject(), !this.interactive, this.h, this.hInput.bind(this), !this.interactive, this.m, this.mInput.bind(this), this.display === 'rates' || this.display === 'accuracy' ? (0, _litElement.html)(_templateObject2(), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this)) : (0, _litElement.html)(_templateObject3()), this.display === 'accuracy' ? (0, _litElement.html)(_templateObject4(), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this)) : (0, _litElement.html)(_templateObject5()), !this.interactive, this.fa, this.faInput.bind(this), !this.interactive, this.cr, this.crInput.bind(this), this.display === 'rates' || this.display === 'accuracy' ? (0, _litElement.html)(_templateObject6(), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this)) : (0, _litElement.html)(_templateObject7()));
+      var h;
+      var m;
+      var fa;
+      var cr;
+      var hr;
+      var far;
+      var acc;
+
+      if (this.numeric) {
+        h = (0, _litElement.html)(_templateObject(), !this.interactive, this.h, this.hInput.bind(this));
+        m = (0, _litElement.html)(_templateObject2(), !this.interactive, this.m, this.mInput.bind(this));
+        fa = (0, _litElement.html)(_templateObject3(), !this.interactive, this.fa, this.faInput.bind(this));
+        cr = (0, _litElement.html)(_templateObject4(), !this.interactive, this.cr, this.crInput.bind(this));
+        hr = (0, _litElement.html)(_templateObject5(), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
+        far = (0, _litElement.html)(_templateObject6(), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
+        acc = (0, _litElement.html)(_templateObject7(), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
+      } else {
+        h = (0, _litElement.html)(_templateObject8());
+        m = (0, _litElement.html)(_templateObject9());
+        fa = (0, _litElement.html)(_templateObject10());
+        cr = (0, _litElement.html)(_templateObject11());
+        hr = (0, _litElement.html)(_templateObject12());
+        far = (0, _litElement.html)(_templateObject13());
+        acc = (0, _litElement.html)(_templateObject14());
+      }
+
+      return (0, _litElement.html)(_templateObject15(), this.numeric ? 'numeric' : '', h, m, this.display === 'rates' || this.display === 'accuracy' ? (0, _litElement.html)(_templateObject16(), hr) : (0, _litElement.html)(_templateObject17()), this.display === 'accuracy' ? (0, _litElement.html)(_templateObject18(), acc) : (0, _litElement.html)(_templateObject19()), fa, cr, this.display === 'rates' || this.display === 'accuracy' ? (0, _litElement.html)(_templateObject20(), far) : (0, _litElement.html)(_templateObject21()));
     }
   }], [{
     key: "styles",
     get: function get() {
-      return [_get(_getPrototypeOf(SDTTable), "styles", this), (0, _litElement.css)(_templateObject8())];
+      return [_get(_getPrototypeOf(SDTTable), "styles", this), (0, _litElement.css)(_templateObject22())];
     }
   }]);
 
