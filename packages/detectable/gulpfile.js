@@ -8,6 +8,7 @@ const http = require('http');
 
 /* Local! */
 const remarkCiteproc = require('./remark-citeproc');
+const remarkCodeclass = require('./remark-codeclass');
 
 // Load all devDependencies into global scope
 // Uses camelCase for names, e.g. gulp-ssh -> gulpSsh
@@ -56,6 +57,7 @@ gulp.task('compile:markdown', () => {
     .pipe(gulpFrontMatter({property: 'data', remove: true}))
     .pipe(gulpRemark({detectConfig: false, quiet: true})
       .use(remarkCiteproc)
+      .use(remarkCodeclass)
       .use(remarkHtml))
     .on('data', (file) => {
       return gulp.src(`src/${file.data.layout}.ejs`)
