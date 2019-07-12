@@ -14,6 +14,11 @@ import SDTMixinStyleSpinner from '../mixins/styleSpinner';
 export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
   static get properties() {
     return {
+      numeric: {
+        attribute: 'numeric',
+        type: Boolean,
+        reflect: true,
+      },
       display: {
         attribute: 'display',
         type: String,
@@ -59,6 +64,8 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
 
   constructor() {
     super();
+
+    this.numeric = false;
 
     this.displays = ['outcomes', 'rates', 'accuracy'];
     this.display = 'accuracy';
@@ -196,9 +203,13 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
 
         /* Cells */
         .td {
-          width: 7rem;
+          width: 10rem;
 
           padding: 0.25rem 0.25rem 0.375rem;
+        }
+
+        .numeric .td {
+          width: 7rem;
         }
 
         /* Labels */
@@ -288,8 +299,53 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
 
   render() {
     this.alignState();
+    let h;
+    let m;
+    let fa;
+    let cr;
+    let hr;
+    let far;
+    let acc;
+    if (this.numeric) {
+      h = html`<label>
+          <span>Hits</span>
+          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
+        </label>`;
+      m = html`<label>
+          <span>Misses</span>
+          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
+        </label>`;
+      fa = html`<label>
+          <span>False Alarms</span>
+          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
+        </label>`;
+      cr = html`<label>
+          <span>Correct Rejections</span>
+          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
+        </label>`;
+      hr = html`<label>
+          <span>Hit Rate</span>
+          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}" @input=${this.hrInput.bind(this)}>
+        </label>`;
+      far = html`<label>
+          <span>False Alarm Rate</span>
+          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}" @input=${this.farInput.bind(this)}>
+        </label>`;
+      acc = html`<label>
+          <span>Accuracy</span>
+          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}" @input=${this.accInput.bind(this)}>
+        </label>`;
+    } else {
+      h = html`<span>Hits</span>`;
+      m = html`<span>Misses</span>`;
+      fa = html`<span>False Alarms</span>`;
+      cr = html`<span>Correct Rejections</span>`;
+      hr = html`<span>Hit Rate</span>`;
+      far = html`<span>False Alarm Rate</span>`;
+      acc = html`<span>Accuracy</span>`;
+    }
     return html`
-      <table>
+      <table class=${this.numeric ? 'numeric' : ''}>
         <thead>
           <tr>
             <th colspan="2" rowspan="2"></th>
@@ -316,30 +372,21 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
               Present
             </th>
             <td class="td td1 h">
-              <label>
-                <span>Hits</span>
-                <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
-              </label>
+              ${h}
             </td>
             <td class="td td1 m">
-              <label>
-                <span>Misses</span>
-                <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.m}" @input=${this.mInput.bind(this)}></label>
+              ${m}
             </td>
             ${(this.display === 'rates' || this.display === 'accuracy')
               ? html`
                 <td class="td td2 hr">
-                  <label>
-                    <span>Hit Rate</span>
-                    <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}" @input=${this.hrInput.bind(this)}></label>
+                  ${hr}
                 </td>`
               : html``}
             ${(this.display === 'accuracy')
               ? html`
                 <td class="td td3 acc" rowspan="2">
-                  <label>
-                    <span>Accuracy</span>
-                    <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}" @input=${this.accInput.bind(this)}></label>
+                  ${acc}
                 </td>`
               : html``}
           </tr>
@@ -348,21 +395,15 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
               Absent
             </th>
             <td class="td td1 fa">
-              <label>
-                <span>False Alarms</span>
-                <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}></label>
+              ${fa}
             </td>
             <td class="td td1 cr">
-              <label>
-                <span>Correct Rejections</span>
-                <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}></label>
+              ${cr}
             </td>
             ${(this.display === 'rates' || this.display === 'accuracy')
               ? html`
                 <td class="td td2 far">
-                  <label>
-                    <span>False Alarm Rate</span>
-                    <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}" @input=${this.farInput.bind(this)}></label>
+                  ${far}
                 </td>`
               : html``}
           </tr>

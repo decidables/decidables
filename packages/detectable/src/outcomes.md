@@ -15,6 +15,10 @@ script: index
 
 ## Outcomes
 
+<sdt-example-interactive>
+  <sdt-table display="outcomes"></sdt-table>
+</sdt-example-interactive>
+
 <sdt-example-human>
   <sdt-control run pause reset coherence="1"></sdt-control>
   <rdk-task count="100" coherence="1" trials="10" probability=".5"
