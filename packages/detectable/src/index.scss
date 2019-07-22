@@ -43,11 +43,14 @@ $color-map: (
   cr: #e41a1c, // red (CB1)
   hr: #ffff33, // yellow (CB6)
   far:#984ea3, // purple (CB4)
+  acc: #999999, // grey (CB9)
   d: #f781bf, // pink (CB8)
   c: #a65628, // brown (CB7)
-  acc: #999999, // grey (CB9)
+  s: #4545d0, // violet
   present: #f032e6, // magenta
   absent: #10dbc9, // cyan
+  correct: #ffffff, // white
+  error: #000000, // black
 );
 
 // Greys:

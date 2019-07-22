@@ -11,6 +11,8 @@
     ["lint-list-item-spacing", {"checkBlanks": true}],
     ["lint-maximum-heading-length", 100],
     ["lint-maximum-line-length", 100],
+    ["lint-no-duplicate-headings", false],
+    "lint-no-duplicate-headings-in-section",
     ["lint-no-missing-blank-lines", {"exceptTightLists": true}],
     ["lint-no-shortcut-reference-link", false],
     "lint-no-tabs",

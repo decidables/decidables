@@ -25,6 +25,12 @@
 
 ## Features/Bugs
 
+- Unequal variance
+  - d' vs d_a, and c vs c_a
+  - muN != muS != d'
+  - lambda != c
+  - distinction between parameter s and sigma
+
 ### High Importance
 
 ### Medium Importance
