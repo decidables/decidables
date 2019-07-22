@@ -72,6 +72,11 @@ export default class ROCSpace extends SDTElement {
         type: Number,
         reflect: false,
       },
+      s: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
 
       width: {
         attribute: false,
@@ -112,11 +117,14 @@ export default class ROCSpace extends SDTElement {
     this.far = 0.25;
     this.hr = 0.75;
 
+    this.s = 1;
+
     this.locations = [
       {
         name: 'default',
         far: this.far,
         hr: this.hr,
+        s: this.s,
       },
     ];
 
@@ -134,16 +142,17 @@ export default class ROCSpace extends SDTElement {
   alignState() {
     this.locations[0].hr = this.hr;
     this.locations[0].far = this.far;
+    this.locations[0].s = this.s;
 
-    this.d = SDTElement.hrfar2d(this.hr, this.far);
-    this.c = SDTElement.hrfar2c(this.hr, this.far);
+    this.d = SDTElement.hrfar2d(this.hr, this.far, this.s);
+    this.c = SDTElement.hrfar2c(this.hr, this.far, this.s);
 
     this.pointArray = [];
     this.isoDArray = [];
     this.isoCArray = [];
     this.locations.forEach((item, index) => {
-      item.d = SDTElement.hrfar2d(item.hr, item.far);
-      item.c = SDTElement.hrfar2c(item.hr, item.far);
+      item.d = SDTElement.hrfar2d(item.hr, item.far, item.s);
+      item.c = SDTElement.hrfar2c(item.hr, item.far, item.s);
 
       if ((index === 0) && (this.point === 'first' || this.point === 'all')) {
         this.pointArray.push(item);
@@ -165,10 +174,11 @@ export default class ROCSpace extends SDTElement {
     });
   }
 
-  set(hr, far, name = 'default') {
+  set(hr, far, name = 'default', s = 1) {
     if (name === 'default') {
       this.hr = hr;
       this.far = far;
+      this.s = s;
     }
     const location = this.locations.find((item) => {
       return (item.name === name);
@@ -178,19 +188,22 @@ export default class ROCSpace extends SDTElement {
         name: name,
         far: far,
         hr: hr,
+        s: s,
       });
     } else {
       location.hr = hr;
       location.far = far;
+      location.s = s;
     }
 
     this.requestUpdate();
   }
 
-  setWithSDT(d, c, name = 'default') {
+  setWithSDT(d, c, name = 'default', s = 1) {
     if (name === 'default') {
-      this.hr = SDTElement.dc2hr(d, c);
-      this.far = SDTElement.dc2far(d, c);
+      this.hr = SDTElement.dc2hr(d, c, s);
+      this.far = SDTElement.dc2far(d, c, s);
+      this.s = s;
     }
     const location = this.locations.find((item) => {
       return (item.name === name);
@@ -198,12 +211,14 @@ export default class ROCSpace extends SDTElement {
     if (location === undefined) {
       this.locations.push({
         name: name,
-        far: SDTElement.dc2far(d, c),
-        hr: SDTElement.dc2hr(d, c),
+        far: SDTElement.dc2far(d, c, s),
+        hr: SDTElement.dc2hr(d, c, s),
+        s: s,
       });
     } else {
-      location.hr = SDTElement.dc2hr(d, c);
-      location.far = SDTElement.dc2far(d, c);
+      location.hr = SDTElement.dc2hr(d, c, s);
+      location.far = SDTElement.dc2far(d, c, s);
+      location.s = s;
     }
 
     this.sdt = true;
@@ -442,6 +457,7 @@ export default class ROCSpace extends SDTElement {
             hr: datum.hr,
             d: datum.d,
             c: datum.c,
+            s: datum.s,
           },
           bubbles: true,
         }));
@@ -514,6 +530,7 @@ export default class ROCSpace extends SDTElement {
       || changedProperties.has('width')
       || changedProperties.has('height')
       || changedProperties.has('rem')
+      || changedProperties.has('s')
     ) {
       if (this.contour !== undefined) {
         // Contour Plot
@@ -528,9 +545,9 @@ export default class ROCSpace extends SDTElement {
               ? SDTElement.zfar2far(((1 - j / n) * 6) - 3)
               : (1 - j / n);
             contourValues[k] = (this.contour === 'bias')
-              ? SDTElement.hrfar2c(hr, far)
+              ? SDTElement.hrfar2c(hr, far, this.s)
               : (this.contour === 'sensitivity')
-                ? SDTElement.hrfar2d(hr, far)
+                ? SDTElement.hrfar2d(hr, far, this.s)
                 : (this.contour === 'accuracy')
                   ? SDTElement.hrfar2acc(hr, far)
                   : null;
@@ -798,7 +815,7 @@ export default class ROCSpace extends SDTElement {
       .attr('clip-path', 'url(#clip-roc-space)');
     //  MERGE
     const isoDMerge = isoDEnter.merge(isoDUpdate);
-    if (changedProperties.has('zRoc') || this.firstUpdate) {
+    if (this.firstUpdate || changedProperties.has('zRoc')) {
       isoDMerge.transition()
         .duration(this.drag ? 0 : 1000)
         .ease(d3.easeCubicOut)
@@ -809,8 +826,8 @@ export default class ROCSpace extends SDTElement {
                 ? SDTElement.zfar2far(xScale.invert(x))
                 : xScale.invert(x)),
               hr: (this.zRoc
-                ? SDTElement.dfar2hr(datum.d, SDTElement.zfar2far(xScale.invert(x)))
-                : SDTElement.dfar2hr(datum.d, xScale.invert(x))),
+                ? SDTElement.dfar2hr(datum.d, SDTElement.zfar2far(xScale.invert(x)), datum.s)
+                : SDTElement.dfar2hr(datum.d, xScale.invert(x), datum.s)),
             };
           }));
         });
@@ -826,16 +843,21 @@ export default class ROCSpace extends SDTElement {
             (element.d !== undefined) ? element.d : datum.d,
             datum.d,
           );
+          const interpolateS = d3.interpolate(
+            (element.s !== undefined) ? element.s : datum.s,
+            datum.s,
+          );
           return (time) => {
             element.d = interpolateD(time);
+            element.s = interpolateS(time);
             const isoD = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
               return {
                 far: (this.zRoc
                   ? SDTElement.zfar2far(xScale.invert(x))
                   : xScale.invert(x)),
                 hr: (this.zRoc
-                  ? SDTElement.dfar2hr(element.d, SDTElement.zfar2far(xScale.invert(x)))
-                  : SDTElement.dfar2hr(element.d, xScale.invert(x))),
+                  ? SDTElement.dfar2hr(element.d, SDTElement.zfar2far(xScale.invert(x)), element.s)
+                  : SDTElement.dfar2hr(element.d, xScale.invert(x), element.s)),
               };
             });
             return line(isoD);
@@ -848,6 +870,7 @@ export default class ROCSpace extends SDTElement {
         .attrTween('d', (datum, index, elements) => {
           const element = elements[index];
           element.d = undefined;
+          element.s = undefined;
           const interpolateHr = d3.interpolate(
             (element.hr !== undefined) ? element.hr : datum.hr,
             datum.hr,
@@ -866,12 +889,14 @@ export default class ROCSpace extends SDTElement {
                   : xScale.invert(x)),
                 hr: (this.zRoc
                   ? SDTElement.dfar2hr(
-                    SDTElement.hrfar2d(element.hr, element.far),
+                    SDTElement.hrfar2d(element.hr, element.far, datum.s),
                     SDTElement.zfar2far(xScale.invert(x)),
+                    datum.s,
                   )
                   : SDTElement.dfar2hr(
-                    SDTElement.hrfar2d(element.hr, element.far),
+                    SDTElement.hrfar2d(element.hr, element.far, datum.s),
                     xScale.invert(x),
+                    datum.s,
                   )
                 ),
               };
@@ -894,7 +919,7 @@ export default class ROCSpace extends SDTElement {
       .attr('clip-path', 'url(#clip-roc-space)');
     //  MERGE
     const isoCMerge = isoCEnter.merge(isoCUpdate);
-    if (changedProperties.has('zRoc') || this.firstUpdate) {
+    if (this.firstUpdate || changedProperties.has('zRoc')) {
       isoCMerge.transition()
         .duration(this.drag ? 0 : 1000)
         .ease(d3.easeCubicOut)
@@ -905,8 +930,8 @@ export default class ROCSpace extends SDTElement {
                 ? SDTElement.zfar2far(xScale.invert(x))
                 : xScale.invert(x)),
               hr: (this.zRoc
-                ? SDTElement.cfar2hr(datum.c, SDTElement.zfar2far(xScale.invert(x)))
-                : SDTElement.cfar2hr(datum.c, xScale.invert(x))),
+                ? SDTElement.cfar2hr(datum.c, SDTElement.zfar2far(xScale.invert(x)), datum.s)
+                : SDTElement.cfar2hr(datum.c, xScale.invert(x), datum.s)),
             };
           }));
         });
@@ -922,16 +947,21 @@ export default class ROCSpace extends SDTElement {
             (element.c !== undefined) ? element.c : datum.c,
             datum.c,
           );
+          const interpolateS = d3.interpolate(
+            (element.s !== undefined) ? element.s : datum.s,
+            datum.s,
+          );
           return (time) => {
             element.c = interpolateC(time);
+            element.s = interpolateS(time);
             const isoC = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
               return {
                 far: (this.zRoc
                   ? SDTElement.zfar2far(xScale.invert(x))
                   : xScale.invert(x)),
                 hr: (this.zRoc
-                  ? SDTElement.cfar2hr(element.c, SDTElement.zfar2far(xScale.invert(x)))
-                  : SDTElement.cfar2hr(element.c, xScale.invert(x))),
+                  ? SDTElement.cfar2hr(element.c, SDTElement.zfar2far(xScale.invert(x)), element.s)
+                  : SDTElement.cfar2hr(element.c, xScale.invert(x), element.s)),
               };
             });
             return line(isoC);
@@ -944,6 +974,7 @@ export default class ROCSpace extends SDTElement {
         .attrTween('d', (datum, index, elements) => {
           const element = elements[index];
           element.c = undefined;
+          element.s = undefined;
           const interpolateHr = d3.interpolate(
             (element.hr !== undefined) ? element.hr : datum.hr,
             datum.hr,
@@ -962,12 +993,14 @@ export default class ROCSpace extends SDTElement {
                   : xScale.invert(x)),
                 hr: (this.zRoc
                   ? SDTElement.cfar2hr(
-                    SDTElement.hrfar2c(element.hr, element.far),
+                    SDTElement.hrfar2c(element.hr, element.far, datum.s),
                     SDTElement.zfar2far(xScale.invert(x)),
+                    datum.s,
                   )
                   : SDTElement.cfar2hr(
-                    SDTElement.hrfar2c(element.hr, element.far),
+                    SDTElement.hrfar2c(element.hr, element.far, datum.s),
                     xScale.invert(x),
+                    datum.s,
                   )
                 ),
               };
@@ -990,10 +1023,7 @@ export default class ROCSpace extends SDTElement {
       .attr('r', 6); /* HACK: Firefox does not support CSS SVG Geometry Properties */
     //  MERGE
     const pointMerge = pointEnter.merge(pointUpdate);
-    if (
-      this.firstUpdate
-      || changedProperties.has('interactive')
-    ) {
+    if (this.firstUpdate || changedProperties.has('interactive')) {
       if (this.interactive) {
         pointMerge
           .attr('tabindex', 0)
@@ -1056,6 +1086,7 @@ export default class ROCSpace extends SDTElement {
                     hr: datum.hr,
                     d: datum.d,
                     c: datum.c,
+                    s: datum.s,
                   },
                   bubbles: true,
                 }));
@@ -1071,18 +1102,20 @@ export default class ROCSpace extends SDTElement {
           .on('keydown', null);
       }
     }
-    if (changedProperties.has('zRoc') || this.firstUpdate) {
+    if (this.firstUpdate || changedProperties.has('zRoc')) {
       pointMerge.transition()
         .duration(this.drag ? 0 : 1000)
         .ease(d3.easeCubicOut)
         .attr('cx', (datum, index, elements) => {
           const element = elements[index];
           element.d = undefined;
+          element.s = undefined;
           return xScale(this.zRoc ? SDTElement.far2zfar(datum.far) : datum.far);
         })
         .attr('cy', (datum, index, elements) => {
           const element = elements[index];
           element.c = undefined;
+          element.s = undefined;
           return yScale(this.zRoc ? SDTElement.hr2zhr(datum.hr) : datum.hr);
         });
     } else if (this.sdt) {
@@ -1099,12 +1132,17 @@ export default class ROCSpace extends SDTElement {
             (element.c !== undefined) ? element.c : datum.c,
             datum.c,
           );
+          const interpolateS = d3.interpolate(
+            (element.s !== undefined) ? element.s : datum.s,
+            datum.s,
+          );
           return (time) => {
             element.d = interpolateD(time);
             element.c = interpolateC(time);
+            element.s = interpolateS(time);
             return xScale(this.zRoc
-              ? SDTElement.far2zfar(SDTElement.dc2far(element.d, element.c))
-              : SDTElement.dc2far(element.d, element.c));
+              ? SDTElement.far2zfar(SDTElement.dc2far(element.d, element.c, element.s))
+              : SDTElement.dc2far(element.d, element.c, element.s));
           };
         })
         .attrTween('cy', (datum, index, elements) => {
@@ -1117,12 +1155,17 @@ export default class ROCSpace extends SDTElement {
             (element.c !== undefined) ? element.c : datum.c,
             datum.c,
           );
+          const interpolateS = d3.interpolate(
+            (element.s !== undefined) ? element.s : datum.s,
+            datum.s,
+          );
           return (time) => {
             element.d = interpolateD(time);
             element.c = interpolateC(time);
+            element.s = interpolateS(time);
             return yScale(this.zRoc
-              ? SDTElement.hr2zhr(SDTElement.dc2hr(element.d, element.c))
-              : SDTElement.dc2hr(element.d, element.c));
+              ? SDTElement.hr2zhr(SDTElement.dc2hr(element.d, element.c, element.s))
+              : SDTElement.dc2hr(element.d, element.c, element.s));
           };
         });
     } else {
@@ -1132,11 +1175,13 @@ export default class ROCSpace extends SDTElement {
         .attr('cx', (datum, index, elements) => {
           const element = elements[index];
           element.d = undefined;
+          element.s = undefined;
           return xScale(this.zRoc ? SDTElement.far2zfar(datum.far) : datum.far);
         })
         .attr('cy', (datum, index, elements) => {
           const element = elements[index];
           element.c = undefined;
+          element.s = undefined;
           return yScale(this.zRoc ? SDTElement.hr2zhr(datum.hr) : datum.hr);
         });
     }

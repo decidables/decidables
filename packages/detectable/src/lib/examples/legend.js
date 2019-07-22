@@ -51,14 +51,9 @@ export default class SDTExampleLegend extends SDTExample {
           border-left: 1rem solid var(---color-far);
         }
 
-        .present {
-          background: var(---color-present-light);
-          border-left: 1rem solid var(---color-present);
-        }
-
-        .absent {
-          background: var(---color-absent-light);
-          border-left: 1rem solid var(---color-absent);
+        .acc {
+          background: var(---color-acc-light);
+          border-left: 1rem solid var(---color-acc);
         }
 
         .d {
@@ -71,9 +66,33 @@ export default class SDTExampleLegend extends SDTExample {
           border-left: 1rem solid var(---color-c);
         }
 
-        .acc {
-          background: var(---color-acc-light);
-          border-left: 1rem solid var(---color-acc);
+        .s {
+          background: var(---color-s-light);
+          border-left: 1rem solid var(---color-s);
+        }
+
+        .present {
+          background: var(---color-present-light);
+          border-left: 1rem solid var(---color-present);
+        }
+
+        .absent {
+          background: var(---color-absent-light);
+          border-left: 1rem solid var(---color-absent);
+        }
+
+        .correct {
+          padding-left: calc(1.675rem - 1px);
+
+          background: var(---color-correct);
+          border: 1px solid var(---color-element-border);
+        }
+
+        .error {
+          color: var(---color-text-light);
+
+          background: var(---color-error);
+          border-left: 1rem solid var(---color-error);
         }
       `,
     ];
@@ -84,6 +103,16 @@ export default class SDTExampleLegend extends SDTExample {
       <div class="holder">
         <div class="body">
           <dl>
+            <dt class="present">Response 'Present'</dt>
+            <dd>This is a 'blank'.</dd>
+            <dt class="absent">Response 'Absent'</dt>
+            <dd>This is a 'blank'.</dd>
+            <dt class="correct">Correct</dt>
+            <dd>This is a 'blank'.</dd>
+            <dt class="error">Error</dt>
+            <dd>This is a 'blank'.</dd>
+            <dt class="acc">Accuracy</dt>
+            <dd>This is a 'blank'.</dd>
             <dt class="h">Hit (<var class="math-var">H</var>)</dt>
             <dd>This is a 'blank'.</dd>
             <dt class="m">Miss (<var class="math-var">M</var>)</dt>
@@ -100,11 +129,7 @@ export default class SDTExampleLegend extends SDTExample {
             <dd>This is a 'blank'.</dd>
             <dt class="c">Bias (<var class="math-var">c</var>)</dt>
             <dd>This is a 'blank'.</dd>
-            <dt class="present">Response 'Present'</dt>
-            <dd>This is a 'blank'.</dd>
-            <dt class="absent">Response 'Absent'</dt>
-            <dd>This is a 'blank'.</dd>
-            <dt class="acc">Overall/Accuracy</dt>
+            <dt class="s">Variance (<var class="math-var">σ</var>)</dt>
             <dd>This is a 'blank'.</dd>
           </dl>
         </div>

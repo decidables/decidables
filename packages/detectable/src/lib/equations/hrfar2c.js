@@ -13,6 +13,11 @@ import SDTEquation from './sdt-equation';
 export default class SDTEquationHrFar2C extends SDTEquation {
   static get properties() {
     return {
+      unequal: {
+        attribute: 'unequal',
+        type: Boolean,
+        reflect: true,
+      },
       hr: {
         attribute: 'hit-rate',
         type: Number,
@@ -23,6 +28,12 @@ export default class SDTEquationHrFar2C extends SDTEquation {
         type: Number,
         reflect: true,
       },
+      s: {
+        attribute: 's',
+        type: Number,
+        reflect: true,
+      },
+
       c: {
         attribute: false,
         type: Number,
@@ -33,13 +44,15 @@ export default class SDTEquationHrFar2C extends SDTEquation {
 
   constructor() {
     super();
+    this.unequal = false;
     this.hr = 0;
     this.far = 0;
+    this.s = 1;
     this.alignState();
   }
 
   alignState() {
-    this.c = SDTEquation.hrfar2c(this.hr, this.far);
+    this.c = SDTEquation.hrfar2c(this.hr, this.far, this.s);
   }
 
   sendEvent() {
@@ -47,6 +60,7 @@ export default class SDTEquationHrFar2C extends SDTEquation {
       detail: {
         hr: this.hr,
         far: this.far,
+        s: this.s,
         c: this.c,
       },
       bubbles: true,
@@ -65,10 +79,17 @@ export default class SDTEquationHrFar2C extends SDTEquation {
     this.sendEvent();
   }
 
+  sInput(event) {
+    this.s = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+
   render() {
     this.alignState();
     let hr;
     let far;
+    let s;
     let c;
     if (this.numeric) {
       hr = html`<label class="hr bottom">
@@ -79,32 +100,78 @@ export default class SDTEquationHrFar2C extends SDTEquation {
           <var>False Alarm Rate</var>
           <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${this.far}" @input=${this.farInput.bind(this)}>
         </label>`;
-      c = html`<label class="c">
+      s = html`<label class="s bottom">
+          <var class="math-var">σ</var>
+          <input ?disabled=${!this.interactive} type="number" min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
+        </label>`;
+      c = html`<label class="c bottom">
           <var class="math-var">c</var>
           <input disabled type="number" step=".001" .value="${+this.c.toFixed(3)}">
         </label>`;
     } else {
       hr = html`<var class="hr">Hit Rate</var>`;
       far = html`<var class="far">False Alarm Rate</var>`;
+      s = html`<var class="math-var s">σ</var>`;
       c = html`<var class="math-var c">c</var>`;
+    }
+    let equation;
+    if (this.unequal) {
+      equation = html`
+        <tr>
+          <td rowspan="2">
+            ${c}<span class="equals">=</span><span class="bracket tight">(</span>
+          </td>
+          <td class="underline bottom">
+            <span>1</span><span class="plus tight">&plus;</span><span>${s}<sup class="exp">2</sup></span>
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">)<sup class="exp">&minus;½</sup></span><span class="bracket tight">(</span>
+          </td>
+          <td class="underline bottom">
+            ${s}
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">)</span><span class="bracket">[</span>
+          </td>
+          <td class="underline">
+            <span class="minus tight">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span>
+          </td>
+          <td rowspan="2">
+            <span class="bracket">]</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+          <td>
+            <span><span>1</span><span class="plus">&plus;</span>${s}</span>
+          </td>
+          <td>
+            <span>2</span>
+          </td>
+        </tr>`;
+    } else {
+      equation = html`
+        <tr>
+          <td rowspan="2">
+            ${c}<span class="equals">=</span>
+          </td>
+          <td class="underline">
+            <span class="minus tight">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+        </tr>`;
     }
     return html`
       <div class="holder">
         <table class="equation">
           <tbody>
-            <tr>
-              <td rowspan="2">
-                ${c}<span class="equals">=</span>
-              </td>
-              <td class="underline">
-                <span class="minus tight">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <span>2</span>
-              </td>
-            </tr>
+            ${equation}
           </tbody>
         </table>
       </div>`;

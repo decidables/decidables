@@ -37,6 +37,11 @@ export default class SDTModel extends SDTElement {
         type: Boolean,
         reflect: true,
       },
+      unequal: {
+        attribute: 'unequal',
+        type: Boolean,
+        reflect: true,
+      },
       sensitivity: {
         attribute: 'sensitivity',
         type: Boolean,
@@ -44,6 +49,11 @@ export default class SDTModel extends SDTElement {
       },
       bias: {
         attribute: 'bias',
+        type: Boolean,
+        reflect: true,
+      },
+      variance: {
+        attribute: 'variance',
         type: Boolean,
         reflect: true,
       },
@@ -59,6 +69,11 @@ export default class SDTModel extends SDTElement {
       },
       c: {
         attribute: 'c',
+        type: Number,
+        reflect: true,
+      },
+      s: {
+        attribute: 's',
         type: Number,
         reflect: true,
       },
@@ -114,11 +129,19 @@ export default class SDTModel extends SDTElement {
     this.histogram = false;
     this.distributions = false;
     this.threshold = false;
+    this.unequal = false;
     this.sensitivity = false;
     this.bias = false;
+    this.variance = false;
 
     this.d = 1;
     this.c = 0;
+    this.s = 1;
+
+    this.muN = NaN;
+    this.muS = NaN;
+    this.l = NaN;
+    this.hS = NaN;
 
     this.signals = ['present', 'absent'];
     this.responses = ['present', 'absent'];
@@ -161,8 +184,8 @@ export default class SDTModel extends SDTElement {
 
   alignTrial(trial) {
     if (trial.signal === 'present') {
-      trial.trueEvidence = trial.evidence + (this.d / 2);
-      trial.response = (trial.trueEvidence > this.c) ? 'present' : 'absent';
+      trial.trueEvidence = trial.evidence * this.s + this.muS;
+      trial.response = (trial.trueEvidence > this.l) ? 'present' : 'absent';
       if (trial.response === 'present') {
         trial.outcome = 'h';
         this.h += 1;
@@ -171,8 +194,8 @@ export default class SDTModel extends SDTElement {
         this.m += 1;
       }
     } else { // trial.signal == 'absent'
-      trial.trueEvidence = trial.evidence - (this.d / 2);
-      trial.response = (trial.trueEvidence > this.c) ? 'present' : 'absent';
+      trial.trueEvidence = trial.evidence + this.muN;
+      trial.response = (trial.trueEvidence > this.l) ? 'present' : 'absent';
       if (trial.response === 'present') {
         trial.outcome = 'fa';
         this.fa += 1;
@@ -185,8 +208,13 @@ export default class SDTModel extends SDTElement {
   }
 
   alignState() {
-    this.far = SDTElement.dc2far(this.d, this.c);
-    this.hr = SDTElement.dc2hr(this.d, this.c);
+    this.far = SDTElement.dc2far(this.d, this.c, this.s);
+    this.hr = SDTElement.dc2hr(this.d, this.c, this.s);
+
+    this.muN = SDTElement.d2muN(this.d, this.s);
+    this.muS = SDTElement.d2muS(this.d, this.s);
+    this.l = SDTElement.c2l(this.c, this.s);
+    this.hS = SDTElement.s2h(this.s);
 
     this.h = 0;
     this.m = 0;
@@ -231,7 +259,8 @@ export default class SDTModel extends SDTElement {
           stroke: var(---color-element-border);
         }
 
-        .signal-noise.interactive,
+        .noise.interactive,
+        .signal.interactive,
         .threshold.interactive {
           cursor: ew-resize;
 
@@ -239,7 +268,20 @@ export default class SDTModel extends SDTElement {
           outline: none;
         }
 
-        .signal-noise.interactive:hover,
+        .signal.unequal {
+          cursor: ns-resize;
+
+          filter: url("#shadow-2");
+          outline: none;
+        }
+
+        .signal.interactive.unequal {
+          cursor: move;
+        }
+
+        .noise.interactive:hover,
+        .signal.interactive:hover,
+        .signal.unequal:hover,
         .threshold.interactive:hover {
           filter: url("#shadow-4");
 
@@ -247,7 +289,9 @@ export default class SDTModel extends SDTElement {
           transform: translateX(0);
         }
 
-        .signal-noise.interactive:active,
+        .noise.interactive:hover,
+        .signal.interactive:hover,
+        .signal.unequal:hover,
         .threshold.interactive:active {
           filter: url("#shadow-8");
 
@@ -255,7 +299,9 @@ export default class SDTModel extends SDTElement {
           transform: translateY(0);
         }
 
-        :host(.keyboard) .signal-noise.interactive:focus,
+        :host(.keyboard) .noise.interactive:focus,
+        :host(.keyboard) .signal.interactive:focus,
+        :host(.keyboard) .signal.unequal:focus,
         :host(.keyboard) .threshold.interactive:focus {
           filter: url("#shadow-8");
 
@@ -341,20 +387,10 @@ export default class SDTModel extends SDTElement {
           stroke-width: 2;
         }
 
-        .measure-d .line,
-        .measure-d .cap-left,
-        .measure-d .cap-right {
-          stroke: var(---color-d);
-          stroke-width: 2;
-          shape-rendering: crispEdges;
-        }
-
-        .measure-d .label {
-          font-size: 0.75rem;
-
-          alignment-baseline: middle;
-          text-anchor: start;
-          fill: currentColor;
+        .measure-d,
+        .measure-c,
+        .measure-s {
+          pointer-events: none;
         }
 
         .threshold .line {
@@ -377,6 +413,21 @@ export default class SDTModel extends SDTElement {
           }
         }
 
+        .measure-d .line,
+        .measure-d .cap-left,
+        .measure-d .cap-right {
+          stroke: var(---color-d);
+          stroke-width: 2;
+          shape-rendering: crispEdges;
+        }
+
+        .measure-d .label {
+          font-size: 0.75rem;
+
+          text-anchor: start;
+          fill: currentColor;
+        }
+
         .measure-c .line,
         .measure-c .cap-zero {
           stroke: var(---color-c);
@@ -387,7 +438,21 @@ export default class SDTModel extends SDTElement {
         .measure-c .label {
           font-size: 0.75rem;
 
-          alignment-baseline: middle;
+          fill: currentColor;
+        }
+
+        .measure-s .line,
+        .measure-s .cap-left,
+        .measure-s .cap-right {
+          stroke: var(---color-s);
+          stroke-width: 2;
+          shape-rendering: crispEdges;
+        }
+
+        .measure-s .label {
+          font-size: 0.75rem;
+
+          text-anchor: middle;
           fill: currentColor;
         }
       `,
@@ -405,6 +470,7 @@ export default class SDTModel extends SDTElement {
       detail: {
         d: this.d,
         c: this.c,
+        s: this.s,
         far: this.far,
         hr: this.hr,
         h: this.h,
@@ -478,12 +544,12 @@ export default class SDTModel extends SDTElement {
 
     // X Scale
     const xScale = d3.scaleLinear()
-      .domain([-3, 3]) // Evidence
+      .domain([-3, 3]) // Evidence // FIX - no hardcoding
       .range([0, width]);
 
     // Y Scale
     const yScale = d3.scaleLinear()
-      .domain([0.5, 0]) // Probability
+      .domain([0.5, 0]) // Probability // FIX - no hardcoding
       .range([0, height]);
 
     // 2nd Y Scale
@@ -496,7 +562,7 @@ export default class SDTModel extends SDTElement {
     // Threshold Drag behavior
     const dragThreshold = d3.drag()
       .subject((/* datum */) => {
-        return {x: xScale(this.c), y: 0};
+        return {x: xScale(this.l), y: 0};
       })
       .on('start', (datum, index, elements) => {
         const element = elements[index];
@@ -504,13 +570,14 @@ export default class SDTModel extends SDTElement {
       })
       .on('drag', (/* datum */) => {
         this.drag = true;
-        const c = xScale.invert(d3.event.x);
-        // Clamp C to stay visible
-        this.c = (c < xScale.domain()[0])
+        let l = xScale.invert(d3.event.x);
+        // Clamp lambda to stay visible
+        l = (l < xScale.domain()[0])
           ? xScale.domain()[0]
-          : (c > xScale.domain()[1])
+          : (l > xScale.domain()[1])
             ? xScale.domain()[1]
-            : c;
+            : l;
+        this.c = SDTElement.l2c(l, this.s);
         this.alignState();
         this.sendEvent();
       })
@@ -522,7 +589,7 @@ export default class SDTModel extends SDTElement {
     // Noise Curve Drag behavior
     const dragNoise = d3.drag()
       .subject((/* datum */) => {
-        return {x: xScale(-this.d / 2), y: 0};
+        return {x: xScale(this.muN), y: 0};
       })
       .on('start', (datum, index, elements) => {
         const element = elements[index];
@@ -530,13 +597,14 @@ export default class SDTModel extends SDTElement {
       })
       .on('drag', (/* datum */) => {
         this.drag = true;
-        const dN = xScale.invert(d3.event.x);
+        let muN = xScale.invert(d3.event.x);
         // Clamp Noise Curve to stay visible
-        this.d = (dN < xScale.domain()[0])
-          ? (-xScale.domain()[0] * 2)
-          : (dN > xScale.domain()[1])
-            ? (-xScale.domain()[1] * 2)
-            : (-dN * 2);
+        muN = (muN < xScale.domain()[0])
+          ? xScale.domain()[0]
+          : (muN > xScale.domain()[1])
+            ? xScale.domain()[1]
+            : muN;
+        this.d = SDTElement.muN2d(muN, this.s);
         this.alignState();
         this.sendEvent();
       })
@@ -548,21 +616,53 @@ export default class SDTModel extends SDTElement {
     // Signal+Noise Curve Drag behavior
     const dragSignal = d3.drag()
       .subject((/* datum */) => {
-        return {x: xScale(this.d / 2), y: 0};
+        return {x: xScale(this.muS), y: yScale(this.hS)};
       })
       .on('start', (datum, index, elements) => {
         const element = elements[index];
         d3.select(element).classed('dragging', true);
+        datum.startX = d3.event.x;
+        datum.startY = d3.event.y;
+        datum.startHS = this.hS;
+        datum.startMuS = this.muS;
       })
-      .on('drag', (/* datum */) => {
+      .on('drag', (datum) => {
         this.drag = true;
-        const dS = xScale.invert(d3.event.x);
-        // Clamp Signal Curve to stay visible
-        this.d = (dS < xScale.domain()[0])
-          ? (xScale.domain()[0] * 2)
-          : (dS > xScale.domain()[1])
-            ? (xScale.domain()[1] * 2)
-            : (dS * 2);
+        let muS = this.muS; // eslint-disable-line prefer-destructuring
+        if (this.interactive) {
+          muS = xScale.invert(d3.event.x);
+          // Clamp Signal Curve to stay visible
+          muS = (muS < xScale.domain()[0])
+            ? xScale.domain()[0]
+            : (muS > xScale.domain()[1])
+              ? xScale.domain()[1]
+              : muS;
+        }
+        let hS = this.hS; // eslint-disable-line prefer-destructuring
+        if (this.unequal) {
+          hS = yScale.invert(d3.event.y);
+          // Clamp Signal Curve to stay visible
+          hS = (hS < 0.01)
+            ? 0.01
+            : (hS > yScale.domain()[0])
+              ? yScale.domain()[0]
+              : hS;
+        }
+        if (this.interactive && this.unequal) {
+          // Use shift key as modifier for single dimension
+          if (d3.event.sourceEvent.shiftKey) {
+            if (Math.abs(d3.event.x - datum.startX) > Math.abs(d3.event.y - datum.startY)) {
+              hS = datum.startHS;
+            } else {
+              muS = datum.startMuS;
+            }
+          }
+        }
+        if (this.unequal) {
+          this.s = SDTElement.h2s(hS);
+          this.c = SDTElement.l2c(this.l, this.s);
+        }
+        this.d = SDTElement.muS2d(muS, this.s);
         this.alignState();
         this.sendEvent();
       })
@@ -717,37 +817,7 @@ export default class SDTModel extends SDTElement {
     const signalNoiseEnter = signalNoiseUpdate.enter().append('g')
       .classed('signal-noise', true);
     //  MERGE
-    const signalNoiseMerge = signalNoiseEnter.merge(signalNoiseUpdate)
-      .attr('tabindex', this.interactive ? 0 : null)
-      .classed('interactive', this.interactive)
-      .on('keydown', this.interactive
-        ? (/* datum */) => {
-          if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-            let d = this.d; // eslint-disable-line prefer-destructuring
-            switch (d3.event.key) {
-              case 'ArrowRight':
-                d += d3.event.shiftKey ? 0.01 : 0.1;
-                break;
-              case 'ArrowLeft':
-                d -= d3.event.shiftKey ? 0.01 : 0.1;
-                break;
-              default:
-            }
-            // Clamp C to visible extent
-            d = (d < xScale.domain()[0])
-              ? xScale.domain()[0]
-              : (d > xScale.domain()[1])
-                ? xScale.domain()[1]
-                : d;
-            if (d !== this.d) {
-              this.d = d;
-              this.alignState();
-              this.sendEvent();
-            }
-            d3.event.preventDefault();
-          }
-        }
-        : null);
+    const signalNoiseMerge = signalNoiseEnter.merge(signalNoiseUpdate);
     //  EXIT
     signalNoiseUpdate.exit().remove();
 
@@ -756,7 +826,37 @@ export default class SDTModel extends SDTElement {
     const noiseEnter = signalNoiseEnter.append('g')
       .classed('noise', true);
     //  MERGE
-    const noiseMerge = signalNoiseMerge.selectAll('.noise');
+    const noiseMerge = signalNoiseMerge.selectAll('.noise')
+      .attr('tabindex', this.interactive ? 0 : null)
+      .classed('interactive', this.interactive)
+      .on('keydown', this.interactive
+        ? (/* datum */) => {
+          if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+            let muN = this.muN; // eslint-disable-line prefer-destructuring
+            switch (d3.event.key) {
+              case 'ArrowRight':
+                muN += d3.event.shiftKey ? 0.01 : 0.1;
+                break;
+              case 'ArrowLeft':
+                muN -= d3.event.shiftKey ? 0.01 : 0.1;
+                break;
+              default:
+            }
+            // Clamp C to visible extent
+            muN = (muN < xScale.domain()[0])
+              ? xScale.domain()[0]
+              : (muN > xScale.domain()[1])
+                ? xScale.domain()[1]
+                : muN;
+            if (muN !== this.muN) {
+              this.d = SDTElement.muN2d(muN, this.s);
+              this.alignState();
+              this.sendEvent();
+            }
+            d3.event.preventDefault();
+          }
+        }
+        : null);
     if (
       this.firstUpdate
       || changedProperties.has('interactive')
@@ -786,25 +886,34 @@ export default class SDTModel extends SDTElement {
           (element.c !== undefined) ? element.c : this.c,
           this.c,
         );
+        const interpolateS = d3.interpolate(
+          (element.s !== undefined) ? element.s : this.s,
+          this.s,
+        );
         return (time) => {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
+          element.s = interpolateS(time);
           const correctRejections = d3.range(
             xScale.domain()[0],
-            element.c,
+            SDTElement.c2l(element.c, element.s),
             0.05,
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, -element.d / 2, 1),
+              p: jStat.normal.pdf(e, SDTElement.d2muN(element.d, element.s), 1),
             };
           });
           correctRejections.push({
-            e: element.c,
-            p: jStat.normal.pdf(element.c, -element.d / 2, 1),
+            e: SDTElement.c2l(element.c, element.s),
+            p: jStat.normal.pdf(
+              SDTElement.c2l(element.c, element.s),
+              SDTElement.d2muN(element.d, element.s),
+              1,
+            ),
           });
           correctRejections.push({
-            e: element.c,
+            e: SDTElement.c2l(element.c, element.s),
             p: 0,
           });
           correctRejections.push({
@@ -833,29 +942,34 @@ export default class SDTModel extends SDTElement {
           (element.c !== undefined) ? element.c : this.c,
           this.c,
         );
+        const interpolateS = d3.interpolate(
+          (element.s !== undefined) ? element.s : this.s,
+          this.s,
+        );
         return (time) => {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
+          element.s = interpolateS(time);
           const falseAlarms = d3.range(
-            element.c,
+            SDTElement.c2l(element.c, element.s),
             xScale.domain()[1],
             0.05,
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, -element.d / 2, 1),
+              p: jStat.normal.pdf(e, SDTElement.d2muN(element.d, element.s), 1),
             };
           });
           falseAlarms.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], -element.d / 2, 1),
+            p: jStat.normal.pdf(xScale.domain()[1], SDTElement.d2muN(element.d, element.s), 1),
           });
           falseAlarms.push({
             e: xScale.domain()[1],
             p: 0,
           });
           falseAlarms.push({
-            e: element.c,
+            e: SDTElement.c2l(element.c, element.s),
             p: 0,
           });
           return line(falseAlarms);
@@ -876,8 +990,13 @@ export default class SDTModel extends SDTElement {
           (element.d !== undefined) ? element.d : this.d,
           this.d,
         );
+        const interpolateS = d3.interpolate(
+          (element.s !== undefined) ? element.s : this.s,
+          this.s,
+        );
         return (time) => {
           element.d = interpolateD(time);
+          element.s = interpolateS(time);
           const noise = d3.range(
             xScale.domain()[0],
             xScale.domain()[1],
@@ -885,12 +1004,12 @@ export default class SDTModel extends SDTElement {
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, -element.d / 2, 1),
+              p: jStat.normal.pdf(e, SDTElement.d2muN(element.d, element.s), 1),
             };
           });
           noise.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], -element.d / 2, 1),
+            p: jStat.normal.pdf(xScale.domain()[1], SDTElement.d2muN(element.d, element.s), 1),
           });
           return line(noise);
         };
@@ -901,12 +1020,74 @@ export default class SDTModel extends SDTElement {
     const signalEnter = signalNoiseEnter.append('g')
       .classed('signal', true);
     //  MERGE
-    const signalMerge = signalNoiseMerge.selectAll('.signal');
+    const signalMerge = signalNoiseMerge.selectAll('.signal')
+      .attr('tabindex', (this.interactive || this.unequal) ? 0 : null)
+      .classed('interactive', this.interactive)
+      .classed('unequal', this.unequal)
+      .on('keydown.sensitivity', this.interactive
+        ? (/* datum */) => {
+          if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+            let muS = this.muS; // eslint-disable-line prefer-destructuring
+            switch (d3.event.key) {
+              case 'ArrowRight':
+                muS += d3.event.shiftKey ? 0.01 : 0.1;
+                break;
+              case 'ArrowLeft':
+                muS -= d3.event.shiftKey ? 0.01 : 0.1;
+                break;
+              default:
+            }
+            // Clamp C to visible extent
+            muS = (muS < xScale.domain()[0])
+              ? xScale.domain()[0]
+              : (muS > xScale.domain()[1])
+                ? xScale.domain()[1]
+                : muS;
+            if (muS !== this.muS) {
+              this.d = SDTElement.muS2d(muS, this.s);
+              this.alignState();
+              this.sendEvent();
+            }
+            d3.event.preventDefault();
+          }
+        }
+        : null)
+      .on('keydown.variance', this.unequal
+        ? (/* datum */) => {
+          if (['ArrowUp', 'ArrowDown'].includes(d3.event.key)) {
+            let hS = this.hS; // eslint-disable-line prefer-destructuring
+            switch (d3.event.key) {
+              case 'ArrowUp':
+                hS += d3.event.shiftKey ? 0.002 : 0.02;
+                break;
+              case 'ArrowDown':
+                hS -= d3.event.shiftKey ? 0.002 : 0.02;
+                break;
+              default:
+            }
+            // Clamp s so distribution stays visible
+            hS = (hS < 0.01)
+              ? 0.01
+              : (hS > yScale.domain()[0])
+                ? yScale.domain()[0]
+                : hS;
+            if (hS !== this.hS) {
+              this.s = SDTElement.h2s(hS);
+              this.d = SDTElement.muN2d(this.muN, this.s);
+              this.c = SDTElement.l2c(this.l, this.s);
+              this.alignState();
+              this.sendEvent();
+            }
+            d3.event.preventDefault();
+          }
+        }
+        : null);
     if (
       this.firstUpdate
       || changedProperties.has('interactive')
+      || changedProperties.has('unequal')
     ) {
-      if (this.interactive) {
+      if (this.interactive || this.unequal) {
         signalMerge.call(dragSignal);
       } else {
         signalMerge.on('.drag', null);
@@ -931,25 +1112,34 @@ export default class SDTModel extends SDTElement {
           (element.c !== undefined) ? element.c : this.c,
           this.c,
         );
+        const interpolateS = d3.interpolate(
+          (element.s !== undefined) ? element.s : this.s,
+          this.s,
+        );
         return (time) => {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
+          element.s = interpolateS(time);
           const misses = d3.range(
             xScale.domain()[0],
-            element.c,
+            SDTElement.c2l(element.c, element.s),
             0.05,
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, element.d / 2, 1),
+              p: jStat.normal.pdf(e, SDTElement.d2muS(element.d, element.s), element.s),
             };
           });
           misses.push({
-            e: element.c,
-            p: jStat.normal.pdf(element.c, element.d / 2, 1),
+            e: SDTElement.c2l(element.c, element.s),
+            p: jStat.normal.pdf(
+              SDTElement.c2l(element.c, element.s),
+              SDTElement.d2muS(element.d, element.s),
+              element.s,
+            ),
           });
           misses.push({
-            e: element.c,
+            e: SDTElement.c2l(element.c, element.s),
             p: 0,
           });
           misses.push({
@@ -978,29 +1168,38 @@ export default class SDTModel extends SDTElement {
           (element.c !== undefined) ? element.c : this.c,
           this.c,
         );
+        const interpolateS = d3.interpolate(
+          (element.s !== undefined) ? element.s : this.s,
+          this.s,
+        );
         return (time) => {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
+          element.s = interpolateS(time);
           const hits = d3.range(
-            element.c,
+            SDTElement.c2l(element.c, element.s),
             xScale.domain()[1],
             0.05,
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, element.d / 2, 1),
+              p: jStat.normal.pdf(e, SDTElement.d2muS(element.d, element.s), element.s),
             };
           });
           hits.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], element.d / 2, 1),
+            p: jStat.normal.pdf(
+              xScale.domain()[1],
+              SDTElement.d2muS(element.d, element.s),
+              element.s,
+            ),
           });
           hits.push({
             e: xScale.domain()[1],
             p: 0,
           });
           hits.push({
-            e: element.c,
+            e: SDTElement.c2l(element.c, element.s),
             p: 0,
           });
           return line(hits);
@@ -1021,8 +1220,13 @@ export default class SDTModel extends SDTElement {
           (element.d !== undefined) ? element.d : this.d,
           this.d,
         );
+        const interpolateS = d3.interpolate(
+          (element.s !== undefined) ? element.s : this.s,
+          this.s,
+        );
         return (time) => {
           element.d = interpolateD(time);
+          element.s = interpolateS(time);
           const signal = d3.range(
             xScale.domain()[0],
             xScale.domain()[1],
@@ -1030,12 +1234,16 @@ export default class SDTModel extends SDTElement {
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, element.d / 2, 1),
+              p: jStat.normal.pdf(e, SDTElement.d2muS(element.d, element.s), element.s),
             };
           });
           signal.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], element.d / 2, 1),
+            p: jStat.normal.pdf(
+              xScale.domain()[1],
+              SDTElement.d2muS(element.d, element.s),
+              element.s,
+            ),
           });
           return line(signal);
         };
@@ -1069,29 +1277,29 @@ export default class SDTModel extends SDTElement {
     dMerge.select('.line').transition()
       .duration(this.drag ? 0 : 500)
       .ease(d3.easeCubicOut)
-      .attr('x1', xScale(-this.d / 2))
-      .attr('y1', yScale(0.43))
-      .attr('x2', xScale(this.d / 2))
-      .attr('y2', yScale(0.43));
+      .attr('x1', xScale(this.muN))
+      .attr('y1', yScale(0.43)) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS))
+      .attr('y2', yScale(0.43)); // FIX - no hardcoding
     dMerge.select('.cap-left').transition()
       .duration(this.drag ? 0 : 500)
       .ease(d3.easeCubicOut)
-      .attr('x1', xScale(-this.d / 2))
-      .attr('y1', yScale(0.43) + 5)
-      .attr('x2', xScale(-this.d / 2))
-      .attr('y2', yScale(0.43) - 5);
+      .attr('x1', xScale(this.muN))
+      .attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
+      .attr('x2', xScale(this.muN))
+      .attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
     dMerge.select('.cap-right').transition()
       .duration(this.drag ? 0 : 500)
       .ease(d3.easeCubicOut)
-      .attr('x1', xScale(this.d / 2))
-      .attr('y1', yScale(0.43) + 5)
-      .attr('x2', xScale(this.d / 2))
-      .attr('y2', yScale(0.43) - 5);
+      .attr('x1', xScale(this.muS))
+      .attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS))
+      .attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
     const dLabelTransition = dMerge.select('.label').transition()
       .duration(this.drag ? 0 : 500)
       .ease(d3.easeCubicOut)
-      .attr('x', xScale(Math.abs(this.d) / 2) + 5)
-      .attr('y', yScale(0.43) + 3);
+      .attr('x', xScale((this.muN > this.muS) ? this.muN : this.muS) + 5)
+      .attr('y', yScale(0.43) + 3); // FIX - no hardcoding
     dLabelTransition.select('.value')
       .tween('text', (datum, index, elements) => {
         const element = elements[index];
@@ -1133,22 +1341,22 @@ export default class SDTModel extends SDTElement {
     cMerge.select('.line').transition()
       .duration(this.drag ? 0 : 500)
       .ease(d3.easeCubicOut)
-      .attr('x1', xScale(this.c))
-      .attr('y1', yScale(0.47))
+      .attr('x1', xScale(this.l))
+      .attr('y1', yScale(0.47)) // FIX - no hardcoding
       .attr('x2', xScale(0))
-      .attr('y2', yScale(0.47));
+      .attr('y2', yScale(0.47)); // FIX - no hardcoding
     cMerge.select('.cap-zero').transition()
       .duration(this.drag ? 0 : 500)
       .ease(d3.easeCubicOut)
       .attr('x1', xScale(0))
-      .attr('y1', yScale(0.47) + 5)
+      .attr('y1', yScale(0.47) + 5) // FIX - no hardcoding
       .attr('x2', xScale(0))
-      .attr('y2', yScale(0.47) - 5);
+      .attr('y2', yScale(0.47) - 5); // FIX - no hardcoding
     const cLabelTransition = cMerge.select('.label').transition()
       .duration(this.drag ? 0 : 500)
       .ease(d3.easeCubicOut)
-      .attr('x', xScale(0) + ((this.c < 0) ? 5 : -5))
-      .attr('y', yScale(0.47) + 3)
+      .attr('x', xScale(0) + ((this.l < 0) ? 5 : -5))
+      .attr('y', yScale(0.47) + 3) // FIX - no hardcoding
       .attr('text-anchor', (this.c < 0) ? 'start' : 'end');
     cLabelTransition.select('.value')
       .tween('text', (datum, index, elements) => {
@@ -1164,6 +1372,72 @@ export default class SDTModel extends SDTElement {
       });
     //  EXIT
     cUpdate.exit().remove();
+
+    // s Measure
+    //  DATA-JOIN
+    const sUpdate = contentMerge.selectAll('.measure-s')
+      .data(this.variance ? [{}] : []);
+    //  ENTER
+    const sEnter = sUpdate.enter().append('g')
+      .classed('measure-s', true);
+    sEnter.append('line')
+      .classed('line', true);
+    sEnter.append('line')
+      .classed('cap-left', true);
+    sEnter.append('line')
+      .classed('cap-right', true);
+    const sLabel = sEnter.append('text')
+      .classed('label', true);
+    sLabel.append('tspan')
+      .classed('s math-var', true)
+      .text('σ');
+    sLabel.append('tspan')
+      .classed('equals', true)
+      .text(' = ');
+    sLabel.append('tspan')
+      .classed('value', true);
+    //  MERGE
+    const sMerge = sEnter.merge(sUpdate);
+    sMerge.select('.line').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x1', xScale(this.muS - this.s))
+      .attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s)) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS + this.s))
+      .attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s)); // FIX - no hardcoding
+    sMerge.select('.cap-left').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x1', xScale(this.muS - this.s))
+      .attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s) + 5) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS - this.s))
+      .attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s) - 5); // FIX - no hardcoding
+    sMerge.select('.cap-right').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x1', xScale(this.muS + this.s))
+      .attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s) + 5) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS + this.s))
+      .attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s) - 5); // FIX - no hardcoding
+    const sLabelTransition = sMerge.select('.label').transition()
+      .duration(this.drag ? 0 : 500)
+      .ease(d3.easeCubicOut)
+      .attr('x', xScale(this.muS))
+      .attr('y', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s) - 3); // FIX - no hardcoding
+    sLabelTransition.select('.value')
+      .tween('text', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateS = d3.interpolate(
+          (element.s !== undefined) ? element.s : this.s,
+          this.s,
+        );
+        return (time) => {
+          element.s = interpolateS(time);
+          d3.select(element).text(+(element.s).toFixed(3));
+        };
+      });
+    //  EXIT
+    sUpdate.exit().remove();
 
     // Threshold Line
     //  DATA-JOIN
@@ -1190,24 +1464,24 @@ export default class SDTModel extends SDTElement {
           .call(dragThreshold)
           .on('keydown', (/* datum */) => {
             if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-              let c = this.c; // eslint-disable-line prefer-destructuring
+              let l = this.l; // eslint-disable-line prefer-destructuring
               switch (d3.event.key) {
                 case 'ArrowRight':
-                  c += d3.event.shiftKey ? 0.01 : 0.1;
+                  l += d3.event.shiftKey ? 0.01 : 0.1;
                   break;
                 case 'ArrowLeft':
-                  c -= d3.event.shiftKey ? 0.01 : 0.1;
+                  l -= d3.event.shiftKey ? 0.01 : 0.1;
                   break;
                 default:
               }
               // Clamp C to visible extent
-              c = (c < xScale.domain()[0])
+              l = (l < xScale.domain()[0])
                 ? xScale.domain()[0]
-                : (c > xScale.domain()[1])
+                : (l > xScale.domain()[1])
                   ? xScale.domain()[1]
-                  : c;
-              if (c !== this.c) {
-                this.c = c;
+                  : l;
+              if (l !== this.l) {
+                this.c = SDTElement.l2c(l, this.s);
                 this.alignState();
                 this.sendEvent();
               }
@@ -1223,17 +1497,19 @@ export default class SDTModel extends SDTElement {
     thresholdMerge.select('.line').transition()
       .duration(this.drag ? 0 : 500)
       .ease(d3.easeCubicOut)
-      .attr('x1', xScale(this.c))
+      .attr('x1', xScale(this.l))
       .attr('y1', yScale(0))
-      .attr('x2', xScale(this.c))
+      .attr('x2', xScale(this.l))
       .attr('y2', yScale(0.54));
     thresholdMerge.select('.handle').transition()
       .duration(this.drag ? 0 : 500)
       .ease(d3.easeCubicOut)
-      .attr('cx', xScale(this.c))
+      .attr('cx', xScale(this.l))
       .attr('cy', yScale(0.54));
     //  EXIT
     thresholdUpdate.exit().remove();
+
+    // CURRENT!
 
     // Histogram
     //  DATA-JOIN

@@ -34,10 +34,12 @@ export default class SDTExampleInteractive extends SDTExample {
         this.sdtModel.d = SDTExample.hrfar2d(
           SDTExample.hm2hr(this.sdtTable.h, this.sdtTable.m),
           SDTExample.facr2far(this.sdtTable.fa, this.sdtTable.cr),
+          this.sdtModel.s,
         );
         this.sdtModel.c = SDTExample.hrfar2c(
           SDTExample.hm2hr(this.sdtTable.h, this.sdtTable.m),
           SDTExample.facr2far(this.sdtTable.fa, this.sdtTable.cr),
+          this.sdtModel.s,
         );
       }
 
@@ -48,22 +50,24 @@ export default class SDTExampleInteractive extends SDTExample {
         }
 
         if (this.sdtModel) {
-          this.sdtModel.d = SDTExample.hrfar2d(event.detail.hr, event.detail.far);
-          this.sdtModel.c = SDTExample.hrfar2c(event.detail.hr, event.detail.far);
+          this.sdtModel.d = SDTExample.hrfar2d(event.detail.hr, event.detail.far, this.sdtModel.s);
+          this.sdtModel.c = SDTExample.hrfar2c(event.detail.hr, event.detail.far, this.sdtModel.s);
         }
       });
     }
 
     if (this.rocSpace) {
       if (this.sdtModel && !this.sdtTable) {
-        this.sdtModel.d = SDTExample.hrfar2d(this.rocSpace.hr, this.rocSpace.far);
-        this.sdtModel.c = SDTExample.hrfar2c(this.rocSpace.hr, this.rocSpace.far);
+        this.sdtModel.d = SDTExample.hrfar2d(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
+        this.sdtModel.c = SDTExample.hrfar2c(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
+        this.sdtModel.s = this.rocSpace.s;
       }
 
       this.rocSpace.addEventListener('roc-point-change', (event) => {
         if (this.sdtModel) {
           this.sdtModel.d = event.detail.d;
           this.sdtModel.c = event.detail.c;
+          this.sdtModel.s = event.detail.s;
         }
 
         if (this.sdtTable) {
@@ -81,8 +85,10 @@ export default class SDTExampleInteractive extends SDTExample {
 
     if (this.sdtModel) {
       this.sdtModel.addEventListener('sdt-model-change', (event) => {
-        if (this.rocSpace) {
-          this.rocSpace.setWithSDT(event.detail.d, event.detail.c);
+        if (this.rocSpaces.length > 0) {
+          this.rocSpaces.forEach((rocSpace) => {
+            rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', event.detail.s);
+          });
         }
 
         if (this.sdtTable) {

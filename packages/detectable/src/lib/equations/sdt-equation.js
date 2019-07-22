@@ -73,6 +73,14 @@ export default class SDTEquation extends SDTMixinStyleSpinner(SDTElement) {
           font-size: 150%;
         }
 
+        .bracket {
+          font-size: 175%;
+        }
+
+        .exp {
+          font-size: 0.75rem;
+        }
+
         /* Input wrapping <label> */
         label {
           display: inline-flex;
@@ -123,6 +131,11 @@ export default class SDTEquation extends SDTMixinStyleSpinner(SDTElement) {
           background: var(---color-fa-light);
         }
 
+        .acc,
+        .acc input {
+          background: var(---color-acc-light);
+        }
+
         .cr,
         .cr input {
           background: var(---color-cr-light);
@@ -143,9 +156,9 @@ export default class SDTEquation extends SDTMixinStyleSpinner(SDTElement) {
           background: var(---color-c-light);
         }
 
-        .acc,
-        .acc input {
-          background: var(---color-acc-light);
+        .s,
+        .s input {
+          background: var(---color-s-light);
         }
       `,
     ];
