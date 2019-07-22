@@ -60931,7 +60931,7 @@ function (_SDTElement) {
 exports.default = RDKTask;
 customElements.define('rdk-task', RDKTask);
 
-},{"../sdt-element":393,"d3":341,"lit-element":347}],368:[function(require,module,exports){
+},{"../sdt-element":394,"d3":341,"lit-element":347}],368:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -61064,6 +61064,11 @@ function (_SDTElement) {
           type: Number,
           reflect: false
         },
+        s: {
+          attribute: false,
+          type: Number,
+          reflect: false
+        },
         width: {
           attribute: false,
           type: Number,
@@ -61103,10 +61108,12 @@ function (_SDTElement) {
     _this.zRoc = false;
     _this.far = 0.25;
     _this.hr = 0.75;
+    _this.s = 1;
     _this.locations = [{
       name: 'default',
       far: _this.far,
-      hr: _this.hr
+      hr: _this.hr,
+      s: _this.s
     }];
     _this.pointArray = [];
     _this.isoDArray = [];
@@ -61127,14 +61134,15 @@ function (_SDTElement) {
 
       this.locations[0].hr = this.hr;
       this.locations[0].far = this.far;
-      this.d = _sdtElement.default.hrfar2d(this.hr, this.far);
-      this.c = _sdtElement.default.hrfar2c(this.hr, this.far);
+      this.locations[0].s = this.s;
+      this.d = _sdtElement.default.hrfar2d(this.hr, this.far, this.s);
+      this.c = _sdtElement.default.hrfar2c(this.hr, this.far, this.s);
       this.pointArray = [];
       this.isoDArray = [];
       this.isoCArray = [];
       this.locations.forEach(function (item, index) {
-        item.d = _sdtElement.default.hrfar2d(item.hr, item.far);
-        item.c = _sdtElement.default.hrfar2c(item.hr, item.far);
+        item.d = _sdtElement.default.hrfar2d(item.hr, item.far, item.s);
+        item.c = _sdtElement.default.hrfar2c(item.hr, item.far, item.s);
 
         if (index === 0 && (_this2.point === 'first' || _this2.point === 'all')) {
           _this2.pointArray.push(item);
@@ -61159,10 +61167,12 @@ function (_SDTElement) {
     key: "set",
     value: function set(hr, far) {
       var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'default';
+      var s = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
 
       if (name === 'default') {
         this.hr = hr;
         this.far = far;
+        this.s = s;
       }
 
       var location = this.locations.find(function (item) {
@@ -61173,11 +61183,13 @@ function (_SDTElement) {
         this.locations.push({
           name: name,
           far: far,
-          hr: hr
+          hr: hr,
+          s: s
         });
       } else {
         location.hr = hr;
         location.far = far;
+        location.s = s;
       }
 
       this.requestUpdate();
@@ -61186,10 +61198,12 @@ function (_SDTElement) {
     key: "setWithSDT",
     value: function setWithSDT(d, c) {
       var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'default';
+      var s = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
 
       if (name === 'default') {
-        this.hr = _sdtElement.default.dc2hr(d, c);
-        this.far = _sdtElement.default.dc2far(d, c);
+        this.hr = _sdtElement.default.dc2hr(d, c, s);
+        this.far = _sdtElement.default.dc2far(d, c, s);
+        this.s = s;
       }
 
       var location = this.locations.find(function (item) {
@@ -61199,12 +61213,14 @@ function (_SDTElement) {
       if (location === undefined) {
         this.locations.push({
           name: name,
-          far: _sdtElement.default.dc2far(d, c),
-          hr: _sdtElement.default.dc2hr(d, c)
+          far: _sdtElement.default.dc2far(d, c, s),
+          hr: _sdtElement.default.dc2hr(d, c, s),
+          s: s
         });
       } else {
-        location.hr = _sdtElement.default.dc2hr(d, c);
-        location.far = _sdtElement.default.dc2far(d, c);
+        location.hr = _sdtElement.default.dc2hr(d, c, s);
+        location.far = _sdtElement.default.dc2far(d, c, s);
+        location.s = s;
       }
 
       this.sdt = true;
@@ -61310,7 +61326,8 @@ function (_SDTElement) {
             far: datum.far,
             hr: datum.hr,
             d: datum.d,
-            c: datum.c
+            c: datum.c,
+            s: datum.s
           },
           bubbles: true
         }));
@@ -61357,7 +61374,7 @@ function (_SDTElement) {
       underlayerMerge.select('.background').attr('height', height).attr('width', width); // Contour Plotting
       //  Handles: Bias, Sensitivity, & Accuracy
 
-      if (this.firstUpdate || changedProperties.has('contour') || changedProperties.has('zRoc') || changedProperties.has('width') || changedProperties.has('height') || changedProperties.has('rem')) {
+      if (this.firstUpdate || changedProperties.has('contour') || changedProperties.has('zRoc') || changedProperties.has('width') || changedProperties.has('height') || changedProperties.has('rem') || changedProperties.has('s')) {
         if (this.contour !== undefined) {
           // Contour Plot
           var n = 100; // Resolution
@@ -61368,7 +61385,7 @@ function (_SDTElement) {
             for (var i = 0.5; i < n; i += 1, k += 1) {
               var hr = this.zRoc ? _sdtElement.default.zhr2hr(i / n * 6 - 3) : i / n;
               var far = this.zRoc ? _sdtElement.default.zfar2far((1 - j / n) * 6 - 3) : 1 - j / n;
-              contourValues[k] = this.contour === 'bias' ? _sdtElement.default.hrfar2c(hr, far) : this.contour === 'sensitivity' ? _sdtElement.default.hrfar2d(hr, far) : this.contour === 'accuracy' ? _sdtElement.default.hrfar2acc(hr, far) : null;
+              contourValues[k] = this.contour === 'bias' ? _sdtElement.default.hrfar2c(hr, far, this.s) : this.contour === 'sensitivity' ? _sdtElement.default.hrfar2d(hr, far, this.s) : this.contour === 'accuracy' ? _sdtElement.default.hrfar2acc(hr, far) : null;
             }
           }
 
@@ -61517,12 +61534,12 @@ function (_SDTElement) {
 
       var isoDMerge = isoDEnter.merge(isoDUpdate);
 
-      if (changedProperties.has('zRoc') || this.firstUpdate) {
+      if (this.firstUpdate || changedProperties.has('zRoc')) {
         isoDMerge.transition().duration(this.drag ? 0 : 1000).ease(d3.easeCubicOut).attr('d', function (datum) {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
             return {
               far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-              hr: _this3.zRoc ? _sdtElement.default.dfar2hr(datum.d, _sdtElement.default.zfar2far(xScale.invert(x))) : _sdtElement.default.dfar2hr(datum.d, xScale.invert(x))
+              hr: _this3.zRoc ? _sdtElement.default.dfar2hr(datum.d, _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.dfar2hr(datum.d, xScale.invert(x), datum.s)
             };
           }));
         });
@@ -61532,12 +61549,14 @@ function (_SDTElement) {
           element.hr = undefined;
           element.far = undefined;
           var interpolateD = d3.interpolate(element.d !== undefined ? element.d : datum.d, datum.d);
+          var interpolateS = d3.interpolate(element.s !== undefined ? element.s : datum.s, datum.s);
           return function (time) {
             element.d = interpolateD(time);
+            element.s = interpolateS(time);
             var isoD = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
                 far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.dfar2hr(element.d, _sdtElement.default.zfar2far(xScale.invert(x))) : _sdtElement.default.dfar2hr(element.d, xScale.invert(x))
+                hr: _this3.zRoc ? _sdtElement.default.dfar2hr(element.d, _sdtElement.default.zfar2far(xScale.invert(x)), element.s) : _sdtElement.default.dfar2hr(element.d, xScale.invert(x), element.s)
               };
             });
             return line(isoD);
@@ -61547,6 +61566,7 @@ function (_SDTElement) {
         isoDMerge.transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
           var element = elements[index];
           element.d = undefined;
+          element.s = undefined;
           var interpolateHr = d3.interpolate(element.hr !== undefined ? element.hr : datum.hr, datum.hr);
           var interpolateFar = d3.interpolate(element.far !== undefined ? element.far : datum.far, datum.far);
           return function (time) {
@@ -61555,7 +61575,7 @@ function (_SDTElement) {
             var isoD = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
                 far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.dfar2hr(_sdtElement.default.hrfar2d(element.hr, element.far), _sdtElement.default.zfar2far(xScale.invert(x))) : _sdtElement.default.dfar2hr(_sdtElement.default.hrfar2d(element.hr, element.far), xScale.invert(x))
+                hr: _this3.zRoc ? _sdtElement.default.dfar2hr(_sdtElement.default.hrfar2d(element.hr, element.far, datum.s), _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.dfar2hr(_sdtElement.default.hrfar2d(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
               };
             });
             return line(isoD);
@@ -61576,12 +61596,12 @@ function (_SDTElement) {
 
       var isoCMerge = isoCEnter.merge(isoCUpdate);
 
-      if (changedProperties.has('zRoc') || this.firstUpdate) {
+      if (this.firstUpdate || changedProperties.has('zRoc')) {
         isoCMerge.transition().duration(this.drag ? 0 : 1000).ease(d3.easeCubicOut).attr('d', function (datum) {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
             return {
               far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-              hr: _this3.zRoc ? _sdtElement.default.cfar2hr(datum.c, _sdtElement.default.zfar2far(xScale.invert(x))) : _sdtElement.default.cfar2hr(datum.c, xScale.invert(x))
+              hr: _this3.zRoc ? _sdtElement.default.cfar2hr(datum.c, _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.cfar2hr(datum.c, xScale.invert(x), datum.s)
             };
           }));
         });
@@ -61591,12 +61611,14 @@ function (_SDTElement) {
           element.hr = undefined;
           element.far = undefined;
           var interpolateC = d3.interpolate(element.c !== undefined ? element.c : datum.c, datum.c);
+          var interpolateS = d3.interpolate(element.s !== undefined ? element.s : datum.s, datum.s);
           return function (time) {
             element.c = interpolateC(time);
+            element.s = interpolateS(time);
             var isoC = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
                 far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.cfar2hr(element.c, _sdtElement.default.zfar2far(xScale.invert(x))) : _sdtElement.default.cfar2hr(element.c, xScale.invert(x))
+                hr: _this3.zRoc ? _sdtElement.default.cfar2hr(element.c, _sdtElement.default.zfar2far(xScale.invert(x)), element.s) : _sdtElement.default.cfar2hr(element.c, xScale.invert(x), element.s)
               };
             });
             return line(isoC);
@@ -61606,6 +61628,7 @@ function (_SDTElement) {
         isoCMerge.transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
           var element = elements[index];
           element.c = undefined;
+          element.s = undefined;
           var interpolateHr = d3.interpolate(element.hr !== undefined ? element.hr : datum.hr, datum.hr);
           var interpolateFar = d3.interpolate(element.far !== undefined ? element.far : datum.far, datum.far);
           return function (time) {
@@ -61614,7 +61637,7 @@ function (_SDTElement) {
             var isoC = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
                 far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.cfar2hr(_sdtElement.default.hrfar2c(element.hr, element.far), _sdtElement.default.zfar2far(xScale.invert(x))) : _sdtElement.default.cfar2hr(_sdtElement.default.hrfar2c(element.hr, element.far), xScale.invert(x))
+                hr: _this3.zRoc ? _sdtElement.default.cfar2hr(_sdtElement.default.hrfar2c(element.hr, element.far, datum.s), _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.cfar2hr(_sdtElement.default.hrfar2c(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
               };
             });
             return line(isoC);
@@ -61691,7 +61714,8 @@ function (_SDTElement) {
                     far: datum.far,
                     hr: datum.hr,
                     d: datum.d,
-                    c: datum.c
+                    c: datum.c,
+                    s: datum.s
                   },
                   bubbles: true
                 }));
@@ -61705,14 +61729,16 @@ function (_SDTElement) {
         }
       }
 
-      if (changedProperties.has('zRoc') || this.firstUpdate) {
+      if (this.firstUpdate || changedProperties.has('zRoc')) {
         pointMerge.transition().duration(this.drag ? 0 : 1000).ease(d3.easeCubicOut).attr('cx', function (datum, index, elements) {
           var element = elements[index];
           element.d = undefined;
+          element.s = undefined;
           return xScale(_this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far);
         }).attr('cy', function (datum, index, elements) {
           var element = elements[index];
           element.c = undefined;
+          element.s = undefined;
           return yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr);
         });
       } else if (this.sdt) {
@@ -61720,29 +61746,35 @@ function (_SDTElement) {
           var element = elements[index];
           var interpolateD = d3.interpolate(element.d !== undefined ? element.d : datum.d, datum.d);
           var interpolateC = d3.interpolate(element.c !== undefined ? element.c : datum.c, datum.c);
+          var interpolateS = d3.interpolate(element.s !== undefined ? element.s : datum.s, datum.s);
           return function (time) {
             element.d = interpolateD(time);
             element.c = interpolateC(time);
-            return xScale(_this3.zRoc ? _sdtElement.default.far2zfar(_sdtElement.default.dc2far(element.d, element.c)) : _sdtElement.default.dc2far(element.d, element.c));
+            element.s = interpolateS(time);
+            return xScale(_this3.zRoc ? _sdtElement.default.far2zfar(_sdtElement.default.dc2far(element.d, element.c, element.s)) : _sdtElement.default.dc2far(element.d, element.c, element.s));
           };
         }).attrTween('cy', function (datum, index, elements) {
           var element = elements[index];
           var interpolateD = d3.interpolate(element.d !== undefined ? element.d : datum.d, datum.d);
           var interpolateC = d3.interpolate(element.c !== undefined ? element.c : datum.c, datum.c);
+          var interpolateS = d3.interpolate(element.s !== undefined ? element.s : datum.s, datum.s);
           return function (time) {
             element.d = interpolateD(time);
             element.c = interpolateC(time);
-            return yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(_sdtElement.default.dc2hr(element.d, element.c)) : _sdtElement.default.dc2hr(element.d, element.c));
+            element.s = interpolateS(time);
+            return yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(_sdtElement.default.dc2hr(element.d, element.c, element.s)) : _sdtElement.default.dc2hr(element.d, element.c, element.s));
           };
         });
       } else {
         pointMerge.transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('cx', function (datum, index, elements) {
           var element = elements[index];
           element.d = undefined;
+          element.s = undefined;
           return xScale(_this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far);
         }).attr('cy', function (datum, index, elements) {
           var element = elements[index];
           element.c = undefined;
+          element.s = undefined;
           return yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr);
         });
       } //  EXIT
@@ -61767,7 +61799,7 @@ function (_SDTElement) {
 exports.default = ROCSpace;
 customElements.define('roc-space', ROCSpace);
 
-},{"../sdt-element":393,"d3":341,"lit-element":347}],369:[function(require,module,exports){
+},{"../sdt-element":394,"d3":341,"lit-element":347}],369:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62109,7 +62141,7 @@ function (_SDTMixinStyleButton) {
 exports.default = SDTControl;
 customElements.define('sdt-control', SDTControl);
 
-},{"../mixins/styleButton":389,"../mixins/styleSlider":390,"../mixins/styleSpinner":391,"../mixins/styleSwitch":392,"../sdt-element":393,"lit-element":347}],370:[function(require,module,exports){
+},{"../mixins/styleButton":390,"../mixins/styleSlider":391,"../mixins/styleSpinner":392,"../mixins/styleSwitch":393,"../sdt-element":394,"lit-element":347}],370:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62132,7 +62164,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line,\n        .axis-y2 path,\n        .axis-y2 line {\n          stroke: var(---color-element-border);\n        }\n\n        .signal-noise.interactive,\n        .threshold.interactive {\n          cursor: ew-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal-noise.interactive:hover,\n        .threshold.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .signal-noise.interactive:active,\n        .threshold.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .signal-noise.interactive:focus,\n        :host(.keyboard) .threshold.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .underlayer .background {\n          fill: var(---color-element-background);\n          stroke: none;\n        }\n\n        .overlayer .background {\n          fill: none;\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-y2 {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .curve-cr {\n          fill: var(---color-cr);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-fa {\n          fill: var(---color-fa);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-m {\n          fill: var(---color-m);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-h {\n          fill: var(---color-h);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        :host([color=\"stimulus\"]) .curve-cr,\n        :host([color=\"stimulus\"]) .curve-fa {\n          fill: var(---color-far);\n        }\n\n        :host([color=\"stimulus\"]) .curve-m,\n        :host([color=\"stimulus\"]) .curve-h {\n          fill: var(---color-hr);\n        }\n\n        :host([color=\"response\"]) .curve-cr,\n        :host([color=\"response\"]) .curve-m {\n          fill: var(---color-absent);\n        }\n\n        :host([color=\"response\"]) .curve-fa,\n        :host([color=\"response\"]) .curve-h {\n          fill: var(---color-present);\n        }\n\n        :host([color=\"none\"]) .curve-cr,\n        :host([color=\"none\"]) .curve-fa,\n        :host([color=\"none\"]) .curve-m,\n        :host([color=\"none\"]) .curve-h {\n          fill: var(---color-element-enabled);\n        }\n\n        .curve-noise,\n        .curve-signal {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .measure-d .line,\n        .measure-d .cap-left,\n        .measure-d .cap-right {\n          stroke: var(---color-d);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-d .label {\n          font-size: 0.75rem;\n\n          alignment-baseline: middle;\n          text-anchor: start;\n          fill: currentColor;\n        }\n\n        .threshold .line {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .threshold .handle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .threshold.interactive .handle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .measure-c .line,\n        .measure-c .cap-zero {\n          stroke: var(---color-c);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-c .label {\n          font-size: 0.75rem;\n\n          alignment-baseline: middle;\n          fill: currentColor;\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line,\n        .axis-y2 path,\n        .axis-y2 line {\n          stroke: var(---color-element-border);\n        }\n\n        .noise.interactive,\n        .signal.interactive,\n        .threshold.interactive {\n          cursor: ew-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.unequal {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.interactive.unequal {\n          cursor: move;\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .noise.interactive:focus,\n        :host(.keyboard) .signal.interactive:focus,\n        :host(.keyboard) .signal.unequal:focus,\n        :host(.keyboard) .threshold.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .underlayer .background {\n          fill: var(---color-element-background);\n          stroke: none;\n        }\n\n        .overlayer .background {\n          fill: none;\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-y2 {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .curve-cr {\n          fill: var(---color-cr);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-fa {\n          fill: var(---color-fa);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-m {\n          fill: var(---color-m);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        .curve-h {\n          fill: var(---color-h);\n          fill-opacity: 0.5;\n          stroke: none;\n        }\n\n        :host([color=\"stimulus\"]) .curve-cr,\n        :host([color=\"stimulus\"]) .curve-fa {\n          fill: var(---color-far);\n        }\n\n        :host([color=\"stimulus\"]) .curve-m,\n        :host([color=\"stimulus\"]) .curve-h {\n          fill: var(---color-hr);\n        }\n\n        :host([color=\"response\"]) .curve-cr,\n        :host([color=\"response\"]) .curve-m {\n          fill: var(---color-absent);\n        }\n\n        :host([color=\"response\"]) .curve-fa,\n        :host([color=\"response\"]) .curve-h {\n          fill: var(---color-present);\n        }\n\n        :host([color=\"none\"]) .curve-cr,\n        :host([color=\"none\"]) .curve-fa,\n        :host([color=\"none\"]) .curve-m,\n        :host([color=\"none\"]) .curve-h {\n          fill: var(---color-element-enabled);\n        }\n\n        .curve-noise,\n        .curve-signal {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .measure-d,\n        .measure-c,\n        .measure-s {\n          pointer-events: none;\n        }\n\n        .threshold .line {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .threshold .handle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .threshold.interactive .handle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .measure-d .line,\n        .measure-d .cap-left,\n        .measure-d .cap-right {\n          stroke: var(---color-d);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-d .label {\n          font-size: 0.75rem;\n\n          text-anchor: start;\n          fill: currentColor;\n        }\n\n        .measure-c .line,\n        .measure-c .cap-zero {\n          stroke: var(---color-c);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-c .label {\n          font-size: 0.75rem;\n\n          fill: currentColor;\n        }\n\n        .measure-s .line,\n        .measure-s .cap-left,\n        .measure-s .cap-right {\n          stroke: var(---color-s);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-s .label {\n          font-size: 0.75rem;\n\n          text-anchor: middle;\n          fill: currentColor;\n        }\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -62211,6 +62243,11 @@ function (_SDTElement) {
           type: Boolean,
           reflect: true
         },
+        unequal: {
+          attribute: 'unequal',
+          type: Boolean,
+          reflect: true
+        },
         sensitivity: {
           attribute: 'sensitivity',
           type: Boolean,
@@ -62218,6 +62255,11 @@ function (_SDTElement) {
         },
         bias: {
           attribute: 'bias',
+          type: Boolean,
+          reflect: true
+        },
+        variance: {
+          attribute: 'variance',
           type: Boolean,
           reflect: true
         },
@@ -62233,6 +62275,11 @@ function (_SDTElement) {
         },
         c: {
           attribute: 'c',
+          type: Number,
+          reflect: true
+        },
+        s: {
+          attribute: 's',
           type: Number,
           reflect: true
         },
@@ -62288,10 +62335,17 @@ function (_SDTElement) {
     _this.histogram = false;
     _this.distributions = false;
     _this.threshold = false;
+    _this.unequal = false;
     _this.sensitivity = false;
     _this.bias = false;
+    _this.variance = false;
     _this.d = 1;
     _this.c = 0;
+    _this.s = 1;
+    _this.muN = NaN;
+    _this.muS = NaN;
+    _this.l = NaN;
+    _this.hS = NaN;
     _this.signals = ['present', 'absent'];
     _this.responses = ['present', 'absent'];
     _this.binRange = [-3.0, 3.0];
@@ -62334,8 +62388,8 @@ function (_SDTElement) {
     key: "alignTrial",
     value: function alignTrial(trial) {
       if (trial.signal === 'present') {
-        trial.trueEvidence = trial.evidence + this.d / 2;
-        trial.response = trial.trueEvidence > this.c ? 'present' : 'absent';
+        trial.trueEvidence = trial.evidence * this.s + this.muS;
+        trial.response = trial.trueEvidence > this.l ? 'present' : 'absent';
 
         if (trial.response === 'present') {
           trial.outcome = 'h';
@@ -62347,8 +62401,8 @@ function (_SDTElement) {
         }
       } else {
         // trial.signal == 'absent'
-        trial.trueEvidence = trial.evidence - this.d / 2;
-        trial.response = trial.trueEvidence > this.c ? 'present' : 'absent';
+        trial.trueEvidence = trial.evidence + this.muN;
+        trial.response = trial.trueEvidence > this.l ? 'present' : 'absent';
 
         if (trial.response === 'present') {
           trial.outcome = 'fa';
@@ -62365,8 +62419,12 @@ function (_SDTElement) {
   }, {
     key: "alignState",
     value: function alignState() {
-      this.far = _sdtElement.default.dc2far(this.d, this.c);
-      this.hr = _sdtElement.default.dc2hr(this.d, this.c);
+      this.far = _sdtElement.default.dc2far(this.d, this.c, this.s);
+      this.hr = _sdtElement.default.dc2hr(this.d, this.c, this.s);
+      this.muN = _sdtElement.default.d2muN(this.d, this.s);
+      this.muS = _sdtElement.default.d2muS(this.d, this.s);
+      this.l = _sdtElement.default.c2l(this.c, this.s);
+      this.hS = _sdtElement.default.s2h(this.s);
       this.h = 0;
       this.m = 0;
       this.fa = 0;
@@ -62389,6 +62447,7 @@ function (_SDTElement) {
         detail: {
           d: this.d,
           c: this.c,
+          s: this.s,
           far: this.far,
           hr: this.hr,
           h: this.h,
@@ -62466,10 +62525,10 @@ function (_SDTElement) {
       var height = elementHeight - (margin.top + margin.bottom);
       var width = elementWidth - (margin.left + margin.right); // X Scale
 
-      var xScale = d3.scaleLinear().domain([-3, 3]) // Evidence
+      var xScale = d3.scaleLinear().domain([-3, 3]) // Evidence // FIX - no hardcoding
       .range([0, width]); // Y Scale
 
-      var yScale = d3.scaleLinear().domain([0.5, 0]) // Probability
+      var yScale = d3.scaleLinear().domain([0.5, 0]) // Probability // FIX - no hardcoding
       .range([0, height]); // 2nd Y Scale
 
       var strokeWidth = 3;
@@ -62481,7 +62540,7 @@ function (_SDTElement) {
       /* datum */
       {
         return {
-          x: xScale(_this2.c),
+          x: xScale(_this2.l),
           y: 0
         };
       }).on('start', function (datum, index, elements) {
@@ -62491,9 +62550,10 @@ function (_SDTElement) {
       /* datum */
       {
         _this2.drag = true;
-        var c = xScale.invert(d3.event.x); // Clamp C to stay visible
+        var l = xScale.invert(d3.event.x); // Clamp lambda to stay visible
 
-        _this2.c = c < xScale.domain()[0] ? xScale.domain()[0] : c > xScale.domain()[1] ? xScale.domain()[1] : c;
+        l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
+        _this2.c = _sdtElement.default.l2c(l, _this2.s);
 
         _this2.alignState();
 
@@ -62507,7 +62567,7 @@ function (_SDTElement) {
       /* datum */
       {
         return {
-          x: xScale(-_this2.d / 2),
+          x: xScale(_this2.muN),
           y: 0
         };
       }).on('start', function (datum, index, elements) {
@@ -62517,9 +62577,10 @@ function (_SDTElement) {
       /* datum */
       {
         _this2.drag = true;
-        var dN = xScale.invert(d3.event.x); // Clamp Noise Curve to stay visible
+        var muN = xScale.invert(d3.event.x); // Clamp Noise Curve to stay visible
 
-        _this2.d = dN < xScale.domain()[0] ? -xScale.domain()[0] * 2 : dN > xScale.domain()[1] ? -xScale.domain()[1] * 2 : -dN * 2;
+        muN = muN < xScale.domain()[0] ? xScale.domain()[0] : muN > xScale.domain()[1] ? xScale.domain()[1] : muN;
+        _this2.d = _sdtElement.default.muN2d(muN, _this2.s);
 
         _this2.alignState();
 
@@ -62533,19 +62594,51 @@ function (_SDTElement) {
       /* datum */
       {
         return {
-          x: xScale(_this2.d / 2),
-          y: 0
+          x: xScale(_this2.muS),
+          y: yScale(_this2.hS)
         };
       }).on('start', function (datum, index, elements) {
         var element = elements[index];
         d3.select(element).classed('dragging', true);
-      }).on('drag', function ()
-      /* datum */
-      {
+        datum.startX = d3.event.x;
+        datum.startY = d3.event.y;
+        datum.startHS = _this2.hS;
+        datum.startMuS = _this2.muS;
+      }).on('drag', function (datum) {
         _this2.drag = true;
-        var dS = xScale.invert(d3.event.x); // Clamp Signal Curve to stay visible
+        var muS = _this2.muS; // eslint-disable-line prefer-destructuring
 
-        _this2.d = dS < xScale.domain()[0] ? xScale.domain()[0] * 2 : dS > xScale.domain()[1] ? xScale.domain()[1] * 2 : dS * 2;
+        if (_this2.interactive) {
+          muS = xScale.invert(d3.event.x); // Clamp Signal Curve to stay visible
+
+          muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
+        }
+
+        var hS = _this2.hS; // eslint-disable-line prefer-destructuring
+
+        if (_this2.unequal) {
+          hS = yScale.invert(d3.event.y); // Clamp Signal Curve to stay visible
+
+          hS = hS < 0.01 ? 0.01 : hS > yScale.domain()[0] ? yScale.domain()[0] : hS;
+        }
+
+        if (_this2.interactive && _this2.unequal) {
+          // Use shift key as modifier for single dimension
+          if (d3.event.sourceEvent.shiftKey) {
+            if (Math.abs(d3.event.x - datum.startX) > Math.abs(d3.event.y - datum.startY)) {
+              hS = datum.startHS;
+            } else {
+              muS = datum.startMuS;
+            }
+          }
+        }
+
+        if (_this2.unequal) {
+          _this2.s = _sdtElement.default.h2s(hS);
+          _this2.c = _sdtElement.default.l2c(_this2.l, _this2.s);
+        }
+
+        _this2.d = _sdtElement.default.muS2d(muS, _this2.s);
 
         _this2.alignState();
 
@@ -62643,29 +62736,36 @@ function (_SDTElement) {
 
       var signalNoiseEnter = signalNoiseUpdate.enter().append('g').classed('signal-noise', true); //  MERGE
 
-      var signalNoiseMerge = signalNoiseEnter.merge(signalNoiseUpdate).attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive).on('keydown', this.interactive ? function ()
+      var signalNoiseMerge = signalNoiseEnter.merge(signalNoiseUpdate); //  EXIT
+
+      signalNoiseUpdate.exit().remove(); // Noise Distribution
+      //  ENTER
+
+      var noiseEnter = signalNoiseEnter.append('g').classed('noise', true); //  MERGE
+
+      var noiseMerge = signalNoiseMerge.selectAll('.noise').attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive).on('keydown', this.interactive ? function ()
       /* datum */
       {
         if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-          var d = _this2.d; // eslint-disable-line prefer-destructuring
+          var muN = _this2.muN; // eslint-disable-line prefer-destructuring
 
           switch (d3.event.key) {
             case 'ArrowRight':
-              d += d3.event.shiftKey ? 0.01 : 0.1;
+              muN += d3.event.shiftKey ? 0.01 : 0.1;
               break;
 
             case 'ArrowLeft':
-              d -= d3.event.shiftKey ? 0.01 : 0.1;
+              muN -= d3.event.shiftKey ? 0.01 : 0.1;
               break;
 
             default:
           } // Clamp C to visible extent
 
 
-          d = d < xScale.domain()[0] ? xScale.domain()[0] : d > xScale.domain()[1] ? xScale.domain()[1] : d;
+          muN = muN < xScale.domain()[0] ? xScale.domain()[0] : muN > xScale.domain()[1] ? xScale.domain()[1] : muN;
 
-          if (d !== _this2.d) {
-            _this2.d = d;
+          if (muN !== _this2.muN) {
+            _this2.d = _sdtElement.default.muN2d(muN, _this2.s);
 
             _this2.alignState();
 
@@ -62674,14 +62774,7 @@ function (_SDTElement) {
 
           d3.event.preventDefault();
         }
-      } : null); //  EXIT
-
-      signalNoiseUpdate.exit().remove(); // Noise Distribution
-      //  ENTER
-
-      var noiseEnter = signalNoiseEnter.append('g').classed('noise', true); //  MERGE
-
-      var noiseMerge = signalNoiseMerge.selectAll('.noise');
+      } : null);
 
       if (this.firstUpdate || changedProperties.has('interactive')) {
         if (this.interactive) {
@@ -62699,21 +62792,23 @@ function (_SDTElement) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
         var interpolateC = d3.interpolate(element.c !== undefined ? element.c : _this2.c, _this2.c);
+        var interpolateS = d3.interpolate(element.s !== undefined ? element.s : _this2.s, _this2.s);
         return function (time) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
-          var correctRejections = d3.range(xScale.domain()[0], element.c, 0.05).map(function (e) {
+          element.s = interpolateS(time);
+          var correctRejections = d3.range(xScale.domain()[0], _sdtElement.default.c2l(element.c, element.s), 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, -element.d / 2, 1)
+              p: jStat.normal.pdf(e, _sdtElement.default.d2muN(element.d, element.s), 1)
             };
           });
           correctRejections.push({
-            e: element.c,
-            p: jStat.normal.pdf(element.c, -element.d / 2, 1)
+            e: _sdtElement.default.c2l(element.c, element.s),
+            p: jStat.normal.pdf(_sdtElement.default.c2l(element.c, element.s), _sdtElement.default.d2muN(element.d, element.s), 1)
           });
           correctRejections.push({
-            e: element.c,
+            e: _sdtElement.default.c2l(element.c, element.s),
             p: 0
           });
           correctRejections.push({
@@ -62731,25 +62826,27 @@ function (_SDTElement) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
         var interpolateC = d3.interpolate(element.c !== undefined ? element.c : _this2.c, _this2.c);
+        var interpolateS = d3.interpolate(element.s !== undefined ? element.s : _this2.s, _this2.s);
         return function (time) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
-          var falseAlarms = d3.range(element.c, xScale.domain()[1], 0.05).map(function (e) {
+          element.s = interpolateS(time);
+          var falseAlarms = d3.range(_sdtElement.default.c2l(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, -element.d / 2, 1)
+              p: jStat.normal.pdf(e, _sdtElement.default.d2muN(element.d, element.s), 1)
             };
           });
           falseAlarms.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], -element.d / 2, 1)
+            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muN(element.d, element.s), 1)
           });
           falseAlarms.push({
             e: xScale.domain()[1],
             p: 0
           });
           falseAlarms.push({
-            e: element.c,
+            e: _sdtElement.default.c2l(element.c, element.s),
             p: 0
           });
           return line(falseAlarms);
@@ -62762,17 +62859,19 @@ function (_SDTElement) {
       noiseMerge.select('.curve-noise').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
+        var interpolateS = d3.interpolate(element.s !== undefined ? element.s : _this2.s, _this2.s);
         return function (time) {
           element.d = interpolateD(time);
+          element.s = interpolateS(time);
           var noise = d3.range(xScale.domain()[0], xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, -element.d / 2, 1)
+              p: jStat.normal.pdf(e, _sdtElement.default.d2muN(element.d, element.s), 1)
             };
           });
           noise.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], -element.d / 2, 1)
+            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muN(element.d, element.s), 1)
           });
           return line(noise);
         };
@@ -62781,10 +62880,74 @@ function (_SDTElement) {
 
       var signalEnter = signalNoiseEnter.append('g').classed('signal', true); //  MERGE
 
-      var signalMerge = signalNoiseMerge.selectAll('.signal');
+      var signalMerge = signalNoiseMerge.selectAll('.signal').attr('tabindex', this.interactive || this.unequal ? 0 : null).classed('interactive', this.interactive).classed('unequal', this.unequal).on('keydown.sensitivity', this.interactive ? function ()
+      /* datum */
+      {
+        if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+          var muS = _this2.muS; // eslint-disable-line prefer-destructuring
 
-      if (this.firstUpdate || changedProperties.has('interactive')) {
-        if (this.interactive) {
+          switch (d3.event.key) {
+            case 'ArrowRight':
+              muS += d3.event.shiftKey ? 0.01 : 0.1;
+              break;
+
+            case 'ArrowLeft':
+              muS -= d3.event.shiftKey ? 0.01 : 0.1;
+              break;
+
+            default:
+          } // Clamp C to visible extent
+
+
+          muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
+
+          if (muS !== _this2.muS) {
+            _this2.d = _sdtElement.default.muS2d(muS, _this2.s);
+
+            _this2.alignState();
+
+            _this2.sendEvent();
+          }
+
+          d3.event.preventDefault();
+        }
+      } : null).on('keydown.variance', this.unequal ? function ()
+      /* datum */
+      {
+        if (['ArrowUp', 'ArrowDown'].includes(d3.event.key)) {
+          var hS = _this2.hS; // eslint-disable-line prefer-destructuring
+
+          switch (d3.event.key) {
+            case 'ArrowUp':
+              hS += d3.event.shiftKey ? 0.002 : 0.02;
+              break;
+
+            case 'ArrowDown':
+              hS -= d3.event.shiftKey ? 0.002 : 0.02;
+              break;
+
+            default:
+          } // Clamp s so distribution stays visible
+
+
+          hS = hS < 0.01 ? 0.01 : hS > yScale.domain()[0] ? yScale.domain()[0] : hS;
+
+          if (hS !== _this2.hS) {
+            _this2.s = _sdtElement.default.h2s(hS);
+            _this2.d = _sdtElement.default.muN2d(_this2.muN, _this2.s);
+            _this2.c = _sdtElement.default.l2c(_this2.l, _this2.s);
+
+            _this2.alignState();
+
+            _this2.sendEvent();
+          }
+
+          d3.event.preventDefault();
+        }
+      } : null);
+
+      if (this.firstUpdate || changedProperties.has('interactive') || changedProperties.has('unequal')) {
+        if (this.interactive || this.unequal) {
           signalMerge.call(dragSignal);
         } else {
           signalMerge.on('.drag', null);
@@ -62799,21 +62962,23 @@ function (_SDTElement) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
         var interpolateC = d3.interpolate(element.c !== undefined ? element.c : _this2.c, _this2.c);
+        var interpolateS = d3.interpolate(element.s !== undefined ? element.s : _this2.s, _this2.s);
         return function (time) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
-          var misses = d3.range(xScale.domain()[0], element.c, 0.05).map(function (e) {
+          element.s = interpolateS(time);
+          var misses = d3.range(xScale.domain()[0], _sdtElement.default.c2l(element.c, element.s), 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, element.d / 2, 1)
+              p: jStat.normal.pdf(e, _sdtElement.default.d2muS(element.d, element.s), element.s)
             };
           });
           misses.push({
-            e: element.c,
-            p: jStat.normal.pdf(element.c, element.d / 2, 1)
+            e: _sdtElement.default.c2l(element.c, element.s),
+            p: jStat.normal.pdf(_sdtElement.default.c2l(element.c, element.s), _sdtElement.default.d2muS(element.d, element.s), element.s)
           });
           misses.push({
-            e: element.c,
+            e: _sdtElement.default.c2l(element.c, element.s),
             p: 0
           });
           misses.push({
@@ -62831,25 +62996,27 @@ function (_SDTElement) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
         var interpolateC = d3.interpolate(element.c !== undefined ? element.c : _this2.c, _this2.c);
+        var interpolateS = d3.interpolate(element.s !== undefined ? element.s : _this2.s, _this2.s);
         return function (time) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
-          var hits = d3.range(element.c, xScale.domain()[1], 0.05).map(function (e) {
+          element.s = interpolateS(time);
+          var hits = d3.range(_sdtElement.default.c2l(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, element.d / 2, 1)
+              p: jStat.normal.pdf(e, _sdtElement.default.d2muS(element.d, element.s), element.s)
             };
           });
           hits.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], element.d / 2, 1)
+            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muS(element.d, element.s), element.s)
           });
           hits.push({
             e: xScale.domain()[1],
             p: 0
           });
           hits.push({
-            e: element.c,
+            e: _sdtElement.default.c2l(element.c, element.s),
             p: 0
           });
           return line(hits);
@@ -62862,17 +63029,19 @@ function (_SDTElement) {
       signalMerge.select('.curve-signal').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
+        var interpolateS = d3.interpolate(element.s !== undefined ? element.s : _this2.s, _this2.s);
         return function (time) {
           element.d = interpolateD(time);
+          element.s = interpolateS(time);
           var signal = d3.range(xScale.domain()[0], xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, element.d / 2, 1)
+              p: jStat.normal.pdf(e, _sdtElement.default.d2muS(element.d, element.s), element.s)
             };
           });
           signal.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], element.d / 2, 1)
+            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muS(element.d, element.s), element.s)
           });
           return line(signal);
         };
@@ -62891,10 +63060,17 @@ function (_SDTElement) {
       dLabel.append('tspan').classed('value', true); //  MERGE
 
       var dMerge = dEnter.merge(dUpdate);
-      dMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(-this.d / 2)).attr('y1', yScale(0.43)).attr('x2', xScale(this.d / 2)).attr('y2', yScale(0.43));
-      dMerge.select('.cap-left').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(-this.d / 2)).attr('y1', yScale(0.43) + 5).attr('x2', xScale(-this.d / 2)).attr('y2', yScale(0.43) - 5);
-      dMerge.select('.cap-right').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.d / 2)).attr('y1', yScale(0.43) + 5).attr('x2', xScale(this.d / 2)).attr('y2', yScale(0.43) - 5);
-      var dLabelTransition = dMerge.select('.label').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x', xScale(Math.abs(this.d) / 2) + 5).attr('y', yScale(0.43) + 3);
+      dMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43)) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS)).attr('y2', yScale(0.43)); // FIX - no hardcoding
+
+      dMerge.select('.cap-left').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
+      .attr('x2', xScale(this.muN)).attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
+
+      dMerge.select('.cap-right').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muS)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS)).attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
+
+      var dLabelTransition = dMerge.select('.label').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x', xScale(this.muN > this.muS ? this.muN : this.muS) + 5).attr('y', yScale(0.43) + 3); // FIX - no hardcoding
+
       dLabelTransition.select('.value').tween('text', function (datum, index, elements) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
@@ -62918,9 +63094,14 @@ function (_SDTElement) {
       cLabel.append('tspan').classed('value', true); //  MERGE
 
       var cMerge = cEnter.merge(cUpdate);
-      cMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.c)).attr('y1', yScale(0.47)).attr('x2', xScale(0)).attr('y2', yScale(0.47));
-      cMerge.select('.cap-zero').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(0)).attr('y1', yScale(0.47) + 5).attr('x2', xScale(0)).attr('y2', yScale(0.47) - 5);
-      var cLabelTransition = cMerge.select('.label').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x', xScale(0) + (this.c < 0 ? 5 : -5)).attr('y', yScale(0.47) + 3).attr('text-anchor', this.c < 0 ? 'start' : 'end');
+      cMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0.47)) // FIX - no hardcoding
+      .attr('x2', xScale(0)).attr('y2', yScale(0.47)); // FIX - no hardcoding
+
+      cMerge.select('.cap-zero').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(0)).attr('y1', yScale(0.47) + 5) // FIX - no hardcoding
+      .attr('x2', xScale(0)).attr('y2', yScale(0.47) - 5); // FIX - no hardcoding
+
+      var cLabelTransition = cMerge.select('.label').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x', xScale(0) + (this.l < 0 ? 5 : -5)).attr('y', yScale(0.47) + 3) // FIX - no hardcoding
+      .attr('text-anchor', this.c < 0 ? 'start' : 'end');
       cLabelTransition.select('.value').tween('text', function (datum, index, elements) {
         var element = elements[index];
         var interpolateC = d3.interpolate(element.c !== undefined ? element.c : _this2.c, _this2.c);
@@ -62930,7 +63111,42 @@ function (_SDTElement) {
         };
       }); //  EXIT
 
-      cUpdate.exit().remove(); // Threshold Line
+      cUpdate.exit().remove(); // s Measure
+      //  DATA-JOIN
+
+      var sUpdate = contentMerge.selectAll('.measure-s').data(this.variance ? [{}] : []); //  ENTER
+
+      var sEnter = sUpdate.enter().append('g').classed('measure-s', true);
+      sEnter.append('line').classed('line', true);
+      sEnter.append('line').classed('cap-left', true);
+      sEnter.append('line').classed('cap-right', true);
+      var sLabel = sEnter.append('text').classed('label', true);
+      sLabel.append('tspan').classed('s math-var', true).text('σ');
+      sLabel.append('tspan').classed('equals', true).text(' = ');
+      sLabel.append('tspan').classed('value', true); //  MERGE
+
+      var sMerge = sEnter.merge(sUpdate);
+      sMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s); // FIX - no hardcoding
+
+      sMerge.select('.cap-left').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS - this.s)).attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
+
+      sMerge.select('.cap-right').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muS + this.s)).attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
+
+      var sLabelTransition = sMerge.select('.label').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x', xScale(this.muS)).attr('y', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 3); // FIX - no hardcoding
+
+      sLabelTransition.select('.value').tween('text', function (datum, index, elements) {
+        var element = elements[index];
+        var interpolateS = d3.interpolate(element.s !== undefined ? element.s : _this2.s, _this2.s);
+        return function (time) {
+          element.s = interpolateS(time);
+          d3.select(element).text(+element.s.toFixed(3));
+        };
+      }); //  EXIT
+
+      sUpdate.exit().remove(); // Threshold Line
       //  DATA-JOIN
 
       var thresholdUpdate = contentMerge.selectAll('.threshold').data(this.threshold ? [{}] : []); //  ENTER
@@ -62949,25 +63165,25 @@ function (_SDTElement) {
           /* datum */
           {
             if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-              var c = _this2.c; // eslint-disable-line prefer-destructuring
+              var l = _this2.l; // eslint-disable-line prefer-destructuring
 
               switch (d3.event.key) {
                 case 'ArrowRight':
-                  c += d3.event.shiftKey ? 0.01 : 0.1;
+                  l += d3.event.shiftKey ? 0.01 : 0.1;
                   break;
 
                 case 'ArrowLeft':
-                  c -= d3.event.shiftKey ? 0.01 : 0.1;
+                  l -= d3.event.shiftKey ? 0.01 : 0.1;
                   break;
 
                 default:
               } // Clamp C to visible extent
 
 
-              c = c < xScale.domain()[0] ? xScale.domain()[0] : c > xScale.domain()[1] ? xScale.domain()[1] : c;
+              l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
 
-              if (c !== _this2.c) {
-                _this2.c = c;
+              if (l !== _this2.l) {
+                _this2.c = _sdtElement.default.l2c(l, _this2.s);
 
                 _this2.alignState();
 
@@ -62982,10 +63198,11 @@ function (_SDTElement) {
         }
       }
 
-      thresholdMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.c)).attr('y1', yScale(0)).attr('x2', xScale(this.c)).attr('y2', yScale(0.54));
-      thresholdMerge.select('.handle').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('cx', xScale(this.c)).attr('cy', yScale(0.54)); //  EXIT
+      thresholdMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0)).attr('x2', xScale(this.l)).attr('y2', yScale(0.54));
+      thresholdMerge.select('.handle').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('cx', xScale(this.l)).attr('cy', yScale(0.54)); //  EXIT
 
-      thresholdUpdate.exit().remove(); // Histogram
+      thresholdUpdate.exit().remove(); // CURRENT!
+      // Histogram
       //  DATA-JOIN
 
       var histogramUpdate = contentMerge.selectAll('.histogram').data(this.histogram ? [{}] : []); //  ENTER
@@ -63141,7 +63358,7 @@ function (_SDTElement) {
 exports.default = SDTModel;
 customElements.define('sdt-model', SDTModel);
 
-},{"../sdt-element":393,"d3":341,"jstat":343,"lit-element":347}],371:[function(require,module,exports){
+},{"../sdt-element":394,"d3":341,"jstat":343,"lit-element":347}],371:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63558,7 +63775,7 @@ function (_SDTMixinStyleButton) {
 exports.default = SDTResponse;
 customElements.define('sdt-response', SDTResponse);
 
-},{"../mixins/styleButton":389,"../sdt-element":393,"lit-element":347}],372:[function(require,module,exports){
+},{"../mixins/styleButton":390,"../sdt-element":394,"lit-element":347}],372:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -64056,7 +64273,7 @@ function (_SDTMixinStyleSpinner) {
 exports.default = SDTTable;
 customElements.define('sdt-table', SDTTable);
 
-},{"../mixins/styleSpinner":391,"../sdt-element":393,"lit-element":347}],373:[function(require,module,exports){
+},{"../mixins/styleSpinner":392,"../sdt-element":394,"lit-element":347}],373:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -64072,8 +64289,48 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _templateObject11() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"]);
+
+  _templateObject11 = function _templateObject11() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject10() {
+  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">&Phi;</var><span class=\"paren tight\">(</span><span class=\"minus tight\">&minus;</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">&minus;</span>", "<span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">&Phi;</var><span class=\"paren tight\">(</span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">&plus;</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">]<sup class=\"exp\">\xBD</sup></span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline\">\n            <span class=\"minus tight\">&minus;</span>", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">&minus;</span>", "<span class=\"bracket tight\">]</span><span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n          <td>\n            <span><span>1</span><span class=\"plus\">&plus;</span>", "</span>\n          </td>\n        </tr>"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">&Phi;</var><span class=\"paren tight\">(</span><span class=\"minus tight\">&minus;</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n              <td rowspan=\"2\">\n                <span class=\"minus\">&minus;</span>", "<span class=\"paren tight\">)</span>\n              </td>\n            </tr>\n            <tr>\n              <td>\n                <span>2</span>\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -64083,7 +64340,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -64093,7 +64350,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"math-var d\">d&prime;</var>"]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -64103,7 +64360,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<var class=\"math-var d\">d&prime;</var>"]);
+  var data = _taggedTemplateLiteral(["<label class=\"far bottom\">\n          <var>False Alarm Rate</var>\n          <input disabled type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n        </label>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -64113,7 +64370,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"far bottom\">\n          <var>False Alarm Rate</var>\n          <input disabled type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["<label class=\"s bottom\">\n          <var class=\"math-var\">\u03C3</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -64176,6 +64433,11 @@ function (_SDTEquation) {
     key: "properties",
     get: function get() {
       return {
+        unequal: {
+          attribute: 'unequal',
+          type: Boolean,
+          reflect: true
+        },
         d: {
           attribute: 'd',
           type: Number,
@@ -64183,6 +64445,11 @@ function (_SDTEquation) {
         },
         c: {
           attribute: 'c',
+          type: Number,
+          reflect: true
+        },
+        s: {
+          attribute: 's',
           type: Number,
           reflect: true
         },
@@ -64201,8 +64468,10 @@ function (_SDTEquation) {
     _classCallCheck(this, SDTEquationDC2Far);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTEquationDC2Far).call(this));
+    _this.unequal = false;
     _this.d = 0;
     _this.c = 0;
+    _this.s = 1;
 
     _this.alignState();
 
@@ -64212,7 +64481,7 @@ function (_SDTEquation) {
   _createClass(SDTEquationDC2Far, [{
     key: "alignState",
     value: function alignState() {
-      this.far = _sdtEquation.default.dc2far(this.d, this.c);
+      this.far = _sdtEquation.default.dc2far(this.d, this.c, this.s);
     }
   }, {
     key: "sendEvent",
@@ -64221,6 +64490,7 @@ function (_SDTEquation) {
         detail: {
           d: this.d,
           c: this.c,
+          s: this.s,
           far: this.far
         },
         bubbles: true
@@ -64241,24 +64511,42 @@ function (_SDTEquation) {
       this.sendEvent();
     }
   }, {
+    key: "sInput",
+    value: function sInput(event) {
+      this.s = parseFloat(event.target.value);
+      this.alignState();
+      this.sendEvent();
+    }
+  }, {
     key: "render",
     value: function render() {
       this.alignState();
       var d;
       var c;
+      var s;
       var far;
 
       if (this.numeric) {
         d = (0, _litElement.html)(_templateObject(), !this.interactive, this.d, this.dInput.bind(this));
         c = (0, _litElement.html)(_templateObject2(), !this.interactive, this.c, this.cInput.bind(this));
-        far = (0, _litElement.html)(_templateObject3(), +this.far.toFixed(3));
+        s = (0, _litElement.html)(_templateObject3(), !this.interactive, this.s, this.sInput.bind(this));
+        far = (0, _litElement.html)(_templateObject4(), +this.far.toFixed(3));
       } else {
-        d = (0, _litElement.html)(_templateObject4());
-        c = (0, _litElement.html)(_templateObject5());
-        far = (0, _litElement.html)(_templateObject6());
+        d = (0, _litElement.html)(_templateObject5());
+        c = (0, _litElement.html)(_templateObject6());
+        s = (0, _litElement.html)(_templateObject7());
+        far = (0, _litElement.html)(_templateObject8());
       }
 
-      return (0, _litElement.html)(_templateObject7(), far, d, c);
+      var equation;
+
+      if (this.unequal) {
+        equation = (0, _litElement.html)(_templateObject9(), far, s, d, c, s);
+      } else {
+        equation = (0, _litElement.html)(_templateObject10(), far, d, c);
+      }
+
+      return (0, _litElement.html)(_templateObject11(), equation);
     }
   }]);
 
@@ -64284,8 +64572,48 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _templateObject11() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"]);
+
+  _templateObject11 = function _templateObject11() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject10() {
+  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">&Phi;</var><span class=\"paren tight\">(</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">&minus;</span>", "<span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">&Phi;</var><span class=\"paren tight\">(</span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">&plus;</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">]<sup class=\"exp\">\xBD</sup></span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">&minus;</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">]</span><span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n          <td>\n            <span><span>1</span><span class=\"plus\">&plus;</span>", "</span>\n          </td>\n          <td>\n            ", "\n          </td>\n        </tr>"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">&Phi;</var><span class=\"paren tight\">(</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n              <td rowspan=\"2\">\n                <span class=\"minus\">&minus;</span>", "<span class=\"paren tight\">)</span>\n              </td>\n            </tr>\n            <tr>\n              <td>\n                <span>2</span>\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -64295,7 +64623,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -64305,7 +64633,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"math-var d\">d&prime;</var>"]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -64315,7 +64643,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<var class=\"math-var d\">d&prime;</var>"]);
+  var data = _taggedTemplateLiteral(["<label class=\"hr bottom\">\n          <var>Hit Rate</var>\n          <input disabled type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n        </label>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -64325,7 +64653,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"hr bottom\">\n          <var>Hit Rate</var>\n          <input disabled type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["<label class=\"s bottom\">\n          <var class=\"math-var\">\u03C3</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -64388,6 +64716,11 @@ function (_SDTEquation) {
     key: "properties",
     get: function get() {
       return {
+        unequal: {
+          attribute: 'unequal',
+          type: Boolean,
+          reflect: true
+        },
         d: {
           attribute: 'd',
           type: Number,
@@ -64395,6 +64728,11 @@ function (_SDTEquation) {
         },
         c: {
           attribute: 'c',
+          type: Number,
+          reflect: true
+        },
+        s: {
+          attribute: 's',
           type: Number,
           reflect: true
         },
@@ -64413,8 +64751,10 @@ function (_SDTEquation) {
     _classCallCheck(this, SDTEquationDC2Hr);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTEquationDC2Hr).call(this));
+    _this.unequal = false;
     _this.d = 0;
     _this.c = 0;
+    _this.s = 1;
 
     _this.alignState();
 
@@ -64424,7 +64764,7 @@ function (_SDTEquation) {
   _createClass(SDTEquationDC2Hr, [{
     key: "alignState",
     value: function alignState() {
-      this.hr = _sdtEquation.default.dc2hr(this.d, this.c);
+      this.hr = _sdtEquation.default.dc2hr(this.d, this.c, this.s);
     }
   }, {
     key: "sendEvent",
@@ -64433,6 +64773,7 @@ function (_SDTEquation) {
         detail: {
           d: this.d,
           c: this.c,
+          s: this.s,
           hr: this.hr
         },
         bubbles: true
@@ -64453,24 +64794,42 @@ function (_SDTEquation) {
       this.sendEvent();
     }
   }, {
+    key: "sInput",
+    value: function sInput(event) {
+      this.s = parseFloat(event.target.value);
+      this.alignState();
+      this.sendEvent();
+    }
+  }, {
     key: "render",
     value: function render() {
       this.alignState();
       var d;
       var c;
+      var s;
       var hr;
 
       if (this.numeric) {
         d = (0, _litElement.html)(_templateObject(), !this.interactive, this.d, this.dInput.bind(this));
         c = (0, _litElement.html)(_templateObject2(), !this.interactive, this.c, this.cInput.bind(this));
-        hr = (0, _litElement.html)(_templateObject3(), +this.hr.toFixed(3));
+        s = (0, _litElement.html)(_templateObject3(), !this.interactive, this.s, this.sInput.bind(this));
+        hr = (0, _litElement.html)(_templateObject4(), +this.hr.toFixed(3));
       } else {
-        d = (0, _litElement.html)(_templateObject4());
-        c = (0, _litElement.html)(_templateObject5());
-        hr = (0, _litElement.html)(_templateObject6());
+        d = (0, _litElement.html)(_templateObject5());
+        c = (0, _litElement.html)(_templateObject6());
+        s = (0, _litElement.html)(_templateObject7());
+        hr = (0, _litElement.html)(_templateObject8());
       }
 
-      return (0, _litElement.html)(_templateObject7(), hr, d, c);
+      var equation;
+
+      if (this.unequal) {
+        equation = (0, _litElement.html)(_templateObject9(), hr, s, d, c, s, s);
+      } else {
+        equation = (0, _litElement.html)(_templateObject10(), hr, d, c);
+      }
+
+      return (0, _litElement.html)(_templateObject11(), equation);
     }
   }]);
 
@@ -65206,8 +65565,48 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _templateObject11() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"]);
+
+  _templateObject11 = function _templateObject11() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject10() {
+  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span>\n          </td>\n          <td class=\"underline\">\n            <span class=\"minus tight\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">&plus;</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)<sup class=\"exp\">&minus;\xBD</sup></span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)</span><span class=\"bracket\">[</span>\n          </td>\n          <td class=\"underline\">\n            <span class=\"minus tight\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket\">]</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n          <td>\n            <span><span>1</span><span class=\"plus\">&plus;</span>", "</span>\n          </td>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                <span class=\"minus tight\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span>\n              </td>\n            </tr>\n            <tr>\n              <td>\n                <span>2</span>\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -65217,7 +65616,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -65227,7 +65626,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -65237,7 +65636,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"]);
+  var data = _taggedTemplateLiteral(["<label class=\"c bottom\">\n          <var class=\"math-var\">c</var>\n          <input disabled type=\"number\" step=\".001\" .value=\"", "\">\n        </label>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -65247,7 +65646,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"c\">\n          <var class=\"math-var\">c</var>\n          <input disabled type=\"number\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["<label class=\"s bottom\">\n          <var class=\"math-var\">\u03C3</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -65310,6 +65709,11 @@ function (_SDTEquation) {
     key: "properties",
     get: function get() {
       return {
+        unequal: {
+          attribute: 'unequal',
+          type: Boolean,
+          reflect: true
+        },
         hr: {
           attribute: 'hit-rate',
           type: Number,
@@ -65317,6 +65721,11 @@ function (_SDTEquation) {
         },
         far: {
           attribute: 'false-alarm-rate',
+          type: Number,
+          reflect: true
+        },
+        s: {
+          attribute: 's',
           type: Number,
           reflect: true
         },
@@ -65335,8 +65744,10 @@ function (_SDTEquation) {
     _classCallCheck(this, SDTEquationHrFar2C);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTEquationHrFar2C).call(this));
+    _this.unequal = false;
     _this.hr = 0;
     _this.far = 0;
+    _this.s = 1;
 
     _this.alignState();
 
@@ -65346,7 +65757,7 @@ function (_SDTEquation) {
   _createClass(SDTEquationHrFar2C, [{
     key: "alignState",
     value: function alignState() {
-      this.c = _sdtEquation.default.hrfar2c(this.hr, this.far);
+      this.c = _sdtEquation.default.hrfar2c(this.hr, this.far, this.s);
     }
   }, {
     key: "sendEvent",
@@ -65355,6 +65766,7 @@ function (_SDTEquation) {
         detail: {
           hr: this.hr,
           far: this.far,
+          s: this.s,
           c: this.c
         },
         bubbles: true
@@ -65375,24 +65787,42 @@ function (_SDTEquation) {
       this.sendEvent();
     }
   }, {
+    key: "sInput",
+    value: function sInput(event) {
+      this.s = parseFloat(event.target.value);
+      this.alignState();
+      this.sendEvent();
+    }
+  }, {
     key: "render",
     value: function render() {
       this.alignState();
       var hr;
       var far;
+      var s;
       var c;
 
       if (this.numeric) {
         hr = (0, _litElement.html)(_templateObject(), !this.interactive, this.hr, this.hrInput.bind(this));
         far = (0, _litElement.html)(_templateObject2(), !this.interactive, this.far, this.farInput.bind(this));
-        c = (0, _litElement.html)(_templateObject3(), +this.c.toFixed(3));
+        s = (0, _litElement.html)(_templateObject3(), !this.interactive, this.s, this.sInput.bind(this));
+        c = (0, _litElement.html)(_templateObject4(), +this.c.toFixed(3));
       } else {
-        hr = (0, _litElement.html)(_templateObject4());
-        far = (0, _litElement.html)(_templateObject5());
-        c = (0, _litElement.html)(_templateObject6());
+        hr = (0, _litElement.html)(_templateObject5());
+        far = (0, _litElement.html)(_templateObject6());
+        s = (0, _litElement.html)(_templateObject7());
+        c = (0, _litElement.html)(_templateObject8());
       }
 
-      return (0, _litElement.html)(_templateObject7(), c, hr, far);
+      var equation;
+
+      if (this.unequal) {
+        equation = (0, _litElement.html)(_templateObject9(), c, s, s, hr, far, s);
+      } else {
+        equation = (0, _litElement.html)(_templateObject10(), c, hr, far);
+      }
+
+      return (0, _litElement.html)(_templateObject11(), equation);
     }
   }]);
 
@@ -65418,8 +65848,48 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _templateObject11() {
+  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"]);
+
+  _templateObject11 = function _templateObject11() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject10() {
+  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td>\n              ", "<span class=\"equals\">=</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span>\n          </td>\n        </tr>"]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">&plus;</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)<sup class=\"exp\">&minus;\xBD</sup></span><span class=\"bracket\">[</span>", "<span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"bracket\">]</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["<var class=\"math-var d\">d&prime;</var>"]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td>\n                  ", "<span class=\"equals\">=</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span>\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -65429,7 +65899,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["<var class=\"math-var d\">d&prime;</var>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -65439,7 +65909,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"]);
+  var data = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -65449,7 +65919,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"]);
+  var data = _taggedTemplateLiteral(["<label class=\"d bottom\">\n          <var class=\"math-var\">d&prime;</var>\n          <input disabled type=\"number\" step=\".001\" .value=\"", "\">\n        </label>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -65459,7 +65929,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"d bottom\">\n          <var class=\"math-var\">d&prime;</var>\n          <input disabled type=\"number\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["<label class=\"s bottom\">\n          <var class=\"math-var\">\u03C3</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -65522,6 +65992,11 @@ function (_SDTEquation) {
     key: "properties",
     get: function get() {
       return {
+        unequal: {
+          attribute: 'unequal',
+          type: Boolean,
+          reflect: true
+        },
         hr: {
           attribute: 'hit-rate',
           type: Number,
@@ -65529,6 +66004,11 @@ function (_SDTEquation) {
         },
         far: {
           attribute: 'false-alarm-rate',
+          type: Number,
+          reflect: true
+        },
+        s: {
+          attribute: 's',
           type: Number,
           reflect: true
         },
@@ -65547,8 +66027,10 @@ function (_SDTEquation) {
     _classCallCheck(this, SDTEquationHrFar2D);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTEquationHrFar2D).call(this));
+    _this.unequal = false;
     _this.hr = 0;
     _this.far = 0;
+    _this.s = 1;
 
     _this.alignState();
 
@@ -65558,7 +66040,7 @@ function (_SDTEquation) {
   _createClass(SDTEquationHrFar2D, [{
     key: "alignState",
     value: function alignState() {
-      this.d = _sdtEquation.default.hrfar2d(this.hr, this.far);
+      this.d = _sdtEquation.default.hrfar2d(this.hr, this.far, this.s);
     }
   }, {
     key: "sendEvent",
@@ -65567,6 +66049,7 @@ function (_SDTEquation) {
         detail: {
           hr: this.hr,
           far: this.far,
+          s: this.s,
           d: this.d
         },
         bubbles: true
@@ -65587,24 +66070,42 @@ function (_SDTEquation) {
       this.sendEvent();
     }
   }, {
+    key: "sInput",
+    value: function sInput(event) {
+      this.s = parseFloat(event.target.value);
+      this.alignState();
+      this.sendEvent();
+    }
+  }, {
     key: "render",
     value: function render() {
       this.alignState();
       var hr;
       var far;
+      var s;
       var d;
 
       if (this.numeric) {
         hr = (0, _litElement.html)(_templateObject(), !this.interactive, this.hr, this.hrInput.bind(this));
         far = (0, _litElement.html)(_templateObject2(), !this.interactive, this.far, this.farInput.bind(this));
-        d = (0, _litElement.html)(_templateObject3(), +this.d.toFixed(3));
+        s = (0, _litElement.html)(_templateObject3(), !this.interactive, this.s, this.sInput.bind(this));
+        d = (0, _litElement.html)(_templateObject4(), +this.d.toFixed(3));
       } else {
-        hr = (0, _litElement.html)(_templateObject4());
-        far = (0, _litElement.html)(_templateObject5());
-        d = (0, _litElement.html)(_templateObject6());
+        hr = (0, _litElement.html)(_templateObject5());
+        far = (0, _litElement.html)(_templateObject6());
+        s = (0, _litElement.html)(_templateObject7());
+        d = (0, _litElement.html)(_templateObject8());
       }
 
-      return (0, _litElement.html)(_templateObject7(), d, hr, far);
+      var equation;
+
+      if (this.unequal) {
+        equation = (0, _litElement.html)(_templateObject9(), d, s, s, hr, far);
+      } else {
+        equation = (0, _litElement.html)(_templateObject10(), d, hr, far);
+      }
+
+      return (0, _litElement.html)(_templateObject11(), equation);
     }
   }]);
 
@@ -65650,7 +66151,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n\n          margin: 1rem;\n        }\n\n        /* Containing <div> */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          justify-content: left;\n        }\n\n        /* Overall <table> */\n        .equation {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Modifies <td> */\n        .underline {\n          border-bottom: 1px solid var(---color-text);\n        }\n\n        /* Basic <span> and <var> w/modifiers */\n        span,\n        var {\n          padding: 0 0.25rem;\n\n          font-style: normal;\n        }\n\n        .tight {\n          padding: 0;\n        }\n\n        .paren {\n          font-size: 150%;\n        }\n\n        /* Input wrapping <label> */\n        label {\n          display: inline-flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          padding: 0.125rem 0.375rem 0.375rem;\n\n          vertical-align: middle;\n        }\n\n        .bottom {\n          vertical-align: bottom;\n        }\n\n        /* Nested <var> */\n        label var {\n          font-size: 0.75rem;\n        }\n\n        /* User <input> */\n        input {\n          width: 4rem;\n\n          background: none;\n        }\n\n        /* Color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .d,\n        .d input {\n          background: var(---color-d-light);\n        }\n\n        .c,\n        .c input {\n          background: var(---color-c-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n\n          margin: 1rem;\n        }\n\n        /* Containing <div> */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          justify-content: left;\n        }\n\n        /* Overall <table> */\n        .equation {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Modifies <td> */\n        .underline {\n          border-bottom: 1px solid var(---color-text);\n        }\n\n        /* Basic <span> and <var> w/modifiers */\n        span,\n        var {\n          padding: 0 0.25rem;\n\n          font-style: normal;\n        }\n\n        .tight {\n          padding: 0;\n        }\n\n        .paren {\n          font-size: 150%;\n        }\n\n        .bracket {\n          font-size: 175%;\n        }\n\n        .exp {\n          font-size: 0.75rem;\n        }\n\n        /* Input wrapping <label> */\n        label {\n          display: inline-flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          padding: 0.125rem 0.375rem 0.375rem;\n\n          vertical-align: middle;\n        }\n\n        .bottom {\n          vertical-align: bottom;\n        }\n\n        /* Nested <var> */\n        label var {\n          font-size: 0.75rem;\n        }\n\n        /* User <input> */\n        input {\n          width: 4rem;\n\n          background: none;\n        }\n\n        /* Color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .d,\n        .d input {\n          background: var(---color-d-light);\n        }\n\n        .c,\n        .c input {\n          background: var(---color-c-light);\n        }\n\n        .s,\n        .s input {\n          background: var(---color-s-light);\n        }\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -65725,7 +66226,7 @@ function (_SDTMixinStyleSpinner) {
 
 exports.default = SDTEquation;
 
-},{"../mixins/styleSpinner":391,"../sdt-element":393,"lit-element":347}],382:[function(require,module,exports){
+},{"../mixins/styleSpinner":392,"../sdt-element":394,"lit-element":347}],382:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -66134,7 +66635,9 @@ require("./legend");
 
 require("./model");
 
-},{"./double-interactive":382,"./human":383,"./interactive":385,"./legend":386,"./model":387}],385:[function(require,module,exports){
+require("./unequal");
+
+},{"./double-interactive":382,"./human":383,"./interactive":385,"./legend":386,"./model":387,"./unequal":389}],385:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -66209,8 +66712,8 @@ function (_SDTExample) {
         }
 
         if (this.sdtModel) {
-          this.sdtModel.d = _sdtExample.default.hrfar2d(_sdtExample.default.hm2hr(this.sdtTable.h, this.sdtTable.m), _sdtExample.default.facr2far(this.sdtTable.fa, this.sdtTable.cr));
-          this.sdtModel.c = _sdtExample.default.hrfar2c(_sdtExample.default.hm2hr(this.sdtTable.h, this.sdtTable.m), _sdtExample.default.facr2far(this.sdtTable.fa, this.sdtTable.cr));
+          this.sdtModel.d = _sdtExample.default.hrfar2d(_sdtExample.default.hm2hr(this.sdtTable.h, this.sdtTable.m), _sdtExample.default.facr2far(this.sdtTable.fa, this.sdtTable.cr), this.sdtModel.s);
+          this.sdtModel.c = _sdtExample.default.hrfar2c(_sdtExample.default.hm2hr(this.sdtTable.h, this.sdtTable.m), _sdtExample.default.facr2far(this.sdtTable.fa, this.sdtTable.cr), this.sdtModel.s);
         }
 
         this.sdtTable.addEventListener('sdt-table-change', function (event) {
@@ -66220,22 +66723,24 @@ function (_SDTExample) {
           }
 
           if (_this.sdtModel) {
-            _this.sdtModel.d = _sdtExample.default.hrfar2d(event.detail.hr, event.detail.far);
-            _this.sdtModel.c = _sdtExample.default.hrfar2c(event.detail.hr, event.detail.far);
+            _this.sdtModel.d = _sdtExample.default.hrfar2d(event.detail.hr, event.detail.far, _this.sdtModel.s);
+            _this.sdtModel.c = _sdtExample.default.hrfar2c(event.detail.hr, event.detail.far, _this.sdtModel.s);
           }
         });
       }
 
       if (this.rocSpace) {
         if (this.sdtModel && !this.sdtTable) {
-          this.sdtModel.d = _sdtExample.default.hrfar2d(this.rocSpace.hr, this.rocSpace.far);
-          this.sdtModel.c = _sdtExample.default.hrfar2c(this.rocSpace.hr, this.rocSpace.far);
+          this.sdtModel.d = _sdtExample.default.hrfar2d(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
+          this.sdtModel.c = _sdtExample.default.hrfar2c(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
+          this.sdtModel.s = this.rocSpace.s;
         }
 
         this.rocSpace.addEventListener('roc-point-change', function (event) {
           if (_this.sdtModel) {
             _this.sdtModel.d = event.detail.d;
             _this.sdtModel.c = event.detail.c;
+            _this.sdtModel.s = event.detail.s;
           }
 
           if (_this.sdtTable) {
@@ -66253,8 +66758,10 @@ function (_SDTExample) {
 
       if (this.sdtModel) {
         this.sdtModel.addEventListener('sdt-model-change', function (event) {
-          if (_this.rocSpace) {
-            _this.rocSpace.setWithSDT(event.detail.d, event.detail.c);
+          if (_this.rocSpaces.length > 0) {
+            _this.rocSpaces.forEach(function (rocSpace) {
+              rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', event.detail.s);
+            });
           }
 
           if (_this.sdtTable) {
@@ -66295,7 +66802,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n        dt {\n          padding: 0.375rem 0.675rem;\n        }\n\n        dd {\n          margin-top: 0.25rem;\n          margin-bottom: 1rem;\n        }\n\n        .h {\n          background: var(---color-h-light);\n          border-left: 1rem solid var(---color-h);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-left: 1rem solid var(---color-m);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-left: 1rem solid var(---color-fa);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-left: 1rem solid var(---color-cr);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n          border-left: 1rem solid var(---color-hr);\n        }\n\n        .far {\n          background: var(---color-far-light);\n          border-left: 1rem solid var(---color-far);\n        }\n\n        .present {\n          background: var(---color-present-light);\n          border-left: 1rem solid var(---color-present);\n        }\n\n        .absent {\n          background: var(---color-absent-light);\n          border-left: 1rem solid var(---color-absent);\n        }\n\n        .d {\n          background: var(---color-d-light);\n          border-left: 1rem solid var(---color-d);\n        }\n\n        .c {\n          background: var(---color-c-light);\n          border-left: 1rem solid var(---color-c);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n          border-left: 1rem solid var(---color-acc);\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        dt {\n          padding: 0.375rem 0.675rem;\n        }\n\n        dd {\n          margin-top: 0.25rem;\n          margin-bottom: 1rem;\n        }\n\n        .h {\n          background: var(---color-h-light);\n          border-left: 1rem solid var(---color-h);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-left: 1rem solid var(---color-m);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-left: 1rem solid var(---color-fa);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-left: 1rem solid var(---color-cr);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n          border-left: 1rem solid var(---color-hr);\n        }\n\n        .far {\n          background: var(---color-far-light);\n          border-left: 1rem solid var(---color-far);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n          border-left: 1rem solid var(---color-acc);\n        }\n\n        .d {\n          background: var(---color-d-light);\n          border-left: 1rem solid var(---color-d);\n        }\n\n        .c {\n          background: var(---color-c-light);\n          border-left: 1rem solid var(---color-c);\n        }\n\n        .s {\n          background: var(---color-s-light);\n          border-left: 1rem solid var(---color-s);\n        }\n\n        .present {\n          background: var(---color-present-light);\n          border-left: 1rem solid var(---color-present);\n        }\n\n        .absent {\n          background: var(---color-absent-light);\n          border-left: 1rem solid var(---color-absent);\n        }\n\n        .correct {\n          padding-left: calc(1.675rem - 1px);\n\n          background: var(---color-correct);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .error {\n          color: var(---color-text-light);\n\n          background: var(---color-error);\n          border-left: 1rem solid var(---color-error);\n        }\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -66305,7 +66812,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <div class=\"body\">\n          <dl>\n            <dt class=\"h\">Hit (<var class=\"math-var\">H</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"m\">Miss (<var class=\"math-var\">M</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"fa\">False Alarm (<var class=\"math-var\">FA</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"cr\">Correct Rejection (<var class=\"math-var\">CR</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"hr\">Signal Present/Hit Rate (<var class=\"math-var\">HR</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"far\">Signal Absent/False Alarm Rate (<var class=\"math-var\">FAR</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"d\">Sensitivity (<var class=\"math-var\">d&prime;</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"c\">Bias (<var class=\"math-var\">c</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"present\">Response 'Present'</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"absent\">Response 'Absent'</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"acc\">Overall/Accuracy</dt>\n            <dd>This is a 'blank'.</dd>\n          </dl>\n        </div>\n      </div>\n    "]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <div class=\"body\">\n          <dl>\n            <dt class=\"present\">Response 'Present'</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"absent\">Response 'Absent'</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"correct\">Correct</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"error\">Error</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"acc\">Accuracy</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"h\">Hit (<var class=\"math-var\">H</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"m\">Miss (<var class=\"math-var\">M</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"fa\">False Alarm (<var class=\"math-var\">FA</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"cr\">Correct Rejection (<var class=\"math-var\">CR</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"hr\">Signal Present/Hit Rate (<var class=\"math-var\">HR</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"far\">Signal Absent/False Alarm Rate (<var class=\"math-var\">FAR</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"d\">Sensitivity (<var class=\"math-var\">d&prime;</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"c\">Bias (<var class=\"math-var\">c</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"s\">Variance (<var class=\"math-var\">\u03C3</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n          </dl>\n        </div>\n      </div>\n    "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -66674,7 +67181,101 @@ function (_SDTElement) {
 exports.default = SDTExample;
 customElements.define('sdt-example', SDTExample);
 
-},{"../sdt-element":393,"lit-element":347}],389:[function(require,module,exports){
+},{"../sdt-element":394,"lit-element":347}],389:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var d3 = _interopRequireWildcard(require("d3"));
+
+var _sdtExample = _interopRequireDefault(require("./sdt-example"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+/*
+  SDTExampleUnequal element
+  <sdt-example-unequal>
+*/
+var SDTExampleUnequal =
+/*#__PURE__*/
+function (_SDTExample) {
+  _inherits(SDTExampleUnequal, _SDTExample);
+
+  function SDTExampleUnequal() {
+    _classCallCheck(this, SDTExampleUnequal);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(SDTExampleUnequal).apply(this, arguments));
+  }
+
+  _createClass(SDTExampleUnequal, [{
+    key: "firstUpdated",
+    value: function firstUpdated()
+    /* changedProperties */
+    {
+      var _this = this;
+
+      this.sdtControl = this.querySelector('sdt-control');
+      this.rocSpace = this.querySelector('roc-space');
+      this.sdtModel = this.querySelector('sdt-model');
+
+      if (this.sdtControl) {
+        this.sdtControl.addEventListener('sdt-control-z-roc', function (event) {
+          _this.rocSpace.zRoc = event.detail.zRoc;
+        });
+      }
+
+      if (this.rocSpace) {
+        this.rocSpace.setWithSDT(1, 0, 'default', 1); // Set 'default' to equal variance for contours
+      }
+
+      if (this.sdtModel) {
+        if (this.rocSpace) {
+          d3.range(-1.5, 1.6, 0.5).forEach(function (c, index) {
+            _this.rocSpace.setWithSDT(_this.sdtModel.d, c, "point".concat(index), _this.sdtModel.s);
+          });
+        }
+
+        this.sdtModel.addEventListener('sdt-model-change', function (event) {
+          if (_this.rocSpace) {
+            d3.range(-1.5, 1.6, 0.5).forEach(function (c, index) {
+              _this.rocSpace.setWithSDT(event.detail.d, c, "point".concat(index), event.detail.s);
+            });
+          }
+        });
+      }
+    }
+  }]);
+
+  return SDTExampleUnequal;
+}(_sdtExample.default);
+
+exports.default = SDTExampleUnequal;
+customElements.define('sdt-example-unequal', SDTExampleUnequal);
+
+},{"./sdt-example":388,"d3":341}],390:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -66744,7 +67345,7 @@ var SDTMixinStyleButton = function SDTMixinStyleButton(superclass) {
 
 exports.default = SDTMixinStyleButton;
 
-},{"lit-element":347}],390:[function(require,module,exports){
+},{"lit-element":347}],391:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -66814,7 +67415,7 @@ var SDTMixinStyleSpinner = function SDTMixinStyleSpinner(superclass) {
 
 exports.default = SDTMixinStyleSpinner;
 
-},{"lit-element":347}],391:[function(require,module,exports){
+},{"lit-element":347}],392:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -66884,7 +67485,7 @@ var SDTMixinStyleSpinner = function SDTMixinStyleSpinner(superclass) {
 
 exports.default = SDTMixinStyleSpinner;
 
-},{"lit-element":347}],392:[function(require,module,exports){
+},{"lit-element":347}],393:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -66954,7 +67555,7 @@ var SDTMixinStyleSwitch = function SDTMixinStyleSwitch(superclass) {
 
 exports.default = SDTMixinStyleSwitch;
 
-},{"lit-element":347}],393:[function(require,module,exports){
+},{"lit-element":347}],394:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -66973,7 +67574,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["\n      :host {\n        ---shadow-0: var(--shadow-0, ", ");\n        ---shadow-2: var(--shadow-2, ", ");\n        ---shadow-4: var(--shadow-4, ", ");\n        ---shadow-8: var(--shadow-8, ", ");\n\n        ---color-h: var(--color-h, ", ");\n        ---color-m: var(--color-m, ", ");\n        ---color-fa: var(--color-fa, ", ");\n        ---color-cr: var(--color-cr, ", ");\n        ---color-hr: var(--color-hr, ", ");\n        ---color-far: var(--color-far, ", ");\n        ---color-d: var(--color-d, ", ");\n        ---color-c: var(--color-c, ", ");\n        ---color-acc: var(--color-acc, ", ");\n        ---color-present: var(--color-present, ", ");\n        ---color-absent: var(--color-absent, ", ");\n\n        ---color-h-light: var(--color-h-light, ", ");\n        ---color-m-light: var(--color-m-light, ", ");\n        ---color-fa-light: var(--color-fa-light, ", ");\n        ---color-cr-light: var(--color-cr-light, ", ");\n        ---color-hr-light: var(--color-hr-light, ", ");\n        ---color-far-light: var(--color-far-light, ", ");\n        ---color-d-light: var(--color-d-light, ", ");\n        ---color-c-light: var(--color-c-light, ", ");\n        ---color-acc-light: var(--color-acc-light, ", ");\n        ---color-present-light: var(--color-present-light, ", ");\n        ---color-absent-light: var(--color-absent-light, ", ");\n\n        ---color-h-dark: var(--color-h-dark, ", ");\n        ---color-m-dark: var(--color-m-dark, ", ");\n        ---color-fa-dark: var(--color-fa-dark, ", ");\n        ---color-cr-dark: var(--color-cr-dark, ", ");\n        ---color-hr-dark: var(--color-hr-dark, ", ");\n        ---color-far-dark: var(--color-far-dark, ", ");\n        ---color-d-dark: var(--color-d-dark, ", ");\n        ---color-c-dark: var(--color-c-dark, ", ");\n        ---color-acc-dark: var(--color-acc-dark, ", ");\n        ---color-present-dark: var(--color-present-dark, ", ");\n        ---color-absent-dark: var(--color-absent-dark, ", ");\n\n        ---color-background: var(--color-background, ", ");\n        ---color-border: var(--color-border, ", ");\n        ---color-text: var(--color-text, ", ");\n        ---color-link: var(--color-link, ", ");\n        ---color-element-background: var(--color-element-background, ", ");\n        ---color-element-disabled: var(--color-element-disabled, ", ");\n        ---color-element-enabled: var(--color-element-enabled, ", ");\n        ---color-element-border: var(--color-element-border, ", ");\n        ---color-element-emphasis: var(--color-element-emphasis, ", ");\n\n        ---font-family-base: var(--font-family-base, \"Source Sans Pro\", sans-serif);\n        ---font-family-math: var(--font-family-math, \"Source Serif Pro\", serif);\n\n        font-family: var(---font-family-base);\n      }\n\n      :host,\n      :host *,\n      :host *::before,\n      :host *::after {\n        box-sizing: border-box;\n      }\n\n      .math-var {\n        font-family: var(---font-family-math);\n        font-style: italic;\n      }\n\n      .math-greek {\n        font-family: var(---font-family-math);\n        font-style: normal;\n      }\n\n      .defs {\n        display: block;\n\n        width: 0;\n        height: 0;\n      }\n    "]);
+  var data = _taggedTemplateLiteral(["\n      :host {\n        ---shadow-0: var(--shadow-0, ", ");\n        ---shadow-2: var(--shadow-2, ", ");\n        ---shadow-4: var(--shadow-4, ", ");\n        ---shadow-8: var(--shadow-8, ", ");\n\n        ---color-h: var(--color-h, ", ");\n        ---color-m: var(--color-m, ", ");\n        ---color-fa: var(--color-fa, ", ");\n        ---color-cr: var(--color-cr, ", ");\n        ---color-hr: var(--color-hr, ", ");\n        ---color-far: var(--color-far, ", ");\n        ---color-acc: var(--color-acc, ", ");\n        ---color-d: var(--color-d, ", ");\n        ---color-c: var(--color-c, ", ");\n        ---color-s: var(--color-s, ", ");\n        ---color-present: var(--color-present, ", ");\n        ---color-absent: var(--color-absent, ", ");\n        ---color-correct: var(--color-correct, ", ");\n        ---color-error: var(--color-error, ", ");\n\n        ---color-h-light: var(--color-h-light, ", ");\n        ---color-m-light: var(--color-m-light, ", ");\n        ---color-fa-light: var(--color-fa-light, ", ");\n        ---color-cr-light: var(--color-cr-light, ", ");\n        ---color-hr-light: var(--color-hr-light, ", ");\n        ---color-far-light: var(--color-far-light, ", ");\n        ---color-acc-light: var(--color-acc-light, ", ");\n        ---color-d-light: var(--color-d-light, ", ");\n        ---color-c-light: var(--color-c-light, ", ");\n        ---color-s-light: var(--color-s-light, ", ");\n        ---color-present-light: var(--color-present-light, ", ");\n        ---color-absent-light: var(--color-absent-light, ", ");\n\n        ---color-h-dark: var(--color-h-dark, ", ");\n        ---color-m-dark: var(--color-m-dark, ", ");\n        ---color-fa-dark: var(--color-fa-dark, ", ");\n        ---color-cr-dark: var(--color-cr-dark, ", ");\n        ---color-hr-dark: var(--color-hr-dark, ", ");\n        ---color-far-dark: var(--color-far-dark, ", ");\n        ---color-acc-dark: var(--color-acc-dark, ", ");\n        ---color-d-dark: var(--color-d-dark, ", ");\n        ---color-c-dark: var(--color-c-dark, ", ");\n        ---color-s-dark: var(--color-s-dark, ", ");\n        ---color-present-dark: var(--color-present-dark, ", ");\n        ---color-absent-dark: var(--color-absent-dark, ", ");\n\n        ---color-background: var(--color-background, ", ");\n        ---color-border: var(--color-border, ", ");\n        ---color-text: var(--color-text, ", ");\n        ---color-text-light: var(--color-text-light, ", ");\n        ---color-link: var(--color-link, ", ");\n        ---color-element-background: var(--color-element-background, ", ");\n        ---color-element-disabled: var(--color-element-disabled, ", ");\n        ---color-element-enabled: var(--color-element-enabled, ", ");\n        ---color-element-border: var(--color-element-border, ", ");\n        ---color-element-emphasis: var(--color-element-emphasis, ", ");\n\n        ---font-family-base: var(--font-family-base, \"Source Sans Pro\", sans-serif);\n        ---font-family-math: var(--font-family-math, \"Source Serif Pro\", serif);\n\n        font-family: var(---font-family-base);\n      }\n\n      :host,\n      :host *,\n      :host *::before,\n      :host *::after {\n        box-sizing: border-box;\n      }\n\n      .math-var {\n        font-family: var(---font-family-math);\n        font-style: italic;\n      }\n\n      .math-greek {\n        font-family: var(---font-family-math);\n        font-style: normal;\n      }\n\n      .defs {\n        display: block;\n\n        width: 0;\n        height: 0;\n      }\n    "]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -67088,19 +67689,66 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   SDTElement Base Class - Not intended for instantiation!
   <sdt-element>
 
-  Equations:
-    d' = Z^-1(HR) - Z^-1(FAR)
-    C =  -(Z^-1(HR) + Z^-1(FAR))/2
+  Variables:
+    H = hits
+    M = misses
+    FA = false alarms
+    CR = correct rejections
+    HR = hit rate
+    FAR = false alarm rate
+    ACC = accuracy
+    d = sensitivity (d' for equal variance, d_a for unequal variance)
+    c = response bias (c for equal variance, c_a for unequal variance)
+    s = standard deviation of signal distribution, with standard deviation of noise distribution = 1
+    muN = mean of noise distribution
+    muS = mean of signal distribution
+    l = lambda, threshold location, with l = 0 indicating no response bias
+    h = height of signal distribution
 
+  Equations (* = unequal variance):
     HR = H / (H + M)
     FAR = FA / (FA + CR)
+    ACC = (H + CR) / (H + M + FA + CR)
+    ACC = (HR + (1 - FAR)) / 2
 
-    HR = Z(d'/2 - C)
-    FAR = Z(-d'/2 - C)
+    d' = Z^-1(HR) - Z^-1(FAR)
+    *d' = (2 / (s^2 + 1))^(1/2) * (s * Z^-1(HR) - Z^-1(FAR))
+
+    c = -(Z^-1(HR) + Z^-1(FAR))/2
+    *c = (2 / (s^2 + 1))^(1/2) * (s / s + 1) * -(Z^-1(HR) + Z^-1(FAR))
+
+    HR = Z(d'/2 - c)
+    *HR = Z(((s^2 + 1) / 2)^(1/2) * (d' / (s + 1) - c / s))
+
+    FAR = Z(-d'/2 - c)
+    *FAR = Z(((s^2 + 1) / 2)^(1/2) * -(d' / (s + 1) + c))
 
     HR = Z(d' + Z^-1(FAR))
-    HR = Z(-2C - Z^-1(FAR))
+    *HR = Z(((s^2 + 1) / 2)^(1/2) * d' + Z^-1(FAR) / s)
 
+    HR = Z(-2c - Z^-1(FAR))
+    *HR = Z(-((s^2 + 1) / 2)^(1/2) * ((s + 1) / s) * c - Z^-1(FAR))
+
+    muN = -d'/2
+    *muN = -((s^2 + 1) / 2)^(1/2) * (1 / (s + 1)) * d'
+
+    d' = -2 * muN
+    *d' = -(2 / (s^2 + 1))^(1/2) * (s + 1) * muN
+
+    muS = d'/2
+    *muS = ((s^2 + 1) / 2)^(1/2) * (s / (s + 1)) * d'
+
+    d' = 2 * muS
+    *d' = (2 / (s^2 + 1))^(1/2) * ((s + 1) / s) * muS
+
+    l = c
+    l = ((s^2 + 1) / 2)^(1/2) * c
+
+    c = l
+    c = (2 / (s^2 + 1))^(1/2) * l
+
+    h = 1 / (s * (2 * pi)^(1/2))
+    s = 1 / (h * (2 * pi)^(1/2))
 */
 var SDTElement =
 /*#__PURE__*/
@@ -67218,32 +67866,97 @@ function (_LitElement) {
   }, {
     key: "hrfar2d",
     value: function hrfar2d(hr, far) {
-      return jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1);
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1);
+      return Math.sqrt(2 / (s * s + 1)) * (s * jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1));
     }
   }, {
     key: "hrfar2c",
     value: function hrfar2c(hr, far) {
-      return -(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1)) / 2;
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return -(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1)) / 2;
+      return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1));
     }
   }, {
     key: "dc2hr",
     value: function dc2hr(d, c) {
-      return jStat.normal.cdf(d / 2 - c, 0, 1);
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return jStat.normal.cdf(d / 2 - c, 0, 1);
+      return jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
     }
   }, {
     key: "dc2far",
     value: function dc2far(d, c) {
-      return jStat.normal.cdf(-d / 2 - c, 0, 1);
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return jStat.normal.cdf(-(d / 2 + c), 0, 1);
+      return jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
     }
   }, {
     key: "dfar2hr",
     value: function dfar2hr(d, far) {
-      return jStat.normal.cdf(d + jStat.normal.inv(far, 0, 1), 0, 1);
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return jStat.normal.cdf(d + jStat.normal.inv(far, 0, 1), 0, 1);
+      return jStat.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jStat.normal.inv(far, 0, 1)) / s, 0, 1);
     }
   }, {
     key: "cfar2hr",
     value: function cfar2hr(c, far) {
-      return jStat.normal.cdf(-(2 * c) - jStat.normal.inv(far, 0, 1), 0, 1);
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return jStat.normal.cdf(-(2 * c) - jStat.normal.inv(far, 0, 1), 0, 1);
+      return jStat.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jStat.normal.inv(far, 0, 1), 0, 1);
+    }
+  }, {
+    key: "d2muN",
+    value: function d2muN(d) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return -d / 2;
+      return -Math.sqrt((s * s + 1) / 2) * (1 / (s + 1)) * d;
+    }
+  }, {
+    key: "muN2d",
+    value: function muN2d(muN) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return -2 * muN;
+      return -Math.sqrt(2 / (s * s + 1)) * (s + 1) * muN;
+    }
+  }, {
+    key: "d2muS",
+    value: function d2muS(d) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return d / 2;
+      return Math.sqrt((s * s + 1) / 2) * (s / (s + 1)) * d;
+    }
+  }, {
+    key: "muS2d",
+    value: function muS2d(muS) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return 2 * muS;
+      return Math.sqrt(2 / (s * s + 1)) * ((s + 1) / s) * muS;
+    }
+  }, {
+    key: "c2l",
+    value: function c2l(c) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return c;
+      return Math.sqrt((s * s + 1) / 2) * c;
+    }
+  }, {
+    key: "l2c",
+    value: function l2c(l) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return l;
+      return Math.sqrt(2 / (s * s + 1)) * l;
+    }
+  }, {
+    key: "s2h",
+    value: function s2h() {
+      var s = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      return 1 / (s * Math.sqrt(2 * Math.PI));
+    }
+  }, {
+    key: "h2s",
+    value: function h2s(h) {
+      return 1 / (h * Math.sqrt(2 * Math.PI));
     }
   }, {
     key: "hr2zhr",
@@ -67275,11 +67988,14 @@ function (_LitElement) {
         cr: d3.schemeSet1[0],
         hr: d3.schemeSet1[5],
         far: d3.schemeSet1[3],
+        acc: d3.schemeSet1[8],
         d: d3.schemeSet1[7],
         c: d3.schemeSet1[6],
-        acc: d3.schemeSet1[8],
+        s: '#4545d0',
         present: '#f032e6',
-        absent: '#10dbc9'
+        absent: '#10dbc9',
+        correct: '#ffffff',
+        error: '#000000'
       };
     }
   }, {
@@ -67450,7 +68166,7 @@ function (_LitElement) {
   }, {
     key: "styles",
     get: function get() {
-      return (0, _litElement.css)(_templateObject9(), (0, _litElement.unsafeCSS)(this.cssBoxShadow(0)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(2)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(4)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(8)), (0, _litElement.unsafeCSS)(this.colors.h), (0, _litElement.unsafeCSS)(this.colors.m), (0, _litElement.unsafeCSS)(this.colors.fa), (0, _litElement.unsafeCSS)(this.colors.cr), (0, _litElement.unsafeCSS)(this.colors.hr), (0, _litElement.unsafeCSS)(this.colors.far), (0, _litElement.unsafeCSS)(this.colors.d), (0, _litElement.unsafeCSS)(this.colors.c), (0, _litElement.unsafeCSS)(this.colors.acc), (0, _litElement.unsafeCSS)(this.colors.present), (0, _litElement.unsafeCSS)(this.colors.absent), (0, _litElement.unsafeCSS)(this.lights.h), (0, _litElement.unsafeCSS)(this.lights.m), (0, _litElement.unsafeCSS)(this.lights.fa), (0, _litElement.unsafeCSS)(this.lights.cr), (0, _litElement.unsafeCSS)(this.lights.hr), (0, _litElement.unsafeCSS)(this.lights.far), (0, _litElement.unsafeCSS)(this.lights.d), (0, _litElement.unsafeCSS)(this.lights.c), (0, _litElement.unsafeCSS)(this.lights.acc), (0, _litElement.unsafeCSS)(this.lights.present), (0, _litElement.unsafeCSS)(this.lights.absent), (0, _litElement.unsafeCSS)(this.darks.h), (0, _litElement.unsafeCSS)(this.darks.m), (0, _litElement.unsafeCSS)(this.darks.fa), (0, _litElement.unsafeCSS)(this.darks.cr), (0, _litElement.unsafeCSS)(this.darks.hr), (0, _litElement.unsafeCSS)(this.darks.far), (0, _litElement.unsafeCSS)(this.darks.d), (0, _litElement.unsafeCSS)(this.darks.c), (0, _litElement.unsafeCSS)(this.darks.acc), (0, _litElement.unsafeCSS)(this.darks.present), (0, _litElement.unsafeCSS)(this.darks.absent), (0, _litElement.unsafeCSS)(this.greys.white), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.dark75), (0, _litElement.unsafeCSS)(this.greys.dark25), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.light50), (0, _litElement.unsafeCSS)(this.greys.grey), (0, _litElement.unsafeCSS)(this.greys.dark50), (0, _litElement.unsafeCSS)(this.greys.dark75));
+      return (0, _litElement.css)(_templateObject9(), (0, _litElement.unsafeCSS)(this.cssBoxShadow(0)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(2)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(4)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(8)), (0, _litElement.unsafeCSS)(this.colors.h), (0, _litElement.unsafeCSS)(this.colors.m), (0, _litElement.unsafeCSS)(this.colors.fa), (0, _litElement.unsafeCSS)(this.colors.cr), (0, _litElement.unsafeCSS)(this.colors.hr), (0, _litElement.unsafeCSS)(this.colors.far), (0, _litElement.unsafeCSS)(this.colors.acc), (0, _litElement.unsafeCSS)(this.colors.d), (0, _litElement.unsafeCSS)(this.colors.c), (0, _litElement.unsafeCSS)(this.colors.s), (0, _litElement.unsafeCSS)(this.colors.present), (0, _litElement.unsafeCSS)(this.colors.absent), (0, _litElement.unsafeCSS)(this.colors.correct), (0, _litElement.unsafeCSS)(this.colors.error), (0, _litElement.unsafeCSS)(this.lights.h), (0, _litElement.unsafeCSS)(this.lights.m), (0, _litElement.unsafeCSS)(this.lights.fa), (0, _litElement.unsafeCSS)(this.lights.cr), (0, _litElement.unsafeCSS)(this.lights.hr), (0, _litElement.unsafeCSS)(this.lights.far), (0, _litElement.unsafeCSS)(this.lights.acc), (0, _litElement.unsafeCSS)(this.lights.d), (0, _litElement.unsafeCSS)(this.lights.c), (0, _litElement.unsafeCSS)(this.lights.s), (0, _litElement.unsafeCSS)(this.lights.present), (0, _litElement.unsafeCSS)(this.lights.absent), (0, _litElement.unsafeCSS)(this.darks.h), (0, _litElement.unsafeCSS)(this.darks.m), (0, _litElement.unsafeCSS)(this.darks.fa), (0, _litElement.unsafeCSS)(this.darks.cr), (0, _litElement.unsafeCSS)(this.darks.hr), (0, _litElement.unsafeCSS)(this.darks.far), (0, _litElement.unsafeCSS)(this.darks.acc), (0, _litElement.unsafeCSS)(this.darks.d), (0, _litElement.unsafeCSS)(this.darks.c), (0, _litElement.unsafeCSS)(this.darks.s), (0, _litElement.unsafeCSS)(this.darks.present), (0, _litElement.unsafeCSS)(this.darks.absent), (0, _litElement.unsafeCSS)(this.greys.white), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.dark75), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.dark25), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.light50), (0, _litElement.unsafeCSS)(this.greys.grey), (0, _litElement.unsafeCSS)(this.greys.dark50), (0, _litElement.unsafeCSS)(this.greys.dark75));
     }
   }]);
 

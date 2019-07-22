@@ -4,10 +4,10 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="detectable: Conclusions: The Power of Simplicity">
+    <meta name="description" content="detectable: Equations: Mathematical Definition of SDT">
     <meta name="author" content="Dr. Adam Krawitz">
 
-    <title>d&prime;etectable: Conclusions</title>
+    <title>d&prime;etectable: Equations</title>
 
     <link href="index.css" rel="stylesheet">
   </head>
@@ -169,7 +169,7 @@
                   </li>
               
                 
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-19 sdt-tocitem-active">
+                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-19">
                 
                     <a class="sdt-toclink" href="conclusion.html">
                       Conclusions
@@ -186,7 +186,7 @@
                   </li>
               
                 
-                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-2">
+                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-2 sdt-tocitem-active">
                 
                     <a class="sdt-toclink" href="equations.html">
                       Equations
@@ -215,45 +215,54 @@
 
         <main class="sdt-main">
           <header>
-            <h1>Conclusions: The Power of Simplicity</h1>
+            <h1>Equations: Mathematical Definition of SDT</h1>
           </header>
           <section class="sdt-content">
-            <h2>Further topics in SDT</h2>
-<ul>
-<li>Unequal variance<ul>
-<li>Better to use d' and log beta</li>
-</ul></li>
-<li>Confidence ratings to map out an iso-sensitivity curve</li>
-<li>High Threshold Theory, Low Threshold Theory, Choice Theory<ul>
-<li><a href="https://rstudio-pubs-static.s3.amazonaws.com/371840_5694e490af85424eb7e7f3ae721cd67d.html#chapter-4-threshold-models-and-choice-theory">https://rstudio-pubs-static.s3.amazonaws.com/371840_5694e490af85424eb7e7f3ae721cd67d.html#chapter-4-threshold-models-and-choice-theory</a></li>
-</ul></li>
-<li>Alternative measures of sensitivity and bias<ul>
-<li>e.g. beta, etc...</li>
-</ul></li>
-<li>Empirical measures of sensitivity and bias?</li>
-<li>Fitting a curve in ROC space</li>
-<li>Non-normal distributions</li>
-<li>Paradigms other than Yes/No<ul>
-<li>e.g. 2AFC</li>
-</ul></li>
-</ul>
-<h2>Further topics in Decision Making</h2>
-<ul>
-<li>Neural implementation</li>
-<li>Incorporating reaction time</li>
-<li>Relationship to evidence accumulation models</li>
-<li>Relationship to Bayesian inference</li>
-<li>Add in Prospect Theory ideas about probability, value, and utility?</li>
-</ul>
-<h2>The end</h2>
-<p>For now.</p>
+            <h2>Summarizing outcomes</h2>
+<h3>Hit Rate</h3>
+<p><sdt-equation-hm2hr></sdt-equation-hm2hr></p>
+<p><sdt-equation-hm2hr numeric interactive hits="5" misses="5"></sdt-equation-hm2hr></p>
+<h3>False Alarm Rate</h3>
+<p><sdt-equation-facr2far></sdt-equation-facr2far></p>
+<sdt-equation-facr2far numeric interactive false-alarms="5" correct-rejections="5">
+  </sdt-equation-facr2far>
+<h3>Accuracy</h3>
+<p><sdt-equation-hmfacr2acc></sdt-equation-hmfacr2acc></p>
+<p><sdt-equation-hmfacr2acc numeric interactive hits="5" misses="5"
+  false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
+<h2>Equal variance SDT</h2>
+<h3>Sensitivity</h3>
+<p><sdt-equation-hrfar2d></sdt-equation-hrfar2d></p>
+<sdt-equation-hrfar2d numeric interactive hit-rate=".5" false-alarm-rate=".5">
+  </sdt-equation-hrfar2d>
+<h3>Response bias</h3>
+<p><sdt-equation-hrfar2c></sdt-equation-hrfar2c></p>
+<sdt-equation-hrfar2c numeric interactive hit-rate=".5" false-alarm-rate=".5">
+  </sdt-equation-hrfar2c>
+<h3>Predicted outcomes</h3>
+<p><sdt-equation-dc2hr></sdt-equation-dc2hr></p>
+<p><sdt-equation-dc2hr numeric interactive d="1" c="1"></sdt-equation-dc2hr></p>
+<p><sdt-equation-dc2far></sdt-equation-dc2far></p>
+<p><sdt-equation-dc2far numeric interactive d="1" c="1"></sdt-equation-dc2far></p>
+<h2>Unequal variance SDT</h2>
+<h3>Sensitivity</h3>
+<p><sdt-equation-hrfar2d unequal></sdt-equation-hrfar2d></p>
+<sdt-equation-hrfar2d unequal numeric interactive hit-rate=".5" false-alarm-rate=".5" s="2">
+  </sdt-equation-hrfar2d>
+<h3>Response bias</h3>
+<p><sdt-equation-hrfar2c unequal></sdt-equation-hrfar2c></p>
+<sdt-equation-hrfar2c unequal numeric interactive hit-rate=".5" false-alarm-rate=".5">
+  </sdt-equation-hrfar2c>
+<h3>Predicted outcomes</h3>
+<p><sdt-equation-dc2hr unequal></sdt-equation-dc2hr></p>
+<p><sdt-equation-dc2hr unequal numeric interactive d="1" c="1"></sdt-equation-dc2hr></p>
+<p><sdt-equation-dc2far unequal></sdt-equation-dc2far></p>
+<p><sdt-equation-dc2far unequal numeric interactive d="1" c="1"></sdt-equation-dc2far></p>
 
           </section>
 
           <footer class="sdt-footer">
             <div class="sdt-footer-item sdt-footer-item-left">
-              
-                <a class="sdt-toclink" href="unequal.html">&lt; Unequal Variance</a>
               
             </div>
             <div class="sdt-footer-item sdt-footer-item-right">
