@@ -461,6 +461,71 @@ body {
     border-radius: 0.25rem;
   }
 
+  code[class="Pause"],
+  code[class="Reset"],
+  code[class="Run"] {
+    color: var(--color-background);
+
+    background-color: var(--color-element-enabled);
+  }
+
+  code[class="+"],
+  code[class="?"] {
+    background-color: var(--color-element-disabled);
+
+    border: 2px solid var(--color-element-emphasis);
+    border-radius: 1rem;
+  }
+
+  code[class="Present"] {
+    color: var(--color-background);
+
+    background-color: var(--color-present);
+  }
+
+  code[class="Absent"] {
+    color: var(--color-background);
+
+    background-color: var(--color-absent);
+  }
+
+  code[class="Correct"] {
+    background-color: var(--color-correct);
+
+    border: 1px solid var(--color-element-emphasis);
+    border-radius: 0;
+  }
+
+  code[class="Error"] {
+    color: var(--color-background);
+
+    background-color: var(--color-error);
+    border-radius: 0;
+  }
+
+  code[class="NoResponse"] {
+    background-color: var(--color-element-background);
+
+    border: 1px solid var(--color-element-emphasis);
+    border-radius: 0;
+  }
+
+  code[class="Hits"] {
+    background-color: var(--color-h-light);
+  }
+
+  code[class="Misses"] {
+    background-color: var(--color-m-light);
+  }
+
+  code[class="CorrectRejections"] {
+    background-color: var(--color-cr-light);
+  }
+
+  code[class="FalseAlarms"] {
+    background-color: var(--color-fa-light);
+  }
+
   .csl-entry {
     padding-left: 2rem;
 
