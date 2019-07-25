@@ -221,18 +221,27 @@
             <p>On each trial, when we make a response, we might wonder about the relationship between our response
 and the actual state of affairs. Often we talk about this in terms of the <strong>accuracy</strong> of our
 response. And sometimes that may be all that really matters - was my answer <code class="Correct">Correct</code> or was it an
-<code class="Error">Error</code>.</p>
+<code class="Error">Error</code>?</p>
 <h2>Accuracy</h2>
-<p>As you have no doubt noticed, if you have given it a try, you receive feedback. For
-the moment, that feedback is either <code class="Correct">Correct</code>, <code class="Error">Error</code>, or <code class="No">No Response</code> if you do not respond in
-time.</p>
+<p>Try 10 trials fo the task:</p>
 <sdt-example-human>
   <sdt-control run pause reset coherence="1"></sdt-control>
   <rdk-task count="100" coherence="1" trials="10" probability=".5"
     duration="1000" wait="1000" iti="500"></rdk-task>
   <sdt-response feedback="accuracy"></sdt-response>
 </sdt-example-human>
+<p>As you have no doubt noticed, if you have given it a try, you receive feedback. For
+the moment, that feedback is either <code class="Correct">Correct</code> or <code class="Error">Error</code> (or <code class="NoResponse">No Response</code> if you do not respond in
+time).</p>
 <h2>Outcomes</h2>
+<p>If we think about it a bit more, we realize that there are actually two ways we can be correct, and
+two ways we can be in error. When the signal is actually <em>present</em>, we are correct when we respond
+<em>"present"</em> and in error when we respond <em>"absent"</em>. Traditionally, these outcomes are referred to
+as <code class="Hits">Hits</code> and <code class="Misses">Misses</code> respectively. When the signal is actually <em>absent</em>, we are correct when we
+respond <em>"absent"</em>, and in error when we respond <em>"present"</em>. Traditionally, these outcomes are
+referred to as <code class="CorrectRejections">Correct Rejections</code> and <code class="FalseAlarms">False Alarms</code> respectively.  We have two possible states of
+the world (signal present or absent) and two possible responses ("present" or "absent"), leading to
+a nice two by two table of possible outcomes (brightly colored by yours truly):</p>
 <sdt-example-interactive>
   <sdt-table display="outcomes"></sdt-table>
 </sdt-example-interactive>

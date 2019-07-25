@@ -4716,6 +4716,42 @@ body {
     font-weight: 600;
     background-color: var(--color-element-background);
     border-radius: 0.25rem; }
+  .sdt-content code[class="Pause"],
+  .sdt-content code[class="Reset"],
+  .sdt-content code[class="Run"] {
+    color: var(--color-background);
+    background-color: var(--color-element-enabled); }
+  .sdt-content code[class="+"],
+  .sdt-content code[class="?"] {
+    background-color: var(--color-element-disabled);
+    border: 2px solid var(--color-element-emphasis);
+    border-radius: 1rem; }
+  .sdt-content code[class="Present"] {
+    color: var(--color-background);
+    background-color: var(--color-present); }
+  .sdt-content code[class="Absent"] {
+    color: var(--color-background);
+    background-color: var(--color-absent); }
+  .sdt-content code[class="Correct"] {
+    background-color: var(--color-correct);
+    border: 1px solid var(--color-element-emphasis);
+    border-radius: 0; }
+  .sdt-content code[class="Error"] {
+    color: var(--color-background);
+    background-color: var(--color-error);
+    border-radius: 0; }
+  .sdt-content code[class="NoResponse"] {
+    background-color: var(--color-element-background);
+    border: 1px solid var(--color-element-emphasis);
+    border-radius: 0; }
+  .sdt-content code[class="Hits"] {
+    background-color: var(--color-h-light); }
+  .sdt-content code[class="Misses"] {
+    background-color: var(--color-m-light); }
+  .sdt-content code[class="CorrectRejections"] {
+    background-color: var(--color-cr-light); }
+  .sdt-content code[class="FalseAlarms"] {
+    background-color: var(--color-fa-light); }
   .sdt-content .csl-entry {
     padding-left: 2rem;
     text-indent: -2rem; }
