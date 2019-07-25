@@ -25,6 +25,8 @@
 
 ## Features/Bugs
 
+- Show total trials, and trials completed/remaining!
+
 - Unequal variance
   - d' vs d_a, and c vs c_a
   - muN != muS != d'
