@@ -11,7 +11,7 @@ function remarkCodeclass(options = {prefix: ''}) {
     unistUtilVisit(tree, 'inlineCode', (node /* , i, parent */) => {
       // console.log(node);
 
-      const codeClass = options.prefix + node.value.split(' ')[0];
+      const codeClass = options.prefix + node.value.split(' ')[0] + ((node.value.split(' ').length > 1) ? node.value.split(' ')[1] : '');
 
       node.data = {hProperties: {className: [codeClass]}};
 
