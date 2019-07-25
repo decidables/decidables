@@ -20,8 +20,8 @@ our task will consist of one or more *trials*. Each trial will start with a fixa
 the middle of the display, then the RDK stimulus will appear for a short period of time, followed by
 a question mark, `?`. Your mission, should you choose to accept it, is to decide whether the signal
 (coherent dot motion!) is `Present` or `Absent` and push the appropriate button to indicate your
-choice. You can make your selection at anytime once the stimulus has begun (you will notice that the
-response buttons become active at that time). However, do not take too long, because once the
+choice. You can make your selection at any time once the stimulus has begun (you will notice that
+the response buttons become active at that time). However, do not take too long, because once the
 question mark goes away, it is too late.
 
 Go ahead and give it a go! (`Run` to start the trial; `Pause` to temporarily freeze the trial,
