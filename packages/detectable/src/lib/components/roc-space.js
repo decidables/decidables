@@ -119,12 +119,15 @@ export default class ROCSpace extends SDTElement {
 
     this.s = 1;
 
+    this.label = '';
+
     this.locations = [
       {
         name: 'default',
         far: this.far,
         hr: this.hr,
         s: this.s,
+        label: '',
       },
     ];
 
@@ -143,6 +146,7 @@ export default class ROCSpace extends SDTElement {
     this.locations[0].hr = this.hr;
     this.locations[0].far = this.far;
     this.locations[0].s = this.s;
+    this.locations[0].label = this.label;
 
     this.d = SDTElement.hrfar2d(this.hr, this.far, this.s);
     this.c = SDTElement.hrfar2c(this.hr, this.far, this.s);
@@ -174,11 +178,12 @@ export default class ROCSpace extends SDTElement {
     });
   }
 
-  set(hr, far, name = 'default', s = 1) {
+  set(hr, far, name = 'default', label = '', s = 1) {
     if (name === 'default') {
       this.hr = hr;
       this.far = far;
       this.s = s;
+      this.label = label;
     }
     const location = this.locations.find((item) => {
       return (item.name === name);
@@ -189,21 +194,24 @@ export default class ROCSpace extends SDTElement {
         far: far,
         hr: hr,
         s: s,
+        label: label,
       });
     } else {
       location.hr = hr;
       location.far = far;
       location.s = s;
+      location.label = label;
     }
 
     this.requestUpdate();
   }
 
-  setWithSDT(d, c, name = 'default', s = 1) {
+  setWithSDT(d, c, name = 'default', label = '', s = 1) {
     if (name === 'default') {
       this.hr = SDTElement.dc2hr(d, c, s);
       this.far = SDTElement.dc2far(d, c, s);
       this.s = s;
+      this.label = label;
     }
     const location = this.locations.find((item) => {
       return (item.name === name);
@@ -214,11 +222,13 @@ export default class ROCSpace extends SDTElement {
         far: SDTElement.dc2far(d, c, s),
         hr: SDTElement.dc2hr(d, c, s),
         s: s,
+        label: label,
       });
     } else {
       location.hr = SDTElement.dc2hr(d, c, s);
       location.far = SDTElement.dc2far(d, c, s);
       location.s = s;
+      location.label = label;
     }
 
     this.sdt = true;
@@ -261,7 +271,7 @@ export default class ROCSpace extends SDTElement {
 
         /* Make a larger target for touch users */
         @media (pointer: coarse) {
-          .point.interactive {
+          .point.interactive .circle {
             stroke: #000000;
             stroke-opacity: 0;
             stroke-width: 12px;
@@ -272,21 +282,24 @@ export default class ROCSpace extends SDTElement {
           filter: url("#shadow-4");
 
           /* HACK: This gets Safari to correctly apply the filter! */
-          transform: translateX(0);
+          /* Can't do this on "g", but need to check Safari! */
+          /* transform: translateX(0); */
         }
 
         .point.interactive:active {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
-          transform: translateY(0);
+          /* Can't do this on "g", but need to check Safari! */
+          /* transform: translateY(0); */
         }
 
         :host(.keyboard) .point.interactive:focus {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
-          transform: translateZ(0);
+          /* Can't do this on "g", but need to check Safari! */
+          /* transform: translateZ(0); */
         }
 
         .background {
@@ -337,10 +350,19 @@ export default class ROCSpace extends SDTElement {
           stroke-width: 2;
         }
 
-        .point {
+        .point .circle {
           fill: var(---color-element-emphasis);
 
           /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */
+        }
+
+        .point .label {
+          font-size: 0.75rem;
+
+          dominant-baseline: middle;
+          text-anchor: middle;
+
+          fill: var(---color-element-background);
         }
       `,
     ];
@@ -458,6 +480,7 @@ export default class ROCSpace extends SDTElement {
             d: datum.d,
             c: datum.c,
             s: datum.s,
+            label: datum.label,
           },
           bubbles: true,
         }));
@@ -772,12 +795,12 @@ export default class ROCSpace extends SDTElement {
 
     // Y Axis Title
     //  ENTER
-    const yTitle = underlayerEnter.append('text')
+    const titleYEnter = underlayerEnter.append('text')
       .classed('title-y', true)
       .attr('text-anchor', 'middle');
-    yTitle.append('tspan')
+    titleYEnter.append('tspan')
       .classed('z math-var', true);
-    yTitle.append('tspan')
+    titleYEnter.append('tspan')
       .classed('name', true);
     //  MERGE
     const titleYMerge = underlayerMerge.select('.title-y')
@@ -1018,11 +1041,17 @@ export default class ROCSpace extends SDTElement {
     const pointUpdate = contentMerge.selectAll('.point')
       .data(this.pointArray, (datum) => { return datum.name; });
     //  ENTER
-    const pointEnter = pointUpdate.enter().append('circle')
-      .classed('point', true)
+    const pointEnter = pointUpdate.enter().append('g')
+      .classed('point', true);
+    pointEnter.append('circle')
+      .classed('circle', true)
       .attr('r', 6); /* HACK: Firefox does not support CSS SVG Geometry Properties */
+    pointEnter.append('text')
+      .classed('label', true);
     //  MERGE
     const pointMerge = pointEnter.merge(pointUpdate);
+    pointMerge.select('text')
+      .text((datum) => { return datum.label; });
     if (this.firstUpdate || changedProperties.has('interactive')) {
       if (this.interactive) {
         pointMerge
@@ -1087,6 +1116,7 @@ export default class ROCSpace extends SDTElement {
                     d: datum.d,
                     c: datum.c,
                     s: datum.s,
+                    label: datum.label,
                   },
                   bubbles: true,
                 }));
@@ -1106,23 +1136,21 @@ export default class ROCSpace extends SDTElement {
       pointMerge.transition()
         .duration(this.drag ? 0 : 1000)
         .ease(d3.easeCubicOut)
-        .attr('cx', (datum, index, elements) => {
+        .attr('transform', (datum, index, elements) => {
           const element = elements[index];
           element.d = undefined;
-          element.s = undefined;
-          return xScale(this.zRoc ? SDTElement.far2zfar(datum.far) : datum.far);
-        })
-        .attr('cy', (datum, index, elements) => {
-          const element = elements[index];
           element.c = undefined;
           element.s = undefined;
-          return yScale(this.zRoc ? SDTElement.hr2zhr(datum.hr) : datum.hr);
+          return `translate(
+            ${xScale(this.zRoc ? SDTElement.far2zfar(datum.far) : datum.far)},
+            ${yScale(this.zRoc ? SDTElement.hr2zhr(datum.hr) : datum.hr)}
+          )`;
         });
     } else if (this.sdt) {
       pointMerge.transition()
         .duration(this.drag ? 0 : 500)
         .ease(d3.easeCubicOut)
-        .attrTween('cx', (datum, index, elements) => {
+        .attrTween('transform', (datum, index, elements) => {
           const element = elements[index];
           const interpolateD = d3.interpolate(
             (element.d !== undefined) ? element.d : datum.d,
@@ -1140,49 +1168,33 @@ export default class ROCSpace extends SDTElement {
             element.d = interpolateD(time);
             element.c = interpolateC(time);
             element.s = interpolateS(time);
-            return xScale(this.zRoc
-              ? SDTElement.far2zfar(SDTElement.dc2far(element.d, element.c, element.s))
-              : SDTElement.dc2far(element.d, element.c, element.s));
-          };
-        })
-        .attrTween('cy', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolateD = d3.interpolate(
-            (element.d !== undefined) ? element.d : datum.d,
-            datum.d,
-          );
-          const interpolateC = d3.interpolate(
-            (element.c !== undefined) ? element.c : datum.c,
-            datum.c,
-          );
-          const interpolateS = d3.interpolate(
-            (element.s !== undefined) ? element.s : datum.s,
-            datum.s,
-          );
-          return (time) => {
-            element.d = interpolateD(time);
-            element.c = interpolateC(time);
-            element.s = interpolateS(time);
-            return yScale(this.zRoc
-              ? SDTElement.hr2zhr(SDTElement.dc2hr(element.d, element.c, element.s))
-              : SDTElement.dc2hr(element.d, element.c, element.s));
+            return `translate(
+              ${xScale(
+                this.zRoc
+                  ? SDTElement.far2zfar(SDTElement.dc2far(element.d, element.c, element.s))
+                  : SDTElement.dc2far(element.d, element.c, element.s),
+              )},
+              ${yScale(
+                this.zRoc
+                  ? SDTElement.hr2zhr(SDTElement.dc2hr(element.d, element.c, element.s))
+                  : SDTElement.dc2hr(element.d, element.c, element.s),
+              )}
+            )`;
           };
         });
     } else {
       pointMerge.transition()
         .duration(this.drag ? 0 : 500)
         .ease(d3.easeCubicOut)
-        .attr('cx', (datum, index, elements) => {
+        .attr('transform', (datum, index, elements) => {
           const element = elements[index];
           element.d = undefined;
-          element.s = undefined;
-          return xScale(this.zRoc ? SDTElement.far2zfar(datum.far) : datum.far);
-        })
-        .attr('cy', (datum, index, elements) => {
-          const element = elements[index];
           element.c = undefined;
           element.s = undefined;
-          return yScale(this.zRoc ? SDTElement.hr2zhr(datum.hr) : datum.hr);
+          return `translate(
+            ${xScale(this.zRoc ? SDTElement.far2zfar(datum.far) : datum.far)},
+            ${yScale(this.zRoc ? SDTElement.hr2zhr(datum.hr) : datum.hr)}
+          )`;
         });
     }
     //  EXIT

@@ -16,10 +16,20 @@ export default class SDTExampleHuman extends SDTExample {
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
 
+    if (this.rocSpace) {
+      if (this.rocSpace.hasAttribute('history')) {
+        this.rocSpace.set(0.5, 0.5, 'default', this.count);
+      }
+    }
+
     if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
       this.sdtControl.addEventListener('sdt-control-trials', (event) => {
         if (this.rdkTask) {
           this.rdkTask.trials = event.detail.trials;
+        }
+
+        if (this.sdtResponse) {
+          this.sdtResponse.trialTotal = event.detail.trials;
         }
       });
     }
@@ -68,7 +78,7 @@ export default class SDTExampleHuman extends SDTExample {
         if (this.rocSpace) {
           if (this.rocSpace.hasAttribute('history')) {
             this.count += 1;
-            this.rocSpace.set(0.5, 0.5, `point${this.count}`);
+            this.rocSpace.set(0.5, 0.5, `point${this.count}`, this.count);
           } else {
             this.rocSpace.hr = 0.5;
             this.rocSpace.far = 0.5;
@@ -83,9 +93,15 @@ export default class SDTExampleHuman extends SDTExample {
     }
 
     if (this.rdkTask) {
+      if (this.sdtResponse) {
+        this.sdtResponse.trialTotal = this.rdkTask.trials;
+      }
+    }
+
+    if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-trial-start', (event) => {
         if (this.sdtResponse) {
-          this.sdtResponse.start(event.detail.signal);
+          this.sdtResponse.start(event.detail.signal, event.detail.trial);
         }
       });
     }
@@ -120,7 +136,7 @@ export default class SDTExampleHuman extends SDTExample {
 
         if (this.rocSpace) {
           if (this.rocSpace.hasAttribute('history')) {
-            this.rocSpace.set(newhr, newfar, (this.count === 1) ? 'default' : `point${this.count}`);
+            this.rocSpace.set(newhr, newfar, (this.count === 1) ? 'default' : `point${this.count}`, this.count);
           } else {
             this.rocSpace.hr = newhr;
             this.rocSpace.far = newfar;
