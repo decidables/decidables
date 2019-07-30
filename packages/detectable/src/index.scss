@@ -526,6 +526,18 @@ body {
     background-color: var(--color-fa-light);
   }
 
+  code[class="HitRate"] {
+    background-color: var(--color-hr-light);
+  }
+
+  code[class="FalseAlarm"] {
+    background-color: var(--color-far-light);
+  }
+
+  code[class="Accuracy"] {
+    background-color: var(--color-acc-light);
+  }
+
   .csl-entry {
     padding-left: 2rem;
 

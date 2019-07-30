@@ -21,7 +21,7 @@ like:
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
 
-This is *coherent* motion because the dots are moving together in the same direction. (Push the
+This is **coherent** motion because the dots are moving together in the same direction. (Push the
 `Pause` button to temporarily freeze the dots, or push the `Reset` button to reinitialize the demo
 with a new direction of motion.)
 
@@ -41,7 +41,7 @@ reinitialize):
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
 
-Noise is *incoherent* motion. Every dot is moving in a different direction.
+Noise is incoherent or **random** motion. Every dot is moving in a different direction.
 
 ## Signal and noise
 
@@ -78,4 +78,4 @@ number to adjust the proportion of coherence — even while the dots are moving!
 
 Random-dot kinematograms (RDKs), also called random-dot motion displays, are widely used to study
 motion perception [e.g. @Britten1992] and there are many variations on the basic concept
-[@Pilly2009]. For us, they provide a nice parametrically variable signal to detect!
+[@Pilly2009]. For us, they provide a nice parametrically variable **stimulus**!
