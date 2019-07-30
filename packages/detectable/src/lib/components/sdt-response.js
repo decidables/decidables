@@ -19,6 +19,11 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
         type: String,
         reflect: true,
       },
+      trial: {
+        attribute: 'trial',
+        type: Boolean,
+        reflect: true,
+      },
       payoff: {
         attribute: 'payoff',
         type: String,
@@ -56,6 +61,16 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
         type: String,
         reflect: false,
       },
+      trialCount: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+      trialTotal: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
     };
   }
 
@@ -64,6 +79,8 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
 
     this.feedbacks = ['none', 'accuracy', 'outcome', 'payoff', 'total-payoff'];
     this.feedback = 'outcome';
+
+    this.trial = false;
 
     this.payoffs = ['none', 'trial', 'total'];
     this.payoff = 'none';
@@ -93,6 +110,9 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
 
     this.nr = 0;
 
+    this.trialCount = 0;
+    this.trialTotal = 0;
+
     this.hPayoff = 0;
     this.mPayoff = 0;
     this.crPayoff = 0;
@@ -103,7 +123,8 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
     this.totalPayoff = 0;
   }
 
-  start(signal) {
+  start(signal, trial) {
+    this.trialCount = trial;
     this.state = 'waiting';
     this.signal = signal;
     this.response = undefined;
@@ -165,6 +186,7 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
 
     this.dispatchEvent(new CustomEvent('sdt-response', {
       detail: {
+        trial: this.trialCount,
         signal: this.signal,
         response: this.response,
         outcome: this.outcome,
@@ -195,6 +217,7 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
     this.c = 0;
     this.e = 0;
     this.totalPayoff = 0;
+    this.trialCount = 0;
   }
 
   static get styles() {
@@ -239,6 +262,16 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
           justify-content: center;
         }
 
+        /* Trial feedback */
+        .trial {
+          text-align: center;
+        }
+
+        .trial .label {
+          font-weight: 600;
+        }
+
+        /* Outcome feedback */
         .feedback {
           display: flex;
 
@@ -298,31 +331,13 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
           height: 4rem;
         }
 
-        /* Payoff outcomes */
-        .payoffs {
-          display: flex;
-
-          flex-direction: column;
-
-          justify-content: center;
-        }
-
-        .payoffs .payoff {
-          display: flex;
-
-          flex-direction: column;
-
-          align-items: center;
-          justify-content: center;
-
-          margin: 0.25rem;
-
+        /* Payoff feedback */
+        .payoff {
           text-align: center;
         }
 
-        .payoffs .payoff .label {
+        .payoff .label {
           font-weight: 600;
-          line-height: 1.15;
         }
       `,
     ];
@@ -335,45 +350,52 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
           <button name="present" class=${(this.state === 'feedback' && this.response === 'present') ? 'selected' : ''} ?disabled=${this.state !== 'waiting'} @click=${this.present.bind(this)}>Present</button>
           <button name="absent" class=${(this.state === 'feedback' && this.response === 'absent') ? 'selected' : ''} ?disabled=${this.state !== 'waiting'} @click=${this.absent.bind(this)}>Absent</button>
         </div>
-        ${(this.feedback === 'none')
-          ? html``
-          : html`
-            <div class="feedbacks">
-              <div class=${`feedback ${(this.state === 'feedback')
-                ? (this.feedback === 'outcome')
-                  ? this.outcome
-                  : this.accuracy
-                : ''}`}>
-                ${(this.state === 'feedback')
-                  ? (this.feedback === 'outcome')
-                    ? (this.outcome === 'h')
-                      ? html`<span class="outcome">Hit</span>`
-                      : (this.outcome === 'm')
-                        ? html`<span class="outcome">Miss</span>`
-                        : (this.outcome === 'fa')
-                          ? html`<span class="outcome">False<br>Alarm</span>`
-                          : (this.outcome === 'cr')
-                            ? html`<span class="outcome">Correct<br>Rejection</span>`
-                            : html`<span class="outcome">No<br>Response</span>`
-                    : (this.accuracy === 'c')
-                      ? html`<span class="outcome">Correct</span>`
-                      : (this.accuracy === 'e')
-                        ? html`<span class="outcome">Error</span>`
-                        : html`<span class="outcome">No<br>Response</span>`
-                  : ''}
-                ${(this.payoff === 'trial' || this.payoff === 'total')
-                  ? html`<span class="payoff">${this.trialPayoff}</span>`
-                  : html``}
-              </div>`}
-        ${(this.payoff === 'total')
+        ${(this.trial || this.feedback !== 'none' || this.payoff === 'total')
           ? html`
-            <div class="payoffs">
-              <div class="payoff">
-                <span class="label">Total</span><span class="value">${this.totalPayoff}</span>
-              </div>
+            <div class="feedbacks">
+              ${(this.trial)
+                ? html`
+                  <div class="trial">
+                    <span class="label">Trial: </span><span class="count">${this.trialCount}</span><span class="of"> of </span><span class="total">${this.trialTotal}</span>
+                  </div>`
+                : html``}
+              ${(this.feedback !== 'none')
+                ? html`
+                  <div class=${`feedback ${(this.state === 'feedback')
+                    ? (this.feedback === 'outcome')
+                      ? this.outcome
+                      : this.accuracy
+                    : ''}`}>
+                    ${(this.state === 'feedback')
+                      ? (this.feedback === 'outcome')
+                        ? (this.outcome === 'h')
+                          ? html`<span class="outcome">Hit</span>`
+                          : (this.outcome === 'm')
+                            ? html`<span class="outcome">Miss</span>`
+                            : (this.outcome === 'fa')
+                              ? html`<span class="outcome">False<br>Alarm</span>`
+                              : (this.outcome === 'cr')
+                                ? html`<span class="outcome">Correct<br>Rejection</span>`
+                                : html`<span class="outcome">No<br>Response</span>`
+                        : (this.accuracy === 'c')
+                          ? html`<span class="outcome">Correct</span>`
+                          : (this.accuracy === 'e')
+                            ? html`<span class="outcome">Error</span>`
+                            : html`<span class="outcome">No<br>Response</span>`
+                      : ''}
+                    ${(this.payoff === 'trial' || this.payoff === 'total')
+                      ? html`<span class="payoff">${this.trialPayoff}</span>`
+                      : html``}
+                  </div>`
+                : html``}
+              ${(this.payoff === 'total')
+                ? html`
+                  <div class="payoff">
+                    <span class="label">Total: </span><span class="value">${this.totalPayoff}</span>
+                  </div>`
+                : html``}
             </div>`
           : html``}
-        </div>
       </div>`;
   }
 }
