@@ -23,10 +23,20 @@
   - Learning & constructionism (Papert)
     - <https://en.wikipedia.org/wiki/Constructionist_learning>
 
+## Style Guide
+
+- Within a page:
+  - Headings start at H2, only first letter is capitalized
+  - `Code` used for UI elements
+  - **Bold** used for keywords
+  - *Italics* used for emphasis
+
 ## Features/Bugs
 
-- Show total trials, and trials completed/remaining!
-
+- Asking lots of open-ended questions vs. questions with later answers vs. explanation...
+- Use something else instead of inline code for terms?
+- Add "note" blocks for explaining UI stuff that isn't "real" content
+  - need a clean approach in markdown
 - Unequal variance
   - d' vs d_a, and c vs c_a
   - muN != muS != d'
