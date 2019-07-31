@@ -4,7 +4,7 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="detectable: Receiver Operating Characteristic (ROC) Space: Visualizing performance">
+    <meta name="description" content="detectable: The Receiver Operating Characteristic (ROC): Visualizing performance">
     <meta name="author" content="Dr. Adam Krawitz">
 
     <title>d&prime;etectable: ROC Space</title>
@@ -188,13 +188,21 @@
                 
                   <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-2">
                 
+                    <a class="sdt-toclink" href="glossary.html">
+                      Glossary
+                    </a>
+                  </li>
+              
+                
+                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-3">
+                
                     <a class="sdt-toclink" href="equations.html">
                       Equations
                     </a>
                   </li>
               
                 
-                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-3">
+                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-4">
                 
                     <a class="sdt-toclink" href="references.html">
                       References
@@ -202,7 +210,7 @@
                   </li>
               
                 
-                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-4">
+                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-5">
                 
                     <a class="sdt-toclink" href="about.html">
                       About
@@ -215,36 +223,79 @@
 
         <main class="sdt-main">
           <header>
-            <h1>Receiver Operating Characteristic (ROC) Space: Visualizing performance</h1>
+            <h1>The Receiver Operating Characteristic (ROC): Visualizing performance</h1>
           </header>
           <section class="sdt-content">
             <h2>ROC space</h2>
+<p><code class="HitRate">Hit Rate</code> and <code class="FalseAlarm">False Alarm Rate</code> allow us to summarize performance with two values. We can then
+visualize performance as a point in a space, with the <em>x</em>-coordinate defined by FAR, and the
+<em>y</em>-coordinate defined by HR. This space is called <strong>receiver operating characteristic (ROC) space</strong>
+or alternatively <strong>relative operating characteristic space</strong> (<a class="csl-ref" href="references.html#Swets1996">Swets, 1996</a>). (The term "receiver"
+dates back to the original development of this approach in the context of separating signal and
+noise in the output of radar receivers used to detect enemy planes during World War II.)</p>
+<p>A point in ROC space uniquely defines a combination of HR and FAR:</p>
 <sdt-example-interactive>
-  <sdt-table interactive display="accuracy" hits="80" misses="20"
+  <sdt-table numeric interactive display="accuracy" hits="80" misses="20"
     false-alarms="10" correct-rejections="90"></sdt-table>
   <roc-space interactive point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
+<p>If you change the values in the table, the location of the ROC will change in response. Likewise, as
+you drag the point around in ROC space, the table will update accordingly, while keeping the total
+number of trials constant.</p>
+<p>If you drag the point around a bit, you will observe that while each point defines a unique
+combination of HR and FAR, you can find multiple points that have the same <code class="Accuracy">Accuracy</code>. This is just
+another way of saying the same thing we said already on the previous page, namely that <code class="Accuracy">Accuracy</code>
+alone does not uniquely describe signal detection performance.</p>
 <h2>Iso-accuracy contours</h2>
+<p>We might then wonder what points in ROC space share the same <code class="Accuracy">Accuracy</code>. We can visual this by
+coloring each point in ROC space according to it's corresponding <code class="Accuracy">Accuracy</code>, and drawing a contour
+through the space for every 10% increase in accuracy from 0% up to 100%. The resulting
+iso-accuracy contours help us see how accuracy varies across the ROC space, in the same way that
+contour lines on a topographic map help us understand how elevation changes across the landscape.</p>
 <sdt-example-interactive>
   <roc-space contour="accuracy" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
+<p>We can now immediately see that all of the points in ROC space along each line with a slope of one
+result in the same accuracy. Hopefully this helps us further appreciate that knowing the accuracy of
+performance generally tells us next to nothing about either the hit rate or the false alarm rate!</p>
 <h2>Comparing patterns of outcomes</h2>
+<p>We can explore ROC space further by comparing a pair of points.</p>
+<p>For example, let's imagine we have one point with a <code class="HitRate">Hit Rate</code> of 0.9 and an <code class="Accuracy">Accuracy</code> of 0.75, and
+a second point with a <code class="FalseAlarm">False Alarm Rate</code> of 0.1 and an <code class="Accuracy">Accuracy</code> of 0.75. Is this possible? Where
+are the two points in ROC space? Is there any sort of symmetry apparent in their placement? Try to
+move the two points in the ROC space below to meet this description. The point with the up
+arrow, '↑', is described in the table above the ROC space; the point with the down arrow, '↓', is
+described in the table below the ROC space.</p>
 <sdt-example-double-interactive>
-  <sdt-table interactive display="accuracy" hits="0" misses="0"
+  <sdt-table numeric interactive display="accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></sdt-table>
   <roc-space interactive contour="accuracy" point="all" iso-d="none" iso-c="none"></roc-space>
-  <sdt-table interactive display="accuracy" hits="0" misses="0"
+  <sdt-table numeric interactive display="accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></sdt-table>
 </sdt-example-double-interactive>
+<p>Try some other positions... What about two points that are symmetric about the dotted diagonal from
+lower left to upper right? What about points along the <em>imaginary</em> diagonal from upper left to lower
+right?</p>
 <h2>Comparing performance</h2>
+<p>In the study of human performance, ROC space is typically used to visual performance across multiple
+blocks of trials. You can try that below. The current point will update throughout a block of
+trials, but when you <code class="Reset">Reset</code>, the point will be left behind, and a new point will follow the next
+block of trials. Complete a few blocks of trials with the coherence set to different levels,
+including some levels that make the task a real challenge. (If you want to remove all of the points,
+just reload the page.)</p>
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
-  <sdt-response feedback="outcome"></sdt-response>
+  <sdt-response trial feedback="outcome"></sdt-response>
   <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
   <roc-space point="all" iso-d="none" iso-c="none" history far=".5" hr=".5"></roc-space>
 </sdt-example-human>
+<p>After you've completed a few blocks of trials, do you see any trends revealed in the pattern of
+points within ROC space?</p>
+<p>We can now describe performance in terms of <code class="Hits">Hits</code>, <code class="Misses">Misses</code>, <code class="CorrectRejections">Correct Rejections</code>, <code class="FalseAlarms">False Alarms</code>,
+<code class="HitRate">Hit Rate</code>, <code class="FalseAlarm">False Alarm Rate</code>, and ROC space. It is time that we think about the processes that
+lead to this performance.</p>
 
           </section>
 

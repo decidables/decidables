@@ -4752,6 +4752,12 @@ body {
     background-color: var(--color-cr-light); }
   .sdt-content code[class="FalseAlarms"] {
     background-color: var(--color-fa-light); }
+  .sdt-content code[class="HitRate"] {
+    background-color: var(--color-hr-light); }
+  .sdt-content code[class="FalseAlarm"] {
+    background-color: var(--color-far-light); }
+  .sdt-content code[class="Accuracy"] {
+    background-color: var(--color-acc-light); }
   .sdt-content .csl-entry {
     padding-left: 2rem;
     text-indent: -2rem; }
