@@ -190,21 +190,21 @@ export default class SDTElement extends LitElement {
       opacityPenumbra: 0.14,
       opacityAmbient: 0.12,
       opacityBoost: 0.2,
-      mapUmbra: { // $mdc-elevation-umbra-map
+      mapUmbra: {// $mdc-elevation-umbra-map
         0:  {x: 0, y:  0, b:  0, s:  0}, // offset-x, offset-y, blur-radius, spread-radius
         2:  {x: 0, y:  3, b:  1, s: -2},
         4:  {x: 0, y:  2, b:  4, s: -1},
         8:  {x: 0, y:  5, b:  5, s: -3},
         16: {x: 0, y:  8, b: 10, s: -5},
       },
-      mapPenumbra: { // $mdc-elevation-penumbra-map
+      mapPenumbra: {// $mdc-elevation-penumbra-map
         0:  {x: 0, y:  0, b:  0, s:  0}, // offset-x, offset-y, blur-radius, spread-radius
         2:  {x: 0, y:  2, b:  2, s:  0},
         4:  {x: 0, y:  4, b:  5, s:  0},
         8:  {x: 0, y:  8, b: 10, s:  1},
         16: {x: 0, y: 16, b: 24, s:  2},
       },
-      mapAmbient: { // $mdc-elevation-ambient-map
+      mapAmbient: {// $mdc-elevation-ambient-map
         0:  {x: 0, y:  0, b:  0, s:  0}, // offset-x, offset-y, blur-radius, spread-radius
         2:  {x: 0, y:  1, b:  5, s:  0},
         4:  {x: 0, y:  1, b: 10, s:  0},
