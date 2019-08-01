@@ -21,7 +21,7 @@ script: index
   <rdk-task count="100" coherence=".5" trials="10"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
-  <sdt-response feedback="outcome"></sdt-response>
+  <sdt-response trial feedback="outcome"></sdt-response>
   <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
   <roc-space hr=".5" far=".5" point="all" iso-d="none" iso-c="none"></roc-space>
