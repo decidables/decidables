@@ -267,6 +267,12 @@ export default class ROCSpace extends SDTElement {
 
           filter: url("#shadow-2");
           outline: none;
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
+          stroke: #000000;
+          stroke-opacity: 0;
+          stroke-width: 0;
         }
 
         /* Make a larger target for touch users */
@@ -282,24 +288,21 @@ export default class ROCSpace extends SDTElement {
           filter: url("#shadow-4");
 
           /* HACK: This gets Safari to correctly apply the filter! */
-          /* Can't do this on "g", but need to check Safari! */
-          /* transform: translateX(0); */
+          stroke: #ff0000;
         }
 
         .point.interactive:active {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
-          /* Can't do this on "g", but need to check Safari! */
-          /* transform: translateY(0); */
+          stroke: #00ff00;
         }
 
         :host(.keyboard) .point.interactive:focus {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
-          /* Can't do this on "g", but need to check Safari! */
-          /* transform: translateZ(0); */
+          stroke: #0000ff;
         }
 
         .background {
