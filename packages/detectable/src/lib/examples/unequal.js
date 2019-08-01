@@ -19,20 +19,20 @@ export default class SDTExampleUnequal extends SDTExample {
     }
 
     if (this.rocSpace) {
-      this.rocSpace.setWithSDT(1, 0, 'default', 1); // Set 'default' to equal variance for contours
+      this.rocSpace.setWithSDT(1, 0, 'default', '', 1); // Set 'default' to equal variance for contours
     }
 
     if (this.sdtModel) {
       if (this.rocSpace) {
         d3.range(-1.5, 1.6, 0.5).forEach((c, index) => {
-          this.rocSpace.setWithSDT(this.sdtModel.d, c, `point${index}`, this.sdtModel.s);
+          this.rocSpace.setWithSDT(this.sdtModel.d, c, `point${index}`, '', this.sdtModel.s);
         });
       }
 
       this.sdtModel.addEventListener('sdt-model-change', (event) => {
         if (this.rocSpace) {
           d3.range(-1.5, 1.6, 0.5).forEach((c, index) => {
-            this.rocSpace.setWithSDT(event.detail.d, c, `point${index}`, event.detail.s);
+            this.rocSpace.setWithSDT(event.detail.d, c, `point${index}`, '', event.detail.s);
           });
         }
       });

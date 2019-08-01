@@ -72,7 +72,7 @@ export default class SDTExampleModel extends SDTExample {
         if (this.rocSpace) {
           if (this.rocSpace.hasAttribute('history')) {
             this.count += 1;
-            this.rocSpace.set(0.5, 0.5, `point${this.count}`);
+            this.rocSpace.set(0.5, 0.5, `point${this.count}`, '', 1);
           } else {
             this.rocSpace.hr = 0.5;
             this.rocSpace.far = 0.5;

@@ -87,7 +87,7 @@ export default class SDTExampleInteractive extends SDTExample {
       this.sdtModel.addEventListener('sdt-model-change', (event) => {
         if (this.rocSpaces.length > 0) {
           this.rocSpaces.forEach((rocSpace) => {
-            rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', event.detail.s);
+            rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', '', event.detail.s);
           });
         }
 
