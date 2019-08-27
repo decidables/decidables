@@ -543,6 +543,32 @@ body {
 
     text-indent: -2rem;
   }
+
+  // Glossary formatting to get the term and definition inline, with a hanging indent
+  dl {
+    margin-left: 2rem;
+  }
+
+  dt {
+    display: inline;
+
+    margin-left: -2rem;
+  }
+
+  dt::after {
+    content: ":";
+  }
+
+  dd {
+    display: inline;
+  }
+
+  dd::after {
+    display: block;
+
+    content: "";
+  }
+
 }
 
 .sdt-footer {
