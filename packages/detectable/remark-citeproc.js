@@ -135,7 +135,7 @@ function remarkCiteproc(options = {}) {
 
       // console.log(`citationCluster:\n${citationCluster}`);
       // console.log(`citationResult:\n${citationResult}`);
-      console.log(`citation:\n ${citationPreview}`);
+      // console.log(`citation:\n ${citationPreview}`);
       // console.log(`citationsPre:\n${citationsPre}`);
       // console.log(`node:\n${node}`);
     });
@@ -175,7 +175,7 @@ function remarkCiteproc(options = {}) {
       ];
       parent.children.splice(i, 1, ...children);
 
-      console.log(`bibliography:\n ${bibliographyString}`);
+      // console.log(`bibliography:\n ${bibliographyString}`);
     });
   };
 }

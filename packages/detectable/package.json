@@ -27,8 +27,8 @@
     "citeproc": "^2.2.9",
     "cssnano": "^4.1.10",
     "del": "^5.0.0",
-    "eslint": "5.16.0",
-    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint": "6.2.1",
+    "eslint-config-airbnb-base": "^14.0.0",
     "eslint-formatter-pretty": "^2.1.1",
     "eslint-plugin-import": "^2.17.3",
     "finalhandler": "^1.1.2",
@@ -75,7 +75,7 @@
     "stylelint-order": "^3.0.0",
     "stylelint-scss": "^3.8.0",
     "through2": "^3.0.1",
-    "unist-util-visit": "^1.4.1"
+    "unist-util-visit": "^2.0.0"
   },
   "dependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10",

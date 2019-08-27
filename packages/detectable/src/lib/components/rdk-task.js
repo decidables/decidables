@@ -449,7 +449,7 @@ export default class RDKTask extends SDTElement {
             const radius = Math.sqrt(Math.random());
             dot.x = this.xScale(radius * Math.cos(angle));
             dot.y = this.yScale(radius * Math.sin(angle));
-            const directionR = dot.direction * Math.PI / 180;
+            const directionR = dot.direction * (Math.PI / 180);
             dot.speed = this.speed;
             dot.dx = dot.speed * Math.cos(directionR);
             dot.dy = dot.speed * Math.sin(directionR);
@@ -463,7 +463,7 @@ export default class RDKTask extends SDTElement {
               const radius = Math.sqrt(Math.random());
               dot.x = this.xScale(radius * Math.cos(angle));
               dot.y = this.yScale(radius * Math.sin(angle));
-              const directionR = dot.direction * Math.PI / 180;
+              const directionR = dot.direction * (Math.PI / 180);
               dot.speed = this.speed;
               dot.dx = dot.speed * Math.cos(directionR);
               dot.dy = dot.speed * Math.sin(directionR);
@@ -471,7 +471,7 @@ export default class RDKTask extends SDTElement {
               if (t === this.COHERENT) {
                 dot.direction = this.current;
               }
-              const directionR = dot.direction * Math.PI / 180;
+              const directionR = dot.direction * (Math.PI / 180);
               dot.speed = this.speed;
               dot.dx = dot.speed * Math.cos(directionR);
               dot.dy = dot.speed * Math.sin(directionR);

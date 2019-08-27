@@ -2,19 +2,23 @@
 # d'etectable
 <!--lint enable first-level-heading -->
 
+## Introduction
+
+- [x] SDT as an example of applied cognitive science
+  - [x] History of SDT and radar
+  - [x] Other applications: memory, medicine, etc...
+- [x] SDT as an example of the decomposition of cognition
+  - [ ] Processes of perception, decision making, etc...
+- [x] SDT as an example of how we use formal models
+  - [x] Existence proofs of what is possible for a given conceptual framework/theory
+  - [x] A way to fit human data and test how well a theory can account for that data
+  - [x] A way to make quantitative predictions from theory for comparison to human data
+- [x] SDT as an example of the links between mind & brain & behavior
+  - [x] SDT as entry point into computational cognitive neuroscience
+  - [x] Evidence accumulation and the neural basis of perceptual decision making
+
 ## Write-up
 
-- Technology for explorable explanations
-  - Build: git + node + yarn + gulp + plugins
-  - Text: markdown (remark) + citeproc
-  - Formatting: bootstrap + scss + ejs
-  - Interactive content: d3 + web components + lit-element
-- Content for learning cognitive psychology/neuroscience
-  - Example task
-  - Empirical data collection
-  - Live computational model
-  - Fit data to model
-  - Generate data from model
 - Learning through interaction
   - Understanding relationships through perception-action loops
     - <https://arxiv.org/pdf/1112.1125.pdf>
@@ -22,6 +26,17 @@
     - <https://doi.org/10.1186/s41235-017-0053-8>
   - Learning & constructionism (Papert)
     - <https://en.wikipedia.org/wiki/Constructionist_learning>
+- Content for learning cognitive psychology/neuroscience
+  - Example task
+  - Empirical data collection
+  - Live computational model
+  - Fit data to model
+  - Generate data from model
+- Technology for explorable explanations
+  - Build: git + node + yarn + gulp + plugins
+  - Text: markdown (remark) + citeproc
+  - Formatting: bootstrap + scss + ejs
+  - Interactive content: d3 + web components + lit-element
 
 ## Style Guide
 
