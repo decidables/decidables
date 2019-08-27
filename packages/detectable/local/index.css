@@ -4761,6 +4761,18 @@ body {
   .sdt-content .csl-entry {
     padding-left: 2rem;
     text-indent: -2rem; }
+  .sdt-content dl {
+    margin-left: 2rem; }
+  .sdt-content dt {
+    display: inline;
+    margin-left: -2rem; }
+  .sdt-content dt::after {
+    content: ":"; }
+  .sdt-content dd {
+    display: inline; }
+  .sdt-content dd::after {
+    display: block;
+    content: ""; }
 
 .sdt-footer {
   display: flex;
