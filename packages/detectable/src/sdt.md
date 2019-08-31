@@ -11,7 +11,7 @@ script: index
   <rdk-task count="100" coherence=".5" trials="10"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
-  <sdt-response feedback="outcome"></sdt-response>
+  <sdt-response trial feedback="outcome"></sdt-response>
 </sdt-example-model>
 
 ## Outcomes summarized in an SDT table and ROC space
