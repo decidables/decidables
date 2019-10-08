@@ -16,7 +16,7 @@ noise.
 
 In order to test our ability to differentiate signal from noise, we will use our random dot
 kinematogram (RDK) to create a **task**. As is typical of tasks in cognitive psychology experiments,
-our task will consist of one or more **trials**. Each trial will start with a fixation cross, `+`,
+our task will consist of one or more **trials**. Each trial will start with a **fixation** cross, `+`,
 in the middle of the display, then the RDK stimulus will appear for a short period of time, followed
 by a question mark, `?`. Your mission, should you choose to accept it, is to decide whether the
 signal (coherent dot motion!) is `Present` or `Absent` and push the appropriate button to indicate
@@ -31,7 +31,7 @@ Go ahead and give it a go! (`Run` to start the trial; `Pause` to temporarily fre
   <sdt-control run pause reset coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="1" probability=".5" duration="2000"
     wait="2000" iti="2000"></rdk-task>
-  <sdt-response feedback="none"></sdt-response>
+  <sdt-response interactive feedback="none"></sdt-response>
 </sdt-example-human>
 
 Having fun yet?
@@ -51,7 +51,7 @@ a bit boring, so lets try something a bit more manageable, say, a **block** of f
   <sdt-control run pause reset coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
     wait="2000" iti="2000"></rdk-task>
-  <sdt-response feedback="none"></sdt-response>
+  <sdt-response interactive feedback="none"></sdt-response>
 </sdt-example-human>
 
 OK, now are you having fun? It can take a bit of practice to get the hang of the timing of the
@@ -62,16 +62,16 @@ challenge? All right then...
 
 ## A customizable block of trials!
 
-In this example, you can choose how many trials there will be in a block, and you can choose the
-proportion of coherence for the signal. Now lookie here - we have ourselves something approaching a
-legitimate signal detection task!
+In this example, you can choose how many trials there will be in a block using the `Trials` slider,
+and you can choose the proportion of coherence for the signal using the `Coherence` slider. Now
+lookie here - we have ourselves something approaching a legitimate signal detection task!
 
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5" trials="5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
     wait="2000" iti="2000"></rdk-task>
-  <sdt-response feedback="none"></sdt-response>
+  <sdt-response  interactive feedback="none"></sdt-response>
 </sdt-example-human>
 
-You may be feeling a bit dissatisfied, because you don't know how you are doing. Well, go to the
-next page then, so we can start talking about outcomes and feedback!
+However, you may be feeling a bit dissatisfied, because you don't know how you are doing. Well, go
+to the next page then, so we can start talking about outcomes and feedback!

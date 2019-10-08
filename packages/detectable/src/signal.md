@@ -12,8 +12,8 @@ What's a signal? Well, it could be your friend's voice at a party, or a distant 
 the smell of truffles under the earth. Any stimulus that you are trying to perceive can be
 thought of as a signal.
 
-Our signal will be coherent dot motion. Go ahead and push the `Run` button to see what it looks
-like:
+Our **signal** will be **coherent** dot motion. Go ahead and push the `Run`
+button to see what it looks like:
 
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
@@ -21,7 +21,7 @@ like:
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
 
-This is **coherent** motion because the dots are moving together in the same direction. (Push the
+This is coherent motion because the dots are moving together in the *same* direction. (Push the
 `Pause` button to temporarily freeze the dots, or push the `Reset` button to reinitialize the demo
 with a new direction of motion.)
 
@@ -32,8 +32,8 @@ have noise. Noise is the music and other voices at the party, the swirling cloud
 the mélange of other smells wafting up from the soil. All of the other stimuli you are not
 interested in, but that are interfering with your ability to detect the signal.
 
-Our noise will be random dot motion. Give it a try (`Run` to start, `Pause` to freeze, `Reset` to
-reinitialize):
+Our **noise** will be **random** dot motion. Give it a try (`Run` to start,
+`Pause` to freeze, `Reset` to reinitialize):
 
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
@@ -41,7 +41,7 @@ reinitialize):
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
 
-Noise is incoherent or **random** motion. Every dot is moving in a different direction.
+Noise is incoherent or random motion. Every dot is moving in a *different* direction.
 
 ## Signal and noise
 
@@ -65,7 +65,7 @@ moving in different, random directions — the noise.
 
 How strong is the signal compared to the noise? That can vary continuously from "pure" signal at one
 extreme to "pure" noise at the other. And this brings us to one of the motivations for using
-random-dot kinematograms (that's what these are called!) as stimuli — by varying the proportion of
+**random-dot kinematograms (RDKs)** as stimuli: by varying the proportion of
 dots that are moving coherently between one and zero, we can elegantly vary our stimulus from "pure"
 signal to "pure" noise, or anywhere in between (move the `Coherence` slider up and down or edit the
 number to adjust the proportion of coherence — even while the dots are moving!):
@@ -76,6 +76,6 @@ number to adjust the proportion of coherence — even while the dots are moving!
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
 
-Random-dot kinematograms (RDKs), also called random-dot motion displays, are widely used to study
+Random-dot kinematograms, also called random-dot motion displays, are widely used to study
 motion perception [e.g. @Britten1992] and there are many variations on the basic concept
 [@Pilly2009]. For us, they provide a nice parametrically variable **stimulus**!

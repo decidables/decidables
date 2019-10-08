@@ -99,6 +99,22 @@ $grid-gutter-width: 2rem;
 $border-width: 1px;
 $border-radius: 0.25rem;
 
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1590px
+);
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1560px
+);
+
 // SCSS VARIABLES
 $font-family-math: "Source Serif Pro", serif; // Not in Bootstrap
 $border: $border-width solid $border-color;
@@ -211,6 +227,11 @@ body {
 .math-var {
   font-family: $font-family-math;
   font-style: italic;
+}
+
+.math-greek {
+  font-family: $font-family-math;
+  font-style: normal;
 }
 
 // CLEAN
@@ -436,6 +457,11 @@ body {
   }
 
   @include media-breakpoint-up(xl) {
+    @include make-col(9, 12);
+    border-right: $border;
+  }
+
+  @include media-breakpoint-up(xxl) {
     @include make-col(8, 12);
     border-right: $border;
   }
@@ -450,14 +476,127 @@ body {
   }
 
   code {
-    padding: 0.125rem 0.25rem;
+    padding: 0.0625rem 0.25rem;
 
     font-family: "Source Code Pro", monospace;
     font-size: 1rem;
     font-style: normal;
     font-weight: 600;
+    white-space: nowrap;
 
     background-color: var(--color-element-background);
+    border-radius: 0.25rem;
+  }
+
+  code[class="Bias"] {
+    background-color: var(--color-c-light);
+  }
+
+  code[class="Iso-BiasCurve"] {
+    border: 2px solid var(--color-c);
+  }
+
+  code[class="c"] {
+    font-family: "Source Serif Pro", serif;
+    font-style: italic;
+
+    background-color: var(--color-c-light);
+  }
+
+  code[class="Iso-SensitivityCurve"] {
+    border: 2px solid var(--color-d);
+  }
+
+  code[class="Sensitivity"] {
+    background-color: var(--color-d-light);
+  }
+
+  code[class="RespondPresent"] {
+    background-color: var(--color-present-light);
+    border: 3px solid var(--color-present);
+    border-radius: 0;
+  }
+
+  code[class="RespondAbsent"] {
+    background-color: var(--color-absent-light);
+    border: 3px solid var(--color-absent);
+    border-radius: 0;
+  }
+
+  code[class="d′"] {
+    font-family: "Source Serif Pro", serif;
+    font-style: italic;
+
+    background-color: var(--color-d-light);
+  }
+
+  code[class="Evidence"] {
+    background-color: var(--color-acc-light);
+    border: 3px solid var(--color-acc);
+    border-radius: 0;
+  }
+
+  code[class="SignalPresent"] {
+    background-color: var(--color-hr-light);
+    border: 3px solid var(--color-hr);
+    border-radius: 0;
+  }
+
+  code[class="SignalAbsent"] {
+    background-color: var(--color-far-light);
+    border: 3px solid var(--color-far);
+    border-radius: 0;
+  }
+
+  code[class="Signal+Noise"] {
+    background-color: var(--color-hr-light);
+    border: 2px solid var(--color-element-emphasis);
+  }
+
+  code[class="NoiseDistribution"] {
+    background-color: var(--color-far-light);
+    border: 2px solid var(--color-element-emphasis);
+  }
+
+  code[class="Coherence"],
+  code[class="Trials"] {
+    position: relative;
+
+    padding-right: 1.5rem;
+
+    background-color: var(--color-element-background);
+  }
+
+  code[class="Coherence"]::before,
+  code[class="Trials"]::before {
+    position: absolute;
+
+    top: 0;
+    right: 0.625rem;
+
+    width: 0.25rem;
+    height: 1.375rem;
+
+    content: "";
+
+    background-color: var(--color-element-disabled);
+    border-width: 0.125rem;
+  }
+
+  code[class="Coherence"]::after,
+  code[class="Trials"]::after {
+    position: absolute;
+
+    top: 0.4rem;
+    right: 0.125rem;
+
+    width: 1.25rem;
+    height: 0.625rem;
+
+    content: "";
+
+    background-color: var(--color-element-enabled);
+    border-width: 0.25rem;
     border-radius: 0.25rem;
   }
 
@@ -510,18 +649,22 @@ body {
     border-radius: 0;
   }
 
+  code[class="Hit"],
   code[class="Hits"] {
     background-color: var(--color-h-light);
   }
 
+  code[class="Miss"],
   code[class="Misses"] {
     background-color: var(--color-m-light);
   }
 
+  code[class="CorrectRejection"],
   code[class="CorrectRejections"] {
     background-color: var(--color-cr-light);
   }
 
+  code[class="FalseAlarm"],
   code[class="FalseAlarms"] {
     background-color: var(--color-fa-light);
   }
@@ -530,7 +673,7 @@ body {
     background-color: var(--color-hr-light);
   }
 
-  code[class="FalseAlarm"] {
+  code[class="FalseAlarmRate"] {
     background-color: var(--color-far-light);
   }
 

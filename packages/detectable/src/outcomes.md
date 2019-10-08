@@ -17,7 +17,7 @@ Try a few trials of the task:
   <sdt-control trials="5" run pause reset coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5"
     duration="1000" wait="1000" iti="500"></rdk-task>
-  <sdt-response trial feedback="accuracy"></sdt-response>
+  <sdt-response interactive trial feedback="accuracy"></sdt-response>
 </sdt-example-human>
 
 As you have no doubt noticed, if you have given it a try, you receive feedback. For
@@ -53,7 +53,7 @@ possible outcomes occurred:
   <sdt-control trials="5" run pause reset coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5"
     duration="1000" wait="1000" iti="500"></rdk-task>
-  <sdt-response trial feedback="outcome"></sdt-response>
+  <sdt-response interactive trial feedback="outcome"></sdt-response>
 </sdt-example-human>
 
 Now that we know how to classify the outcome of individual trials, we might wonder how we can

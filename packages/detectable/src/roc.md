@@ -81,7 +81,7 @@ just reload the page.)
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
-  <sdt-response trial feedback="outcome"></sdt-response>
+  <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
   <roc-space point="all" iso-d="none" iso-c="none" history far=".5" hr=".5"></roc-space>

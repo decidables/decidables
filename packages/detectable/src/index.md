@@ -16,7 +16,7 @@ SDT.
 SDT was originally developed to understand the decisions of radar operators attempting to detect the
 faint traces of enemy aircraft, bogeys, among the spurious flashes on the radar screen
 [@Marcum1947; @Tanner1954; @Peterson1954]. The fundamental question was: How does a person decide
-if they are seeing a signal or just noise?
+if they are seeing signal or noise?
 
 In answering this question, researchers attempted to decompose the underlying cognitive process into
 its constituent parts. Then they specified a theory describing these parts in a formal mathematical
