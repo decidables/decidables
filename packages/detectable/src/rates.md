@@ -12,7 +12,7 @@ occurred:
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
-  <sdt-response trial feedback="outcome"></sdt-response>
+  <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric display="outcomes" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
 </sdt-example-human>
@@ -99,7 +99,7 @@ of outcomes and rates provides a running summary of performance:
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
-  <sdt-response trial feedback="outcome"></sdt-response>
+  <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
 </sdt-example-human>
