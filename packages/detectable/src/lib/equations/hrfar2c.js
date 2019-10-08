@@ -128,16 +128,10 @@ export default class SDTEquationHrFar2C extends SDTEquation {
             <span class="bracket tight">)<sup class="exp">&minus;½</sup></span><span class="bracket tight">(</span>
           </td>
           <td class="underline bottom">
-            ${s}
+            <span class="minus tight">&minus;</span>${s}
           </td>
           <td rowspan="2">
-            <span class="bracket tight">)</span><span class="bracket">[</span>
-          </td>
-          <td class="underline">
-            <span class="minus tight">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span>
-          </td>
-          <td rowspan="2">
-            <span class="bracket">]</span>
+            <span class="bracket tight">)</span><span class="bracket">[</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="plus">&plus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span><span class="bracket">]</span>
           </td>
         </tr>
         <tr>
@@ -147,9 +141,6 @@ export default class SDTEquationHrFar2C extends SDTEquation {
           <td>
             <span><span>1</span><span class="plus">&plus;</span>${s}</span>
           </td>
-          <td>
-            <span>2</span>
-          </td>
         </tr>`;
     } else {
       equation = html`
@@ -158,7 +149,7 @@ export default class SDTEquationHrFar2C extends SDTEquation {
             ${c}<span class="equals">=</span>
           </td>
           <td class="underline">
-            <span class="minus tight">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span>
+            <span class="minus tight">&minus;</span><span class="bracket tight">[</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="plus">&plus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span><span class="bracket tight">]</span>
           </td>
         </tr>
         <tr>
