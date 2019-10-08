@@ -386,6 +386,7 @@ export default class RDKTask extends SDTElement {
         detail: {
           trial: this.trial,
           signal: this.signal,
+          // Pass trial timing parameters in this message!
         },
         bubbles: true,
       }));
