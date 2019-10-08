@@ -777,7 +777,7 @@ export default class SDTModel extends SDTElement {
       .classed('axis-y2', true);
     //  MERGE
     const axisY2Merge = axisY2Enter.merge(axisY2Update)
-      .attr('transform', this.distributions ? `translate(${width}, 0)` : 'none')
+      .attr('transform', this.distributions ? `translate(${width}, 0)` : '')
       .call(this.distributions ? d3.axisRight(y2Scale).ticks(10) : d3.axisLeft(y2Scale).ticks(10))
       .attr('font-size', null)
       .attr('font-family', null);

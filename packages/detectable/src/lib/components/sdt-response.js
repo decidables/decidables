@@ -245,6 +245,12 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
           justify-content: center;
         }
 
+        .waiting:disabled {
+          background-color: var(---color-element-enabled);
+          outline: none;
+          box-shadow: none;
+        }
+
         .selected[name="present"]:disabled {
           background-color: var(---color-present);
         }
@@ -347,8 +353,8 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
     return html`
       <div class="holder">
         <div class="responses">
-          <button name="present" class=${(this.state === 'feedback' && this.response === 'present') ? 'selected' : ''} ?disabled=${this.state !== 'waiting'} @click=${this.present.bind(this)}>Present</button>
-          <button name="absent" class=${(this.state === 'feedback' && this.response === 'absent') ? 'selected' : ''} ?disabled=${this.state !== 'waiting'} @click=${this.absent.bind(this)}>Absent</button>
+          <button name="present" class=${(this.state === 'feedback' && this.response === 'present') ? 'selected' : ((this.state === 'waiting') ? 'waiting' : '')} ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.present.bind(this)}>Present</button>
+          <button name="absent" class=${(this.state === 'feedback' && this.response === 'absent') ? 'selected' : ((this.state === 'waiting') ? 'waiting' : '')} ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.absent.bind(this)}>Absent</button>
         </div>
         ${(this.trial || this.feedback !== 'none' || this.payoff === 'total')
           ? html`

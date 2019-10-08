@@ -21,6 +21,10 @@ export default class SDTExampleModel extends SDTExample {
         if (this.rdkTask) {
           this.rdkTask.trials = event.detail.trials;
         }
+
+        if (this.sdtResponse) {
+          this.sdtResponse.trialTotal = event.detail.trials;
+        }
       });
     }
 
@@ -82,9 +86,15 @@ export default class SDTExampleModel extends SDTExample {
     }
 
     if (this.rdkTask) {
+      if (this.sdtResponse) {
+        this.sdtResponse.trialTotal = this.rdkTask.trials;
+      }
+    }
+
+    if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-trial-start', (event) => {
         if (this.sdtResponse) {
-          this.sdtResponse.start(event.detail.signal);
+          this.sdtResponse.start(event.detail.signal, event.detail.trial);
         }
       });
     }
