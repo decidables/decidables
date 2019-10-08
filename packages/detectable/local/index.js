@@ -65860,7 +65860,8 @@ function (_SDTElement) {
         this.dispatchEvent(new CustomEvent('rdk-trial-start', {
           detail: {
             trial: this.trial,
-            signal: this.signal
+            signal: this.signal // Pass trial timing parameters in this message!
+
           },
           bubbles: true
         }));
@@ -67810,7 +67811,7 @@ function (_SDTElement) {
 
       var axisY2Enter = axisY2Update.enter().append('g').classed('axis-y2', true); //  MERGE
 
-      var axisY2Merge = axisY2Enter.merge(axisY2Update).attr('transform', this.distributions ? "translate(".concat(width, ", 0)") : 'none').call(this.distributions ? d3.axisRight(y2Scale).ticks(10) : d3.axisLeft(y2Scale).ticks(10)).attr('font-size', null).attr('font-family', null);
+      var axisY2Merge = axisY2Enter.merge(axisY2Update).attr('transform', this.distributions ? "translate(".concat(width, ", 0)") : '').call(this.distributions ? d3.axisRight(y2Scale).ticks(10) : d3.axisLeft(y2Scale).ticks(10)).attr('font-size', null).attr('font-family', null);
       axisY2Merge.selectAll('line, path').attr('stroke', null); //  EXIT
 
       axisY2Update.exit().remove(); // 2nd Y Axis Title
@@ -68474,7 +68475,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject20() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall container */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n        }\n\n        /* Response buttons */\n        .responses {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .selected[name=\"present\"]:disabled {\n          background-color: var(---color-present);\n        }\n\n        .selected[name=\"absent\"]:disabled {\n          background-color: var(---color-absent);\n        }\n\n        /* Feedback messages */\n        .feedbacks {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        /* Trial feedback */\n        .trial {\n          text-align: center;\n        }\n\n        .trial .label {\n          font-weight: 600;\n        }\n\n        /* Outcome feedback */\n        .feedback {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          width: 6rem;\n          height: 3.5rem;\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          text-align: center;\n\n          background-color: var(---color-element-background);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .feedback.h {\n          background-color: var(---color-h-light);\n        }\n\n        .feedback.m {\n          background-color: var(---color-m-light);\n        }\n\n        .feedback.fa {\n          background-color: var(---color-fa-light);\n        }\n\n        .feedback.cr {\n          background-color: var(---color-cr-light);\n        }\n\n        .feedback.nr {\n          background-color: var(---color-element-background);\n        }\n\n        .feedback.c {\n          background-color: var(---color-background);\n        }\n\n        .feedback.e {\n          color: var(---color-background);\n\n          background-color: var(---color-text);\n        }\n\n        .feedback .outcome {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n\n        :host([payoff=\"trial\"]) .feedback,\n        :host([payoff=\"total\"]) .feedback {\n          height: 4rem;\n        }\n\n        /* Payoff feedback */\n        .payoff {\n          text-align: center;\n        }\n\n        .payoff .label {\n          font-weight: 600;\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall container */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n        }\n\n        /* Response buttons */\n        .responses {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .waiting:disabled {\n          background-color: var(---color-element-enabled);\n          outline: none;\n          box-shadow: none;\n        }\n\n        .selected[name=\"present\"]:disabled {\n          background-color: var(---color-present);\n        }\n\n        .selected[name=\"absent\"]:disabled {\n          background-color: var(---color-absent);\n        }\n\n        /* Feedback messages */\n        .feedbacks {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        /* Trial feedback */\n        .trial {\n          text-align: center;\n        }\n\n        .trial .label {\n          font-weight: 600;\n        }\n\n        /* Outcome feedback */\n        .feedback {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          width: 6rem;\n          height: 3.5rem;\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          text-align: center;\n\n          background-color: var(---color-element-background);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .feedback.h {\n          background-color: var(---color-h-light);\n        }\n\n        .feedback.m {\n          background-color: var(---color-m-light);\n        }\n\n        .feedback.fa {\n          background-color: var(---color-fa-light);\n        }\n\n        .feedback.cr {\n          background-color: var(---color-cr-light);\n        }\n\n        .feedback.nr {\n          background-color: var(---color-element-background);\n        }\n\n        .feedback.c {\n          background-color: var(---color-background);\n        }\n\n        .feedback.e {\n          color: var(---color-background);\n\n          background-color: var(---color-text);\n        }\n\n        .feedback .outcome {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n\n        :host([payoff=\"trial\"]) .feedback,\n        :host([payoff=\"total\"]) .feedback {\n          height: 4rem;\n        }\n\n        /* Payoff feedback */\n        .payoff {\n          text-align: center;\n        }\n\n        .payoff .label {\n          font-weight: 600;\n        }\n      "]);
 
   _templateObject20 = function _templateObject20() {
     return data;
@@ -68918,7 +68919,7 @@ function (_SDTMixinStyleButton) {
   }, {
     key: "render",
     value: function render() {
-      return (0, _litElement.html)(_templateObject(), this.state === 'feedback' && this.response === 'present' ? 'selected' : '', this.state !== 'waiting', this.present.bind(this), this.state === 'feedback' && this.response === 'absent' ? 'selected' : '', this.state !== 'waiting', this.absent.bind(this), this.trial || this.feedback !== 'none' || this.payoff === 'total' ? (0, _litElement.html)(_templateObject2(), this.trial ? (0, _litElement.html)(_templateObject3(), this.trialCount, this.trialTotal) : (0, _litElement.html)(_templateObject4()), this.feedback !== 'none' ? (0, _litElement.html)(_templateObject5(), "feedback ".concat(this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''), this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? (0, _litElement.html)(_templateObject6()) : this.outcome === 'm' ? (0, _litElement.html)(_templateObject7()) : this.outcome === 'fa' ? (0, _litElement.html)(_templateObject8()) : this.outcome === 'cr' ? (0, _litElement.html)(_templateObject9()) : (0, _litElement.html)(_templateObject10()) : this.accuracy === 'c' ? (0, _litElement.html)(_templateObject11()) : this.accuracy === 'e' ? (0, _litElement.html)(_templateObject12()) : (0, _litElement.html)(_templateObject13()) : '', this.payoff === 'trial' || this.payoff === 'total' ? (0, _litElement.html)(_templateObject14(), this.trialPayoff) : (0, _litElement.html)(_templateObject15())) : (0, _litElement.html)(_templateObject16()), this.payoff === 'total' ? (0, _litElement.html)(_templateObject17(), this.totalPayoff) : (0, _litElement.html)(_templateObject18())) : (0, _litElement.html)(_templateObject19()));
+      return (0, _litElement.html)(_templateObject(), this.state === 'feedback' && this.response === 'present' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.present.bind(this), this.state === 'feedback' && this.response === 'absent' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.absent.bind(this), this.trial || this.feedback !== 'none' || this.payoff === 'total' ? (0, _litElement.html)(_templateObject2(), this.trial ? (0, _litElement.html)(_templateObject3(), this.trialCount, this.trialTotal) : (0, _litElement.html)(_templateObject4()), this.feedback !== 'none' ? (0, _litElement.html)(_templateObject5(), "feedback ".concat(this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''), this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? (0, _litElement.html)(_templateObject6()) : this.outcome === 'm' ? (0, _litElement.html)(_templateObject7()) : this.outcome === 'fa' ? (0, _litElement.html)(_templateObject8()) : this.outcome === 'cr' ? (0, _litElement.html)(_templateObject9()) : (0, _litElement.html)(_templateObject10()) : this.accuracy === 'c' ? (0, _litElement.html)(_templateObject11()) : this.accuracy === 'e' ? (0, _litElement.html)(_templateObject12()) : (0, _litElement.html)(_templateObject13()) : '', this.payoff === 'trial' || this.payoff === 'total' ? (0, _litElement.html)(_templateObject14(), this.trialPayoff) : (0, _litElement.html)(_templateObject15())) : (0, _litElement.html)(_templateObject16()), this.payoff === 'total' ? (0, _litElement.html)(_templateObject17(), this.totalPayoff) : (0, _litElement.html)(_templateObject18())) : (0, _litElement.html)(_templateObject19()));
     }
   }], [{
     key: "styles",
@@ -70734,7 +70735,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span>\n          </td>\n          <td class=\"underline\">\n            <span class=\"minus tight\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"]);
+  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span>\n          </td>\n          <td class=\"underline\">\n            <span class=\"minus tight\">&minus;</span><span class=\"bracket tight\">[</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"plus\">&plus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"bracket tight\">]</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -70744,7 +70745,7 @@ function _templateObject10() {
 }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">&plus;</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)<sup class=\"exp\">&minus;\xBD</sup></span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)</span><span class=\"bracket\">[</span>\n          </td>\n          <td class=\"underline\">\n            <span class=\"minus tight\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">&minus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket\">]</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n          <td>\n            <span><span>1</span><span class=\"plus\">&plus;</span>", "</span>\n          </td>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"]);
+  var data = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">&plus;</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)<sup class=\"exp\">&minus;\xBD</sup></span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span class=\"minus tight\">&minus;</span>", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)</span><span class=\"bracket\">[</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"plus\">&plus;</span><span class=\"tight\"><var class=\"math-greek phi tight\">&Phi;</var><sup class=\"exp\">&minus;1</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"bracket\">]</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n          <td>\n            <span><span>1</span><span class=\"plus\">&plus;</span>", "</span>\n          </td>\n        </tr>"]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -72116,6 +72117,10 @@ function (_SDTExample) {
           if (_this.rdkTask) {
             _this.rdkTask.trials = event.detail.trials;
           }
+
+          if (_this.sdtResponse) {
+            _this.sdtResponse.trialTotal = event.detail.trials;
+          }
         });
       }
 
@@ -72184,9 +72189,15 @@ function (_SDTExample) {
       }
 
       if (this.rdkTask) {
+        if (this.sdtResponse) {
+          this.sdtResponse.trialTotal = this.rdkTask.trials;
+        }
+      }
+
+      if (this.rdkTask) {
         this.rdkTask.addEventListener('rdk-trial-start', function (event) {
           if (_this.sdtResponse) {
-            _this.sdtResponse.start(event.detail.signal);
+            _this.sdtResponse.start(event.detail.signal, event.detail.trial);
           }
         });
       }

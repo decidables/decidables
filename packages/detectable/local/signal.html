@@ -231,14 +231,14 @@
 <p>What's a signal? Well, it could be your friend's voice at a party, or a distant boat on the sea, or
 the smell of truffles under the earth. Any stimulus that you are trying to perceive can be
 thought of as a signal.</p>
-<p>Our signal will be coherent dot motion. Go ahead and push the <code class="Run">Run</code> button to see what it looks
-like:</p>
+<p>Our <strong>signal</strong> will be <strong>coherent</strong> dot motion. Go ahead and push the <code class="Run">Run</code>
+button to see what it looks like:</p>
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
   <rdk-task count="100" coherence="1" trials="1" probability="1" duration="Infinity"
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
-<p>This is <strong>coherent</strong> motion because the dots are moving together in the same direction. (Push the
+<p>This is coherent motion because the dots are moving together in the <em>same</em> direction. (Push the
 <code class="Pause">Pause</code> button to temporarily freeze the dots, or push the <code class="Reset">Reset</code> button to reinitialize the demo
 with a new direction of motion.)</p>
 <h2>Noise</h2>
@@ -246,14 +246,14 @@ with a new direction of motion.)</p>
 have noise. Noise is the music and other voices at the party, the swirling clouds of fog on the sea,
 the mélange of other smells wafting up from the soil. All of the other stimuli you are not
 interested in, but that are interfering with your ability to detect the signal.</p>
-<p>Our noise will be random dot motion. Give it a try (<code class="Run">Run</code> to start, <code class="Pause">Pause</code> to freeze, <code class="Reset">Reset</code> to
-reinitialize):</p>
+<p>Our <strong>noise</strong> will be <strong>random</strong> dot motion. Give it a try (<code class="Run">Run</code> to start,
+<code class="Pause">Pause</code> to freeze, <code class="Reset">Reset</code> to reinitialize):</p>
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
   <rdk-task count="100" coherence="0" trials="1" probability="1" duration="Infinity"
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
-<p>Noise is incoherent or <strong>random</strong> motion. Every dot is moving in a different direction.</p>
+<p>Noise is incoherent or random motion. Every dot is moving in a <em>different</em> direction.</p>
 <h2>Signal and noise</h2>
 <p>In many situations, the signal we are trying to detect is buried in noise: your friend's voice among
 the music and other voices at the party, the distant boat among the clouds of fog on the sea, the
@@ -270,7 +270,7 @@ moving in different, random directions — the noise.</p>
 <h2>Variable signal strength</h2>
 <p>How strong is the signal compared to the noise? That can vary continuously from "pure" signal at one
 extreme to "pure" noise at the other. And this brings us to one of the motivations for using
-random-dot kinematograms (that's what these are called!) as stimuli — by varying the proportion of
+<strong>random-dot kinematograms (RDKs)</strong> as stimuli: by varying the proportion of
 dots that are moving coherently between one and zero, we can elegantly vary our stimulus from "pure"
 signal to "pure" noise, or anywhere in between (move the <code class="Coherence">Coherence</code> slider up and down or edit the
 number to adjust the proportion of coherence — even while the dots are moving!):</p>
@@ -279,7 +279,7 @@ number to adjust the proportion of coherence — even while the dots are moving!
   <rdk-task count="100" coherence="0.5" trials="1" probability="1" duration="Infinity"
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
-<p>Random-dot kinematograms (RDKs), also called random-dot motion displays, are widely used to study
+<p>Random-dot kinematograms, also called random-dot motion displays, are widely used to study
 motion perception (e.g. <a class="csl-ref" href="references.html#Britten1992"> Britten, Shadlen, Newsome, &#38; Movshon, 1992</a>) and there are many variations on the basic concept
 (<a class="csl-ref" href="references.html#Pilly2009">Pilly &#38; Seitz, 2009</a>). For us, they provide a nice parametrically variable <strong>stimulus</strong>!</p>
 

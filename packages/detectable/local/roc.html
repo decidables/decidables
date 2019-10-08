@@ -227,7 +227,7 @@
           </header>
           <section class="sdt-content">
             <h2>ROC space</h2>
-<p><code class="HitRate">Hit Rate</code> and <code class="FalseAlarm">False Alarm Rate</code> allow us to summarize performance with two values. We can then
+<p><code class="HitRate">Hit Rate</code> and <code class="FalseAlarmRate">False Alarm Rate</code> allow us to summarize performance with two values. We can then
 visualize performance as a point in a space, with the <em>x</em>-coordinate defined by FAR, and the
 <em>y</em>-coordinate defined by HR. This space is called <strong>receiver operating characteristic (ROC) space</strong>
 or alternatively <strong>relative operating characteristic space</strong> (<a class="csl-ref" href="references.html#Swets1996">Swets, 1996</a>). (The term "receiver"
@@ -261,7 +261,7 @@ performance generally tells us next to nothing about either the hit rate or the 
 <h2>Comparing patterns of outcomes</h2>
 <p>We can explore ROC space further by comparing a pair of points.</p>
 <p>For example, let's imagine we have one point with a <code class="HitRate">Hit Rate</code> of 0.9 and an <code class="Accuracy">Accuracy</code> of 0.75, and
-a second point with a <code class="FalseAlarm">False Alarm Rate</code> of 0.1 and an <code class="Accuracy">Accuracy</code> of 0.75. Is this possible? Where
+a second point with a <code class="FalseAlarmRate">False Alarm Rate</code> of 0.1 and an <code class="Accuracy">Accuracy</code> of 0.75. Is this possible? Where
 are the two points in ROC space? Is there any sort of symmetry apparent in their placement? Try to
 move the two points in the ROC space below to meet this description. The point with the up
 arrow, '↑', is described in the table above the ROC space; the point with the down arrow, '↓', is
@@ -286,7 +286,7 @@ just reload the page.)</p>
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
-  <sdt-response trial feedback="outcome"></sdt-response>
+  <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
   <roc-space point="all" iso-d="none" iso-c="none" history far=".5" hr=".5"></roc-space>
@@ -294,7 +294,7 @@ just reload the page.)</p>
 <p>After you've completed a few blocks of trials, do you see any trends revealed in the pattern of
 points within ROC space?</p>
 <p>We can now describe performance in terms of <code class="Hits">Hits</code>, <code class="Misses">Misses</code>, <code class="CorrectRejections">Correct Rejections</code>, <code class="FalseAlarms">False Alarms</code>,
-<code class="HitRate">Hit Rate</code>, <code class="FalseAlarm">False Alarm Rate</code>, and ROC space. It is time that we think about the processes that
+<code class="HitRate">Hit Rate</code>, <code class="FalseAlarmRate">False Alarm Rate</code>, and ROC space. It is time that we think about the processes that
 lead to this performance.</p>
 
           </section>

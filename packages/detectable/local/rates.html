@@ -232,7 +232,7 @@ occurred:</p>
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
-  <sdt-response trial feedback="outcome"></sdt-response>
+  <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric display="outcomes" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
 </sdt-example-human>
@@ -250,16 +250,16 @@ responded <em>"present"</em>.</p>
 <p>(This is a <em>live</em> equation. You can edit the number of <code class="Hits">Hits</code> or <code class="Misses">Misses</code> and the <code class="HitRate">Hit Rate</code> will
 immediately update.)</p>
 <h2>False Alarm Rate (FAR)</h2>
-<p>Likewise, we can summarize our performance when the signal was absent with a <code class="FalseAlarm">False Alarm Rate</code>
+<p>Likewise, we can summarize our performance when the signal was absent with a <code class="FalseAlarmRate">False Alarm Rate</code>
 (FAR), also called a <strong>false positive rate</strong> or <strong>type II error rate</strong>:</p>
 <p><sdt-equation-facr2far></sdt-equation-facr2far></p>
-<p>The <code class="FalseAlarm">False Alarm Rate</code> tells us the proportion of trials when the signal was <em>absent</em> that we
+<p>The <code class="FalseAlarmRate">False Alarm Rate</code> tells us the proportion of trials when the signal was <em>absent</em> that we
 erroneously responded <em>"present"</em>.</p>
 <sdt-equation-facr2far numeric interactive false-alarms="5" correct-rejections="5">
   </sdt-equation-facr2far>
 <p>(Another <em>live</em> equation!)</p>
 <h2>A table of outcomes and rates</h2>
-<p>Since the <code class="HitRate">Hit Rate</code> summarizes performance when the signal was <em>present</em> and the <code class="FalseAlarm">False Alarm Rate</code>
+<p>Since the <code class="HitRate">Hit Rate</code> summarizes performance when the signal was <em>present</em> and the <code class="FalseAlarmRate">False Alarm Rate</code>
 summarizes performance when the signal was <em>absent</em>, we can add them to the corresponding rows of
 our table of outcomes:</p>
 <sdt-example-interactive>
@@ -291,7 +291,7 @@ of outcomes and rates provides a running summary of performance:</p>
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
-  <sdt-response trial feedback="outcome"></sdt-response>
+  <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
 </sdt-example-human>
@@ -317,7 +317,7 @@ look down the columns of the tables, we can observe that the first participant a
 different performance, and completely different patterns of outcomes, they both resulted in the same
 <code class="Accuracy">Accuracy</code>. It turns out that in the context of signal detection, <code class="Accuracy">Accuracy</code> is a surprisingly poor
 indicator of performance.</p>
-<p>On the other hand, the <code class="HitRate">Hit Rate</code> and <code class="FalseAlarm">False Alarm Rate</code> are completely different for our two
+<p>On the other hand, the <code class="HitRate">Hit Rate</code> and <code class="FalseAlarmRate">False Alarm Rate</code> are completely different for our two
 participants, clearly communicating the vast differences in performance. By telling us how the
 participant performed when the signal was <em>present</em> and when the signal was <em>absent</em>, the
 combination of HR and FAR give us a more complete summary picture of performance.</p>
