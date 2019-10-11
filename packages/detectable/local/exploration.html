@@ -227,6 +227,23 @@
           </header>
           <section class="sdt-content">
             <h2>Visualizing the relationship between performance and model</h2>
+<p>We are now ready to put everything we have learned about Signal Detection Theory together into an
+integrated and explorable view of performance and theory.</p>
+<p>The table of outcomes lists the count of each trial outcome: <code class="Hits">Hits</code>, <code class="Misses">Misses</code>, <code class="FalseAlarms">False Alarms</code>, and
+<code class="CorrectRejections">Correct Rejections</code>. These counts are further summarized with <code class="HitRate">Hit Rate</code>, <code class="FalseAlarmRate">False Alarm Rate</code>, and
+overall <code class="Accuracy">Accuracy</code>. You can modify any value, and any dependent values will update to maintain
+consistency.</p>
+<p>In ROC space, performance is plotted as <code class="HitRate">Hit Rate</code> versus <code class="FalseAlarmRate">False Alarm Rate</code>. All of the points with
+the same <code class="Sensitivity">Sensitivity</code> (<code class="d′">d′</code>) are illustrated with an <code class="Iso-SensitivityCurve">Iso-Sensitivity Curve</code>. All of the points
+with the same <code class="Bias">Bias</code> (<code class="c">c</code>) are illustrated with an <code class="Iso-BiasCurve">Iso-Bias Curve</code>. Moving the data point will
+cause the isocontours to update as well.</p>
+<p>The visual representation of the SDT model shows <code class="Sensitivity">Sensitivity</code> as the distance, <code class="d′">d′</code>, between the
+noise and signal plus noise distributions. And it shows <code class="Bias">Bias</code> as the location, <code class="c">c</code>, of the
+threshold. The threshold divides the signal plus noise distribution into <code class="Hit">Hit</code> and <code class="Miss">Miss</code> areas and
+divides the noise distribution into <code class="CorrectRejection">Correct Rejection</code> and <code class="FalseAlarm">False Alarm</code> areas. Moving the
+distributions or the threshold adjusts <code class="d′">d′</code> or <code class="c">c</code>, respectively.</p>
+<p>Across all three figures, the table of outcomes, ROC space, and the SDT model, adjustments to the
+performance or the model will be reflected immediately in the other figures as well.</p>
 <sdt-example-interactive>
   <sdt-table numeric interactive display="accuracy"
     hits="80" misses="20" false-alarms="10" correct-rejections="90"></sdt-table>

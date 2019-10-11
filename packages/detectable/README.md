@@ -48,6 +48,7 @@
 
 ## Features/Bugs
 
+- 3-way switch to select "stimulus", "response", or "outcome" coloring in model?
 - Label values IN iso-plots?
 - Resolve ambiguity between different uses of same color
   - For example, "Respond Present" as a trial type versus "Present" as a response versus "?Present?"
