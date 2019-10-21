@@ -16,6 +16,18 @@ export default class SDTExampleModel extends SDTExample {
     this.sdtTable = this.querySelector('sdt-table');
     this.rocSpace = this.querySelector('roc-space');
 
+    if (this.sdtControl && this.sdtControl.hasAttribute('color')) {
+      this.sdtControl.addEventListener('sdt-control-color', (event) => {
+        if (this.sdtModel) {
+          this.sdtModel.color = event.detail.color;
+        }
+
+        if (this.sdtTable) {
+          this.sdtTable.color = event.detail.color;
+        }
+      });
+    }
+
     if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
       this.sdtControl.addEventListener('sdt-control-trials', (event) => {
         if (this.rdkTask) {

@@ -333,24 +333,42 @@ export default class SDTModel extends SDTElement {
           fill: var(---color-cr);
           fill-opacity: 0.5;
           stroke: none;
+
+          transition: fill 0.5s ease;
         }
 
         .curve-fa {
           fill: var(---color-fa);
           fill-opacity: 0.5;
           stroke: none;
+
+          transition: fill 0.5s ease;
         }
 
         .curve-m {
           fill: var(---color-m);
           fill-opacity: 0.5;
           stroke: none;
+
+          transition: fill 0.5s ease;
         }
 
         .curve-h {
           fill: var(---color-h);
           fill-opacity: 0.5;
           stroke: none;
+
+          transition: fill 0.5s ease;
+        }
+
+        :host([color="accuracy"]) .curve-h,
+        :host([color="accuracy"]) .curve-cr {
+          fill: var(---color-correct);
+        }
+
+        :host([color="accuracy"]) .curve-m,
+        :host([color="accuracy"]) .curve-fa {
+          fill: var(---color-error);
         }
 
         :host([color="stimulus"]) .curve-cr,

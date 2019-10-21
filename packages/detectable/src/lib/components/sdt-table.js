@@ -21,6 +21,8 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
       },
       display: {
         attribute: 'display',
+      color: {
+        attribute: 'color',
         type: String,
         reflect: true,
       },
@@ -69,6 +71,9 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
 
     this.displays = ['outcomes', 'rates', 'accuracy'];
     this.display = 'accuracy';
+
+    this.colors = ['stimulus', 'response', 'outcome', 'none'];
+    this.color = 'outcome';
 
     this.h = 40;
     this.m = 60;
@@ -258,7 +263,14 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
           border-bottom: 2px solid var(---color-element-emphasis);
         }
 
-        /* Color scheme */
+        /* Color schemes */
+        /* stylelint-disable-next-line no-descending-specificity */
+        .td,
+        .td input {
+          transition: all 0.5s ease;
+        }
+
+        /* Outcome color scheme */
         .h,
         .h input {
           background: var(---color-h-light);
@@ -292,6 +304,114 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
         .acc,
         .acc input {
           background: var(---color-acc-light);
+        }
+
+        .ppv,
+        .ppv input {
+          background: var(---color-present-light);
+        }
+
+        .fomr,
+        .fomr input {
+          background: var(---color-absent-light);
+        }
+
+        /* Accuracy color scheme */
+        :host([color="accuracy"]) .h,
+        :host([color="accuracy"]) .h input,
+        :host([color="accuracy"]) .cr,
+        :host([color="accuracy"]) .cr input {
+          background: var(---color-correct-light);
+        }
+
+        :host([color="accuracy"]) .m,
+        :host([color="accuracy"]) .m input,
+        :host([color="accuracy"]) .fa,
+        :host([color="accuracy"]) .fa input {
+          color: var(---color-background);
+
+          background: var(---color-error-light);
+        }
+
+        :host([color="accuracy"]) .hr,
+        :host([color="accuracy"]) .hr input,
+        :host([color="accuracy"]) .far,
+        :host([color="accuracy"]) .far input,
+        :host([color="accuracy"]) .ppv,
+        :host([color="accuracy"]) .ppv input,
+        :host([color="accuracy"]) .fomr,
+        :host([color="accuracy"]) .fomr input {
+          background: var(---color-element-background);
+        }
+
+        /* Stimulus color scheme */
+        :host([color="stimulus"]) .cr,
+        :host([color="stimulus"]) .cr input,
+        :host([color="stimulus"]) .fa,
+        :host([color="stimulus"]) .fa input {
+          background: var(---color-far-light);
+        }
+
+        :host([color="stimulus"]) .m,
+        :host([color="stimulus"]) .m input,
+        :host([color="stimulus"]) .h,
+        :host([color="stimulus"]) .h input {
+          background: var(---color-hr-light);
+        }
+
+        :host([color="stimulus"]) .ppv,
+        :host([color="stimulus"]) .ppv input,
+        :host([color="stimulus"]) .fomr,
+        :host([color="stimulus"]) .fomr input,
+        :host([color="stimulus"]) .acc,
+        :host([color="stimulus"]) .acc input {
+          background: var(---color-element-background);
+        }
+
+        /* Response color scheme */
+        :host([color="response"]) .cr,
+        :host([color="response"]) .cr input,
+        :host([color="response"]) .m,
+        :host([color="response"]) .m input {
+          background: var(---color-absent-light);
+        }
+
+        :host([color="response"]) .fa,
+        :host([color="response"]) .fa input,
+        :host([color="response"]) .h,
+        :host([color="response"]) .h input {
+          background: var(---color-present-light);
+        }
+
+        :host([color="response"]) .hr,
+        :host([color="response"]) .hr input,
+        :host([color="response"]) .far,
+        :host([color="response"]) .far input,
+        :host([color="response"]) .acc,
+        :host([color="response"]) .acc input {
+          background: var(---color-element-background);
+        }
+
+        /* No color scheme */
+        :host([color="none"]) .cr,
+        :host([color="none"]) .cr input,
+        :host([color="none"]) .fa,
+        :host([color="none"]) .fa input,
+        :host([color="none"]) .m,
+        :host([color="none"]) .m input,
+        :host([color="none"]) .h,
+        :host([color="none"]) .h input,
+        :host([color="none"]) .hr,
+        :host([color="none"]) .hr input,
+        :host([color="none"]) .far,
+        :host([color="none"]) .far input,
+        :host([color="none"]) .ppv,
+        :host([color="none"]) .ppv input,
+        :host([color="none"]) .fomr,
+        :host([color="none"]) .fomr input,
+        :host([color="none"]) .acc,
+        :host([color="none"]) .acc input {
+          background: var(---color-element-background);
         }
       `,
     ];

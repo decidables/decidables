@@ -1,11 +1,12 @@
 
-import {html, css} from 'lit-element';
+import {html, css, unsafeCSS} from 'lit-element';
 
 import SDTElement from '../sdt-element';
 import SDTMixinStyleButton from '../mixins/styleButton';
 import SDTMixinStyleSlider from '../mixins/styleSlider';
 import SDTMixinStyleSpinner from '../mixins/styleSpinner';
 import SDTMixinStyleSwitch from '../mixins/styleSwitch';
+import SDTMixinStyleToggle from '../mixins/styleToggle';
 
 /*
   SDTControl element
@@ -14,7 +15,7 @@ import SDTMixinStyleSwitch from '../mixins/styleSwitch';
   Attributes:
 
 */
-export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(SDTMixinStyleSpinner(SDTMixinStyleSwitch(SDTElement)))) { // eslint-disable-line max-len
+export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(SDTMixinStyleSpinner(SDTMixinStyleSwitch(SDTMixinStyleToggle(SDTElement))))) { // eslint-disable-line max-len
   static get properties() {
     return {
       trials: {
@@ -47,6 +48,11 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
         type: Boolean,
         reflect: true,
       },
+      color: {
+        attribute: 'color',
+        type: String,
+        reflect: true,
+      },
 
       state: {
         atribute: false,
@@ -65,6 +71,9 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
     this.reset = false;
     this.coherence = undefined;
     this.zRoc = undefined;
+
+    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
+    this.color = undefined;
 
     this.states = ['resetted', 'running', 'paused', 'ended'];
     this.state = 'resetted';
@@ -109,6 +118,16 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
     this.dispatchEvent(new CustomEvent('sdt-control-coherence', {
       detail: {
         coherence: this.coherence,
+      },
+      bubbles: true,
+    }));
+  }
+
+  chooseColor(e) {
+    this.color = e.target.value;
+    this.dispatchEvent(new CustomEvent('sdt-control-color', {
+      detail: {
+        color: this.color,
       },
       bubbles: true,
     }));
@@ -184,11 +203,26 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
           justify-content: center;
         }
 
+        .toggle {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: stretch;
+          justify-content: center;
+        }
+
         label {
           margin: 0.25rem 0.25rem 0;
         }
 
         /* BUTTON */
+
+        /* NUMBER */
+
+        /* RADIO */
+
+        /* RANGE */
 
         /* SLIDER */
 
@@ -201,6 +235,15 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
         }
 
         /* SWITCH */
+
+        /* TOGGLE */
+        fieldset {
+          border: 0;
+        }
+
+        legend {
+          text-align: center;
+        }
       `,
     ];
   }
@@ -238,6 +281,22 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
               </div>
               <input type="number" min="0" max="1" step=".01" .value="${this.coherence}" @input=${this.setCoherence.bind(this)}>
             </div>`
+          : html``}
+        ${this.color !== undefined
+          ? html`
+            <fieldset class="toggle">
+              <legend>Emphasis</legend>
+              <input type="radio" id=${`${this.uniqueId}-color-none`} name=${`${this.uniqueId}-color`} value="none" ?checked=${this.color === 'none'} @change=${this.chooseColor.bind(this)}>
+              <label for=${`${this.uniqueId}-color-none`}>None</label>
+              <input type="radio" id=${`${this.uniqueId}-color-accuracy`} name=${`${this.uniqueId}-color`} value="accuracy" ?checked=${this.color === 'accuracy'} @change=${this.chooseColor.bind(this)}>
+              <label for=${`${this.uniqueId}-color-accuracy`}>Accuracy</label>
+              <input type="radio" id=${`${this.uniqueId}-color-stimulus`} name=${`${this.uniqueId}-color`} value="stimulus" ?checked=${this.color === 'stimulus'} @change=${this.chooseColor.bind(this)}>
+              <label for=${`${this.uniqueId}-color-stimulus`}>Stimulus</label>
+              <input type="radio" id=${`${this.uniqueId}-color-response`} name=${`${this.uniqueId}-color`} value="response" ?checked=${this.color === 'response'} @change=${this.chooseColor.bind(this)}>
+              <label for=${`${this.uniqueId}-color-response`}>Response</label>
+              <input type="radio" id=${`${this.uniqueId}-color-outcome`} name=${`${this.uniqueId}-color`} value="outcome" ?checked=${this.color === 'outcome'} @change=${this.chooseColor.bind(this)}>
+              <label for=${`${this.uniqueId}-color-outcome`}>Outcome</label>
+            </fieldset>`
           : html``}
         ${this.zRoc !== undefined
           ? html`

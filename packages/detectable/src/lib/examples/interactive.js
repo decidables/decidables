@@ -14,6 +14,18 @@ export default class SDTExampleInteractive extends SDTExample {
 
     this.rocSpaces = this.querySelectorAll('roc-space');
 
+    if (this.sdtControl && this.sdtControl.hasAttribute('color')) {
+      this.sdtControl.addEventListener('sdt-control-color', (event) => {
+        if (this.sdtModel) {
+          this.sdtModel.color = event.detail.color;
+        }
+
+        if (this.sdtTable) {
+          this.sdtTable.color = event.detail.color;
+        }
+      });
+    }
+
     if (this.sdtControl) {
       this.sdtControl.addEventListener('sdt-control-z-roc', (event) => {
         if (this.rocSpaces.length > 0) {
