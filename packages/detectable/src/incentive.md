@@ -9,7 +9,7 @@ script: index
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
-  <sdt-response trial feedback="outcome" payoff="total" hit-payoff="100" miss-payoff="-100"
+  <sdt-response interactive trial feedback="outcome" payoff="total" hit-payoff="100" miss-payoff="-100"
     correct-rejection-payoff="10" false-alarm-payoff="-10"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></sdt-table>
@@ -22,7 +22,7 @@ script: index
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
-  <sdt-response trial feedback="outcome" payoff="total" hit-payoff="10" miss-payoff="-10"
+  <sdt-response interactive trial feedback="outcome" payoff="total" hit-payoff="10" miss-payoff="-10"
     correct-rejection-payoff="100" false-alarm-payoff="-100"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
@@ -36,7 +36,7 @@ script: index
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5" trials="10"></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
-  <sdt-response trial feedback="outcome" payoff="total" hit-payoff="10" miss-payoff="-10"
+  <sdt-response interactive trial feedback="outcome" payoff="total" hit-payoff="10" miss-payoff="-10"
     correct-rejection-payoff="100" false-alarm-payoff="-100"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
