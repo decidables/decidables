@@ -14,6 +14,8 @@ script: index
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
 
+## Isocontours in <span class="math-var">z</span>ROC space
+
 <sdt-example-interactive>
   <sdt-control z-roc></sdt-control>
   <roc-space z-roc contour="sensitivity" point="none" iso-d="none" iso-c="none"></roc-space>
