@@ -29,7 +29,7 @@ Across all three figures, the table of outcomes, ROC space, and the SDT model, a
 performance or the model will be reflected immediately in the other figures as well.
 
 <sdt-example-interactive>
-  <sdt-table numeric interactive display="accuracy"
+  <sdt-table numeric interactive summary="stimulusRates accuracy"
     hits="80" misses="20" false-alarms="10" correct-rejections="90"></sdt-table>
   <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>

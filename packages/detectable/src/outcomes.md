@@ -43,7 +43,7 @@ possible responses ("present" or "absent"), leading to a nice two by two table o
 (brightly colored by yours truly):
 
 <sdt-example-interactive>
-  <sdt-table display="outcomes"></sdt-table>
+  <sdt-table></sdt-table>
 </sdt-example-interactive>
 
 Try a few more trials of the task, and this time the feedback will inform you of which of the four

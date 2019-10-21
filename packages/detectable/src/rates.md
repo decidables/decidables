@@ -13,8 +13,7 @@ occurred:
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric display="outcomes" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </sdt-table>
+  <sdt-table numeric hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
 </sdt-example-human>
 
 By collecting our outcomes across all of the trials in the block we now have our first aggregate
@@ -59,7 +58,7 @@ summarizes performance when the signal was *absent*, we can add them to the corr
 our table of outcomes:
 
 <sdt-example-interactive>
-  <sdt-table interactive numeric display="rates"></sdt-table>
+  <sdt-table interactive numeric summary="stimulusRates"></sdt-table>
 </sdt-example-interactive>
 
 This is a *live* table, so you can change the count of any type of outcome and observe the effect on
@@ -84,7 +83,7 @@ We can see that `Hits` and `Correct Rejections` are combined together since they
 We can add `Accuracy` as an overall summary measure to out table of outcomes:
 
 <sdt-example-interactive>
-  <sdt-table interactive numeric display="accuracy"></sdt-table>
+  <sdt-table interactive numeric summary="stimulusRates accuracy"></sdt-table>
 </sdt-example-interactive>
 
 If you change the `Accuracy` then the other values will change as well, to keep the whole table
@@ -100,7 +99,7 @@ of outcomes and rates provides a running summary of performance:
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
 </sdt-example-human>
 
@@ -113,13 +112,13 @@ Indeed `Accuracy` is the great deceiver! Let us see why:
 Consider this table of outcomes:
 
 <sdt-example-interactive>
-  <sdt-table numeric display="accuracy" hits="100" misses="0" false-alarms="100" correct-rejections="0"></sdt-table>
+  <sdt-table numeric summary="stimulusRates accuracy" hits="100" misses="0" false-alarms="100" correct-rejections="0"></sdt-table>
 </sdt-example-interactive>
 
 And now consider this table of outcomes:
 
 <sdt-example-interactive>
-  <sdt-table numeric display="accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></sdt-table>
+  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></sdt-table>
 </sdt-example-interactive>
 
 First, note that the `Accuracy` is **identical** in the two tables at 50%. But now note that the

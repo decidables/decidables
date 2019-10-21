@@ -16,7 +16,7 @@ noise in the output of radar receivers used to detect enemy planes during World 
 A point in ROC space uniquely defines a combination of HR and FAR:
 
 <sdt-example-interactive>
-  <sdt-table numeric interactive display="accuracy" hits="80" misses="20"
+  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20"
     false-alarms="10" correct-rejections="90"></sdt-table>
   <roc-space interactive point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
@@ -58,10 +58,10 @@ arrow, '↑', is described in the table above the ROC space; the point with the 
 described in the table below the ROC space.
 
 <sdt-example-double-interactive>
-  <sdt-table numeric interactive display="accuracy" hits="0" misses="0"
+  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></sdt-table>
   <roc-space interactive contour="accuracy" point="all" iso-d="none" iso-c="none"></roc-space>
-  <sdt-table numeric interactive display="accuracy" hits="0" misses="0"
+  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></sdt-table>
 </sdt-example-double-interactive>
 
@@ -82,7 +82,7 @@ just reload the page.)
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
   <roc-space point="all" iso-d="none" iso-c="none" history far=".5" hr=".5"></roc-space>
 </sdt-example-human>
