@@ -48,7 +48,20 @@
 
 ## Features/Bugs
 
-- 3-way switch to select "stimulus", "response", or "outcome" coloring in model?
+- Need to add a control for payoff matrix!
+- Add a "speed" control for overall trial timing?
+  - Set duration, wait, and ITI to a set ratio, and then scale all together?
+  - duration="1000" wait="500" iti="500" (2000, 1000, 1000) (500, 250, 250)
+- Cleanup color usage
+  - Need a light text property
+- Standard easing time? (CSS & D3)
+- Add page before SDT, connecting sensitivity and bias, and showing different views of model
+- Split Tables & Rates to discuss Accuracy & base rate
+  - Change "Accuracy" in "outcomes.html"
+  - Move "Tabulating outcomes" from "rates.html" to "outcomes.html"
+  - Move "Accuracy" to top of "rates.html"
+  - Add "PPV" and "FOMR" to rates.html"
+  - Add page on "counter-intuitive" measures: accuracy & P(S|R) vs P(R|S)
 - Label values IN iso-plots?
 - Resolve ambiguity between different uses of same color
   - For example, "Respond Present" as a trial type versus "Present" as a response versus "?Present?"
@@ -61,9 +74,6 @@
   - Maybe use remark-terms for all of these?
 - Be consistent about how to insert special symbols (e.g. Greek letters and prime)
   - Maybe use UTF8 for all?
-- Add a "speed" setting for overall trial timing?
-  - Set duration, wait, and ITI to a set ratio, and then scale all together?
-  - duration="1000" wait="500" iti="500" (2000, 1000, 1000) (500, 250, 250)
 - Asking lots of open-ended questions vs. questions with later answers vs. explanation...
 - Add "note" blocks for explaining UI stuff that isn't "real" content
   - need a clean approach in markdown
