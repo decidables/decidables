@@ -327,6 +327,8 @@ export default class SDTElement extends LitElement {
         ---color-s-light: var(--color-s-light, ${unsafeCSS(this.lights.s)});
         ---color-present-light: var(--color-present-light, ${unsafeCSS(this.lights.present)});
         ---color-absent-light: var(--color-absent-light, ${unsafeCSS(this.lights.absent)});
+        ---color-correct-light: var(--color-correct-light, ${unsafeCSS(this.lights.correct)});
+        ---color-error-light: var(--color-error-light, ${unsafeCSS(this.lights.error)});
 
         ---color-h-dark: var(--color-h-dark, ${unsafeCSS(this.darks.h)});
         ---color-m-dark: var(--color-m-dark, ${unsafeCSS(this.darks.m)});
@@ -340,6 +342,8 @@ export default class SDTElement extends LitElement {
         ---color-s-dark: var(--color-s-dark, ${unsafeCSS(this.darks.s)});
         ---color-present-dark: var(--color-present-dark, ${unsafeCSS(this.darks.present)});
         ---color-absent-dark: var(--color-absent-dark, ${unsafeCSS(this.darks.absent)});
+        ---color-correct-dark: var(--color-correct-dark, ${unsafeCSS(this.darks.correct)});
+        ---color-error-dark: var(--color-error-dark, ${unsafeCSS(this.darks.error)});
 
         ---color-background: var(--color-background, ${unsafeCSS(this.greys.white)});
         ---color-border: var(--color-border, ${unsafeCSS(this.greys.light75)});
