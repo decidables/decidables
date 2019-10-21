@@ -175,6 +175,7 @@
   --color-element-background: #e6e6e6;
   --color-element-disabled: #cccccc;
   --color-element-enabled: #999999;
+  --color-element-selected: #737373;
   --color-element-border: #4d4d4d;
   --color-element-emphasis: #262626; }
 
@@ -5310,12 +5311,13 @@ body {
     color: var(--color-background);
     background-color: var(--color-absent); }
   .sdt-content code[class="Correct"] {
-    background-color: var(--color-correct);
+    background-color: var(--color-correct-light);
     border: 1px solid var(--color-element-emphasis);
     border-radius: 0; }
   .sdt-content code[class="Error"] {
     color: var(--color-background);
-    background-color: var(--color-error);
+    background-color: var(--color-error-light);
+    border: 1px solid var(--color-element-emphasis);
     border-radius: 0; }
   .sdt-content code[class="NoResponse"] {
     background-color: var(--color-element-background);

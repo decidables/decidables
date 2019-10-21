@@ -229,23 +229,24 @@
             <h2>Relaxing the equal variance assumption</h2>
 <sdt-example-interactive>
   <sdt-control z-roc></sdt-control>
-  <sdt-table numeric interactive display="accuracy"
+  <sdt-table numeric interactive summary="stimulusRates accuracy"
     hits="80" misses="20" false-alarms="10" correct-rejections="90"></sdt-table>
   <roc-space z-roc interactive point="all" iso-d="all" iso-c="all"></roc-space>
   <sdt-model interactive unequal threshold distributions bias sensitivity variance color="outcome"></sdt-model>
 </sdt-example-interactive>
+<h2>Isocontours with unequal variance</h2>
 <sdt-example-interactive>
   <sdt-control z-roc></sdt-control>
   <sdt-model unequal threshold distributions variance color="outcome"></sdt-model>
   <roc-space z-roc contour="sensitivity" point="none" iso-d="none" iso-c="none"></roc-space>
   <roc-space z-roc contour="bias" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
-<p>Add example with s=0 contours and unequal variance points along d' curve
+<h2>Spurious correlation when unequal variance data analyzed with equal variance model</h2>
 <sdt-example-unequal>
-<sdt-control z-roc></sdt-control>
-<sdt-model interactive unequal distributions sensitivity variance color="stimulus"></sdt-model>
-<roc-space z-roc contour="sensitivity" point="rest" iso-d="rest" iso-c="rest"></roc-space>
-</sdt-example-interactive></p>
+  <sdt-control z-roc></sdt-control>
+  <sdt-model interactive unequal distributions sensitivity variance color="stimulus"></sdt-model>
+  <roc-space z-roc contour="sensitivity" point="rest" iso-d="rest" iso-c="rest"></roc-space>
+</sdt-example-interactive>
 
           </section>
 

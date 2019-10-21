@@ -235,7 +235,7 @@ dates back to the original development of this approach in the context of separa
 noise in the output of radar receivers used to detect enemy planes during World War II.)</p>
 <p>A point in ROC space uniquely defines a combination of HR and FAR:</p>
 <sdt-example-interactive>
-  <sdt-table numeric interactive display="accuracy" hits="80" misses="20"
+  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20"
     false-alarms="10" correct-rejections="90"></sdt-table>
   <roc-space interactive point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
@@ -267,10 +267,10 @@ move the two points in the ROC space below to meet this description. The point w
 arrow, '↑', is described in the table above the ROC space; the point with the down arrow, '↓', is
 described in the table below the ROC space.</p>
 <sdt-example-double-interactive>
-  <sdt-table numeric interactive display="accuracy" hits="0" misses="0"
+  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></sdt-table>
   <roc-space interactive contour="accuracy" point="all" iso-d="none" iso-c="none"></roc-space>
-  <sdt-table numeric interactive display="accuracy" hits="0" misses="0"
+  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></sdt-table>
 </sdt-example-double-interactive>
 <p>Try some other positions... What about two points that are symmetric about the dotted diagonal from
@@ -287,7 +287,7 @@ just reload the page.)</p>
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
   <roc-space point="all" iso-d="none" iso-c="none" history far=".5" hr=".5"></roc-space>
 </sdt-example-human>

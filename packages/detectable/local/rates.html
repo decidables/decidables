@@ -233,8 +233,7 @@ occurred:</p>
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric display="outcomes" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </sdt-table>
+  <sdt-table numeric hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
 </sdt-example-human>
 <p>By collecting our outcomes across all of the trials in the block we now have our first aggregate
 measures of performance. We can describe our performance on the task by reporting these four counts,
@@ -263,7 +262,7 @@ erroneously responded <em>"present"</em>.</p>
 summarizes performance when the signal was <em>absent</em>, we can add them to the corresponding rows of
 our table of outcomes:</p>
 <sdt-example-interactive>
-  <sdt-table interactive numeric display="rates"></sdt-table>
+  <sdt-table interactive numeric summary="stimulusRates"></sdt-table>
 </sdt-example-interactive>
 <p>This is a <em>live</em> table, so you can change the count of any type of outcome and observe the effect on
 the corresponding rate. Or, you can change a rate, and observe the effect on the corresponding
@@ -280,7 +279,7 @@ present and signal absent trials:</p>
   false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
 <p>We can add <code class="Accuracy">Accuracy</code> as an overall summary measure to out table of outcomes:</p>
 <sdt-example-interactive>
-  <sdt-table interactive numeric display="accuracy"></sdt-table>
+  <sdt-table interactive numeric summary="stimulusRates accuracy"></sdt-table>
 </sdt-example-interactive>
 <p>If you change the <code class="Accuracy">Accuracy</code> then the other values will change as well, to keep the whole table
 consistent. If you play around a bit, you may notice that, even if you keep the total number of
@@ -292,7 +291,7 @@ of outcomes and rates provides a running summary of performance:</p>
   <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
 </sdt-example-human>
 <h2>Accuracy the great deceiver</h2>
@@ -301,11 +300,11 @@ single number. But as students of Signal Detection Theory, we must be very wary 
 Indeed <code class="Accuracy">Accuracy</code> is the great deceiver! Let us see why:</p>
 <p>Consider this table of outcomes:</p>
 <sdt-example-interactive>
-  <sdt-table numeric display="accuracy" hits="100" misses="0" false-alarms="100" correct-rejections="0"></sdt-table>
+  <sdt-table numeric summary="stimulusRates accuracy" hits="100" misses="0" false-alarms="100" correct-rejections="0"></sdt-table>
 </sdt-example-interactive>
 <p>And now consider this table of outcomes:</p>
 <sdt-example-interactive>
-  <sdt-table numeric display="accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></sdt-table>
+  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></sdt-table>
 </sdt-example-interactive>
 <p>First, note that the <code class="Accuracy">Accuracy</code> is <strong>identical</strong> in the two tables at 50%. But now note that the
 actual patterns of performance are <strong>completely different</strong>! In the first instance, the participant
@@ -325,6 +324,12 @@ combination of HR and FAR give us a more complete summary picture of performance
 namely that neither participant seems to be paying any attention to the stimuli at all. (Always
 responding either "present" or "absent" can be done without regard to the stimulus.) You, my astute
 reader, are on to something important, which the next few pages will bring into focus.</p>
+<!-- ## Marginals
+
+<sdt-example-interactive>
+  <sdt-control color="outcomes"></sdt-control>
+  <sdt-table interactive numeric summary="stimulusRates responseRates accuracy"></sdt-table>
+</sdt-example-interactive> -->
 
           </section>
 
