@@ -14,6 +14,8 @@ script: index
   <sdt-model interactive unequal threshold distributions bias sensitivity variance color="outcome"></sdt-model>
 </sdt-example-interactive>
 
+## Isocontours with unequal variance
+
 <sdt-example-interactive>
   <sdt-control z-roc></sdt-control>
   <sdt-model unequal threshold distributions variance color="outcome"></sdt-model>
@@ -21,7 +23,8 @@ script: index
   <roc-space z-roc contour="bias" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
 
-Add example with s=0 contours and unequal variance points along d' curve
+## Spurious correlation when unequal variance data analyzed with equal variance model
+
 <sdt-example-unequal>
   <sdt-control z-roc></sdt-control>
   <sdt-model interactive unequal distributions sensitivity variance color="stimulus"></sdt-model>
