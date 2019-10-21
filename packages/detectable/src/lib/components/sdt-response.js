@@ -318,13 +318,13 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
         }
 
         .feedback.c {
-          background-color: var(---color-background);
+          background-color: var(---color-correct-light);
         }
 
         .feedback.e {
           color: var(---color-background);
 
-          background-color: var(---color-text);
+          background-color: var(---color-error-light);
         }
 
         .feedback .outcome {
