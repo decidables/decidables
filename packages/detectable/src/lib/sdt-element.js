@@ -20,6 +20,8 @@ import * as jStat from 'jstat';
     HR = hit rate
     FAR = false alarm rate
     ACC = accuracy
+    PPV = positive predictive value
+    FOMR = false omission rate (used FOMR to avoid keyword FOR!)
     d = sensitivity (d' for equal variance, d_a for unequal variance)
     c = response bias (c for equal variance, c_a for unequal variance)
     s = standard deviation of signal distribution, with standard deviation of noise distribution = 1
@@ -33,6 +35,8 @@ import * as jStat from 'jstat';
     FAR = FA / (FA + CR)
     ACC = (H + CR) / (H + M + FA + CR)
     ACC = (HR + (1 - FAR)) / 2
+    PPV = H / (H + FA)
+    FOMR = M / (M + CR)
 
     d' = Z^-1(HR) - Z^-1(FAR)
     *d' = (2 / (s^2 + 1))^(1/2) * (s * Z^-1(HR) - Z^-1(FAR))
@@ -426,6 +430,20 @@ export default class SDTElement extends LitElement {
 
   static hrfar2acc(hr, far) {
     return (hr + (1 - far)) / 2;
+  }
+
+  static hfa2ppv(h, fa) {
+    if ((h === 0) && (fa === 0)) {
+      return 0;
+    }
+    return h / (h + fa);
+  }
+
+  static mcr2fomr(m, cr) {
+    if ((m === 0) && (cr === 0)) {
+      return 0;
+    }
+    return m / (m + cr);
   }
 
   static hrfar2d(hr, far, s = 1) {

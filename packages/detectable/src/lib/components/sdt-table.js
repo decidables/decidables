@@ -3,6 +3,7 @@ import {html, css} from 'lit-element';
 
 import SDTElement from '../sdt-element';
 import SDTMixinStyleSpinner from '../mixins/styleSpinner';
+import SDTMixinConverterSet from '../mixins/converterSet';
 
 /*
   SDTTable element
@@ -11,7 +12,7 @@ import SDTMixinStyleSpinner from '../mixins/styleSpinner';
   Attributes:
   Hit; Miss; FalseAlarm; CorrectRejection;
 */
-export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
+export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(SDTElement)) {
   static get properties() {
     return {
       numeric: {
@@ -19,8 +20,11 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
         type: Boolean,
         reflect: true,
       },
-      display: {
-        attribute: 'display',
+      summary: {
+        attribute: 'summary',
+        converter: SDTMixinConverterSet.converterSet,
+        reflect: true,
+      },
       color: {
         attribute: 'color',
         type: String,
@@ -61,6 +65,19 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
         type: Number,
         reflect: false,
       },
+      // positive predictive value (https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
+      ppv: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+      // false omission rate (https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
+      // Using "fomr" to avoid keyword "for"
+      fomr: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
     };
   }
 
@@ -69,8 +86,8 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
 
     this.numeric = false;
 
-    this.displays = ['outcomes', 'rates', 'accuracy'];
-    this.display = 'accuracy';
+    this.summaries = ['stimulusRates, responseRates, accuracy'];
+    this.summary = new Set();
 
     this.colors = ['stimulus', 'response', 'outcome', 'none'];
     this.color = 'outcome';
@@ -86,6 +103,8 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
     this.hr = SDTElement.hm2hr(this.h, this.m);
     this.far = SDTElement.facr2far(this.fa, this.cr);
     this.acc = SDTElement.hmfacr2acc(this.h, this.m, this.fa, this.cr);
+    this.ppv = SDTElement.hfa2ppv(this.h, this.fa);
+    this.fomr = SDTElement.mcr2fomr(this.m, this.cr);
   }
 
   sendEvent() {
@@ -98,6 +117,8 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
         cr: this.cr,
         far: this.far,
         acc: this.acc,
+        ppv: this.ppv,
+        fomr: this.fomr,
       },
       bubbles: true,
     }));
@@ -174,6 +195,24 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
     this.fa = Math.round(newfar * absent);
     this.cr = absent - this.fa;
 
+    this.alignState();
+    this.sendEvent();
+  }
+
+  ppvInput(e) {
+    const newppv = parseFloat(e.target.value);
+    const present = this.h + this.fa;
+    this.h = Math.round(newppv * present);
+    this.fa = present - this.h;
+    this.alignState();
+    this.sendEvent();
+  }
+
+  fomrInput(e) {
+    const newfomr = parseFloat(e.target.value);
+    const present = this.m + this.cr;
+    this.m = Math.round(newfomr * present);
+    this.cr = present - this.m;
     this.alignState();
     this.sendEvent();
   }
@@ -426,6 +465,8 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
     let hr;
     let far;
     let acc;
+    let ppv;
+    let fomr;
     if (this.numeric) {
       h = html`<label>
           <span>Hits</span>
@@ -455,6 +496,14 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
           <span>Accuracy</span>
           <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}" @input=${this.accInput.bind(this)}>
         </label>`;
+      ppv = html`<label>
+          <span>Positive Predictive Value</span>
+          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.ppv.toFixed(3)}" @input=${this.ppvInput.bind(this)}>
+        </label>`;
+      fomr = html`<label>
+          <span>False Omission Rate</span>
+          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.fomr.toFixed(3)}" @input=${this.fomrInput.bind(this)}>
+        </label>`;
     } else {
       h = html`<span>Hits</span>`;
       m = html`<span>Misses</span>`;
@@ -463,6 +512,8 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
       hr = html`<span>Hit Rate</span>`;
       far = html`<span>False Alarm Rate</span>`;
       acc = html`<span>Accuracy</span>`;
+      ppv = html`<span>Positive Predictive Value</span>`;
+      fomr = html`<span>False Omission Rate</span>`;
     }
     return html`
       <table class=${this.numeric ? 'numeric' : ''}>
@@ -472,7 +523,6 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
             <th class="th th1" colspan="2" scope="col">
               Response
             </th>
-            <th colspan="2" rowspan="2"></th>
           </tr>
           <tr>
             <th class="th th2" scope="col">
@@ -497,16 +547,10 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
             <td class="td td1 m">
               ${m}
             </td>
-            ${(this.display === 'rates' || this.display === 'accuracy')
+            ${(this.summary.has('stimulusRates'))
               ? html`
                 <td class="td td2 hr">
                   ${hr}
-                </td>`
-              : html``}
-            ${(this.display === 'accuracy')
-              ? html`
-                <td class="td td3 acc" rowspan="2">
-                  ${acc}
                 </td>`
               : html``}
           </tr>
@@ -520,13 +564,35 @@ export default class SDTTable extends SDTMixinStyleSpinner(SDTElement) {
             <td class="td td1 cr">
               ${cr}
             </td>
-            ${(this.display === 'rates' || this.display === 'accuracy')
+            ${(this.summary.has('stimulusRates'))
               ? html`
                 <td class="td td2 far">
                   ${far}
                 </td>`
               : html``}
           </tr>
+          ${(this.summary.has('responseRates') || this.summary.has('accuracy'))
+            ? html`
+              <tr>
+                <td colspan="2"></td>
+                ${(this.summary.has('responseRates'))
+                  ? html`
+                    <td class="td td2 ppv">
+                      ${ppv}
+                    </td>
+                    <td class="td td2 fomr">
+                      ${fomr}
+                    </td>`
+                  : html`
+                    <td colspan="2"></td>`}
+                ${(this.summary.has('accuracy'))
+                  ? html`
+                    <td class="td td3 acc" rowspan="2">
+                      ${acc}
+                    </td>`
+                  : html``}
+              </tr>`
+            : html``}
         </tbody>
       </table>`;
   }

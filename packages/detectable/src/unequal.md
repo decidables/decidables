@@ -8,7 +8,7 @@ script: index
 
 <sdt-example-interactive>
   <sdt-control z-roc></sdt-control>
-  <sdt-table numeric interactive display="accuracy"
+  <sdt-table numeric interactive summary="stimulusRates accuracy"
     hits="80" misses="20" false-alarms="10" correct-rejections="90"></sdt-table>
   <roc-space z-roc interactive point="all" iso-d="all" iso-c="all"></roc-space>
   <sdt-model interactive unequal threshold distributions bias sensitivity variance color="outcome"></sdt-model>

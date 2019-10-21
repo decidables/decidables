@@ -47,7 +47,7 @@ of the distributions or threshold in the model, or by directly moving the data p
 All of the other representations of performance change simultaneously:
 
 <sdt-example-interactive>
-  <sdt-table interactive numeric display="accuracy"
+  <sdt-table interactive numeric summary="stimulusRates accuracy"
     hits="80" misses="20" false-alarms="10" correct-rejections="90"></sdt-table>
   <roc-space interactive point="all" iso-d="none" iso-c="all"></roc-space>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>

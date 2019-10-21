@@ -64,7 +64,7 @@ just as we did for human performance previously:
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
   <sdt-response trial feedback="outcome"></sdt-response>
-  <sdt-table numeric display="accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
   <roc-space hr=".5" far=".5" point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-model>
