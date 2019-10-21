@@ -1,3 +1,4 @@
+
 import {css} from 'lit-element';
 
 const SDTMixinStyleSwitch = (superclass) => {
