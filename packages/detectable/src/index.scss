@@ -86,6 +86,7 @@ $link-color: $color-grey-dark25;
   --color-element-background: #{$color-grey-light75};
   --color-element-disabled: #{$color-grey-light50};
   --color-element-enabled: #{$color-grey};
+  --color-element-selected: #{$color-grey-dark25};
   --color-element-border: #{$color-grey-dark50};
   --color-element-emphasis: #{$color-grey-dark75};
 }
@@ -629,8 +630,7 @@ body {
   }
 
   code[class="Correct"] {
-    background-color: var(--color-correct);
-
+    background-color: var(--color-correct-light);
     border: 1px solid var(--color-element-emphasis);
     border-radius: 0;
   }
@@ -638,13 +638,13 @@ body {
   code[class="Error"] {
     color: var(--color-background);
 
-    background-color: var(--color-error);
+    background-color: var(--color-error-light);
+    border: 1px solid var(--color-element-emphasis);
     border-radius: 0;
   }
 
   code[class="NoResponse"] {
     background-color: var(--color-element-background);
-
     border: 1px solid var(--color-element-emphasis);
     border-radius: 0;
   }
