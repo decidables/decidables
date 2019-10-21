@@ -22,7 +22,7 @@ const SDTMixinStyleSwitch = (superclass) => {
             white-space: nowrap;
 
             border: 0;
-            clip-path: inset(100%);
+            clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */
           }
 
           input[type=checkbox] + label {
