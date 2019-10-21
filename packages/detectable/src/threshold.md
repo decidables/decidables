@@ -98,3 +98,12 @@ link between SDT and decision making based on maximum likelihood and the likelih
 class="math-var">β</span>, in terms of the likelihood ratio of signal and noise [@Peterson1954;
 @Tanner1954]. It was only later that `c` was introduced and suggested as a better measure of
 response bias for most purposes [@Ingham1970; @Macmillan1990; @Stanislaw1999].
+
+<!-- ## Perspectives on the relationship between model and performance
+
+<sdt-example-interactive>
+  <sdt-control color="outcome"></sdt-control>
+  <sdt-table numeric interactive summary="stimulusRates responseRates accuracy"
+    hits="80" misses="20" false-alarms="10" correct-rejections="90"></sdt-table>
+  <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
+</sdt-example-interactive> -->

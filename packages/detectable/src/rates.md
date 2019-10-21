@@ -141,3 +141,10 @@ Now, you may be mumbling to yourself that something else peculiar is going on in
 namely that neither participant seems to be paying any attention to the stimuli at all. (Always
 responding either "present" or "absent" can be done without regard to the stimulus.) You, my astute
 reader, are on to something important, which the next few pages will bring into focus.
+
+<!-- ## Marginals
+
+<sdt-example-interactive>
+  <sdt-control color="outcomes"></sdt-control>
+  <sdt-table interactive numeric summary="stimulusRates responseRates accuracy"></sdt-table>
+</sdt-example-interactive> -->
