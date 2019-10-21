@@ -124,23 +124,23 @@ const SDTMixinStyleSpinner = (superclass) => {
 
           input[type=range]:enabled::-webkit-slider-thumb {
             background: var(---color-element-enabled);
-            box-shadow: var(---shadow-2-rot90);
+            box-shadow: var(---shadow-2-rotate);
           }
 
           input[type=range]:enabled:hover::-webkit-slider-thumb {
-            box-shadow: var(---shadow-4-rot90);
+            box-shadow: var(---shadow-4-rotate);
           }
 
           input[type=range]:enabled:active::-webkit-slider-thumb {
-            box-shadow: var(---shadow-8-rot90);
+            box-shadow: var(---shadow-8-rotate);
           }
 
           :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {
-            box-shadow: var(---shadow-4-rot90);
+            box-shadow: var(---shadow-4-rotate);
           }
 
           :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {
-            box-shadow: var(---shadow-8-rot90);
+            box-shadow: var(---shadow-8-rotate);
           }
 
           /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
@@ -161,25 +161,25 @@ const SDTMixinStyleSpinner = (superclass) => {
           /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
           input[type=range]:enabled::-moz-range-thumb {
             background: var(---color-element-enabled);
-            box-shadow: var(---shadow-2-rot90);
+            box-shadow: var(---shadow-2-rotate);
           }
 
           /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
           input[type=range]:enabled:hover::-moz-range-thumb {
-            box-shadow: var(---shadow-4-rot90);
+            box-shadow: var(---shadow-4-rotate);
           }
 
           /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
           input[type=range]:enabled:active::-moz-range-thumb {
-            box-shadow: var(---shadow-8-rot90);
+            box-shadow: var(---shadow-8-rotate);
           }
 
           :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {
-            box-shadow: var(---shadow-4-rot90);
+            box-shadow: var(---shadow-4-rotate);
           }
 
           :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {
-            box-shadow: var(---shadow-8-rot90);
+            box-shadow: var(---shadow-8-rotate);
           }
 
           /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
@@ -192,7 +192,7 @@ const SDTMixinStyleSpinner = (superclass) => {
             /* background: var(---color-element-enabled); */
             border: 0;
             border-radius: 4px;
-            box-shadow: var(---shadow-2-rot90);
+            box-shadow: var(---shadow-2-rotate);
           }
 
           /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
@@ -204,26 +204,26 @@ const SDTMixinStyleSpinner = (superclass) => {
           /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
           input[type=range]:enabled::-ms-thumb {
             background: var(---color-element-enabled);
-            box-shadow: var(---shadow-2-rot90);
+            box-shadow: var(---shadow-2-rotate);
           }
 
           /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
           input[type=range]:enabled:hover::-ms-thumb {
-            box-shadow: var(---shadow-4-rot90);
+            box-shadow: var(---shadow-4-rotate);
           }
 
           /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
           input[type=range]:enabled:active::-ms-thumb {
-            box-shadow: var(---shadow-8-rot90);
+            box-shadow: var(---shadow-8-rotate);
           }
 
           /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
           :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {
-            box-shadow: var(---shadow-4-rot90);
+            box-shadow: var(---shadow-4-rotate);
           }
 
           :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {
-            box-shadow: var(---shadow-8-rot90);
+            box-shadow: var(---shadow-8-rotate);
           }
         `,
       ];

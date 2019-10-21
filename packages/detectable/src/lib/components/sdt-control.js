@@ -133,9 +133,9 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
       super.styles,
       css`
         :host {
-          ---shadow-2-rot90: -3px 1.5px 1px -2px rgba(0, 0, 0, 0.4), -2px 1px 2px 0 rgba(0, 0, 0, 0.34), -1px 0.5px 5px 0 rgba(0, 0, 0, 0.32);
-          ---shadow-4-rot90: -2px 1px 4px -1px rgba(0, 0, 0, 0.4), -4px 2px 5px 0 rgba(0, 0, 0, 0.34), -1px 0.5px 10px 0 rgba(0, 0, 0, 0.32);
-          ---shadow-8-rot90: -5px 2.5px 5px -3px rgba(0, 0, 0, 0.4), -8px 4px 10px 1px rgba(0, 0, 0, 0.34), -3px 1.5px 14px 2px rgba(0, 0, 0, 0.32);
+          ---shadow-2-rotate: ${unsafeCSS(this.cssBoxShadow(2, true, false))};
+          ---shadow-4-rotate: ${unsafeCSS(this.cssBoxShadow(4, true, false))};
+          ---shadow-8-rotate: ${unsafeCSS(this.cssBoxShadow(8, true, false))};
 
           display: inline-block;
         }
