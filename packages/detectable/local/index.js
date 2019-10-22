@@ -66030,7 +66030,7 @@ function (_SDTElement) {
 exports.default = RDKTask;
 customElements.define('rdk-task', RDKTask);
 
-},{"../sdt-element":450,"d3":395,"lit-element":401}],422:[function(require,module,exports){
+},{"../sdt-element":449,"d3":395,"lit-element":401}],422:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -66897,7 +66897,7 @@ function (_SDTElement) {
 exports.default = ROCSpace;
 customElements.define('roc-space', ROCSpace);
 
-},{"../sdt-element":450,"d3":395,"lit-element":401}],423:[function(require,module,exports){
+},{"../sdt-element":449,"d3":395,"lit-element":401}],423:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -67279,7 +67279,7 @@ function (_SDTMixinStyleButton) {
 exports.default = SDTControl;
 customElements.define('sdt-control', SDTControl);
 
-},{"../mixins/styleButton":445,"../mixins/styleSlider":446,"../mixins/styleSpinner":447,"../mixins/styleSwitch":448,"../mixins/styleToggle":449,"../sdt-element":450,"lit-element":401}],424:[function(require,module,exports){
+},{"../mixins/styleButton":444,"../mixins/styleSlider":445,"../mixins/styleSpinner":446,"../mixins/styleSwitch":447,"../mixins/styleToggle":448,"../sdt-element":449,"lit-element":401}],424:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -68496,7 +68496,7 @@ function (_SDTElement) {
 exports.default = SDTModel;
 customElements.define('sdt-model', SDTModel);
 
-},{"../sdt-element":450,"d3":395,"jstat":397,"lit-element":401}],425:[function(require,module,exports){
+},{"../sdt-element":449,"d3":395,"jstat":397,"lit-element":401}],425:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -68974,7 +68974,7 @@ function (_SDTMixinStyleButton) {
 exports.default = SDTResponse;
 customElements.define('sdt-response', SDTResponse);
 
-},{"../mixins/styleButton":445,"../sdt-element":450,"lit-element":401}],426:[function(require,module,exports){
+},{"../mixins/styleButton":444,"../sdt-element":449,"lit-element":401}],426:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -69604,7 +69604,7 @@ function (_SDTMixinConverterSet) {
 exports.default = SDTTable;
 customElements.define('sdt-table', SDTTable);
 
-},{"../mixins/converterSet":444,"../mixins/styleSpinner":447,"../sdt-element":450,"lit-element":401}],427:[function(require,module,exports){
+},{"../mixins/converterSet":443,"../mixins/styleSpinner":446,"../sdt-element":449,"lit-element":401}],427:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71557,7 +71557,7 @@ function (_SDTMixinStyleSpinner) {
 
 exports.default = SDTEquation;
 
-},{"../mixins/styleSpinner":447,"../sdt-element":450,"lit-element":401}],436:[function(require,module,exports){
+},{"../mixins/styleSpinner":446,"../sdt-element":449,"lit-element":401}],436:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71755,7 +71755,7 @@ function (_SDTExample) {
 exports.default = SDTExampleDoubleInteractive;
 customElements.define('sdt-example-double-interactive', SDTExampleDoubleInteractive);
 
-},{"./sdt-example":442}],437:[function(require,module,exports){
+},{"./sdt-example":441}],437:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71969,7 +71969,7 @@ function (_SDTExample) {
 exports.default = SDTExampleHuman;
 customElements.define('sdt-example-human', SDTExampleHuman);
 
-},{"./sdt-example":442}],438:[function(require,module,exports){
+},{"./sdt-example":441}],438:[function(require,module,exports){
 "use strict";
 
 require("./double-interactive");
@@ -71978,13 +71978,11 @@ require("./human");
 
 require("./interactive");
 
-require("./legend");
-
 require("./model");
 
 require("./unequal");
 
-},{"./double-interactive":436,"./human":437,"./interactive":439,"./legend":440,"./model":441,"./unequal":443}],439:[function(require,module,exports){
+},{"./double-interactive":436,"./human":437,"./interactive":439,"./model":440,"./unequal":442}],439:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72144,99 +72142,7 @@ function (_SDTExample) {
 exports.default = SDTExampleInteractive;
 customElements.define('sdt-example-interactive', SDTExampleInteractive);
 
-},{"./sdt-example":442}],440:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _litElement = require("lit-element");
-
-var _sdtExample = _interopRequireDefault(require("./sdt-example"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n        dt {\n          padding: 0.375rem 0.675rem;\n        }\n\n        dd {\n          margin-top: 0.25rem;\n          margin-bottom: 1rem;\n        }\n\n        .h {\n          background: var(---color-h-light);\n          border-left: 1rem solid var(---color-h);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-left: 1rem solid var(---color-m);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-left: 1rem solid var(---color-fa);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-left: 1rem solid var(---color-cr);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n          border-left: 1rem solid var(---color-hr);\n        }\n\n        .far {\n          background: var(---color-far-light);\n          border-left: 1rem solid var(---color-far);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n          border-left: 1rem solid var(---color-acc);\n        }\n\n        .d {\n          background: var(---color-d-light);\n          border-left: 1rem solid var(---color-d);\n        }\n\n        .c {\n          background: var(---color-c-light);\n          border-left: 1rem solid var(---color-c);\n        }\n\n        .s {\n          background: var(---color-s-light);\n          border-left: 1rem solid var(---color-s);\n        }\n\n        .present {\n          background: var(---color-present-light);\n          border-left: 1rem solid var(---color-present);\n        }\n\n        .absent {\n          background: var(---color-absent-light);\n          border-left: 1rem solid var(---color-absent);\n        }\n\n        .correct {\n          padding-left: calc(1.675rem - 1px);\n\n          background: var(---color-correct);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .error {\n          color: var(---color-text-light);\n\n          background: var(---color-error);\n          border-left: 1rem solid var(---color-error);\n        }\n      "]);
-
-  _templateObject2 = function _templateObject2() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <div class=\"body\">\n          <dl>\n            <dt class=\"present\">Response 'Present'</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"absent\">Response 'Absent'</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"correct\">Correct</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"error\">Error</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"acc\">Accuracy</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"h\">Hit (<var class=\"math-var\">H</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"m\">Miss (<var class=\"math-var\">M</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"fa\">False Alarm (<var class=\"math-var\">FA</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"cr\">Correct Rejection (<var class=\"math-var\">CR</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"hr\">Signal Present/Hit Rate (<var class=\"math-var\">HR</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"far\">Signal Absent/False Alarm Rate (<var class=\"math-var\">FAR</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"d\">Sensitivity (<var class=\"math-var\">d&prime;</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"c\">Bias (<var class=\"math-var\">c</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n            <dt class=\"s\">Variance (<var class=\"math-var\">\u03C3</var>)</dt>\n            <dd>This is a 'blank'.</dd>\n          </dl>\n        </div>\n      </div>\n    "]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
-
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-/*
-  SDTExample_Legend element
-  <sdt-example-legend>
-*/
-var SDTExampleLegend =
-/*#__PURE__*/
-function (_SDTExample) {
-  _inherits(SDTExampleLegend, _SDTExample);
-
-  function SDTExampleLegend() {
-    _classCallCheck(this, SDTExampleLegend);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(SDTExampleLegend).apply(this, arguments));
-  }
-
-  _createClass(SDTExampleLegend, [{
-    key: "render",
-    value: function render() {
-      // eslint-disable-line class-methods-use-this
-      return (0, _litElement.html)(_templateObject());
-    }
-  }], [{
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(SDTExampleLegend), "styles", this), (0, _litElement.css)(_templateObject2())];
-    }
-  }]);
-
-  return SDTExampleLegend;
-}(_sdtExample.default);
-
-exports.default = SDTExampleLegend;
-customElements.define('sdt-example-legend', SDTExampleLegend);
-
-},{"./sdt-example":442,"lit-element":401}],441:[function(require,module,exports){
+},{"./sdt-example":441}],440:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72470,7 +72376,7 @@ function (_SDTExample) {
 exports.default = SDTExampleModel;
 customElements.define('sdt-example-model', SDTExampleModel);
 
-},{"./sdt-example":442}],442:[function(require,module,exports){
+},{"./sdt-example":441}],441:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72562,7 +72468,7 @@ function (_SDTElement) {
 exports.default = SDTExample;
 customElements.define('sdt-example', SDTExample);
 
-},{"../sdt-element":450,"lit-element":401}],443:[function(require,module,exports){
+},{"../sdt-element":449,"lit-element":401}],442:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72656,7 +72562,7 @@ function (_SDTExample) {
 exports.default = SDTExampleUnequal;
 customElements.define('sdt-example-unequal', SDTExampleUnequal);
 
-},{"./sdt-example":442,"d3":395}],444:[function(require,module,exports){
+},{"./sdt-example":441,"d3":395}],443:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72714,7 +72620,7 @@ SDTMixinConverterSet.converterSet = {
   }
 };
 
-},{}],445:[function(require,module,exports){
+},{}],444:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72784,7 +72690,7 @@ var SDTMixinStyleButton = function SDTMixinStyleButton(superclass) {
 
 exports.default = SDTMixinStyleButton;
 
-},{"lit-element":401}],446:[function(require,module,exports){
+},{"lit-element":401}],445:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72854,7 +72760,7 @@ var SDTMixinStyleSpinner = function SDTMixinStyleSpinner(superclass) {
 
 exports.default = SDTMixinStyleSpinner;
 
-},{"lit-element":401}],447:[function(require,module,exports){
+},{"lit-element":401}],446:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72924,7 +72830,7 @@ var SDTMixinStyleSpinner = function SDTMixinStyleSpinner(superclass) {
 
 exports.default = SDTMixinStyleSpinner;
 
-},{"lit-element":401}],448:[function(require,module,exports){
+},{"lit-element":401}],447:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72994,7 +72900,7 @@ var SDTMixinStyleSwitch = function SDTMixinStyleSwitch(superclass) {
 
 exports.default = SDTMixinStyleSwitch;
 
-},{"lit-element":401}],449:[function(require,module,exports){
+},{"lit-element":401}],448:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -73064,7 +72970,7 @@ var SDTMixinStyleToggle = function SDTMixinStyleToggle(superclass) {
 
 exports.default = SDTMixinStyleToggle;
 
-},{"lit-element":401}],450:[function(require,module,exports){
+},{"lit-element":401}],449:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -73083,7 +72989,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["\n      :host {\n        ---shadow-0: var(--shadow-0, ", ");\n        ---shadow-2: var(--shadow-2, ", ");\n        ---shadow-4: var(--shadow-4, ", ");\n        ---shadow-8: var(--shadow-8, ", ");\n\n        ---color-h: var(--color-h, ", ");\n        ---color-m: var(--color-m, ", ");\n        ---color-fa: var(--color-fa, ", ");\n        ---color-cr: var(--color-cr, ", ");\n        ---color-hr: var(--color-hr, ", ");\n        ---color-far: var(--color-far, ", ");\n        ---color-acc: var(--color-acc, ", ");\n        ---color-d: var(--color-d, ", ");\n        ---color-c: var(--color-c, ", ");\n        ---color-s: var(--color-s, ", ");\n        ---color-present: var(--color-present, ", ");\n        ---color-absent: var(--color-absent, ", ");\n        ---color-correct: var(--color-correct, ", ");\n        ---color-error: var(--color-error, ", ");\n\n        ---color-h-light: var(--color-h-light, ", ");\n        ---color-m-light: var(--color-m-light, ", ");\n        ---color-fa-light: var(--color-fa-light, ", ");\n        ---color-cr-light: var(--color-cr-light, ", ");\n        ---color-hr-light: var(--color-hr-light, ", ");\n        ---color-far-light: var(--color-far-light, ", ");\n        ---color-acc-light: var(--color-acc-light, ", ");\n        ---color-d-light: var(--color-d-light, ", ");\n        ---color-c-light: var(--color-c-light, ", ");\n        ---color-s-light: var(--color-s-light, ", ");\n        ---color-present-light: var(--color-present-light, ", ");\n        ---color-absent-light: var(--color-absent-light, ", ");\n        ---color-correct-light: var(--color-correct-light, ", ");\n        ---color-error-light: var(--color-error-light, ", ");\n\n        ---color-h-dark: var(--color-h-dark, ", ");\n        ---color-m-dark: var(--color-m-dark, ", ");\n        ---color-fa-dark: var(--color-fa-dark, ", ");\n        ---color-cr-dark: var(--color-cr-dark, ", ");\n        ---color-hr-dark: var(--color-hr-dark, ", ");\n        ---color-far-dark: var(--color-far-dark, ", ");\n        ---color-acc-dark: var(--color-acc-dark, ", ");\n        ---color-d-dark: var(--color-d-dark, ", ");\n        ---color-c-dark: var(--color-c-dark, ", ");\n        ---color-s-dark: var(--color-s-dark, ", ");\n        ---color-present-dark: var(--color-present-dark, ", ");\n        ---color-absent-dark: var(--color-absent-dark, ", ");\n        ---color-correct-dark: var(--color-correct-dark, ", ");\n        ---color-error-dark: var(--color-error-dark, ", ");\n\n        ---color-background: var(--color-background, ", ");\n        ---color-border: var(--color-border, ", ");\n        ---color-text: var(--color-text, ", ");\n        ---color-text-light: var(--color-text-light, ", ");\n        ---color-link: var(--color-link, ", ");\n        ---color-element-background: var(--color-element-background, ", ");\n        ---color-element-disabled: var(--color-element-disabled, ", ");\n        ---color-element-enabled: var(--color-element-enabled, ", ");\n        ---color-element-selected: var(--color-element-selected, ", ");\n        ---color-element-border: var(--color-element-border, ", ");\n        ---color-element-emphasis: var(--color-element-emphasis, ", ");\n\n        ---font-family-base: var(--font-family-base, \"Source Sans Pro\", sans-serif);\n        ---font-family-math: var(--font-family-math, \"Source Serif Pro\", serif);\n\n        font-family: var(---font-family-base);\n      }\n\n      :host,\n      :host *,\n      :host *::before,\n      :host *::after {\n        box-sizing: border-box;\n      }\n\n      .math-var {\n        font-family: var(---font-family-math);\n        font-style: italic;\n      }\n\n      .math-greek {\n        font-family: var(---font-family-math);\n        font-style: normal;\n      }\n\n      .defs {\n        display: block;\n\n        width: 0;\n        height: 0;\n      }\n    "]);
+  var data = _taggedTemplateLiteral(["\n      :host {\n        ---shadow-0: var(--shadow-0, ", ");\n        ---shadow-2: var(--shadow-2, ", ");\n        ---shadow-4: var(--shadow-4, ", ");\n        ---shadow-8: var(--shadow-8, ", ");\n\n        ---color-h: var(--color-h, ", ");\n        ---color-m: var(--color-m, ", ");\n        ---color-fa: var(--color-fa, ", ");\n        ---color-cr: var(--color-cr, ", ");\n        ---color-hr: var(--color-hr, ", ");\n        ---color-far: var(--color-far, ", ");\n        ---color-acc: var(--color-acc, ", ");\n        ---color-d: var(--color-d, ", ");\n        ---color-c: var(--color-c, ", ");\n        ---color-s: var(--color-s, ", ");\n        ---color-present: var(--color-present, ", ");\n        ---color-absent: var(--color-absent, ", ");\n        ---color-correct: var(--color-correct, ", ");\n        ---color-error: var(--color-error, ", ");\n\n        ---color-h-light: var(--color-h-light, ", ");\n        ---color-m-light: var(--color-m-light, ", ");\n        ---color-fa-light: var(--color-fa-light, ", ");\n        ---color-cr-light: var(--color-cr-light, ", ");\n        ---color-hr-light: var(--color-hr-light, ", ");\n        ---color-far-light: var(--color-far-light, ", ");\n        ---color-acc-light: var(--color-acc-light, ", ");\n        ---color-d-light: var(--color-d-light, ", ");\n        ---color-c-light: var(--color-c-light, ", ");\n        ---color-s-light: var(--color-s-light, ", ");\n        ---color-present-light: var(--color-present-light, ", ");\n        ---color-absent-light: var(--color-absent-light, ", ");\n        ---color-correct-light: var(--color-correct-light, ", ");\n        ---color-error-light: var(--color-error-light, ", ");\n\n        ---color-h-dark: var(--color-h-dark, ", ");\n        ---color-m-dark: var(--color-m-dark, ", ");\n        ---color-fa-dark: var(--color-fa-dark, ", ");\n        ---color-cr-dark: var(--color-cr-dark, ", ");\n        ---color-hr-dark: var(--color-hr-dark, ", ");\n        ---color-far-dark: var(--color-far-dark, ", ");\n        ---color-acc-dark: var(--color-acc-dark, ", ");\n        ---color-d-dark: var(--color-d-dark, ", ");\n        ---color-c-dark: var(--color-c-dark, ", ");\n        ---color-s-dark: var(--color-s-dark, ", ");\n        ---color-present-dark: var(--color-present-dark, ", ");\n        ---color-absent-dark: var(--color-absent-dark, ", ");\n        ---color-correct-dark: var(--color-correct-dark, ", ");\n        ---color-error-dark: var(--color-error-dark, ", ");\n\n        ---color-background: var(--color-background, ", ");\n        ---color-border: var(--color-border, ", ");\n        ---color-text: var(--color-text, ", ");\n        ---color-text-inverse: var(--color-text-inverse, ", ");\n        ---color-link: var(--color-link, ", ");\n        ---color-element-background: var(--color-element-background, ", ");\n        ---color-element-disabled: var(--color-element-disabled, ", ");\n        ---color-element-enabled: var(--color-element-enabled, ", ");\n        ---color-element-selected: var(--color-element-selected, ", ");\n        ---color-element-border: var(--color-element-border, ", ");\n        ---color-element-emphasis: var(--color-element-emphasis, ", ");\n\n        ---font-family-base: var(--font-family-base, \"Source Sans Pro\", sans-serif);\n        ---font-family-math: var(--font-family-math, \"Source Serif Pro\", serif);\n\n        font-family: var(---font-family-base);\n      }\n\n      :host,\n      :host *,\n      :host *::before,\n      :host *::after {\n        box-sizing: border-box;\n      }\n\n      .math-var {\n        font-family: var(---font-family-math);\n        font-style: italic;\n      }\n\n      .math-greek {\n        font-family: var(---font-family-math);\n        font-style: normal;\n      }\n\n      .defs {\n        display: block;\n\n        width: 0;\n        height: 0;\n      }\n    "]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -73701,7 +73607,7 @@ function (_LitElement) {
   }, {
     key: "styles",
     get: function get() {
-      return (0, _litElement.css)(_templateObject9(), (0, _litElement.unsafeCSS)(this.cssBoxShadow(0)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(2)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(4)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(8)), (0, _litElement.unsafeCSS)(this.colors.h), (0, _litElement.unsafeCSS)(this.colors.m), (0, _litElement.unsafeCSS)(this.colors.fa), (0, _litElement.unsafeCSS)(this.colors.cr), (0, _litElement.unsafeCSS)(this.colors.hr), (0, _litElement.unsafeCSS)(this.colors.far), (0, _litElement.unsafeCSS)(this.colors.acc), (0, _litElement.unsafeCSS)(this.colors.d), (0, _litElement.unsafeCSS)(this.colors.c), (0, _litElement.unsafeCSS)(this.colors.s), (0, _litElement.unsafeCSS)(this.colors.present), (0, _litElement.unsafeCSS)(this.colors.absent), (0, _litElement.unsafeCSS)(this.colors.correct), (0, _litElement.unsafeCSS)(this.colors.error), (0, _litElement.unsafeCSS)(this.lights.h), (0, _litElement.unsafeCSS)(this.lights.m), (0, _litElement.unsafeCSS)(this.lights.fa), (0, _litElement.unsafeCSS)(this.lights.cr), (0, _litElement.unsafeCSS)(this.lights.hr), (0, _litElement.unsafeCSS)(this.lights.far), (0, _litElement.unsafeCSS)(this.lights.acc), (0, _litElement.unsafeCSS)(this.lights.d), (0, _litElement.unsafeCSS)(this.lights.c), (0, _litElement.unsafeCSS)(this.lights.s), (0, _litElement.unsafeCSS)(this.lights.present), (0, _litElement.unsafeCSS)(this.lights.absent), (0, _litElement.unsafeCSS)(this.lights.correct), (0, _litElement.unsafeCSS)(this.lights.error), (0, _litElement.unsafeCSS)(this.darks.h), (0, _litElement.unsafeCSS)(this.darks.m), (0, _litElement.unsafeCSS)(this.darks.fa), (0, _litElement.unsafeCSS)(this.darks.cr), (0, _litElement.unsafeCSS)(this.darks.hr), (0, _litElement.unsafeCSS)(this.darks.far), (0, _litElement.unsafeCSS)(this.darks.acc), (0, _litElement.unsafeCSS)(this.darks.d), (0, _litElement.unsafeCSS)(this.darks.c), (0, _litElement.unsafeCSS)(this.darks.s), (0, _litElement.unsafeCSS)(this.darks.present), (0, _litElement.unsafeCSS)(this.darks.absent), (0, _litElement.unsafeCSS)(this.darks.correct), (0, _litElement.unsafeCSS)(this.darks.error), (0, _litElement.unsafeCSS)(this.greys.white), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.dark75), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.dark25), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.light50), (0, _litElement.unsafeCSS)(this.greys.grey), (0, _litElement.unsafeCSS)(this.greys.dark25), (0, _litElement.unsafeCSS)(this.greys.dark50), (0, _litElement.unsafeCSS)(this.greys.dark75));
+      return (0, _litElement.css)(_templateObject9(), (0, _litElement.unsafeCSS)(this.cssBoxShadow(0)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(2)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(4)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(8)), (0, _litElement.unsafeCSS)(this.colors.h), (0, _litElement.unsafeCSS)(this.colors.m), (0, _litElement.unsafeCSS)(this.colors.fa), (0, _litElement.unsafeCSS)(this.colors.cr), (0, _litElement.unsafeCSS)(this.colors.hr), (0, _litElement.unsafeCSS)(this.colors.far), (0, _litElement.unsafeCSS)(this.colors.acc), (0, _litElement.unsafeCSS)(this.colors.d), (0, _litElement.unsafeCSS)(this.colors.c), (0, _litElement.unsafeCSS)(this.colors.s), (0, _litElement.unsafeCSS)(this.colors.present), (0, _litElement.unsafeCSS)(this.colors.absent), (0, _litElement.unsafeCSS)(this.colors.correct), (0, _litElement.unsafeCSS)(this.colors.error), (0, _litElement.unsafeCSS)(this.lights.h), (0, _litElement.unsafeCSS)(this.lights.m), (0, _litElement.unsafeCSS)(this.lights.fa), (0, _litElement.unsafeCSS)(this.lights.cr), (0, _litElement.unsafeCSS)(this.lights.hr), (0, _litElement.unsafeCSS)(this.lights.far), (0, _litElement.unsafeCSS)(this.lights.acc), (0, _litElement.unsafeCSS)(this.lights.d), (0, _litElement.unsafeCSS)(this.lights.c), (0, _litElement.unsafeCSS)(this.lights.s), (0, _litElement.unsafeCSS)(this.lights.present), (0, _litElement.unsafeCSS)(this.lights.absent), (0, _litElement.unsafeCSS)(this.lights.correct), (0, _litElement.unsafeCSS)(this.lights.error), (0, _litElement.unsafeCSS)(this.darks.h), (0, _litElement.unsafeCSS)(this.darks.m), (0, _litElement.unsafeCSS)(this.darks.fa), (0, _litElement.unsafeCSS)(this.darks.cr), (0, _litElement.unsafeCSS)(this.darks.hr), (0, _litElement.unsafeCSS)(this.darks.far), (0, _litElement.unsafeCSS)(this.darks.acc), (0, _litElement.unsafeCSS)(this.darks.d), (0, _litElement.unsafeCSS)(this.darks.c), (0, _litElement.unsafeCSS)(this.darks.s), (0, _litElement.unsafeCSS)(this.darks.present), (0, _litElement.unsafeCSS)(this.darks.absent), (0, _litElement.unsafeCSS)(this.darks.correct), (0, _litElement.unsafeCSS)(this.darks.error), (0, _litElement.unsafeCSS)(this.greys.white), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.dark75), (0, _litElement.unsafeCSS)(this.greys.white), (0, _litElement.unsafeCSS)(this.greys.dark25), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.light50), (0, _litElement.unsafeCSS)(this.greys.grey), (0, _litElement.unsafeCSS)(this.greys.dark25), (0, _litElement.unsafeCSS)(this.greys.dark50), (0, _litElement.unsafeCSS)(this.greys.dark75));
     }
   }]);
 

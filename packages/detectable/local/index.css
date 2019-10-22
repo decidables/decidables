@@ -171,6 +171,7 @@
   --color-background: #ffffff;
   --color-border: #e6e6e6;
   --color-text: #262626;
+  --color-text-inverse: #ffffff;
   --color-link: #737373;
   --color-element-background: #e6e6e6;
   --color-element-disabled: #cccccc;
@@ -5228,16 +5229,26 @@ body {
     border-radius: 0.25rem; }
   .sdt-content code[class="Bias"] {
     background-color: var(--color-c-light); }
-  .sdt-content code[class="Iso-BiasCurve"] {
-    border: 2px solid var(--color-c); }
   .sdt-content code[class="c"] {
     font-family: "Source Serif Pro", serif;
     font-style: italic;
     background-color: var(--color-c-light); }
-  .sdt-content code[class="Iso-SensitivityCurve"] {
-    border: 2px solid var(--color-d); }
+  .sdt-content code[class="Iso-BiasCurve"] {
+    border: 2px solid var(--color-c); }
   .sdt-content code[class="Sensitivity"] {
     background-color: var(--color-d-light); }
+  .sdt-content code[class="d′"] {
+    font-family: "Source Serif Pro", serif;
+    font-style: italic;
+    background-color: var(--color-d-light); }
+  .sdt-content code[class="Iso-SensitivityCurve"] {
+    border: 2px solid var(--color-d); }
+  .sdt-content code[class="Variance"] {
+    background-color: var(--color-s-light); }
+  .sdt-content code[class="σ"] {
+    font-family: "Source Serif Pro", serif;
+    font-style: italic;
+    background-color: var(--color-s-light); }
   .sdt-content code[class="RespondPresent"] {
     background-color: var(--color-present-light);
     border: 3px solid var(--color-present);
@@ -5246,10 +5257,6 @@ body {
     background-color: var(--color-absent-light);
     border: 3px solid var(--color-absent);
     border-radius: 0; }
-  .sdt-content code[class="d′"] {
-    font-family: "Source Serif Pro", serif;
-    font-style: italic;
-    background-color: var(--color-d-light); }
   .sdt-content code[class="Evidence"] {
     background-color: var(--color-acc-light);
     border: 3px solid var(--color-acc);
@@ -5261,6 +5268,22 @@ body {
   .sdt-content code[class="SignalAbsent"] {
     background-color: var(--color-far-light);
     border: 3px solid var(--color-far);
+    border-radius: 0; }
+  .sdt-content code[class="OutcomeHit"] {
+    background-color: var(--color-h-light);
+    border: 3px solid var(--color-h);
+    border-radius: 0; }
+  .sdt-content code[class="OutcomeMiss"] {
+    background-color: var(--color-m-light);
+    border: 3px solid var(--color-m);
+    border-radius: 0; }
+  .sdt-content code[class="OutcomeCorrectRejection"] {
+    background-color: var(--color-cr-light);
+    border: 3px solid var(--color-cr);
+    border-radius: 0; }
+  .sdt-content code[class="OutcomeFalseAlarm"] {
+    background-color: var(--color-fa-light);
+    border: 3px solid var(--color-fa);
     border-radius: 0; }
   .sdt-content code[class="Signal+Noise"] {
     background-color: var(--color-hr-light);
@@ -5339,21 +5362,96 @@ body {
     background-color: var(--color-hr-light); }
   .sdt-content code[class="FalseAlarmRate"] {
     background-color: var(--color-far-light); }
+  .sdt-content code[class="PositivePredictiveValue"] {
+    background-color: var(--color-present-light); }
+  .sdt-content code[class="FalseOmissionRate"] {
+    background-color: var(--color-absent-light); }
   .sdt-content code[class="Accuracy"] {
     background-color: var(--color-acc-light); }
   .sdt-content .csl-entry {
     padding-left: 2rem;
     text-indent: -2rem; }
-  .sdt-content dl {
-    margin-left: 2rem; }
-  .sdt-content dt {
+
+.sdt-legend dt {
+  display: inline-block;
+  width: 12rem;
+  padding: 0.25rem 0.675rem;
+  font-weight: 600; }
+
+.sdt-legend dd {
+  margin-top: 0.25rem;
+  margin-bottom: 1.5rem;
+  margin-left: 2rem; }
+
+.sdt-legend .h {
+  background: var(--color-h-light);
+  border-left: 1rem solid var(--color-h); }
+
+.sdt-legend .m {
+  background: var(--color-m-light);
+  border-left: 1rem solid var(--color-m); }
+
+.sdt-legend .fa {
+  background: var(--color-fa-light);
+  border-left: 1rem solid var(--color-fa); }
+
+.sdt-legend .cr {
+  background: var(--color-cr-light);
+  border-left: 1rem solid var(--color-cr); }
+
+.sdt-legend .hr {
+  background: var(--color-hr-light);
+  border-left: 1rem solid var(--color-hr); }
+
+.sdt-legend .far {
+  background: var(--color-far-light);
+  border-left: 1rem solid var(--color-far); }
+
+.sdt-legend .acc {
+  background: var(--color-acc-light);
+  border-left: 1rem solid var(--color-acc); }
+
+.sdt-legend .d {
+  background: var(--color-d-light);
+  border-left: 1rem solid var(--color-d); }
+
+.sdt-legend .c {
+  background: var(--color-c-light);
+  border-left: 1rem solid var(--color-c); }
+
+.sdt-legend .s {
+  background: var(--color-s-light);
+  border-left: 1rem solid var(--color-s); }
+
+.sdt-legend .present {
+  background: var(--color-present-light);
+  border-left: 1rem solid var(--color-present); }
+
+.sdt-legend .absent {
+  background: var(--color-absent-light);
+  border-left: 1rem solid var(--color-absent); }
+
+.sdt-legend .correct {
+  padding-left: calc(1.675rem - 1px);
+  background: var(--color-correct);
+  border: 1px solid var(--color-element-border); }
+
+.sdt-legend .error {
+  color: var(--color-text-inverse);
+  background: var(--color-error-light);
+  border-left: 1rem solid var(--color-error); }
+
+.sdt-glossary {
+  margin-left: 2rem; }
+  .sdt-glossary dt {
     display: inline;
-    margin-left: -2rem; }
-  .sdt-content dt::after {
+    margin-left: -2rem;
+    font-weight: 600; }
+  .sdt-glossary dt::after {
     content: ":"; }
-  .sdt-content dd {
+  .sdt-glossary dd {
     display: inline; }
-  .sdt-content dd::after {
+  .sdt-glossary dd::after {
     display: block;
     content: ""; }
 

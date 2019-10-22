@@ -53,7 +53,8 @@
   - Set duration, wait, and ITI to a set ratio, and then scale all together?
   - duration="1000" wait="500" iti="500" (2000, 1000, 1000) (500, 250, 250)
 - Cleanup color usage
-  - Need a light text property
+  - Use the inverse text color property!
+  - Define No Response variable?
 - Standard easing time? (CSS & D3)
 - Add page before SDT, connecting sensitivity and bias, and showing different views of model
 - Split Tables & Rates to discuss Accuracy & base rate
