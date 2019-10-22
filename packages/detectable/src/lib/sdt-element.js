@@ -366,7 +366,7 @@ export default class SDTElement extends LitElement {
         ---color-background: var(--color-background, ${unsafeCSS(this.greys.white)});
         ---color-border: var(--color-border, ${unsafeCSS(this.greys.light75)});
         ---color-text: var(--color-text, ${unsafeCSS(this.greys.dark75)});
-        ---color-text-light: var(--color-text-light, ${unsafeCSS(this.greys.light75)});
+        ---color-text-inverse: var(--color-text-inverse, ${unsafeCSS(this.greys.white)});
         ---color-link: var(--color-link, ${unsafeCSS(this.greys.dark25)});
         ---color-element-background: var(--color-element-background, ${unsafeCSS(this.greys.light75)});
         ---color-element-disabled: var(--color-element-disabled, ${unsafeCSS(this.greys.light50)});
