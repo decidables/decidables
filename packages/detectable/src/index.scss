@@ -82,6 +82,7 @@ $link-color: $color-grey-dark25;
   --color-background: #{$body-bg};
   --color-border: #{$border-color};
   --color-text: #{$body-color};
+  --color-text-inverse: #{$color-white};
   --color-link: #{$link-color};
   --color-element-background: #{$color-grey-light75};
   --color-element-disabled: #{$color-grey-light50};
@@ -493,10 +494,6 @@ body {
     background-color: var(--color-c-light);
   }
 
-  code[class="Iso-BiasCurve"] {
-    border: 2px solid var(--color-c);
-  }
-
   code[class="c"] {
     font-family: "Source Serif Pro", serif;
     font-style: italic;
@@ -504,12 +501,34 @@ body {
     background-color: var(--color-c-light);
   }
 
-  code[class="Iso-SensitivityCurve"] {
-    border: 2px solid var(--color-d);
+  code[class="Iso-BiasCurve"] {
+    border: 2px solid var(--color-c);
   }
 
   code[class="Sensitivity"] {
     background-color: var(--color-d-light);
+  }
+
+  code[class="d′"] {
+    font-family: "Source Serif Pro", serif;
+    font-style: italic;
+
+    background-color: var(--color-d-light);
+  }
+
+  code[class="Iso-SensitivityCurve"] {
+    border: 2px solid var(--color-d);
+  }
+
+  code[class="Variance"] {
+    background-color: var(--color-s-light);
+  }
+
+  code[class="σ"] {
+    font-family: "Source Serif Pro", serif;
+    font-style: italic;
+
+    background-color: var(--color-s-light);
   }
 
   code[class="RespondPresent"] {
@@ -522,13 +541,6 @@ body {
     background-color: var(--color-absent-light);
     border: 3px solid var(--color-absent);
     border-radius: 0;
-  }
-
-  code[class="d′"] {
-    font-family: "Source Serif Pro", serif;
-    font-style: italic;
-
-    background-color: var(--color-d-light);
   }
 
   code[class="Evidence"] {
@@ -546,6 +558,30 @@ body {
   code[class="SignalAbsent"] {
     background-color: var(--color-far-light);
     border: 3px solid var(--color-far);
+    border-radius: 0;
+  }
+
+  code[class="OutcomeHit"] {
+    background-color: var(--color-h-light);
+    border: 3px solid var(--color-h);
+    border-radius: 0;
+  }
+
+  code[class="OutcomeMiss"] {
+    background-color: var(--color-m-light);
+    border: 3px solid var(--color-m);
+    border-radius: 0;
+  }
+
+  code[class="OutcomeCorrectRejection"] {
+    background-color: var(--color-cr-light);
+    border: 3px solid var(--color-cr);
+    border-radius: 0;
+  }
+
+  code[class="OutcomeFalseAlarm"] {
+    background-color: var(--color-fa-light);
+    border: 3px solid var(--color-fa);
     border-radius: 0;
   }
 
@@ -677,6 +713,14 @@ body {
     background-color: var(--color-far-light);
   }
 
+  code[class="PositivePredictiveValue"] {
+    background-color: var(--color-present-light);
+  }
+
+  code[class="FalseOmissionRate"] {
+    background-color: var(--color-absent-light);
+  }
+
   code[class="Accuracy"] {
     background-color: var(--color-acc-light);
   }
@@ -686,16 +730,112 @@ body {
 
     text-indent: -2rem;
   }
+}
 
-  // Glossary formatting to get the term and definition inline, with a hanging indent
-  dl {
+
+// Legend formatting
+.sdt-legend {
+  dt {
+    display: inline-block;
+
+    width: 12rem;
+    // padding: 0.375rem 0.675rem;
+    padding: 0.25rem 0.675rem;
+
+    font-weight: 600;
+  }
+
+  dd {
+    margin-top: 0.25rem;
+    margin-bottom: 1.5rem;
     margin-left: 2rem;
   }
+
+  .h {
+    background: var(--color-h-light);
+    border-left: 1rem solid var(--color-h);
+  }
+
+  .m {
+    background: var(--color-m-light);
+    border-left: 1rem solid var(--color-m);
+  }
+
+  .fa {
+    background: var(--color-fa-light);
+    border-left: 1rem solid var(--color-fa);
+  }
+
+  .cr {
+    background: var(--color-cr-light);
+    border-left: 1rem solid var(--color-cr);
+  }
+
+  .hr {
+    background: var(--color-hr-light);
+    border-left: 1rem solid var(--color-hr);
+  }
+
+  .far {
+    background: var(--color-far-light);
+    border-left: 1rem solid var(--color-far);
+  }
+
+  .acc {
+    background: var(--color-acc-light);
+    border-left: 1rem solid var(--color-acc);
+  }
+
+  .d {
+    background: var(--color-d-light);
+    border-left: 1rem solid var(--color-d);
+  }
+
+  .c {
+    background: var(--color-c-light);
+    border-left: 1rem solid var(--color-c);
+  }
+
+  .s {
+    background: var(--color-s-light);
+    border-left: 1rem solid var(--color-s);
+  }
+
+  .present {
+    background: var(--color-present-light);
+    border-left: 1rem solid var(--color-present);
+  }
+
+  .absent {
+    background: var(--color-absent-light);
+    border-left: 1rem solid var(--color-absent);
+  }
+
+  .correct {
+    padding-left: calc(1.675rem - 1px);
+
+    background: var(--color-correct);
+    border: 1px solid var(--color-element-border);
+  }
+
+  .error {
+    color: var(--color-text-inverse);
+
+    background: var(--color-error-light);
+    border-left: 1rem solid var(--color-error);
+  }
+}
+
+// Glossary formatting to get the term and definition inline, with a hanging indent
+.sdt-glossary {
+  margin-left: 2rem;
 
   dt {
     display: inline;
 
     margin-left: -2rem;
+
+    font-weight: 600;
   }
 
   dt::after {
@@ -711,7 +851,6 @@ body {
 
     content: "";
   }
-
 }
 
 .sdt-footer {
