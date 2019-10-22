@@ -1,5 +1,5 @@
 ---
-title: "Equations: Mathematical Definition of SDT"
+title: "Equations"
 layout: page
 script: index
 ---
