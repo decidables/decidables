@@ -4,6 +4,6 @@ layout: page
 script: index
 ---
 
-## References
+## Bibliography
 
 {#ref}

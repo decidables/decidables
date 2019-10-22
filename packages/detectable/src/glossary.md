@@ -1,10 +1,12 @@
 ---
-title: "Glossary: Terminology of SDT"
+title: "Glossary"
 layout: page
 script: index
 ---
 
-<dl>
+## Terminology
+
+<dl class="sdt-glossary">
   <dt>accuracy</dt>
   <dd></dd>
 
@@ -47,6 +49,9 @@ script: index
   <dt>false alarm rate (FAR)</dt>
   <dd></dd>
 
+  <dt>false omission rate (FOR)</dt>
+  <dd></dd>
+
   <dt>fixation</dt>
   <dd></dd>
 
@@ -81,6 +86,9 @@ script: index
   <dd>Stimuli other than the stimulus of interest (i.e. the signal). This can refer to random, unstructured stimulation, but it can also mean any stimulation that is not the stimulus of interest, even if it is structured and/or meaningful.</dd>
 
   <dt>outcome</dt>
+  <dd></dd>
+
+  <dt>positive predictive value (PPV)</dt>
   <dd></dd>
 
   <dt>random</dt>

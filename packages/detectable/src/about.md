@@ -5,7 +5,7 @@ layout: page
 script: index
 ---
 
-## About
+## Credits
 
 **Created by:**  
 [Adam Krawitz](https://web.uvic.ca/psyc/krawitz/)
@@ -22,6 +22,9 @@ and
 with [front-matter](https://github.com/jxson/front-matter),
 [Markdown](https://spec.commonmark.org/)
 with [remark](https://remark.js.org/),
+[BibTeX](http://www.bibtex.org/)
+with [citeproc-js](https://citeproc-js.readthedocs.io/)
+and [Citation.js](https://citation.js.org/),
 [Embedded JavaScript](https://github.com/mde/ejs/blob/master/docs/syntax.md)
 with [EJS](https://ejs.co/),
 [SCSS](https://sass-lang.com/)
@@ -45,11 +48,13 @@ and
 **Decorated with:**  
 [colors](http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9)
 from [ColorBrewer](http://colorbrewer2.org/),
-and
 [Source Sans Pro](https://github.com/adobe-fonts/source-sans-pro)
 and
 [Source Serif Pro](https://github.com/adobe-fonts/source-serif-pro) fonts
-from [Adobe Originals](https://fonts.adobe.com/foundries/adobe)
+from [Adobe Originals](https://fonts.adobe.com/foundries/adobe),
+and
+[APA 6th Edition](https://www.npmjs.com/package/style-apa) citation style
+from the [Citation Style Language](https://citationstyles.org/) project
 
 **Linted through:**  
 [eslint](https://eslint.org/),
@@ -58,11 +63,14 @@ and
 [stylelint](https://stylelint.io/)
 
 **Built using:**  
-[Atom](https://atom.io/) with [packages](https://atom.io/packages),
+[Atom](https://atom.io/)
+with [packages](https://atom.io/packages),
 [Git](https://git-scm.com/),
-[Node.js](https://nodejs.org/) with [npm packages](https://www.npmjs.com/),
-[Yarn](https://yarnpkg.com/),
+[Node.js](https://nodejs.org/)
+with [npm packages](https://www.npmjs.com/)
+via [Yarn](https://yarnpkg.com/),
 and
-[gulp](https://gulpjs.com/) with [plugins](https://gulpjs.com/plugins/)
+[gulp](https://gulpjs.com/)
+with [plugins](https://gulpjs.com/plugins/)
 
 © [Adam Krawitz](https://web.uvic.ca/psyc/krawitz/) 2019
