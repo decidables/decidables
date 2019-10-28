@@ -48,7 +48,9 @@
 
 ## Features/Bugs
 
+- Switch to subsections for better overall organization/structure?
 - Need to add a control for payoff matrix!
+  - And display of payoff matrix (to table)!
 - Add a "speed" control for overall trial timing?
   - Set duration, wait, and ITI to a set ratio, and then scale all together?
   - duration="1000" wait="500" iti="500" (2000, 1000, 1000) (500, 250, 250)
@@ -57,6 +59,7 @@
   - Define No Response variable?
 - Standard easing time? (CSS & D3)
 - Add page before SDT, connecting sensitivity and bias, and showing different views of model
+  - Or build threshold on top of distributions, so they are naturally combined!
 - Split Tables & Rates to discuss Accuracy & base rate
   - Change "Accuracy" in "outcomes.html"
   - Move "Tabulating outcomes" from "rates.html" to "outcomes.html"
@@ -135,6 +138,17 @@
 ## Future Feature Ideas
 
 ### Overall
+
+- Drift-diffusion model of RT
+  - 2AFC
+  - drift process, resulting RT distributions
+- Prospect Theory (versus Expected Value & Expected Utility)
+  - Value function, Probability function, (relative value?)
+  - Effect of parameters on decisions within a decision space
+- Temporal discounting
+  - power vs hyperbolic
+  - (interaction of temporal discounting and PT value function!)
+- Ambiguity?
 
 ---
 
