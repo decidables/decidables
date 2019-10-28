@@ -34,3 +34,12 @@ performance or the model will be reflected immediately in the other figures as w
   <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
+
+The table of outcomes summarizes performance. The model diagram illustrates an explanation of that
+performance in terms of SDT. And ROC space shows the relationship between behavior and theory. Note
+that every possible pattern of performance can be represented in ROC space in terms of the
+behavioral measures, `Hit Rate` and `False Alarm Rate`, and can also be explained by a unique
+combination of model parameters, `Sensitivity` and `Bias`. However the relationship between the
+behavioral measures and the model parameters is non-linear and surprisingly unintuitive, as
+illustrated by the `Iso-Sensitivity Curve` and the `Iso-Bias Curve`. Hopefully exploring their
+relationship through direct manipulation will help you gain a deeper understanding!
