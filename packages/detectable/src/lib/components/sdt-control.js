@@ -18,6 +18,11 @@ import SDTMixinStyleToggle from '../mixins/styleToggle';
 export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(SDTMixinStyleSpinner(SDTMixinStyleSwitch(SDTMixinStyleToggle(SDTElement))))) { // eslint-disable-line max-len
   static get properties() {
     return {
+      duration: {
+        attribute: 'duration',
+        type: Number,
+        reflect: true,
+      },
       trials: {
         attribute: 'trials',
         type: Number,
@@ -65,6 +70,7 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
   constructor() {
     super();
 
+    this.duration = undefined;
     this.trials = undefined;
     this.run = false;
     this.pause = false;
@@ -99,6 +105,16 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
     this.state = 'resetted';
     this.dispatchEvent(new CustomEvent('sdt-control-reset', {
       detail: {},
+      bubbles: true,
+    }));
+  }
+
+  setDuration(e) {
+    this.duration = e.target.value;
+    this.dispatchEvent(new CustomEvent('sdt-control-duration', {
+      detail: {
+        duration: this.duration,
+      },
       bubbles: true,
     }));
   }
@@ -261,17 +277,16 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
               <input type="number" min="1" max="100" step="1" .value=${this.trials} @input=${this.setTrials.bind(this)}>
             </div>`
           : html``}
-        <div class="buttons">
-          ${this.run
-            ? html`<button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</button>`
-            : html``}
-          ${this.pause
-            ? html`<button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</button>`
-            : html``}
-          ${this.reset
-            ? html`<button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</button>`
-            : html``}
-        </div>
+        ${this.duration
+          ? html`
+            <div class="slider">
+              <label for=${`${this.uniqueId}-duration`}>Duration</label>
+              <div class="range">
+                <input type="range" id=${`${this.uniqueId}-duration`} name="duration" min="10" max="2000" step="10" .value=${this.duration} @input=${this.setDuration.bind(this)} @change=${this.setDuration.bind(this)}>
+              </div>
+              <input type="number" min="10" max="2000" step="10" .value=${this.duration} @input=${this.setDuration.bind(this)}>
+            </div>`
+          : html``}
         ${this.coherence
           ? html`
             <div class="slider">
@@ -306,6 +321,17 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
               <label for=${`${this.uniqueId}-z-roc`}><span class="math-var">z</span>ROC</label>
             </div>`
           : html``}
+        <div class="buttons">
+          ${this.run
+            ? html`<button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</button>`
+            : html``}
+          ${this.pause
+            ? html`<button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</button>`
+            : html``}
+          ${this.reset
+            ? html`<button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</button>`
+            : html``}
+        </div>
       </div>`;
   }
 }

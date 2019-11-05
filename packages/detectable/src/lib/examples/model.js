@@ -28,6 +28,16 @@ export default class SDTExampleModel extends SDTExample {
       });
     }
 
+    if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
+      this.sdtControl.addEventListener('sdt-control-duration', (event) => {
+        if (this.rdkTask) {
+          this.rdkTask.duration = event.detail.duration;
+          this.rdkTask.wait = event.detail.duration;
+          this.rdkTask.iti = event.detail.duration / 2;
+        }
+      });
+    }
+
     if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
       this.sdtControl.addEventListener('sdt-control-trials', (event) => {
         if (this.rdkTask) {
@@ -108,14 +118,23 @@ export default class SDTExampleModel extends SDTExample {
         if (this.sdtResponse) {
           this.sdtResponse.start(event.detail.signal, event.detail.trial);
         }
+        if (this.sdtModel) {
+          this.sdtModel.trial(
+            event.detail.trial,
+            event.detail.signal,
+            event.detail.duration,
+            event.detail.wait,
+            event.detail.iti,
+          );
+        }
       });
     }
 
     if (this.rdkTask) {
-      this.rdkTask.addEventListener('rdk-trial-middle', (event) => {
-        if (this.sdtModel) {
-          this.sdtModel.trial(event.detail.trial, event.detail.signal);
-        }
+      this.rdkTask.addEventListener('rdk-trial-middle', (/* event */) => {
+        // if (this.sdtModel) {
+        //   this.sdtModel.trial(event.detail.trial, event.detail.signal);
+        // }
       });
     }
 
