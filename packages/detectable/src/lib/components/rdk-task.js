@@ -93,39 +93,44 @@ export default class RDKTask extends SDTElement {
   constructor() {
     super();
 
-    this.coherence = 0.5;
-    this.count = 100;
-    this.direction = -1;
-    this.lifetime = 20;
-    this.probability = 0.5;
-    this.speed = 1;
-    this.duration = 2000;
-    this.wait = 2000;
-    this.iti = 2000;
-    this.trials = 5;
-    this.running = false;
+    // Attributes
+    this.coherence = 0.5; // Proportion of dots moving coherently
+    this.count = 100; // Number of dots
+    this.probability = 0.5; // Probability of signal (as opposed to noise)
+    this.duration = 2000; // Duration of stimulus in milliseconds
+    this.wait = 2000; // Duration of wait period for response in milliseconds
+    this.iti = 1000; // Duration of inter-trial interval in milliseconds
+    this.trials = 5; // Number of trials per block
+    this.running = false; // Currently executing block of trials
 
-    this.COHERENT = 0;
-    this.RANDOM = 1;
-    this.dots = [[], []];
-    this.trial = 0;
+    // Properties
+    this.direction = -1; // Direction of current trial in degrees
+    this.lifetime = 400; // Lifetime of each dot in milliseconds
+    this.speed = 50; // Rate of dot movement in pixels per second
 
-    this.states = ['resetted', 'iti', 'stimulus', 'wait', 'ended'];
-    this.state = 'resetted';
+    this.width = NaN; // Width of component in pixels
+    this.height = NaN; // Height of component in pixels
+    this.rem = NaN; // Pixels per rem for component
 
-    this.start = 0;
-    this.current = undefined;
+    // Private
+    this.COHERENT = 0; // "Constant" for index to coherent dots
+    this.RANDOM = 1; // "Constant" for index to random dots
+    this.dots = [[], []]; // Array of array of dots
+    this.trial = 0; // Count of current trial
 
-    this.signals = ['present', 'absent'];
-    this.signal = undefined;
+    this.states = ['resetted', 'iti', 'stimulus', 'wait', 'ended']; // Possible states of task
+    this.state = 'resetted'; // Current state of task
 
-    this.runner = undefined;
-    this.xScale = undefined;
-    this.yScale = undefined;
+    this.start = 0; // Time, in milliseconds, that current stage of trial started
+    this.time = 0; // Time, in milliseconds, of the current frame
+    this.current = undefined; // Direction in degrees for current trial
 
-    this.width = NaN;
-    this.height = NaN;
-    this.rem = NaN;
+    this.signals = ['present', 'absent']; // Possible trial types
+    this.signal = undefined; // Current trial type
+
+    this.runner = undefined; // D3 Interval for frame timing
+    this.xScale = undefined; // D3 Scale for x-axis
+    this.yScale = undefined; // D3 Scale for y-axis
   }
 
   static get styles() {
@@ -361,6 +366,8 @@ export default class RDKTask extends SDTElement {
 
   run(time) {
     const elapsedTime = time - this.start;
+    const frameTime = time - this.time;
+    this.time = time;
     let newTrial = false;
     if (this.state === 'resetted') {
       // Start block with an ITI
@@ -458,48 +465,36 @@ export default class RDKTask extends SDTElement {
           const dot = this.dots[t][i];
           if (newTrial || newDot) {
             dot.direction = (t === this.RANDOM) ? (Math.random() * 360) : this.current;
-            dot.age = Math.floor(Math.random() * this.lifetime);
+            dot.birth = this.time - Math.floor(Math.random() * this.lifetime);
             const angle = Math.random() * 2 * Math.PI;
             const radius = Math.sqrt(Math.random());
             dot.x = this.xScale(radius * Math.cos(angle));
             dot.y = this.yScale(radius * Math.sin(angle));
-            const directionR = dot.direction * (Math.PI / 180);
-            dot.speed = this.speed;
-            dot.dx = dot.speed * Math.cos(directionR);
-            dot.dy = dot.speed * Math.sin(directionR);
+          } else if (this.time > (dot.birth + this.lifetime)) {
+            // Dot has died, so rebirth
+            dot.birth += this.lifetime;
+            dot.direction = (t === this.RANDOM) ? (Math.random() * 360) : this.current;
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = Math.sqrt(Math.random());
+            dot.x = this.xScale(radius * Math.cos(angle));
+            dot.y = this.yScale(radius * Math.sin(angle));
           } else {
-            dot.age += 1;
-            if (dot.age >= this.lifetime) {
-              // Dot has died, so rebirth
-              dot.age = 0;
-              dot.direction = (t === this.RANDOM) ? (Math.random() * 360) : this.current;
-              const angle = Math.random() * 2 * Math.PI;
-              const radius = Math.sqrt(Math.random());
-              dot.x = this.xScale(radius * Math.cos(angle));
-              dot.y = this.yScale(radius * Math.sin(angle));
-              const directionR = dot.direction * (Math.PI / 180);
-              dot.speed = this.speed;
-              dot.dx = dot.speed * Math.cos(directionR);
-              dot.dy = dot.speed * Math.sin(directionR);
-            } else {
-              if (t === this.COHERENT) {
-                dot.direction = this.current;
-              }
-              const directionR = dot.direction * (Math.PI / 180);
-              dot.speed = this.speed;
-              dot.dx = dot.speed * Math.cos(directionR);
-              dot.dy = dot.speed * Math.sin(directionR);
-              // Update position
-              dot.x += dot.dx;
-              dot.y += dot.dy;
-              // Calculate squared distance from center
-              const distance2 = ((dot.x - this.xScale(0)) ** 2) + ((dot.y - this.yScale(0)) ** 2);
-              const radius2 = (this.xScale(1) - this.xScale(0)) ** 2;
-              if (distance2 > radius2) {
-                // Dot has exited so move to other side
-                dot.x = -(dot.x - this.xScale(0)) + this.xScale(0);
-                dot.y = -(dot.y - this.yScale(0)) + this.yScale(0);
-              }
+            if (t === this.COHERENT) {
+              dot.direction = this.current;
+            }
+            const directionR = dot.direction * (Math.PI / 180);
+            dot.dx = this.speed * (frameTime / 1000) * Math.cos(directionR);
+            dot.dy = this.speed * (frameTime / 1000) * Math.sin(directionR);
+            // Update position
+            dot.x += dot.dx;
+            dot.y += dot.dy;
+            // Calculate squared distance from center
+            const distance2 = ((dot.x - this.xScale(0)) ** 2) + ((dot.y - this.yScale(0)) ** 2);
+            const radius2 = (this.xScale(1) - this.xScale(0)) ** 2;
+            if (distance2 > radius2) {
+              // Dot has exited so move to other side
+              dot.x = -(dot.x - this.xScale(0)) + this.xScale(0);
+              dot.y = -(dot.y - this.yScale(0)) + this.yScale(0);
             }
           }
         }
