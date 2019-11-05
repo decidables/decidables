@@ -367,7 +367,9 @@ export default class RDKTask extends SDTElement {
       this.state = 'iti';
       this.start = time;
       this.dispatchEvent(new CustomEvent('rdk-block-start', {
-        detail: {},
+        detail: {
+          trials: this.trials,
+        },
         bubbles: true,
       }));
     } else if ((this.state === 'iti') && (elapsedTime >= this.iti)) {
@@ -384,9 +386,12 @@ export default class RDKTask extends SDTElement {
           : (Math.random() * 360);
       this.dispatchEvent(new CustomEvent('rdk-trial-start', {
         detail: {
+          trials: this.trials,
+          duration: this.duration,
+          wait: this.wait,
+          iti: this.iti,
           trial: this.trial,
           signal: this.signal,
-          // Pass trial timing parameters in this message!
         },
         bubbles: true,
       }));
@@ -396,6 +401,10 @@ export default class RDKTask extends SDTElement {
       this.start = time;
       this.dispatchEvent(new CustomEvent('rdk-trial-middle', {
         detail: {
+          trials: this.trials,
+          duration: this.duration,
+          wait: this.wait,
+          iti: this.iti,
           trial: this.trial,
           signal: this.signal,
         },
@@ -405,6 +414,10 @@ export default class RDKTask extends SDTElement {
       // Wait is over, end of trial
       this.dispatchEvent(new CustomEvent('rdk-trial-end', {
         detail: {
+          trials: this.trials,
+          duration: this.duration,
+          wait: this.wait,
+          iti: this.iti,
           trial: this.trial,
           signal: this.signal,
         },

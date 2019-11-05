@@ -169,10 +169,13 @@ export default class SDTModel extends SDTElement {
     this.cr = 0;
   }
 
-  trial(trialNumber, signal) {
+  trial(trialNumber, signal, duration, wait, iti) {
     const trial = {};
     trial.trial = trialNumber;
     trial.signal = signal;
+    trial.duration = duration;
+    trial.wait = wait;
+    trial.iti = iti;
     trial.evidence = jStat.normal.sample(0, 1);
 
     this.alignTrial(trial);
@@ -1576,7 +1579,8 @@ export default class SDTModel extends SDTElement {
         .attr('stroke', this.getComputedStyleValue('---color-acc'))
         .attr('fill', this.getComputedStyleValue('---color-acc-light'));
       trialEnter.transition()
-        .duration(500)
+        .delay((datum) => { return Math.floor(datum.duration * 0.1); })
+        .duration((datum) => { return Math.floor(datum.duration * 0.9 + datum.wait * 0.25); })
         .ease(d3.easeLinear)
         .attrTween('stroke', (datum, index, elements) => {
           const element = elements[index];
