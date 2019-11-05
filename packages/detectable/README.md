@@ -48,6 +48,7 @@
 
 ## Features/Bugs
 
+- Model simulation animations don't restart properly after pausing Block!
 - Switch to subsections for better overall organization/structure?
 - Need to add a control for payoff matrix!
   - And display of payoff matrix (to table)!
