@@ -65657,34 +65657,66 @@ function (_SDTElement) {
 
     _classCallCheck(this, RDKTask);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(RDKTask).call(this));
-    _this.coherence = 0.5;
-    _this.count = 100;
-    _this.direction = -1;
-    _this.lifetime = 20;
-    _this.probability = 0.5;
-    _this.speed = 1;
-    _this.duration = 2000;
-    _this.wait = 2000;
-    _this.iti = 2000;
-    _this.trials = 5;
-    _this.running = false;
-    _this.COHERENT = 0;
-    _this.RANDOM = 1;
-    _this.dots = [[], []];
-    _this.trial = 0;
-    _this.states = ['resetted', 'iti', 'stimulus', 'wait', 'ended'];
-    _this.state = 'resetted';
-    _this.start = 0;
-    _this.current = undefined;
-    _this.signals = ['present', 'absent'];
-    _this.signal = undefined;
-    _this.runner = undefined;
-    _this.xScale = undefined;
-    _this.yScale = undefined;
-    _this.width = NaN;
-    _this.height = NaN;
-    _this.rem = NaN;
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(RDKTask).call(this)); // Attributes
+
+    _this.coherence = 0.5; // Proportion of dots moving coherently
+
+    _this.count = 100; // Number of dots
+
+    _this.probability = 0.5; // Probability of signal (as opposed to noise)
+
+    _this.duration = 2000; // Duration of stimulus in milliseconds
+
+    _this.wait = 2000; // Duration of wait period for response in milliseconds
+
+    _this.iti = 1000; // Duration of inter-trial interval in milliseconds
+
+    _this.trials = 5; // Number of trials per block
+
+    _this.running = false; // Currently executing block of trials
+    // Properties
+
+    _this.direction = -1; // Direction of current trial in degrees
+
+    _this.lifetime = 400; // Lifetime of each dot in milliseconds
+
+    _this.speed = 50; // Rate of dot movement in pixels per second
+
+    _this.width = NaN; // Width of component in pixels
+
+    _this.height = NaN; // Height of component in pixels
+
+    _this.rem = NaN; // Pixels per rem for component
+    // Private
+
+    _this.COHERENT = 0; // "Constant" for index to coherent dots
+
+    _this.RANDOM = 1; // "Constant" for index to random dots
+
+    _this.dots = [[], []]; // Array of array of dots
+
+    _this.trial = 0; // Count of current trial
+
+    _this.states = ['resetted', 'iti', 'stimulus', 'wait', 'ended']; // Possible states of task
+
+    _this.state = 'resetted'; // Current state of task
+
+    _this.start = 0; // Time, in milliseconds, that current stage of trial started
+
+    _this.time = 0; // Time, in milliseconds, of the current frame
+
+    _this.current = undefined; // Direction in degrees for current trial
+
+    _this.signals = ['present', 'absent']; // Possible trial types
+
+    _this.signal = undefined; // Current trial type
+
+    _this.runner = undefined; // D3 Interval for frame timing
+
+    _this.xScale = undefined; // D3 Scale for x-axis
+
+    _this.yScale = undefined; // D3 Scale for y-axis
+
     return _this;
   }
 
@@ -65839,6 +65871,8 @@ function (_SDTElement) {
     key: "run",
     value: function run(time) {
       var elapsedTime = time - this.start;
+      var frameTime = time - this.time;
+      this.time = time;
       var newTrial = false;
 
       if (this.state === 'resetted') {
@@ -65846,7 +65880,9 @@ function (_SDTElement) {
         this.state = 'iti';
         this.start = time;
         this.dispatchEvent(new CustomEvent('rdk-block-start', {
-          detail: {},
+          detail: {
+            trials: this.trials
+          },
           bubbles: true
         }));
       } else if (this.state === 'iti' && elapsedTime >= this.iti) {
@@ -65859,9 +65895,12 @@ function (_SDTElement) {
         this.current = this.signal === 'absent' ? undefined : this.direction >= 0 ? this.direction : Math.random() * 360;
         this.dispatchEvent(new CustomEvent('rdk-trial-start', {
           detail: {
+            trials: this.trials,
+            duration: this.duration,
+            wait: this.wait,
+            iti: this.iti,
             trial: this.trial,
-            signal: this.signal // Pass trial timing parameters in this message!
-
+            signal: this.signal
           },
           bubbles: true
         }));
@@ -65871,6 +65910,10 @@ function (_SDTElement) {
         this.start = time;
         this.dispatchEvent(new CustomEvent('rdk-trial-middle', {
           detail: {
+            trials: this.trials,
+            duration: this.duration,
+            wait: this.wait,
+            iti: this.iti,
             trial: this.trial,
             signal: this.signal
           },
@@ -65880,6 +65923,10 @@ function (_SDTElement) {
         // Wait is over, end of trial
         this.dispatchEvent(new CustomEvent('rdk-trial-end', {
           detail: {
+            trials: this.trials,
+            duration: this.duration,
+            wait: this.wait,
+            iti: this.iti,
             trial: this.trial,
             signal: this.signal
           },
@@ -65924,57 +65971,41 @@ function (_SDTElement) {
 
             if (newTrial || newDot) {
               dot.direction = t === this.RANDOM ? Math.random() * 360 : this.current;
-              dot.age = Math.floor(Math.random() * this.lifetime);
+              dot.birth = this.time - Math.floor(Math.random() * this.lifetime);
               var angle = Math.random() * 2 * Math.PI;
               var radius = Math.sqrt(Math.random());
               dot.x = this.xScale(radius * Math.cos(angle));
               dot.y = this.yScale(radius * Math.sin(angle));
-              var directionR = dot.direction * (Math.PI / 180);
-              dot.speed = this.speed;
-              dot.dx = dot.speed * Math.cos(directionR);
-              dot.dy = dot.speed * Math.sin(directionR);
+            } else if (this.time > dot.birth + this.lifetime) {
+              // Dot has died, so rebirth
+              dot.birth += this.lifetime;
+              dot.direction = t === this.RANDOM ? Math.random() * 360 : this.current;
+
+              var _angle = Math.random() * 2 * Math.PI;
+
+              var _radius = Math.sqrt(Math.random());
+
+              dot.x = this.xScale(_radius * Math.cos(_angle));
+              dot.y = this.yScale(_radius * Math.sin(_angle));
             } else {
-              dot.age += 1;
+              if (t === this.COHERENT) {
+                dot.direction = this.current;
+              }
 
-              if (dot.age >= this.lifetime) {
-                // Dot has died, so rebirth
-                dot.age = 0;
-                dot.direction = t === this.RANDOM ? Math.random() * 360 : this.current;
+              var directionR = dot.direction * (Math.PI / 180);
+              dot.dx = this.speed * (frameTime / 1000) * Math.cos(directionR);
+              dot.dy = this.speed * (frameTime / 1000) * Math.sin(directionR); // Update position
 
-                var _angle = Math.random() * 2 * Math.PI;
+              dot.x += dot.dx;
+              dot.y += dot.dy; // Calculate squared distance from center
 
-                var _radius = Math.sqrt(Math.random());
+              var distance2 = Math.pow(dot.x - this.xScale(0), 2) + Math.pow(dot.y - this.yScale(0), 2);
+              var radius2 = Math.pow(this.xScale(1) - this.xScale(0), 2);
 
-                dot.x = this.xScale(_radius * Math.cos(_angle));
-                dot.y = this.yScale(_radius * Math.sin(_angle));
-
-                var _directionR = dot.direction * (Math.PI / 180);
-
-                dot.speed = this.speed;
-                dot.dx = dot.speed * Math.cos(_directionR);
-                dot.dy = dot.speed * Math.sin(_directionR);
-              } else {
-                if (t === this.COHERENT) {
-                  dot.direction = this.current;
-                }
-
-                var _directionR2 = dot.direction * (Math.PI / 180);
-
-                dot.speed = this.speed;
-                dot.dx = dot.speed * Math.cos(_directionR2);
-                dot.dy = dot.speed * Math.sin(_directionR2); // Update position
-
-                dot.x += dot.dx;
-                dot.y += dot.dy; // Calculate squared distance from center
-
-                var distance2 = Math.pow(dot.x - this.xScale(0), 2) + Math.pow(dot.y - this.yScale(0), 2);
-                var radius2 = Math.pow(this.xScale(1) - this.xScale(0), 2);
-
-                if (distance2 > radius2) {
-                  // Dot has exited so move to other side
-                  dot.x = -(dot.x - this.xScale(0)) + this.xScale(0);
-                  dot.y = -(dot.y - this.yScale(0)) + this.yScale(0);
-                }
+              if (distance2 > radius2) {
+                // Dot has exited so move to other side
+                dot.x = -(dot.x - this.xScale(0)) + this.xScale(0);
+                dot.y = -(dot.y - this.yScale(0)) + this.yScale(0);
               }
             }
           }
@@ -66395,7 +66426,8 @@ function (_SDTElement) {
         right: 2 * this.rem
       };
       var height = elementSize - (margin.top + margin.bottom);
-      var width = elementSize - (margin.left + margin.right); // X Scale
+      var width = elementSize - (margin.left + margin.right);
+      var transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10); // X Scale
 
       var xScale = d3.scaleLinear().domain(this.zRoc ? [-3, 3] : [0, 1]) // zFAR or FAR
       .range([0, width]);
@@ -66519,7 +66551,8 @@ function (_SDTElement) {
 
           var contoursEnter = contoursUpdate.enter().append('path').classed('contour', true); //  MERGE
 
-          contoursEnter.merge(contoursUpdate).transition().duration(1000).ease(d3.easeCubicOut).attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
+          contoursEnter.merge(contoursUpdate).transition().duration(transitionDuration * 2) // Extra long transition!
+          .ease(d3.easeCubicOut).attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
           .attr('fill', function (datum) {
             return contourColor(datum.value);
           }); //  EXIT
@@ -66599,7 +66632,8 @@ function (_SDTElement) {
       underlayerEnter.append('g').classed('axis-x', true); //  MERGE
 
       var axisXMerge = underlayerMerge.select('.axis-x').attr('transform', "translate(0, ".concat(height, ")"));
-      var axisXTransition = axisXMerge.transition().duration(1000).ease(d3.easeCubicOut).call(d3.axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
+      var axisXTransition = axisXMerge.transition().duration(transitionDuration * 2) // Extra long transition!
+      .ease(d3.easeCubicOut).call(d3.axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
       axisXTransition.selectAll('line, path').attr('stroke', null); // X Axis Title
       //  ENTER
 
@@ -66614,7 +66648,8 @@ function (_SDTElement) {
 
       underlayerEnter.append('g').classed('axis-y', true); // MERGE
 
-      var axisYTransition = underlayerMerge.select('.axis-y').transition().duration(1000).ease(d3.easeCubicOut).call(d3.axisLeft(yScale)).attr('font-size', null).attr('font-family', null);
+      var axisYTransition = underlayerMerge.select('.axis-y').transition().duration(transitionDuration * 2) // Extra long transition!
+      .ease(d3.easeCubicOut).call(d3.axisLeft(yScale)).attr('font-size', null).attr('font-family', null);
       axisYTransition.selectAll('line, path').attr('stroke', null); // Y Axis Title
       //  ENTER
 
@@ -66646,7 +66681,8 @@ function (_SDTElement) {
       var isoDMerge = isoDEnter.merge(isoDUpdate);
 
       if (this.firstUpdate || changedProperties.has('zRoc')) {
-        isoDMerge.transition().duration(this.drag ? 0 : 1000).ease(d3.easeCubicOut).attr('d', function (datum) {
+        isoDMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
+        .ease(d3.easeCubicOut).attr('d', function (datum) {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
             return {
               far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
@@ -66655,7 +66691,7 @@ function (_SDTElement) {
           }));
         });
       } else if (this.sdt) {
-        isoDMerge.transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
+        isoDMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
           var element = elements[index];
           element.hr = undefined;
           element.far = undefined;
@@ -66674,7 +66710,7 @@ function (_SDTElement) {
           };
         });
       } else {
-        isoDMerge.transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
+        isoDMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
           var element = elements[index];
           element.d = undefined;
           element.s = undefined;
@@ -66708,7 +66744,8 @@ function (_SDTElement) {
       var isoCMerge = isoCEnter.merge(isoCUpdate);
 
       if (this.firstUpdate || changedProperties.has('zRoc')) {
-        isoCMerge.transition().duration(this.drag ? 0 : 1000).ease(d3.easeCubicOut).attr('d', function (datum) {
+        isoCMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
+        .ease(d3.easeCubicOut).attr('d', function (datum) {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
             return {
               far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
@@ -66717,7 +66754,7 @@ function (_SDTElement) {
           }));
         });
       } else if (this.sdt) {
-        isoCMerge.transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
+        isoCMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
           var element = elements[index];
           element.hr = undefined;
           element.far = undefined;
@@ -66736,7 +66773,7 @@ function (_SDTElement) {
           };
         });
       } else {
-        isoCMerge.transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
+        isoCMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
           var element = elements[index];
           element.c = undefined;
           element.s = undefined;
@@ -66847,7 +66884,8 @@ function (_SDTElement) {
       }
 
       if (this.firstUpdate || changedProperties.has('zRoc')) {
-        pointMerge.transition().duration(this.drag ? 0 : 1000).ease(d3.easeCubicOut).attr('transform', function (datum, index, elements) {
+        pointMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
+        .ease(d3.easeCubicOut).attr('transform', function (datum, index, elements) {
           var element = elements[index];
           element.d = undefined;
           element.c = undefined;
@@ -66855,7 +66893,7 @@ function (_SDTElement) {
           return "translate(\n            ".concat(xScale(_this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far), ",\n            ").concat(yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr), "\n          )");
         });
       } else if (this.sdt) {
-        pointMerge.transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('transform', function (datum, index, elements) {
+        pointMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('transform', function (datum, index, elements) {
           var element = elements[index];
           var interpolateD = d3.interpolate(element.d !== undefined ? element.d : datum.d, datum.d);
           var interpolateC = d3.interpolate(element.c !== undefined ? element.c : datum.c, datum.c);
@@ -66868,7 +66906,7 @@ function (_SDTElement) {
           };
         });
       } else {
-        pointMerge.transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('transform', function (datum, index, elements) {
+        pointMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('transform', function (datum, index, elements) {
           var element = elements[index];
           element.d = undefined;
           element.c = undefined;
@@ -66923,8 +66961,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _templateObject16() {
+function _templateObject18() {
   var data = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: ", ";\n          ---shadow-4-rotate: ", ";\n          ---shadow-8-rotate: ", ";\n\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        .slider {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .switch {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .toggle {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        /* BUTTON */\n\n        /* NUMBER */\n\n        /* RADIO */\n\n        /* RANGE */\n\n        /* SLIDER */\n\n        /* SPINNER */\n        input[type=number] {\n          width: 3.5rem;\n          margin: 0 0.25rem 0.25rem;\n\n          background: var(---color-background);\n        }\n\n        /* SWITCH */\n\n        /* TOGGLE */\n        fieldset {\n          border: 0;\n        }\n\n        legend {\n          text-align: center;\n        }\n      "]);
+
+  _templateObject18 = function _templateObject18() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject17() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject17 = function _templateObject17() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject16() {
+  var data = _taggedTemplateLiteral(["<button name=\"reset\" ?disabled=", " @click=", ">Reset</button>"]);
 
   _templateObject16 = function _templateObject16() {
     return data;
@@ -66944,7 +67002,7 @@ function _templateObject15() {
 }
 
 function _templateObject14() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"switch\">\n              <input type=\"checkbox\" id=", " name=\"z-roc\" ?checked=", " @change=", ">\n              <label for=", ">ROC</label>\n              <label for=", "><span class=\"math-var\">z</span>ROC</label>\n            </div>"]);
+  var data = _taggedTemplateLiteral(["<button name=\"pause\" ?disabled=", " @click=", ">Pause</button>"]);
 
   _templateObject14 = function _templateObject14() {
     return data;
@@ -66964,7 +67022,7 @@ function _templateObject13() {
 }
 
 function _templateObject12() {
-  var data = _taggedTemplateLiteral(["\n            <fieldset class=\"toggle\">\n              <legend>Emphasis</legend>\n              <input type=\"radio\" id=", " name=", " value=\"none\" ?checked=", " @change=", ">\n              <label for=", ">None</label>\n              <input type=\"radio\" id=", " name=", " value=\"accuracy\" ?checked=", " @change=", ">\n              <label for=", ">Accuracy</label>\n              <input type=\"radio\" id=", " name=", " value=\"stimulus\" ?checked=", " @change=", ">\n              <label for=", ">Stimulus</label>\n              <input type=\"radio\" id=", " name=", " value=\"response\" ?checked=", " @change=", ">\n              <label for=", ">Response</label>\n              <input type=\"radio\" id=", " name=", " value=\"outcome\" ?checked=", " @change=", ">\n              <label for=", ">Outcome</label>\n            </fieldset>"]);
+  var data = _taggedTemplateLiteral(["<button name=\"run\" ?disabled=", " @click=", ">Run</button>"]);
 
   _templateObject12 = function _templateObject12() {
     return data;
@@ -66984,7 +67042,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Coherence</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"coherence\" min=\"0\" max=\"1\" step=\".01\" .value=", " @input=", " @change=", ">\n              </div>\n              <input type=\"number\" min=\"0\" max=\"1\" step=\".01\" .value=\"", "\" @input=", ">\n            </div>"]);
+  var data = _taggedTemplateLiteral(["\n            <div class=\"switch\">\n              <input type=\"checkbox\" id=", " name=\"z-roc\" ?checked=", " @change=", ">\n              <label for=", ">ROC</label>\n              <label for=", "><span class=\"math-var\">z</span>ROC</label>\n            </div>"]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -67004,7 +67062,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["<button name=\"reset\" ?disabled=", " @click=", ">Reset</button>"]);
+  var data = _taggedTemplateLiteral(["\n            <fieldset class=\"toggle\">\n              <legend>Emphasis</legend>\n              <input type=\"radio\" id=", " name=", " value=\"none\" ?checked=", " @change=", ">\n              <label for=", ">None</label>\n              <input type=\"radio\" id=", " name=", " value=\"accuracy\" ?checked=", " @change=", ">\n              <label for=", ">Accuracy</label>\n              <input type=\"radio\" id=", " name=", " value=\"stimulus\" ?checked=", " @change=", ">\n              <label for=", ">Stimulus</label>\n              <input type=\"radio\" id=", " name=", " value=\"response\" ?checked=", " @change=", ">\n              <label for=", ">Response</label>\n              <input type=\"radio\" id=", " name=", " value=\"outcome\" ?checked=", " @change=", ">\n              <label for=", ">Outcome</label>\n            </fieldset>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -67024,7 +67082,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["<button name=\"pause\" ?disabled=", " @click=", ">Pause</button>"]);
+  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Coherence</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"coherence\" min=\"0\" max=\"1\" step=\".01\" .value=", " @input=", " @change=", ">\n              </div>\n              <input type=\"number\" min=\"0\" max=\"1\" step=\".01\" .value=\"", "\" @input=", ">\n            </div>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -67044,7 +67102,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<button name=\"run\" ?disabled=", " @click=", ">Run</button>"]);
+  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Duration</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"duration\" min=\"10\" max=\"2000\" step=\"10\" .value=", " @input=", " @change=", ">\n              </div>\n              <input type=\"number\" min=\"10\" max=\"2000\" step=\"10\" .value=", " @input=", ">\n            </div>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -67074,7 +67132,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        ", "\n        <div class=\"buttons\">\n          ", "\n          ", "\n          ", "\n        </div>\n        ", "\n        ", "\n        ", "\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        <div class=\"buttons\">\n          ", "\n          ", "\n          ", "\n        </div>\n      </div>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -67122,6 +67180,11 @@ function (_SDTMixinStyleButton) {
     // eslint-disable-line max-len
     get: function get() {
       return {
+        duration: {
+          attribute: 'duration',
+          type: Number,
+          reflect: true
+        },
         trials: {
           attribute: 'trials',
           type: Number,
@@ -67172,6 +67235,7 @@ function (_SDTMixinStyleButton) {
     _classCallCheck(this, SDTControl);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTControl).call(this));
+    _this.duration = undefined;
     _this.trials = undefined;
     _this.run = false;
     _this.pause = false;
@@ -67209,6 +67273,17 @@ function (_SDTMixinStyleButton) {
       this.state = 'resetted';
       this.dispatchEvent(new CustomEvent('sdt-control-reset', {
         detail: {},
+        bubbles: true
+      }));
+    }
+  }, {
+    key: "setDuration",
+    value: function setDuration(e) {
+      this.duration = e.target.value;
+      this.dispatchEvent(new CustomEvent('sdt-control-duration', {
+        detail: {
+          duration: this.duration
+        },
         bubbles: true
       }));
     }
@@ -67264,12 +67339,12 @@ function (_SDTMixinStyleButton) {
   }, {
     key: "render",
     value: function render() {
-      return (0, _litElement.html)(_templateObject(), this.trials ? (0, _litElement.html)(_templateObject2(), "".concat(this.uniqueId, "-trials"), "".concat(this.uniqueId, "-trials"), this.trials, this.setTrials.bind(this), this.setTrials.bind(this), this.trials, this.setTrials.bind(this)) : (0, _litElement.html)(_templateObject3()), this.run ? (0, _litElement.html)(_templateObject4(), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : (0, _litElement.html)(_templateObject5()), this.pause ? (0, _litElement.html)(_templateObject6(), this.state !== 'running', this.doPause.bind(this)) : (0, _litElement.html)(_templateObject7()), this.reset ? (0, _litElement.html)(_templateObject8(), this.state === 'resetted', this.doReset.bind(this)) : (0, _litElement.html)(_templateObject9()), this.coherence ? (0, _litElement.html)(_templateObject10(), "".concat(this.uniqueId, "-coherence"), "".concat(this.uniqueId, "-coherence"), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this), this.coherence, this.setCoherence.bind(this)) : (0, _litElement.html)(_templateObject11()), this.color !== undefined ? (0, _litElement.html)(_templateObject12(), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color"), this.color === 'none', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color"), this.color === 'accuracy', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color"), this.color === 'stimulus', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color"), this.color === 'response', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color-outcome"), "".concat(this.uniqueId, "-color"), this.color === 'outcome', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-outcome")) : (0, _litElement.html)(_templateObject13()), this.zRoc !== undefined ? (0, _litElement.html)(_templateObject14(), "".concat(this.uniqueId, "-z-roc"), this.zRoc, this.flipZRoc.bind(this), "".concat(this.uniqueId, "-z-roc"), "".concat(this.uniqueId, "-z-roc")) : (0, _litElement.html)(_templateObject15()));
+      return (0, _litElement.html)(_templateObject(), this.trials ? (0, _litElement.html)(_templateObject2(), "".concat(this.uniqueId, "-trials"), "".concat(this.uniqueId, "-trials"), this.trials, this.setTrials.bind(this), this.setTrials.bind(this), this.trials, this.setTrials.bind(this)) : (0, _litElement.html)(_templateObject3()), this.duration ? (0, _litElement.html)(_templateObject4(), "".concat(this.uniqueId, "-duration"), "".concat(this.uniqueId, "-duration"), this.duration, this.setDuration.bind(this), this.setDuration.bind(this), this.duration, this.setDuration.bind(this)) : (0, _litElement.html)(_templateObject5()), this.coherence ? (0, _litElement.html)(_templateObject6(), "".concat(this.uniqueId, "-coherence"), "".concat(this.uniqueId, "-coherence"), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this), this.coherence, this.setCoherence.bind(this)) : (0, _litElement.html)(_templateObject7()), this.color !== undefined ? (0, _litElement.html)(_templateObject8(), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color"), this.color === 'none', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color"), this.color === 'accuracy', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color"), this.color === 'stimulus', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color"), this.color === 'response', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color-outcome"), "".concat(this.uniqueId, "-color"), this.color === 'outcome', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-outcome")) : (0, _litElement.html)(_templateObject9()), this.zRoc !== undefined ? (0, _litElement.html)(_templateObject10(), "".concat(this.uniqueId, "-z-roc"), this.zRoc, this.flipZRoc.bind(this), "".concat(this.uniqueId, "-z-roc"), "".concat(this.uniqueId, "-z-roc")) : (0, _litElement.html)(_templateObject11()), this.run ? (0, _litElement.html)(_templateObject12(), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : (0, _litElement.html)(_templateObject13()), this.pause ? (0, _litElement.html)(_templateObject14(), this.state !== 'running', this.doPause.bind(this)) : (0, _litElement.html)(_templateObject15()), this.reset ? (0, _litElement.html)(_templateObject16(), this.state === 'resetted', this.doReset.bind(this)) : (0, _litElement.html)(_templateObject17()));
     }
   }], [{
     key: "styles",
     get: function get() {
-      return [_get(_getPrototypeOf(SDTControl), "styles", this), (0, _litElement.css)(_templateObject16(), (0, _litElement.unsafeCSS)(this.cssBoxShadow(2, true, false)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(4, true, false)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(8, true, false)))];
+      return [_get(_getPrototypeOf(SDTControl), "styles", this), (0, _litElement.css)(_templateObject18(), (0, _litElement.unsafeCSS)(this.cssBoxShadow(2, true, false)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(4, true, false)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(8, true, false)))];
     }
   }]);
 
@@ -67302,7 +67377,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line,\n        .axis-y2 path,\n        .axis-y2 line {\n          stroke: var(---color-element-border);\n        }\n\n        .noise.interactive,\n        .signal.interactive,\n        .threshold.interactive {\n          cursor: ew-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.unequal {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.interactive.unequal {\n          cursor: move;\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .noise.interactive:focus,\n        :host(.keyboard) .signal.interactive:focus,\n        :host(.keyboard) .signal.unequal:focus,\n        :host(.keyboard) .threshold.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .underlayer .background {\n          fill: var(---color-element-background);\n          stroke: none;\n        }\n\n        .overlayer .background {\n          fill: none;\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-y2 {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .curve-cr {\n          fill: var(---color-cr);\n          fill-opacity: 0.5;\n          stroke: none;\n\n          transition: fill 0.5s ease;\n        }\n\n        .curve-fa {\n          fill: var(---color-fa);\n          fill-opacity: 0.5;\n          stroke: none;\n\n          transition: fill 0.5s ease;\n        }\n\n        .curve-m {\n          fill: var(---color-m);\n          fill-opacity: 0.5;\n          stroke: none;\n\n          transition: fill 0.5s ease;\n        }\n\n        .curve-h {\n          fill: var(---color-h);\n          fill-opacity: 0.5;\n          stroke: none;\n\n          transition: fill 0.5s ease;\n        }\n\n        :host([color=\"accuracy\"]) .curve-h,\n        :host([color=\"accuracy\"]) .curve-cr {\n          fill: var(---color-correct);\n        }\n\n        :host([color=\"accuracy\"]) .curve-m,\n        :host([color=\"accuracy\"]) .curve-fa {\n          fill: var(---color-error);\n        }\n\n        :host([color=\"stimulus\"]) .curve-cr,\n        :host([color=\"stimulus\"]) .curve-fa {\n          fill: var(---color-far);\n        }\n\n        :host([color=\"stimulus\"]) .curve-m,\n        :host([color=\"stimulus\"]) .curve-h {\n          fill: var(---color-hr);\n        }\n\n        :host([color=\"response\"]) .curve-cr,\n        :host([color=\"response\"]) .curve-m {\n          fill: var(---color-absent);\n        }\n\n        :host([color=\"response\"]) .curve-fa,\n        :host([color=\"response\"]) .curve-h {\n          fill: var(---color-present);\n        }\n\n        :host([color=\"none\"]) .curve-cr,\n        :host([color=\"none\"]) .curve-fa,\n        :host([color=\"none\"]) .curve-m,\n        :host([color=\"none\"]) .curve-h {\n          fill: var(---color-element-enabled);\n        }\n\n        .curve-noise,\n        .curve-signal {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .measure-d,\n        .measure-c,\n        .measure-s {\n          pointer-events: none;\n        }\n\n        .threshold .line {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .threshold .handle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .threshold.interactive .handle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .measure-d .line,\n        .measure-d .cap-left,\n        .measure-d .cap-right {\n          stroke: var(---color-d);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-d .label {\n          font-size: 0.75rem;\n\n          text-anchor: start;\n          fill: currentColor;\n        }\n\n        .measure-c .line,\n        .measure-c .cap-zero {\n          stroke: var(---color-c);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-c .label {\n          font-size: 0.75rem;\n\n          fill: currentColor;\n        }\n\n        .measure-s .line,\n        .measure-s .cap-left,\n        .measure-s .cap-right {\n          stroke: var(---color-s);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-s .label {\n          font-size: 0.75rem;\n\n          text-anchor: middle;\n          fill: currentColor;\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line,\n        .axis-y2 path,\n        .axis-y2 line {\n          stroke: var(---color-element-border);\n        }\n\n        .noise.interactive,\n        .signal.interactive,\n        .threshold.interactive {\n          cursor: ew-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.unequal {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.interactive.unequal {\n          cursor: move;\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .noise.interactive:focus,\n        :host(.keyboard) .signal.interactive:focus,\n        :host(.keyboard) .signal.unequal:focus,\n        :host(.keyboard) .threshold.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .underlayer .background {\n          fill: var(---color-element-background);\n          stroke: none;\n        }\n\n        .overlayer .background {\n          fill: none;\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-y2 {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .curve-cr,\n        .curve-fa,\n        .curve-m,\n        .curve-h {\n          fill-opacity: 0.5;\n          stroke: none;\n\n          transition: fill var(---transition-duration) ease;\n        }\n\n        .curve-cr {\n          fill: var(---color-cr);\n        }\n\n        .curve-fa {\n          fill: var(---color-fa);\n        }\n\n        .curve-m {\n          fill: var(---color-m);\n        }\n\n        .curve-h {\n          fill: var(---color-h);\n        }\n\n        :host([color=\"accuracy\"]) .curve-h,\n        :host([color=\"accuracy\"]) .curve-cr {\n          fill: var(---color-correct);\n        }\n\n        :host([color=\"accuracy\"]) .curve-m,\n        :host([color=\"accuracy\"]) .curve-fa {\n          fill: var(---color-error);\n        }\n\n        :host([color=\"stimulus\"]) .curve-cr,\n        :host([color=\"stimulus\"]) .curve-fa {\n          fill: var(---color-far);\n        }\n\n        :host([color=\"stimulus\"]) .curve-m,\n        :host([color=\"stimulus\"]) .curve-h {\n          fill: var(---color-hr);\n        }\n\n        :host([color=\"response\"]) .curve-cr,\n        :host([color=\"response\"]) .curve-m {\n          fill: var(---color-absent);\n        }\n\n        :host([color=\"response\"]) .curve-fa,\n        :host([color=\"response\"]) .curve-h {\n          fill: var(---color-present);\n        }\n\n        :host([color=\"none\"]) .curve-cr,\n        :host([color=\"none\"]) .curve-fa,\n        :host([color=\"none\"]) .curve-m,\n        :host([color=\"none\"]) .curve-h {\n          fill: var(---color-element-enabled);\n        }\n\n        .curve-noise,\n        .curve-signal {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .measure-d,\n        .measure-c,\n        .measure-s {\n          pointer-events: none;\n        }\n\n        .threshold .line {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .threshold .handle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .threshold.interactive .handle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .measure-d .line,\n        .measure-d .cap-left,\n        .measure-d .cap-right {\n          stroke: var(---color-d);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-d .label {\n          font-size: 0.75rem;\n\n          text-anchor: start;\n          fill: currentColor;\n        }\n\n        .measure-c .line,\n        .measure-c .cap-zero {\n          stroke: var(---color-c);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-c .label {\n          font-size: 0.75rem;\n\n          fill: currentColor;\n        }\n\n        .measure-s .line,\n        .measure-s .cap-left,\n        .measure-s .cap-right {\n          stroke: var(---color-s);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-s .label {\n          font-size: 0.75rem;\n\n          text-anchor: middle;\n          fill: currentColor;\n        }\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -67513,10 +67588,13 @@ function (_SDTElement) {
     }
   }, {
     key: "trial",
-    value: function trial(trialNumber, signal) {
+    value: function trial(trialNumber, signal, duration, wait, iti) {
       var trial = {};
       trial.trial = trialNumber;
       trial.signal = signal;
+      trial.duration = duration;
+      trial.wait = wait;
+      trial.iti = iti;
       trial.evidence = jStat.normal.sample(0, 1);
       this.alignTrial(trial);
       this.trials.push(trial);
@@ -67661,7 +67739,8 @@ function (_SDTElement) {
         right: (this.histogram && this.distributions ? 3 : 0.75) * this.rem
       };
       var height = elementHeight - (margin.top + margin.bottom);
-      var width = elementWidth - (margin.left + margin.right); // X Scale
+      var width = elementWidth - (margin.left + margin.right);
+      var transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10); // X Scale
 
       var xScale = d3.scaleLinear().domain([-3, 3]) // Evidence // FIX - no hardcoding
       .range([0, width]); // Y Scale
@@ -67926,7 +68005,7 @@ function (_SDTElement) {
 
       noiseEnter.append('path').classed('curve-cr', true); //  MERGE
 
-      noiseMerge.select('.curve-cr').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
+      noiseMerge.select('.curve-cr').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
         var interpolateC = d3.interpolate(element.c !== undefined ? element.c : _this2.c, _this2.c);
@@ -67960,7 +68039,7 @@ function (_SDTElement) {
 
       noiseEnter.append('path').classed('curve-fa', true); //  MERGE
 
-      noiseMerge.select('.curve-fa').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
+      noiseMerge.select('.curve-fa').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
         var interpolateC = d3.interpolate(element.c !== undefined ? element.c : _this2.c, _this2.c);
@@ -67994,7 +68073,7 @@ function (_SDTElement) {
 
       noiseEnter.append('path').classed('curve-noise', true); //  MERGE
 
-      noiseMerge.select('.curve-noise').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
+      noiseMerge.select('.curve-noise').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
         var interpolateS = d3.interpolate(element.s !== undefined ? element.s : _this2.s, _this2.s);
@@ -68096,7 +68175,7 @@ function (_SDTElement) {
 
       signalEnter.append('path').classed('curve-m', true); //  MERGE
 
-      signalMerge.select('.curve-m').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
+      signalMerge.select('.curve-m').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
         var interpolateC = d3.interpolate(element.c !== undefined ? element.c : _this2.c, _this2.c);
@@ -68130,7 +68209,7 @@ function (_SDTElement) {
 
       signalEnter.append('path').classed('curve-h', true); //  MERGE
 
-      signalMerge.select('.curve-h').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
+      signalMerge.select('.curve-h').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
         var interpolateC = d3.interpolate(element.c !== undefined ? element.c : _this2.c, _this2.c);
@@ -68164,7 +68243,7 @@ function (_SDTElement) {
 
       signalEnter.append('path').classed('curve-signal', true); //  MERGE
 
-      signalMerge.select('.curve-signal').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
+      signalMerge.select('.curve-signal').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('d', function (datum, index, elements) {
         var element = elements[index];
         var interpolateD = d3.interpolate(element.d !== undefined ? element.d : _this2.d, _this2.d);
         var interpolateS = d3.interpolate(element.s !== undefined ? element.s : _this2.s, _this2.s);
@@ -68198,16 +68277,16 @@ function (_SDTElement) {
       dLabel.append('tspan').classed('value', true); //  MERGE
 
       var dMerge = dEnter.merge(dUpdate);
-      dMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43)) // FIX - no hardcoding
+      dMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43)) // FIX - no hardcoding
       .attr('x2', xScale(this.muS)).attr('y2', yScale(0.43)); // FIX - no hardcoding
 
-      dMerge.select('.cap-left').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
+      dMerge.select('.cap-left').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
       .attr('x2', xScale(this.muN)).attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
 
-      dMerge.select('.cap-right').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muS)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
+      dMerge.select('.cap-right').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x1', xScale(this.muS)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
       .attr('x2', xScale(this.muS)).attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
 
-      var dLabelTransition = dMerge.select('.label').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x', xScale(this.muN > this.muS ? this.muN : this.muS) + 5).attr('y', yScale(0.43) + 3); // FIX - no hardcoding
+      var dLabelTransition = dMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x', xScale(this.muN > this.muS ? this.muN : this.muS) + 5).attr('y', yScale(0.43) + 3); // FIX - no hardcoding
 
       dLabelTransition.select('.value').tween('text', function (datum, index, elements) {
         var element = elements[index];
@@ -68232,13 +68311,13 @@ function (_SDTElement) {
       cLabel.append('tspan').classed('value', true); //  MERGE
 
       var cMerge = cEnter.merge(cUpdate);
-      cMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0.47)) // FIX - no hardcoding
+      cMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0.47)) // FIX - no hardcoding
       .attr('x2', xScale(0)).attr('y2', yScale(0.47)); // FIX - no hardcoding
 
-      cMerge.select('.cap-zero').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(0)).attr('y1', yScale(0.47) + 5) // FIX - no hardcoding
+      cMerge.select('.cap-zero').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x1', xScale(0)).attr('y1', yScale(0.47) + 5) // FIX - no hardcoding
       .attr('x2', xScale(0)).attr('y2', yScale(0.47) - 5); // FIX - no hardcoding
 
-      var cLabelTransition = cMerge.select('.label').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x', xScale(0) + (this.l < 0 ? 5 : -5)).attr('y', yScale(0.47) + 3) // FIX - no hardcoding
+      var cLabelTransition = cMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x', xScale(0) + (this.l < 0 ? 5 : -5)).attr('y', yScale(0.47) + 3) // FIX - no hardcoding
       .attr('text-anchor', this.c < 0 ? 'start' : 'end');
       cLabelTransition.select('.value').tween('text', function (datum, index, elements) {
         var element = elements[index];
@@ -68264,16 +68343,16 @@ function (_SDTElement) {
       sLabel.append('tspan').classed('value', true); //  MERGE
 
       var sMerge = sEnter.merge(sUpdate);
-      sMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s) // FIX - no hardcoding
+      sMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s) // FIX - no hardcoding
       .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s); // FIX - no hardcoding
 
-      sMerge.select('.cap-left').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
+      sMerge.select('.cap-left').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
       .attr('x2', xScale(this.muS - this.s)).attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
 
-      sMerge.select('.cap-right').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.muS + this.s)).attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
+      sMerge.select('.cap-right').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x1', xScale(this.muS + this.s)).attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
       .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
 
-      var sLabelTransition = sMerge.select('.label').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x', xScale(this.muS)).attr('y', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 3); // FIX - no hardcoding
+      var sLabelTransition = sMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x', xScale(this.muS)).attr('y', yScale(jStat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 3); // FIX - no hardcoding
 
       sLabelTransition.select('.value').tween('text', function (datum, index, elements) {
         var element = elements[index];
@@ -68336,8 +68415,8 @@ function (_SDTElement) {
         }
       }
 
-      thresholdMerge.select('.line').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0)).attr('x2', xScale(this.l)).attr('y2', yScale(0.54));
-      thresholdMerge.select('.handle').transition().duration(this.drag ? 0 : 500).ease(d3.easeCubicOut).attr('cx', xScale(this.l)).attr('cy', yScale(0.54)); //  EXIT
+      thresholdMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0)).attr('x2', xScale(this.l)).attr('y2', yScale(0.54));
+      thresholdMerge.select('.handle').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('cx', xScale(this.l)).attr('cy', yScale(0.54)); //  EXIT
 
       thresholdUpdate.exit().remove(); // CURRENT!
       // Histogram
@@ -68389,7 +68468,11 @@ function (_SDTElement) {
         }); //  ENTER
 
         var trialEnter = trialUpdate.enter().append('rect').attr('stroke-width', strokeWidth).attr('stroke', this.getComputedStyleValue('---color-acc')).attr('fill', this.getComputedStyleValue('---color-acc-light'));
-        trialEnter.transition().duration(500).ease(d3.easeLinear).attrTween('stroke', function (datum, index, elements) {
+        trialEnter.transition().delay(function (datum) {
+          return Math.floor(datum.duration * 0.1);
+        }).duration(function (datum) {
+          return Math.floor(datum.duration * 0.9 + datum.wait * 0.25);
+        }).ease(d3.easeLinear).attrTween('stroke', function (datum, index, elements) {
           var element = elements[index];
           var interpolator = d3.interpolateRgb(element.getAttribute('stroke'), _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr') : _this2.getComputedStyleValue('---color-far') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response)) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome)) : _this2.getComputedStyleValue('---color-acc'));
           return function (time) {
@@ -68429,7 +68512,7 @@ function (_SDTElement) {
           }));
         }); //  UPDATE
 
-        trialUpdate.transition().duration(500).ease(d3.easeCubicOut).attr('x', function (datum) {
+        trialUpdate.transition().duration(transitionDuration).ease(d3.easeCubicOut).attr('x', function (datum) {
           return xScale(datum.binValue) + strokeWidth / 2;
         }).attr('y', function (datum) {
           return yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth;
@@ -68443,7 +68526,7 @@ function (_SDTElement) {
           return "trial ".concat(datum.outcome);
         }).attr('width', binWidth - strokeWidth).attr('height', binWidth - strokeWidth); //  EXIT
 
-        trialUpdate.exit().transition().duration(500).ease(d3.easeLinear).attrTween('stroke', function (datum, index, elements) {
+        trialUpdate.exit().transition().duration(transitionDuration).ease(d3.easeLinear).attrTween('stroke', function (datum, index, elements) {
           var element = elements[index];
           var interpolator = d3.interpolateRgb(element.getAttribute('stroke'), _this2.getComputedStyleValue('---color-acc'));
           return function (time) {
@@ -68995,7 +69078,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject30() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th1 {\n          font-weight: bold;\n        }\n\n        .th2 {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        label {\n          margin: 0;\n        }\n\n        label span {\n          display: block;\n\n          font-size: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        input {\n          background: none;\n        }\n\n        .td1 input {\n          width: 3.5rem;\n        }\n\n        .td2 input,\n        .td3 input {\n          width: 4.5rem;\n        }\n\n        /* Table emphasis */\n        .h {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        /* Color schemes */\n        /* stylelint-disable-next-line no-descending-specificity */\n        .td,\n        .td input {\n          transition: all 0.5s ease;\n        }\n\n        /* Outcome color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        .ppv,\n        .ppv input {\n          background: var(---color-present-light);\n        }\n\n        .fomr,\n        .fomr input {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .h input,\n        :host([color=\"accuracy\"]) .cr,\n        :host([color=\"accuracy\"]) .cr input {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .m input,\n        :host([color=\"accuracy\"]) .fa,\n        :host([color=\"accuracy\"]) .fa input {\n          color: var(---color-background);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .hr input,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .far input,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .ppv input,\n        :host([color=\"accuracy\"]) .fomr,\n        :host([color=\"accuracy\"]) .fomr input {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .cr input,\n        :host([color=\"stimulus\"]) .fa,\n        :host([color=\"stimulus\"]) .fa input {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .m input,\n        :host([color=\"stimulus\"]) .h,\n        :host([color=\"stimulus\"]) .h input {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .ppv input,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .fomr input,\n        :host([color=\"stimulus\"]) .acc,\n        :host([color=\"stimulus\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .cr input,\n        :host([color=\"response\"]) .m,\n        :host([color=\"response\"]) .m input {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .fa input,\n        :host([color=\"response\"]) .h,\n        :host([color=\"response\"]) .h input {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .hr input,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .far input,\n        :host([color=\"response\"]) .acc,\n        :host([color=\"response\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .cr input,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .fa input,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .m input,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .h input,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .hr input,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .far input,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .ppv input,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .fomr input,\n        :host([color=\"none\"]) .acc,\n        :host([color=\"none\"]) .acc input {\n          background: var(---color-element-background);\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th1 {\n          font-weight: bold;\n        }\n\n        .th2 {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        label {\n          margin: 0;\n        }\n\n        label span {\n          display: block;\n\n          font-size: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        input {\n          background: none;\n        }\n\n        .td1 input {\n          width: 3.5rem;\n        }\n\n        .td2 input,\n        .td3 input {\n          width: 4.5rem;\n        }\n\n        /* Table emphasis */\n        .h {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        /* Color schemes */\n        /* stylelint-disable-next-line no-descending-specificity */\n        .td,\n        .td input {\n          transition: all var(---transition-duration) ease;\n        }\n\n        /* Outcome color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        .ppv,\n        .ppv input {\n          background: var(---color-present-light);\n        }\n\n        .fomr,\n        .fomr input {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .h input,\n        :host([color=\"accuracy\"]) .cr,\n        :host([color=\"accuracy\"]) .cr input {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .m input,\n        :host([color=\"accuracy\"]) .fa,\n        :host([color=\"accuracy\"]) .fa input {\n          color: var(---color-background);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .hr input,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .far input,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .ppv input,\n        :host([color=\"accuracy\"]) .fomr,\n        :host([color=\"accuracy\"]) .fomr input {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .cr input,\n        :host([color=\"stimulus\"]) .fa,\n        :host([color=\"stimulus\"]) .fa input {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .m input,\n        :host([color=\"stimulus\"]) .h,\n        :host([color=\"stimulus\"]) .h input {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .ppv input,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .fomr input,\n        :host([color=\"stimulus\"]) .acc,\n        :host([color=\"stimulus\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .cr input,\n        :host([color=\"response\"]) .m,\n        :host([color=\"response\"]) .m input {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .fa input,\n        :host([color=\"response\"]) .h,\n        :host([color=\"response\"]) .h input {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .hr input,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .far input,\n        :host([color=\"response\"]) .acc,\n        :host([color=\"response\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .cr input,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .fa input,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .m input,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .h input,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .hr input,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .far input,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .ppv input,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .fomr input,\n        :host([color=\"none\"]) .acc,\n        :host([color=\"none\"]) .acc input {\n          background: var(---color-element-background);\n        }\n      "]);
 
   _templateObject30 = function _templateObject30() {
     return data;
@@ -71821,6 +71904,16 @@ function (_SDTExample) {
         }
       }
 
+      if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
+        this.sdtControl.addEventListener('sdt-control-duration', function (event) {
+          if (_this.rdkTask) {
+            _this.rdkTask.duration = event.detail.duration;
+            _this.rdkTask.wait = event.detail.duration;
+            _this.rdkTask.iti = event.detail.duration / 2;
+          }
+        });
+      }
+
       if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
         this.sdtControl.addEventListener('sdt-control-trials', function (event) {
           if (_this.rdkTask) {
@@ -72214,6 +72307,16 @@ function (_SDTExample) {
         });
       }
 
+      if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
+        this.sdtControl.addEventListener('sdt-control-duration', function (event) {
+          if (_this.rdkTask) {
+            _this.rdkTask.duration = event.detail.duration;
+            _this.rdkTask.wait = event.detail.duration;
+            _this.rdkTask.iti = event.detail.duration / 2;
+          }
+        });
+      }
+
       if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
         this.sdtControl.addEventListener('sdt-control-trials', function (event) {
           if (_this.rdkTask) {
@@ -72301,14 +72404,19 @@ function (_SDTExample) {
           if (_this.sdtResponse) {
             _this.sdtResponse.start(event.detail.signal, event.detail.trial);
           }
+
+          if (_this.sdtModel) {
+            _this.sdtModel.trial(event.detail.trial, event.detail.signal, event.detail.duration, event.detail.wait, event.detail.iti);
+          }
         });
       }
 
       if (this.rdkTask) {
-        this.rdkTask.addEventListener('rdk-trial-middle', function (event) {
-          if (_this.sdtModel) {
-            _this.sdtModel.trial(event.detail.trial, event.detail.signal);
-          }
+        this.rdkTask.addEventListener('rdk-trial-middle', function ()
+        /* event */
+        {// if (this.sdtModel) {
+          //   this.sdtModel.trial(event.detail.trial, event.detail.signal);
+          // }
         });
       }
 
@@ -72843,7 +72951,7 @@ var _litElement = require("lit-element");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n          /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */\n          input[type=checkbox] {\n            /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n            position: absolute;\n\n            width: 1px;\n            height: 1px;\n            padding: 0;\n            margin: -1px;\n            overflow: hidden;\n            clip: rect(0 0 0 0);\n\n            white-space: nowrap;\n\n            border: 0;\n            clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n          }\n\n          input[type=checkbox] + label {\n            order: 1;\n\n            margin: 0 0.25rem 0.25rem;\n\n            font-weight: 400;\n          }\n\n          input[type=checkbox] + label + label {\n            position: relative;\n\n            min-width: 24px;\n            padding: 0 0 36px;\n            margin: 0.25rem 0.25rem 0;\n\n            font-weight: 400;\n\n            outline: none;\n          }\n\n          input[type=checkbox] + label + label::before,\n          input[type=checkbox] + label + label::after {\n            position: absolute;\n\n            left: 50%;\n\n            margin: 0;\n\n            content: \"\";\n\n            outline: 0;\n\n            transition: all 0.3s ease;\n            transform: translate(-50%, 0);\n          }\n\n          input[type=checkbox] + label + label::before {\n            bottom: 1px;\n\n            width: 8px;\n            height: 34px;\n\n            background-color: var(---color-element-disabled);\n            border-radius: 4px;\n          }\n\n          input[type=checkbox] + label + label::after {\n            bottom: 0;\n\n            width: 18px;\n            height: 18px;\n\n            background-color: var(---color-element-enabled);\n            border-radius: 50%;\n            box-shadow: var(---shadow-2);\n          }\n\n          input[type=checkbox]:checked + label + label::after {\n            transform: translate(-50%, -100%);\n          }\n\n          input[type=checkbox]:disabled + label + label::after {\n            background-color: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          input[type=checkbox]:enabled + label,\n          input[type=checkbox]:enabled + label + label {\n            cursor: pointer;\n          }\n\n          input[type=checkbox]:enabled + label:hover + label::after,\n          input[type=checkbox]:enabled + label + label:hover::after {\n            box-shadow: var(---shadow-4);\n          }\n\n          input[type=checkbox]:enabled + label:active + label::after,\n          input[type=checkbox]:enabled + label + label:active::after {\n            box-shadow: var(---shadow-8);\n          }\n\n          /* stylelint-disable-next-line selector-max-compound-selectors */\n          :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {\n            box-shadow: var(---shadow-4);\n          }\n\n          /* stylelint-disable-next-line selector-max-compound-selectors */\n          :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,\n          :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {\n            box-shadow: var(---shadow-8);\n          }\n        "]);
+  var data = _taggedTemplateLiteral(["\n          /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */\n          input[type=checkbox] {\n            /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n            position: absolute;\n\n            width: 1px;\n            height: 1px;\n            padding: 0;\n            margin: -1px;\n            overflow: hidden;\n            clip: rect(0 0 0 0);\n\n            white-space: nowrap;\n\n            border: 0;\n            clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n          }\n\n          input[type=checkbox] + label {\n            order: 1;\n\n            margin: 0 0.25rem 0.25rem;\n\n            font-weight: 400;\n          }\n\n          input[type=checkbox] + label + label {\n            position: relative;\n\n            min-width: 24px;\n            padding: 0 0 36px;\n            margin: 0.25rem 0.25rem 0;\n\n            font-weight: 400;\n\n            outline: none;\n          }\n\n          input[type=checkbox] + label + label::before,\n          input[type=checkbox] + label + label::after {\n            position: absolute;\n\n            left: 50%;\n\n            margin: 0;\n\n            content: \"\";\n\n            outline: 0;\n\n            transition: all var(---transition-duration) ease;\n            transform: translate(-50%, 0);\n          }\n\n          input[type=checkbox] + label + label::before {\n            bottom: 1px;\n\n            width: 8px;\n            height: 34px;\n\n            background-color: var(---color-element-disabled);\n            border-radius: 4px;\n          }\n\n          input[type=checkbox] + label + label::after {\n            bottom: 0;\n\n            width: 18px;\n            height: 18px;\n\n            background-color: var(---color-element-enabled);\n            border-radius: 50%;\n            box-shadow: var(---shadow-2);\n          }\n\n          input[type=checkbox]:checked + label + label::after {\n            transform: translate(-50%, -100%);\n          }\n\n          input[type=checkbox]:disabled + label + label::after {\n            background-color: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          input[type=checkbox]:enabled + label,\n          input[type=checkbox]:enabled + label + label {\n            cursor: pointer;\n          }\n\n          input[type=checkbox]:enabled + label:hover + label::after,\n          input[type=checkbox]:enabled + label + label:hover::after {\n            box-shadow: var(---shadow-4);\n          }\n\n          input[type=checkbox]:enabled + label:active + label::after,\n          input[type=checkbox]:enabled + label + label:active::after {\n            box-shadow: var(---shadow-8);\n          }\n\n          /* stylelint-disable-next-line selector-max-compound-selectors */\n          :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {\n            box-shadow: var(---shadow-4);\n          }\n\n          /* stylelint-disable-next-line selector-max-compound-selectors */\n          :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,\n          :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {\n            box-shadow: var(---shadow-8);\n          }\n        "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -72989,7 +73097,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["\n      :host {\n        ---shadow-0: var(--shadow-0, ", ");\n        ---shadow-2: var(--shadow-2, ", ");\n        ---shadow-4: var(--shadow-4, ", ");\n        ---shadow-8: var(--shadow-8, ", ");\n\n        ---color-h: var(--color-h, ", ");\n        ---color-m: var(--color-m, ", ");\n        ---color-fa: var(--color-fa, ", ");\n        ---color-cr: var(--color-cr, ", ");\n        ---color-hr: var(--color-hr, ", ");\n        ---color-far: var(--color-far, ", ");\n        ---color-acc: var(--color-acc, ", ");\n        ---color-d: var(--color-d, ", ");\n        ---color-c: var(--color-c, ", ");\n        ---color-s: var(--color-s, ", ");\n        ---color-present: var(--color-present, ", ");\n        ---color-absent: var(--color-absent, ", ");\n        ---color-correct: var(--color-correct, ", ");\n        ---color-error: var(--color-error, ", ");\n\n        ---color-h-light: var(--color-h-light, ", ");\n        ---color-m-light: var(--color-m-light, ", ");\n        ---color-fa-light: var(--color-fa-light, ", ");\n        ---color-cr-light: var(--color-cr-light, ", ");\n        ---color-hr-light: var(--color-hr-light, ", ");\n        ---color-far-light: var(--color-far-light, ", ");\n        ---color-acc-light: var(--color-acc-light, ", ");\n        ---color-d-light: var(--color-d-light, ", ");\n        ---color-c-light: var(--color-c-light, ", ");\n        ---color-s-light: var(--color-s-light, ", ");\n        ---color-present-light: var(--color-present-light, ", ");\n        ---color-absent-light: var(--color-absent-light, ", ");\n        ---color-correct-light: var(--color-correct-light, ", ");\n        ---color-error-light: var(--color-error-light, ", ");\n\n        ---color-h-dark: var(--color-h-dark, ", ");\n        ---color-m-dark: var(--color-m-dark, ", ");\n        ---color-fa-dark: var(--color-fa-dark, ", ");\n        ---color-cr-dark: var(--color-cr-dark, ", ");\n        ---color-hr-dark: var(--color-hr-dark, ", ");\n        ---color-far-dark: var(--color-far-dark, ", ");\n        ---color-acc-dark: var(--color-acc-dark, ", ");\n        ---color-d-dark: var(--color-d-dark, ", ");\n        ---color-c-dark: var(--color-c-dark, ", ");\n        ---color-s-dark: var(--color-s-dark, ", ");\n        ---color-present-dark: var(--color-present-dark, ", ");\n        ---color-absent-dark: var(--color-absent-dark, ", ");\n        ---color-correct-dark: var(--color-correct-dark, ", ");\n        ---color-error-dark: var(--color-error-dark, ", ");\n\n        ---color-background: var(--color-background, ", ");\n        ---color-border: var(--color-border, ", ");\n        ---color-text: var(--color-text, ", ");\n        ---color-text-inverse: var(--color-text-inverse, ", ");\n        ---color-link: var(--color-link, ", ");\n        ---color-element-background: var(--color-element-background, ", ");\n        ---color-element-disabled: var(--color-element-disabled, ", ");\n        ---color-element-enabled: var(--color-element-enabled, ", ");\n        ---color-element-selected: var(--color-element-selected, ", ");\n        ---color-element-border: var(--color-element-border, ", ");\n        ---color-element-emphasis: var(--color-element-emphasis, ", ");\n\n        ---font-family-base: var(--font-family-base, \"Source Sans Pro\", sans-serif);\n        ---font-family-math: var(--font-family-math, \"Source Serif Pro\", serif);\n\n        font-family: var(---font-family-base);\n      }\n\n      :host,\n      :host *,\n      :host *::before,\n      :host *::after {\n        box-sizing: border-box;\n      }\n\n      .math-var {\n        font-family: var(---font-family-math);\n        font-style: italic;\n      }\n\n      .math-greek {\n        font-family: var(---font-family-math);\n        font-style: normal;\n      }\n\n      .defs {\n        display: block;\n\n        width: 0;\n        height: 0;\n      }\n    "]);
+  var data = _taggedTemplateLiteral(["\n      :host {\n        ---shadow-0: var(--shadow-0, ", ");\n        ---shadow-2: var(--shadow-2, ", ");\n        ---shadow-4: var(--shadow-4, ", ");\n        ---shadow-8: var(--shadow-8, ", ");\n\n        ---color-h: var(--color-h, ", ");\n        ---color-m: var(--color-m, ", ");\n        ---color-fa: var(--color-fa, ", ");\n        ---color-cr: var(--color-cr, ", ");\n        ---color-hr: var(--color-hr, ", ");\n        ---color-far: var(--color-far, ", ");\n        ---color-acc: var(--color-acc, ", ");\n        ---color-d: var(--color-d, ", ");\n        ---color-c: var(--color-c, ", ");\n        ---color-s: var(--color-s, ", ");\n        ---color-present: var(--color-present, ", ");\n        ---color-absent: var(--color-absent, ", ");\n        ---color-correct: var(--color-correct, ", ");\n        ---color-error: var(--color-error, ", ");\n\n        ---color-h-light: var(--color-h-light, ", ");\n        ---color-m-light: var(--color-m-light, ", ");\n        ---color-fa-light: var(--color-fa-light, ", ");\n        ---color-cr-light: var(--color-cr-light, ", ");\n        ---color-hr-light: var(--color-hr-light, ", ");\n        ---color-far-light: var(--color-far-light, ", ");\n        ---color-acc-light: var(--color-acc-light, ", ");\n        ---color-d-light: var(--color-d-light, ", ");\n        ---color-c-light: var(--color-c-light, ", ");\n        ---color-s-light: var(--color-s-light, ", ");\n        ---color-present-light: var(--color-present-light, ", ");\n        ---color-absent-light: var(--color-absent-light, ", ");\n        ---color-correct-light: var(--color-correct-light, ", ");\n        ---color-error-light: var(--color-error-light, ", ");\n\n        ---color-h-dark: var(--color-h-dark, ", ");\n        ---color-m-dark: var(--color-m-dark, ", ");\n        ---color-fa-dark: var(--color-fa-dark, ", ");\n        ---color-cr-dark: var(--color-cr-dark, ", ");\n        ---color-hr-dark: var(--color-hr-dark, ", ");\n        ---color-far-dark: var(--color-far-dark, ", ");\n        ---color-acc-dark: var(--color-acc-dark, ", ");\n        ---color-d-dark: var(--color-d-dark, ", ");\n        ---color-c-dark: var(--color-c-dark, ", ");\n        ---color-s-dark: var(--color-s-dark, ", ");\n        ---color-present-dark: var(--color-present-dark, ", ");\n        ---color-absent-dark: var(--color-absent-dark, ", ");\n        ---color-correct-dark: var(--color-correct-dark, ", ");\n        ---color-error-dark: var(--color-error-dark, ", ");\n\n        ---color-background: var(--color-background, ", ");\n        ---color-border: var(--color-border, ", ");\n        ---color-text: var(--color-text, ", ");\n        ---color-text-inverse: var(--color-text-inverse, ", ");\n        ---color-link: var(--color-link, ", ");\n        ---color-element-background: var(--color-element-background, ", ");\n        ---color-element-disabled: var(--color-element-disabled, ", ");\n        ---color-element-enabled: var(--color-element-enabled, ", ");\n        ---color-element-selected: var(--color-element-selected, ", ");\n        ---color-element-border: var(--color-element-border, ", ");\n        ---color-element-emphasis: var(--color-element-emphasis, ", ");\n\n        ---font-family-base: var(--font-family-base, \"Source Sans Pro\", sans-serif);\n        ---font-family-math: var(--font-family-math, \"Source Serif Pro\", serif);\n\n        ---transition-duration: var(--transition-duration, 500ms);\n\n        font-family: var(---font-family-base);\n      }\n\n      :host,\n      :host *,\n      :host *::before,\n      :host *::after {\n        box-sizing: border-box;\n      }\n\n      .math-var {\n        font-family: var(---font-family-math);\n        font-style: italic;\n      }\n\n      .math-greek {\n        font-family: var(---font-family-math);\n        font-style: normal;\n      }\n\n      .defs {\n        display: block;\n\n        width: 0;\n        height: 0;\n      }\n    "]);
 
   _templateObject9 = function _templateObject9() {
     return data;

@@ -250,7 +250,7 @@ which the evidence falls into the same <em>bin</em>, then that box will stack up
 already there. As a result, we end up with a histogram of the evidence values, with the count of
 occurrences on the vertical y-axis.</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10"></sdt-control>
+  <sdt-control run pause reset trials="10" duration="1000"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
   <sdt-model histogram color="none" d="0" c="0"></sdt-model>
 </sdt-example-model>
@@ -262,8 +262,8 @@ trial, or indeed anything else other than the value of the <code class="Evidence
 signal or noise trial. So we can color the measurement from each trial based on whether it was a
 <code class="SignalPresent">Signal Present</code> or <code class="SignalAbsent">Signal Absent</code> trial.</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="20"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="1000" wait="500" iti="500"></rdk-task>
+  <sdt-control run pause reset trials="20" duration="750"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="20" duration="750" wait="750" iti="375"></rdk-task>
   <sdt-model histogram color="stimulus" d="2" c="0"></sdt-model>
 </sdt-example-model>
 <p>After we run the model for 20 trials, we can observe where the <code class="SignalPresent">Signal Present</code> or <code class="SignalAbsent">Signal Absent</code>
@@ -283,8 +283,8 @@ formed by the trial-by-trial data would match the underlying probability distrib
 the y-axis scale for the probability distributions is on the left side of the graph, while the
 y-axis scale for the histogram is on the right.)</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="20"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="250" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d="2" c="0"></sdt-model>
 </sdt-example-model>
 <h2>Distributions near or far</h2>
@@ -293,16 +293,16 @@ observations on signal and noise trials are to each other. When the <code class=
 <code class="Signal+Noise">Signal + Noise Distribution</code> have similar means, we tend to make similar measurements of evidence
 on <code class="SignalAbsent">Signal Absent</code> and <code class="SignalPresent">Signal Present</code> trials:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="20"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="250" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d=".5" c="0"></sdt-model>
 </sdt-example-model>
 <p>In other words, we are relatively insensitive to the differences between trial types. On the other
 hand, when the <code class="NoiseDistribution">Noise Distribution</code> and the <code class="Signal+Noise">Signal + Noise Distribution</code> have very different means,
 we tend to make distinct measurements of evidence on <code class="SignalAbsent">Signal Absent</code> and <code class="SignalPresent">Signal Present</code> trials:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="20"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="250" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d="5" c="0"></sdt-model>
 </sdt-example-model>
 <p>On these trials, we are much more sensitive to the different between signal and noise. (Note that
@@ -326,8 +326,8 @@ are evidence measurements for individual trials, they will move along with the d
 were drawn from, allowing you to see how the <code class="Sensitivity">Sensitivity</code> determines the degree of overlap between
 the <code class="NoiseDistribution">Noise Distribution</code> and the <code class="Signal+Noise">Signal + Noise Distribution</code>:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="20"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="250" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model interactive distributions sensitivity histogram color="stimulus" d="1.5" c="0"></sdt-model>
 </sdt-example-model>
 <p>Perhaps you are wondering why <code class="Sensitivity">Sensitivity</code> is represented with the symbol <code class="d′">d′</code>. In the early work

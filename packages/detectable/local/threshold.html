@@ -234,8 +234,8 @@ or <code class="Absent">Absent</code>.</p>
 <p>According to SDT, a <strong>threshold</strong> is set, such that on each trial, the <code class="Evidence">Evidence</code> is either greater
 than or less than that threshold:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="250" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model histogram threshold color="none" d="2.5" c="0"></sdt-model>
 </sdt-example-model>
 <h2>Responding present or absent</h2>
@@ -243,8 +243,8 @@ than or less than that threshold:</p>
 this is a <code class="RespondAbsent">Respond Absent</code> trial, and if the evidence is above the threshold, then this is a
 <code class="RespondPresent">Respond Present</code> trial:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="550" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="0"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
@@ -257,8 +257,8 @@ suggestive of signal and noise. But SDT doesn't require this.</p>
 <code class="RespondPresent">Respond Present</code> (and thus <code class="RespondAbsent">Respond Absent</code> for a wider range of values). In this case, we say that
 the model is biased towards responding <code class="Absent">Absent</code>:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="550" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="2"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
@@ -266,8 +266,8 @@ the model is biased towards responding <code class="Absent">Absent</code>:</p>
 (and thus the evidence must be lower to <code class="RespondAbsent">Respond Absent</code>). In this case, we say that the model is
 biased towards responding <code class="Present">Present</code>:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="550" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="-2"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
@@ -284,8 +284,8 @@ evidence measurements for individual trials, they will change between <code clas
 <code class="RespondAbsent">Respond Absent</code> trials based on the location of the threshold, allowing you to see how the <code class="Bias">Bias</code>
 determines the tendency to make more <code class="Present">Present</code> or <code class="Absent">Absent</code> responses:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="550" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model interactive threshold bias histogram color="response" d="2.5" c="1"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>

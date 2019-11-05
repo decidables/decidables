@@ -234,8 +234,8 @@ a <code class="RespondPresent">Respond Present</code> or <code class="RespondAbs
 threshold together, so we can see how <code class="Sensitivity">Sensitivity</code> (<code class="d′">d′</code>) and <code class="Bias">Bias</code> (<code class="c">c</code>) collectively determine
 our response:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="550" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="response" d="2.5" c="1"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
@@ -255,8 +255,8 @@ model's response and the resulting outcome and feedback will depend on the curre
 and <code class="c">c</code>. The measurements and resulting outcomes for each trial in the histogram will update as you
 drag the distributions or the threshold to adjust the parameter values.</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="550" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
   <sdt-response trial feedback="outcome"></sdt-response>
@@ -270,8 +270,8 @@ determine performance.</p>
 performance, we can summarize the performance of our model using an outcome table and ROC space,
 just as we did for human performance previously:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="40"></sdt-control>
-  <rdk-task count="100" trials="40" duration="500" wait="550" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="40" duration="500"></sdt-control>
+  <rdk-task count="100" trials="40" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
   <sdt-response trial feedback="outcome"></sdt-response>
