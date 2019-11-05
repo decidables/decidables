@@ -8,7 +8,7 @@ script: index
 
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
-  <rdk-task coherence=".15" trials="10"></rdk-task>
+  <rdk-task coherence=".15" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
@@ -20,7 +20,7 @@ script: index
 
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
-  <rdk-task coherence=".9" trials="10"></rdk-task>
+  <rdk-task coherence=".9" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
@@ -31,8 +31,8 @@ script: index
 ## Exploring difficulty
 
 <sdt-example-human>
-  <sdt-control run pause reset coherence=".5" trials="10"></sdt-control>
-  <rdk-task coherence=".5" trials="10"></rdk-task>
+  <sdt-control run pause reset coherence=".5" trials="10" duration="1000"></sdt-control>
+  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>

@@ -79,8 +79,8 @@ including some levels that make the task a real challenge. (If you want to remov
 just reload the page.)
 
 <sdt-example-human>
-  <sdt-control coherence=".5" trials="10" run pause reset></sdt-control>
-  <rdk-task coherence=".5" trials="10"></rdk-task>
+  <sdt-control duration="1000" coherence=".5" trials="10" run pause reset></sdt-control>
+  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>

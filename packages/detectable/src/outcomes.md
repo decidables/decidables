@@ -14,7 +14,7 @@ response. And sometimes that may be all that really matters - was my answer `Cor
 Try a few trials of the task:
 
 <sdt-example-human>
-  <sdt-control trials="5" run pause reset coherence=".5"></sdt-control>
+  <sdt-control trials="5" run pause reset duration="1000" coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5"
     duration="1000" wait="1000" iti="500"></rdk-task>
   <sdt-response interactive trial feedback="accuracy"></sdt-response>
@@ -50,7 +50,7 @@ Try a few more trials of the task, and this time the feedback will inform you of
 possible outcomes occurred:
 
 <sdt-example-human>
-  <sdt-control trials="5" run pause reset coherence=".5"></sdt-control>
+  <sdt-control trials="5" run pause reset duration="1000" coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5"
     duration="1000" wait="1000" iti="500"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>

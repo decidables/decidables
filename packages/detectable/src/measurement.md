@@ -32,7 +32,7 @@ already there. As a result, we end up with a histogram of the evidence values, w
 occurrences on the vertical y-axis.
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="10"></sdt-control>
+  <sdt-control run pause reset trials="10" duration="1000"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
   <sdt-model histogram color="none" d="0" c="0"></sdt-model>
 </sdt-example-model>
@@ -48,8 +48,8 @@ signal or noise trial. So we can color the measurement from each trial based on 
 `Signal Present` or `Signal Absent` trial.
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="20"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="1000" wait="500" iti="500"></rdk-task>
+  <sdt-control run pause reset trials="20" duration="750"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="20" duration="750" wait="750" iti="375"></rdk-task>
   <sdt-model histogram color="stimulus" d="2" c="0"></sdt-model>
 </sdt-example-model>
 
@@ -74,8 +74,8 @@ the y-axis scale for the probability distributions is on the left side of the gr
 y-axis scale for the histogram is on the right.)
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="20"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="250" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d="2" c="0"></sdt-model>
 </sdt-example-model>
 
@@ -87,8 +87,8 @@ observations on signal and noise trials are to each other. When the `Noise Distr
 on `Signal Absent` and `Signal Present` trials:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="20"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="250" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d=".5" c="0"></sdt-model>
 </sdt-example-model>
 
@@ -97,8 +97,8 @@ hand, when the `Noise Distribution` and the `Signal + Noise Distribution` have v
 we tend to make distinct measurements of evidence on `Signal Absent` and `Signal Present` trials:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="20"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="250" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d="5" c="0"></sdt-model>
 </sdt-example-model>
 
@@ -127,8 +127,8 @@ were drawn from, allowing you to see how the `Sensitivity` determines the degree
 the `Noise Distribution` and the `Signal + Noise Distribution`:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="20"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="250" iti="250"></rdk-task>
+  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="250"></rdk-task>
   <sdt-model interactive distributions sensitivity histogram color="stimulus" d="1.5" c="0"></sdt-model>
 </sdt-example-model>
 
