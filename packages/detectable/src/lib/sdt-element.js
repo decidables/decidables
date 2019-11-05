@@ -378,6 +378,8 @@ export default class SDTElement extends LitElement {
         ---font-family-base: var(--font-family-base, "Source Sans Pro", sans-serif);
         ---font-family-math: var(--font-family-math, "Source Serif Pro", serif);
 
+        ---transition-duration: var(--transition-duration, 500ms);
+
         font-family: var(---font-family-base);
       }
 

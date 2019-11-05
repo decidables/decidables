@@ -306,7 +306,7 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
         /* stylelint-disable-next-line no-descending-specificity */
         .td,
         .td input {
-          transition: all 0.5s ease;
+          transition: all var(---transition-duration) ease;
         }
 
         /* Outcome color scheme */

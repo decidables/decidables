@@ -57,7 +57,7 @@ const SDTMixinStyleSwitch = (superclass) => {
 
             outline: 0;
 
-            transition: all 0.3s ease;
+            transition: all var(---transition-duration) ease;
             transform: translate(-50%, 0);
           }
 

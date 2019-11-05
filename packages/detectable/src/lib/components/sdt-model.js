@@ -329,36 +329,30 @@ export default class SDTModel extends SDTElement {
           fill: currentColor;
         }
 
-        .curve-cr {
-          fill: var(---color-cr);
+        .curve-cr,
+        .curve-fa,
+        .curve-m,
+        .curve-h {
           fill-opacity: 0.5;
           stroke: none;
 
-          transition: fill 0.5s ease;
+          transition: fill var(---transition-duration) ease;
+        }
+
+        .curve-cr {
+          fill: var(---color-cr);
         }
 
         .curve-fa {
           fill: var(---color-fa);
-          fill-opacity: 0.5;
-          stroke: none;
-
-          transition: fill 0.5s ease;
         }
 
         .curve-m {
           fill: var(---color-m);
-          fill-opacity: 0.5;
-          stroke: none;
-
-          transition: fill 0.5s ease;
         }
 
         .curve-h {
           fill: var(---color-h);
-          fill-opacity: 0.5;
-          stroke: none;
-
-          transition: fill 0.5s ease;
         }
 
         :host([color="accuracy"]) .curve-h,
@@ -559,6 +553,8 @@ export default class SDTModel extends SDTElement {
     };
     const height = elementHeight - (margin.top + margin.bottom);
     const width = elementWidth - (margin.left + margin.right);
+
+    const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10);
 
     // X Scale
     const xScale = d3.scaleLinear()
@@ -892,7 +888,7 @@ export default class SDTModel extends SDTElement {
       .classed('curve-cr', true);
     //  MERGE
     noiseMerge.select('.curve-cr').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attrTween('d', (datum, index, elements) => {
         const element = elements[index];
@@ -948,7 +944,7 @@ export default class SDTModel extends SDTElement {
       .classed('curve-fa', true);
     //  MERGE
     noiseMerge.select('.curve-fa').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attrTween('d', (datum, index, elements) => {
         const element = elements[index];
@@ -1000,7 +996,7 @@ export default class SDTModel extends SDTElement {
       .classed('curve-noise', true);
     //  MERGE
     noiseMerge.select('.curve-noise').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attrTween('d', (datum, index, elements) => {
         const element = elements[index];
@@ -1118,7 +1114,7 @@ export default class SDTModel extends SDTElement {
       .classed('curve-m', true);
     //  MERGE
     signalMerge.select('.curve-m').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attrTween('d', (datum, index, elements) => {
         const element = elements[index];
@@ -1174,7 +1170,7 @@ export default class SDTModel extends SDTElement {
       .classed('curve-h', true);
     //  MERGE
     signalMerge.select('.curve-h').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attrTween('d', (datum, index, elements) => {
         const element = elements[index];
@@ -1230,7 +1226,7 @@ export default class SDTModel extends SDTElement {
       .classed('curve-signal', true);
     //  MERGE
     signalMerge.select('.curve-signal').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attrTween('d', (datum, index, elements) => {
         const element = elements[index];
@@ -1293,28 +1289,28 @@ export default class SDTModel extends SDTElement {
     //  MERGE
     const dMerge = dEnter.merge(dUpdate);
     dMerge.select('.line').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', xScale(this.muN))
       .attr('y1', yScale(0.43)) // FIX - no hardcoding
       .attr('x2', xScale(this.muS))
       .attr('y2', yScale(0.43)); // FIX - no hardcoding
     dMerge.select('.cap-left').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', xScale(this.muN))
       .attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
       .attr('x2', xScale(this.muN))
       .attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
     dMerge.select('.cap-right').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', xScale(this.muS))
       .attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
       .attr('x2', xScale(this.muS))
       .attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
     const dLabelTransition = dMerge.select('.label').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x', xScale((this.muN > this.muS) ? this.muN : this.muS) + 5)
       .attr('y', yScale(0.43) + 3); // FIX - no hardcoding
@@ -1357,21 +1353,21 @@ export default class SDTModel extends SDTElement {
     //  MERGE
     const cMerge = cEnter.merge(cUpdate);
     cMerge.select('.line').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', xScale(this.l))
       .attr('y1', yScale(0.47)) // FIX - no hardcoding
       .attr('x2', xScale(0))
       .attr('y2', yScale(0.47)); // FIX - no hardcoding
     cMerge.select('.cap-zero').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', xScale(0))
       .attr('y1', yScale(0.47) + 5) // FIX - no hardcoding
       .attr('x2', xScale(0))
       .attr('y2', yScale(0.47) - 5); // FIX - no hardcoding
     const cLabelTransition = cMerge.select('.label').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x', xScale(0) + ((this.l < 0) ? 5 : -5))
       .attr('y', yScale(0.47) + 3) // FIX - no hardcoding
@@ -1417,28 +1413,28 @@ export default class SDTModel extends SDTElement {
     //  MERGE
     const sMerge = sEnter.merge(sUpdate);
     sMerge.select('.line').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', xScale(this.muS - this.s))
       .attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s)) // FIX - no hardcoding
       .attr('x2', xScale(this.muS + this.s))
       .attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s)); // FIX - no hardcoding
     sMerge.select('.cap-left').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', xScale(this.muS - this.s))
       .attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s) + 5) // FIX - no hardcoding
       .attr('x2', xScale(this.muS - this.s))
       .attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s) - 5); // FIX - no hardcoding
     sMerge.select('.cap-right').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', xScale(this.muS + this.s))
       .attr('y1', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s) + 5) // FIX - no hardcoding
       .attr('x2', xScale(this.muS + this.s))
       .attr('y2', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s) - 5); // FIX - no hardcoding
     const sLabelTransition = sMerge.select('.label').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x', xScale(this.muS))
       .attr('y', yScale(jStat.normal.pdf(this.s, 0, this.s)) + (10 / this.s) - 3); // FIX - no hardcoding
@@ -1513,14 +1509,14 @@ export default class SDTModel extends SDTElement {
       }
     }
     thresholdMerge.select('.line').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', xScale(this.l))
       .attr('y1', yScale(0))
       .attr('x2', xScale(this.l))
       .attr('y2', yScale(0.54));
     thresholdMerge.select('.handle').transition()
-      .duration(this.drag ? 0 : 500)
+      .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('cx', xScale(this.l))
       .attr('cy', yScale(0.54));
@@ -1647,7 +1643,7 @@ export default class SDTModel extends SDTElement {
         });
       //  UPDATE
       trialUpdate.transition()
-        .duration(500)
+        .duration(transitionDuration)
         .ease(d3.easeCubicOut)
         .attr('x', (datum) => {
           return xScale(datum.binValue) + (strokeWidth / 2);
@@ -1684,7 +1680,7 @@ export default class SDTModel extends SDTElement {
         .attr('height', binWidth - strokeWidth);
       //  EXIT
       trialUpdate.exit().transition()
-        .duration(500)
+        .duration(transitionDuration)
         .ease(d3.easeLinear)
         .attrTween('stroke', (datum, index, elements) => {
           const element = elements[index];

@@ -425,6 +425,8 @@ export default class ROCSpace extends SDTElement {
     const height = elementSize - (margin.top + margin.bottom);
     const width = elementSize - (margin.left + margin.right);
 
+    const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10);
+
     // X Scale
     const xScale = d3.scaleLinear()
       .domain(this.zRoc ? [-3, 3] : [0, 1]) // zFAR or FAR
@@ -624,7 +626,7 @@ export default class ROCSpace extends SDTElement {
           .classed('contour', true);
         //  MERGE
         contoursEnter.merge(contoursUpdate).transition()
-          .duration(1000)
+          .duration(transitionDuration * 2) // Extra long transition!
           .ease(d3.easeCubicOut)
           .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
           .attr('fill', (datum) => { return contourColor(datum.value); });
@@ -757,7 +759,7 @@ export default class ROCSpace extends SDTElement {
     const axisXMerge = underlayerMerge.select('.axis-x')
       .attr('transform', `translate(0, ${height})`);
     const axisXTransition = axisXMerge.transition()
-      .duration(1000)
+      .duration(transitionDuration * 2) // Extra long transition!
       .ease(d3.easeCubicOut)
       .call(d3.axisBottom(xScale))
       .attr('font-size', null)
@@ -788,7 +790,7 @@ export default class ROCSpace extends SDTElement {
       .classed('axis-y', true);
     // MERGE
     const axisYTransition = underlayerMerge.select('.axis-y').transition()
-      .duration(1000)
+      .duration(transitionDuration * 2) // Extra long transition!
       .ease(d3.easeCubicOut)
       .call(d3.axisLeft(yScale))
       .attr('font-size', null)
@@ -843,7 +845,7 @@ export default class ROCSpace extends SDTElement {
     const isoDMerge = isoDEnter.merge(isoDUpdate);
     if (this.firstUpdate || changedProperties.has('zRoc')) {
       isoDMerge.transition()
-        .duration(this.drag ? 0 : 1000)
+        .duration(this.drag ? 0 : (transitionDuration * 2)) // Extra long transition!
         .ease(d3.easeCubicOut)
         .attr('d', (datum) => {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
@@ -859,7 +861,7 @@ export default class ROCSpace extends SDTElement {
         });
     } else if (this.sdt) {
       isoDMerge.transition()
-        .duration(this.drag ? 0 : 500)
+        .duration(this.drag ? 0 : transitionDuration)
         .ease(d3.easeCubicOut)
         .attrTween('d', (datum, index, elements) => {
           const element = elements[index];
@@ -891,7 +893,7 @@ export default class ROCSpace extends SDTElement {
         });
     } else {
       isoDMerge.transition()
-        .duration(this.drag ? 0 : 500)
+        .duration(this.drag ? 0 : transitionDuration)
         .ease(d3.easeCubicOut)
         .attrTween('d', (datum, index, elements) => {
           const element = elements[index];
@@ -947,7 +949,7 @@ export default class ROCSpace extends SDTElement {
     const isoCMerge = isoCEnter.merge(isoCUpdate);
     if (this.firstUpdate || changedProperties.has('zRoc')) {
       isoCMerge.transition()
-        .duration(this.drag ? 0 : 1000)
+        .duration(this.drag ? 0 : (transitionDuration * 2)) // Extra long transition!
         .ease(d3.easeCubicOut)
         .attr('d', (datum) => {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
@@ -963,7 +965,7 @@ export default class ROCSpace extends SDTElement {
         });
     } else if (this.sdt) {
       isoCMerge.transition()
-        .duration(this.drag ? 0 : 500)
+        .duration(this.drag ? 0 : transitionDuration)
         .ease(d3.easeCubicOut)
         .attrTween('d', (datum, index, elements) => {
           const element = elements[index];
@@ -995,7 +997,7 @@ export default class ROCSpace extends SDTElement {
         });
     } else {
       isoCMerge.transition()
-        .duration(this.drag ? 0 : 500)
+        .duration(this.drag ? 0 : transitionDuration)
         .ease(d3.easeCubicOut)
         .attrTween('d', (datum, index, elements) => {
           const element = elements[index];
@@ -1137,7 +1139,7 @@ export default class ROCSpace extends SDTElement {
     }
     if (this.firstUpdate || changedProperties.has('zRoc')) {
       pointMerge.transition()
-        .duration(this.drag ? 0 : 1000)
+        .duration(this.drag ? 0 : (transitionDuration * 2)) // Extra long transition!
         .ease(d3.easeCubicOut)
         .attr('transform', (datum, index, elements) => {
           const element = elements[index];
@@ -1151,7 +1153,7 @@ export default class ROCSpace extends SDTElement {
         });
     } else if (this.sdt) {
       pointMerge.transition()
-        .duration(this.drag ? 0 : 500)
+        .duration(this.drag ? 0 : transitionDuration)
         .ease(d3.easeCubicOut)
         .attrTween('transform', (datum, index, elements) => {
           const element = elements[index];
@@ -1187,7 +1189,7 @@ export default class ROCSpace extends SDTElement {
         });
     } else {
       pointMerge.transition()
-        .duration(this.drag ? 0 : 500)
+        .duration(this.drag ? 0 : transitionDuration)
         .ease(d3.easeCubicOut)
         .attr('transform', (datum, index, elements) => {
           const element = elements[index];
