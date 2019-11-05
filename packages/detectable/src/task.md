@@ -30,14 +30,14 @@ Go ahead and give it a go! (`Run` to start the trial; `Pause` to temporarily fre
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="1" probability=".5" duration="2000"
-    wait="2000" iti="2000"></rdk-task>
+    wait="2000" iti="1000"></rdk-task>
   <sdt-response interactive feedback="none"></sdt-response>
 </sdt-example-human>
 
 Having fun yet?
 
 In case you were wondering, the fixation lasts for two seconds, followed by the
-stimulus for two seconds, and then the question mark for two seconds.
+stimulus for two seconds, and then the question mark for one second.
 
 ## A block of trials
 
@@ -50,7 +50,7 @@ a bit boring, so lets try something a bit more manageable, say, a **block** of f
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
-    wait="2000" iti="2000"></rdk-task>
+    wait="2000" iti="1000"></rdk-task>
   <sdt-response interactive feedback="none"></sdt-response>
 </sdt-example-human>
 
@@ -63,13 +63,14 @@ challenge? All right then...
 ## A customizable block of trials!
 
 In this example, you can choose how many trials there will be in a block using the `Trials` slider,
-and you can choose the proportion of coherence for the signal using the `Coherence` slider. Now
-lookie here - we have ourselves something approaching a legitimate signal detection task!
+the proportion of coherence for the signal using the `Coherence` slider, and the duration the
+stimulus is available using the `Duration` slider. Now lookie here - we have ourselves something
+approaching a legitimate signal detection task!
 
 <sdt-example-human>
-  <sdt-control run pause reset coherence=".5" trials="5"></sdt-control>
+  <sdt-control run pause reset coherence=".5" trials="5" duration="2000"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
-    wait="2000" iti="2000"></rdk-task>
+    wait="2000" iti="1000"></rdk-task>
   <sdt-response  interactive feedback="none"></sdt-response>
 </sdt-example-human>
 
