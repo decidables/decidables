@@ -16,7 +16,7 @@ than or less than that threshold:
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="none" d="2.5" c="0"></sdt-model>
 </sdt-example-model>
 
@@ -28,7 +28,7 @@ this is a `Respond Absent` trial, and if the evidence is above the threshold, th
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="0"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
@@ -47,7 +47,7 @@ the model is biased towards responding `Absent`:
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="2"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
@@ -58,7 +58,7 @@ biased towards responding `Present`:
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="-2"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
@@ -80,7 +80,7 @@ determines the tendency to make more `Present` or `Absent` responses:
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias histogram color="response" d="2.5" c="1"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>

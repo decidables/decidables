@@ -8,7 +8,7 @@ script: index
 
 <sdt-example-model>
   <sdt-control run pause reset coherence=".5" trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1" c=".5"></sdt-model>
   <sdt-response trial feedback="outcome"></sdt-response>

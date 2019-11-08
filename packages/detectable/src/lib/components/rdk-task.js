@@ -99,7 +99,7 @@ export default class RDKTask extends SDTElement {
     this.probability = 0.5; // Probability of signal (as opposed to noise)
     this.duration = 2000; // Duration of stimulus in milliseconds
     this.wait = 2000; // Duration of wait period for response in milliseconds
-    this.iti = 1000; // Duration of inter-trial interval in milliseconds
+    this.iti = 2000; // Duration of inter-trial interval in milliseconds
     this.trials = 5; // Number of trials per block
     this.running = false; // Currently executing block of trials
 

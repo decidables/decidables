@@ -27,7 +27,7 @@ export default class SDTExampleHuman extends SDTExample {
         if (this.rdkTask) {
           this.rdkTask.duration = event.detail.duration;
           this.rdkTask.wait = event.detail.duration;
-          this.rdkTask.iti = event.detail.duration / 2;
+          this.rdkTask.iti = event.detail.duration;
         }
       });
     }

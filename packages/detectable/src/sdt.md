@@ -15,7 +15,7 @@ our response:
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="response" d="2.5" c="1"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
@@ -41,7 +41,7 @@ drag the distributions or the threshold to adjust the parameter values.
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
   <sdt-response trial feedback="outcome"></sdt-response>
@@ -60,7 +60,7 @@ just as we did for human performance previously:
 
 <sdt-example-model>
   <sdt-control run pause reset trials="40" duration="500"></sdt-control>
-  <rdk-task count="100" trials="40" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" trials="40" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
   <sdt-response trial feedback="outcome"></sdt-response>
