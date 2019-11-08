@@ -121,9 +121,11 @@ export default class RDKTask extends SDTElement {
     this.states = ['resetted', 'iti', 'stimulus', 'wait', 'ended']; // Possible states of task
     this.state = 'resetted'; // Current state of task
 
-    this.start = 0; // Time, in milliseconds, that current stage of trial started
-    this.time = 0; // Time, in milliseconds, of the current frame
-    this.current = undefined; // Direction in degrees for current trial
+    this.baseTime = 0; // Real time, in milliseconds, that the current block started
+    this.pauseTime = 0; // Real time, in milliseconds, that block was paused at
+    this.startTime = 0; // Virtual time, in milliseconds, that current stage of trial started
+    this.lastTime = 0; // Virtual time, in milliseconds, of the most recent frame
+    this.currentDirection = undefined; // Direction in degrees for current trial
 
     this.signals = ['present', 'absent']; // Possible trial types
     this.signal = undefined; // Current trial type
@@ -331,9 +333,17 @@ export default class RDKTask extends SDTElement {
     // Start or stop trial block
     if (changedProperties.has('running')) {
       if (this.running) {
+        // (Re)Start
+        if (this.pauseTime) {
+          // Shift timeline forward as if paused time never happened
+          this.baseTime += (d3.now() - this.pauseTime);
+          this.pauseTime = 0;
+        }
         this.runner = d3.interval(this.run.bind(this), 20); // FIXME??
       } else if (this.runner !== undefined) {
+        // Pause
         this.runner.stop();
+        this.pauseTime = d3.now();
       }
     }
   }
@@ -343,9 +353,12 @@ export default class RDKTask extends SDTElement {
     this.running = false;
     this.trial = 0;
     this.state = 'resetted';
-    this.start = 0;
+    this.baseTime = 0;
+    this.pauseTime = 0;
+    this.startTime = 0;
+    this.lastTime = 0;
     this.signal = undefined;
-    this.current = undefined;
+    this.currentDirection = undefined;
 
     const dotsUpdate = d3.select(this.renderRoot).select('.content').selectAll('.dots')
       .data([[], []]);
@@ -364,15 +377,18 @@ export default class RDKTask extends SDTElement {
       .remove();
   }
 
-  run(time) {
-    const elapsedTime = time - this.start;
-    const frameTime = time - this.time;
-    this.time = time;
+  run(/* elapsed */) {
+    const realTime = d3.now();
+    const currentTime = (this.baseTime) ? (realTime - this.baseTime) : 0;
+    const elapsedTime = (this.baseTime) ? (currentTime - this.startTime) : 0;
+    const frameTime = (this.baseTime) ? (currentTime - this.lastTime) : 0;
+    this.lastTime = currentTime;
     let newTrial = false;
     if (this.state === 'resetted') {
       // Start block with an ITI
       this.state = 'iti';
-      this.start = time;
+      this.baseTime = realTime;
+      this.startTime = 0;
       this.dispatchEvent(new CustomEvent('rdk-block-start', {
         detail: {
           trials: this.trials,
@@ -384,9 +400,9 @@ export default class RDKTask extends SDTElement {
       newTrial = true;
       this.trial += 1;
       this.state = 'stimulus';
-      this.start = time;
+      this.startTime = currentTime;
       this.signal = (Math.random() < this.probability) ? 'present' : 'absent';
-      this.current = (this.signal === 'absent')
+      this.currentDirection = (this.signal === 'absent')
         ? undefined
         : (this.direction >= 0)
           ? this.direction
@@ -405,7 +421,7 @@ export default class RDKTask extends SDTElement {
     } else if ((this.state === 'stimulus') && (elapsedTime >= this.duration)) {
       // Stimulus is over, now wait
       this.state = 'wait';
-      this.start = time;
+      this.startTime = currentTime;
       this.dispatchEvent(new CustomEvent('rdk-trial-middle', {
         detail: {
           trials: this.trials,
@@ -435,9 +451,12 @@ export default class RDKTask extends SDTElement {
         this.runner.stop();
         this.running = false;
         this.state = 'ended';
-        this.start = 0;
+        this.baseTime = 0;
+        this.pauseTime = 0;
+        this.startTime = 0;
+        this.lastTime = 0;
         this.signal = undefined;
-        this.current = undefined;
+        this.currentDirection = undefined;
         this.dispatchEvent(new CustomEvent('rdk-block-end', {
           detail: {
             trials: this.trial,
@@ -447,7 +466,7 @@ export default class RDKTask extends SDTElement {
       } else {
         // ITI
         this.state = 'iti';
-        this.start = time;
+        this.startTime = currentTime;
       }
     }
 
@@ -464,23 +483,23 @@ export default class RDKTask extends SDTElement {
           }
           const dot = this.dots[t][i];
           if (newTrial || newDot) {
-            dot.direction = (t === this.RANDOM) ? (Math.random() * 360) : this.current;
-            dot.birth = this.time - Math.floor(Math.random() * this.lifetime);
+            dot.direction = (t === this.RANDOM) ? (Math.random() * 360) : this.currentDirection;
+            dot.birth = currentTime - Math.floor(Math.random() * this.lifetime);
             const angle = Math.random() * 2 * Math.PI;
             const radius = Math.sqrt(Math.random());
             dot.x = this.xScale(radius * Math.cos(angle));
             dot.y = this.yScale(radius * Math.sin(angle));
-          } else if (this.time > (dot.birth + this.lifetime)) {
+          } else if (currentTime > (dot.birth + this.lifetime)) {
             // Dot has died, so rebirth
             dot.birth += this.lifetime;
-            dot.direction = (t === this.RANDOM) ? (Math.random() * 360) : this.current;
+            dot.direction = (t === this.RANDOM) ? (Math.random() * 360) : this.currentDirection;
             const angle = Math.random() * 2 * Math.PI;
             const radius = Math.sqrt(Math.random());
             dot.x = this.xScale(radius * Math.cos(angle));
             dot.y = this.yScale(radius * Math.sin(angle));
           } else {
             if (t === this.COHERENT) {
-              dot.direction = this.current;
+              dot.direction = this.currentDirection;
             }
             const directionR = dot.direction * (Math.PI / 180);
             dot.dx = this.speed * (frameTime / 1000) * Math.cos(directionR);
