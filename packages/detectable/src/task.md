@@ -30,7 +30,7 @@ Go ahead and give it a go! (`Run` to start the trial; `Pause` to temporarily fre
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="1" probability=".5" duration="2000"
-    wait="2000" iti="1000"></rdk-task>
+    wait="2000" iti="2000"></rdk-task>
   <sdt-response interactive feedback="none"></sdt-response>
 </sdt-example-human>
 
@@ -50,7 +50,7 @@ a bit boring, so lets try something a bit more manageable, say, a **block** of f
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
-    wait="2000" iti="1000"></rdk-task>
+    wait="2000" iti="2000"></rdk-task>
   <sdt-response interactive feedback="none"></sdt-response>
 </sdt-example-human>
 
@@ -70,7 +70,7 @@ approaching a legitimate signal detection task!
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5" trials="5" duration="2000"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
-    wait="2000" iti="1000"></rdk-task>
+    wait="2000" iti="2000"></rdk-task>
   <sdt-response  interactive feedback="none"></sdt-response>
 </sdt-example-human>
 

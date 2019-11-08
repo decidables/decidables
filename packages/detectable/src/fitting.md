@@ -8,7 +8,7 @@ script: index
 
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" duration="1000" run pause reset></sdt-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
+  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>

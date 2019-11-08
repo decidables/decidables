@@ -8,7 +8,7 @@ script: index
 
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
+  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-response interactive trial feedback="outcome" payoff="total" hit-payoff="100" miss-payoff="-100"
     correct-rejection-payoff="10" false-alarm-payoff="-10"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0"
@@ -21,7 +21,7 @@ script: index
 
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
+  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-response interactive trial feedback="outcome" payoff="total" hit-payoff="10" miss-payoff="-10"
     correct-rejection-payoff="100" false-alarm-payoff="-100"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
@@ -35,7 +35,7 @@ script: index
 ?? Need way to set Hit/Miss Payoff and CR/FA Payoff
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5" trials="10" duration="1000"></sdt-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
+  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-response interactive trial feedback="outcome" payoff="total" hit-payoff="10" miss-payoff="-10"
     correct-rejection-payoff="100" false-alarm-payoff="-100"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">

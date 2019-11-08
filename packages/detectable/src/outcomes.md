@@ -16,7 +16,7 @@ Try a few trials of the task:
 <sdt-example-human>
   <sdt-control trials="5" run pause reset duration="1000" coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5"
-    duration="1000" wait="1000" iti="500"></rdk-task>
+    duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-response interactive trial feedback="accuracy"></sdt-response>
 </sdt-example-human>
 
@@ -52,7 +52,7 @@ possible outcomes occurred:
 <sdt-example-human>
   <sdt-control trials="5" run pause reset duration="1000" coherence=".5"></sdt-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5"
-    duration="1000" wait="1000" iti="500"></rdk-task>
+    duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
 </sdt-example-human>
 
