@@ -63,6 +63,9 @@ export default class SDTExampleModel extends SDTExample {
         if (this.rdkTask) {
           this.rdkTask.running = true;
         }
+        if (this.sdtModel) {
+          this.sdtModel.resumeTrial();
+        }
       });
     }
 
@@ -70,6 +73,9 @@ export default class SDTExampleModel extends SDTExample {
       this.sdtControl.addEventListener('sdt-control-pause', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.running = false;
+        }
+        if (this.sdtModel) {
+          this.sdtModel.pauseTrial();
         }
       });
     }

@@ -77,6 +77,7 @@ export default class SDTModel extends SDTElement {
         type: Number,
         reflect: true,
       },
+
       far: {
         attribute: false,
         type: Number,
@@ -120,43 +121,45 @@ export default class SDTModel extends SDTElement {
   constructor() {
     super();
 
-    this.firstUpdate = true;
-    this.drag = false;
+    // Attributes
+    this.colors = ['outcome', 'response', 'stimulus', 'none']; // Allowable values of 'color'
+    this.color = 'outcome'; // How to color distributions and trials
+    this.distributions = false; // Show distributions?
+    this.threshold = false; // Show threshold?
+    this.unequal = false; // Allow unequal variance?
+    this.sensitivity = false; // Show d'?
+    this.bias = false; // Show c?
+    this.variance = false; // Show variance?
+    this.histogram = false; // Show histogram?
 
-    this.colors = ['outcome', 'response', 'stimulus', 'none'];
-    this.color = 'outcome';
+    this.d = 1; // Sensitivity
+    this.c = 0; // Bias
+    this.s = 1; // Variance
 
-    this.histogram = false;
-    this.distributions = false;
-    this.threshold = false;
-    this.unequal = false;
-    this.sensitivity = false;
-    this.bias = false;
-    this.variance = false;
+    // Properties
+    this.binWidth = 0.25; // Histogram bin width in units of evidence
+    this.signals = ['present', 'absent']; // Allowable values of trial.signal
+    this.responses = ['present', 'absent']; // Allowable values of trial.response
+    this.trials = []; // Array of simulated trials
 
-    this.d = 1;
-    this.c = 0;
-    this.s = 1;
+    this.width = NaN; // Width of component in pixels
+    this.height = NaN; // Height of component in pixels
+    this.rem = NaN; // Pixels per rem for component
 
-    this.muN = NaN;
-    this.muS = NaN;
-    this.l = NaN;
-    this.hS = NaN;
+    // Private
+    this.muN = NaN; // Mean of noise distribution
+    this.muS = NaN; // Mean of signal distribution
+    this.l = NaN; // lambda (threshold location)
+    this.hS = NaN; // Height of signal distribution
 
-    this.signals = ['present', 'absent'];
-    this.responses = ['present', 'absent'];
+    this.binRange = [-3.0, 3.0]; // Range of histogram
+    this.h = 0; // Hits
+    this.m = 0; // Misses
+    this.fa = 0; // False alarms
+    this.cr = 0; // Correct rejections
 
-    this.binRange = [-3.0, 3.0];
-    this.binWidth = 0.25;
-    this.trials = [];
-    this.h = 0;
-    this.m = 0;
-    this.fa = 0;
-    this.cr = 0;
-
-    this.width = NaN;
-    this.height = NaN;
-    this.rem = NaN;
+    this.firstUpdate = true; // Are we waiting for the first update?
+    this.drag = false; // Are we currently dragging?
 
     this.alignState();
   }
@@ -171,6 +174,8 @@ export default class SDTModel extends SDTElement {
 
   trial(trialNumber, signal, duration, wait, iti) {
     const trial = {};
+    trial.new = true;
+    trial.paused = false;
     trial.trial = trialNumber;
     trial.signal = signal;
     trial.duration = duration;
@@ -189,24 +194,13 @@ export default class SDTModel extends SDTElement {
     if (trial.signal === 'present') {
       trial.trueEvidence = trial.evidence * this.s + this.muS;
       trial.response = (trial.trueEvidence > this.l) ? 'present' : 'absent';
-      if (trial.response === 'present') {
-        trial.outcome = 'h';
-        this.h += 1;
-      } else { // trial.response == 'absent'
-        trial.outcome = 'm';
-        this.m += 1;
-      }
+      trial.outcome = (trial.response === 'present') ? 'h' : 'm';
     } else { // trial.signal == 'absent'
       trial.trueEvidence = trial.evidence + this.muN;
       trial.response = (trial.trueEvidence > this.l) ? 'present' : 'absent';
-      if (trial.response === 'present') {
-        trial.outcome = 'fa';
-        this.fa += 1;
-      } else { // trial.response == 'absent'
-        trial.outcome = 'cr';
-        this.cr += 1;
-      }
+      trial.outcome = (trial.response === 'present') ? 'fa' : 'cr';
     }
+    if (!trial.new) this[trial.outcome] += 1;
     return trial;
   }
 
@@ -570,7 +564,7 @@ export default class SDTModel extends SDTElement {
       .range([0, height]);
 
     // 2nd Y Scale
-    const strokeWidth = 3;
+    const strokeWidth = 3; // FIX - no hardcoding
     const binWidth = xScale(this.binWidth) - xScale(0);
     const y2Scale = d3.scaleLinear()
       .domain([height / binWidth, 0]) // Number of Stimuli
@@ -1526,8 +1520,6 @@ export default class SDTModel extends SDTElement {
     //  EXIT
     thresholdUpdate.exit().remove();
 
-    // CURRENT!
-
     // Histogram
     //  DATA-JOIN
     const histogramUpdate = contentMerge.selectAll('.histogram')
@@ -1576,77 +1568,159 @@ export default class SDTModel extends SDTElement {
       //  ENTER
       const trialEnter = trialUpdate.enter().append('rect')
         .attr('stroke-width', strokeWidth)
+        .attr('data-new-trial-ease-time', 0) // use 'data-trial-enter'
         .attr('stroke', this.getComputedStyleValue('---color-acc'))
         .attr('fill', this.getComputedStyleValue('---color-acc-light'));
-      trialEnter.transition()
-        .delay((datum) => { return Math.floor(datum.duration * 0.1); })
-        .duration((datum) => { return Math.floor(datum.duration * 0.9 + datum.wait * 0.25); })
-        .ease(d3.easeLinear)
-        .attrTween('stroke', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolator = d3.interpolateRgb(
-            element.getAttribute('stroke'),
-            (this.color === 'stimulus')
-              ? (datum.signal === 'present')
-                ? this.getComputedStyleValue('---color-hr')
-                : this.getComputedStyleValue('---color-far')
-              : (this.color === 'response')
-                ? this.getComputedStyleValue(`---color-${datum.response}`)
-                : (this.color === 'outcome')
-                  ? this.getComputedStyleValue(`---color-${datum.outcome}`)
-                  : this.getComputedStyleValue('---color-acc'),
-          );
-          return (time) => { return interpolator(d3.easeCubicIn(time)); };
-        })
-        .attrTween('fill', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolator = d3.interpolateRgb(
-            element.getAttribute('fill'),
-            (this.color === 'stimulus')
-              ? (datum.signal === 'present')
-                ? this.getComputedStyleValue('---color-hr-light')
-                : this.getComputedStyleValue('---color-far-light')
-              : (this.color === 'response')
-                ? this.getComputedStyleValue(`---color-${datum.response}-light`)
-                : (this.color === 'outcome')
-                  ? this.getComputedStyleValue(`---color-${datum.outcome}-light`)
-                  : this.getComputedStyleValue('---color-acc-light'),
-          );
-          return (time) => { return interpolator(d3.easeCubicIn(time)); };
-        })
-        .attrTween('x', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolator = d3.interpolate(
-            element.getAttribute('x'),
-            xScale(datum.binValue) + (strokeWidth / 2),
-          );
-          return (time) => { return interpolator(d3.easeCubicOut(time)); };
-        })
-        .attrTween('y', (datum, index, elements) => {
-          const element = elements[index];
-          const interpolator = d3.interpolate(
-            element.getAttribute('y'),
-            yScale(0) + (strokeWidth / 2) - ((datum.binCount + 1) * binWidth),
-          );
-          return (time) => { return interpolator(d3.easeCubicIn(time)); };
-        })
-        .on('end', (datum) => {
-          this.dispatchEvent(new CustomEvent('sdt-response', {
-            detail: {
-              stimulus: datum.signal,
-              response: datum.response,
-              outcome: datum.outcome,
-              h: this.h,
-              m: this.m,
-              fa: this.fa,
-              cr: this.cr,
-              nr: 0,
-            },
-            bubbles: true,
-          }));
-        });
-      //  UPDATE
-      trialUpdate.transition()
+      //  MERGE
+      const trialMerge = trialEnter.merge(trialUpdate)
+        .attr('class', (datum) => { return `trial ${datum.outcome}`; })
+        .attr('width', binWidth - strokeWidth)
+        .attr('height', binWidth - strokeWidth);
+      //  MERGE - Active New Trials
+      const trialMergeNewActive = trialMerge.filter((datum) => {
+        return (datum.new && !datum.paused);
+      });
+      if (!trialMergeNewActive.empty()) {
+        const easeTime = trialMergeNewActive.attr('data-new-trial-ease-time');
+        const scaleIn = (time) => {
+          return d3.scaleLinear().domain([0, 1]).range([easeTime, 1])(time);
+        };
+        const scaleOutGenerator = (easeFunction) => {
+          return (time) => {
+            return d3.scaleLinear()
+              .domain([easeFunction(easeTime), 1]).range([0, 1])(easeFunction(time));
+          };
+        };
+        trialMergeNewActive.transition('new')
+          .duration((datum) => {
+            return Math.floor((datum.duration * 0.75 + datum.wait * 0.25) * (1 - easeTime));
+          })
+          .ease(scaleIn)
+          .attr('data-new-trial-ease-time', 1)
+          .attrTween('stroke', (datum, index, elements) => {
+            const element = elements[index];
+            const interpolator = d3.interpolateRgb(
+              element.getAttribute('stroke'),
+              (this.color === 'stimulus')
+                ? (datum.signal === 'present')
+                  ? this.getComputedStyleValue('---color-hr')
+                  : this.getComputedStyleValue('---color-far')
+                : (this.color === 'response')
+                  ? this.getComputedStyleValue(`---color-${datum.response}`)
+                  : (this.color === 'outcome')
+                    ? this.getComputedStyleValue(`---color-${datum.outcome}`)
+                    : this.getComputedStyleValue('---color-acc'),
+            );
+            return (time) => { return interpolator(scaleOutGenerator(d3.easeCubicIn)(time)); };
+          })
+          .attrTween('fill', (datum, index, elements) => {
+            const element = elements[index];
+            const interpolator = d3.interpolateRgb(
+              element.getAttribute('fill'),
+              (this.color === 'stimulus')
+                ? (datum.signal === 'present')
+                  ? this.getComputedStyleValue('---color-hr-light')
+                  : this.getComputedStyleValue('---color-far-light')
+                : (this.color === 'response')
+                  ? this.getComputedStyleValue(`---color-${datum.response}-light`)
+                  : (this.color === 'outcome')
+                    ? this.getComputedStyleValue(`---color-${datum.outcome}-light`)
+                    : this.getComputedStyleValue('---color-acc-light'),
+            );
+            return (time) => { return interpolator(scaleOutGenerator(d3.easeCubicIn)(time)); };
+          })
+          .attrTween('x', (datum, index, elements) => {
+            const element = elements[index];
+            const interpolator = d3.interpolate(
+              element.getAttribute('x'),
+              xScale(datum.binValue) + (strokeWidth / 2),
+            );
+            return (time) => { return interpolator(scaleOutGenerator(d3.easeCubicOut)(time)); };
+          })
+          .attrTween('y', (datum, index, elements) => {
+            const element = elements[index];
+            const interpolator = d3.interpolate(
+              element.getAttribute('y'),
+              yScale(0) + (strokeWidth / 2) - ((datum.binCount + 1) * binWidth),
+            );
+            return (time) => { return interpolator(scaleOutGenerator(d3.easeCubicIn)(time)); };
+          })
+          .on('end', (datum, index, elements) => {
+            const element = elements[index];
+            element.removeAttribute('data-new-trial-ease-time');
+            datum.new = false;
+            this.alignTrial(datum);
+            this.dispatchEvent(new CustomEvent('sdt-response', {
+              detail: {
+                stimulus: datum.signal,
+                response: datum.response,
+                outcome: datum.outcome,
+                h: this.h,
+                m: this.m,
+                fa: this.fa,
+                cr: this.cr,
+                nr: 0,
+              },
+              bubbles: true,
+            }));
+          });
+      }
+      // MERGE - Paused New Trials
+      const trialMergeNewPaused = trialMerge.filter((datum) => {
+        return (datum.new && datum.paused);
+      });
+      if (!trialMergeNewPaused.empty()) {
+        const easeTime = trialMergeNewPaused.attr('data-new-trial-ease-time');
+        trialMergeNewPaused.transition()
+          .duration(transitionDuration)
+          .ease(d3.easeCubicOut)
+          .attr('x', (datum) => {
+            const interpolator = d3.interpolate(
+              0,
+              xScale(datum.binValue) + (strokeWidth / 2),
+            );
+            return interpolator(d3.easeCubicOut(easeTime));
+          })
+          .attr('y', (datum) => {
+            const interpolator = d3.interpolate(
+              0,
+              yScale(0) + (strokeWidth / 2) - ((datum.binCount + 1) * binWidth),
+            );
+            return interpolator(d3.easeCubicIn(easeTime));
+          })
+          .attr('stroke', (datum) => {
+            const interpolator = d3.interpolateRgb(
+              this.getComputedStyleValue('---color-acc'),
+              (this.color === 'stimulus')
+                ? (datum.signal === 'present')
+                  ? this.getComputedStyleValue('---color-hr')
+                  : this.getComputedStyleValue('---color-far')
+                : (this.color === 'response')
+                  ? this.getComputedStyleValue(`---color-${datum.response}`)
+                  : (this.color === 'outcome')
+                    ? this.getComputedStyleValue(`---color-${datum.outcome}`)
+                    : this.getComputedStyleValue('---color-acc'),
+            );
+            return interpolator(d3.easeCubicIn(easeTime));
+          })
+          .attr('fill', (datum) => {
+            const interpolator = d3.interpolateRgb(
+              this.getComputedStyleValue('---color-acc-light'),
+              (this.color === 'stimulus')
+                ? (datum.signal === 'present')
+                  ? this.getComputedStyleValue('---color-hr-light')
+                  : this.getComputedStyleValue('---color-far-light')
+                : (this.color === 'response')
+                  ? this.getComputedStyleValue(`---color-${datum.response}-light`)
+                  : (this.color === 'outcome')
+                    ? this.getComputedStyleValue(`---color-${datum.outcome}-light`)
+                    : this.getComputedStyleValue('---color-acc-light'),
+            );
+            return interpolator(d3.easeCubicIn(easeTime));
+          });
+      }
+      //  MERGE - Old Trials
+      trialMerge.filter((datum) => { return !datum.new; }).transition()
         .duration(transitionDuration)
         .ease(d3.easeCubicOut)
         .attr('x', (datum) => {
@@ -1677,11 +1751,6 @@ export default class SDTModel extends SDTElement {
                 ? this.getComputedStyleValue(`---color-${datum.outcome}-light`)
                 : this.getComputedStyleValue('---color-acc-light');
         });
-      //  MERGE
-      trialEnter.merge(trialUpdate)
-        .attr('class', (datum) => { return `trial ${datum.outcome}`; })
-        .attr('width', binWidth - strokeWidth)
-        .attr('height', binWidth - strokeWidth);
       //  EXIT
       trialUpdate.exit().transition()
         .duration(transitionDuration)
@@ -1733,6 +1802,26 @@ export default class SDTModel extends SDTElement {
 
     this.drag = false;
     this.firstUpdate = false;
+  }
+
+  // Called to pause trial animations!
+  pauseTrial() {
+    const trialNew = d3.select(this.renderRoot).select('.trial[data-new-trial-ease-time]');
+    trialNew.interrupt('new');
+    trialNew.datum((datum) => {
+      datum.paused = true;
+      return datum;
+    });
+  }
+
+  // Called to resume trial animations!
+  resumeTrial() {
+    const trialNew = d3.select(this.renderRoot).select('.trial[data-new-trial-ease-time]');
+    trialNew.datum((datum) => {
+      datum.paused = false;
+      return datum;
+    });
+    this.requestUpdate();
   }
 }
 
