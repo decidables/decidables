@@ -50,6 +50,33 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
         type: Number,
         reflect: true,
       },
+
+      payoff: {
+        attribute: 'payoff',
+        type: Boolean,
+        reflect: true,
+      },
+      hPayoff: {
+        attribute: 'hit-payoff',
+        type: Number,
+        reflect: true,
+      },
+      mPayoff: {
+        attribute: 'miss-payoff',
+        type: Number,
+        reflect: true,
+      },
+      faPayoff: {
+        attribute: 'false-alarm-payoff',
+        type: Number,
+        reflect: true,
+      },
+      crPayoff: {
+        attribute: 'correct-rejection-payoff',
+        type: Number,
+        reflect: true,
+      },
+
       far: {
         attribute: false,
         type: Number,
@@ -97,6 +124,12 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
     this.fa = 75;
     this.cr = 25;
     this.alignState();
+
+    this.payoff = false;
+    this.hPayoff = undefined; // Hit payoff
+    this.mPayoff = undefined; // Miss payoff
+    this.crPayoff = undefined; // Correct Rejection payoff
+    this.faPayoff = undefined; // False Alarm payoff
   }
 
   alignState() {
@@ -265,6 +298,11 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
           display: block;
 
           font-size: 0.75rem;
+        }
+
+        .payoff {
+          font-weight: 600;
+          line-height: 0.75rem;
         }
 
         /* User interaction <input> */
@@ -457,6 +495,13 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
   }
 
   render() {
+    const payoffFormatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
+
     this.alignState();
     let h;
     let m;
@@ -470,18 +515,22 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
     if (this.numeric) {
       h = html`<label>
           <span>Hits</span>
+          ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.hPayoff)}</span>` : html``}
           <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
         </label>`;
       m = html`<label>
           <span>Misses</span>
+          ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.mPayoff)}</span>` : html``}
           <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
         </label>`;
       fa = html`<label>
           <span>False Alarms</span>
+          ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.faPayoff)}</span>` : html``}
           <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
         </label>`;
       cr = html`<label>
           <span>Correct Rejections</span>
+          ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.crPayoff)}</span>` : html``}
           <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
         </label>`;
       hr = html`<label>
@@ -505,10 +554,14 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
           <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.fomr.toFixed(3)}" @input=${this.fomrInput.bind(this)}>
         </label>`;
     } else {
-      h = html`<span>Hits</span>`;
-      m = html`<span>Misses</span>`;
-      fa = html`<span>False Alarms</span>`;
-      cr = html`<span>Correct Rejections</span>`;
+      h = html`<span>Hits</span>
+        ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.hPayoff)}</span>` : html``}`;
+      m = html`<span>Misses</span>
+        ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.mPayoff)}</span>` : html``}`;
+      fa = html`<span>False Alarms</span>
+        ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.faPayoff)}</span>` : html``}`;
+      cr = html`<span>Correct Rejections</span>
+        ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.crPayoff)}</span>` : html``}`;
       hr = html`<span>Hit Rate</span>`;
       far = html`<span>False Alarm Rate</span>`;
       acc = html`<span>Accuracy</span>`;

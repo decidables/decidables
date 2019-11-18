@@ -18,14 +18,34 @@ import SDTMixinStyleToggle from '../mixins/styleToggle';
 export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(SDTMixinStyleSpinner(SDTMixinStyleSwitch(SDTMixinStyleToggle(SDTElement))))) { // eslint-disable-line max-len
   static get properties() {
     return {
+      trials: {
+        attribute: 'trials',
+        type: Number,
+        reflect: true,
+      },
       duration: {
         attribute: 'duration',
         type: Number,
         reflect: true,
       },
-      trials: {
-        attribute: 'trials',
+      coherence: {
+        attribute: 'coherence',
         type: Number,
+        reflect: true,
+      },
+      payoff: {
+        attribute: 'payoff',
+        type: Number,
+        reflect: true,
+      },
+      color: {
+        attribute: 'color',
+        type: String,
+        reflect: true,
+      },
+      zRoc: {
+        attribute: 'z-roc',
+        type: Boolean,
         reflect: true,
       },
       run: {
@@ -43,21 +63,6 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
         type: Boolean,
         reflect: true,
       },
-      coherence: {
-        attribute: 'coherence',
-        type: Number,
-        reflect: true,
-      },
-      zRoc: {
-        attribute: 'z-roc',
-        type: Boolean,
-        reflect: true,
-      },
-      color: {
-        attribute: 'color',
-        type: String,
-        reflect: true,
-      },
 
       state: {
         atribute: false,
@@ -70,19 +75,81 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
   constructor() {
     super();
 
-    this.duration = undefined;
+    // Attributes
     this.trials = undefined;
+    this.duration = undefined;
+    this.coherence = undefined;
+    this.payoff = undefined;
+    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
+    this.color = undefined;
+    this.zRoc = undefined;
     this.run = false;
     this.pause = false;
     this.reset = false;
-    this.coherence = undefined;
-    this.zRoc = undefined;
 
-    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
-    this.color = undefined;
-
+    // Properties
     this.states = ['resetted', 'running', 'paused', 'ended'];
     this.state = 'resetted';
+  }
+
+  setTrials(e) {
+    this.trials = e.target.value;
+    this.dispatchEvent(new CustomEvent('sdt-control-trials', {
+      detail: {
+        trials: this.trials,
+      },
+      bubbles: true,
+    }));
+  }
+
+  setDuration(e) {
+    this.duration = e.target.value;
+    this.dispatchEvent(new CustomEvent('sdt-control-duration', {
+      detail: {
+        duration: this.duration,
+      },
+      bubbles: true,
+    }));
+  }
+
+  setCoherence(e) {
+    this.coherence = e.target.value;
+    this.dispatchEvent(new CustomEvent('sdt-control-coherence', {
+      detail: {
+        coherence: this.coherence,
+      },
+      bubbles: true,
+    }));
+  }
+
+  setPayoff(e) {
+    this.payoff = e.target.value;
+    this.dispatchEvent(new CustomEvent('sdt-control-payoff', {
+      detail: {
+        payoff: this.payoff,
+      },
+      bubbles: true,
+    }));
+  }
+
+  chooseColor(e) {
+    this.color = e.target.value;
+    this.dispatchEvent(new CustomEvent('sdt-control-color', {
+      detail: {
+        color: this.color,
+      },
+      bubbles: true,
+    }));
+  }
+
+  flipZRoc(e) {
+    this.zRoc = e.target.checked;
+    this.dispatchEvent(new CustomEvent('sdt-control-z-roc', {
+      detail: {
+        zRoc: this.zRoc,
+      },
+      bubbles: true,
+    }));
   }
 
   doRun() {
@@ -105,56 +172,6 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
     this.state = 'resetted';
     this.dispatchEvent(new CustomEvent('sdt-control-reset', {
       detail: {},
-      bubbles: true,
-    }));
-  }
-
-  setDuration(e) {
-    this.duration = e.target.value;
-    this.dispatchEvent(new CustomEvent('sdt-control-duration', {
-      detail: {
-        duration: this.duration,
-      },
-      bubbles: true,
-    }));
-  }
-
-  setTrials(e) {
-    this.trials = e.target.value;
-    this.dispatchEvent(new CustomEvent('sdt-control-trials', {
-      detail: {
-        trials: this.trials,
-      },
-      bubbles: true,
-    }));
-  }
-
-  setCoherence(e) {
-    this.coherence = e.target.value;
-    this.dispatchEvent(new CustomEvent('sdt-control-coherence', {
-      detail: {
-        coherence: this.coherence,
-      },
-      bubbles: true,
-    }));
-  }
-
-  chooseColor(e) {
-    this.color = e.target.value;
-    this.dispatchEvent(new CustomEvent('sdt-control-color', {
-      detail: {
-        color: this.color,
-      },
-      bubbles: true,
-    }));
-  }
-
-  flipZRoc(e) {
-    this.zRoc = e.target.checked;
-    this.dispatchEvent(new CustomEvent('sdt-control-z-roc', {
-      detail: {
-        zRoc: this.zRoc,
-      },
       bubbles: true,
     }));
   }
@@ -184,13 +201,8 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
           justify-content: center;
         }
 
-        .buttons {
-          display: flex;
-
-          flex-direction: column;
-
-          align-items: stretch;
-          justify-content: center;
+        label {
+          margin: 0.25rem 0.25rem 0;
         }
 
         .range {
@@ -228,21 +240,16 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
           justify-content: center;
         }
 
-        label {
-          margin: 0.25rem 0.25rem 0;
+        .buttons {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: stretch;
+          justify-content: center;
         }
 
-        /* BUTTON */
-
-        /* NUMBER */
-
-        /* RADIO */
-
-        /* RANGE */
-
-        /* SLIDER */
-
-        /* SPINNER */
+        /* Spinners */
         input[type=number] {
           width: 3.5rem;
           margin: 0 0.25rem 0.25rem;
@@ -250,15 +257,29 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
           background: var(---color-background);
         }
 
-        /* SWITCH */
-
-        /* TOGGLE */
+        /* Toggles */
         fieldset {
           border: 0;
         }
 
         legend {
           text-align: center;
+        }
+
+        /* Payoff  Slider */
+        .payoff {
+          line-height: 1;
+        }
+
+        .payoff::before {
+          position: absolute;
+
+          padding-top: 1px;
+          padding-left: 0.5rem;
+
+          line-height: normal;
+
+          content: "$";
         }
       `,
     ];
@@ -295,6 +316,18 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
                 <input type="range" id=${`${this.uniqueId}-coherence`} name="coherence" min="0" max="1" step=".01" .value=${this.coherence} @input=${this.setCoherence.bind(this)} @change=${this.setCoherence.bind(this)}>
               </div>
               <input type="number" min="0" max="1" step=".01" .value="${this.coherence}" @input=${this.setCoherence.bind(this)}>
+            </div>`
+          : html``}
+        ${this.payoff
+          ? html`
+            <div class="slider">
+              <label for=${`${this.uniqueId}-payoff`}>Payoff</label>
+              <div class="range">
+                <input type="range" id=${`${this.uniqueId}-payoff`} name="payoff" min="0" max="100" step="1" .value=${this.payoff} @input=${this.setPayoff.bind(this)} @change=${this.setPayoff.bind(this)}>
+              </div>
+              <div class="payoff">
+                <input type="number" min="0" max="100" step="1" .value="${this.payoff}" @input=${this.setPayoff.bind(this)}>
+              </div>
             </div>`
           : html``}
         ${this.color !== undefined

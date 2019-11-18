@@ -22,16 +22,6 @@ export default class SDTExampleHuman extends SDTExample {
       }
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
-      this.sdtControl.addEventListener('sdt-control-duration', (event) => {
-        if (this.rdkTask) {
-          this.rdkTask.duration = event.detail.duration;
-          this.rdkTask.wait = event.detail.duration;
-          this.rdkTask.iti = event.detail.duration;
-        }
-      });
-    }
-
     if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
       this.sdtControl.addEventListener('sdt-control-trials', (event) => {
         if (this.rdkTask) {
@@ -44,10 +34,37 @@ export default class SDTExampleHuman extends SDTExample {
       });
     }
 
+    if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
+      this.sdtControl.addEventListener('sdt-control-duration', (event) => {
+        if (this.rdkTask) {
+          this.rdkTask.duration = event.detail.duration;
+          this.rdkTask.wait = event.detail.duration;
+          this.rdkTask.iti = event.detail.duration;
+        }
+      });
+    }
+
     if (this.sdtControl && this.sdtControl.hasAttribute('coherence')) {
       this.sdtControl.addEventListener('sdt-control-coherence', (event) => {
         if (this.rdkTask) {
           this.rdkTask.coherence = event.detail.coherence;
+        }
+      });
+    }
+
+    if (this.sdtControl && this.sdtControl.hasAttribute('payoff')) {
+      this.sdtControl.addEventListener('sdt-control-payoff', (event) => {
+        if (this.sdtResponse) {
+          this.sdtResponse.hPayoff = event.detail.payoff;
+          this.sdtResponse.mPayoff = -event.detail.payoff + 0; // Get rid of -0
+          this.sdtResponse.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
+          this.sdtResponse.crPayoff = (100 - event.detail.payoff);
+        }
+        if (this.sdtTable) {
+          this.sdtTable.hPayoff = event.detail.payoff;
+          this.sdtTable.mPayoff = -event.detail.payoff + 0; // Get rid of -0
+          this.sdtTable.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
+          this.sdtTable.crPayoff = (100 - event.detail.payoff);
         }
       });
     }

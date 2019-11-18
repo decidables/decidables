@@ -29,7 +29,6 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
         type: String,
         reflect: true,
       },
-
       hPayoff: {
         attribute: 'hit-payoff',
         type: Number,
@@ -77,50 +76,70 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
   constructor() {
     super();
 
-    this.feedbacks = ['none', 'accuracy', 'outcome', 'payoff', 'total-payoff'];
-    this.feedback = 'outcome';
+    // Attributes
+    this.feedbacks = ['none', 'accuracy', 'outcome']; // Possible values for 'feedback'
+    this.feedback = 'outcome'; // What feedback to display
+    this.trial = false; // Show trial count?
+    this.payoffs = ['none', 'trial', 'total']; // Possible types of 'payoff' info
+    this.payoff = 'none'; // What payoff info to display
 
-    this.trial = false;
+    this.hPayoff = 0; // Hit payoff
+    this.mPayoff = 0; // Miss payoff
+    this.crPayoff = 0; // Correct Rejection payoff
+    this.faPayoff = 0; // False Alarm payoff
+    this.nrPayoff = 0; // No Response payoff
 
-    this.payoffs = ['none', 'trial', 'total'];
-    this.payoff = 'none';
+    // Properties
+    this.states = ['off', 'waiting', 'feedback']; // Possible states
+    this.state = 'off'; // Current state
 
-    this.states = ['off', 'waiting', 'feedback'];
-    this.state = 'off';
+    this.trialCount = 0; // Current trial
+    this.trialTotal = 0; // Total trials
 
-    this.signals = ['present', 'absent'];
-    this.signal = undefined;
+    // Private
+    this.signals = ['present', 'absent']; // Possible values of 'signal'
+    this.signal = undefined; // Signal for current trial
+    this.responses = ['present', 'absent']; // Possible values of 'response'
+    this.response = undefined; // Response for current trial
+    this.outcomes = ['h', 'm', 'fa', 'cr', 'nr']; // Possible values of 'outcome'
+    this.outcome = undefined; // Outcome for current trial
+    this.accuracies = ['c', 'e', 'nr']; // Possible values of 'accuracy'
+    this.accuracy = undefined; // Accuracy for current trial
 
-    this.responses = ['present', 'absent'];
-    this.response = undefined;
+    this.h = 0; // Count of Hits
+    this.m = 0; // Count of Misses
+    this.cr = 0; // Count of Correct Rejections
+    this.fa = 0; // Count of False Alarms
 
-    this.outcomes = ['h', 'm', 'fa', 'cr', 'nr'];
-    this.outcome = undefined;
+    this.c = 0; // Count of Correct trials
+    this.e = 0; // Count of Error trials
 
-    this.accuracies = ['c', 'e', 'nr'];
-    this.accuracy = undefined;
+    this.nr = 0; // Count of No Response trials
+  }
 
-    this.h = 0;
-    this.m = 0;
-    this.cr = 0;
-    this.fa = 0;
+  get trialPayoff() {
+    switch (this.outcome) {
+      case 'h':
+        return this.hPayoff;
+      case 'm':
+        return this.mPayoff;
+      case 'fa':
+        return this.faPayoff;
+      case 'cr':
+        return this.crPayoff;
+      case 'nr':
+        return this.nrPayoff;
+      default:
+        return undefined;
+    }
+  }
 
-    this.c = 0;
-    this.e = 0;
-
-    this.nr = 0;
-
-    this.trialCount = 0;
-    this.trialTotal = 0;
-
-    this.hPayoff = 0;
-    this.mPayoff = 0;
-    this.crPayoff = 0;
-    this.faPayoff = 0;
-    this.nrPayoff = 0;
-
-    this.trialPayoff = undefined;
-    this.totalPayoff = 0;
+  get totalPayoff() {
+    return ((this.h * this.hPayoff)
+      + (this.m * this.mPayoff)
+      + (this.cr * this.crPayoff)
+      + (this.fa * this.faPayoff)
+      + (this.nr * this.nrPayoff));
   }
 
   start(signal, trial) {
@@ -129,7 +148,6 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
     this.signal = signal;
     this.response = undefined;
     this.outcome = undefined;
-    this.trialPayoff = undefined;
   }
 
   stop() {
@@ -138,8 +156,6 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
       this.outcome = 'nr';
       this.nr += 1;
       this.accuracy = 'nr';
-      this.trialPayoff = this.nrPayoff;
-      this.totalPayoff += this.nrPayoff;
     }
   }
 
@@ -159,29 +175,21 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
       this.h += 1;
       this.accuracy = 'c';
       this.c += 1;
-      this.trialPayoff = this.hPayoff;
-      this.totalPayoff += this.hPayoff;
     } else if (this.signal === 'present' && this.response === 'absent') {
       this.outcome = 'm';
       this.m += 1;
       this.accuracy = 'e';
       this.e += 1;
-      this.trialPayoff = this.mPayoff;
-      this.totalPayoff += this.mPayoff;
     } else if (this.signal === 'absent' && this.response === 'present') {
       this.outcome = 'fa';
       this.fa += 1;
       this.accuracy = 'e';
       this.e += 1;
-      this.trialPayoff = this.faPayoff;
-      this.totalPayoff += this.faPayoff;
     } else if (this.signal === 'absent' && this.response === 'absent') {
       this.outcome = 'cr';
       this.cr += 1;
       this.accuracy = 'c';
       this.c += 1;
-      this.trialPayoff = this.crPayoff;
-      this.totalPayoff += this.crPayoff;
     }
 
     this.dispatchEvent(new CustomEvent('sdt-response', {
@@ -204,11 +212,11 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
 
   reset() {
     this.state = 'off';
+    this.trialCount = 0;
     this.signal = undefined;
     this.response = undefined;
     this.outcome = undefined;
     this.accuracy = undefined;
-    this.trialPayoff = undefined;
     this.h = 0;
     this.m = 0;
     this.cr = 0;
@@ -216,8 +224,6 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
     this.nr = 0;
     this.c = 0;
     this.e = 0;
-    this.totalPayoff = 0;
-    this.trialCount = 0;
   }
 
   static get styles() {
