@@ -597,6 +597,7 @@ body {
   }
 
   code[class="Coherence"],
+  code[class="Duration"],
   code[class="Trials"] {
     position: relative;
 
@@ -606,6 +607,7 @@ body {
   }
 
   code[class="Coherence"]::before,
+  code[class="Duration"]::before,
   code[class="Trials"]::before {
     position: absolute;
 
@@ -622,6 +624,7 @@ body {
   }
 
   code[class="Coherence"]::after,
+  code[class="Duration"]::after,
   code[class="Trials"]::after {
     position: absolute;
 
