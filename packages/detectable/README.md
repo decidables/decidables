@@ -49,11 +49,13 @@
 ## Features/Bugs
 
 - Switch to subsections for better overall organization/structure?
-- Need to add a control for payoff matrix!
-  - And display of payoff matrix (to table)!
+- Add snazzy cover page?
 - Cleanup color usage
   - Use the inverse text color property!
   - Define No Response variable?
+- Resolve ambiguity between different uses of same color
+  - For example, "Respond Present" as a trial type versus "Present" as a response versus "?Present?"
+    as part of a distribution
 - Add page before SDT, connecting sensitivity and bias, and showing different views of model
   - Or build threshold on top of distributions, so they are naturally combined!
 - Split Tables & Rates to discuss Accuracy & base rate
@@ -63,9 +65,6 @@
   - Add "PPV" and "FOMR" to rates.html"
   - Add page on "counter-intuitive" measures: accuracy & P(S|R) vs P(R|S)
 - Label values IN iso-plots?
-- Resolve ambiguity between different uses of same color
-  - For example, "Respond Present" as a trial type versus "Present" as a response versus "?Present?"
-    as part of a distribution
 - Use something else instead of inline code for terms?
   - Maybe remark-terms?
 - More generally, use a different method to mark "UI elements", "keywords", "math", etc...
