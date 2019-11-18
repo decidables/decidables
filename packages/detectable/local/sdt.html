@@ -17,7 +17,7 @@
 
         <div class="sdt-sidebar">
           <div class="sdt-brandnav">
-            <button class="sdt-tocnav-toggle" type="button" data-toggle="collapse" data-target="#sdt-tocnav" aria-controls="sdt-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"/></svg>
+            <button class="sdt-tocnav-toggle" type="button" data-toggle="collapse" data-target="#sdt-tocnav" aria-controls="sdt-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"></path></svg>
             </button>
             <a class="sdt-brand-link" href="index.html"><span class="sdt-detectable"><span class="math-var d">d&prime;</span>ete<span class="math-var c">c</span>table</span></a>
           </div>
@@ -235,7 +235,7 @@ threshold together, so we can see how <code class="Sensitivity">Sensitivity</cod
 our response:</p>
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="response" d="2.5" c="1"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
@@ -256,7 +256,7 @@ and <code class="c">c</code>. The measurements and resulting outcomes for each t
 drag the distributions or the threshold to adjust the parameter values.</p>
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
   <sdt-response trial feedback="outcome"></sdt-response>
@@ -271,7 +271,7 @@ performance, we can summarize the performance of our model using an outcome tabl
 just as we did for human performance previously:</p>
 <sdt-example-model>
   <sdt-control run pause reset trials="40" duration="500"></sdt-control>
-  <rdk-task count="100" trials="40" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" trials="40" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
   <sdt-response trial feedback="outcome"></sdt-response>

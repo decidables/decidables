@@ -5293,11 +5293,13 @@ body {
     background-color: var(--color-far-light);
     border: 2px solid var(--color-element-emphasis); }
   .sdt-content code[class="Coherence"],
+  .sdt-content code[class="Duration"],
   .sdt-content code[class="Trials"] {
     position: relative;
     padding-right: 1.5rem;
     background-color: var(--color-element-background); }
   .sdt-content code[class="Coherence"]::before,
+  .sdt-content code[class="Duration"]::before,
   .sdt-content code[class="Trials"]::before {
     position: absolute;
     top: 0;
@@ -5308,6 +5310,7 @@ body {
     background-color: var(--color-element-disabled);
     border-width: 0.125rem; }
   .sdt-content code[class="Coherence"]::after,
+  .sdt-content code[class="Duration"]::after,
   .sdt-content code[class="Trials"]::after {
     position: absolute;
     top: 0.4rem;

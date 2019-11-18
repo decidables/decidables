@@ -17,7 +17,7 @@
 
         <div class="sdt-sidebar">
           <div class="sdt-brandnav">
-            <button class="sdt-tocnav-toggle" type="button" data-toggle="collapse" data-target="#sdt-tocnav" aria-controls="sdt-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"/></svg>
+            <button class="sdt-tocnav-toggle" type="button" data-toggle="collapse" data-target="#sdt-tocnav" aria-controls="sdt-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"></path></svg>
             </button>
             <a class="sdt-brand-link" href="index.html"><span class="sdt-detectable"><span class="math-var d">d&prime;</span>ete<span class="math-var c">c</span>table</span></a>
           </div>
@@ -229,7 +229,7 @@
             <h2>A harder task</h2>
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
-  <rdk-task coherence=".15" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
+  <rdk-task coherence=".15" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
@@ -239,7 +239,7 @@
 <h2>An easier task</h2>
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
-  <rdk-task coherence=".9" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
+  <rdk-task coherence=".9" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>
@@ -249,7 +249,7 @@
 <h2>Exploring difficulty</h2>
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5" trials="10" duration="1000"></sdt-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
+  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-response interactive trial feedback="outcome"></sdt-response>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </sdt-table>

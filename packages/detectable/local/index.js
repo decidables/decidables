@@ -65669,7 +65669,7 @@ function (_SDTElement) {
 
     _this.wait = 2000; // Duration of wait period for response in milliseconds
 
-    _this.iti = 1000; // Duration of inter-trial interval in milliseconds
+    _this.iti = 2000; // Duration of inter-trial interval in milliseconds
 
     _this.trials = 5; // Number of trials per block
 
@@ -65701,11 +65701,15 @@ function (_SDTElement) {
 
     _this.state = 'resetted'; // Current state of task
 
-    _this.start = 0; // Time, in milliseconds, that current stage of trial started
+    _this.baseTime = 0; // Real time, in milliseconds, that the current block started
 
-    _this.time = 0; // Time, in milliseconds, of the current frame
+    _this.pauseTime = 0; // Real time, in milliseconds, that block was paused at
 
-    _this.current = undefined; // Direction in degrees for current trial
+    _this.startTime = 0; // Virtual time, in milliseconds, that current stage of trial started
+
+    _this.lastTime = 0; // Virtual time, in milliseconds, of the most recent frame
+
+    _this.currentDirection = undefined; // Direction in degrees for current trial
 
     _this.signals = ['present', 'absent']; // Possible trial types
 
@@ -65841,9 +65845,18 @@ function (_SDTElement) {
 
       if (changedProperties.has('running')) {
         if (this.running) {
+          // (Re)Start
+          if (this.pauseTime) {
+            // Shift timeline forward as if paused time never happened
+            this.baseTime += d3.now() - this.pauseTime;
+            this.pauseTime = 0;
+          }
+
           this.runner = d3.interval(this.run.bind(this), 20); // FIXME??
         } else if (this.runner !== undefined) {
+          // Pause
           this.runner.stop();
+          this.pauseTime = d3.now();
         }
       }
     }
@@ -65854,9 +65867,12 @@ function (_SDTElement) {
       this.running = false;
       this.trial = 0;
       this.state = 'resetted';
-      this.start = 0;
+      this.baseTime = 0;
+      this.pauseTime = 0;
+      this.startTime = 0;
+      this.lastTime = 0;
       this.signal = undefined;
-      this.current = undefined;
+      this.currentDirection = undefined;
       var dotsUpdate = d3.select(this.renderRoot).select('.content').selectAll('.dots').data([[], []]);
       var dotUpdate = dotsUpdate.selectAll('.dot').data(function (datum) {
         return datum;
@@ -65869,16 +65885,21 @@ function (_SDTElement) {
     }
   }, {
     key: "run",
-    value: function run(time) {
-      var elapsedTime = time - this.start;
-      var frameTime = time - this.time;
-      this.time = time;
+    value: function run()
+    /* elapsed */
+    {
+      var realTime = d3.now();
+      var currentTime = this.baseTime ? realTime - this.baseTime : 0;
+      var elapsedTime = this.baseTime ? currentTime - this.startTime : 0;
+      var frameTime = this.baseTime ? currentTime - this.lastTime : 0;
+      this.lastTime = currentTime;
       var newTrial = false;
 
       if (this.state === 'resetted') {
         // Start block with an ITI
         this.state = 'iti';
-        this.start = time;
+        this.baseTime = realTime;
+        this.startTime = 0;
         this.dispatchEvent(new CustomEvent('rdk-block-start', {
           detail: {
             trials: this.trials
@@ -65890,9 +65911,9 @@ function (_SDTElement) {
         newTrial = true;
         this.trial += 1;
         this.state = 'stimulus';
-        this.start = time;
+        this.startTime = currentTime;
         this.signal = Math.random() < this.probability ? 'present' : 'absent';
-        this.current = this.signal === 'absent' ? undefined : this.direction >= 0 ? this.direction : Math.random() * 360;
+        this.currentDirection = this.signal === 'absent' ? undefined : this.direction >= 0 ? this.direction : Math.random() * 360;
         this.dispatchEvent(new CustomEvent('rdk-trial-start', {
           detail: {
             trials: this.trials,
@@ -65907,7 +65928,7 @@ function (_SDTElement) {
       } else if (this.state === 'stimulus' && elapsedTime >= this.duration) {
         // Stimulus is over, now wait
         this.state = 'wait';
-        this.start = time;
+        this.startTime = currentTime;
         this.dispatchEvent(new CustomEvent('rdk-trial-middle', {
           detail: {
             trials: this.trials,
@@ -65938,9 +65959,12 @@ function (_SDTElement) {
           this.runner.stop();
           this.running = false;
           this.state = 'ended';
-          this.start = 0;
+          this.baseTime = 0;
+          this.pauseTime = 0;
+          this.startTime = 0;
+          this.lastTime = 0;
           this.signal = undefined;
-          this.current = undefined;
+          this.currentDirection = undefined;
           this.dispatchEvent(new CustomEvent('rdk-block-end', {
             detail: {
               trials: this.trial
@@ -65950,7 +65974,7 @@ function (_SDTElement) {
         } else {
           // ITI
           this.state = 'iti';
-          this.start = time;
+          this.startTime = currentTime;
         }
       } // Dots
 
@@ -65970,16 +65994,16 @@ function (_SDTElement) {
             var dot = this.dots[t][i];
 
             if (newTrial || newDot) {
-              dot.direction = t === this.RANDOM ? Math.random() * 360 : this.current;
-              dot.birth = this.time - Math.floor(Math.random() * this.lifetime);
+              dot.direction = t === this.RANDOM ? Math.random() * 360 : this.currentDirection;
+              dot.birth = currentTime - Math.floor(Math.random() * this.lifetime);
               var angle = Math.random() * 2 * Math.PI;
               var radius = Math.sqrt(Math.random());
               dot.x = this.xScale(radius * Math.cos(angle));
               dot.y = this.yScale(radius * Math.sin(angle));
-            } else if (this.time > dot.birth + this.lifetime) {
+            } else if (currentTime > dot.birth + this.lifetime) {
               // Dot has died, so rebirth
               dot.birth += this.lifetime;
-              dot.direction = t === this.RANDOM ? Math.random() * 360 : this.current;
+              dot.direction = t === this.RANDOM ? Math.random() * 360 : this.currentDirection;
 
               var _angle = Math.random() * 2 * Math.PI;
 
@@ -65989,7 +66013,7 @@ function (_SDTElement) {
               dot.y = this.yScale(_radius * Math.sin(_angle));
             } else {
               if (t === this.COHERENT) {
-                dot.direction = this.current;
+                dot.direction = this.currentDirection;
               }
 
               var directionR = dot.direction * (Math.PI / 180);
@@ -66961,8 +66985,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _templateObject20() {
+  var data = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: ", ";\n          ---shadow-4-rotate: ", ";\n          ---shadow-8-rotate: ", ";\n\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        .slider {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .switch {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .toggle {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        /* Spinners */\n        input[type=number] {\n          width: 3.5rem;\n          margin: 0 0.25rem 0.25rem;\n\n          background: var(---color-background);\n        }\n\n        /* Toggles */\n        fieldset {\n          border: 0;\n        }\n\n        legend {\n          text-align: center;\n        }\n\n        /* Payoff  Slider */\n        .payoff {\n          line-height: 1;\n        }\n\n        .payoff::before {\n          position: absolute;\n\n          padding-top: 1px;\n          padding-left: 0.5rem;\n\n          line-height: normal;\n\n          content: \"$\";\n        }\n      "]);
+
+  _templateObject20 = function _templateObject20() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject19() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject19 = function _templateObject19() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject18() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: ", ";\n          ---shadow-4-rotate: ", ";\n          ---shadow-8-rotate: ", ";\n\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        .slider {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .switch {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .toggle {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        /* BUTTON */\n\n        /* NUMBER */\n\n        /* RADIO */\n\n        /* RANGE */\n\n        /* SLIDER */\n\n        /* SPINNER */\n        input[type=number] {\n          width: 3.5rem;\n          margin: 0 0.25rem 0.25rem;\n\n          background: var(---color-background);\n        }\n\n        /* SWITCH */\n\n        /* TOGGLE */\n        fieldset {\n          border: 0;\n        }\n\n        legend {\n          text-align: center;\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["<button name=\"reset\" ?disabled=", " @click=", ">Reset</button>"]);
 
   _templateObject18 = function _templateObject18() {
     return data;
@@ -66982,7 +67026,7 @@ function _templateObject17() {
 }
 
 function _templateObject16() {
-  var data = _taggedTemplateLiteral(["<button name=\"reset\" ?disabled=", " @click=", ">Reset</button>"]);
+  var data = _taggedTemplateLiteral(["<button name=\"pause\" ?disabled=", " @click=", ">Pause</button>"]);
 
   _templateObject16 = function _templateObject16() {
     return data;
@@ -67002,7 +67046,7 @@ function _templateObject15() {
 }
 
 function _templateObject14() {
-  var data = _taggedTemplateLiteral(["<button name=\"pause\" ?disabled=", " @click=", ">Pause</button>"]);
+  var data = _taggedTemplateLiteral(["<button name=\"run\" ?disabled=", " @click=", ">Run</button>"]);
 
   _templateObject14 = function _templateObject14() {
     return data;
@@ -67022,7 +67066,7 @@ function _templateObject13() {
 }
 
 function _templateObject12() {
-  var data = _taggedTemplateLiteral(["<button name=\"run\" ?disabled=", " @click=", ">Run</button>"]);
+  var data = _taggedTemplateLiteral(["\n            <div class=\"switch\">\n              <input type=\"checkbox\" id=", " name=\"z-roc\" ?checked=", " @change=", ">\n              <label for=", ">ROC</label>\n              <label for=", "><span class=\"math-var\">z</span>ROC</label>\n            </div>"]);
 
   _templateObject12 = function _templateObject12() {
     return data;
@@ -67042,7 +67086,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"switch\">\n              <input type=\"checkbox\" id=", " name=\"z-roc\" ?checked=", " @change=", ">\n              <label for=", ">ROC</label>\n              <label for=", "><span class=\"math-var\">z</span>ROC</label>\n            </div>"]);
+  var data = _taggedTemplateLiteral(["\n            <fieldset class=\"toggle\">\n              <legend>Emphasis</legend>\n              <input type=\"radio\" id=", " name=", " value=\"none\" ?checked=", " @change=", ">\n              <label for=", ">None</label>\n              <input type=\"radio\" id=", " name=", " value=\"accuracy\" ?checked=", " @change=", ">\n              <label for=", ">Accuracy</label>\n              <input type=\"radio\" id=", " name=", " value=\"stimulus\" ?checked=", " @change=", ">\n              <label for=", ">Stimulus</label>\n              <input type=\"radio\" id=", " name=", " value=\"response\" ?checked=", " @change=", ">\n              <label for=", ">Response</label>\n              <input type=\"radio\" id=", " name=", " value=\"outcome\" ?checked=", " @change=", ">\n              <label for=", ">Outcome</label>\n            </fieldset>"]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -67062,7 +67106,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n            <fieldset class=\"toggle\">\n              <legend>Emphasis</legend>\n              <input type=\"radio\" id=", " name=", " value=\"none\" ?checked=", " @change=", ">\n              <label for=", ">None</label>\n              <input type=\"radio\" id=", " name=", " value=\"accuracy\" ?checked=", " @change=", ">\n              <label for=", ">Accuracy</label>\n              <input type=\"radio\" id=", " name=", " value=\"stimulus\" ?checked=", " @change=", ">\n              <label for=", ">Stimulus</label>\n              <input type=\"radio\" id=", " name=", " value=\"response\" ?checked=", " @change=", ">\n              <label for=", ">Response</label>\n              <input type=\"radio\" id=", " name=", " value=\"outcome\" ?checked=", " @change=", ">\n              <label for=", ">Outcome</label>\n            </fieldset>"]);
+  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Payoff</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"payoff\" min=\"0\" max=\"100\" step=\"1\" .value=", " @input=", " @change=", ">\n              </div>\n              <div class=\"payoff\">\n                <input type=\"number\" min=\"0\" max=\"100\" step=\"1\" .value=\"", "\" @input=", ">\n              </div>\n            </div>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -67132,7 +67176,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        <div class=\"buttons\">\n          ", "\n          ", "\n          ", "\n        </div>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        <div class=\"buttons\">\n          ", "\n          ", "\n          ", "\n        </div>\n      </div>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -67180,14 +67224,34 @@ function (_SDTMixinStyleButton) {
     // eslint-disable-line max-len
     get: function get() {
       return {
+        trials: {
+          attribute: 'trials',
+          type: Number,
+          reflect: true
+        },
         duration: {
           attribute: 'duration',
           type: Number,
           reflect: true
         },
-        trials: {
-          attribute: 'trials',
+        coherence: {
+          attribute: 'coherence',
           type: Number,
+          reflect: true
+        },
+        payoff: {
+          attribute: 'payoff',
+          type: Number,
+          reflect: true
+        },
+        color: {
+          attribute: 'color',
+          type: String,
+          reflect: true
+        },
+        zRoc: {
+          attribute: 'z-roc',
+          type: Boolean,
           reflect: true
         },
         run: {
@@ -67205,21 +67269,6 @@ function (_SDTMixinStyleButton) {
           type: Boolean,
           reflect: true
         },
-        coherence: {
-          attribute: 'coherence',
-          type: Number,
-          reflect: true
-        },
-        zRoc: {
-          attribute: 'z-roc',
-          type: Boolean,
-          reflect: true
-        },
-        color: {
-          attribute: 'color',
-          type: String,
-          reflect: true
-        },
         state: {
           atribute: false,
           type: String,
@@ -67234,45 +67283,32 @@ function (_SDTMixinStyleButton) {
 
     _classCallCheck(this, SDTControl);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTControl).call(this));
-    _this.duration = undefined;
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTControl).call(this)); // Attributes
+
     _this.trials = undefined;
-    _this.run = false;
-    _this.pause = false;
-    _this.reset = false;
+    _this.duration = undefined;
     _this.coherence = undefined;
-    _this.zRoc = undefined;
+    _this.payoff = undefined;
     _this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
     _this.color = undefined;
+    _this.zRoc = undefined;
+    _this.run = false;
+    _this.pause = false;
+    _this.reset = false; // Properties
+
     _this.states = ['resetted', 'running', 'paused', 'ended'];
     _this.state = 'resetted';
     return _this;
   }
 
   _createClass(SDTControl, [{
-    key: "doRun",
-    value: function doRun() {
-      this.state = 'running';
-      this.dispatchEvent(new CustomEvent('sdt-control-run', {
-        detail: {},
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "doPause",
-    value: function doPause() {
-      this.state = 'paused';
-      this.dispatchEvent(new CustomEvent('sdt-control-pause', {
-        detail: {},
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "doReset",
-    value: function doReset() {
-      this.state = 'resetted';
-      this.dispatchEvent(new CustomEvent('sdt-control-reset', {
-        detail: {},
+    key: "setTrials",
+    value: function setTrials(e) {
+      this.trials = e.target.value;
+      this.dispatchEvent(new CustomEvent('sdt-control-trials', {
+        detail: {
+          trials: this.trials
+        },
         bubbles: true
       }));
     }
@@ -67288,23 +67324,23 @@ function (_SDTMixinStyleButton) {
       }));
     }
   }, {
-    key: "setTrials",
-    value: function setTrials(e) {
-      this.trials = e.target.value;
-      this.dispatchEvent(new CustomEvent('sdt-control-trials', {
-        detail: {
-          trials: this.trials
-        },
-        bubbles: true
-      }));
-    }
-  }, {
     key: "setCoherence",
     value: function setCoherence(e) {
       this.coherence = e.target.value;
       this.dispatchEvent(new CustomEvent('sdt-control-coherence', {
         detail: {
           coherence: this.coherence
+        },
+        bubbles: true
+      }));
+    }
+  }, {
+    key: "setPayoff",
+    value: function setPayoff(e) {
+      this.payoff = e.target.value;
+      this.dispatchEvent(new CustomEvent('sdt-control-payoff', {
+        detail: {
+          payoff: this.payoff
         },
         bubbles: true
       }));
@@ -67332,6 +67368,33 @@ function (_SDTMixinStyleButton) {
       }));
     }
   }, {
+    key: "doRun",
+    value: function doRun() {
+      this.state = 'running';
+      this.dispatchEvent(new CustomEvent('sdt-control-run', {
+        detail: {},
+        bubbles: true
+      }));
+    }
+  }, {
+    key: "doPause",
+    value: function doPause() {
+      this.state = 'paused';
+      this.dispatchEvent(new CustomEvent('sdt-control-pause', {
+        detail: {},
+        bubbles: true
+      }));
+    }
+  }, {
+    key: "doReset",
+    value: function doReset() {
+      this.state = 'resetted';
+      this.dispatchEvent(new CustomEvent('sdt-control-reset', {
+        detail: {},
+        bubbles: true
+      }));
+    }
+  }, {
     key: "complete",
     value: function complete() {
       this.state = 'ended';
@@ -67339,12 +67402,12 @@ function (_SDTMixinStyleButton) {
   }, {
     key: "render",
     value: function render() {
-      return (0, _litElement.html)(_templateObject(), this.trials ? (0, _litElement.html)(_templateObject2(), "".concat(this.uniqueId, "-trials"), "".concat(this.uniqueId, "-trials"), this.trials, this.setTrials.bind(this), this.setTrials.bind(this), this.trials, this.setTrials.bind(this)) : (0, _litElement.html)(_templateObject3()), this.duration ? (0, _litElement.html)(_templateObject4(), "".concat(this.uniqueId, "-duration"), "".concat(this.uniqueId, "-duration"), this.duration, this.setDuration.bind(this), this.setDuration.bind(this), this.duration, this.setDuration.bind(this)) : (0, _litElement.html)(_templateObject5()), this.coherence ? (0, _litElement.html)(_templateObject6(), "".concat(this.uniqueId, "-coherence"), "".concat(this.uniqueId, "-coherence"), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this), this.coherence, this.setCoherence.bind(this)) : (0, _litElement.html)(_templateObject7()), this.color !== undefined ? (0, _litElement.html)(_templateObject8(), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color"), this.color === 'none', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color"), this.color === 'accuracy', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color"), this.color === 'stimulus', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color"), this.color === 'response', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color-outcome"), "".concat(this.uniqueId, "-color"), this.color === 'outcome', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-outcome")) : (0, _litElement.html)(_templateObject9()), this.zRoc !== undefined ? (0, _litElement.html)(_templateObject10(), "".concat(this.uniqueId, "-z-roc"), this.zRoc, this.flipZRoc.bind(this), "".concat(this.uniqueId, "-z-roc"), "".concat(this.uniqueId, "-z-roc")) : (0, _litElement.html)(_templateObject11()), this.run ? (0, _litElement.html)(_templateObject12(), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : (0, _litElement.html)(_templateObject13()), this.pause ? (0, _litElement.html)(_templateObject14(), this.state !== 'running', this.doPause.bind(this)) : (0, _litElement.html)(_templateObject15()), this.reset ? (0, _litElement.html)(_templateObject16(), this.state === 'resetted', this.doReset.bind(this)) : (0, _litElement.html)(_templateObject17()));
+      return (0, _litElement.html)(_templateObject(), this.trials ? (0, _litElement.html)(_templateObject2(), "".concat(this.uniqueId, "-trials"), "".concat(this.uniqueId, "-trials"), this.trials, this.setTrials.bind(this), this.setTrials.bind(this), this.trials, this.setTrials.bind(this)) : (0, _litElement.html)(_templateObject3()), this.duration ? (0, _litElement.html)(_templateObject4(), "".concat(this.uniqueId, "-duration"), "".concat(this.uniqueId, "-duration"), this.duration, this.setDuration.bind(this), this.setDuration.bind(this), this.duration, this.setDuration.bind(this)) : (0, _litElement.html)(_templateObject5()), this.coherence ? (0, _litElement.html)(_templateObject6(), "".concat(this.uniqueId, "-coherence"), "".concat(this.uniqueId, "-coherence"), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this), this.coherence, this.setCoherence.bind(this)) : (0, _litElement.html)(_templateObject7()), this.payoff ? (0, _litElement.html)(_templateObject8(), "".concat(this.uniqueId, "-payoff"), "".concat(this.uniqueId, "-payoff"), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this), this.payoff, this.setPayoff.bind(this)) : (0, _litElement.html)(_templateObject9()), this.color !== undefined ? (0, _litElement.html)(_templateObject10(), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color"), this.color === 'none', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color"), this.color === 'accuracy', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color"), this.color === 'stimulus', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color"), this.color === 'response', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color-outcome"), "".concat(this.uniqueId, "-color"), this.color === 'outcome', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-outcome")) : (0, _litElement.html)(_templateObject11()), this.zRoc !== undefined ? (0, _litElement.html)(_templateObject12(), "".concat(this.uniqueId, "-z-roc"), this.zRoc, this.flipZRoc.bind(this), "".concat(this.uniqueId, "-z-roc"), "".concat(this.uniqueId, "-z-roc")) : (0, _litElement.html)(_templateObject13()), this.run ? (0, _litElement.html)(_templateObject14(), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : (0, _litElement.html)(_templateObject15()), this.pause ? (0, _litElement.html)(_templateObject16(), this.state !== 'running', this.doPause.bind(this)) : (0, _litElement.html)(_templateObject17()), this.reset ? (0, _litElement.html)(_templateObject18(), this.state === 'resetted', this.doReset.bind(this)) : (0, _litElement.html)(_templateObject19()));
     }
   }], [{
     key: "styles",
     get: function get() {
-      return [_get(_getPrototypeOf(SDTControl), "styles", this), (0, _litElement.css)(_templateObject18(), (0, _litElement.unsafeCSS)(this.cssBoxShadow(2, true, false)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(4, true, false)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(8, true, false)))];
+      return [_get(_getPrototypeOf(SDTControl), "styles", this), (0, _litElement.css)(_templateObject20(), (0, _litElement.unsafeCSS)(this.cssBoxShadow(2, true, false)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(4, true, false)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(8, true, false)))];
     }
   }]);
 
@@ -67540,37 +67603,69 @@ function (_SDTElement) {
 
     _classCallCheck(this, SDTModel);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTModel).call(this));
-    _this.firstUpdate = true;
-    _this.drag = false;
-    _this.colors = ['outcome', 'response', 'stimulus', 'none'];
-    _this.color = 'outcome';
-    _this.histogram = false;
-    _this.distributions = false;
-    _this.threshold = false;
-    _this.unequal = false;
-    _this.sensitivity = false;
-    _this.bias = false;
-    _this.variance = false;
-    _this.d = 1;
-    _this.c = 0;
-    _this.s = 1;
-    _this.muN = NaN;
-    _this.muS = NaN;
-    _this.l = NaN;
-    _this.hS = NaN;
-    _this.signals = ['present', 'absent'];
-    _this.responses = ['present', 'absent'];
-    _this.binRange = [-3.0, 3.0];
-    _this.binWidth = 0.25;
-    _this.trials = [];
-    _this.h = 0;
-    _this.m = 0;
-    _this.fa = 0;
-    _this.cr = 0;
-    _this.width = NaN;
-    _this.height = NaN;
-    _this.rem = NaN;
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTModel).call(this)); // Attributes
+
+    _this.colors = ['outcome', 'response', 'stimulus', 'none']; // Allowable values of 'color'
+
+    _this.color = 'outcome'; // How to color distributions and trials
+
+    _this.distributions = false; // Show distributions?
+
+    _this.threshold = false; // Show threshold?
+
+    _this.unequal = false; // Allow unequal variance?
+
+    _this.sensitivity = false; // Show d'?
+
+    _this.bias = false; // Show c?
+
+    _this.variance = false; // Show variance?
+
+    _this.histogram = false; // Show histogram?
+
+    _this.d = 1; // Sensitivity
+
+    _this.c = 0; // Bias
+
+    _this.s = 1; // Variance
+    // Properties
+
+    _this.binWidth = 0.25; // Histogram bin width in units of evidence
+
+    _this.signals = ['present', 'absent']; // Allowable values of trial.signal
+
+    _this.responses = ['present', 'absent']; // Allowable values of trial.response
+
+    _this.trials = []; // Array of simulated trials
+
+    _this.width = NaN; // Width of component in pixels
+
+    _this.height = NaN; // Height of component in pixels
+
+    _this.rem = NaN; // Pixels per rem for component
+    // Private
+
+    _this.muN = NaN; // Mean of noise distribution
+
+    _this.muS = NaN; // Mean of signal distribution
+
+    _this.l = NaN; // lambda (threshold location)
+
+    _this.hS = NaN; // Height of signal distribution
+
+    _this.binRange = [-3.0, 3.0]; // Range of histogram
+
+    _this.h = 0; // Hits
+
+    _this.m = 0; // Misses
+
+    _this.fa = 0; // False alarms
+
+    _this.cr = 0; // Correct rejections
+
+    _this.firstUpdate = true; // Are we waiting for the first update?
+
+    _this.drag = false; // Are we currently dragging?
 
     _this.alignState();
 
@@ -67590,6 +67685,8 @@ function (_SDTElement) {
     key: "trial",
     value: function trial(trialNumber, signal, duration, wait, iti) {
       var trial = {};
+      trial.new = true;
+      trial.paused = false;
       trial.trial = trialNumber;
       trial.signal = signal;
       trial.duration = duration;
@@ -67606,30 +67703,15 @@ function (_SDTElement) {
       if (trial.signal === 'present') {
         trial.trueEvidence = trial.evidence * this.s + this.muS;
         trial.response = trial.trueEvidence > this.l ? 'present' : 'absent';
-
-        if (trial.response === 'present') {
-          trial.outcome = 'h';
-          this.h += 1;
-        } else {
-          // trial.response == 'absent'
-          trial.outcome = 'm';
-          this.m += 1;
-        }
+        trial.outcome = trial.response === 'present' ? 'h' : 'm';
       } else {
         // trial.signal == 'absent'
         trial.trueEvidence = trial.evidence + this.muN;
         trial.response = trial.trueEvidence > this.l ? 'present' : 'absent';
-
-        if (trial.response === 'present') {
-          trial.outcome = 'fa';
-          this.fa += 1;
-        } else {
-          // trial.response == 'absent'
-          trial.outcome = 'cr';
-          this.cr += 1;
-        }
+        trial.outcome = trial.response === 'present' ? 'fa' : 'cr';
       }
 
+      if (!trial.new) this[trial.outcome] += 1;
       return trial;
     }
   }, {
@@ -67748,7 +67830,8 @@ function (_SDTElement) {
       var yScale = d3.scaleLinear().domain([0.5, 0]) // Probability // FIX - no hardcoding
       .range([0, height]); // 2nd Y Scale
 
-      var strokeWidth = 3;
+      var strokeWidth = 3; // FIX - no hardcoding
+
       var binWidth = xScale(this.binWidth) - xScale(0);
       var y2Scale = d3.scaleLinear().domain([height / binWidth, 0]) // Number of Stimuli
       .range([0, height]); // Threshold Drag behavior
@@ -68418,8 +68501,7 @@ function (_SDTElement) {
       thresholdMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0)).attr('x2', xScale(this.l)).attr('y2', yScale(0.54));
       thresholdMerge.select('.handle').transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attr('cx', xScale(this.l)).attr('cy', yScale(0.54)); //  EXIT
 
-      thresholdUpdate.exit().remove(); // CURRENT!
-      // Histogram
+      thresholdUpdate.exit().remove(); // Histogram
       //  DATA-JOIN
 
       var histogramUpdate = contentMerge.selectAll('.histogram').data(this.histogram ? [{}] : []); //  ENTER
@@ -68467,52 +68549,106 @@ function (_SDTElement) {
           return datum.trial;
         }); //  ENTER
 
-        var trialEnter = trialUpdate.enter().append('rect').attr('stroke-width', strokeWidth).attr('stroke', this.getComputedStyleValue('---color-acc')).attr('fill', this.getComputedStyleValue('---color-acc-light'));
-        trialEnter.transition().delay(function (datum) {
-          return Math.floor(datum.duration * 0.1);
-        }).duration(function (datum) {
-          return Math.floor(datum.duration * 0.9 + datum.wait * 0.25);
-        }).ease(d3.easeLinear).attrTween('stroke', function (datum, index, elements) {
-          var element = elements[index];
-          var interpolator = d3.interpolateRgb(element.getAttribute('stroke'), _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr') : _this2.getComputedStyleValue('---color-far') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response)) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome)) : _this2.getComputedStyleValue('---color-acc'));
-          return function (time) {
-            return interpolator(d3.easeCubicIn(time));
-          };
-        }).attrTween('fill', function (datum, index, elements) {
-          var element = elements[index];
-          var interpolator = d3.interpolateRgb(element.getAttribute('fill'), _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr-light') : _this2.getComputedStyleValue('---color-far-light') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response, "-light")) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome, "-light")) : _this2.getComputedStyleValue('---color-acc-light'));
-          return function (time) {
-            return interpolator(d3.easeCubicIn(time));
-          };
-        }).attrTween('x', function (datum, index, elements) {
-          var element = elements[index];
-          var interpolator = d3.interpolate(element.getAttribute('x'), xScale(datum.binValue) + strokeWidth / 2);
-          return function (time) {
-            return interpolator(d3.easeCubicOut(time));
-          };
-        }).attrTween('y', function (datum, index, elements) {
-          var element = elements[index];
-          var interpolator = d3.interpolate(element.getAttribute('y'), yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth);
-          return function (time) {
-            return interpolator(d3.easeCubicIn(time));
-          };
-        }).on('end', function (datum) {
-          _this2.dispatchEvent(new CustomEvent('sdt-response', {
-            detail: {
-              stimulus: datum.signal,
-              response: datum.response,
-              outcome: datum.outcome,
-              h: _this2.h,
-              m: _this2.m,
-              fa: _this2.fa,
-              cr: _this2.cr,
-              nr: 0
-            },
-            bubbles: true
-          }));
-        }); //  UPDATE
+        var trialEnter = trialUpdate.enter().append('rect').attr('stroke-width', strokeWidth).attr('data-new-trial-ease-time', 0) // use 'data-trial-enter'
+        .attr('stroke', this.getComputedStyleValue('---color-acc')).attr('fill', this.getComputedStyleValue('---color-acc-light')); //  MERGE
 
-        trialUpdate.transition().duration(transitionDuration).ease(d3.easeCubicOut).attr('x', function (datum) {
+        var trialMerge = trialEnter.merge(trialUpdate).attr('class', function (datum) {
+          return "trial ".concat(datum.outcome);
+        }).attr('width', binWidth - strokeWidth).attr('height', binWidth - strokeWidth); //  MERGE - Active New Trials
+
+        var trialMergeNewActive = trialMerge.filter(function (datum) {
+          return datum.new && !datum.paused;
+        });
+
+        if (!trialMergeNewActive.empty()) {
+          var easeTime = trialMergeNewActive.attr('data-new-trial-ease-time');
+
+          var scaleIn = function scaleIn(time) {
+            return d3.scaleLinear().domain([0, 1]).range([easeTime, 1])(time);
+          };
+
+          var scaleOutGenerator = function scaleOutGenerator(easeFunction) {
+            return function (time) {
+              return d3.scaleLinear().domain([easeFunction(easeTime), 1]).range([0, 1])(easeFunction(time));
+            };
+          };
+
+          trialMergeNewActive.transition('new').duration(function (datum) {
+            return Math.floor((datum.duration * 0.75 + datum.wait * 0.25) * (1 - easeTime));
+          }).ease(scaleIn).attr('data-new-trial-ease-time', 1).attrTween('stroke', function (datum, index, elements) {
+            var element = elements[index];
+            var interpolator = d3.interpolateRgb(element.getAttribute('stroke'), _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr') : _this2.getComputedStyleValue('---color-far') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response)) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome)) : _this2.getComputedStyleValue('---color-acc'));
+            return function (time) {
+              return interpolator(scaleOutGenerator(d3.easeCubicIn)(time));
+            };
+          }).attrTween('fill', function (datum, index, elements) {
+            var element = elements[index];
+            var interpolator = d3.interpolateRgb(element.getAttribute('fill'), _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr-light') : _this2.getComputedStyleValue('---color-far-light') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response, "-light")) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome, "-light")) : _this2.getComputedStyleValue('---color-acc-light'));
+            return function (time) {
+              return interpolator(scaleOutGenerator(d3.easeCubicIn)(time));
+            };
+          }).attrTween('x', function (datum, index, elements) {
+            var element = elements[index];
+            var interpolator = d3.interpolate(element.getAttribute('x'), xScale(datum.binValue) + strokeWidth / 2);
+            return function (time) {
+              return interpolator(scaleOutGenerator(d3.easeCubicOut)(time));
+            };
+          }).attrTween('y', function (datum, index, elements) {
+            var element = elements[index];
+            var interpolator = d3.interpolate(element.getAttribute('y'), yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth);
+            return function (time) {
+              return interpolator(scaleOutGenerator(d3.easeCubicIn)(time));
+            };
+          }).on('end', function (datum, index, elements) {
+            var element = elements[index];
+            element.removeAttribute('data-new-trial-ease-time');
+            datum.new = false;
+
+            _this2.alignTrial(datum);
+
+            _this2.dispatchEvent(new CustomEvent('sdt-response', {
+              detail: {
+                stimulus: datum.signal,
+                response: datum.response,
+                outcome: datum.outcome,
+                h: _this2.h,
+                m: _this2.m,
+                fa: _this2.fa,
+                cr: _this2.cr,
+                nr: 0
+              },
+              bubbles: true
+            }));
+          });
+        } // MERGE - Paused New Trials
+
+
+        var trialMergeNewPaused = trialMerge.filter(function (datum) {
+          return datum.new && datum.paused;
+        });
+
+        if (!trialMergeNewPaused.empty()) {
+          var _easeTime = trialMergeNewPaused.attr('data-new-trial-ease-time');
+
+          trialMergeNewPaused.transition().duration(transitionDuration).ease(d3.easeCubicOut).attr('x', function (datum) {
+            var interpolator = d3.interpolate(0, xScale(datum.binValue) + strokeWidth / 2);
+            return interpolator(d3.easeCubicOut(_easeTime));
+          }).attr('y', function (datum) {
+            var interpolator = d3.interpolate(0, yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth);
+            return interpolator(d3.easeCubicIn(_easeTime));
+          }).attr('stroke', function (datum) {
+            var interpolator = d3.interpolateRgb(_this2.getComputedStyleValue('---color-acc'), _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr') : _this2.getComputedStyleValue('---color-far') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response)) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome)) : _this2.getComputedStyleValue('---color-acc'));
+            return interpolator(d3.easeCubicIn(_easeTime));
+          }).attr('fill', function (datum) {
+            var interpolator = d3.interpolateRgb(_this2.getComputedStyleValue('---color-acc-light'), _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr-light') : _this2.getComputedStyleValue('---color-far-light') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response, "-light")) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome, "-light")) : _this2.getComputedStyleValue('---color-acc-light'));
+            return interpolator(d3.easeCubicIn(_easeTime));
+          });
+        } //  MERGE - Old Trials
+
+
+        trialMerge.filter(function (datum) {
+          return !datum.new;
+        }).transition().duration(transitionDuration).ease(d3.easeCubicOut).attr('x', function (datum) {
           return xScale(datum.binValue) + strokeWidth / 2;
         }).attr('y', function (datum) {
           return yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth;
@@ -68520,11 +68656,7 @@ function (_SDTElement) {
           return _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr') : _this2.getComputedStyleValue('---color-far') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response)) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome)) : _this2.getComputedStyleValue('---color-acc');
         }).attr('fill', function (datum) {
           return _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr-light') : _this2.getComputedStyleValue('---color-far-light') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response, "-light")) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome, "-light")) : _this2.getComputedStyleValue('---color-acc-light');
-        }); //  MERGE
-
-        trialEnter.merge(trialUpdate).attr('class', function (datum) {
-          return "trial ".concat(datum.outcome);
-        }).attr('width', binWidth - strokeWidth).attr('height', binWidth - strokeWidth); //  EXIT
+        }); //  EXIT
 
         trialUpdate.exit().transition().duration(transitionDuration).ease(d3.easeLinear).attrTween('stroke', function (datum, index, elements) {
           var element = elements[index];
@@ -68565,6 +68697,28 @@ function (_SDTElement) {
       overlayerMerge.select('.background').attr('height', height).attr('width', width);
       this.drag = false;
       this.firstUpdate = false;
+    } // Called to pause trial animations!
+
+  }, {
+    key: "pauseTrial",
+    value: function pauseTrial() {
+      var trialNew = d3.select(this.renderRoot).select('.trial[data-new-trial-ease-time]');
+      trialNew.interrupt('new');
+      trialNew.datum(function (datum) {
+        datum.paused = true;
+        return datum;
+      });
+    } // Called to resume trial animations!
+
+  }, {
+    key: "resumeTrial",
+    value: function resumeTrial() {
+      var trialNew = d3.select(this.renderRoot).select('.trial[data-new-trial-ease-time]');
+      trialNew.datum(function (datum) {
+        datum.paused = false;
+        return datum;
+      });
+      this.requestUpdate();
     }
   }], [{
     key: "styles",
@@ -68899,38 +69053,68 @@ function (_SDTMixinStyleButton) {
 
     _classCallCheck(this, SDTResponse);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTResponse).call(this));
-    _this.feedbacks = ['none', 'accuracy', 'outcome', 'payoff', 'total-payoff'];
-    _this.feedback = 'outcome';
-    _this.trial = false;
-    _this.payoffs = ['none', 'trial', 'total'];
-    _this.payoff = 'none';
-    _this.states = ['off', 'waiting', 'feedback'];
-    _this.state = 'off';
-    _this.signals = ['present', 'absent'];
-    _this.signal = undefined;
-    _this.responses = ['present', 'absent'];
-    _this.response = undefined;
-    _this.outcomes = ['h', 'm', 'fa', 'cr', 'nr'];
-    _this.outcome = undefined;
-    _this.accuracies = ['c', 'e', 'nr'];
-    _this.accuracy = undefined;
-    _this.h = 0;
-    _this.m = 0;
-    _this.cr = 0;
-    _this.fa = 0;
-    _this.c = 0;
-    _this.e = 0;
-    _this.nr = 0;
-    _this.trialCount = 0;
-    _this.trialTotal = 0;
-    _this.hPayoff = 0;
-    _this.mPayoff = 0;
-    _this.crPayoff = 0;
-    _this.faPayoff = 0;
-    _this.nrPayoff = 0;
-    _this.trialPayoff = undefined;
-    _this.totalPayoff = 0;
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTResponse).call(this)); // Attributes
+
+    _this.feedbacks = ['none', 'accuracy', 'outcome']; // Possible values for 'feedback'
+
+    _this.feedback = 'outcome'; // What feedback to display
+
+    _this.trial = false; // Show trial count?
+
+    _this.payoffs = ['none', 'trial', 'total']; // Possible types of 'payoff' info
+
+    _this.payoff = 'none'; // What payoff info to display
+
+    _this.hPayoff = 0; // Hit payoff
+
+    _this.mPayoff = 0; // Miss payoff
+
+    _this.crPayoff = 0; // Correct Rejection payoff
+
+    _this.faPayoff = 0; // False Alarm payoff
+
+    _this.nrPayoff = 0; // No Response payoff
+    // Properties
+
+    _this.states = ['off', 'waiting', 'feedback']; // Possible states
+
+    _this.state = 'off'; // Current state
+
+    _this.trialCount = 0; // Current trial
+
+    _this.trialTotal = 0; // Total trials
+    // Private
+
+    _this.signals = ['present', 'absent']; // Possible values of 'signal'
+
+    _this.signal = undefined; // Signal for current trial
+
+    _this.responses = ['present', 'absent']; // Possible values of 'response'
+
+    _this.response = undefined; // Response for current trial
+
+    _this.outcomes = ['h', 'm', 'fa', 'cr', 'nr']; // Possible values of 'outcome'
+
+    _this.outcome = undefined; // Outcome for current trial
+
+    _this.accuracies = ['c', 'e', 'nr']; // Possible values of 'accuracy'
+
+    _this.accuracy = undefined; // Accuracy for current trial
+
+    _this.h = 0; // Count of Hits
+
+    _this.m = 0; // Count of Misses
+
+    _this.cr = 0; // Count of Correct Rejections
+
+    _this.fa = 0; // Count of False Alarms
+
+    _this.c = 0; // Count of Correct trials
+
+    _this.e = 0; // Count of Error trials
+
+    _this.nr = 0; // Count of No Response trials
+
     return _this;
   }
 
@@ -68942,7 +69126,6 @@ function (_SDTMixinStyleButton) {
       this.signal = signal;
       this.response = undefined;
       this.outcome = undefined;
-      this.trialPayoff = undefined;
     }
   }, {
     key: "stop",
@@ -68953,8 +69136,6 @@ function (_SDTMixinStyleButton) {
         this.outcome = 'nr';
         this.nr += 1;
         this.accuracy = 'nr';
-        this.trialPayoff = this.nrPayoff;
-        this.totalPayoff += this.nrPayoff;
       }
     }
   }, {
@@ -68978,29 +69159,21 @@ function (_SDTMixinStyleButton) {
         this.h += 1;
         this.accuracy = 'c';
         this.c += 1;
-        this.trialPayoff = this.hPayoff;
-        this.totalPayoff += this.hPayoff;
       } else if (this.signal === 'present' && this.response === 'absent') {
         this.outcome = 'm';
         this.m += 1;
         this.accuracy = 'e';
         this.e += 1;
-        this.trialPayoff = this.mPayoff;
-        this.totalPayoff += this.mPayoff;
       } else if (this.signal === 'absent' && this.response === 'present') {
         this.outcome = 'fa';
         this.fa += 1;
         this.accuracy = 'e';
         this.e += 1;
-        this.trialPayoff = this.faPayoff;
-        this.totalPayoff += this.faPayoff;
       } else if (this.signal === 'absent' && this.response === 'absent') {
         this.outcome = 'cr';
         this.cr += 1;
         this.accuracy = 'c';
         this.c += 1;
-        this.trialPayoff = this.crPayoff;
-        this.totalPayoff += this.crPayoff;
       }
 
       this.dispatchEvent(new CustomEvent('sdt-response', {
@@ -69024,11 +69197,11 @@ function (_SDTMixinStyleButton) {
     key: "reset",
     value: function reset() {
       this.state = 'off';
+      this.trialCount = 0;
       this.signal = undefined;
       this.response = undefined;
       this.outcome = undefined;
       this.accuracy = undefined;
-      this.trialPayoff = undefined;
       this.h = 0;
       this.m = 0;
       this.cr = 0;
@@ -69036,13 +69209,39 @@ function (_SDTMixinStyleButton) {
       this.nr = 0;
       this.c = 0;
       this.e = 0;
-      this.totalPayoff = 0;
-      this.trialCount = 0;
     }
   }, {
     key: "render",
     value: function render() {
       return (0, _litElement.html)(_templateObject(), this.state === 'feedback' && this.response === 'present' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.present.bind(this), this.state === 'feedback' && this.response === 'absent' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.absent.bind(this), this.trial || this.feedback !== 'none' || this.payoff === 'total' ? (0, _litElement.html)(_templateObject2(), this.trial ? (0, _litElement.html)(_templateObject3(), this.trialCount, this.trialTotal) : (0, _litElement.html)(_templateObject4()), this.feedback !== 'none' ? (0, _litElement.html)(_templateObject5(), "feedback ".concat(this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''), this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? (0, _litElement.html)(_templateObject6()) : this.outcome === 'm' ? (0, _litElement.html)(_templateObject7()) : this.outcome === 'fa' ? (0, _litElement.html)(_templateObject8()) : this.outcome === 'cr' ? (0, _litElement.html)(_templateObject9()) : (0, _litElement.html)(_templateObject10()) : this.accuracy === 'c' ? (0, _litElement.html)(_templateObject11()) : this.accuracy === 'e' ? (0, _litElement.html)(_templateObject12()) : (0, _litElement.html)(_templateObject13()) : '', this.payoff === 'trial' || this.payoff === 'total' ? (0, _litElement.html)(_templateObject14(), this.trialPayoff) : (0, _litElement.html)(_templateObject15())) : (0, _litElement.html)(_templateObject16()), this.payoff === 'total' ? (0, _litElement.html)(_templateObject17(), this.totalPayoff) : (0, _litElement.html)(_templateObject18())) : (0, _litElement.html)(_templateObject19()));
+    }
+  }, {
+    key: "trialPayoff",
+    get: function get() {
+      switch (this.outcome) {
+        case 'h':
+          return this.hPayoff;
+
+        case 'm':
+          return this.mPayoff;
+
+        case 'fa':
+          return this.faPayoff;
+
+        case 'cr':
+          return this.crPayoff;
+
+        case 'nr':
+          return this.nrPayoff;
+
+        default:
+          return undefined;
+      }
+    }
+  }, {
+    key: "totalPayoff",
+    get: function get() {
+      return this.h * this.hPayoff + this.m * this.mPayoff + this.cr * this.crPayoff + this.fa * this.faPayoff + this.nr * this.nrPayoff;
     }
   }], [{
     key: "styles",
@@ -69077,8 +69276,168 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _templateObject46() {
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th1 {\n          font-weight: bold;\n        }\n\n        .th2 {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        label {\n          margin: 0;\n        }\n\n        label span {\n          display: block;\n\n          font-size: 0.75rem;\n        }\n\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        input {\n          background: none;\n        }\n\n        .td1 input {\n          width: 3.5rem;\n        }\n\n        .td2 input,\n        .td3 input {\n          width: 4.5rem;\n        }\n\n        /* Table emphasis */\n        .h {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        /* Color schemes */\n        /* stylelint-disable-next-line no-descending-specificity */\n        .td,\n        .td input {\n          transition: all var(---transition-duration) ease;\n        }\n\n        /* Outcome color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        .ppv,\n        .ppv input {\n          background: var(---color-present-light);\n        }\n\n        .fomr,\n        .fomr input {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .h input,\n        :host([color=\"accuracy\"]) .cr,\n        :host([color=\"accuracy\"]) .cr input {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .m input,\n        :host([color=\"accuracy\"]) .fa,\n        :host([color=\"accuracy\"]) .fa input {\n          color: var(---color-background);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .hr input,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .far input,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .ppv input,\n        :host([color=\"accuracy\"]) .fomr,\n        :host([color=\"accuracy\"]) .fomr input {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .cr input,\n        :host([color=\"stimulus\"]) .fa,\n        :host([color=\"stimulus\"]) .fa input {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .m input,\n        :host([color=\"stimulus\"]) .h,\n        :host([color=\"stimulus\"]) .h input {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .ppv input,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .fomr input,\n        :host([color=\"stimulus\"]) .acc,\n        :host([color=\"stimulus\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .cr input,\n        :host([color=\"response\"]) .m,\n        :host([color=\"response\"]) .m input {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .fa input,\n        :host([color=\"response\"]) .h,\n        :host([color=\"response\"]) .h input {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .hr input,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .far input,\n        :host([color=\"response\"]) .acc,\n        :host([color=\"response\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .cr input,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .fa input,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .m input,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .h input,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .hr input,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .far input,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .ppv input,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .fomr input,\n        :host([color=\"none\"]) .acc,\n        :host([color=\"none\"]) .acc input {\n          background: var(---color-element-background);\n        }\n      "]);
+
+  _templateObject46 = function _templateObject46() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject45() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject45 = function _templateObject45() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject44() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject44 = function _templateObject44() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject43() {
+  var data = _taggedTemplateLiteral(["\n                    <td class=\"td td3 acc\" rowspan=\"2\">\n                      ", "\n                    </td>"]);
+
+  _templateObject43 = function _templateObject43() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject42() {
+  var data = _taggedTemplateLiteral(["\n                    <td colspan=\"2\"></td>"]);
+
+  _templateObject42 = function _templateObject42() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject41() {
+  var data = _taggedTemplateLiteral(["\n                    <td class=\"td td2 ppv\">\n                      ", "\n                    </td>\n                    <td class=\"td td2 fomr\">\n                      ", "\n                    </td>"]);
+
+  _templateObject41 = function _templateObject41() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject40() {
+  var data = _taggedTemplateLiteral(["\n              <tr>\n                <td colspan=\"2\"></td>\n                ", "\n                ", "\n              </tr>"]);
+
+  _templateObject40 = function _templateObject40() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject39() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject39 = function _templateObject39() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject38() {
+  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 far\">\n                  ", "\n                </td>"]);
+
+  _templateObject38 = function _templateObject38() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject37() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject37 = function _templateObject37() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject36() {
+  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 hr\">\n                  ", "\n                </td>"]);
+
+  _templateObject36 = function _templateObject36() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject35() {
+  var data = _taggedTemplateLiteral(["\n      <table class=", ">\n        <thead>\n          <tr>\n            <th colspan=\"2\" rowspan=\"2\"></th>\n            <th class=\"th th1\" colspan=\"2\" scope=\"col\">\n              Response\n            </th>\n          </tr>\n          <tr>\n            <th class=\"th th2\" scope=\"col\">\n              \"Present\"\n            </th>\n            <th class=\"th th2\" scope=\"col\">\n              \"Absent\"\n            </th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr>\n            <th class=\"th th1\" rowspan=\"2\" scope=\"row\">\n              Signal\n            </th>\n            <th class=\"th th2\" scope=\"row\">\n              Present\n            </th>\n            <td class=\"td td1 h\">\n              ", "\n            </td>\n            <td class=\"td td1 m\">\n              ", "\n            </td>\n            ", "\n          </tr>\n          <tr>\n            <th class=\"th th2\" scope=\"row\">\n              Absent\n            </th>\n            <td class=\"td td1 fa\">\n              ", "\n            </td>\n            <td class=\"td td1 cr\">\n              ", "\n            </td>\n            ", "\n          </tr>\n          ", "\n        </tbody>\n      </table>"]);
+
+  _templateObject35 = function _templateObject35() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject34() {
+  var data = _taggedTemplateLiteral(["<span>False Omission Rate</span>"]);
+
+  _templateObject34 = function _templateObject34() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject33() {
+  var data = _taggedTemplateLiteral(["<span>Positive Predictive Value</span>"]);
+
+  _templateObject33 = function _templateObject33() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject32() {
+  var data = _taggedTemplateLiteral(["<span>Accuracy</span>"]);
+
+  _templateObject32 = function _templateObject32() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject31() {
+  var data = _taggedTemplateLiteral(["<span>False Alarm Rate</span>"]);
+
+  _templateObject31 = function _templateObject31() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject30() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th1 {\n          font-weight: bold;\n        }\n\n        .th2 {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        label {\n          margin: 0;\n        }\n\n        label span {\n          display: block;\n\n          font-size: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        input {\n          background: none;\n        }\n\n        .td1 input {\n          width: 3.5rem;\n        }\n\n        .td2 input,\n        .td3 input {\n          width: 4.5rem;\n        }\n\n        /* Table emphasis */\n        .h {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        /* Color schemes */\n        /* stylelint-disable-next-line no-descending-specificity */\n        .td,\n        .td input {\n          transition: all var(---transition-duration) ease;\n        }\n\n        /* Outcome color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        .ppv,\n        .ppv input {\n          background: var(---color-present-light);\n        }\n\n        .fomr,\n        .fomr input {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .h input,\n        :host([color=\"accuracy\"]) .cr,\n        :host([color=\"accuracy\"]) .cr input {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .m input,\n        :host([color=\"accuracy\"]) .fa,\n        :host([color=\"accuracy\"]) .fa input {\n          color: var(---color-background);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .hr input,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .far input,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .ppv input,\n        :host([color=\"accuracy\"]) .fomr,\n        :host([color=\"accuracy\"]) .fomr input {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .cr input,\n        :host([color=\"stimulus\"]) .fa,\n        :host([color=\"stimulus\"]) .fa input {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .m input,\n        :host([color=\"stimulus\"]) .h,\n        :host([color=\"stimulus\"]) .h input {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .ppv input,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .fomr input,\n        :host([color=\"stimulus\"]) .acc,\n        :host([color=\"stimulus\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .cr input,\n        :host([color=\"response\"]) .m,\n        :host([color=\"response\"]) .m input {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .fa input,\n        :host([color=\"response\"]) .h,\n        :host([color=\"response\"]) .h input {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .hr input,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .far input,\n        :host([color=\"response\"]) .acc,\n        :host([color=\"response\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .cr input,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .fa input,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .m input,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .h input,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .hr input,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .far input,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .ppv input,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .fomr input,\n        :host([color=\"none\"]) .acc,\n        :host([color=\"none\"]) .acc input {\n          background: var(---color-element-background);\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["<span>Hit Rate</span>"]);
 
   _templateObject30 = function _templateObject30() {
     return data;
@@ -69098,7 +69457,7 @@ function _templateObject29() {
 }
 
 function _templateObject28() {
-  var data = _taggedTemplateLiteral([""]);
+  var data = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"]);
 
   _templateObject28 = function _templateObject28() {
     return data;
@@ -69108,7 +69467,7 @@ function _templateObject28() {
 }
 
 function _templateObject27() {
-  var data = _taggedTemplateLiteral(["\n                    <td class=\"td td3 acc\" rowspan=\"2\">\n                      ", "\n                    </td>"]);
+  var data = _taggedTemplateLiteral(["<span>Correct Rejections</span>\n        ", ""]);
 
   _templateObject27 = function _templateObject27() {
     return data;
@@ -69118,7 +69477,7 @@ function _templateObject27() {
 }
 
 function _templateObject26() {
-  var data = _taggedTemplateLiteral(["\n                    <td colspan=\"2\"></td>"]);
+  var data = _taggedTemplateLiteral([""]);
 
   _templateObject26 = function _templateObject26() {
     return data;
@@ -69128,7 +69487,7 @@ function _templateObject26() {
 }
 
 function _templateObject25() {
-  var data = _taggedTemplateLiteral(["\n                    <td class=\"td td2 ppv\">\n                      ", "\n                    </td>\n                    <td class=\"td td2 fomr\">\n                      ", "\n                    </td>"]);
+  var data = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"]);
 
   _templateObject25 = function _templateObject25() {
     return data;
@@ -69138,7 +69497,7 @@ function _templateObject25() {
 }
 
 function _templateObject24() {
-  var data = _taggedTemplateLiteral(["\n              <tr>\n                <td colspan=\"2\"></td>\n                ", "\n                ", "\n              </tr>"]);
+  var data = _taggedTemplateLiteral(["<span>False Alarms</span>\n        ", ""]);
 
   _templateObject24 = function _templateObject24() {
     return data;
@@ -69158,7 +69517,7 @@ function _templateObject23() {
 }
 
 function _templateObject22() {
-  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 far\">\n                  ", "\n                </td>"]);
+  var data = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"]);
 
   _templateObject22 = function _templateObject22() {
     return data;
@@ -69168,7 +69527,7 @@ function _templateObject22() {
 }
 
 function _templateObject21() {
-  var data = _taggedTemplateLiteral([""]);
+  var data = _taggedTemplateLiteral(["<span>Misses</span>\n        ", ""]);
 
   _templateObject21 = function _templateObject21() {
     return data;
@@ -69178,7 +69537,7 @@ function _templateObject21() {
 }
 
 function _templateObject20() {
-  var data = _taggedTemplateLiteral(["\n                <td class=\"td td2 hr\">\n                  ", "\n                </td>"]);
+  var data = _taggedTemplateLiteral([""]);
 
   _templateObject20 = function _templateObject20() {
     return data;
@@ -69188,7 +69547,7 @@ function _templateObject20() {
 }
 
 function _templateObject19() {
-  var data = _taggedTemplateLiteral(["\n      <table class=", ">\n        <thead>\n          <tr>\n            <th colspan=\"2\" rowspan=\"2\"></th>\n            <th class=\"th th1\" colspan=\"2\" scope=\"col\">\n              Response\n            </th>\n          </tr>\n          <tr>\n            <th class=\"th th2\" scope=\"col\">\n              \"Present\"\n            </th>\n            <th class=\"th th2\" scope=\"col\">\n              \"Absent\"\n            </th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr>\n            <th class=\"th th1\" rowspan=\"2\" scope=\"row\">\n              Signal\n            </th>\n            <th class=\"th th2\" scope=\"row\">\n              Present\n            </th>\n            <td class=\"td td1 h\">\n              ", "\n            </td>\n            <td class=\"td td1 m\">\n              ", "\n            </td>\n            ", "\n          </tr>\n          <tr>\n            <th class=\"th th2\" scope=\"row\">\n              Absent\n            </th>\n            <td class=\"td td1 fa\">\n              ", "\n            </td>\n            <td class=\"td td1 cr\">\n              ", "\n            </td>\n            ", "\n          </tr>\n          ", "\n        </tbody>\n      </table>"]);
+  var data = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"]);
 
   _templateObject19 = function _templateObject19() {
     return data;
@@ -69198,7 +69557,7 @@ function _templateObject19() {
 }
 
 function _templateObject18() {
-  var data = _taggedTemplateLiteral(["<span>False Omission Rate</span>"]);
+  var data = _taggedTemplateLiteral(["<span>Hits</span>\n        ", ""]);
 
   _templateObject18 = function _templateObject18() {
     return data;
@@ -69208,7 +69567,7 @@ function _templateObject18() {
 }
 
 function _templateObject17() {
-  var data = _taggedTemplateLiteral(["<span>Positive Predictive Value</span>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>False Omission Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject17 = function _templateObject17() {
     return data;
@@ -69218,7 +69577,7 @@ function _templateObject17() {
 }
 
 function _templateObject16() {
-  var data = _taggedTemplateLiteral(["<span>Accuracy</span>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>Positive Predictive Value</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject16 = function _templateObject16() {
     return data;
@@ -69228,7 +69587,7 @@ function _templateObject16() {
 }
 
 function _templateObject15() {
-  var data = _taggedTemplateLiteral(["<span>False Alarm Rate</span>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>Accuracy</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject15 = function _templateObject15() {
     return data;
@@ -69238,7 +69597,7 @@ function _templateObject15() {
 }
 
 function _templateObject14() {
-  var data = _taggedTemplateLiteral(["<span>Hit Rate</span>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>False Alarm Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject14 = function _templateObject14() {
     return data;
@@ -69248,7 +69607,7 @@ function _templateObject14() {
 }
 
 function _templateObject13() {
-  var data = _taggedTemplateLiteral(["<span>Correct Rejections</span>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>Hit Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject13 = function _templateObject13() {
     return data;
@@ -69258,7 +69617,7 @@ function _templateObject13() {
 }
 
 function _templateObject12() {
-  var data = _taggedTemplateLiteral(["<span>False Alarms</span>"]);
+  var data = _taggedTemplateLiteral([""]);
 
   _templateObject12 = function _templateObject12() {
     return data;
@@ -69268,7 +69627,7 @@ function _templateObject12() {
 }
 
 function _templateObject11() {
-  var data = _taggedTemplateLiteral(["<span>Misses</span>"]);
+  var data = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"]);
 
   _templateObject11 = function _templateObject11() {
     return data;
@@ -69278,7 +69637,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["<span>Hits</span>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>Correct Rejections</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -69288,7 +69647,7 @@ function _templateObject10() {
 }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>False Omission Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral([""]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -69298,7 +69657,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Positive Predictive Value</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -69308,7 +69667,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Accuracy</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>False Alarms</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -69318,7 +69677,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>False Alarm Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral([""]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -69328,7 +69687,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Hit Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -69338,7 +69697,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Correct Rejections</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>Misses</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -69348,7 +69707,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>False Alarms</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral([""]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -69358,7 +69717,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Misses</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -69368,7 +69727,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Hits</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["<label>\n          <span>Hits</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -69450,6 +69809,31 @@ function (_SDTMixinConverterSet) {
           type: Number,
           reflect: true
         },
+        payoff: {
+          attribute: 'payoff',
+          type: Boolean,
+          reflect: true
+        },
+        hPayoff: {
+          attribute: 'hit-payoff',
+          type: Number,
+          reflect: true
+        },
+        mPayoff: {
+          attribute: 'miss-payoff',
+          type: Number,
+          reflect: true
+        },
+        faPayoff: {
+          attribute: 'false-alarm-payoff',
+          type: Number,
+          reflect: true
+        },
+        crPayoff: {
+          attribute: 'correct-rejection-payoff',
+          type: Number,
+          reflect: true
+        },
         far: {
           attribute: false,
           type: Number,
@@ -69499,6 +69883,15 @@ function (_SDTMixinConverterSet) {
     _this.cr = 25;
 
     _this.alignState();
+
+    _this.payoff = false;
+    _this.hPayoff = undefined; // Hit payoff
+
+    _this.mPayoff = undefined; // Miss payoff
+
+    _this.crPayoff = undefined; // Correct Rejection payoff
+
+    _this.faPayoff = undefined; // False Alarm payoff
 
     return _this;
   }
@@ -69639,6 +70032,12 @@ function (_SDTMixinConverterSet) {
   }, {
     key: "render",
     value: function render() {
+      var payoffFormatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      });
       this.alignState();
       var h;
       var m;
@@ -69651,33 +70050,33 @@ function (_SDTMixinConverterSet) {
       var fomr;
 
       if (this.numeric) {
-        h = (0, _litElement.html)(_templateObject(), !this.interactive, this.h, this.hInput.bind(this));
-        m = (0, _litElement.html)(_templateObject2(), !this.interactive, this.m, this.mInput.bind(this));
-        fa = (0, _litElement.html)(_templateObject3(), !this.interactive, this.fa, this.faInput.bind(this));
-        cr = (0, _litElement.html)(_templateObject4(), !this.interactive, this.cr, this.crInput.bind(this));
-        hr = (0, _litElement.html)(_templateObject5(), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
-        far = (0, _litElement.html)(_templateObject6(), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
-        acc = (0, _litElement.html)(_templateObject7(), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
-        ppv = (0, _litElement.html)(_templateObject8(), !this.interactive, +this.ppv.toFixed(3), this.ppvInput.bind(this));
-        fomr = (0, _litElement.html)(_templateObject9(), !this.interactive, +this.fomr.toFixed(3), this.fomrInput.bind(this));
+        h = (0, _litElement.html)(_templateObject(), this.payoff ? (0, _litElement.html)(_templateObject2(), payoffFormatter.format(this.hPayoff)) : (0, _litElement.html)(_templateObject3()), !this.interactive, this.h, this.hInput.bind(this));
+        m = (0, _litElement.html)(_templateObject4(), this.payoff ? (0, _litElement.html)(_templateObject5(), payoffFormatter.format(this.mPayoff)) : (0, _litElement.html)(_templateObject6()), !this.interactive, this.m, this.mInput.bind(this));
+        fa = (0, _litElement.html)(_templateObject7(), this.payoff ? (0, _litElement.html)(_templateObject8(), payoffFormatter.format(this.faPayoff)) : (0, _litElement.html)(_templateObject9()), !this.interactive, this.fa, this.faInput.bind(this));
+        cr = (0, _litElement.html)(_templateObject10(), this.payoff ? (0, _litElement.html)(_templateObject11(), payoffFormatter.format(this.crPayoff)) : (0, _litElement.html)(_templateObject12()), !this.interactive, this.cr, this.crInput.bind(this));
+        hr = (0, _litElement.html)(_templateObject13(), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
+        far = (0, _litElement.html)(_templateObject14(), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
+        acc = (0, _litElement.html)(_templateObject15(), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
+        ppv = (0, _litElement.html)(_templateObject16(), !this.interactive, +this.ppv.toFixed(3), this.ppvInput.bind(this));
+        fomr = (0, _litElement.html)(_templateObject17(), !this.interactive, +this.fomr.toFixed(3), this.fomrInput.bind(this));
       } else {
-        h = (0, _litElement.html)(_templateObject10());
-        m = (0, _litElement.html)(_templateObject11());
-        fa = (0, _litElement.html)(_templateObject12());
-        cr = (0, _litElement.html)(_templateObject13());
-        hr = (0, _litElement.html)(_templateObject14());
-        far = (0, _litElement.html)(_templateObject15());
-        acc = (0, _litElement.html)(_templateObject16());
-        ppv = (0, _litElement.html)(_templateObject17());
-        fomr = (0, _litElement.html)(_templateObject18());
+        h = (0, _litElement.html)(_templateObject18(), this.payoff ? (0, _litElement.html)(_templateObject19(), payoffFormatter.format(this.hPayoff)) : (0, _litElement.html)(_templateObject20()));
+        m = (0, _litElement.html)(_templateObject21(), this.payoff ? (0, _litElement.html)(_templateObject22(), payoffFormatter.format(this.mPayoff)) : (0, _litElement.html)(_templateObject23()));
+        fa = (0, _litElement.html)(_templateObject24(), this.payoff ? (0, _litElement.html)(_templateObject25(), payoffFormatter.format(this.faPayoff)) : (0, _litElement.html)(_templateObject26()));
+        cr = (0, _litElement.html)(_templateObject27(), this.payoff ? (0, _litElement.html)(_templateObject28(), payoffFormatter.format(this.crPayoff)) : (0, _litElement.html)(_templateObject29()));
+        hr = (0, _litElement.html)(_templateObject30());
+        far = (0, _litElement.html)(_templateObject31());
+        acc = (0, _litElement.html)(_templateObject32());
+        ppv = (0, _litElement.html)(_templateObject33());
+        fomr = (0, _litElement.html)(_templateObject34());
       }
 
-      return (0, _litElement.html)(_templateObject19(), this.numeric ? 'numeric' : '', h, m, this.summary.has('stimulusRates') ? (0, _litElement.html)(_templateObject20(), hr) : (0, _litElement.html)(_templateObject21()), fa, cr, this.summary.has('stimulusRates') ? (0, _litElement.html)(_templateObject22(), far) : (0, _litElement.html)(_templateObject23()), this.summary.has('responseRates') || this.summary.has('accuracy') ? (0, _litElement.html)(_templateObject24(), this.summary.has('responseRates') ? (0, _litElement.html)(_templateObject25(), ppv, fomr) : (0, _litElement.html)(_templateObject26()), this.summary.has('accuracy') ? (0, _litElement.html)(_templateObject27(), acc) : (0, _litElement.html)(_templateObject28())) : (0, _litElement.html)(_templateObject29()));
+      return (0, _litElement.html)(_templateObject35(), this.numeric ? 'numeric' : '', h, m, this.summary.has('stimulusRates') ? (0, _litElement.html)(_templateObject36(), hr) : (0, _litElement.html)(_templateObject37()), fa, cr, this.summary.has('stimulusRates') ? (0, _litElement.html)(_templateObject38(), far) : (0, _litElement.html)(_templateObject39()), this.summary.has('responseRates') || this.summary.has('accuracy') ? (0, _litElement.html)(_templateObject40(), this.summary.has('responseRates') ? (0, _litElement.html)(_templateObject41(), ppv, fomr) : (0, _litElement.html)(_templateObject42()), this.summary.has('accuracy') ? (0, _litElement.html)(_templateObject43(), acc) : (0, _litElement.html)(_templateObject44())) : (0, _litElement.html)(_templateObject45()));
     }
   }], [{
     key: "styles",
     get: function get() {
-      return [_get(_getPrototypeOf(SDTTable), "styles", this), (0, _litElement.css)(_templateObject30())];
+      return [_get(_getPrototypeOf(SDTTable), "styles", this), (0, _litElement.css)(_templateObject46())];
     }
   }]);
 
@@ -71904,16 +72303,6 @@ function (_SDTExample) {
         }
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
-        this.sdtControl.addEventListener('sdt-control-duration', function (event) {
-          if (_this.rdkTask) {
-            _this.rdkTask.duration = event.detail.duration;
-            _this.rdkTask.wait = event.detail.duration;
-            _this.rdkTask.iti = event.detail.duration / 2;
-          }
-        });
-      }
-
       if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
         this.sdtControl.addEventListener('sdt-control-trials', function (event) {
           if (_this.rdkTask) {
@@ -71926,10 +72315,42 @@ function (_SDTExample) {
         });
       }
 
+      if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
+        this.sdtControl.addEventListener('sdt-control-duration', function (event) {
+          if (_this.rdkTask) {
+            _this.rdkTask.duration = event.detail.duration;
+            _this.rdkTask.wait = event.detail.duration;
+            _this.rdkTask.iti = event.detail.duration;
+          }
+        });
+      }
+
       if (this.sdtControl && this.sdtControl.hasAttribute('coherence')) {
         this.sdtControl.addEventListener('sdt-control-coherence', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.coherence = event.detail.coherence;
+          }
+        });
+      }
+
+      if (this.sdtControl && this.sdtControl.hasAttribute('payoff')) {
+        this.sdtControl.addEventListener('sdt-control-payoff', function (event) {
+          if (_this.sdtResponse) {
+            _this.sdtResponse.hPayoff = event.detail.payoff;
+            _this.sdtResponse.mPayoff = -event.detail.payoff + 0; // Get rid of -0
+
+            _this.sdtResponse.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
+
+            _this.sdtResponse.crPayoff = 100 - event.detail.payoff;
+          }
+
+          if (_this.sdtTable) {
+            _this.sdtTable.hPayoff = event.detail.payoff;
+            _this.sdtTable.mPayoff = -event.detail.payoff + 0; // Get rid of -0
+
+            _this.sdtTable.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
+
+            _this.sdtTable.crPayoff = 100 - event.detail.payoff;
           }
         });
       }
@@ -72312,7 +72733,7 @@ function (_SDTExample) {
           if (_this.rdkTask) {
             _this.rdkTask.duration = event.detail.duration;
             _this.rdkTask.wait = event.detail.duration;
-            _this.rdkTask.iti = event.detail.duration / 2;
+            _this.rdkTask.iti = event.detail.duration;
           }
         });
       }
@@ -72344,6 +72765,10 @@ function (_SDTExample) {
           if (_this.rdkTask) {
             _this.rdkTask.running = true;
           }
+
+          if (_this.sdtModel) {
+            _this.sdtModel.resumeTrial();
+          }
         });
       }
 
@@ -72353,6 +72778,10 @@ function (_SDTExample) {
         {
           if (_this.rdkTask) {
             _this.rdkTask.running = false;
+          }
+
+          if (_this.sdtModel) {
+            _this.sdtModel.pauseTrial();
           }
         });
       }

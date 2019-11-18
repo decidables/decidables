@@ -17,7 +17,7 @@
 
         <div class="sdt-sidebar">
           <div class="sdt-brandnav">
-            <button class="sdt-tocnav-toggle" type="button" data-toggle="collapse" data-target="#sdt-tocnav" aria-controls="sdt-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"/></svg>
+            <button class="sdt-tocnav-toggle" type="button" data-toggle="collapse" data-target="#sdt-tocnav" aria-controls="sdt-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"></path></svg>
             </button>
             <a class="sdt-brand-link" href="index.html"><span class="sdt-detectable"><span class="math-var d">d&prime;</span>ete<span class="math-var c">c</span>table</span></a>
           </div>
@@ -229,37 +229,45 @@
             <h2>When detecting hits is most important</h2>
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
-  <sdt-response interactive trial feedback="outcome" payoff="total" hit-payoff="100" miss-payoff="-100"
-    correct-rejection-payoff="10" false-alarm-payoff="-10"></sdt-response>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0"
-    false-alarms="0" correct-rejections="0"></sdt-table>
+  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+  <sdt-response interactive trial feedback="outcome" payoff="total" no-response-payoff="-100"
+    hit-payoff="90" miss-payoff="-90" correct-rejection-payoff="10" false-alarm-payoff="-10">
+  </sdt-response>
+  <sdt-table numeric summary="stimulusRates accuracy" payoff
+    hits="0" misses="0" false-alarms="0" correct-rejections="0"
+    hit-payoff="90" miss-payoff="-90" correct-rejection-payoff="10" false-alarm-payoff="-10">
+  </sdt-table>
   <roc-space point="all" iso-d="all" iso-c="all" far=".5" hr=".5"></roc-space>
   <sdt-model threshold bias distributions sensitivity color="outcome" d="0" c="0"></sdt-model>
 </sdt-example-human>
 <h2>When avoiding false alarms is most important</h2>
 <sdt-example-human>
   <sdt-control run pause reset></sdt-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
-  <sdt-response interactive trial feedback="outcome" payoff="total" hit-payoff="10" miss-payoff="-10"
-    correct-rejection-payoff="100" false-alarm-payoff="-100"></sdt-response>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </sdt-table>
+  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+  <sdt-response interactive trial feedback="outcome" payoff="total" no-response-payoff="-100"
+    hit-payoff="10" miss-payoff="-10" correct-rejection-payoff="90" false-alarm-payoff="-90">
+  </sdt-response>
+  <sdt-table numeric summary="stimulusRates accuracy" payoff
+    hits="0" misses="0" false-alarms="0" correct-rejections="0"
+    hit-payoff="10" miss-payoff="-10" correct-rejection-payoff="90" false-alarm-payoff="-90">
+  </sdt-table>
   <roc-space point="all" iso-d="all" iso-c="all" far=".5" hr=".5"></roc-space>
   <sdt-model threshold bias distributions sensitivity color="outcome" d="0" c="0"></sdt-model>
 </sdt-example-human>
 <h2>Exploring bias</h2>
-<p>?? Need way to set Hit/Miss Payoff and CR/FA Payoff
 <sdt-example-human>
-<sdt-control run pause reset coherence=".5" trials="10" duration="1000"></sdt-control>
-<rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="500"></rdk-task>
-<sdt-response interactive trial feedback="outcome" payoff="total" hit-payoff="10" miss-payoff="-10"
-    correct-rejection-payoff="100" false-alarm-payoff="-100"></sdt-response>
-<sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-</sdt-table>
-<roc-space point="all" iso-d="all" iso-c="all" history far=".5" hr=".5"></roc-space>
-<sdt-model threshold bias distributions sensitivity color="outcome" d="0" c="0"></sdt-model>
-</sdt-example-human></p>
+  <sdt-control trials="10" duration="1000" coherence=".5" payoff="50" run pause reset ></sdt-control>
+  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+  <sdt-response interactive trial feedback="outcome" payoff="total" no-response-payoff="-100"
+    hit-payoff="50" miss-payoff="-50" correct-rejection-payoff="50" false-alarm-payoff="-50">
+  </sdt-response>
+  <sdt-table numeric summary="stimulusRates accuracy" payoff
+    hits="0" misses="0" false-alarms="0" correct-rejections="0"
+    hit-payoff="50" miss-payoff="-50" correct-rejection-payoff="50" false-alarm-payoff="-50">
+  </sdt-table>
+  <roc-space point="all" iso-d="all" iso-c="all" history far=".5" hr=".5"></roc-space>
+  <sdt-model threshold bias distributions sensitivity color="outcome" d="0" c="0"></sdt-model>
+</sdt-example-human>
 
           </section>
 

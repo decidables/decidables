@@ -17,7 +17,7 @@
 
         <div class="sdt-sidebar">
           <div class="sdt-brandnav">
-            <button class="sdt-tocnav-toggle" type="button" data-toggle="collapse" data-target="#sdt-tocnav" aria-controls="sdt-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"/></svg>
+            <button class="sdt-tocnav-toggle" type="button" data-toggle="collapse" data-target="#sdt-tocnav" aria-controls="sdt-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"></path></svg>
             </button>
             <a class="sdt-brand-link" href="index.html"><span class="sdt-detectable"><span class="math-var d">d&prime;</span>ete<span class="math-var c">c</span>table</span></a>
           </div>
@@ -235,7 +235,7 @@ or <code class="Absent">Absent</code>.</p>
 than or less than that threshold:</p>
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="none" d="2.5" c="0"></sdt-model>
 </sdt-example-model>
 <h2>Responding present or absent</h2>
@@ -244,7 +244,7 @@ this is a <code class="RespondAbsent">Respond Absent</code> trial, and if the ev
 <code class="RespondPresent">Respond Present</code> trial:</p>
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="0"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
@@ -258,7 +258,7 @@ suggestive of signal and noise. But SDT doesn't require this.</p>
 the model is biased towards responding <code class="Absent">Absent</code>:</p>
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="2"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
@@ -267,7 +267,7 @@ the model is biased towards responding <code class="Absent">Absent</code>:</p>
 biased towards responding <code class="Present">Present</code>:</p>
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="-2"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
@@ -285,7 +285,7 @@ evidence measurements for individual trials, they will change between <code clas
 determines the tendency to make more <code class="Present">Present</code> or <code class="Absent">Absent</code> responses:</p>
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="250"></rdk-task>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias histogram color="response" d="2.5" c="1"></sdt-model>
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
