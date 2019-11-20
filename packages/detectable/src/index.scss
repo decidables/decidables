@@ -53,6 +53,18 @@ $color-map: (
   error: #000000, // black
 );
 
+@function sdt-color($name) {
+  @return map-get($color-map, $name);
+}
+
+@function sdt-color-light($name) {
+  @return mix(#ffffff, map-get($color-map, $name), 50%);
+}
+
+@function sdt-color-dark($name) {
+  @return mix(#000000, map-get($color-map, $name), 50%);
+}
+
 // Greys:
 $color-grey-base: #999999; // baseline grey
 
@@ -72,24 +84,37 @@ $border-color: $color-grey-light75;
 $body-color: $color-grey-dark75;
 $link-color: $color-grey-dark25;
 
+// Derived SCSS variables
+$color-background: #{$body-bg};
+$color-border: #{$border-color};
+$color-text: #{$body-color};
+$color-text-inverse: #{$color-white};
+$color-link: #{$link-color};
+$color-element-background: #{$color-grey-light75};
+$color-element-disabled: #{$color-grey-light50};
+$color-element-enabled: #{$color-grey};
+$color-element-selected: #{$color-grey-dark25};
+$color-element-border: #{$color-grey-dark50};
+$color-element-emphasis: #{$color-grey-dark75};
+
 // CSS variables
 :root {
-  @each $name, $color in $color-map {
-    --color-#{$name}: #{$color};
-    --color-#{$name}-light: #{mix(#ffffff, $color, 50%)};
-    --color-#{$name}-dark: #{mix(#000000, $color, 50%)};
+  @each $name in map-keys($color-map) {
+    --color-#{$name}: #{sdt-color($name)};
+    --color-#{$name}-light: #{sdt-color-light($name)};
+    --color-#{$name}-dark: #{sdt-color-dark($name)};
   }
-  --color-background: #{$body-bg};
-  --color-border: #{$border-color};
-  --color-text: #{$body-color};
-  --color-text-inverse: #{$color-white};
-  --color-link: #{$link-color};
-  --color-element-background: #{$color-grey-light75};
-  --color-element-disabled: #{$color-grey-light50};
-  --color-element-enabled: #{$color-grey};
-  --color-element-selected: #{$color-grey-dark25};
-  --color-element-border: #{$color-grey-dark50};
-  --color-element-emphasis: #{$color-grey-dark75};
+  --color-background: #{$color-background};
+  --color-border: #{$color-border};
+  --color-text: #{$color-text};
+  --color-text-inverse: #{$color-text-inverse};
+  --color-link: #{$color-link};
+  --color-element-background: #{$color-element-background};
+  --color-element-disabled: #{$color-element-disabled};
+  --color-element-enabled: #{$color-element-enabled};
+  --color-element-selected: #{$color-element-selected};
+  --color-element-border: #{$color-element-border};
+  --color-element-emphasis: #{$color-element-emphasis};
 }
 
 // TODO
@@ -120,6 +145,7 @@ $container-max-widths: (
 // SCSS VARIABLES
 $font-family-math: "Source Serif Pro", serif; // Not in Bootstrap
 $border: $border-width solid $border-color;
+$transition-duration: 500ms;
 
 // Shadows based on Material Design
 // https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
@@ -174,7 +200,7 @@ $shadow-ambient-map: (
   --font-family-math: #{$font-family-math};
   --border: #{$border};
   --border-radius: #{$border-radius};
-  --transition-duration: 500ms;
+  --transition-duration: #{$transition-duration};
 }
 
 
@@ -487,113 +513,113 @@ body {
     font-weight: 600;
     white-space: nowrap;
 
-    background-color: var(--color-element-background);
+    background-color: $color-element-background;
     border-radius: 0.25rem;
   }
 
   code[class="Bias"] {
-    background-color: var(--color-c-light);
+    background-color: sdt-color-light(c);
   }
 
   code[class="c"] {
     font-family: "Source Serif Pro", serif;
     font-style: italic;
 
-    background-color: var(--color-c-light);
+    background-color: sdt-color-light(c);
   }
 
   code[class="Iso-BiasCurve"] {
-    border: 2px solid var(--color-c);
+    border: 2px solid sdt-color(c);
   }
 
   code[class="Sensitivity"] {
-    background-color: var(--color-d-light);
+    background-color: sdt-color-light(d);
   }
 
   code[class="d′"] {
     font-family: "Source Serif Pro", serif;
     font-style: italic;
 
-    background-color: var(--color-d-light);
+    background-color: sdt-color-light(d);
   }
 
   code[class="Iso-SensitivityCurve"] {
-    border: 2px solid var(--color-d);
+    border: 2px solid sdt-color(d);
   }
 
   code[class="Variance"] {
-    background-color: var(--color-s-light);
+    background-color: sdt-color-light(s);
   }
 
   code[class="σ"] {
     font-family: "Source Serif Pro", serif;
     font-style: italic;
 
-    background-color: var(--color-s-light);
+    background-color: sdt-color-light(s);
   }
 
   code[class="RespondPresent"] {
-    background-color: var(--color-present-light);
-    border: 3px solid var(--color-present);
+    background-color: sdt-color-light(present);
+    border: 3px solid sdt-color(present);
     border-radius: 0;
   }
 
   code[class="RespondAbsent"] {
-    background-color: var(--color-absent-light);
-    border: 3px solid var(--color-absent);
+    background-color: sdt-color-light(absent);
+    border: 3px solid sdt-color(absent);
     border-radius: 0;
   }
 
   code[class="Evidence"] {
-    background-color: var(--color-acc-light);
-    border: 3px solid var(--color-acc);
+    background-color: sdt-color-light(acc);
+    border: 3px solid sdt-color(acc);
     border-radius: 0;
   }
 
   code[class="SignalPresent"] {
-    background-color: var(--color-hr-light);
-    border: 3px solid var(--color-hr);
+    background-color: sdt-color-light(hr);
+    border: 3px solid sdt-color(hr);
     border-radius: 0;
   }
 
   code[class="SignalAbsent"] {
-    background-color: var(--color-far-light);
-    border: 3px solid var(--color-far);
+    background-color: sdt-color-light(far);
+    border: 3px solid sdt-color(far);
     border-radius: 0;
   }
 
   code[class="OutcomeHit"] {
-    background-color: var(--color-h-light);
-    border: 3px solid var(--color-h);
+    background-color: sdt-color-light(h);
+    border: 3px solid sdt-color(h);
     border-radius: 0;
   }
 
   code[class="OutcomeMiss"] {
-    background-color: var(--color-m-light);
-    border: 3px solid var(--color-m);
+    background-color: sdt-color-light(m);
+    border: 3px solid sdt-color(m);
     border-radius: 0;
   }
 
   code[class="OutcomeCorrectRejection"] {
-    background-color: var(--color-cr-light);
-    border: 3px solid var(--color-cr);
+    background-color: sdt-color-light(cr);
+    border: 3px solid sdt-color(cr);
     border-radius: 0;
   }
 
   code[class="OutcomeFalseAlarm"] {
-    background-color: var(--color-fa-light);
-    border: 3px solid var(--color-fa);
+    background-color: sdt-color-light(fa);
+    border: 3px solid sdt-color(fa);
     border-radius: 0;
   }
 
   code[class="Signal+Noise"] {
-    background-color: var(--color-hr-light);
-    border: 2px solid var(--color-element-emphasis);
+    background-color: sdt-color-light(hr);
+    border: 2px solid $color-element-emphasis;
   }
 
   code[class="NoiseDistribution"] {
-    background-color: var(--color-far-light);
-    border: 2px solid var(--color-element-emphasis);
+    background-color: sdt-color-light(far);
+    border: 2px solid $color-element-emphasis;
   }
 
   code[class="Coherence"],
@@ -603,7 +629,7 @@ body {
 
     padding-right: 1.5rem;
 
-    background-color: var(--color-element-background);
+    background-color: $color-element-background;
   }
 
   code[class="Coherence"]::before,
@@ -619,7 +645,7 @@ body {
 
     content: "";
 
-    background-color: var(--color-element-disabled);
+    background-color: $color-element-disabled;
     border-width: 0.125rem;
   }
 
@@ -636,7 +662,7 @@ body {
 
     content: "";
 
-    background-color: var(--color-element-enabled);
+    background-color: $color-element-enabled;
     border-width: 0.25rem;
     border-radius: 0.25rem;
   }
@@ -644,89 +670,89 @@ body {
   code[class="Pause"],
   code[class="Reset"],
   code[class="Run"] {
-    color: var(--color-background);
+    color: $color-background;
 
-    background-color: var(--color-element-enabled);
+    background-color: $color-element-enabled;
   }
 
   code[class="+"],
   code[class="?"] {
-    background-color: var(--color-element-disabled);
+    background-color: $color-element-disabled;
 
-    border: 2px solid var(--color-element-emphasis);
+    border: 2px solid $color-element-emphasis;
     border-radius: 1rem;
   }
 
   code[class="Present"] {
-    color: var(--color-background);
+    color: $color-background;
 
-    background-color: var(--color-present);
+    background-color: sdt-color(present);
   }
 
   code[class="Absent"] {
-    color: var(--color-background);
+    color: $color-background;
 
-    background-color: var(--color-absent);
+    background-color: sdt-color(absent);
   }
 
   code[class="Correct"] {
-    background-color: var(--color-correct-light);
-    border: 1px solid var(--color-element-emphasis);
+    background-color: sdt-color-light(correct);
+    border: 1px solid $color-element-emphasis;
     border-radius: 0;
   }
 
   code[class="Error"] {
-    color: var(--color-background);
+    color: $color-background;
 
-    background-color: var(--color-error-light);
-    border: 1px solid var(--color-element-emphasis);
+    background-color: sdt-color-light(error);
+    border: 1px solid $color-element-emphasis;
     border-radius: 0;
   }
 
   code[class="NoResponse"] {
-    background-color: var(--color-element-background);
-    border: 1px solid var(--color-element-emphasis);
+    background-color: $color-element-background;
+    border: 1px solid $color-element-emphasis;
     border-radius: 0;
   }
 
   code[class="Hit"],
   code[class="Hits"] {
-    background-color: var(--color-h-light);
+    background-color: sdt-color-light(h);
   }
 
   code[class="Miss"],
   code[class="Misses"] {
-    background-color: var(--color-m-light);
+    background-color: sdt-color-light(m);
   }
 
   code[class="CorrectRejection"],
   code[class="CorrectRejections"] {
-    background-color: var(--color-cr-light);
+    background-color: sdt-color-light(cr);
   }
 
   code[class="FalseAlarm"],
   code[class="FalseAlarms"] {
-    background-color: var(--color-fa-light);
+    background-color: sdt-color-light(fa);
   }
 
   code[class="HitRate"] {
-    background-color: var(--color-hr-light);
+    background-color: sdt-color-light(hr);
   }
 
   code[class="FalseAlarmRate"] {
-    background-color: var(--color-far-light);
+    background-color: sdt-color-light(far);
   }
 
   code[class="PositivePredictiveValue"] {
-    background-color: var(--color-present-light);
+    background-color: sdt-color-light(present);
   }
 
   code[class="FalseOmissionRate"] {
-    background-color: var(--color-absent-light);
+    background-color: sdt-color-light(absent);
   }
 
   code[class="Accuracy"] {
-    background-color: var(--color-acc-light);
+    background-color: sdt-color-light(acc);
   }
 
   .csl-entry {
@@ -756,77 +782,77 @@ body {
   }
 
   .h {
-    background: var(--color-h-light);
-    border-left: 1rem solid var(--color-h);
+    background: sdt-color-light(h);
+    border-left: 1rem solid sdt-color(h);
   }
 
   .m {
-    background: var(--color-m-light);
-    border-left: 1rem solid var(--color-m);
+    background: sdt-color-light(m);
+    border-left: 1rem solid sdt-color(m);
   }
 
   .fa {
-    background: var(--color-fa-light);
-    border-left: 1rem solid var(--color-fa);
+    background: sdt-color-light(fa);
+    border-left: 1rem solid sdt-color(fa);
   }
 
   .cr {
-    background: var(--color-cr-light);
-    border-left: 1rem solid var(--color-cr);
+    background: sdt-color-light(cr);
+    border-left: 1rem solid sdt-color(cr);
   }
 
   .hr {
-    background: var(--color-hr-light);
-    border-left: 1rem solid var(--color-hr);
+    background: sdt-color-light(hr);
+    border-left: 1rem solid sdt-color(hr);
   }
 
   .far {
-    background: var(--color-far-light);
-    border-left: 1rem solid var(--color-far);
+    background: sdt-color-light(far);
+    border-left: 1rem solid sdt-color(far);
   }
 
   .acc {
-    background: var(--color-acc-light);
-    border-left: 1rem solid var(--color-acc);
+    background: sdt-color-light(acc);
+    border-left: 1rem solid sdt-color(acc);
   }
 
   .d {
-    background: var(--color-d-light);
-    border-left: 1rem solid var(--color-d);
+    background: sdt-color-light(d);
+    border-left: 1rem solid sdt-color(d);
   }
 
   .c {
-    background: var(--color-c-light);
-    border-left: 1rem solid var(--color-c);
+    background: sdt-color-light(c);
+    border-left: 1rem solid sdt-color(c);
   }
 
   .s {
-    background: var(--color-s-light);
-    border-left: 1rem solid var(--color-s);
+    background: sdt-color-light(s);
+    border-left: 1rem solid sdt-color(s);
   }
 
   .present {
-    background: var(--color-present-light);
-    border-left: 1rem solid var(--color-present);
+    background: sdt-color-light(present);
+    border-left: 1rem solid sdt-color(present);
   }
 
   .absent {
-    background: var(--color-absent-light);
-    border-left: 1rem solid var(--color-absent);
+    background: sdt-color-light(absent);
+    border-left: 1rem solid sdt-color(absent);
   }
 
   .correct {
     padding-left: calc(1.675rem - 1px);
 
-    background: var(--color-correct);
-    border: 1px solid var(--color-element-border);
+    background: sdt-color(correct);
+    border: 1px solid $color-element-border;
   }
 
   .error {
-    color: var(--color-text-inverse);
+    color: $color-text-inverse;
 
-    background: var(--color-error-light);
-    border-left: 1rem solid var(--color-error);
+    background: sdt-color-light(error);
+    border-left: 1rem solid sdt-color(error);
   }
 }
 
