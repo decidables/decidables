@@ -5226,78 +5226,78 @@ body {
     font-style: normal;
     font-weight: 600;
     white-space: nowrap;
-    background-color: var(--color-element-background);
+    background-color: #e6e6e6;
     border-radius: 0.25rem; }
   .sdt-content code[class="Bias"] {
-    background-color: var(--color-c-light); }
+    background-color: #d3ab94; }
   .sdt-content code[class="c"] {
     font-family: "Source Serif Pro", serif;
     font-style: italic;
-    background-color: var(--color-c-light); }
+    background-color: #d3ab94; }
   .sdt-content code[class="Iso-BiasCurve"] {
-    border: 2px solid var(--color-c); }
+    border: 2px solid #a65628; }
   .sdt-content code[class="Sensitivity"] {
-    background-color: var(--color-d-light); }
+    background-color: #fbc0df; }
   .sdt-content code[class="d′"] {
     font-family: "Source Serif Pro", serif;
     font-style: italic;
-    background-color: var(--color-d-light); }
+    background-color: #fbc0df; }
   .sdt-content code[class="Iso-SensitivityCurve"] {
-    border: 2px solid var(--color-d); }
+    border: 2px solid #f781bf; }
   .sdt-content code[class="Variance"] {
-    background-color: var(--color-s-light); }
+    background-color: #a2a2e8; }
   .sdt-content code[class="σ"] {
     font-family: "Source Serif Pro", serif;
     font-style: italic;
-    background-color: var(--color-s-light); }
+    background-color: #a2a2e8; }
   .sdt-content code[class="RespondPresent"] {
-    background-color: var(--color-present-light);
-    border: 3px solid var(--color-present);
+    background-color: #f899f3;
+    border: 3px solid #f032e6;
     border-radius: 0; }
   .sdt-content code[class="RespondAbsent"] {
-    background-color: var(--color-absent-light);
-    border: 3px solid var(--color-absent);
+    background-color: #88ede4;
+    border: 3px solid #10dbc9;
     border-radius: 0; }
   .sdt-content code[class="Evidence"] {
-    background-color: var(--color-acc-light);
-    border: 3px solid var(--color-acc);
+    background-color: #cccccc;
+    border: 3px solid #999999;
     border-radius: 0; }
   .sdt-content code[class="SignalPresent"] {
-    background-color: var(--color-hr-light);
-    border: 3px solid var(--color-hr);
+    background-color: #ffff99;
+    border: 3px solid #ffff33;
     border-radius: 0; }
   .sdt-content code[class="SignalAbsent"] {
-    background-color: var(--color-far-light);
-    border: 3px solid var(--color-far);
+    background-color: #cca7d1;
+    border: 3px solid #984ea3;
     border-radius: 0; }
   .sdt-content code[class="OutcomeHit"] {
-    background-color: var(--color-h-light);
-    border: 3px solid var(--color-h);
+    background-color: #a6d7a5;
+    border: 3px solid #4daf4a;
     border-radius: 0; }
   .sdt-content code[class="OutcomeMiss"] {
-    background-color: var(--color-m-light);
-    border: 3px solid var(--color-m);
+    background-color: #ffbf80;
+    border: 3px solid #ff7f00;
     border-radius: 0; }
   .sdt-content code[class="OutcomeCorrectRejection"] {
-    background-color: var(--color-cr-light);
-    border: 3px solid var(--color-cr);
+    background-color: #f28d8e;
+    border: 3px solid #e41a1c;
     border-radius: 0; }
   .sdt-content code[class="OutcomeFalseAlarm"] {
-    background-color: var(--color-fa-light);
-    border: 3px solid var(--color-fa);
+    background-color: #9bbfdc;
+    border: 3px solid #377eb8;
     border-radius: 0; }
   .sdt-content code[class="Signal+Noise"] {
-    background-color: var(--color-hr-light);
-    border: 2px solid var(--color-element-emphasis); }
+    background-color: #ffff99;
+    border: 2px solid #262626; }
   .sdt-content code[class="NoiseDistribution"] {
-    background-color: var(--color-far-light);
-    border: 2px solid var(--color-element-emphasis); }
+    background-color: #cca7d1;
+    border: 2px solid #262626; }
   .sdt-content code[class="Coherence"],
   .sdt-content code[class="Duration"],
   .sdt-content code[class="Trials"] {
     position: relative;
     padding-right: 1.5rem;
-    background-color: var(--color-element-background); }
+    background-color: #e6e6e6; }
   .sdt-content code[class="Coherence"]::before,
   .sdt-content code[class="Duration"]::before,
   .sdt-content code[class="Trials"]::before {
@@ -5307,7 +5307,7 @@ body {
     width: 0.25rem;
     height: 1.375rem;
     content: "";
-    background-color: var(--color-element-disabled);
+    background-color: #cccccc;
     border-width: 0.125rem; }
   .sdt-content code[class="Coherence"]::after,
   .sdt-content code[class="Duration"]::after,
@@ -5318,60 +5318,60 @@ body {
     width: 1.25rem;
     height: 0.625rem;
     content: "";
-    background-color: var(--color-element-enabled);
+    background-color: #999999;
     border-width: 0.25rem;
     border-radius: 0.25rem; }
   .sdt-content code[class="Pause"],
   .sdt-content code[class="Reset"],
   .sdt-content code[class="Run"] {
-    color: var(--color-background);
-    background-color: var(--color-element-enabled); }
+    color: #ffffff;
+    background-color: #999999; }
   .sdt-content code[class="+"],
   .sdt-content code[class="?"] {
-    background-color: var(--color-element-disabled);
-    border: 2px solid var(--color-element-emphasis);
+    background-color: #cccccc;
+    border: 2px solid #262626;
     border-radius: 1rem; }
   .sdt-content code[class="Present"] {
-    color: var(--color-background);
-    background-color: var(--color-present); }
+    color: #ffffff;
+    background-color: #f032e6; }
   .sdt-content code[class="Absent"] {
-    color: var(--color-background);
-    background-color: var(--color-absent); }
+    color: #ffffff;
+    background-color: #10dbc9; }
   .sdt-content code[class="Correct"] {
-    background-color: var(--color-correct-light);
-    border: 1px solid var(--color-element-emphasis);
+    background-color: white;
+    border: 1px solid #262626;
     border-radius: 0; }
   .sdt-content code[class="Error"] {
-    color: var(--color-background);
-    background-color: var(--color-error-light);
-    border: 1px solid var(--color-element-emphasis);
+    color: #ffffff;
+    background-color: gray;
+    border: 1px solid #262626;
     border-radius: 0; }
   .sdt-content code[class="NoResponse"] {
-    background-color: var(--color-element-background);
-    border: 1px solid var(--color-element-emphasis);
+    background-color: #e6e6e6;
+    border: 1px solid #262626;
     border-radius: 0; }
   .sdt-content code[class="Hit"],
   .sdt-content code[class="Hits"] {
-    background-color: var(--color-h-light); }
+    background-color: #a6d7a5; }
   .sdt-content code[class="Miss"],
   .sdt-content code[class="Misses"] {
-    background-color: var(--color-m-light); }
+    background-color: #ffbf80; }
   .sdt-content code[class="CorrectRejection"],
   .sdt-content code[class="CorrectRejections"] {
-    background-color: var(--color-cr-light); }
+    background-color: #f28d8e; }
   .sdt-content code[class="FalseAlarm"],
   .sdt-content code[class="FalseAlarms"] {
-    background-color: var(--color-fa-light); }
+    background-color: #9bbfdc; }
   .sdt-content code[class="HitRate"] {
-    background-color: var(--color-hr-light); }
+    background-color: #ffff99; }
   .sdt-content code[class="FalseAlarmRate"] {
-    background-color: var(--color-far-light); }
+    background-color: #cca7d1; }
   .sdt-content code[class="PositivePredictiveValue"] {
-    background-color: var(--color-present-light); }
+    background-color: #f899f3; }
   .sdt-content code[class="FalseOmissionRate"] {
-    background-color: var(--color-absent-light); }
+    background-color: #88ede4; }
   .sdt-content code[class="Accuracy"] {
-    background-color: var(--color-acc-light); }
+    background-color: #cccccc; }
   .sdt-content .csl-entry {
     padding-left: 2rem;
     text-indent: -2rem; }
@@ -5388,62 +5388,62 @@ body {
   margin-left: 2rem; }
 
 .sdt-legend .h {
-  background: var(--color-h-light);
-  border-left: 1rem solid var(--color-h); }
+  background: #a6d7a5;
+  border-left: 1rem solid #4daf4a; }
 
 .sdt-legend .m {
-  background: var(--color-m-light);
-  border-left: 1rem solid var(--color-m); }
+  background: #ffbf80;
+  border-left: 1rem solid #ff7f00; }
 
 .sdt-legend .fa {
-  background: var(--color-fa-light);
-  border-left: 1rem solid var(--color-fa); }
+  background: #9bbfdc;
+  border-left: 1rem solid #377eb8; }
 
 .sdt-legend .cr {
-  background: var(--color-cr-light);
-  border-left: 1rem solid var(--color-cr); }
+  background: #f28d8e;
+  border-left: 1rem solid #e41a1c; }
 
 .sdt-legend .hr {
-  background: var(--color-hr-light);
-  border-left: 1rem solid var(--color-hr); }
+  background: #ffff99;
+  border-left: 1rem solid #ffff33; }
 
 .sdt-legend .far {
-  background: var(--color-far-light);
-  border-left: 1rem solid var(--color-far); }
+  background: #cca7d1;
+  border-left: 1rem solid #984ea3; }
 
 .sdt-legend .acc {
-  background: var(--color-acc-light);
-  border-left: 1rem solid var(--color-acc); }
+  background: #cccccc;
+  border-left: 1rem solid #999999; }
 
 .sdt-legend .d {
-  background: var(--color-d-light);
-  border-left: 1rem solid var(--color-d); }
+  background: #fbc0df;
+  border-left: 1rem solid #f781bf; }
 
 .sdt-legend .c {
-  background: var(--color-c-light);
-  border-left: 1rem solid var(--color-c); }
+  background: #d3ab94;
+  border-left: 1rem solid #a65628; }
 
 .sdt-legend .s {
-  background: var(--color-s-light);
-  border-left: 1rem solid var(--color-s); }
+  background: #a2a2e8;
+  border-left: 1rem solid #4545d0; }
 
 .sdt-legend .present {
-  background: var(--color-present-light);
-  border-left: 1rem solid var(--color-present); }
+  background: #f899f3;
+  border-left: 1rem solid #f032e6; }
 
 .sdt-legend .absent {
-  background: var(--color-absent-light);
-  border-left: 1rem solid var(--color-absent); }
+  background: #88ede4;
+  border-left: 1rem solid #10dbc9; }
 
 .sdt-legend .correct {
   padding-left: calc(1.675rem - 1px);
-  background: var(--color-correct);
-  border: 1px solid var(--color-element-border); }
+  background: #ffffff;
+  border: 1px solid #4d4d4d; }
 
 .sdt-legend .error {
-  color: var(--color-text-inverse);
-  background: var(--color-error-light);
-  border-left: 1rem solid var(--color-error); }
+  color: #ffffff;
+  background: gray;
+  border-left: 1rem solid #000000; }
 
 .sdt-glossary {
   margin-left: 2rem; }
