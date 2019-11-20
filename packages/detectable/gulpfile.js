@@ -81,9 +81,9 @@ gulp.task('compile:scripts', () => {
       debug: true,
       transform: [
         ['babelify', {
-          presets: ['@babel/preset-env'],
+          presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.1'}]],
           global: true,
-          ignore: ['**/custom-elements-es5-adapter.js'],
+          ignore: [/custom-elements-es5-adapter/, /core-js/],
         }],
       ],
     }))

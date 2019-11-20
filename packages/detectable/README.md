@@ -147,7 +147,7 @@
 
 ## Development Tooling
 
-Dependencies update 1/29/2019.
+Dependencies update 11/19/2019.
 
 ### Global
 
@@ -174,6 +174,12 @@ Dependencies update 1/29/2019.
 
 - `yarn serve`
   - Runs a basic http server, to serve `SDT/` (e.g. <http://localhost:8000/src/> or <http://localhost:8000/dist/>)
+- `yarn outdated`
+  - Check for outdated dependencies
+- `yarn upgrade --latest`
+  - Upgrade to latest dependencies, ignoring semver!
+- `yarn upgrade-interactive --latest`
+  - Manual upgrade to latest dependencies, ignoring semver!
 
 ---
 
