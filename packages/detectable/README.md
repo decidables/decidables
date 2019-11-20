@@ -116,6 +116,8 @@
 
 #### IE11 ???
 
+- No CSS variables outside custom elements (and not patched by ShadyCSS!)
+
 #### Opera ???
 
 ### Mobile
