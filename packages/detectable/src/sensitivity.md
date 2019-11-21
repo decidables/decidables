@@ -45,7 +45,7 @@ What is immediately clear is that `Sensitivity` has a non-linear relationship wi
 `False Alarm Rate`. Furthermore, any `d′` can occur at any `Hit Rate`, and vice versa. And the same
 for `False Alarm Rate`.
 
-## Visualizing the relationship between <span class="math-var">d&prime;</span>, HR, and FAR
+## Visualizing the relationship between <span class="math-var">d′</span>, HR, and FAR
 
 Showing the `Sensitivity` for every location in ROC space is instructive, but when we are focused on
 performance, a more typical approach is to plot a single `Iso-Sensitivity Curve` through our data

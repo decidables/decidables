@@ -86,7 +86,7 @@ script: index
   <dt class="d">Sensitivity</dt>
   <dd>
     <code class="Sensitivity">Sensitivity</code>
-    (<code class="Sensitivity"><var class="math-var">d&prime;</var></code>),
+    (<code class="Sensitivity"><var class="math-var">d′</var></code>),
     <code class="Iso-SensitivityCurve">Iso-Sensitivity Curve</code>
   </dd>
 
