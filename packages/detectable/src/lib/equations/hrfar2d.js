@@ -105,14 +105,14 @@ export default class SDTEquationHrFar2D extends SDTEquation {
           <input ?disabled=${!this.interactive} type="number" min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
         </label>`;
       d = html`<label class="d bottom">
-          <var class="math-var">d&prime;</var>
+          <var class="math-var">d′</var>
           <input disabled type="number" step=".001" .value="${+this.d.toFixed(3)}">
         </label>`;
     } else {
       hr = html`<var class="hr">Hit Rate</var>`;
       far = html`<var class="far">False Alarm Rate</var>`;
       s = html`<var class="math-var s">σ</var>`;
-      d = html`<var class="math-var d">d&prime;</var>`;
+      d = html`<var class="math-var d">d′</var>`;
     }
     let equation;
     if (this.unequal) {
@@ -122,10 +122,10 @@ export default class SDTEquationHrFar2D extends SDTEquation {
             ${d}<span class="equals">=</span><span class="bracket tight">(</span>
           </td>
           <td class="underline bottom">
-            <span>1</span><span class="plus tight">&plus;</span><span>${s}<sup class="exp">2</sup></span>
+            <span>1</span><span class="plus tight">+</span><span>${s}<sup class="exp">2</sup></span>
           </td>
           <td rowspan="2">
-            <span class="bracket tight">)<sup class="exp">&minus;½</sup></span><span class="bracket">[</span>${s}<span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span><span class="bracket">]</span>
+            <span class="bracket tight">)<sup class="exp">−½</sup></span><span class="bracket">[</span>${s}<span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span><span class="bracket">]</span>
           </td>
         </tr>
         <tr>
@@ -137,7 +137,7 @@ export default class SDTEquationHrFar2D extends SDTEquation {
       equation = html`
         <tr>
           <td>
-              ${d}<span class="equals">=</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">&minus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span>
+              ${d}<span class="equals">=</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span>
           </td>
         </tr>`;
     }

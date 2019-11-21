@@ -1277,7 +1277,7 @@ export default class SDTModel extends SDTElement {
       .classed('label', true);
     dLabel.append('tspan')
       .classed('d math-var', true)
-      .text('d\u2032');
+      .text('d′');
     dLabel.append('tspan')
       .classed('equals', true)
       .text(' = ');

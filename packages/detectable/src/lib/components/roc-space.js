@@ -654,7 +654,7 @@ export default class ROCSpace extends SDTElement {
           .text((this.contour === 'bias')
             ? 'c'
             : (this.contour === 'sensitivity')
-              ? 'd\u2032'
+              ? 'd′'
               : (this.contour === 'accuracy')
                 ? 'Acc'
                 : null);

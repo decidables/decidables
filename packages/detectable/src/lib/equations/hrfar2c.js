@@ -122,16 +122,16 @@ export default class SDTEquationHrFar2C extends SDTEquation {
             ${c}<span class="equals">=</span><span class="bracket tight">(</span>
           </td>
           <td class="underline bottom">
-            <span>1</span><span class="plus tight">&plus;</span><span>${s}<sup class="exp">2</sup></span>
+            <span>1</span><span class="plus tight">+</span><span>${s}<sup class="exp">2</sup></span>
           </td>
           <td rowspan="2">
-            <span class="bracket tight">)<sup class="exp">&minus;½</sup></span><span class="bracket tight">(</span>
+            <span class="bracket tight">)<sup class="exp">−½</sup></span><span class="bracket tight">(</span>
           </td>
           <td class="underline bottom">
-            <span class="minus tight">&minus;</span>${s}
+            <span class="minus tight">−</span>${s}
           </td>
           <td rowspan="2">
-            <span class="bracket tight">)</span><span class="bracket">[</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="plus">&plus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span><span class="bracket">]</span>
+            <span class="bracket tight">)</span><span class="bracket">[</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="plus">+</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span><span class="bracket">]</span>
           </td>
         </tr>
         <tr>
@@ -139,7 +139,7 @@ export default class SDTEquationHrFar2C extends SDTEquation {
             <span>2</span>
           </td>
           <td>
-            <span><span>1</span><span class="plus">&plus;</span>${s}</span>
+            <span><span>1</span><span class="plus">+</span>${s}</span>
           </td>
         </tr>`;
     } else {
@@ -149,7 +149,7 @@ export default class SDTEquationHrFar2C extends SDTEquation {
             ${c}<span class="equals">=</span>
           </td>
           <td class="underline">
-            <span class="minus tight">&minus;</span><span class="bracket tight">[</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="plus">&plus;</span><span class="tight"><var class="math-greek phi tight">&Phi;</var><sup class="exp">&minus;1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span><span class="bracket tight">]</span>
+            <span class="minus tight">−</span><span class="bracket tight">[</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="plus">+</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span><span class="bracket tight">]</span>
           </td>
         </tr>
         <tr>

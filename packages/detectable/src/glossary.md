@@ -16,6 +16,9 @@ script: index
   <dt>block</dt>
   <dd></dd>
 
+  <dt><span class='math-var'>c</span></dt>
+  <dd></dd>
+
   <dt>coherent</dt>
   <dd></dd>
 
@@ -28,7 +31,10 @@ script: index
   <dt>correct rejection (true negative)</dt>
   <dd></dd>
 
-  <dt><span class='math-var'>d&prime;</span>ete<span class='math-var'>c</span>table</dt>
+  <dt><span class='math-var'>d′</span></dt>
+  <dd></dd>
+
+  <dt><span class='math-var'>d′</span>ete<span class='math-var'>c</span>table</dt>
   <dd></dd>
 
   <dt>decision</dt>
@@ -101,6 +107,9 @@ script: index
   <dd></dd>
 
   <dt>response</dt>
+  <dd></dd>
+
+  <dt>sensitivity</dt>
   <dd></dd>
 
   <dt>signal</dt>
