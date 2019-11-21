@@ -75,8 +75,6 @@
 ## Features/Bugs
 
 - Technical
-  - Be consistent about how to insert special symbols (e.g. Greek letters and prime)
-    - Maybe use UTF8 for all?
   - Cleanup color usage
     - Use the inverse text color property!
     - Define No Response variable?
