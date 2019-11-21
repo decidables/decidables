@@ -168,6 +168,9 @@
   --color-error: #000000;
   --color-error-light: gray;
   --color-error-dark: black;
+  --color-nr: #cccccc;
+  --color-nr-light: #e6e6e6;
+  --color-nr-dark: #666666;
   --color-background: #ffffff;
   --color-border: #e6e6e6;
   --color-text: #262626;
