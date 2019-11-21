@@ -365,7 +365,7 @@ export default class ROCSpace extends SDTElement {
           dominant-baseline: middle;
           text-anchor: middle;
 
-          fill: var(---color-element-background);
+          fill: var(---color-text-inverse);
         }
       `,
     ];

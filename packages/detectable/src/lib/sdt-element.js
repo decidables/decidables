@@ -148,6 +148,7 @@ export default class SDTElement extends LitElement {
       absent: '#10dbc9',
       correct: '#ffffff',
       error: '#000000',
+      nr: '#cccccc',
     };
   }
 
@@ -332,6 +333,7 @@ export default class SDTElement extends LitElement {
         ---color-absent: var(--color-absent, ${unsafeCSS(this.colors.absent)});
         ---color-correct: var(--color-correct, ${unsafeCSS(this.colors.correct)});
         ---color-error: var(--color-error, ${unsafeCSS(this.colors.error)});
+        ---color-nr: var(--color-nr, ${unsafeCSS(this.colors.nr)});
 
         ---color-h-light: var(--color-h-light, ${unsafeCSS(this.lights.h)});
         ---color-m-light: var(--color-m-light, ${unsafeCSS(this.lights.m)});
@@ -347,6 +349,7 @@ export default class SDTElement extends LitElement {
         ---color-absent-light: var(--color-absent-light, ${unsafeCSS(this.lights.absent)});
         ---color-correct-light: var(--color-correct-light, ${unsafeCSS(this.lights.correct)});
         ---color-error-light: var(--color-error-light, ${unsafeCSS(this.lights.error)});
+        ---color-nr-light: var(--color-nr-light, ${unsafeCSS(this.lights.nr)});
 
         ---color-h-dark: var(--color-h-dark, ${unsafeCSS(this.darks.h)});
         ---color-m-dark: var(--color-m-dark, ${unsafeCSS(this.darks.m)});
@@ -362,6 +365,7 @@ export default class SDTElement extends LitElement {
         ---color-absent-dark: var(--color-absent-dark, ${unsafeCSS(this.darks.absent)});
         ---color-correct-dark: var(--color-correct-dark, ${unsafeCSS(this.darks.correct)});
         ---color-error-dark: var(--color-error-dark, ${unsafeCSS(this.darks.error)});
+        ---color-nr-dark: var(--color-nr-dark, ${unsafeCSS(this.darks.nr)});
 
         ---color-background: var(--color-background, ${unsafeCSS(this.greys.white)});
         ---color-border: var(--color-border, ${unsafeCSS(this.greys.light75)});

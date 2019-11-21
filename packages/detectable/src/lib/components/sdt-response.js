@@ -320,7 +320,7 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
         }
 
         .feedback.nr {
-          background-color: var(---color-element-background);
+          background-color: var(---color-nr-light);
         }
 
         .feedback.c {
@@ -328,7 +328,7 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
         }
 
         .feedback.e {
-          color: var(---color-background);
+          color: var(---color-text-inverse);
 
           background-color: var(---color-error-light);
         }

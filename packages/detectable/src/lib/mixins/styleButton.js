@@ -14,7 +14,7 @@ const SDTMixinStyleButton = (superclass) => {
             font-family: var(---font-family-base);
             font-size: 1.125rem;
             line-height: 1.5;
-            color: var(---color-background);
+            color: var(---color-text-inverse);
 
             border: 0;
             border-radius: 0.25rem;

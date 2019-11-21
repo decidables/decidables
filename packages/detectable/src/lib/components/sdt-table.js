@@ -405,7 +405,7 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
         :host([color="accuracy"]) .m input,
         :host([color="accuracy"]) .fa,
         :host([color="accuracy"]) .fa input {
-          color: var(---color-background);
+          color: var(---color-text-inverse);
 
           background: var(---color-error-light);
         }
