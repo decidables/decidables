@@ -75,9 +75,6 @@
 ## Features/Bugs
 
 - Technical
-  - Cleanup color usage
-    - Use the inverse text color property!
-    - Define No Response variable?
   - Label values IN iso-plots?
   - Resolve ambiguity between different uses of same color
     - For example, "Respond Present" as a trial type versus "Present" as a response versus

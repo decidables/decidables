@@ -51,6 +51,7 @@ $color-map: (
   absent: #10dbc9, // cyan
   correct: #ffffff, // white
   error: #000000, // black
+  nr: #cccccc, // grey-light50
 );
 
 @function sdt-color($name) {
@@ -329,7 +330,7 @@ body {
   margin: 0;
 
   line-height: 1;
-  color: $body-color;
+  color: $color-text;
 
   border: 0;
 
@@ -340,19 +341,19 @@ body {
   &:hover {
     @include shadow(2);
 
-    color: $body-color;
+    color: $color-text;
   }
 
   &:focus {
     @include shadow(2);
 
-    color: $body-color;
+    color: $color-text;
   }
 
   &:active {
     @include shadow(4);
 
-    color: $body-color;
+    color: $color-text;
   }
 
   svg {
@@ -368,7 +369,7 @@ body {
   margin: 0;
 
   font-weight: 600;
-  color: $body-color;
+  color: $color-text;
 
   border-radius: 0.25rem;
   outline: none;
@@ -376,21 +377,21 @@ body {
   &:hover {
     @include shadow(2);
 
-    color: $body-color;
+    color: $color-text;
     text-decoration: none;
   }
 
   &:focus {
     @include shadow(2);
 
-    color: $body-color;
+    color: $color-text;
     text-decoration: none;
   }
 
   &:active {
     @include shadow(4);
 
-    color: $body-color;
+    color: $color-text;
     text-decoration: none;
   }
 }
@@ -425,7 +426,7 @@ body {
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.1;
-  color: $link-color;
+  color: $color-link;
 
   border-radius: 0.25rem;
   outline: none;
@@ -433,21 +434,21 @@ body {
   &:hover {
     @include shadow(2);
 
-    color: $body-color;
+    color: $color-text;
     text-decoration: none;
   }
 
   &:focus {
     @include shadow(2);
 
-    color: $body-color;
+    color: $color-text;
     text-decoration: none;
   }
 
   &:active {
     @include shadow(4);
 
-    color: $body-color;
+    color: $color-text;
     text-decoration: none;
   }
 
@@ -463,7 +464,7 @@ body {
 .sdt-tocitem-active .sdt-toclink,
 .sdt-tocitem-active:hover .sdt-toclink {
   font-weight: 700;
-  color: $body-color;
+  color: $color-text;
 }
 
 .sdt-tocitem-extra.sdt-tocitem-1 {
@@ -670,7 +671,7 @@ body {
   code[class="Pause"],
   code[class="Reset"],
   code[class="Run"] {
-    color: $color-background;
+    color: $color-text-inverse;
 
     background-color: $color-element-enabled;
   }
@@ -684,13 +685,13 @@ body {
   }
 
   code[class="Present"] {
-    color: $color-background;
+    color: $color-text-inverse;
 
     background-color: sdt-color(present);
   }
 
   code[class="Absent"] {
-    color: $color-background;
+    color: $color-text-inverse;
 
     background-color: sdt-color(absent);
   }
@@ -702,7 +703,7 @@ body {
   }
 
   code[class="Error"] {
-    color: $color-background;
+    color: $color-text-inverse;
 
     background-color: sdt-color-light(error);
     border: 1px solid $color-element-emphasis;
@@ -710,7 +711,7 @@ body {
   }
 
   code[class="NoResponse"] {
-    background-color: $color-element-background;
+    background-color: sdt-color-light(nr);
     border: 1px solid $color-element-emphasis;
     border-radius: 0;
   }
