@@ -38,6 +38,32 @@
   - Formatting: bootstrap + scss + ejs
   - Interactive content: d3 + web components + lit-element
 
+## Overall Project
+
+- Decidable
+  - Detectable: Signal Detection Theory
+  - Accumulable/Cumulable: Drift-diffusion/race/LBA model of RT
+    - 2AFC
+    - drift process, resulting RT distributions
+    - diffusion & race models <https://doi.org/10.1016/j.tics.2016.01.007>
+  - Prospectable: Prospect Theory (versus Expected Value & Expected Utility)
+    - Choosing between gambles and sure outcomes
+    - Value function, Probability function, (relative value?)
+    - Effect of parameters on decisions within a decision space
+  - Discountable: Temporal discounting
+    - power vs hyperbolic
+    - (interaction of temporal discounting and PT value function?)
+- Possible?
+  - Ambiguity?
+    - Sure vs risky vs ambiguous options
+    - Models of ambiguity?
+  - Learning?
+    - IGT & BART
+  - Volatility?
+  - Bayesian inference?
+
+---
+
 ## Style Guide
 
 - Within a page:
@@ -48,37 +74,40 @@
 
 ## Features/Bugs
 
-- Switch to subsections for better overall organization/structure?
-- Add snazzy cover page?
-- Cleanup color usage
-  - Use the inverse text color property!
-  - Define No Response variable?
-- Resolve ambiguity between different uses of same color
-  - For example, "Respond Present" as a trial type versus "Present" as a response versus "?Present?"
-    as part of a distribution
-- Add page before SDT, connecting sensitivity and bias, and showing different views of model
-  - Or build threshold on top of distributions, so they are naturally combined!
-- Split Tables & Rates to discuss Accuracy & base rate
-  - Change "Accuracy" in "outcomes.html"
-  - Move "Tabulating outcomes" from "rates.html" to "outcomes.html"
-  - Move "Accuracy" to top of "rates.html"
-  - Add "PPV" and "FOMR" to rates.html"
-  - Add page on "counter-intuitive" measures: accuracy & P(S|R) vs P(R|S)
-- Label values IN iso-plots?
-- Use something else instead of inline code for terms?
-  - Maybe remark-terms?
-- More generally, use a different method to mark "UI elements", "keywords", "math", etc...
-  - Maybe use remark-terms for all of these?
-- Be consistent about how to insert special symbols (e.g. Greek letters and prime)
-  - Maybe use UTF8 for all?
-- Asking lots of open-ended questions vs. questions with later answers vs. explanation...
-- Add "note" blocks for explaining UI stuff that isn't "real" content
-  - need a clean approach in markdown
-- Unequal variance
-  - d' vs d_a, and c vs c_a
-  - muN != muS != d'
-  - lambda != c
-  - distinction between parameter s and sigma
+- Technical
+  - Be consistent about how to insert special symbols (e.g. Greek letters and prime)
+    - Maybe use UTF8 for all?
+  - Cleanup color usage
+    - Use the inverse text color property!
+    - Define No Response variable?
+  - Label values IN iso-plots?
+  - Resolve ambiguity between different uses of same color
+    - For example, "Respond Present" as a trial type versus "Present" as a response versus
+      "?Present?" as part of a distribution
+  - Use something else instead of inline code for terms?
+    - Maybe remark-terms?
+  - More generally, use a different method to mark "UI elements", "keywords", "math", etc...
+    - Maybe use remark-terms for all of these?
+  - Add "note" blocks for explaining UI stuff that isn't "real" content
+    - need a clean approach in markdown
+- Content
+  - Switch to subsections for better overall organization/structure?
+  - Add snazzy cover page?
+  - Add TOC page w/descriptions?
+  - Add page before SDT, connecting sensitivity and bias, and showing different views of model
+    - Or build threshold on top of distributions, so they are naturally combined!
+  - Split Tables & Rates to discuss Accuracy & base rate
+    - Change "Accuracy" in "outcomes.html"
+    - Move "Tabulating outcomes" from "rates.html" to "outcomes.html"
+    - Move "Accuracy" to top of "rates.html"
+    - Add "PPV" and "FOMR" to rates.html"
+    - Add page on "counter-intuitive" measures: accuracy & P(S|R) vs P(R|S)
+  - Asking lots of open-ended questions vs. questions with later answers vs. explanation...
+  - Unequal variance
+    - d' vs d_a, and c vs c_a
+    - muN != muS != d'
+    - lambda != c
+    - distinction between parameter s and sigma
 
 ### High Importance
 
@@ -127,23 +156,6 @@
 #### Safari on iOS ???
 
 #### Other?
-
----
-
-## Future Feature Ideas
-
-### Overall
-
-- Drift-diffusion model of RT
-  - 2AFC
-  - drift process, resulting RT distributions
-- Prospect Theory (versus Expected Value & Expected Utility)
-  - Value function, Probability function, (relative value?)
-  - Effect of parameters on decisions within a decision space
-- Temporal discounting
-  - power vs hyperbolic
-  - (interaction of temporal discounting and PT value function!)
-- Ambiguity?
 
 ---
 
