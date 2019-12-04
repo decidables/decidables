@@ -163,16 +163,18 @@
 ## Features/Bugs
 
 - Technical
-  - Label values IN iso-plots?
+  - Label values IN iso-plots? or allow hover or click querying of iso-plots?
+    - Hover/click could be extended ROC generally and to Model plot as well?
   - Resolve ambiguity between different uses of same color
     - For example, "Respond Present" as a trial type versus "Present" as a response versus
       "?Present?" as part of a distribution
-  - Use something else instead of inline code for terms?
-    - Maybe remark-terms?
+  - Use something else instead of inline code for terms
+    - New remark-span! [content]{attributes}
   - More generally, use a different method to mark "UI elements", "keywords", "math", etc...
-    - Maybe use remark-terms for all of these?
+    - Use remark-span for all of these: [UI element]{ui} [keyword]{key} [math]{math} etc...
   - Add "note" blocks for explaining UI stuff that isn't "real" content
-    - need a clean approach in markdown
+  - Add "question" blocks for thoughts for readers to try - maybe with foldout answers?
+    - New remark-divs
 - Content
   - Switch to subsections for better overall organization/structure?
   - Add snazzy cover page?

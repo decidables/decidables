@@ -99,11 +99,29 @@ class="math-var">β</span>, in terms of the likelihood ratio of signal and noise
 @Tanner1954]. It was only later that `c` was introduced and suggested as a better measure of
 response bias for most purposes [@Ingham1970; @Macmillan1990; @Stanislaw1999].
 
-<!-- ## Perspectives on the relationship between model and performance
+<!--
+
+## Perspectives on the relationship between model and performance
 
 <sdt-example-interactive>
   <sdt-control color="outcome"></sdt-control>
   <sdt-table numeric interactive summary="stimulusRates responseRates accuracy"
     hits="80" misses="20" false-alarms="10" correct-rejections="90"></sdt-table>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
-</sdt-example-interactive> -->
+</sdt-example-interactive>
+
+## New syntax for bracketed spans and fenced divs
+
+:::{.outer}
+This is a [test]{}.
+This is a [real test]{.test}!
+
+  :::{.inner2}
+  This is a [bad test] {you know?}
+
+  Let's get [real]{b .potato .banana #ice-cream stuff=good llama=moo}.
+  :::
+
+:::
+
+-->
