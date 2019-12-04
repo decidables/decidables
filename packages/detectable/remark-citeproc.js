@@ -78,8 +78,8 @@ function remarkCiteproc(options = {}) {
       // LinkReference with a 'shortcut' type.
       if (node.referenceType !== 'shortcut') return;
 
-      // There must be exactly one 'text' child node
-      if (node.children.length !== 1 || node.children[0].type !== 'text') return;
+      // There must be exactly one 'text' child node containing atleast one '@'
+      if (node.children.length !== 1 || node.children[0].type !== 'text' || !node.children[0].value.includes('@')) return;
 
       // Get the list of citations as a string
       const citationsString = node.children[0].value;
