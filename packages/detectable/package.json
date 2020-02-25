@@ -90,5 +90,10 @@
     "source-code-pro": "^2.30.1",
     "source-sans-pro": "^3.6.0",
     "source-serif-pro": "^3.0.0"
+  },
+  "engines": {
+    "git": "^2.25.1",
+    "node": "^13.9.0",
+    "yarn": "^1.22.0"
   }
 }
