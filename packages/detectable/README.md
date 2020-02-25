@@ -162,6 +162,7 @@
 
 ## Features/Bugs
 
+- Switch from uglify to terser!
 - Technical
   - Label values IN iso-plots? or allow hover or click querying of iso-plots?
     - Hover/click could be extended ROC generally and to Model plot as well?
@@ -246,7 +247,7 @@
 
 ## Development Tooling
 
-Dependencies update 11/19/2019.
+Dependencies update 2/24/2020.
 
 ### Global
 
@@ -272,7 +273,7 @@ Dependencies update 11/19/2019.
 ### Utilities
 
 - `yarn serve`
-  - Runs a basic http server, to serve `SDT/` (e.g. <http://localhost:8000/src/> or <http://localhost:8000/dist/>)
+  - Runs a basic http server, to serve `detectable/` (e.g. <http://localhost:8000/local/> or <http://localhost:8000/dist/>)
 - `yarn outdated`
   - Check for outdated dependencies
 - `yarn upgrade --latest`
@@ -284,7 +285,8 @@ Dependencies update 11/19/2019.
 
 ## Project File Organization
 
-- `SDT/`
+- `detectable/`
+  - `.git/` (Repository for *git*)
   - `.gitattributes` (Config for *git*)
   - `.gitignore` (Config for *git*)
   - `.eslintrc.json` (Config for *eslint*)

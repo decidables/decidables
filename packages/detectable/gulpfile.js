@@ -6,12 +6,6 @@
 // Node native modules
 const http = require('http');
 
-/* Local! */
-const remarkCiteproc = require('./remark-citeproc');
-const remarkCodeclass = require('./remark-codeclass');
-const remarkDivs = require('./remark-divs');
-const remarkSpans = require('./remark-spans');
-
 // Load all devDependencies into global scope
 // Uses camelCase for names, e.g. gulp-ssh -> gulpSsh
 // 'pattern' includes list of packages to avoid
@@ -21,11 +15,17 @@ Object.assign(global, require('gulp-load-plugins')({
   replaceString: /^/,
 }));
 
+// Local files
+const remarkCiteproc = require('./remark-citeproc');
+const remarkCodeclass = require('./remark-codeclass');
+const remarkDivs = require('./remark-divs');
+const remarkSpans = require('./remark-spans');
+
 /* Debug */
 // .pipe(gulpDebug())
 
 
-/**
+/*
  * Pipeline
  */
 
@@ -290,7 +290,7 @@ gulp.task('deploy', gulp.series(
 ));
 
 
-/**
+/*
  * Utilities
  */
 
