@@ -730,6 +730,7 @@ export default class SDTModel extends SDTElement {
     //  ENTER
     underlayerEnter.append('g')
       .classed('axis-x', true);
+    //  MERGE
     const axisXMerge = underlayerMerge.select('.axis-x')
       .attr('transform', `translate(0, ${height})`)
       .call(d3.axisBottom(xScale))
@@ -744,6 +745,7 @@ export default class SDTModel extends SDTElement {
       .classed('title-x', true)
       .attr('text-anchor', 'middle')
       .text('Evidence');
+    //  MERGE
     underlayerMerge.select('.title-x')
       .attr('transform', `translate(${width / 2}, ${height + (2.25 * this.rem)})`);
 

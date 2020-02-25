@@ -230,8 +230,16 @@
 <p>On the exploration page, you were able to explore SDT through the relationship between data and
 model, but what if we observe human performance and we want to <em>fit</em> the model to this actual human
 data? This moves us from model exploration to model fitting, which you can do below.</p>
-<p>You can select how many <code class="Trials">Trials</code> to perform, the <code class="Duration">Duration</code> of each stimulus, and the percentage of
-dots that exhibit <code class="Coherence">Coherence</code>. When you are ready, you can <code class="Run">Run</code> the task.</p>
+<p>You can select how many <code class="Trials">Trials</code> to perform, the <code class="Duration">Duration</code> of the stimulus on each trial, and the
+percentage of dots that exhibit <code class="Coherence">Coherence</code> when the signal is present. When you are ready, you can
+<code class="Run">Run</code> the task. At any time, you can temporarily <code class="Pause">Pause</code>, or permanently <code class="Reset">Reset</code> the task.</p>
+<p>Each trial will begin with a fixation, <code class="+">+</code>, then a stimulus, and finally a question mark, <code class="?">?</code>.
+Decide whether you think this is a <code class="SignalPresent">Signal Present</code> or <code class="SignalAbsent">Signal Absent</code> trial, and during the
+stimulus or question mark, respond by clicking <code class="Present">Present</code> or <code class="Absent">Absent</code>.</p>
+<p>Based on the stimulus and your response (or lack there of), you will then receive feedback
+indicating whether this trial resulted in a <code class="Hit">Hit</code>, <code class="Miss">Miss</code>, <code class="FalseAlarm">False Alarm</code>, <code class="CorrectRejection">Correct Rejection</code>, or
+<code class="NoResponse">No Response</code>.</p>
+<p>The ...</p>
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" duration="1000" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>

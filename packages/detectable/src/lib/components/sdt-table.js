@@ -268,14 +268,22 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
         }
 
         /* Headers */
-        .th1 {
+        .th-main {
+          padding: 0;
+
           font-weight: bold;
         }
 
-        .th2 {
+        .th-sub {
           padding: 0 0.25rem;
 
           font-weight: 600;
+        }
+
+        .th-left {
+          padding-left: 0;
+
+          text-align: right;
         }
 
         /* Cells */
@@ -310,12 +318,11 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
           background: none;
         }
 
-        .td1 input {
+        .td-data input {
           width: 3.5rem;
         }
 
-        .td2 input,
-        .td3 input {
+        .td-summary input {
           width: 4.5rem;
         }
 
@@ -573,53 +580,53 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
         <thead>
           <tr>
             <th colspan="2" rowspan="2"></th>
-            <th class="th th1" colspan="2" scope="col">
+            <th class="th th-main" colspan="2" scope="col">
               Response
             </th>
           </tr>
           <tr>
-            <th class="th th2" scope="col">
+            <th class="th th-sub" scope="col">
               "Present"
             </th>
-            <th class="th th2" scope="col">
+            <th class="th th-sub" scope="col">
               "Absent"
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th class="th th1" rowspan="2" scope="row">
+            <th class="th th-main" rowspan="2" scope="row">
               Signal
             </th>
-            <th class="th th2" scope="row">
+            <th class="th th-sub th-left" scope="row">
               Present
             </th>
-            <td class="td td1 h">
+            <td class="td td-data h">
               ${h}
             </td>
-            <td class="td td1 m">
+            <td class="td td-data m">
               ${m}
             </td>
             ${(this.summary.has('stimulusRates'))
               ? html`
-                <td class="td td2 hr">
+                <td class="td td-summary hr">
                   ${hr}
                 </td>`
               : html``}
           </tr>
           <tr>
-            <th class="th th2" scope="row">
+            <th class="th th-sub th-left" scope="row">
               Absent
             </th>
-            <td class="td td1 fa">
+            <td class="td td-data fa">
               ${fa}
             </td>
-            <td class="td td1 cr">
+            <td class="td td-data cr">
               ${cr}
             </td>
             ${(this.summary.has('stimulusRates'))
               ? html`
-                <td class="td td2 far">
+                <td class="td td-summary far">
                   ${far}
                 </td>`
               : html``}
@@ -630,17 +637,17 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
                 <td colspan="2"></td>
                 ${(this.summary.has('responseRates'))
                   ? html`
-                    <td class="td td2 ppv">
+                    <td class="td td-summary ppv">
                       ${ppv}
                     </td>
-                    <td class="td td2 fomr">
+                    <td class="td td-summary fomr">
                       ${fomr}
                     </td>`
                   : html`
                     <td colspan="2"></td>`}
                 ${(this.summary.has('accuracy'))
                   ? html`
-                    <td class="td td3 acc" rowspan="2">
+                    <td class="td td-summary acc" rowspan="2">
                       ${acc}
                     </td>`
                   : html``}

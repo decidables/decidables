@@ -10,8 +10,19 @@ On the exploration page, you were able to explore SDT through the relationship b
 model, but what if we observe human performance and we want to *fit* the model to this actual human
 data? This moves us from model exploration to model fitting, which you can do below.
 
-You can select how many `Trials` to perform, the `Duration` of each stimulus, and the percentage of
-dots that exhibit `Coherence`. When you are ready, you can `Run` the task.
+You can select how many `Trials` to perform, the `Duration` of the stimulus on each trial, and the
+percentage of dots that exhibit `Coherence` when the signal is present. When you are ready, you can
+`Run` the task. At any time, you can temporarily `Pause`, or permanently `Reset` the task.
+
+Each trial will begin with a fixation, `+`, then a stimulus, and finally a question mark, `?`.
+Decide whether you think this is a `Signal Present` or `Signal Absent` trial, and during the
+stimulus or question mark, respond by clicking `Present` or `Absent`.
+
+Based on the stimulus and your response (or lack there of), you will then receive feedback
+indicating whether this trial resulted in a `Hit`, `Miss`, `False Alarm`, `Correct Rejection`, or
+`No Response`.
+
+The ...
 
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" duration="1000" run pause reset></sdt-control>
