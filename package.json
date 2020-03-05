@@ -1,0 +1,15 @@
+{
+  "name": "decidable",
+  "version": "0.0.1",
+  "description": "decidable: Explorable Explanations of Decision Making",
+  "main": "index.js",
+  "author": "Adam Krawitz <akrawitz@uvic.ca>",
+  "license": "UNLICENSED",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^3.20.2"
+  }
+}
