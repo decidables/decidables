@@ -1,0 +1,115 @@
+<!--lint disable first-level-heading -->
+# decidable
+<!--lint enable first-level-heading -->
+
+## Overall Project
+
+- Decidable
+  - Detectable: Signal Detection Theory
+    - Introduction
+    - Behavior: Yes/No RDK task
+      - Stimulus: signal & noise
+      - Response: present or absent
+      - Outcome: correct/error, hit/miss/FA/CR
+      - Tables & rates
+      - ROC space
+    - Model: SDT
+      - Measurement & sensitivity
+      - Threshold & bias
+      - SDT
+      - Iso-sensitivity curves
+      - Iso-bias curves
+      - Model exploration
+      - Model fitting
+      - Model predictions
+    - Advanced
+      - Sensitivity & difficulty
+      - Bias & incentive
+      - zROC space
+      - Unequal variance
+    - Applications
+      - Memory?
+      - Medical diagnostics?
+    - Conclusion
+  - Accumulable: Drift-diffusion/race/LBA model of RT
+    - Introduction
+    - Behavior: 2AFC RDK task
+      - Stimulus: motion left or right?
+      - Response: left or right
+      - Outcome: correct or error
+      - RT mean and SD
+      - RT histograms
+      - RT quantiles?
+    - Model: DDM/LBA/?
+      - Evidence accumulation
+      - Starting point
+      - Drift rate
+      - Boundary
+      - RT distributions
+      - Model exploration
+      - Model fitting
+      - Model prediction
+    - Advanced
+      - Race vs. diffusion <https://doi.org/10.1016/j.tics.2016.01.007>
+      - Variability (e.g. within vs between trials)
+      - Time limits & collapsing boundaries
+    - Applications
+      - ?Neural modeling?
+    - Conclusion
+  - Prospectable: Cumulative Prospect Theory (versus Expected Value & Expected Utility)
+    - Introduction
+    - Risky decision making
+      - Choosing between sure outcomes and gambles
+    - Value
+      - Prescriptive: EV (& EU)
+      - Empirical: violations - marginal utility
+      - Empirical: violations - loss aversion
+      - Descriptive: subjective utility function
+    - Probability
+      - Prescriptive: EV (& EU)
+      - Empirical: violations - overweighting small probabilities
+      - Empirical: violations - underweighting large probabilities
+      - Descriptive: decision weight function
+    - Reference point
+      - Prescriptive: absolute
+      - Empirical: violations - framing
+      - Descriptive: relative
+    - CPT
+      - Decision space visualization?
+      - Model exploration
+      - Model fitting
+      - Model prediction
+    - Advanced
+      - Separate decision weights for gains and losses
+      - Discrete performance from continuous parameters?
+      - Individual differences?
+    - Applications
+      - Health message framing?
+    - Conclusion
+  - Discountable: Temporal discounting
+    - Introduction
+    - Behavior
+      - Task: intertemporal choice task
+      - Method: stairstep procedure
+      - Analysis: area under the curve (AUC)
+    - Model (hyperbolic discounting)
+      - Prescriptive: exponential
+      - Empirical: violations - preference reversals
+      - Descriptive: hyperbolic
+      - Model comparison: none, linear, exponential, hyperbolic
+      - Model exploration
+      - Model fitting
+      - Model prediction
+    - Advanced
+      - Interaction of temporal discounting and PT value function?
+    - Applications
+      - Drug addiction?
+    - Conclusion
+- Possible?
+  - Ambiguity?
+    - Sure vs risky vs ambiguous options
+    - Models of ambiguity?
+  - Learning?
+    - IGT & BART
+  - Volatility?
+  - Bayesian inference?

@@ -7,12 +7,19 @@
 const http = require('http');
 
 // Load all devDependencies into global scope
+// Combines workspace package.json and root package.json, so all devDeps are included
 // Uses camelCase for names, e.g. gulp-ssh -> gulpSsh
 // 'pattern' includes list of packages to avoid
+const lodashMerge = require('lodash.merge');
+const mergedPackageJson = lodashMerge(
+  require('../../package.json'),
+  require('./package.json'),
+);
 Object.assign(global, require('gulp-load-plugins')({
-  scope: 'devDependencies',
+  config: mergedPackageJson,
   pattern: ['*', '!(remark-cli)'],
   replaceString: /^/,
+  scope: 'devDependencies',
 }));
 
 // Local files
