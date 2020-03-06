@@ -22,7 +22,21 @@ Based on the stimulus and your response (or lack there of), you will then receiv
 indicating whether this trial resulted in a `Hit`, `Miss`, `False Alarm`, `Correct Rejection`, or
 `No Response`.
 
-The ...
+The table of outcomes summarizes your `Hits`, `Misses`, `False Alarms`, and `Correct Rejections`,
+along with your `Hit Rate`, `False Alarm Rate`, and overall `Accuracy`.
+
+In ROC space, your performance is plotted as `Hit Rate` versus `False Alarm Rate`. All of the points
+with the same `Sensitivity` (`d′`) are illustrated with an `Iso-Sensitivity Curve`. All of the
+points with the same `Bias` (`c`) are illustrated with an `Iso-Bias Curve`.
+
+The visual representation of the SDT model shows your calculated `Sensitivity` as the distance,
+`d′`, between the noise and signal plus noise distributions. And it shows your calculated `Bias` as
+the location, `c`, of the threshold. The threshold divides the signal plus noise distribution into
+`Hit` and `Miss` areas and divides the noise distribution into `Correct Rejection` and `False Alarm`
+areas.
+
+As you perform trials of the task, the table of outcomes, ROC space, and the SDT model will change
+to reflect your current aggregate performance up until that point in the task.
 
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" duration="1000" run pause reset></sdt-control>
@@ -34,3 +48,8 @@ The ...
   <sdt-model threshold bias distributions sensitivity histogram color="outcome" d="0" c="0">
     </sdt-model>
 </sdt-example-human>
+
+The table of outcomes summarizes performance. The model diagram illustrates an explanation of that
+performance in terms of SDT. And ROC space shows the relationship between behavior and theory. By
+observing how these different representations present and interpret your data, you can gain a deeper
+appreciation for the relationship between performance, data and theory.

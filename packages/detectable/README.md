@@ -164,6 +164,7 @@
 
 - Switch from uglify to terser!
 - Technical
+  - Clean way for inter-page references?
   - Label values IN iso-plots? or allow hover or click querying of iso-plots?
     - Hover/click could be extended ROC generally and to Model plot as well?
   - Resolve ambiguity between different uses of same color
@@ -178,6 +179,7 @@
     - New remark-divs
 - Content
   - Switch to subsections for better overall organization/structure?
+    - With auto linking of subsections?
   - Add snazzy cover page?
   - Add TOC page w/descriptions?
   - Add page before SDT, connecting sensitivity and bias, and showing different views of model
