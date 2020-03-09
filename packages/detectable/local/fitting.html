@@ -239,7 +239,18 @@ stimulus or question mark, respond by clicking <code class="Present">Present</co
 <p>Based on the stimulus and your response (or lack there of), you will then receive feedback
 indicating whether this trial resulted in a <code class="Hit">Hit</code>, <code class="Miss">Miss</code>, <code class="FalseAlarm">False Alarm</code>, <code class="CorrectRejection">Correct Rejection</code>, or
 <code class="NoResponse">No Response</code>.</p>
-<p>The ...</p>
+<p>The table of outcomes summarizes your <code class="Hits">Hits</code>, <code class="Misses">Misses</code>, <code class="FalseAlarms">False Alarms</code>, and <code class="CorrectRejections">Correct Rejections</code>,
+along with your <code class="HitRate">Hit Rate</code>, <code class="FalseAlarmRate">False Alarm Rate</code>, and overall <code class="Accuracy">Accuracy</code>.</p>
+<p>In ROC space, your performance is plotted as <code class="HitRate">Hit Rate</code> versus <code class="FalseAlarmRate">False Alarm Rate</code>. All of the points
+with the same <code class="Sensitivity">Sensitivity</code> (<code class="d′">d′</code>) are illustrated with an <code class="Iso-SensitivityCurve">Iso-Sensitivity Curve</code>. All of the
+points with the same <code class="Bias">Bias</code> (<code class="c">c</code>) are illustrated with an <code class="Iso-BiasCurve">Iso-Bias Curve</code>.</p>
+<p>The visual representation of the SDT model shows your calculated <code class="Sensitivity">Sensitivity</code> as the distance,
+<code class="d′">d′</code>, between the noise and signal plus noise distributions. And it shows your calculated <code class="Bias">Bias</code> as
+the location, <code class="c">c</code>, of the threshold. The threshold divides the signal plus noise distribution into
+<code class="Hit">Hit</code> and <code class="Miss">Miss</code> areas and divides the noise distribution into <code class="CorrectRejection">Correct Rejection</code> and <code class="FalseAlarm">False Alarm</code>
+areas.</p>
+<p>As you perform trials of the task, the table of outcomes, ROC space, and the SDT model will change
+to reflect your current aggregate performance up until that point in the task.</p>
 <sdt-example-human>
   <sdt-control coherence=".5" trials="10" duration="1000" run pause reset></sdt-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
@@ -250,6 +261,10 @@ indicating whether this trial resulted in a <code class="Hit">Hit</code>, <code 
   <sdt-model threshold bias distributions sensitivity histogram color="outcome" d="0" c="0">
     </sdt-model>
 </sdt-example-human>
+<p>The table of outcomes summarizes performance. The model diagram illustrates an explanation of that
+performance in terms of SDT. And ROC space shows the relationship between behavior and theory. By
+observing how these different representations present and interpret your data, you can gain a deeper
+appreciation for the relationship between performance, data and theory.</p>
 
           </section>
 

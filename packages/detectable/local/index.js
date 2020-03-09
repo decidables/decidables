@@ -63154,411 +63154,6 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 },{"process/browser.js":405,"timers":407}],408:[function(require,module,exports){
 "use strict";
 
-require("core-js/modules/es.symbol");
-
-require("core-js/modules/es.symbol.description");
-
-require("core-js/modules/es.symbol.async-iterator");
-
-require("core-js/modules/es.symbol.has-instance");
-
-require("core-js/modules/es.symbol.is-concat-spreadable");
-
-require("core-js/modules/es.symbol.iterator");
-
-require("core-js/modules/es.symbol.match");
-
-require("core-js/modules/es.symbol.match-all");
-
-require("core-js/modules/es.symbol.replace");
-
-require("core-js/modules/es.symbol.search");
-
-require("core-js/modules/es.symbol.species");
-
-require("core-js/modules/es.symbol.split");
-
-require("core-js/modules/es.symbol.to-primitive");
-
-require("core-js/modules/es.symbol.to-string-tag");
-
-require("core-js/modules/es.symbol.unscopables");
-
-require("core-js/modules/es.array.concat");
-
-require("core-js/modules/es.array.copy-within");
-
-require("core-js/modules/es.array.every");
-
-require("core-js/modules/es.array.fill");
-
-require("core-js/modules/es.array.filter");
-
-require("core-js/modules/es.array.find");
-
-require("core-js/modules/es.array.find-index");
-
-require("core-js/modules/es.array.flat");
-
-require("core-js/modules/es.array.flat-map");
-
-require("core-js/modules/es.array.for-each");
-
-require("core-js/modules/es.array.from");
-
-require("core-js/modules/es.array.includes");
-
-require("core-js/modules/es.array.index-of");
-
-require("core-js/modules/es.array.iterator");
-
-require("core-js/modules/es.array.join");
-
-require("core-js/modules/es.array.last-index-of");
-
-require("core-js/modules/es.array.map");
-
-require("core-js/modules/es.array.of");
-
-require("core-js/modules/es.array.reduce");
-
-require("core-js/modules/es.array.reduce-right");
-
-require("core-js/modules/es.array.reverse");
-
-require("core-js/modules/es.array.slice");
-
-require("core-js/modules/es.array.some");
-
-require("core-js/modules/es.array.sort");
-
-require("core-js/modules/es.array.species");
-
-require("core-js/modules/es.array.splice");
-
-require("core-js/modules/es.array.unscopables.flat");
-
-require("core-js/modules/es.array.unscopables.flat-map");
-
-require("core-js/modules/es.array-buffer.constructor");
-
-require("core-js/modules/es.array-buffer.slice");
-
-require("core-js/modules/es.date.to-primitive");
-
-require("core-js/modules/es.function.has-instance");
-
-require("core-js/modules/es.function.name");
-
-require("core-js/modules/es.json.to-string-tag");
-
-require("core-js/modules/es.map");
-
-require("core-js/modules/es.math.acosh");
-
-require("core-js/modules/es.math.asinh");
-
-require("core-js/modules/es.math.atanh");
-
-require("core-js/modules/es.math.cbrt");
-
-require("core-js/modules/es.math.clz32");
-
-require("core-js/modules/es.math.cosh");
-
-require("core-js/modules/es.math.expm1");
-
-require("core-js/modules/es.math.fround");
-
-require("core-js/modules/es.math.hypot");
-
-require("core-js/modules/es.math.imul");
-
-require("core-js/modules/es.math.log10");
-
-require("core-js/modules/es.math.log1p");
-
-require("core-js/modules/es.math.log2");
-
-require("core-js/modules/es.math.sign");
-
-require("core-js/modules/es.math.sinh");
-
-require("core-js/modules/es.math.tanh");
-
-require("core-js/modules/es.math.to-string-tag");
-
-require("core-js/modules/es.math.trunc");
-
-require("core-js/modules/es.number.constructor");
-
-require("core-js/modules/es.number.epsilon");
-
-require("core-js/modules/es.number.is-finite");
-
-require("core-js/modules/es.number.is-integer");
-
-require("core-js/modules/es.number.is-nan");
-
-require("core-js/modules/es.number.is-safe-integer");
-
-require("core-js/modules/es.number.max-safe-integer");
-
-require("core-js/modules/es.number.min-safe-integer");
-
-require("core-js/modules/es.number.parse-float");
-
-require("core-js/modules/es.number.parse-int");
-
-require("core-js/modules/es.number.to-fixed");
-
-require("core-js/modules/es.object.assign");
-
-require("core-js/modules/es.object.define-getter");
-
-require("core-js/modules/es.object.define-setter");
-
-require("core-js/modules/es.object.entries");
-
-require("core-js/modules/es.object.freeze");
-
-require("core-js/modules/es.object.from-entries");
-
-require("core-js/modules/es.object.get-own-property-descriptor");
-
-require("core-js/modules/es.object.get-own-property-descriptors");
-
-require("core-js/modules/es.object.get-own-property-names");
-
-require("core-js/modules/es.object.get-prototype-of");
-
-require("core-js/modules/es.object.is");
-
-require("core-js/modules/es.object.is-extensible");
-
-require("core-js/modules/es.object.is-frozen");
-
-require("core-js/modules/es.object.is-sealed");
-
-require("core-js/modules/es.object.keys");
-
-require("core-js/modules/es.object.lookup-getter");
-
-require("core-js/modules/es.object.lookup-setter");
-
-require("core-js/modules/es.object.prevent-extensions");
-
-require("core-js/modules/es.object.seal");
-
-require("core-js/modules/es.object.to-string");
-
-require("core-js/modules/es.object.values");
-
-require("core-js/modules/es.promise");
-
-require("core-js/modules/es.promise.finally");
-
-require("core-js/modules/es.reflect.apply");
-
-require("core-js/modules/es.reflect.construct");
-
-require("core-js/modules/es.reflect.define-property");
-
-require("core-js/modules/es.reflect.delete-property");
-
-require("core-js/modules/es.reflect.get");
-
-require("core-js/modules/es.reflect.get-own-property-descriptor");
-
-require("core-js/modules/es.reflect.get-prototype-of");
-
-require("core-js/modules/es.reflect.has");
-
-require("core-js/modules/es.reflect.is-extensible");
-
-require("core-js/modules/es.reflect.own-keys");
-
-require("core-js/modules/es.reflect.prevent-extensions");
-
-require("core-js/modules/es.reflect.set");
-
-require("core-js/modules/es.reflect.set-prototype-of");
-
-require("core-js/modules/es.regexp.constructor");
-
-require("core-js/modules/es.regexp.exec");
-
-require("core-js/modules/es.regexp.flags");
-
-require("core-js/modules/es.regexp.to-string");
-
-require("core-js/modules/es.set");
-
-require("core-js/modules/es.string.code-point-at");
-
-require("core-js/modules/es.string.ends-with");
-
-require("core-js/modules/es.string.from-code-point");
-
-require("core-js/modules/es.string.includes");
-
-require("core-js/modules/es.string.iterator");
-
-require("core-js/modules/es.string.match");
-
-require("core-js/modules/es.string.match-all");
-
-require("core-js/modules/es.string.pad-end");
-
-require("core-js/modules/es.string.pad-start");
-
-require("core-js/modules/es.string.raw");
-
-require("core-js/modules/es.string.repeat");
-
-require("core-js/modules/es.string.replace");
-
-require("core-js/modules/es.string.search");
-
-require("core-js/modules/es.string.split");
-
-require("core-js/modules/es.string.starts-with");
-
-require("core-js/modules/es.string.trim");
-
-require("core-js/modules/es.string.trim-end");
-
-require("core-js/modules/es.string.trim-start");
-
-require("core-js/modules/es.string.anchor");
-
-require("core-js/modules/es.string.big");
-
-require("core-js/modules/es.string.blink");
-
-require("core-js/modules/es.string.bold");
-
-require("core-js/modules/es.string.fixed");
-
-require("core-js/modules/es.string.fontcolor");
-
-require("core-js/modules/es.string.fontsize");
-
-require("core-js/modules/es.string.italics");
-
-require("core-js/modules/es.string.link");
-
-require("core-js/modules/es.string.small");
-
-require("core-js/modules/es.string.strike");
-
-require("core-js/modules/es.string.sub");
-
-require("core-js/modules/es.string.sup");
-
-require("core-js/modules/es.typed-array.float32-array");
-
-require("core-js/modules/es.typed-array.float64-array");
-
-require("core-js/modules/es.typed-array.int8-array");
-
-require("core-js/modules/es.typed-array.int16-array");
-
-require("core-js/modules/es.typed-array.int32-array");
-
-require("core-js/modules/es.typed-array.uint8-array");
-
-require("core-js/modules/es.typed-array.uint8-clamped-array");
-
-require("core-js/modules/es.typed-array.uint16-array");
-
-require("core-js/modules/es.typed-array.uint32-array");
-
-require("core-js/modules/es.typed-array.copy-within");
-
-require("core-js/modules/es.typed-array.every");
-
-require("core-js/modules/es.typed-array.fill");
-
-require("core-js/modules/es.typed-array.filter");
-
-require("core-js/modules/es.typed-array.find");
-
-require("core-js/modules/es.typed-array.find-index");
-
-require("core-js/modules/es.typed-array.for-each");
-
-require("core-js/modules/es.typed-array.from");
-
-require("core-js/modules/es.typed-array.includes");
-
-require("core-js/modules/es.typed-array.index-of");
-
-require("core-js/modules/es.typed-array.iterator");
-
-require("core-js/modules/es.typed-array.join");
-
-require("core-js/modules/es.typed-array.last-index-of");
-
-require("core-js/modules/es.typed-array.map");
-
-require("core-js/modules/es.typed-array.of");
-
-require("core-js/modules/es.typed-array.reduce");
-
-require("core-js/modules/es.typed-array.reduce-right");
-
-require("core-js/modules/es.typed-array.reverse");
-
-require("core-js/modules/es.typed-array.set");
-
-require("core-js/modules/es.typed-array.slice");
-
-require("core-js/modules/es.typed-array.some");
-
-require("core-js/modules/es.typed-array.sort");
-
-require("core-js/modules/es.typed-array.subarray");
-
-require("core-js/modules/es.typed-array.to-locale-string");
-
-require("core-js/modules/es.typed-array.to-string");
-
-require("core-js/modules/es.weak-map");
-
-require("core-js/modules/es.weak-set");
-
-require("core-js/modules/web.dom-collections.for-each");
-
-require("core-js/modules/web.dom-collections.iterator");
-
-require("core-js/modules/web.immediate");
-
-require("core-js/modules/web.queue-microtask");
-
-require("core-js/modules/web.url");
-
-require("core-js/modules/web.url.to-json");
-
-require("core-js/modules/web.url-search-params");
-
-require("regenerator-runtime/runtime");
-
-require("@webcomponents/webcomponentsjs/custom-elements-es5-adapter");
-
-require("@webcomponents/webcomponentsjs/webcomponents-bundle");
-
-require("bootstrap");
-
-require("./lib/components");
-
-require("./lib/equations");
-
-require("./lib/examples");
-
-},{"./lib/components":409,"./lib/equations":423,"./lib/examples":427,"@webcomponents/webcomponentsjs/custom-elements-es5-adapter":1,"@webcomponents/webcomponentsjs/webcomponents-bundle":2,"bootstrap":3,"core-js/modules/es.array-buffer.constructor":159,"core-js/modules/es.array-buffer.slice":160,"core-js/modules/es.array.concat":161,"core-js/modules/es.array.copy-within":162,"core-js/modules/es.array.every":163,"core-js/modules/es.array.fill":164,"core-js/modules/es.array.filter":165,"core-js/modules/es.array.find":167,"core-js/modules/es.array.find-index":166,"core-js/modules/es.array.flat":169,"core-js/modules/es.array.flat-map":168,"core-js/modules/es.array.for-each":170,"core-js/modules/es.array.from":171,"core-js/modules/es.array.includes":172,"core-js/modules/es.array.index-of":173,"core-js/modules/es.array.iterator":174,"core-js/modules/es.array.join":175,"core-js/modules/es.array.last-index-of":176,"core-js/modules/es.array.map":177,"core-js/modules/es.array.of":178,"core-js/modules/es.array.reduce":180,"core-js/modules/es.array.reduce-right":179,"core-js/modules/es.array.reverse":181,"core-js/modules/es.array.slice":182,"core-js/modules/es.array.some":183,"core-js/modules/es.array.sort":184,"core-js/modules/es.array.species":185,"core-js/modules/es.array.splice":186,"core-js/modules/es.array.unscopables.flat":188,"core-js/modules/es.array.unscopables.flat-map":187,"core-js/modules/es.date.to-primitive":189,"core-js/modules/es.function.has-instance":190,"core-js/modules/es.function.name":191,"core-js/modules/es.json.to-string-tag":192,"core-js/modules/es.map":193,"core-js/modules/es.math.acosh":194,"core-js/modules/es.math.asinh":195,"core-js/modules/es.math.atanh":196,"core-js/modules/es.math.cbrt":197,"core-js/modules/es.math.clz32":198,"core-js/modules/es.math.cosh":199,"core-js/modules/es.math.expm1":200,"core-js/modules/es.math.fround":201,"core-js/modules/es.math.hypot":202,"core-js/modules/es.math.imul":203,"core-js/modules/es.math.log10":204,"core-js/modules/es.math.log1p":205,"core-js/modules/es.math.log2":206,"core-js/modules/es.math.sign":207,"core-js/modules/es.math.sinh":208,"core-js/modules/es.math.tanh":209,"core-js/modules/es.math.to-string-tag":210,"core-js/modules/es.math.trunc":211,"core-js/modules/es.number.constructor":212,"core-js/modules/es.number.epsilon":213,"core-js/modules/es.number.is-finite":214,"core-js/modules/es.number.is-integer":215,"core-js/modules/es.number.is-nan":216,"core-js/modules/es.number.is-safe-integer":217,"core-js/modules/es.number.max-safe-integer":218,"core-js/modules/es.number.min-safe-integer":219,"core-js/modules/es.number.parse-float":220,"core-js/modules/es.number.parse-int":221,"core-js/modules/es.number.to-fixed":222,"core-js/modules/es.object.assign":223,"core-js/modules/es.object.define-getter":224,"core-js/modules/es.object.define-setter":225,"core-js/modules/es.object.entries":226,"core-js/modules/es.object.freeze":227,"core-js/modules/es.object.from-entries":228,"core-js/modules/es.object.get-own-property-descriptor":229,"core-js/modules/es.object.get-own-property-descriptors":230,"core-js/modules/es.object.get-own-property-names":231,"core-js/modules/es.object.get-prototype-of":232,"core-js/modules/es.object.is":236,"core-js/modules/es.object.is-extensible":233,"core-js/modules/es.object.is-frozen":234,"core-js/modules/es.object.is-sealed":235,"core-js/modules/es.object.keys":237,"core-js/modules/es.object.lookup-getter":238,"core-js/modules/es.object.lookup-setter":239,"core-js/modules/es.object.prevent-extensions":240,"core-js/modules/es.object.seal":241,"core-js/modules/es.object.to-string":242,"core-js/modules/es.object.values":243,"core-js/modules/es.promise":245,"core-js/modules/es.promise.finally":244,"core-js/modules/es.reflect.apply":246,"core-js/modules/es.reflect.construct":247,"core-js/modules/es.reflect.define-property":248,"core-js/modules/es.reflect.delete-property":249,"core-js/modules/es.reflect.get":252,"core-js/modules/es.reflect.get-own-property-descriptor":250,"core-js/modules/es.reflect.get-prototype-of":251,"core-js/modules/es.reflect.has":253,"core-js/modules/es.reflect.is-extensible":254,"core-js/modules/es.reflect.own-keys":255,"core-js/modules/es.reflect.prevent-extensions":256,"core-js/modules/es.reflect.set":258,"core-js/modules/es.reflect.set-prototype-of":257,"core-js/modules/es.regexp.constructor":259,"core-js/modules/es.regexp.exec":260,"core-js/modules/es.regexp.flags":261,"core-js/modules/es.regexp.to-string":262,"core-js/modules/es.set":263,"core-js/modules/es.string.anchor":264,"core-js/modules/es.string.big":265,"core-js/modules/es.string.blink":266,"core-js/modules/es.string.bold":267,"core-js/modules/es.string.code-point-at":268,"core-js/modules/es.string.ends-with":269,"core-js/modules/es.string.fixed":270,"core-js/modules/es.string.fontcolor":271,"core-js/modules/es.string.fontsize":272,"core-js/modules/es.string.from-code-point":273,"core-js/modules/es.string.includes":274,"core-js/modules/es.string.italics":275,"core-js/modules/es.string.iterator":276,"core-js/modules/es.string.link":277,"core-js/modules/es.string.match":279,"core-js/modules/es.string.match-all":278,"core-js/modules/es.string.pad-end":280,"core-js/modules/es.string.pad-start":281,"core-js/modules/es.string.raw":282,"core-js/modules/es.string.repeat":283,"core-js/modules/es.string.replace":284,"core-js/modules/es.string.search":285,"core-js/modules/es.string.small":286,"core-js/modules/es.string.split":287,"core-js/modules/es.string.starts-with":288,"core-js/modules/es.string.strike":289,"core-js/modules/es.string.sub":290,"core-js/modules/es.string.sup":291,"core-js/modules/es.string.trim":294,"core-js/modules/es.string.trim-end":292,"core-js/modules/es.string.trim-start":293,"core-js/modules/es.symbol":300,"core-js/modules/es.symbol.async-iterator":295,"core-js/modules/es.symbol.description":296,"core-js/modules/es.symbol.has-instance":297,"core-js/modules/es.symbol.is-concat-spreadable":298,"core-js/modules/es.symbol.iterator":299,"core-js/modules/es.symbol.match":302,"core-js/modules/es.symbol.match-all":301,"core-js/modules/es.symbol.replace":303,"core-js/modules/es.symbol.search":304,"core-js/modules/es.symbol.species":305,"core-js/modules/es.symbol.split":306,"core-js/modules/es.symbol.to-primitive":307,"core-js/modules/es.symbol.to-string-tag":308,"core-js/modules/es.symbol.unscopables":309,"core-js/modules/es.typed-array.copy-within":310,"core-js/modules/es.typed-array.every":311,"core-js/modules/es.typed-array.fill":312,"core-js/modules/es.typed-array.filter":313,"core-js/modules/es.typed-array.find":315,"core-js/modules/es.typed-array.find-index":314,"core-js/modules/es.typed-array.float32-array":316,"core-js/modules/es.typed-array.float64-array":317,"core-js/modules/es.typed-array.for-each":318,"core-js/modules/es.typed-array.from":319,"core-js/modules/es.typed-array.includes":320,"core-js/modules/es.typed-array.index-of":321,"core-js/modules/es.typed-array.int16-array":322,"core-js/modules/es.typed-array.int32-array":323,"core-js/modules/es.typed-array.int8-array":324,"core-js/modules/es.typed-array.iterator":325,"core-js/modules/es.typed-array.join":326,"core-js/modules/es.typed-array.last-index-of":327,"core-js/modules/es.typed-array.map":328,"core-js/modules/es.typed-array.of":329,"core-js/modules/es.typed-array.reduce":331,"core-js/modules/es.typed-array.reduce-right":330,"core-js/modules/es.typed-array.reverse":332,"core-js/modules/es.typed-array.set":333,"core-js/modules/es.typed-array.slice":334,"core-js/modules/es.typed-array.some":335,"core-js/modules/es.typed-array.sort":336,"core-js/modules/es.typed-array.subarray":337,"core-js/modules/es.typed-array.to-locale-string":338,"core-js/modules/es.typed-array.to-string":339,"core-js/modules/es.typed-array.uint16-array":340,"core-js/modules/es.typed-array.uint32-array":341,"core-js/modules/es.typed-array.uint8-array":342,"core-js/modules/es.typed-array.uint8-clamped-array":343,"core-js/modules/es.weak-map":344,"core-js/modules/es.weak-set":345,"core-js/modules/web.dom-collections.for-each":346,"core-js/modules/web.dom-collections.iterator":347,"core-js/modules/web.immediate":348,"core-js/modules/web.queue-microtask":349,"core-js/modules/web.url":351,"core-js/modules/web.url-search-params":350,"core-js/modules/web.url.to-json":352,"regenerator-runtime/runtime":406}],409:[function(require,module,exports){
-"use strict";
-
 require("./rdk-task");
 
 require("./roc-space");
@@ -63571,7 +63166,7 @@ require("./sdt-response");
 
 require("./sdt-table");
 
-},{"./rdk-task":410,"./roc-space":411,"./sdt-control":412,"./sdt-model":413,"./sdt-response":414,"./sdt-table":415}],410:[function(require,module,exports){
+},{"./rdk-task":409,"./roc-space":410,"./sdt-control":411,"./sdt-model":412,"./sdt-response":413,"./sdt-table":414}],409:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63585,13 +63180,79 @@ var d3 = _interopRequireWildcard(require("d3"));
 
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache() {
+  if (typeof WeakMap !== "function") return null;
+  var cache = new WeakMap();
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+  _getRequireWildcardCache = function _getRequireWildcardCache() {
+    return cache;
+  };
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+  return cache;
+}
+
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
+    return {
+      default: obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache();
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj.default = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject2() {
   var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        .background {\n          fill: var(---color-element-disabled);\n          stroke: none;\n        }\n\n        .outline {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2px;\n        }\n\n        .dot {\n          /* r: 2px; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        .dots.coherent {\n          fill: var(---color-background);\n        }\n\n        .dots.random {\n          fill: var(---color-background);\n        }\n\n        .fixation {\n          stroke: var(---color-text);\n          stroke-width: 2px;\n        }\n\n        .query {\n          font-size: 1.75rem;\n          font-weight: 600;\n        }\n      "]);
@@ -63613,28 +63274,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      return desc.value;
+    };
+  }
 
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   RDKTask element
   <rdk-task>
@@ -63643,6 +63392,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Dots; Coherence;
   # Direction, Speed, Lifetime
 */
+
+
 var RDKTask = /*#__PURE__*/function (_SDTElement) {
   _inherits(RDKTask, _SDTElement);
 
@@ -64157,7 +63908,7 @@ var RDKTask = /*#__PURE__*/function (_SDTElement) {
 exports.default = RDKTask;
 customElements.define('rdk-task', RDKTask);
 
-},{"../sdt-element":438,"d3":384,"lit-element":390}],411:[function(require,module,exports){
+},{"../sdt-element":438,"d3":384,"lit-element":390}],410:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -64171,13 +63922,79 @@ var d3 = _interopRequireWildcard(require("d3"));
 
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache() {
+  if (typeof WeakMap !== "function") return null;
+  var cache = new WeakMap();
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+  _getRequireWildcardCache = function _getRequireWildcardCache() {
+    return cache;
+  };
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+  return cache;
+}
+
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
+    return {
+      default: obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache();
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj.default = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject2() {
   var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        .plot-contour,\n        .legend-contour .contour {\n          stroke: var(---color-background);\n          stroke-width: 0.5;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .point.interactive {\n          cursor: move;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */\n          stroke: #000000;\n          stroke-opacity: 0;\n          stroke-width: 0;\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .point.interactive .circle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .point.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          stroke: #ff0000;\n        }\n\n        .point.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          stroke: #00ff00;\n        }\n\n        :host(.keyboard) .point.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          stroke: #0000ff;\n        }\n\n        .background {\n          fill: var(---color-element-background);\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-contour {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line {\n          stroke: var(---color-element-border);\n        }\n\n        .axis-contour .domain {\n          stroke: none;\n        }\n\n        .diagonal {\n          stroke: var(---color-element-border);\n          stroke-dasharray: 4;\n          stroke-width: 1;\n        }\n\n        .curve-iso-d {\n          fill: none;\n          stroke: var(---color-d);\n          stroke-width: 2;\n        }\n\n        .curve-iso-c {\n          fill: none;\n          stroke: var(---color-c);\n          stroke-width: 2;\n        }\n\n        .point .circle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        .point .label {\n          font-size: 0.75rem;\n\n          dominant-baseline: middle;\n          text-anchor: middle;\n\n          fill: var(---color-text-inverse);\n        }\n      "]);
@@ -64199,28 +64016,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      return desc.value;
+    };
+  }
 
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   ROCSpace element
   <roc-space>
@@ -64238,6 +64143,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Styles:
     ??
 */
+
+
 var ROCSpace = /*#__PURE__*/function (_SDTElement) {
   _inherits(ROCSpace, _SDTElement);
 
@@ -65031,7 +64938,7 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
 exports.default = ROCSpace;
 customElements.define('roc-space', ROCSpace);
 
-},{"../sdt-element":438,"d3":384,"lit-element":390}],412:[function(require,module,exports){
+},{"../sdt-element":438,"d3":384,"lit-element":390}],411:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65053,9 +64960,27 @@ var _styleSwitch = _interopRequireDefault(require("../mixins/styleSwitch"));
 
 var _styleToggle = _interopRequireDefault(require("../mixins/styleToggle"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject20() {
   var data = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: ", ";\n          ---shadow-4-rotate: ", ";\n          ---shadow-8-rotate: ", ";\n\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        .slider {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .switch {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .toggle {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        /* Spinners */\n        input[type=number] {\n          width: 3.5rem;\n          margin: 0 0.25rem 0.25rem;\n\n          background: var(---color-background);\n        }\n\n        /* Toggles */\n        fieldset {\n          border: 0;\n        }\n\n        legend {\n          text-align: center;\n        }\n\n        /* Payoff  Slider */\n        .payoff {\n          line-height: 1;\n        }\n\n        .payoff::before {\n          position: absolute;\n\n          padding-top: 1px;\n          padding-left: 0.5rem;\n\n          line-height: normal;\n\n          content: \"$\";\n        }\n      "]);
@@ -65257,28 +65182,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      return desc.value;
+    };
+  }
 
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTControl element
   <sdt-control>
@@ -65286,6 +65299,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
 
 */
+
+
 var SDTControl = /*#__PURE__*/function (_SDTMixinStyleButton) {
   _inherits(SDTControl, _SDTMixinStyleButton);
 
@@ -65487,7 +65502,7 @@ var SDTControl = /*#__PURE__*/function (_SDTMixinStyleButton) {
 exports.default = SDTControl;
 customElements.define('sdt-control', SDTControl);
 
-},{"../mixins/styleButton":433,"../mixins/styleSlider":434,"../mixins/styleSpinner":435,"../mixins/styleSwitch":436,"../mixins/styleToggle":437,"../sdt-element":438,"lit-element":390}],413:[function(require,module,exports){
+},{"../mixins/styleButton":433,"../mixins/styleSlider":434,"../mixins/styleSpinner":435,"../mixins/styleSwitch":436,"../mixins/styleToggle":437,"../sdt-element":438,"lit-element":390}],412:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65503,13 +65518,79 @@ var jStat = _interopRequireWildcard(require("jstat"));
 
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache() {
+  if (typeof WeakMap !== "function") return null;
+  var cache = new WeakMap();
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+  _getRequireWildcardCache = function _getRequireWildcardCache() {
+    return cache;
+  };
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+  return cache;
+}
+
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
+    return {
+      default: obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache();
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj.default = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject2() {
   var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line,\n        .axis-y2 path,\n        .axis-y2 line {\n          stroke: var(---color-element-border);\n        }\n\n        .noise.interactive,\n        .signal.interactive,\n        .threshold.interactive {\n          cursor: ew-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.unequal {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.interactive.unequal {\n          cursor: move;\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .noise.interactive:focus,\n        :host(.keyboard) .signal.interactive:focus,\n        :host(.keyboard) .signal.unequal:focus,\n        :host(.keyboard) .threshold.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .underlayer .background {\n          fill: var(---color-element-background);\n          stroke: none;\n        }\n\n        .overlayer .background {\n          fill: none;\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-y2 {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .curve-cr,\n        .curve-fa,\n        .curve-m,\n        .curve-h {\n          fill-opacity: 0.5;\n          stroke: none;\n\n          transition: fill var(---transition-duration) ease;\n        }\n\n        .curve-cr {\n          fill: var(---color-cr);\n        }\n\n        .curve-fa {\n          fill: var(---color-fa);\n        }\n\n        .curve-m {\n          fill: var(---color-m);\n        }\n\n        .curve-h {\n          fill: var(---color-h);\n        }\n\n        :host([color=\"accuracy\"]) .curve-h,\n        :host([color=\"accuracy\"]) .curve-cr {\n          fill: var(---color-correct);\n        }\n\n        :host([color=\"accuracy\"]) .curve-m,\n        :host([color=\"accuracy\"]) .curve-fa {\n          fill: var(---color-error);\n        }\n\n        :host([color=\"stimulus\"]) .curve-cr,\n        :host([color=\"stimulus\"]) .curve-fa {\n          fill: var(---color-far);\n        }\n\n        :host([color=\"stimulus\"]) .curve-m,\n        :host([color=\"stimulus\"]) .curve-h {\n          fill: var(---color-hr);\n        }\n\n        :host([color=\"response\"]) .curve-cr,\n        :host([color=\"response\"]) .curve-m {\n          fill: var(---color-absent);\n        }\n\n        :host([color=\"response\"]) .curve-fa,\n        :host([color=\"response\"]) .curve-h {\n          fill: var(---color-present);\n        }\n\n        :host([color=\"none\"]) .curve-cr,\n        :host([color=\"none\"]) .curve-fa,\n        :host([color=\"none\"]) .curve-m,\n        :host([color=\"none\"]) .curve-h {\n          fill: var(---color-element-enabled);\n        }\n\n        .curve-noise,\n        .curve-signal {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .measure-d,\n        .measure-c,\n        .measure-s {\n          pointer-events: none;\n        }\n\n        .threshold .line {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .threshold .handle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .threshold.interactive .handle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .measure-d .line,\n        .measure-d .cap-left,\n        .measure-d .cap-right {\n          stroke: var(---color-d);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-d .label {\n          font-size: 0.75rem;\n\n          text-anchor: start;\n          fill: currentColor;\n        }\n\n        .measure-c .line,\n        .measure-c .cap-zero {\n          stroke: var(---color-c);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-c .label {\n          font-size: 0.75rem;\n\n          fill: currentColor;\n        }\n\n        .measure-s .line,\n        .measure-s .cap-left,\n        .measure-s .cap-right {\n          stroke: var(---color-s);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-s .label {\n          font-size: 0.75rem;\n\n          text-anchor: middle;\n          fill: currentColor;\n        }\n      "]);
@@ -65531,28 +65612,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      return desc.value;
+    };
+  }
 
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTModel element
   <sdt-model>
@@ -65567,6 +65736,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
     Styles:
       ??
 */
+
+
 var SDTModel = /*#__PURE__*/function (_SDTElement) {
   _inherits(SDTModel, _SDTElement);
 
@@ -66805,7 +66976,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
 exports.default = SDTModel;
 customElements.define('sdt-model', SDTModel);
 
-},{"../sdt-element":438,"d3":384,"jstat":386,"lit-element":390}],414:[function(require,module,exports){
+},{"../sdt-element":438,"d3":384,"jstat":386,"lit-element":390}],413:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -66819,9 +66990,27 @@ var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
 var _styleButton = _interopRequireDefault(require("../mixins/styleButton"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject20() {
   var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall container */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n        }\n\n        /* Response buttons */\n        .responses {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .waiting:disabled {\n          background-color: var(---color-element-enabled);\n          outline: none;\n          box-shadow: none;\n        }\n\n        .selected[name=\"present\"]:disabled {\n          background-color: var(---color-present);\n        }\n\n        .selected[name=\"absent\"]:disabled {\n          background-color: var(---color-absent);\n        }\n\n        /* Feedback messages */\n        .feedbacks {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        /* Trial feedback */\n        .trial {\n          text-align: center;\n        }\n\n        .trial .label {\n          font-weight: 600;\n        }\n\n        /* Outcome feedback */\n        .feedback {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          width: 6rem;\n          height: 3.5rem;\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          text-align: center;\n\n          background-color: var(---color-element-background);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .feedback.h {\n          background-color: var(---color-h-light);\n        }\n\n        .feedback.m {\n          background-color: var(---color-m-light);\n        }\n\n        .feedback.fa {\n          background-color: var(---color-fa-light);\n        }\n\n        .feedback.cr {\n          background-color: var(---color-cr-light);\n        }\n\n        .feedback.nr {\n          background-color: var(---color-nr-light);\n        }\n\n        .feedback.c {\n          background-color: var(---color-correct-light);\n        }\n\n        .feedback.e {\n          color: var(---color-text-inverse);\n\n          background-color: var(---color-error-light);\n        }\n\n        .feedback .outcome {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n\n        :host([payoff=\"trial\"]) .feedback,\n        :host([payoff=\"total\"]) .feedback {\n          height: 4rem;\n        }\n\n        /* Payoff feedback */\n        .payoff {\n          text-align: center;\n        }\n\n        .payoff .label {\n          font-weight: 600;\n        }\n      "]);
@@ -67023,28 +67212,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      return desc.value;
+    };
+  }
 
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTResponse element
   <sdt-response>
@@ -67052,6 +67329,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
 
 */
+
+
 var SDTResponse = /*#__PURE__*/function (_SDTMixinStyleButton) {
   _inherits(SDTResponse, _SDTMixinStyleButton);
 
@@ -67326,7 +67605,7 @@ var SDTResponse = /*#__PURE__*/function (_SDTMixinStyleButton) {
 exports.default = SDTResponse;
 customElements.define('sdt-response', SDTResponse);
 
-},{"../mixins/styleButton":433,"../sdt-element":438,"lit-element":390}],415:[function(require,module,exports){
+},{"../mixins/styleButton":433,"../sdt-element":438,"lit-element":390}],414:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -67342,9 +67621,27 @@ var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
 
 var _converterSet = _interopRequireDefault(require("../mixins/converterSet"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject46() {
   var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        label {\n          margin: 0;\n        }\n\n        label span {\n          display: block;\n\n          font-size: 0.75rem;\n        }\n\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        input {\n          background: none;\n        }\n\n        .td-data input {\n          width: 3.5rem;\n        }\n\n        .td-summary input {\n          width: 4.5rem;\n        }\n\n        /* Table emphasis */\n        .h {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        /* Color schemes */\n        /* stylelint-disable-next-line no-descending-specificity */\n        .td,\n        .td input {\n          transition: all var(---transition-duration) ease;\n        }\n\n        /* Outcome color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        .ppv,\n        .ppv input {\n          background: var(---color-present-light);\n        }\n\n        .fomr,\n        .fomr input {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .h input,\n        :host([color=\"accuracy\"]) .cr,\n        :host([color=\"accuracy\"]) .cr input {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .m input,\n        :host([color=\"accuracy\"]) .fa,\n        :host([color=\"accuracy\"]) .fa input {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .hr input,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .far input,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .ppv input,\n        :host([color=\"accuracy\"]) .fomr,\n        :host([color=\"accuracy\"]) .fomr input {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .cr input,\n        :host([color=\"stimulus\"]) .fa,\n        :host([color=\"stimulus\"]) .fa input {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .m input,\n        :host([color=\"stimulus\"]) .h,\n        :host([color=\"stimulus\"]) .h input {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .ppv input,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .fomr input,\n        :host([color=\"stimulus\"]) .acc,\n        :host([color=\"stimulus\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .cr input,\n        :host([color=\"response\"]) .m,\n        :host([color=\"response\"]) .m input {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .fa input,\n        :host([color=\"response\"]) .h,\n        :host([color=\"response\"]) .h input {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .hr input,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .far input,\n        :host([color=\"response\"]) .acc,\n        :host([color=\"response\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .cr input,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .fa input,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .m input,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .h input,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .hr input,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .far input,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .ppv input,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .fomr input,\n        :host([color=\"none\"]) .acc,\n        :host([color=\"none\"]) .acc input {\n          background: var(---color-element-background);\n        }\n      "]);
@@ -67806,28 +68103,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      return desc.value;
+    };
+  }
 
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTTable element
   <sdt-table>
@@ -67835,6 +68220,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
   Hit; Miss; FalseAlarm; CorrectRejection;
 */
+
+
 var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
   _inherits(SDTTable, _SDTMixinConverterSet);
 
@@ -68154,7 +68541,7 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
 exports.default = SDTTable;
 customElements.define('sdt-table', SDTTable);
 
-},{"../mixins/converterSet":432,"../mixins/styleSpinner":435,"../sdt-element":438,"lit-element":390}],416:[function(require,module,exports){
+},{"../mixins/converterSet":432,"../mixins/styleSpinner":435,"../sdt-element":438,"lit-element":390}],415:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -68166,9 +68553,27 @@ var _litElement = require("lit-element");
 
 var _sdtEquation = _interopRequireDefault(require("./sdt-equation"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject11() {
   var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"]);
@@ -68280,24 +68685,86 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return _assertThisInitialized(self);
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTEquation_DC2Far element
   <sdt-equation-dc2far>
@@ -68305,6 +68772,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
   d'; c; False Alarm Rate;
 */
+
+
 var SDTEquationDC2Far = /*#__PURE__*/function (_SDTEquation) {
   _inherits(SDTEquationDC2Far, _SDTEquation);
 
@@ -68435,7 +68904,7 @@ var SDTEquationDC2Far = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationDC2Far;
 customElements.define('sdt-equation-dc2far', SDTEquationDC2Far);
 
-},{"./sdt-equation":424,"lit-element":390}],417:[function(require,module,exports){
+},{"./sdt-equation":423,"lit-element":390}],416:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -68447,9 +68916,27 @@ var _litElement = require("lit-element");
 
 var _sdtEquation = _interopRequireDefault(require("./sdt-equation"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject11() {
   var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"]);
@@ -68561,24 +69048,86 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return _assertThisInitialized(self);
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTEquationDC2Hr element
   <sdt-equation-dc2hr>
@@ -68586,6 +69135,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
   d'; c; Hit Rate;
 */
+
+
 var SDTEquationDC2Hr = /*#__PURE__*/function (_SDTEquation) {
   _inherits(SDTEquationDC2Hr, _SDTEquation);
 
@@ -68716,7 +69267,7 @@ var SDTEquationDC2Hr = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationDC2Hr;
 customElements.define('sdt-equation-dc2hr', SDTEquationDC2Hr);
 
-},{"./sdt-equation":424,"lit-element":390}],418:[function(require,module,exports){
+},{"./sdt-equation":423,"lit-element":390}],417:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -68728,9 +69279,27 @@ var _litElement = require("lit-element");
 
 var _sdtEquation = _interopRequireDefault(require("./sdt-equation"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject7() {
   var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"]);
@@ -68802,24 +69371,86 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return _assertThisInitialized(self);
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTEquation_FaCr2Far element
   <sdt-equation-facr2far>
@@ -68827,6 +69458,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
   False Alarms; Correct Rejections; False Alarm Rate;
 */
+
+
 var SDTEquationFaCr2Far = /*#__PURE__*/function (_SDTEquation) {
   _inherits(SDTEquationFaCr2Far, _SDTEquation);
 
@@ -68926,7 +69559,7 @@ var SDTEquationFaCr2Far = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationFaCr2Far;
 customElements.define('sdt-equation-facr2far', SDTEquationFaCr2Far);
 
-},{"./sdt-equation":424,"lit-element":390}],419:[function(require,module,exports){
+},{"./sdt-equation":423,"lit-element":390}],418:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -68938,9 +69571,27 @@ var _litElement = require("lit-element");
 
 var _sdtEquation = _interopRequireDefault(require("./sdt-equation"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject7() {
   var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"]);
@@ -69012,24 +69663,86 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return _assertThisInitialized(self);
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTEquation_HM2Hr element
   <sdt-equation-hm2hr>
@@ -69037,6 +69750,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
   Hits; Misses; Hit Rate;
 */
+
+
 var SDTEquationHM2Hr = /*#__PURE__*/function (_SDTEquation) {
   _inherits(SDTEquationHM2Hr, _SDTEquation);
 
@@ -69136,7 +69851,7 @@ var SDTEquationHM2Hr = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationHM2Hr;
 customElements.define('sdt-equation-hm2hr', SDTEquationHM2Hr);
 
-},{"./sdt-equation":424,"lit-element":390}],420:[function(require,module,exports){
+},{"./sdt-equation":423,"lit-element":390}],419:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -69148,9 +69863,27 @@ var _litElement = require("lit-element");
 
 var _sdtEquation = _interopRequireDefault(require("./sdt-equation"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject11() {
   var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "<span class=\"plus\">+</span>", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"]);
@@ -69262,24 +69995,86 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return _assertThisInitialized(self);
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTEquation_HMFaCr2Acc element
   <sdt-equation-hmfacr2acc>
@@ -69287,6 +70082,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
   Hits; Misses; False Alarms; Correct Rejections; Accuracy;
 */
+
+
 var SDTEquationHMFaCr2Acc = /*#__PURE__*/function (_SDTEquation) {
   _inherits(SDTEquationHMFaCr2Acc, _SDTEquation);
 
@@ -69420,7 +70217,7 @@ var SDTEquationHMFaCr2Acc = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationHMFaCr2Acc;
 customElements.define('sdt-equation-hmfacr2acc', SDTEquationHMFaCr2Acc);
 
-},{"./sdt-equation":424,"lit-element":390}],421:[function(require,module,exports){
+},{"./sdt-equation":423,"lit-element":390}],420:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -69432,9 +70229,27 @@ var _litElement = require("lit-element");
 
 var _sdtEquation = _interopRequireDefault(require("./sdt-equation"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject11() {
   var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"]);
@@ -69546,24 +70361,86 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return _assertThisInitialized(self);
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTEquation_HrFar2C element
   <sdt-equation-hrfar2c>
@@ -69571,6 +70448,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
   Hit Rate; False Alarm Rate; d';
 */
+
+
 var SDTEquationHrFar2C = /*#__PURE__*/function (_SDTEquation) {
   _inherits(SDTEquationHrFar2C, _SDTEquation);
 
@@ -69701,7 +70580,7 @@ var SDTEquationHrFar2C = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationHrFar2C;
 customElements.define('sdt-equation-hrfar2c', SDTEquationHrFar2C);
 
-},{"./sdt-equation":424,"lit-element":390}],422:[function(require,module,exports){
+},{"./sdt-equation":423,"lit-element":390}],421:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -69713,9 +70592,27 @@ var _litElement = require("lit-element");
 
 var _sdtEquation = _interopRequireDefault(require("./sdt-equation"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject11() {
   var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"]);
@@ -69827,24 +70724,86 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return _assertThisInitialized(self);
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTEquation_HrFar2D element
   <sdt-equation-hrfar2d>
@@ -69852,6 +70811,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
   Hit Rate; False Alarm Rate; d';
 */
+
+
 var SDTEquationHrFar2D = /*#__PURE__*/function (_SDTEquation) {
   _inherits(SDTEquationHrFar2D, _SDTEquation);
 
@@ -69982,7 +70943,7 @@ var SDTEquationHrFar2D = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationHrFar2D;
 customElements.define('sdt-equation-hrfar2d', SDTEquationHrFar2D);
 
-},{"./sdt-equation":424,"lit-element":390}],423:[function(require,module,exports){
+},{"./sdt-equation":423,"lit-element":390}],422:[function(require,module,exports){
 "use strict";
 
 require("./dc2far");
@@ -69999,7 +70960,7 @@ require("./hrfar2c");
 
 require("./hrfar2d");
 
-},{"./dc2far":416,"./dc2hr":417,"./facr2far":418,"./hm2hr":419,"./hmfacr2acc":420,"./hrfar2c":421,"./hrfar2d":422}],424:[function(require,module,exports){
+},{"./dc2far":415,"./dc2hr":416,"./facr2far":417,"./hm2hr":418,"./hmfacr2acc":419,"./hrfar2c":420,"./hrfar2d":421}],423:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70013,9 +70974,27 @@ var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
 var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n\n          margin: 1rem;\n        }\n\n        /* Containing <div> */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          justify-content: left;\n        }\n\n        /* Overall <table> */\n        .equation {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Modifies <td> */\n        .underline {\n          border-bottom: 1px solid var(---color-text);\n        }\n\n        /* Basic <span> and <var> w/modifiers */\n        span,\n        var {\n          padding: 0 0.25rem;\n\n          font-style: normal;\n        }\n\n        .tight {\n          padding: 0;\n        }\n\n        .paren {\n          font-size: 150%;\n        }\n\n        .bracket {\n          font-size: 175%;\n        }\n\n        .exp {\n          font-size: 0.75rem;\n        }\n\n        /* Input wrapping <label> */\n        label {\n          display: inline-flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          padding: 0.125rem 0.375rem 0.375rem;\n\n          vertical-align: middle;\n        }\n\n        .bottom {\n          vertical-align: bottom;\n        }\n\n        /* Nested <var> */\n        label var {\n          font-size: 0.75rem;\n        }\n\n        /* User <input> */\n        input {\n          width: 4rem;\n\n          background: none;\n        }\n\n        /* Color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .d,\n        .d input {\n          background: var(---color-d-light);\n        }\n\n        .c,\n        .c input {\n          background: var(---color-c-light);\n        }\n\n        .s,\n        .s input {\n          background: var(---color-s-light);\n        }\n      "]);
@@ -70027,32 +71006,122 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      return desc.value;
+    };
+  }
 
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTEquation Base Class - Not intended for instantiation!
   <sdt-equation>
 */
+
+
 var SDTEquation = /*#__PURE__*/function (_SDTMixinStyleSpinner) {
   _inherits(SDTEquation, _SDTMixinStyleSpinner);
 
@@ -70091,7 +71160,7 @@ var SDTEquation = /*#__PURE__*/function (_SDTMixinStyleSpinner) {
 
 exports.default = SDTEquation;
 
-},{"../mixins/styleSpinner":435,"../sdt-element":438,"lit-element":390}],425:[function(require,module,exports){
+},{"../mixins/styleSpinner":435,"../sdt-element":438,"lit-element":390}],424:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70101,30 +71170,102 @@ exports.default = void 0;
 
 var _sdtExample = _interopRequireDefault(require("./sdt-example"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+  return _typeof(obj);
+}
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+  return _assertThisInitialized(self);
+}
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
+  return self;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTExample_DoubleInteractive element
   <sdt-example-interactive>
 */
+
+
 var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
   _inherits(SDTExampleDoubleInteractive, _SDTExample);
 
@@ -70287,7 +71428,7 @@ var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
 exports.default = SDTExampleDoubleInteractive;
 customElements.define('sdt-example-double-interactive', SDTExampleDoubleInteractive);
 
-},{"./sdt-example":430}],426:[function(require,module,exports){
+},{"./sdt-example":429}],425:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70297,30 +71438,102 @@ exports.default = void 0;
 
 var _sdtExample = _interopRequireDefault(require("./sdt-example"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+  return _typeof(obj);
+}
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+  return _assertThisInitialized(self);
+}
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
+  return self;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTExample_Human element
   <sdt-example-human>
 */
+
+
 var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
   _inherits(SDTExampleHuman, _SDTExample);
 
@@ -70531,7 +71744,7 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
 exports.default = SDTExampleHuman;
 customElements.define('sdt-example-human', SDTExampleHuman);
 
-},{"./sdt-example":430}],427:[function(require,module,exports){
+},{"./sdt-example":429}],426:[function(require,module,exports){
 "use strict";
 
 require("./double-interactive");
@@ -70544,7 +71757,7 @@ require("./model");
 
 require("./unequal");
 
-},{"./double-interactive":425,"./human":426,"./interactive":428,"./model":429,"./unequal":431}],428:[function(require,module,exports){
+},{"./double-interactive":424,"./human":425,"./interactive":427,"./model":428,"./unequal":430}],427:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70554,30 +71767,102 @@ exports.default = void 0;
 
 var _sdtExample = _interopRequireDefault(require("./sdt-example"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+  return _typeof(obj);
+}
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+  return _assertThisInitialized(self);
+}
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
+  return self;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTExample_Interactive element
   <sdt-example-interactive>
 */
+
+
 var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
   _inherits(SDTExampleInteractive, _SDTExample);
 
@@ -70702,7 +71987,7 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
 exports.default = SDTExampleInteractive;
 customElements.define('sdt-example-interactive', SDTExampleInteractive);
 
-},{"./sdt-example":430}],429:[function(require,module,exports){
+},{"./sdt-example":429}],428:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70712,30 +71997,102 @@ exports.default = void 0;
 
 var _sdtExample = _interopRequireDefault(require("./sdt-example"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+  return _typeof(obj);
+}
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+  return _assertThisInitialized(self);
+}
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
+  return self;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTExample_Model element
   <sdt-example-model>
 */
+
+
 var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
   _inherits(SDTExampleModel, _SDTExample);
 
@@ -70957,7 +72314,7 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
 exports.default = SDTExampleModel;
 customElements.define('sdt-example-model', SDTExampleModel);
 
-},{"./sdt-example":430}],430:[function(require,module,exports){
+},{"./sdt-example":429}],429:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70969,9 +72326,27 @@ var _litElement = require("lit-element");
 
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject2() {
   var data = _taggedTemplateLiteral(["\n        :host {\n          ---border: var(--border, 1px solid var(---color-border));\n          display: inline-block;\n\n          /* This makes IE11 happy */\n          width: 100%;\n\n          margin-bottom: 1rem;\n        }\n\n        .holder {\n          display: flex;\n        }\n\n        .body {\n          display: flex;\n\n          flex-wrap: wrap;\n\n          align-items: center;\n          justify-content: left;\n\n          padding: 0.625rem;\n\n          border: var(---border);\n          border-radius: 0.25rem;\n        }\n\n        .body ::slotted(*) {\n          margin: 0.625rem;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > rdk-task + sdt-response,\n        ::slotted(rdk-task) + ::slotted(sdt-response) { */\n        .body ::slotted(sdt-response) {\n          margin-left: 0;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > sdt-control + rdk-task,\n        ::slotted(sdt-control) + ::slotted(rdk-task) {\n          margin-left: 0;\n        } */\n        .body ::slotted(rdk-task) {\n          width: 10rem;\n          height: 10rem;\n          margin-left: 0;\n        }\n\n        .body ::slotted(roc-space) {\n          width: 20rem;\n          height: 20rem;\n        }\n\n        .body ::slotted(sdt-model) {\n          width: 27rem;\n          height: 15rem;\n        }\n      "]);
@@ -70993,32 +72368,122 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
 
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTExample Base Class - Not intended for instantiation!
   <sdt-example>
 */
+
+
 var SDTExample = /*#__PURE__*/function (_SDTElement) {
   _inherits(SDTExample, _SDTElement);
 
@@ -71047,7 +72512,7 @@ var SDTExample = /*#__PURE__*/function (_SDTElement) {
 exports.default = SDTExample;
 customElements.define('sdt-example', SDTExample);
 
-},{"../sdt-element":438,"lit-element":390}],431:[function(require,module,exports){
+},{"../sdt-element":438,"lit-element":390}],430:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71059,34 +72524,154 @@ var d3 = _interopRequireWildcard(require("d3"));
 
 var _sdtExample = _interopRequireDefault(require("./sdt-example"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache() {
+  if (typeof WeakMap !== "function") return null;
+  var cache = new WeakMap();
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+  _getRequireWildcardCache = function _getRequireWildcardCache() {
+    return cache;
+  };
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+  return cache;
+}
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
+    return {
+      default: obj
+    };
+  }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  var cache = _getRequireWildcardCache();
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+  newObj.default = obj;
 
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTExampleUnequal element
   <sdt-example-unequal>
 */
+
+
 var SDTExampleUnequal = /*#__PURE__*/function (_SDTExample) {
   _inherits(SDTExampleUnequal, _SDTExample);
 
@@ -71141,7 +72726,16 @@ var SDTExampleUnequal = /*#__PURE__*/function (_SDTExample) {
 exports.default = SDTExampleUnequal;
 customElements.define('sdt-example-unequal', SDTExampleUnequal);
 
-},{"./sdt-example":430,"d3":384}],432:[function(require,module,exports){
+},{"./sdt-example":429,"d3":384}],431:[function(require,module,exports){
+"use strict";
+
+require("./components");
+
+require("./equations");
+
+require("./examples");
+
+},{"./components":408,"./equations":422,"./examples":426}],432:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71149,27 +72743,96 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+  return _typeof(obj);
+}
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+    return arr2;
+  }
+}
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 
 var SDTMixinConverterSet = function SDTMixinConverterSet(superclass) {
   return (/*#__PURE__*/function (_superclass) {
@@ -71207,7 +72870,21 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n          button {\n            padding: 0.375rem 0.75rem;\n            margin: 0.25rem;\n\n            font-family: var(---font-family-base);\n            font-size: 1.125rem;\n            line-height: 1.5;\n            color: var(---color-text-inverse);\n\n            border: 0;\n            border-radius: 0.25rem;\n            outline: none;\n          }\n\n          button:disabled {\n            background-color: var(---color-element-disabled);\n            outline: none;\n            box-shadow: none;\n          }\n\n          button:enabled {\n            cursor: pointer;\n\n            background-color: var(---color-element-enabled);\n            outline: none;\n            box-shadow: var(---shadow-2);\n          }\n\n          button:enabled:hover {\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          button:enabled:active {\n            outline: none;\n            box-shadow: var(---shadow-8);\n          }\n\n          :host(.keyboard) button:enabled:focus {\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          :host(.keyboard) button:enabled:focus:active {\n            outline: none;\n            box-shadow: var(---shadow-8);\n          }\n        "]);
@@ -71219,27 +72896,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 
 var SDTMixinStyleButton = function SDTMixinStyleButton(superclass) {
   return (/*#__PURE__*/function (_superclass) {
@@ -71275,7 +73041,21 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n          /* Adapted from http://danielstern.ca/range.css/#/ */\n          /* Overall */\n          input[type=range] {\n            width: 4.75rem;\n            height: 3.5rem;\n            padding: 0;\n            margin: 0;\n\n            background-color: unset;\n\n            transform: rotate(-90deg);\n            transform-origin: 2.375rem 2.375rem;\n\n            /* stylelint-disable-next-line property-no-vendor-prefix */\n            -webkit-appearance: none;\n          }\n\n          input[type=range]:enabled {\n            cursor: ns-resize;\n          }\n\n          input[type=range]:focus {\n            outline: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-tooltip {\n            display: none;\n          }\n\n          /* Track */\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-webkit-slider-runnable-track {\n            width: 100%;\n            height: 4px;\n\n            background: var(---color-element-disabled);\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          input[type=range]:focus::-webkit-slider-runnable-track {\n            background: var(---color-element-disabled);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-moz-range-track {\n            width: 100%;\n            height: 4px;\n\n            background: var(---color-element-disabled);\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-track {\n            width: 100%;\n            height: 4px;\n\n            color: transparent;\n\n            background: transparent;\n            border-color: transparent;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-fill-lower {\n            background: #cccccc;\n            /* background: var(---color-element-disabled); */\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-fill-upper {\n            background: #cccccc;\n            /* background: var(---color-element-disabled); */\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:focus::-ms-fill-lower {\n            background: var(---color-element-disabled);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:focus::-ms-fill-upper {\n            background: var(---color-element-disabled);\n          }\n\n          /* Thumb */\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-webkit-slider-thumb {\n            width: 10px;\n            height: 20px;\n            margin-top: -8px;\n\n            border: 0;\n            border-radius: 4px;\n\n            /* stylelint-disable-next-line property-no-vendor-prefix */\n            -webkit-appearance: none;\n          }\n\n          input[type=range]:disabled::-webkit-slider-thumb {\n            background: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          input[type=range]:enabled::-webkit-slider-thumb {\n            background: var(---color-element-enabled);\n            box-shadow: var(---shadow-2-rotate);\n          }\n\n          input[type=range]:enabled:hover::-webkit-slider-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          input[type=range]:enabled:active::-webkit-slider-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-moz-range-thumb {\n            width: 10px;\n            height: 20px;\n\n            border: 0;\n            border-radius: 4px;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:disabled::-moz-range-thumb {\n            background: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled::-moz-range-thumb {\n            background: var(---color-element-enabled);\n            box-shadow: var(---shadow-2-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:hover::-moz-range-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:active::-moz-range-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-thumb {\n            width: 10px;\n            height: 20px;\n            margin-top: 0;\n\n            background: #999999;\n            /* background: var(---color-element-enabled); */\n            border: 0;\n            border-radius: 4px;\n            box-shadow: var(---shadow-2-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:disabled::-ms-thumb {\n            background: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled::-ms-thumb {\n            background: var(---color-element-enabled);\n            box-shadow: var(---shadow-2-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:hover::-ms-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:active::-ms-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n        "]);
@@ -71287,27 +73067,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 
 var SDTMixinStyleSpinner = function SDTMixinStyleSpinner(superclass) {
   return (/*#__PURE__*/function (_superclass) {
@@ -71343,7 +73212,21 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n          input[type=number] {\n            font-family: var(---font-family-base);\n            font-size: 1.125rem;\n            color: inherit;\n            text-align: right;\n\n            border: 0;\n            border-radius: 0;\n            outline: none;\n            box-shadow: var(---shadow-2);\n\n            -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n          }\n\n          input[type=number]:hover {\n            box-shadow: var(---shadow-4);\n          }\n\n          input[type=number]:focus,\n          input[type=number]:active {\n            box-shadow: var(---shadow-8);\n          }\n\n          input[type=number]:disabled {\n            color: var(---color-text);\n\n            border: 0;\n            box-shadow: none;\n\n            /* HACK: Use correct text color in Safari */\n            -webkit-opacity: 1;\n            /* HACK: Hide spinners in disabled input for Firefox and Safari */\n            -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */\n            /* HACK: Use correct text color in Safari */\n            -webkit-text-fill-color: var(---color-text);\n          }\n\n          /* HACK: Hide spinners in disabled input for Firefox and Safari */\n          input[type=number]:disabled::-webkit-outer-spin-button,\n          input[type=number]:disabled::-webkit-inner-spin-button {\n            margin: 0;\n            -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n          }\n        "]);
@@ -71355,27 +73238,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 
 var SDTMixinStyleSpinner = function SDTMixinStyleSpinner(superclass) {
   return (/*#__PURE__*/function (_superclass) {
@@ -71411,7 +73383,21 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n          /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */\n          input[type=checkbox] {\n            /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n            position: absolute;\n\n            width: 1px;\n            height: 1px;\n            padding: 0;\n            margin: -1px;\n            overflow: hidden;\n            clip: rect(0 0 0 0);\n\n            white-space: nowrap;\n\n            border: 0;\n            clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n          }\n\n          input[type=checkbox] + label {\n            order: 1;\n\n            margin: 0 0.25rem 0.25rem;\n\n            font-weight: 400;\n          }\n\n          input[type=checkbox] + label + label {\n            position: relative;\n\n            min-width: 24px;\n            padding: 0 0 36px;\n            margin: 0.25rem 0.25rem 0;\n\n            font-weight: 400;\n\n            outline: none;\n          }\n\n          input[type=checkbox] + label + label::before,\n          input[type=checkbox] + label + label::after {\n            position: absolute;\n\n            left: 50%;\n\n            margin: 0;\n\n            content: \"\";\n\n            outline: 0;\n\n            transition: all var(---transition-duration) ease;\n            transform: translate(-50%, 0);\n          }\n\n          input[type=checkbox] + label + label::before {\n            bottom: 1px;\n\n            width: 8px;\n            height: 34px;\n\n            background-color: var(---color-element-disabled);\n            border-radius: 4px;\n          }\n\n          input[type=checkbox] + label + label::after {\n            bottom: 0;\n\n            width: 18px;\n            height: 18px;\n\n            background-color: var(---color-element-enabled);\n            border-radius: 50%;\n            box-shadow: var(---shadow-2);\n          }\n\n          input[type=checkbox]:checked + label + label::after {\n            transform: translate(-50%, -100%);\n          }\n\n          input[type=checkbox]:disabled + label + label::after {\n            background-color: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          input[type=checkbox]:enabled + label,\n          input[type=checkbox]:enabled + label + label {\n            cursor: pointer;\n          }\n\n          input[type=checkbox]:enabled + label:hover + label::after,\n          input[type=checkbox]:enabled + label + label:hover::after {\n            box-shadow: var(---shadow-4);\n          }\n\n          input[type=checkbox]:enabled + label:active + label::after,\n          input[type=checkbox]:enabled + label + label:active::after {\n            box-shadow: var(---shadow-8);\n          }\n\n          /* stylelint-disable-next-line selector-max-compound-selectors */\n          :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {\n            box-shadow: var(---shadow-4);\n          }\n\n          /* stylelint-disable-next-line selector-max-compound-selectors */\n          :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,\n          :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {\n            box-shadow: var(---shadow-8);\n          }\n        "]);
@@ -71423,27 +73409,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 
 var SDTMixinStyleSwitch = function SDTMixinStyleSwitch(superclass) {
   return (/*#__PURE__*/function (_superclass) {
@@ -71479,7 +73554,21 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n          input[type=radio] {\n            /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n            position: absolute;\n\n            width: 1px;\n            height: 1px;\n            padding: 0;\n            margin: -1px;\n            overflow: hidden;\n            clip: rect(0 0 0 0);\n\n            white-space: nowrap;\n\n            border: 0;\n            clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n          }\n\n          input[type=radio] + label {\n            padding: 0.375rem 0.75rem;\n            margin: 0 0.25rem;\n\n            font-family: var(---font-family-base);\n            font-size: 1.125rem;\n            line-height: 1.5;\n            color: var(---color-text-inverse);\n            text-align: center;\n\n            cursor: pointer;\n\n            background-color: var(---color-element-enabled);\n            border: 0;\n            border-radius: 0;\n            outline: none;\n\n            box-shadow: var(---shadow-2);\n          }\n\n          input[type=radio] + label:nth-child(2) {\n            margin-top: 0.25rem;\n\n            border-top-left-radius: 0.25rem;\n            border-top-right-radius: 0.25rem;\n          }\n\n          input[type=radio] + label:last-child {\n            margin-bottom: 0.25rem;\n\n            border-bottom-right-radius: 0.25rem;\n            border-bottom-left-radius: 0.25rem;\n          }\n\n          input[type=radio]:checked + label {\n            background-color: var(---color-element-selected);\n            outline: none;\n            box-shadow: var(---shadow-2);\n          }\n\n          input[type=radio] + label:hover {\n            z-index: 1;\n\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          input[type=radio] + label:active {\n            z-index: 2;\n\n            outline: none;\n            box-shadow: var(---shadow-8);\n          }\n\n          :host(.keyboard) input[type=radio]:focus + label {\n            z-index: 1;\n\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          :host(.keyboard) input[type=radio]:focus:checked + label {\n            z-index: 1;\n\n            background-color: var(---color-element-selected);\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          :host(.keyboard) input[type=radio]:focus + label:active {\n            z-index: 2;\n\n            outline: none;\n            box-shadow: var(---shadow-8);\n          }\n        "]);
@@ -71491,27 +73580,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 
 var SDTMixinStyleToggle = function SDTMixinStyleToggle(superclass) {
   return (/*#__PURE__*/function (_superclass) {
@@ -71551,11 +73729,73 @@ var d3 = _interopRequireWildcard(require("d3"));
 
 var jStat = _interopRequireWildcard(require("jstat"));
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+function _getRequireWildcardCache() {
+  if (typeof WeakMap !== "function") return null;
+  var cache = new WeakMap();
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+  _getRequireWildcardCache = function _getRequireWildcardCache() {
+    return cache;
+  };
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+  return cache;
+}
+
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
+    return {
+      default: obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache();
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj.default = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
 
 function _templateObject9() {
   var data = _taggedTemplateLiteral(["\n      :host {\n        ---shadow-0: var(--shadow-0, ", ");\n        ---shadow-2: var(--shadow-2, ", ");\n        ---shadow-4: var(--shadow-4, ", ");\n        ---shadow-8: var(--shadow-8, ", ");\n\n        ---color-h: var(--color-h, ", ");\n        ---color-m: var(--color-m, ", ");\n        ---color-fa: var(--color-fa, ", ");\n        ---color-cr: var(--color-cr, ", ");\n        ---color-hr: var(--color-hr, ", ");\n        ---color-far: var(--color-far, ", ");\n        ---color-acc: var(--color-acc, ", ");\n        ---color-d: var(--color-d, ", ");\n        ---color-c: var(--color-c, ", ");\n        ---color-s: var(--color-s, ", ");\n        ---color-present: var(--color-present, ", ");\n        ---color-absent: var(--color-absent, ", ");\n        ---color-correct: var(--color-correct, ", ");\n        ---color-error: var(--color-error, ", ");\n        ---color-nr: var(--color-nr, ", ");\n\n        ---color-h-light: var(--color-h-light, ", ");\n        ---color-m-light: var(--color-m-light, ", ");\n        ---color-fa-light: var(--color-fa-light, ", ");\n        ---color-cr-light: var(--color-cr-light, ", ");\n        ---color-hr-light: var(--color-hr-light, ", ");\n        ---color-far-light: var(--color-far-light, ", ");\n        ---color-acc-light: var(--color-acc-light, ", ");\n        ---color-d-light: var(--color-d-light, ", ");\n        ---color-c-light: var(--color-c-light, ", ");\n        ---color-s-light: var(--color-s-light, ", ");\n        ---color-present-light: var(--color-present-light, ", ");\n        ---color-absent-light: var(--color-absent-light, ", ");\n        ---color-correct-light: var(--color-correct-light, ", ");\n        ---color-error-light: var(--color-error-light, ", ");\n        ---color-nr-light: var(--color-nr-light, ", ");\n\n        ---color-h-dark: var(--color-h-dark, ", ");\n        ---color-m-dark: var(--color-m-dark, ", ");\n        ---color-fa-dark: var(--color-fa-dark, ", ");\n        ---color-cr-dark: var(--color-cr-dark, ", ");\n        ---color-hr-dark: var(--color-hr-dark, ", ");\n        ---color-far-dark: var(--color-far-dark, ", ");\n        ---color-acc-dark: var(--color-acc-dark, ", ");\n        ---color-d-dark: var(--color-d-dark, ", ");\n        ---color-c-dark: var(--color-c-dark, ", ");\n        ---color-s-dark: var(--color-s-dark, ", ");\n        ---color-present-dark: var(--color-present-dark, ", ");\n        ---color-absent-dark: var(--color-absent-dark, ", ");\n        ---color-correct-dark: var(--color-correct-dark, ", ");\n        ---color-error-dark: var(--color-error-dark, ", ");\n        ---color-nr-dark: var(--color-nr-dark, ", ");\n\n        ---color-background: var(--color-background, ", ");\n        ---color-border: var(--color-border, ", ");\n        ---color-text: var(--color-text, ", ");\n        ---color-text-inverse: var(--color-text-inverse, ", ");\n        ---color-link: var(--color-link, ", ");\n        ---color-element-background: var(--color-element-background, ", ");\n        ---color-element-disabled: var(--color-element-disabled, ", ");\n        ---color-element-enabled: var(--color-element-enabled, ", ");\n        ---color-element-selected: var(--color-element-selected, ", ");\n        ---color-element-border: var(--color-element-border, ", ");\n        ---color-element-emphasis: var(--color-element-emphasis, ", ");\n\n        ---font-family-base: var(--font-family-base, \"Source Sans Pro\", sans-serif);\n        ---font-family-math: var(--font-family-math, \"Source Serif Pro\", serif);\n\n        ---transition-duration: var(--transition-duration, 500ms);\n\n        font-family: var(---font-family-base);\n      }\n\n      :host,\n      :host *,\n      :host *::before,\n      :host *::after {\n        box-sizing: border-box;\n      }\n\n      .math-var {\n        font-family: var(---font-family-math);\n        font-style: italic;\n      }\n\n      .math-greek {\n        font-family: var(---font-family-math);\n        font-style: normal;\n      }\n\n      .defs {\n        display: block;\n\n        width: 0;\n        height: 0;\n      }\n    "]);
@@ -71647,28 +73887,116 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+  return _assertThisInitialized(self);
+}
 
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+  return self;
+}
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+      return desc.value;
+    };
+  }
 
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
 /*
   SDTElement Base Class - Not intended for instantiation!
   <sdt-element>
@@ -71738,6 +74066,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
     h = 1 / (s * (2 * pi)^(1/2))
     s = 1 / (h * (2 * pi)^(1/2))
 */
+
+
 var SDTElement = /*#__PURE__*/function (_LitElement) {
   _inherits(SDTElement, _LitElement);
 
@@ -72186,6 +74516,407 @@ var SDTElement = /*#__PURE__*/function (_LitElement) {
 exports.default = SDTElement;
 SDTElement.ID = 0;
 
-},{"d3":384,"jstat":386,"lit-element":390}]},{},[408])
+},{"d3":384,"jstat":386,"lit-element":390}],439:[function(require,module,exports){
+"use strict";
+
+require("core-js/modules/es.symbol");
+
+require("core-js/modules/es.symbol.description");
+
+require("core-js/modules/es.symbol.async-iterator");
+
+require("core-js/modules/es.symbol.has-instance");
+
+require("core-js/modules/es.symbol.is-concat-spreadable");
+
+require("core-js/modules/es.symbol.iterator");
+
+require("core-js/modules/es.symbol.match");
+
+require("core-js/modules/es.symbol.match-all");
+
+require("core-js/modules/es.symbol.replace");
+
+require("core-js/modules/es.symbol.search");
+
+require("core-js/modules/es.symbol.species");
+
+require("core-js/modules/es.symbol.split");
+
+require("core-js/modules/es.symbol.to-primitive");
+
+require("core-js/modules/es.symbol.to-string-tag");
+
+require("core-js/modules/es.symbol.unscopables");
+
+require("core-js/modules/es.array.concat");
+
+require("core-js/modules/es.array.copy-within");
+
+require("core-js/modules/es.array.every");
+
+require("core-js/modules/es.array.fill");
+
+require("core-js/modules/es.array.filter");
+
+require("core-js/modules/es.array.find");
+
+require("core-js/modules/es.array.find-index");
+
+require("core-js/modules/es.array.flat");
+
+require("core-js/modules/es.array.flat-map");
+
+require("core-js/modules/es.array.for-each");
+
+require("core-js/modules/es.array.from");
+
+require("core-js/modules/es.array.includes");
+
+require("core-js/modules/es.array.index-of");
+
+require("core-js/modules/es.array.iterator");
+
+require("core-js/modules/es.array.join");
+
+require("core-js/modules/es.array.last-index-of");
+
+require("core-js/modules/es.array.map");
+
+require("core-js/modules/es.array.of");
+
+require("core-js/modules/es.array.reduce");
+
+require("core-js/modules/es.array.reduce-right");
+
+require("core-js/modules/es.array.reverse");
+
+require("core-js/modules/es.array.slice");
+
+require("core-js/modules/es.array.some");
+
+require("core-js/modules/es.array.sort");
+
+require("core-js/modules/es.array.species");
+
+require("core-js/modules/es.array.splice");
+
+require("core-js/modules/es.array.unscopables.flat");
+
+require("core-js/modules/es.array.unscopables.flat-map");
+
+require("core-js/modules/es.array-buffer.constructor");
+
+require("core-js/modules/es.array-buffer.slice");
+
+require("core-js/modules/es.date.to-primitive");
+
+require("core-js/modules/es.function.has-instance");
+
+require("core-js/modules/es.function.name");
+
+require("core-js/modules/es.json.to-string-tag");
+
+require("core-js/modules/es.map");
+
+require("core-js/modules/es.math.acosh");
+
+require("core-js/modules/es.math.asinh");
+
+require("core-js/modules/es.math.atanh");
+
+require("core-js/modules/es.math.cbrt");
+
+require("core-js/modules/es.math.clz32");
+
+require("core-js/modules/es.math.cosh");
+
+require("core-js/modules/es.math.expm1");
+
+require("core-js/modules/es.math.fround");
+
+require("core-js/modules/es.math.hypot");
+
+require("core-js/modules/es.math.imul");
+
+require("core-js/modules/es.math.log10");
+
+require("core-js/modules/es.math.log1p");
+
+require("core-js/modules/es.math.log2");
+
+require("core-js/modules/es.math.sign");
+
+require("core-js/modules/es.math.sinh");
+
+require("core-js/modules/es.math.tanh");
+
+require("core-js/modules/es.math.to-string-tag");
+
+require("core-js/modules/es.math.trunc");
+
+require("core-js/modules/es.number.constructor");
+
+require("core-js/modules/es.number.epsilon");
+
+require("core-js/modules/es.number.is-finite");
+
+require("core-js/modules/es.number.is-integer");
+
+require("core-js/modules/es.number.is-nan");
+
+require("core-js/modules/es.number.is-safe-integer");
+
+require("core-js/modules/es.number.max-safe-integer");
+
+require("core-js/modules/es.number.min-safe-integer");
+
+require("core-js/modules/es.number.parse-float");
+
+require("core-js/modules/es.number.parse-int");
+
+require("core-js/modules/es.number.to-fixed");
+
+require("core-js/modules/es.object.assign");
+
+require("core-js/modules/es.object.define-getter");
+
+require("core-js/modules/es.object.define-setter");
+
+require("core-js/modules/es.object.entries");
+
+require("core-js/modules/es.object.freeze");
+
+require("core-js/modules/es.object.from-entries");
+
+require("core-js/modules/es.object.get-own-property-descriptor");
+
+require("core-js/modules/es.object.get-own-property-descriptors");
+
+require("core-js/modules/es.object.get-own-property-names");
+
+require("core-js/modules/es.object.get-prototype-of");
+
+require("core-js/modules/es.object.is");
+
+require("core-js/modules/es.object.is-extensible");
+
+require("core-js/modules/es.object.is-frozen");
+
+require("core-js/modules/es.object.is-sealed");
+
+require("core-js/modules/es.object.keys");
+
+require("core-js/modules/es.object.lookup-getter");
+
+require("core-js/modules/es.object.lookup-setter");
+
+require("core-js/modules/es.object.prevent-extensions");
+
+require("core-js/modules/es.object.seal");
+
+require("core-js/modules/es.object.to-string");
+
+require("core-js/modules/es.object.values");
+
+require("core-js/modules/es.promise");
+
+require("core-js/modules/es.promise.finally");
+
+require("core-js/modules/es.reflect.apply");
+
+require("core-js/modules/es.reflect.construct");
+
+require("core-js/modules/es.reflect.define-property");
+
+require("core-js/modules/es.reflect.delete-property");
+
+require("core-js/modules/es.reflect.get");
+
+require("core-js/modules/es.reflect.get-own-property-descriptor");
+
+require("core-js/modules/es.reflect.get-prototype-of");
+
+require("core-js/modules/es.reflect.has");
+
+require("core-js/modules/es.reflect.is-extensible");
+
+require("core-js/modules/es.reflect.own-keys");
+
+require("core-js/modules/es.reflect.prevent-extensions");
+
+require("core-js/modules/es.reflect.set");
+
+require("core-js/modules/es.reflect.set-prototype-of");
+
+require("core-js/modules/es.regexp.constructor");
+
+require("core-js/modules/es.regexp.exec");
+
+require("core-js/modules/es.regexp.flags");
+
+require("core-js/modules/es.regexp.to-string");
+
+require("core-js/modules/es.set");
+
+require("core-js/modules/es.string.code-point-at");
+
+require("core-js/modules/es.string.ends-with");
+
+require("core-js/modules/es.string.from-code-point");
+
+require("core-js/modules/es.string.includes");
+
+require("core-js/modules/es.string.iterator");
+
+require("core-js/modules/es.string.match");
+
+require("core-js/modules/es.string.match-all");
+
+require("core-js/modules/es.string.pad-end");
+
+require("core-js/modules/es.string.pad-start");
+
+require("core-js/modules/es.string.raw");
+
+require("core-js/modules/es.string.repeat");
+
+require("core-js/modules/es.string.replace");
+
+require("core-js/modules/es.string.search");
+
+require("core-js/modules/es.string.split");
+
+require("core-js/modules/es.string.starts-with");
+
+require("core-js/modules/es.string.trim");
+
+require("core-js/modules/es.string.trim-end");
+
+require("core-js/modules/es.string.trim-start");
+
+require("core-js/modules/es.string.anchor");
+
+require("core-js/modules/es.string.big");
+
+require("core-js/modules/es.string.blink");
+
+require("core-js/modules/es.string.bold");
+
+require("core-js/modules/es.string.fixed");
+
+require("core-js/modules/es.string.fontcolor");
+
+require("core-js/modules/es.string.fontsize");
+
+require("core-js/modules/es.string.italics");
+
+require("core-js/modules/es.string.link");
+
+require("core-js/modules/es.string.small");
+
+require("core-js/modules/es.string.strike");
+
+require("core-js/modules/es.string.sub");
+
+require("core-js/modules/es.string.sup");
+
+require("core-js/modules/es.typed-array.float32-array");
+
+require("core-js/modules/es.typed-array.float64-array");
+
+require("core-js/modules/es.typed-array.int8-array");
+
+require("core-js/modules/es.typed-array.int16-array");
+
+require("core-js/modules/es.typed-array.int32-array");
+
+require("core-js/modules/es.typed-array.uint8-array");
+
+require("core-js/modules/es.typed-array.uint8-clamped-array");
+
+require("core-js/modules/es.typed-array.uint16-array");
+
+require("core-js/modules/es.typed-array.uint32-array");
+
+require("core-js/modules/es.typed-array.copy-within");
+
+require("core-js/modules/es.typed-array.every");
+
+require("core-js/modules/es.typed-array.fill");
+
+require("core-js/modules/es.typed-array.filter");
+
+require("core-js/modules/es.typed-array.find");
+
+require("core-js/modules/es.typed-array.find-index");
+
+require("core-js/modules/es.typed-array.for-each");
+
+require("core-js/modules/es.typed-array.from");
+
+require("core-js/modules/es.typed-array.includes");
+
+require("core-js/modules/es.typed-array.index-of");
+
+require("core-js/modules/es.typed-array.iterator");
+
+require("core-js/modules/es.typed-array.join");
+
+require("core-js/modules/es.typed-array.last-index-of");
+
+require("core-js/modules/es.typed-array.map");
+
+require("core-js/modules/es.typed-array.of");
+
+require("core-js/modules/es.typed-array.reduce");
+
+require("core-js/modules/es.typed-array.reduce-right");
+
+require("core-js/modules/es.typed-array.reverse");
+
+require("core-js/modules/es.typed-array.set");
+
+require("core-js/modules/es.typed-array.slice");
+
+require("core-js/modules/es.typed-array.some");
+
+require("core-js/modules/es.typed-array.sort");
+
+require("core-js/modules/es.typed-array.subarray");
+
+require("core-js/modules/es.typed-array.to-locale-string");
+
+require("core-js/modules/es.typed-array.to-string");
+
+require("core-js/modules/es.weak-map");
+
+require("core-js/modules/es.weak-set");
+
+require("core-js/modules/web.dom-collections.for-each");
+
+require("core-js/modules/web.dom-collections.iterator");
+
+require("core-js/modules/web.immediate");
+
+require("core-js/modules/web.queue-microtask");
+
+require("core-js/modules/web.url");
+
+require("core-js/modules/web.url.to-json");
+
+require("core-js/modules/web.url-search-params");
+
+require("regenerator-runtime/runtime");
+
+require("@webcomponents/webcomponentsjs/custom-elements-es5-adapter");
+
+require("@webcomponents/webcomponentsjs/webcomponents-bundle");
+
+require("bootstrap");
+
+require("@decidable/detectable-elements");
+
+},{"@decidable/detectable-elements":431,"@webcomponents/webcomponentsjs/custom-elements-es5-adapter":1,"@webcomponents/webcomponentsjs/webcomponents-bundle":2,"bootstrap":3,"core-js/modules/es.array-buffer.constructor":159,"core-js/modules/es.array-buffer.slice":160,"core-js/modules/es.array.concat":161,"core-js/modules/es.array.copy-within":162,"core-js/modules/es.array.every":163,"core-js/modules/es.array.fill":164,"core-js/modules/es.array.filter":165,"core-js/modules/es.array.find":167,"core-js/modules/es.array.find-index":166,"core-js/modules/es.array.flat":169,"core-js/modules/es.array.flat-map":168,"core-js/modules/es.array.for-each":170,"core-js/modules/es.array.from":171,"core-js/modules/es.array.includes":172,"core-js/modules/es.array.index-of":173,"core-js/modules/es.array.iterator":174,"core-js/modules/es.array.join":175,"core-js/modules/es.array.last-index-of":176,"core-js/modules/es.array.map":177,"core-js/modules/es.array.of":178,"core-js/modules/es.array.reduce":180,"core-js/modules/es.array.reduce-right":179,"core-js/modules/es.array.reverse":181,"core-js/modules/es.array.slice":182,"core-js/modules/es.array.some":183,"core-js/modules/es.array.sort":184,"core-js/modules/es.array.species":185,"core-js/modules/es.array.splice":186,"core-js/modules/es.array.unscopables.flat":188,"core-js/modules/es.array.unscopables.flat-map":187,"core-js/modules/es.date.to-primitive":189,"core-js/modules/es.function.has-instance":190,"core-js/modules/es.function.name":191,"core-js/modules/es.json.to-string-tag":192,"core-js/modules/es.map":193,"core-js/modules/es.math.acosh":194,"core-js/modules/es.math.asinh":195,"core-js/modules/es.math.atanh":196,"core-js/modules/es.math.cbrt":197,"core-js/modules/es.math.clz32":198,"core-js/modules/es.math.cosh":199,"core-js/modules/es.math.expm1":200,"core-js/modules/es.math.fround":201,"core-js/modules/es.math.hypot":202,"core-js/modules/es.math.imul":203,"core-js/modules/es.math.log10":204,"core-js/modules/es.math.log1p":205,"core-js/modules/es.math.log2":206,"core-js/modules/es.math.sign":207,"core-js/modules/es.math.sinh":208,"core-js/modules/es.math.tanh":209,"core-js/modules/es.math.to-string-tag":210,"core-js/modules/es.math.trunc":211,"core-js/modules/es.number.constructor":212,"core-js/modules/es.number.epsilon":213,"core-js/modules/es.number.is-finite":214,"core-js/modules/es.number.is-integer":215,"core-js/modules/es.number.is-nan":216,"core-js/modules/es.number.is-safe-integer":217,"core-js/modules/es.number.max-safe-integer":218,"core-js/modules/es.number.min-safe-integer":219,"core-js/modules/es.number.parse-float":220,"core-js/modules/es.number.parse-int":221,"core-js/modules/es.number.to-fixed":222,"core-js/modules/es.object.assign":223,"core-js/modules/es.object.define-getter":224,"core-js/modules/es.object.define-setter":225,"core-js/modules/es.object.entries":226,"core-js/modules/es.object.freeze":227,"core-js/modules/es.object.from-entries":228,"core-js/modules/es.object.get-own-property-descriptor":229,"core-js/modules/es.object.get-own-property-descriptors":230,"core-js/modules/es.object.get-own-property-names":231,"core-js/modules/es.object.get-prototype-of":232,"core-js/modules/es.object.is":236,"core-js/modules/es.object.is-extensible":233,"core-js/modules/es.object.is-frozen":234,"core-js/modules/es.object.is-sealed":235,"core-js/modules/es.object.keys":237,"core-js/modules/es.object.lookup-getter":238,"core-js/modules/es.object.lookup-setter":239,"core-js/modules/es.object.prevent-extensions":240,"core-js/modules/es.object.seal":241,"core-js/modules/es.object.to-string":242,"core-js/modules/es.object.values":243,"core-js/modules/es.promise":245,"core-js/modules/es.promise.finally":244,"core-js/modules/es.reflect.apply":246,"core-js/modules/es.reflect.construct":247,"core-js/modules/es.reflect.define-property":248,"core-js/modules/es.reflect.delete-property":249,"core-js/modules/es.reflect.get":252,"core-js/modules/es.reflect.get-own-property-descriptor":250,"core-js/modules/es.reflect.get-prototype-of":251,"core-js/modules/es.reflect.has":253,"core-js/modules/es.reflect.is-extensible":254,"core-js/modules/es.reflect.own-keys":255,"core-js/modules/es.reflect.prevent-extensions":256,"core-js/modules/es.reflect.set":258,"core-js/modules/es.reflect.set-prototype-of":257,"core-js/modules/es.regexp.constructor":259,"core-js/modules/es.regexp.exec":260,"core-js/modules/es.regexp.flags":261,"core-js/modules/es.regexp.to-string":262,"core-js/modules/es.set":263,"core-js/modules/es.string.anchor":264,"core-js/modules/es.string.big":265,"core-js/modules/es.string.blink":266,"core-js/modules/es.string.bold":267,"core-js/modules/es.string.code-point-at":268,"core-js/modules/es.string.ends-with":269,"core-js/modules/es.string.fixed":270,"core-js/modules/es.string.fontcolor":271,"core-js/modules/es.string.fontsize":272,"core-js/modules/es.string.from-code-point":273,"core-js/modules/es.string.includes":274,"core-js/modules/es.string.italics":275,"core-js/modules/es.string.iterator":276,"core-js/modules/es.string.link":277,"core-js/modules/es.string.match":279,"core-js/modules/es.string.match-all":278,"core-js/modules/es.string.pad-end":280,"core-js/modules/es.string.pad-start":281,"core-js/modules/es.string.raw":282,"core-js/modules/es.string.repeat":283,"core-js/modules/es.string.replace":284,"core-js/modules/es.string.search":285,"core-js/modules/es.string.small":286,"core-js/modules/es.string.split":287,"core-js/modules/es.string.starts-with":288,"core-js/modules/es.string.strike":289,"core-js/modules/es.string.sub":290,"core-js/modules/es.string.sup":291,"core-js/modules/es.string.trim":294,"core-js/modules/es.string.trim-end":292,"core-js/modules/es.string.trim-start":293,"core-js/modules/es.symbol":300,"core-js/modules/es.symbol.async-iterator":295,"core-js/modules/es.symbol.description":296,"core-js/modules/es.symbol.has-instance":297,"core-js/modules/es.symbol.is-concat-spreadable":298,"core-js/modules/es.symbol.iterator":299,"core-js/modules/es.symbol.match":302,"core-js/modules/es.symbol.match-all":301,"core-js/modules/es.symbol.replace":303,"core-js/modules/es.symbol.search":304,"core-js/modules/es.symbol.species":305,"core-js/modules/es.symbol.split":306,"core-js/modules/es.symbol.to-primitive":307,"core-js/modules/es.symbol.to-string-tag":308,"core-js/modules/es.symbol.unscopables":309,"core-js/modules/es.typed-array.copy-within":310,"core-js/modules/es.typed-array.every":311,"core-js/modules/es.typed-array.fill":312,"core-js/modules/es.typed-array.filter":313,"core-js/modules/es.typed-array.find":315,"core-js/modules/es.typed-array.find-index":314,"core-js/modules/es.typed-array.float32-array":316,"core-js/modules/es.typed-array.float64-array":317,"core-js/modules/es.typed-array.for-each":318,"core-js/modules/es.typed-array.from":319,"core-js/modules/es.typed-array.includes":320,"core-js/modules/es.typed-array.index-of":321,"core-js/modules/es.typed-array.int16-array":322,"core-js/modules/es.typed-array.int32-array":323,"core-js/modules/es.typed-array.int8-array":324,"core-js/modules/es.typed-array.iterator":325,"core-js/modules/es.typed-array.join":326,"core-js/modules/es.typed-array.last-index-of":327,"core-js/modules/es.typed-array.map":328,"core-js/modules/es.typed-array.of":329,"core-js/modules/es.typed-array.reduce":331,"core-js/modules/es.typed-array.reduce-right":330,"core-js/modules/es.typed-array.reverse":332,"core-js/modules/es.typed-array.set":333,"core-js/modules/es.typed-array.slice":334,"core-js/modules/es.typed-array.some":335,"core-js/modules/es.typed-array.sort":336,"core-js/modules/es.typed-array.subarray":337,"core-js/modules/es.typed-array.to-locale-string":338,"core-js/modules/es.typed-array.to-string":339,"core-js/modules/es.typed-array.uint16-array":340,"core-js/modules/es.typed-array.uint32-array":341,"core-js/modules/es.typed-array.uint8-array":342,"core-js/modules/es.typed-array.uint8-clamped-array":343,"core-js/modules/es.weak-map":344,"core-js/modules/es.weak-set":345,"core-js/modules/web.dom-collections.for-each":346,"core-js/modules/web.dom-collections.iterator":347,"core-js/modules/web.immediate":348,"core-js/modules/web.queue-microtask":349,"core-js/modules/web.url":351,"core-js/modules/web.url-search-params":350,"core-js/modules/web.url.to-json":352,"regenerator-runtime/runtime":406}]},{},[439])
 
 //# sourceMappingURL=index.js.map

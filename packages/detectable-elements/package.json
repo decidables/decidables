@@ -1,0 +1,24 @@
+{
+  "name": "@decidable/detectable-elements",
+  "version": "0.0.1",
+  "description": "detectable-elements: Web Components for visualizing Signal Detection Theory",
+  "main": "./lib/index.js",
+  "repository": "https://github.com/akrawitz/decidable/packages/detectable-elements",
+  "author": "Adam Krawitz",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "compile": "gulp compile",
+    "watch": "gulp watch",
+    "lint": "gulp lint",
+    "build": "gulp build"
+  },
+  "browserslist": [
+    "> 0.25%",
+    "not dead"
+  ],
+  "engines": {
+    "node": "^13.9.0",
+    "yarn": "^1.22.0"
+  }
+}
