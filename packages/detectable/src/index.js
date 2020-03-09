@@ -10,6 +10,4 @@ import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 import 'bootstrap';
 
 // Internal dependencies
-import './lib/components';
-import './lib/equations';
-import './lib/examples';
+import '@decidable/detectable-elements';
