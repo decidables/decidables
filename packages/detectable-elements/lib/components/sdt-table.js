@@ -7,6 +7,8 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
 var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
@@ -638,11 +640,11 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
   _createClass(SDTTable, [{
     key: "alignState",
     value: function alignState() {
-      this.hr = _sdtElement.default.hm2hr(this.h, this.m);
-      this.far = _sdtElement.default.facr2far(this.fa, this.cr);
-      this.acc = _sdtElement.default.hmfacr2acc(this.h, this.m, this.fa, this.cr);
-      this.ppv = _sdtElement.default.hfa2ppv(this.h, this.fa);
-      this.fomr = _sdtElement.default.mcr2fomr(this.m, this.cr);
+      this.hr = _detectableMath.default.hm2hr(this.h, this.m);
+      this.far = _detectableMath.default.facr2far(this.fa, this.cr);
+      this.acc = _detectableMath.default.hmfacr2acc(this.h, this.m, this.fa, this.cr);
+      this.ppv = _detectableMath.default.hfa2ppv(this.h, this.fa);
+      this.fomr = _detectableMath.default.mcr2fomr(this.m, this.cr);
     }
   }, {
     key: "sendEvent",

@@ -17,6 +17,11 @@
     "> 0.25%",
     "not dead"
   ],
+  "dependencies": {
+    "@detectable/decidable-math": "^0.0.1",
+    "d3": "^5.15.0",
+    "lit-element": "^2.2.0"
+  },
   "engines": {
     "node": "^13.9.0",
     "yarn": "^1.22.0"

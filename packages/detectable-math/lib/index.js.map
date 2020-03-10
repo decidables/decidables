@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.js"],"names":[],"mappings":";;AAEA","sourcesContent":["\n// Internal dependencies\nimport './sdt-math';\n"],"file":"index.js"}

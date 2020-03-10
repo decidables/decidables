@@ -63920,6 +63920,8 @@ var _litElement = require("lit-element");
 
 var d3 = _interopRequireWildcard(require("d3"));
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
 function _interopRequireDefault(obj) {
@@ -64271,14 +64273,14 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
       this.locations[0].far = this.far;
       this.locations[0].s = this.s;
       this.locations[0].label = this.label;
-      this.d = _sdtElement.default.hrfar2d(this.hr, this.far, this.s);
-      this.c = _sdtElement.default.hrfar2c(this.hr, this.far, this.s);
+      this.d = _detectableMath.default.hrfar2d(this.hr, this.far, this.s);
+      this.c = _detectableMath.default.hrfar2c(this.hr, this.far, this.s);
       this.pointArray = [];
       this.isoDArray = [];
       this.isoCArray = [];
       this.locations.forEach(function (item, index) {
-        item.d = _sdtElement.default.hrfar2d(item.hr, item.far, item.s);
-        item.c = _sdtElement.default.hrfar2c(item.hr, item.far, item.s);
+        item.d = _detectableMath.default.hrfar2d(item.hr, item.far, item.s);
+        item.c = _detectableMath.default.hrfar2c(item.hr, item.far, item.s);
 
         if (index === 0 && (_this2.point === 'first' || _this2.point === 'all')) {
           _this2.pointArray.push(item);
@@ -64342,8 +64344,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
       var s = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
       if (name === 'default') {
-        this.hr = _sdtElement.default.dc2hr(d, c, s);
-        this.far = _sdtElement.default.dc2far(d, c, s);
+        this.hr = _detectableMath.default.dc2hr(d, c, s);
+        this.far = _detectableMath.default.dc2far(d, c, s);
         this.s = s;
         this.label = label;
       }
@@ -64355,14 +64357,14 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
       if (location === undefined) {
         this.locations.push({
           name: name,
-          far: _sdtElement.default.dc2far(d, c, s),
-          hr: _sdtElement.default.dc2hr(d, c, s),
+          far: _detectableMath.default.dc2far(d, c, s),
+          hr: _detectableMath.default.dc2hr(d, c, s),
           s: s,
           label: label
         });
       } else {
-        location.hr = _sdtElement.default.dc2hr(d, c, s);
-        location.far = _sdtElement.default.dc2far(d, c, s);
+        location.hr = _detectableMath.default.dc2hr(d, c, s);
+        location.far = _detectableMath.default.dc2far(d, c, s);
         location.s = s;
         location.label = label;
       }
@@ -64442,16 +64444,16 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
 
       var drag = d3.drag().subject(function (datum) {
         return {
-          x: _this3.xScale(_this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far),
-          y: _this3.yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr)
+          x: _this3.xScale(_this3.zRoc ? _detectableMath.default.far2zfar(datum.far) : datum.far),
+          y: _this3.yScale(_this3.zRoc ? _detectableMath.default.hr2zhr(datum.hr) : datum.hr)
         };
       }).on('start', function (datum, index, elements) {
         var element = elements[index];
         d3.select(element).classed('dragging', true);
       }).on('drag', function (datum) {
         _this3.drag = true;
-        var far = _this3.zRoc ? _sdtElement.default.zfar2far(_this3.xScale.invert(d3.event.x)) : _this3.xScale.invert(d3.event.x);
-        var hr = _this3.zRoc ? _sdtElement.default.zhr2hr(_this3.yScale.invert(d3.event.y)) : _this3.yScale.invert(d3.event.y); // Clamp FAR and HR to ROC Space
+        var far = _this3.zRoc ? _detectableMath.default.zfar2far(_this3.xScale.invert(d3.event.x)) : _this3.xScale.invert(d3.event.x);
+        var hr = _this3.zRoc ? _detectableMath.default.zhr2hr(_this3.yScale.invert(d3.event.y)) : _this3.yScale.invert(d3.event.y); // Clamp FAR and HR to ROC Space
 
         datum.far = far < 0.001 ? 0.001 : far > 0.999 ? 0.999 : far;
         datum.hr = hr <= 0.001 ? 0.001 : hr >= 0.999 ? 0.999 : hr; // console.log(`roc-space.drag: far = ${datum.far}, hr = ${datum.hr}`);
@@ -64483,9 +64485,9 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
       }); // Line for FAR/HR Space
 
       var line = d3.line().x(function (datum) {
-        return xScale(_this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far);
+        return xScale(_this3.zRoc ? _detectableMath.default.far2zfar(datum.far) : datum.far);
       }).y(function (datum) {
-        return yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr);
+        return yScale(_this3.zRoc ? _detectableMath.default.hr2zhr(datum.hr) : datum.hr);
       }); // Svg
       //  DATA-JOIN
 
@@ -64529,9 +64531,9 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
 
           for (var j = 0.5, k = 0; j < n; j += 1) {
             for (var i = 0.5; i < n; i += 1, k += 1) {
-              var hr = this.zRoc ? _sdtElement.default.zhr2hr(i / n * 6 - 3) : i / n;
-              var far = this.zRoc ? _sdtElement.default.zfar2far((1 - j / n) * 6 - 3) : 1 - j / n;
-              contourValues[k] = this.contour === 'bias' ? _sdtElement.default.hrfar2c(hr, far, this.s) : this.contour === 'sensitivity' ? _sdtElement.default.hrfar2d(hr, far, this.s) : this.contour === 'accuracy' ? _sdtElement.default.hrfar2acc(hr, far) : null;
+              var hr = this.zRoc ? _detectableMath.default.zhr2hr(i / n * 6 - 3) : i / n;
+              var far = this.zRoc ? _detectableMath.default.zfar2far((1 - j / n) * 6 - 3) : 1 - j / n;
+              contourValues[k] = this.contour === 'bias' ? _detectableMath.default.hrfar2c(hr, far, this.s) : this.contour === 'sensitivity' ? _detectableMath.default.hrfar2d(hr, far, this.s) : this.contour === 'accuracy' ? _detectableMath.default.hrfar2acc(hr, far) : null;
             }
           }
 
@@ -64688,8 +64690,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
         .ease(d3.easeCubicOut).attr('d', function (datum) {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
             return {
-              far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-              hr: _this3.zRoc ? _sdtElement.default.dfar2hr(datum.d, _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.dfar2hr(datum.d, xScale.invert(x), datum.s)
+              far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+              hr: _this3.zRoc ? _detectableMath.default.dfar2hr(datum.d, _detectableMath.default.zfar2far(xScale.invert(x)), datum.s) : _detectableMath.default.dfar2hr(datum.d, xScale.invert(x), datum.s)
             };
           }));
         });
@@ -64705,8 +64707,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
             element.s = interpolateS(time);
             var isoD = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
-                far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.dfar2hr(element.d, _sdtElement.default.zfar2far(xScale.invert(x)), element.s) : _sdtElement.default.dfar2hr(element.d, xScale.invert(x), element.s)
+                far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+                hr: _this3.zRoc ? _detectableMath.default.dfar2hr(element.d, _detectableMath.default.zfar2far(xScale.invert(x)), element.s) : _detectableMath.default.dfar2hr(element.d, xScale.invert(x), element.s)
               };
             });
             return line(isoD);
@@ -64724,8 +64726,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
             element.far = interpolateFar(time);
             var isoD = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
-                far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.dfar2hr(_sdtElement.default.hrfar2d(element.hr, element.far, datum.s), _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.dfar2hr(_sdtElement.default.hrfar2d(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
+                far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+                hr: _this3.zRoc ? _detectableMath.default.dfar2hr(_detectableMath.default.hrfar2d(element.hr, element.far, datum.s), _detectableMath.default.zfar2far(xScale.invert(x)), datum.s) : _detectableMath.default.dfar2hr(_detectableMath.default.hrfar2d(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
               };
             });
             return line(isoD);
@@ -64751,8 +64753,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
         .ease(d3.easeCubicOut).attr('d', function (datum) {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
             return {
-              far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-              hr: _this3.zRoc ? _sdtElement.default.cfar2hr(datum.c, _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.cfar2hr(datum.c, xScale.invert(x), datum.s)
+              far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+              hr: _this3.zRoc ? _detectableMath.default.cfar2hr(datum.c, _detectableMath.default.zfar2far(xScale.invert(x)), datum.s) : _detectableMath.default.cfar2hr(datum.c, xScale.invert(x), datum.s)
             };
           }));
         });
@@ -64768,8 +64770,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
             element.s = interpolateS(time);
             var isoC = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
-                far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.cfar2hr(element.c, _sdtElement.default.zfar2far(xScale.invert(x)), element.s) : _sdtElement.default.cfar2hr(element.c, xScale.invert(x), element.s)
+                far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+                hr: _this3.zRoc ? _detectableMath.default.cfar2hr(element.c, _detectableMath.default.zfar2far(xScale.invert(x)), element.s) : _detectableMath.default.cfar2hr(element.c, xScale.invert(x), element.s)
               };
             });
             return line(isoC);
@@ -64787,8 +64789,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
             element.far = interpolateFar(time);
             var isoC = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
-                far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.cfar2hr(_sdtElement.default.hrfar2c(element.hr, element.far, datum.s), _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.cfar2hr(_sdtElement.default.hrfar2c(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
+                far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+                hr: _this3.zRoc ? _detectableMath.default.cfar2hr(_detectableMath.default.hrfar2c(element.hr, element.far, datum.s), _detectableMath.default.zfar2far(xScale.invert(x)), datum.s) : _detectableMath.default.cfar2hr(_detectableMath.default.hrfar2c(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
               };
             });
             return line(isoC);
@@ -64820,9 +64822,9 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
         if (this.interactive) {
           pointMerge.attr('tabindex', 0).classed('interactive', true).call(drag).on('keydown', function (datum) {
             if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-              var _hr = _this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr;
+              var _hr = _this3.zRoc ? _detectableMath.default.hr2zhr(datum.hr) : datum.hr;
 
-              var _far = _this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far;
+              var _far = _this3.zRoc ? _detectableMath.default.far2zfar(datum.far) : datum.far;
 
               switch (d3.event.key) {
                 case 'ArrowUp':
@@ -64845,8 +64847,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
 
               }
 
-              _hr = _this3.zRoc ? _sdtElement.default.zhr2hr(_hr) : _hr;
-              _far = _this3.zRoc ? _sdtElement.default.zfar2far(_far) : _far; // Clamp FAR and HR to ROC Space
+              _hr = _this3.zRoc ? _detectableMath.default.zhr2hr(_hr) : _hr;
+              _far = _this3.zRoc ? _detectableMath.default.zfar2far(_far) : _far; // Clamp FAR and HR to ROC Space
 
               _hr = _hr < 0.001 ? 0.001 : _hr > 0.999 ? 0.999 : _hr;
               _far = _far < 0.001 ? 0.001 : _far > 0.999 ? 0.999 : _far;
@@ -64893,7 +64895,7 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
           element.d = undefined;
           element.c = undefined;
           element.s = undefined;
-          return "translate(\n            ".concat(xScale(_this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far), ",\n            ").concat(yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr), "\n          )");
+          return "translate(\n            ".concat(xScale(_this3.zRoc ? _detectableMath.default.far2zfar(datum.far) : datum.far), ",\n            ").concat(yScale(_this3.zRoc ? _detectableMath.default.hr2zhr(datum.hr) : datum.hr), "\n          )");
         });
       } else if (this.sdt) {
         pointMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('transform', function (datum, index, elements) {
@@ -64905,7 +64907,7 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
             element.d = interpolateD(time);
             element.c = interpolateC(time);
             element.s = interpolateS(time);
-            return "translate(\n              ".concat(xScale(_this3.zRoc ? _sdtElement.default.far2zfar(_sdtElement.default.dc2far(element.d, element.c, element.s)) : _sdtElement.default.dc2far(element.d, element.c, element.s)), ",\n              ").concat(yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(_sdtElement.default.dc2hr(element.d, element.c, element.s)) : _sdtElement.default.dc2hr(element.d, element.c, element.s)), "\n            )");
+            return "translate(\n              ".concat(xScale(_this3.zRoc ? _detectableMath.default.far2zfar(_detectableMath.default.dc2far(element.d, element.c, element.s)) : _detectableMath.default.dc2far(element.d, element.c, element.s)), ",\n              ").concat(yScale(_this3.zRoc ? _detectableMath.default.hr2zhr(_detectableMath.default.dc2hr(element.d, element.c, element.s)) : _detectableMath.default.dc2hr(element.d, element.c, element.s)), "\n            )");
           };
         });
       } else {
@@ -64914,7 +64916,7 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
           element.d = undefined;
           element.c = undefined;
           element.s = undefined;
-          return "translate(\n            ".concat(xScale(_this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far), ",\n            ").concat(yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr), "\n          )");
+          return "translate(\n            ".concat(xScale(_this3.zRoc ? _detectableMath.default.far2zfar(datum.far) : datum.far), ",\n            ").concat(yScale(_this3.zRoc ? _detectableMath.default.hr2zhr(datum.hr) : datum.hr), "\n          )");
         });
       } //  EXIT
       // NOTE: Could add a transition here
@@ -64938,7 +64940,7 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
 exports.default = ROCSpace;
 customElements.define('roc-space', ROCSpace);
 
-},{"../sdt-element":438,"d3":384,"lit-element":390}],411:[function(require,module,exports){
+},{"../sdt-element":438,"@decidable/detectable-math":439,"d3":384,"lit-element":390}],411:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65516,6 +65518,8 @@ var d3 = _interopRequireWildcard(require("d3"));
 
 var jStat = _interopRequireWildcard(require("jstat"));
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
 function _interopRequireDefault(obj) {
@@ -65958,12 +65962,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
   }, {
     key: "alignState",
     value: function alignState() {
-      this.far = _sdtElement.default.dc2far(this.d, this.c, this.s);
-      this.hr = _sdtElement.default.dc2hr(this.d, this.c, this.s);
-      this.muN = _sdtElement.default.d2muN(this.d, this.s);
-      this.muS = _sdtElement.default.d2muS(this.d, this.s);
-      this.l = _sdtElement.default.c2l(this.c, this.s);
-      this.hS = _sdtElement.default.s2h(this.s);
+      this.far = _detectableMath.default.dc2far(this.d, this.c, this.s);
+      this.hr = _detectableMath.default.dc2hr(this.d, this.c, this.s);
+      this.muN = _detectableMath.default.d2muN(this.d, this.s);
+      this.muS = _detectableMath.default.d2muS(this.d, this.s);
+      this.l = _detectableMath.default.c2l(this.c, this.s);
+      this.hS = _detectableMath.default.s2h(this.s);
       this.h = 0;
       this.m = 0;
       this.fa = 0;
@@ -66094,7 +66098,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
         var l = xScale.invert(d3.event.x); // Clamp lambda to stay visible
 
         l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
-        _this2.c = _sdtElement.default.l2c(l, _this2.s);
+        _this2.c = _detectableMath.default.l2c(l, _this2.s);
 
         _this2.alignState();
 
@@ -66121,7 +66125,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
         var muN = xScale.invert(d3.event.x); // Clamp Noise Curve to stay visible
 
         muN = muN < xScale.domain()[0] ? xScale.domain()[0] : muN > xScale.domain()[1] ? xScale.domain()[1] : muN;
-        _this2.d = _sdtElement.default.muN2d(muN, _this2.s);
+        _this2.d = _detectableMath.default.muN2d(muN, _this2.s);
 
         _this2.alignState();
 
@@ -66175,11 +66179,11 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
         }
 
         if (_this2.unequal) {
-          _this2.s = _sdtElement.default.h2s(hS);
-          _this2.c = _sdtElement.default.l2c(_this2.l, _this2.s);
+          _this2.s = _detectableMath.default.h2s(hS);
+          _this2.c = _detectableMath.default.l2c(_this2.l, _this2.s);
         }
 
-        _this2.d = _sdtElement.default.muS2d(muS, _this2.s);
+        _this2.d = _detectableMath.default.muS2d(muS, _this2.s);
 
         _this2.alignState();
 
@@ -66308,7 +66312,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           muN = muN < xScale.domain()[0] ? xScale.domain()[0] : muN > xScale.domain()[1] ? xScale.domain()[1] : muN;
 
           if (muN !== _this2.muN) {
-            _this2.d = _sdtElement.default.muN2d(muN, _this2.s);
+            _this2.d = _detectableMath.default.muN2d(muN, _this2.s);
 
             _this2.alignState();
 
@@ -66340,18 +66344,18 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
           element.s = interpolateS(time);
-          var correctRejections = d3.range(xScale.domain()[0], _sdtElement.default.c2l(element.c, element.s), 0.05).map(function (e) {
+          var correctRejections = d3.range(xScale.domain()[0], _detectableMath.default.c2l(element.c, element.s), 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muN(element.d, element.s), 1)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muN(element.d, element.s), 1)
             };
           });
           correctRejections.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
-            p: jStat.normal.pdf(_sdtElement.default.c2l(element.c, element.s), _sdtElement.default.d2muN(element.d, element.s), 1)
+            e: _detectableMath.default.c2l(element.c, element.s),
+            p: jStat.normal.pdf(_detectableMath.default.c2l(element.c, element.s), _detectableMath.default.d2muN(element.d, element.s), 1)
           });
           correctRejections.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
+            e: _detectableMath.default.c2l(element.c, element.s),
             p: 0
           });
           correctRejections.push({
@@ -66374,22 +66378,22 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
           element.s = interpolateS(time);
-          var falseAlarms = d3.range(_sdtElement.default.c2l(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
+          var falseAlarms = d3.range(_detectableMath.default.c2l(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muN(element.d, element.s), 1)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muN(element.d, element.s), 1)
             };
           });
           falseAlarms.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muN(element.d, element.s), 1)
+            p: jStat.normal.pdf(xScale.domain()[1], _detectableMath.default.d2muN(element.d, element.s), 1)
           });
           falseAlarms.push({
             e: xScale.domain()[1],
             p: 0
           });
           falseAlarms.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
+            e: _detectableMath.default.c2l(element.c, element.s),
             p: 0
           });
           return line(falseAlarms);
@@ -66409,12 +66413,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           var noise = d3.range(xScale.domain()[0], xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muN(element.d, element.s), 1)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muN(element.d, element.s), 1)
             };
           });
           noise.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muN(element.d, element.s), 1)
+            p: jStat.normal.pdf(xScale.domain()[1], _detectableMath.default.d2muN(element.d, element.s), 1)
           });
           return line(noise);
         };
@@ -66445,7 +66449,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
 
           if (muS !== _this2.muS) {
-            _this2.d = _sdtElement.default.muS2d(muS, _this2.s);
+            _this2.d = _detectableMath.default.muS2d(muS, _this2.s);
 
             _this2.alignState();
 
@@ -66476,9 +66480,9 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           hS = hS < 0.01 ? 0.01 : hS > yScale.domain()[0] ? yScale.domain()[0] : hS;
 
           if (hS !== _this2.hS) {
-            _this2.s = _sdtElement.default.h2s(hS);
-            _this2.d = _sdtElement.default.muN2d(_this2.muN, _this2.s);
-            _this2.c = _sdtElement.default.l2c(_this2.l, _this2.s);
+            _this2.s = _detectableMath.default.h2s(hS);
+            _this2.d = _detectableMath.default.muN2d(_this2.muN, _this2.s);
+            _this2.c = _detectableMath.default.l2c(_this2.l, _this2.s);
 
             _this2.alignState();
 
@@ -66510,18 +66514,18 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
           element.s = interpolateS(time);
-          var misses = d3.range(xScale.domain()[0], _sdtElement.default.c2l(element.c, element.s), 0.05).map(function (e) {
+          var misses = d3.range(xScale.domain()[0], _detectableMath.default.c2l(element.c, element.s), 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muS(element.d, element.s), element.s)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muS(element.d, element.s), element.s)
             };
           });
           misses.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
-            p: jStat.normal.pdf(_sdtElement.default.c2l(element.c, element.s), _sdtElement.default.d2muS(element.d, element.s), element.s)
+            e: _detectableMath.default.c2l(element.c, element.s),
+            p: jStat.normal.pdf(_detectableMath.default.c2l(element.c, element.s), _detectableMath.default.d2muS(element.d, element.s), element.s)
           });
           misses.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
+            e: _detectableMath.default.c2l(element.c, element.s),
             p: 0
           });
           misses.push({
@@ -66544,22 +66548,22 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
           element.s = interpolateS(time);
-          var hits = d3.range(_sdtElement.default.c2l(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
+          var hits = d3.range(_detectableMath.default.c2l(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muS(element.d, element.s), element.s)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muS(element.d, element.s), element.s)
             };
           });
           hits.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muS(element.d, element.s), element.s)
+            p: jStat.normal.pdf(xScale.domain()[1], _detectableMath.default.d2muS(element.d, element.s), element.s)
           });
           hits.push({
             e: xScale.domain()[1],
             p: 0
           });
           hits.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
+            e: _detectableMath.default.c2l(element.c, element.s),
             p: 0
           });
           return line(hits);
@@ -66579,12 +66583,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           var signal = d3.range(xScale.domain()[0], xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muS(element.d, element.s), element.s)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muS(element.d, element.s), element.s)
             };
           });
           signal.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muS(element.d, element.s), element.s)
+            p: jStat.normal.pdf(xScale.domain()[1], _detectableMath.default.d2muS(element.d, element.s), element.s)
           });
           return line(signal);
         };
@@ -66726,7 +66730,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
               l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
 
               if (l !== _this2.l) {
-                _this2.c = _sdtElement.default.l2c(l, _this2.s);
+                _this2.c = _detectableMath.default.l2c(l, _this2.s);
 
                 _this2.alignState();
 
@@ -66976,7 +66980,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
 exports.default = SDTModel;
 customElements.define('sdt-model', SDTModel);
 
-},{"../sdt-element":438,"d3":384,"jstat":386,"lit-element":390}],413:[function(require,module,exports){
+},{"../sdt-element":438,"@decidable/detectable-math":439,"d3":384,"jstat":386,"lit-element":390}],413:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -67614,6 +67618,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _litElement = require("lit-element");
+
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
 
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
@@ -68354,11 +68360,11 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
   _createClass(SDTTable, [{
     key: "alignState",
     value: function alignState() {
-      this.hr = _sdtElement.default.hm2hr(this.h, this.m);
-      this.far = _sdtElement.default.facr2far(this.fa, this.cr);
-      this.acc = _sdtElement.default.hmfacr2acc(this.h, this.m, this.fa, this.cr);
-      this.ppv = _sdtElement.default.hfa2ppv(this.h, this.fa);
-      this.fomr = _sdtElement.default.mcr2fomr(this.m, this.cr);
+      this.hr = _detectableMath.default.hm2hr(this.h, this.m);
+      this.far = _detectableMath.default.facr2far(this.fa, this.cr);
+      this.acc = _detectableMath.default.hmfacr2acc(this.h, this.m, this.fa, this.cr);
+      this.ppv = _detectableMath.default.hfa2ppv(this.h, this.fa);
+      this.fomr = _detectableMath.default.mcr2fomr(this.m, this.cr);
     }
   }, {
     key: "sendEvent",
@@ -68541,7 +68547,7 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
 exports.default = SDTTable;
 customElements.define('sdt-table', SDTTable);
 
-},{"../mixins/converterSet":432,"../mixins/styleSpinner":435,"../sdt-element":438,"lit-element":390}],415:[function(require,module,exports){
+},{"../mixins/converterSet":432,"../mixins/styleSpinner":435,"../sdt-element":438,"@decidable/detectable-math":439,"lit-element":390}],415:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -73727,8 +73733,6 @@ var _litElement = require("lit-element");
 
 var d3 = _interopRequireWildcard(require("d3"));
 
-var jStat = _interopRequireWildcard(require("jstat"));
-
 function _getRequireWildcardCache() {
   if (typeof WeakMap !== "function") return null;
   var cache = new WeakMap();
@@ -74150,171 +74154,6 @@ var SDTElement = /*#__PURE__*/function (_LitElement) {
       return "".concat(umbraS, " ").concat(umbraC, ", ").concat(penumbraS, " ").concat(penumbraC, ", ").concat(ambientS, " ").concat(ambientC);
     }
   }, {
-    key: "hm2hr",
-    value: function hm2hr(h, m) {
-      if (h === 0 && m === 0) {
-        return 0;
-      }
-
-      return h / (h + m);
-    }
-  }, {
-    key: "facr2far",
-    value: function facr2far(fa, cr) {
-      if (fa === 0 && cr === 0) {
-        return 0;
-      }
-
-      return fa / (fa + cr);
-    }
-  }, {
-    key: "hmfacr2acc",
-    value: function hmfacr2acc(h, m, fa, cr) {
-      if (h === 0 && m === 0 && fa === 0 && cr === 0) {
-        return 0;
-      }
-
-      return (h + cr) / (h + m + fa + cr);
-    }
-  }, {
-    key: "hrfar2acc",
-    value: function hrfar2acc(hr, far) {
-      return (hr + (1 - far)) / 2;
-    }
-  }, {
-    key: "hfa2ppv",
-    value: function hfa2ppv(h, fa) {
-      if (h === 0 && fa === 0) {
-        return 0;
-      }
-
-      return h / (h + fa);
-    }
-  }, {
-    key: "mcr2fomr",
-    value: function mcr2fomr(m, cr) {
-      if (m === 0 && cr === 0) {
-        return 0;
-      }
-
-      return m / (m + cr);
-    }
-  }, {
-    key: "hrfar2d",
-    value: function hrfar2d(hr, far) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1);
-      return Math.sqrt(2 / (s * s + 1)) * (s * jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1));
-    }
-  }, {
-    key: "hrfar2c",
-    value: function hrfar2c(hr, far) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return -(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1)) / 2;
-      return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1));
-    }
-  }, {
-    key: "dc2hr",
-    value: function dc2hr(d, c) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jStat.normal.cdf(d / 2 - c, 0, 1);
-      return jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
-    }
-  }, {
-    key: "dc2far",
-    value: function dc2far(d, c) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jStat.normal.cdf(-(d / 2 + c), 0, 1);
-      return jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
-    }
-  }, {
-    key: "dfar2hr",
-    value: function dfar2hr(d, far) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jStat.normal.cdf(d + jStat.normal.inv(far, 0, 1), 0, 1);
-      return jStat.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jStat.normal.inv(far, 0, 1)) / s, 0, 1);
-    }
-  }, {
-    key: "cfar2hr",
-    value: function cfar2hr(c, far) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jStat.normal.cdf(-(2 * c) - jStat.normal.inv(far, 0, 1), 0, 1);
-      return jStat.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jStat.normal.inv(far, 0, 1), 0, 1);
-    }
-  }, {
-    key: "d2muN",
-    value: function d2muN(d) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return -d / 2;
-      return -Math.sqrt((s * s + 1) / 2) * (1 / (s + 1)) * d;
-    }
-  }, {
-    key: "muN2d",
-    value: function muN2d(muN) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return -2 * muN;
-      return -Math.sqrt(2 / (s * s + 1)) * (s + 1) * muN;
-    }
-  }, {
-    key: "d2muS",
-    value: function d2muS(d) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return d / 2;
-      return Math.sqrt((s * s + 1) / 2) * (s / (s + 1)) * d;
-    }
-  }, {
-    key: "muS2d",
-    value: function muS2d(muS) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return 2 * muS;
-      return Math.sqrt(2 / (s * s + 1)) * ((s + 1) / s) * muS;
-    }
-  }, {
-    key: "c2l",
-    value: function c2l(c) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return c;
-      return Math.sqrt((s * s + 1) / 2) * c;
-    }
-  }, {
-    key: "l2c",
-    value: function l2c(l) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return l;
-      return Math.sqrt(2 / (s * s + 1)) * l;
-    }
-  }, {
-    key: "s2h",
-    value: function s2h() {
-      var s = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      return 1 / (s * Math.sqrt(2 * Math.PI));
-    }
-  }, {
-    key: "h2s",
-    value: function h2s(h) {
-      return 1 / (h * Math.sqrt(2 * Math.PI));
-    }
-  }, {
-    key: "hr2zhr",
-    value: function hr2zhr(hr) {
-      return jStat.normal.inv(hr, 0, 1);
-    }
-  }, {
-    key: "far2zfar",
-    value: function far2zfar(far) {
-      return jStat.normal.inv(far, 0, 1);
-    }
-  }, {
-    key: "zhr2hr",
-    value: function zhr2hr(zhr) {
-      return jStat.normal.cdf(zhr, 0, 1);
-    }
-  }, {
-    key: "zfar2far",
-    value: function zfar2far(zfar) {
-      return jStat.normal.cdf(zfar, 0, 1);
-    }
-  }, {
     key: "colors",
     get: function get() {
       return {
@@ -74516,7 +74355,358 @@ var SDTElement = /*#__PURE__*/function (_LitElement) {
 exports.default = SDTElement;
 SDTElement.ID = 0;
 
-},{"d3":384,"jstat":386,"lit-element":390}],439:[function(require,module,exports){
+},{"d3":384,"lit-element":390}],439:[function(require,module,exports){
+"use strict";
+
+require("./sdt-math");
+
+},{"./sdt-math":440}],440:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var jStat = _interopRequireWildcard(require("jstat"));
+
+function _getRequireWildcardCache() {
+  if (typeof WeakMap !== "function") return null;
+  var cache = new WeakMap();
+
+  _getRequireWildcardCache = function _getRequireWildcardCache() {
+    return cache;
+  };
+
+  return cache;
+}
+
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
+    return {
+      default: obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache();
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj.default = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+/*
+  SDTMath Static Class - Not intended for instantiation!
+
+  Variables:
+    H = hits
+    M = misses
+    FA = false alarms
+    CR = correct rejections
+    HR = hit rate
+    FAR = false alarm rate
+    ACC = accuracy
+    PPV = positive predictive value
+    FOMR = false omission rate (used FOMR to avoid keyword FOR!)
+    d = sensitivity (d' for equal variance, d_a for unequal variance)
+    c = response bias (c for equal variance, c_a for unequal variance)
+    s = standard deviation of signal distribution, with standard deviation of noise distribution = 1
+    muN = mean of noise distribution
+    muS = mean of signal distribution
+    l = lambda, threshold location, with l = 0 indicating no response bias
+    h = height of signal distribution
+
+  Equations (* = unequal variance):
+    HR = H / (H + M)
+    FAR = FA / (FA + CR)
+    ACC = (H + CR) / (H + M + FA + CR)
+    ACC = (HR + (1 - FAR)) / 2
+    PPV = H / (H + FA)
+    FOMR = M / (M + CR)
+
+    d' = Z^-1(HR) - Z^-1(FAR)
+    *d' = (2 / (s^2 + 1))^(1/2) * (s * Z^-1(HR) - Z^-1(FAR))
+
+    c = -(Z^-1(HR) + Z^-1(FAR))/2
+    *c = (2 / (s^2 + 1))^(1/2) * (s / s + 1) * -(Z^-1(HR) + Z^-1(FAR))
+
+    HR = Z(d'/2 - c)
+    *HR = Z(((s^2 + 1) / 2)^(1/2) * (d' / (s + 1) - c / s))
+
+    FAR = Z(-d'/2 - c)
+    *FAR = Z(((s^2 + 1) / 2)^(1/2) * -(d' / (s + 1) + c))
+
+    HR = Z(d' + Z^-1(FAR))
+    *HR = Z(((s^2 + 1) / 2)^(1/2) * d' + Z^-1(FAR) / s)
+
+    HR = Z(-2c - Z^-1(FAR))
+    *HR = Z(-((s^2 + 1) / 2)^(1/2) * ((s + 1) / s) * c - Z^-1(FAR))
+
+    muN = -d'/2
+    *muN = -((s^2 + 1) / 2)^(1/2) * (1 / (s + 1)) * d'
+
+    d' = -2 * muN
+    *d' = -(2 / (s^2 + 1))^(1/2) * (s + 1) * muN
+
+    muS = d'/2
+    *muS = ((s^2 + 1) / 2)^(1/2) * (s / (s + 1)) * d'
+
+    d' = 2 * muS
+    *d' = (2 / (s^2 + 1))^(1/2) * ((s + 1) / s) * muS
+
+    l = c
+    l = ((s^2 + 1) / 2)^(1/2) * c
+
+    c = l
+    c = (2 / (s^2 + 1))^(1/2) * l
+
+    h = 1 / (s * (2 * pi)^(1/2))
+    s = 1 / (h * (2 * pi)^(1/2))
+*/
+
+
+var SDTMath = /*#__PURE__*/function () {
+  function SDTMath() {
+    _classCallCheck(this, SDTMath);
+  }
+
+  _createClass(SDTMath, null, [{
+    key: "hm2hr",
+    value: function hm2hr(h, m) {
+      if (h === 0 && m === 0) {
+        return 0;
+      }
+
+      return h / (h + m);
+    }
+  }, {
+    key: "facr2far",
+    value: function facr2far(fa, cr) {
+      if (fa === 0 && cr === 0) {
+        return 0;
+      }
+
+      return fa / (fa + cr);
+    }
+  }, {
+    key: "hmfacr2acc",
+    value: function hmfacr2acc(h, m, fa, cr) {
+      if (h === 0 && m === 0 && fa === 0 && cr === 0) {
+        return 0;
+      }
+
+      return (h + cr) / (h + m + fa + cr);
+    }
+  }, {
+    key: "hrfar2acc",
+    value: function hrfar2acc(hr, far) {
+      return (hr + (1 - far)) / 2;
+    }
+  }, {
+    key: "hfa2ppv",
+    value: function hfa2ppv(h, fa) {
+      if (h === 0 && fa === 0) {
+        return 0;
+      }
+
+      return h / (h + fa);
+    }
+  }, {
+    key: "mcr2fomr",
+    value: function mcr2fomr(m, cr) {
+      if (m === 0 && cr === 0) {
+        return 0;
+      }
+
+      return m / (m + cr);
+    }
+  }, {
+    key: "hrfar2d",
+    value: function hrfar2d(hr, far) {
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1);
+      return Math.sqrt(2 / (s * s + 1)) * (s * jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1));
+    }
+  }, {
+    key: "hrfar2c",
+    value: function hrfar2c(hr, far) {
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return -(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1)) / 2;
+      return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1));
+    }
+  }, {
+    key: "dc2hr",
+    value: function dc2hr(d, c) {
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return jStat.normal.cdf(d / 2 - c, 0, 1);
+      return jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
+    }
+  }, {
+    key: "dc2far",
+    value: function dc2far(d, c) {
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return jStat.normal.cdf(-(d / 2 + c), 0, 1);
+      return jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
+    }
+  }, {
+    key: "dfar2hr",
+    value: function dfar2hr(d, far) {
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return jStat.normal.cdf(d + jStat.normal.inv(far, 0, 1), 0, 1);
+      return jStat.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jStat.normal.inv(far, 0, 1)) / s, 0, 1);
+    }
+  }, {
+    key: "cfar2hr",
+    value: function cfar2hr(c, far) {
+      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (s === 1) return jStat.normal.cdf(-(2 * c) - jStat.normal.inv(far, 0, 1), 0, 1);
+      return jStat.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jStat.normal.inv(far, 0, 1), 0, 1);
+    }
+  }, {
+    key: "d2muN",
+    value: function d2muN(d) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return -d / 2;
+      return -Math.sqrt((s * s + 1) / 2) * (1 / (s + 1)) * d;
+    }
+  }, {
+    key: "muN2d",
+    value: function muN2d(muN) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return -2 * muN;
+      return -Math.sqrt(2 / (s * s + 1)) * (s + 1) * muN;
+    }
+  }, {
+    key: "d2muS",
+    value: function d2muS(d) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return d / 2;
+      return Math.sqrt((s * s + 1) / 2) * (s / (s + 1)) * d;
+    }
+  }, {
+    key: "muS2d",
+    value: function muS2d(muS) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return 2 * muS;
+      return Math.sqrt(2 / (s * s + 1)) * ((s + 1) / s) * muS;
+    }
+  }, {
+    key: "c2l",
+    value: function c2l(c) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return c;
+      return Math.sqrt((s * s + 1) / 2) * c;
+    }
+  }, {
+    key: "l2c",
+    value: function l2c(l) {
+      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if (s === 1) return l;
+      return Math.sqrt(2 / (s * s + 1)) * l;
+    }
+  }, {
+    key: "s2h",
+    value: function s2h() {
+      var s = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      return 1 / (s * Math.sqrt(2 * Math.PI));
+    }
+  }, {
+    key: "h2s",
+    value: function h2s(h) {
+      return 1 / (h * Math.sqrt(2 * Math.PI));
+    }
+  }, {
+    key: "hr2zhr",
+    value: function hr2zhr(hr) {
+      return jStat.normal.inv(hr, 0, 1);
+    }
+  }, {
+    key: "far2zfar",
+    value: function far2zfar(far) {
+      return jStat.normal.inv(far, 0, 1);
+    }
+  }, {
+    key: "zhr2hr",
+    value: function zhr2hr(zhr) {
+      return jStat.normal.cdf(zhr, 0, 1);
+    }
+  }, {
+    key: "zfar2far",
+    value: function zfar2far(zfar) {
+      return jStat.normal.cdf(zfar, 0, 1);
+    }
+  }]);
+
+  return SDTMath;
+}();
+
+exports.default = SDTMath;
+
+},{"jstat":386}],441:[function(require,module,exports){
 "use strict";
 
 require("core-js/modules/es.symbol");
@@ -74917,6 +75107,6 @@ require("bootstrap");
 
 require("@decidable/detectable-elements");
 
-},{"@decidable/detectable-elements":431,"@webcomponents/webcomponentsjs/custom-elements-es5-adapter":1,"@webcomponents/webcomponentsjs/webcomponents-bundle":2,"bootstrap":3,"core-js/modules/es.array-buffer.constructor":159,"core-js/modules/es.array-buffer.slice":160,"core-js/modules/es.array.concat":161,"core-js/modules/es.array.copy-within":162,"core-js/modules/es.array.every":163,"core-js/modules/es.array.fill":164,"core-js/modules/es.array.filter":165,"core-js/modules/es.array.find":167,"core-js/modules/es.array.find-index":166,"core-js/modules/es.array.flat":169,"core-js/modules/es.array.flat-map":168,"core-js/modules/es.array.for-each":170,"core-js/modules/es.array.from":171,"core-js/modules/es.array.includes":172,"core-js/modules/es.array.index-of":173,"core-js/modules/es.array.iterator":174,"core-js/modules/es.array.join":175,"core-js/modules/es.array.last-index-of":176,"core-js/modules/es.array.map":177,"core-js/modules/es.array.of":178,"core-js/modules/es.array.reduce":180,"core-js/modules/es.array.reduce-right":179,"core-js/modules/es.array.reverse":181,"core-js/modules/es.array.slice":182,"core-js/modules/es.array.some":183,"core-js/modules/es.array.sort":184,"core-js/modules/es.array.species":185,"core-js/modules/es.array.splice":186,"core-js/modules/es.array.unscopables.flat":188,"core-js/modules/es.array.unscopables.flat-map":187,"core-js/modules/es.date.to-primitive":189,"core-js/modules/es.function.has-instance":190,"core-js/modules/es.function.name":191,"core-js/modules/es.json.to-string-tag":192,"core-js/modules/es.map":193,"core-js/modules/es.math.acosh":194,"core-js/modules/es.math.asinh":195,"core-js/modules/es.math.atanh":196,"core-js/modules/es.math.cbrt":197,"core-js/modules/es.math.clz32":198,"core-js/modules/es.math.cosh":199,"core-js/modules/es.math.expm1":200,"core-js/modules/es.math.fround":201,"core-js/modules/es.math.hypot":202,"core-js/modules/es.math.imul":203,"core-js/modules/es.math.log10":204,"core-js/modules/es.math.log1p":205,"core-js/modules/es.math.log2":206,"core-js/modules/es.math.sign":207,"core-js/modules/es.math.sinh":208,"core-js/modules/es.math.tanh":209,"core-js/modules/es.math.to-string-tag":210,"core-js/modules/es.math.trunc":211,"core-js/modules/es.number.constructor":212,"core-js/modules/es.number.epsilon":213,"core-js/modules/es.number.is-finite":214,"core-js/modules/es.number.is-integer":215,"core-js/modules/es.number.is-nan":216,"core-js/modules/es.number.is-safe-integer":217,"core-js/modules/es.number.max-safe-integer":218,"core-js/modules/es.number.min-safe-integer":219,"core-js/modules/es.number.parse-float":220,"core-js/modules/es.number.parse-int":221,"core-js/modules/es.number.to-fixed":222,"core-js/modules/es.object.assign":223,"core-js/modules/es.object.define-getter":224,"core-js/modules/es.object.define-setter":225,"core-js/modules/es.object.entries":226,"core-js/modules/es.object.freeze":227,"core-js/modules/es.object.from-entries":228,"core-js/modules/es.object.get-own-property-descriptor":229,"core-js/modules/es.object.get-own-property-descriptors":230,"core-js/modules/es.object.get-own-property-names":231,"core-js/modules/es.object.get-prototype-of":232,"core-js/modules/es.object.is":236,"core-js/modules/es.object.is-extensible":233,"core-js/modules/es.object.is-frozen":234,"core-js/modules/es.object.is-sealed":235,"core-js/modules/es.object.keys":237,"core-js/modules/es.object.lookup-getter":238,"core-js/modules/es.object.lookup-setter":239,"core-js/modules/es.object.prevent-extensions":240,"core-js/modules/es.object.seal":241,"core-js/modules/es.object.to-string":242,"core-js/modules/es.object.values":243,"core-js/modules/es.promise":245,"core-js/modules/es.promise.finally":244,"core-js/modules/es.reflect.apply":246,"core-js/modules/es.reflect.construct":247,"core-js/modules/es.reflect.define-property":248,"core-js/modules/es.reflect.delete-property":249,"core-js/modules/es.reflect.get":252,"core-js/modules/es.reflect.get-own-property-descriptor":250,"core-js/modules/es.reflect.get-prototype-of":251,"core-js/modules/es.reflect.has":253,"core-js/modules/es.reflect.is-extensible":254,"core-js/modules/es.reflect.own-keys":255,"core-js/modules/es.reflect.prevent-extensions":256,"core-js/modules/es.reflect.set":258,"core-js/modules/es.reflect.set-prototype-of":257,"core-js/modules/es.regexp.constructor":259,"core-js/modules/es.regexp.exec":260,"core-js/modules/es.regexp.flags":261,"core-js/modules/es.regexp.to-string":262,"core-js/modules/es.set":263,"core-js/modules/es.string.anchor":264,"core-js/modules/es.string.big":265,"core-js/modules/es.string.blink":266,"core-js/modules/es.string.bold":267,"core-js/modules/es.string.code-point-at":268,"core-js/modules/es.string.ends-with":269,"core-js/modules/es.string.fixed":270,"core-js/modules/es.string.fontcolor":271,"core-js/modules/es.string.fontsize":272,"core-js/modules/es.string.from-code-point":273,"core-js/modules/es.string.includes":274,"core-js/modules/es.string.italics":275,"core-js/modules/es.string.iterator":276,"core-js/modules/es.string.link":277,"core-js/modules/es.string.match":279,"core-js/modules/es.string.match-all":278,"core-js/modules/es.string.pad-end":280,"core-js/modules/es.string.pad-start":281,"core-js/modules/es.string.raw":282,"core-js/modules/es.string.repeat":283,"core-js/modules/es.string.replace":284,"core-js/modules/es.string.search":285,"core-js/modules/es.string.small":286,"core-js/modules/es.string.split":287,"core-js/modules/es.string.starts-with":288,"core-js/modules/es.string.strike":289,"core-js/modules/es.string.sub":290,"core-js/modules/es.string.sup":291,"core-js/modules/es.string.trim":294,"core-js/modules/es.string.trim-end":292,"core-js/modules/es.string.trim-start":293,"core-js/modules/es.symbol":300,"core-js/modules/es.symbol.async-iterator":295,"core-js/modules/es.symbol.description":296,"core-js/modules/es.symbol.has-instance":297,"core-js/modules/es.symbol.is-concat-spreadable":298,"core-js/modules/es.symbol.iterator":299,"core-js/modules/es.symbol.match":302,"core-js/modules/es.symbol.match-all":301,"core-js/modules/es.symbol.replace":303,"core-js/modules/es.symbol.search":304,"core-js/modules/es.symbol.species":305,"core-js/modules/es.symbol.split":306,"core-js/modules/es.symbol.to-primitive":307,"core-js/modules/es.symbol.to-string-tag":308,"core-js/modules/es.symbol.unscopables":309,"core-js/modules/es.typed-array.copy-within":310,"core-js/modules/es.typed-array.every":311,"core-js/modules/es.typed-array.fill":312,"core-js/modules/es.typed-array.filter":313,"core-js/modules/es.typed-array.find":315,"core-js/modules/es.typed-array.find-index":314,"core-js/modules/es.typed-array.float32-array":316,"core-js/modules/es.typed-array.float64-array":317,"core-js/modules/es.typed-array.for-each":318,"core-js/modules/es.typed-array.from":319,"core-js/modules/es.typed-array.includes":320,"core-js/modules/es.typed-array.index-of":321,"core-js/modules/es.typed-array.int16-array":322,"core-js/modules/es.typed-array.int32-array":323,"core-js/modules/es.typed-array.int8-array":324,"core-js/modules/es.typed-array.iterator":325,"core-js/modules/es.typed-array.join":326,"core-js/modules/es.typed-array.last-index-of":327,"core-js/modules/es.typed-array.map":328,"core-js/modules/es.typed-array.of":329,"core-js/modules/es.typed-array.reduce":331,"core-js/modules/es.typed-array.reduce-right":330,"core-js/modules/es.typed-array.reverse":332,"core-js/modules/es.typed-array.set":333,"core-js/modules/es.typed-array.slice":334,"core-js/modules/es.typed-array.some":335,"core-js/modules/es.typed-array.sort":336,"core-js/modules/es.typed-array.subarray":337,"core-js/modules/es.typed-array.to-locale-string":338,"core-js/modules/es.typed-array.to-string":339,"core-js/modules/es.typed-array.uint16-array":340,"core-js/modules/es.typed-array.uint32-array":341,"core-js/modules/es.typed-array.uint8-array":342,"core-js/modules/es.typed-array.uint8-clamped-array":343,"core-js/modules/es.weak-map":344,"core-js/modules/es.weak-set":345,"core-js/modules/web.dom-collections.for-each":346,"core-js/modules/web.dom-collections.iterator":347,"core-js/modules/web.immediate":348,"core-js/modules/web.queue-microtask":349,"core-js/modules/web.url":351,"core-js/modules/web.url-search-params":350,"core-js/modules/web.url.to-json":352,"regenerator-runtime/runtime":406}]},{},[439])
+},{"@decidable/detectable-elements":431,"@webcomponents/webcomponentsjs/custom-elements-es5-adapter":1,"@webcomponents/webcomponentsjs/webcomponents-bundle":2,"bootstrap":3,"core-js/modules/es.array-buffer.constructor":159,"core-js/modules/es.array-buffer.slice":160,"core-js/modules/es.array.concat":161,"core-js/modules/es.array.copy-within":162,"core-js/modules/es.array.every":163,"core-js/modules/es.array.fill":164,"core-js/modules/es.array.filter":165,"core-js/modules/es.array.find":167,"core-js/modules/es.array.find-index":166,"core-js/modules/es.array.flat":169,"core-js/modules/es.array.flat-map":168,"core-js/modules/es.array.for-each":170,"core-js/modules/es.array.from":171,"core-js/modules/es.array.includes":172,"core-js/modules/es.array.index-of":173,"core-js/modules/es.array.iterator":174,"core-js/modules/es.array.join":175,"core-js/modules/es.array.last-index-of":176,"core-js/modules/es.array.map":177,"core-js/modules/es.array.of":178,"core-js/modules/es.array.reduce":180,"core-js/modules/es.array.reduce-right":179,"core-js/modules/es.array.reverse":181,"core-js/modules/es.array.slice":182,"core-js/modules/es.array.some":183,"core-js/modules/es.array.sort":184,"core-js/modules/es.array.species":185,"core-js/modules/es.array.splice":186,"core-js/modules/es.array.unscopables.flat":188,"core-js/modules/es.array.unscopables.flat-map":187,"core-js/modules/es.date.to-primitive":189,"core-js/modules/es.function.has-instance":190,"core-js/modules/es.function.name":191,"core-js/modules/es.json.to-string-tag":192,"core-js/modules/es.map":193,"core-js/modules/es.math.acosh":194,"core-js/modules/es.math.asinh":195,"core-js/modules/es.math.atanh":196,"core-js/modules/es.math.cbrt":197,"core-js/modules/es.math.clz32":198,"core-js/modules/es.math.cosh":199,"core-js/modules/es.math.expm1":200,"core-js/modules/es.math.fround":201,"core-js/modules/es.math.hypot":202,"core-js/modules/es.math.imul":203,"core-js/modules/es.math.log10":204,"core-js/modules/es.math.log1p":205,"core-js/modules/es.math.log2":206,"core-js/modules/es.math.sign":207,"core-js/modules/es.math.sinh":208,"core-js/modules/es.math.tanh":209,"core-js/modules/es.math.to-string-tag":210,"core-js/modules/es.math.trunc":211,"core-js/modules/es.number.constructor":212,"core-js/modules/es.number.epsilon":213,"core-js/modules/es.number.is-finite":214,"core-js/modules/es.number.is-integer":215,"core-js/modules/es.number.is-nan":216,"core-js/modules/es.number.is-safe-integer":217,"core-js/modules/es.number.max-safe-integer":218,"core-js/modules/es.number.min-safe-integer":219,"core-js/modules/es.number.parse-float":220,"core-js/modules/es.number.parse-int":221,"core-js/modules/es.number.to-fixed":222,"core-js/modules/es.object.assign":223,"core-js/modules/es.object.define-getter":224,"core-js/modules/es.object.define-setter":225,"core-js/modules/es.object.entries":226,"core-js/modules/es.object.freeze":227,"core-js/modules/es.object.from-entries":228,"core-js/modules/es.object.get-own-property-descriptor":229,"core-js/modules/es.object.get-own-property-descriptors":230,"core-js/modules/es.object.get-own-property-names":231,"core-js/modules/es.object.get-prototype-of":232,"core-js/modules/es.object.is":236,"core-js/modules/es.object.is-extensible":233,"core-js/modules/es.object.is-frozen":234,"core-js/modules/es.object.is-sealed":235,"core-js/modules/es.object.keys":237,"core-js/modules/es.object.lookup-getter":238,"core-js/modules/es.object.lookup-setter":239,"core-js/modules/es.object.prevent-extensions":240,"core-js/modules/es.object.seal":241,"core-js/modules/es.object.to-string":242,"core-js/modules/es.object.values":243,"core-js/modules/es.promise":245,"core-js/modules/es.promise.finally":244,"core-js/modules/es.reflect.apply":246,"core-js/modules/es.reflect.construct":247,"core-js/modules/es.reflect.define-property":248,"core-js/modules/es.reflect.delete-property":249,"core-js/modules/es.reflect.get":252,"core-js/modules/es.reflect.get-own-property-descriptor":250,"core-js/modules/es.reflect.get-prototype-of":251,"core-js/modules/es.reflect.has":253,"core-js/modules/es.reflect.is-extensible":254,"core-js/modules/es.reflect.own-keys":255,"core-js/modules/es.reflect.prevent-extensions":256,"core-js/modules/es.reflect.set":258,"core-js/modules/es.reflect.set-prototype-of":257,"core-js/modules/es.regexp.constructor":259,"core-js/modules/es.regexp.exec":260,"core-js/modules/es.regexp.flags":261,"core-js/modules/es.regexp.to-string":262,"core-js/modules/es.set":263,"core-js/modules/es.string.anchor":264,"core-js/modules/es.string.big":265,"core-js/modules/es.string.blink":266,"core-js/modules/es.string.bold":267,"core-js/modules/es.string.code-point-at":268,"core-js/modules/es.string.ends-with":269,"core-js/modules/es.string.fixed":270,"core-js/modules/es.string.fontcolor":271,"core-js/modules/es.string.fontsize":272,"core-js/modules/es.string.from-code-point":273,"core-js/modules/es.string.includes":274,"core-js/modules/es.string.italics":275,"core-js/modules/es.string.iterator":276,"core-js/modules/es.string.link":277,"core-js/modules/es.string.match":279,"core-js/modules/es.string.match-all":278,"core-js/modules/es.string.pad-end":280,"core-js/modules/es.string.pad-start":281,"core-js/modules/es.string.raw":282,"core-js/modules/es.string.repeat":283,"core-js/modules/es.string.replace":284,"core-js/modules/es.string.search":285,"core-js/modules/es.string.small":286,"core-js/modules/es.string.split":287,"core-js/modules/es.string.starts-with":288,"core-js/modules/es.string.strike":289,"core-js/modules/es.string.sub":290,"core-js/modules/es.string.sup":291,"core-js/modules/es.string.trim":294,"core-js/modules/es.string.trim-end":292,"core-js/modules/es.string.trim-start":293,"core-js/modules/es.symbol":300,"core-js/modules/es.symbol.async-iterator":295,"core-js/modules/es.symbol.description":296,"core-js/modules/es.symbol.has-instance":297,"core-js/modules/es.symbol.is-concat-spreadable":298,"core-js/modules/es.symbol.iterator":299,"core-js/modules/es.symbol.match":302,"core-js/modules/es.symbol.match-all":301,"core-js/modules/es.symbol.replace":303,"core-js/modules/es.symbol.search":304,"core-js/modules/es.symbol.species":305,"core-js/modules/es.symbol.split":306,"core-js/modules/es.symbol.to-primitive":307,"core-js/modules/es.symbol.to-string-tag":308,"core-js/modules/es.symbol.unscopables":309,"core-js/modules/es.typed-array.copy-within":310,"core-js/modules/es.typed-array.every":311,"core-js/modules/es.typed-array.fill":312,"core-js/modules/es.typed-array.filter":313,"core-js/modules/es.typed-array.find":315,"core-js/modules/es.typed-array.find-index":314,"core-js/modules/es.typed-array.float32-array":316,"core-js/modules/es.typed-array.float64-array":317,"core-js/modules/es.typed-array.for-each":318,"core-js/modules/es.typed-array.from":319,"core-js/modules/es.typed-array.includes":320,"core-js/modules/es.typed-array.index-of":321,"core-js/modules/es.typed-array.int16-array":322,"core-js/modules/es.typed-array.int32-array":323,"core-js/modules/es.typed-array.int8-array":324,"core-js/modules/es.typed-array.iterator":325,"core-js/modules/es.typed-array.join":326,"core-js/modules/es.typed-array.last-index-of":327,"core-js/modules/es.typed-array.map":328,"core-js/modules/es.typed-array.of":329,"core-js/modules/es.typed-array.reduce":331,"core-js/modules/es.typed-array.reduce-right":330,"core-js/modules/es.typed-array.reverse":332,"core-js/modules/es.typed-array.set":333,"core-js/modules/es.typed-array.slice":334,"core-js/modules/es.typed-array.some":335,"core-js/modules/es.typed-array.sort":336,"core-js/modules/es.typed-array.subarray":337,"core-js/modules/es.typed-array.to-locale-string":338,"core-js/modules/es.typed-array.to-string":339,"core-js/modules/es.typed-array.uint16-array":340,"core-js/modules/es.typed-array.uint32-array":341,"core-js/modules/es.typed-array.uint8-array":342,"core-js/modules/es.typed-array.uint8-clamped-array":343,"core-js/modules/es.weak-map":344,"core-js/modules/es.weak-set":345,"core-js/modules/web.dom-collections.for-each":346,"core-js/modules/web.dom-collections.iterator":347,"core-js/modules/web.immediate":348,"core-js/modules/web.queue-microtask":349,"core-js/modules/web.url":351,"core-js/modules/web.url-search-params":350,"core-js/modules/web.url.to-json":352,"regenerator-runtime/runtime":406}]},{},[441])
 
 //# sourceMappingURL=index.js.map

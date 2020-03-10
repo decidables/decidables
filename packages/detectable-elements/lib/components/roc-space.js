@@ -9,6 +9,8 @@ var _litElement = require("lit-element");
 
 var d3 = _interopRequireWildcard(require("d3"));
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -204,14 +206,14 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
       this.locations[0].far = this.far;
       this.locations[0].s = this.s;
       this.locations[0].label = this.label;
-      this.d = _sdtElement.default.hrfar2d(this.hr, this.far, this.s);
-      this.c = _sdtElement.default.hrfar2c(this.hr, this.far, this.s);
+      this.d = _detectableMath.default.hrfar2d(this.hr, this.far, this.s);
+      this.c = _detectableMath.default.hrfar2c(this.hr, this.far, this.s);
       this.pointArray = [];
       this.isoDArray = [];
       this.isoCArray = [];
       this.locations.forEach(function (item, index) {
-        item.d = _sdtElement.default.hrfar2d(item.hr, item.far, item.s);
-        item.c = _sdtElement.default.hrfar2c(item.hr, item.far, item.s);
+        item.d = _detectableMath.default.hrfar2d(item.hr, item.far, item.s);
+        item.c = _detectableMath.default.hrfar2c(item.hr, item.far, item.s);
 
         if (index === 0 && (_this2.point === 'first' || _this2.point === 'all')) {
           _this2.pointArray.push(item);
@@ -275,8 +277,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
       var s = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
       if (name === 'default') {
-        this.hr = _sdtElement.default.dc2hr(d, c, s);
-        this.far = _sdtElement.default.dc2far(d, c, s);
+        this.hr = _detectableMath.default.dc2hr(d, c, s);
+        this.far = _detectableMath.default.dc2far(d, c, s);
         this.s = s;
         this.label = label;
       }
@@ -288,14 +290,14 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
       if (location === undefined) {
         this.locations.push({
           name: name,
-          far: _sdtElement.default.dc2far(d, c, s),
-          hr: _sdtElement.default.dc2hr(d, c, s),
+          far: _detectableMath.default.dc2far(d, c, s),
+          hr: _detectableMath.default.dc2hr(d, c, s),
           s: s,
           label: label
         });
       } else {
-        location.hr = _sdtElement.default.dc2hr(d, c, s);
-        location.far = _sdtElement.default.dc2far(d, c, s);
+        location.hr = _detectableMath.default.dc2hr(d, c, s);
+        location.far = _detectableMath.default.dc2far(d, c, s);
         location.s = s;
         location.label = label;
       }
@@ -375,16 +377,16 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
 
       var drag = d3.drag().subject(function (datum) {
         return {
-          x: _this3.xScale(_this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far),
-          y: _this3.yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr)
+          x: _this3.xScale(_this3.zRoc ? _detectableMath.default.far2zfar(datum.far) : datum.far),
+          y: _this3.yScale(_this3.zRoc ? _detectableMath.default.hr2zhr(datum.hr) : datum.hr)
         };
       }).on('start', function (datum, index, elements) {
         var element = elements[index];
         d3.select(element).classed('dragging', true);
       }).on('drag', function (datum) {
         _this3.drag = true;
-        var far = _this3.zRoc ? _sdtElement.default.zfar2far(_this3.xScale.invert(d3.event.x)) : _this3.xScale.invert(d3.event.x);
-        var hr = _this3.zRoc ? _sdtElement.default.zhr2hr(_this3.yScale.invert(d3.event.y)) : _this3.yScale.invert(d3.event.y); // Clamp FAR and HR to ROC Space
+        var far = _this3.zRoc ? _detectableMath.default.zfar2far(_this3.xScale.invert(d3.event.x)) : _this3.xScale.invert(d3.event.x);
+        var hr = _this3.zRoc ? _detectableMath.default.zhr2hr(_this3.yScale.invert(d3.event.y)) : _this3.yScale.invert(d3.event.y); // Clamp FAR and HR to ROC Space
 
         datum.far = far < 0.001 ? 0.001 : far > 0.999 ? 0.999 : far;
         datum.hr = hr <= 0.001 ? 0.001 : hr >= 0.999 ? 0.999 : hr; // console.log(`roc-space.drag: far = ${datum.far}, hr = ${datum.hr}`);
@@ -416,9 +418,9 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
       }); // Line for FAR/HR Space
 
       var line = d3.line().x(function (datum) {
-        return xScale(_this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far);
+        return xScale(_this3.zRoc ? _detectableMath.default.far2zfar(datum.far) : datum.far);
       }).y(function (datum) {
-        return yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr);
+        return yScale(_this3.zRoc ? _detectableMath.default.hr2zhr(datum.hr) : datum.hr);
       }); // Svg
       //  DATA-JOIN
 
@@ -462,9 +464,9 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
 
           for (var j = 0.5, k = 0; j < n; j += 1) {
             for (var i = 0.5; i < n; i += 1, k += 1) {
-              var hr = this.zRoc ? _sdtElement.default.zhr2hr(i / n * 6 - 3) : i / n;
-              var far = this.zRoc ? _sdtElement.default.zfar2far((1 - j / n) * 6 - 3) : 1 - j / n;
-              contourValues[k] = this.contour === 'bias' ? _sdtElement.default.hrfar2c(hr, far, this.s) : this.contour === 'sensitivity' ? _sdtElement.default.hrfar2d(hr, far, this.s) : this.contour === 'accuracy' ? _sdtElement.default.hrfar2acc(hr, far) : null;
+              var hr = this.zRoc ? _detectableMath.default.zhr2hr(i / n * 6 - 3) : i / n;
+              var far = this.zRoc ? _detectableMath.default.zfar2far((1 - j / n) * 6 - 3) : 1 - j / n;
+              contourValues[k] = this.contour === 'bias' ? _detectableMath.default.hrfar2c(hr, far, this.s) : this.contour === 'sensitivity' ? _detectableMath.default.hrfar2d(hr, far, this.s) : this.contour === 'accuracy' ? _detectableMath.default.hrfar2acc(hr, far) : null;
             }
           }
 
@@ -621,8 +623,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
         .ease(d3.easeCubicOut).attr('d', function (datum) {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
             return {
-              far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-              hr: _this3.zRoc ? _sdtElement.default.dfar2hr(datum.d, _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.dfar2hr(datum.d, xScale.invert(x), datum.s)
+              far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+              hr: _this3.zRoc ? _detectableMath.default.dfar2hr(datum.d, _detectableMath.default.zfar2far(xScale.invert(x)), datum.s) : _detectableMath.default.dfar2hr(datum.d, xScale.invert(x), datum.s)
             };
           }));
         });
@@ -638,8 +640,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
             element.s = interpolateS(time);
             var isoD = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
-                far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.dfar2hr(element.d, _sdtElement.default.zfar2far(xScale.invert(x)), element.s) : _sdtElement.default.dfar2hr(element.d, xScale.invert(x), element.s)
+                far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+                hr: _this3.zRoc ? _detectableMath.default.dfar2hr(element.d, _detectableMath.default.zfar2far(xScale.invert(x)), element.s) : _detectableMath.default.dfar2hr(element.d, xScale.invert(x), element.s)
               };
             });
             return line(isoD);
@@ -657,8 +659,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
             element.far = interpolateFar(time);
             var isoD = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
-                far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.dfar2hr(_sdtElement.default.hrfar2d(element.hr, element.far, datum.s), _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.dfar2hr(_sdtElement.default.hrfar2d(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
+                far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+                hr: _this3.zRoc ? _detectableMath.default.dfar2hr(_detectableMath.default.hrfar2d(element.hr, element.far, datum.s), _detectableMath.default.zfar2far(xScale.invert(x)), datum.s) : _detectableMath.default.dfar2hr(_detectableMath.default.hrfar2d(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
               };
             });
             return line(isoD);
@@ -684,8 +686,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
         .ease(d3.easeCubicOut).attr('d', function (datum) {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
             return {
-              far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-              hr: _this3.zRoc ? _sdtElement.default.cfar2hr(datum.c, _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.cfar2hr(datum.c, xScale.invert(x), datum.s)
+              far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+              hr: _this3.zRoc ? _detectableMath.default.cfar2hr(datum.c, _detectableMath.default.zfar2far(xScale.invert(x)), datum.s) : _detectableMath.default.cfar2hr(datum.c, xScale.invert(x), datum.s)
             };
           }));
         });
@@ -701,8 +703,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
             element.s = interpolateS(time);
             var isoC = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
-                far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.cfar2hr(element.c, _sdtElement.default.zfar2far(xScale.invert(x)), element.s) : _sdtElement.default.cfar2hr(element.c, xScale.invert(x), element.s)
+                far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+                hr: _this3.zRoc ? _detectableMath.default.cfar2hr(element.c, _detectableMath.default.zfar2far(xScale.invert(x)), element.s) : _detectableMath.default.cfar2hr(element.c, xScale.invert(x), element.s)
               };
             });
             return line(isoC);
@@ -720,8 +722,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
             element.far = interpolateFar(time);
             var isoC = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
               return {
-                far: _this3.zRoc ? _sdtElement.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? _sdtElement.default.cfar2hr(_sdtElement.default.hrfar2c(element.hr, element.far, datum.s), _sdtElement.default.zfar2far(xScale.invert(x)), datum.s) : _sdtElement.default.cfar2hr(_sdtElement.default.hrfar2c(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
+                far: _this3.zRoc ? _detectableMath.default.zfar2far(xScale.invert(x)) : xScale.invert(x),
+                hr: _this3.zRoc ? _detectableMath.default.cfar2hr(_detectableMath.default.hrfar2c(element.hr, element.far, datum.s), _detectableMath.default.zfar2far(xScale.invert(x)), datum.s) : _detectableMath.default.cfar2hr(_detectableMath.default.hrfar2c(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
               };
             });
             return line(isoC);
@@ -753,9 +755,9 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
         if (this.interactive) {
           pointMerge.attr('tabindex', 0).classed('interactive', true).call(drag).on('keydown', function (datum) {
             if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-              var _hr = _this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr;
+              var _hr = _this3.zRoc ? _detectableMath.default.hr2zhr(datum.hr) : datum.hr;
 
-              var _far = _this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far;
+              var _far = _this3.zRoc ? _detectableMath.default.far2zfar(datum.far) : datum.far;
 
               switch (d3.event.key) {
                 case 'ArrowUp':
@@ -778,8 +780,8 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
 
               }
 
-              _hr = _this3.zRoc ? _sdtElement.default.zhr2hr(_hr) : _hr;
-              _far = _this3.zRoc ? _sdtElement.default.zfar2far(_far) : _far; // Clamp FAR and HR to ROC Space
+              _hr = _this3.zRoc ? _detectableMath.default.zhr2hr(_hr) : _hr;
+              _far = _this3.zRoc ? _detectableMath.default.zfar2far(_far) : _far; // Clamp FAR and HR to ROC Space
 
               _hr = _hr < 0.001 ? 0.001 : _hr > 0.999 ? 0.999 : _hr;
               _far = _far < 0.001 ? 0.001 : _far > 0.999 ? 0.999 : _far;
@@ -826,7 +828,7 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
           element.d = undefined;
           element.c = undefined;
           element.s = undefined;
-          return "translate(\n            ".concat(xScale(_this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far), ",\n            ").concat(yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr), "\n          )");
+          return "translate(\n            ".concat(xScale(_this3.zRoc ? _detectableMath.default.far2zfar(datum.far) : datum.far), ",\n            ").concat(yScale(_this3.zRoc ? _detectableMath.default.hr2zhr(datum.hr) : datum.hr), "\n          )");
         });
       } else if (this.sdt) {
         pointMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(d3.easeCubicOut).attrTween('transform', function (datum, index, elements) {
@@ -838,7 +840,7 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
             element.d = interpolateD(time);
             element.c = interpolateC(time);
             element.s = interpolateS(time);
-            return "translate(\n              ".concat(xScale(_this3.zRoc ? _sdtElement.default.far2zfar(_sdtElement.default.dc2far(element.d, element.c, element.s)) : _sdtElement.default.dc2far(element.d, element.c, element.s)), ",\n              ").concat(yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(_sdtElement.default.dc2hr(element.d, element.c, element.s)) : _sdtElement.default.dc2hr(element.d, element.c, element.s)), "\n            )");
+            return "translate(\n              ".concat(xScale(_this3.zRoc ? _detectableMath.default.far2zfar(_detectableMath.default.dc2far(element.d, element.c, element.s)) : _detectableMath.default.dc2far(element.d, element.c, element.s)), ",\n              ").concat(yScale(_this3.zRoc ? _detectableMath.default.hr2zhr(_detectableMath.default.dc2hr(element.d, element.c, element.s)) : _detectableMath.default.dc2hr(element.d, element.c, element.s)), "\n            )");
           };
         });
       } else {
@@ -847,7 +849,7 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
           element.d = undefined;
           element.c = undefined;
           element.s = undefined;
-          return "translate(\n            ".concat(xScale(_this3.zRoc ? _sdtElement.default.far2zfar(datum.far) : datum.far), ",\n            ").concat(yScale(_this3.zRoc ? _sdtElement.default.hr2zhr(datum.hr) : datum.hr), "\n          )");
+          return "translate(\n            ".concat(xScale(_this3.zRoc ? _detectableMath.default.far2zfar(datum.far) : datum.far), ",\n            ").concat(yScale(_this3.zRoc ? _detectableMath.default.hr2zhr(datum.hr) : datum.hr), "\n          )");
         });
       } //  EXIT
       // NOTE: Could add a transition here

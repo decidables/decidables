@@ -1,5 +1,5 @@
 {
-  "name": "detectable",
+  "name": "@decidable/detectable",
   "version": "0.0.1",
   "description": "detectable: An Explorable Explanation of Signal Detection Theory",
   "main": "./dist/index.html",

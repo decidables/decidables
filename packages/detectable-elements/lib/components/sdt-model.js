@@ -11,6 +11,8 @@ var d3 = _interopRequireWildcard(require("d3"));
 
 var jStat = _interopRequireWildcard(require("jstat"));
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -297,12 +299,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
   }, {
     key: "alignState",
     value: function alignState() {
-      this.far = _sdtElement.default.dc2far(this.d, this.c, this.s);
-      this.hr = _sdtElement.default.dc2hr(this.d, this.c, this.s);
-      this.muN = _sdtElement.default.d2muN(this.d, this.s);
-      this.muS = _sdtElement.default.d2muS(this.d, this.s);
-      this.l = _sdtElement.default.c2l(this.c, this.s);
-      this.hS = _sdtElement.default.s2h(this.s);
+      this.far = _detectableMath.default.dc2far(this.d, this.c, this.s);
+      this.hr = _detectableMath.default.dc2hr(this.d, this.c, this.s);
+      this.muN = _detectableMath.default.d2muN(this.d, this.s);
+      this.muS = _detectableMath.default.d2muS(this.d, this.s);
+      this.l = _detectableMath.default.c2l(this.c, this.s);
+      this.hS = _detectableMath.default.s2h(this.s);
       this.h = 0;
       this.m = 0;
       this.fa = 0;
@@ -433,7 +435,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
         var l = xScale.invert(d3.event.x); // Clamp lambda to stay visible
 
         l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
-        _this2.c = _sdtElement.default.l2c(l, _this2.s);
+        _this2.c = _detectableMath.default.l2c(l, _this2.s);
 
         _this2.alignState();
 
@@ -460,7 +462,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
         var muN = xScale.invert(d3.event.x); // Clamp Noise Curve to stay visible
 
         muN = muN < xScale.domain()[0] ? xScale.domain()[0] : muN > xScale.domain()[1] ? xScale.domain()[1] : muN;
-        _this2.d = _sdtElement.default.muN2d(muN, _this2.s);
+        _this2.d = _detectableMath.default.muN2d(muN, _this2.s);
 
         _this2.alignState();
 
@@ -514,11 +516,11 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
         }
 
         if (_this2.unequal) {
-          _this2.s = _sdtElement.default.h2s(hS);
-          _this2.c = _sdtElement.default.l2c(_this2.l, _this2.s);
+          _this2.s = _detectableMath.default.h2s(hS);
+          _this2.c = _detectableMath.default.l2c(_this2.l, _this2.s);
         }
 
-        _this2.d = _sdtElement.default.muS2d(muS, _this2.s);
+        _this2.d = _detectableMath.default.muS2d(muS, _this2.s);
 
         _this2.alignState();
 
@@ -647,7 +649,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           muN = muN < xScale.domain()[0] ? xScale.domain()[0] : muN > xScale.domain()[1] ? xScale.domain()[1] : muN;
 
           if (muN !== _this2.muN) {
-            _this2.d = _sdtElement.default.muN2d(muN, _this2.s);
+            _this2.d = _detectableMath.default.muN2d(muN, _this2.s);
 
             _this2.alignState();
 
@@ -679,18 +681,18 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
           element.s = interpolateS(time);
-          var correctRejections = d3.range(xScale.domain()[0], _sdtElement.default.c2l(element.c, element.s), 0.05).map(function (e) {
+          var correctRejections = d3.range(xScale.domain()[0], _detectableMath.default.c2l(element.c, element.s), 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muN(element.d, element.s), 1)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muN(element.d, element.s), 1)
             };
           });
           correctRejections.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
-            p: jStat.normal.pdf(_sdtElement.default.c2l(element.c, element.s), _sdtElement.default.d2muN(element.d, element.s), 1)
+            e: _detectableMath.default.c2l(element.c, element.s),
+            p: jStat.normal.pdf(_detectableMath.default.c2l(element.c, element.s), _detectableMath.default.d2muN(element.d, element.s), 1)
           });
           correctRejections.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
+            e: _detectableMath.default.c2l(element.c, element.s),
             p: 0
           });
           correctRejections.push({
@@ -713,22 +715,22 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
           element.s = interpolateS(time);
-          var falseAlarms = d3.range(_sdtElement.default.c2l(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
+          var falseAlarms = d3.range(_detectableMath.default.c2l(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muN(element.d, element.s), 1)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muN(element.d, element.s), 1)
             };
           });
           falseAlarms.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muN(element.d, element.s), 1)
+            p: jStat.normal.pdf(xScale.domain()[1], _detectableMath.default.d2muN(element.d, element.s), 1)
           });
           falseAlarms.push({
             e: xScale.domain()[1],
             p: 0
           });
           falseAlarms.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
+            e: _detectableMath.default.c2l(element.c, element.s),
             p: 0
           });
           return line(falseAlarms);
@@ -748,12 +750,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           var noise = d3.range(xScale.domain()[0], xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muN(element.d, element.s), 1)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muN(element.d, element.s), 1)
             };
           });
           noise.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muN(element.d, element.s), 1)
+            p: jStat.normal.pdf(xScale.domain()[1], _detectableMath.default.d2muN(element.d, element.s), 1)
           });
           return line(noise);
         };
@@ -784,7 +786,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
 
           if (muS !== _this2.muS) {
-            _this2.d = _sdtElement.default.muS2d(muS, _this2.s);
+            _this2.d = _detectableMath.default.muS2d(muS, _this2.s);
 
             _this2.alignState();
 
@@ -815,9 +817,9 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           hS = hS < 0.01 ? 0.01 : hS > yScale.domain()[0] ? yScale.domain()[0] : hS;
 
           if (hS !== _this2.hS) {
-            _this2.s = _sdtElement.default.h2s(hS);
-            _this2.d = _sdtElement.default.muN2d(_this2.muN, _this2.s);
-            _this2.c = _sdtElement.default.l2c(_this2.l, _this2.s);
+            _this2.s = _detectableMath.default.h2s(hS);
+            _this2.d = _detectableMath.default.muN2d(_this2.muN, _this2.s);
+            _this2.c = _detectableMath.default.l2c(_this2.l, _this2.s);
 
             _this2.alignState();
 
@@ -849,18 +851,18 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
           element.s = interpolateS(time);
-          var misses = d3.range(xScale.domain()[0], _sdtElement.default.c2l(element.c, element.s), 0.05).map(function (e) {
+          var misses = d3.range(xScale.domain()[0], _detectableMath.default.c2l(element.c, element.s), 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muS(element.d, element.s), element.s)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muS(element.d, element.s), element.s)
             };
           });
           misses.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
-            p: jStat.normal.pdf(_sdtElement.default.c2l(element.c, element.s), _sdtElement.default.d2muS(element.d, element.s), element.s)
+            e: _detectableMath.default.c2l(element.c, element.s),
+            p: jStat.normal.pdf(_detectableMath.default.c2l(element.c, element.s), _detectableMath.default.d2muS(element.d, element.s), element.s)
           });
           misses.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
+            e: _detectableMath.default.c2l(element.c, element.s),
             p: 0
           });
           misses.push({
@@ -883,22 +885,22 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
           element.s = interpolateS(time);
-          var hits = d3.range(_sdtElement.default.c2l(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
+          var hits = d3.range(_detectableMath.default.c2l(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muS(element.d, element.s), element.s)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muS(element.d, element.s), element.s)
             };
           });
           hits.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muS(element.d, element.s), element.s)
+            p: jStat.normal.pdf(xScale.domain()[1], _detectableMath.default.d2muS(element.d, element.s), element.s)
           });
           hits.push({
             e: xScale.domain()[1],
             p: 0
           });
           hits.push({
-            e: _sdtElement.default.c2l(element.c, element.s),
+            e: _detectableMath.default.c2l(element.c, element.s),
             p: 0
           });
           return line(hits);
@@ -918,12 +920,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           var signal = d3.range(xScale.domain()[0], xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jStat.normal.pdf(e, _sdtElement.default.d2muS(element.d, element.s), element.s)
+              p: jStat.normal.pdf(e, _detectableMath.default.d2muS(element.d, element.s), element.s)
             };
           });
           signal.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], _sdtElement.default.d2muS(element.d, element.s), element.s)
+            p: jStat.normal.pdf(xScale.domain()[1], _detectableMath.default.d2muS(element.d, element.s), element.s)
           });
           return line(signal);
         };
@@ -1065,7 +1067,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
               l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
 
               if (l !== _this2.l) {
-                _this2.c = _sdtElement.default.l2c(l, _this2.s);
+                _this2.c = _detectableMath.default.l2c(l, _this2.s);
 
                 _this2.alignState();
 

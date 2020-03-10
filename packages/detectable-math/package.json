@@ -1,0 +1,27 @@
+{
+  "name": "@decidable/detectable-math",
+  "version": "0.0.1",
+  "description": "detectable-math: Equations for calculating Signal Detection Theory",
+  "main": "./lib/index.js",
+  "repository": "https://github.com/akrawitz/decidable/packages/detectable-math",
+  "author": "Adam Krawitz",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "compile": "gulp compile",
+    "watch": "gulp watch",
+    "lint": "gulp lint",
+    "build": "gulp build"
+  },
+  "browserslist": [
+    "> 0.25%",
+    "not dead"
+  ],
+  "dependencies": {
+    "jstat": "^1.8.3"
+  },
+  "engines": {
+    "node": "^13.9.0",
+    "yarn": "^1.22.0"
+  }
+}
