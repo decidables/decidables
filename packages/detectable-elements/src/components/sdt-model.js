@@ -3,6 +3,8 @@ import {html, css} from 'lit-element';
 import * as d3 from 'd3';
 import * as jStat from 'jstat';
 
+import SDTMath from '@decidable/detectable-math';
+
 import SDTElement from '../sdt-element';
 
 /*
@@ -205,13 +207,13 @@ export default class SDTModel extends SDTElement {
   }
 
   alignState() {
-    this.far = SDTElement.dc2far(this.d, this.c, this.s);
-    this.hr = SDTElement.dc2hr(this.d, this.c, this.s);
+    this.far = SDTMath.dc2far(this.d, this.c, this.s);
+    this.hr = SDTMath.dc2hr(this.d, this.c, this.s);
 
-    this.muN = SDTElement.d2muN(this.d, this.s);
-    this.muS = SDTElement.d2muS(this.d, this.s);
-    this.l = SDTElement.c2l(this.c, this.s);
-    this.hS = SDTElement.s2h(this.s);
+    this.muN = SDTMath.d2muN(this.d, this.s);
+    this.muS = SDTMath.d2muS(this.d, this.s);
+    this.l = SDTMath.c2l(this.c, this.s);
+    this.hS = SDTMath.s2h(this.s);
 
     this.h = 0;
     this.m = 0;
@@ -588,7 +590,7 @@ export default class SDTModel extends SDTElement {
           : (l > xScale.domain()[1])
             ? xScale.domain()[1]
             : l;
-        this.c = SDTElement.l2c(l, this.s);
+        this.c = SDTMath.l2c(l, this.s);
         this.alignState();
         this.sendEvent();
       })
@@ -615,7 +617,7 @@ export default class SDTModel extends SDTElement {
           : (muN > xScale.domain()[1])
             ? xScale.domain()[1]
             : muN;
-        this.d = SDTElement.muN2d(muN, this.s);
+        this.d = SDTMath.muN2d(muN, this.s);
         this.alignState();
         this.sendEvent();
       })
@@ -670,10 +672,10 @@ export default class SDTModel extends SDTElement {
           }
         }
         if (this.unequal) {
-          this.s = SDTElement.h2s(hS);
-          this.c = SDTElement.l2c(this.l, this.s);
+          this.s = SDTMath.h2s(hS);
+          this.c = SDTMath.l2c(this.l, this.s);
         }
-        this.d = SDTElement.muS2d(muS, this.s);
+        this.d = SDTMath.muS2d(muS, this.s);
         this.alignState();
         this.sendEvent();
       })
@@ -862,7 +864,7 @@ export default class SDTModel extends SDTElement {
                 ? xScale.domain()[1]
                 : muN;
             if (muN !== this.muN) {
-              this.d = SDTElement.muN2d(muN, this.s);
+              this.d = SDTMath.muN2d(muN, this.s);
               this.alignState();
               this.sendEvent();
             }
@@ -909,24 +911,24 @@ export default class SDTModel extends SDTElement {
           element.s = interpolateS(time);
           const correctRejections = d3.range(
             xScale.domain()[0],
-            SDTElement.c2l(element.c, element.s),
+            SDTMath.c2l(element.c, element.s),
             0.05,
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, SDTElement.d2muN(element.d, element.s), 1),
+              p: jStat.normal.pdf(e, SDTMath.d2muN(element.d, element.s), 1),
             };
           });
           correctRejections.push({
-            e: SDTElement.c2l(element.c, element.s),
+            e: SDTMath.c2l(element.c, element.s),
             p: jStat.normal.pdf(
-              SDTElement.c2l(element.c, element.s),
-              SDTElement.d2muN(element.d, element.s),
+              SDTMath.c2l(element.c, element.s),
+              SDTMath.d2muN(element.d, element.s),
               1,
             ),
           });
           correctRejections.push({
-            e: SDTElement.c2l(element.c, element.s),
+            e: SDTMath.c2l(element.c, element.s),
             p: 0,
           });
           correctRejections.push({
@@ -964,25 +966,25 @@ export default class SDTModel extends SDTElement {
           element.c = interpolateC(time);
           element.s = interpolateS(time);
           const falseAlarms = d3.range(
-            SDTElement.c2l(element.c, element.s),
+            SDTMath.c2l(element.c, element.s),
             xScale.domain()[1],
             0.05,
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, SDTElement.d2muN(element.d, element.s), 1),
+              p: jStat.normal.pdf(e, SDTMath.d2muN(element.d, element.s), 1),
             };
           });
           falseAlarms.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], SDTElement.d2muN(element.d, element.s), 1),
+            p: jStat.normal.pdf(xScale.domain()[1], SDTMath.d2muN(element.d, element.s), 1),
           });
           falseAlarms.push({
             e: xScale.domain()[1],
             p: 0,
           });
           falseAlarms.push({
-            e: SDTElement.c2l(element.c, element.s),
+            e: SDTMath.c2l(element.c, element.s),
             p: 0,
           });
           return line(falseAlarms);
@@ -1017,12 +1019,12 @@ export default class SDTModel extends SDTElement {
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, SDTElement.d2muN(element.d, element.s), 1),
+              p: jStat.normal.pdf(e, SDTMath.d2muN(element.d, element.s), 1),
             };
           });
           noise.push({
             e: xScale.domain()[1],
-            p: jStat.normal.pdf(xScale.domain()[1], SDTElement.d2muN(element.d, element.s), 1),
+            p: jStat.normal.pdf(xScale.domain()[1], SDTMath.d2muN(element.d, element.s), 1),
           });
           return line(noise);
         };
@@ -1057,7 +1059,7 @@ export default class SDTModel extends SDTElement {
                 ? xScale.domain()[1]
                 : muS;
             if (muS !== this.muS) {
-              this.d = SDTElement.muS2d(muS, this.s);
+              this.d = SDTMath.muS2d(muS, this.s);
               this.alignState();
               this.sendEvent();
             }
@@ -1085,9 +1087,9 @@ export default class SDTModel extends SDTElement {
                 ? yScale.domain()[0]
                 : hS;
             if (hS !== this.hS) {
-              this.s = SDTElement.h2s(hS);
-              this.d = SDTElement.muN2d(this.muN, this.s);
-              this.c = SDTElement.l2c(this.l, this.s);
+              this.s = SDTMath.h2s(hS);
+              this.d = SDTMath.muN2d(this.muN, this.s);
+              this.c = SDTMath.l2c(this.l, this.s);
               this.alignState();
               this.sendEvent();
             }
@@ -1135,24 +1137,24 @@ export default class SDTModel extends SDTElement {
           element.s = interpolateS(time);
           const misses = d3.range(
             xScale.domain()[0],
-            SDTElement.c2l(element.c, element.s),
+            SDTMath.c2l(element.c, element.s),
             0.05,
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, SDTElement.d2muS(element.d, element.s), element.s),
+              p: jStat.normal.pdf(e, SDTMath.d2muS(element.d, element.s), element.s),
             };
           });
           misses.push({
-            e: SDTElement.c2l(element.c, element.s),
+            e: SDTMath.c2l(element.c, element.s),
             p: jStat.normal.pdf(
-              SDTElement.c2l(element.c, element.s),
-              SDTElement.d2muS(element.d, element.s),
+              SDTMath.c2l(element.c, element.s),
+              SDTMath.d2muS(element.d, element.s),
               element.s,
             ),
           });
           misses.push({
-            e: SDTElement.c2l(element.c, element.s),
+            e: SDTMath.c2l(element.c, element.s),
             p: 0,
           });
           misses.push({
@@ -1190,20 +1192,20 @@ export default class SDTModel extends SDTElement {
           element.c = interpolateC(time);
           element.s = interpolateS(time);
           const hits = d3.range(
-            SDTElement.c2l(element.c, element.s),
+            SDTMath.c2l(element.c, element.s),
             xScale.domain()[1],
             0.05,
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, SDTElement.d2muS(element.d, element.s), element.s),
+              p: jStat.normal.pdf(e, SDTMath.d2muS(element.d, element.s), element.s),
             };
           });
           hits.push({
             e: xScale.domain()[1],
             p: jStat.normal.pdf(
               xScale.domain()[1],
-              SDTElement.d2muS(element.d, element.s),
+              SDTMath.d2muS(element.d, element.s),
               element.s,
             ),
           });
@@ -1212,7 +1214,7 @@ export default class SDTModel extends SDTElement {
             p: 0,
           });
           hits.push({
-            e: SDTElement.c2l(element.c, element.s),
+            e: SDTMath.c2l(element.c, element.s),
             p: 0,
           });
           return line(hits);
@@ -1247,14 +1249,14 @@ export default class SDTModel extends SDTElement {
           ).map((e) => {
             return {
               e: e,
-              p: jStat.normal.pdf(e, SDTElement.d2muS(element.d, element.s), element.s),
+              p: jStat.normal.pdf(e, SDTMath.d2muS(element.d, element.s), element.s),
             };
           });
           signal.push({
             e: xScale.domain()[1],
             p: jStat.normal.pdf(
               xScale.domain()[1],
-              SDTElement.d2muS(element.d, element.s),
+              SDTMath.d2muS(element.d, element.s),
               element.s,
             ),
           });
@@ -1494,7 +1496,7 @@ export default class SDTModel extends SDTElement {
                   ? xScale.domain()[1]
                   : l;
               if (l !== this.l) {
-                this.c = SDTElement.l2c(l, this.s);
+                this.c = SDTMath.l2c(l, this.s);
                 this.alignState();
                 this.sendEvent();
               }

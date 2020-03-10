@@ -1,6 +1,8 @@
 
 import {html, css} from 'lit-element';
 
+import SDTMath from '@decidable/detectable-math';
+
 import SDTElement from '../sdt-element';
 import SDTMixinStyleSpinner from '../mixins/styleSpinner';
 import SDTMixinConverterSet from '../mixins/converterSet';
@@ -133,11 +135,11 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
   }
 
   alignState() {
-    this.hr = SDTElement.hm2hr(this.h, this.m);
-    this.far = SDTElement.facr2far(this.fa, this.cr);
-    this.acc = SDTElement.hmfacr2acc(this.h, this.m, this.fa, this.cr);
-    this.ppv = SDTElement.hfa2ppv(this.h, this.fa);
-    this.fomr = SDTElement.mcr2fomr(this.m, this.cr);
+    this.hr = SDTMath.hm2hr(this.h, this.m);
+    this.far = SDTMath.facr2far(this.fa, this.cr);
+    this.acc = SDTMath.hmfacr2acc(this.h, this.m, this.fa, this.cr);
+    this.ppv = SDTMath.hfa2ppv(this.h, this.fa);
+    this.fomr = SDTMath.mcr2fomr(this.m, this.cr);
   }
 
   sendEvent() {
