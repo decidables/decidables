@@ -47,7 +47,7 @@
     "unist-util-visit": "^2.0.2"
   },
   "dependencies": {
-    "link:../@detectable/decidable-elements": "^0.0.1",
+    "@decidable/detectable-elements": "^0.0.1",
     "@webcomponents/webcomponentsjs": "^2.4.1",
     "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",
