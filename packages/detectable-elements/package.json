@@ -18,7 +18,7 @@
     "not dead"
   ],
   "dependencies": {
-    "@detectable/decidable-math": "^0.0.1",
+    "link:../@detectable/decidable-math": "^0.0.1",
     "d3": "^5.15.0",
     "lit-element": "^2.2.0"
   },
