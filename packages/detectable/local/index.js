@@ -74358,7 +74358,23 @@ SDTElement.ID = 0;
 },{"d3":384,"lit-element":390}],439:[function(require,module,exports){
 "use strict";
 
-require("./sdt-math");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _sdtMath.default;
+  }
+});
+
+var _sdtMath = _interopRequireDefault(require("./sdt-math"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
 
 },{"./sdt-math":440}],440:[function(require,module,exports){
 "use strict";
