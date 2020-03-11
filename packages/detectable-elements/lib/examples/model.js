@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtExample = _interopRequireDefault(require("./sdt-example"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -222,8 +224,8 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
           }
 
           if (_this.rocSpace) {
-            _this.rocSpace.hr = _sdtExample.default.hm2hr(event.detail.h, event.detail.m);
-            _this.rocSpace.far = _sdtExample.default.facr2far(event.detail.fa, event.detail.cr);
+            _this.rocSpace.hr = _detectableMath.default.hM2Hr(event.detail.h, event.detail.m);
+            _this.rocSpace.far = _detectableMath.default.faCr2Far(event.detail.fa, event.detail.cr);
           }
         });
       }
@@ -238,8 +240,8 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
           }
 
           if (_this.rocSpace) {
-            _this.rocSpace.hr = _sdtExample.default.hm2hr(event.detail.h, event.detail.m);
-            _this.rocSpace.far = _sdtExample.default.facr2far(event.detail.fa, event.detail.cr);
+            _this.rocSpace.hr = _detectableMath.default.hM2Hr(event.detail.h, event.detail.m);
+            _this.rocSpace.far = _detectableMath.default.faCr2Far(event.detail.fa, event.detail.cr);
           }
         });
       }

@@ -7,6 +7,8 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtEquation = _interopRequireDefault(require("./sdt-equation"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -142,7 +144,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 /*
-  SDTEquation_DC2Far element
+  SDTEquationDC2Far element
   <sdt-equation-dc2far>
 
   Attributes:
@@ -203,7 +205,7 @@ var SDTEquationDC2Far = /*#__PURE__*/function (_SDTEquation) {
   _createClass(SDTEquationDC2Far, [{
     key: "alignState",
     value: function alignState() {
-      this.far = _sdtEquation.default.dc2far(this.d, this.c, this.s);
+      this.far = _detectableMath.default.dC2Far(this.d, this.c, this.s);
     }
   }, {
     key: "sendEvent",

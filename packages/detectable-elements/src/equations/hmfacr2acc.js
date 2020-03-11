@@ -1,10 +1,12 @@
 
 import {html} from 'lit-element';
 
+import SDTMath from '@decidable/detectable-math';
+
 import SDTEquation from './sdt-equation';
 
 /*
-  SDTEquation_HMFaCr2Acc element
+  SDTEquationHMFaCr2Acc element
   <sdt-equation-hmfacr2acc>
 
   Attributes:
@@ -51,7 +53,7 @@ export default class SDTEquationHMFaCr2Acc extends SDTEquation {
   }
 
   alignState() {
-    this.acc = SDTEquation.hmfacr2acc(this.h, this.m, this.fa, this.cr);
+    this.acc = SDTMath.hMFaCr2Acc(this.h, this.m, this.fa, this.cr);
   }
 
   sendEvent() {

@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtExample = _interopRequireDefault(require("./sdt-example"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -213,9 +215,9 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
             _this.sdtTable.cr = event.detail.cr;
           }
 
-          var newhr = _sdtExample.default.hm2hr(event.detail.h + 1, event.detail.m + 1);
+          var newhr = _detectableMath.default.hM2Hr(event.detail.h + 1, event.detail.m + 1);
 
-          var newfar = _sdtExample.default.facr2far(event.detail.fa + 1, event.detail.cr + 1);
+          var newfar = _detectableMath.default.faCr2Far(event.detail.fa + 1, event.detail.cr + 1);
 
           if (_this.rocSpace) {
             if (_this.rocSpace.hasAttribute('history')) {
@@ -227,8 +229,8 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
           }
 
           if (_this.sdtModel) {
-            _this.sdtModel.d = _sdtExample.default.hrfar2d(newhr, newfar);
-            _this.sdtModel.c = _sdtExample.default.hrfar2c(newhr, newfar);
+            _this.sdtModel.d = _detectableMath.default.hrFar2D(newhr, newfar);
+            _this.sdtModel.c = _detectableMath.default.hrFar2C(newhr, newfar);
           }
         });
       }

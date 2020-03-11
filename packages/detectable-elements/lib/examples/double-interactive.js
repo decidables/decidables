@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtExample = _interopRequireDefault(require("./sdt-example"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -52,19 +54,19 @@ var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
       this.one.m = 5;
       this.one.fa = 35;
       this.one.cr = 65;
-      this.one.hr = _sdtExample.default.hm2hr(this.one.h, this.one.m);
-      this.one.far = _sdtExample.default.facr2far(this.one.fa, this.one.cr);
-      this.one.d = _sdtExample.default.hrfar2d(this.one.hr, this.one.far);
-      this.one.c = _sdtExample.default.hrfar2c(this.one.hr, this.one.far);
+      this.one.hr = _detectableMath.default.hM2Hr(this.one.h, this.one.m);
+      this.one.far = _detectableMath.default.faCr2Far(this.one.fa, this.one.cr);
+      this.one.d = _detectableMath.default.hrFar2D(this.one.hr, this.one.far);
+      this.one.c = _detectableMath.default.hrFar2C(this.one.hr, this.one.far);
       this.two = {};
       this.two.h = 40;
       this.two.m = 60;
       this.two.fa = 20;
       this.two.cr = 80;
-      this.two.hr = _sdtExample.default.hm2hr(this.two.h, this.two.m);
-      this.two.far = _sdtExample.default.facr2far(this.two.fa, this.two.cr);
-      this.two.d = _sdtExample.default.hrfar2d(this.two.hr, this.two.far);
-      this.two.c = _sdtExample.default.hrfar2c(this.two.hr, this.two.far);
+      this.two.hr = _detectableMath.default.hM2Hr(this.two.h, this.two.m);
+      this.two.far = _detectableMath.default.faCr2Far(this.two.fa, this.two.cr);
+      this.two.d = _detectableMath.default.hrFar2D(this.two.hr, this.two.far);
+      this.two.c = _detectableMath.default.hrFar2C(this.two.hr, this.two.far);
       this.sdtTableOne = this.querySelector('sdt-table:nth-of-type(1)');
       this.sdtTableTwo = this.querySelector('sdt-table:nth-of-type(2)');
       this.rocSpace = this.querySelector('roc-space');
@@ -82,8 +84,8 @@ var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
           }
 
           if (_this.sdtModelOne) {
-            _this.sdtModelOne.d = _sdtExample.default.hrfar2d(event.detail.hr, event.detail.far);
-            _this.sdtModelOne.c = _sdtExample.default.hrfar2c(event.detail.hr, event.detail.far);
+            _this.sdtModelOne.d = _detectableMath.default.hrFar2D(event.detail.hr, event.detail.far);
+            _this.sdtModelOne.c = _detectableMath.default.hrFar2C(event.detail.hr, event.detail.far);
           }
         });
       }
@@ -99,8 +101,8 @@ var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
           }
 
           if (_this.sdtModelTwo) {
-            _this.sdtModelTwo.d = _sdtExample.default.hrfar2d(event.detail.hr, event.detail.far);
-            _this.sdtModelTwo.c = _sdtExample.default.hrfar2c(event.detail.hr, event.detail.far);
+            _this.sdtModelTwo.d = _detectableMath.default.hrFar2D(event.detail.hr, event.detail.far);
+            _this.sdtModelTwo.c = _detectableMath.default.hrFar2C(event.detail.hr, event.detail.far);
           }
         });
       }

@@ -135,11 +135,11 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
   }
 
   alignState() {
-    this.hr = SDTMath.hm2hr(this.h, this.m);
-    this.far = SDTMath.facr2far(this.fa, this.cr);
-    this.acc = SDTMath.hmfacr2acc(this.h, this.m, this.fa, this.cr);
-    this.ppv = SDTMath.hfa2ppv(this.h, this.fa);
-    this.fomr = SDTMath.mcr2fomr(this.m, this.cr);
+    this.hr = SDTMath.hM2Hr(this.h, this.m);
+    this.far = SDTMath.faCr2Far(this.fa, this.cr);
+    this.acc = SDTMath.hMFaCr2Acc(this.h, this.m, this.fa, this.cr);
+    this.ppv = SDTMath.hFa2Ppv(this.h, this.fa);
+    this.fomr = SDTMath.mCr2Fomr(this.m, this.cr);
   }
 
   sendEvent() {

@@ -93,8 +93,8 @@ var SDTMath = /*#__PURE__*/function () {
   }
 
   _createClass(SDTMath, null, [{
-    key: "hm2hr",
-    value: function hm2hr(h, m) {
+    key: "hM2Hr",
+    value: function hM2Hr(h, m) {
       if (h === 0 && m === 0) {
         return 0;
       }
@@ -102,8 +102,8 @@ var SDTMath = /*#__PURE__*/function () {
       return h / (h + m);
     }
   }, {
-    key: "facr2far",
-    value: function facr2far(fa, cr) {
+    key: "faCr2Far",
+    value: function faCr2Far(fa, cr) {
       if (fa === 0 && cr === 0) {
         return 0;
       }
@@ -111,8 +111,8 @@ var SDTMath = /*#__PURE__*/function () {
       return fa / (fa + cr);
     }
   }, {
-    key: "hmfacr2acc",
-    value: function hmfacr2acc(h, m, fa, cr) {
+    key: "hMFaCr2Acc",
+    value: function hMFaCr2Acc(h, m, fa, cr) {
       if (h === 0 && m === 0 && fa === 0 && cr === 0) {
         return 0;
       }
@@ -120,13 +120,13 @@ var SDTMath = /*#__PURE__*/function () {
       return (h + cr) / (h + m + fa + cr);
     }
   }, {
-    key: "hrfar2acc",
-    value: function hrfar2acc(hr, far) {
+    key: "hrFar2Acc",
+    value: function hrFar2Acc(hr, far) {
       return (hr + (1 - far)) / 2;
     }
   }, {
-    key: "hfa2ppv",
-    value: function hfa2ppv(h, fa) {
+    key: "hFa2Ppv",
+    value: function hFa2Ppv(h, fa) {
       if (h === 0 && fa === 0) {
         return 0;
       }
@@ -134,8 +134,8 @@ var SDTMath = /*#__PURE__*/function () {
       return h / (h + fa);
     }
   }, {
-    key: "mcr2fomr",
-    value: function mcr2fomr(m, cr) {
+    key: "mCr2Fomr",
+    value: function mCr2Fomr(m, cr) {
       if (m === 0 && cr === 0) {
         return 0;
       }
@@ -143,118 +143,118 @@ var SDTMath = /*#__PURE__*/function () {
       return m / (m + cr);
     }
   }, {
-    key: "hrfar2d",
-    value: function hrfar2d(hr, far) {
+    key: "hrFar2D",
+    value: function hrFar2D(hr, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
       if (s === 1) return jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1);
       return Math.sqrt(2 / (s * s + 1)) * (s * jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1));
     }
   }, {
-    key: "hrfar2c",
-    value: function hrfar2c(hr, far) {
+    key: "hrFar2C",
+    value: function hrFar2C(hr, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
       if (s === 1) return -(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1)) / 2;
       return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1));
     }
   }, {
-    key: "dc2hr",
-    value: function dc2hr(d, c) {
+    key: "dC2Hr",
+    value: function dC2Hr(d, c) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
       if (s === 1) return jStat.normal.cdf(d / 2 - c, 0, 1);
       return jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
     }
   }, {
-    key: "dc2far",
-    value: function dc2far(d, c) {
+    key: "dC2Far",
+    value: function dC2Far(d, c) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
       if (s === 1) return jStat.normal.cdf(-(d / 2 + c), 0, 1);
       return jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
     }
   }, {
-    key: "dfar2hr",
-    value: function dfar2hr(d, far) {
+    key: "dFar2Hr",
+    value: function dFar2Hr(d, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
       if (s === 1) return jStat.normal.cdf(d + jStat.normal.inv(far, 0, 1), 0, 1);
       return jStat.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jStat.normal.inv(far, 0, 1)) / s, 0, 1);
     }
   }, {
-    key: "cfar2hr",
-    value: function cfar2hr(c, far) {
+    key: "cFar2Hr",
+    value: function cFar2Hr(c, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
       if (s === 1) return jStat.normal.cdf(-(2 * c) - jStat.normal.inv(far, 0, 1), 0, 1);
       return jStat.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jStat.normal.inv(far, 0, 1), 0, 1);
     }
   }, {
-    key: "d2muN",
-    value: function d2muN(d) {
+    key: "d2MuN",
+    value: function d2MuN(d) {
       var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       if (s === 1) return -d / 2;
       return -Math.sqrt((s * s + 1) / 2) * (1 / (s + 1)) * d;
     }
   }, {
-    key: "muN2d",
-    value: function muN2d(muN) {
+    key: "muN2D",
+    value: function muN2D(muN) {
       var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       if (s === 1) return -2 * muN;
       return -Math.sqrt(2 / (s * s + 1)) * (s + 1) * muN;
     }
   }, {
-    key: "d2muS",
-    value: function d2muS(d) {
+    key: "d2MuS",
+    value: function d2MuS(d) {
       var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       if (s === 1) return d / 2;
       return Math.sqrt((s * s + 1) / 2) * (s / (s + 1)) * d;
     }
   }, {
-    key: "muS2d",
-    value: function muS2d(muS) {
+    key: "muS2D",
+    value: function muS2D(muS) {
       var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       if (s === 1) return 2 * muS;
       return Math.sqrt(2 / (s * s + 1)) * ((s + 1) / s) * muS;
     }
   }, {
-    key: "c2l",
-    value: function c2l(c) {
+    key: "c2L",
+    value: function c2L(c) {
       var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       if (s === 1) return c;
       return Math.sqrt((s * s + 1) / 2) * c;
     }
   }, {
-    key: "l2c",
-    value: function l2c(l) {
+    key: "l2C",
+    value: function l2C(l) {
       var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       if (s === 1) return l;
       return Math.sqrt(2 / (s * s + 1)) * l;
     }
   }, {
-    key: "s2h",
-    value: function s2h() {
+    key: "s2H",
+    value: function s2H() {
       var s = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       return 1 / (s * Math.sqrt(2 * Math.PI));
     }
   }, {
-    key: "h2s",
-    value: function h2s(h) {
+    key: "h2S",
+    value: function h2S(h) {
       return 1 / (h * Math.sqrt(2 * Math.PI));
     }
   }, {
-    key: "hr2zhr",
-    value: function hr2zhr(hr) {
+    key: "hr2Zhr",
+    value: function hr2Zhr(hr) {
       return jStat.normal.inv(hr, 0, 1);
     }
   }, {
-    key: "far2zfar",
-    value: function far2zfar(far) {
+    key: "far2Zfar",
+    value: function far2Zfar(far) {
       return jStat.normal.inv(far, 0, 1);
     }
   }, {
-    key: "zhr2hr",
-    value: function zhr2hr(zhr) {
+    key: "zhr2Hr",
+    value: function zhr2Hr(zhr) {
       return jStat.normal.cdf(zhr, 0, 1);
     }
   }, {
-    key: "zfar2far",
-    value: function zfar2far(zfar) {
+    key: "zfar2Far",
+    value: function zfar2Far(zfar) {
       return jStat.normal.cdf(zfar, 0, 1);
     }
   }]);

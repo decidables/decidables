@@ -1,10 +1,12 @@
 
 import {html} from 'lit-element';
 
+import SDTMath from '@decidable/detectable-math';
+
 import SDTEquation from './sdt-equation';
 
 /*
-  SDTEquation_HrFar2D element
+  SDTEquationHrFar2D element
   <sdt-equation-hrfar2d>
 
   Attributes:
@@ -52,7 +54,7 @@ export default class SDTEquationHrFar2D extends SDTEquation {
   }
 
   alignState() {
-    this.d = SDTEquation.hrfar2d(this.hr, this.far, this.s);
+    this.d = SDTMath.hrFar2D(this.hr, this.far, this.s);
   }
 
   sendEvent() {

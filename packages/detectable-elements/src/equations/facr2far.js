@@ -1,10 +1,12 @@
 
 import {html} from 'lit-element';
 
+import SDTMath from '@decidable/detectable-math';
+
 import SDTEquation from './sdt-equation';
 
 /*
-  SDTEquation_FaCr2Far element
+  SDTEquationFaCr2Far element
   <sdt-equation-facr2far>
 
   Attributes:
@@ -39,7 +41,7 @@ export default class SDTEquationFaCr2Far extends SDTEquation {
   }
 
   alignState() {
-    this.far = SDTEquation.facr2far(this.fa, this.cr);
+    this.far = SDTMath.faCr2Far(this.fa, this.cr);
   }
 
   sendEvent() {

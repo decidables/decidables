@@ -1,4 +1,6 @@
 
+import SDTMath from '@decidable/detectable-math';
+
 import SDTExample from './sdt-example';
 
 /*
@@ -158,8 +160,8 @@ export default class SDTExampleHuman extends SDTExample {
           this.sdtTable.cr = event.detail.cr;
         }
 
-        const newhr = SDTExample.hm2hr((event.detail.h + 1), (event.detail.m + 1));
-        const newfar = SDTExample.facr2far((event.detail.fa + 1), (event.detail.cr + 1));
+        const newhr = SDTMath.hM2Hr((event.detail.h + 1), (event.detail.m + 1));
+        const newfar = SDTMath.faCr2Far((event.detail.fa + 1), (event.detail.cr + 1));
 
         if (this.rocSpace) {
           if (this.rocSpace.hasAttribute('history')) {
@@ -171,8 +173,8 @@ export default class SDTExampleHuman extends SDTExample {
         }
 
         if (this.sdtModel) {
-          this.sdtModel.d = SDTExample.hrfar2d(newhr, newfar);
-          this.sdtModel.c = SDTExample.hrfar2c(newhr, newfar);
+          this.sdtModel.d = SDTMath.hrFar2D(newhr, newfar);
+          this.sdtModel.c = SDTMath.hrFar2C(newhr, newfar);
         }
       });
     }

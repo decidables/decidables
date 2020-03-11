@@ -7,6 +7,8 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtEquation = _interopRequireDefault(require("./sdt-equation"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -142,7 +144,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 /*
-  SDTEquation_HMFaCr2Acc element
+  SDTEquationHMFaCr2Acc element
   <sdt-equation-hmfacr2acc>
 
   Attributes:
@@ -203,7 +205,7 @@ var SDTEquationHMFaCr2Acc = /*#__PURE__*/function (_SDTEquation) {
   _createClass(SDTEquationHMFaCr2Acc, [{
     key: "alignState",
     value: function alignState() {
-      this.acc = _sdtEquation.default.hmfacr2acc(this.h, this.m, this.fa, this.cr);
+      this.acc = _detectableMath.default.hMFaCr2Acc(this.h, this.m, this.fa, this.cr);
     }
   }, {
     key: "sendEvent",

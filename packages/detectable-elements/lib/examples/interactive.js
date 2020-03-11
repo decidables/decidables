@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtExample = _interopRequireDefault(require("./sdt-example"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -77,13 +79,13 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
 
       if (this.sdtTable) {
         if (this.rocSpace) {
-          this.rocSpace.hr = _sdtExample.default.hm2hr(this.sdtTable.h, this.sdtTable.m);
-          this.rocSpace.far = _sdtExample.default.facr2far(this.sdtTable.fa, this.sdtTable.cr);
+          this.rocSpace.hr = _detectableMath.default.hM2Hr(this.sdtTable.h, this.sdtTable.m);
+          this.rocSpace.far = _detectableMath.default.faCr2Far(this.sdtTable.fa, this.sdtTable.cr);
         }
 
         if (this.sdtModel) {
-          this.sdtModel.d = _sdtExample.default.hrfar2d(_sdtExample.default.hm2hr(this.sdtTable.h, this.sdtTable.m), _sdtExample.default.facr2far(this.sdtTable.fa, this.sdtTable.cr), this.sdtModel.s);
-          this.sdtModel.c = _sdtExample.default.hrfar2c(_sdtExample.default.hm2hr(this.sdtTable.h, this.sdtTable.m), _sdtExample.default.facr2far(this.sdtTable.fa, this.sdtTable.cr), this.sdtModel.s);
+          this.sdtModel.d = _detectableMath.default.hrFar2D(_detectableMath.default.hM2Hr(this.sdtTable.h, this.sdtTable.m), _detectableMath.default.faCr2Far(this.sdtTable.fa, this.sdtTable.cr), this.sdtModel.s);
+          this.sdtModel.c = _detectableMath.default.hrFar2C(_detectableMath.default.hM2Hr(this.sdtTable.h, this.sdtTable.m), _detectableMath.default.faCr2Far(this.sdtTable.fa, this.sdtTable.cr), this.sdtModel.s);
         }
 
         this.sdtTable.addEventListener('sdt-table-change', function (event) {
@@ -93,16 +95,16 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
           }
 
           if (_this.sdtModel) {
-            _this.sdtModel.d = _sdtExample.default.hrfar2d(event.detail.hr, event.detail.far, _this.sdtModel.s);
-            _this.sdtModel.c = _sdtExample.default.hrfar2c(event.detail.hr, event.detail.far, _this.sdtModel.s);
+            _this.sdtModel.d = _detectableMath.default.hrFar2D(event.detail.hr, event.detail.far, _this.sdtModel.s);
+            _this.sdtModel.c = _detectableMath.default.hrFar2C(event.detail.hr, event.detail.far, _this.sdtModel.s);
           }
         });
       }
 
       if (this.rocSpace) {
         if (this.sdtModel && !this.sdtTable) {
-          this.sdtModel.d = _sdtExample.default.hrfar2d(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
-          this.sdtModel.c = _sdtExample.default.hrfar2c(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
+          this.sdtModel.d = _detectableMath.default.hrFar2D(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
+          this.sdtModel.c = _detectableMath.default.hrFar2C(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
           this.sdtModel.s = this.rocSpace.s;
         }
 

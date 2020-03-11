@@ -7,6 +7,8 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
+var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
+
 var _sdtEquation = _interopRequireDefault(require("./sdt-equation"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -203,7 +205,7 @@ var SDTEquationDC2Hr = /*#__PURE__*/function (_SDTEquation) {
   _createClass(SDTEquationDC2Hr, [{
     key: "alignState",
     value: function alignState() {
-      this.hr = _sdtEquation.default.dc2hr(this.d, this.c, this.s);
+      this.hr = _detectableMath.default.dC2Hr(this.d, this.c, this.s);
     }
   }, {
     key: "sendEvent",

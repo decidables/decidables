@@ -640,11 +640,11 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
   _createClass(SDTTable, [{
     key: "alignState",
     value: function alignState() {
-      this.hr = _detectableMath.default.hm2hr(this.h, this.m);
-      this.far = _detectableMath.default.facr2far(this.fa, this.cr);
-      this.acc = _detectableMath.default.hmfacr2acc(this.h, this.m, this.fa, this.cr);
-      this.ppv = _detectableMath.default.hfa2ppv(this.h, this.fa);
-      this.fomr = _detectableMath.default.mcr2fomr(this.m, this.cr);
+      this.hr = _detectableMath.default.hM2Hr(this.h, this.m);
+      this.far = _detectableMath.default.faCr2Far(this.fa, this.cr);
+      this.acc = _detectableMath.default.hMFaCr2Acc(this.h, this.m, this.fa, this.cr);
+      this.ppv = _detectableMath.default.hFa2Ppv(this.h, this.fa);
+      this.fomr = _detectableMath.default.mCr2Fomr(this.m, this.cr);
     }
   }, {
     key: "sendEvent",
