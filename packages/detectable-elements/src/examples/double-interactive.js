@@ -1,4 +1,6 @@
 
+import SDTMath from '@decidable/detectable-math';
+
 import SDTExample from './sdt-example';
 
 /*
@@ -12,20 +14,20 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
     this.one.m = 5;
     this.one.fa = 35;
     this.one.cr = 65;
-    this.one.hr = SDTExample.hm2hr(this.one.h, this.one.m);
-    this.one.far = SDTExample.facr2far(this.one.fa, this.one.cr);
-    this.one.d = SDTExample.hrfar2d(this.one.hr, this.one.far);
-    this.one.c = SDTExample.hrfar2c(this.one.hr, this.one.far);
+    this.one.hr = SDTMath.hM2Hr(this.one.h, this.one.m);
+    this.one.far = SDTMath.faCr2Far(this.one.fa, this.one.cr);
+    this.one.d = SDTMath.hrFar2D(this.one.hr, this.one.far);
+    this.one.c = SDTMath.hrFar2C(this.one.hr, this.one.far);
 
     this.two = {};
     this.two.h = 40;
     this.two.m = 60;
     this.two.fa = 20;
     this.two.cr = 80;
-    this.two.hr = SDTExample.hm2hr(this.two.h, this.two.m);
-    this.two.far = SDTExample.facr2far(this.two.fa, this.two.cr);
-    this.two.d = SDTExample.hrfar2d(this.two.hr, this.two.far);
-    this.two.c = SDTExample.hrfar2c(this.two.hr, this.two.far);
+    this.two.hr = SDTMath.hM2Hr(this.two.h, this.two.m);
+    this.two.far = SDTMath.faCr2Far(this.two.fa, this.two.cr);
+    this.two.d = SDTMath.hrFar2D(this.two.hr, this.two.far);
+    this.two.c = SDTMath.hrFar2C(this.two.hr, this.two.far);
 
     this.sdtTableOne = this.querySelector('sdt-table:nth-of-type(1)');
     this.sdtTableTwo = this.querySelector('sdt-table:nth-of-type(2)');
@@ -45,8 +47,8 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
         }
 
         if (this.sdtModelOne) {
-          this.sdtModelOne.d = SDTExample.hrfar2d(event.detail.hr, event.detail.far);
-          this.sdtModelOne.c = SDTExample.hrfar2c(event.detail.hr, event.detail.far);
+          this.sdtModelOne.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far);
+          this.sdtModelOne.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far);
         }
       });
     }
@@ -63,8 +65,8 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
         }
 
         if (this.sdtModelTwo) {
-          this.sdtModelTwo.d = SDTExample.hrfar2d(event.detail.hr, event.detail.far);
-          this.sdtModelTwo.c = SDTExample.hrfar2c(event.detail.hr, event.detail.far);
+          this.sdtModelTwo.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far);
+          this.sdtModelTwo.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far);
         }
       });
     }

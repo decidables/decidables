@@ -1,6 +1,8 @@
 
 import {html} from 'lit-element';
 
+import SDTMath from '@decidable/detectable-math';
+
 import SDTEquation from './sdt-equation';
 
 /*
@@ -52,7 +54,7 @@ export default class SDTEquationDC2Hr extends SDTEquation {
   }
 
   alignState() {
-    this.hr = SDTEquation.dc2hr(this.d, this.c, this.s);
+    this.hr = SDTMath.dC2Hr(this.d, this.c, this.s);
   }
 
   sendEvent() {

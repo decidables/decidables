@@ -1,10 +1,12 @@
 
 import {html} from 'lit-element';
 
+import SDTMath from '@decidable/detectable-math';
+
 import SDTEquation from './sdt-equation';
 
 /*
-  SDTEquation_DC2Far element
+  SDTEquationDC2Far element
   <sdt-equation-dc2far>
 
   Attributes:
@@ -52,7 +54,7 @@ export default class SDTEquationDC2Far extends SDTEquation {
   }
 
   alignState() {
-    this.far = SDTEquation.dc2far(this.d, this.c, this.s);
+    this.far = SDTMath.dC2Far(this.d, this.c, this.s);
   }
 
   sendEvent() {

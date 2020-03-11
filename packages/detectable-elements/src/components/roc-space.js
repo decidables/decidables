@@ -150,15 +150,15 @@ export default class ROCSpace extends SDTElement {
     this.locations[0].s = this.s;
     this.locations[0].label = this.label;
 
-    this.d = SDTMath.hrfar2d(this.hr, this.far, this.s);
-    this.c = SDTMath.hrfar2c(this.hr, this.far, this.s);
+    this.d = SDTMath.hrFar2D(this.hr, this.far, this.s);
+    this.c = SDTMath.hrFar2C(this.hr, this.far, this.s);
 
     this.pointArray = [];
     this.isoDArray = [];
     this.isoCArray = [];
     this.locations.forEach((item, index) => {
-      item.d = SDTMath.hrfar2d(item.hr, item.far, item.s);
-      item.c = SDTMath.hrfar2c(item.hr, item.far, item.s);
+      item.d = SDTMath.hrFar2D(item.hr, item.far, item.s);
+      item.c = SDTMath.hrFar2C(item.hr, item.far, item.s);
 
       if ((index === 0) && (this.point === 'first' || this.point === 'all')) {
         this.pointArray.push(item);
@@ -210,8 +210,8 @@ export default class ROCSpace extends SDTElement {
 
   setWithSDT(d, c, name = 'default', label = '', s = 1) {
     if (name === 'default') {
-      this.hr = SDTMath.dc2hr(d, c, s);
-      this.far = SDTMath.dc2far(d, c, s);
+      this.hr = SDTMath.dC2Hr(d, c, s);
+      this.far = SDTMath.dC2Far(d, c, s);
       this.s = s;
       this.label = label;
     }
@@ -221,14 +221,14 @@ export default class ROCSpace extends SDTElement {
     if (location === undefined) {
       this.locations.push({
         name: name,
-        far: SDTMath.dc2far(d, c, s),
-        hr: SDTMath.dc2hr(d, c, s),
+        far: SDTMath.dC2Far(d, c, s),
+        hr: SDTMath.dC2Hr(d, c, s),
         s: s,
         label: label,
       });
     } else {
-      location.hr = SDTMath.dc2hr(d, c, s);
-      location.far = SDTMath.dc2far(d, c, s);
+      location.hr = SDTMath.dC2Hr(d, c, s);
+      location.far = SDTMath.dC2Far(d, c, s);
       location.s = s;
       location.label = label;
     }
@@ -445,8 +445,8 @@ export default class ROCSpace extends SDTElement {
     const drag = d3.drag()
       .subject((datum) => {
         return {
-          x: this.xScale(this.zRoc ? SDTMath.far2zfar(datum.far) : datum.far),
-          y: this.yScale(this.zRoc ? SDTMath.hr2zhr(datum.hr) : datum.hr),
+          x: this.xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far),
+          y: this.yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr),
         };
       })
       .on('start', (datum, index, elements) => {
@@ -456,10 +456,10 @@ export default class ROCSpace extends SDTElement {
       .on('drag', (datum) => {
         this.drag = true;
         const far = this.zRoc
-          ? SDTMath.zfar2far(this.xScale.invert(d3.event.x))
+          ? SDTMath.zfar2Far(this.xScale.invert(d3.event.x))
           : this.xScale.invert(d3.event.x);
         const hr = this.zRoc
-          ? SDTMath.zhr2hr(this.yScale.invert(d3.event.y))
+          ? SDTMath.zhr2Hr(this.yScale.invert(d3.event.y))
           : this.yScale.invert(d3.event.y);
         // Clamp FAR and HR to ROC Space
         datum.far = (far < 0.001)
@@ -499,8 +499,8 @@ export default class ROCSpace extends SDTElement {
 
     // Line for FAR/HR Space
     const line = d3.line()
-      .x((datum) => { return xScale(this.zRoc ? SDTMath.far2zfar(datum.far) : datum.far); })
-      .y((datum) => { return yScale(this.zRoc ? SDTMath.hr2zhr(datum.hr) : datum.hr); });
+      .x((datum) => { return xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far); })
+      .y((datum) => { return yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr); });
 
     // Svg
     //  DATA-JOIN
@@ -569,17 +569,17 @@ export default class ROCSpace extends SDTElement {
         for (let j = 0.5, k = 0; j < n; j += 1) {
           for (let i = 0.5; i < n; i += 1, k += 1) {
             const hr = this.zRoc
-              ? SDTMath.zhr2hr(((i / n) * 6) - 3)
+              ? SDTMath.zhr2Hr(((i / n) * 6) - 3)
               : i / n;
             const far = this.zRoc
-              ? SDTMath.zfar2far(((1 - j / n) * 6) - 3)
+              ? SDTMath.zfar2Far(((1 - j / n) * 6) - 3)
               : (1 - j / n);
             contourValues[k] = (this.contour === 'bias')
-              ? SDTMath.hrfar2c(hr, far, this.s)
+              ? SDTMath.hrFar2C(hr, far, this.s)
               : (this.contour === 'sensitivity')
-                ? SDTMath.hrfar2d(hr, far, this.s)
+                ? SDTMath.hrFar2D(hr, far, this.s)
                 : (this.contour === 'accuracy')
-                  ? SDTMath.hrfar2acc(hr, far)
+                  ? SDTMath.hrFar2Acc(hr, far)
                   : null;
           }
         }
@@ -853,11 +853,11 @@ export default class ROCSpace extends SDTElement {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
             return {
               far: (this.zRoc
-                ? SDTMath.zfar2far(xScale.invert(x))
+                ? SDTMath.zfar2Far(xScale.invert(x))
                 : xScale.invert(x)),
               hr: (this.zRoc
-                ? SDTMath.dfar2hr(datum.d, SDTMath.zfar2far(xScale.invert(x)), datum.s)
-                : SDTMath.dfar2hr(datum.d, xScale.invert(x), datum.s)),
+                ? SDTMath.dFar2Hr(datum.d, SDTMath.zfar2Far(xScale.invert(x)), datum.s)
+                : SDTMath.dFar2Hr(datum.d, xScale.invert(x), datum.s)),
             };
           }));
         });
@@ -883,11 +883,11 @@ export default class ROCSpace extends SDTElement {
             const isoD = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
               return {
                 far: (this.zRoc
-                  ? SDTMath.zfar2far(xScale.invert(x))
+                  ? SDTMath.zfar2Far(xScale.invert(x))
                   : xScale.invert(x)),
                 hr: (this.zRoc
-                  ? SDTMath.dfar2hr(element.d, SDTMath.zfar2far(xScale.invert(x)), element.s)
-                  : SDTMath.dfar2hr(element.d, xScale.invert(x), element.s)),
+                  ? SDTMath.dFar2Hr(element.d, SDTMath.zfar2Far(xScale.invert(x)), element.s)
+                  : SDTMath.dFar2Hr(element.d, xScale.invert(x), element.s)),
               };
             });
             return line(isoD);
@@ -915,16 +915,16 @@ export default class ROCSpace extends SDTElement {
             const isoD = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
               return {
                 far: (this.zRoc
-                  ? SDTMath.zfar2far(xScale.invert(x))
+                  ? SDTMath.zfar2Far(xScale.invert(x))
                   : xScale.invert(x)),
                 hr: (this.zRoc
-                  ? SDTMath.dfar2hr(
-                    SDTMath.hrfar2d(element.hr, element.far, datum.s),
-                    SDTMath.zfar2far(xScale.invert(x)),
+                  ? SDTMath.dFar2Hr(
+                    SDTMath.hrFar2D(element.hr, element.far, datum.s),
+                    SDTMath.zfar2Far(xScale.invert(x)),
                     datum.s,
                   )
-                  : SDTMath.dfar2hr(
-                    SDTMath.hrfar2d(element.hr, element.far, datum.s),
+                  : SDTMath.dFar2Hr(
+                    SDTMath.hrFar2D(element.hr, element.far, datum.s),
                     xScale.invert(x),
                     datum.s,
                   )
@@ -957,11 +957,11 @@ export default class ROCSpace extends SDTElement {
           return line(d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
             return {
               far: (this.zRoc
-                ? SDTMath.zfar2far(xScale.invert(x))
+                ? SDTMath.zfar2Far(xScale.invert(x))
                 : xScale.invert(x)),
               hr: (this.zRoc
-                ? SDTMath.cfar2hr(datum.c, SDTMath.zfar2far(xScale.invert(x)), datum.s)
-                : SDTMath.cfar2hr(datum.c, xScale.invert(x), datum.s)),
+                ? SDTMath.cFar2Hr(datum.c, SDTMath.zfar2Far(xScale.invert(x)), datum.s)
+                : SDTMath.cFar2Hr(datum.c, xScale.invert(x), datum.s)),
             };
           }));
         });
@@ -987,11 +987,11 @@ export default class ROCSpace extends SDTElement {
             const isoC = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
               return {
                 far: (this.zRoc
-                  ? SDTMath.zfar2far(xScale.invert(x))
+                  ? SDTMath.zfar2Far(xScale.invert(x))
                   : xScale.invert(x)),
                 hr: (this.zRoc
-                  ? SDTMath.cfar2hr(element.c, SDTMath.zfar2far(xScale.invert(x)), element.s)
-                  : SDTMath.cfar2hr(element.c, xScale.invert(x), element.s)),
+                  ? SDTMath.cFar2Hr(element.c, SDTMath.zfar2Far(xScale.invert(x)), element.s)
+                  : SDTMath.cFar2Hr(element.c, xScale.invert(x), element.s)),
               };
             });
             return line(isoC);
@@ -1019,16 +1019,16 @@ export default class ROCSpace extends SDTElement {
             const isoC = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((x) => {
               return {
                 far: (this.zRoc
-                  ? SDTMath.zfar2far(xScale.invert(x))
+                  ? SDTMath.zfar2Far(xScale.invert(x))
                   : xScale.invert(x)),
                 hr: (this.zRoc
-                  ? SDTMath.cfar2hr(
-                    SDTMath.hrfar2c(element.hr, element.far, datum.s),
-                    SDTMath.zfar2far(xScale.invert(x)),
+                  ? SDTMath.cFar2Hr(
+                    SDTMath.hrFar2C(element.hr, element.far, datum.s),
+                    SDTMath.zfar2Far(xScale.invert(x)),
                     datum.s,
                   )
-                  : SDTMath.cfar2hr(
-                    SDTMath.hrfar2c(element.hr, element.far, datum.s),
+                  : SDTMath.cFar2Hr(
+                    SDTMath.hrFar2C(element.hr, element.far, datum.s),
                     xScale.invert(x),
                     datum.s,
                   )
@@ -1067,8 +1067,8 @@ export default class ROCSpace extends SDTElement {
           .call(drag)
           .on('keydown', (datum) => {
             if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
-              let hr = this.zRoc ? SDTMath.hr2zhr(datum.hr) : datum.hr;
-              let far = this.zRoc ? SDTMath.far2zfar(datum.far) : datum.far;
+              let hr = this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr;
+              let far = this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far;
               switch (d3.event.key) {
                 case 'ArrowUp':
                   hr += this.zRoc
@@ -1093,8 +1093,8 @@ export default class ROCSpace extends SDTElement {
                 default:
                   // no-op
               }
-              hr = this.zRoc ? SDTMath.zhr2hr(hr) : hr;
-              far = this.zRoc ? SDTMath.zfar2far(far) : far;
+              hr = this.zRoc ? SDTMath.zhr2Hr(hr) : hr;
+              far = this.zRoc ? SDTMath.zfar2Far(far) : far;
               // Clamp FAR and HR to ROC Space
               hr = (hr < 0.001)
                 ? 0.001
@@ -1149,8 +1149,8 @@ export default class ROCSpace extends SDTElement {
           element.c = undefined;
           element.s = undefined;
           return `translate(
-            ${xScale(this.zRoc ? SDTMath.far2zfar(datum.far) : datum.far)},
-            ${yScale(this.zRoc ? SDTMath.hr2zhr(datum.hr) : datum.hr)}
+            ${xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far)},
+            ${yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr)}
           )`;
         });
     } else if (this.sdt) {
@@ -1178,13 +1178,13 @@ export default class ROCSpace extends SDTElement {
             return `translate(
               ${xScale(
                 this.zRoc
-                  ? SDTMath.far2zfar(SDTMath.dc2far(element.d, element.c, element.s))
-                  : SDTMath.dc2far(element.d, element.c, element.s),
+                  ? SDTMath.far2Zfar(SDTMath.dC2Far(element.d, element.c, element.s))
+                  : SDTMath.dC2Far(element.d, element.c, element.s),
               )},
               ${yScale(
                 this.zRoc
-                  ? SDTMath.hr2zhr(SDTMath.dc2hr(element.d, element.c, element.s))
-                  : SDTMath.dc2hr(element.d, element.c, element.s),
+                  ? SDTMath.hr2Zhr(SDTMath.dC2Hr(element.d, element.c, element.s))
+                  : SDTMath.dC2Hr(element.d, element.c, element.s),
               )}
             )`;
           };
@@ -1199,8 +1199,8 @@ export default class ROCSpace extends SDTElement {
           element.c = undefined;
           element.s = undefined;
           return `translate(
-            ${xScale(this.zRoc ? SDTMath.far2zfar(datum.far) : datum.far)},
-            ${yScale(this.zRoc ? SDTMath.hr2zhr(datum.hr) : datum.hr)}
+            ${xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far)},
+            ${yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr)}
           )`;
         });
     }

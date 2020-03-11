@@ -1,10 +1,12 @@
 
 import {html} from 'lit-element';
 
+import SDTMath from '@decidable/detectable-math';
+
 import SDTEquation from './sdt-equation';
 
 /*
-  SDTEquation_HM2Hr element
+  SDTEquationHM2Hr element
   <sdt-equation-hm2hr>
 
   Attributes:
@@ -39,7 +41,7 @@ export default class SDTEquationHM2Hr extends SDTEquation {
   }
 
   alignState() {
-    this.hr = SDTEquation.hm2hr(this.h, this.m);
+    this.hr = SDTMath.hM2Hr(this.h, this.m);
   }
 
   sendEvent() {

@@ -1,4 +1,6 @@
 
+import SDTMath from '@decidable/detectable-math';
+
 import SDTExample from './sdt-example';
 
 /*
@@ -38,19 +40,19 @@ export default class SDTExampleInteractive extends SDTExample {
 
     if (this.sdtTable) {
       if (this.rocSpace) {
-        this.rocSpace.hr = SDTExample.hm2hr(this.sdtTable.h, this.sdtTable.m);
-        this.rocSpace.far = SDTExample.facr2far(this.sdtTable.fa, this.sdtTable.cr);
+        this.rocSpace.hr = SDTMath.hM2Hr(this.sdtTable.h, this.sdtTable.m);
+        this.rocSpace.far = SDTMath.faCr2Far(this.sdtTable.fa, this.sdtTable.cr);
       }
 
       if (this.sdtModel) {
-        this.sdtModel.d = SDTExample.hrfar2d(
-          SDTExample.hm2hr(this.sdtTable.h, this.sdtTable.m),
-          SDTExample.facr2far(this.sdtTable.fa, this.sdtTable.cr),
+        this.sdtModel.d = SDTMath.hrFar2D(
+          SDTMath.hM2Hr(this.sdtTable.h, this.sdtTable.m),
+          SDTMath.faCr2Far(this.sdtTable.fa, this.sdtTable.cr),
           this.sdtModel.s,
         );
-        this.sdtModel.c = SDTExample.hrfar2c(
-          SDTExample.hm2hr(this.sdtTable.h, this.sdtTable.m),
-          SDTExample.facr2far(this.sdtTable.fa, this.sdtTable.cr),
+        this.sdtModel.c = SDTMath.hrFar2C(
+          SDTMath.hM2Hr(this.sdtTable.h, this.sdtTable.m),
+          SDTMath.faCr2Far(this.sdtTable.fa, this.sdtTable.cr),
           this.sdtModel.s,
         );
       }
@@ -62,16 +64,16 @@ export default class SDTExampleInteractive extends SDTExample {
         }
 
         if (this.sdtModel) {
-          this.sdtModel.d = SDTExample.hrfar2d(event.detail.hr, event.detail.far, this.sdtModel.s);
-          this.sdtModel.c = SDTExample.hrfar2c(event.detail.hr, event.detail.far, this.sdtModel.s);
+          this.sdtModel.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far, this.sdtModel.s);
+          this.sdtModel.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far, this.sdtModel.s);
         }
       });
     }
 
     if (this.rocSpace) {
       if (this.sdtModel && !this.sdtTable) {
-        this.sdtModel.d = SDTExample.hrfar2d(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
-        this.sdtModel.c = SDTExample.hrfar2c(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
+        this.sdtModel.d = SDTMath.hrFar2D(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
+        this.sdtModel.c = SDTMath.hrFar2C(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
         this.sdtModel.s = this.rocSpace.s;
       }
 

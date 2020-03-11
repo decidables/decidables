@@ -70,46 +70,46 @@ import * as jStat from 'jstat';
     s = 1 / (h * (2 * pi)^(1/2))
 */
 export default class SDTMath {
-  static hm2hr(h, m) {
+  static hM2Hr(h, m) {
     if ((h === 0) && (m === 0)) {
       return 0;
     }
     return h / (h + m);
   }
 
-  static facr2far(fa, cr) {
+  static faCr2Far(fa, cr) {
     if ((fa === 0) && (cr === 0)) {
       return 0;
     }
     return fa / (fa + cr);
   }
 
-  static hmfacr2acc(h, m, fa, cr) {
+  static hMFaCr2Acc(h, m, fa, cr) {
     if ((h === 0) && (m === 0) && (fa === 0) && (cr === 0)) {
       return 0;
     }
     return (h + cr) / (h + m + fa + cr);
   }
 
-  static hrfar2acc(hr, far) {
+  static hrFar2Acc(hr, far) {
     return (hr + (1 - far)) / 2;
   }
 
-  static hfa2ppv(h, fa) {
+  static hFa2Ppv(h, fa) {
     if ((h === 0) && (fa === 0)) {
       return 0;
     }
     return h / (h + fa);
   }
 
-  static mcr2fomr(m, cr) {
+  static mCr2Fomr(m, cr) {
     if ((m === 0) && (cr === 0)) {
       return 0;
     }
     return m / (m + cr);
   }
 
-  static hrfar2d(hr, far, s = 1) {
+  static hrFar2D(hr, far, s = 1) {
     if (s === 1) return (jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1));
     return (
       Math.sqrt(2 / (s * s + 1))
@@ -117,7 +117,7 @@ export default class SDTMath {
     );
   }
 
-  static hrfar2c(hr, far, s = 1) {
+  static hrFar2C(hr, far, s = 1) {
     if (s === 1) return (-(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1)) / 2);
     return (
       Math.sqrt(2 / (s * s + 1))
@@ -126,17 +126,17 @@ export default class SDTMath {
     );
   }
 
-  static dc2hr(d, c, s = 1) {
+  static dC2Hr(d, c, s = 1) {
     if (s === 1) return (jStat.normal.cdf(d / 2 - c, 0, 1));
     return (jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1));
   }
 
-  static dc2far(d, c, s = 1) {
+  static dC2Far(d, c, s = 1) {
     if (s === 1) return (jStat.normal.cdf(-(d / 2 + c), 0, 1));
     return (jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1));
   }
 
-  static dfar2hr(d, far, s = 1) {
+  static dFar2Hr(d, far, s = 1) {
     if (s === 1) return (jStat.normal.cdf(d + jStat.normal.inv(far, 0, 1), 0, 1));
     return (jStat.normal.cdf(
       (Math.sqrt((s * s + 1) / 2) * d + jStat.normal.inv(far, 0, 1)) / s,
@@ -145,7 +145,7 @@ export default class SDTMath {
     ));
   }
 
-  static cfar2hr(c, far, s = 1) {
+  static cFar2Hr(c, far, s = 1) {
     if (s === 1) return (jStat.normal.cdf(-(2 * c) - jStat.normal.inv(far, 0, 1), 0, 1));
     return (jStat.normal.cdf(
       -Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jStat.normal.inv(far, 0, 1),
@@ -154,57 +154,57 @@ export default class SDTMath {
     ));
   }
 
-  static d2muN(d, s = 1) {
+  static d2MuN(d, s = 1) {
     if (s === 1) return -d / 2;
     return -Math.sqrt((s * s + 1) / 2) * (1 / (s + 1)) * d;
   }
 
-  static muN2d(muN, s = 1) {
+  static muN2D(muN, s = 1) {
     if (s === 1) return -2 * muN;
     return -Math.sqrt(2 / (s * s + 1)) * (s + 1) * muN;
   }
 
-  static d2muS(d, s = 1) {
+  static d2MuS(d, s = 1) {
     if (s === 1) return d / 2;
     return Math.sqrt((s * s + 1) / 2) * (s / (s + 1)) * d;
   }
 
-  static muS2d(muS, s = 1) {
+  static muS2D(muS, s = 1) {
     if (s === 1) return 2 * muS;
     return Math.sqrt(2 / (s * s + 1)) * ((s + 1) / s) * muS;
   }
 
-  static c2l(c, s = 1) {
+  static c2L(c, s = 1) {
     if (s === 1) return c;
     return Math.sqrt((s * s + 1) / 2) * c;
   }
 
-  static l2c(l, s = 1) {
+  static l2C(l, s = 1) {
     if (s === 1) return l;
     return Math.sqrt(2 / (s * s + 1)) * l;
   }
 
-  static s2h(s = 1) {
+  static s2H(s = 1) {
     return 1 / (s * Math.sqrt(2 * Math.PI));
   }
 
-  static h2s(h) {
+  static h2S(h) {
     return 1 / (h * Math.sqrt(2 * Math.PI));
   }
 
-  static hr2zhr(hr) {
+  static hr2Zhr(hr) {
     return jStat.normal.inv(hr, 0, 1);
   }
 
-  static far2zfar(far) {
+  static far2Zfar(far) {
     return jStat.normal.inv(far, 0, 1);
   }
 
-  static zhr2hr(zhr) {
+  static zhr2Hr(zhr) {
     return jStat.normal.cdf(zhr, 0, 1);
   }
 
-  static zfar2far(zfar) {
+  static zfar2Far(zfar) {
     return jStat.normal.cdf(zfar, 0, 1);
   }
 }

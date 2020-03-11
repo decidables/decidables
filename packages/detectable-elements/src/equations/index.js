@@ -1,8 +1,8 @@
 
-import './dc2far';
-import './dc2hr';
-import './facr2far';
-import './hm2hr';
-import './hmfacr2acc';
-import './hrfar2c';
-import './hrfar2d';
+export {default as SDTEquationDC2Far} from './dc2far';
+export {default as SDTEquationDC2Hr} from './dc2hr';
+export {default as SDTEquationFaCr2Far} from './facr2far';
+export {default as SDTEquationHM2Hr} from './hm2hr';
+export {default as SDTEquationHMFaCr2Acc} from './hmfacr2acc';
+export {default as SDTEquationHrFar2C} from './hrfar2c';
+export {default as SDTEquationHrFar2D} from './hrfar2d';
