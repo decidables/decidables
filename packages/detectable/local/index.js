@@ -6625,7 +6625,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
 
-},{"timers":407}],3:[function(require,module,exports){
+},{"timers":408}],3:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -11118,7 +11118,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   });
 });
 
-},{"jquery":385,"popper.js":404}],4:[function(require,module,exports){
+},{"jquery":385,"popper.js":405}],4:[function(require,module,exports){
 module.exports = function (it) {
   if (typeof it != 'function') {
     throw TypeError(String(it) + ' is not a function');
@@ -55570,9 +55570,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.property = property;
+exports.internalProperty = internalProperty;
 exports.query = query;
+exports.queryAsync = queryAsync;
 exports.queryAll = queryAll;
-exports.eventOptions = exports.customElement = void 0;
+exports.eventOptions = eventOptions;
+exports.queryAssignedNodes = queryAssignedNodes;
+exports.customElement = void 0;
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 /**
  * @license
@@ -55613,7 +55621,16 @@ var standardCustomElement = function standardCustomElement(tagName, descriptor) 
 /**
  * Class decorator factory that defines the decorated class as a custom element.
  *
- * @param tagName the name of the custom element to define
+ * ```
+ * @customElement('my-element')
+ * class MyElement {
+ *   render() {
+ *     return html``;
+ *   }
+ * }
+ * ```
+ *
+ * @param tagName The name of the custom element to define.
  */
 
 
@@ -55630,7 +55647,7 @@ var standardProperty = function standardProperty(options, element) {
   // Note, the `hasOwnProperty` check in `createProperty` ensures we don't
   // stomp over the user's accessor.
   if (element.kind === 'method' && element.descriptor && !('value' in element.descriptor)) {
-    return Object.assign({}, element, {
+    return Object.assign(Object.assign({}, element), {
       finisher: function finisher(clazz) {
         clazz.createProperty(element.key, options);
       }
@@ -55673,6 +55690,16 @@ var legacyProperty = function legacyProperty(options, proto, name) {
  * corresponding attribute value. A `PropertyDeclaration` may optionally be
  * supplied to configure property features.
  *
+ * This decorator should only be used for public fields. Private or protected
+ * fields should use the internalProperty decorator.
+ *
+ * @example
+ *
+ *     class MyElement {
+ *       @property({ type: Boolean })
+ *       clicked = false;
+ *     }
+ *
  * @ExportDecoratedItems
  */
 
@@ -55684,10 +55711,43 @@ function property(options) {
   };
 }
 /**
+ * Declares a private or protected property that still triggers updates to the
+ * element when it changes.
+ *
+ * Properties declared this way must not be used from HTML or HTML templating
+ * systems, they're solely for properties internal to the element. These
+ * properties may be renamed by optimization tools like closure compiler.
+ */
+
+
+function internalProperty(options) {
+  return property({
+    attribute: false,
+    hasChanged: options === null || options === void 0 ? void 0 : options.hasChanged
+  });
+}
+/**
  * A property decorator that converts a class property into a getter that
  * executes a querySelector on the element's renderRoot.
  *
- * @ExportDecoratedItems
+ * @param selector A DOMString containing one or more selectors to match.
+ *
+ * See: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+ *
+ * @example
+ *
+ *     class MyElement {
+ *       @query('#first')
+ *       first;
+ *
+ *       render() {
+ *         return html`
+ *           <div id="first"></div>
+ *           <div id="second"></div>
+ *         `;
+ *       }
+ *     }
+ *
  */
 
 
@@ -55703,12 +55763,99 @@ function query(selector) {
     };
     return name !== undefined ? legacyQuery(descriptor, protoOrDescriptor, name) : standardQuery(descriptor, protoOrDescriptor);
   };
+} // Note, in the future, we may extend this decorator to support the use case
+// where the queried element may need to do work to become ready to interact
+// with (e.g. load some implementation code). If so, we might elect to
+// add a second argument defining a function that can be run to make the
+// queried element loaded/updated/ready.
+
+/**
+ * A property decorator that converts a class property into a getter that
+ * returns a promise that resolves to the result of a querySelector on the
+ * element's renderRoot done after the element's `updateComplete` promise
+ * resolves. When the queried property may change with element state, this
+ * decorator can be used instead of requiring users to await the
+ * `updateComplete` before accessing the property.
+ *
+ * @param selector A DOMString containing one or more selectors to match.
+ *
+ * See: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+ *
+ * @example
+ *
+ *     class MyElement {
+ *       @queryAsync('#first')
+ *       first;
+ *
+ *       render() {
+ *         return html`
+ *           <div id="first"></div>
+ *           <div id="second"></div>
+ *         `;
+ *       }
+ *     }
+ *
+ *     // external usage
+ *     async doSomethingWithFirst() {
+ *      (await aMyElement.first).doSomething();
+ *     }
+ */
+
+
+function queryAsync(selector) {
+  return function (protoOrDescriptor, // tslint:disable-next-line:no-any decorator
+  name) {
+    var descriptor = {
+      get: function get() {
+        var _this = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.next = 2;
+                  return _this.updateComplete;
+
+                case 2:
+                  return _context.abrupt("return", _this.renderRoot.querySelector(selector));
+
+                case 3:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee);
+        }))();
+      },
+      enumerable: true,
+      configurable: true
+    };
+    return name !== undefined ? legacyQuery(descriptor, protoOrDescriptor, name) : standardQuery(descriptor, protoOrDescriptor);
+  };
 }
 /**
  * A property decorator that converts a class property into a getter
  * that executes a querySelectorAll on the element's renderRoot.
  *
- * @ExportDecoratedItems
+ * @param selector A DOMString containing one or more selectors to match.
+ *
+ * See:
+ * https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
+ *
+ * @example
+ *
+ *     class MyElement {
+ *       @queryAll('div')
+ *       divs;
+ *
+ *       render() {
+ *         return html`
+ *           <div id="first"></div>
+ *           <div id="second"></div>
+ *         `;
+ *       }
+ *     }
  */
 
 
@@ -55740,7 +55887,7 @@ var standardQuery = function standardQuery(descriptor, element) {
 };
 
 var standardEventOptions = function standardEventOptions(options, element) {
-  return Object.assign({}, element, {
+  return Object.assign(Object.assign({}, element), {
     finisher: function finisher(clazz) {
       Object.assign(clazz.prototype[element.key], options);
     }
@@ -55755,7 +55902,7 @@ function legacyEventOptions(options, proto, name) {
  * Adds event listener options to a method used as an event listener in a
  * lit-html template.
  *
- * @param options An object that specifis event listener options as accepted by
+ * @param options An object that specifies event listener options as accepted by
  * `EventTarget#addEventListener` and `EventTarget#removeEventListener`.
  *
  * Current browsers support the `capture`, `passive`, and `once` options. See:
@@ -55764,11 +55911,14 @@ function legacyEventOptions(options, proto, name) {
  * @example
  *
  *     class MyElement {
- *
  *       clicked = false;
  *
  *       render() {
- *         return html`<div @click=${this._onClick}`><button></button></div>`;
+ *         return html`
+ *           <div @click=${this._onClick}`>
+ *             <button></button>
+ *           </div>
+ *         `;
  *       }
  *
  *       @eventOptions({capture: true})
@@ -55779,19 +55929,43 @@ function legacyEventOptions(options, proto, name) {
  */
 
 
-var eventOptions = function eventOptions(options) {
-  return (// Return value typed as any to prevent TypeScript from complaining that
-    // standard decorator function signature does not match TypeScript decorator
-    // signature
-    // TODO(kschaaf): unclear why it was only failing on this decorator and not
-    // the others
-    function (protoOrDescriptor, name) {
-      return name !== undefined ? legacyEventOptions(options, protoOrDescriptor, name) : standardEventOptions(options, protoOrDescriptor);
-    }
-  );
-};
+function eventOptions(options) {
+  // Return value typed as any to prevent TypeScript from complaining that
+  // standard decorator function signature does not match TypeScript decorator
+  // signature
+  // TODO(kschaaf): unclear why it was only failing on this decorator and not
+  // the others
+  return function (protoOrDescriptor, name) {
+    return name !== undefined ? legacyEventOptions(options, protoOrDescriptor, name) : standardEventOptions(options, protoOrDescriptor);
+  };
+}
+/**
+ * A property decorator that converts a class property into a getter that
+ * returns the `assignedNodes` of the given named `slot`. Note, the type of
+ * this property should be annotated as `NodeListOf<HTMLElement>`.
+ *
+ */
 
-exports.eventOptions = eventOptions;
+
+function queryAssignedNodes() {
+  var slotName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var flatten = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  return function (protoOrDescriptor, // tslint:disable-next-line:no-any decorator
+  name) {
+    var descriptor = {
+      get: function get() {
+        var selector = "slot".concat(slotName ? "[name=".concat(slotName, "]") : '');
+        var slot = this.renderRoot.querySelector(selector);
+        return slot && slot.assignedNodes({
+          flatten: flatten
+        });
+      },
+      enumerable: true,
+      configurable: true
+    };
+    return name !== undefined ? legacyQuery(descriptor, protoOrDescriptor, name) : standardQuery(descriptor, protoOrDescriptor);
+  };
+}
 
 },{}],389:[function(require,module,exports){
 "use strict";
@@ -55916,12 +56090,10 @@ var defaultPropertyDeclaration = {
   reflect: false,
   hasChanged: notEqual
 };
-var microtaskPromise = Promise.resolve(true);
 var STATE_HAS_UPDATED = 1;
 var STATE_UPDATE_REQUESTED = 1 << 2;
 var STATE_IS_REFLECTING_TO_ATTRIBUTE = 1 << 3;
 var STATE_IS_REFLECTING_TO_PROPERTY = 1 << 4;
-var STATE_HAS_CONNECTED = 1 << 5;
 /**
  * The Closure JS Compiler doesn't currently have good support for static
  * property semantics where "this" is dynamic (e.g.
@@ -55946,9 +56118,12 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(UpdatingElement).call(this));
     _this._updateState = 0;
-    _this._instanceProperties = undefined;
-    _this._updatePromise = microtaskPromise;
-    _this._hasConnectedResolver = undefined;
+    _this._instanceProperties = undefined; // Initialize to an unresolved Promise so we can make sure the element has
+    // connected before first update.
+
+    _this._updatePromise = new Promise(function (res) {
+      return _this._enableUpdatingResolver = res;
+    });
     /**
      * Map with keys for any properties that have changed since the last
      * update cycle with previous values.
@@ -56039,15 +56214,17 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
   }, {
     key: "connectedCallback",
     value: function connectedCallback() {
-      this._updateState = this._updateState | STATE_HAS_CONNECTED; // Ensure first connection completes an update. Updates cannot complete
-      // before connection and if one is pending connection the
-      // `_hasConnectionResolver` will exist. If so, resolve it to complete the
-      // update, otherwise requestUpdate.
+      // Ensure first connection completes an update. Updates cannot complete
+      // before connection.
+      this.enableUpdating();
+    }
+  }, {
+    key: "enableUpdating",
+    value: function enableUpdating() {
+      if (this._enableUpdatingResolver !== undefined) {
+        this._enableUpdatingResolver();
 
-      if (this._hasConnectedResolver) {
-        this._hasConnectedResolver();
-
-        this._hasConnectedResolver = undefined;
+        this._enableUpdatingResolver = undefined;
       }
     }
     /**
@@ -56115,12 +56292,14 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
         return;
       }
 
-      var ctor = this.constructor;
+      var ctor = this.constructor; // Note, hint this as an `AttributeMap` so closure clearly understands
+      // the type; it has issues with tracking types through statics
+      // tslint:disable-next-line:no-unnecessary-type-assertion
 
       var propName = ctor._attributeToPropertyMap.get(name);
 
       if (propName !== undefined) {
-        var options = ctor._classProperties.get(propName) || defaultPropertyDeclaration; // mark state reflecting
+        var options = ctor.getPropertyOptions(propName); // mark state reflecting
 
         this._updateState = this._updateState | STATE_IS_REFLECTING_TO_PROPERTY;
         this[propName] = // tslint:disable-next-line:no-any
@@ -56142,7 +56321,7 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
 
       if (name !== undefined) {
         var ctor = this.constructor;
-        var options = ctor._classProperties.get(name) || defaultPropertyDeclaration;
+        var options = ctor.getPropertyOptions(name);
 
         if (ctor._valueHasChanged(this[name], oldValue, options.hasChanged)) {
           if (!this._changedProperties.has(name)) {
@@ -56167,7 +56346,7 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
       }
 
       if (!this._hasRequestedUpdate && shouldRequestUpdate) {
-        this._enqueueUpdate();
+        this._updatePromise = this._enqueueUpdate();
       }
     }
     /**
@@ -56199,75 +56378,46 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
     key: "_enqueueUpdate",
     value: function () {
       var _enqueueUpdate2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _this4 = this;
-
-        var resolve, reject, previousUpdatePromise, result;
+        var result;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                // Mark state updating...
                 this._updateState = this._updateState | STATE_UPDATE_REQUESTED;
-                previousUpdatePromise = this._updatePromise;
-                this._updatePromise = new Promise(function (res, rej) {
-                  resolve = res;
-                  reject = rej;
-                });
-                _context.prev = 3;
-                _context.next = 6;
-                return previousUpdatePromise;
+                _context.prev = 1;
+                _context.next = 4;
+                return this._updatePromise;
 
-              case 6:
-                _context.next = 10;
+              case 4:
+                _context.next = 8;
                 break;
 
+              case 6:
+                _context.prev = 6;
+                _context.t0 = _context["catch"](1);
+
               case 8:
-                _context.prev = 8;
-                _context.t0 = _context["catch"](3);
-
-              case 10:
-                if (this._hasConnected) {
-                  _context.next = 13;
-                  break;
-                }
-
-                _context.next = 13;
-                return new Promise(function (res) {
-                  return _this4._hasConnectedResolver = res;
-                });
-
-              case 13:
-                _context.prev = 13;
                 result = this.performUpdate(); // If `performUpdate` returns a Promise, we await it. This is done to
                 // enable coordinating updates with a scheduler. Note, the result is
                 // checked to avoid delaying an additional microtask unless we need to.
 
                 if (!(result != null)) {
-                  _context.next = 18;
+                  _context.next = 12;
                   break;
                 }
 
-                _context.next = 18;
+                _context.next = 12;
                 return result;
 
-              case 18:
-                _context.next = 23;
-                break;
+              case 12:
+                return _context.abrupt("return", !this._hasRequestedUpdate);
 
-              case 20:
-                _context.prev = 20;
-                _context.t1 = _context["catch"](13);
-                reject(_context.t1);
-
-              case 23:
-                resolve(!this._hasRequestedUpdate);
-
-              case 24:
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[3, 8], [13, 20]]);
+        }, _callee, this, [[1, 6]]);
       }));
 
       function _enqueueUpdate() {
@@ -56309,15 +56459,17 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
 
         if (shouldUpdate) {
           this.update(changedProperties);
+        } else {
+          this._markUpdated();
         }
       } catch (e) {
         // Prevent `firstUpdated` and `updated` from running when there's an
         // update exception.
-        shouldUpdate = false;
-        throw e;
-      } finally {
-        // Ensure element can accept additional updates after an exception.
+        shouldUpdate = false; // Ensure element can accept additional updates after an exception.
+
         this._markUpdated();
+
+        throw e;
       }
 
       if (shouldUpdate) {
@@ -56378,7 +56530,7 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
      * an update. By default, this method always returns `true`, but this can be
      * customized to control when to update.
      *
-     * * @param _changedProperties Map of changed properties with old values
+     * @param _changedProperties Map of changed properties with old values
      */
 
   }, {
@@ -56392,23 +56544,25 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
      * Setting properties inside this method will *not* trigger
      * another update.
      *
-     * * @param _changedProperties Map of changed properties with old values
+     * @param _changedProperties Map of changed properties with old values
      */
 
   }, {
     key: "update",
     value: function update(_changedProperties) {
-      var _this5 = this;
+      var _this4 = this;
 
       if (this._reflectingProperties !== undefined && this._reflectingProperties.size > 0) {
         // Use forEach so this works even if for/of loops are compiled to for
         // loops expecting arrays
         this._reflectingProperties.forEach(function (v, k) {
-          return _this5._propertyToAttribute(k, _this5[k], v);
+          return _this4._propertyToAttribute(k, _this4[k], v);
         });
 
         this._reflectingProperties = undefined;
       }
+
+      this._markUpdated();
     }
     /**
      * Invoked whenever the element is updated. Implement to perform
@@ -56417,7 +56571,7 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
      * Setting properties inside this method will trigger the element to update
      * again after this update cycle completes.
      *
-     * * @param _changedProperties Map of changed properties with old values
+     * @param _changedProperties Map of changed properties with old values
      */
 
   }, {
@@ -56430,17 +56584,12 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
      * Setting properties inside this method will trigger the element to update
      * again after this update cycle completes.
      *
-     * * @param _changedProperties Map of changed properties with old values
+     * @param _changedProperties Map of changed properties with old values
      */
 
   }, {
     key: "firstUpdated",
     value: function firstUpdated(_changedProperties) {}
-  }, {
-    key: "_hasConnected",
-    get: function get() {
-      return this._updateState & STATE_HAS_CONNECTED;
-    }
   }, {
     key: "_hasRequestedUpdate",
     get: function get() {
@@ -56467,7 +56616,7 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
 
     /** @nocollapse */
     value: function _ensureClassProperties() {
-      var _this6 = this;
+      var _this5 = this;
 
       // ensure private storage for property declarations.
       if (!this.hasOwnProperty(JSCompiler_renameProperty('_classProperties', this))) {
@@ -56477,16 +56626,31 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
 
         if (superProperties !== undefined) {
           superProperties.forEach(function (v, k) {
-            return _this6._classProperties.set(k, v);
+            return _this5._classProperties.set(k, v);
           });
         }
       }
     }
     /**
-     * Creates a property accessor on the element prototype if one does not exist.
+     * Creates a property accessor on the element prototype if one does not exist
+     * and stores a PropertyDeclaration for the property with the given options.
      * The property setter calls the property's `hasChanged` property option
      * or uses a strict identity check to determine whether or not to request
      * an update.
+     *
+     * This method may be overridden to customize properties; however,
+     * when doing so, it's important to call `super.createProperty` to ensure
+     * the property is setup correctly. This method calls
+     * `getPropertyDescriptor` internally to get a descriptor to install.
+     * To customize what properties do when they are get or set, override
+     * `getPropertyDescriptor`. To customize the options for a property,
+     * implement `createProperty` like this:
+     *
+     * static createProperty(name, options) {
+     *   options = Object.assign(options, {myOption: true});
+     *   super.createProperty(name, options);
+     * }
+     *
      * @nocollapse
      */
 
@@ -56512,7 +56676,41 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
       }
 
       var key = _typeof(name) === 'symbol' ? Symbol() : "__".concat(name);
-      Object.defineProperty(this.prototype, name, {
+      var descriptor = this.getPropertyDescriptor(name, key, options);
+
+      if (descriptor !== undefined) {
+        Object.defineProperty(this.prototype, name, descriptor);
+      }
+    }
+    /**
+     * Returns a property descriptor to be defined on the given named property.
+     * If no descriptor is returned, the property will not become an accessor.
+     * For example,
+     *
+     *   class MyElement extends LitElement {
+     *     static getPropertyDescriptor(name, key, options) {
+     *       const defaultDescriptor =
+     *           super.getPropertyDescriptor(name, key, options);
+     *       const setter = defaultDescriptor.set;
+     *       return {
+     *         get: defaultDescriptor.get,
+     *         set(value) {
+     *           setter.call(this, value);
+     *           // custom action.
+     *         },
+     *         configurable: true,
+     *         enumerable: true
+     *       }
+     *     }
+     *   }
+     *
+     * @nocollapse
+     */
+
+  }, {
+    key: "getPropertyDescriptor",
+    value: function getPropertyDescriptor(name, key, _options) {
+      return {
         // tslint:disable-next-line:no-any no symbol in index
         get: function get() {
           return this[key];
@@ -56525,7 +56723,25 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
         },
         configurable: true,
         enumerable: true
-      });
+      };
+    }
+    /**
+     * Returns the property options associated with the given property.
+     * These options are defined with a PropertyDeclaration via the `properties`
+     * object or the `@property` decorator and are registered in
+     * `createProperty(...)`.
+     *
+     * Note, this method should be considered "final" and not overridden. To
+     * customize the options for a given property, override `createProperty`.
+     *
+     * @nocollapse
+     * @final
+     */
+
+  }, {
+    key: "getPropertyOptions",
+    value: function getPropertyOptions(name) {
+      return this._classProperties && this._classProperties.get(name) || defaultPropertyDeclaration;
     }
     /**
      * Creates property accessors for registered properties and ensures
@@ -56649,7 +56865,7 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
   }, {
     key: "observedAttributes",
     get: function get() {
-      var _this7 = this;
+      var _this6 = this;
 
       // note: piggy backing on this to ensure we're finalized.
       this.finalize();
@@ -56657,10 +56873,10 @@ var UpdatingElement = /*#__PURE__*/function (_HTMLElement) {
       // expecting arrays
 
       this._classProperties.forEach(function (v, p) {
-        var attr = _this7._attributeNameForProperty(p, v);
+        var attr = _this6._attributeNameForProperty(p, v);
 
         if (attr !== undefined) {
-          _this7._attributeToPropertyMap.set(attr, p);
+          _this6._attributeToPropertyMap.set(attr, p);
 
           attributes.push(attr);
         }
@@ -56697,30 +56913,28 @@ var _exportNames = {
 Object.defineProperty(exports, "html", {
   enumerable: true,
   get: function get() {
-    return _litHtml2.html;
+    return _litHtml.html;
   }
 });
 Object.defineProperty(exports, "svg", {
   enumerable: true,
   get: function get() {
-    return _litHtml2.svg;
+    return _litHtml.svg;
   }
 });
 Object.defineProperty(exports, "TemplateResult", {
   enumerable: true,
   get: function get() {
-    return _litHtml2.TemplateResult;
+    return _litHtml.TemplateResult;
   }
 });
 Object.defineProperty(exports, "SVGTemplateResult", {
   enumerable: true,
   get: function get() {
-    return _litHtml2.SVGTemplateResult;
+    return _litHtml.SVGTemplateResult;
   }
 });
 exports.LitElement = void 0;
-
-var _litHtml = require("lit-html");
 
 var _shadyRender = require("lit-html/lib/shady-render.js");
 
@@ -56750,7 +56964,7 @@ Object.keys(_decorators).forEach(function (key) {
   });
 });
 
-var _litHtml2 = require("lit-html/lit-html.js");
+var _litHtml = require("lit-html/lit-html.js");
 
 var _cssTag = require("./lib/css-tag.js");
 
@@ -56790,34 +57004,13 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 // IMPORTANT: do not change the property name or the assignment expression.
 // This line will be used in regexes to search for LitElement usage.
 // TODO(justinfagnani): inject version number at build time
-(window['litElementVersions'] || (window['litElementVersions'] = [])).push('2.2.1');
+(window['litElementVersions'] || (window['litElementVersions'] = [])).push('2.3.1');
 /**
- * Minimal implementation of Array.prototype.flat
- * @param arr the array to flatten
- * @param result the accumlated result
+ * Sentinal value used to avoid calling lit-html's render function when
+ * subclasses do not implement `render`
  */
 
-function arrayFlat(styles) {
-  var result = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-  for (var i = 0, length = styles.length; i < length; i++) {
-    var value = styles[i];
-
-    if (Array.isArray(value)) {
-      arrayFlat(value, result);
-    } else {
-      result.push(value);
-    }
-  }
-
-  return result;
-}
-/** Deeply flattens styles array. Uses native flat if available. */
-
-
-var flattenStyles = function flattenStyles(styles) {
-  return styles.flat ? styles.flat(Infinity) : arrayFlat(styles);
-};
+var renderNotImplemented = {};
 
 var LitElement = /*#__PURE__*/function (_UpdatingElement) {
   _inherits(LitElement, _UpdatingElement);
@@ -56838,6 +57031,8 @@ var LitElement = /*#__PURE__*/function (_UpdatingElement) {
      */
     value: function initialize() {
       _get(_getPrototypeOf(LitElement.prototype), "initialize", this).call(this);
+
+      this.constructor._getUniqueStyles();
 
       this.renderRoot = this.createRenderRoot(); // Note, if renderRoot is not a shadowRoot, styles would/could apply to the
       // element's getRootNode(). While this could be done, we're choosing not to
@@ -56915,7 +57110,7 @@ var LitElement = /*#__PURE__*/function (_UpdatingElement) {
      * Updates the element. This method reflects property values to attributes
      * and calls `render` to render DOM via lit-html. Setting properties inside
      * this method will *not* trigger another update.
-     * * @param _changedProperties Map of changed properties with old values
+     * @param _changedProperties Map of changed properties with old values
      */
 
   }, {
@@ -56923,11 +57118,15 @@ var LitElement = /*#__PURE__*/function (_UpdatingElement) {
     value: function update(changedProperties) {
       var _this = this;
 
-      _get(_getPrototypeOf(LitElement.prototype), "update", this).call(this, changedProperties);
-
+      // Setting properties in `render` should not trigger an update. Since
+      // updates are allowed after super.update, it's important to call `render`
+      // before that.
       var templateResult = this.render();
 
-      if (templateResult instanceof _litHtml.TemplateResult) {
+      _get(_getPrototypeOf(LitElement.prototype), "update", this).call(this, changedProperties); // If render is not implemented by the component, don't call lit-html render
+
+
+      if (templateResult !== renderNotImplemented) {
         this.constructor.render(templateResult, this.renderRoot, {
           scopeName: this.localName,
           eventContext: this
@@ -56949,62 +57148,75 @@ var LitElement = /*#__PURE__*/function (_UpdatingElement) {
       }
     }
     /**
-     * Invoked on each update to perform rendering tasks. This method must return
-     * a lit-html TemplateResult. Setting properties inside this method will *not*
-     * trigger the element to update.
+     * Invoked on each update to perform rendering tasks. This method may return
+     * any value renderable by lit-html's NodePart - typically a TemplateResult.
+     * Setting properties inside this method will *not* trigger the element to
+     * update.
      */
 
   }, {
     key: "render",
-    value: function render() {}
+    value: function render() {
+      return renderNotImplemented;
+    }
   }], [{
-    key: "finalize",
+    key: "getStyles",
 
-    /** @nocollapse */
-    value: function finalize() {
-      // The Closure JS Compiler does not always preserve the correct "this"
-      // when calling static super methods (b/137460243), so explicitly bind.
-      _get(_getPrototypeOf(LitElement), "finalize", this).call(this); // Prepare styling that is stamped at first render time. Styling
-      // is built from user provided `styles` or is inherited from the superclass.
-
-
-      this._styles = this.hasOwnProperty(JSCompiler_renameProperty('styles', this)) ? this._getUniqueStyles() : this._styles || [];
+    /**
+     * Return the array of styles to apply to the element.
+     * Override this method to integrate into a style management system.
+     *
+     * @nocollapse
+     */
+    value: function getStyles() {
+      return this.styles;
     }
     /** @nocollapse */
 
   }, {
     key: "_getUniqueStyles",
     value: function _getUniqueStyles() {
-      // Take care not to call `this.styles` multiple times since this generates
-      // new CSSResults each time.
+      // Only gather styles once per class
+      if (this.hasOwnProperty(JSCompiler_renameProperty('_styles', this))) {
+        return;
+      } // Take care not to call `this.getStyles()` multiple times since this
+      // generates new CSSResults each time.
       // TODO(sorvell): Since we do not cache CSSResults by input, any
       // shared styles will generate new stylesheet objects, which is wasteful.
       // This should be addressed when a browser ships constructable
       // stylesheets.
-      var userStyles = this.styles;
-      var styles = [];
 
-      if (Array.isArray(userStyles)) {
-        var flatStyles = flattenStyles(userStyles); // As a performance optimization to avoid duplicated styling that can
-        // occur especially when composing via subclassing, de-duplicate styles
-        // preserving the last item in the list. The last item is kept to
-        // try to preserve cascade order with the assumption that it's most
-        // important that last added styles override previous styles.
 
-        var styleSet = flatStyles.reduceRight(function (set, s) {
-          set.add(s); // on IE set.add does not return the set.
+      var userStyles = this.getStyles();
 
-          return set;
-        }, new Set()); // Array.from does not work on Set in IE
+      if (userStyles === undefined) {
+        this._styles = [];
+      } else if (Array.isArray(userStyles)) {
+        // De-duplicate styles preserving the _last_ instance in the set.
+        // This is a performance optimization to avoid duplicated styles that can
+        // occur especially when composing via subclassing.
+        // The last item is kept to try to preserve the cascade order with the
+        // assumption that it's most important that last added styles override
+        // previous styles.
+        var addStyles = function addStyles(styles, set) {
+          return styles.reduceRight(function (set, s) {
+            return (// Note: On IE set.add() does not return the set
+              Array.isArray(s) ? addStyles(s, set) : (set.add(s), set)
+            );
+          }, set);
+        }; // Array.from does not work on Set in IE, otherwise return
+        // Array.from(addStyles(userStyles, new Set<CSSResult>())).reverse()
 
-        styleSet.forEach(function (v) {
+
+        var set = addStyles(userStyles, new Set());
+        var styles = [];
+        set.forEach(function (v) {
           return styles.unshift(v);
         });
-      } else if (userStyles) {
-        styles.push(userStyles);
+        this._styles = styles;
+      } else {
+        this._styles = [userStyles];
       }
-
-      return styles;
     }
   }]);
 
@@ -57022,17 +57234,67 @@ var LitElement = /*#__PURE__*/function (_UpdatingElement) {
 exports.LitElement = LitElement;
 LitElement['finalized'] = true;
 /**
- * Render method used to render the lit-html TemplateResult to the element's
- * DOM.
- * @param {TemplateResult} Template to render.
- * @param {Element|DocumentFragment} Node into which to render.
- * @param {String} Element name.
+ * Render method used to render the value to the element's DOM.
+ * @param result The value to render.
+ * @param container Node into which to render.
+ * @param options Element name.
  * @nocollapse
  */
 
 LitElement.render = _shadyRender.render;
 
-},{"./lib/css-tag.js":387,"./lib/decorators.js":388,"./lib/updating-element.js":389,"lit-html":403,"lit-html/lib/shady-render.js":398,"lit-html/lit-html.js":403}],391:[function(require,module,exports){
+},{"./lib/css-tag.js":387,"./lib/decorators.js":388,"./lib/updating-element.js":389,"lit-html/lib/shady-render.js":399,"lit-html/lit-html.js":404}],391:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ifDefined = void 0;
+
+var _litHtml = require("../lit-html.js");
+
+/**
+ * @license
+ * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+var previousValues = new WeakMap();
+/**
+ * For AttributeParts, sets the attribute if the value is defined and removes
+ * the attribute if the value is undefined.
+ *
+ * For other part types, this directive is a no-op.
+ */
+
+var ifDefined = (0, _litHtml.directive)(function (value) {
+  return function (part) {
+    var previousValue = previousValues.get(part);
+
+    if (value === undefined && part instanceof _litHtml.AttributePart) {
+      // If the value is undefined, remove the attribute, but only if the value
+      // was previously defined.
+      if (previousValue !== undefined || !previousValues.has(part)) {
+        var name = part.committer.name;
+        part.committer.element.removeAttribute(name);
+      }
+    } else if (value !== previousValue) {
+      part.setValue(value);
+    }
+
+    previousValues.set(part, value);
+  };
+});
+exports.ifDefined = ifDefined;
+
+},{"../lit-html.js":404}],392:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -57107,7 +57369,7 @@ exports.DefaultTemplateProcessor = DefaultTemplateProcessor;
 var defaultTemplateProcessor = new DefaultTemplateProcessor();
 exports.defaultTemplateProcessor = defaultTemplateProcessor;
 
-},{"./parts.js":396}],392:[function(require,module,exports){
+},{"./parts.js":397}],393:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -57186,7 +57448,7 @@ var isDirective = function isDirective(o) {
 
 exports.isDirective = isDirective;
 
-},{}],393:[function(require,module,exports){
+},{}],394:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -57211,7 +57473,7 @@ exports.removeNodes = exports.reparentNodes = exports.isCEPolyfill = void 0;
 /**
  * True if the custom elements polyfill is in use.
  */
-var isCEPolyfill = window.customElements !== undefined && window.customElements.polyfillWrapFlushCallback !== undefined;
+var isCEPolyfill = typeof window !== 'undefined' && window.customElements != null && window.customElements.polyfillWrapFlushCallback !== undefined;
 /**
  * Reparents nodes, starting from `start` (inclusive) to `end` (exclusive),
  * into another container (could be the same container), before `before`. If
@@ -57250,7 +57512,7 @@ var removeNodes = function removeNodes(container, start) {
 
 exports.removeNodes = removeNodes;
 
-},{}],394:[function(require,module,exports){
+},{}],395:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -57420,7 +57682,7 @@ function insertNodeIntoTemplate(template, node) {
   }
 }
 
-},{"./template.js":402}],395:[function(require,module,exports){
+},{"./template.js":403}],396:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -57455,7 +57717,7 @@ exports.noChange = noChange;
 var nothing = {};
 exports.nothing = nothing;
 
-},{}],396:[function(require,module,exports){
+},{}],397:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -57504,12 +57766,12 @@ var isPrimitive = function isPrimitive(value) {
 exports.isPrimitive = isPrimitive;
 
 var isIterable = function isIterable(value) {
-  return Array.isArray(value) || // tslint:disable-next-line:no-any
+  return Array.isArray(value) || // eslint-disable-next-line @typescript-eslint/no-explicit-any
   !!(value && value[Symbol.iterator]);
 };
 /**
  * Writes attribute values to the DOM for a group of AttributeParts bound to a
- * single attibute. The value is only set once even if there are multiple parts
+ * single attribute. The value is only set once even if there are multiple parts
  * for an attribute.
  */
 
@@ -57728,6 +57990,10 @@ var NodePart = /*#__PURE__*/function () {
   }, {
     key: "commit",
     value: function commit() {
+      if (this.startNode.parentNode === null) {
+        return;
+      }
+
       while ((0, _directive.isDirective)(this.__pendingValue)) {
         var directive = this.__pendingValue;
         this.__pendingValue = _part.noChange;
@@ -58006,7 +58272,7 @@ var PropertyCommitter = /*#__PURE__*/function (_AttributeCommitter) {
     key: "commit",
     value: function commit() {
       if (this.dirty) {
-        this.dirty = false; // tslint:disable-next-line:no-any
+        this.dirty = false; // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
         this.element[this.name] = this._getValue();
       }
@@ -58029,27 +58295,31 @@ var PropertyPart = /*#__PURE__*/function (_AttributePart) {
 
   return PropertyPart;
 }(AttributePart); // Detect event listener options support. If the `capture` property is read
-// from the options object, then options are supported. If not, then the thrid
+// from the options object, then options are supported. If not, then the third
 // argument to add/removeEventListener is interpreted as the boolean capture
 // value so we should only pass the `capture` property.
 
 
 exports.PropertyPart = PropertyPart;
-var eventOptionsSupported = false;
+var eventOptionsSupported = false; // Wrap into an IIFE because MS Edge <= v41 does not support having try/catch
+// blocks right into the body of a module
 
-try {
-  var options = {
-    get capture() {
-      eventOptionsSupported = true;
-      return false;
-    }
+(function () {
+  try {
+    var options = {
+      get capture() {
+        eventOptionsSupported = true;
+        return false;
+      }
 
-  }; // tslint:disable-next-line:no-any
+    }; // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
-  window.addEventListener('test', options, options); // tslint:disable-next-line:no-any
+    window.addEventListener('test', options, options); // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
-  window.removeEventListener('test', options, options);
-} catch (_e) {}
+    window.removeEventListener('test', options, options);
+  } catch (_e) {// event options not supported
+  }
+})();
 
 var EventPart = /*#__PURE__*/function () {
   function EventPart(element, eventName, eventContext) {
@@ -58130,7 +58400,7 @@ var getOptions = function getOptions(o) {
   } : o.capture);
 };
 
-},{"./directive.js":392,"./dom.js":393,"./part.js":395,"./template-instance.js":400,"./template-result.js":401,"./template.js":402}],397:[function(require,module,exports){
+},{"./directive.js":393,"./dom.js":394,"./part.js":396,"./template-instance.js":401,"./template-result.js":402,"./template.js":403}],398:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58197,7 +58467,7 @@ var render = function render(result, container, options) {
 
 exports.render = render;
 
-},{"./dom.js":393,"./parts.js":396,"./template-factory.js":399}],398:[function(require,module,exports){
+},{"./dom.js":394,"./parts.js":397,"./template-factory.js":400}],399:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58531,7 +58801,7 @@ var render = function render(result, container, options) {
 
 exports.render = render;
 
-},{"../lit-html.js":403,"./dom.js":393,"./modify-template.js":394,"./render.js":397,"./template-factory.js":399,"./template-instance.js":400,"./template.js":402}],399:[function(require,module,exports){
+},{"../lit-html.js":404,"./dom.js":394,"./modify-template.js":395,"./render.js":398,"./template-factory.js":400,"./template-instance.js":401,"./template.js":403}],400:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58598,7 +58868,7 @@ function templateFactory(result) {
 var templateCaches = new Map();
 exports.templateCaches = templateCaches;
 
-},{"./template.js":402}],400:[function(require,module,exports){
+},{"./template.js":403}],401:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58721,7 +58991,7 @@ var TemplateInstance = /*#__PURE__*/function () {
       // Given these constraints, with full custom elements support we would
       // prefer the order: Clone, Process, Adopt, Upgrade, Update, Connect
       //
-      // But Safari dooes not implement CustomElementRegistry#upgrade, so we
+      // But Safari does not implement CustomElementRegistry#upgrade, so we
       // can not implement that order and still have upgrade-before-update and
       // upgrade disconnected fragments. So we instead sacrifice the
       // process-before-upgrade constraint, since in Custom Elements v1 elements
@@ -58811,7 +59081,7 @@ var TemplateInstance = /*#__PURE__*/function () {
 
 exports.TemplateInstance = TemplateInstance;
 
-},{"./dom.js":393,"./template.js":402}],401:[function(require,module,exports){
+},{"./dom.js":394,"./template.js":403}],402:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58876,7 +59146,7 @@ var TemplateResult = /*#__PURE__*/function () {
         var s = this.strings[i]; // For each binding we want to determine the kind of marker to insert
         // into the template source before it's parsed by the browser's HTML
         // parser. The marker type is based on whether the expression is in an
-        // attribute, text, or comment poisition.
+        // attribute, text, or comment position.
         //   * For node-position bindings we insert a comment with the marker
         //     sentinel as its text content, like <!--{{lit-guid}}-->.
         //   * For attribute bindings we insert just the marker sentinel for the
@@ -58895,7 +59165,7 @@ var TemplateResult = /*#__PURE__*/function () {
         // comment close. Because <-- can appear in an attribute value there can
         // be false positives.
 
-        isCommentBinding = (commentOpen > -1 || isCommentBinding) && s.indexOf('-->', commentOpen + 1) === -1; // Check to see if we have an attribute-like sequence preceeding the
+        isCommentBinding = (commentOpen > -1 || isCommentBinding) && s.indexOf('-->', commentOpen + 1) === -1; // Check to see if we have an attribute-like sequence preceding the
         // expression. This can match "name=value" like structures in text,
         // comments, and attribute values, so there can be false-positives.
 
@@ -58903,7 +59173,7 @@ var TemplateResult = /*#__PURE__*/function () {
 
         if (attributeMatch === null) {
           // We're only in this branch if we don't have a attribute-like
-          // preceeding sequence. For comments, this guards against unusual
+          // preceding sequence. For comments, this guards against unusual
           // attribute values like <div foo="<!--${'bar'}">. Cases like
           // <!-- foo=${'bar'}--> are handled correctly in the attribute branch
           // below.
@@ -58973,7 +59243,7 @@ var SVGTemplateResult = /*#__PURE__*/function (_TemplateResult) {
 
 exports.SVGTemplateResult = SVGTemplateResult;
 
-},{"./dom.js":393,"./template.js":402}],402:[function(require,module,exports){
+},{"./dom.js":394,"./template.js":403}],403:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59018,7 +59288,7 @@ var markerRegex = new RegExp("".concat(marker, "|").concat(nodeMarker));
 exports.markerRegex = markerRegex;
 var boundAttributeSuffix = '$lit$';
 /**
- * An updateable Template that tracks the location of dynamic parts.
+ * An updatable Template that tracks the location of dynamic parts.
  */
 
 exports.boundAttributeSuffix = boundAttributeSuffix;
@@ -59255,10 +59525,11 @@ var createMarker = function createMarker() {
 
 
 exports.createMarker = createMarker;
-var lastAttributeNameRegex = /([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
+var lastAttributeNameRegex = // eslint-disable-next-line no-control-regex
+/([ \x09\x0a\x0c\x0d])([^\0-\x1F\x7F-\x9F "'>=/]+)([ \x09\x0a\x0c\x0d]*=[ \x09\x0a\x0c\x0d]*(?:[^ \x09\x0a\x0c\x0d"'`<>=]*|"[^"]*|'[^']*))$/;
 exports.lastAttributeNameRegex = lastAttributeNameRegex;
 
-},{}],403:[function(require,module,exports){
+},{}],404:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59484,11 +59755,14 @@ var _template = require("./lib/template.js");
 // IMPORTANT: do not change the property name or the assignment expression.
 // This line will be used in regexes to search for lit-html usage.
 // TODO(justinfagnani): inject version number at build time
-(window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.1.2');
+if (typeof window !== 'undefined') {
+  (window['litHtmlVersions'] || (window['litHtmlVersions'] = [])).push('1.2.1');
+}
 /**
  * Interprets a template literal as an HTML template that can efficiently
  * render to and update a container.
  */
+
 
 var html = function html(strings) {
   for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -59515,7 +59789,7 @@ var svg = function svg(strings) {
 
 exports.svg = svg;
 
-},{"./lib/default-template-processor.js":391,"./lib/directive.js":392,"./lib/dom.js":393,"./lib/part.js":395,"./lib/parts.js":396,"./lib/render.js":397,"./lib/template-factory.js":399,"./lib/template-instance.js":400,"./lib/template-result.js":401,"./lib/template.js":402}],404:[function(require,module,exports){
+},{"./lib/default-template-processor.js":392,"./lib/directive.js":393,"./lib/dom.js":394,"./lib/part.js":396,"./lib/parts.js":397,"./lib/render.js":398,"./lib/template-factory.js":400,"./lib/template-instance.js":401,"./lib/template-result.js":402,"./lib/template.js":403}],405:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -62145,7 +62419,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],405:[function(require,module,exports){
+},{}],406:[function(require,module,exports){
 "use strict";
 
 // shim for using process in browser
@@ -62357,7 +62631,7 @@ process.umask = function () {
   return 0;
 };
 
-},{}],406:[function(require,module,exports){
+},{}],407:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -63068,7 +63342,7 @@ try {
   Function("r", "regeneratorRuntime = r")(runtime);
 }
 
-},{}],407:[function(require,module,exports){
+},{}],408:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 "use strict";
 
@@ -63151,7 +63425,2024 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
 
-},{"process/browser.js":405,"timers":407}],408:[function(require,module,exports){
+},{"process/browser.js":406,"timers":408}],409:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _litElement = require("lit-element");
+
+var _decidableElement = _interopRequireDefault(require("./decidable-element"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n        :host {\n          margin: 0.25rem;\n        }\n\n        button {\n          width: 100%;\n          height: 100%;\n          padding: 0.375rem 0.75rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-text-inverse);\n\n          border: 0;\n          border-radius: 0.25rem;\n          outline: none;\n        }\n\n        button:disabled {\n          background-color: var(--decidable-button-background-color, var(---color-element-disabled));\n          outline: none;\n          box-shadow: none;\n        }\n\n        button:enabled {\n          cursor: pointer;\n\n          background-color: var(--decidable-button-background-color, var(---color-element-enabled));\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        button:enabled:hover {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        button:enabled:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(.keyboard) button:enabled:focus {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) button:enabled:focus:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n      "]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <button ?disabled=", ">\n        <slot></slot>\n      </button>\n    "]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
+
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
+
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+var DecidableButton = /*#__PURE__*/function (_DecidableElement) {
+  _inherits(DecidableButton, _DecidableElement);
+
+  _createClass(DecidableButton, null, [{
+    key: "properties",
+    get: function get() {
+      return {
+        disabled: {
+          attribute: 'disabled',
+          type: Boolean,
+          reflect: true
+        }
+      };
+    }
+  }]);
+
+  function DecidableButton() {
+    var _this;
+
+    _classCallCheck(this, DecidableButton);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(DecidableButton).call(this)); // Attributes
+
+    _this.disabled = false;
+    return _this;
+  }
+
+  _createClass(DecidableButton, [{
+    key: "render",
+    value: function render() {
+      return (0, _litElement.html)(_templateObject(), this.disabled);
+    }
+  }], [{
+    key: "styles",
+    get: function get() {
+      return [_get(_getPrototypeOf(DecidableButton), "styles", this), (0, _litElement.css)(_templateObject2())];
+    }
+  }]);
+
+  return DecidableButton;
+}(_decidableElement.default);
+
+exports.default = DecidableButton;
+customElements.define('decidable-button', DecidableButton);
+
+},{"./decidable-element":411,"lit-element":390}],410:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+}
+
+var DecidableConverterSet = {
+  fromAttribute: function fromAttribute(value) {
+    return new Set(value.split(/\s+/));
+  },
+  toAttribute: function toAttribute(value) {
+    return value.size ? _toConsumableArray(value).join(' ') : null;
+  }
+};
+exports.default = DecidableConverterSet;
+
+},{}],411:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _litElement = require("lit-element");
+
+var d3 = _interopRequireWildcard(require("d3"));
+
+function _getRequireWildcardCache() {
+  if (typeof WeakMap !== "function") return null;
+  var cache = new WeakMap();
+
+  _getRequireWildcardCache = function _getRequireWildcardCache() {
+    return cache;
+  };
+
+  return cache;
+}
+
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
+    return {
+      default: obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache();
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj.default = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _templateObject9() {
+  var data = _taggedTemplateLiteral(["\n      :host {\n        ---shadow-0: var(--shadow-0, ", ");\n        ---shadow-2: var(--shadow-2, ", ");\n        ---shadow-4: var(--shadow-4, ", ");\n        ---shadow-8: var(--shadow-8, ", ");\n\n        ---color-background: var(--color-background, ", ");\n        ---color-border: var(--color-border, ", ");\n        ---color-text: var(--color-text, ", ");\n        ---color-text-inverse: var(--color-text-inverse, ", ");\n        ---color-link: var(--color-link, ", ");\n        ---color-element-background: var(--color-element-background, ", ");\n        ---color-element-disabled: var(--color-element-disabled, ", ");\n        ---color-element-enabled: var(--color-element-enabled, ", ");\n        ---color-element-selected: var(--color-element-selected, ", ");\n        ---color-element-border: var(--color-element-border, ", ");\n        ---color-element-emphasis: var(--color-element-emphasis, ", ");\n\n        ---font-family-base: var(--font-family-base, \"Source Sans Pro\", sans-serif);\n        ---font-family-math: var(--font-family-math, \"Source Serif Pro\", serif);\n\n        ---transition-duration: var(--transition-duration, 500ms);\n\n        font-family: var(---font-family-base);\n      }\n\n      :host,\n      :host *,\n      :host *::before,\n      :host *::after {\n        box-sizing: border-box;\n      }\n\n      .math-var {\n        font-family: var(---font-family-math);\n        font-style: italic;\n      }\n\n      .math-greek {\n        font-family: var(---font-family-math);\n        font-style: normal;\n      }\n\n      .defs {\n        display: block;\n\n        width: 0;\n        height: 0;\n      }\n    "]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["\n      <svg class=\"defs\">\n        <defs>\n          ", "\n        </defs>\n      </svg>\n    "]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject7() {
+  var data = _taggedTemplateLiteral(["<feMorphology in=\"offA\" result=\"spreadA\" operator=", " radius=", " />"]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteral(["<feMorphology in=\"offP\" result=\"spreadP\" operator=", " radius=", " />"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["<feMorphology in=\"offU\" result=\"spreadU\" operator=", " radius=", " />"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral([""]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n        <filter id=", " x=\"-200%\" y=\"-200%\" width=\"500%\" height=\"500%\">\n          <feComponentTransfer in=\"SourceAlpha\" result=\"solid\">\n            <feFuncA  type=\"table\" tableValues=\"0 1 1\"/>\n          </feComponentTransfer>\n          <feOffset in=\"solid\" result=\"offU\" dx=", " dy=", " />\n          <feOffset in=\"solid\" result=\"offP\" dx=", " dy=", " />\n          <feOffset in=\"solid\" result=\"offA\" dx=", " dy=", " />\n          ", "\n          ", "\n          ", "\n          <feGaussianBlur in=", " result=\"blurU\" stdDeviation=", " />\n          <feGaussianBlur in=", " result=\"blurP\" stdDeviation=", " />\n          <feGaussianBlur in=", " result=\"blurA\" stdDeviation=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opU\" flood-color=", " flood-opacity=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opP\" flood-color=", " flood-opacity=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opA\" flood-color=", " flood-opacity=", " />\n          <feComposite in=\"opU\" in2=\"blurU\" result=\"shU\" operator=\"in\" />\n          <feComposite in=\"opP\" in2=\"blurP\" result=\"shP\" operator=\"in\" />\n          <feComposite in=\"opA\" in2=\"blurA\" result=\"shA\" operator=\"in\" />\n          <!-- HACK Edge: Using a dynamic value for erode radius stops Edge from corrupting the \"radius\" value! -->\n          <feMorphology in=\"solid\" result=\"smaller\" operator=\"erode\" radius=", " />\n          <feComposite in=\"shU\" in2=\"smaller\" result=\"finalU\" operator=\"out\" />\n          <feComposite in=\"shP\" in2=\"smaller\" result=\"finalP\" operator=\"out\" />\n          <feComposite in=\"shA\" in2=\"smaller\" result=\"finalA\" operator=\"out\" />\n          <feMerge>\n            <feMergeNode in=\"finalU\" />\n            <feMergeNode in=\"finalP\" />\n            <feMergeNode in=\"finalA\" />\n            <feMergeNode in=\"SourceGraphic\" />\n          </feMerge>\n        </filter>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
+
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
+
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+/*
+  DecidableElement Base Class - Not intended for instantiation!
+  <decidable-element>
+*/
+
+
+var DecidableElement = /*#__PURE__*/function (_LitElement) {
+  _inherits(DecidableElement, _LitElement);
+
+  _createClass(DecidableElement, null, [{
+    key: "uniqueId",
+    // HACK: Create a unique ID for each DecidableElement
+    // This is needed because Edge/IE11 don't have real Shadow DOM, so IDs leak
+    // out of elements and collide if there is more than one of an element on a
+    // page. Known issue for checkbox/switches and the id/for pattern on <input>
+    // and <label>
+    get: function get() {
+      DecidableElement.ID += 1;
+      return DecidableElement.ID;
+    }
+  }]);
+
+  function DecidableElement() {
+    var _this;
+
+    _classCallCheck(this, DecidableElement);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(DecidableElement).call(this));
+    _this.uniqueId = "decidable-".concat(DecidableElement.uniqueId);
+    return _this;
+  }
+
+  _createClass(DecidableElement, [{
+    key: "getComputedStyleValue",
+    value: function getComputedStyleValue(property) {
+      // HACK: IE11 requires use of polyfill interface to get custom property value in Javascript
+      if (window.ShadyCSS) {
+        return window.ShadyCSS.getComputedStyleValue(this, property);
+      }
+
+      return getComputedStyle(this).getPropertyValue(property);
+    }
+  }, {
+    key: "firstUpdated",
+    value: function firstUpdated(changedProperties) {
+      _get(_getPrototypeOf(DecidableElement.prototype), "firstUpdated", this).call(this, changedProperties); // Use focus highlighting if keyboard is used at all
+
+
+      d3.select(this.renderRoot.host).classed('keyboard', true).on('mousemove.keyboard touchstart.keyboard', function (datum, index, elements) {
+        var element = elements[index];
+        d3.select(element.renderRoot.host).classed('keyboard', false).on('mousemove.keyboard touchstart.keyboard', null);
+      }).on('keydown.keyboard', function (datum, index, elements) {
+        var element = elements[index];
+        d3.select(element.renderRoot.host).classed('keyboard', true).on('keydown.keyboard mousemove.keyboard touchstart.keyboard', null);
+      });
+    }
+  }], [{
+    key: "cssBoxShadow",
+    value: function cssBoxShadow(elevation) {
+      var rotate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var inverse = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var umbraO = this.shadows.opacityUmbra + this.shadows.opacityBoost;
+      var penumbraO = this.shadows.opacityPenumbra + this.shadows.opacityBoost;
+      var ambientO = this.shadows.opacityAmbient + this.shadows.opacityBoost;
+      var umbraC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(umbraO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(umbraO, ")");
+      var penumbraC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(penumbraO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(penumbraO, ")");
+      var ambientC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(ambientO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(ambientO, ")");
+      var umbraM = this.shadows.mapUmbra[elevation];
+      var penumbraM = this.shadows.mapPenumbra[elevation];
+      var ambientM = this.shadows.mapAmbient[elevation];
+      var umbraS = rotate ? "".concat(-umbraM.y, "px ").concat(umbraM.y / 2, "px ").concat(umbraM.b, "px ").concat(umbraM.s, "px") : "".concat(umbraM.y / 2, "px ").concat(umbraM.y, "px ").concat(umbraM.b, "px ").concat(umbraM.s, "px");
+      var penumbraS = rotate ? "".concat(-penumbraM.y, "px ").concat(penumbraM.y / 2, "px ").concat(penumbraM.b, "px ").concat(penumbraM.s, "px") : "".concat(penumbraM.y / 2, "px ").concat(penumbraM.y, "px ").concat(penumbraM.b, "px ").concat(penumbraM.s, "px");
+      var ambientS = rotate ? "".concat(-ambientM.y, "px ").concat(ambientM.y / 2, "px ").concat(ambientM.b, "px ").concat(ambientM.s, "px") : "".concat(ambientM.y / 2, "px ").concat(ambientM.y, "px ").concat(ambientM.b, "px ").concat(ambientM.s, "px");
+      return "".concat(umbraS, " ").concat(umbraC, ", ").concat(penumbraS, " ").concat(penumbraC, ", ").concat(ambientS, " ").concat(ambientC);
+    }
+  }, {
+    key: "greys",
+    get: function get() {
+      var grey = '#999999';
+      var greys = {};
+      greys.white = '#ffffff';
+      greys.light75 = d3.interpolateRgb(grey, '#ffffff')(0.75);
+      greys.light50 = d3.interpolateRgb(grey, '#ffffff')(0.5);
+      greys.light25 = d3.interpolateRgb(grey, '#ffffff')(0.25);
+      greys.grey = grey;
+      greys.dark25 = d3.interpolateRgb(grey, '#000000')(0.25);
+      greys.dark50 = d3.interpolateRgb(grey, '#000000')(0.5);
+      greys.dark75 = d3.interpolateRgb(grey, '#000000')(0.75);
+      greys.black = '#000000';
+      return greys;
+    }
+  }, {
+    key: "shadows",
+    get: function get() {
+      // Material Design elevation styles
+      // References:
+      //   https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
+      //   https://codepen.io/hanger/pen/yOGvQp
+
+      /* eslint-disable key-spacing, object-curly-newline */
+      return {
+        elevations: [0, 2, 4, 8, 16],
+        baselineColor: '#000000',
+        baselineColorString: '0, 0, 0',
+        inverseBaselineColor: '#FFFFFF',
+        inverseBaselineColorString: '255, 255, 255',
+        opacityUmbra: 0.2,
+        opacityPenumbra: 0.14,
+        opacityAmbient: 0.12,
+        opacityBoost: 0.2,
+        mapUmbra: {
+          // $mdc-elevation-umbra-map
+          0: {
+            x: 0,
+            y: 0,
+            b: 0,
+            s: 0
+          },
+          // offset-x, offset-y, blur-radius, spread-radius
+          2: {
+            x: 0,
+            y: 3,
+            b: 1,
+            s: -2
+          },
+          4: {
+            x: 0,
+            y: 2,
+            b: 4,
+            s: -1
+          },
+          8: {
+            x: 0,
+            y: 5,
+            b: 5,
+            s: -3
+          },
+          16: {
+            x: 0,
+            y: 8,
+            b: 10,
+            s: -5
+          }
+        },
+        mapPenumbra: {
+          // $mdc-elevation-penumbra-map
+          0: {
+            x: 0,
+            y: 0,
+            b: 0,
+            s: 0
+          },
+          // offset-x, offset-y, blur-radius, spread-radius
+          2: {
+            x: 0,
+            y: 2,
+            b: 2,
+            s: 0
+          },
+          4: {
+            x: 0,
+            y: 4,
+            b: 5,
+            s: 0
+          },
+          8: {
+            x: 0,
+            y: 8,
+            b: 10,
+            s: 1
+          },
+          16: {
+            x: 0,
+            y: 16,
+            b: 24,
+            s: 2
+          }
+        },
+        mapAmbient: {
+          // $mdc-elevation-ambient-map
+          0: {
+            x: 0,
+            y: 0,
+            b: 0,
+            s: 0
+          },
+          // offset-x, offset-y, blur-radius, spread-radius
+          2: {
+            x: 0,
+            y: 1,
+            b: 5,
+            s: 0
+          },
+          4: {
+            x: 0,
+            y: 1,
+            b: 10,
+            s: 0
+          },
+          8: {
+            x: 0,
+            y: 3,
+            b: 14,
+            s: 2
+          },
+          16: {
+            x: 0,
+            y: 6,
+            b: 30,
+            s: 5
+          }
+        }
+      };
+      /* eslint-enable key-spacing, object-curly-newline */
+    }
+  }, {
+    key: "svgFilters",
+    get: function get() {
+      var shadows = DecidableElement.shadows; // eslint-disable-line prefer-destructuring
+
+      var erodeRadius = 1;
+      var filters = shadows.elevations.map(function (z) {
+        return (0, _litElement.svg)(_templateObject(), "shadow-".concat(z), shadows.mapUmbra[z].y / 2, shadows.mapUmbra[z].y, shadows.mapPenumbra[z].y / 2, shadows.mapPenumbra[z].y, shadows.mapAmbient[z].y / 2, shadows.mapAmbient[z].y, shadows.mapUmbra[z].s === 0 ? (0, _litElement.svg)(_templateObject2()) : (0, _litElement.svg)(_templateObject3(), shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapUmbra[z].s)), shadows.mapPenumbra[z].s === 0 ? (0, _litElement.svg)(_templateObject4()) : (0, _litElement.svg)(_templateObject5(), shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapPenumbra[z].s)), shadows.mapAmbient[z].s === 0 ? (0, _litElement.svg)(_templateObject6()) : (0, _litElement.svg)(_templateObject7(), shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapAmbient[z].s)), shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU', shadows.mapUmbra[z].b / 2, shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP', shadows.mapPenumbra[z].b / 2, shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA', shadows.mapAmbient[z].b / 2, shadows.baselineColor, shadows.opacityUmbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityPenumbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityAmbient + shadows.opacityBoost, erodeRadius);
+      });
+      return (0, _litElement.svg)(_templateObject8(), filters);
+    }
+  }, {
+    key: "styles",
+    get: function get() {
+      return (0, _litElement.css)(_templateObject9(), (0, _litElement.unsafeCSS)(this.cssBoxShadow(0)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(2)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(4)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(8)), (0, _litElement.unsafeCSS)(this.greys.white), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.dark75), (0, _litElement.unsafeCSS)(this.greys.white), (0, _litElement.unsafeCSS)(this.greys.dark25), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.light50), (0, _litElement.unsafeCSS)(this.greys.grey), (0, _litElement.unsafeCSS)(this.greys.dark25), (0, _litElement.unsafeCSS)(this.greys.dark50), (0, _litElement.unsafeCSS)(this.greys.dark75));
+    }
+  }]);
+
+  return DecidableElement;
+}(_litElement.LitElement); // Static property of DecidableElement!
+
+
+exports.default = DecidableElement;
+DecidableElement.ID = 0;
+
+},{"d3":384,"lit-element":390}],412:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "DecidableElement", {
+  enumerable: true,
+  get: function get() {
+    return _decidableElement.default;
+  }
+});
+Object.defineProperty(exports, "DecidableButton", {
+  enumerable: true,
+  get: function get() {
+    return _button.default;
+  }
+});
+Object.defineProperty(exports, "DecidableSlider", {
+  enumerable: true,
+  get: function get() {
+    return _slider.default;
+  }
+});
+Object.defineProperty(exports, "DecidableSpinner", {
+  enumerable: true,
+  get: function get() {
+    return _spinner.default;
+  }
+});
+Object.defineProperty(exports, "DecidableSwitch", {
+  enumerable: true,
+  get: function get() {
+    return _switch.default;
+  }
+});
+Object.defineProperty(exports, "DecidableToggle", {
+  enumerable: true,
+  get: function get() {
+    return _toggle.default;
+  }
+});
+Object.defineProperty(exports, "DecidableToggleOption", {
+  enumerable: true,
+  get: function get() {
+    return _toggleOption.default;
+  }
+});
+Object.defineProperty(exports, "DecidableConverterSet", {
+  enumerable: true,
+  get: function get() {
+    return _converterSet.default;
+  }
+});
+
+var _decidableElement = _interopRequireDefault(require("./decidable-element"));
+
+var _button = _interopRequireDefault(require("./button"));
+
+var _slider = _interopRequireDefault(require("./slider"));
+
+var _spinner = _interopRequireDefault(require("./spinner"));
+
+var _switch = _interopRequireDefault(require("./switch"));
+
+var _toggle = _interopRequireDefault(require("./toggle"));
+
+var _toggleOption = _interopRequireDefault(require("./toggle-option"));
+
+var _converterSet = _interopRequireDefault(require("./converter-set"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
+
+},{"./button":409,"./converter-set":410,"./decidable-element":411,"./slider":413,"./spinner":414,"./switch":415,"./toggle":417,"./toggle-option":416}],413:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _ifDefined = require("lit-html/directives/if-defined");
+
+var _litElement = require("lit-element");
+
+var _decidableElement = _interopRequireDefault(require("./decidable-element"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        decidable-spinner {\n          --decidable-spinner-input-width: 3.5rem;\n\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        /* Adapted from http://danielstern.ca/range.css/#/ */\n        /* Overall */\n        input[type=range] {\n          width: 4.75rem;\n          height: 3.5rem;\n          padding: 0;\n          margin: 0;\n\n          background-color: unset;\n\n          transform: rotate(-90deg);\n          transform-origin: 2.375rem 2.375rem;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:enabled {\n          cursor: ns-resize;\n        }\n\n        input[type=range]:focus {\n          outline: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-tooltip {\n          display: none;\n        }\n\n        /* Track */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-runnable-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        input[type=range]:focus::-webkit-slider-runnable-track {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-track {\n          width: 100%;\n          height: 4px;\n\n          color: transparent;\n\n          background: transparent;\n          border-color: transparent;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-lower {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-upper {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-lower {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-upper {\n          background: var(---color-element-disabled);\n        }\n\n        /* Thumb */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: -8px;\n\n          border: 0;\n          border-radius: 4px;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:disabled::-webkit-slider-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=range]:enabled::-webkit-slider-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        input[type=range]:enabled:hover::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        input[type=range]:enabled:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-thumb {\n          width: 10px;\n          height: 20px;\n\n          border: 0;\n          border-radius: 4px;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-moz-range-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-moz-range-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: 0;\n\n          background: #999999;\n          /* background: var(---color-element-enabled); */\n          border: 0;\n          border-radius: 4px;\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-ms-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-ms-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-ms-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n      "]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <label for=", ">\n        <slot></slot>\n      </label>\n      <div class=\"range\">\n        <input type=\"range\" id=", " min=", " max=", " step=", " .value=", " @change=", " @input=", ">\n      </div>\n      <decidable-spinner min=", " max=", " step=", " .value=", " @input=", "></decidable-spinner>\n    "]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
+
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
+
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+var DecidableSlider = /*#__PURE__*/function (_DecidableElement) {
+  _inherits(DecidableSlider, _DecidableElement);
+
+  _createClass(DecidableSlider, null, [{
+    key: "properties",
+    get: function get() {
+      return {
+        disabled: {
+          attribute: 'disabled',
+          type: Boolean,
+          reflect: true
+        },
+        max: {
+          attribute: 'max',
+          type: Number,
+          reflect: true
+        },
+        min: {
+          attribute: 'min',
+          type: Number,
+          reflect: true
+        },
+        step: {
+          attribute: 'step',
+          type: Number,
+          reflect: true
+        },
+        value: {
+          attribute: 'value',
+          type: Number,
+          reflect: true
+        }
+      };
+    }
+  }]);
+
+  function DecidableSlider() {
+    var _this;
+
+    _classCallCheck(this, DecidableSlider);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(DecidableSlider).call(this)); // Attributes
+
+    _this.disabled = false;
+    _this.max = undefined;
+    _this.min = undefined;
+    _this.step = undefined;
+    _this.value = undefined;
+    return _this;
+  }
+
+  _createClass(DecidableSlider, [{
+    key: "changed",
+    value: function changed(event) {
+      this.value = event.target.value;
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: {
+          value: this.value
+        },
+        bubbles: true
+      }));
+    }
+  }, {
+    key: "inputted",
+    value: function inputted(event) {
+      this.value = event.target.value;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return (0, _litElement.html)(_templateObject(), "".concat(this.uniqueId, "-slider"), "".concat(this.uniqueId, "-slider"), (0, _ifDefined.ifDefined)(this.min), (0, _ifDefined.ifDefined)(this.max), (0, _ifDefined.ifDefined)(this.step), this.value, this.changed.bind(this), this.inputted.bind(this), (0, _ifDefined.ifDefined)(this.min), (0, _ifDefined.ifDefined)(this.max), (0, _ifDefined.ifDefined)(this.step), this.value, this.inputted.bind(this));
+    }
+  }], [{
+    key: "styles",
+    get: function get() {
+      return [_get(_getPrototypeOf(DecidableSlider), "styles", this), (0, _litElement.css)(_templateObject2())];
+    }
+  }]);
+
+  return DecidableSlider;
+}(_decidableElement.default);
+
+exports.default = DecidableSlider;
+customElements.define('decidable-slider', DecidableSlider);
+
+},{"./decidable-element":411,"lit-element":390,"lit-html/directives/if-defined":391}],414:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _ifDefined = require("lit-html/directives/if-defined");
+
+var _litElement = require("lit-element");
+
+var _decidableElement = _interopRequireDefault(require("./decidable-element"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n        }\n\n        label {\n          position: relative;\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          margin: 0;\n\n          font-size: 0.75rem;\n        }\n\n        label::before {\n          position: absolute;\n          bottom: 1px;\n          left: calc(50% - var(--decidable-spinner-input-width, 4rem) / 2 + 0.25rem);\n\n          font-size: 1.125rem;\n          line-height: normal;\n\n          content: var(--decidable-spinner-prefix, \"\");\n        }\n\n        input[type=number] {\n          width: var(--decidable-spinner-input-width, 4rem);\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          color: inherit;\n          text-align: right;\n\n          background: none;\n          border: 0;\n          border-radius: 0;\n          outline: none;\n          box-shadow: var(---shadow-2);\n\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n\n        input[type=number]:hover {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=number]:focus,\n        input[type=number]:active {\n          box-shadow: var(---shadow-8);\n        }\n\n        input[type=number]:disabled {\n          color: var(---color-text);\n\n          border: 0;\n          box-shadow: none;\n\n          /* HACK: Use correct text color in Safari */\n          -webkit-opacity: 1;\n          /* HACK: Hide spinners in disabled input for Firefox and Safari */\n          -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */\n          /* HACK: Use correct text color in Safari */\n          -webkit-text-fill-color: var(---color-text);\n        }\n\n        /* HACK: Hide spinners in disabled input for Firefox and Safari */\n        input[type=number]:disabled::-webkit-outer-spin-button,\n        input[type=number]:disabled::-webkit-inner-spin-button {\n          margin: 0;\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n      "]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <label>\n        <slot></slot>\n        <input ?disabled=", " type=\"number\" min=", " max=", " step=", " .value=", " @input=", ">\n      </label>\n    "]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
+
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
+
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+var DecidableSpinner = /*#__PURE__*/function (_DecidableElement) {
+  _inherits(DecidableSpinner, _DecidableElement);
+
+  _createClass(DecidableSpinner, null, [{
+    key: "properties",
+    get: function get() {
+      return {
+        disabled: {
+          attribute: 'disabled',
+          type: Boolean,
+          reflect: true
+        },
+        max: {
+          attribute: 'max',
+          type: Number,
+          reflect: true
+        },
+        min: {
+          attribute: 'min',
+          type: Number,
+          reflect: true
+        },
+        step: {
+          attribute: 'step',
+          type: Number,
+          reflect: true
+        },
+        value: {
+          attribute: 'value',
+          type: Number,
+          reflect: true
+        }
+      };
+    }
+  }]);
+
+  function DecidableSpinner() {
+    var _this;
+
+    _classCallCheck(this, DecidableSpinner);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(DecidableSpinner).call(this)); // Attributes
+
+    _this.disabled = false;
+    _this.max = undefined;
+    _this.min = undefined;
+    _this.step = undefined;
+    _this.value = undefined;
+    return _this;
+  }
+
+  _createClass(DecidableSpinner, [{
+    key: "inputted",
+    value: function inputted(event) {
+      this.value = event.target.value;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return (0, _litElement.html)(_templateObject(), this.disabled, (0, _ifDefined.ifDefined)(this.min), (0, _ifDefined.ifDefined)(this.max), (0, _ifDefined.ifDefined)(this.step), this.value, this.inputted.bind(this));
+    }
+  }], [{
+    key: "styles",
+    get: function get() {
+      return [_get(_getPrototypeOf(DecidableSpinner), "styles", this), (0, _litElement.css)(_templateObject2())];
+    }
+  }]);
+
+  return DecidableSpinner;
+}(_decidableElement.default);
+
+exports.default = DecidableSpinner;
+customElements.define('decidable-spinner', DecidableSpinner);
+
+},{"./decidable-element":411,"lit-element":390,"lit-html/directives/if-defined":391}],415:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _litElement = require("lit-element");
+
+var _decidableElement = _interopRequireDefault(require("./decidable-element"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */\n        input[type=checkbox] {\n          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n          position: absolute;\n\n          width: 1px;\n          height: 1px;\n          padding: 0;\n          margin: -1px;\n          overflow: hidden;\n          clip: rect(0 0 0 0);\n\n          white-space: nowrap;\n\n          border: 0;\n          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n        }\n\n        input[type=checkbox] + label {\n          order: 1;\n\n          margin: 0 0.25rem 0.25rem;\n\n          font-weight: 400;\n        }\n\n        input[type=checkbox] + label + label {\n          position: relative;\n\n          min-width: 24px;\n          padding: 0 0 36px;\n          margin: 0.25rem 0.25rem 0;\n\n          font-weight: 400;\n\n          outline: none;\n        }\n\n        input[type=checkbox] + label + label::before,\n        input[type=checkbox] + label + label::after {\n          position: absolute;\n\n          left: 50%;\n\n          margin: 0;\n\n          content: \"\";\n\n          outline: 0;\n\n          transition: all var(---transition-duration) ease;\n          transform: translate(-50%, 0);\n        }\n\n        input[type=checkbox] + label + label::before {\n          bottom: 1px;\n\n          width: 8px;\n          height: 34px;\n\n          background-color: var(---color-element-disabled);\n          border-radius: 4px;\n        }\n\n        input[type=checkbox] + label + label::after {\n          bottom: 0;\n\n          width: 18px;\n          height: 18px;\n\n          background-color: var(---color-element-enabled);\n          border-radius: 50%;\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=checkbox]:checked + label + label::after {\n          transform: translate(-50%, -100%);\n        }\n\n        input[type=checkbox]:disabled + label + label::after {\n          background-color: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=checkbox]:enabled + label,\n        input[type=checkbox]:enabled + label + label {\n          cursor: pointer;\n        }\n\n        input[type=checkbox]:enabled + label:hover + label::after,\n        input[type=checkbox]:enabled + label + label:hover::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=checkbox]:enabled + label:active + label::after,\n        input[type=checkbox]:enabled + label + label:active::after {\n          box-shadow: var(---shadow-8);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,\n        :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {\n          box-shadow: var(---shadow-8);\n        }\n      "]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <input type=\"checkbox\" id=", " ?checked=", " ?disabled=", " @change=", ">\n      <label for=", ">\n        <slot name=\"off-label\"></slot>\n      </label>\n      <label for=", ">\n        <slot></slot>\n      </label>\n    "]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
+
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
+
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+var DecidableSwitch = /*#__PURE__*/function (_DecidableElement) {
+  _inherits(DecidableSwitch, _DecidableElement);
+
+  _createClass(DecidableSwitch, null, [{
+    key: "properties",
+    get: function get() {
+      return {
+        checked: {
+          attribute: 'checked',
+          type: Boolean,
+          reflect: true
+        },
+        disabled: {
+          attribute: 'disabled',
+          type: Boolean,
+          reflect: true
+        }
+      };
+    }
+  }]);
+
+  function DecidableSwitch() {
+    var _this;
+
+    _classCallCheck(this, DecidableSwitch);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(DecidableSwitch).call(this)); // Attributes
+
+    _this.checked = false;
+    _this.disabled = false;
+    return _this;
+  }
+
+  _createClass(DecidableSwitch, [{
+    key: "changed",
+    value: function changed(event) {
+      this.checked = event.target.checked;
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: {
+          checked: this.checked
+        },
+        bubbles: true
+      }));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return (0, _litElement.html)(_templateObject(), "".concat(this.uniqueId, "-checkbox"), this.checked, this.disabled, this.changed.bind(this), "".concat(this.uniqueId, "-checkbox"), "".concat(this.uniqueId, "-checkbox"));
+    }
+  }], [{
+    key: "styles",
+    get: function get() {
+      return [_get(_getPrototypeOf(DecidableSwitch), "styles", this), (0, _litElement.css)(_templateObject2())];
+    }
+  }]);
+
+  return DecidableSwitch;
+}(_decidableElement.default);
+
+exports.default = DecidableSwitch;
+customElements.define('decidable-switch', DecidableSwitch);
+
+},{"./decidable-element":411,"lit-element":390}],416:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _litElement = require("lit-element");
+
+var _decidableElement = _interopRequireDefault(require("./decidable-element"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: flex;\n        }\n\n        input[type=radio] {\n          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n          position: absolute;\n\n          width: 1px;\n          height: 1px;\n          padding: 0;\n          margin: -1px;\n          overflow: hidden;\n          clip: rect(0 0 0 0);\n\n          white-space: nowrap;\n\n          border: 0;\n          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n        }\n\n        input[type=radio] + label {\n          width: 100%;\n          padding: 0.375rem 0.75rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-text-inverse);\n          text-align: center;\n\n          cursor: pointer;\n\n          background-color: var(---color-element-enabled);\n          border: 0;\n          border-radius: 0;\n          outline: none;\n\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=radio]:checked + label {\n          background-color: var(---color-element-selected);\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=radio] + label:hover {\n          z-index: 1;\n\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=radio] + label:active {\n          z-index: 2;\n\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(:first-of-type) input[type=radio] + label {\n          border-top-left-radius: 0.25rem;\n          border-top-right-radius: 0.25rem;\n        }\n\n        :host(:last-of-type) input[type=radio] + label {\n          border-bottom-right-radius: 0.25rem;\n          border-bottom-left-radius: 0.25rem;\n        }\n\n        :host(.keyboard) input[type=radio]:focus + label {\n          z-index: 1;\n\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) input[type=radio]:focus:checked + label {\n          z-index: 1;\n\n          background-color: var(---color-element-selected);\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) input[type=radio]:focus + label:active {\n          z-index: 2;\n\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n      "]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <input type=\"radio\" id=", " name=", " value=", " .checked=", " @change=", ">\n      <label for=", ">\n        <slot></slot>\n      </label>\n    "]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
+
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
+
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+var DecidableToggleOption = /*#__PURE__*/function (_DecidableElement) {
+  _inherits(DecidableToggleOption, _DecidableElement);
+
+  _createClass(DecidableToggleOption, null, [{
+    key: "properties",
+    get: function get() {
+      return {
+        checked: {
+          attribute: 'checked',
+          type: Boolean,
+          reflect: true
+        },
+        disabled: {
+          attribute: 'disabled',
+          type: Boolean,
+          reflect: true
+        },
+        name: {
+          attribute: 'name',
+          type: String,
+          reflect: true
+        },
+        value: {
+          attribute: 'value',
+          type: String,
+          reflect: true
+        }
+      };
+    }
+  }]);
+
+  function DecidableToggleOption() {
+    var _this;
+
+    _classCallCheck(this, DecidableToggleOption);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(DecidableToggleOption).call(this)); // Attributes
+
+    _this.checked = false;
+    _this.disabled = false;
+    _this.name = undefined;
+    _this.value = undefined;
+    return _this;
+  }
+
+  _createClass(DecidableToggleOption, [{
+    key: "changed",
+    value: function changed(event) {
+      this.checked = event.target.checked;
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: {
+          checked: this.checked,
+          value: this.value
+        },
+        bubbles: true
+      }));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return (0, _litElement.html)(_templateObject(), "".concat(this.uniqueId, "-radio"), this.name, this.value, this.checked, this.changed.bind(this), "".concat(this.uniqueId, "-radio"));
+    }
+  }], [{
+    key: "styles",
+    get: function get() {
+      return [_get(_getPrototypeOf(DecidableToggleOption), "styles", this), (0, _litElement.css)(_templateObject2())];
+    }
+  }]);
+
+  return DecidableToggleOption;
+}(_decidableElement.default);
+
+exports.default = DecidableToggleOption;
+customElements.define('decidable-toggle-option', DecidableToggleOption);
+
+},{"./decidable-element":411,"lit-element":390}],417:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _litElement = require("lit-element");
+
+var _decidableElement = _interopRequireDefault(require("./decidable-element"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n        fieldset {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n\n          margin: 0.25rem;\n\n          border: 0;\n        }\n\n        legend {\n          text-align: center;\n        }\n      "]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n      <fieldset ?disabled=", ">\n        <legend><slot name=\"label\"></slot></legend>\n        <slot></slot>\n      </fieldset>\n    "]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
+
+  return Object.freeze(Object.defineProperties(strings, {
+    raw: {
+      value: Object.freeze(raw)
+    }
+  }));
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _get(target, property, receiver) {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
+
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get(target, property, receiver || target);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+var DecidableToggle = /*#__PURE__*/function (_DecidableElement) {
+  _inherits(DecidableToggle, _DecidableElement);
+
+  _createClass(DecidableToggle, null, [{
+    key: "properties",
+    get: function get() {
+      return {
+        disabled: {
+          attribute: 'disabled',
+          type: Boolean,
+          reflect: true
+        }
+      };
+    }
+  }]);
+
+  function DecidableToggle() {
+    var _this;
+
+    _classCallCheck(this, DecidableToggle);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(DecidableToggle).call(this)); // Attributes
+
+    _this.disabled = false;
+    return _this;
+  }
+
+  _createClass(DecidableToggle, [{
+    key: "render",
+    value: function render() {
+      return (0, _litElement.html)(_templateObject(), this.disabled);
+    }
+  }], [{
+    key: "styles",
+    get: function get() {
+      return [_get(_getPrototypeOf(DecidableToggle), "styles", this), (0, _litElement.css)(_templateObject2())];
+    }
+  }]);
+
+  return DecidableToggle;
+}(_decidableElement.default);
+
+exports.default = DecidableToggle;
+customElements.define('decidable-toggle', DecidableToggle);
+
+},{"./decidable-element":411,"lit-element":390}],418:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63212,7 +65503,7 @@ function _interopRequireDefault(obj) {
   };
 }
 
-},{"./rdk-task":409,"./roc-space":410,"./sdt-control":411,"./sdt-model":412,"./sdt-response":413,"./sdt-table":414}],409:[function(require,module,exports){
+},{"./rdk-task":419,"./roc-space":420,"./sdt-control":421,"./sdt-model":422,"./sdt-response":423,"./sdt-table":424}],419:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63954,7 +66245,7 @@ var RDKTask = /*#__PURE__*/function (_SDTElement) {
 exports.default = RDKTask;
 customElements.define('rdk-task', RDKTask);
 
-},{"../sdt-element":439,"d3":384,"lit-element":390}],410:[function(require,module,exports){
+},{"../sdt-element":442,"d3":384,"lit-element":390}],420:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -64986,7 +67277,7 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
 exports.default = ROCSpace;
 customElements.define('roc-space', ROCSpace);
 
-},{"../sdt-element":439,"@decidable/detectable-math":440,"d3":384,"lit-element":390}],411:[function(require,module,exports){
+},{"../sdt-element":442,"@decidable/detectable-math":443,"d3":384,"lit-element":390}],421:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -64996,17 +67287,9 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
+require("@decidable/decidable-elements");
+
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
-
-var _styleButton = _interopRequireDefault(require("../mixins/styleButton"));
-
-var _styleSlider = _interopRequireDefault(require("../mixins/styleSlider"));
-
-var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
-
-var _styleSwitch = _interopRequireDefault(require("../mixins/styleSwitch"));
-
-var _styleToggle = _interopRequireDefault(require("../mixins/styleToggle"));
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {
@@ -65031,7 +67314,7 @@ function _typeof(obj) {
 }
 
 function _templateObject20() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: ", ";\n          ---shadow-4-rotate: ", ";\n          ---shadow-8-rotate: ", ";\n\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        .slider {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .switch {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .toggle {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        /* Spinners */\n        input[type=number] {\n          width: 3.5rem;\n          margin: 0 0.25rem 0.25rem;\n\n          background: var(---color-background);\n        }\n\n        /* Toggles */\n        fieldset {\n          border: 0;\n        }\n\n        legend {\n          text-align: center;\n        }\n\n        /* Payoff  Slider */\n        .payoff {\n          line-height: 1;\n        }\n\n        .payoff::before {\n          position: absolute;\n\n          padding-top: 1px;\n          padding-left: 0.5rem;\n\n          line-height: normal;\n\n          content: \"$\";\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: ", ";\n          ---shadow-4-rotate: ", ";\n          ---shadow-8-rotate: ", ";\n\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        /* Payoff  Slider */\n        .payoff {\n          --decidable-spinner-prefix: \"$\";\n        }\n      "]);
 
   _templateObject20 = function _templateObject20() {
     return data;
@@ -65051,7 +67334,7 @@ function _templateObject19() {
 }
 
 function _templateObject18() {
-  var data = _taggedTemplateLiteral(["<button name=\"reset\" ?disabled=", " @click=", ">Reset</button>"]);
+  var data = _taggedTemplateLiteral(["<decidable-button name=\"reset\" ?disabled=", " @click=", ">Reset</decidable-button>"]);
 
   _templateObject18 = function _templateObject18() {
     return data;
@@ -65071,7 +67354,7 @@ function _templateObject17() {
 }
 
 function _templateObject16() {
-  var data = _taggedTemplateLiteral(["<button name=\"pause\" ?disabled=", " @click=", ">Pause</button>"]);
+  var data = _taggedTemplateLiteral(["<decidable-button name=\"pause\" ?disabled=", " @click=", ">Pause</decidable-button>"]);
 
   _templateObject16 = function _templateObject16() {
     return data;
@@ -65091,7 +67374,7 @@ function _templateObject15() {
 }
 
 function _templateObject14() {
-  var data = _taggedTemplateLiteral(["<button name=\"run\" ?disabled=", " @click=", ">Run</button>"]);
+  var data = _taggedTemplateLiteral(["<decidable-button name=\"run\" ?disabled=", " @click=", ">Run</decidable-button>"]);
 
   _templateObject14 = function _templateObject14() {
     return data;
@@ -65111,7 +67394,7 @@ function _templateObject13() {
 }
 
 function _templateObject12() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"switch\">\n              <input type=\"checkbox\" id=", " name=\"z-roc\" ?checked=", " @change=", ">\n              <label for=", ">ROC</label>\n              <label for=", "><span class=\"math-var\">z</span>ROC</label>\n            </div>"]);
+  var data = _taggedTemplateLiteral(["\n            <decidable-switch ?checked=", " @change=", ">\n              <span class=\"math-var\">z</span>ROC\n              <span slot=\"off-label\">ROC</span>\n            </decidable-switch>\n          "]);
 
   _templateObject12 = function _templateObject12() {
     return data;
@@ -65131,7 +67414,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["\n            <fieldset class=\"toggle\">\n              <legend>Emphasis</legend>\n              <input type=\"radio\" id=", " name=", " value=\"none\" ?checked=", " @change=", ">\n              <label for=", ">None</label>\n              <input type=\"radio\" id=", " name=", " value=\"accuracy\" ?checked=", " @change=", ">\n              <label for=", ">Accuracy</label>\n              <input type=\"radio\" id=", " name=", " value=\"stimulus\" ?checked=", " @change=", ">\n              <label for=", ">Stimulus</label>\n              <input type=\"radio\" id=", " name=", " value=\"response\" ?checked=", " @change=", ">\n              <label for=", ">Response</label>\n              <input type=\"radio\" id=", " name=", " value=\"outcome\" ?checked=", " @change=", ">\n              <label for=", ">Outcome</label>\n            </fieldset>"]);
+  var data = _taggedTemplateLiteral(["\n            <decidable-toggle @change=", ">\n              <span slot=\"label\">Emphasis</span>\n              <decidable-toggle-option name=", " value=\"none\" ?checked=", ">None</decidable-toggle-option>\n              <decidable-toggle-option name=", " value=\"accuracy\" ?checked=", ">Accuracy</decidable-toggle-option>\n              <decidable-toggle-option name=", " value=\"stimulus\" ?checked=", ">Stimulus</decidable-toggle-option>\n              <decidable-toggle-option name=", " value=\"response\" ?checked=", ">Response</decidable-toggle-option>\n              <decidable-toggle-option name=", " value=\"outcome\" ?checked=", ">Outcome</decidable-toggle-option>\n            </decidable-toggle>\n          "]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -65151,7 +67434,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Payoff</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"payoff\" min=\"0\" max=\"100\" step=\"1\" .value=", " @input=", " @change=", ">\n              </div>\n              <div class=\"payoff\">\n                <input type=\"number\" min=\"0\" max=\"100\" step=\"1\" .value=\"", "\" @input=", ">\n              </div>\n            </div>"]);
+  var data = _taggedTemplateLiteral(["<decidable-slider class=\"payoff\" min=\"0\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Payoff</decidable-slider>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -65171,7 +67454,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Coherence</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"coherence\" min=\"0\" max=\"1\" step=\".01\" .value=", " @input=", " @change=", ">\n              </div>\n              <input type=\"number\" min=\"0\" max=\"1\" step=\".01\" .value=\"", "\" @input=", ">\n            </div>"]);
+  var data = _taggedTemplateLiteral(["<decidable-slider min=\"0\" max=\"1\" step=\".01\" .value=", " @change=", " @input=", ">Coherence</decidable-slider>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -65191,7 +67474,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Duration</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"duration\" min=\"10\" max=\"2000\" step=\"10\" .value=", " @input=", " @change=", ">\n              </div>\n              <input type=\"number\" min=\"10\" max=\"2000\" step=\"10\" .value=", " @input=", ">\n            </div>"]);
+  var data = _taggedTemplateLiteral(["<decidable-slider min=\"10\" max=\"2000\" step=\"10\" .value=", " @change=", " @input=", ">Duration</decidable-slider>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -65211,7 +67494,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Trials</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"trials\" min=\"1\" max=\"100\" step=\"1\" .value=", " @input=", " @change=", ">\n              </div>\n              <input type=\"number\" min=\"1\" max=\"100\" step=\"1\" .value=", " @input=", ">\n            </div>"]);
+  var data = _taggedTemplateLiteral(["<decidable-slider min=\"1\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Trials</decidable-slider>"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -65349,12 +67632,11 @@ function _setPrototypeOf(o, p) {
 */
 
 
-var SDTControl = /*#__PURE__*/function (_SDTMixinStyleButton) {
-  _inherits(SDTControl, _SDTMixinStyleButton);
+var SDTControl = /*#__PURE__*/function (_SDTElement) {
+  _inherits(SDTControl, _SDTElement);
 
   _createClass(SDTControl, null, [{
     key: "properties",
-    // eslint-disable-line max-len
     get: function get() {
       return {
         trials: {
@@ -65535,7 +67817,7 @@ var SDTControl = /*#__PURE__*/function (_SDTMixinStyleButton) {
   }, {
     key: "render",
     value: function render() {
-      return (0, _litElement.html)(_templateObject(), this.trials ? (0, _litElement.html)(_templateObject2(), "".concat(this.uniqueId, "-trials"), "".concat(this.uniqueId, "-trials"), this.trials, this.setTrials.bind(this), this.setTrials.bind(this), this.trials, this.setTrials.bind(this)) : (0, _litElement.html)(_templateObject3()), this.duration ? (0, _litElement.html)(_templateObject4(), "".concat(this.uniqueId, "-duration"), "".concat(this.uniqueId, "-duration"), this.duration, this.setDuration.bind(this), this.setDuration.bind(this), this.duration, this.setDuration.bind(this)) : (0, _litElement.html)(_templateObject5()), this.coherence ? (0, _litElement.html)(_templateObject6(), "".concat(this.uniqueId, "-coherence"), "".concat(this.uniqueId, "-coherence"), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this), this.coherence, this.setCoherence.bind(this)) : (0, _litElement.html)(_templateObject7()), this.payoff ? (0, _litElement.html)(_templateObject8(), "".concat(this.uniqueId, "-payoff"), "".concat(this.uniqueId, "-payoff"), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this), this.payoff, this.setPayoff.bind(this)) : (0, _litElement.html)(_templateObject9()), this.color !== undefined ? (0, _litElement.html)(_templateObject10(), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color"), this.color === 'none', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color"), this.color === 'accuracy', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color"), this.color === 'stimulus', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color"), this.color === 'response', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color-outcome"), "".concat(this.uniqueId, "-color"), this.color === 'outcome', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-outcome")) : (0, _litElement.html)(_templateObject11()), this.zRoc !== undefined ? (0, _litElement.html)(_templateObject12(), "".concat(this.uniqueId, "-z-roc"), this.zRoc, this.flipZRoc.bind(this), "".concat(this.uniqueId, "-z-roc"), "".concat(this.uniqueId, "-z-roc")) : (0, _litElement.html)(_templateObject13()), this.run ? (0, _litElement.html)(_templateObject14(), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : (0, _litElement.html)(_templateObject15()), this.pause ? (0, _litElement.html)(_templateObject16(), this.state !== 'running', this.doPause.bind(this)) : (0, _litElement.html)(_templateObject17()), this.reset ? (0, _litElement.html)(_templateObject18(), this.state === 'resetted', this.doReset.bind(this)) : (0, _litElement.html)(_templateObject19()));
+      return (0, _litElement.html)(_templateObject(), this.trials ? (0, _litElement.html)(_templateObject2(), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : (0, _litElement.html)(_templateObject3()), this.duration ? (0, _litElement.html)(_templateObject4(), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : (0, _litElement.html)(_templateObject5()), this.coherence ? (0, _litElement.html)(_templateObject6(), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : (0, _litElement.html)(_templateObject7()), this.payoff ? (0, _litElement.html)(_templateObject8(), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : (0, _litElement.html)(_templateObject9()), this.color !== undefined ? (0, _litElement.html)(_templateObject10(), this.chooseColor.bind(this), "".concat(this.uniqueId, "-color"), this.color === 'none', "".concat(this.uniqueId, "-color"), this.color === 'accuracy', "".concat(this.uniqueId, "-color"), this.color === 'stimulus', "".concat(this.uniqueId, "-color"), this.color === 'response', "".concat(this.uniqueId, "-color"), this.color === 'outcome') : (0, _litElement.html)(_templateObject11()), this.zRoc !== undefined ? (0, _litElement.html)(_templateObject12(), this.zRoc, this.flipZRoc.bind(this)) : (0, _litElement.html)(_templateObject13()), this.run ? (0, _litElement.html)(_templateObject14(), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : (0, _litElement.html)(_templateObject15()), this.pause ? (0, _litElement.html)(_templateObject16(), this.state !== 'running', this.doPause.bind(this)) : (0, _litElement.html)(_templateObject17()), this.reset ? (0, _litElement.html)(_templateObject18(), this.state === 'resetted', this.doReset.bind(this)) : (0, _litElement.html)(_templateObject19()));
     }
   }], [{
     key: "styles",
@@ -65545,12 +67827,12 @@ var SDTControl = /*#__PURE__*/function (_SDTMixinStyleButton) {
   }]);
 
   return SDTControl;
-}((0, _styleButton.default)((0, _styleSlider.default)((0, _styleSpinner.default)((0, _styleSwitch.default)((0, _styleToggle.default)(_sdtElement.default))))));
+}(_sdtElement.default);
 
 exports.default = SDTControl;
 customElements.define('sdt-control', SDTControl);
 
-},{"../mixins/styleButton":434,"../mixins/styleSlider":435,"../mixins/styleSpinner":436,"../mixins/styleSwitch":437,"../mixins/styleToggle":438,"../sdt-element":439,"lit-element":390}],412:[function(require,module,exports){
+},{"../sdt-element":442,"@decidable/decidable-elements":412,"lit-element":390}],422:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -67026,7 +69308,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
 exports.default = SDTModel;
 customElements.define('sdt-model', SDTModel);
 
-},{"../sdt-element":439,"@decidable/detectable-math":440,"d3":384,"jstat":386,"lit-element":390}],413:[function(require,module,exports){
+},{"../sdt-element":442,"@decidable/detectable-math":443,"d3":384,"jstat":386,"lit-element":390}],423:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -67036,9 +69318,9 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
-var _sdtElement = _interopRequireDefault(require("../sdt-element"));
+require("@decidable/decidable-elements");
 
-var _styleButton = _interopRequireDefault(require("../mixins/styleButton"));
+var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {
@@ -67063,7 +69345,7 @@ function _typeof(obj) {
 }
 
 function _templateObject20() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall container */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n        }\n\n        /* Response buttons */\n        .responses {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .waiting:disabled {\n          background-color: var(---color-element-enabled);\n          outline: none;\n          box-shadow: none;\n        }\n\n        .selected[name=\"present\"]:disabled {\n          background-color: var(---color-present);\n        }\n\n        .selected[name=\"absent\"]:disabled {\n          background-color: var(---color-absent);\n        }\n\n        /* Feedback messages */\n        .feedbacks {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        /* Trial feedback */\n        .trial {\n          text-align: center;\n        }\n\n        .trial .label {\n          font-weight: 600;\n        }\n\n        /* Outcome feedback */\n        .feedback {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          width: 6rem;\n          height: 3.5rem;\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          text-align: center;\n\n          background-color: var(---color-element-background);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .feedback.h {\n          background-color: var(---color-h-light);\n        }\n\n        .feedback.m {\n          background-color: var(---color-m-light);\n        }\n\n        .feedback.fa {\n          background-color: var(---color-fa-light);\n        }\n\n        .feedback.cr {\n          background-color: var(---color-cr-light);\n        }\n\n        .feedback.nr {\n          background-color: var(---color-nr-light);\n        }\n\n        .feedback.c {\n          background-color: var(---color-correct-light);\n        }\n\n        .feedback.e {\n          color: var(---color-text-inverse);\n\n          background-color: var(---color-error-light);\n        }\n\n        .feedback .outcome {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n\n        :host([payoff=\"trial\"]) .feedback,\n        :host([payoff=\"total\"]) .feedback {\n          height: 4rem;\n        }\n\n        /* Payoff feedback */\n        .payoff {\n          text-align: center;\n        }\n\n        .payoff .label {\n          font-weight: 600;\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall container */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n        }\n\n        /* Response buttons */\n        .responses {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .waiting[disabled] {\n          --decidable-button-background-color: var(---color-element-enabled);\n        }\n\n        .selected[disabled][name=\"present\"] {\n          --decidable-button-background-color: var(---color-present);\n        }\n\n        .selected[disabled][name=\"absent\"] {\n          --decidable-button-background-color: var(---color-absent);\n        }\n\n        /* Feedback messages */\n        .feedbacks {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        /* Trial feedback */\n        .trial {\n          text-align: center;\n        }\n\n        .trial .label {\n          font-weight: 600;\n        }\n\n        /* Outcome feedback */\n        .feedback {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          width: 6rem;\n          height: 3.5rem;\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          text-align: center;\n\n          background-color: var(---color-element-background);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .feedback.h {\n          background-color: var(---color-h-light);\n        }\n\n        .feedback.m {\n          background-color: var(---color-m-light);\n        }\n\n        .feedback.fa {\n          background-color: var(---color-fa-light);\n        }\n\n        .feedback.cr {\n          background-color: var(---color-cr-light);\n        }\n\n        .feedback.nr {\n          background-color: var(---color-nr-light);\n        }\n\n        .feedback.c {\n          background-color: var(---color-correct-light);\n        }\n\n        .feedback.e {\n          color: var(---color-text-inverse);\n\n          background-color: var(---color-error-light);\n        }\n\n        .feedback .outcome {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n\n        :host([payoff=\"trial\"]) .feedback,\n        :host([payoff=\"total\"]) .feedback {\n          height: 4rem;\n        }\n\n        /* Payoff feedback */\n        .payoff {\n          text-align: center;\n        }\n\n        .payoff .label {\n          font-weight: 600;\n        }\n      "]);
 
   _templateObject20 = function _templateObject20() {
     return data;
@@ -67253,7 +69535,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <div class=\"responses\">\n          <button name=\"present\" class=", " ?disabled=", " @click=", ">Present</button>\n          <button name=\"absent\" class=", " ?disabled=", " @click=", ">Absent</button>\n        </div>\n        ", "\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <div class=\"responses\">\n          <decidable-button name=\"present\" class=", " ?disabled=", " @click=", ">Present</decidable-button>\n          <decidable-button name=\"absent\" class=", " ?disabled=", " @click=", ">Absent</decidable-button>\n        </div>\n        ", "\n      </div>"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -67381,8 +69663,8 @@ function _setPrototypeOf(o, p) {
 */
 
 
-var SDTResponse = /*#__PURE__*/function (_SDTMixinStyleButton) {
-  _inherits(SDTResponse, _SDTMixinStyleButton);
+var SDTResponse = /*#__PURE__*/function (_SDTElement) {
+  _inherits(SDTResponse, _SDTElement);
 
   _createClass(SDTResponse, null, [{
     key: "properties",
@@ -67650,12 +69932,12 @@ var SDTResponse = /*#__PURE__*/function (_SDTMixinStyleButton) {
   }]);
 
   return SDTResponse;
-}((0, _styleButton.default)(_sdtElement.default));
+}(_sdtElement.default);
 
 exports.default = SDTResponse;
 customElements.define('sdt-response', SDTResponse);
 
-},{"../mixins/styleButton":434,"../sdt-element":439,"lit-element":390}],414:[function(require,module,exports){
+},{"../sdt-element":442,"@decidable/decidable-elements":412,"lit-element":390}],424:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -67665,13 +69947,11 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
+var _decidableElements = require("@decidable/decidable-elements");
+
 var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
 
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
-
-var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
-
-var _converterSet = _interopRequireDefault(require("../mixins/converterSet"));
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {
@@ -67696,7 +69976,7 @@ function _typeof(obj) {
 }
 
 function _templateObject46() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        label {\n          margin: 0;\n        }\n\n        label span {\n          display: block;\n\n          font-size: 0.75rem;\n        }\n\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        input {\n          background: none;\n        }\n\n        .td-data input {\n          width: 3.5rem;\n        }\n\n        .td-summary input {\n          width: 4.5rem;\n        }\n\n        /* Table emphasis */\n        .h {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        /* Color schemes */\n        /* stylelint-disable-next-line no-descending-specificity */\n        .td,\n        .td input {\n          transition: all var(---transition-duration) ease;\n        }\n\n        /* Outcome color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        .ppv,\n        .ppv input {\n          background: var(---color-present-light);\n        }\n\n        .fomr,\n        .fomr input {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .h input,\n        :host([color=\"accuracy\"]) .cr,\n        :host([color=\"accuracy\"]) .cr input {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .m input,\n        :host([color=\"accuracy\"]) .fa,\n        :host([color=\"accuracy\"]) .fa input {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .hr input,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .far input,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .ppv input,\n        :host([color=\"accuracy\"]) .fomr,\n        :host([color=\"accuracy\"]) .fomr input {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .cr input,\n        :host([color=\"stimulus\"]) .fa,\n        :host([color=\"stimulus\"]) .fa input {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .m input,\n        :host([color=\"stimulus\"]) .h,\n        :host([color=\"stimulus\"]) .h input {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .ppv input,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .fomr input,\n        :host([color=\"stimulus\"]) .acc,\n        :host([color=\"stimulus\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .cr input,\n        :host([color=\"response\"]) .m,\n        :host([color=\"response\"]) .m input {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .fa input,\n        :host([color=\"response\"]) .h,\n        :host([color=\"response\"]) .h input {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .hr input,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .far input,\n        :host([color=\"response\"]) .acc,\n        :host([color=\"response\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .cr input,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .fa input,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .m input,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .h input,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .hr input,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .far input,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .ppv input,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .fomr input,\n        :host([color=\"none\"]) .acc,\n        :host([color=\"none\"]) .acc input {\n          background: var(---color-element-background);\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n\n          transition: all var(---transition-duration) ease;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        .td-data decidable-spinner {\n          --decidable-spinner-input-width: 3.5rem;\n        }\n\n        .td-summary decidable-spinner {\n          --decidable-spinner-input-width: 4.5rem;\n        }\n\n        /* Color schemes & Table emphasis */\n\n        /* (Default) Outcome color scheme */\n        .h {\n          background: var(---color-h-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .ppv {\n          background: var(---color-present-light);\n        }\n\n        .fomr {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .cr {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .fa {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .fomr {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .fa {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .h {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .m {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .h {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .acc {\n          background: var(---color-element-background);\n        }\n      "]);
 
   _templateObject46 = function _templateObject46() {
     return data;
@@ -67986,7 +70266,7 @@ function _templateObject18() {
 }
 
 function _templateObject17() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>False Omission Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Omission Rate</span>\n        </decidable-spinner>\n      "]);
 
   _templateObject17 = function _templateObject17() {
     return data;
@@ -67996,7 +70276,7 @@ function _templateObject17() {
 }
 
 function _templateObject16() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Positive Predictive Value</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Positive Predictive Value</span>\n        </decidable-spinner>\n      "]);
 
   _templateObject16 = function _templateObject16() {
     return data;
@@ -68006,7 +70286,7 @@ function _templateObject16() {
 }
 
 function _templateObject15() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Accuracy</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Accuracy</span>\n        </decidable-spinner>\n      "]);
 
   _templateObject15 = function _templateObject15() {
     return data;
@@ -68016,7 +70296,7 @@ function _templateObject15() {
 }
 
 function _templateObject14() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>False Alarm Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Alarm Rate</span>\n        </decidable-spinner>\n      "]);
 
   _templateObject14 = function _templateObject14() {
     return data;
@@ -68026,7 +70306,7 @@ function _templateObject14() {
 }
 
 function _templateObject13() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Hit Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Hit Rate</span>\n        </decidable-spinner>\n      "]);
 
   _templateObject13 = function _templateObject13() {
     return data;
@@ -68056,7 +70336,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Correct Rejections</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Correct Rejections</span>\n          ", "\n        </decidable-spinner>\n      "]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -68086,7 +70366,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>False Alarms</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>False Alarms</span>\n          ", "\n        </decidable-spinner>\n      "]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -68116,7 +70396,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Misses</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Misses</span>\n          ", "\n        </decidable-spinner>\n      "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -68146,7 +70426,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Hits</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Hits</span>\n          ", "\n        </decidable-spinner>\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -68274,8 +70554,8 @@ function _setPrototypeOf(o, p) {
 */
 
 
-var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
-  _inherits(SDTTable, _SDTMixinConverterSet);
+var SDTTable = /*#__PURE__*/function (_SDTElement) {
+  _inherits(SDTTable, _SDTElement);
 
   _createClass(SDTTable, null, [{
     key: "properties",
@@ -68288,7 +70568,7 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
         },
         summary: {
           attribute: 'summary',
-          converter: _converterSet.default.converterSet,
+          converter: _decidableElements.DecidableConverterSet,
           reflect: true
         },
         color: {
@@ -68382,7 +70662,7 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
     _this.numeric = false;
     _this.summaries = ['stimulusRates, responseRates, accuracy'];
     _this.summary = new Set();
-    _this.colors = ['stimulus', 'response', 'outcome', 'none'];
+    _this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
     _this.color = 'outcome';
     _this.h = 40;
     _this.m = 60;
@@ -68557,10 +70837,10 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
       var fomr;
 
       if (this.numeric) {
-        h = (0, _litElement.html)(_templateObject(), this.payoff ? (0, _litElement.html)(_templateObject2(), payoffFormatter.format(this.hPayoff)) : (0, _litElement.html)(_templateObject3()), !this.interactive, this.h, this.hInput.bind(this));
-        m = (0, _litElement.html)(_templateObject4(), this.payoff ? (0, _litElement.html)(_templateObject5(), payoffFormatter.format(this.mPayoff)) : (0, _litElement.html)(_templateObject6()), !this.interactive, this.m, this.mInput.bind(this));
-        fa = (0, _litElement.html)(_templateObject7(), this.payoff ? (0, _litElement.html)(_templateObject8(), payoffFormatter.format(this.faPayoff)) : (0, _litElement.html)(_templateObject9()), !this.interactive, this.fa, this.faInput.bind(this));
-        cr = (0, _litElement.html)(_templateObject10(), this.payoff ? (0, _litElement.html)(_templateObject11(), payoffFormatter.format(this.crPayoff)) : (0, _litElement.html)(_templateObject12()), !this.interactive, this.cr, this.crInput.bind(this));
+        h = (0, _litElement.html)(_templateObject(), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? (0, _litElement.html)(_templateObject2(), payoffFormatter.format(this.hPayoff)) : (0, _litElement.html)(_templateObject3()));
+        m = (0, _litElement.html)(_templateObject4(), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? (0, _litElement.html)(_templateObject5(), payoffFormatter.format(this.mPayoff)) : (0, _litElement.html)(_templateObject6()));
+        fa = (0, _litElement.html)(_templateObject7(), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? (0, _litElement.html)(_templateObject8(), payoffFormatter.format(this.faPayoff)) : (0, _litElement.html)(_templateObject9()));
+        cr = (0, _litElement.html)(_templateObject10(), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? (0, _litElement.html)(_templateObject11(), payoffFormatter.format(this.crPayoff)) : (0, _litElement.html)(_templateObject12()));
         hr = (0, _litElement.html)(_templateObject13(), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
         far = (0, _litElement.html)(_templateObject14(), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
         acc = (0, _litElement.html)(_templateObject15(), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
@@ -68588,12 +70868,12 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
   }]);
 
   return SDTTable;
-}((0, _converterSet.default)((0, _styleSpinner.default)(_sdtElement.default)));
+}(_sdtElement.default);
 
 exports.default = SDTTable;
 customElements.define('sdt-table', SDTTable);
 
-},{"../mixins/converterSet":432,"../mixins/styleSpinner":436,"../sdt-element":439,"@decidable/detectable-math":440,"lit-element":390}],415:[function(require,module,exports){
+},{"../sdt-element":442,"@decidable/decidable-elements":412,"@decidable/detectable-math":443,"lit-element":390}],425:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -68700,7 +70980,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<label class=\"far bottom\">\n          <var>False Alarm Rate</var>\n          <input disabled type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"far bottom\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>False Alarm Rate</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -68710,7 +70990,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"s bottom\">\n          <var class=\"math-var\">\u03C3</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -68720,7 +71000,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<label class=\"c bottom\">\n          <var class=\"math-var\">c</var>\n          <input ?disabled=", " type=\"number\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"c bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">c</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -68730,7 +71010,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label class=\"d bottom\">\n          <var class=\"math-var\">d\u2032</var>\n          <input ?disabled=", " type=\"number\" step=\".001\" .value=\"", "\" @input=", " >\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"d bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">d\u2032</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -68958,7 +71238,7 @@ var SDTEquationDC2Far = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationDC2Far;
 customElements.define('sdt-equation-dc2far', SDTEquationDC2Far);
 
-},{"./sdt-equation":423,"@decidable/detectable-math":440,"lit-element":390}],416:[function(require,module,exports){
+},{"./sdt-equation":433,"@decidable/detectable-math":443,"lit-element":390}],426:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -69065,7 +71345,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<label class=\"hr bottom\">\n          <var>Hit Rate</var>\n          <input disabled type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"hr bottom\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>Hit Rate</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -69075,7 +71355,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"s bottom\">\n          <var class=\"math-var\">\u03C3</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -69085,7 +71365,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<label class=\"c bottom\">\n          <var class=\"math-var\">c</var>\n          <input ?disabled=", " type=\"number\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"c bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">c</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -69095,7 +71375,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label class=\"d bottom\">\n          <var class=\"math-var\">d\u2032</var>\n          <input ?disabled=", " type=\"number\" step=\".001\" .value=\"", "\" @input=", " >\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"d bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">d\u2032</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -69323,7 +71603,7 @@ var SDTEquationDC2Hr = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationDC2Hr;
 customElements.define('sdt-equation-dc2hr', SDTEquationDC2Hr);
 
-},{"./sdt-equation":423,"@decidable/detectable-math":440,"lit-element":390}],417:[function(require,module,exports){
+},{"./sdt-equation":433,"@decidable/detectable-math":443,"lit-element":390}],427:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -69400,7 +71680,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"far\">\n          <var>False Alarm Rate</var>\n          <input disabled type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"far\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>False Alarm Rate</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -69410,7 +71690,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<label class=\"cr\">\n          <var>Correct Rejections</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"cr\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Correct Rejections</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -69420,7 +71700,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label class=\"fa\">\n          <var>False Alarms</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"fa\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>False Alarms</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -69617,7 +71897,7 @@ var SDTEquationFaCr2Far = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationFaCr2Far;
 customElements.define('sdt-equation-facr2far', SDTEquationFaCr2Far);
 
-},{"./sdt-equation":423,"@decidable/detectable-math":440,"lit-element":390}],418:[function(require,module,exports){
+},{"./sdt-equation":433,"@decidable/detectable-math":443,"lit-element":390}],428:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -69654,7 +71934,7 @@ function _typeof(obj) {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>\n    "]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -69694,7 +71974,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"hr\">\n          <var>Hit Rate</var>\n          <input disabled type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"hr\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>Hits</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -69704,7 +71984,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<label class=\"m\">\n          <var>Misses</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"m\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Misses</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -69714,7 +71994,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label class=\"h\">\n          <var>Hits</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"h\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Hits</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -69911,7 +72191,7 @@ var SDTEquationHM2Hr = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationHM2Hr;
 customElements.define('sdt-equation-hm2hr', SDTEquationHM2Hr);
 
-},{"./sdt-equation":423,"@decidable/detectable-math":440,"lit-element":390}],419:[function(require,module,exports){
+},{"./sdt-equation":433,"@decidable/detectable-math":443,"lit-element":390}],429:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70008,7 +72288,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteral(["<label class=\"acc\">\n          <var>Accuracy</var>\n          <input disabled type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"acc\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>Accuracy</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -70018,7 +72298,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<label class=\"cr\">\n          <var>Correct Rejections</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"cr\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Correct Rejections</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -70028,7 +72308,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"fa\">\n          <var>False Alarms</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"fa\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>False Alarms</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -70038,7 +72318,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<label class=\"m\">\n          <var>Misses</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"m\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Misses</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -70048,7 +72328,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label class=\"h\">\n          <var>Hits</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"h\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Hits</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -70279,7 +72559,7 @@ var SDTEquationHMFaCr2Acc = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationHMFaCr2Acc;
 customElements.define('sdt-equation-hmfacr2acc', SDTEquationHMFaCr2Acc);
 
-},{"./sdt-equation":423,"@decidable/detectable-math":440,"lit-element":390}],420:[function(require,module,exports){
+},{"./sdt-equation":433,"@decidable/detectable-math":443,"lit-element":390}],430:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70386,7 +72666,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<label class=\"c bottom\">\n          <var class=\"math-var\">c</var>\n          <input disabled type=\"number\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"c bottom\" disabled step=\".001\" .value=\"", "\">\n          <var class=\"math-var\">c</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -70396,7 +72676,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"s bottom\">\n          <var class=\"math-var\">\u03C3</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -70406,7 +72686,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<label class=\"far bottom\">\n          <var>False Alarm Rate</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"far bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>False Alarm Rate</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -70416,7 +72696,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label class=\"hr bottom\">\n          <var>Hit Rate</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", " >\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"hr bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>Hit Rate</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -70644,7 +72924,7 @@ var SDTEquationHrFar2C = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationHrFar2C;
 customElements.define('sdt-equation-hrfar2c', SDTEquationHrFar2C);
 
-},{"./sdt-equation":423,"@decidable/detectable-math":440,"lit-element":390}],421:[function(require,module,exports){
+},{"./sdt-equation":433,"@decidable/detectable-math":443,"lit-element":390}],431:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70751,7 +73031,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<label class=\"d bottom\">\n          <var class=\"math-var\">d\u2032</var>\n          <input disabled type=\"number\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"d bottom\" disabled step=\".001\" .value=\"", "\">\n          <var class=\"math-var\">d\u2032</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -70761,7 +73041,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"s bottom\">\n          <var class=\"math-var\">\u03C3</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -70771,7 +73051,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<label class=\"far bottom\">\n          <var>False Alarm Rate</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"far bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>False Alarm Rate</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -70781,7 +73061,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label class=\"hr bottom\">\n          <var>Hit Rate</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", " >\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"hr bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>Hit Rate</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -71009,7 +73289,7 @@ var SDTEquationHrFar2D = /*#__PURE__*/function (_SDTEquation) {
 exports.default = SDTEquationHrFar2D;
 customElements.define('sdt-equation-hrfar2d', SDTEquationHrFar2D);
 
-},{"./sdt-equation":423,"@decidable/detectable-math":440,"lit-element":390}],422:[function(require,module,exports){
+},{"./sdt-equation":433,"@decidable/detectable-math":443,"lit-element":390}],432:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71078,7 +73358,7 @@ function _interopRequireDefault(obj) {
   };
 }
 
-},{"./dc2far":415,"./dc2hr":416,"./facr2far":417,"./hm2hr":418,"./hmfacr2acc":419,"./hrfar2c":420,"./hrfar2d":421}],423:[function(require,module,exports){
+},{"./dc2far":425,"./dc2hr":426,"./facr2far":427,"./hm2hr":428,"./hmfacr2acc":429,"./hrfar2c":430,"./hrfar2d":431}],433:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71088,9 +73368,9 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
-var _sdtElement = _interopRequireDefault(require("../sdt-element"));
+require("@decidable/decidable-elements");
 
-var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
+var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {
@@ -71115,7 +73395,7 @@ function _typeof(obj) {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n\n          margin: 1rem;\n        }\n\n        /* Containing <div> */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          justify-content: left;\n        }\n\n        /* Overall <table> */\n        .equation {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Modifies <td> */\n        .underline {\n          border-bottom: 1px solid var(---color-text);\n        }\n\n        /* Basic <span> and <var> w/modifiers */\n        span,\n        var {\n          padding: 0 0.25rem;\n\n          font-style: normal;\n        }\n\n        .tight {\n          padding: 0;\n        }\n\n        .paren {\n          font-size: 150%;\n        }\n\n        .bracket {\n          font-size: 175%;\n        }\n\n        .exp {\n          font-size: 0.75rem;\n        }\n\n        /* Input wrapping <label> */\n        label {\n          display: inline-flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          padding: 0.125rem 0.375rem 0.375rem;\n\n          vertical-align: middle;\n        }\n\n        .bottom {\n          vertical-align: bottom;\n        }\n\n        /* Nested <var> */\n        label var {\n          font-size: 0.75rem;\n        }\n\n        /* User <input> */\n        input {\n          width: 4rem;\n\n          background: none;\n        }\n\n        /* Color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .d,\n        .d input {\n          background: var(---color-d-light);\n        }\n\n        .c,\n        .c input {\n          background: var(---color-c-light);\n        }\n\n        .s,\n        .s input {\n          background: var(---color-s-light);\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n\n          margin: 1rem;\n        }\n\n        /* Containing <div> */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          justify-content: left;\n        }\n\n        /* Overall <table> */\n        .equation {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Modifies <td> */\n        .underline {\n          border-bottom: 1px solid var(---color-text);\n        }\n\n        /* Basic <span> and <var> w/modifiers */\n        span,\n        var {\n          padding: 0 0.25rem;\n\n          font-style: normal;\n        }\n\n        .tight {\n          padding: 0;\n        }\n\n        .paren {\n          font-size: 150%;\n        }\n\n        .bracket {\n          font-size: 175%;\n        }\n\n        .exp {\n          font-size: 0.75rem;\n        }\n\n        /* Input wrapping <label> */\n        decidable-spinner {\n          --decidable-spinner-input-width: 4rem;\n\n          display: inline-block;\n\n          padding: 0.125rem 0.375rem 0.375rem;\n\n          vertical-align: middle;\n        }\n\n        .bottom {\n          vertical-align: bottom;\n        }\n\n        /* Color scheme */\n        .h {\n          background: var(---color-h-light);\n        }\n\n        .m {\n          background: var(---color-m-light);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .d {\n          background: var(---color-d-light);\n        }\n\n        .c {\n          background: var(---color-c-light);\n        }\n\n        .s {\n          background: var(---color-s-light);\n        }\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -71240,8 +73520,8 @@ function _setPrototypeOf(o, p) {
 */
 
 
-var SDTEquation = /*#__PURE__*/function (_SDTMixinStyleSpinner) {
-  _inherits(SDTEquation, _SDTMixinStyleSpinner);
+var SDTEquation = /*#__PURE__*/function (_SDTElement) {
+  _inherits(SDTEquation, _SDTElement);
 
   _createClass(SDTEquation, null, [{
     key: "properties",
@@ -71274,11 +73554,11 @@ var SDTEquation = /*#__PURE__*/function (_SDTMixinStyleSpinner) {
   }]);
 
   return SDTEquation;
-}((0, _styleSpinner.default)(_sdtElement.default));
+}(_sdtElement.default);
 
 exports.default = SDTEquation;
 
-},{"../mixins/styleSpinner":436,"../sdt-element":439,"lit-element":390}],424:[function(require,module,exports){
+},{"../sdt-element":442,"@decidable/decidable-elements":412,"lit-element":390}],434:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71548,7 +73828,7 @@ var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
 exports.default = SDTExampleDoubleInteractive;
 customElements.define('sdt-example-double-interactive', SDTExampleDoubleInteractive);
 
-},{"./sdt-example":429,"@decidable/detectable-math":440}],425:[function(require,module,exports){
+},{"./sdt-example":439,"@decidable/detectable-math":443}],435:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71866,7 +74146,7 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
 exports.default = SDTExampleHuman;
 customElements.define('sdt-example-human', SDTExampleHuman);
 
-},{"./sdt-example":429,"@decidable/detectable-math":440}],426:[function(require,module,exports){
+},{"./sdt-example":439,"@decidable/detectable-math":443}],436:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71919,7 +74199,7 @@ function _interopRequireDefault(obj) {
   };
 }
 
-},{"./double-interactive":424,"./human":425,"./interactive":427,"./model":428,"./unequal":430}],427:[function(require,module,exports){
+},{"./double-interactive":434,"./human":435,"./interactive":437,"./model":438,"./unequal":440}],437:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72151,7 +74431,7 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
 exports.default = SDTExampleInteractive;
 customElements.define('sdt-example-interactive', SDTExampleInteractive);
 
-},{"./sdt-example":429,"@decidable/detectable-math":440}],428:[function(require,module,exports){
+},{"./sdt-example":439,"@decidable/detectable-math":443}],438:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72480,7 +74760,7 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
 exports.default = SDTExampleModel;
 customElements.define('sdt-example-model', SDTExampleModel);
 
-},{"./sdt-example":429,"@decidable/detectable-math":440}],429:[function(require,module,exports){
+},{"./sdt-example":439,"@decidable/detectable-math":443}],439:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72678,7 +74958,7 @@ var SDTExample = /*#__PURE__*/function (_SDTElement) {
 exports.default = SDTExample;
 customElements.define('sdt-example', SDTExample);
 
-},{"../sdt-element":439,"lit-element":390}],430:[function(require,module,exports){
+},{"../sdt-element":442,"lit-element":390}],440:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72892,7 +75172,7 @@ var SDTExampleUnequal = /*#__PURE__*/function (_SDTExample) {
 exports.default = SDTExampleUnequal;
 customElements.define('sdt-example-unequal', SDTExampleUnequal);
 
-},{"./sdt-example":429,"d3":384}],431:[function(require,module,exports){
+},{"./sdt-example":439,"d3":384}],441:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72949,1067 +75229,13 @@ Object.keys(_examples).forEach(function (key) {
   });
 });
 
-var _mixins = require("./mixins");
-
-Object.keys(_mixins).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _mixins[key];
-    }
-  });
-});
-
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {
     default: obj
   };
 }
 
-},{"./components":408,"./equations":422,"./examples":426,"./mixins":433,"./sdt-element":439}],432:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
-}
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
-}
-
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
-
-    return arr2;
-  }
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-var SDTMixinConverterSet = function SDTMixinConverterSet(superclass) {
-  return (/*#__PURE__*/function (_superclass) {
-      _inherits(_class, _superclass);
-
-      function _class() {
-        _classCallCheck(this, _class);
-
-        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
-      }
-
-      return _class;
-    }(superclass)
-  );
-}; // Static property of SDTMixinConverterSet!
-
-
-exports.default = SDTMixinConverterSet;
-SDTMixinConverterSet.converterSet = {
-  fromAttribute: function fromAttribute(value) {
-    return new Set(value.split(/\s+/));
-  },
-  toAttribute: function toAttribute(value) {
-    return value.size ? _toConsumableArray(value).join(' ') : null;
-  }
-};
-
-},{}],433:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "SDTMixinConvertSet", {
-  enumerable: true,
-  get: function get() {
-    return _converterSet.default;
-  }
-});
-Object.defineProperty(exports, "SDTMixinStyleButton", {
-  enumerable: true,
-  get: function get() {
-    return _styleButton.default;
-  }
-});
-Object.defineProperty(exports, "SDTMixinStyleSlider", {
-  enumerable: true,
-  get: function get() {
-    return _styleSlider.default;
-  }
-});
-Object.defineProperty(exports, "SDTMixinStyleSpinner", {
-  enumerable: true,
-  get: function get() {
-    return _styleSpinner.default;
-  }
-});
-Object.defineProperty(exports, "SDTMixinStyleSwitch", {
-  enumerable: true,
-  get: function get() {
-    return _styleSwitch.default;
-  }
-});
-Object.defineProperty(exports, "SDTMixinStyleToggler", {
-  enumerable: true,
-  get: function get() {
-    return _styleToggle.default;
-  }
-});
-
-var _converterSet = _interopRequireDefault(require("./converterSet"));
-
-var _styleButton = _interopRequireDefault(require("./styleButton"));
-
-var _styleSlider = _interopRequireDefault(require("./styleSlider"));
-
-var _styleSpinner = _interopRequireDefault(require("./styleSpinner"));
-
-var _styleSwitch = _interopRequireDefault(require("./styleSwitch"));
-
-var _styleToggle = _interopRequireDefault(require("./styleToggle"));
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    default: obj
-  };
-}
-
-},{"./converterSet":432,"./styleButton":434,"./styleSlider":435,"./styleSpinner":436,"./styleSwitch":437,"./styleToggle":438}],434:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _litElement = require("lit-element");
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n          button {\n            padding: 0.375rem 0.75rem;\n            margin: 0.25rem;\n\n            font-family: var(---font-family-base);\n            font-size: 1.125rem;\n            line-height: 1.5;\n            color: var(---color-text-inverse);\n\n            border: 0;\n            border-radius: 0.25rem;\n            outline: none;\n          }\n\n          button:disabled {\n            background-color: var(---color-element-disabled);\n            outline: none;\n            box-shadow: none;\n          }\n\n          button:enabled {\n            cursor: pointer;\n\n            background-color: var(---color-element-enabled);\n            outline: none;\n            box-shadow: var(---shadow-2);\n          }\n\n          button:enabled:hover {\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          button:enabled:active {\n            outline: none;\n            box-shadow: var(---shadow-8);\n          }\n\n          :host(.keyboard) button:enabled:focus {\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          :host(.keyboard) button:enabled:focus:active {\n            outline: none;\n            box-shadow: var(---shadow-8);\n          }\n        "]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) {
-  if (!raw) {
-    raw = strings.slice(0);
-  }
-
-  return Object.freeze(Object.defineProperties(strings, {
-    raw: {
-      value: Object.freeze(raw)
-    }
-  }));
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _get(target, property, receiver) {
-  if (typeof Reflect !== "undefined" && Reflect.get) {
-    _get = Reflect.get;
-  } else {
-    _get = function _get(target, property, receiver) {
-      var base = _superPropBase(target, property);
-
-      if (!base) return;
-      var desc = Object.getOwnPropertyDescriptor(base, property);
-
-      if (desc.get) {
-        return desc.get.call(receiver);
-      }
-
-      return desc.value;
-    };
-  }
-
-  return _get(target, property, receiver || target);
-}
-
-function _superPropBase(object, property) {
-  while (!Object.prototype.hasOwnProperty.call(object, property)) {
-    object = _getPrototypeOf(object);
-    if (object === null) break;
-  }
-
-  return object;
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-var SDTMixinStyleButton = function SDTMixinStyleButton(superclass) {
-  return (/*#__PURE__*/function (_superclass) {
-      _inherits(_class, _superclass);
-
-      function _class() {
-        _classCallCheck(this, _class);
-
-        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
-      }
-
-      _createClass(_class, null, [{
-        key: "styles",
-        get: function get() {
-          return [_get(_getPrototypeOf(_class), "styles", this), (0, _litElement.css)(_templateObject())];
-        }
-      }]);
-
-      return _class;
-    }(superclass)
-  );
-};
-
-exports.default = SDTMixinStyleButton;
-
-},{"lit-element":390}],435:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _litElement = require("lit-element");
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n          /* Adapted from http://danielstern.ca/range.css/#/ */\n          /* Overall */\n          input[type=range] {\n            width: 4.75rem;\n            height: 3.5rem;\n            padding: 0;\n            margin: 0;\n\n            background-color: unset;\n\n            transform: rotate(-90deg);\n            transform-origin: 2.375rem 2.375rem;\n\n            /* stylelint-disable-next-line property-no-vendor-prefix */\n            -webkit-appearance: none;\n          }\n\n          input[type=range]:enabled {\n            cursor: ns-resize;\n          }\n\n          input[type=range]:focus {\n            outline: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-tooltip {\n            display: none;\n          }\n\n          /* Track */\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-webkit-slider-runnable-track {\n            width: 100%;\n            height: 4px;\n\n            background: var(---color-element-disabled);\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          input[type=range]:focus::-webkit-slider-runnable-track {\n            background: var(---color-element-disabled);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-moz-range-track {\n            width: 100%;\n            height: 4px;\n\n            background: var(---color-element-disabled);\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-track {\n            width: 100%;\n            height: 4px;\n\n            color: transparent;\n\n            background: transparent;\n            border-color: transparent;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-fill-lower {\n            background: #cccccc;\n            /* background: var(---color-element-disabled); */\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-fill-upper {\n            background: #cccccc;\n            /* background: var(---color-element-disabled); */\n            border: 0;\n            border-radius: 2px;\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:focus::-ms-fill-lower {\n            background: var(---color-element-disabled);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:focus::-ms-fill-upper {\n            background: var(---color-element-disabled);\n          }\n\n          /* Thumb */\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-webkit-slider-thumb {\n            width: 10px;\n            height: 20px;\n            margin-top: -8px;\n\n            border: 0;\n            border-radius: 4px;\n\n            /* stylelint-disable-next-line property-no-vendor-prefix */\n            -webkit-appearance: none;\n          }\n\n          input[type=range]:disabled::-webkit-slider-thumb {\n            background: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          input[type=range]:enabled::-webkit-slider-thumb {\n            background: var(---color-element-enabled);\n            box-shadow: var(---shadow-2-rotate);\n          }\n\n          input[type=range]:enabled:hover::-webkit-slider-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          input[type=range]:enabled:active::-webkit-slider-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-moz-range-thumb {\n            width: 10px;\n            height: 20px;\n\n            border: 0;\n            border-radius: 4px;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:disabled::-moz-range-thumb {\n            background: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled::-moz-range-thumb {\n            background: var(---color-element-enabled);\n            box-shadow: var(---shadow-2-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:hover::-moz-range-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:active::-moz-range-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]::-ms-thumb {\n            width: 10px;\n            height: 20px;\n            margin-top: 0;\n\n            background: #999999;\n            /* background: var(---color-element-enabled); */\n            border: 0;\n            border-radius: 4px;\n            box-shadow: var(---shadow-2-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:disabled::-ms-thumb {\n            background: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled::-ms-thumb {\n            background: var(---color-element-enabled);\n            box-shadow: var(---shadow-2-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:hover::-ms-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          input[type=range]:enabled:active::-ms-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n\n          /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n          :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {\n            box-shadow: var(---shadow-4-rotate);\n          }\n\n          :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {\n            box-shadow: var(---shadow-8-rotate);\n          }\n        "]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) {
-  if (!raw) {
-    raw = strings.slice(0);
-  }
-
-  return Object.freeze(Object.defineProperties(strings, {
-    raw: {
-      value: Object.freeze(raw)
-    }
-  }));
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _get(target, property, receiver) {
-  if (typeof Reflect !== "undefined" && Reflect.get) {
-    _get = Reflect.get;
-  } else {
-    _get = function _get(target, property, receiver) {
-      var base = _superPropBase(target, property);
-
-      if (!base) return;
-      var desc = Object.getOwnPropertyDescriptor(base, property);
-
-      if (desc.get) {
-        return desc.get.call(receiver);
-      }
-
-      return desc.value;
-    };
-  }
-
-  return _get(target, property, receiver || target);
-}
-
-function _superPropBase(object, property) {
-  while (!Object.prototype.hasOwnProperty.call(object, property)) {
-    object = _getPrototypeOf(object);
-    if (object === null) break;
-  }
-
-  return object;
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-var SDTMixinStyleSpinner = function SDTMixinStyleSpinner(superclass) {
-  return (/*#__PURE__*/function (_superclass) {
-      _inherits(_class, _superclass);
-
-      function _class() {
-        _classCallCheck(this, _class);
-
-        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
-      }
-
-      _createClass(_class, null, [{
-        key: "styles",
-        get: function get() {
-          return [_get(_getPrototypeOf(_class), "styles", this), (0, _litElement.css)(_templateObject())];
-        }
-      }]);
-
-      return _class;
-    }(superclass)
-  );
-};
-
-exports.default = SDTMixinStyleSpinner;
-
-},{"lit-element":390}],436:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _litElement = require("lit-element");
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n          input[type=number] {\n            font-family: var(---font-family-base);\n            font-size: 1.125rem;\n            color: inherit;\n            text-align: right;\n\n            border: 0;\n            border-radius: 0;\n            outline: none;\n            box-shadow: var(---shadow-2);\n\n            -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n          }\n\n          input[type=number]:hover {\n            box-shadow: var(---shadow-4);\n          }\n\n          input[type=number]:focus,\n          input[type=number]:active {\n            box-shadow: var(---shadow-8);\n          }\n\n          input[type=number]:disabled {\n            color: var(---color-text);\n\n            border: 0;\n            box-shadow: none;\n\n            /* HACK: Use correct text color in Safari */\n            -webkit-opacity: 1;\n            /* HACK: Hide spinners in disabled input for Firefox and Safari */\n            -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */\n            /* HACK: Use correct text color in Safari */\n            -webkit-text-fill-color: var(---color-text);\n          }\n\n          /* HACK: Hide spinners in disabled input for Firefox and Safari */\n          input[type=number]:disabled::-webkit-outer-spin-button,\n          input[type=number]:disabled::-webkit-inner-spin-button {\n            margin: 0;\n            -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n          }\n        "]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) {
-  if (!raw) {
-    raw = strings.slice(0);
-  }
-
-  return Object.freeze(Object.defineProperties(strings, {
-    raw: {
-      value: Object.freeze(raw)
-    }
-  }));
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _get(target, property, receiver) {
-  if (typeof Reflect !== "undefined" && Reflect.get) {
-    _get = Reflect.get;
-  } else {
-    _get = function _get(target, property, receiver) {
-      var base = _superPropBase(target, property);
-
-      if (!base) return;
-      var desc = Object.getOwnPropertyDescriptor(base, property);
-
-      if (desc.get) {
-        return desc.get.call(receiver);
-      }
-
-      return desc.value;
-    };
-  }
-
-  return _get(target, property, receiver || target);
-}
-
-function _superPropBase(object, property) {
-  while (!Object.prototype.hasOwnProperty.call(object, property)) {
-    object = _getPrototypeOf(object);
-    if (object === null) break;
-  }
-
-  return object;
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-var SDTMixinStyleSpinner = function SDTMixinStyleSpinner(superclass) {
-  return (/*#__PURE__*/function (_superclass) {
-      _inherits(_class, _superclass);
-
-      function _class() {
-        _classCallCheck(this, _class);
-
-        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
-      }
-
-      _createClass(_class, null, [{
-        key: "styles",
-        get: function get() {
-          return [_get(_getPrototypeOf(_class), "styles", this), (0, _litElement.css)(_templateObject())];
-        }
-      }]);
-
-      return _class;
-    }(superclass)
-  );
-};
-
-exports.default = SDTMixinStyleSpinner;
-
-},{"lit-element":390}],437:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _litElement = require("lit-element");
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n          /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */\n          input[type=checkbox] {\n            /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n            position: absolute;\n\n            width: 1px;\n            height: 1px;\n            padding: 0;\n            margin: -1px;\n            overflow: hidden;\n            clip: rect(0 0 0 0);\n\n            white-space: nowrap;\n\n            border: 0;\n            clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n          }\n\n          input[type=checkbox] + label {\n            order: 1;\n\n            margin: 0 0.25rem 0.25rem;\n\n            font-weight: 400;\n          }\n\n          input[type=checkbox] + label + label {\n            position: relative;\n\n            min-width: 24px;\n            padding: 0 0 36px;\n            margin: 0.25rem 0.25rem 0;\n\n            font-weight: 400;\n\n            outline: none;\n          }\n\n          input[type=checkbox] + label + label::before,\n          input[type=checkbox] + label + label::after {\n            position: absolute;\n\n            left: 50%;\n\n            margin: 0;\n\n            content: \"\";\n\n            outline: 0;\n\n            transition: all var(---transition-duration) ease;\n            transform: translate(-50%, 0);\n          }\n\n          input[type=checkbox] + label + label::before {\n            bottom: 1px;\n\n            width: 8px;\n            height: 34px;\n\n            background-color: var(---color-element-disabled);\n            border-radius: 4px;\n          }\n\n          input[type=checkbox] + label + label::after {\n            bottom: 0;\n\n            width: 18px;\n            height: 18px;\n\n            background-color: var(---color-element-enabled);\n            border-radius: 50%;\n            box-shadow: var(---shadow-2);\n          }\n\n          input[type=checkbox]:checked + label + label::after {\n            transform: translate(-50%, -100%);\n          }\n\n          input[type=checkbox]:disabled + label + label::after {\n            background-color: var(---color-element-disabled);\n            box-shadow: none;\n          }\n\n          input[type=checkbox]:enabled + label,\n          input[type=checkbox]:enabled + label + label {\n            cursor: pointer;\n          }\n\n          input[type=checkbox]:enabled + label:hover + label::after,\n          input[type=checkbox]:enabled + label + label:hover::after {\n            box-shadow: var(---shadow-4);\n          }\n\n          input[type=checkbox]:enabled + label:active + label::after,\n          input[type=checkbox]:enabled + label + label:active::after {\n            box-shadow: var(---shadow-8);\n          }\n\n          /* stylelint-disable-next-line selector-max-compound-selectors */\n          :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {\n            box-shadow: var(---shadow-4);\n          }\n\n          /* stylelint-disable-next-line selector-max-compound-selectors */\n          :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,\n          :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {\n            box-shadow: var(---shadow-8);\n          }\n        "]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) {
-  if (!raw) {
-    raw = strings.slice(0);
-  }
-
-  return Object.freeze(Object.defineProperties(strings, {
-    raw: {
-      value: Object.freeze(raw)
-    }
-  }));
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _get(target, property, receiver) {
-  if (typeof Reflect !== "undefined" && Reflect.get) {
-    _get = Reflect.get;
-  } else {
-    _get = function _get(target, property, receiver) {
-      var base = _superPropBase(target, property);
-
-      if (!base) return;
-      var desc = Object.getOwnPropertyDescriptor(base, property);
-
-      if (desc.get) {
-        return desc.get.call(receiver);
-      }
-
-      return desc.value;
-    };
-  }
-
-  return _get(target, property, receiver || target);
-}
-
-function _superPropBase(object, property) {
-  while (!Object.prototype.hasOwnProperty.call(object, property)) {
-    object = _getPrototypeOf(object);
-    if (object === null) break;
-  }
-
-  return object;
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-var SDTMixinStyleSwitch = function SDTMixinStyleSwitch(superclass) {
-  return (/*#__PURE__*/function (_superclass) {
-      _inherits(_class, _superclass);
-
-      function _class() {
-        _classCallCheck(this, _class);
-
-        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
-      }
-
-      _createClass(_class, null, [{
-        key: "styles",
-        get: function get() {
-          return [_get(_getPrototypeOf(_class), "styles", this), (0, _litElement.css)(_templateObject())];
-        }
-      }]);
-
-      return _class;
-    }(superclass)
-  );
-};
-
-exports.default = SDTMixinStyleSwitch;
-
-},{"lit-element":390}],438:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _litElement = require("lit-element");
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n          input[type=radio] {\n            /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n            position: absolute;\n\n            width: 1px;\n            height: 1px;\n            padding: 0;\n            margin: -1px;\n            overflow: hidden;\n            clip: rect(0 0 0 0);\n\n            white-space: nowrap;\n\n            border: 0;\n            clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n          }\n\n          input[type=radio] + label {\n            padding: 0.375rem 0.75rem;\n            margin: 0 0.25rem;\n\n            font-family: var(---font-family-base);\n            font-size: 1.125rem;\n            line-height: 1.5;\n            color: var(---color-text-inverse);\n            text-align: center;\n\n            cursor: pointer;\n\n            background-color: var(---color-element-enabled);\n            border: 0;\n            border-radius: 0;\n            outline: none;\n\n            box-shadow: var(---shadow-2);\n          }\n\n          input[type=radio] + label:nth-child(2) {\n            margin-top: 0.25rem;\n\n            border-top-left-radius: 0.25rem;\n            border-top-right-radius: 0.25rem;\n          }\n\n          input[type=radio] + label:last-child {\n            margin-bottom: 0.25rem;\n\n            border-bottom-right-radius: 0.25rem;\n            border-bottom-left-radius: 0.25rem;\n          }\n\n          input[type=radio]:checked + label {\n            background-color: var(---color-element-selected);\n            outline: none;\n            box-shadow: var(---shadow-2);\n          }\n\n          input[type=radio] + label:hover {\n            z-index: 1;\n\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          input[type=radio] + label:active {\n            z-index: 2;\n\n            outline: none;\n            box-shadow: var(---shadow-8);\n          }\n\n          :host(.keyboard) input[type=radio]:focus + label {\n            z-index: 1;\n\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          :host(.keyboard) input[type=radio]:focus:checked + label {\n            z-index: 1;\n\n            background-color: var(---color-element-selected);\n            outline: none;\n            box-shadow: var(---shadow-4);\n          }\n\n          :host(.keyboard) input[type=radio]:focus + label:active {\n            z-index: 2;\n\n            outline: none;\n            box-shadow: var(---shadow-8);\n          }\n        "]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) {
-  if (!raw) {
-    raw = strings.slice(0);
-  }
-
-  return Object.freeze(Object.defineProperties(strings, {
-    raw: {
-      value: Object.freeze(raw)
-    }
-  }));
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _get(target, property, receiver) {
-  if (typeof Reflect !== "undefined" && Reflect.get) {
-    _get = Reflect.get;
-  } else {
-    _get = function _get(target, property, receiver) {
-      var base = _superPropBase(target, property);
-
-      if (!base) return;
-      var desc = Object.getOwnPropertyDescriptor(base, property);
-
-      if (desc.get) {
-        return desc.get.call(receiver);
-      }
-
-      return desc.value;
-    };
-  }
-
-  return _get(target, property, receiver || target);
-}
-
-function _superPropBase(object, property) {
-  while (!Object.prototype.hasOwnProperty.call(object, property)) {
-    object = _getPrototypeOf(object);
-    if (object === null) break;
-  }
-
-  return object;
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-var SDTMixinStyleToggle = function SDTMixinStyleToggle(superclass) {
-  return (/*#__PURE__*/function (_superclass) {
-      _inherits(_class, _superclass);
-
-      function _class() {
-        _classCallCheck(this, _class);
-
-        return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
-      }
-
-      _createClass(_class, null, [{
-        key: "styles",
-        get: function get() {
-          return [_get(_getPrototypeOf(_class), "styles", this), (0, _litElement.css)(_templateObject())];
-        }
-      }]);
-
-      return _class;
-    }(superclass)
-  );
-};
-
-exports.default = SDTMixinStyleToggle;
-
-},{"lit-element":390}],439:[function(require,module,exports){
+},{"./components":418,"./equations":432,"./examples":436,"./sdt-element":442}],442:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -74020,6 +75246,8 @@ exports.default = void 0;
 var _litElement = require("lit-element");
 
 var d3 = _interopRequireWildcard(require("d3"));
+
+var _decidableElements = require("@decidable/decidable-elements");
 
 function _getRequireWildcardCache() {
   if (typeof WeakMap !== "function") return null;
@@ -74089,88 +75317,8 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
-function _templateObject9() {
-  var data = _taggedTemplateLiteral(["\n      :host {\n        ---shadow-0: var(--shadow-0, ", ");\n        ---shadow-2: var(--shadow-2, ", ");\n        ---shadow-4: var(--shadow-4, ", ");\n        ---shadow-8: var(--shadow-8, ", ");\n\n        ---color-h: var(--color-h, ", ");\n        ---color-m: var(--color-m, ", ");\n        ---color-fa: var(--color-fa, ", ");\n        ---color-cr: var(--color-cr, ", ");\n        ---color-hr: var(--color-hr, ", ");\n        ---color-far: var(--color-far, ", ");\n        ---color-acc: var(--color-acc, ", ");\n        ---color-d: var(--color-d, ", ");\n        ---color-c: var(--color-c, ", ");\n        ---color-s: var(--color-s, ", ");\n        ---color-present: var(--color-present, ", ");\n        ---color-absent: var(--color-absent, ", ");\n        ---color-correct: var(--color-correct, ", ");\n        ---color-error: var(--color-error, ", ");\n        ---color-nr: var(--color-nr, ", ");\n\n        ---color-h-light: var(--color-h-light, ", ");\n        ---color-m-light: var(--color-m-light, ", ");\n        ---color-fa-light: var(--color-fa-light, ", ");\n        ---color-cr-light: var(--color-cr-light, ", ");\n        ---color-hr-light: var(--color-hr-light, ", ");\n        ---color-far-light: var(--color-far-light, ", ");\n        ---color-acc-light: var(--color-acc-light, ", ");\n        ---color-d-light: var(--color-d-light, ", ");\n        ---color-c-light: var(--color-c-light, ", ");\n        ---color-s-light: var(--color-s-light, ", ");\n        ---color-present-light: var(--color-present-light, ", ");\n        ---color-absent-light: var(--color-absent-light, ", ");\n        ---color-correct-light: var(--color-correct-light, ", ");\n        ---color-error-light: var(--color-error-light, ", ");\n        ---color-nr-light: var(--color-nr-light, ", ");\n\n        ---color-h-dark: var(--color-h-dark, ", ");\n        ---color-m-dark: var(--color-m-dark, ", ");\n        ---color-fa-dark: var(--color-fa-dark, ", ");\n        ---color-cr-dark: var(--color-cr-dark, ", ");\n        ---color-hr-dark: var(--color-hr-dark, ", ");\n        ---color-far-dark: var(--color-far-dark, ", ");\n        ---color-acc-dark: var(--color-acc-dark, ", ");\n        ---color-d-dark: var(--color-d-dark, ", ");\n        ---color-c-dark: var(--color-c-dark, ", ");\n        ---color-s-dark: var(--color-s-dark, ", ");\n        ---color-present-dark: var(--color-present-dark, ", ");\n        ---color-absent-dark: var(--color-absent-dark, ", ");\n        ---color-correct-dark: var(--color-correct-dark, ", ");\n        ---color-error-dark: var(--color-error-dark, ", ");\n        ---color-nr-dark: var(--color-nr-dark, ", ");\n\n        ---color-background: var(--color-background, ", ");\n        ---color-border: var(--color-border, ", ");\n        ---color-text: var(--color-text, ", ");\n        ---color-text-inverse: var(--color-text-inverse, ", ");\n        ---color-link: var(--color-link, ", ");\n        ---color-element-background: var(--color-element-background, ", ");\n        ---color-element-disabled: var(--color-element-disabled, ", ");\n        ---color-element-enabled: var(--color-element-enabled, ", ");\n        ---color-element-selected: var(--color-element-selected, ", ");\n        ---color-element-border: var(--color-element-border, ", ");\n        ---color-element-emphasis: var(--color-element-emphasis, ", ");\n\n        ---font-family-base: var(--font-family-base, \"Source Sans Pro\", sans-serif);\n        ---font-family-math: var(--font-family-math, \"Source Serif Pro\", serif);\n\n        ---transition-duration: var(--transition-duration, 500ms);\n\n        font-family: var(---font-family-base);\n      }\n\n      :host,\n      :host *,\n      :host *::before,\n      :host *::after {\n        box-sizing: border-box;\n      }\n\n      .math-var {\n        font-family: var(---font-family-math);\n        font-style: italic;\n      }\n\n      .math-greek {\n        font-family: var(---font-family-math);\n        font-style: normal;\n      }\n\n      .defs {\n        display: block;\n\n        width: 0;\n        height: 0;\n      }\n    "]);
-
-  _templateObject9 = function _templateObject9() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n      <svg class=\"defs\">\n        <defs>\n          ", "\n        </defs>\n      </svg>\n    "]);
-
-  _templateObject8 = function _templateObject8() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject7() {
-  var data = _taggedTemplateLiteral(["<feMorphology in=\"offA\" result=\"spreadA\" operator=", " radius=", " />"]);
-
-  _templateObject7 = function _templateObject7() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject6() {
-  var data = _taggedTemplateLiteral([""]);
-
-  _templateObject6 = function _templateObject6() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject5() {
-  var data = _taggedTemplateLiteral(["<feMorphology in=\"offP\" result=\"spreadP\" operator=", " radius=", " />"]);
-
-  _templateObject5 = function _templateObject5() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject4() {
-  var data = _taggedTemplateLiteral([""]);
-
-  _templateObject4 = function _templateObject4() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<feMorphology in=\"offU\" result=\"spreadU\" operator=", " radius=", " />"]);
-
-  _templateObject3 = function _templateObject3() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject2() {
-  var data = _taggedTemplateLiteral([""]);
-
-  _templateObject2 = function _templateObject2() {
-    return data;
-  };
-
-  return data;
-}
-
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n        <filter id=", " x=\"-200%\" y=\"-200%\" width=\"500%\" height=\"500%\">\n          <feComponentTransfer in=\"SourceAlpha\" result=\"solid\">\n            <feFuncA  type=\"table\" tableValues=\"0 1 1\"/>\n          </feComponentTransfer>\n          <feOffset in=\"solid\" result=\"offU\" dx=", " dy=", " />\n          <feOffset in=\"solid\" result=\"offP\" dx=", " dy=", " />\n          <feOffset in=\"solid\" result=\"offA\" dx=", " dy=", " />\n          ", "\n          ", "\n          ", "\n          <feGaussianBlur in=", " result=\"blurU\" stdDeviation=", " />\n          <feGaussianBlur in=", " result=\"blurP\" stdDeviation=", " />\n          <feGaussianBlur in=", " result=\"blurA\" stdDeviation=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opU\" flood-color=", " flood-opacity=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opP\" flood-color=", " flood-opacity=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opA\" flood-color=", " flood-opacity=", " />\n          <feComposite in=\"opU\" in2=\"blurU\" result=\"shU\" operator=\"in\" />\n          <feComposite in=\"opP\" in2=\"blurP\" result=\"shP\" operator=\"in\" />\n          <feComposite in=\"opA\" in2=\"blurA\" result=\"shA\" operator=\"in\" />\n          <!-- HACK Edge: Using a dynamic value for erode radius stops Edge from corrupting the \"radius\" value! -->\n          <feMorphology in=\"solid\" result=\"smaller\" operator=\"erode\" radius=", " />\n          <feComposite in=\"shU\" in2=\"smaller\" result=\"finalU\" operator=\"out\" />\n          <feComposite in=\"shP\" in2=\"smaller\" result=\"finalP\" operator=\"out\" />\n          <feComposite in=\"shA\" in2=\"smaller\" result=\"finalA\" operator=\"out\" />\n          <feMerge>\n            <feMergeNode in=\"finalU\" />\n            <feMergeNode in=\"finalP\" />\n            <feMergeNode in=\"finalA\" />\n            <feMergeNode in=\"SourceGraphic\" />\n          </feMerge>\n        </filter>"]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          ---color-h: var(--color-h, ", ");\n          ---color-m: var(--color-m, ", ");\n          ---color-fa: var(--color-fa, ", ");\n          ---color-cr: var(--color-cr, ", ");\n          ---color-hr: var(--color-hr, ", ");\n          ---color-far: var(--color-far, ", ");\n          ---color-acc: var(--color-acc, ", ");\n          ---color-d: var(--color-d, ", ");\n          ---color-c: var(--color-c, ", ");\n          ---color-s: var(--color-s, ", ");\n          ---color-present: var(--color-present, ", ");\n          ---color-absent: var(--color-absent, ", ");\n          ---color-correct: var(--color-correct, ", ");\n          ---color-error: var(--color-error, ", ");\n          ---color-nr: var(--color-nr, ", ");\n\n          ---color-h-light: var(--color-h-light, ", ");\n          ---color-m-light: var(--color-m-light, ", ");\n          ---color-fa-light: var(--color-fa-light, ", ");\n          ---color-cr-light: var(--color-cr-light, ", ");\n          ---color-hr-light: var(--color-hr-light, ", ");\n          ---color-far-light: var(--color-far-light, ", ");\n          ---color-acc-light: var(--color-acc-light, ", ");\n          ---color-d-light: var(--color-d-light, ", ");\n          ---color-c-light: var(--color-c-light, ", ");\n          ---color-s-light: var(--color-s-light, ", ");\n          ---color-present-light: var(--color-present-light, ", ");\n          ---color-absent-light: var(--color-absent-light, ", ");\n          ---color-correct-light: var(--color-correct-light, ", ");\n          ---color-error-light: var(--color-error-light, ", ");\n          ---color-nr-light: var(--color-nr-light, ", ");\n\n          ---color-h-dark: var(--color-h-dark, ", ");\n          ---color-m-dark: var(--color-m-dark, ", ");\n          ---color-fa-dark: var(--color-fa-dark, ", ");\n          ---color-cr-dark: var(--color-cr-dark, ", ");\n          ---color-hr-dark: var(--color-hr-dark, ", ");\n          ---color-far-dark: var(--color-far-dark, ", ");\n          ---color-acc-dark: var(--color-acc-dark, ", ");\n          ---color-d-dark: var(--color-d-dark, ", ");\n          ---color-c-dark: var(--color-c-dark, ", ");\n          ---color-s-dark: var(--color-s-dark, ", ");\n          ---color-present-dark: var(--color-present-dark, ", ");\n          ---color-absent-dark: var(--color-absent-dark, ", ");\n          ---color-correct-dark: var(--color-correct-dark, ", ");\n          ---color-error-dark: var(--color-error-dark, ", ");\n          ---color-nr-dark: var(--color-nr-dark, ", ");\n        }\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -74292,76 +75440,11 @@ function _setPrototypeOf(o, p) {
 /*
   SDTElement Base Class - Not intended for instantiation!
   <sdt-element>
-
-  Variables:
-    H = hits
-    M = misses
-    FA = false alarms
-    CR = correct rejections
-    HR = hit rate
-    FAR = false alarm rate
-    ACC = accuracy
-    PPV = positive predictive value
-    FOMR = false omission rate (used FOMR to avoid keyword FOR!)
-    d = sensitivity (d' for equal variance, d_a for unequal variance)
-    c = response bias (c for equal variance, c_a for unequal variance)
-    s = standard deviation of signal distribution, with standard deviation of noise distribution = 1
-    muN = mean of noise distribution
-    muS = mean of signal distribution
-    l = lambda, threshold location, with l = 0 indicating no response bias
-    h = height of signal distribution
-
-  Equations (* = unequal variance):
-    HR = H / (H + M)
-    FAR = FA / (FA + CR)
-    ACC = (H + CR) / (H + M + FA + CR)
-    ACC = (HR + (1 - FAR)) / 2
-    PPV = H / (H + FA)
-    FOMR = M / (M + CR)
-
-    d' = Z^-1(HR) - Z^-1(FAR)
-    *d' = (2 / (s^2 + 1))^(1/2) * (s * Z^-1(HR) - Z^-1(FAR))
-
-    c = -(Z^-1(HR) + Z^-1(FAR))/2
-    *c = (2 / (s^2 + 1))^(1/2) * (s / s + 1) * -(Z^-1(HR) + Z^-1(FAR))
-
-    HR = Z(d'/2 - c)
-    *HR = Z(((s^2 + 1) / 2)^(1/2) * (d' / (s + 1) - c / s))
-
-    FAR = Z(-d'/2 - c)
-    *FAR = Z(((s^2 + 1) / 2)^(1/2) * -(d' / (s + 1) + c))
-
-    HR = Z(d' + Z^-1(FAR))
-    *HR = Z(((s^2 + 1) / 2)^(1/2) * d' + Z^-1(FAR) / s)
-
-    HR = Z(-2c - Z^-1(FAR))
-    *HR = Z(-((s^2 + 1) / 2)^(1/2) * ((s + 1) / s) * c - Z^-1(FAR))
-
-    muN = -d'/2
-    *muN = -((s^2 + 1) / 2)^(1/2) * (1 / (s + 1)) * d'
-
-    d' = -2 * muN
-    *d' = -(2 / (s^2 + 1))^(1/2) * (s + 1) * muN
-
-    muS = d'/2
-    *muS = ((s^2 + 1) / 2)^(1/2) * (s / (s + 1)) * d'
-
-    d' = 2 * muS
-    *d' = (2 / (s^2 + 1))^(1/2) * ((s + 1) / s) * muS
-
-    l = c
-    l = ((s^2 + 1) / 2)^(1/2) * c
-
-    c = l
-    c = (2 / (s^2 + 1))^(1/2) * l
-
-    h = 1 / (s * (2 * pi)^(1/2))
-    s = 1 / (h * (2 * pi)^(1/2))
 */
 
 
-var SDTElement = /*#__PURE__*/function (_LitElement) {
-  _inherits(SDTElement, _LitElement);
+var SDTElement = /*#__PURE__*/function (_DecidableElement) {
+  _inherits(SDTElement, _DecidableElement);
 
   _createClass(SDTElement, null, [{
     key: "properties",
@@ -74373,17 +75456,6 @@ var SDTElement = /*#__PURE__*/function (_LitElement) {
           reflect: true
         }
       };
-    } // HACK: Create a unique ID for each SDTElement
-    // This is needed because Edge/IE11 don't have real Shadow DOM, so IDs leak
-    // out of elements and collide if there is more than one of an element on a
-    // page. Known issue for checkbox/switches and the id/for pattern on <input>
-    // and <label>
-
-  }, {
-    key: "uniqueId",
-    get: function get() {
-      SDTElement.ID += 1;
-      return SDTElement.ID;
     }
   }]);
 
@@ -74393,55 +75465,11 @@ var SDTElement = /*#__PURE__*/function (_LitElement) {
     _classCallCheck(this, SDTElement);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SDTElement).call(this));
-    _this.uniqueId = "sdt-".concat(SDTElement.uniqueId);
     _this.interactive = false;
     return _this;
   }
 
-  _createClass(SDTElement, [{
-    key: "getComputedStyleValue",
-    value: function getComputedStyleValue(property) {
-      // HACK: IE11 requires use of polyfill interface to get custom property value in Javascript
-      if (window.ShadyCSS) {
-        return window.ShadyCSS.getComputedStyleValue(this, property);
-      }
-
-      return getComputedStyle(this).getPropertyValue(property);
-    }
-  }, {
-    key: "firstUpdated",
-    value: function firstUpdated(changedProperties) {
-      _get(_getPrototypeOf(SDTElement.prototype), "firstUpdated", this).call(this, changedProperties); // Use focus highlighting if keyboard is used at all
-
-
-      d3.select(this.renderRoot.host).classed('keyboard', true).on('mousemove.keyboard touchstart.keyboard', function (datum, index, elements) {
-        var element = elements[index];
-        d3.select(element.renderRoot.host).classed('keyboard', false).on('mousemove.keyboard touchstart.keyboard', null);
-      }).on('keydown.keyboard', function (datum, index, elements) {
-        var element = elements[index];
-        d3.select(element.renderRoot.host).classed('keyboard', true).on('keydown.keyboard mousemove.keyboard touchstart.keyboard', null);
-      });
-    }
-  }], [{
-    key: "cssBoxShadow",
-    value: function cssBoxShadow(elevation) {
-      var rotate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var inverse = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var umbraO = this.shadows.opacityUmbra + this.shadows.opacityBoost;
-      var penumbraO = this.shadows.opacityPenumbra + this.shadows.opacityBoost;
-      var ambientO = this.shadows.opacityAmbient + this.shadows.opacityBoost;
-      var umbraC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(umbraO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(umbraO, ")");
-      var penumbraC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(penumbraO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(penumbraO, ")");
-      var ambientC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(ambientO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(ambientO, ")");
-      var umbraM = this.shadows.mapUmbra[elevation];
-      var penumbraM = this.shadows.mapPenumbra[elevation];
-      var ambientM = this.shadows.mapAmbient[elevation];
-      var umbraS = rotate ? "".concat(-umbraM.y, "px ").concat(umbraM.y / 2, "px ").concat(umbraM.b, "px ").concat(umbraM.s, "px") : "".concat(umbraM.y / 2, "px ").concat(umbraM.y, "px ").concat(umbraM.b, "px ").concat(umbraM.s, "px");
-      var penumbraS = rotate ? "".concat(-penumbraM.y, "px ").concat(penumbraM.y / 2, "px ").concat(penumbraM.b, "px ").concat(penumbraM.s, "px") : "".concat(penumbraM.y / 2, "px ").concat(penumbraM.y, "px ").concat(penumbraM.b, "px ").concat(penumbraM.s, "px");
-      var ambientS = rotate ? "".concat(-ambientM.y, "px ").concat(ambientM.y / 2, "px ").concat(ambientM.b, "px ").concat(ambientM.s, "px") : "".concat(ambientM.y / 2, "px ").concat(ambientM.y, "px ").concat(ambientM.b, "px ").concat(ambientM.s, "px");
-      return "".concat(umbraS, " ").concat(umbraC, ", ").concat(penumbraS, " ").concat(penumbraC, ", ").concat(ambientS, " ").concat(ambientC);
-    }
-  }, {
+  _createClass(SDTElement, null, [{
     key: "colors",
     get: function get() {
       return {
@@ -74479,171 +75507,18 @@ var SDTElement = /*#__PURE__*/function (_LitElement) {
       }, {});
     }
   }, {
-    key: "greys",
-    get: function get() {
-      var grey = '#999999';
-      var greys = {};
-      greys.white = '#ffffff';
-      greys.light75 = d3.interpolateRgb(grey, '#ffffff')(0.75);
-      greys.light50 = d3.interpolateRgb(grey, '#ffffff')(0.5);
-      greys.light25 = d3.interpolateRgb(grey, '#ffffff')(0.25);
-      greys.grey = grey;
-      greys.dark25 = d3.interpolateRgb(grey, '#000000')(0.25);
-      greys.dark50 = d3.interpolateRgb(grey, '#000000')(0.5);
-      greys.dark75 = d3.interpolateRgb(grey, '#000000')(0.75);
-      greys.black = '#000000';
-      return greys;
-    }
-  }, {
-    key: "shadows",
-    get: function get() {
-      // Material Design elevation styles
-      // References:
-      //   https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
-      //   https://codepen.io/hanger/pen/yOGvQp
-
-      /* eslint-disable key-spacing, object-curly-newline */
-      return {
-        elevations: [0, 2, 4, 8, 16],
-        baselineColor: '#000000',
-        baselineColorString: '0, 0, 0',
-        inverseBaselineColor: '#FFFFFF',
-        inverseBaselineColorString: '255, 255, 255',
-        opacityUmbra: 0.2,
-        opacityPenumbra: 0.14,
-        opacityAmbient: 0.12,
-        opacityBoost: 0.2,
-        mapUmbra: {
-          // $mdc-elevation-umbra-map
-          0: {
-            x: 0,
-            y: 0,
-            b: 0,
-            s: 0
-          },
-          // offset-x, offset-y, blur-radius, spread-radius
-          2: {
-            x: 0,
-            y: 3,
-            b: 1,
-            s: -2
-          },
-          4: {
-            x: 0,
-            y: 2,
-            b: 4,
-            s: -1
-          },
-          8: {
-            x: 0,
-            y: 5,
-            b: 5,
-            s: -3
-          },
-          16: {
-            x: 0,
-            y: 8,
-            b: 10,
-            s: -5
-          }
-        },
-        mapPenumbra: {
-          // $mdc-elevation-penumbra-map
-          0: {
-            x: 0,
-            y: 0,
-            b: 0,
-            s: 0
-          },
-          // offset-x, offset-y, blur-radius, spread-radius
-          2: {
-            x: 0,
-            y: 2,
-            b: 2,
-            s: 0
-          },
-          4: {
-            x: 0,
-            y: 4,
-            b: 5,
-            s: 0
-          },
-          8: {
-            x: 0,
-            y: 8,
-            b: 10,
-            s: 1
-          },
-          16: {
-            x: 0,
-            y: 16,
-            b: 24,
-            s: 2
-          }
-        },
-        mapAmbient: {
-          // $mdc-elevation-ambient-map
-          0: {
-            x: 0,
-            y: 0,
-            b: 0,
-            s: 0
-          },
-          // offset-x, offset-y, blur-radius, spread-radius
-          2: {
-            x: 0,
-            y: 1,
-            b: 5,
-            s: 0
-          },
-          4: {
-            x: 0,
-            y: 1,
-            b: 10,
-            s: 0
-          },
-          8: {
-            x: 0,
-            y: 3,
-            b: 14,
-            s: 2
-          },
-          16: {
-            x: 0,
-            y: 6,
-            b: 30,
-            s: 5
-          }
-        }
-      };
-      /* eslint-enable key-spacing, object-curly-newline */
-    }
-  }, {
-    key: "svgFilters",
-    get: function get() {
-      var shadows = SDTElement.shadows; // eslint-disable-line prefer-destructuring
-
-      var erodeRadius = 1;
-      var filters = shadows.elevations.map(function (z) {
-        return (0, _litElement.svg)(_templateObject(), "shadow-".concat(z), shadows.mapUmbra[z].y / 2, shadows.mapUmbra[z].y, shadows.mapPenumbra[z].y / 2, shadows.mapPenumbra[z].y, shadows.mapAmbient[z].y / 2, shadows.mapAmbient[z].y, shadows.mapUmbra[z].s === 0 ? (0, _litElement.svg)(_templateObject2()) : (0, _litElement.svg)(_templateObject3(), shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapUmbra[z].s)), shadows.mapPenumbra[z].s === 0 ? (0, _litElement.svg)(_templateObject4()) : (0, _litElement.svg)(_templateObject5(), shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapPenumbra[z].s)), shadows.mapAmbient[z].s === 0 ? (0, _litElement.svg)(_templateObject6()) : (0, _litElement.svg)(_templateObject7(), shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapAmbient[z].s)), shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU', shadows.mapUmbra[z].b / 2, shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP', shadows.mapPenumbra[z].b / 2, shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA', shadows.mapAmbient[z].b / 2, shadows.baselineColor, shadows.opacityUmbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityPenumbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityAmbient + shadows.opacityBoost, erodeRadius);
-      });
-      return (0, _litElement.svg)(_templateObject8(), filters);
-    }
-  }, {
     key: "styles",
     get: function get() {
-      return (0, _litElement.css)(_templateObject9(), (0, _litElement.unsafeCSS)(this.cssBoxShadow(0)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(2)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(4)), (0, _litElement.unsafeCSS)(this.cssBoxShadow(8)), (0, _litElement.unsafeCSS)(this.colors.h), (0, _litElement.unsafeCSS)(this.colors.m), (0, _litElement.unsafeCSS)(this.colors.fa), (0, _litElement.unsafeCSS)(this.colors.cr), (0, _litElement.unsafeCSS)(this.colors.hr), (0, _litElement.unsafeCSS)(this.colors.far), (0, _litElement.unsafeCSS)(this.colors.acc), (0, _litElement.unsafeCSS)(this.colors.d), (0, _litElement.unsafeCSS)(this.colors.c), (0, _litElement.unsafeCSS)(this.colors.s), (0, _litElement.unsafeCSS)(this.colors.present), (0, _litElement.unsafeCSS)(this.colors.absent), (0, _litElement.unsafeCSS)(this.colors.correct), (0, _litElement.unsafeCSS)(this.colors.error), (0, _litElement.unsafeCSS)(this.colors.nr), (0, _litElement.unsafeCSS)(this.lights.h), (0, _litElement.unsafeCSS)(this.lights.m), (0, _litElement.unsafeCSS)(this.lights.fa), (0, _litElement.unsafeCSS)(this.lights.cr), (0, _litElement.unsafeCSS)(this.lights.hr), (0, _litElement.unsafeCSS)(this.lights.far), (0, _litElement.unsafeCSS)(this.lights.acc), (0, _litElement.unsafeCSS)(this.lights.d), (0, _litElement.unsafeCSS)(this.lights.c), (0, _litElement.unsafeCSS)(this.lights.s), (0, _litElement.unsafeCSS)(this.lights.present), (0, _litElement.unsafeCSS)(this.lights.absent), (0, _litElement.unsafeCSS)(this.lights.correct), (0, _litElement.unsafeCSS)(this.lights.error), (0, _litElement.unsafeCSS)(this.lights.nr), (0, _litElement.unsafeCSS)(this.darks.h), (0, _litElement.unsafeCSS)(this.darks.m), (0, _litElement.unsafeCSS)(this.darks.fa), (0, _litElement.unsafeCSS)(this.darks.cr), (0, _litElement.unsafeCSS)(this.darks.hr), (0, _litElement.unsafeCSS)(this.darks.far), (0, _litElement.unsafeCSS)(this.darks.acc), (0, _litElement.unsafeCSS)(this.darks.d), (0, _litElement.unsafeCSS)(this.darks.c), (0, _litElement.unsafeCSS)(this.darks.s), (0, _litElement.unsafeCSS)(this.darks.present), (0, _litElement.unsafeCSS)(this.darks.absent), (0, _litElement.unsafeCSS)(this.darks.correct), (0, _litElement.unsafeCSS)(this.darks.error), (0, _litElement.unsafeCSS)(this.darks.nr), (0, _litElement.unsafeCSS)(this.greys.white), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.dark75), (0, _litElement.unsafeCSS)(this.greys.white), (0, _litElement.unsafeCSS)(this.greys.dark25), (0, _litElement.unsafeCSS)(this.greys.light75), (0, _litElement.unsafeCSS)(this.greys.light50), (0, _litElement.unsafeCSS)(this.greys.grey), (0, _litElement.unsafeCSS)(this.greys.dark25), (0, _litElement.unsafeCSS)(this.greys.dark50), (0, _litElement.unsafeCSS)(this.greys.dark75));
+      return [_get(_getPrototypeOf(SDTElement), "styles", this), (0, _litElement.css)(_templateObject(), (0, _litElement.unsafeCSS)(this.colors.h), (0, _litElement.unsafeCSS)(this.colors.m), (0, _litElement.unsafeCSS)(this.colors.fa), (0, _litElement.unsafeCSS)(this.colors.cr), (0, _litElement.unsafeCSS)(this.colors.hr), (0, _litElement.unsafeCSS)(this.colors.far), (0, _litElement.unsafeCSS)(this.colors.acc), (0, _litElement.unsafeCSS)(this.colors.d), (0, _litElement.unsafeCSS)(this.colors.c), (0, _litElement.unsafeCSS)(this.colors.s), (0, _litElement.unsafeCSS)(this.colors.present), (0, _litElement.unsafeCSS)(this.colors.absent), (0, _litElement.unsafeCSS)(this.colors.correct), (0, _litElement.unsafeCSS)(this.colors.error), (0, _litElement.unsafeCSS)(this.colors.nr), (0, _litElement.unsafeCSS)(this.lights.h), (0, _litElement.unsafeCSS)(this.lights.m), (0, _litElement.unsafeCSS)(this.lights.fa), (0, _litElement.unsafeCSS)(this.lights.cr), (0, _litElement.unsafeCSS)(this.lights.hr), (0, _litElement.unsafeCSS)(this.lights.far), (0, _litElement.unsafeCSS)(this.lights.acc), (0, _litElement.unsafeCSS)(this.lights.d), (0, _litElement.unsafeCSS)(this.lights.c), (0, _litElement.unsafeCSS)(this.lights.s), (0, _litElement.unsafeCSS)(this.lights.present), (0, _litElement.unsafeCSS)(this.lights.absent), (0, _litElement.unsafeCSS)(this.lights.correct), (0, _litElement.unsafeCSS)(this.lights.error), (0, _litElement.unsafeCSS)(this.lights.nr), (0, _litElement.unsafeCSS)(this.darks.h), (0, _litElement.unsafeCSS)(this.darks.m), (0, _litElement.unsafeCSS)(this.darks.fa), (0, _litElement.unsafeCSS)(this.darks.cr), (0, _litElement.unsafeCSS)(this.darks.hr), (0, _litElement.unsafeCSS)(this.darks.far), (0, _litElement.unsafeCSS)(this.darks.acc), (0, _litElement.unsafeCSS)(this.darks.d), (0, _litElement.unsafeCSS)(this.darks.c), (0, _litElement.unsafeCSS)(this.darks.s), (0, _litElement.unsafeCSS)(this.darks.present), (0, _litElement.unsafeCSS)(this.darks.absent), (0, _litElement.unsafeCSS)(this.darks.correct), (0, _litElement.unsafeCSS)(this.darks.error), (0, _litElement.unsafeCSS)(this.darks.nr))];
     }
   }]);
 
   return SDTElement;
-}(_litElement.LitElement); // Static property of SDTElement!
-
+}(_decidableElements.DecidableElement);
 
 exports.default = SDTElement;
-SDTElement.ID = 0;
 
-},{"d3":384,"lit-element":390}],440:[function(require,module,exports){
+},{"@decidable/decidable-elements":412,"d3":384,"lit-element":390}],443:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -74664,7 +75539,7 @@ function _interopRequireDefault(obj) {
   };
 }
 
-},{"./sdt-math":441}],441:[function(require,module,exports){
+},{"./sdt-math":444}],444:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) {
@@ -75010,7 +75885,7 @@ var SDTMath = /*#__PURE__*/function () {
 
 exports.default = SDTMath;
 
-},{"jstat":386}],442:[function(require,module,exports){
+},{"jstat":386}],445:[function(require,module,exports){
 "use strict";
 
 require("core-js/modules/es.symbol");
@@ -75411,6 +76286,6 @@ require("bootstrap");
 
 require("@decidable/detectable-elements");
 
-},{"@decidable/detectable-elements":431,"@webcomponents/webcomponentsjs/custom-elements-es5-adapter":1,"@webcomponents/webcomponentsjs/webcomponents-bundle":2,"bootstrap":3,"core-js/modules/es.array-buffer.constructor":159,"core-js/modules/es.array-buffer.slice":160,"core-js/modules/es.array.concat":161,"core-js/modules/es.array.copy-within":162,"core-js/modules/es.array.every":163,"core-js/modules/es.array.fill":164,"core-js/modules/es.array.filter":165,"core-js/modules/es.array.find":167,"core-js/modules/es.array.find-index":166,"core-js/modules/es.array.flat":169,"core-js/modules/es.array.flat-map":168,"core-js/modules/es.array.for-each":170,"core-js/modules/es.array.from":171,"core-js/modules/es.array.includes":172,"core-js/modules/es.array.index-of":173,"core-js/modules/es.array.iterator":174,"core-js/modules/es.array.join":175,"core-js/modules/es.array.last-index-of":176,"core-js/modules/es.array.map":177,"core-js/modules/es.array.of":178,"core-js/modules/es.array.reduce":180,"core-js/modules/es.array.reduce-right":179,"core-js/modules/es.array.reverse":181,"core-js/modules/es.array.slice":182,"core-js/modules/es.array.some":183,"core-js/modules/es.array.sort":184,"core-js/modules/es.array.species":185,"core-js/modules/es.array.splice":186,"core-js/modules/es.array.unscopables.flat":188,"core-js/modules/es.array.unscopables.flat-map":187,"core-js/modules/es.date.to-primitive":189,"core-js/modules/es.function.has-instance":190,"core-js/modules/es.function.name":191,"core-js/modules/es.json.to-string-tag":192,"core-js/modules/es.map":193,"core-js/modules/es.math.acosh":194,"core-js/modules/es.math.asinh":195,"core-js/modules/es.math.atanh":196,"core-js/modules/es.math.cbrt":197,"core-js/modules/es.math.clz32":198,"core-js/modules/es.math.cosh":199,"core-js/modules/es.math.expm1":200,"core-js/modules/es.math.fround":201,"core-js/modules/es.math.hypot":202,"core-js/modules/es.math.imul":203,"core-js/modules/es.math.log10":204,"core-js/modules/es.math.log1p":205,"core-js/modules/es.math.log2":206,"core-js/modules/es.math.sign":207,"core-js/modules/es.math.sinh":208,"core-js/modules/es.math.tanh":209,"core-js/modules/es.math.to-string-tag":210,"core-js/modules/es.math.trunc":211,"core-js/modules/es.number.constructor":212,"core-js/modules/es.number.epsilon":213,"core-js/modules/es.number.is-finite":214,"core-js/modules/es.number.is-integer":215,"core-js/modules/es.number.is-nan":216,"core-js/modules/es.number.is-safe-integer":217,"core-js/modules/es.number.max-safe-integer":218,"core-js/modules/es.number.min-safe-integer":219,"core-js/modules/es.number.parse-float":220,"core-js/modules/es.number.parse-int":221,"core-js/modules/es.number.to-fixed":222,"core-js/modules/es.object.assign":223,"core-js/modules/es.object.define-getter":224,"core-js/modules/es.object.define-setter":225,"core-js/modules/es.object.entries":226,"core-js/modules/es.object.freeze":227,"core-js/modules/es.object.from-entries":228,"core-js/modules/es.object.get-own-property-descriptor":229,"core-js/modules/es.object.get-own-property-descriptors":230,"core-js/modules/es.object.get-own-property-names":231,"core-js/modules/es.object.get-prototype-of":232,"core-js/modules/es.object.is":236,"core-js/modules/es.object.is-extensible":233,"core-js/modules/es.object.is-frozen":234,"core-js/modules/es.object.is-sealed":235,"core-js/modules/es.object.keys":237,"core-js/modules/es.object.lookup-getter":238,"core-js/modules/es.object.lookup-setter":239,"core-js/modules/es.object.prevent-extensions":240,"core-js/modules/es.object.seal":241,"core-js/modules/es.object.to-string":242,"core-js/modules/es.object.values":243,"core-js/modules/es.promise":245,"core-js/modules/es.promise.finally":244,"core-js/modules/es.reflect.apply":246,"core-js/modules/es.reflect.construct":247,"core-js/modules/es.reflect.define-property":248,"core-js/modules/es.reflect.delete-property":249,"core-js/modules/es.reflect.get":252,"core-js/modules/es.reflect.get-own-property-descriptor":250,"core-js/modules/es.reflect.get-prototype-of":251,"core-js/modules/es.reflect.has":253,"core-js/modules/es.reflect.is-extensible":254,"core-js/modules/es.reflect.own-keys":255,"core-js/modules/es.reflect.prevent-extensions":256,"core-js/modules/es.reflect.set":258,"core-js/modules/es.reflect.set-prototype-of":257,"core-js/modules/es.regexp.constructor":259,"core-js/modules/es.regexp.exec":260,"core-js/modules/es.regexp.flags":261,"core-js/modules/es.regexp.to-string":262,"core-js/modules/es.set":263,"core-js/modules/es.string.anchor":264,"core-js/modules/es.string.big":265,"core-js/modules/es.string.blink":266,"core-js/modules/es.string.bold":267,"core-js/modules/es.string.code-point-at":268,"core-js/modules/es.string.ends-with":269,"core-js/modules/es.string.fixed":270,"core-js/modules/es.string.fontcolor":271,"core-js/modules/es.string.fontsize":272,"core-js/modules/es.string.from-code-point":273,"core-js/modules/es.string.includes":274,"core-js/modules/es.string.italics":275,"core-js/modules/es.string.iterator":276,"core-js/modules/es.string.link":277,"core-js/modules/es.string.match":279,"core-js/modules/es.string.match-all":278,"core-js/modules/es.string.pad-end":280,"core-js/modules/es.string.pad-start":281,"core-js/modules/es.string.raw":282,"core-js/modules/es.string.repeat":283,"core-js/modules/es.string.replace":284,"core-js/modules/es.string.search":285,"core-js/modules/es.string.small":286,"core-js/modules/es.string.split":287,"core-js/modules/es.string.starts-with":288,"core-js/modules/es.string.strike":289,"core-js/modules/es.string.sub":290,"core-js/modules/es.string.sup":291,"core-js/modules/es.string.trim":294,"core-js/modules/es.string.trim-end":292,"core-js/modules/es.string.trim-start":293,"core-js/modules/es.symbol":300,"core-js/modules/es.symbol.async-iterator":295,"core-js/modules/es.symbol.description":296,"core-js/modules/es.symbol.has-instance":297,"core-js/modules/es.symbol.is-concat-spreadable":298,"core-js/modules/es.symbol.iterator":299,"core-js/modules/es.symbol.match":302,"core-js/modules/es.symbol.match-all":301,"core-js/modules/es.symbol.replace":303,"core-js/modules/es.symbol.search":304,"core-js/modules/es.symbol.species":305,"core-js/modules/es.symbol.split":306,"core-js/modules/es.symbol.to-primitive":307,"core-js/modules/es.symbol.to-string-tag":308,"core-js/modules/es.symbol.unscopables":309,"core-js/modules/es.typed-array.copy-within":310,"core-js/modules/es.typed-array.every":311,"core-js/modules/es.typed-array.fill":312,"core-js/modules/es.typed-array.filter":313,"core-js/modules/es.typed-array.find":315,"core-js/modules/es.typed-array.find-index":314,"core-js/modules/es.typed-array.float32-array":316,"core-js/modules/es.typed-array.float64-array":317,"core-js/modules/es.typed-array.for-each":318,"core-js/modules/es.typed-array.from":319,"core-js/modules/es.typed-array.includes":320,"core-js/modules/es.typed-array.index-of":321,"core-js/modules/es.typed-array.int16-array":322,"core-js/modules/es.typed-array.int32-array":323,"core-js/modules/es.typed-array.int8-array":324,"core-js/modules/es.typed-array.iterator":325,"core-js/modules/es.typed-array.join":326,"core-js/modules/es.typed-array.last-index-of":327,"core-js/modules/es.typed-array.map":328,"core-js/modules/es.typed-array.of":329,"core-js/modules/es.typed-array.reduce":331,"core-js/modules/es.typed-array.reduce-right":330,"core-js/modules/es.typed-array.reverse":332,"core-js/modules/es.typed-array.set":333,"core-js/modules/es.typed-array.slice":334,"core-js/modules/es.typed-array.some":335,"core-js/modules/es.typed-array.sort":336,"core-js/modules/es.typed-array.subarray":337,"core-js/modules/es.typed-array.to-locale-string":338,"core-js/modules/es.typed-array.to-string":339,"core-js/modules/es.typed-array.uint16-array":340,"core-js/modules/es.typed-array.uint32-array":341,"core-js/modules/es.typed-array.uint8-array":342,"core-js/modules/es.typed-array.uint8-clamped-array":343,"core-js/modules/es.weak-map":344,"core-js/modules/es.weak-set":345,"core-js/modules/web.dom-collections.for-each":346,"core-js/modules/web.dom-collections.iterator":347,"core-js/modules/web.immediate":348,"core-js/modules/web.queue-microtask":349,"core-js/modules/web.url":351,"core-js/modules/web.url-search-params":350,"core-js/modules/web.url.to-json":352,"regenerator-runtime/runtime":406}]},{},[442])
+},{"@decidable/detectable-elements":441,"@webcomponents/webcomponentsjs/custom-elements-es5-adapter":1,"@webcomponents/webcomponentsjs/webcomponents-bundle":2,"bootstrap":3,"core-js/modules/es.array-buffer.constructor":159,"core-js/modules/es.array-buffer.slice":160,"core-js/modules/es.array.concat":161,"core-js/modules/es.array.copy-within":162,"core-js/modules/es.array.every":163,"core-js/modules/es.array.fill":164,"core-js/modules/es.array.filter":165,"core-js/modules/es.array.find":167,"core-js/modules/es.array.find-index":166,"core-js/modules/es.array.flat":169,"core-js/modules/es.array.flat-map":168,"core-js/modules/es.array.for-each":170,"core-js/modules/es.array.from":171,"core-js/modules/es.array.includes":172,"core-js/modules/es.array.index-of":173,"core-js/modules/es.array.iterator":174,"core-js/modules/es.array.join":175,"core-js/modules/es.array.last-index-of":176,"core-js/modules/es.array.map":177,"core-js/modules/es.array.of":178,"core-js/modules/es.array.reduce":180,"core-js/modules/es.array.reduce-right":179,"core-js/modules/es.array.reverse":181,"core-js/modules/es.array.slice":182,"core-js/modules/es.array.some":183,"core-js/modules/es.array.sort":184,"core-js/modules/es.array.species":185,"core-js/modules/es.array.splice":186,"core-js/modules/es.array.unscopables.flat":188,"core-js/modules/es.array.unscopables.flat-map":187,"core-js/modules/es.date.to-primitive":189,"core-js/modules/es.function.has-instance":190,"core-js/modules/es.function.name":191,"core-js/modules/es.json.to-string-tag":192,"core-js/modules/es.map":193,"core-js/modules/es.math.acosh":194,"core-js/modules/es.math.asinh":195,"core-js/modules/es.math.atanh":196,"core-js/modules/es.math.cbrt":197,"core-js/modules/es.math.clz32":198,"core-js/modules/es.math.cosh":199,"core-js/modules/es.math.expm1":200,"core-js/modules/es.math.fround":201,"core-js/modules/es.math.hypot":202,"core-js/modules/es.math.imul":203,"core-js/modules/es.math.log10":204,"core-js/modules/es.math.log1p":205,"core-js/modules/es.math.log2":206,"core-js/modules/es.math.sign":207,"core-js/modules/es.math.sinh":208,"core-js/modules/es.math.tanh":209,"core-js/modules/es.math.to-string-tag":210,"core-js/modules/es.math.trunc":211,"core-js/modules/es.number.constructor":212,"core-js/modules/es.number.epsilon":213,"core-js/modules/es.number.is-finite":214,"core-js/modules/es.number.is-integer":215,"core-js/modules/es.number.is-nan":216,"core-js/modules/es.number.is-safe-integer":217,"core-js/modules/es.number.max-safe-integer":218,"core-js/modules/es.number.min-safe-integer":219,"core-js/modules/es.number.parse-float":220,"core-js/modules/es.number.parse-int":221,"core-js/modules/es.number.to-fixed":222,"core-js/modules/es.object.assign":223,"core-js/modules/es.object.define-getter":224,"core-js/modules/es.object.define-setter":225,"core-js/modules/es.object.entries":226,"core-js/modules/es.object.freeze":227,"core-js/modules/es.object.from-entries":228,"core-js/modules/es.object.get-own-property-descriptor":229,"core-js/modules/es.object.get-own-property-descriptors":230,"core-js/modules/es.object.get-own-property-names":231,"core-js/modules/es.object.get-prototype-of":232,"core-js/modules/es.object.is":236,"core-js/modules/es.object.is-extensible":233,"core-js/modules/es.object.is-frozen":234,"core-js/modules/es.object.is-sealed":235,"core-js/modules/es.object.keys":237,"core-js/modules/es.object.lookup-getter":238,"core-js/modules/es.object.lookup-setter":239,"core-js/modules/es.object.prevent-extensions":240,"core-js/modules/es.object.seal":241,"core-js/modules/es.object.to-string":242,"core-js/modules/es.object.values":243,"core-js/modules/es.promise":245,"core-js/modules/es.promise.finally":244,"core-js/modules/es.reflect.apply":246,"core-js/modules/es.reflect.construct":247,"core-js/modules/es.reflect.define-property":248,"core-js/modules/es.reflect.delete-property":249,"core-js/modules/es.reflect.get":252,"core-js/modules/es.reflect.get-own-property-descriptor":250,"core-js/modules/es.reflect.get-prototype-of":251,"core-js/modules/es.reflect.has":253,"core-js/modules/es.reflect.is-extensible":254,"core-js/modules/es.reflect.own-keys":255,"core-js/modules/es.reflect.prevent-extensions":256,"core-js/modules/es.reflect.set":258,"core-js/modules/es.reflect.set-prototype-of":257,"core-js/modules/es.regexp.constructor":259,"core-js/modules/es.regexp.exec":260,"core-js/modules/es.regexp.flags":261,"core-js/modules/es.regexp.to-string":262,"core-js/modules/es.set":263,"core-js/modules/es.string.anchor":264,"core-js/modules/es.string.big":265,"core-js/modules/es.string.blink":266,"core-js/modules/es.string.bold":267,"core-js/modules/es.string.code-point-at":268,"core-js/modules/es.string.ends-with":269,"core-js/modules/es.string.fixed":270,"core-js/modules/es.string.fontcolor":271,"core-js/modules/es.string.fontsize":272,"core-js/modules/es.string.from-code-point":273,"core-js/modules/es.string.includes":274,"core-js/modules/es.string.italics":275,"core-js/modules/es.string.iterator":276,"core-js/modules/es.string.link":277,"core-js/modules/es.string.match":279,"core-js/modules/es.string.match-all":278,"core-js/modules/es.string.pad-end":280,"core-js/modules/es.string.pad-start":281,"core-js/modules/es.string.raw":282,"core-js/modules/es.string.repeat":283,"core-js/modules/es.string.replace":284,"core-js/modules/es.string.search":285,"core-js/modules/es.string.small":286,"core-js/modules/es.string.split":287,"core-js/modules/es.string.starts-with":288,"core-js/modules/es.string.strike":289,"core-js/modules/es.string.sub":290,"core-js/modules/es.string.sup":291,"core-js/modules/es.string.trim":294,"core-js/modules/es.string.trim-end":292,"core-js/modules/es.string.trim-start":293,"core-js/modules/es.symbol":300,"core-js/modules/es.symbol.async-iterator":295,"core-js/modules/es.symbol.description":296,"core-js/modules/es.symbol.has-instance":297,"core-js/modules/es.symbol.is-concat-spreadable":298,"core-js/modules/es.symbol.iterator":299,"core-js/modules/es.symbol.match":302,"core-js/modules/es.symbol.match-all":301,"core-js/modules/es.symbol.replace":303,"core-js/modules/es.symbol.search":304,"core-js/modules/es.symbol.species":305,"core-js/modules/es.symbol.split":306,"core-js/modules/es.symbol.to-primitive":307,"core-js/modules/es.symbol.to-string-tag":308,"core-js/modules/es.symbol.unscopables":309,"core-js/modules/es.typed-array.copy-within":310,"core-js/modules/es.typed-array.every":311,"core-js/modules/es.typed-array.fill":312,"core-js/modules/es.typed-array.filter":313,"core-js/modules/es.typed-array.find":315,"core-js/modules/es.typed-array.find-index":314,"core-js/modules/es.typed-array.float32-array":316,"core-js/modules/es.typed-array.float64-array":317,"core-js/modules/es.typed-array.for-each":318,"core-js/modules/es.typed-array.from":319,"core-js/modules/es.typed-array.includes":320,"core-js/modules/es.typed-array.index-of":321,"core-js/modules/es.typed-array.int16-array":322,"core-js/modules/es.typed-array.int32-array":323,"core-js/modules/es.typed-array.int8-array":324,"core-js/modules/es.typed-array.iterator":325,"core-js/modules/es.typed-array.join":326,"core-js/modules/es.typed-array.last-index-of":327,"core-js/modules/es.typed-array.map":328,"core-js/modules/es.typed-array.of":329,"core-js/modules/es.typed-array.reduce":331,"core-js/modules/es.typed-array.reduce-right":330,"core-js/modules/es.typed-array.reverse":332,"core-js/modules/es.typed-array.set":333,"core-js/modules/es.typed-array.slice":334,"core-js/modules/es.typed-array.some":335,"core-js/modules/es.typed-array.sort":336,"core-js/modules/es.typed-array.subarray":337,"core-js/modules/es.typed-array.to-locale-string":338,"core-js/modules/es.typed-array.to-string":339,"core-js/modules/es.typed-array.uint16-array":340,"core-js/modules/es.typed-array.uint32-array":341,"core-js/modules/es.typed-array.uint8-array":342,"core-js/modules/es.typed-array.uint8-clamped-array":343,"core-js/modules/es.weak-map":344,"core-js/modules/es.weak-set":345,"core-js/modules/web.dom-collections.for-each":346,"core-js/modules/web.dom-collections.iterator":347,"core-js/modules/web.immediate":348,"core-js/modules/web.queue-microtask":349,"core-js/modules/web.url":351,"core-js/modules/web.url-search-params":350,"core-js/modules/web.url.to-json":352,"regenerator-runtime/runtime":407}]},{},[445])
 
 //# sourceMappingURL=index.js.map
