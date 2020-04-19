@@ -16,7 +16,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"]);
+  var data = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>\n    "]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -56,7 +56,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"hr\">\n          <var>Hit Rate</var>\n          <input disabled type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"hr\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>Hits</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -66,7 +66,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<label class=\"m\">\n          <var>Misses</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"m\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Misses</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -76,7 +76,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label class=\"h\">\n          <var>Hits</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"h\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Hits</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject = function _templateObject() {
     return data;

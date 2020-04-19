@@ -7,20 +7,18 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
+var _decidableElements = require("@decidable/decidable-elements");
+
 var _detectableMath = _interopRequireDefault(require("@decidable/detectable-math"));
 
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
-
-var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
-
-var _converterSet = _interopRequireDefault(require("../mixins/converterSet"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject46() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        label {\n          margin: 0;\n        }\n\n        label span {\n          display: block;\n\n          font-size: 0.75rem;\n        }\n\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        input {\n          background: none;\n        }\n\n        .td-data input {\n          width: 3.5rem;\n        }\n\n        .td-summary input {\n          width: 4.5rem;\n        }\n\n        /* Table emphasis */\n        .h {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        /* Color schemes */\n        /* stylelint-disable-next-line no-descending-specificity */\n        .td,\n        .td input {\n          transition: all var(---transition-duration) ease;\n        }\n\n        /* Outcome color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        .ppv,\n        .ppv input {\n          background: var(---color-present-light);\n        }\n\n        .fomr,\n        .fomr input {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .h input,\n        :host([color=\"accuracy\"]) .cr,\n        :host([color=\"accuracy\"]) .cr input {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .m input,\n        :host([color=\"accuracy\"]) .fa,\n        :host([color=\"accuracy\"]) .fa input {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .hr input,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .far input,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .ppv input,\n        :host([color=\"accuracy\"]) .fomr,\n        :host([color=\"accuracy\"]) .fomr input {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .cr input,\n        :host([color=\"stimulus\"]) .fa,\n        :host([color=\"stimulus\"]) .fa input {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .m input,\n        :host([color=\"stimulus\"]) .h,\n        :host([color=\"stimulus\"]) .h input {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .ppv input,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .fomr input,\n        :host([color=\"stimulus\"]) .acc,\n        :host([color=\"stimulus\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .cr input,\n        :host([color=\"response\"]) .m,\n        :host([color=\"response\"]) .m input {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .fa input,\n        :host([color=\"response\"]) .h,\n        :host([color=\"response\"]) .h input {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .hr input,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .far input,\n        :host([color=\"response\"]) .acc,\n        :host([color=\"response\"]) .acc input {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .cr input,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .fa input,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .m input,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .h input,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .hr input,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .far input,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .ppv input,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .fomr input,\n        :host([color=\"none\"]) .acc,\n        :host([color=\"none\"]) .acc input {\n          background: var(---color-element-background);\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n\n          transition: all var(---transition-duration) ease;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        .td-data decidable-spinner {\n          --decidable-spinner-input-width: 3.5rem;\n        }\n\n        .td-summary decidable-spinner {\n          --decidable-spinner-input-width: 4.5rem;\n        }\n\n        /* Color schemes & Table emphasis */\n\n        /* (Default) Outcome color scheme */\n        .h {\n          background: var(---color-h-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .ppv {\n          background: var(---color-present-light);\n        }\n\n        .fomr {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .cr {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .fa {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .fomr {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .fa {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .h {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .m {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .h {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .acc {\n          background: var(---color-element-background);\n        }\n      "]);
 
   _templateObject46 = function _templateObject46() {
     return data;
@@ -310,7 +308,7 @@ function _templateObject18() {
 }
 
 function _templateObject17() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>False Omission Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Omission Rate</span>\n        </decidable-spinner>\n      "]);
 
   _templateObject17 = function _templateObject17() {
     return data;
@@ -320,7 +318,7 @@ function _templateObject17() {
 }
 
 function _templateObject16() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Positive Predictive Value</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Positive Predictive Value</span>\n        </decidable-spinner>\n      "]);
 
   _templateObject16 = function _templateObject16() {
     return data;
@@ -330,7 +328,7 @@ function _templateObject16() {
 }
 
 function _templateObject15() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Accuracy</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Accuracy</span>\n        </decidable-spinner>\n      "]);
 
   _templateObject15 = function _templateObject15() {
     return data;
@@ -340,7 +338,7 @@ function _templateObject15() {
 }
 
 function _templateObject14() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>False Alarm Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Alarm Rate</span>\n        </decidable-spinner>\n      "]);
 
   _templateObject14 = function _templateObject14() {
     return data;
@@ -350,7 +348,7 @@ function _templateObject14() {
 }
 
 function _templateObject13() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Hit Rate</span>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Hit Rate</span>\n        </decidable-spinner>\n      "]);
 
   _templateObject13 = function _templateObject13() {
     return data;
@@ -380,7 +378,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Correct Rejections</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Correct Rejections</span>\n          ", "\n        </decidable-spinner>\n      "]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -410,7 +408,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>False Alarms</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>False Alarms</span>\n          ", "\n        </decidable-spinner>\n      "]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -440,7 +438,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Misses</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Misses</span>\n          ", "\n        </decidable-spinner>\n      "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -470,7 +468,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label>\n          <span>Hits</span>\n          ", "\n          <input ?disabled=", " type=\"number\" min=\"0\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Hits</span>\n          ", "\n        </decidable-spinner>\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -508,8 +506,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
   Hit; Miss; FalseAlarm; CorrectRejection;
 */
-var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
-  _inherits(SDTTable, _SDTMixinConverterSet);
+var SDTTable = /*#__PURE__*/function (_SDTElement) {
+  _inherits(SDTTable, _SDTElement);
 
   _createClass(SDTTable, null, [{
     key: "properties",
@@ -522,7 +520,7 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
         },
         summary: {
           attribute: 'summary',
-          converter: _converterSet.default.converterSet,
+          converter: _decidableElements.DecidableConverterSet,
           reflect: true
         },
         color: {
@@ -616,7 +614,7 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
     _this.numeric = false;
     _this.summaries = ['stimulusRates, responseRates, accuracy'];
     _this.summary = new Set();
-    _this.colors = ['stimulus', 'response', 'outcome', 'none'];
+    _this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
     _this.color = 'outcome';
     _this.h = 40;
     _this.m = 60;
@@ -791,10 +789,10 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
       var fomr;
 
       if (this.numeric) {
-        h = (0, _litElement.html)(_templateObject(), this.payoff ? (0, _litElement.html)(_templateObject2(), payoffFormatter.format(this.hPayoff)) : (0, _litElement.html)(_templateObject3()), !this.interactive, this.h, this.hInput.bind(this));
-        m = (0, _litElement.html)(_templateObject4(), this.payoff ? (0, _litElement.html)(_templateObject5(), payoffFormatter.format(this.mPayoff)) : (0, _litElement.html)(_templateObject6()), !this.interactive, this.m, this.mInput.bind(this));
-        fa = (0, _litElement.html)(_templateObject7(), this.payoff ? (0, _litElement.html)(_templateObject8(), payoffFormatter.format(this.faPayoff)) : (0, _litElement.html)(_templateObject9()), !this.interactive, this.fa, this.faInput.bind(this));
-        cr = (0, _litElement.html)(_templateObject10(), this.payoff ? (0, _litElement.html)(_templateObject11(), payoffFormatter.format(this.crPayoff)) : (0, _litElement.html)(_templateObject12()), !this.interactive, this.cr, this.crInput.bind(this));
+        h = (0, _litElement.html)(_templateObject(), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? (0, _litElement.html)(_templateObject2(), payoffFormatter.format(this.hPayoff)) : (0, _litElement.html)(_templateObject3()));
+        m = (0, _litElement.html)(_templateObject4(), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? (0, _litElement.html)(_templateObject5(), payoffFormatter.format(this.mPayoff)) : (0, _litElement.html)(_templateObject6()));
+        fa = (0, _litElement.html)(_templateObject7(), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? (0, _litElement.html)(_templateObject8(), payoffFormatter.format(this.faPayoff)) : (0, _litElement.html)(_templateObject9()));
+        cr = (0, _litElement.html)(_templateObject10(), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? (0, _litElement.html)(_templateObject11(), payoffFormatter.format(this.crPayoff)) : (0, _litElement.html)(_templateObject12()));
         hr = (0, _litElement.html)(_templateObject13(), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
         far = (0, _litElement.html)(_templateObject14(), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
         acc = (0, _litElement.html)(_templateObject15(), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
@@ -822,7 +820,7 @@ var SDTTable = /*#__PURE__*/function (_SDTMixinConverterSet) {
   }]);
 
   return SDTTable;
-}((0, _converterSet.default)((0, _styleSpinner.default)(_sdtElement.default)));
+}(_sdtElement.default);
 
 exports.default = SDTTable;
 customElements.define('sdt-table', SDTTable);

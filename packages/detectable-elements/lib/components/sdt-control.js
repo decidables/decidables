@@ -7,24 +7,16 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
+require("@decidable/decidable-elements");
+
 var _sdtElement = _interopRequireDefault(require("../sdt-element"));
-
-var _styleButton = _interopRequireDefault(require("../mixins/styleButton"));
-
-var _styleSlider = _interopRequireDefault(require("../mixins/styleSlider"));
-
-var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
-
-var _styleSwitch = _interopRequireDefault(require("../mixins/styleSwitch"));
-
-var _styleToggle = _interopRequireDefault(require("../mixins/styleToggle"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject20() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: ", ";\n          ---shadow-4-rotate: ", ";\n          ---shadow-8-rotate: ", ";\n\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        .slider {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .switch {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        .toggle {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        /* Spinners */\n        input[type=number] {\n          width: 3.5rem;\n          margin: 0 0.25rem 0.25rem;\n\n          background: var(---color-background);\n        }\n\n        /* Toggles */\n        fieldset {\n          border: 0;\n        }\n\n        legend {\n          text-align: center;\n        }\n\n        /* Payoff  Slider */\n        .payoff {\n          line-height: 1;\n        }\n\n        .payoff::before {\n          position: absolute;\n\n          padding-top: 1px;\n          padding-left: 0.5rem;\n\n          line-height: normal;\n\n          content: \"$\";\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: ", ";\n          ---shadow-4-rotate: ", ";\n          ---shadow-8-rotate: ", ";\n\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        /* Payoff  Slider */\n        .payoff {\n          --decidable-spinner-prefix: \"$\";\n        }\n      "]);
 
   _templateObject20 = function _templateObject20() {
     return data;
@@ -44,7 +36,7 @@ function _templateObject19() {
 }
 
 function _templateObject18() {
-  var data = _taggedTemplateLiteral(["<button name=\"reset\" ?disabled=", " @click=", ">Reset</button>"]);
+  var data = _taggedTemplateLiteral(["<decidable-button name=\"reset\" ?disabled=", " @click=", ">Reset</decidable-button>"]);
 
   _templateObject18 = function _templateObject18() {
     return data;
@@ -64,7 +56,7 @@ function _templateObject17() {
 }
 
 function _templateObject16() {
-  var data = _taggedTemplateLiteral(["<button name=\"pause\" ?disabled=", " @click=", ">Pause</button>"]);
+  var data = _taggedTemplateLiteral(["<decidable-button name=\"pause\" ?disabled=", " @click=", ">Pause</decidable-button>"]);
 
   _templateObject16 = function _templateObject16() {
     return data;
@@ -84,7 +76,7 @@ function _templateObject15() {
 }
 
 function _templateObject14() {
-  var data = _taggedTemplateLiteral(["<button name=\"run\" ?disabled=", " @click=", ">Run</button>"]);
+  var data = _taggedTemplateLiteral(["<decidable-button name=\"run\" ?disabled=", " @click=", ">Run</decidable-button>"]);
 
   _templateObject14 = function _templateObject14() {
     return data;
@@ -104,7 +96,7 @@ function _templateObject13() {
 }
 
 function _templateObject12() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"switch\">\n              <input type=\"checkbox\" id=", " name=\"z-roc\" ?checked=", " @change=", ">\n              <label for=", ">ROC</label>\n              <label for=", "><span class=\"math-var\">z</span>ROC</label>\n            </div>"]);
+  var data = _taggedTemplateLiteral(["\n            <decidable-switch ?checked=", " @change=", ">\n              <span class=\"math-var\">z</span>ROC\n              <span slot=\"off-label\">ROC</span>\n            </decidable-switch>\n          "]);
 
   _templateObject12 = function _templateObject12() {
     return data;
@@ -124,7 +116,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteral(["\n            <fieldset class=\"toggle\">\n              <legend>Emphasis</legend>\n              <input type=\"radio\" id=", " name=", " value=\"none\" ?checked=", " @change=", ">\n              <label for=", ">None</label>\n              <input type=\"radio\" id=", " name=", " value=\"accuracy\" ?checked=", " @change=", ">\n              <label for=", ">Accuracy</label>\n              <input type=\"radio\" id=", " name=", " value=\"stimulus\" ?checked=", " @change=", ">\n              <label for=", ">Stimulus</label>\n              <input type=\"radio\" id=", " name=", " value=\"response\" ?checked=", " @change=", ">\n              <label for=", ">Response</label>\n              <input type=\"radio\" id=", " name=", " value=\"outcome\" ?checked=", " @change=", ">\n              <label for=", ">Outcome</label>\n            </fieldset>"]);
+  var data = _taggedTemplateLiteral(["\n            <decidable-toggle @change=", ">\n              <span slot=\"label\">Emphasis</span>\n              <decidable-toggle-option name=", " value=\"none\" ?checked=", ">None</decidable-toggle-option>\n              <decidable-toggle-option name=", " value=\"accuracy\" ?checked=", ">Accuracy</decidable-toggle-option>\n              <decidable-toggle-option name=", " value=\"stimulus\" ?checked=", ">Stimulus</decidable-toggle-option>\n              <decidable-toggle-option name=", " value=\"response\" ?checked=", ">Response</decidable-toggle-option>\n              <decidable-toggle-option name=", " value=\"outcome\" ?checked=", ">Outcome</decidable-toggle-option>\n            </decidable-toggle>\n          "]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -144,7 +136,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Payoff</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"payoff\" min=\"0\" max=\"100\" step=\"1\" .value=", " @input=", " @change=", ">\n              </div>\n              <div class=\"payoff\">\n                <input type=\"number\" min=\"0\" max=\"100\" step=\"1\" .value=\"", "\" @input=", ">\n              </div>\n            </div>"]);
+  var data = _taggedTemplateLiteral(["<decidable-slider class=\"payoff\" min=\"0\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Payoff</decidable-slider>"]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -164,7 +156,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Coherence</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"coherence\" min=\"0\" max=\"1\" step=\".01\" .value=", " @input=", " @change=", ">\n              </div>\n              <input type=\"number\" min=\"0\" max=\"1\" step=\".01\" .value=\"", "\" @input=", ">\n            </div>"]);
+  var data = _taggedTemplateLiteral(["<decidable-slider min=\"0\" max=\"1\" step=\".01\" .value=", " @change=", " @input=", ">Coherence</decidable-slider>"]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -184,7 +176,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Duration</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"duration\" min=\"10\" max=\"2000\" step=\"10\" .value=", " @input=", " @change=", ">\n              </div>\n              <input type=\"number\" min=\"10\" max=\"2000\" step=\"10\" .value=", " @input=", ">\n            </div>"]);
+  var data = _taggedTemplateLiteral(["<decidable-slider min=\"10\" max=\"2000\" step=\"10\" .value=", " @change=", " @input=", ">Duration</decidable-slider>"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -204,7 +196,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n            <div class=\"slider\">\n              <label for=", ">Trials</label>\n              <div class=\"range\">\n                <input type=\"range\" id=", " name=\"trials\" min=\"1\" max=\"100\" step=\"1\" .value=", " @input=", " @change=", ">\n              </div>\n              <input type=\"number\" min=\"1\" max=\"100\" step=\"1\" .value=", " @input=", ">\n            </div>"]);
+  var data = _taggedTemplateLiteral(["<decidable-slider min=\"1\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Trials</decidable-slider>"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -252,12 +244,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   Attributes:
 
 */
-var SDTControl = /*#__PURE__*/function (_SDTMixinStyleButton) {
-  _inherits(SDTControl, _SDTMixinStyleButton);
+var SDTControl = /*#__PURE__*/function (_SDTElement) {
+  _inherits(SDTControl, _SDTElement);
 
   _createClass(SDTControl, null, [{
     key: "properties",
-    // eslint-disable-line max-len
     get: function get() {
       return {
         trials: {
@@ -438,7 +429,7 @@ var SDTControl = /*#__PURE__*/function (_SDTMixinStyleButton) {
   }, {
     key: "render",
     value: function render() {
-      return (0, _litElement.html)(_templateObject(), this.trials ? (0, _litElement.html)(_templateObject2(), "".concat(this.uniqueId, "-trials"), "".concat(this.uniqueId, "-trials"), this.trials, this.setTrials.bind(this), this.setTrials.bind(this), this.trials, this.setTrials.bind(this)) : (0, _litElement.html)(_templateObject3()), this.duration ? (0, _litElement.html)(_templateObject4(), "".concat(this.uniqueId, "-duration"), "".concat(this.uniqueId, "-duration"), this.duration, this.setDuration.bind(this), this.setDuration.bind(this), this.duration, this.setDuration.bind(this)) : (0, _litElement.html)(_templateObject5()), this.coherence ? (0, _litElement.html)(_templateObject6(), "".concat(this.uniqueId, "-coherence"), "".concat(this.uniqueId, "-coherence"), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this), this.coherence, this.setCoherence.bind(this)) : (0, _litElement.html)(_templateObject7()), this.payoff ? (0, _litElement.html)(_templateObject8(), "".concat(this.uniqueId, "-payoff"), "".concat(this.uniqueId, "-payoff"), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this), this.payoff, this.setPayoff.bind(this)) : (0, _litElement.html)(_templateObject9()), this.color !== undefined ? (0, _litElement.html)(_templateObject10(), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color"), this.color === 'none', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-none"), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color"), this.color === 'accuracy', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-accuracy"), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color"), this.color === 'stimulus', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-stimulus"), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color"), this.color === 'response', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-response"), "".concat(this.uniqueId, "-color-outcome"), "".concat(this.uniqueId, "-color"), this.color === 'outcome', this.chooseColor.bind(this), "".concat(this.uniqueId, "-color-outcome")) : (0, _litElement.html)(_templateObject11()), this.zRoc !== undefined ? (0, _litElement.html)(_templateObject12(), "".concat(this.uniqueId, "-z-roc"), this.zRoc, this.flipZRoc.bind(this), "".concat(this.uniqueId, "-z-roc"), "".concat(this.uniqueId, "-z-roc")) : (0, _litElement.html)(_templateObject13()), this.run ? (0, _litElement.html)(_templateObject14(), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : (0, _litElement.html)(_templateObject15()), this.pause ? (0, _litElement.html)(_templateObject16(), this.state !== 'running', this.doPause.bind(this)) : (0, _litElement.html)(_templateObject17()), this.reset ? (0, _litElement.html)(_templateObject18(), this.state === 'resetted', this.doReset.bind(this)) : (0, _litElement.html)(_templateObject19()));
+      return (0, _litElement.html)(_templateObject(), this.trials ? (0, _litElement.html)(_templateObject2(), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : (0, _litElement.html)(_templateObject3()), this.duration ? (0, _litElement.html)(_templateObject4(), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : (0, _litElement.html)(_templateObject5()), this.coherence ? (0, _litElement.html)(_templateObject6(), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : (0, _litElement.html)(_templateObject7()), this.payoff ? (0, _litElement.html)(_templateObject8(), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : (0, _litElement.html)(_templateObject9()), this.color !== undefined ? (0, _litElement.html)(_templateObject10(), this.chooseColor.bind(this), "".concat(this.uniqueId, "-color"), this.color === 'none', "".concat(this.uniqueId, "-color"), this.color === 'accuracy', "".concat(this.uniqueId, "-color"), this.color === 'stimulus', "".concat(this.uniqueId, "-color"), this.color === 'response', "".concat(this.uniqueId, "-color"), this.color === 'outcome') : (0, _litElement.html)(_templateObject11()), this.zRoc !== undefined ? (0, _litElement.html)(_templateObject12(), this.zRoc, this.flipZRoc.bind(this)) : (0, _litElement.html)(_templateObject13()), this.run ? (0, _litElement.html)(_templateObject14(), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : (0, _litElement.html)(_templateObject15()), this.pause ? (0, _litElement.html)(_templateObject16(), this.state !== 'running', this.doPause.bind(this)) : (0, _litElement.html)(_templateObject17()), this.reset ? (0, _litElement.html)(_templateObject18(), this.state === 'resetted', this.doReset.bind(this)) : (0, _litElement.html)(_templateObject19()));
     }
   }], [{
     key: "styles",
@@ -448,7 +439,7 @@ var SDTControl = /*#__PURE__*/function (_SDTMixinStyleButton) {
   }]);
 
   return SDTControl;
-}((0, _styleButton.default)((0, _styleSlider.default)((0, _styleSpinner.default)((0, _styleSwitch.default)((0, _styleToggle.default)(_sdtElement.default))))));
+}(_sdtElement.default);
 
 exports.default = SDTControl;
 customElements.define('sdt-control', SDTControl);

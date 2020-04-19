@@ -86,7 +86,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["<label class=\"d bottom\">\n          <var class=\"math-var\">d\u2032</var>\n          <input disabled type=\"number\" step=\".001\" .value=\"", "\">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"d bottom\" disabled step=\".001\" .value=\"", "\">\n          <var class=\"math-var\">d\u2032</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -96,7 +96,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["<label class=\"s bottom\">\n          <var class=\"math-var\">\u03C3</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -106,7 +106,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["<label class=\"far bottom\">\n          <var>False Alarm Rate</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"far bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>False Alarm Rate</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -116,7 +116,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<label class=\"hr bottom\">\n          <var>Hit Rate</var>\n          <input ?disabled=", " type=\"number\" min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", " >\n        </label>"]);
+  var data = _taggedTemplateLiteral(["\n        <decidable-spinner class=\"hr bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>Hit Rate</var>\n        </decidable-spinner>\n      "]);
 
   _templateObject = function _templateObject() {
     return data;

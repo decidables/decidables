@@ -54,18 +54,5 @@ Object.keys(_examples).forEach(function (key) {
   });
 });
 
-var _mixins = require("./mixins");
-
-Object.keys(_mixins).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _mixins[key];
-    }
-  });
-});
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 //# sourceMappingURL=index.js.map

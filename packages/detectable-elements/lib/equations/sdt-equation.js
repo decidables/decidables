@@ -7,16 +7,16 @@ exports.default = void 0;
 
 var _litElement = require("lit-element");
 
-var _sdtElement = _interopRequireDefault(require("../sdt-element"));
+require("@decidable/decidable-elements");
 
-var _styleSpinner = _interopRequireDefault(require("../mixins/styleSpinner"));
+var _sdtElement = _interopRequireDefault(require("../sdt-element"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n\n          margin: 1rem;\n        }\n\n        /* Containing <div> */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          justify-content: left;\n        }\n\n        /* Overall <table> */\n        .equation {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Modifies <td> */\n        .underline {\n          border-bottom: 1px solid var(---color-text);\n        }\n\n        /* Basic <span> and <var> w/modifiers */\n        span,\n        var {\n          padding: 0 0.25rem;\n\n          font-style: normal;\n        }\n\n        .tight {\n          padding: 0;\n        }\n\n        .paren {\n          font-size: 150%;\n        }\n\n        .bracket {\n          font-size: 175%;\n        }\n\n        .exp {\n          font-size: 0.75rem;\n        }\n\n        /* Input wrapping <label> */\n        label {\n          display: inline-flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          padding: 0.125rem 0.375rem 0.375rem;\n\n          vertical-align: middle;\n        }\n\n        .bottom {\n          vertical-align: bottom;\n        }\n\n        /* Nested <var> */\n        label var {\n          font-size: 0.75rem;\n        }\n\n        /* User <input> */\n        input {\n          width: 4rem;\n\n          background: none;\n        }\n\n        /* Color scheme */\n        .h,\n        .h input {\n          background: var(---color-h-light);\n        }\n\n        .m,\n        .m input {\n          background: var(---color-m-light);\n        }\n\n        .hr,\n        .hr input {\n          background: var(---color-hr-light);\n        }\n\n        .fa,\n        .fa input {\n          background: var(---color-fa-light);\n        }\n\n        .acc,\n        .acc input {\n          background: var(---color-acc-light);\n        }\n\n        .cr,\n        .cr input {\n          background: var(---color-cr-light);\n        }\n\n        .far,\n        .far input {\n          background: var(---color-far-light);\n        }\n\n        .d,\n        .d input {\n          background: var(---color-d-light);\n        }\n\n        .c,\n        .c input {\n          background: var(---color-c-light);\n        }\n\n        .s,\n        .s input {\n          background: var(---color-s-light);\n        }\n      "]);
+  var data = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n\n          margin: 1rem;\n        }\n\n        /* Containing <div> */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          justify-content: left;\n        }\n\n        /* Overall <table> */\n        .equation {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Modifies <td> */\n        .underline {\n          border-bottom: 1px solid var(---color-text);\n        }\n\n        /* Basic <span> and <var> w/modifiers */\n        span,\n        var {\n          padding: 0 0.25rem;\n\n          font-style: normal;\n        }\n\n        .tight {\n          padding: 0;\n        }\n\n        .paren {\n          font-size: 150%;\n        }\n\n        .bracket {\n          font-size: 175%;\n        }\n\n        .exp {\n          font-size: 0.75rem;\n        }\n\n        /* Input wrapping <label> */\n        decidable-spinner {\n          --decidable-spinner-input-width: 4rem;\n\n          display: inline-block;\n\n          padding: 0.125rem 0.375rem 0.375rem;\n\n          vertical-align: middle;\n        }\n\n        .bottom {\n          vertical-align: bottom;\n        }\n\n        /* Color scheme */\n        .h {\n          background: var(---color-h-light);\n        }\n\n        .m {\n          background: var(---color-m-light);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .d {\n          background: var(---color-d-light);\n        }\n\n        .c {\n          background: var(---color-c-light);\n        }\n\n        .s {\n          background: var(---color-s-light);\n        }\n      "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -51,8 +51,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
   SDTEquation Base Class - Not intended for instantiation!
   <sdt-equation>
 */
-var SDTEquation = /*#__PURE__*/function (_SDTMixinStyleSpinner) {
-  _inherits(SDTEquation, _SDTMixinStyleSpinner);
+var SDTEquation = /*#__PURE__*/function (_SDTElement) {
+  _inherits(SDTEquation, _SDTElement);
 
   _createClass(SDTEquation, null, [{
     key: "properties",
@@ -85,7 +85,7 @@ var SDTEquation = /*#__PURE__*/function (_SDTMixinStyleSpinner) {
   }]);
 
   return SDTEquation;
-}((0, _styleSpinner.default)(_sdtElement.default));
+}(_sdtElement.default);
 
 exports.default = SDTEquation;
 //# sourceMappingURL=sdt-equation.js.map
