@@ -1,11 +1,10 @@
 
 import {html, css} from 'lit-element';
 
+import {DecidableConverterSet} from '@decidable/decidable-elements';
 import SDTMath from '@decidable/detectable-math';
 
 import SDTElement from '../sdt-element';
-import SDTMixinStyleSpinner from '../mixins/styleSpinner';
-import SDTMixinConverterSet from '../mixins/converterSet';
 
 /*
   SDTTable element
@@ -14,7 +13,7 @@ import SDTMixinConverterSet from '../mixins/converterSet';
   Attributes:
   Hit; Miss; FalseAlarm; CorrectRejection;
 */
-export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(SDTElement)) {
+export default class SDTTable extends SDTElement {
   static get properties() {
     return {
       numeric: {
@@ -24,7 +23,7 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
       },
       summary: {
         attribute: 'summary',
-        converter: SDTMixinConverterSet.converterSet,
+        converter: DecidableConverterSet,
         reflect: true,
       },
       color: {
@@ -118,7 +117,7 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
     this.summaries = ['stimulusRates, responseRates, accuracy'];
     this.summary = new Set();
 
-    this.colors = ['stimulus', 'response', 'outcome', 'none'];
+    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
     this.color = 'outcome';
 
     this.h = 40;
@@ -293,6 +292,8 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
           width: 10rem;
 
           padding: 0.25rem 0.25rem 0.375rem;
+
+          transition: all var(---transition-duration) ease;
         }
 
         .numeric .td {
@@ -300,203 +301,131 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
         }
 
         /* Labels */
-        label {
-          margin: 0;
-        }
-
-        label span {
-          display: block;
-
-          font-size: 0.75rem;
-        }
-
         .payoff {
           font-weight: 600;
           line-height: 0.75rem;
         }
 
         /* User interaction <input> */
-        input {
-          background: none;
+        .td-data decidable-spinner {
+          --decidable-spinner-input-width: 3.5rem;
         }
 
-        .td-data input {
-          width: 3.5rem;
+        .td-summary decidable-spinner {
+          --decidable-spinner-input-width: 4.5rem;
         }
 
-        .td-summary input {
-          width: 4.5rem;
-        }
+        /* Color schemes & Table emphasis */
 
-        /* Table emphasis */
+        /* (Default) Outcome color scheme */
         .h {
+          background: var(---color-h-light);
           border-top: 2px solid var(---color-element-emphasis);
           border-left: 2px solid var(---color-element-emphasis);
         }
 
         .m {
+          background: var(---color-m-light);
           border-top: 2px solid var(---color-element-emphasis);
           border-right: 2px solid var(---color-element-emphasis);
         }
 
         .fa {
+          background: var(---color-fa-light);
           border-bottom: 2px solid var(---color-element-emphasis);
           border-left: 2px solid var(---color-element-emphasis);
         }
 
         .cr {
+          background: var(---color-cr-light);
           border-right: 2px solid var(---color-element-emphasis);
           border-bottom: 2px solid var(---color-element-emphasis);
         }
 
-        /* Color schemes */
-        /* stylelint-disable-next-line no-descending-specificity */
-        .td,
-        .td input {
-          transition: all var(---transition-duration) ease;
-        }
-
-        /* Outcome color scheme */
-        .h,
-        .h input {
-          background: var(---color-h-light);
-        }
-
-        .m,
-        .m input {
-          background: var(---color-m-light);
-        }
-
-        .fa,
-        .fa input {
-          background: var(---color-fa-light);
-        }
-
-        .cr,
-        .cr input {
-          background: var(---color-cr-light);
-        }
-
-        .hr,
-        .hr input {
+        .hr {
           background: var(---color-hr-light);
         }
 
-        .far,
-        .far input {
+        .far {
           background: var(---color-far-light);
         }
 
-        .acc,
-        .acc input {
+        .acc {
           background: var(---color-acc-light);
         }
 
-        .ppv,
-        .ppv input {
+        .ppv {
           background: var(---color-present-light);
         }
 
-        .fomr,
-        .fomr input {
+        .fomr {
           background: var(---color-absent-light);
         }
 
         /* Accuracy color scheme */
         :host([color="accuracy"]) .h,
-        :host([color="accuracy"]) .h input,
-        :host([color="accuracy"]) .cr,
-        :host([color="accuracy"]) .cr input {
+        :host([color="accuracy"]) .cr {
           background: var(---color-correct-light);
         }
 
         :host([color="accuracy"]) .m,
-        :host([color="accuracy"]) .m input,
-        :host([color="accuracy"]) .fa,
-        :host([color="accuracy"]) .fa input {
+        :host([color="accuracy"]) .fa {
           color: var(---color-text-inverse);
 
           background: var(---color-error-light);
         }
 
         :host([color="accuracy"]) .hr,
-        :host([color="accuracy"]) .hr input,
         :host([color="accuracy"]) .far,
-        :host([color="accuracy"]) .far input,
         :host([color="accuracy"]) .ppv,
-        :host([color="accuracy"]) .ppv input,
-        :host([color="accuracy"]) .fomr,
-        :host([color="accuracy"]) .fomr input {
+        :host([color="accuracy"]) .fomr {
           background: var(---color-element-background);
         }
 
         /* Stimulus color scheme */
         :host([color="stimulus"]) .cr,
-        :host([color="stimulus"]) .cr input,
-        :host([color="stimulus"]) .fa,
-        :host([color="stimulus"]) .fa input {
+        :host([color="stimulus"]) .fa {
           background: var(---color-far-light);
         }
 
         :host([color="stimulus"]) .m,
-        :host([color="stimulus"]) .m input,
-        :host([color="stimulus"]) .h,
-        :host([color="stimulus"]) .h input {
+        :host([color="stimulus"]) .h {
           background: var(---color-hr-light);
         }
 
         :host([color="stimulus"]) .ppv,
-        :host([color="stimulus"]) .ppv input,
         :host([color="stimulus"]) .fomr,
-        :host([color="stimulus"]) .fomr input,
-        :host([color="stimulus"]) .acc,
-        :host([color="stimulus"]) .acc input {
+        :host([color="stimulus"]) .acc {
           background: var(---color-element-background);
         }
 
         /* Response color scheme */
         :host([color="response"]) .cr,
-        :host([color="response"]) .cr input,
-        :host([color="response"]) .m,
-        :host([color="response"]) .m input {
+        :host([color="response"]) .m {
           background: var(---color-absent-light);
         }
 
         :host([color="response"]) .fa,
-        :host([color="response"]) .fa input,
-        :host([color="response"]) .h,
-        :host([color="response"]) .h input {
+        :host([color="response"]) .h {
           background: var(---color-present-light);
         }
 
         :host([color="response"]) .hr,
-        :host([color="response"]) .hr input,
         :host([color="response"]) .far,
-        :host([color="response"]) .far input,
-        :host([color="response"]) .acc,
-        :host([color="response"]) .acc input {
+        :host([color="response"]) .acc {
           background: var(---color-element-background);
         }
 
         /* No color scheme */
         :host([color="none"]) .cr,
-        :host([color="none"]) .cr input,
         :host([color="none"]) .fa,
-        :host([color="none"]) .fa input,
         :host([color="none"]) .m,
-        :host([color="none"]) .m input,
         :host([color="none"]) .h,
-        :host([color="none"]) .h input,
         :host([color="none"]) .hr,
-        :host([color="none"]) .hr input,
         :host([color="none"]) .far,
-        :host([color="none"]) .far input,
         :host([color="none"]) .ppv,
-        :host([color="none"]) .ppv input,
         :host([color="none"]) .fomr,
-        :host([color="none"]) .fomr input,
-        :host([color="none"]) .acc,
-        :host([color="none"]) .acc input {
+        :host([color="none"]) .acc {
           background: var(---color-element-background);
         }
       `,
@@ -522,46 +451,55 @@ export default class SDTTable extends SDTMixinConverterSet(SDTMixinStyleSpinner(
     let ppv;
     let fomr;
     if (this.numeric) {
-      h = html`<label>
+      h = html`
+        <decidable-spinner ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <span>Hits</span>
           ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.hPayoff)}</span>` : html``}
-          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
-        </label>`;
-      m = html`<label>
+        </decidable-spinner>
+      `;
+      m = html`
+        <decidable-spinner ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <span>Misses</span>
           ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.mPayoff)}</span>` : html``}
-          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
-        </label>`;
-      fa = html`<label>
+        </decidable-spinner>
+      `;
+      fa = html`
+        <decidable-spinner ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <span>False Alarms</span>
           ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.faPayoff)}</span>` : html``}
-          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
-        </label>`;
-      cr = html`<label>
+        </decidable-spinner>
+      `;
+      cr = html`
+        <decidable-spinner ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <span>Correct Rejections</span>
           ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.crPayoff)}</span>` : html``}
-          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
-        </label>`;
-      hr = html`<label>
+        </decidable-spinner>
+      `;
+      hr = html`
+        <decidable-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}" @input=${this.hrInput.bind(this)}>
           <span>Hit Rate</span>
-          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}" @input=${this.hrInput.bind(this)}>
-        </label>`;
-      far = html`<label>
+        </decidable-spinner>
+      `;
+      far = html`
+        <decidable-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}" @input=${this.farInput.bind(this)}>
           <span>False Alarm Rate</span>
-          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}" @input=${this.farInput.bind(this)}>
-        </label>`;
-      acc = html`<label>
+        </decidable-spinner>
+      `;
+      acc = html`
+        <decidable-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}" @input=${this.accInput.bind(this)}>
           <span>Accuracy</span>
-          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}" @input=${this.accInput.bind(this)}>
-        </label>`;
-      ppv = html`<label>
+        </decidable-spinner>
+      `;
+      ppv = html`
+        <decidable-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.ppv.toFixed(3)}" @input=${this.ppvInput.bind(this)}>
           <span>Positive Predictive Value</span>
-          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.ppv.toFixed(3)}" @input=${this.ppvInput.bind(this)}>
-        </label>`;
-      fomr = html`<label>
+        </decidable-spinner>
+      `;
+      fomr = html`
+        <decidable-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.fomr.toFixed(3)}" @input=${this.fomrInput.bind(this)}>
           <span>False Omission Rate</span>
-          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${+this.fomr.toFixed(3)}" @input=${this.fomrInput.bind(this)}>
-        </label>`;
+        </decidable-spinner>
+      `;
     } else {
       h = html`<span>Hits</span>
         ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.hPayoff)}</span>` : html``}`;

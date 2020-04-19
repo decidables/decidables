@@ -1,14 +1,15 @@
 
 import {css} from 'lit-element';
 
+import '@decidable/decidable-elements';
+
 import SDTElement from '../sdt-element';
-import SDTMixinStyleSpinner from '../mixins/styleSpinner';
 
 /*
   SDTEquation Base Class - Not intended for instantiation!
   <sdt-equation>
 */
-export default class SDTEquation extends SDTMixinStyleSpinner(SDTElement) {
+export default class SDTEquation extends SDTElement {
   static get properties() {
     return {
       numeric: {
@@ -82,12 +83,10 @@ export default class SDTEquation extends SDTMixinStyleSpinner(SDTElement) {
         }
 
         /* Input wrapping <label> */
-        label {
-          display: inline-flex;
+        decidable-spinner {
+          --decidable-spinner-input-width: 4rem;
 
-          flex-direction: column;
-
-          align-items: center;
+          display: inline-block;
 
           padding: 0.125rem 0.375rem 0.375rem;
 
@@ -98,66 +97,44 @@ export default class SDTEquation extends SDTMixinStyleSpinner(SDTElement) {
           vertical-align: bottom;
         }
 
-        /* Nested <var> */
-        label var {
-          font-size: 0.75rem;
-        }
-
-        /* User <input> */
-        input {
-          width: 4rem;
-
-          background: none;
-        }
-
         /* Color scheme */
-        .h,
-        .h input {
+        .h {
           background: var(---color-h-light);
         }
 
-        .m,
-        .m input {
+        .m {
           background: var(---color-m-light);
         }
 
-        .hr,
-        .hr input {
+        .hr {
           background: var(---color-hr-light);
         }
 
-        .fa,
-        .fa input {
+        .fa {
           background: var(---color-fa-light);
         }
 
-        .acc,
-        .acc input {
+        .acc {
           background: var(---color-acc-light);
         }
 
-        .cr,
-        .cr input {
+        .cr {
           background: var(---color-cr-light);
         }
 
-        .far,
-        .far input {
+        .far {
           background: var(---color-far-light);
         }
 
-        .d,
-        .d input {
+        .d {
           background: var(---color-d-light);
         }
 
-        .c,
-        .c input {
+        .c {
           background: var(---color-c-light);
         }
 
-        .s,
-        .s input {
+        .s {
           background: var(---color-s-light);
         }
       `,

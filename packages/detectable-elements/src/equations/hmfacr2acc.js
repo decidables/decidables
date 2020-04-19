@@ -102,26 +102,31 @@ export default class SDTEquationHMFaCr2Acc extends SDTEquation {
     let acc;
 
     if (this.numeric) {
-      h = html`<label class="h">
+      h = html`
+        <decidable-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <var>Hits</var>
-          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
-        </label>`;
-      m = html`<label class="m">
+        </decidable-spinner>
+      `;
+      m = html`
+        <decidable-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <var>Misses</var>
-          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
-        </label>`;
-      fa = html`<label class="fa">
+        </decidable-spinner>
+      `;
+      fa = html`
+        <decidable-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <var>False Alarms</var>
-          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
-        </label>`;
-      cr = html`<label class="cr">
+        </decidable-spinner>
+      `;
+      cr = html`
+        <decidable-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <var>Correct Rejections</var>
-          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
-        </label>`;
-      acc = html`<label class="acc">
+        </decidable-spinner>
+      `;
+      acc = html`
+        <decidable-spinner class="acc" disabled min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}">
           <var>Accuracy</var>
-          <input disabled type="number" min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}">
-        </label>`;
+        </decidable-spinner>
+      `;
     } else {
       h = html`<var class="h">Hits</var>`;
       m = html`<var class="m">Misses</var>`;

@@ -94,22 +94,26 @@ export default class SDTEquationHrFar2D extends SDTEquation {
     let s;
     let d;
     if (this.numeric) {
-      hr = html`<label class="hr bottom">
+      hr = html`
+        <decidable-spinner class="hr bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.hr}" @input=${this.hrInput.bind(this)}>
           <var>Hit Rate</var>
-          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${this.hr}" @input=${this.hrInput.bind(this)} >
-        </label>`;
-      far = html`<label class="far bottom">
+        </decidable-spinner>
+      `;
+      far = html`
+        <decidable-spinner class="far bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.far}" @input=${this.farInput.bind(this)}>
           <var>False Alarm Rate</var>
-          <input ?disabled=${!this.interactive} type="number" min="0" max="1" step=".001" .value="${this.far}" @input=${this.farInput.bind(this)}>
-        </label>`;
-      s = html`<label class="s bottom">
+        </decidable-spinner>
+      `;
+      s = html`
+        <decidable-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
           <var class="math-var">σ</var>
-          <input ?disabled=${!this.interactive} type="number" min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
-        </label>`;
-      d = html`<label class="d bottom">
+        </decidable-spinner>
+      `;
+      d = html`
+        <decidable-spinner class="d bottom" disabled step=".001" .value="${+this.d.toFixed(3)}">
           <var class="math-var">d′</var>
-          <input disabled type="number" step=".001" .value="${+this.d.toFixed(3)}">
-        </label>`;
+        </decidable-spinner>
+      `;
     } else {
       hr = html`<var class="hr">Hit Rate</var>`;
       far = html`<var class="far">False Alarm Rate</var>`;

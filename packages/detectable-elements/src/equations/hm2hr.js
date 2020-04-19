@@ -73,18 +73,21 @@ export default class SDTEquationHM2Hr extends SDTEquation {
     let m;
     let hr;
     if (this.numeric) {
-      h = html`<label class="h">
+      h = html`
+        <decidable-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <var>Hits</var>
-          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
-        </label>`;
-      m = html`<label class="m">
+        </decidable-spinner>
+      `;
+      m = html`
+        <decidable-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <var>Misses</var>
-          <input ?disabled=${!this.interactive} type="number" min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
-        </label>`;
-      hr = html`<label class="hr">
-          <var>Hit Rate</var>
-          <input disabled type="number" min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}">
-        </label>`;
+        </decidable-spinner>
+      `;
+      hr = html`
+        <decidable-spinner class="hr" disabled min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}">
+          <var>Hits</var>
+        </decidable-spinner>
+      `;
     } else {
       h = html`<var class="h">Hits</var>`;
       m = html`<var class="m">Misses</var>`;
@@ -109,7 +112,8 @@ export default class SDTEquationHM2Hr extends SDTEquation {
             </tr>
           </tbody>
         </table>
-      </div>`;
+      </div>
+    `;
   }
 }
 
