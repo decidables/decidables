@@ -1,12 +1,9 @@
 
 import {html, css, unsafeCSS} from 'lit-element';
 
+import '@decidable/decidable-elements';
+
 import SDTElement from '../sdt-element';
-import SDTMixinStyleButton from '../mixins/styleButton';
-import SDTMixinStyleSlider from '../mixins/styleSlider';
-import SDTMixinStyleSpinner from '../mixins/styleSpinner';
-import SDTMixinStyleSwitch from '../mixins/styleSwitch';
-import SDTMixinStyleToggle from '../mixins/styleToggle';
 
 /*
   SDTControl element
@@ -15,7 +12,7 @@ import SDTMixinStyleToggle from '../mixins/styleToggle';
   Attributes:
 
 */
-export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(SDTMixinStyleSpinner(SDTMixinStyleSwitch(SDTMixinStyleToggle(SDTElement))))) { // eslint-disable-line max-len
+export default class SDTControl extends SDTElement {
   static get properties() {
     return {
       trials: {
@@ -201,45 +198,6 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
           justify-content: center;
         }
 
-        label {
-          margin: 0.25rem 0.25rem 0;
-        }
-
-        .range {
-          display: inline-block;
-
-          width: 3.5rem;
-          height: 4.75rem;
-          margin: 0 0.25rem 0.25rem;
-        }
-
-        .slider {
-          display: flex;
-
-          flex-direction: column;
-
-          align-items: center;
-          justify-content: center;
-        }
-
-        .switch {
-          display: flex;
-
-          flex-direction: column;
-
-          align-items: center;
-          justify-content: center;
-        }
-
-        .toggle {
-          display: flex;
-
-          flex-direction: column;
-
-          align-items: stretch;
-          justify-content: center;
-        }
-
         .buttons {
           display: flex;
 
@@ -249,37 +207,9 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
           justify-content: center;
         }
 
-        /* Spinners */
-        input[type=number] {
-          width: 3.5rem;
-          margin: 0 0.25rem 0.25rem;
-
-          background: var(---color-background);
-        }
-
-        /* Toggles */
-        fieldset {
-          border: 0;
-        }
-
-        legend {
-          text-align: center;
-        }
-
         /* Payoff  Slider */
         .payoff {
-          line-height: 1;
-        }
-
-        .payoff::before {
-          position: absolute;
-
-          padding-top: 1px;
-          padding-left: 0.5rem;
-
-          line-height: normal;
-
-          content: "$";
+          --decidable-spinner-prefix: "$";
         }
       `,
     ];
@@ -289,80 +219,46 @@ export default class SDTControl extends SDTMixinStyleButton(SDTMixinStyleSlider(
     return html`
       <div class="holder">
         ${this.trials
-          ? html`
-            <div class="slider">
-              <label for=${`${this.uniqueId}-trials`}>Trials</label>
-              <div class="range">
-                <input type="range" id=${`${this.uniqueId}-trials`} name="trials" min="1" max="100" step="1" .value=${this.trials} @input=${this.setTrials.bind(this)} @change=${this.setTrials.bind(this)}>
-              </div>
-              <input type="number" min="1" max="100" step="1" .value=${this.trials} @input=${this.setTrials.bind(this)}>
-            </div>`
+          ? html`<decidable-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidable-slider>`
           : html``}
         ${this.duration
-          ? html`
-            <div class="slider">
-              <label for=${`${this.uniqueId}-duration`}>Duration</label>
-              <div class="range">
-                <input type="range" id=${`${this.uniqueId}-duration`} name="duration" min="10" max="2000" step="10" .value=${this.duration} @input=${this.setDuration.bind(this)} @change=${this.setDuration.bind(this)}>
-              </div>
-              <input type="number" min="10" max="2000" step="10" .value=${this.duration} @input=${this.setDuration.bind(this)}>
-            </div>`
+          ? html`<decidable-slider min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidable-slider>`
           : html``}
         ${this.coherence
-          ? html`
-            <div class="slider">
-              <label for=${`${this.uniqueId}-coherence`}>Coherence</label>
-              <div class="range">
-                <input type="range" id=${`${this.uniqueId}-coherence`} name="coherence" min="0" max="1" step=".01" .value=${this.coherence} @input=${this.setCoherence.bind(this)} @change=${this.setCoherence.bind(this)}>
-              </div>
-              <input type="number" min="0" max="1" step=".01" .value="${this.coherence}" @input=${this.setCoherence.bind(this)}>
-            </div>`
+          ? html`<decidable-slider min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidable-slider>`
           : html``}
         ${this.payoff
-          ? html`
-            <div class="slider">
-              <label for=${`${this.uniqueId}-payoff`}>Payoff</label>
-              <div class="range">
-                <input type="range" id=${`${this.uniqueId}-payoff`} name="payoff" min="0" max="100" step="1" .value=${this.payoff} @input=${this.setPayoff.bind(this)} @change=${this.setPayoff.bind(this)}>
-              </div>
-              <div class="payoff">
-                <input type="number" min="0" max="100" step="1" .value="${this.payoff}" @input=${this.setPayoff.bind(this)}>
-              </div>
-            </div>`
+          ? html`<decidable-slider class="payoff" min="0" max="100" step="1" .value=${this.payoff} @change=${this.setPayoff.bind(this)} @input=${this.setPayoff.bind(this)}>Payoff</decidable-slider>`
           : html``}
         ${this.color !== undefined
           ? html`
-            <fieldset class="toggle">
-              <legend>Emphasis</legend>
-              <input type="radio" id=${`${this.uniqueId}-color-none`} name=${`${this.uniqueId}-color`} value="none" ?checked=${this.color === 'none'} @change=${this.chooseColor.bind(this)}>
-              <label for=${`${this.uniqueId}-color-none`}>None</label>
-              <input type="radio" id=${`${this.uniqueId}-color-accuracy`} name=${`${this.uniqueId}-color`} value="accuracy" ?checked=${this.color === 'accuracy'} @change=${this.chooseColor.bind(this)}>
-              <label for=${`${this.uniqueId}-color-accuracy`}>Accuracy</label>
-              <input type="radio" id=${`${this.uniqueId}-color-stimulus`} name=${`${this.uniqueId}-color`} value="stimulus" ?checked=${this.color === 'stimulus'} @change=${this.chooseColor.bind(this)}>
-              <label for=${`${this.uniqueId}-color-stimulus`}>Stimulus</label>
-              <input type="radio" id=${`${this.uniqueId}-color-response`} name=${`${this.uniqueId}-color`} value="response" ?checked=${this.color === 'response'} @change=${this.chooseColor.bind(this)}>
-              <label for=${`${this.uniqueId}-color-response`}>Response</label>
-              <input type="radio" id=${`${this.uniqueId}-color-outcome`} name=${`${this.uniqueId}-color`} value="outcome" ?checked=${this.color === 'outcome'} @change=${this.chooseColor.bind(this)}>
-              <label for=${`${this.uniqueId}-color-outcome`}>Outcome</label>
-            </fieldset>`
+            <decidable-toggle @change=${this.chooseColor.bind(this)}>
+              <span slot="label">Emphasis</span>
+              <decidable-toggle-option name=${`${this.uniqueId}-color`} value="none" ?checked=${this.color === 'none'}>None</decidable-toggle-option>
+              <decidable-toggle-option name=${`${this.uniqueId}-color`} value="accuracy" ?checked=${this.color === 'accuracy'}>Accuracy</decidable-toggle-option>
+              <decidable-toggle-option name=${`${this.uniqueId}-color`} value="stimulus" ?checked=${this.color === 'stimulus'}>Stimulus</decidable-toggle-option>
+              <decidable-toggle-option name=${`${this.uniqueId}-color`} value="response" ?checked=${this.color === 'response'}>Response</decidable-toggle-option>
+              <decidable-toggle-option name=${`${this.uniqueId}-color`} value="outcome" ?checked=${this.color === 'outcome'}>Outcome</decidable-toggle-option>
+            </decidable-toggle>
+          `
           : html``}
         ${this.zRoc !== undefined
           ? html`
-            <div class="switch">
-              <input type="checkbox" id=${`${this.uniqueId}-z-roc`} name="z-roc" ?checked=${this.zRoc} @change=${this.flipZRoc.bind(this)}>
-              <label for=${`${this.uniqueId}-z-roc`}>ROC</label>
-              <label for=${`${this.uniqueId}-z-roc`}><span class="math-var">z</span>ROC</label>
-            </div>`
+            <decidable-switch ?checked=${this.zRoc} @change=${this.flipZRoc.bind(this)}>
+              <span class="math-var">z</span>ROC
+              <span slot="off-label">ROC</span>
+            </decidable-switch>
+          `
           : html``}
         <div class="buttons">
           ${this.run
-            ? html`<button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</button>`
+            ? html`<decidable-button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</decidable-button>`
             : html``}
           ${this.pause
-            ? html`<button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</button>`
+            ? html`<decidable-button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</decidable-button>`
             : html``}
           ${this.reset
-            ? html`<button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</button>`
+            ? html`<decidable-button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</decidable-button>`
             : html``}
         </div>
       </div>`;

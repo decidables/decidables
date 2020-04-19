@@ -1,8 +1,9 @@
 
 import {html, css} from 'lit-element';
 
+import '@decidable/decidable-elements';
+
 import SDTElement from '../sdt-element';
-import SDTMixinStyleButton from '../mixins/styleButton';
 
 /*
   SDTResponse element
@@ -11,7 +12,7 @@ import SDTMixinStyleButton from '../mixins/styleButton';
   Attributes:
 
 */
-export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
+export default class SDTResponse extends SDTElement {
   static get properties() {
     return {
       feedback: {
@@ -251,18 +252,16 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
           justify-content: center;
         }
 
-        .waiting:disabled {
-          background-color: var(---color-element-enabled);
-          outline: none;
-          box-shadow: none;
+        .waiting[disabled] {
+          --decidable-button-background-color: var(---color-element-enabled);
         }
 
-        .selected[name="present"]:disabled {
-          background-color: var(---color-present);
+        .selected[disabled][name="present"] {
+          --decidable-button-background-color: var(---color-present);
         }
 
-        .selected[name="absent"]:disabled {
-          background-color: var(---color-absent);
+        .selected[disabled][name="absent"] {
+          --decidable-button-background-color: var(---color-absent);
         }
 
         /* Feedback messages */
@@ -359,8 +358,8 @@ export default class SDTResponse extends SDTMixinStyleButton(SDTElement) {
     return html`
       <div class="holder">
         <div class="responses">
-          <button name="present" class=${(this.state === 'feedback' && this.response === 'present') ? 'selected' : ((this.state === 'waiting') ? 'waiting' : '')} ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.present.bind(this)}>Present</button>
-          <button name="absent" class=${(this.state === 'feedback' && this.response === 'absent') ? 'selected' : ((this.state === 'waiting') ? 'waiting' : '')} ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.absent.bind(this)}>Absent</button>
+          <decidable-button name="present" class=${(this.state === 'feedback' && this.response === 'present') ? 'selected' : ((this.state === 'waiting') ? 'waiting' : '')} ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.present.bind(this)}>Present</decidable-button>
+          <decidable-button name="absent" class=${(this.state === 'feedback' && this.response === 'absent') ? 'selected' : ((this.state === 'waiting') ? 'waiting' : '')} ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.absent.bind(this)}>Absent</decidable-button>
         </div>
         ${(this.trial || this.feedback !== 'none' || this.payoff === 'total')
           ? html`
