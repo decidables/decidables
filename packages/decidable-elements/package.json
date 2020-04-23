@@ -2,14 +2,12 @@
   "name": "@decidable/decidable-elements",
   "version": "0.0.1",
   "description": "decidable-elements: Basic UI Web Components for visualizing Decision Making",
-  "main": "./lib/index.js",
+  "main": "./src/index.js",
   "repository": "https://github.com/akrawitz/decidable/packages/decidable-elements",
   "author": "Adam Krawitz",
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "compile": "gulp compile",
-    "watch": "gulp watch",
     "lint": "gulp lint",
     "build": "gulp build"
   },
