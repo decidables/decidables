@@ -17,7 +17,7 @@ function deployPasswordTask(sftpConfig) {
       sftpConfig.password = responses.password;
     });
 }
-exports.deployPassword = deployPasswordTask;
+exports.deployPasswordTask = deployPasswordTask;
 
 function deployCleanTask(sftpConfig) {
   const sftp = new ssh2SftpClient(); /* eslint-disable-line new-cap */
@@ -34,7 +34,7 @@ function deployCleanTask(sftpConfig) {
       return sftp.end();
     });
 }
-exports.deployClean = deployCleanTask;
+exports.deployCleanTask = deployCleanTask;
 
 function deployDistTask(sftpConfig) {
   const sftp = new gulpSsh({/* eslint-disable-line new-cap */
@@ -44,4 +44,4 @@ function deployDistTask(sftpConfig) {
   return gulp.src(['dist/**/*', 'dist/**/.*'])
     .pipe(sftp.dest(sftpConfig.directory));
 }
-exports.deployDist = deployDistTask;
+exports.deployDistTask = deployDistTask;
