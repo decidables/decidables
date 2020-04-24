@@ -1,8 +1,5 @@
-/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */ // devDeps okay
-/* eslint-disable new-cap */ // devDeps start with lowercase letter!
-/* eslint-disable no-console */ // writing to console is okay for gulpfile!
 
-/* Local! */
+// Local dependencies
 const mdastUtilAttributes = require('./mdast-util-attributes');
 
 // console.log(node);
@@ -83,7 +80,7 @@ function remarkDivs() {
     node.children = this.tokenizeBlock(body, now);
     exit();
 
-    console.log(node);
+    // console.log(node);
 
     return add(node);
   }

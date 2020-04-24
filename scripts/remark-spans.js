@@ -1,11 +1,8 @@
-/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */ // devDeps okay
-/* eslint-disable new-cap */ // devDeps start with lowercase letter!
-/* eslint-disable no-console */ // writing to console is okay for gulpfile!
 
 // devDependencies
 const unistUtilVisit = require('unist-util-visit');
 
-/* Local! */
+// Local dependencies
 const mdastUtilAttributes = require('./mdast-util-attributes');
 
 // console.log(node);
@@ -53,7 +50,7 @@ function remarkSpans() {
       node.data.hName = attributes.element || 'span';
       if (attributes.attributes) node.data.hProperties = attributes.attributes;
 
-      console.log(node);
+      // console.log(node);
     });
   };
 }

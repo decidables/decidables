@@ -1,6 +1,3 @@
-/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */ // devDeps okay
-/* eslint-disable new-cap */ // devDeps start with lowercase letter!
-/* eslint-disable no-console */ // writing to console is okay for gulpfile!
 
 // devDependencies
 const unistUtilVisit = require('unist-util-visit');

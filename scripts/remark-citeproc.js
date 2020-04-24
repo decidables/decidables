@@ -1,6 +1,3 @@
-/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */ // devDeps okay
-/* eslint-disable new-cap */ // devDeps start with lowercase letter!
-/* eslint-disable no-console */ // writing to console is okay for gulpfile!
 
 // Node native modules
 const fs = require('fs');
@@ -10,10 +7,10 @@ const unistUtilVisit = require('unist-util-visit');
 const citeproc = require('citeproc');
 const citationJs = require('citation-js');
 
-// module constants
+// Module constants
 const referenceMarker = '{#ref}';
 
-// module variables
+// Module variables
 let referencesLink;
 let citeprocEngine;
 let citationsPre;
@@ -36,7 +33,7 @@ function initialize(options) {
   // console.log(`bibtex:\n${bibtex}`);
 
   // Use citation.js to convert from bibtex to CSL-JSON (stripping citation.js "_graph" fields)
-  const referenceList = (new citationJs(bibtex)).format('data', {format: 'object'}).map((reference) => {
+  const referenceList = (new citationJs(bibtex)).format('data', {format: 'object'}).map((reference) => { /* eslint-disable-line new-cap */
     delete reference._graph; /* eslint-disable-line no-underscore-dangle */
     return reference;
   });

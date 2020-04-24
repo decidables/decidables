@@ -1,9 +1,29 @@
 
-const lint = require('../../scripts/lint');
-const build = require('../../scripts/build-library');
+// devDependencies
+const gulp = require('gulp');
 
-const packageJson = require('./package.json');
+// Local dependencies
+const cleans = require('../../scripts/clean');
+const lints = require('../../scripts/lint');
+const builds = require('../../scripts/build');
 
-global.packageJson = packageJson;
+// Tasks
+const lint = gulp.parallel(
+  lints.lintScripts,
+  lints.lintStyles,
+);
 
-module.exports = {...lint, ...build};
+const build = gulp.series(
+  cleans.cleanLib,
+  function buildModule() { return builds.buildModuleTask('detectableElements'); }, /* eslint-disable-line prefer-arrow-callback */
+);
+exports.build = build;
+
+// Exports
+module.exports = {
+  ...cleans,
+  ...lints,
+  lint,
+  ...builds,
+  build,
+};
