@@ -1,8 +1,17 @@
 
+// devDependencies
 const gulp = require('gulp');
 const gulpEslint = require('gulp-eslint');
+const gulpRemark = require('gulp-remark');
 const gulpStylelint = require('gulp-stylelint');
 const stylelintFormatterPretty = require('stylelint-formatter-pretty');
+
+// Tasks
+function lintMarkdown() {
+  return gulp.src('src/*.md')
+    .pipe(gulpRemark());
+}
+exports.lintMarkdown = lintMarkdown;
 
 function lintScripts() {
   return gulp.src(['src/**/*.js'])
@@ -22,14 +31,3 @@ function lintStyles() {
     }));
 }
 exports.lintStyles = lintStyles;
-
-const lintAll = gulp.parallel(
-  lintScripts,
-  lintStyles,
-);
-exports.lintAll = lintAll;
-
-const lint = gulp.series(
-  lintAll,
-);
-exports.lint = lint;
