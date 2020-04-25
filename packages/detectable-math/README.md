@@ -1,5 +1,7 @@
 <!--lint disable first-level-heading -->
-# detectable-elements
+
+# detectable-math
+
 <!--lint enable first-level-heading -->
 
 ## Features/Bugs
