@@ -9,7 +9,7 @@ const gulpSourcemaps = require('gulp-sourcemaps');
 const gulpUglify = require('gulp-uglify');
 
 // Tasks
-function buildModuleTask(name) {
+function buildLibraryTask(name) {
   return gulp.src('src/index.js')
     .pipe(gulpBro({
       debug: true,
@@ -27,7 +27,7 @@ function buildModuleTask(name) {
     .pipe(gulpSourcemaps.write('.'))
     .pipe(gulp.dest('lib'));
 }
-exports.buildModuleTask = buildModuleTask;
+exports.buildLibraryTask = buildLibraryTask;
 
 function buildConfig() {
   return gulp.src('local/.htaccess')

@@ -15,7 +15,7 @@ const lint = gulp.parallel(
 
 const build = gulp.series(
   cleans.cleanLib,
-  function buildModule() { return builds.buildModuleTask('detectableElements'); }, /* eslint-disable-line prefer-arrow-callback */
+  function buildLibrary() { return builds.buildLibraryTask('detectableElements'); }, /* eslint-disable-line prefer-arrow-callback */
 );
 exports.build = build;
 
