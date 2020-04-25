@@ -33,6 +33,13 @@ const compile = gulp.series(
 );
 
 const watch = gulp.parallel(
+  function watchLibraries() { /* eslint-disable-line prefer-arrow-callback */
+    return watches.watchLibrariesTask([
+      'decidable-elements',
+      'detectable-math',
+      'detectable-elements',
+    ]);
+  },
   watches.watchMarkdown,
   watches.watchScripts,
   watches.watchStyles,
