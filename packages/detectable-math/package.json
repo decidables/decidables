@@ -16,7 +16,7 @@
     "not dead"
   ],
   "dependencies": {
-    "jstat": "^1.8.3"
+    "jstat": "^1.9.3"
   },
   "engines": {
     "node": "^14.0.0",
