@@ -19,6 +19,7 @@
     "@decidable/decidable-elements": "^0.0.1",
     "@decidable/detectable-math": "^0.0.1",
     "d3": "^5.15.0",
+    "jstat": "^1.9.3",
     "lit-element": "^2.2.0"
   },
   "engines": {
