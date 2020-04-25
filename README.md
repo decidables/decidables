@@ -115,3 +115,15 @@
     - IGT & BART
   - Volatility?
   - Bayesian inference?
+
+  ---
+
+  ## Development Tooling
+
+  Dependencies update 4/25/2020.
+
+  ### Global
+
+  - Manually install *git*
+  - Manually install *node*
+  - Manually install *yarn*
