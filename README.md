@@ -163,7 +163,6 @@ approaches to human decision making.
 - Add "question" blocks for thoughts for readers to try - maybe with foldout answers?
   - New remark-divs
 
-
 ## Compatibility
 
 - Desktop (Current & Current-1)
