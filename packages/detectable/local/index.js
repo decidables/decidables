@@ -41481,7 +41481,7 @@ exports.version = version;
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 /*!
- * jQuery JavaScript Library v3.5.0
+ * jQuery JavaScript Library v3.4.1
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -41491,7 +41491,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2020-04-10T15:07Z
+ * Date: 2019-05-01T21:04Z
  */
 (function (global, factory) {
   "use strict";
@@ -41523,13 +41523,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   "use strict";
 
   var arr = [];
+  var document = window.document;
   var getProto = Object.getPrototypeOf;
   var _slice = arr.slice;
-  var flat = arr.flat ? function (array) {
-    return arr.flat.call(array);
-  } : function (array) {
-    return arr.concat.apply([], array);
-  };
+  var concat = arr.concat;
   var push = arr.push;
   var indexOf = arr.indexOf;
   var class2type = {};
@@ -41551,7 +41548,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return obj != null && obj === obj.window;
   };
 
-  var document = window.document;
   var preservedScriptAttributes = {
     type: true,
     src: true,
@@ -41602,13 +41598,16 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   // unguarded in another place, it seems safer to define global only for this module
 
 
-  var version = "3.5.0",
+  var version = "3.4.1",
       // Define a local copy of jQuery
   jQuery = function jQuery(selector, context) {
     // The jQuery object is actually just the init constructor 'enhanced'
     // Need init if jQuery is called (just allow error to be thrown if not included)
     return new jQuery.fn.init(selector, context);
-  };
+  },
+      // Support: Android <=4.0 only
+  // Make sure we trim BOM and NBSP
+  rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
 
   jQuery.fn = jQuery.prototype = {
     // The current version of jQuery being used
@@ -41657,16 +41656,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     },
     last: function last() {
       return this.eq(-1);
-    },
-    even: function even() {
-      return this.pushStack(jQuery.grep(this, function (_elem, i) {
-        return (i + 1) % 2;
-      }));
-    },
-    odd: function odd() {
-      return this.pushStack(jQuery.grep(this, function (_elem, i) {
-        return i % 2;
-      }));
     },
     eq: function eq(i) {
       var len = this.length,
@@ -41787,12 +41776,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
       return true;
     },
-    // Evaluates a script in a provided context; falls back to the global one
-    // if not specified.
-    globalEval: function globalEval(code, options, doc) {
+    // Evaluates a script in a global context
+    globalEval: function globalEval(code, options) {
       DOMEval(code, {
         nonce: options && options.nonce
-      }, doc);
+      });
     },
     each: function each(obj, callback) {
       var length,
@@ -41815,6 +41803,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       }
 
       return obj;
+    },
+    // Support: Android <=4.0 only
+    trim: function trim(text) {
+      return text == null ? "" : (text + "").replace(rtrim, "");
     },
     // results is for internal usage only
     makeArray: function makeArray(arr, results) {
@@ -41894,7 +41886,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       } // Flatten any nested arrays
 
 
-      return flat(ret);
+      return concat.apply([], ret);
     },
     // A global GUID counter for objects
     guid: 1,
@@ -41908,7 +41900,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   } // Populate the class2type map
 
 
-  jQuery.each("Boolean Number String Function Array Date RegExp Object Error Symbol".split(" "), function (_i, name) {
+  jQuery.each("Boolean Number String Function Array Date RegExp Object Error Symbol".split(" "), function (i, name) {
     class2type["[object " + name + "]"] = name.toLowerCase();
   });
 
@@ -41929,14 +41921,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   var Sizzle =
   /*!
-   * Sizzle CSS Selector Engine v2.3.5
+   * Sizzle CSS Selector Engine v2.3.4
    * https://sizzlejs.com/
    *
    * Copyright JS Foundation and other contributors
    * Released under the MIT license
    * https://js.foundation/
    *
-   * Date: 2020-03-14
+   * Date: 2019-04-08
    */
   function (window) {
     var i,
@@ -41979,7 +41971,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     hasOwn = {}.hasOwnProperty,
         arr = [],
         pop = arr.pop,
-        pushNative = arr.push,
+        push_native = arr.push,
         push = arr.push,
         slice = arr.slice,
         // Use a stripped-down indexOf as it's faster than native
@@ -41996,16 +41988,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
       return -1;
     },
-        booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|" + "ismap|loop|multiple|open|readonly|required|scoped",
+        booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",
         // Regular expressions
     // http://www.w3.org/TR/css3-selectors/#whitespace
     whitespace = "[\\x20\\t\\r\\n\\f]",
-        // https://www.w3.org/TR/css-syntax-3/#ident-token-diagram
-    identifier = "(?:\\\\[\\da-fA-F]{1,6}" + whitespace + "?|\\\\[^\\r\\n\\f]|[\\w-]|[^\0-\\x7f])+",
+        // http://www.w3.org/TR/CSS21/syndata.html#value-def-identifier
+    identifier = "(?:\\\\.|[\\w-]|[^\0-\\xa0])+",
         // Attribute selectors: http://www.w3.org/TR/selectors/#attribute-selectors
     attributes = "\\[" + whitespace + "*(" + identifier + ")(?:" + whitespace + // Operator (capture 2)
-    "*([*^$|!~]?=)" + whitespace + // "Attribute values must be CSS identifiers [capture 5]
-    // or strings [capture 3 or capture 4]"
+    "*([*^$|!~]?=)" + whitespace + // "Attribute values must be CSS identifiers [capture 5] or strings [capture 3 or capture 4]"
     "*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|(" + identifier + "))|)" + whitespace + "*\\]",
         pseudos = ":(" + identifier + ")(?:\\((" + // To reduce the number of selectors needing tokenize in the preFilter, prefer arguments:
     // 1. quoted (capture 3; capture 4 or capture 5)
@@ -42041,15 +42032,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         rsibling = /[+~]/,
         // CSS escapes
     // http://www.w3.org/TR/CSS21/syndata.html#escaped-characters
-    runescape = new RegExp("\\\\[\\da-fA-F]{1,6}" + whitespace + "?|\\\\([^\\r\\n\\f])", "g"),
-        funescape = function funescape(escape, nonHex) {
-      var high = "0x" + escape.slice(1) - 0x10000;
-      return nonHex ? // Strip the backslash prefix from a non-hex escape sequence
-      nonHex : // Replace a hexadecimal escape sequence with the encoded Unicode code point
-      // Support: IE <=11+
-      // For values outside the Basic Multilingual Plane (BMP), manually construct a
-      // surrogate pair
-      high < 0 ? String.fromCharCode(high + 0x10000) : String.fromCharCode(high >> 10 | 0xD800, high & 0x3FF | 0xDC00);
+    runescape = new RegExp("\\\\([\\da-f]{1,6}" + whitespace + "?|(" + whitespace + ")|.)", "ig"),
+        funescape = function funescape(_, escaped, escapedWhitespace) {
+      var high = "0x" + escaped - 0x10000; // NaN means non-codepoint
+      // Support: Firefox<24
+      // Workaround erroneous numeric interpretation of +"0x"
+
+      return high !== high || escapedWhitespace ? escaped : high < 0 ? // BMP codepoint
+      String.fromCharCode(high + 0x10000) : // Supplemental Plane codepoint (surrogate pair)
+      String.fromCharCode(high >> 10 | 0xD800, high & 0x3FF | 0xDC00);
     },
         // CSS string/identifier serialization
     // https://drafts.csswg.org/cssom/#common-serializing-idioms
@@ -42086,14 +42077,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     try {
       push.apply(arr = slice.call(preferredDoc.childNodes), preferredDoc.childNodes); // Support: Android<4.0
       // Detect silently failing push.apply
-      // eslint-disable-next-line no-unused-expressions
 
       arr[preferredDoc.childNodes.length].nodeType;
     } catch (e) {
       push = {
         apply: arr.length ? // Leverage slice if possible
         function (target, els) {
-          pushNative.apply(target, slice.call(els));
+          push_native.apply(target, slice.call(els));
         } : // Support: IE<9
         // Otherwise append directly
         function (target, els) {
@@ -42126,7 +42116,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
       if (!seed) {
-        setDocument(context);
+        if ((context ? context.ownerDocument || context : preferredDoc) !== document) {
+          setDocument(context);
+        }
+
         context = context || document;
 
         if (documentIsHTML) {
@@ -42177,22 +42170,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
             // descendant combinators, which is not what we want.
             // In such cases, we work around the behavior by prefixing every selector in the
             // list with an ID selector referencing the scope context.
-            // The technique has to be used as well when a leading combinator is used
-            // as such selectors are not recognized by querySelectorAll.
             // Thanks to Andrew Dupont for this technique.
 
-            if (nodeType === 1 && (rdescend.test(selector) || rcombinators.test(selector))) {
-              // Expand context for sibling selectors
-              newContext = rsibling.test(selector) && testContext(context.parentNode) || context; // We can use :scope instead of the ID hack if the browser
-              // supports it & if we're not changing the context.
-
-              if (newContext !== context || !support.scope) {
-                // Capture the context ID, setting it first if necessary
-                if (nid = context.getAttribute("id")) {
-                  nid = nid.replace(rcssescape, fcssescape);
-                } else {
-                  context.setAttribute("id", nid = expando);
-                }
+            if (nodeType === 1 && rdescend.test(selector)) {
+              // Capture the context ID, setting it first if necessary
+              if (nid = context.getAttribute("id")) {
+                nid = nid.replace(rcssescape, fcssescape);
+              } else {
+                context.setAttribute("id", nid = expando);
               } // Prefix every selector in the list
 
 
@@ -42200,10 +42185,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
               i = groups.length;
 
               while (i--) {
-                groups[i] = (nid ? "#" + nid : ":scope") + " " + toSelector(groups[i]);
+                groups[i] = "#" + nid + " " + toSelector(groups[i]);
               }
 
-              newSelector = groups.join(",");
+              newSelector = groups.join(","); // Expand context for sibling selectors
+
+              newContext = rsibling.test(selector) && testContext(context.parentNode) || context;
             }
 
             try {
@@ -42454,48 +42441,31 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       var hasCompare,
           subWindow,
           doc = node ? node.ownerDocument || node : preferredDoc; // Return early if doc is invalid or already selected
-      // Support: IE 11+, Edge 17 - 18+
-      // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-      // two documents; shallow comparisons work.
-      // eslint-disable-next-line eqeqeq
 
-      if (doc == document || doc.nodeType !== 9 || !doc.documentElement) {
+      if (doc === document || doc.nodeType !== 9 || !doc.documentElement) {
         return document;
       } // Update global variables
 
 
       document = doc;
       docElem = document.documentElement;
-      documentIsHTML = !isXML(document); // Support: IE 9 - 11+, Edge 12 - 18+
+      documentIsHTML = !isXML(document); // Support: IE 9-11, Edge
       // Accessing iframe documents after unload throws "permission denied" errors (jQuery #13936)
-      // Support: IE 11+, Edge 17 - 18+
-      // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-      // two documents; shallow comparisons work.
-      // eslint-disable-next-line eqeqeq
 
-      if (preferredDoc != document && (subWindow = document.defaultView) && subWindow.top !== subWindow) {
+      if (preferredDoc !== document && (subWindow = document.defaultView) && subWindow.top !== subWindow) {
         // Support: IE 11, Edge
         if (subWindow.addEventListener) {
           subWindow.addEventListener("unload", unloadHandler, false); // Support: IE 9 - 10 only
         } else if (subWindow.attachEvent) {
           subWindow.attachEvent("onunload", unloadHandler);
         }
-      } // Support: IE 8 - 11+, Edge 12 - 18+, Chrome <=16 - 25 only, Firefox <=3.6 - 31 only,
-      // Safari 4 - 5 only, Opera <=11.6 - 12.x only
-      // IE/Edge & older browsers don't support the :scope pseudo-class.
-      // Support: Safari 6.0 only
-      // Safari 6.0 supports :scope but it's an alias of :root there.
-
-
-      support.scope = assert(function (el) {
-        docElem.appendChild(el).appendChild(document.createElement("div"));
-        return typeof el.querySelectorAll !== "undefined" && !el.querySelectorAll(":scope fieldset div").length;
-      });
+      }
       /* Attributes
       ---------------------------------------------------------------------- */
       // Support: IE<8
       // Verify that getAttribute really returns attributes and not properties
       // (excepting IE8 booleans)
+
 
       support.attributes = assert(function (el) {
         el.className = "i";
@@ -42628,12 +42598,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         // Build QSA regex
         // Regex strategy adopted from Diego Perini
         assert(function (el) {
-          var input; // Select is set to empty string on purpose
+          // Select is set to empty string on purpose
           // This is to test IE's treatment of not explicitly
           // setting a boolean content attribute,
           // since its presence should be enough
           // https://bugs.jquery.com/ticket/12359
-
           docElem.appendChild(el).innerHTML = "<a id='" + expando + "'></a>" + "<select id='" + expando + "-\r\\' msallowcapture=''>" + "<option selected=''></option></select>"; // Support: IE8, Opera 11-12.16
           // Nothing should be selected when empty strings follow ^= or $= or *=
           // The test attribute must be unknown in Opera but "safe" for WinRT
@@ -42652,19 +42621,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
           if (!el.querySelectorAll("[id~=" + expando + "-]").length) {
             rbuggyQSA.push("~=");
-          } // Support: IE 11+, Edge 15 - 18+
-          // IE 11/Edge don't find elements on a `[name='']` query in some cases.
-          // Adding a temporary attribute to the document before the selection works
-          // around the issue.
-          // Interestingly, IE 10 & older don't seem to have the issue.
-
-
-          input = document.createElement("input");
-          input.setAttribute("name", "");
-          el.appendChild(input);
-
-          if (!el.querySelectorAll("[name='']").length) {
-            rbuggyQSA.push("\\[" + whitespace + "*name" + whitespace + "*=" + whitespace + "*(?:''|\"\")");
           } // Webkit/Opera - :checked should return selected option elements
           // http://www.w3.org/TR/2011/REC-css3-selectors-20110929/#checked
           // IE8 throws error here and will not see later tests
@@ -42679,12 +42635,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
           if (!el.querySelectorAll("a#" + expando + "+*").length) {
             rbuggyQSA.push(".#.+[+~]");
-          } // Support: Firefox <=3.6 - 5 only
-          // Old Firefox doesn't throw on a badly-escaped identifier.
-
-
-          el.querySelectorAll("\\\f");
-          rbuggyQSA.push("[\\r\\n\\f]");
+          }
         });
         assert(function (el) {
           el.innerHTML = "<a href='' disabled='disabled'></a>" + "<select disabled='disabled'><option/></select>"; // Support: Windows 8 Native Apps
@@ -42711,8 +42662,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
           if (el.querySelectorAll(":disabled").length !== 2) {
             rbuggyQSA.push(":enabled", ":disabled");
-          } // Support: Opera 10 - 11 only
-          // Opera 10-11 does not throw on post-comma invalid pseudos
+          } // Opera 10-11 does not throw on post-comma invalid pseudos
 
 
           el.querySelectorAll("*,:x");
@@ -42773,30 +42723,18 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         if (compare) {
           return compare;
         } // Calculate position if both inputs belong to the same document
-        // Support: IE 11+, Edge 17 - 18+
-        // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-        // two documents; shallow comparisons work.
-        // eslint-disable-next-line eqeqeq
 
 
-        compare = (a.ownerDocument || a) == (b.ownerDocument || b) ? a.compareDocumentPosition(b) : // Otherwise we know they are disconnected
+        compare = (a.ownerDocument || a) === (b.ownerDocument || b) ? a.compareDocumentPosition(b) : // Otherwise we know they are disconnected
         1; // Disconnected nodes
 
         if (compare & 1 || !support.sortDetached && b.compareDocumentPosition(a) === compare) {
           // Choose the first element that is related to our preferred document
-          // Support: IE 11+, Edge 17 - 18+
-          // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-          // two documents; shallow comparisons work.
-          // eslint-disable-next-line eqeqeq
-          if (a == document || a.ownerDocument == preferredDoc && contains(preferredDoc, a)) {
+          if (a === document || a.ownerDocument === preferredDoc && contains(preferredDoc, a)) {
             return -1;
-          } // Support: IE 11+, Edge 17 - 18+
-          // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-          // two documents; shallow comparisons work.
-          // eslint-disable-next-line eqeqeq
+          }
 
-
-          if (b == document || b.ownerDocument == preferredDoc && contains(preferredDoc, b)) {
+          if (b === document || b.ownerDocument === preferredDoc && contains(preferredDoc, b)) {
             return 1;
           } // Maintain original order
 
@@ -42820,14 +42758,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
             bp = [b]; // Parentless nodes are either documents or disconnected
 
         if (!aup || !bup) {
-          // Support: IE 11+, Edge 17 - 18+
-          // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-          // two documents; shallow comparisons work.
-
-          /* eslint-disable eqeqeq */
-          return a == document ? -1 : b == document ? 1 :
-          /* eslint-enable eqeqeq */
-          aup ? -1 : bup ? 1 : sortInput ? indexOf(sortInput, a) - indexOf(sortInput, b) : 0; // If the nodes are siblings, we can do a quick check
+          return a === document ? -1 : b === document ? 1 : aup ? -1 : bup ? 1 : sortInput ? indexOf(sortInput, a) - indexOf(sortInput, b) : 0; // If the nodes are siblings, we can do a quick check
         } else if (aup === bup) {
           return siblingCheck(a, b);
         } // Otherwise we need full lists of their ancestors for comparison
@@ -42852,14 +42783,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
         return i ? // Do a sibling check if the nodes have a common ancestor
         siblingCheck(ap[i], bp[i]) : // Otherwise nodes in our document sort first
-        // Support: IE 11+, Edge 17 - 18+
-        // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-        // two documents; shallow comparisons work.
-
-        /* eslint-disable eqeqeq */
-        ap[i] == preferredDoc ? -1 : bp[i] == preferredDoc ? 1 :
-        /* eslint-enable eqeqeq */
-        0;
+        ap[i] === preferredDoc ? -1 : bp[i] === preferredDoc ? 1 : 0;
       };
       return document;
     };
@@ -42869,7 +42793,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     };
 
     Sizzle.matchesSelector = function (elem, expr) {
-      setDocument(elem);
+      // Set document vars if needed
+      if ((elem.ownerDocument || elem) !== document) {
+        setDocument(elem);
+      }
 
       if (support.matchesSelector && documentIsHTML && !nonnativeSelectorCache[expr + " "] && (!rbuggyMatches || !rbuggyMatches.test(expr)) && (!rbuggyQSA || !rbuggyQSA.test(expr))) {
         try {
@@ -42890,11 +42817,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
     Sizzle.contains = function (context, elem) {
       // Set document vars if needed
-      // Support: IE 11+, Edge 17 - 18+
-      // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-      // two documents; shallow comparisons work.
-      // eslint-disable-next-line eqeqeq
-      if ((context.ownerDocument || context) != document) {
+      if ((context.ownerDocument || context) !== document) {
         setDocument(context);
       }
 
@@ -42903,11 +42826,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
     Sizzle.attr = function (elem, name) {
       // Set document vars if needed
-      // Support: IE 11+, Edge 17 - 18+
-      // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-      // two documents; shallow comparisons work.
-      // eslint-disable-next-line eqeqeq
-      if ((elem.ownerDocument || elem) != document) {
+      if ((elem.ownerDocument || elem) !== document) {
         setDocument(elem);
       }
 
@@ -43109,20 +43028,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
             }
 
             result += "";
-            /* eslint-disable max-len */
-
             return operator === "=" ? result === check : operator === "!=" ? result !== check : operator === "^=" ? check && result.indexOf(check) === 0 : operator === "*=" ? check && result.indexOf(check) > -1 : operator === "$=" ? check && result.slice(-check.length) === check : operator === "~=" ? (" " + result.replace(rwhitespace, " ") + " ").indexOf(check) > -1 : operator === "|=" ? result === check || result.slice(0, check.length + 1) === check + "-" : false;
-            /* eslint-enable max-len */
           };
         },
-        "CHILD": function CHILD(type, what, _argument, first, last) {
+        "CHILD": function CHILD(type, what, argument, first, last) {
           var simple = type.slice(0, 3) !== "nth",
               forward = type.slice(-4) !== "last",
               ofType = what === "of-type";
           return first === 1 && last === 0 ? // Shortcut for :nth-*(n)
           function (elem) {
             return !!elem.parentNode;
-          } : function (elem, _context, xml) {
+          } : function (elem, context, xml) {
             var cache,
                 uniqueCache,
                 outerCache,
@@ -43263,7 +43179,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           var input = [],
               results = [],
               matcher = compile(selector.replace(rtrim, "$1"));
-          return matcher[expando] ? markFunction(function (seed, matches, _context, xml) {
+          return matcher[expando] ? markFunction(function (seed, matches, context, xml) {
             var elem,
                 unmatched = matcher(seed, null, xml, []),
                 i = seed.length; // Match elements unmatched by `matcher`
@@ -43273,7 +43189,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
                 seed[i] = !(matches[i] = elem);
               }
             }
-          }) : function (elem, _context, xml) {
+          }) : function (elem, context, xml) {
             input[0] = elem;
             matcher(input, null, xml, results); // Don't keep the element (issue #299)
 
@@ -43343,7 +43259,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           // Accessing this property makes selected-by-default
           // options in Safari work properly
           if (elem.parentNode) {
-            // eslint-disable-next-line no-unused-expressions
             elem.parentNode.selectedIndex;
           }
 
@@ -43387,10 +43302,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         "first": createPositionalPseudo(function () {
           return [0];
         }),
-        "last": createPositionalPseudo(function (_matchIndexes, length) {
+        "last": createPositionalPseudo(function (matchIndexes, length) {
           return [length - 1];
         }),
-        "eq": createPositionalPseudo(function (_matchIndexes, length, argument) {
+        "eq": createPositionalPseudo(function (matchIndexes, length, argument) {
           return [argument < 0 ? argument + length : argument];
         }),
         "even": createPositionalPseudo(function (matchIndexes, length) {
@@ -43792,11 +43707,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
             len = elems.length;
 
         if (outermost) {
-          // Support: IE 11+, Edge 17 - 18+
-          // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-          // two documents; shallow comparisons work.
-          // eslint-disable-next-line eqeqeq
-          outermostContext = context == document || context || outermost;
+          outermostContext = context === document || context || outermost;
         } // Add elements passing elementMatchers directly to results
         // Support: IE<9, Safari
         // Tolerate NodeList properties (IE: "length"; Safari: <number>) matching elements by id
@@ -43804,12 +43715,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
         for (; i !== len && (elem = elems[i]) != null; i++) {
           if (byElement && elem) {
-            j = 0; // Support: IE 11+, Edge 17 - 18+
-            // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-            // two documents; shallow comparisons work.
-            // eslint-disable-next-line eqeqeq
+            j = 0;
 
-            if (!context && elem.ownerDocument != document) {
+            if (!context && elem.ownerDocument !== document) {
               setDocument(elem);
               xml = !documentIsHTML;
             }
@@ -44032,7 +43940,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       el.firstChild.setAttribute("value", "");
       return el.firstChild.getAttribute("value") === "";
     })) {
-      addHandle("value", function (elem, _name, isXML) {
+      addHandle("value", function (elem, name, isXML) {
         if (!isXML && elem.nodeName.toLowerCase() === "input") {
           return elem.defaultValue;
         }
@@ -44348,7 +44256,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     parents: function parents(elem) {
       return dir(elem, "parentNode");
     },
-    parentsUntil: function parentsUntil(elem, _i, until) {
+    parentsUntil: function parentsUntil(elem, i, until) {
       return dir(elem, "parentNode", until);
     },
     next: function next(elem) {
@@ -44363,10 +44271,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     prevAll: function prevAll(elem) {
       return dir(elem, "previousSibling");
     },
-    nextUntil: function nextUntil(elem, _i, until) {
+    nextUntil: function nextUntil(elem, i, until) {
       return dir(elem, "nextSibling", until);
     },
-    prevUntil: function prevUntil(elem, _i, until) {
+    prevUntil: function prevUntil(elem, i, until) {
       return dir(elem, "previousSibling", until);
     },
     siblings: function siblings(elem) {
@@ -44376,10 +44284,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       return _siblings(elem.firstChild);
     },
     contents: function contents(elem) {
-      if (elem.contentDocument != null && // Support: IE 11+
-      // <object> elements with no `data` attribute has an object
-      // `contentDocument` with a `null` prototype.
-      getProto(elem.contentDocument)) {
+      if (typeof elem.contentDocument !== "undefined") {
         return elem.contentDocument;
       } // Support: IE 9 - 11 only, iOS 7 only, Android Browser <=4.3 only
       // Treat the template element as a regular one in browsers that
@@ -44677,7 +44582,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         {
           var fns = arguments;
           return jQuery.Deferred(function (newDefer) {
-            jQuery.each(tuples, function (_i, tuple) {
+            jQuery.each(tuples, function (i, tuple) {
               // Map tuples (progress, done, fail) to arguments (done, fail, progress)
               var fn = isFunction(fns[tuple[4]]) && fns[tuple[4]]; // deferred.progress(function() { bind to newDefer or newDefer.notify })
               // deferred.done(function() { bind to newDefer or newDefer.resolve })
@@ -45007,7 +44912,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         } else {
           bulk = fn;
 
-          fn = function fn(elem, _key, value) {
+          fn = function fn(elem, key, value) {
             return bulk.call(jQuery(elem), value);
           };
         }
@@ -45036,7 +44941,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   var rmsPrefix = /^-ms-/,
       rdashAlpha = /-([a-z])/g; // Used by camelCase as callback to replace()
 
-  function fcamelCase(_all, letter) {
+  function fcamelCase(all, letter) {
     return letter.toUpperCase();
   } // Convert dashed to camelCase; used by the css and data modules
   // Support: IE <=9 - 11, Edge 12 - 15
@@ -45068,7 +44973,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       var value = owner[this.expando]; // If not, create one
 
       if (!value) {
-        value = Object.create(null); // We can accept data for non-element nodes in modern browsers,
+        value = {}; // We can accept data for non-element nodes in modern browsers,
         // but we should not, see #8335.
         // Always return an empty object.
 
@@ -45510,6 +45415,25 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     isAttached(elem) && jQuery.css(elem, "display") === "none";
   };
 
+  var swap = function swap(elem, options, callback, args) {
+    var ret,
+        name,
+        old = {}; // Remember the old values, and insert the new ones
+
+    for (name in options) {
+      old[name] = elem.style[name];
+      elem.style[name] = options[name];
+    }
+
+    ret = callback.apply(elem, args || []); // Revert the old values
+
+    for (name in options) {
+      elem.style[name] = old[name];
+    }
+
+    return ret;
+  };
+
   function adjustCSS(elem, prop, valueParts, tween) {
     var adjusted,
         scale,
@@ -45663,36 +45587,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   });
   var rcheckableType = /^(?:checkbox|radio)$/i;
   var rtagName = /<([a-z][^\/\0>\x20\t\r\n\f]*)/i;
-  var rscriptType = /^$|^module$|\/(?:java|ecma)script/i;
-
-  (function () {
-    var fragment = document.createDocumentFragment(),
-        div = fragment.appendChild(document.createElement("div")),
-        input = document.createElement("input"); // Support: Android 4.0 - 4.3 only
-    // Check state lost if the name is set (#11217)
-    // Support: Windows Web Apps (WWA)
-    // `name` and `type` must use .setAttribute for WWA (#14901)
-
-    input.setAttribute("type", "radio");
-    input.setAttribute("checked", "checked");
-    input.setAttribute("name", "t");
-    div.appendChild(input); // Support: Android <=4.1 only
-    // Older WebKit doesn't clone checked state correctly in fragments
-
-    support.checkClone = div.cloneNode(true).cloneNode(true).lastChild.checked; // Support: IE <=11 only
-    // Make sure textarea (and checkbox) defaultValue is properly cloned
-
-    div.innerHTML = "<textarea>x</textarea>";
-    support.noCloneChecked = !!div.cloneNode(true).lastChild.defaultValue; // Support: IE <=9 only
-    // IE <=9 replaces <option> tags with their contents when inserted outside of
-    // the select element.
-
-    div.innerHTML = "<option></option>";
-    support.option = !!div.lastChild;
-  })(); // We have to close these tags to support XHTML (#13200)
-
+  var rscriptType = /^$|^module$|\/(?:java|ecma)script/i; // We have to close these tags to support XHTML (#13200)
 
   var wrapMap = {
+    // Support: IE <=9 only
+    option: [1, "<select multiple='multiple'>", "</select>"],
     // XHTML parsers do not magically insert elements in the
     // same way that tag soup parsers do. So we cannot shorten
     // this by omitting <tbody> or other required elements.
@@ -45701,13 +45600,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     tr: [2, "<table><tbody>", "</tbody></table>"],
     td: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
     _default: [0, "", ""]
-  };
-  wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
-  wrapMap.th = wrapMap.td; // Support: IE <=9 only
+  }; // Support: IE <=9 only
 
-  if (!support.option) {
-    wrapMap.optgroup = wrapMap.option = [1, "<select multiple='multiple'>", "</select>"];
-  }
+  wrapMap.optgroup = wrapMap.option;
+  wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
+  wrapMap.th = wrapMap.td;
 
   function getAll(context, tag) {
     // Support: IE <=9 - 11 only
@@ -45825,6 +45722,27 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return fragment;
   }
 
+  (function () {
+    var fragment = document.createDocumentFragment(),
+        div = fragment.appendChild(document.createElement("div")),
+        input = document.createElement("input"); // Support: Android 4.0 - 4.3 only
+    // Check state lost if the name is set (#11217)
+    // Support: Windows Web Apps (WWA)
+    // `name` and `type` must use .setAttribute for WWA (#14901)
+
+    input.setAttribute("type", "radio");
+    input.setAttribute("checked", "checked");
+    input.setAttribute("name", "t");
+    div.appendChild(input); // Support: Android <=4.1 only
+    // Older WebKit doesn't clone checked state correctly in fragments
+
+    support.checkClone = div.cloneNode(true).cloneNode(true).lastChild.checked; // Support: IE <=11 only
+    // Make sure textarea (and checkbox) defaultValue is properly cloned
+
+    div.innerHTML = "<textarea>x</textarea>";
+    support.noCloneChecked = !!div.cloneNode(true).lastChild.defaultValue;
+  })();
+
   var rkeyEvent = /^key/,
       rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/,
       rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
@@ -45934,9 +45852,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           type,
           namespaces,
           origType,
-          elemData = dataPriv.get(elem); // Only attach events to objects that accept data
+          elemData = dataPriv.get(elem); // Don't attach events to noData or text/comment nodes (but allow plain objects)
 
-      if (!acceptData(elem)) {
+      if (!elemData) {
         return;
       } // Caller can pass in an object of custom data in lieu of the handler
 
@@ -45960,7 +45878,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
       if (!(events = elemData.events)) {
-        events = elemData.events = Object.create(null);
+        events = elemData.events = {};
       }
 
       if (!(eventHandle = elemData.handle)) {
@@ -46108,6 +46026,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       }
     },
     dispatch: function dispatch(nativeEvent) {
+      // Make a writable jQuery.Event from the native event object
+      var event = jQuery.event.fix(nativeEvent);
       var i,
           j,
           ret,
@@ -46115,9 +46035,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           handleObj,
           handlerQueue,
           args = new Array(arguments.length),
-          // Make a writable jQuery.Event from the native event object
-      event = jQuery.event.fix(nativeEvent),
-          handlers = (dataPriv.get(this, "events") || Object.create(null))[event.type] || [],
+          handlers = (dataPriv.get(this, "events") || {})[event.type] || [],
           special = jQuery.event.special[event.type] || {}; // Use the fix-ed jQuery.Event rather than the (read-only) native event
 
       args[0] = event;
@@ -46614,7 +46532,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       });
     }
   });
-  var // Support: IE <=10 - 11, Edge 12 - 13 only
+  var
+  /* eslint-disable max-len */
+  // See https://github.com/eslint/eslint/issues/3229
+  rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\0>\x20\t\r\n\f]*)[^>]*)\/>/gi,
+
+  /* eslint-enable */
+  // Support: IE <=10 - 11, Edge 12 - 13 only
   // In IE/Edge using regex groups here causes severe slowdowns.
   // See https://connect.microsoft.com/IE/feedback/details/1736512/
   rnoInnerhtml = /<script|<style|<link/i,
@@ -46647,7 +46571,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   }
 
   function cloneCopyEvent(src, dest) {
-    var i, l, type, pdataOld, udataOld, udataCur, events;
+    var i, l, type, pdataOld, pdataCur, udataOld, udataCur, events;
 
     if (dest.nodeType !== 1) {
       return;
@@ -46655,11 +46579,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
     if (dataPriv.hasData(src)) {
-      pdataOld = dataPriv.get(src);
+      pdataOld = dataPriv.access(src);
+      pdataCur = dataPriv.set(dest, pdataOld);
       events = pdataOld.events;
 
       if (events) {
-        dataPriv.remove(dest, "handle events");
+        delete pdataCur.handle;
+        pdataCur.events = {};
 
         for (type in events) {
           for (i = 0, l = events[type].length; i < l; i++) {
@@ -46690,7 +46616,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   function domManip(collection, args, callback, ignored) {
     // Flatten any nested arrays
-    args = flat(args);
+    args = concat.apply([], args);
     var fragment,
         first,
         scripts,
@@ -46760,7 +46686,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
                 if (jQuery._evalUrl && !node.noModule) {
                   jQuery._evalUrl(node.src, {
                     nonce: node.nonce || node.getAttribute("nonce")
-                  }, doc);
+                  });
                 }
               } else {
                 DOMEval(node.textContent.replace(rcleanScript, ""), node, doc);
@@ -46798,7 +46724,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   jQuery.extend({
     htmlPrefilter: function htmlPrefilter(html) {
-      return html;
+      return html.replace(rxhtmlTag, "<$1></$2>");
     },
     clone: function clone(elem, dataAndEvents, deepDataAndEvents) {
       var i,
@@ -47034,25 +46960,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return view.getComputedStyle(elem);
   };
 
-  var swap = function swap(elem, options, callback) {
-    var ret,
-        name,
-        old = {}; // Remember the old values, and insert the new ones
-
-    for (name in options) {
-      old[name] = elem.style[name];
-      elem.style[name] = options[name];
-    }
-
-    ret = callback.call(elem); // Revert the old values
-
-    for (name in options) {
-      elem.style[name] = old[name];
-    }
-
-    return ret;
-  };
-
   var rboxStyle = new RegExp(cssExpand.join("|"), "i");
 
   (function () {
@@ -47098,7 +47005,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         boxSizingReliableVal,
         scrollboxSizeVal,
         pixelBoxStylesVal,
-        reliableTrDimensionsVal,
         reliableMarginLeftVal,
         container = document.createElement("div"),
         div = document.createElement("div"); // Finish early in limited (non-browser) environments
@@ -47132,29 +47038,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       scrollboxSize: function scrollboxSize() {
         computeStyleTests();
         return scrollboxSizeVal;
-      },
-      // Support: IE 9 - 11+, Edge 15 - 18+
-      // IE/Edge misreport `getComputedStyle` of table rows with width/height
-      // set in CSS while `offset*` properties report correct values.
-      // Behavior in IE 9 is more subtle than in newer versions & it passes
-      // some versions of this test; make sure not to make it pass there!
-      reliableTrDimensions: function reliableTrDimensions() {
-        var table, tr, trChild, trStyle;
-
-        if (reliableTrDimensionsVal == null) {
-          table = document.createElement("table");
-          tr = document.createElement("tr");
-          trChild = document.createElement("div");
-          table.style.cssText = "position:absolute;left:-11111px";
-          tr.style.height = "1px";
-          trChild.style.height = "9px";
-          documentElement.appendChild(table).appendChild(tr).appendChild(trChild);
-          trStyle = window.getComputedStyle(tr);
-          reliableTrDimensionsVal = parseInt(trStyle.height) > 3;
-          documentElement.removeChild(table);
-        }
-
-        return reliableTrDimensionsVal;
       }
     });
   })();
@@ -47270,7 +47153,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     fontWeight: "400"
   };
 
-  function setPositiveNumber(_elem, value, subtract) {
+  function setPositiveNumber(elem, value, subtract) {
     // Any relative (+/-) values have already been
     // normalized at this point
     var matches = rcssNum.exec(value);
@@ -47348,21 +47231,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       }
 
       val = "auto";
-    } // Support: IE 9 - 11 only
-    // Use offsetWidth/offsetHeight for when box sizing is unreliable.
-    // In those cases, the computed value can be trusted to be border-box.
-
-
-    if ((!support.boxSizingReliable() && isBorderBox || // Support: IE 10 - 11+, Edge 15 - 18+
-    // IE/Edge misreport `getComputedStyle` of table rows with width/height
-    // set in CSS while `offset*` properties report correct values.
-    // Interestingly, in some cases IE 9 doesn't suffer from this issue.
-    !support.reliableTrDimensions() && nodeName(elem, "tr") || // Fall back to offsetWidth/offsetHeight when value is "auto"
+    } // Fall back to offsetWidth/offsetHeight when value is "auto"
     // This happens for inline elements with no explicit setting (gh-3571)
-    val === "auto" || // Support: Android <=4.1 - 4.3 only
+    // Support: Android <=4.1 - 4.3 only
     // Also use offsetWidth/offsetHeight for misreported inline dimensions (gh-3602)
-    !parseFloat(val) && jQuery.css(elem, "display", false, styles) === "inline") && // Make sure the element is visible & connected
-    elem.getClientRects().length) {
+    // Support: IE 9-11 only
+    // Also use offsetWidth/offsetHeight for when box sizing is unreliable
+    // We use getClientRects() to check for hidden/disconnected.
+    // In those cases, the computed value can be trusted to be border-box
+
+
+    if ((!support.boxSizingReliable() && isBorderBox || val === "auto" || !parseFloat(val) && jQuery.css(elem, "display", false, styles) === "inline") && elem.getClientRects().length) {
       isBorderBox = jQuery.css(elem, "boxSizing", false, styles) === "border-box"; // Where available, offsetWidth/offsetHeight approximate border box dimensions.
       // Where not available (e.g., SVG), assume unreliable box-sizing and interpret the
       // retrieved value as a content box dimension.
@@ -47528,7 +47407,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       return val;
     }
   });
-  jQuery.each(["height", "width"], function (_i, dimension) {
+  jQuery.each(["height", "width"], function (i, dimension) {
     jQuery.cssHooks[dimension] = {
       get: function get(elem, computed, extra) {
         if (computed) {
@@ -48243,7 +48122,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         type = undefined;
       }
 
-      if (clearQueue) {
+      if (clearQueue && type !== false) {
         this.queue(type || "fx", []);
       }
 
@@ -48322,7 +48201,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       });
     }
   });
-  jQuery.each(["toggle", "show", "hide"], function (_i, name) {
+  jQuery.each(["toggle", "show", "hide"], function (i, name) {
     var cssFn = jQuery.fn[name];
 
     jQuery.fn[name] = function (speed, easing, callback) {
@@ -48528,7 +48407,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       return name;
     }
   };
-  jQuery.each(jQuery.expr.match.bool.source.match(/\w+/g), function (_i, name) {
+  jQuery.each(jQuery.expr.match.bool.source.match(/\w+/g), function (i, name) {
     var getter = attrHandle[name] || jQuery.find.attr;
 
     attrHandle[name] = function (elem, name, isXML) {
@@ -49082,7 +48961,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         lastElement = cur;
         event.type = i > 1 ? bubbleType : special.bindType || type; // jQuery handler
 
-        handle = (dataPriv.get(cur, "events") || Object.create(null))[event.type] && dataPriv.get(cur, "handle");
+        handle = (dataPriv.get(cur, "events") || {})[event.type] && dataPriv.get(cur, "handle");
 
         if (handle) {
           handle.apply(cur, data);
@@ -49182,9 +49061,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
       jQuery.event.special[fix] = {
         setup: function setup() {
-          // Handle: regular nodes (via `this.ownerDocument`), window
-          // (via `this.document`) & document (via `this`).
-          var doc = this.ownerDocument || this.document || this,
+          var doc = this.ownerDocument || this,
               attaches = dataPriv.access(doc, fix);
 
           if (!attaches) {
@@ -49194,7 +49071,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           dataPriv.access(doc, fix, (attaches || 0) + 1);
         },
         teardown: function teardown() {
-          var doc = this.ownerDocument || this.document || this,
+          var doc = this.ownerDocument || this,
               attaches = dataPriv.access(doc, fix) - 1;
 
           if (!attaches) {
@@ -49209,9 +49086,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   }
 
   var location = window.location;
-  var nonce = {
-    guid: Date.now()
-  };
+  var nonce = Date.now();
   var rquery = /\?/; // Cross-browser xml parsing
 
   jQuery.parseXML = function (data) {
@@ -49312,7 +49187,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         var type = this.type; // Use .is( ":disabled" ) so that fieldset[disabled] works
 
         return this.name && !jQuery(this).is(":disabled") && rsubmittable.test(this.nodeName) && !rsubmitterTypes.test(type) && (this.checked || !rcheckableType.test(type));
-      }).map(function (_i, elem) {
+      }).map(function (i, elem) {
         var val = jQuery(this).val();
 
         if (val == null) {
@@ -49859,7 +49734,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
         if (s.cache === false) {
           cacheURL = cacheURL.replace(rantiCache, "$1");
-          uncached = (rquery.test(cacheURL) ? "&" : "?") + "_=" + nonce.guid++ + uncached;
+          uncached = (rquery.test(cacheURL) ? "&" : "?") + "_=" + nonce++ + uncached;
         } // Put hash and anti-cache on the URL that will be requested (gh-1732)
 
 
@@ -49972,11 +49847,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
         if (responses) {
           response = ajaxHandleResponses(s, jqXHR, responses);
-        } // Use a noop converter for missing script
-
-
-        if (!isSuccess && jQuery.inArray("script", s.dataTypes) > -1) {
-          s.converters["text script"] = function () {};
         } // Convert no matter what (that way responseXXX fields are always set)
 
 
@@ -50061,7 +49931,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       return jQuery.get(url, undefined, callback, "script");
     }
   });
-  jQuery.each(["get", "post"], function (_i, method) {
+  jQuery.each(["get", "post"], function (i, method) {
     jQuery[method] = function (url, data, callback, type) {
       // Shift arguments if data argument was omitted
       if (isFunction(data)) {
@@ -50080,17 +49950,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       }, jQuery.isPlainObject(url) && url));
     };
   });
-  jQuery.ajaxPrefilter(function (s) {
-    var i;
 
-    for (i in s.headers) {
-      if (i.toLowerCase() === "content-type") {
-        s.contentType = s.headers[i] || "";
-      }
-    }
-  });
-
-  jQuery._evalUrl = function (url, options, doc) {
+  jQuery._evalUrl = function (url, options) {
     return jQuery.ajax({
       url: url,
       // Make this explicit, since user can override this through ajaxSetup (#11264)
@@ -50106,7 +49967,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         "text script": function textScript() {}
       },
       dataFilter: function dataFilter(response) {
-        jQuery.globalEval(response, options, doc);
+        jQuery.globalEval(response, options);
       }
     });
   };
@@ -50377,7 +50238,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   jQuery.ajaxSetup({
     jsonp: "callback",
     jsonpCallback: function jsonpCallback() {
-      var callback = oldCallbacks.pop() || jQuery.expando + "_" + nonce.guid++;
+      var callback = oldCallbacks.pop() || jQuery.expando + "_" + nonce++;
       this[callback] = true;
       return callback;
     }
@@ -50556,7 +50417,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     }
 
     return this;
-  };
+  }; // Attach a bunch of functions for handling common AJAX events
+
+
+  jQuery.each(["ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend"], function (i, type) {
+    jQuery.fn[type] = function (fn) {
+      return this.on(type, fn);
+    };
+  });
 
   jQuery.expr.pseudos.animated = function (elem) {
     return jQuery.grep(jQuery.timers, function (fn) {
@@ -50612,14 +50480,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       if ("using" in options) {
         options.using.call(elem, props);
       } else {
-        if (typeof props.top === "number") {
-          props.top += "px";
-        }
-
-        if (typeof props.left === "number") {
-          props.left += "px";
-        }
-
         curElem.css(props);
       }
     }
@@ -50763,7 +50623,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   // getComputedStyle returns percent when specified for top/left/bottom/right;
   // rather than make the css module depend on the offset module, just check for it here
 
-  jQuery.each(["top", "left"], function (_i, prop) {
+  jQuery.each(["top", "left"], function (i, prop) {
     jQuery.cssHooks[prop] = addGetHookIf(support.pixelPosition, function (elem, computed) {
       if (computed) {
         computed = curCSS(elem, prop); // If curCSS returns percentage, fallback to offset
@@ -50809,10 +50669,16 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       };
     });
   });
-  jQuery.each(["ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend"], function (_i, type) {
-    jQuery.fn[type] = function (fn) {
-      return this.on(type, fn);
+  jQuery.each(("blur focus focusin focusout resize scroll click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " + "change select submit keydown keypress keyup contextmenu").split(" "), function (i, name) {
+    // Handle event binding
+    jQuery.fn[name] = function (data, fn) {
+      return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);
     };
+  });
+  jQuery.fn.extend({
+    hover: function hover(fnOver, fnOut) {
+      return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);
+    }
   });
   jQuery.fn.extend({
     bind: function bind(types, data, fn) {
@@ -50827,20 +50693,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     undelegate: function undelegate(selector, types, fn) {
       // ( namespace ) or ( selector, types [, fn] )
       return arguments.length === 1 ? this.off(selector, "**") : this.off(types, selector || "**", fn);
-    },
-    hover: function hover(fnOver, fnOut) {
-      return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);
     }
-  });
-  jQuery.each(("blur focus focusin focusout resize scroll click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " + "change select submit keydown keypress keyup contextmenu").split(" "), function (_i, name) {
-    // Handle event binding
-    jQuery.fn[name] = function (data, fn) {
-      return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);
-    };
-  }); // Support: Android <=4.0 only
-  // Make sure we trim BOM and NBSP
-
-  var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g; // Bind a function to a context, optionally partially applying any
+  }); // Bind a function to a context, optionally partially applying any
   // arguments.
   // jQuery.proxy is deprecated to promote standards (specifically Function#bind)
   // However, it is not slated for removal any time soon
@@ -50898,10 +50752,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     // ...but misinterprets leading-number strings, particularly hex literals ("0x...")
     // subtraction forces infinities to NaN
     !isNaN(obj - parseFloat(obj));
-  };
-
-  jQuery.trim = function (text) {
-    return text == null ? "" : (text + "").replace(rtrim, "");
   }; // Register as a named AMD module, since jQuery can be concatenated with other
   // files that may use define, but not via a proper concatenation script that
   // understands anonymous AMD modules. A named AMD is safest and most robust
@@ -50941,7 +50791,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   // and CommonJS for browser emulators (#13566)
 
 
-  if (typeof noGlobal === "undefined") {
+  if (!noGlobal) {
     window.jQuery = window.$ = jQuery;
   }
 
