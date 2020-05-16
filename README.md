@@ -49,6 +49,11 @@ approaches to human decision making.
       - Medical diagnostics?
     - Conclusion
   - *prospectable*: Cumulative Prospect Theory (versus Expected Value & Expected Utility)
+    - [Visualizations]
+      - Pie chart options? gamble vs sure
+      - Value function
+      - Probability function
+      - Marschak-Machina triangle?
     - Introduction
     - Risky decision making
       - Choosing between sure outcomes and gambles
@@ -78,31 +83,31 @@ approaches to human decision making.
     - Applications
       - Health message framing?
     - Conclusion
-    - Accumulable: Drift-diffusion/race/LBA model of RT
-      - Introduction
-      - Behavior: 2AFC RDK task
-        - Stimulus: motion left or right?
-        - Response: left or right
-        - Outcome: correct or error
-        - RT mean and SD
-        - RT histograms
-        - RT quantiles?
-      - Model: DDM/LBA/?
-        - Evidence accumulation
-        - Starting point
-        - Drift rate
-        - Boundary
-        - RT distributions
-        - Model exploration
-        - Model fitting
-        - Model prediction
-      - Advanced
-        - Race vs. diffusion <https://doi.org/10.1016/j.tics.2016.01.007>
-        - Variability (e.g. within vs between trials)
-        - Time limits & collapsing boundaries
-      - Applications
-        - ?Neural modeling?
-      - Conclusion
+  - *accumulable*: Drift-diffusion/race/LBA model of RT
+    - Introduction
+    - Behavior: 2AFC RDK task
+      - Stimulus: motion left or right?
+      - Response: left or right
+      - Outcome: correct or error
+      - RT mean and SD
+      - RT histograms
+      - RT quantiles?
+    - Model: DDM/LBA/?
+      - Evidence accumulation
+      - Starting point
+      - Drift rate
+      - Boundary
+      - RT distributions
+      - Model exploration
+      - Model fitting
+      - Model prediction
+    - Advanced
+      - Race vs. diffusion <https://doi.org/10.1016/j.tics.2016.01.007>
+      - Variability (e.g. within vs between trials)
+      - Time limits & collapsing boundaries
+    - Applications
+      - ?Neural modeling?
+    - Conclusion
   - *discountable*: Temporal discounting
     - Introduction
     - Behavior
@@ -158,10 +163,11 @@ approaches to human decision making.
 - Use something else instead of inline code for terms
   - New remark-span! [content]{attributes}
 - More generally, use a different method to mark "UI elements", "keywords", "math", etc...
-  - Use remark-span for all of these: [UI element]{ui} [keyword]{key} [math]{math} etc...
-- Add "note" blocks for explaining UI stuff that isn't "real" content
+  - Use remark-span for all of these: [UI element]{.ui} [keyword]{.key} [math]{.math} etc...
+- Add "ui" blocks for explaining UI stuff that isn't "real" content
+  - :::{.ui} :::
 - Add "question" blocks for thoughts for readers to try - maybe with foldout answers?
-  - New remark-divs
+  - :::{.question} :::
 
 ## Compatibility
 
@@ -203,6 +209,8 @@ Dependencies updated 4/25/2020.
 - `yarn lerna run build --stream`
   - Builds all libraries to browser-compatible optimized bundles from `src/` to `lib/`
   - Builds all sites to browser-compatible optimized scripts from `local/` to `dist/`
+- `yarn workspace @decidable/<site> deploy`
+  - Copy files from `dist/` to the remote server (requires login)
 
 ### Local Utilities
 

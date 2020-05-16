@@ -85,7 +85,7 @@ export default class SDTEquationHM2Hr extends SDTEquation {
       `;
       hr = html`
         <decidable-spinner class="hr" disabled min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}">
-          <var>Hits</var>
+          <var>Hit Rate</var>
         </decidable-spinner>
       `;
     } else {

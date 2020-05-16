@@ -22,10 +22,10 @@
   "dependencies": {
     "@decidable/detectable-elements": "^0.0.1",
     "@webcomponents/webcomponentsjs": "^2.4.1",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^4.5.0",
     "core-js": "^3.6.4",
     "d3": "^5.16.0",
-    "jquery": "3.4.1",
+    "jquery": "^3.5.1",
     "jstat": "^1.9.3",
     "lit-element": "^2.2.0",
     "popper.js": "^1.16.1",
