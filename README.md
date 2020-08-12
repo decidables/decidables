@@ -187,7 +187,7 @@ approaches to human decision making.
 
 ## Development Tooling
 
-Dependencies updated 4/25/2020.
+Dependencies updated 8/12/2020.
 
 ### Global Tools
 

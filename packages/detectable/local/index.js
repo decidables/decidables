@@ -42,17 +42,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 (function () {
   /*
   Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-  This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-  The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-  The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-  Code distributed by Google as part of the polymer project is also
-  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+  This code may only be used under the BSD style license found at
+  http://polymer.github.io/LICENSE.txt The complete set of authors may be found
+  at http://polymer.github.io/AUTHORS.txt The complete set of contributors may
+  be found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by
+  Google as part of the polymer project is also subject to an additional IP
+  rights grant found at http://polymer.github.io/PATENTS.txt
   */
   'use strict';
 
   var w;
 
-  function ba(a) {
+  function aa(a) {
     var b = 0;
     return function () {
       return b < a.length ? {
@@ -64,14 +65,76 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     };
   }
 
-  function ca(a) {
+  var ba = "function" == typeof Object.defineProperties ? Object.defineProperty : function (a, b, c) {
+    a != Array.prototype && a != Object.prototype && (a[b] = c.value);
+  },
+      ca = "undefined" != typeof window && window === this ? this : "undefined" != typeof global && null != global ? global : this;
+
+  function da() {
+    da = function da() {};
+
+    ca.Symbol || (ca.Symbol = fa);
+  }
+
+  function ha(a, b) {
+    this.a = a;
+    ba(this, "description", {
+      configurable: !0,
+      writable: !0,
+      value: b
+    });
+  }
+
+  ha.prototype.toString = function () {
+    return this.a;
+  };
+
+  var fa = function () {
+    function a(c) {
+      if (this instanceof a) throw new TypeError("Symbol is not a constructor");
+      return new ha("jscomp_symbol_" + (c || "") + "_" + b++, c);
+    }
+
+    var b = 0;
+    return a;
+  }();
+
+  function ia() {
+    da();
+    var a = ca.Symbol.iterator;
+    a || (a = ca.Symbol.iterator = ca.Symbol("Symbol.iterator"));
+    "function" != typeof Array.prototype[a] && ba(Array.prototype, a, {
+      configurable: !0,
+      writable: !0,
+      value: function value() {
+        return la(aa(this));
+      }
+    });
+
+    ia = function ia() {};
+  }
+
+  function la(a) {
+    ia();
+    a = {
+      next: a
+    };
+
+    a[ca.Symbol.iterator] = function () {
+      return this;
+    };
+
+    return a;
+  }
+
+  function ma(a) {
     var b = "undefined" != typeof Symbol && Symbol.iterator && a[Symbol.iterator];
     return b ? b.call(a) : {
-      next: ba(a)
+      next: aa(a)
     };
   }
 
-  function da(a) {
+  function na(a) {
     for (var b, c = []; !(b = a.next()).done;) {
       c.push(b.value);
     }
@@ -79,96 +142,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return c;
   }
 
-  var fa = "undefined" != typeof window && window === this ? this : "undefined" != typeof global && null != global ? global : this,
-      ha = "function" == typeof Object.defineProperties ? Object.defineProperty : function (a, b, c) {
-    a != Array.prototype && a != Object.prototype && (a[b] = c.value);
-  };
-
-  function ia() {
-    ia = function ia() {};
-
-    fa.Symbol || (fa.Symbol = la);
-  }
-
-  function ma(a, b) {
-    this.a = a;
-    ha(this, "description", {
-      configurable: !0,
-      writable: !0,
-      value: b
-    });
-  }
-
-  ma.prototype.toString = function () {
-    return this.a;
-  };
-
-  var la = function () {
-    function a(c) {
-      if (this instanceof a) throw new TypeError("Symbol is not a constructor");
-      return new ma("jscomp_symbol_" + (c || "") + "_" + b++, c);
-    }
-
-    var b = 0;
-    return a;
-  }();
-
-  function na() {
-    ia();
-    var a = fa.Symbol.iterator;
-    a || (a = fa.Symbol.iterator = fa.Symbol("Symbol.iterator"));
-    "function" != typeof Array.prototype[a] && ha(Array.prototype, a, {
-      configurable: !0,
-      writable: !0,
-      value: function value() {
-        return oa(ba(this));
-      }
-    });
-
-    na = function na() {};
-  }
-
-  function oa(a) {
-    na();
-    a = {
-      next: a
-    };
-
-    a[fa.Symbol.iterator] = function () {
-      return this;
-    };
-
-    return a;
-  }
-
-  var pa;
-  if ("function" == typeof Object.setPrototypeOf) pa = Object.setPrototypeOf;else {
-    var qa;
+  var oa;
+  if ("function" == typeof Object.setPrototypeOf) oa = Object.setPrototypeOf;else {
+    var pa;
 
     a: {
-      var va = {
+      var qa = {
         Pa: !0
       },
-          wa = {};
+          ra = {};
 
       try {
-        wa.__proto__ = va;
-        qa = wa.Pa;
+        ra.__proto__ = qa;
+        pa = ra.Pa;
         break a;
       } catch (a) {}
 
-      qa = !1;
+      pa = !1;
     }
 
-    pa = qa ? function (a, b) {
+    oa = pa ? function (a, b) {
       a.__proto__ = b;
       if (a.__proto__ !== b) throw new TypeError(a + " is not extensible");
       return a;
     } : null;
   }
-  var xa = pa;
+  var sa = oa;
 
-  function ya() {
+  function wa() {
     this.l = !1;
     this.b = null;
     this.Ea = void 0;
@@ -177,16 +178,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     this.c = null;
   }
 
-  function za(a) {
+  function ya(a) {
     if (a.l) throw new TypeError("Generator is already running");
     a.l = !0;
   }
 
-  ya.prototype.J = function (a) {
+  wa.prototype.J = function (a) {
     this.Ea = a;
   };
 
-  function Aa(a, b) {
+  function za(a, b) {
     a.c = {
       Sa: b,
       Wa: !0
@@ -194,54 +195,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     a.a = a.Y;
   }
 
-  ya.prototype.return = function (a) {
+  wa.prototype.return = function (a) {
     this.c = {
       return: a
     };
     this.a = this.Y;
   };
 
-  function Ba(a, b) {
+  function Aa(a, b) {
     a.a = 3;
     return {
       value: b
     };
   }
 
-  function Ca(a) {
-    this.a = new ya();
+  function Ba(a) {
+    this.a = new wa();
     this.b = a;
   }
 
-  function Da(a, b) {
-    za(a.a);
+  function Ca(a, b) {
+    ya(a.a);
     var c = a.a.b;
-    if (c) return Ea(a, "return" in c ? c["return"] : function (d) {
+    if (c) return Da(a, "return" in c ? c["return"] : function (d) {
       return {
         value: d,
         done: !0
       };
     }, b, a.a.return);
     a.a.return(b);
-    return Fa(a);
+    return Ea(a);
   }
 
-  function Ea(a, b, c, d) {
+  function Da(a, b, c, d) {
     try {
       var e = b.call(a.a.b, c);
       if (!(e instanceof Object)) throw new TypeError("Iterator result " + e + " is not an object");
       if (!e.done) return a.a.l = !1, e;
       var f = e.value;
     } catch (g) {
-      return a.a.b = null, Aa(a.a, g), Fa(a);
+      return a.a.b = null, za(a.a, g), Ea(a);
     }
 
     a.a.b = null;
     d.call(a.a, f);
-    return Fa(a);
+    return Ea(a);
   }
 
-  function Fa(a) {
+  function Ea(a) {
     for (; a.a.a;) {
       try {
         var b = a.b(a.a);
@@ -250,7 +251,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           done: !1
         };
       } catch (c) {
-        a.a.Ea = void 0, Aa(a.a, c);
+        a.a.Ea = void 0, za(a.a, c);
       }
     }
 
@@ -272,33 +273,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     };
   }
 
-  function Ga(a) {
+  function Fa(a) {
     this.next = function (b) {
-      za(a.a);
-      a.a.b ? b = Ea(a, a.a.b.next, b, a.a.J) : (a.a.J(b), b = Fa(a));
+      ya(a.a);
+      a.a.b ? b = Da(a, a.a.b.next, b, a.a.J) : (a.a.J(b), b = Ea(a));
       return b;
     };
 
     this.throw = function (b) {
-      za(a.a);
-      a.a.b ? b = Ea(a, a.a.b["throw"], b, a.a.J) : (Aa(a.a, b), b = Fa(a));
+      ya(a.a);
+      a.a.b ? b = Da(a, a.a.b["throw"], b, a.a.J) : (za(a.a, b), b = Ea(a));
       return b;
     };
 
     this.return = function (b) {
-      return Da(a, b);
+      return Ca(a, b);
     };
 
-    na();
+    ia();
 
     this[Symbol.iterator] = function () {
       return this;
     };
   }
 
-  function Ha(a, b) {
-    b = new Ga(new Ca(b));
-    xa && xa(b, a.prototype);
+  function Ga(a, b) {
+    b = new Fa(new Ba(b));
+    sa && sa(b, a.prototype);
     return b;
   }
 
@@ -307,93 +308,100 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   });
   Object.assign || (Object.assign = function (a) {
     for (var b = [].slice.call(arguments, 1), c = 0, d; c < b.length; c++) {
-      if (d = b[c]) for (var e = a, f = d, g = Object.getOwnPropertyNames(f), h = 0; h < g.length; h++) {
-        d = g[h], e[d] = f[d];
+      if (d = b[c]) for (var e = a, f = Object.keys(d), g = 0; g < f.length; g++) {
+        var h = f[g];
+        e[h] = d[h];
       }
     }
 
     return a;
   });
+  var Ha = document.createEvent("Event");
+  Ha.initEvent("foo", !0, !0);
+  Ha.preventDefault();
 
-  (function () {
-    if (!function () {
-      var f = document.createEvent("Event");
-      f.initEvent("foo", !0, !0);
-      f.preventDefault();
-      return f.defaultPrevented;
-    }()) {
-      var a = Event.prototype.preventDefault;
+  if (!Ha.defaultPrevented) {
+    var Ia = Event.prototype.preventDefault;
 
-      Event.prototype.preventDefault = function () {
-        this.cancelable && (a.call(this), Object.defineProperty(this, "defaultPrevented", {
-          get: function get() {
-            return !0;
-          },
-          configurable: !0
-        }));
-      };
-    }
+    Event.prototype.preventDefault = function () {
+      this.cancelable && (Ia.call(this), Object.defineProperty(this, "defaultPrevented", {
+        get: function get() {
+          return !0;
+        },
+        configurable: !0
+      }));
+    };
+  }
 
-    var b = /Trident/.test(navigator.userAgent);
+  var Ja = /Trident/.test(navigator.userAgent);
 
-    if (!window.Event || b && "function" !== typeof window.Event) {
-      var c = window.Event;
+  if (!window.Event || Ja && "function" !== typeof window.Event) {
+    var Ka = window.Event;
 
-      window.Event = function (f, g) {
-        g = g || {};
-        var h = document.createEvent("Event");
-        h.initEvent(f, !!g.bubbles, !!g.cancelable);
-        return h;
-      };
+    window.Event = function (a, b) {
+      b = b || {};
+      var c = document.createEvent("Event");
+      c.initEvent(a, !!b.bubbles, !!b.cancelable);
+      return c;
+    };
 
-      if (c) {
-        for (var d in c) {
-          window.Event[d] = c[d];
-        }
-
-        window.Event.prototype = c.prototype;
+    if (Ka) {
+      for (var La in Ka) {
+        window.Event[La] = Ka[La];
       }
+
+      window.Event.prototype = Ka.prototype;
     }
+  }
 
-    if (!window.CustomEvent || b && "function" !== typeof window.CustomEvent) window.CustomEvent = function (f, g) {
-      g = g || {};
-      var h = document.createEvent("CustomEvent");
-      h.initCustomEvent(f, !!g.bubbles, !!g.cancelable, g.detail);
-      return h;
-    }, window.CustomEvent.prototype = window.Event.prototype;
+  if (!window.CustomEvent || Ja && "function" !== typeof window.CustomEvent) window.CustomEvent = function (a, b) {
+    b = b || {};
+    var c = document.createEvent("CustomEvent");
+    c.initCustomEvent(a, !!b.bubbles, !!b.cancelable, b.detail);
+    return c;
+  }, window.CustomEvent.prototype = window.Event.prototype;
 
-    if (!window.MouseEvent || b && "function" !== typeof window.MouseEvent) {
-      b = window.MouseEvent;
+  if (!window.MouseEvent || Ja && "function" !== typeof window.MouseEvent) {
+    var Ma = window.MouseEvent;
 
-      window.MouseEvent = function (f, g) {
-        g = g || {};
-        var h = document.createEvent("MouseEvent");
-        h.initMouseEvent(f, !!g.bubbles, !!g.cancelable, g.view || window, g.detail, g.screenX, g.screenY, g.clientX, g.clientY, g.ctrlKey, g.altKey, g.shiftKey, g.metaKey, g.button, g.relatedTarget);
-        return h;
-      };
+    window.MouseEvent = function (a, b) {
+      b = b || {};
+      var c = document.createEvent("MouseEvent");
+      c.initMouseEvent(a, !!b.bubbles, !!b.cancelable, b.view || window, b.detail, b.screenX, b.screenY, b.clientX, b.clientY, b.ctrlKey, b.altKey, b.shiftKey, b.metaKey, b.button, b.relatedTarget);
+      return c;
+    };
 
-      if (b) for (var e in b) {
-        window.MouseEvent[e] = b[e];
-      }
-      window.MouseEvent.prototype = b.prototype;
+    if (Ma) for (var Na in Ma) {
+      window.MouseEvent[Na] = Ma[Na];
     }
-  })();
+    window.MouseEvent.prototype = Ma.prototype;
+  }
+
+  ;
+  /*
+  Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+  This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+  The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+  The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+  Code distributed by Google as part of the polymer project is also
+  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+  */
 
   (function () {
     function a() {}
 
-    function b(p, t) {
+    function b(p, r) {
       if (!p.childNodes.length) return [];
 
       switch (p.nodeType) {
         case Node.DOCUMENT_NODE:
-          return F.call(p, t);
+          return F.call(p, r);
 
         case Node.DOCUMENT_FRAGMENT_NODE:
-          return C.call(p, t);
+          return E.call(p, r);
 
         default:
-          return r.call(p, t);
+          return t.call(p, r);
       }
     }
 
@@ -402,17 +410,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         e = !1;
     /Trident/.test(navigator.userAgent) && function () {
       function p(z, R) {
-        if (z instanceof DocumentFragment) for (var bb; bb = z.firstChild;) {
-          D.call(this, bb, R);
-        } else D.call(this, z, R);
+        if (z instanceof DocumentFragment) for (var fb; fb = z.firstChild;) {
+          B.call(this, fb, R);
+        } else B.call(this, z, R);
         return z;
       }
 
       e = !0;
-      var t = Node.prototype.cloneNode;
+      var r = Node.prototype.cloneNode;
 
       Node.prototype.cloneNode = function (z) {
-        z = t.call(this, z);
+        z = r.call(this, z);
         this instanceof DocumentFragment && (z.__proto__ = DocumentFragment.prototype);
         return z;
       };
@@ -437,7 +445,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           configurable: !0
         }
       });
-      var D = Node.prototype.insertBefore;
+      var B = Node.prototype.insertBefore;
       Node.prototype.insertBefore = p;
       var K = Node.prototype.appendChild;
 
@@ -446,11 +454,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return z;
       };
 
-      var aa = Node.prototype.removeChild,
+      var Z = Node.prototype.removeChild,
           ja = Node.prototype.replaceChild;
 
       Node.prototype.replaceChild = function (z, R) {
-        z instanceof DocumentFragment ? (p.call(this, z, R), aa.call(this, R)) : ja.call(this, z, R);
+        z instanceof DocumentFragment ? (p.call(this, z, R), Z.call(this, R)) : ja.call(this, z, R);
         return R;
       };
 
@@ -460,10 +468,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return z;
       };
 
-      var ra = Document.prototype.importNode;
+      var ta = Document.prototype.importNode;
 
       Document.prototype.importNode = function (z, R) {
-        R = ra.call(this, z, R || !1);
+        R = ta.call(this, z, R || !1);
         z instanceof DocumentFragment && (R.__proto__ = DocumentFragment.prototype);
         return R;
       };
@@ -484,20 +492,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.innerHTML = p;
       }
     },
-        E = Object.getOwnPropertyDescriptor(window.Node.prototype, "childNodes") || {
+        C = Object.getOwnPropertyDescriptor(window.Node.prototype, "childNodes") || {
       get: function get() {
         return this.childNodes;
       }
     },
-        r = Element.prototype.querySelectorAll,
+        t = Element.prototype.querySelectorAll,
         F = Document.prototype.querySelectorAll,
-        C = DocumentFragment.prototype.querySelectorAll,
+        E = DocumentFragment.prototype.querySelectorAll,
         M = function () {
       if (!c) {
         var p = document.createElement("template"),
-            t = document.createElement("template");
-        t.content.appendChild(document.createElement("div"));
-        p.content.appendChild(t);
+            r = document.createElement("template");
+        r.content.appendChild(document.createElement("div"));
+        p.content.appendChild(r);
         p = p.cloneNode(!0);
         return 0 === p.content.childNodes.length || 0 === p.content.firstChild.content.childNodes.length || d;
       }
@@ -508,8 +516,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           W = !0,
           v = document.createElement("style");
       v.textContent = "template{display:none;}";
-      var sa = document.head;
-      sa.insertBefore(v, sa.firstElementChild);
+      var ua = document.head;
+      ua.insertBefore(v, ua.firstElementChild);
       a.prototype = Object.create(HTMLElement.prototype);
       var ea = !document.createElement("div").hasOwnProperty("innerHTML");
 
@@ -517,22 +525,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if (!p.content && p.namespaceURI === document.documentElement.namespaceURI) {
           p.content = y.createDocumentFragment();
 
-          for (var t; t = p.firstChild;) {
-            l.call(p.content, t);
+          for (var r; r = p.firstChild;) {
+            l.call(p.content, r);
           }
 
-          if (ea) p.__proto__ = a.prototype;else if (p.cloneNode = function (D) {
-            return a.b(this, D);
+          if (ea) p.__proto__ = a.prototype;else if (p.cloneNode = function (B) {
+            return a.b(this, B);
           }, W) try {
             n(p), I(p);
-          } catch (D) {
+          } catch (B) {
             W = !1;
           }
           a.a(p.content);
         }
       };
 
-      var ta = {
+      var va = {
         option: ["select"],
         thead: ["table"],
         col: ["colgroup", "table"],
@@ -543,26 +551,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           n = function n(p) {
         Object.defineProperty(p, "innerHTML", {
           get: function get() {
-            return ua(this);
+            return xa(this);
           },
-          set: function set(t) {
-            var D = ta[(/<([a-z][^/\0>\x20\t\r\n\f]+)/i.exec(t) || ["", ""])[1].toLowerCase()];
-            if (D) for (var K = 0; K < D.length; K++) {
-              t = "<" + D[K] + ">" + t + "</" + D[K] + ">";
+          set: function set(r) {
+            var B = va[(/<([a-z][^/\0>\x20\t\r\n\f]+)/i.exec(r) || ["", ""])[1].toLowerCase()];
+            if (B) for (var K = 0; K < B.length; K++) {
+              r = "<" + B[K] + ">" + r + "</" + B[K] + ">";
             }
-            y.body.innerHTML = t;
+            y.body.innerHTML = r;
 
             for (a.a(y); this.content.firstChild;) {
               k.call(this.content, this.content.firstChild);
             }
 
-            t = y.body;
-            if (D) for (K = 0; K < D.length; K++) {
-              t = t.lastChild;
+            r = y.body;
+            if (B) for (K = 0; K < B.length; K++) {
+              r = r.lastChild;
             }
 
-            for (; t.firstChild;) {
-              l.call(this.content, t.firstChild);
+            for (; r.firstChild;) {
+              l.call(this.content, r.firstChild);
             }
           },
           configurable: !0
@@ -573,15 +581,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           get: function get() {
             return "<template>" + this.innerHTML + "</template>";
           },
-          set: function set(t) {
+          set: function set(r) {
             if (this.parentNode) {
-              y.body.innerHTML = t;
+              y.body.innerHTML = r;
 
-              for (t = this.ownerDocument.createDocumentFragment(); y.body.firstChild;) {
-                l.call(t, y.body.firstChild);
+              for (r = this.ownerDocument.createDocumentFragment(); y.body.firstChild;) {
+                l.call(r, y.body.firstChild);
               }
 
-              m.call(this.parentNode, t, this);
+              m.call(this.parentNode, r, this);
             } else throw Error("Failed to set the 'outerHTML' property on 'Element': This element has no parent node.");
           },
           configurable: !0
@@ -594,7 +602,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       a.a = function (p) {
         p = b(p, "template");
 
-        for (var t = 0, D = p.length, K; t < D && (K = p[t]); t++) {
+        for (var r = 0, B = p.length, K; r < B && (K = p[r]); r++) {
           a.U(K);
         }
       };
@@ -617,7 +625,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       Object.defineProperty(HTMLElement.prototype, "innerHTML", {
         get: function get() {
-          return ua(this);
+          return xa(this);
         },
         set: function set(p) {
           H.set.call(this, p);
@@ -628,8 +636,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       var ka = /[&\u00A0"]/g,
-          Xb = /[&\u00A0<>]/g,
-          cb = function cb(p) {
+          bc = /[&\u00A0<>]/g,
+          gb = function gb(p) {
         switch (p) {
           case "&":
             return "&amp;";
@@ -649,37 +657,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       };
 
       v = function v(p) {
-        for (var t = {}, D = 0; D < p.length; D++) {
-          t[p[D]] = !0;
+        for (var r = {}, B = 0; B < p.length; B++) {
+          r[p[B]] = !0;
         }
 
-        return t;
+        return r;
       };
 
-      var Qa = v("area base br col command embed hr img input keygen link meta param source track wbr".split(" ")),
-          db = v("style script xmp iframe noembed noframes plaintext noscript".split(" ")),
-          ua = function ua(p, t) {
+      var Sa = v("area base br col command embed hr img input keygen link meta param source track wbr".split(" ")),
+          hb = v("style script xmp iframe noembed noframes plaintext noscript".split(" ")),
+          xa = function xa(p, r) {
         "template" === p.localName && (p = p.content);
 
-        for (var D = "", K = t ? t(p) : E.get.call(p), aa = 0, ja = K.length, ra; aa < ja && (ra = K[aa]); aa++) {
+        for (var B = "", K = r ? r(p) : C.get.call(p), Z = 0, ja = K.length, ta; Z < ja && (ta = K[Z]); Z++) {
           a: {
-            var z = ra;
+            var z = ta;
             var R = p;
-            var bb = t;
+            var fb = r;
 
             switch (z.nodeType) {
               case Node.ELEMENT_NODE:
-                for (var Yb = z.localName, eb = "<" + Yb, gg = z.attributes, ud = 0; R = gg[ud]; ud++) {
-                  eb += " " + R.name + '="' + R.value.replace(ka, cb) + '"';
+                for (var cc = z.localName, ib = "<" + cc, rg = z.attributes, Bd = 0; R = rg[Bd]; Bd++) {
+                  ib += " " + R.name + '="' + R.value.replace(ka, gb) + '"';
                 }
 
-                eb += ">";
-                z = Qa[Yb] ? eb : eb + ua(z, bb) + "</" + Yb + ">";
+                ib += ">";
+                z = Sa[cc] ? ib : ib + xa(z, fb) + "</" + cc + ">";
                 break a;
 
               case Node.TEXT_NODE:
                 z = z.data;
-                z = R && db[R.localName] ? z : z.replace(Xb, cb);
+                z = R && hb[R.localName] ? z : z.replace(bc, gb);
                 break a;
 
               case Node.COMMENT_NODE:
@@ -691,71 +699,71 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
           }
 
-          D += z;
+          B += z;
         }
 
-        return D;
+        return B;
       };
     }
 
     if (c || M) {
-      a.b = function (p, t) {
-        var D = f.call(p, !1);
-        this.U && this.U(D);
-        t && (l.call(D.content, f.call(p.content, !0)), u(D.content, p.content));
-        return D;
+      a.b = function (p, r) {
+        var B = f.call(p, !1);
+        this.U && this.U(B);
+        r && (l.call(B.content, f.call(p.content, !0)), J(B.content, p.content));
+        return B;
       };
 
-      var u = function u(p, t) {
-        if (t.querySelectorAll && (t = b(t, "template"), 0 !== t.length)) {
+      var J = function J(p, r) {
+        if (r.querySelectorAll && (r = b(r, "template"), 0 !== r.length)) {
           p = b(p, "template");
 
-          for (var D = 0, K = p.length, aa, ja; D < K; D++) {
-            ja = t[D], aa = p[D], a && a.U && a.U(ja), m.call(aa.parentNode, G.call(ja, !0), aa);
+          for (var B = 0, K = p.length, Z, ja; B < K; B++) {
+            ja = r[B], Z = p[B], a && a.U && a.U(ja), m.call(Z.parentNode, u.call(ja, !0), Z);
           }
         }
       },
-          G = Node.prototype.cloneNode = function (p) {
+          u = Node.prototype.cloneNode = function (p) {
         if (!e && d && this instanceof DocumentFragment) {
-          if (p) var t = J.call(this.ownerDocument, this, !0);else return this.ownerDocument.createDocumentFragment();
-        } else this.nodeType === Node.ELEMENT_NODE && "template" === this.localName && this.namespaceURI == document.documentElement.namespaceURI ? t = a.b(this, p) : t = f.call(this, p);
-        p && u(t, this);
-        return t;
+          if (p) var r = G.call(this.ownerDocument, this, !0);else return this.ownerDocument.createDocumentFragment();
+        } else this.nodeType === Node.ELEMENT_NODE && "template" === this.localName && this.namespaceURI == document.documentElement.namespaceURI ? r = a.b(this, p) : r = f.call(this, p);
+        p && J(r, this);
+        return r;
       },
-          J = Document.prototype.importNode = function (p, t) {
-        t = t || !1;
-        if ("template" === p.localName) return a.b(p, t);
-        var D = h.call(this, p, t);
+          G = Document.prototype.importNode = function (p, r) {
+        r = r || !1;
+        if ("template" === p.localName) return a.b(p, r);
+        var B = h.call(this, p, r);
 
-        if (t) {
-          u(D, p);
-          p = b(D, 'script:not([type]),script[type="application/javascript"],script[type="text/javascript"]');
+        if (r) {
+          J(B, p);
+          p = b(B, 'script:not([type]),script[type="application/javascript"],script[type="text/javascript"]');
 
-          for (var K, aa = 0; aa < p.length; aa++) {
-            K = p[aa];
-            t = g.call(document, "script");
-            t.textContent = K.textContent;
+          for (var K, Z = 0; Z < p.length; Z++) {
+            K = p[Z];
+            r = g.call(document, "script");
+            r.textContent = K.textContent;
 
-            for (var ja = K.attributes, ra = 0, z; ra < ja.length; ra++) {
-              z = ja[ra], t.setAttribute(z.name, z.value);
+            for (var ja = K.attributes, ta = 0, z; ta < ja.length; ta++) {
+              z = ja[ta], r.setAttribute(z.name, z.value);
             }
 
-            m.call(K.parentNode, t, K);
+            m.call(K.parentNode, r, K);
           }
         }
 
-        return D;
+        return B;
       };
     }
 
     c && (window.HTMLTemplateElement = a);
   })();
 
-  var Ia = setTimeout;
+  var Oa = setTimeout;
 
-  function Ja() {}
+  function Pa() {}
 
-  function Ka(a, b) {
+  function Qa(a, b) {
     return function () {
       a.apply(b, arguments);
     };
@@ -768,30 +776,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     this.za = !1;
     this.C = void 0;
     this.W = [];
-    La(a, this);
+    Ra(a, this);
   }
 
-  function Ma(a, b) {
+  function Ta(a, b) {
     for (; 3 === a.I;) {
       a = a.C;
     }
 
-    0 === a.I ? a.W.push(b) : (a.za = !0, Na(function () {
+    0 === a.I ? a.W.push(b) : (a.za = !0, Ua(function () {
       var c = 1 === a.I ? b.Ya : b.Za;
-      if (null === c) (1 === a.I ? Oa : Pa)(b.va, a.C);else {
+      if (null === c) (1 === a.I ? Va : Wa)(b.va, a.C);else {
         try {
           var d = c(a.C);
         } catch (e) {
-          Pa(b.va, e);
+          Wa(b.va, e);
           return;
         }
 
-        Oa(b.va, d);
+        Va(b.va, d);
       }
     }));
   }
 
-  function Oa(a, b) {
+  function Va(a, b) {
     try {
       if (b === a) throw new TypeError("A promise cannot be resolved with itself.");
 
@@ -801,59 +809,59 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if (b instanceof x) {
           a.I = 3;
           a.C = b;
-          Ra(a);
+          Xa(a);
           return;
         }
 
         if ("function" === typeof c) {
-          La(Ka(c, b), a);
+          Ra(Qa(c, b), a);
           return;
         }
       }
 
       a.I = 1;
       a.C = b;
-      Ra(a);
+      Xa(a);
     } catch (d) {
-      Pa(a, d);
+      Wa(a, d);
     }
   }
 
-  function Pa(a, b) {
+  function Wa(a, b) {
     a.I = 2;
     a.C = b;
-    Ra(a);
+    Xa(a);
   }
 
-  function Ra(a) {
-    2 === a.I && 0 === a.W.length && Na(function () {
+  function Xa(a) {
+    2 === a.I && 0 === a.W.length && Ua(function () {
       a.za || "undefined" !== typeof console && console && console.warn("Possible Unhandled Promise Rejection:", a.C);
     });
 
     for (var b = 0, c = a.W.length; b < c; b++) {
-      Ma(a, a.W[b]);
+      Ta(a, a.W[b]);
     }
 
     a.W = null;
   }
 
-  function Sa(a, b, c) {
+  function Ya(a, b, c) {
     this.Ya = "function" === typeof a ? a : null;
     this.Za = "function" === typeof b ? b : null;
     this.va = c;
   }
 
-  function La(a, b) {
+  function Ra(a, b) {
     var c = !1;
 
     try {
       a(function (d) {
-        c || (c = !0, Oa(b, d));
+        c || (c = !0, Va(b, d));
       }, function (d) {
-        c || (c = !0, Pa(b, d));
+        c || (c = !0, Wa(b, d));
       });
     } catch (d) {
-      c || (c = !0, Pa(b, d));
+      c || (c = !0, Wa(b, d));
     }
   }
 
@@ -862,8 +870,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   };
 
   x.prototype.then = function (a, b) {
-    var c = new this.constructor(Ja);
-    Ma(this, new Sa(a, b, c));
+    var c = new this.constructor(Pa);
+    Ta(this, new Ya(a, b, c));
     return c;
   };
 
@@ -880,7 +888,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   };
 
-  function Ta(a) {
+  function Za(a) {
     return new x(function (b, c) {
       function d(h, k) {
         try {
@@ -902,7 +910,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       }
 
-      if (!a || "undefined" === typeof a.length) throw new TypeError("Promise.all accepts an array");
+      if (!a || "undefined" === typeof a.length) return c(new TypeError("Promise.all accepts an array"));
       var e = Array.prototype.slice.call(a);
       if (0 === e.length) return b([]);
 
@@ -912,63 +920,66 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   }
 
-  function Ua(a) {
+  function $a(a) {
     return a && "object" === _typeof(a) && a.constructor === x ? a : new x(function (b) {
       b(a);
     });
   }
 
-  function Va(a) {
+  function ab(a) {
     return new x(function (b, c) {
       c(a);
     });
   }
 
-  function Wa(a) {
+  function bb(a) {
     return new x(function (b, c) {
+      if (!a || "undefined" === typeof a.length) return c(new TypeError("Promise.race accepts an array"));
+
       for (var d = 0, e = a.length; d < e; d++) {
-        a[d].then(b, c);
+        $a(a[d]).then(b, c);
       }
     });
   }
 
-  var Na = "function" === typeof setImmediate && function (a) {
+  var Ua = "function" === typeof setImmediate && function (a) {
     setImmediate(a);
   } || function (a) {
-    Ia(a, 0);
+    Oa(a, 0);
   };
   /*
   Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-  This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-  The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-  The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-  Code distributed by Google as part of the polymer project is also
-  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+  This code may only be used under the BSD style license found at
+  http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
+  http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
+  found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
+  part of the polymer project is also subject to an additional IP rights grant
+  found at http://polymer.github.io/PATENTS.txt
   */
 
 
   if (!window.Promise) {
     window.Promise = x;
     x.prototype.then = x.prototype.then;
-    x.all = Ta;
-    x.race = Wa;
-    x.resolve = Ua;
-    x.reject = Va;
-    var Xa = document.createTextNode(""),
-        Ya = [];
+    x.all = Za;
+    x.race = bb;
+    x.resolve = $a;
+    x.reject = ab;
+    var cb = document.createTextNode(""),
+        db = [];
     new MutationObserver(function () {
-      for (var a = Ya.length, b = 0; b < a; b++) {
-        Ya[b]();
+      for (var a = db.length, b = 0; b < a; b++) {
+        db[b]();
       }
 
-      Ya.splice(0, a);
-    }).observe(Xa, {
+      db.splice(0, a);
+    }).observe(cb, {
       characterData: !0
     });
 
-    Na = function Na(a) {
-      Ya.push(a);
-      Xa.textContent = 0 < Xa.textContent.length ? "" : "a";
+    Ua = function Ua(a) {
+      db.push(a);
+      cb.textContent = 0 < cb.textContent.length ? "" : "a";
     };
   }
 
@@ -1005,181 +1016,181 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           m = a.freeze || a,
           q = a.defineProperty,
           H = a.defineProperties,
-          E = h(a, "getOwnPropertyNames"),
-          r = a.prototype,
-          F = r.hasOwnProperty,
-          C = r.propertyIsEnumerable,
-          M = r.toString,
-          y = function y(u, G, J) {
-        F.call(u, f) || q(u, f, {
+          C = h(a, "getOwnPropertyNames"),
+          t = a.prototype,
+          F = t.hasOwnProperty,
+          E = t.propertyIsEnumerable,
+          M = t.toString,
+          y = function y(J, u, G) {
+        F.call(J, f) || q(J, f, {
           enumerable: !1,
           configurable: !1,
           writable: !1,
           value: {}
         });
-        u[f]["@@" + G] = J;
+        J[f]["@@" + u] = G;
       },
-          W = function W(u, G) {
-        var J = k(u);
-        g(G).forEach(function (p) {
-          ta.call(G, p) && Qa(J, p, G[p]);
+          W = function W(J, u) {
+        var G = k(J);
+        g(u).forEach(function (p) {
+          va.call(u, p) && Sa(G, p, u[p]);
         });
-        return J;
+        return G;
       },
           v = function v() {},
-          sa = function sa(u) {
-        return u != f && !F.call(ka, u);
+          ua = function ua(J) {
+        return J != f && !F.call(ka, J);
       },
-          ea = function ea(u) {
-        return u != f && F.call(ka, u);
+          ea = function ea(J) {
+        return J != f && F.call(ka, J);
       },
-          ta = function ta(u) {
-        var G = "" + u;
-        return ea(G) ? F.call(this, G) && this[f]["@@" + G] : C.call(this, u);
+          va = function va(J) {
+        var u = "" + J;
+        return ea(u) ? F.call(this, u) && this[f]["@@" + u] : E.call(this, J);
       },
-          n = function n(u) {
-        q(r, u, {
+          n = function n(J) {
+        q(t, J, {
           enumerable: !1,
           configurable: !0,
           get: v,
-          set: function set(G) {
-            ua(this, u, {
+          set: function set(u) {
+            xa(this, J, {
               enumerable: !1,
               configurable: !0,
               writable: !0,
-              value: G
+              value: u
             });
-            y(this, u, !0);
+            y(this, J, !0);
           }
         });
-        return m(ka[u] = q(a(u), "constructor", Xb));
+        return m(ka[J] = q(a(J), "constructor", bc));
       },
-          I = function I(u) {
-        if (this && this !== c) throw new TypeError("Symbol is not a constructor");
+          I = function G(u) {
+        if (this instanceof G) throw new TypeError("Symbol is not a constructor");
         return n("__\x01symbol:".concat(u || "", e, ++d));
       },
           ka = k(null),
-          Xb = {
+          bc = {
         value: I
       },
-          cb = function cb(u) {
+          gb = function gb(u) {
         return ka[u];
       },
-          Qa = function Qa(u, G, J) {
-        var p = "" + G;
+          Sa = function Sa(u, G, p) {
+        var r = "" + G;
 
-        if (ea(p)) {
-          G = ua;
+        if (ea(r)) {
+          G = xa;
 
-          if (J.enumerable) {
-            var t = k(J);
-            t.enumerable = !1;
-          } else t = J;
+          if (p.enumerable) {
+            var B = k(p);
+            B.enumerable = !1;
+          } else B = p;
 
-          G(u, p, t);
-          y(u, p, !!J.enumerable);
-        } else q(u, G, J);
+          G(u, r, B);
+          y(u, r, !!p.enumerable);
+        } else q(u, G, p);
 
         return u;
       },
-          db = function db(u) {
-        return g(u).filter(ea).map(cb);
+          hb = function hb(u) {
+        return g(u).filter(ea).map(gb);
       };
 
-      E.value = Qa;
-      q(a, "defineProperty", E);
-      E.value = db;
-      q(a, b, E);
+      C.value = Sa;
+      q(a, "defineProperty", C);
+      C.value = hb;
+      q(a, b, C);
 
-      E.value = function (u) {
-        return g(u).filter(sa);
+      C.value = function (u) {
+        return g(u).filter(ua);
       };
 
-      q(a, "getOwnPropertyNames", E);
+      q(a, "getOwnPropertyNames", C);
 
-      E.value = function (u, G) {
-        var J = db(G);
-        J.length ? l(G).concat(J).forEach(function (p) {
-          ta.call(G, p) && Qa(u, p, G[p]);
+      C.value = function (u, G) {
+        var p = hb(G);
+        p.length ? l(G).concat(p).forEach(function (r) {
+          va.call(G, r) && Sa(u, r, G[r]);
         }) : H(u, G);
         return u;
       };
 
-      q(a, "defineProperties", E);
-      E.value = ta;
-      q(r, "propertyIsEnumerable", E);
-      E.value = I;
-      q(c, "Symbol", E);
+      q(a, "defineProperties", C);
+      C.value = va;
+      q(t, "propertyIsEnumerable", C);
+      C.value = I;
+      q(c, "Symbol", C);
 
-      E.value = function (u) {
+      C.value = function (u) {
         u = "__\x01symbol:".concat("__\x01symbol:", u, e);
-        return u in r ? ka[u] : n(u);
+        return u in t ? ka[u] : n(u);
       };
 
-      q(I, "for", E);
+      q(I, "for", C);
 
-      E.value = function (u) {
-        if (sa(u)) throw new TypeError(u + " is not a symbol");
-        return F.call(ka, u) ? u.slice(20, -e.length) : void 0;
+      C.value = function (u) {
+        if (ua(u)) throw new TypeError(u + " is not a symbol");
+        if (F.call(ka, u) && (u = u.slice(10), "__\x01symbol:" === u.slice(0, 10) && (u = u.slice(10), u !== e))) return u = u.slice(0, u.length - e.length), 0 < u.length ? u : void 0;
       };
 
-      q(I, "keyFor", E);
+      q(I, "keyFor", C);
 
-      E.value = function (u, G) {
-        var J = h(u, G);
-        J && ea(G) && (J.enumerable = ta.call(u, G));
-        return J;
+      C.value = function (u, G) {
+        var p = h(u, G);
+        p && ea(G) && (p.enumerable = va.call(u, G));
+        return p;
       };
 
-      q(a, "getOwnPropertyDescriptor", E);
+      q(a, "getOwnPropertyDescriptor", C);
 
-      E.value = function (u, G) {
-        return 1 === arguments.length ? k(u) : W(u, G);
+      C.value = function (u, G) {
+        return 1 === arguments.length || "undefined" === typeof G ? k(u) : W(u, G);
       };
 
-      q(a, "create", E);
+      q(a, "create", C);
 
-      E.value = function () {
+      C.value = function () {
         var u = M.call(this);
         return "[object String]" === u && ea(this) ? "[object Symbol]" : u;
       };
 
-      q(r, "toString", E);
+      q(t, "toString", C);
 
       try {
-        var ua = k(q({}, "__\x01symbol:", {
+        if (!0 === k(q({}, "__\x01symbol:", {
           get: function get() {
             return q(this, "__\x01symbol:", {
-              value: !1
+              value: !0
             })["__\x01symbol:"];
           }
-        }))["__\x01symbol:"] || q;
+        }))["__\x01symbol:"]) var xa = q;else throw "IE11";
       } catch (u) {
-        ua = function ua(G, J, p) {
-          var t = h(r, J);
-          delete r[J];
-          q(G, J, p);
-          q(r, J, t);
+        xa = function xa(G, p, r) {
+          var B = h(t, p);
+          delete t[p];
+          q(G, p, r);
+          q(t, p, B);
         };
       }
     }
   })(Object, "getOwnPropertySymbols");
 
-  (function (a) {
-    var b = a.defineProperty,
-        c = a.prototype,
-        d = c.toString,
-        e;
-    "iterator match replace search split hasInstance isConcatSpreadable unscopables species toPrimitive toStringTag".split(" ").forEach(function (f) {
-      if (!(f in Symbol)) switch (b(Symbol, f, {
-        value: Symbol(f)
-      }), f) {
+  (function (a, b) {
+    var c = a.defineProperty,
+        d = a.prototype,
+        e = d.toString,
+        f;
+    "iterator match replace search split hasInstance isConcatSpreadable unscopables species toPrimitive toStringTag".split(" ").forEach(function (g) {
+      if (!(g in b)) switch (c(b, g, {
+        value: b(g)
+      }), g) {
         case "toStringTag":
-          e = a.getOwnPropertyDescriptor(c, "toString"), e.value = function () {
-            var g = d.call(this),
-                h = this[Symbol.toStringTag];
-            return "undefined" === typeof h ? g : "[object " + h + "]";
-          }, b(c, "toString", e);
+          f = a.getOwnPropertyDescriptor(d, "toString"), f.value = function () {
+            var h = e.call(this),
+                k = null != this ? this[b.toStringTag] : this;
+            return null == k ? h : "[object " + k + "]";
+          }, c(d, "toString", f);
       }
     });
   })(Object, Symbol);
@@ -1230,18 +1241,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   })(Symbol.iterator, Array.prototype, String.prototype);
   /*
   Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-  This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-  The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-  The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-  Code distributed by Google as part of the polymer project is also
-  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+  This code may only be used under the BSD style license found at
+  http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
+  http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
+  found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
+  part of the polymer project is also subject to an additional IP rights grant
+  found at http://polymer.github.io/PATENTS.txt
   */
 
 
-  var Za = Object.prototype.toString;
+  var eb = Object.prototype.toString;
 
   Object.prototype.toString = function () {
-    return void 0 === this ? "[object Undefined]" : null === this ? "[object Null]" : Za.call(this);
+    return void 0 === this ? "[object Undefined]" : null === this ? "[object Null]" : eb.call(this);
   };
 
   Object.keys = function (a) {
@@ -1250,90 +1262,94 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   };
 
-  var $a = window.Symbol.iterator;
-  String.prototype[$a] && String.prototype.codePointAt || (String.prototype[$a] = function ab() {
-    var b,
-        c = this;
-    return Ha(ab, function (d) {
-      1 == d.a && (b = 0);
-      if (3 != d.a) return b < c.length ? d = Ba(d, c[b]) : (d.a = 0, d = void 0), d;
-      b++;
-      d.a = 2;
-    });
-  });
-  Set.prototype[$a] || (Set.prototype[$a] = function fb() {
-    var b,
-        c = this,
-        d;
-    return Ha(fb, function (e) {
-      1 == e.a && (b = [], c.forEach(function (f) {
-        b.push(f);
-      }), d = 0);
-      if (3 != e.a) return d < b.length ? e = Ba(e, b[d]) : (e.a = 0, e = void 0), e;
-      d++;
+  da();
+  ia();
+  String.prototype[Symbol.iterator] && String.prototype.codePointAt || (da(), ia(), String.prototype[Symbol.iterator] = function b() {
+    var c,
+        d = this;
+    return Ga(b, function (e) {
+      1 == e.a && (c = 0);
+      if (3 != e.a) return c < d.length ? e = Aa(e, d[c]) : (e.a = 0, e = void 0), e;
+      c++;
       e.a = 2;
     });
   });
-  Map.prototype[$a] || (Map.prototype[$a] = function gb() {
-    var b,
-        c = this,
-        d;
-    return Ha(gb, function (e) {
-      1 == e.a && (b = [], c.forEach(function (f, g) {
-        b.push([g, f]);
-      }), d = 0);
-      if (3 != e.a) return d < b.length ? e = Ba(e, b[d]) : (e.a = 0, e = void 0), e;
-      d++;
-      e.a = 2;
+  da();
+  ia();
+  Set.prototype[Symbol.iterator] || (da(), ia(), Set.prototype[Symbol.iterator] = function b() {
+    var c,
+        d = this,
+        e;
+    return Ga(b, function (f) {
+      1 == f.a && (c = [], d.forEach(function (g) {
+        c.push(g);
+      }), e = 0);
+      if (3 != f.a) return e < c.length ? f = Aa(f, c[e]) : (f.a = 0, f = void 0), f;
+      e++;
+      f.a = 2;
+    });
+  });
+  da();
+  ia();
+  Map.prototype[Symbol.iterator] || (da(), ia(), Map.prototype[Symbol.iterator] = function b() {
+    var c,
+        d = this,
+        e;
+    return Ga(b, function (f) {
+      1 == f.a && (c = [], d.forEach(function (g, h) {
+        c.push([h, g]);
+      }), e = 0);
+      if (3 != f.a) return e < c.length ? f = Aa(f, c[e]) : (f.a = 0, f = void 0), f;
+      e++;
+      f.a = 2;
     });
   });
   /*
   Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-  This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-  The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-  The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-  Code distributed by Google as part of the polymer project is also
-  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+  This code may only be used under the BSD style license found at
+  http://polymer.github.io/LICENSE.txt The complete set of authors may be found
+  at http://polymer.github.io/AUTHORS.txt The complete set of contributors may
+  be found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by
+  Google as part of the polymer project is also subject to an additional IP
+  rights grant found at http://polymer.github.io/PATENTS.txt
   */
 
-  window.WebComponents = window.WebComponents || {
+  var jb = window;
+  jb.WebComponents = jb.WebComponents || {
     flags: {}
   };
-  var hb = document.querySelector('script[src*="webcomponents-bundle"]'),
-      ib = /wc-(.+)/,
-      A = {};
+  var kb = document.querySelector('script[src*="webcomponents-bundle"]'),
+      lb = /wc-(.+)/,
+      mb = {};
 
-  if (!A.noOpts) {
+  if (!mb.noOpts) {
     location.search.slice(1).split("&").forEach(function (a) {
       a = a.split("=");
       var b;
-      a[0] && (b = a[0].match(ib)) && (A[b[1]] = a[1] || !0);
+      a[0] && (b = a[0].match(lb)) && (mb[b[1]] = a[1] || !0);
     });
-    if (hb) for (var jb = 0, kb = void 0; kb = hb.attributes[jb]; jb++) {
-      "src" !== kb.name && (A[kb.name] = kb.value || !0);
+    if (kb) for (var nb = 0, ob = void 0; ob = kb.attributes[nb]; nb++) {
+      "src" !== ob.name && (mb[ob.name] = ob.value || !0);
     }
-
-    if (A.log && A.log.split) {
-      var lb = A.log.split(",");
-      A.log = {};
-      lb.forEach(function (a) {
-        A.log[a] = !0;
-      });
-    } else A.log = {};
+    var pb = {};
+    mb.log && mb.log.split && mb.log.split(",").forEach(function (a) {
+      pb[a] = !0;
+    });
+    mb.log = pb;
   }
 
-  window.WebComponents.flags = A;
-  var mb = A.shadydom;
+  jb.WebComponents.flags = mb;
+  var qb = mb.shadydom;
 
-  if (mb) {
-    window.ShadyDOM = window.ShadyDOM || {};
-    window.ShadyDOM.force = mb;
-    var nb = A.noPatch;
-    window.ShadyDOM.noPatch = "true" === nb ? !0 : nb;
+  if (qb) {
+    jb.ShadyDOM = jb.ShadyDOM || {};
+    jb.ShadyDOM.force = qb;
+    var rb = mb.noPatch;
+    jb.ShadyDOM.noPatch = "true" === rb ? !0 : rb;
   }
 
-  var ob = A.register || A.ce;
-  ob && window.customElements && (window.customElements.forcePolyfill = ob);
+  var sb = mb.register || mb.ce;
+  sb && window.customElements && (jb.customElements.forcePolyfill = sb);
   /*
   Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
   This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -1343,69 +1359,73 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
   */
 
-  function pb() {}
+  function tb() {}
 
-  pb.prototype.toJSON = function () {
+  tb.prototype.toJSON = function () {
     return {};
   };
 
-  function B(a) {
-    a.__shady || (a.__shady = new pb());
+  function A(a) {
+    a.__shady || (a.__shady = new tb());
     return a.__shady;
   }
 
-  function L(a) {
+  function D(a) {
     return a && a.__shady;
   }
 
   ;
-  var N = window.ShadyDOM || {};
-  N.Ua = !(!Element.prototype.attachShadow || !Node.prototype.getRootNode);
-  var qb = Object.getOwnPropertyDescriptor(Node.prototype, "firstChild");
-  N.B = !!(qb && qb.configurable && qb.get);
-  N.sa = N.force || !N.Ua;
-  N.D = N.noPatch || !1;
-  N.la = N.preferPerformance;
-  N.ua = "on-demand" === N.D;
-  N.Ia = navigator.userAgent.match("Trident");
+  var L = window.ShadyDOM || {};
+  L.Ua = !(!Element.prototype.attachShadow || !Node.prototype.getRootNode);
+  var ub = Object.getOwnPropertyDescriptor(Node.prototype, "firstChild");
+  L.B = !!(ub && ub.configurable && ub.get);
+  L.sa = L.force || !L.Ua;
+  L.D = L.noPatch || !1;
+  L.aa = L.preferPerformance;
+  L.ua = "on-demand" === L.D;
+  L.Ia = navigator.userAgent.match("Trident");
 
-  function rb(a) {
-    return (a = L(a)) && void 0 !== a.firstChild;
+  function vb(a) {
+    return (a = D(a)) && void 0 !== a.firstChild;
   }
 
-  function O(a) {
+  function N(a) {
     return a instanceof ShadowRoot;
   }
 
-  function sb(a) {
-    return (a = (a = L(a)) && a.root) && tb(a);
+  function wb(a) {
+    return (a = (a = D(a)) && a.root) && xb(a);
   }
 
-  var ub = Element.prototype,
-      vb = ub.matches || ub.matchesSelector || ub.mozMatchesSelector || ub.msMatchesSelector || ub.oMatchesSelector || ub.webkitMatchesSelector,
-      wb = document.createTextNode(""),
-      xb = 0,
-      yb = [];
+  var yb = Element.prototype,
+      zb = yb.matches || yb.matchesSelector || yb.mozMatchesSelector || yb.msMatchesSelector || yb.oMatchesSelector || yb.webkitMatchesSelector,
+      Ab = document.createTextNode(""),
+      Bb = 0,
+      Cb = [];
   new MutationObserver(function () {
-    for (; yb.length;) {
+    for (; Cb.length;) {
       try {
-        yb.shift()();
+        Cb.shift()();
       } catch (a) {
-        throw wb.textContent = xb++, a;
+        throw Ab.textContent = Bb++, a;
       }
     }
-  }).observe(wb, {
+  }).observe(Ab, {
     characterData: !0
   });
 
-  function zb(a) {
-    yb.push(a);
-    wb.textContent = xb++;
+  function Db(a) {
+    Cb.push(a);
+    Ab.textContent = Bb++;
   }
 
-  var Ab = !!document.contains;
+  var Eb = document.contains ? function (a, b) {
+    return a.__shady_native_contains(b);
+  } : function (a, b) {
+    return a === b || a.documentElement && a.documentElement.__shady_native_contains(b);
+  };
 
-  function Bb(a, b) {
+  function Fb(a, b) {
     for (; b;) {
       if (b == a) return !0;
       b = b.__shady_parentNode;
@@ -1414,7 +1434,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return !1;
   }
 
-  function Cb(a) {
+  function Gb(a) {
     for (var b = a.length - 1; 0 <= b; b--) {
       var c = a[b],
           d = c.getAttribute("id") || c.getAttribute("name");
@@ -1428,7 +1448,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     a.namedItem = function (e) {
       if ("length" !== e && isNaN(e) && a[e]) return a[e];
 
-      for (var f = ca(a), g = f.next(); !g.done; g = f.next()) {
+      for (var f = ma(a), g = f.next(); !g.done; g = f.next()) {
         if (g = g.value, (g.getAttribute("id") || g.getAttribute("name")) == e) return g;
       }
 
@@ -1438,7 +1458,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return a;
   }
 
-  function Db(a) {
+  function Hb(a) {
     var b = [];
 
     for (a = a.__shady_native_firstChild; a; a = a.__shady_native_nextSibling) {
@@ -1448,7 +1468,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return b;
   }
 
-  function Eb(a) {
+  function Ib(a) {
     var b = [];
 
     for (a = a.__shady_firstChild; a; a = a.__shady_nextSibling) {
@@ -1458,28 +1478,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return b;
   }
 
-  function Fb(a, b, c) {
+  function Jb(a, b, c) {
     c.configurable = !0;
     if (c.value) a[b] = c.value;else try {
       Object.defineProperty(a, b, c);
     } catch (d) {}
   }
 
-  function P(a, b, c, d) {
+  function O(a, b, c, d) {
     c = void 0 === c ? "" : c;
 
     for (var e in b) {
-      d && 0 <= d.indexOf(e) || Fb(a, c + e, b[e]);
+      d && 0 <= d.indexOf(e) || Jb(a, c + e, b[e]);
     }
   }
 
-  function Gb(a, b) {
+  function Kb(a, b) {
     for (var c in b) {
-      c in a && Fb(a, c, b[c]);
+      c in a && Jb(a, c, b[c]);
     }
   }
 
-  function Q(a) {
+  function P(a) {
     var b = {};
     Object.getOwnPropertyNames(a).forEach(function (c) {
       b[c] = Object.getOwnPropertyDescriptor(a, c);
@@ -1487,57 +1507,57 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return b;
   }
 
-  function Hb(a, b) {
+  function Lb(a, b) {
     for (var c = Object.getOwnPropertyNames(b), d = 0, e; d < c.length; d++) {
       e = c[d], a[e] = b[e];
     }
   }
 
   ;
-  var Ib = [],
-      Jb;
+  var Mb = [],
+      Nb;
 
-  function Kb(a) {
-    Jb || (Jb = !0, zb(Lb));
-    Ib.push(a);
+  function Ob(a) {
+    Nb || (Nb = !0, Db(Pb));
+    Mb.push(a);
   }
 
-  function Lb() {
-    Jb = !1;
+  function Pb() {
+    Nb = !1;
 
-    for (var a = !!Ib.length; Ib.length;) {
-      Ib.shift()();
+    for (var a = !!Mb.length; Mb.length;) {
+      Mb.shift()();
     }
 
     return a;
   }
 
-  Lb.list = Ib;
+  Pb.list = Mb;
 
-  function Mb() {
+  function Qb() {
     this.a = !1;
     this.addedNodes = [];
     this.removedNodes = [];
-    this.ia = new Set();
+    this.ja = new Set();
   }
 
-  function Nb(a) {
-    a.a || (a.a = !0, zb(function () {
+  function Rb(a) {
+    a.a || (a.a = !0, Db(function () {
       a.flush();
     }));
   }
 
-  Mb.prototype.flush = function () {
+  Qb.prototype.flush = function () {
     if (this.a) {
       this.a = !1;
       var a = this.takeRecords();
-      a.length && this.ia.forEach(function (b) {
+      a.length && this.ja.forEach(function (b) {
         b(a);
       });
     }
   };
 
-  Mb.prototype.takeRecords = function () {
+  Qb.prototype.takeRecords = function () {
     if (this.addedNodes.length || this.removedNodes.length) {
       var a = [{
         addedNodes: this.addedNodes,
@@ -1551,10 +1571,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return [];
   };
 
-  function Ob(a, b) {
-    var c = B(a);
-    c.Z || (c.Z = new Mb());
-    c.Z.ia.add(b);
+  function Sb(a, b) {
+    var c = A(a);
+    c.Z || (c.Z = new Qb());
+    c.Z.ja.add(b);
     var d = c.Z;
     return {
       Ma: b,
@@ -1566,12 +1586,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     };
   }
 
-  function Pb(a) {
+  function Tb(a) {
     var b = a && a.S;
-    b && (b.ia.delete(a.Ma), b.ia.size || (B(a.Na).Z = null));
+    b && (b.ja.delete(a.Ma), b.ja.size || (A(a.Na).Z = null));
   }
 
-  function Qb(a, b) {
+  function Ub(a, b) {
     var c = b.getRootNode();
     return a.map(function (d) {
       var e = c === d.target.getRootNode();
@@ -1590,10 +1610,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 
   ;
-  var Rb = /[&\u00A0"]/g,
-      Sb = /[&\u00A0<>]/g;
+  var Vb = /[&\u00A0"]/g,
+      Wb = /[&\u00A0<>]/g;
 
-  function Tb(a) {
+  function Xb(a) {
     switch (a) {
       case "&":
         return "&amp;";
@@ -1612,7 +1632,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   }
 
-  function Ub(a) {
+  function Yb(a) {
     for (var b = {}, c = 0; c < a.length; c++) {
       b[a[c]] = !0;
     }
@@ -1620,10 +1640,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return b;
   }
 
-  var Vb = Ub("area base br col command embed hr img input keygen link meta param source track wbr".split(" ")),
-      Wb = Ub("style script xmp iframe noembed noframes plaintext noscript".split(" "));
+  var Zb = Yb("area base br col command embed hr img input keygen link meta param source track wbr".split(" ")),
+      $b = Yb("style script xmp iframe noembed noframes plaintext noscript".split(" "));
 
-  function Zb(a, b) {
+  function ac(a, b) {
     "template" === a.localName && (a = a.content);
 
     for (var c = "", d = b ? b(a) : a.childNodes, e = 0, f = d.length, g = void 0; e < f && (g = d[e]); e++) {
@@ -1636,17 +1656,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           case Node.ELEMENT_NODE:
             k = h.localName;
 
-            for (var m = "<" + k, q = h.attributes, H = 0, E; E = q[H]; H++) {
-              m += " " + E.name + '="' + E.value.replace(Rb, Tb) + '"';
+            for (var m = "<" + k, q = h.attributes, H = 0, C; C = q[H]; H++) {
+              m += " " + C.name + '="' + C.value.replace(Vb, Xb) + '"';
             }
 
             m += ">";
-            h = Vb[k] ? m : m + Zb(h, l) + "</" + k + ">";
+            h = Zb[k] ? m : m + ac(h, l) + "</" + k + ">";
             break a;
 
           case Node.TEXT_NODE:
             h = h.data;
-            h = k && Wb[k.localName] ? h : h.replace(Sb, Tb);
+            h = k && $b[k.localName] ? h : h.replace(Wb, Xb);
             break a;
 
           case Node.COMMENT_NODE:
@@ -1665,8 +1685,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 
   ;
-  var $b = N.B,
-      ac = {
+  var dc = L.B,
+      ec = {
     querySelector: function querySelector(a) {
       return this.__shady_native_querySelector(a);
     },
@@ -1674,86 +1694,86 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       return this.__shady_native_querySelectorAll(a);
     }
   },
-      bc = {};
+      fc = {};
 
-  function cc(a) {
-    bc[a] = function (b) {
+  function gc(a) {
+    fc[a] = function (b) {
       return b["__shady_native_" + a];
     };
   }
 
-  function dc(a, b) {
-    P(a, b, "__shady_native_");
+  function hc(a, b) {
+    O(a, b, "__shady_native_");
 
     for (var c in b) {
-      cc(c);
+      gc(c);
     }
   }
 
-  function S(a, b) {
+  function Q(a, b) {
     b = void 0 === b ? [] : b;
 
     for (var c = 0; c < b.length; c++) {
       var d = b[c],
           e = Object.getOwnPropertyDescriptor(a, d);
-      e && (Object.defineProperty(a, "__shady_native_" + d, e), e.value ? ac[d] || (ac[d] = e.value) : cc(d));
+      e && (Object.defineProperty(a, "__shady_native_" + d, e), e.value ? ec[d] || (ec[d] = e.value) : gc(d));
     }
   }
 
-  var ec = document.createTreeWalker(document, NodeFilter.SHOW_ALL, null, !1),
-      fc = document.createTreeWalker(document, NodeFilter.SHOW_ELEMENT, null, !1),
-      gc = document.implementation.createHTMLDocument("inert");
+  var ic = document.createTreeWalker(document, NodeFilter.SHOW_ALL, null, !1),
+      jc = document.createTreeWalker(document, NodeFilter.SHOW_ELEMENT, null, !1),
+      kc = document.implementation.createHTMLDocument("inert");
 
-  function hc(a) {
+  function lc(a) {
     for (var b; b = a.__shady_native_firstChild;) {
       a.__shady_native_removeChild(b);
     }
   }
 
-  var ic = ["firstElementChild", "lastElementChild", "children", "childElementCount"],
-      jc = ["querySelector", "querySelectorAll"];
+  var mc = ["firstElementChild", "lastElementChild", "children", "childElementCount"],
+      nc = ["querySelector", "querySelectorAll"];
 
-  function kc() {
+  function oc() {
     var a = ["dispatchEvent", "addEventListener", "removeEventListener"];
-    window.EventTarget ? S(window.EventTarget.prototype, a) : (S(Node.prototype, a), S(Window.prototype, a));
-    $b ? S(Node.prototype, "parentNode firstChild lastChild previousSibling nextSibling childNodes parentElement textContent".split(" ")) : dc(Node.prototype, {
+    window.EventTarget ? Q(window.EventTarget.prototype, a) : (Q(Node.prototype, a), Q(Window.prototype, a));
+    dc ? Q(Node.prototype, "parentNode firstChild lastChild previousSibling nextSibling childNodes parentElement textContent".split(" ")) : hc(Node.prototype, {
       parentNode: {
         get: function get() {
-          ec.currentNode = this;
-          return ec.parentNode();
+          ic.currentNode = this;
+          return ic.parentNode();
         }
       },
       firstChild: {
         get: function get() {
-          ec.currentNode = this;
-          return ec.firstChild();
+          ic.currentNode = this;
+          return ic.firstChild();
         }
       },
       lastChild: {
         get: function get() {
-          ec.currentNode = this;
-          return ec.lastChild();
+          ic.currentNode = this;
+          return ic.lastChild();
         }
       },
       previousSibling: {
         get: function get() {
-          ec.currentNode = this;
-          return ec.previousSibling();
+          ic.currentNode = this;
+          return ic.previousSibling();
         }
       },
       nextSibling: {
         get: function get() {
-          ec.currentNode = this;
-          return ec.nextSibling();
+          ic.currentNode = this;
+          return ic.nextSibling();
         }
       },
       childNodes: {
         get: function get() {
           var b = [];
-          ec.currentNode = this;
+          ic.currentNode = this;
 
-          for (var c = ec.firstChild(); c;) {
-            b.push(c), c = ec.nextSibling();
+          for (var c = ic.firstChild(); c;) {
+            b.push(c), c = ic.nextSibling();
           }
 
           return b;
@@ -1761,8 +1781,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       parentElement: {
         get: function get() {
-          fc.currentNode = this;
-          return fc.parentNode();
+          jc.currentNode = this;
+          return jc.parentNode();
         }
       },
       textContent: {
@@ -1786,7 +1806,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           switch (this.nodeType) {
             case Node.ELEMENT_NODE:
             case Node.DOCUMENT_FRAGMENT_NODE:
-              hc(this);
+              lc(this);
               (0 < b.length || this.nodeType === Node.ELEMENT_NODE) && this.__shady_native_insertBefore(document.createTextNode(b), void 0);
               break;
 
@@ -1796,31 +1816,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       }
     });
-    S(Node.prototype, "appendChild insertBefore removeChild replaceChild cloneNode contains".split(" "));
-    S(HTMLElement.prototype, ["parentElement", "contains"]);
+    Q(Node.prototype, "appendChild insertBefore removeChild replaceChild cloneNode contains".split(" "));
+    Q(HTMLElement.prototype, ["parentElement", "contains"]);
     a = {
       firstElementChild: {
         get: function get() {
-          fc.currentNode = this;
-          return fc.firstChild();
+          jc.currentNode = this;
+          return jc.firstChild();
         }
       },
       lastElementChild: {
         get: function get() {
-          fc.currentNode = this;
-          return fc.lastChild();
+          jc.currentNode = this;
+          return jc.lastChild();
         }
       },
       children: {
         get: function get() {
           var b = [];
-          fc.currentNode = this;
+          jc.currentNode = this;
 
-          for (var c = fc.firstChild(); c;) {
-            b.push(c), c = fc.nextSibling();
+          for (var c = jc.firstChild(); c;) {
+            b.push(c), c = jc.nextSibling();
           }
 
-          return Cb(b);
+          return Gb(b);
         }
       },
       childElementCount: {
@@ -1829,28 +1849,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       }
     };
-    $b ? (S(Element.prototype, ic), S(Element.prototype, ["previousElementSibling", "nextElementSibling", "innerHTML", "className"]), S(HTMLElement.prototype, ["children", "innerHTML", "className"])) : (dc(Element.prototype, a), dc(Element.prototype, {
+    dc ? (Q(Element.prototype, mc), Q(Element.prototype, ["previousElementSibling", "nextElementSibling", "innerHTML", "className"]), Q(HTMLElement.prototype, ["children", "innerHTML", "className"])) : (hc(Element.prototype, a), hc(Element.prototype, {
       previousElementSibling: {
         get: function get() {
-          fc.currentNode = this;
-          return fc.previousSibling();
+          jc.currentNode = this;
+          return jc.previousSibling();
         }
       },
       nextElementSibling: {
         get: function get() {
-          fc.currentNode = this;
-          return fc.nextSibling();
+          jc.currentNode = this;
+          return jc.nextSibling();
         }
       },
       innerHTML: {
         get: function get() {
-          return Zb(this, Db);
+          return ac(this, Hb);
         },
         set: function set(b) {
           var c = "template" === this.localName ? this.content : this;
-          hc(c);
+          lc(c);
           var d = this.localName || "div";
-          d = this.namespaceURI && this.namespaceURI !== gc.namespaceURI ? gc.createElementNS(this.namespaceURI, d) : gc.createElement(d);
+          d = this.namespaceURI && this.namespaceURI !== kc.namespaceURI ? kc.createElementNS(this.namespaceURI, d) : kc.createElement(d);
           d.innerHTML = b;
 
           for (b = "template" === this.localName ? d.content : d; d = b.__shady_native_firstChild;) {
@@ -1867,19 +1887,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       }
     }));
-    S(Element.prototype, "setAttribute getAttribute hasAttribute removeAttribute focus blur".split(" "));
-    S(Element.prototype, jc);
-    S(HTMLElement.prototype, ["focus", "blur"]);
-    window.HTMLTemplateElement && S(window.HTMLTemplateElement.prototype, ["innerHTML"]);
-    $b ? S(DocumentFragment.prototype, ic) : dc(DocumentFragment.prototype, a);
-    S(DocumentFragment.prototype, jc);
-    $b ? (S(Document.prototype, ic), S(Document.prototype, ["activeElement"])) : dc(Document.prototype, a);
-    S(Document.prototype, ["importNode", "getElementById"]);
-    S(Document.prototype, jc);
+    Q(Element.prototype, "setAttribute getAttribute hasAttribute removeAttribute focus blur".split(" "));
+    Q(Element.prototype, nc);
+    Q(HTMLElement.prototype, ["focus", "blur"]);
+    window.HTMLTemplateElement && Q(window.HTMLTemplateElement.prototype, ["innerHTML"]);
+    dc ? Q(DocumentFragment.prototype, mc) : hc(DocumentFragment.prototype, a);
+    Q(DocumentFragment.prototype, nc);
+    dc ? (Q(Document.prototype, mc), Q(Document.prototype, ["activeElement"])) : hc(Document.prototype, a);
+    Q(Document.prototype, ["importNode", "getElementById"]);
+    Q(Document.prototype, nc);
   }
 
   ;
-  var lc = Q({
+  var pc = P({
     get childNodes() {
       return this.__shady_childNodes;
     },
@@ -1913,7 +1933,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
   }),
-      mc = Q({
+      qc = P({
     get textContent() {
       return this.__shady_textContent;
     },
@@ -1931,7 +1951,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
   }),
-      nc = Q({
+      rc = P({
     get parentElement() {
       return this.__shady_parentElement;
     },
@@ -1966,34 +1986,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   });
 
-  function oc(a) {
+  function sc(a) {
     for (var b in a) {
       var c = a[b];
       c && (c.enumerable = !1);
     }
   }
 
-  oc(lc);
-  oc(mc);
-  oc(nc);
-  var pc = N.B || !0 === N.D,
-      qc = pc ? function () {} : function (a) {
-    var b = B(a);
-    b.Ka || (b.Ka = !0, Gb(a, nc));
+  sc(pc);
+  sc(qc);
+  sc(rc);
+  var tc = L.B || !0 === L.D,
+      uc = tc ? function () {} : function (a) {
+    var b = A(a);
+    b.Ka || (b.Ka = !0, Kb(a, rc));
   },
-      rc = pc ? function () {} : function (a) {
-    var b = B(a);
-    b.Ja || (b.Ja = !0, Gb(a, lc), window.customElements && window.customElements.polyfillWrapFlushCallback && !N.D || Gb(a, mc));
+      vc = tc ? function () {} : function (a) {
+    var b = A(a);
+    b.Ja || (b.Ja = !0, Kb(a, pc), window.customElements && window.customElements.polyfillWrapFlushCallback && !L.D || Kb(a, qc));
   };
 
-  var sc = "__eventWrappers" + Date.now(),
-      tc = function () {
+  var wc = "__eventWrappers" + Date.now(),
+      xc = function () {
     var a = Object.getOwnPropertyDescriptor(Event.prototype, "composed");
     return a ? function (b) {
       return a.get.call(b);
     } : null;
   }(),
-      uc = function () {
+      yc = function () {
     function a() {}
 
     var b = !1,
@@ -2009,7 +2029,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return b;
   }();
 
-  function vc(a) {
+  function zc(a) {
     if (a && "object" === _typeof(a)) {
       var b = !!a.capture;
       var c = !!a.once;
@@ -2022,11 +2042,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       capture: b,
       once: c,
       passive: d,
-      Fa: uc ? a : b
+      Fa: yc ? a : b
     };
   }
 
-  var wc = {
+  var Ac = {
     blur: !0,
     focus: !0,
     focusin: !0,
@@ -2074,7 +2094,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     DOMFocusOut: !0,
     keypress: !0
   },
-      xc = {
+      Bc = {
     DOMAttrModified: !0,
     DOMAttributeNameChanged: !0,
     DOMCharacterDataModified: !0,
@@ -2086,15 +2106,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     DOMSubtreeModified: !0
   };
 
-  function yc(a) {
+  function Cc(a) {
     return a instanceof Node ? a.__shady_getRootNode() : a;
   }
 
-  function zc(a, b) {
+  function Dc(a, b) {
     var c = [],
         d = a;
 
-    for (a = yc(a); d;) {
+    for (a = Cc(a); d;) {
       c.push(d), d.__shady_assignedSlot ? d = d.__shady_assignedSlot : d.nodeType === Node.DOCUMENT_FRAGMENT_NODE && d.host && (b || d !== a) ? d = d.host : d = d.__shady_parentNode;
     }
 
@@ -2102,21 +2122,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return c;
   }
 
-  function Ac(a) {
-    a.__composedPath || (a.__composedPath = zc(a.target, !0));
+  function Ec(a) {
+    a.__composedPath || (a.__composedPath = Dc(a.target, !0));
     return a.__composedPath;
   }
 
-  function Bc(a, b) {
-    if (!O) return a;
-    a = zc(a, !0);
+  function Fc(a, b) {
+    if (!N) return a;
+    a = Dc(a, !0);
 
     for (var c = 0, d, e = void 0, f, g = void 0; c < b.length; c++) {
-      if (d = b[c], f = yc(d), f !== e && (g = a.indexOf(f), e = f), !O(f) || -1 < g) return d;
+      if (d = b[c], f = Cc(d), f !== e && (g = a.indexOf(f), e = f), !N(f) || -1 < g) return d;
     }
   }
 
-  function Cc(a) {
+  function Gc(a) {
     function b(c, d) {
       c = new a(c, d);
       c.__composed = d && !!d.composed;
@@ -2128,52 +2148,61 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return b;
   }
 
-  var Dc = {
+  var Hc = {
     focus: !0,
     blur: !0
   };
 
-  function Ec(a) {
+  function Ic(a) {
     return a.__target !== a.target || a.__relatedTarget !== a.relatedTarget;
   }
 
-  function Fc(a, b, c) {
-    if (c = b.__handlers && b.__handlers[a.type] && b.__handlers[a.type][c]) for (var d = 0, e; (e = c[d]) && (!Ec(a) || a.target !== a.relatedTarget) && (e.call(b, a), !a.__immediatePropagationStopped); d++) {
+  function Jc(a, b, c) {
+    if (c = b.__handlers && b.__handlers[a.type] && b.__handlers[a.type][c]) for (var d = 0, e; (e = c[d]) && (!Ic(a) || a.target !== a.relatedTarget) && (e.call(b, a), !a.__immediatePropagationStopped); d++) {
       ;
     }
   }
 
-  function Gc(a) {
-    var b = a.composedPath();
+  function Kc(a) {
+    var b = a.composedPath(),
+        c = b.map(function (k) {
+      return Fc(k, b);
+    }),
+        d = a.bubbles;
     Object.defineProperty(a, "currentTarget", {
+      configurable: !0,
+      enumerable: !0,
       get: function get() {
-        return d;
-      },
-      configurable: !0
+        return g;
+      }
+    });
+    var e = Event.CAPTURING_PHASE;
+    Object.defineProperty(a, "eventPhase", {
+      configurable: !0,
+      enumerable: !0,
+      get: function get() {
+        return e;
+      }
     });
 
-    for (var c = b.length - 1; 0 <= c; c--) {
-      var d = b[c];
-      Fc(a, d, "capture");
+    for (var f = b.length - 1; 0 <= f; f--) {
+      var g = b[f];
+      e = g === c[f] ? Event.AT_TARGET : Event.CAPTURING_PHASE;
+      Jc(a, g, "capture");
       if (a.ma) return;
     }
 
-    Object.defineProperty(a, "eventPhase", {
-      get: function get() {
-        return Event.AT_TARGET;
-      }
-    });
-    var e;
-
-    for (c = 0; c < b.length; c++) {
-      d = b[c];
-      var f = L(d);
-      f = f && f.root;
-      if (0 === c || f && f === e) if (Fc(a, d, "bubble"), d !== window && (e = d.__shady_getRootNode()), a.ma) break;
+    for (f = 0; f < b.length; f++) {
+      g = b[f];
+      var h = g === c[f];
+      if (h || d) if (e = h ? Event.AT_TARGET : Event.BUBBLING_PHASE, Jc(a, g, "bubble"), a.ma) return;
     }
+
+    e = 0;
+    g = null;
   }
 
-  function Hc(a, b, c, d, e, f) {
+  function Lc(a, b, c, d, e, f) {
     for (var g = 0; g < a.length; g++) {
       var h = a[g],
           k = h.type,
@@ -2186,13 +2215,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return -1;
   }
 
-  function Ic(a) {
-    Lb();
-    return this.__shady_native_dispatchEvent(a);
+  function Mc(a) {
+    Pb();
+    return !L.aa && this instanceof Node && !Eb(document, this) ? (a.__target || Nc(a, this), Kc(a)) : this.__shady_native_dispatchEvent(a);
   }
 
-  function Jc(a, b, c) {
-    var d = vc(c),
+  function Oc(a, b, c) {
+    var d = zc(c),
         e = d.capture,
         f = d.once,
         g = d.passive,
@@ -2203,16 +2232,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var k = _typeof(b);
 
       if ("function" === k || "object" === k) if ("object" !== k || b.handleEvent && "function" === typeof b.handleEvent) {
-        if (xc[a]) return this.__shady_native_addEventListener(a, b, d);
+        if (Bc[a]) return this.__shady_native_addEventListener(a, b, d);
         var l = h || this;
 
-        if (h = b[sc]) {
-          if (-1 < Hc(h, l, a, e, f, g)) return;
-        } else b[sc] = [];
+        if (h = b[wc]) {
+          if (-1 < Lc(h, l, a, e, f, g)) return;
+        } else b[wc] = [];
 
         h = function h(m) {
           f && this.__shady_removeEventListener(a, b, c);
-          m.__target || Kc(m);
+          m.__target || Nc(m);
 
           if (l !== this) {
             var q = Object.getOwnPropertyDescriptor(m, "currentTarget");
@@ -2222,17 +2251,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               },
               configurable: !0
             });
+            var H = Object.getOwnPropertyDescriptor(m, "eventPhase");
+            Object.defineProperty(m, "eventPhase", {
+              configurable: !0,
+              enumerable: !0,
+              get: function get() {
+                return e ? Event.CAPTURING_PHASE : Event.BUBBLING_PHASE;
+              }
+            });
           }
 
           m.__previousCurrentTarget = m.currentTarget;
-          if (!O(l) && "slot" !== l.localName || -1 != m.composedPath().indexOf(l)) if (m.composed || -1 < m.composedPath().indexOf(l)) if (Ec(m) && m.target === m.relatedTarget) m.eventPhase === Event.BUBBLING_PHASE && m.stopImmediatePropagation();else if (m.eventPhase === Event.CAPTURING_PHASE || m.bubbles || m.target === l || l instanceof Window) {
-            var H = "function" === k ? b.call(l, m) : b.handleEvent && b.handleEvent(m);
-            l !== this && (q ? (Object.defineProperty(m, "currentTarget", q), q = null) : delete m.currentTarget);
-            return H;
+          if (!N(l) && "slot" !== l.localName || -1 != m.composedPath().indexOf(l)) if (m.composed || -1 < m.composedPath().indexOf(l)) if (Ic(m) && m.target === m.relatedTarget) m.eventPhase === Event.BUBBLING_PHASE && m.stopImmediatePropagation();else if (m.eventPhase === Event.CAPTURING_PHASE || m.bubbles || m.target === l || l instanceof Window) {
+            var C = "function" === k ? b.call(l, m) : b.handleEvent && b.handleEvent(m);
+            l !== this && (q ? (Object.defineProperty(m, "currentTarget", q), q = null) : delete m.currentTarget, H ? (Object.defineProperty(m, "eventPhase", H), H = null) : delete m.eventPhase);
+            return C;
           }
         };
 
-        b[sc].push({
+        b[wc].push({
           node: l,
           type: a,
           capture: e,
@@ -2240,66 +2277,71 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           passive: g,
           lb: h
         });
-        Dc[a] ? (this.__handlers = this.__handlers || {}, this.__handlers[a] = this.__handlers[a] || {
+        this.__handlers = this.__handlers || {};
+        this.__handlers[a] = this.__handlers[a] || {
           capture: [],
           bubble: []
-        }, this.__handlers[a][e ? "capture" : "bubble"].push(h)) : this.__shady_native_addEventListener(a, h, d);
+        };
+
+        this.__handlers[a][e ? "capture" : "bubble"].push(h);
+
+        Hc[a] || this.__shady_native_addEventListener(a, h, d);
       }
     }
   }
 
-  function Lc(a, b, c) {
+  function Pc(a, b, c) {
     if (b) {
-      var d = vc(c);
+      var d = zc(c);
       c = d.capture;
       var e = d.once,
           f = d.passive,
           g = d.Ga;
       d = d.Fa;
-      if (xc[a]) return this.__shady_native_removeEventListener(a, b, d);
+      if (Bc[a]) return this.__shady_native_removeEventListener(a, b, d);
       var h = g || this;
       g = void 0;
       var k = null;
 
       try {
-        k = b[sc];
+        k = b[wc];
       } catch (l) {}
 
-      k && (e = Hc(k, h, a, c, e, f), -1 < e && (g = k.splice(e, 1)[0].lb, k.length || (b[sc] = void 0)));
+      k && (e = Lc(k, h, a, c, e, f), -1 < e && (g = k.splice(e, 1)[0].lb, k.length || (b[wc] = void 0)));
 
       this.__shady_native_removeEventListener(a, g || b, d);
 
-      g && Dc[a] && this.__handlers && this.__handlers[a] && (a = this.__handlers[a][c ? "capture" : "bubble"], b = a.indexOf(g), -1 < b && a.splice(b, 1));
+      g && this.__handlers && this.__handlers[a] && (a = this.__handlers[a][c ? "capture" : "bubble"], b = a.indexOf(g), -1 < b && a.splice(b, 1));
     }
   }
 
-  function Mc() {
-    for (var a in Dc) {
+  function Qc() {
+    for (var a in Hc) {
       window.__shady_native_addEventListener(a, function (b) {
-        b.__target || (Kc(b), Gc(b));
+        b.__target || (Nc(b), Kc(b));
       }, !0);
     }
   }
 
-  var Nc = Q({
+  var Rc = P({
     get composed() {
-      void 0 === this.__composed && (tc ? this.__composed = "focusin" === this.type || "focusout" === this.type || tc(this) : !1 !== this.isTrusted && (this.__composed = wc[this.type]));
+      void 0 === this.__composed && (xc ? this.__composed = "focusin" === this.type || "focusout" === this.type || xc(this) : !1 !== this.isTrusted && (this.__composed = Ac[this.type]));
       return this.__composed || !1;
     },
 
     composedPath: function composedPath() {
-      this.__composedPath || (this.__composedPath = zc(this.__target, this.composed));
+      this.__composedPath || (this.__composedPath = Dc(this.__target, this.composed));
       return this.__composedPath;
     },
 
     get target() {
-      return Bc(this.currentTarget || this.__previousCurrentTarget, this.composedPath());
+      return Fc(this.currentTarget || this.__previousCurrentTarget, this.composedPath());
     },
 
     get relatedTarget() {
       if (!this.__relatedTarget) return null;
-      this.__relatedTargetComposedPath || (this.__relatedTargetComposedPath = zc(this.__relatedTarget, !0));
-      return Bc(this.currentTarget || this.__previousCurrentTarget, this.__relatedTargetComposedPath);
+      this.__relatedTargetComposedPath || (this.__relatedTargetComposedPath = Dc(this.__relatedTarget, !0));
+      return Fc(this.currentTarget || this.__previousCurrentTarget, this.__relatedTargetComposedPath);
     },
 
     stopPropagation: function stopPropagation() {
@@ -2312,30 +2354,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   });
 
-  function Kc(a) {
-    a.__target = a.target;
+  function Nc(a, b) {
+    b = void 0 === b ? a.target : b;
+    a.__target = b;
     a.__relatedTarget = a.relatedTarget;
 
-    if (N.B) {
-      var b = Object.getPrototypeOf(a);
+    if (L.B) {
+      b = Object.getPrototypeOf(a);
 
       if (!b.hasOwnProperty("__shady_patchedProto")) {
         var c = Object.create(b);
         c.__shady_sourceProto = b;
-        P(c, Nc);
+        O(c, Rc);
         b.__shady_patchedProto = c;
       }
 
       a.__proto__ = b.__shady_patchedProto;
-    } else P(a, Nc);
+    } else O(a, Rc);
   }
 
-  var Oc = Cc(Event),
-      Pc = Cc(CustomEvent),
-      Qc = Cc(MouseEvent);
+  var Sc = Gc(Event),
+      Tc = Gc(CustomEvent),
+      Uc = Gc(MouseEvent);
 
-  function Rc() {
-    if (!tc && Object.getOwnPropertyDescriptor(Event.prototype, "isTrusted")) {
+  function Vc() {
+    if (!xc && Object.getOwnPropertyDescriptor(Event.prototype, "isTrusted")) {
       var a = function a() {
         var b = new MouseEvent("click", {
           bubbles: !0,
@@ -2350,17 +2393,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   }
 
-  var Sc = Object.getOwnPropertyNames(Element.prototype).filter(function (a) {
+  var Wc = Object.getOwnPropertyNames(Element.prototype).filter(function (a) {
     return "on" === a.substring(0, 2);
   }),
-      Tc = Object.getOwnPropertyNames(HTMLElement.prototype).filter(function (a) {
+      Xc = Object.getOwnPropertyNames(HTMLElement.prototype).filter(function (a) {
     return "on" === a.substring(0, 2);
   });
 
-  function Uc(a) {
+  function Yc(a) {
     return {
       set: function set(b) {
-        var c = B(this),
+        var c = A(this),
             d = a.substring(2);
         c.N || (c.N = {});
         c.N[a] && this.removeEventListener(d, c.N[a]);
@@ -2370,7 +2413,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         c.N[a] = b;
       },
       get: function get() {
-        var b = L(this);
+        var b = D(this);
         return b && b.N && b.N[a];
       },
       configurable: !0
@@ -2379,15 +2422,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   ;
 
-  function Vc(a, b) {
+  function Zc(a, b) {
     return {
       index: a,
-      aa: [],
-      ha: b
+      ba: [],
+      ia: b
     };
   }
 
-  function Wc(a, b, c, d) {
+  function $c(a, b, c, d) {
     var e = 0,
         f = 0,
         g = 0,
@@ -2404,7 +2447,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     if (b == a.length && d == c.length) {
       h = a.length;
 
-      for (var l = c.length, m = 0; m < k - g && Xc(a[--h], c[--l]);) {
+      for (var l = c.length, m = 0; m < k - g && ad(a[--h], c[--l]);) {
         m++;
       }
 
@@ -2418,14 +2461,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     if (0 == b - e && 0 == d - f) return [];
 
     if (e == b) {
-      for (b = Vc(e, 0); f < d;) {
-        b.aa.push(c[f++]);
+      for (b = Zc(e, 0); f < d;) {
+        b.ba.push(c[f++]);
       }
 
       return [b];
     }
 
-    if (f == d) return [Vc(e, b - e)];
+    if (f == d) return [Zc(e, b - e)];
     k = e;
     g = f;
     d = d - g + 1;
@@ -2471,21 +2514,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           break;
 
         case 1:
-          b || (b = Vc(e, 0));
-          b.ha++;
+          b || (b = Zc(e, 0));
+          b.ia++;
           e++;
-          b.aa.push(c[f]);
+          b.ba.push(c[f]);
           f++;
           break;
 
         case 2:
-          b || (b = Vc(e, 0));
-          b.ha++;
+          b || (b = Zc(e, 0));
+          b.ia++;
           e++;
           break;
 
         case 3:
-          b || (b = Vc(e, 0)), b.aa.push(c[f]), f++;
+          b || (b = Zc(e, 0)), b.ba.push(c[f]), f++;
       }
     }
 
@@ -2493,42 +2536,42 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return k;
   }
 
-  function Xc(a, b) {
+  function ad(a, b) {
     return a === b;
   }
 
   ;
-  var Yc = Q({
-    dispatchEvent: Ic,
-    addEventListener: Jc,
-    removeEventListener: Lc
+  var bd = P({
+    dispatchEvent: Mc,
+    addEventListener: Oc,
+    removeEventListener: Pc
   });
-  var Zc = null;
+  var cd = null;
 
-  function $c() {
-    Zc || (Zc = window.ShadyCSS && window.ShadyCSS.ScopingShim);
-    return Zc || null;
+  function dd() {
+    cd || (cd = window.ShadyCSS && window.ShadyCSS.ScopingShim);
+    return cd || null;
   }
 
-  function ad(a, b, c) {
-    var d = $c();
+  function ed(a, b, c) {
+    var d = dd();
     return d && "class" === b ? (d.setElementClass(a, c), !0) : !1;
   }
 
-  function bd(a, b) {
-    var c = $c();
+  function fd(a, b) {
+    var c = dd();
     c && c.unscopeNode(a, b);
   }
 
-  function cd(a, b) {
-    var c = $c();
+  function gd(a, b) {
+    var c = dd();
     if (!c) return !0;
 
     if (a.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       c = !0;
 
       for (a = a.__shady_firstChild; a; a = a.__shady_nextSibling) {
-        c = c && cd(a, b);
+        c = c && gd(a, b);
       }
 
       return c;
@@ -2537,93 +2580,93 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return a.nodeType !== Node.ELEMENT_NODE ? !0 : c.currentScopeForNode(a) === b;
   }
 
-  function dd(a) {
+  function hd(a) {
     if (a.nodeType !== Node.ELEMENT_NODE) return "";
-    var b = $c();
+    var b = dd();
     return b ? b.currentScopeForNode(a) : "";
   }
 
-  function ed(a, b) {
+  function id(a, b) {
     if (a) for (a.nodeType === Node.ELEMENT_NODE && b(a), a = a.__shady_firstChild; a; a = a.__shady_nextSibling) {
-      a.nodeType === Node.ELEMENT_NODE && ed(a, b);
+      a.nodeType === Node.ELEMENT_NODE && id(a, b);
     }
   }
 
   ;
-  var fd = window.document,
-      gd = N.la,
-      hd = Object.getOwnPropertyDescriptor(Node.prototype, "isConnected"),
-      id = hd && hd.get;
+  var jd = window.document,
+      kd = L.aa,
+      ld = Object.getOwnPropertyDescriptor(Node.prototype, "isConnected"),
+      md = ld && ld.get;
 
-  function jd(a) {
+  function nd(a) {
     for (var b; b = a.__shady_firstChild;) {
       a.__shady_removeChild(b);
     }
   }
 
-  function kd(a) {
-    var b = L(a);
-    if (b && void 0 !== b.ka) for (b = a.__shady_firstChild; b; b = b.__shady_nextSibling) {
-      kd(b);
+  function od(a) {
+    var b = D(a);
+    if (b && void 0 !== b.la) for (b = a.__shady_firstChild; b; b = b.__shady_nextSibling) {
+      od(b);
     }
-    if (a = L(a)) a.ka = void 0;
+    if (a = D(a)) a.la = void 0;
   }
 
-  function ld(a) {
+  function pd(a) {
     var b = a;
 
     if (a && "slot" === a.localName) {
-      var c = L(a);
-      (c = c && c.V) && (b = c.length ? c[0] : ld(a.__shady_nextSibling));
+      var c = D(a);
+      (c = c && c.V) && (b = c.length ? c[0] : pd(a.__shady_nextSibling));
     }
 
     return b;
   }
 
-  function md(a, b, c) {
-    if (a = (a = L(a)) && a.Z) {
+  function qd(a, b, c) {
+    if (a = (a = D(a)) && a.Z) {
       if (b) if (b.nodeType === Node.DOCUMENT_FRAGMENT_NODE) for (var d = 0, e = b.childNodes.length; d < e; d++) {
         a.addedNodes.push(b.childNodes[d]);
       } else a.addedNodes.push(b);
       c && a.removedNodes.push(c);
-      Nb(a);
+      Rb(a);
     }
   }
 
-  var td = Q({
+  var xd = P({
     get parentNode() {
-      var a = L(this);
+      var a = D(this);
       a = a && a.parentNode;
       return void 0 !== a ? a : this.__shady_native_parentNode;
     },
 
     get firstChild() {
-      var a = L(this);
+      var a = D(this);
       a = a && a.firstChild;
       return void 0 !== a ? a : this.__shady_native_firstChild;
     },
 
     get lastChild() {
-      var a = L(this);
+      var a = D(this);
       a = a && a.lastChild;
       return void 0 !== a ? a : this.__shady_native_lastChild;
     },
 
     get nextSibling() {
-      var a = L(this);
+      var a = D(this);
       a = a && a.nextSibling;
       return void 0 !== a ? a : this.__shady_native_nextSibling;
     },
 
     get previousSibling() {
-      var a = L(this);
+      var a = D(this);
       a = a && a.previousSibling;
       return void 0 !== a ? a : this.__shady_native_previousSibling;
     },
 
     get childNodes() {
-      if (rb(this)) {
-        var a = L(this);
+      if (vb(this)) {
+        var a = D(this);
 
         if (!a.childNodes) {
           a.childNodes = [];
@@ -2644,29 +2687,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     get parentElement() {
-      var a = L(this);
+      var a = D(this);
       (a = a && a.parentNode) && a.nodeType !== Node.ELEMENT_NODE && (a = null);
       return void 0 !== a ? a : this.__shady_native_parentElement;
     },
 
     get isConnected() {
-      if (id && id.call(this)) return !0;
+      if (md && md.call(this)) return !0;
       if (this.nodeType == Node.DOCUMENT_FRAGMENT_NODE) return !1;
       var a = this.ownerDocument;
-
-      if (Ab) {
-        if (a.__shady_native_contains(this)) return !0;
-      } else if (a.documentElement && a.documentElement.__shady_native_contains(this)) return !0;
+      if (null === a || Eb(a, this)) return !0;
 
       for (a = this; a && !(a instanceof Document);) {
-        a = a.__shady_parentNode || (O(a) ? a.host : void 0);
+        a = a.__shady_parentNode || (N(a) ? a.host : void 0);
       }
 
       return !!(a && a instanceof Document);
     },
 
     get textContent() {
-      if (rb(this)) {
+      if (vb(this)) {
         for (var a = [], b = this.__shady_firstChild; b; b = b.__shady_nextSibling) {
           b.nodeType !== Node.COMMENT_NODE && a.push(b.__shady_textContent);
         }
@@ -2683,11 +2723,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       switch (this.nodeType) {
         case Node.ELEMENT_NODE:
         case Node.DOCUMENT_FRAGMENT_NODE:
-          if (!rb(this) && N.B) {
+          if (!vb(this) && L.B) {
             var b = this.__shady_firstChild;
-            (b != this.__shady_lastChild || b && b.nodeType != Node.TEXT_NODE) && jd(this);
+            (b != this.__shady_lastChild || b && b.nodeType != Node.TEXT_NODE) && nd(this);
             this.__shady_native_textContent = a;
-          } else jd(this), (0 < a.length || this.nodeType === Node.ELEMENT_NODE) && this.__shady_insertBefore(document.createTextNode(a));
+          } else nd(this), (0 < a.length || this.nodeType === Node.ELEMENT_NODE) && this.__shady_insertBefore(document.createTextNode(a));
 
           break;
 
@@ -2697,71 +2737,71 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     insertBefore: function insertBefore(a, b) {
-      if (this.ownerDocument !== fd && a.ownerDocument !== fd) return this.__shady_native_insertBefore(a, b), a;
+      if (this.ownerDocument !== jd && a.ownerDocument !== jd) return this.__shady_native_insertBefore(a, b), a;
       if (a === this) throw Error("Failed to execute 'appendChild' on 'Node': The new child element contains the parent.");
 
       if (b) {
-        var c = L(b);
+        var c = D(b);
         c = c && c.parentNode;
         if (void 0 !== c && c !== this || void 0 === c && b.__shady_native_parentNode !== this) throw Error("Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.");
       }
 
       if (b === a) return a;
-      md(this, a);
+      qd(this, a);
       var d = [],
-          e = (c = nd(this)) ? c.host.localName : dd(this),
+          e = (c = rd(this)) ? c.host.localName : hd(this),
           f = a.__shady_parentNode;
 
       if (f) {
-        var g = dd(a);
-        var h = !!c || !nd(a) || gd && void 0 !== this.__noInsertionPoint;
+        var g = hd(a);
+        var h = !!c || !rd(a) || kd && void 0 !== this.__noInsertionPoint;
 
         f.__shady_removeChild(a, h);
       }
 
       f = !0;
-      var k = (!gd || void 0 === a.__noInsertionPoint && void 0 === this.__noInsertionPoint) && !cd(a, e),
-          l = c && !a.__noInsertionPoint && (!gd || a.nodeType === Node.DOCUMENT_FRAGMENT_NODE);
-      if (l || k) k && (g = g || dd(a)), ed(a, function (m) {
+      var k = (!kd || void 0 === a.__noInsertionPoint && void 0 === this.__noInsertionPoint) && !gd(a, e),
+          l = c && !a.__noInsertionPoint && (!kd || a.nodeType === Node.DOCUMENT_FRAGMENT_NODE);
+      if (l || k) k && (g = g || hd(a)), id(a, function (m) {
         l && "slot" === m.localName && d.push(m);
 
         if (k) {
           var q = g;
-          $c() && (q && bd(m, q), (q = $c()) && q.scopeNode(m, e));
+          dd() && (q && fd(m, q), (q = dd()) && q.scopeNode(m, e));
         }
       });
-      d.length && (od(c), c.c.push.apply(c.c, d instanceof Array ? d : da(ca(d))), pd(c));
-      rb(this) && (qd(a, this, b), h = L(this), h.root ? (f = !1, sb(this) && pd(h.root)) : c && "slot" === this.localName && (f = !1, pd(c)));
-      f ? (c = O(this) ? this.host : this, b ? (b = ld(b), c.__shady_native_insertBefore(a, b)) : c.__shady_native_appendChild(a)) : a.ownerDocument !== this.ownerDocument && this.ownerDocument.adoptNode(a);
+      d.length && (sd(c), c.c.push.apply(c.c, d instanceof Array ? d : na(ma(d))), td(c));
+      vb(this) && (ud(a, this, b), h = D(this), h.root ? (f = !1, wb(this) && td(h.root)) : c && "slot" === this.localName && (f = !1, td(c)));
+      f ? (c = N(this) ? this.host : this, b ? (b = pd(b), c.__shady_native_insertBefore(a, b)) : c.__shady_native_appendChild(a)) : a.ownerDocument !== this.ownerDocument && this.ownerDocument.adoptNode(a);
       return a;
     },
     appendChild: function appendChild(a) {
-      if (this != a || !O(a)) return this.__shady_insertBefore(a);
+      if (this != a || !N(a)) return this.__shady_insertBefore(a);
     },
     removeChild: function removeChild(a, b) {
       b = void 0 === b ? !1 : b;
-      if (this.ownerDocument !== fd) return this.__shady_native_removeChild(a);
+      if (this.ownerDocument !== jd) return this.__shady_native_removeChild(a);
       if (a.__shady_parentNode !== this) throw Error("The node to be removed is not a child of this node: " + a);
-      md(this, null, a);
-      var c = nd(a),
-          d = c && rd(c, a),
-          e = L(this);
+      qd(this, null, a);
+      var c = rd(a),
+          d = c && vd(c, a),
+          e = D(this);
 
-      if (rb(this) && (sd(a, this), sb(this))) {
-        pd(e.root);
+      if (vb(this) && (wd(a, this), wb(this))) {
+        td(e.root);
         var f = !0;
       }
 
-      if ($c() && !b && c && a.nodeType !== Node.TEXT_NODE) {
-        var g = dd(a);
-        ed(a, function (h) {
-          bd(h, g);
+      if (dd() && !b && c && a.nodeType !== Node.TEXT_NODE) {
+        var g = hd(a);
+        id(a, function (h) {
+          fd(h, g);
         });
       }
 
-      kd(a);
-      c && ((b = "slot" === this.localName) && (f = !0), (d || b) && pd(c));
-      f || (f = O(this) ? this.host : this, (!e.root && "slot" !== a.localName || f === a.__shady_native_parentNode) && f.__shady_native_removeChild(a));
+      od(a);
+      c && ((b = "slot" === this.localName) && (f = !0), (d || b) && td(c));
+      f || (f = N(this) ? this.host : this, (!e.root && "slot" !== a.localName || f === a.__shady_native_parentNode) && f.__shady_native_removeChild(a));
       return a;
     },
     replaceChild: function replaceChild(a, b) {
@@ -2788,32 +2828,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
     getRootNode: function getRootNode(a) {
       if (this && this.nodeType) {
-        var b = B(this),
-            c = b.ka;
-        void 0 === c && (O(this) ? (c = this, b.ka = c) : (c = (c = this.__shady_parentNode) ? c.__shady_getRootNode(a) : this, document.documentElement.__shady_native_contains(this) && (b.ka = c)));
+        var b = A(this),
+            c = b.la;
+        void 0 === c && (N(this) ? (c = this, b.la = c) : (c = (c = this.__shady_parentNode) ? c.__shady_getRootNode(a) : this, document.documentElement.__shady_native_contains(this) && (b.la = c)));
         return c;
       }
     },
     contains: function contains(a) {
-      return Bb(this, a);
+      return Fb(this, a);
     }
   });
-  var wd = Q({
+  var zd = P({
     get assignedSlot() {
       var a = this.__shady_parentNode;
-      (a = a && a.__shady_shadowRoot) && vd(a);
-      return (a = L(this)) && a.assignedSlot || null;
+      (a = a && a.__shady_shadowRoot) && yd(a);
+      return (a = D(this)) && a.assignedSlot || null;
     }
 
   });
 
-  function xd(a, b, c) {
+  function Ad(a, b, c) {
     var d = [];
-    yd(a, b, c, d);
+    Cd(a, b, c, d);
     return d;
   }
 
-  function yd(a, b, c, d) {
+  function Cd(a, b, c, d) {
     for (a = a.__shady_firstChild; a; a = a.__shady_nextSibling) {
       var e;
 
@@ -2824,16 +2864,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             h = d,
             k = f(e);
         k && h.push(e);
-        g && g(k) ? e = k : (yd(e, f, g, h), e = void 0);
+        g && g(k) ? e = k : (Cd(e, f, g, h), e = void 0);
       }
 
       if (e) break;
     }
   }
 
-  var zd = Q({
+  var Dd = P({
     get firstElementChild() {
-      var a = L(this);
+      var a = D(this);
 
       if (a && void 0 !== a.firstChild) {
         for (a = this.__shady_firstChild; a && a.nodeType !== Node.ELEMENT_NODE;) {
@@ -2847,7 +2887,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     get lastElementChild() {
-      var a = L(this);
+      var a = D(this);
 
       if (a && void 0 !== a.lastChild) {
         for (a = this.__shady_lastChild; a && a.nodeType !== Node.ELEMENT_NODE;) {
@@ -2861,7 +2901,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     get children() {
-      return rb(this) ? Cb(Array.prototype.filter.call(Eb(this), function (a) {
+      return vb(this) ? Gb(Array.prototype.filter.call(Ib(this), function (a) {
         return a.nodeType === Node.ELEMENT_NODE;
       })) : this.__shady_native_children;
     },
@@ -2872,10 +2912,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
   }),
-      Ad = Q({
+      Ed = P({
     querySelector: function querySelector(a) {
-      return xd(this, function (b) {
-        return vb.call(b, a);
+      return Ad(this, function (b) {
+        return zb.call(b, a);
       }, function (b) {
         return !!b;
       })[0] || null;
@@ -2886,26 +2926,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         var c = this.__shady_getRootNode();
 
-        return Cb(b.filter(function (d) {
+        return Gb(b.filter(function (d) {
           return d.__shady_getRootNode() == c;
         }));
       }
 
-      return Cb(xd(this, function (d) {
-        return vb.call(d, a);
+      return Gb(Ad(this, function (d) {
+        return zb.call(d, a);
       }));
     }
   }),
-      Bd = N.la && !N.D ? Hb({}, zd) : zd;
-  Hb(zd, Ad);
-  var Cd = window.document;
+      Fd = L.aa && !L.D ? Lb({}, Dd) : Dd;
+  Lb(Dd, Ed);
+  var Gd = window.document;
 
-  function Dd(a, b) {
-    if ("slot" === b) a = a.__shady_parentNode, sb(a) && pd(L(a).root);else if ("slot" === a.localName && "name" === b && (b = nd(a))) {
+  function Hd(a, b) {
+    if ("slot" === b) a = a.__shady_parentNode, wb(a) && td(D(a).root);else if ("slot" === a.localName && "name" === b && (b = rd(a))) {
       if (b.a) {
-        Ed(b);
+        Id(b);
         var c = a.La,
-            d = Fd(a);
+            d = Jd(a);
 
         if (d !== c) {
           c = b.b[c];
@@ -2913,17 +2953,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           0 <= e && c.splice(e, 1);
           c = b.b[d] || (b.b[d] = []);
           c.push(a);
-          1 < c.length && (b.b[d] = Gd(c));
+          1 < c.length && (b.b[d] = Kd(c));
         }
       }
 
-      pd(b);
+      td(b);
     }
   }
 
-  var Hd = Q({
+  var Ld = P({
     get previousElementSibling() {
-      var a = L(this);
+      var a = D(this);
 
       if (a && void 0 !== a.previousSibling) {
         for (a = this.__shady_previousSibling; a && a.nodeType !== Node.ELEMENT_NODE;) {
@@ -2937,7 +2977,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     get nextElementSibling() {
-      var a = L(this);
+      var a = D(this);
 
       if (a && void 0 !== a.nextSibling) {
         for (a = this.__shady_nextSibling; a && a.nodeType !== Node.ELEMENT_NODE;) {
@@ -2967,87 +3007,87 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     setAttribute: function setAttribute(a, b) {
-      this.ownerDocument !== Cd ? this.__shady_native_setAttribute(a, b) : ad(this, a, b) || (this.__shady_native_setAttribute(a, b), Dd(this, a));
+      this.ownerDocument !== Gd ? this.__shady_native_setAttribute(a, b) : ed(this, a, b) || (this.__shady_native_setAttribute(a, b), Hd(this, a));
     },
     removeAttribute: function removeAttribute(a) {
-      this.ownerDocument !== Cd ? this.__shady_native_removeAttribute(a) : ad(this, a, "") ? "" === this.getAttribute(a) && this.__shady_native_removeAttribute(a) : (this.__shady_native_removeAttribute(a), Dd(this, a));
+      this.ownerDocument !== Gd ? this.__shady_native_removeAttribute(a) : ed(this, a, "") ? "" === this.getAttribute(a) && this.__shady_native_removeAttribute(a) : (this.__shady_native_removeAttribute(a), Hd(this, a));
     }
   });
-  N.la || Sc.forEach(function (a) {
-    Hd[a] = Uc(a);
+  L.aa || Wc.forEach(function (a) {
+    Ld[a] = Yc(a);
   });
-  var Md = Q({
+  var Qd = P({
     attachShadow: function attachShadow(a) {
       if (!this) throw Error("Must provide a host.");
       if (!a) throw Error("Not enough arguments.");
 
-      if (a.shadyUpgradeFragment && !N.Ia) {
+      if (a.shadyUpgradeFragment && !L.Ia) {
         var b = a.shadyUpgradeFragment;
         b.__proto__ = ShadowRoot.prototype;
-        Id(b, this, a);
-        Jd(b, b);
+        Md(b, this, a);
+        Nd(b, b);
         a = b.__noInsertionPoint ? null : b.querySelectorAll("slot");
         b.__noInsertionPoint = void 0;
 
         if (a && a.length) {
           var c = b;
-          od(c);
-          c.c.push.apply(c.c, a instanceof Array ? a : da(ca(a)));
-          pd(b);
+          sd(c);
+          c.c.push.apply(c.c, a instanceof Array ? a : na(ma(a)));
+          td(b);
         }
 
         b.host.__shady_native_appendChild(b);
-      } else b = new Kd(Ld, this, a);
+      } else b = new Od(Pd, this, a);
 
       return this.__CE_shadowRoot = b;
     },
 
     get shadowRoot() {
-      var a = L(this);
+      var a = D(this);
       return a && a.bb || null;
     }
 
   });
-  Hb(Hd, Md);
-  var Nd = document.implementation.createHTMLDocument("inert"),
-      Od = Q({
+  Lb(Ld, Qd);
+  var Rd = document.implementation.createHTMLDocument("inert"),
+      Sd = P({
     get innerHTML() {
-      return rb(this) ? Zb("template" === this.localName ? this.content : this, Eb) : this.__shady_native_innerHTML;
+      return vb(this) ? ac("template" === this.localName ? this.content : this, Ib) : this.__shady_native_innerHTML;
     },
 
     set innerHTML(a) {
       if ("template" === this.localName) this.__shady_native_innerHTML = a;else {
-        jd(this);
+        nd(this);
         var b = this.localName || "div";
-        b = this.namespaceURI && this.namespaceURI !== Nd.namespaceURI ? Nd.createElementNS(this.namespaceURI, b) : Nd.createElement(b);
+        b = this.namespaceURI && this.namespaceURI !== Rd.namespaceURI ? Rd.createElementNS(this.namespaceURI, b) : Rd.createElement(b);
 
-        for (N.B ? b.__shady_native_innerHTML = a : b.innerHTML = a; a = b.__shady_firstChild;) {
+        for (L.B ? b.__shady_native_innerHTML = a : b.innerHTML = a; a = b.__shady_firstChild;) {
           this.__shady_insertBefore(a);
         }
       }
     }
 
   });
-  var Pd = Q({
+  var Td = P({
     blur: function blur() {
-      var a = L(this);
+      var a = D(this);
       (a = (a = a && a.root) && a.activeElement) ? a.__shady_blur() : this.__shady_native_blur();
     }
   });
-  N.la || Tc.forEach(function (a) {
-    Pd[a] = Uc(a);
+  L.aa || Xc.forEach(function (a) {
+    Td[a] = Yc(a);
   });
-  var Qd = Q({
+  var Ud = P({
     assignedNodes: function assignedNodes(a) {
       if ("slot" === this.localName) {
         var b = this.__shady_getRootNode();
 
-        b && O(b) && vd(b);
-        return (b = L(this)) ? (a && a.flatten ? b.V : b.assignedNodes) || [] : [];
+        b && N(b) && yd(b);
+        return (b = D(this)) ? (a && a.flatten ? b.V : b.assignedNodes) || [] : [];
       }
     },
     addEventListener: function addEventListener(a, b, c) {
-      if ("slot" !== this.localName || "slotchange" === a) Jc.call(this, a, b, c);else {
+      if ("slot" !== this.localName || "slotchange" === a) Oc.call(this, a, b, c);else {
         "object" !== _typeof(c) && (c = {
           capture: !!c
         });
@@ -3059,7 +3099,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     },
     removeEventListener: function removeEventListener(a, b, c) {
-      if ("slot" !== this.localName || "slotchange" === a) Lc.call(this, a, b, c);else {
+      if ("slot" !== this.localName || "slotchange" === a) Pc.call(this, a, b, c);else {
         "object" !== _typeof(c) && (c = {
           capture: !!c
         });
@@ -3071,34 +3111,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     }
   });
-  var Rd = Q({
+  var Vd = P({
     getElementById: function getElementById(a) {
-      return "" === a ? null : xd(this, function (b) {
+      return "" === a ? null : Ad(this, function (b) {
         return b.id == a;
       }, function (b) {
         return !!b;
       })[0] || null;
     }
   });
-  var Sd = Q({
+  var Wd = P({
     get activeElement() {
-      var a = N.B ? document.__shady_native_activeElement : document.activeElement;
+      var a = L.B ? document.__shady_native_activeElement : document.activeElement;
       if (!a || !a.nodeType) return null;
-      var b = !!O(this);
+      var b = !!N(this);
       if (!(this === document || b && this.host !== a && this.host.__shady_native_contains(a))) return null;
 
-      for (b = nd(a); b && b !== this;) {
-        a = b.host, b = nd(a);
+      for (b = rd(a); b && b !== this;) {
+        a = b.host, b = rd(a);
       }
 
       return this === document ? b ? null : a : b === this ? a : null;
     }
 
   });
-  var Td = window.document,
-      Ud = Q({
+  var Xd = window.document,
+      Yd = P({
     importNode: function importNode(a, b) {
-      if (a.ownerDocument !== Td || "template" === a.localName) return this.__shady_native_importNode(a, b);
+      if (a.ownerDocument !== Xd || "template" === a.localName) return this.__shady_native_importNode(a, b);
 
       var c = this.__shady_native_importNode(a, !1);
 
@@ -3108,45 +3148,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       return c;
     }
   });
-  var Vd = Q({
-    dispatchEvent: Ic,
-    addEventListener: Jc.bind(window),
-    removeEventListener: Lc.bind(window)
+  var Zd = P({
+    dispatchEvent: Mc,
+    addEventListener: Oc.bind(window),
+    removeEventListener: Pc.bind(window)
   });
-  var Wd = {};
-  Object.getOwnPropertyDescriptor(HTMLElement.prototype, "parentElement") && (Wd.parentElement = td.parentElement);
-  Object.getOwnPropertyDescriptor(HTMLElement.prototype, "contains") && (Wd.contains = td.contains);
-  Object.getOwnPropertyDescriptor(HTMLElement.prototype, "children") && (Wd.children = zd.children);
-  Object.getOwnPropertyDescriptor(HTMLElement.prototype, "innerHTML") && (Wd.innerHTML = Od.innerHTML);
-  Object.getOwnPropertyDescriptor(HTMLElement.prototype, "className") && (Wd.className = Hd.className);
-  var Xd = {
-    EventTarget: [Yc],
-    Node: [td, window.EventTarget ? null : Yc],
-    Text: [wd],
-    Comment: [wd],
-    CDATASection: [wd],
-    ProcessingInstruction: [wd],
-    Element: [Hd, zd, wd, !N.B || "innerHTML" in Element.prototype ? Od : null, window.HTMLSlotElement ? null : Qd],
-    HTMLElement: [Pd, Wd],
-    HTMLSlotElement: [Qd],
-    DocumentFragment: [Bd, Rd],
-    Document: [Ud, Bd, Rd, Sd],
-    Window: [Vd]
+  var $d = {};
+  Object.getOwnPropertyDescriptor(HTMLElement.prototype, "parentElement") && ($d.parentElement = xd.parentElement);
+  Object.getOwnPropertyDescriptor(HTMLElement.prototype, "contains") && ($d.contains = xd.contains);
+  Object.getOwnPropertyDescriptor(HTMLElement.prototype, "children") && ($d.children = Dd.children);
+  Object.getOwnPropertyDescriptor(HTMLElement.prototype, "innerHTML") && ($d.innerHTML = Sd.innerHTML);
+  Object.getOwnPropertyDescriptor(HTMLElement.prototype, "className") && ($d.className = Ld.className);
+  var ae = {
+    EventTarget: [bd],
+    Node: [xd, window.EventTarget ? null : bd],
+    Text: [zd],
+    Comment: [zd],
+    CDATASection: [zd],
+    ProcessingInstruction: [zd],
+    Element: [Ld, Dd, zd, !L.B || "innerHTML" in Element.prototype ? Sd : null, window.HTMLSlotElement ? null : Ud],
+    HTMLElement: [Td, $d],
+    HTMLSlotElement: [Ud],
+    DocumentFragment: [Fd, Vd],
+    Document: [Yd, Fd, Vd, Wd],
+    Window: [Zd]
   },
-      Yd = N.B ? null : ["innerHTML", "textContent"];
+      be = L.B ? null : ["innerHTML", "textContent"];
 
-  function Zd(a, b, c, d) {
+  function ce(a, b, c, d) {
     b.forEach(function (e) {
-      return a && e && P(a, e, c, d);
+      return a && e && O(a, e, c, d);
     });
   }
 
-  function $d(a) {
-    var b = a ? null : Yd,
+  function de(a) {
+    var b = a ? null : be,
         c;
 
-    for (c in Xd) {
-      Zd(window[c] && window[c].prototype, Xd[c], a, b);
+    for (c in ae) {
+      ce(window[c] && window[c].prototype, ae[c], a, b);
     }
   }
 
@@ -3154,96 +3194,96 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var b = window[a],
         c = Object.create(b.prototype);
     c.__shady_protoIsPatched = !0;
-    Zd(c, Xd.EventTarget);
-    Zd(c, Xd.Node);
-    Xd[a] && Zd(c, Xd[a]);
+    ce(c, ae.EventTarget);
+    ce(c, ae.Node);
+    ae[a] && ce(c, ae[a]);
     b.prototype.__shady_patchedProto = c;
   });
 
-  function ae(a) {
+  function ee(a) {
     a.__shady_protoIsPatched = !0;
-    Zd(a, Xd.EventTarget);
-    Zd(a, Xd.Node);
-    Zd(a, Xd.Element);
-    Zd(a, Xd.HTMLElement);
-    Zd(a, Xd.HTMLSlotElement);
+    ce(a, ae.EventTarget);
+    ce(a, ae.Node);
+    ce(a, ae.Element);
+    ce(a, ae.HTMLElement);
+    ce(a, ae.HTMLSlotElement);
     return a;
   }
 
   ;
-  var be = N.ua,
-      ce = N.B;
+  var fe = L.ua,
+      ge = L.B;
 
-  function de(a, b) {
-    if (be && !a.__shady_protoIsPatched && !O(a)) {
+  function he(a, b) {
+    if (fe && !a.__shady_protoIsPatched && !N(a)) {
       var c = Object.getPrototypeOf(a),
           d = c.hasOwnProperty("__shady_patchedProto") && c.__shady_patchedProto;
 
-      d || (d = Object.create(c), ae(d), c.__shady_patchedProto = d);
+      d || (d = Object.create(c), ee(d), c.__shady_patchedProto = d);
       Object.setPrototypeOf(a, d);
     }
 
-    ce || (1 === b ? qc(a) : 2 === b && rc(a));
+    ge || (1 === b ? uc(a) : 2 === b && vc(a));
   }
 
-  function ee(a, b, c, d) {
-    de(a, 1);
+  function ie(a, b, c, d) {
+    he(a, 1);
     d = d || null;
-    var e = B(a),
-        f = d ? B(d) : null;
+    var e = A(a),
+        f = d ? A(d) : null;
     e.previousSibling = d ? f.previousSibling : b.__shady_lastChild;
-    if (f = L(e.previousSibling)) f.nextSibling = a;
-    if (f = L(e.nextSibling = d)) f.previousSibling = a;
+    if (f = D(e.previousSibling)) f.nextSibling = a;
+    if (f = D(e.nextSibling = d)) f.previousSibling = a;
     e.parentNode = b;
     d ? d === c.firstChild && (c.firstChild = a) : (c.lastChild = a, c.firstChild || (c.firstChild = a));
     c.childNodes = null;
   }
 
-  function qd(a, b, c) {
-    de(b, 2);
-    var d = B(b);
+  function ud(a, b, c) {
+    he(b, 2);
+    var d = A(b);
     void 0 !== d.firstChild && (d.childNodes = null);
     if (a.nodeType === Node.DOCUMENT_FRAGMENT_NODE) for (a = a.__shady_native_firstChild; a; a = a.__shady_native_nextSibling) {
-      ee(a, b, d, c);
-    } else ee(a, b, d, c);
+      ie(a, b, d, c);
+    } else ie(a, b, d, c);
   }
 
-  function sd(a, b) {
-    var c = B(a);
-    b = B(b);
+  function wd(a, b) {
+    var c = A(a);
+    b = A(b);
     a === b.firstChild && (b.firstChild = c.nextSibling);
     a === b.lastChild && (b.lastChild = c.previousSibling);
     a = c.previousSibling;
     var d = c.nextSibling;
-    a && (B(a).nextSibling = d);
-    d && (B(d).previousSibling = a);
+    a && (A(a).nextSibling = d);
+    d && (A(d).previousSibling = a);
     c.parentNode = c.previousSibling = c.nextSibling = void 0;
     void 0 !== b.childNodes && (b.childNodes = null);
   }
 
-  function Jd(a, b) {
-    var c = B(a);
+  function Nd(a, b) {
+    var c = A(a);
 
     if (b || void 0 === c.firstChild) {
       c.childNodes = null;
       var d = c.firstChild = a.__shady_native_firstChild;
       c.lastChild = a.__shady_native_lastChild;
-      de(a, 2);
+      he(a, 2);
       c = d;
 
       for (d = void 0; c; c = c.__shady_native_nextSibling) {
-        var e = B(c);
+        var e = A(c);
         e.parentNode = b || a;
         e.nextSibling = c.__shady_native_nextSibling;
         e.previousSibling = d || null;
         d = c;
-        de(c, 1);
+        he(c, 1);
       }
     }
   }
 
   ;
-  var fe = Q({
+  var je = P({
     addEventListener: function addEventListener(a, b, c) {
       "object" !== _typeof(c) && (c = {
         capture: !!c
@@ -3262,20 +3302,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   });
 
-  function ge(a, b) {
-    P(a, fe, b);
-    P(a, Sd, b);
-    P(a, Od, b);
-    P(a, zd, b);
-    N.D && !b ? (P(a, td, b), P(a, Rd, b)) : N.B || (P(a, nc), P(a, lc), P(a, mc));
+  function ke(a, b) {
+    O(a, je, b);
+    O(a, Wd, b);
+    O(a, Sd, b);
+    O(a, Dd, b);
+    L.D && !b ? (O(a, xd, b), O(a, Vd, b)) : L.B || (O(a, rc), O(a, pc), O(a, qc));
   }
 
   ;
-  var Ld = {},
-      he = N.deferConnectionCallbacks && "loading" === document.readyState,
-      ie;
+  var Pd = {},
+      le = L.deferConnectionCallbacks && "loading" === document.readyState,
+      me;
 
-  function je(a) {
+  function ne(a) {
     var b = [];
 
     do {
@@ -3285,33 +3325,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return b;
   }
 
-  function Kd(a, b, c) {
-    if (a !== Ld) throw new TypeError("Illegal constructor");
+  function Od(a, b, c) {
+    if (a !== Pd) throw new TypeError("Illegal constructor");
     this.a = null;
-    Id(this, b, c);
+    Md(this, b, c);
   }
 
-  function Id(a, b, c) {
+  function Md(a, b, c) {
     a.host = b;
     a.mode = c && c.mode;
-    Jd(a.host);
-    b = B(a.host);
+    Nd(a.host);
+    b = A(a.host);
     b.root = a;
     b.bb = "closed" !== a.mode ? a : null;
-    b = B(a);
+    b = A(a);
     b.firstChild = b.lastChild = b.parentNode = b.nextSibling = b.previousSibling = null;
-    if (N.preferPerformance) for (; b = a.host.__shady_native_firstChild;) {
+    if (L.preferPerformance) for (; b = a.host.__shady_native_firstChild;) {
       a.host.__shady_native_removeChild(b);
-    } else pd(a);
+    } else td(a);
   }
 
-  function pd(a) {
-    a.T || (a.T = !0, Kb(function () {
-      return vd(a);
+  function td(a) {
+    a.T || (a.T = !0, Ob(function () {
+      return yd(a);
     }));
   }
 
-  function vd(a) {
+  function yd(a) {
     var b;
 
     if (b = a.T) {
@@ -3319,7 +3359,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         a: {
           a.T && (c = a), b = a;
           a = b.host.__shady_getRootNode();
-          if (O(a) && (b = L(b.host)) && 0 < b.ca) break a;
+          if (N(a) && (b = D(b.host)) && 0 < b.da) break a;
           a = void 0;
         }
       }
@@ -3330,57 +3370,57 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     (c = b) && c._renderSelf();
   }
 
-  Kd.prototype._renderSelf = function () {
-    var a = he;
-    he = !0;
+  Od.prototype._renderSelf = function () {
+    var a = le;
+    le = !0;
     this.T = !1;
 
     if (this.a) {
-      Ed(this);
+      Id(this);
 
       for (var b = 0, c; b < this.a.length; b++) {
         c = this.a[b];
-        var d = L(c),
+        var d = D(c),
             e = d.assignedNodes;
         d.assignedNodes = [];
         d.V = [];
         if (d.Ba = e) for (d = 0; d < e.length; d++) {
-          var f = L(e[d]);
+          var f = D(e[d]);
           f.oa = f.assignedSlot;
           f.assignedSlot === c && (f.assignedSlot = null);
         }
       }
 
       for (b = this.host.__shady_firstChild; b; b = b.__shady_nextSibling) {
-        ke(this, b);
+        oe(this, b);
       }
 
       for (b = 0; b < this.a.length; b++) {
         c = this.a[b];
-        e = L(c);
+        e = D(c);
         if (!e.assignedNodes.length) for (d = c.__shady_firstChild; d; d = d.__shady_nextSibling) {
-          ke(this, d, c);
+          oe(this, d, c);
         }
-        (d = (d = L(c.__shady_parentNode)) && d.root) && (tb(d) || d.T) && d._renderSelf();
-        le(this, e.V, e.assignedNodes);
+        (d = (d = D(c.__shady_parentNode)) && d.root) && (xb(d) || d.T) && d._renderSelf();
+        pe(this, e.V, e.assignedNodes);
 
         if (d = e.Ba) {
           for (f = 0; f < d.length; f++) {
-            L(d[f]).oa = null;
+            D(d[f]).oa = null;
           }
 
           e.Ba = null;
           d.length > e.assignedNodes.length && (e.ra = !0);
         }
 
-        e.ra && (e.ra = !1, me(this, c));
+        e.ra && (e.ra = !1, qe(this, c));
       }
 
       c = this.a;
       b = [];
 
       for (e = 0; e < c.length; e++) {
-        d = c[e].__shady_parentNode, (f = L(d)) && f.root || !(0 > b.indexOf(d)) || b.push(d);
+        d = c[e].__shady_parentNode, (f = D(d)) && f.root || !(0 > b.indexOf(d)) || b.push(d);
       }
 
       for (c = 0; c < b.length; c++) {
@@ -3389,112 +3429,112 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         d = [];
 
         for (f = f.__shady_firstChild; f; f = f.__shady_nextSibling) {
-          if ("slot" == f.localName) for (var g = L(f).V, h = 0; h < g.length; h++) {
+          if ("slot" == f.localName) for (var g = D(f).V, h = 0; h < g.length; h++) {
             d.push(g[h]);
           } else d.push(f);
         }
 
-        f = Db(e);
-        g = Wc(d, d.length, f, f.length);
+        f = Hb(e);
+        g = $c(d, d.length, f, f.length);
 
         for (var k = h = 0, l = void 0; h < g.length && (l = g[h]); h++) {
-          for (var m = 0, q = void 0; m < l.aa.length && (q = l.aa[m]); m++) {
+          for (var m = 0, q = void 0; m < l.ba.length && (q = l.ba[m]); m++) {
             q.__shady_native_parentNode === e && e.__shady_native_removeChild(q), f.splice(l.index + k, 1);
           }
 
-          k -= l.ha;
+          k -= l.ia;
         }
 
         k = 0;
 
         for (l = void 0; k < g.length && (l = g[k]); k++) {
-          for (h = f[l.index], m = l.index; m < l.index + l.ha; m++) {
+          for (h = f[l.index], m = l.index; m < l.index + l.ia; m++) {
             q = d[m], e.__shady_native_insertBefore(q, h), f.splice(m, 0, q);
           }
         }
       }
     }
 
-    if (!N.preferPerformance && !this.Aa) for (b = this.host.__shady_firstChild; b; b = b.__shady_nextSibling) {
-      c = L(b), b.__shady_native_parentNode !== this.host || "slot" !== b.localName && c.assignedSlot || this.host.__shady_native_removeChild(b);
+    if (!L.preferPerformance && !this.Aa) for (b = this.host.__shady_firstChild; b; b = b.__shady_nextSibling) {
+      c = D(b), b.__shady_native_parentNode !== this.host || "slot" !== b.localName && c.assignedSlot || this.host.__shady_native_removeChild(b);
     }
     this.Aa = !0;
-    he = a;
-    ie && ie();
+    le = a;
+    me && me();
   };
 
-  function ke(a, b, c) {
-    var d = B(b),
+  function oe(a, b, c) {
+    var d = A(b),
         e = d.oa;
     d.oa = null;
     c || (c = (a = a.b[b.__shady_slot || "__catchall"]) && a[0]);
-    c ? (B(c).assignedNodes.push(b), d.assignedSlot = c) : d.assignedSlot = void 0;
-    e !== d.assignedSlot && d.assignedSlot && (B(d.assignedSlot).ra = !0);
+    c ? (A(c).assignedNodes.push(b), d.assignedSlot = c) : d.assignedSlot = void 0;
+    e !== d.assignedSlot && d.assignedSlot && (A(d.assignedSlot).ra = !0);
   }
 
-  function le(a, b, c) {
+  function pe(a, b, c) {
     for (var d = 0, e = void 0; d < c.length && (e = c[d]); d++) {
       if ("slot" == e.localName) {
-        var f = L(e).assignedNodes;
-        f && f.length && le(a, b, f);
+        var f = D(e).assignedNodes;
+        f && f.length && pe(a, b, f);
       } else b.push(c[d]);
     }
   }
 
-  function me(a, b) {
+  function qe(a, b) {
     b.__shady_native_dispatchEvent(new Event("slotchange"));
 
-    b = L(b);
-    b.assignedSlot && me(a, b.assignedSlot);
+    b = D(b);
+    b.assignedSlot && qe(a, b.assignedSlot);
   }
 
-  function od(a) {
+  function sd(a) {
     a.c = a.c || [];
     a.a = a.a || [];
     a.b = a.b || {};
   }
 
-  function Ed(a) {
+  function Id(a) {
     if (a.c && a.c.length) {
       for (var b = a.c, c, d = 0; d < b.length; d++) {
         var e = b[d];
-        Jd(e);
+        Nd(e);
         var f = e.__shady_parentNode;
-        Jd(f);
-        f = L(f);
-        f.ca = (f.ca || 0) + 1;
-        f = Fd(e);
+        Nd(f);
+        f = D(f);
+        f.da = (f.da || 0) + 1;
+        f = Jd(e);
         a.b[f] ? (c = c || {}, c[f] = !0, a.b[f].push(e)) : a.b[f] = [e];
         a.a.push(e);
       }
 
       if (c) for (var g in c) {
-        a.b[g] = Gd(a.b[g]);
+        a.b[g] = Kd(a.b[g]);
       }
       a.c = [];
     }
   }
 
-  function Fd(a) {
+  function Jd(a) {
     var b = a.name || a.getAttribute("name") || "__catchall";
     return a.La = b;
   }
 
-  function Gd(a) {
+  function Kd(a) {
     return a.sort(function (b, c) {
-      b = je(b);
+      b = ne(b);
 
-      for (var d = je(c), e = 0; e < b.length; e++) {
+      for (var d = ne(c), e = 0; e < b.length; e++) {
         c = b[e];
         var f = d[e];
-        if (c !== f) return b = Eb(c.__shady_parentNode), b.indexOf(c) - b.indexOf(f);
+        if (c !== f) return b = Ib(c.__shady_parentNode), b.indexOf(c) - b.indexOf(f);
       }
     });
   }
 
-  function rd(a, b) {
+  function vd(a, b) {
     if (a.a) {
-      Ed(a);
+      Id(a);
       var c = a.b,
           d;
 
@@ -3502,12 +3542,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         for (var e = c[d], f = 0; f < e.length; f++) {
           var g = e[f];
 
-          if (Bb(b, g)) {
+          if (Fb(b, g)) {
             e.splice(f, 1);
             var h = a.a.indexOf(g);
-            0 <= h && (a.a.splice(h, 1), (h = L(g.__shady_parentNode)) && h.ca && h.ca--);
+            0 <= h && (a.a.splice(h, 1), (h = D(g.__shady_parentNode)) && h.da && h.da--);
             f--;
-            g = L(g);
+            g = D(g);
             if (h = g.V) for (var k = 0; k < h.length; k++) {
               var l = h[k],
                   m = l.__shady_native_parentNode;
@@ -3524,15 +3564,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   }
 
-  function tb(a) {
-    Ed(a);
+  function xb(a) {
+    Id(a);
     return !(!a.a || !a.a.length);
   }
 
   (function (a) {
     a.__proto__ = DocumentFragment.prototype;
-    ge(a, "__shady_");
-    ge(a);
+    ke(a, "__shady_");
+    ke(a);
     Object.defineProperties(a, {
       nodeType: {
         value: Node.DOCUMENT_FRAGMENT_NODE,
@@ -3561,17 +3601,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         configurable: !0
       });
     });
-  })(Kd.prototype);
+  })(Od.prototype);
 
-  if (window.customElements && window.customElements.define && N.sa && !N.preferPerformance) {
-    var ne = new Map();
+  if (window.customElements && window.customElements.define && L.sa && !L.preferPerformance) {
+    var re = new Map();
 
-    ie = function ie() {
+    me = function me() {
       var a = [];
-      ne.forEach(function (d, e) {
+      re.forEach(function (d, e) {
         a.push([e, d]);
       });
-      ne.clear();
+      re.clear();
 
       for (var b = 0; b < a.length; b++) {
         var c = a[b][0];
@@ -3579,51 +3619,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     };
 
-    he && document.addEventListener("readystatechange", function () {
-      he = !1;
-      ie();
+    le && document.addEventListener("readystatechange", function () {
+      le = !1;
+      me();
     }, {
       once: !0
     });
 
-    var oe = function oe(a, b, c) {
+    var se = function se(a, b, c) {
       var d = 0,
           e = "__isConnected" + d++;
       if (b || c) a.prototype.connectedCallback = a.prototype.__shadydom_connectedCallback = function () {
-        he ? ne.set(this, !0) : this[e] || (this[e] = !0, b && b.call(this));
+        le ? re.set(this, !0) : this[e] || (this[e] = !0, b && b.call(this));
       }, a.prototype.disconnectedCallback = a.prototype.__shadydom_disconnectedCallback = function () {
-        he ? this.isConnected || ne.set(this, !1) : this[e] && (this[e] = !1, c && c.call(this));
+        le ? this.isConnected || re.set(this, !1) : this[e] && (this[e] = !1, c && c.call(this));
       };
       return a;
     },
-        pe = window.customElements.define,
-        qe = function qe(a, b) {
+        te = window.customElements.define,
+        ue = function ue(a, b) {
       var c = b.prototype.connectedCallback,
           d = b.prototype.disconnectedCallback;
-      pe.call(window.customElements, a, oe(b, c, d));
+      te.call(window.customElements, a, se(b, c, d));
       b.prototype.connectedCallback = c;
       b.prototype.disconnectedCallback = d;
     };
 
-    window.customElements.define = qe;
+    window.customElements.define = ue;
     Object.defineProperty(window.CustomElementRegistry.prototype, "define", {
-      value: qe,
+      value: ue,
       configurable: !0
     });
   }
 
-  function nd(a) {
+  function rd(a) {
     a = a.__shady_getRootNode();
-    if (O(a)) return a;
+    if (N(a)) return a;
   }
 
   ;
 
-  function re(a) {
+  function ve(a) {
     this.node = a;
   }
 
-  w = re.prototype;
+  w = ve.prototype;
 
   w.addEventListener = function (a, b, c) {
     return this.node.__shady_addEventListener(a, b, c);
@@ -3713,12 +3753,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     if ("slot" === this.node.localName) return this.node.__shady_assignedNodes(a);
   };
 
-  fa.Object.defineProperties(re.prototype, {
+  ca.Object.defineProperties(ve.prototype, {
     activeElement: {
       configurable: !0,
       enumerable: !0,
       get: function get() {
-        if (O(this.node) || this.node.nodeType === Node.DOCUMENT_NODE) return this.node.__shady_activeElement;
+        if (N(this.node) || this.node.nodeType === Node.DOCUMENT_NODE) return this.node.__shady_activeElement;
       }
     },
     _activeElement: {
@@ -3732,7 +3772,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       configurable: !0,
       enumerable: !0,
       get: function get() {
-        if (O(this.node)) return this.node.host;
+        if (N(this.node)) return this.node.host;
       }
     },
     parentNode: {
@@ -3889,8 +3929,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   });
 
-  function se(a) {
-    Object.defineProperty(re.prototype, a, {
+  function we(a) {
+    Object.defineProperty(ve.prototype, a, {
       get: function get() {
         return this.node["__shady_" + a];
       },
@@ -3901,70 +3941,70 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   }
 
-  Sc.forEach(function (a) {
-    return se(a);
+  Wc.forEach(function (a) {
+    return we(a);
   });
-  Tc.forEach(function (a) {
-    return se(a);
+  Xc.forEach(function (a) {
+    return we(a);
   });
-  var te = new WeakMap();
+  var xe = new WeakMap();
 
-  function ue(a) {
-    if (O(a) || a instanceof re) return a;
-    var b = te.get(a);
-    b || (b = new re(a), te.set(a, b));
+  function ye(a) {
+    if (N(a) || a instanceof ve) return a;
+    var b = xe.get(a);
+    b || (b = new ve(a), xe.set(a, b));
     return b;
   }
 
   ;
 
-  if (N.sa) {
-    var ve = N.B ? function (a) {
+  if (L.sa) {
+    var ze = L.B ? function (a) {
       return a;
     } : function (a) {
-      rc(a);
-      qc(a);
+      vc(a);
+      uc(a);
       return a;
     },
         ShadyDOM = {
-      inUse: N.sa,
-      patch: ve,
-      isShadyRoot: O,
-      enqueue: Kb,
-      flush: Lb,
+      inUse: L.sa,
+      patch: ze,
+      isShadyRoot: N,
+      enqueue: Ob,
+      flush: Pb,
       flushInitial: function flushInitial(a) {
-        !a.Aa && a.T && vd(a);
+        !a.Aa && a.T && yd(a);
       },
-      settings: N,
-      filterMutations: Qb,
-      observeChildren: Ob,
-      unobserveChildren: Pb,
-      deferConnectionCallbacks: N.deferConnectionCallbacks,
-      preferPerformance: N.preferPerformance,
+      settings: L,
+      filterMutations: Ub,
+      observeChildren: Sb,
+      unobserveChildren: Tb,
+      deferConnectionCallbacks: L.deferConnectionCallbacks,
+      preferPerformance: L.preferPerformance,
       handlesDynamicScoping: !0,
-      wrap: N.D ? ue : ve,
-      wrapIfNeeded: !0 === N.D ? ue : function (a) {
+      wrap: L.D ? ye : ze,
+      wrapIfNeeded: !0 === L.D ? ye : function (a) {
         return a;
       },
-      Wrapper: re,
-      composedPath: Ac,
-      noPatch: N.D,
-      patchOnDemand: N.ua,
-      nativeMethods: ac,
-      nativeTree: bc,
-      patchElementProto: ae
+      Wrapper: ve,
+      composedPath: Ec,
+      noPatch: L.D,
+      patchOnDemand: L.ua,
+      nativeMethods: ec,
+      nativeTree: fc,
+      patchElementProto: ee
     };
     window.ShadyDOM = ShadyDOM;
-    kc();
-    $d("__shady_");
-    Object.defineProperty(document, "_activeElement", Sd.activeElement);
-    P(Window.prototype, Vd, "__shady_");
-    N.D ? N.ua && P(Element.prototype, Md) : ($d(), Rc());
-    Mc();
-    window.Event = Oc;
-    window.CustomEvent = Pc;
-    window.MouseEvent = Qc;
-    window.ShadowRoot = Kd;
+    oc();
+    de("__shady_");
+    Object.defineProperty(document, "_activeElement", Wd.activeElement);
+    O(Window.prototype, Zd, "__shady_");
+    L.D ? L.ua && O(Element.prototype, Qd) : (de(), Vc());
+    Qc();
+    window.Event = Sc;
+    window.CustomEvent = Tc;
+    window.MouseEvent = Uc;
+    window.ShadowRoot = Od;
   }
 
   ;
@@ -3978,67 +4018,56 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   rights grant found at http://polymer.github.io/PATENTS.txt
   */
 
-  /*
-  
-   Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-   This code may only be used under the BSD style license found at
-   http://polymer.github.io/LICENSE.txt The complete set of authors may be found
-   at http://polymer.github.io/AUTHORS.txt The complete set of contributors may
-   be found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by
-   Google as part of the polymer project is also subject to an additional IP
-   rights grant found at http://polymer.github.io/PATENTS.txt
-  */
-
-  var we = window.Document.prototype.createElement,
-      xe = window.Document.prototype.createElementNS,
-      ye = window.Document.prototype.importNode,
-      ze = window.Document.prototype.prepend,
-      Ae = window.Document.prototype.append,
-      Be = window.DocumentFragment.prototype.prepend,
-      Ce = window.DocumentFragment.prototype.append,
-      De = window.Node.prototype.cloneNode,
-      Ee = window.Node.prototype.appendChild,
-      Fe = window.Node.prototype.insertBefore,
-      Ge = window.Node.prototype.removeChild,
-      He = window.Node.prototype.replaceChild,
-      Ie = Object.getOwnPropertyDescriptor(window.Node.prototype, "textContent"),
-      Je = window.Element.prototype.attachShadow,
-      Ke = Object.getOwnPropertyDescriptor(window.Element.prototype, "innerHTML"),
-      Le = window.Element.prototype.getAttribute,
-      Me = window.Element.prototype.setAttribute,
-      Ne = window.Element.prototype.removeAttribute,
-      Oe = window.Element.prototype.getAttributeNS,
-      Pe = window.Element.prototype.setAttributeNS,
-      Qe = window.Element.prototype.removeAttributeNS,
-      Re = window.Element.prototype.insertAdjacentElement,
-      Se = window.Element.prototype.insertAdjacentHTML,
-      Te = window.Element.prototype.prepend,
-      Ue = window.Element.prototype.append,
-      Ve = window.Element.prototype.before,
-      We = window.Element.prototype.after,
-      Xe = window.Element.prototype.replaceWith,
-      Ye = window.Element.prototype.remove,
-      Ze = window.HTMLElement,
-      $e = Object.getOwnPropertyDescriptor(window.HTMLElement.prototype, "innerHTML"),
-      af = window.HTMLElement.prototype.insertAdjacentElement,
-      bf = window.HTMLElement.prototype.insertAdjacentHTML;
-  var cf = new Set();
+  var Ae = window.Document.prototype.createElement,
+      Be = window.Document.prototype.createElementNS,
+      Ce = window.Document.prototype.importNode,
+      De = window.Document.prototype.prepend,
+      Ee = window.Document.prototype.append,
+      Fe = window.DocumentFragment.prototype.prepend,
+      Ge = window.DocumentFragment.prototype.append,
+      He = window.Node.prototype.cloneNode,
+      Ie = window.Node.prototype.appendChild,
+      Je = window.Node.prototype.insertBefore,
+      Ke = window.Node.prototype.removeChild,
+      Le = window.Node.prototype.replaceChild,
+      Me = Object.getOwnPropertyDescriptor(window.Node.prototype, "textContent"),
+      Ne = window.Element.prototype.attachShadow,
+      Oe = Object.getOwnPropertyDescriptor(window.Element.prototype, "innerHTML"),
+      Pe = window.Element.prototype.getAttribute,
+      Qe = window.Element.prototype.setAttribute,
+      Re = window.Element.prototype.removeAttribute,
+      Se = window.Element.prototype.getAttributeNS,
+      Te = window.Element.prototype.setAttributeNS,
+      Ue = window.Element.prototype.removeAttributeNS,
+      Ve = window.Element.prototype.insertAdjacentElement,
+      We = window.Element.prototype.insertAdjacentHTML,
+      Xe = window.Element.prototype.prepend,
+      Ye = window.Element.prototype.append,
+      Ze = window.Element.prototype.before,
+      $e = window.Element.prototype.after,
+      af = window.Element.prototype.replaceWith,
+      bf = window.Element.prototype.remove,
+      cf = window.HTMLElement,
+      df = Object.getOwnPropertyDescriptor(window.HTMLElement.prototype, "innerHTML"),
+      ef = window.HTMLElement.prototype.insertAdjacentElement,
+      ff = window.HTMLElement.prototype.insertAdjacentHTML;
+  var gf = new Set();
   "annotation-xml color-profile font-face font-face-src font-face-uri font-face-format font-face-name missing-glyph".split(" ").forEach(function (a) {
-    return cf.add(a);
+    return gf.add(a);
   });
 
-  function df(a) {
-    var b = cf.has(a);
+  function hf(a) {
+    var b = gf.has(a);
     a = /^[a-z][.0-9_a-z]*-[-.0-9_a-z]*$/.test(a);
     return !b && a;
   }
 
-  var ef = document.contains ? document.contains.bind(document) : document.documentElement.contains.bind(document.documentElement);
+  var jf = document.contains ? document.contains.bind(document) : document.documentElement.contains.bind(document.documentElement);
 
-  function T(a) {
+  function S(a) {
     var b = a.isConnected;
     if (void 0 !== b) return b;
-    if (ef(a)) return !0;
+    if (jf(a)) return !0;
 
     for (; a && !(a.__CE_isImportDocument || a instanceof Document);) {
       a = a.parentNode || (window.ShadowRoot && a instanceof ShadowRoot ? a.host : void 0);
@@ -4047,7 +4076,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return !(!a || !(a.__CE_isImportDocument || a instanceof Document));
   }
 
-  function ff(a) {
+  function kf(a) {
     var b = a.children;
     if (b) return Array.prototype.slice.call(b);
     b = [];
@@ -4059,7 +4088,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return b;
   }
 
-  function gf(a, b) {
+  function lf(a, b) {
     for (; b && b !== a && !b.nextSibling;) {
       b = b.parentNode;
     }
@@ -4067,7 +4096,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return b && b !== a ? b.nextSibling : null;
   }
 
-  function hf(a, b, c) {
+  function mf(a, b, c) {
     for (var d = a; d;) {
       if (d.nodeType === Node.ELEMENT_NODE) {
         var e = d;
@@ -4078,29 +4107,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           d = e.import;
           void 0 === c && (c = new Set());
           if (d instanceof Node && !c.has(d)) for (c.add(d), d = d.firstChild; d; d = d.nextSibling) {
-            hf(d, b, c);
+            mf(d, b, c);
           }
-          d = gf(a, e);
+          d = lf(a, e);
           continue;
         } else if ("template" === f) {
-          d = gf(a, e);
+          d = lf(a, e);
           continue;
         }
 
         if (e = e.__CE_shadowRoot) for (e = e.firstChild; e; e = e.nextSibling) {
-          hf(e, b, c);
+          mf(e, b, c);
         }
       }
 
-      d = d.firstChild ? d.firstChild : gf(a, d);
+      d = d.firstChild ? d.firstChild : lf(a, d);
     }
   }
 
   ;
 
-  function jf() {
-    var a = !(null === kf || void 0 === kf || !kf.noDocumentConstructionObserver),
-        b = !(null === kf || void 0 === kf || !kf.shadyDomFastWalk);
+  function nf() {
+    var a = !(null === of || void 0 === of || !of.noDocumentConstructionObserver),
+        b = !(null === of || void 0 === of || !of.shadyDomFastWalk);
     this.X = [];
     this.a = [];
     this.R = !1;
@@ -4108,33 +4137,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     this.jb = !a;
   }
 
-  function lf(a, b, c, d) {
+  function pf(a, b, c, d) {
     var e = window.ShadyDom;
 
     if (a.shadyDomFastWalk && e && e.inUse) {
       if (b.nodeType === Node.ELEMENT_NODE && c(b), b.querySelectorAll) for (a = e.nativeMethods.querySelectorAll.call(b, "*"), b = 0; b < a.length; b++) {
         c(a[b]);
       }
-    } else hf(b, c, d);
+    } else mf(b, c, d);
   }
 
-  function mf(a, b) {
+  function qf(a, b) {
     a.R = !0;
     a.X.push(b);
   }
 
-  function nf(a, b) {
+  function rf(a, b) {
     a.R = !0;
     a.a.push(b);
   }
 
-  function of(a, b) {
-    a.R && lf(a, b, function (c) {
-      return pf(a, c);
+  function sf(a, b) {
+    a.R && pf(a, b, function (c) {
+      return tf(a, c);
     });
   }
 
-  function pf(a, b) {
+  function tf(a, b) {
     if (a.R && !b.__CE_patched) {
       b.__CE_patched = !0;
 
@@ -4148,21 +4177,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   }
 
-  function qf(a, b) {
+  function uf(a, b) {
     var c = [];
-    lf(a, b, function (e) {
+    pf(a, b, function (e) {
       return c.push(e);
     });
 
     for (b = 0; b < c.length; b++) {
       var d = c[b];
-      1 === d.__CE_state ? a.connectedCallback(d) : rf(a, d);
+      1 === d.__CE_state ? a.connectedCallback(d) : vf(a, d);
     }
   }
 
-  function sf(a, b) {
+  function wf(a, b) {
     var c = [];
-    lf(a, b, function (e) {
+    pf(a, b, function (e) {
       return c.push(e);
     });
 
@@ -4172,17 +4201,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   }
 
-  function tf(a, b, c) {
+  function xf(a, b, c) {
     c = void 0 === c ? {} : c;
 
     var d = c.kb,
         e = c.upgrade || function (g) {
-      return rf(a, g);
+      return vf(a, g);
     },
         f = [];
 
-    lf(a, b, function (g) {
-      a.R && pf(a, g);
+    pf(a, b, function (g) {
+      a.R && tf(a, g);
 
       if ("link" === g.localName && "import" === g.getAttribute("rel")) {
         var h = g.import;
@@ -4196,7 +4225,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             d && (d.forEach(function (m) {
               return l.add(m);
             }), l.delete(k));
-            tf(a, k, {
+            xf(a, k, {
               kb: l,
               upgrade: e
             });
@@ -4210,11 +4239,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   }
 
-  function rf(a, b) {
+  function vf(a, b) {
     try {
       var c = b.ownerDocument,
           d = c.__CE_registry;
-      var e = d && (c.defaultView || c.__CE_isImportDocument) ? uf(d, b.localName) : void 0;
+      var e = d && (c.defaultView || c.__CE_isImportDocument) ? yf(d, b.localName) : void 0;
 
       if (e && void 0 === b.__CE_state) {
         e.constructionStack.push(b);
@@ -4242,43 +4271,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         }
 
-        T(b) && a.connectedCallback(b);
+        S(b) && a.connectedCallback(b);
       }
     } catch (k) {
-      vf(k);
+      zf(k);
     }
   }
 
-  jf.prototype.connectedCallback = function (a) {
+  nf.prototype.connectedCallback = function (a) {
     var b = a.__CE_definition;
     if (b.connectedCallback) try {
       b.connectedCallback.call(a);
     } catch (c) {
-      vf(c);
+      zf(c);
     }
   };
 
-  jf.prototype.disconnectedCallback = function (a) {
+  nf.prototype.disconnectedCallback = function (a) {
     var b = a.__CE_definition;
     if (b.disconnectedCallback) try {
       b.disconnectedCallback.call(a);
     } catch (c) {
-      vf(c);
+      zf(c);
     }
   };
 
-  jf.prototype.attributeChangedCallback = function (a, b, c, d, e) {
+  nf.prototype.attributeChangedCallback = function (a, b, c, d, e) {
     var f = a.__CE_definition;
     if (f.attributeChangedCallback && -1 < f.observedAttributes.indexOf(b)) try {
       f.attributeChangedCallback.call(a, b, c, d, e);
     } catch (g) {
-      vf(g);
+      zf(g);
     }
   };
 
-  function wf(a, b, c, d) {
+  function Af(a, b, c, d) {
     var e = b.__CE_registry;
-    if (e && (null === d || "http://www.w3.org/1999/xhtml" === d) && (e = uf(e, c))) try {
+    if (e && (null === d || "http://www.w3.org/1999/xhtml" === d) && (e = yf(e, c))) try {
       var f = new e.constructorFunction();
       if (void 0 === f.__CE_state || void 0 === f.__CE_definition) throw Error("Failed to construct '" + c + "': The returned value was not constructed with the HTMLElement constructor.");
       if ("http://www.w3.org/1999/xhtml" !== f.namespaceURI) throw Error("Failed to construct '" + c + "': The constructed element's namespace must be the HTML namespace.");
@@ -4289,14 +4318,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       if (f.localName !== c) throw Error("Failed to construct '" + c + "': The constructed element's local name is incorrect.");
       return f;
     } catch (g) {
-      return vf(g), b = null === d ? we.call(b, c) : xe.call(b, d, c), Object.setPrototypeOf(b, HTMLUnknownElement.prototype), b.__CE_state = 2, b.__CE_definition = void 0, pf(a, b), b;
+      return zf(g), b = null === d ? Ae.call(b, c) : Be.call(b, d, c), Object.setPrototypeOf(b, HTMLUnknownElement.prototype), b.__CE_state = 2, b.__CE_definition = void 0, tf(a, b), b;
     }
-    b = null === d ? we.call(b, c) : xe.call(b, d, c);
-    pf(a, b);
+    b = null === d ? Ae.call(b, c) : Be.call(b, d, c);
+    tf(a, b);
     return b;
   }
 
-  function vf(a) {
+  function zf(a) {
     var b = a.message,
         c = a.sourceURL || a.fileName || "",
         d = a.line || a.lineNumber || 0,
@@ -4330,7 +4359,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   ;
 
-  function xf() {
+  function Bf() {
     var a = this;
     this.C = void 0;
     this.Ca = new Promise(function (b) {
@@ -4338,87 +4367,87 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   }
 
-  xf.prototype.resolve = function (a) {
+  Bf.prototype.resolve = function (a) {
     if (this.C) throw Error("Already resolved.");
     this.C = a;
     this.a(a);
   };
 
-  function yf(a) {
+  function Cf(a) {
     var b = document;
     this.S = void 0;
     this.M = a;
     this.a = b;
-    tf(this.M, this.a);
+    xf(this.M, this.a);
     "loading" === this.a.readyState && (this.S = new MutationObserver(this.b.bind(this)), this.S.observe(this.a, {
       childList: !0,
       subtree: !0
     }));
   }
 
-  function zf(a) {
+  function Df(a) {
     a.S && a.S.disconnect();
   }
 
-  yf.prototype.b = function (a) {
+  Cf.prototype.b = function (a) {
     var b = this.a.readyState;
-    "interactive" !== b && "complete" !== b || zf(this);
+    "interactive" !== b && "complete" !== b || Df(this);
 
     for (b = 0; b < a.length; b++) {
       for (var c = a[b].addedNodes, d = 0; d < c.length; d++) {
-        tf(this.M, c[d]);
+        xf(this.M, c[d]);
       }
     }
   };
 
-  function U(a) {
-    this.ea = new Map();
+  function T(a) {
     this.fa = new Map();
+    this.ga = new Map();
     this.xa = new Map();
     this.na = !1;
     this.qa = new Map();
 
-    this.da = function (b) {
+    this.ea = function (b) {
       return b();
     };
 
     this.P = !1;
-    this.ga = [];
+    this.ha = [];
     this.M = a;
-    this.ya = a.jb ? new yf(a) : void 0;
+    this.ya = a.jb ? new Cf(a) : void 0;
   }
 
-  w = U.prototype;
+  w = T.prototype;
 
   w.$a = function (a, b) {
     var c = this;
     if (!(b instanceof Function)) throw new TypeError("Custom element constructor getters must be functions.");
-    Af(this, a);
-    this.ea.set(a, b);
-    this.ga.push(a);
-    this.P || (this.P = !0, this.da(function () {
-      return Bf(c);
+    Ef(this, a);
+    this.fa.set(a, b);
+    this.ha.push(a);
+    this.P || (this.P = !0, this.ea(function () {
+      return Ff(c);
     }));
   };
 
   w.define = function (a, b) {
     var c = this;
     if (!(b instanceof Function)) throw new TypeError("Custom element constructors must be functions.");
-    Af(this, a);
-    Cf(this, a, b);
-    this.ga.push(a);
-    this.P || (this.P = !0, this.da(function () {
-      return Bf(c);
+    Ef(this, a);
+    Gf(this, a, b);
+    this.ha.push(a);
+    this.P || (this.P = !0, this.ea(function () {
+      return Ff(c);
     }));
   };
 
-  function Af(a, b) {
-    if (!df(b)) throw new SyntaxError("The element name '" + b + "' is not valid.");
-    if (uf(a, b)) throw Error("A custom element with name '" + (b + "' has already been defined."));
+  function Ef(a, b) {
+    if (!hf(b)) throw new SyntaxError("The element name '" + b + "' is not valid.");
+    if (yf(a, b)) throw Error("A custom element with name '" + (b + "' has already been defined."));
     if (a.na) throw Error("A custom element is already being defined.");
   }
 
-  function Cf(a, b, c) {
+  function Gf(a, b, c) {
     a.na = !0;
     var d;
 
@@ -4452,40 +4481,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       observedAttributes: l,
       constructionStack: []
     };
-    a.fa.set(b, c);
+    a.ga.set(b, c);
     a.xa.set(c.constructorFunction, c);
     return c;
   }
 
   w.upgrade = function (a) {
-    tf(this.M, a);
+    xf(this.M, a);
   };
 
-  function Bf(a) {
+  function Ff(a) {
     if (!1 !== a.P) {
       a.P = !1;
 
-      for (var b = [], c = a.ga, d = new Map(), e = 0; e < c.length; e++) {
+      for (var b = [], c = a.ha, d = new Map(), e = 0; e < c.length; e++) {
         d.set(c[e], []);
       }
 
-      tf(a.M, document, {
+      xf(a.M, document, {
         upgrade: function upgrade(k) {
           if (void 0 === k.__CE_state) {
             var l = k.localName,
                 m = d.get(l);
-            m ? m.push(k) : a.fa.has(l) && b.push(k);
+            m ? m.push(k) : a.ga.has(l) && b.push(k);
           }
         }
       });
 
       for (e = 0; e < b.length; e++) {
-        rf(a.M, b[e]);
+        vf(a.M, b[e]);
       }
 
       for (e = 0; e < c.length; e++) {
         for (var f = c[e], g = d.get(f), h = 0; h < g.length; h++) {
-          rf(a.M, g[h]);
+          vf(a.M, g[h]);
         }
 
         (f = a.qa.get(f)) && f.resolve(void 0);
@@ -4496,56 +4525,56 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 
   w.get = function (a) {
-    if (a = uf(this, a)) return a.constructorFunction;
+    if (a = yf(this, a)) return a.constructorFunction;
   };
 
   w.whenDefined = function (a) {
-    if (!df(a)) return Promise.reject(new SyntaxError("'" + a + "' is not a valid custom element name."));
+    if (!hf(a)) return Promise.reject(new SyntaxError("'" + a + "' is not a valid custom element name."));
     var b = this.qa.get(a);
     if (b) return b.Ca;
-    b = new xf();
+    b = new Bf();
     this.qa.set(a, b);
-    var c = this.fa.has(a) || this.ea.has(a);
-    a = -1 === this.ga.indexOf(a);
+    var c = this.ga.has(a) || this.fa.has(a);
+    a = -1 === this.ha.indexOf(a);
     c && a && b.resolve(void 0);
     return b.Ca;
   };
 
   w.polyfillWrapFlushCallback = function (a) {
-    this.ya && zf(this.ya);
-    var b = this.da;
+    this.ya && Df(this.ya);
+    var b = this.ea;
 
-    this.da = function (c) {
+    this.ea = function (c) {
       return a(function () {
         return b(c);
       });
     };
   };
 
-  function uf(a, b) {
-    var c = a.fa.get(b);
+  function yf(a, b) {
+    var c = a.ga.get(b);
     if (c) return c;
 
-    if (c = a.ea.get(b)) {
-      a.ea.delete(b);
+    if (c = a.fa.get(b)) {
+      a.fa.delete(b);
 
       try {
-        return Cf(a, b, c());
+        return Gf(a, b, c());
       } catch (d) {
-        vf(d);
+        zf(d);
       }
     }
   }
 
-  window.CustomElementRegistry = U;
-  U.prototype.define = U.prototype.define;
-  U.prototype.upgrade = U.prototype.upgrade;
-  U.prototype.get = U.prototype.get;
-  U.prototype.whenDefined = U.prototype.whenDefined;
-  U.prototype.polyfillDefineLazy = U.prototype.$a;
-  U.prototype.polyfillWrapFlushCallback = U.prototype.polyfillWrapFlushCallback;
+  window.CustomElementRegistry = T;
+  T.prototype.define = T.prototype.define;
+  T.prototype.upgrade = T.prototype.upgrade;
+  T.prototype.get = T.prototype.get;
+  T.prototype.whenDefined = T.prototype.whenDefined;
+  T.prototype.polyfillDefineLazy = T.prototype.$a;
+  T.prototype.polyfillWrapFlushCallback = T.prototype.polyfillWrapFlushCallback;
 
-  function Df(a, b, c) {
+  function Hf(a, b, c) {
     function d(e) {
       return function (f) {
         for (var g = [], h = 0; h < arguments.length; ++h) {
@@ -4556,7 +4585,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         for (var k = [], l = 0; l < g.length; l++) {
           var m = g[l];
-          m instanceof Element && T(m) && k.push(m);
+          m instanceof Element && S(m) && k.push(m);
           if (m instanceof DocumentFragment) for (m = m.firstChild; m; m = m.nextSibling) {
             h.push(m);
           } else h.push(m);
@@ -4565,11 +4594,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         e.apply(this, g);
 
         for (g = 0; g < k.length; g++) {
-          sf(a, k[g]);
+          wf(a, k[g]);
         }
 
-        if (T(this)) for (g = 0; g < h.length; g++) {
-          k = h[g], k instanceof Element && qf(a, k);
+        if (S(this)) for (g = 0; g < h.length; g++) {
+          k = h[g], k instanceof Element && uf(a, k);
         }
       };
     }
@@ -4580,30 +4609,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   ;
 
-  function Ef(a) {
+  function If(a) {
     Document.prototype.createElement = function (b) {
-      return wf(a, this, b, null);
+      return Af(a, this, b, null);
     };
 
     Document.prototype.importNode = function (b, c) {
-      b = ye.call(this, b, !!c);
-      this.__CE_registry ? tf(a, b) : of(a, b);
+      b = Ce.call(this, b, !!c);
+      this.__CE_registry ? xf(a, b) : sf(a, b);
       return b;
     };
 
     Document.prototype.createElementNS = function (b, c) {
-      return wf(a, this, c, b);
+      return Af(a, this, c, b);
     };
 
-    Df(a, Document.prototype, {
-      prepend: ze,
-      append: Ae
+    Hf(a, Document.prototype, {
+      prepend: De,
+      append: Ee
     });
   }
 
   ;
 
-  function Ff(a) {
+  function Jf(a) {
     function b(d) {
       return function (e) {
         for (var f = [], g = 0; g < arguments.length; ++g) {
@@ -4614,7 +4643,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         for (var h = [], k = 0; k < f.length; k++) {
           var l = f[k];
-          l instanceof Element && T(l) && h.push(l);
+          l instanceof Element && S(l) && h.push(l);
           if (l instanceof DocumentFragment) for (l = l.firstChild; l; l = l.nextSibling) {
             g.push(l);
           } else g.push(l);
@@ -4623,19 +4652,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         d.apply(this, f);
 
         for (f = 0; f < h.length; f++) {
-          sf(a, h[f]);
+          wf(a, h[f]);
         }
 
-        if (T(this)) for (f = 0; f < g.length; f++) {
-          h = g[f], h instanceof Element && qf(a, h);
+        if (S(this)) for (f = 0; f < g.length; f++) {
+          h = g[f], h instanceof Element && uf(a, h);
         }
       };
     }
 
     var c = Element.prototype;
-    void 0 !== Ve && (c.before = b(Ve));
-    void 0 !== We && (c.after = b(We));
-    void 0 !== Xe && (c.replaceWith = function (d) {
+    void 0 !== Ze && (c.before = b(Ze));
+    void 0 !== $e && (c.after = b($e));
+    void 0 !== af && (c.replaceWith = function (d) {
       for (var e = [], f = 0; f < arguments.length; ++f) {
         e[f] = arguments[f];
       }
@@ -4644,33 +4673,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       for (var g = [], h = 0; h < e.length; h++) {
         var k = e[h];
-        k instanceof Element && T(k) && g.push(k);
+        k instanceof Element && S(k) && g.push(k);
         if (k instanceof DocumentFragment) for (k = k.firstChild; k; k = k.nextSibling) {
           f.push(k);
         } else f.push(k);
       }
 
-      h = T(this);
-      Xe.apply(this, e);
+      h = S(this);
+      af.apply(this, e);
 
       for (e = 0; e < g.length; e++) {
-        sf(a, g[e]);
+        wf(a, g[e]);
       }
 
-      if (h) for (sf(a, this), e = 0; e < f.length; e++) {
-        g = f[e], g instanceof Element && qf(a, g);
+      if (h) for (wf(a, this), e = 0; e < f.length; e++) {
+        g = f[e], g instanceof Element && uf(a, g);
       }
     });
-    void 0 !== Ye && (c.remove = function () {
-      var d = T(this);
-      Ye.call(this);
-      d && sf(a, this);
+    void 0 !== bf && (c.remove = function () {
+      var d = S(this);
+      bf.call(this);
+      d && wf(a, this);
     });
   }
 
   ;
 
-  function Gf(a) {
+  function Kf(a) {
     function b(e, f) {
       Object.defineProperty(e, "innerHTML", {
         enumerable: f.enumerable,
@@ -4679,7 +4708,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         set: function set(g) {
           var h = this,
               k = void 0;
-          T(this) && (k = [], lf(a, this, function (q) {
+          S(this) && (k = [], pf(a, this, function (q) {
             q !== h && k.push(q);
           }));
           f.set.call(this, g);
@@ -4687,7 +4716,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             var m = k[l];
             1 === m.__CE_state && a.disconnectedCallback(m);
           }
-          this.ownerDocument.__CE_registry ? tf(a, this) : of(a, this);
+          this.ownerDocument.__CE_registry ? xf(a, this) : sf(a, this);
           return g;
         }
       });
@@ -4695,10 +4724,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     function c(e, f) {
       e.insertAdjacentElement = function (g, h) {
-        var k = T(h);
+        var k = S(h);
         g = f.call(this, g, h);
-        k && sf(a, h);
-        T(g) && qf(a, h);
+        k && wf(a, h);
+        S(g) && uf(a, h);
         return g;
       };
     }
@@ -4710,7 +4739,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         for (k = 0; k < l.length; k++) {
-          tf(a, l[k]);
+          xf(a, l[k]);
         }
       }
 
@@ -4725,8 +4754,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       };
     }
 
-    Je && (Element.prototype.attachShadow = function (e) {
-      e = Je.call(this, e);
+    Ne && (Element.prototype.attachShadow = function (e) {
+      e = Ne.call(this, e);
 
       if (a.R && !e.__CE_patched) {
         e.__CE_patched = !0;
@@ -4738,73 +4767,73 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       return this.__CE_shadowRoot = e;
     });
-    Ke && Ke.get ? b(Element.prototype, Ke) : $e && $e.get ? b(HTMLElement.prototype, $e) : nf(a, function (e) {
+    Oe && Oe.get ? b(Element.prototype, Oe) : df && df.get ? b(HTMLElement.prototype, df) : rf(a, function (e) {
       b(e, {
         enumerable: !0,
         configurable: !0,
         get: function get() {
-          return De.call(this, !0).innerHTML;
+          return He.call(this, !0).innerHTML;
         },
         set: function set(f) {
           var g = "template" === this.localName,
               h = g ? this.content : this,
-              k = xe.call(document, this.namespaceURI, this.localName);
+              k = Be.call(document, this.namespaceURI, this.localName);
 
           for (k.innerHTML = f; 0 < h.childNodes.length;) {
-            Ge.call(h, h.childNodes[0]);
+            Ke.call(h, h.childNodes[0]);
           }
 
           for (f = g ? k.content : k; 0 < f.childNodes.length;) {
-            Ee.call(h, f.childNodes[0]);
+            Ie.call(h, f.childNodes[0]);
           }
         }
       });
     });
 
     Element.prototype.setAttribute = function (e, f) {
-      if (1 !== this.__CE_state) return Me.call(this, e, f);
-      var g = Le.call(this, e);
-      Me.call(this, e, f);
-      f = Le.call(this, e);
+      if (1 !== this.__CE_state) return Qe.call(this, e, f);
+      var g = Pe.call(this, e);
+      Qe.call(this, e, f);
+      f = Pe.call(this, e);
       a.attributeChangedCallback(this, e, g, f, null);
     };
 
     Element.prototype.setAttributeNS = function (e, f, g) {
-      if (1 !== this.__CE_state) return Pe.call(this, e, f, g);
-      var h = Oe.call(this, e, f);
-      Pe.call(this, e, f, g);
-      g = Oe.call(this, e, f);
+      if (1 !== this.__CE_state) return Te.call(this, e, f, g);
+      var h = Se.call(this, e, f);
+      Te.call(this, e, f, g);
+      g = Se.call(this, e, f);
       a.attributeChangedCallback(this, f, h, g, e);
     };
 
     Element.prototype.removeAttribute = function (e) {
-      if (1 !== this.__CE_state) return Ne.call(this, e);
-      var f = Le.call(this, e);
-      Ne.call(this, e);
+      if (1 !== this.__CE_state) return Re.call(this, e);
+      var f = Pe.call(this, e);
+      Re.call(this, e);
       null !== f && a.attributeChangedCallback(this, e, f, null, null);
     };
 
     Element.prototype.removeAttributeNS = function (e, f) {
-      if (1 !== this.__CE_state) return Qe.call(this, e, f);
-      var g = Oe.call(this, e, f);
-      Qe.call(this, e, f);
-      var h = Oe.call(this, e, f);
+      if (1 !== this.__CE_state) return Ue.call(this, e, f);
+      var g = Se.call(this, e, f);
+      Ue.call(this, e, f);
+      var h = Se.call(this, e, f);
       g !== h && a.attributeChangedCallback(this, f, g, h, e);
     };
 
-    af ? c(HTMLElement.prototype, af) : Re && c(Element.prototype, Re);
-    bf ? d(HTMLElement.prototype, bf) : Se && d(Element.prototype, Se);
-    Df(a, Element.prototype, {
-      prepend: Te,
-      append: Ue
+    ef ? c(HTMLElement.prototype, ef) : Ve && c(Element.prototype, Ve);
+    ff ? d(HTMLElement.prototype, ff) : We && d(Element.prototype, We);
+    Hf(a, Element.prototype, {
+      prepend: Xe,
+      append: Ye
     });
-    Ff(a);
+    Jf(a);
   }
 
   ;
-  var Hf = {};
+  var Lf = {};
 
-  function If(a) {
+  function Mf(a) {
     function b() {
       var c = this.constructor;
 
@@ -4812,17 +4841,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       if (!d) throw Error("Failed to construct a custom element: The constructor was not registered with `customElements`.");
       var e = d.constructionStack;
-      if (0 === e.length) return e = we.call(document, d.localName), Object.setPrototypeOf(e, c.prototype), e.__CE_state = 1, e.__CE_definition = d, pf(a, e), e;
+      if (0 === e.length) return e = Ae.call(document, d.localName), Object.setPrototypeOf(e, c.prototype), e.__CE_state = 1, e.__CE_definition = d, tf(a, e), e;
       var f = e.length - 1,
           g = e[f];
-      if (g === Hf) throw Error("Failed to construct '" + d.localName + "': This element was already constructed.");
-      e[f] = Hf;
+      if (g === Lf) throw Error("Failed to construct '" + d.localName + "': This element was already constructed.");
+      e[f] = Lf;
       Object.setPrototypeOf(g, c.prototype);
-      pf(a, g);
+      tf(a, g);
       return g;
     }
 
-    b.prototype = Ze.prototype;
+    b.prototype = cf.prototype;
     Object.defineProperty(HTMLElement.prototype, "constructor", {
       writable: !0,
       configurable: !0,
@@ -4834,7 +4863,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   ;
 
-  function Jf(a) {
+  function Nf(a) {
     function b(c, d) {
       Object.defineProperty(c, "textContent", {
         enumerable: d.enumerable,
@@ -4848,7 +4877,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               var g = this.childNodes,
                   h = g.length;
 
-              if (0 < h && T(this)) {
+              if (0 < h && S(this)) {
                 f = Array(h);
 
                 for (var k = 0; k < h; k++) {
@@ -4859,7 +4888,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             d.set.call(this, e);
             if (f) for (e = 0; e < f.length; e++) {
-              sf(a, f[e]);
+              wf(a, f[e]);
             }
           }
         }
@@ -4868,71 +4897,71 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     Node.prototype.insertBefore = function (c, d) {
       if (c instanceof DocumentFragment) {
-        var e = ff(c);
-        c = Fe.call(this, c, d);
-        if (T(this)) for (d = 0; d < e.length; d++) {
-          qf(a, e[d]);
+        var e = kf(c);
+        c = Je.call(this, c, d);
+        if (S(this)) for (d = 0; d < e.length; d++) {
+          uf(a, e[d]);
         }
         return c;
       }
 
-      e = c instanceof Element && T(c);
-      d = Fe.call(this, c, d);
-      e && sf(a, c);
-      T(this) && qf(a, c);
+      e = c instanceof Element && S(c);
+      d = Je.call(this, c, d);
+      e && wf(a, c);
+      S(this) && uf(a, c);
       return d;
     };
 
     Node.prototype.appendChild = function (c) {
       if (c instanceof DocumentFragment) {
-        var d = ff(c);
-        c = Ee.call(this, c);
-        if (T(this)) for (var e = 0; e < d.length; e++) {
-          qf(a, d[e]);
+        var d = kf(c);
+        c = Ie.call(this, c);
+        if (S(this)) for (var e = 0; e < d.length; e++) {
+          uf(a, d[e]);
         }
         return c;
       }
 
-      d = c instanceof Element && T(c);
-      e = Ee.call(this, c);
-      d && sf(a, c);
-      T(this) && qf(a, c);
+      d = c instanceof Element && S(c);
+      e = Ie.call(this, c);
+      d && wf(a, c);
+      S(this) && uf(a, c);
       return e;
     };
 
     Node.prototype.cloneNode = function (c) {
-      c = De.call(this, !!c);
-      this.ownerDocument.__CE_registry ? tf(a, c) : of(a, c);
+      c = He.call(this, !!c);
+      this.ownerDocument.__CE_registry ? xf(a, c) : sf(a, c);
       return c;
     };
 
     Node.prototype.removeChild = function (c) {
-      var d = c instanceof Element && T(c),
-          e = Ge.call(this, c);
-      d && sf(a, c);
+      var d = c instanceof Element && S(c),
+          e = Ke.call(this, c);
+      d && wf(a, c);
       return e;
     };
 
     Node.prototype.replaceChild = function (c, d) {
       if (c instanceof DocumentFragment) {
-        var e = ff(c);
-        c = He.call(this, c, d);
-        if (T(this)) for (sf(a, d), d = 0; d < e.length; d++) {
-          qf(a, e[d]);
+        var e = kf(c);
+        c = Le.call(this, c, d);
+        if (S(this)) for (wf(a, d), d = 0; d < e.length; d++) {
+          uf(a, e[d]);
         }
         return c;
       }
 
-      e = c instanceof Element && T(c);
-      var f = He.call(this, c, d),
-          g = T(this);
-      g && sf(a, d);
-      e && sf(a, c);
-      g && qf(a, c);
+      e = c instanceof Element && S(c);
+      var f = Le.call(this, c, d),
+          g = S(this);
+      g && wf(a, d);
+      e && wf(a, c);
+      g && uf(a, c);
       return f;
     };
 
-    Ie && Ie.get ? b(Node.prototype, Ie) : mf(a, function (c) {
+    Me && Me.get ? b(Node.prototype, Me) : qf(a, function (c) {
       b(c, {
         enumerable: !0,
         configurable: !0,
@@ -4945,29 +4974,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         set: function set(d) {
           for (; this.firstChild;) {
-            Ge.call(this, this.firstChild);
+            Ke.call(this, this.firstChild);
           }
 
-          null != d && "" !== d && Ee.call(this, document.createTextNode(d));
+          null != d && "" !== d && Ie.call(this, document.createTextNode(d));
         }
       });
     });
   }
 
   ;
-  var kf = window.customElements;
+  var of = window.customElements;
 
-  function Kf() {
-    var a = new jf();
+  function Of() {
+    var a = new nf();
+    Mf(a);
     If(a);
-    Ef(a);
-    Df(a, DocumentFragment.prototype, {
-      prepend: Be,
-      append: Ce
+    Hf(a, DocumentFragment.prototype, {
+      prepend: Fe,
+      append: Ge
     });
-    Jf(a);
-    Gf(a);
-    a = new U(a);
+    Nf(a);
+    Kf(a);
+    a = new T(a);
     document.__CE_registry = a;
     Object.defineProperty(window, "customElements", {
       configurable: !0,
@@ -4976,10 +5005,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   }
 
-  kf && !kf.forcePolyfill && "function" == typeof kf.define && "function" == typeof kf.get || Kf();
-  window.__CE_installPolyfill = Kf;
+  of && !of.forcePolyfill && "function" == typeof of.define && "function" == typeof of.get || Of();
+  window.__CE_installPolyfill = Of;
+  /*
+  Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+  This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+  The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+  The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+  Code distributed by Google as part of the polymer project is also
+  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+  */
 
-  function Lf() {
+  function Pf() {
     this.end = this.start = 0;
     this.rules = this.parent = this.previous = null;
     this.cssText = this.parsedCssText = "";
@@ -4988,9 +5025,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     this.parsedSelector = this.selector = this.keyframesName = "";
   }
 
-  function Mf(a) {
-    var b = a = a.replace(Nf, "").replace(Of, ""),
-        c = new Lf();
+  function Qf(a) {
+    var b = a = a.replace(Rf, "").replace(Sf, ""),
+        c = new Pf();
     c.start = 0;
     c.end = b.length;
 
@@ -4999,7 +5036,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         d.rules || (d.rules = []);
         var g = d,
             h = g.rules[g.rules.length - 1] || null;
-        d = new Lf();
+        d = new Pf();
         d.start = e + 1;
         d.parent = g;
         d.previous = h;
@@ -5007,20 +5044,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       } else "}" === b[e] && (d.end = e + 1, d = d.parent || c);
     }
 
-    return Pf(c, a);
+    return Tf(c, a);
   }
 
-  function Pf(a, b) {
+  function Tf(a, b) {
     var c = b.substring(a.start, a.end - 1);
     a.parsedCssText = a.cssText = c.trim();
-    a.parent && (c = b.substring(a.previous ? a.previous.end : a.parent.start, a.start - 1), c = Qf(c), c = c.replace(Rf, " "), c = c.substring(c.lastIndexOf(";") + 1), c = a.parsedSelector = a.selector = c.trim(), a.atRule = 0 === c.indexOf("@"), a.atRule ? 0 === c.indexOf("@media") ? a.type = Sf : c.match(Tf) && (a.type = Uf, a.keyframesName = a.selector.split(Rf).pop()) : a.type = 0 === c.indexOf("--") ? Vf : Wf);
+    a.parent && (c = b.substring(a.previous ? a.previous.end : a.parent.start, a.start - 1), c = Uf(c), c = c.replace(Vf, " "), c = c.substring(c.lastIndexOf(";") + 1), c = a.parsedSelector = a.selector = c.trim(), a.atRule = 0 === c.indexOf("@"), a.atRule ? 0 === c.indexOf("@media") ? a.type = Wf : c.match(Xf) && (a.type = Yf, a.keyframesName = a.selector.split(Vf).pop()) : a.type = 0 === c.indexOf("--") ? Zf : $f);
     if (c = a.rules) for (var d = 0, e = c.length, f = void 0; d < e && (f = c[d]); d++) {
-      Pf(f, b);
+      Tf(f, b);
     }
     return a;
   }
 
-  function Qf(a) {
+  function Uf(a) {
     return a.replace(/\\([0-9a-f]{1,6})\s/gi, function (b, c) {
       b = c;
 
@@ -5032,7 +5069,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   }
 
-  function Xf(a, b, c) {
+  function ag(a, b, c) {
     c = void 0 === c ? "" : c;
     var d = "";
 
@@ -5045,104 +5082,104 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         f = 0;
 
         for (var g = e.length, h = void 0; f < g && (h = e[f]); f++) {
-          d = Xf(h, b, d);
+          d = ag(h, b, d);
         }
-      } else b ? b = a.cssText : (b = a.cssText, b = b.replace(Yf, "").replace(Zf, ""), b = b.replace($f, "").replace(ag, "")), (d = b.trim()) && (d = "  " + d + "\n");
+      } else b ? b = a.cssText : (b = a.cssText, b = b.replace(bg, "").replace(cg, ""), b = b.replace(dg, "").replace(eg, "")), (d = b.trim()) && (d = "  " + d + "\n");
     }
 
     d && (a.selector && (c += a.selector + " {\n"), c += d, a.selector && (c += "}\n\n"));
     return c;
   }
 
-  var Wf = 1,
-      Uf = 7,
-      Sf = 4,
-      Vf = 1E3,
-      Nf = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//gim,
-      Of = /@import[^;]*;/gim,
-      Yf = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?(?:[;\n]|$)/gim,
-      Zf = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?{[^}]*?}(?:[;\n]|$)?/gim,
-      $f = /@apply\s*\(?[^);]*\)?\s*(?:[;\n]|$)?/gim,
-      ag = /[^;:]*?:[^;]*?var\([^;]*\)(?:[;\n]|$)?/gim,
-      Tf = /^@[^\s]*keyframes/,
-      Rf = /\s+/g;
-  var V = !(window.ShadyDOM && window.ShadyDOM.inUse),
-      bg;
+  var $f = 1,
+      Yf = 7,
+      Wf = 4,
+      Zf = 1E3,
+      Rf = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//gim,
+      Sf = /@import[^;]*;/gim,
+      bg = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?(?:[;\n]|$)/gim,
+      cg = /(?:^[^;\-\s}]+)?--[^;{}]*?:[^{};]*?{[^}]*?}(?:[;\n]|$)?/gim,
+      dg = /@apply\s*\(?[^);]*\)?\s*(?:[;\n]|$)?/gim,
+      eg = /[^;:]*?:[^;]*?var\([^;]*\)(?:[;\n]|$)?/gim,
+      Xf = /^@[^\s]*keyframes/,
+      Vf = /\s+/g;
+  var U = !(window.ShadyDOM && window.ShadyDOM.inUse),
+      fg;
 
-  function cg(a) {
-    bg = a && a.shimcssproperties ? !1 : V || !(navigator.userAgent.match(/AppleWebKit\/601|Edge\/15/) || !window.CSS || !CSS.supports || !CSS.supports("box-shadow", "0 0 0 var(--foo)"));
+  function gg(a) {
+    fg = a && a.shimcssproperties ? !1 : U || !(navigator.userAgent.match(/AppleWebKit\/601|Edge\/15/) || !window.CSS || !CSS.supports || !CSS.supports("box-shadow", "0 0 0 var(--foo)"));
   }
 
-  var dg;
-  window.ShadyCSS && void 0 !== window.ShadyCSS.cssBuild && (dg = window.ShadyCSS.cssBuild);
-  var eg = !(!window.ShadyCSS || !window.ShadyCSS.disableRuntime);
-  window.ShadyCSS && void 0 !== window.ShadyCSS.nativeCss ? bg = window.ShadyCSS.nativeCss : window.ShadyCSS ? (cg(window.ShadyCSS), window.ShadyCSS = void 0) : cg(window.WebComponents && window.WebComponents.flags);
-  var X = bg;
-  var fg = /(?:^|[;\s{]\s*)(--[\w-]*?)\s*:\s*(?:((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};{])+)|\{([^}]*)\}(?:(?=[;\s}])|$))/gi,
-      hg = /(?:^|\W+)@apply\s*\(?([^);\n]*)\)?/gi,
-      ig = /(--[\w-]+)\s*([:,;)]|$)/gi,
-      jg = /(animation\s*:)|(animation-name\s*:)/,
-      kg = /@media\s(.*)/,
-      lg = /\{[^}]*\}/g;
-  var mg = new Set();
+  var hg;
+  window.ShadyCSS && void 0 !== window.ShadyCSS.cssBuild && (hg = window.ShadyCSS.cssBuild);
+  var ig = !(!window.ShadyCSS || !window.ShadyCSS.disableRuntime);
+  window.ShadyCSS && void 0 !== window.ShadyCSS.nativeCss ? fg = window.ShadyCSS.nativeCss : window.ShadyCSS ? (gg(window.ShadyCSS), window.ShadyCSS = void 0) : gg(window.WebComponents && window.WebComponents.flags);
+  var V = fg;
+  var jg = /(?:^|[;\s{]\s*)(--[\w-]*?)\s*:\s*(?:((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};{])+)|\{([^}]*)\}(?:(?=[;\s}])|$))/gi,
+      kg = /(?:^|\W+)@apply\s*\(?([^);\n]*)\)?/gi,
+      lg = /(--[\w-]+)\s*([:,;)]|$)/gi,
+      mg = /(animation\s*:)|(animation-name\s*:)/,
+      ng = /@media\s(.*)/,
+      og = /\{[^}]*\}/g;
+  var pg = new Set();
 
-  function ng(a, b) {
+  function qg(a, b) {
     if (!a) return "";
-    "string" === typeof a && (a = Mf(a));
-    b && og(a, b);
-    return Xf(a, X);
+    "string" === typeof a && (a = Qf(a));
+    b && sg(a, b);
+    return ag(a, V);
   }
 
-  function pg(a) {
-    !a.__cssRules && a.textContent && (a.__cssRules = Mf(a.textContent));
+  function tg(a) {
+    !a.__cssRules && a.textContent && (a.__cssRules = Qf(a.textContent));
     return a.__cssRules || null;
   }
 
-  function qg(a) {
-    return !!a.parent && a.parent.type === Uf;
+  function ug(a) {
+    return !!a.parent && a.parent.type === Yf;
   }
 
-  function og(a, b, c, d) {
+  function sg(a, b, c, d) {
     if (a) {
       var e = !1,
           f = a.type;
 
-      if (d && f === Sf) {
-        var g = a.selector.match(kg);
+      if (d && f === Wf) {
+        var g = a.selector.match(ng);
         g && (window.matchMedia(g[1]).matches || (e = !0));
       }
 
-      f === Wf ? b(a) : c && f === Uf ? c(a) : f === Vf && (e = !0);
+      f === $f ? b(a) : c && f === Yf ? c(a) : f === Zf && (e = !0);
       if ((a = a.rules) && !e) for (e = 0, f = a.length, g = void 0; e < f && (g = a[e]); e++) {
-        og(g, b, c, d);
+        sg(g, b, c, d);
       }
     }
   }
 
-  function rg(a, b, c, d) {
+  function vg(a, b, c, d) {
     var e = document.createElement("style");
     b && e.setAttribute("scope", b);
     e.textContent = a;
-    sg(e, c, d);
+    wg(e, c, d);
     return e;
   }
 
-  var tg = null;
+  var xg = null;
 
-  function ug(a) {
+  function yg(a) {
     a = document.createComment(" Shady DOM styles for " + a + " ");
     var b = document.head;
-    b.insertBefore(a, (tg ? tg.nextSibling : null) || b.firstChild);
-    return tg = a;
+    b.insertBefore(a, (xg ? xg.nextSibling : null) || b.firstChild);
+    return xg = a;
   }
 
-  function sg(a, b, c) {
+  function wg(a, b, c) {
     b = b || document.head;
     b.insertBefore(a, c && c.nextSibling || b.firstChild);
-    tg ? a.compareDocumentPosition(tg) === Node.DOCUMENT_POSITION_PRECEDING && (tg = a) : tg = a;
+    xg ? a.compareDocumentPosition(xg) === Node.DOCUMENT_POSITION_PRECEDING && (xg = a) : xg = a;
   }
 
-  function vg(a, b) {
+  function zg(a, b) {
     for (var c = 0, d = a.length; b < d; b++) {
       if ("(" === a[b]) c++;else if (")" === a[b] && 0 === --c) return b;
     }
@@ -5150,39 +5187,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return -1;
   }
 
-  function wg(a, b) {
+  function Ag(a, b) {
     var c = a.indexOf("var(");
     if (-1 === c) return b(a, "", "", "");
-    var d = vg(a, c + 3),
+    var d = zg(a, c + 3),
         e = a.substring(c + 4, d);
     c = a.substring(0, c);
-    a = wg(a.substring(d + 1), b);
+    a = Ag(a.substring(d + 1), b);
     d = e.indexOf(",");
     return -1 === d ? b(c, e.trim(), "", a) : b(c, e.substring(0, d).trim(), e.substring(d + 1).trim(), a);
   }
 
-  function xg(a, b) {
-    V ? a.setAttribute("class", b) : window.ShadyDOM.nativeMethods.setAttribute.call(a, "class", b);
+  function Bg(a, b) {
+    U ? a.setAttribute("class", b) : window.ShadyDOM.nativeMethods.setAttribute.call(a, "class", b);
   }
 
-  var yg = window.ShadyDOM && window.ShadyDOM.wrap || function (a) {
+  var Cg = window.ShadyDOM && window.ShadyDOM.wrap || function (a) {
     return a;
   };
 
-  function zg(a) {
+  function Dg(a) {
     var b = a.localName,
         c = "";
     b ? -1 < b.indexOf("-") || (c = b, b = a.getAttribute && a.getAttribute("is") || "") : (b = a.is, c = a.extends);
     return {
       is: b,
-      ba: c
+      ca: c
     };
   }
 
-  function Ag(a) {
+  function Eg(a) {
     for (var b = [], c = "", d = 0; 0 <= d && d < a.length; d++) {
       if ("(" === a[d]) {
-        var e = vg(a, d);
+        var e = zg(a, d);
         c += a.slice(d, e + 1);
         d = e;
       } else "," === a[d] ? (b.push(c), c = "") : c += a[d];
@@ -5192,8 +5229,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return b;
   }
 
-  function Bg(a) {
-    if (void 0 !== dg) return dg;
+  function Fg(a) {
+    if (void 0 !== hg) return hg;
 
     if (void 0 === a.__cssBuild) {
       var b = a.getAttribute("css-build");
@@ -5221,74 +5258,74 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return a.__cssBuild || "";
   }
 
-  function Cg(a) {
+  function Gg(a) {
     a = void 0 === a ? "" : a;
-    return "" !== a && X ? V ? "shadow" === a : "shady" === a : !1;
+    return "" !== a && V ? U ? "shadow" === a : "shady" === a : !1;
   }
 
   ;
 
-  function Dg() {}
+  function Hg() {}
 
-  function Eg(a, b) {
-    Fg(Gg, a, function (c) {
-      Hg(c, b || "");
+  function Ig(a, b) {
+    Jg(Kg, a, function (c) {
+      Lg(c, b || "");
     });
   }
 
-  function Fg(a, b, c) {
+  function Jg(a, b, c) {
     b.nodeType === Node.ELEMENT_NODE && c(b);
     var d;
     "template" === b.localName ? d = (b.content || b._content || b).childNodes : d = b.children || b.childNodes;
     if (d) for (b = 0; b < d.length; b++) {
-      Fg(a, d[b], c);
+      Jg(a, d[b], c);
     }
   }
 
-  function Hg(a, b, c) {
+  function Lg(a, b, c) {
     if (b) if (a.classList) c ? (a.classList.remove("style-scope"), a.classList.remove(b)) : (a.classList.add("style-scope"), a.classList.add(b));else if (a.getAttribute) {
       var d = a.getAttribute("class");
-      c ? d && (b = d.replace("style-scope", "").replace(b, ""), xg(a, b)) : xg(a, (d ? d + " " : "") + "style-scope " + b);
+      c ? d && (b = d.replace("style-scope", "").replace(b, ""), Bg(a, b)) : Bg(a, (d ? d + " " : "") + "style-scope " + b);
     }
   }
 
-  function Ig(a, b, c) {
-    Fg(Gg, a, function (d) {
-      Hg(d, b, !0);
-      Hg(d, c);
+  function Mg(a, b, c) {
+    Jg(Kg, a, function (d) {
+      Lg(d, b, !0);
+      Lg(d, c);
     });
   }
 
-  function Jg(a, b) {
-    Fg(Gg, a, function (c) {
-      Hg(c, b || "", !0);
+  function Ng(a, b) {
+    Jg(Kg, a, function (c) {
+      Lg(c, b || "", !0);
     });
   }
 
-  function Kg(a, b, c, d, e) {
-    var f = Gg;
+  function Og(a, b, c, d, e) {
+    var f = Kg;
     e = void 0 === e ? "" : e;
-    "" === e && (V || "shady" === (void 0 === d ? "" : d) ? e = ng(b, c) : (a = zg(a), e = Lg(f, b, a.is, a.ba, c) + "\n\n"));
+    "" === e && (U || "shady" === (void 0 === d ? "" : d) ? e = qg(b, c) : (a = Dg(a), e = Pg(f, b, a.is, a.ca, c) + "\n\n"));
     return e.trim();
   }
 
-  function Lg(a, b, c, d, e) {
-    var f = Mg(c, d);
+  function Pg(a, b, c, d, e) {
+    var f = Qg(c, d);
     c = c ? "." + c : "";
-    return ng(b, function (g) {
-      g.c || (g.selector = g.w = Ng(a, g, a.b, c, f), g.c = !0);
+    return qg(b, function (g) {
+      g.c || (g.selector = g.w = Rg(a, g, a.b, c, f), g.c = !0);
       e && e(g, c, f);
     });
   }
 
-  function Mg(a, b) {
+  function Qg(a, b) {
     return b ? "[is=" + a + "]" : a;
   }
 
-  function Ng(a, b, c, d, e) {
-    var f = Ag(b.selector);
+  function Rg(a, b, c, d, e) {
+    var f = Eg(b.selector);
 
-    if (!qg(b)) {
+    if (!ug(b)) {
       b = 0;
 
       for (var g = f.length, h = void 0; b < g && (h = f[b]); b++) {
@@ -5301,17 +5338,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }).join(",");
   }
 
-  function Og(a) {
-    return a.replace(Pg, function (b, c, d) {
+  function Sg(a) {
+    return a.replace(Tg, function (b, c, d) {
       -1 < d.indexOf("+") ? d = d.replace(/\+/g, "___") : -1 < d.indexOf("___") && (d = d.replace(/___/g, "+"));
       return ":" + c + "(" + d + ")";
     });
   }
 
-  function Qg(a) {
-    for (var b = [], c; c = a.match(Rg);) {
+  function Ug(a) {
+    for (var b = [], c; c = a.match(Vg);) {
       var d = c.index,
-          e = vg(a, d);
+          e = zg(a, d);
       if (-1 === e) throw Error(c.input + " selector missing ')'");
       c = a.slice(d, e + 1);
       a = a.replace(c, "\uE000");
@@ -5324,49 +5361,49 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     };
   }
 
-  function Sg(a, b) {
+  function Wg(a, b) {
     var c = a.split("\uE000");
     return b.reduce(function (d, e, f) {
       return d + e + c[f + 1];
     }, c[0]);
   }
 
-  Dg.prototype.b = function (a, b, c) {
+  Hg.prototype.b = function (a, b, c) {
     var d = !1;
     a = a.trim();
-    var e = Pg.test(a);
-    e && (a = a.replace(Pg, function (h, k, l) {
+    var e = Tg.test(a);
+    e && (a = a.replace(Tg, function (h, k, l) {
       return ":" + k + "(" + l.replace(/\s/g, "") + ")";
-    }), a = Og(a));
-    var f = Rg.test(a);
+    }), a = Sg(a));
+    var f = Vg.test(a);
 
     if (f) {
-      var g = Qg(a);
+      var g = Ug(a);
       a = g.wa;
       g = g.matches;
     }
 
-    a = a.replace(Tg, ":host $1");
-    a = a.replace(Ug, function (h, k, l) {
-      d || (h = Vg(l, k, b, c), d = d || h.stop, k = h.Qa, l = h.value);
+    a = a.replace(Xg, ":host $1");
+    a = a.replace(Yg, function (h, k, l) {
+      d || (h = Zg(l, k, b, c), d = d || h.stop, k = h.Qa, l = h.value);
       return k + l;
     });
-    f && (a = Sg(a, g));
-    e && (a = Og(a));
-    return a = a.replace(Wg, function (h, k, l, m) {
+    f && (a = Wg(a, g));
+    e && (a = Sg(a));
+    return a = a.replace($g, function (h, k, l, m) {
       return '[dir="' + l + '"] ' + k + m + ", " + k + '[dir="' + l + '"]' + m;
     });
   };
 
-  function Vg(a, b, c, d) {
+  function Zg(a, b, c, d) {
     var e = a.indexOf("::slotted");
-    0 <= a.indexOf(":host") ? a = Xg(a, d) : 0 !== e && (a = c ? Yg(a, c) : a);
+    0 <= a.indexOf(":host") ? a = ah(a, d) : 0 !== e && (a = c ? bh(a, c) : a);
     c = !1;
     0 <= e && (b = "", c = !0);
 
     if (c) {
       var f = !0;
-      c && (a = a.replace(Zg, function (g, h) {
+      c && (a = a.replace(ch, function (g, h) {
         return " > " + h;
       }));
     }
@@ -5378,7 +5415,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     };
   }
 
-  function Yg(a, b) {
+  function bh(a, b) {
     a = a.split(/(\[.+?\])/);
 
     for (var c = [], d = 0; d < a.length; d++) {
@@ -5391,22 +5428,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return c.join("");
   }
 
-  function Xg(a, b) {
-    var c = a.match($g);
-    return (c = c && c[2].trim() || "") ? c[0].match(ah) ? a.replace($g, function (d, e, f) {
+  function ah(a, b) {
+    var c = a.match(dh);
+    return (c = c && c[2].trim() || "") ? c[0].match(eh) ? a.replace(dh, function (d, e, f) {
       return b + f;
-    }) : c.split(ah)[0] === b ? c : "should_not_match" : a.replace(":host", b);
+    }) : c.split(eh)[0] === b ? c : "should_not_match" : a.replace(":host", b);
   }
 
-  function bh(a) {
+  function fh(a) {
     ":root" === a.selector && (a.selector = "html");
   }
 
-  Dg.prototype.c = function (a) {
-    return a.match(":host") ? "" : a.match("::slotted") ? this.b(a, ":not(.style-scope)") : Yg(a.trim(), ":not(.style-scope)");
+  Hg.prototype.c = function (a) {
+    return a.match(":host") ? "" : a.match("::slotted") ? this.b(a, ":not(.style-scope)") : bh(a.trim(), ":not(.style-scope)");
   };
 
-  fa.Object.defineProperties(Dg.prototype, {
+  ca.Object.defineProperties(Hg.prototype, {
     a: {
       configurable: !0,
       enumerable: !0,
@@ -5415,60 +5452,60 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     }
   });
-  var Pg = /:(nth[-\w]+)\(([^)]+)\)/,
-      Ug = /(^|[\s>+~]+)((?:\[.+?\]|[^\s>+~=[])+)/g,
-      ah = /[[.:#*]/,
-      Tg = /^(::slotted)/,
-      $g = /(:host)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/,
-      Zg = /(?:::slotted)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/,
-      Wg = /(.*):dir\((?:(ltr|rtl))\)(.*)/,
-      Rg = /:(?:matches|any|-(?:webkit|moz)-any)/,
-      Gg = new Dg();
+  var Tg = /:(nth[-\w]+)\(([^)]+)\)/,
+      Yg = /(^|[\s>+~]+)((?:\[.+?\]|[^\s>+~=[])+)/g,
+      eh = /[[.:#*]/,
+      Xg = /^(::slotted)/,
+      dh = /(:host)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/,
+      ch = /(?:::slotted)(?:\(((?:\([^)(]*\)|[^)(]*)+?)\))/,
+      $g = /(.*):dir\((?:(ltr|rtl))\)(.*)/,
+      Vg = /:(?:matches|any|-(?:webkit|moz)-any)/,
+      Kg = new Hg();
 
-  function ch(a, b, c, d, e) {
+  function gh(a, b, c, d, e) {
     this.H = a || null;
     this.b = b || null;
     this.ta = c || [];
     this.F = null;
     this.cssBuild = e || "";
-    this.ba = d || "";
+    this.ca = d || "";
     this.a = this.G = this.L = null;
   }
 
-  function dh(a) {
+  function hh(a) {
     return a ? a.__styleInfo : null;
   }
 
-  function eh(a, b) {
+  function ih(a, b) {
     return a.__styleInfo = b;
   }
 
-  ch.prototype.c = function () {
+  gh.prototype.c = function () {
     return this.H;
   };
 
-  ch.prototype._getStyleRules = ch.prototype.c;
+  gh.prototype._getStyleRules = gh.prototype.c;
 
-  function fh(a) {
+  function jh(a) {
     var b = this.matches || this.matchesSelector || this.mozMatchesSelector || this.msMatchesSelector || this.oMatchesSelector || this.webkitMatchesSelector;
     return b && b.call(this, a);
   }
 
-  var gh = /:host\s*>\s*/,
-      hh = navigator.userAgent.match("Trident");
+  var kh = /:host\s*>\s*/,
+      lh = navigator.userAgent.match("Trident");
 
-  function ih() {}
+  function mh() {}
 
-  function jh(a) {
+  function nh(a) {
     var b = {},
         c = [],
         d = 0;
-    og(a, function (f) {
-      kh(f);
+    sg(a, function (f) {
+      oh(f);
       f.index = d++;
       f = f.v.cssText;
 
-      for (var g; g = ig.exec(f);) {
+      for (var g; g = lg.exec(f);) {
         var h = g[1];
         ":" !== g[2] && (b[h] = !0);
       }
@@ -5485,17 +5522,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return a;
   }
 
-  function kh(a) {
+  function oh(a) {
     if (!a.v) {
       var b = {},
           c = {};
-      lh(a, c) && (b.K = c, a.rules = null);
-      b.cssText = a.parsedCssText.replace(lg, "").replace(fg, "");
+      ph(a, c) && (b.K = c, a.rules = null);
+      b.cssText = a.parsedCssText.replace(og, "").replace(jg, "");
       a.v = b;
     }
   }
 
-  function lh(a, b) {
+  function ph(a, b) {
     var c = a.v;
 
     if (c) {
@@ -5503,7 +5540,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     } else {
       c = a.parsedCssText;
 
-      for (var d; a = fg.exec(c);) {
+      for (var d; a = jg.exec(c);) {
         d = (a[2] || a[3]).trim();
         if ("inherit" !== d || "unset" !== d) b[a[1].trim()] = d;
         d = !0;
@@ -5513,25 +5550,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   }
 
-  function mh(a, b, c) {
-    b && (b = 0 <= b.indexOf(";") ? nh(a, b, c) : wg(b, function (d, e, f, g) {
+  function qh(a, b, c) {
+    b && (b = 0 <= b.indexOf(";") ? rh(a, b, c) : Ag(b, function (d, e, f, g) {
       if (!e) return d + g;
-      (e = mh(a, c[e], c)) && "initial" !== e ? "apply-shim-inherit" === e && (e = "inherit") : e = mh(a, c[f] || f, c) || f;
+      (e = qh(a, c[e], c)) && "initial" !== e ? "apply-shim-inherit" === e && (e = "inherit") : e = qh(a, c[f] || f, c) || f;
       return d + (e || "") + g;
     }));
     return b && b.trim() || "";
   }
 
-  function nh(a, b, c) {
+  function rh(a, b, c) {
     b = b.split(";");
 
     for (var d = 0, e, f; d < b.length; d++) {
       if (e = b[d]) {
-        hg.lastIndex = 0;
-        if (f = hg.exec(e)) e = mh(a, c[f[1]], c);else if (f = e.indexOf(":"), -1 !== f) {
+        kg.lastIndex = 0;
+        if (f = kg.exec(e)) e = qh(a, c[f[1]], c);else if (f = e.indexOf(":"), -1 !== f) {
           var g = e.substring(f);
           g = g.trim();
-          g = mh(a, g, c) || g;
+          g = qh(a, g, c) || g;
           e = e.substring(0, f) + g;
         }
         b[d] = e && e.lastIndexOf(";") === e.length - 1 ? e.slice(0, -1) : e || "";
@@ -5541,13 +5578,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     return b.join(";");
   }
 
-  function oh(a, b) {
+  function sh(a, b) {
     var c = {},
         d = [];
-    og(a, function (e) {
-      e.v || kh(e);
+    sg(a, function (e) {
+      e.v || oh(e);
       var f = e.w || e.parsedSelector;
-      b && e.v.K && f && fh.call(b, f) && (lh(e, c), e = e.index, f = parseInt(e / 32, 10), d[f] = (d[f] || 0) | 1 << e % 32);
+      b && e.v.K && f && jh.call(b, f) && (ph(e, c), e = e.index, f = parseInt(e / 32, 10), d[f] = (d[f] || 0) | 1 << e % 32);
     }, null, !0);
     return {
       K: c,
@@ -5555,19 +5592,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     };
   }
 
-  function ph(a, b, c, d) {
-    b.v || kh(b);
+  function th(a, b, c, d) {
+    b.v || oh(b);
 
     if (b.v.K) {
-      var e = zg(a);
+      var e = Dg(a);
       a = e.is;
-      e = e.ba;
-      e = a ? Mg(a, e) : "html";
+      e = e.ca;
+      e = a ? Qg(a, e) : "html";
       var f = b.parsedSelector;
-      var g = !!f.match(gh) || "html" === e && -1 < f.indexOf("html");
+      var g = !!f.match(kh) || "html" === e && -1 < f.indexOf("html");
       var h = 0 === f.indexOf(":host") && !g;
       "shady" === c && (g = f === e + " > *." + e || -1 !== f.indexOf("html"), h = !g && 0 === f.indexOf(e));
-      if (g || h) c = e, h && (b.w || (b.w = Ng(Gg, b, Gg.b, a ? "." + a : "", e)), c = b.w || e), g && "html" === e && (c = b.w || b.J), d({
+      if (g || h) c = e, h && (b.w || (b.w = Rg(Kg, b, Kg.b, a ? "." + a : "", e)), c = b.w || e), g && "html" === e && (c = b.w || b.J), d({
         wa: c,
         Xa: h,
         mb: g
@@ -5575,12 +5612,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   }
 
-  function qh(a, b, c) {
+  function uh(a, b, c) {
     var d = {},
         e = {};
-    og(b, function (f) {
-      ph(a, f, c, function (g) {
-        fh.call(a._element || a, g.wa) && (g.Xa ? lh(f, d) : lh(f, e));
+    sg(b, function (f) {
+      th(a, f, c, function (g) {
+        jh.call(a._element || a, g.wa) && (g.Xa ? ph(f, d) : ph(f, e));
       });
     }, null, !0);
     return {
@@ -5589,32 +5626,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     };
   }
 
-  function rh(a, b, c, d) {
-    var e = zg(b),
-        f = Mg(e.is, e.ba),
+  function vh(a, b, c, d) {
+    var e = Dg(b),
+        f = Qg(e.is, e.ca),
         g = new RegExp("(?:^|[^.#[:])" + (b.extends ? "\\" + f.slice(0, -1) + "\\]" : f) + "($|[.:[\\s>+~])"),
-        h = dh(b);
+        h = hh(b);
     e = h.H;
     h = h.cssBuild;
-    var k = sh(e, d);
-    return Kg(b, e, function (l) {
+    var k = wh(e, d);
+    return Og(b, e, function (l) {
       var m = "";
-      l.v || kh(l);
-      l.v.cssText && (m = nh(a, l.v.cssText, c));
+      l.v || oh(l);
+      l.v.cssText && (m = rh(a, l.v.cssText, c));
       l.cssText = m;
 
-      if (!V && !qg(l) && l.cssText) {
+      if (!U && !ug(l) && l.cssText) {
         var q = m = l.cssText;
-        null == l.Da && (l.Da = jg.test(m));
-        if (l.Da) if (null == l.ja) {
-          l.ja = [];
+        null == l.Da && (l.Da = mg.test(m));
+        if (l.Da) if (null == l.ka) {
+          l.ka = [];
 
           for (var H in k) {
-            q = k[H], q = q(m), m !== q && (m = q, l.ja.push(H));
+            q = k[H], q = q(m), m !== q && (m = q, l.ka.push(H));
           }
         } else {
-          for (H = 0; H < l.ja.length; ++H) {
-            q = k[l.ja[H]], m = q(m);
+          for (H = 0; H < l.ka.length; ++H) {
+            q = k[l.ka[H]], m = q(m);
           }
 
           q = m;
@@ -5622,11 +5659,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         l.cssText = q;
         l.w = l.w || l.selector;
         m = "." + d;
-        H = Ag(l.w);
+        H = Eg(l.w);
         q = 0;
 
-        for (var E = H.length, r = void 0; q < E && (r = H[q]); q++) {
-          H[q] = r.match(g) ? r.replace(f, m) : m + " " + r;
+        for (var C = H.length, t = void 0; q < C && (t = H[q]); q++) {
+          H[q] = t.match(g) ? t.replace(f, m) : m + " " + t;
         }
 
         l.selector = H.join(",");
@@ -5634,37 +5671,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }, h);
   }
 
-  function sh(a, b) {
+  function wh(a, b) {
     a = a.b;
     var c = {};
-    if (!V && a) for (var d = 0, e = a[d]; d < a.length; e = a[++d]) {
+    if (!U && a) for (var d = 0, e = a[d]; d < a.length; e = a[++d]) {
       var f = e,
           g = b;
       f.l = new RegExp("\\b" + f.keyframesName + "(?!\\B|-)", "g");
       f.a = f.keyframesName + "-" + g;
       f.w = f.w || f.selector;
       f.selector = f.w.replace(f.keyframesName, f.a);
-      c[e.keyframesName] = th(e);
+      c[e.keyframesName] = xh(e);
     }
     return c;
   }
 
-  function th(a) {
+  function xh(a) {
     return function (b) {
       return b.replace(a.l, a.a);
     };
   }
 
-  function uh(a, b) {
-    var c = vh,
-        d = pg(a);
-    a.textContent = ng(d, function (e) {
+  function yh(a, b) {
+    var c = zh,
+        d = tg(a);
+    a.textContent = qg(d, function (e) {
       var f = e.cssText = e.parsedCssText;
-      e.v && e.v.cssText && (f = f.replace(Yf, "").replace(Zf, ""), e.cssText = nh(c, f, b));
+      e.v && e.v.cssText && (f = f.replace(bg, "").replace(cg, ""), e.cssText = rh(c, f, b));
     });
   }
 
-  fa.Object.defineProperties(ih.prototype, {
+  ca.Object.defineProperties(mh.prototype, {
     a: {
       configurable: !0,
       enumerable: !0,
@@ -5673,26 +5710,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     }
   });
-  var vh = new ih();
-  var wh = {},
-      xh = window.customElements;
+  var zh = new mh();
+  var Ah = {},
+      Bh = window.customElements;
 
-  if (xh && !V && !eg) {
-    var yh = xh.define;
+  if (Bh && !U && !ig) {
+    var Ch = Bh.define;
 
-    xh.define = function (a, b, c) {
-      wh[a] || (wh[a] = ug(a));
-      yh.call(xh, a, b, c);
+    Bh.define = function (a, b, c) {
+      Ah[a] || (Ah[a] = yg(a));
+      Ch.call(Bh, a, b, c);
     };
   }
 
   ;
 
-  function zh() {
+  function Dh() {
     this.cache = {};
   }
 
-  zh.prototype.store = function (a, b, c, d) {
+  Dh.prototype.store = function (a, b, c, d) {
     var e = this.cache[a] || [];
     e.push({
       K: b,
@@ -5703,20 +5740,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     this.cache[a] = e;
   };
 
-  function Ah() {}
+  function Eh() {}
 
-  var Bh = new RegExp(Gg.a + "\\s*([^\\s]*)");
+  var Fh = new RegExp(Kg.a + "\\s*([^\\s]*)");
 
-  function Ch(a) {
-    return (a = (a.classList && a.classList.value ? a.classList.value : a.getAttribute("class") || "").match(Bh)) ? a[1] : "";
+  function Gh(a) {
+    return (a = (a.classList && a.classList.value ? a.classList.value : a.getAttribute("class") || "").match(Fh)) ? a[1] : "";
   }
 
-  function Dh(a) {
-    var b = yg(a).getRootNode();
-    return b === a || b === a.ownerDocument ? "" : (a = b.host) ? zg(a).is : "";
+  function Hh(a) {
+    var b = Cg(a).getRootNode();
+    return b === a || b === a.ownerDocument ? "" : (a = b.host) ? Dg(a).is : "";
   }
 
-  function Eh(a) {
+  function Ih(a) {
     for (var b = 0; b < a.length; b++) {
       var c = a[b];
       if (c.target !== document.documentElement && c.target !== document.head) for (var d = 0; d < c.addedNodes.length; d++) {
@@ -5724,94 +5761,94 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         if (e.nodeType === Node.ELEMENT_NODE) {
           var f = e.getRootNode(),
-              g = Ch(e);
-          if (g && f === e.ownerDocument && ("style" !== e.localName && "template" !== e.localName || "" === Bg(e))) Jg(e, g);else if (f instanceof ShadowRoot) for (f = Dh(e), f !== g && Ig(e, g, f), e = window.ShadyDOM.nativeMethods.querySelectorAll.call(e, ":not(." + Gg.a + ")"), g = 0; g < e.length; g++) {
+              g = Gh(e);
+          if (g && f === e.ownerDocument && ("style" !== e.localName && "template" !== e.localName || "" === Fg(e))) Ng(e, g);else if (f instanceof ShadowRoot) for (f = Hh(e), f !== g && Mg(e, g, f), e = window.ShadyDOM.nativeMethods.querySelectorAll.call(e, ":not(." + Kg.a + ")"), g = 0; g < e.length; g++) {
             f = e[g];
-            var h = Dh(f);
-            h && Hg(f, h);
+            var h = Hh(f);
+            h && Lg(f, h);
           }
         }
       }
     }
   }
 
-  if (!(V || window.ShadyDOM && window.ShadyDOM.handlesDynamicScoping)) {
-    var Fh = new MutationObserver(Eh),
-        Gh = function Gh(a) {
-      Fh.observe(a, {
+  if (!(U || window.ShadyDOM && window.ShadyDOM.handlesDynamicScoping)) {
+    var Jh = new MutationObserver(Ih),
+        Kh = function Kh(a) {
+      Jh.observe(a, {
         childList: !0,
         subtree: !0
       });
     };
 
-    if (window.customElements && !window.customElements.polyfillWrapFlushCallback) Gh(document);else {
-      var Hh = function Hh() {
-        Gh(document.body);
+    if (window.customElements && !window.customElements.polyfillWrapFlushCallback) Kh(document);else {
+      var Lh = function Lh() {
+        Kh(document.body);
       };
 
-      window.HTMLImports ? window.HTMLImports.whenReady(Hh) : requestAnimationFrame(function () {
+      window.HTMLImports ? window.HTMLImports.whenReady(Lh) : requestAnimationFrame(function () {
         if ("loading" === document.readyState) {
           var a = function a() {
-            Hh();
+            Lh();
             document.removeEventListener("readystatechange", a);
           };
 
           document.addEventListener("readystatechange", a);
-        } else Hh();
+        } else Lh();
       });
     }
 
-    Ah = function Ah() {
-      Eh(Fh.takeRecords());
+    Eh = function Eh() {
+      Ih(Jh.takeRecords());
     };
   }
 
   ;
-  var Ih = {};
-  var Jh = Promise.resolve();
+  var Mh = {};
+  var Nh = Promise.resolve();
 
-  function Kh(a) {
-    if (a = Ih[a]) a._applyShimCurrentVersion = a._applyShimCurrentVersion || 0, a._applyShimValidatingVersion = a._applyShimValidatingVersion || 0, a._applyShimNextVersion = (a._applyShimNextVersion || 0) + 1;
+  function Oh(a) {
+    if (a = Mh[a]) a._applyShimCurrentVersion = a._applyShimCurrentVersion || 0, a._applyShimValidatingVersion = a._applyShimValidatingVersion || 0, a._applyShimNextVersion = (a._applyShimNextVersion || 0) + 1;
   }
 
-  function Lh(a) {
+  function Ph(a) {
     return a._applyShimCurrentVersion === a._applyShimNextVersion;
   }
 
-  function Mh(a) {
+  function Qh(a) {
     a._applyShimValidatingVersion = a._applyShimNextVersion;
-    a._validating || (a._validating = !0, Jh.then(function () {
+    a._validating || (a._validating = !0, Nh.then(function () {
       a._applyShimCurrentVersion = a._applyShimNextVersion;
       a._validating = !1;
     }));
   }
 
   ;
-  var Nh = {},
-      Oh = new zh();
+  var Rh = {},
+      Sh = new Dh();
 
-  function Y() {
+  function X() {
     this.Y = {};
     this.c = document.documentElement;
-    var a = new Lf();
+    var a = new Pf();
     a.rules = [];
-    this.l = eh(this.c, new ch(a));
+    this.l = ih(this.c, new gh(a));
     this.J = !1;
     this.a = this.b = null;
   }
 
-  w = Y.prototype;
+  w = X.prototype;
 
   w.flush = function () {
-    Ah();
+    Eh();
   };
 
   w.Ta = function (a) {
-    return pg(a);
+    return tg(a);
   };
 
   w.hb = function (a) {
-    return ng(a);
+    return qg(a);
   };
 
   w.prepareTemplate = function (a, b, c) {
@@ -5820,14 +5857,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   };
 
   w.prepareTemplateStyles = function (a, b, c) {
-    if (!a._prepared && !eg) {
-      V || wh[b] || (wh[b] = ug(b));
+    if (!a._prepared && !ig) {
+      U || Ah[b] || (Ah[b] = yg(b));
       a._prepared = !0;
       a.name = b;
       a.extends = c;
-      Ih[b] = a;
-      var d = Bg(a),
-          e = Cg(d);
+      Mh[b] = a;
+      var d = Fg(a),
+          e = Gg(d);
       c = {
         is: b,
         extends: c
@@ -5837,11 +5874,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var k = g[h];
 
         if (k.hasAttribute("shady-unscoped")) {
-          if (!V) {
+          if (!U) {
             var l = k.textContent;
 
-            if (!mg.has(l)) {
-              mg.add(l);
+            if (!pg.has(l)) {
+              pg.add(l);
               var m = document.createElement("style");
               m.setAttribute("shady-unscoped", "");
               m.textContent = l;
@@ -5853,52 +5890,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         } else f.push(k.textContent), k.parentNode.removeChild(k);
       }
 
-      f = f.join("").trim() + (Nh[b] || "");
-      Ph(this);
+      f = f.join("").trim() + (Rh[b] || "");
+      Th(this);
 
       if (!e) {
-        if (g = !d) g = hg.test(f) || fg.test(f), hg.lastIndex = 0, fg.lastIndex = 0;
-        h = Mf(f);
-        g && X && this.b && this.b.transformRules(h, b);
+        if (g = !d) g = kg.test(f) || jg.test(f), kg.lastIndex = 0, jg.lastIndex = 0;
+        h = Qf(f);
+        g && V && this.b && this.b.transformRules(h, b);
         a._styleAst = h;
       }
 
       g = [];
-      X || (g = jh(a._styleAst));
-      if (!g.length || X) h = V ? a.content : null, b = wh[b] || null, d = Kg(c, a._styleAst, null, d, e ? f : ""), d = d.length ? rg(d, c.is, h, b) : null, a._style = d;
+      V || (g = nh(a._styleAst));
+      if (!g.length || V) h = U ? a.content : null, b = Ah[b] || null, d = Og(c, a._styleAst, null, d, e ? f : ""), d = d.length ? vg(d, c.is, h, b) : null, a._style = d;
       a.a = g;
     }
   };
 
   w.ab = function (a, b) {
-    Nh[b] = a.join(" ");
+    Rh[b] = a.join(" ");
   };
 
   w.prepareTemplateDom = function (a, b) {
-    if (!eg) {
-      var c = Bg(a);
-      V || "shady" === c || a._domPrepared || (a._domPrepared = !0, Eg(a.content, b));
+    if (!ig) {
+      var c = Fg(a);
+      U || "shady" === c || a._domPrepared || (a._domPrepared = !0, Ig(a.content, b));
     }
   };
 
-  function Qh(a) {
-    var b = zg(a),
+  function Uh(a) {
+    var b = Dg(a),
         c = b.is;
-    b = b.ba;
-    var d = wh[c] || null,
-        e = Ih[c];
+    b = b.ca;
+    var d = Ah[c] || null,
+        e = Mh[c];
 
     if (e) {
       c = e._styleAst;
       var f = e.a;
-      e = Bg(e);
-      b = new ch(c, d, f, b, e);
-      eh(a, b);
+      e = Fg(e);
+      b = new gh(c, d, f, b, e);
+      ih(a, b);
       return b;
     }
   }
 
-  function Rh(a) {
+  function Vh(a) {
     !a.a && window.ShadyCSS && window.ShadyCSS.CustomStyleInterface && (a.a = window.ShadyCSS.CustomStyleInterface, a.a.transformCallback = function (b) {
       a.Ha(b);
     }, a.a.validateCallback = function () {
@@ -5908,42 +5945,42 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   }
 
-  function Ph(a) {
+  function Th(a) {
     if (!a.b && window.ShadyCSS && window.ShadyCSS.ApplyShim) {
       a.b = window.ShadyCSS.ApplyShim;
-      a.b.invalidCallback = Kh;
+      a.b.invalidCallback = Oh;
       var b = !0;
     } else b = !1;
 
-    Rh(a);
+    Vh(a);
     return b;
   }
 
   w.flushCustomStyles = function () {
-    if (!eg) {
-      var a = Ph(this);
+    if (!ig) {
+      var a = Th(this);
 
       if (this.a) {
         var b = this.a.processStyles();
 
-        if ((a || this.a.enqueued) && !Cg(this.l.cssBuild)) {
-          if (X) {
+        if ((a || this.a.enqueued) && !Gg(this.l.cssBuild)) {
+          if (V) {
             if (!this.l.cssBuild) for (a = 0; a < b.length; a++) {
               var c = this.a.getStyleForCustomStyle(b[a]);
 
-              if (c && X && this.b) {
-                var d = pg(c);
-                Ph(this);
+              if (c && V && this.b) {
+                var d = tg(c);
+                Th(this);
                 this.b.transformRules(d);
-                c.textContent = ng(d);
+                c.textContent = qg(d);
               }
             }
           } else {
-            Sh(this, b);
-            Th(this, this.c, this.l);
+            Wh(this, b);
+            Xh(this, this.c, this.l);
 
             for (a = 0; a < b.length; a++) {
-              (c = this.a.getStyleForCustomStyle(b[a])) && uh(c, this.l.L);
+              (c = this.a.getStyleForCustomStyle(b[a])) && yh(c, this.l.L);
             }
 
             this.J && this.styleDocument();
@@ -5955,7 +5992,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   };
 
-  function Sh(a, b) {
+  function Wh(a, b) {
     b = b.map(function (c) {
       return a.a.getStyleForCustomStyle(c);
     }).filter(function (c) {
@@ -5966,25 +6003,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       return c & Node.DOCUMENT_POSITION_FOLLOWING ? 1 : c & Node.DOCUMENT_POSITION_PRECEDING ? -1 : 0;
     });
     a.l.H.rules = b.map(function (c) {
-      return pg(c);
+      return tg(c);
     });
   }
 
   w.styleElement = function (a, b) {
-    if (eg) {
+    if (ig) {
       if (b) {
-        dh(a) || eh(a, new ch(null));
-        var c = dh(a);
+        hh(a) || ih(a, new gh(null));
+        var c = hh(a);
         c.F = c.F || {};
         Object.assign(c.F, b);
-        Uh(this, a, c);
+        Yh(this, a, c);
       }
-    } else if (c = dh(a) || Qh(a)) if (a !== this.c && (this.J = !0), b && (c.F = c.F || {}, Object.assign(c.F, b)), X) Uh(this, a, c);else if (this.flush(), Th(this, a, c), c.ta && c.ta.length) {
-      b = zg(a).is;
+    } else if (c = hh(a) || Uh(a)) if (a !== this.c && (this.J = !0), b && (c.F = c.F || {}, Object.assign(c.F, b)), V) Yh(this, a, c);else if (this.flush(), Xh(this, a, c), c.ta && c.ta.length) {
+      b = Dg(a).is;
       var d;
 
       a: {
-        if (d = Oh.cache[b]) for (var e = d.length - 1; 0 <= e; e--) {
+        if (d = Sh.cache[b]) for (var e = d.length - 1; 0 <= e; e--) {
           var f = d[e];
 
           b: {
@@ -6015,21 +6052,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       (f = d && d.G) || (f = this.Y[b] = (this.Y[b] || 0) + 1, f = b + "-" + f);
       c.G = f;
       f = c.G;
-      h = vh;
-      h = g ? g.textContent || "" : rh(h, a, c.L, f);
-      k = dh(a);
+      h = zh;
+      h = g ? g.textContent || "" : vh(h, a, c.L, f);
+      k = hh(a);
       var l = k.a;
-      l && !V && l !== g && (l._useCount--, 0 >= l._useCount && l.parentNode && l.parentNode.removeChild(l));
-      V ? k.a ? (k.a.textContent = h, g = k.a) : h && (g = rg(h, f, a.shadowRoot, k.b)) : g ? g.parentNode || (hh && -1 < h.indexOf("@media") && (g.textContent = h), sg(g, null, k.b)) : h && (g = rg(h, f, null, k.b));
+      l && !U && l !== g && (l._useCount--, 0 >= l._useCount && l.parentNode && l.parentNode.removeChild(l));
+      U ? k.a ? (k.a.textContent = h, g = k.a) : h && (g = vg(h, f, a.shadowRoot, k.b)) : g ? g.parentNode || (lh && -1 < h.indexOf("@media") && (g.textContent = h), wg(g, null, k.b)) : h && (g = vg(h, f, null, k.b));
       g && (g._useCount = g._useCount || 0, k.a != g && g._useCount++, k.a = g);
       f = g;
-      V || (g = c.G, k = h = a.getAttribute("class") || "", e && (k = h.replace(new RegExp("\\s*x-scope\\s*" + e + "\\s*", "g"), " ")), k += (k ? " " : "") + "x-scope " + g, h !== k && xg(a, k));
-      d || Oh.store(b, c.L, f, c.G);
+      U || (g = c.G, k = h = a.getAttribute("class") || "", e && (k = h.replace(new RegExp("\\s*x-scope\\s*" + e + "\\s*", "g"), " ")), k += (k ? " " : "") + "x-scope " + g, h !== k && Bg(a, k));
+      d || Sh.store(b, c.L, f, c.G);
     }
   };
 
-  function Uh(a, b, c) {
-    var d = zg(b).is;
+  function Yh(a, b, c) {
+    var d = Dg(b).is;
 
     if (c.F) {
       var e = c.F,
@@ -6040,27 +6077,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     }
 
-    e = Ih[d];
+    e = Mh[d];
 
-    if (!(!e && b !== a.c || e && "" !== Bg(e)) && e && e._style && !Lh(e)) {
-      if (Lh(e) || e._applyShimValidatingVersion !== e._applyShimNextVersion) Ph(a), a.b && a.b.transformRules(e._styleAst, d), e._style.textContent = Kg(b, c.H), Mh(e);
-      V && (a = b.shadowRoot) && (a = a.querySelector("style")) && (a.textContent = Kg(b, c.H));
+    if (!(!e && b !== a.c || e && "" !== Fg(e)) && e && e._style && !Ph(e)) {
+      if (Ph(e) || e._applyShimValidatingVersion !== e._applyShimNextVersion) Th(a), a.b && a.b.transformRules(e._styleAst, d), e._style.textContent = Og(b, c.H), Qh(e);
+      U && (a = b.shadowRoot) && (a = a.querySelector("style")) && (a.textContent = Og(b, c.H));
       c.H = e._styleAst;
     }
   }
 
-  function Vh(a, b) {
-    return (b = yg(b).getRootNode().host) ? dh(b) || Qh(b) ? b : Vh(a, b) : a.c;
+  function Zh(a, b) {
+    return (b = Cg(b).getRootNode().host) ? hh(b) || Uh(b) ? b : Zh(a, b) : a.c;
   }
 
-  function Th(a, b, c) {
-    var d = Vh(a, b),
-        e = dh(d),
+  function Xh(a, b, c) {
+    var d = Zh(a, b),
+        e = hh(d),
         f = e.L;
-    d === a.c || f || (Th(a, d, e), f = e.L);
+    d === a.c || f || (Xh(a, d, e), f = e.L);
     a = Object.create(f || null);
-    d = qh(b, c.H, c.cssBuild);
-    b = oh(e.H, b).K;
+    d = uh(b, c.H, c.cssBuild);
+    b = sh(e.H, b).K;
     Object.assign(a, d.Va, b, d.cb);
     b = c.F;
 
@@ -6068,11 +6105,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       if ((e = b[g]) || 0 === e) a[g] = e;
     }
 
-    g = vh;
+    g = zh;
     b = Object.getOwnPropertyNames(a);
 
     for (e = 0; e < b.length; e++) {
-      d = b[e], a[d] = mh(g, a[d], a);
+      d = b[e], a[d] = qh(g, a[d], a);
     }
 
     c.L = a;
@@ -6083,12 +6120,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   };
 
   w.styleSubtree = function (a, b) {
-    var c = yg(a),
+    var c = Cg(a),
         d = c.shadowRoot,
         e = a === this.c;
     (d || e) && this.styleElement(a, b);
     if (a = e ? c : d) for (a = Array.from(a.querySelectorAll("*")).filter(function (f) {
-      return yg(f).shadowRoot;
+      return Cg(f).shadowRoot;
     }), b = 0; b < a.length; b++) {
       this.styleSubtree(a[b]);
     }
@@ -6096,32 +6133,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   w.Ha = function (a) {
     var b = this,
-        c = Bg(a);
+        c = Fg(a);
     c !== this.l.cssBuild && (this.l.cssBuild = c);
 
-    if (!Cg(c)) {
-      var d = pg(a);
-      og(d, function (e) {
-        if (V) bh(e);else {
-          var f = Gg;
+    if (!Gg(c)) {
+      var d = tg(a);
+      sg(d, function (e) {
+        if (U) fh(e);else {
+          var f = Kg;
           e.selector = e.parsedSelector;
-          bh(e);
-          e.selector = e.w = Ng(f, e, f.c, void 0, void 0);
+          fh(e);
+          e.selector = e.w = Rg(f, e, f.c, void 0, void 0);
         }
-        X && "" === c && (Ph(b), b.b && b.b.transformRule(e));
+        V && "" === c && (Th(b), b.b && b.b.transformRule(e));
       });
-      X ? a.textContent = ng(d) : this.l.H.rules.push(d);
+      V ? a.textContent = qg(d) : this.l.H.rules.push(d);
     }
   };
 
   w.getComputedStyleValue = function (a, b) {
     var c;
-    X || (c = (dh(a) || dh(Vh(this, a))).L[b]);
+    V || (c = (hh(a) || hh(Zh(this, a))).L[b]);
     return (c = c || window.getComputedStyle(a).getPropertyValue(b)) ? c.trim() : "";
   };
 
   w.gb = function (a, b) {
-    var c = yg(a).getRootNode(),
+    var c = Cg(a).getRootNode(),
         d;
     b ? d = ("string" === typeof b ? b : String(b)).split(/\s/) : d = [];
     b = c.host && c.host.localName;
@@ -6130,140 +6167,140 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       c = c.split(/\s/);
 
       for (var e = 0; e < c.length; e++) {
-        if (c[e] === Gg.a) {
+        if (c[e] === Kg.a) {
           b = c[e + 1];
           break;
         }
       }
     }
 
-    b && d.push(Gg.a, b);
-    X || (b = dh(a)) && b.G && d.push(vh.a, b.G);
-    xg(a, d.join(" "));
+    b && d.push(Kg.a, b);
+    V || (b = hh(a)) && b.G && d.push(zh.a, b.G);
+    Bg(a, d.join(" "));
   };
 
   w.Oa = function (a) {
-    return dh(a);
+    return hh(a);
   };
 
   w.fb = function (a, b) {
-    Hg(a, b);
+    Lg(a, b);
   };
 
   w.ib = function (a, b) {
-    Hg(a, b, !0);
+    Lg(a, b, !0);
   };
 
   w.eb = function (a) {
-    return Dh(a);
+    return Hh(a);
   };
 
   w.Ra = function (a) {
-    return Ch(a);
+    return Gh(a);
   };
 
-  Y.prototype.flush = Y.prototype.flush;
-  Y.prototype.prepareTemplate = Y.prototype.prepareTemplate;
-  Y.prototype.styleElement = Y.prototype.styleElement;
-  Y.prototype.styleDocument = Y.prototype.styleDocument;
-  Y.prototype.styleSubtree = Y.prototype.styleSubtree;
-  Y.prototype.getComputedStyleValue = Y.prototype.getComputedStyleValue;
-  Y.prototype.setElementClass = Y.prototype.gb;
-  Y.prototype._styleInfoForNode = Y.prototype.Oa;
-  Y.prototype.transformCustomStyleForDocument = Y.prototype.Ha;
-  Y.prototype.getStyleAst = Y.prototype.Ta;
-  Y.prototype.styleAstToString = Y.prototype.hb;
-  Y.prototype.flushCustomStyles = Y.prototype.flushCustomStyles;
-  Y.prototype.scopeNode = Y.prototype.fb;
-  Y.prototype.unscopeNode = Y.prototype.ib;
-  Y.prototype.scopeForNode = Y.prototype.eb;
-  Y.prototype.currentScopeForNode = Y.prototype.Ra;
-  Y.prototype.prepareAdoptedCssText = Y.prototype.ab;
-  Object.defineProperties(Y.prototype, {
+  X.prototype.flush = X.prototype.flush;
+  X.prototype.prepareTemplate = X.prototype.prepareTemplate;
+  X.prototype.styleElement = X.prototype.styleElement;
+  X.prototype.styleDocument = X.prototype.styleDocument;
+  X.prototype.styleSubtree = X.prototype.styleSubtree;
+  X.prototype.getComputedStyleValue = X.prototype.getComputedStyleValue;
+  X.prototype.setElementClass = X.prototype.gb;
+  X.prototype._styleInfoForNode = X.prototype.Oa;
+  X.prototype.transformCustomStyleForDocument = X.prototype.Ha;
+  X.prototype.getStyleAst = X.prototype.Ta;
+  X.prototype.styleAstToString = X.prototype.hb;
+  X.prototype.flushCustomStyles = X.prototype.flushCustomStyles;
+  X.prototype.scopeNode = X.prototype.fb;
+  X.prototype.unscopeNode = X.prototype.ib;
+  X.prototype.scopeForNode = X.prototype.eb;
+  X.prototype.currentScopeForNode = X.prototype.Ra;
+  X.prototype.prepareAdoptedCssText = X.prototype.ab;
+  Object.defineProperties(X.prototype, {
     nativeShadow: {
       get: function get() {
-        return V;
+        return U;
       }
     },
     nativeCss: {
       get: function get() {
-        return X;
+        return V;
       }
     }
   });
-  var Z = new Y(),
-      Wh,
-      Xh;
-  window.ShadyCSS && (Wh = window.ShadyCSS.ApplyShim, Xh = window.ShadyCSS.CustomStyleInterface);
+  var Y = new X(),
+      $h,
+      ai;
+  window.ShadyCSS && ($h = window.ShadyCSS.ApplyShim, ai = window.ShadyCSS.CustomStyleInterface);
   window.ShadyCSS = {
-    ScopingShim: Z,
+    ScopingShim: Y,
     prepareTemplate: function prepareTemplate(a, b, c) {
-      Z.flushCustomStyles();
-      Z.prepareTemplate(a, b, c);
+      Y.flushCustomStyles();
+      Y.prepareTemplate(a, b, c);
     },
     prepareTemplateDom: function prepareTemplateDom(a, b) {
-      Z.prepareTemplateDom(a, b);
+      Y.prepareTemplateDom(a, b);
     },
     prepareTemplateStyles: function prepareTemplateStyles(a, b, c) {
-      Z.flushCustomStyles();
-      Z.prepareTemplateStyles(a, b, c);
+      Y.flushCustomStyles();
+      Y.prepareTemplateStyles(a, b, c);
     },
     styleSubtree: function styleSubtree(a, b) {
-      Z.flushCustomStyles();
-      Z.styleSubtree(a, b);
+      Y.flushCustomStyles();
+      Y.styleSubtree(a, b);
     },
     styleElement: function styleElement(a) {
-      Z.flushCustomStyles();
-      Z.styleElement(a);
+      Y.flushCustomStyles();
+      Y.styleElement(a);
     },
     styleDocument: function styleDocument(a) {
-      Z.flushCustomStyles();
-      Z.styleDocument(a);
+      Y.flushCustomStyles();
+      Y.styleDocument(a);
     },
     flushCustomStyles: function flushCustomStyles() {
-      Z.flushCustomStyles();
+      Y.flushCustomStyles();
     },
     getComputedStyleValue: function getComputedStyleValue(a, b) {
-      return Z.getComputedStyleValue(a, b);
+      return Y.getComputedStyleValue(a, b);
     },
-    nativeCss: X,
-    nativeShadow: V,
-    cssBuild: dg,
-    disableRuntime: eg
+    nativeCss: V,
+    nativeShadow: U,
+    cssBuild: hg,
+    disableRuntime: ig
   };
-  Wh && (window.ShadyCSS.ApplyShim = Wh);
-  Xh && (window.ShadyCSS.CustomStyleInterface = Xh);
+  $h && (window.ShadyCSS.ApplyShim = $h);
+  ai && (window.ShadyCSS.CustomStyleInterface = ai);
 
   (function (a) {
-    function b(r) {
-      "" == r && (f.call(this), this.h = !0);
-      return r.toLowerCase();
+    function b(t) {
+      "" == t && (f.call(this), this.h = !0);
+      return t.toLowerCase();
     }
 
-    function c(r) {
-      var F = r.charCodeAt(0);
-      return 32 < F && 127 > F && -1 == [34, 35, 60, 62, 63, 96].indexOf(F) ? r : encodeURIComponent(r);
+    function c(t) {
+      var F = t.charCodeAt(0);
+      return 32 < F && 127 > F && -1 == [34, 35, 60, 62, 63, 96].indexOf(F) ? t : encodeURIComponent(t);
     }
 
-    function d(r) {
-      var F = r.charCodeAt(0);
-      return 32 < F && 127 > F && -1 == [34, 35, 60, 62, 96].indexOf(F) ? r : encodeURIComponent(r);
+    function d(t) {
+      var F = t.charCodeAt(0);
+      return 32 < F && 127 > F && -1 == [34, 35, 60, 62, 96].indexOf(F) ? t : encodeURIComponent(t);
     }
 
-    function e(r, F, C) {
+    function e(t, F, E) {
       function M(ka) {
-        ta.push(ka);
+        va.push(ka);
       }
 
       var y = F || "scheme start",
           W = 0,
           v = "",
-          sa = !1,
+          ua = !1,
           ea = !1,
-          ta = [];
+          va = [];
 
-      a: for (; (void 0 != r[W - 1] || 0 == W) && !this.h;) {
-        var n = r[W];
+      a: for (; (void 0 != t[W - 1] || 0 == W) && !this.h;) {
+        var n = t[W];
 
         switch (y) {
           case "scheme start":
@@ -6283,7 +6320,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               v = "";
               if (F) break a;
               void 0 !== l[this.g] && (this.A = !0);
-              y = "file" == this.g ? "relative" : this.A && C && C.g == this.g ? "relative or authority" : this.A ? "authority first slash" : "scheme data";
+              y = "file" == this.g ? "relative" : this.A && E && E.g == this.g ? "relative or authority" : this.A ? "authority first slash" : "scheme data";
             } else if (F) {
               void 0 != n && M("Code point not allowed in scheme: " + n);
               break a;
@@ -6300,7 +6337,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             break;
 
           case "no scheme":
-            if (C && void 0 !== l[C.g]) {
+            if (E && void 0 !== l[E.g]) {
               y = "relative";
               continue;
             } else M("Missing scheme."), f.call(this), this.h = !0;
@@ -6308,7 +6345,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             break;
 
           case "relative or authority":
-            if ("/" == n && "/" == r[W + 1]) y = "authority ignore slashes";else {
+            if ("/" == n && "/" == t[W + 1]) y = "authority ignore slashes";else {
               M("Expected /, got: " + n);
               y = "relative";
               continue;
@@ -6317,20 +6354,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           case "relative":
             this.A = !0;
-            "file" != this.g && (this.g = C.g);
+            "file" != this.g && (this.g = E.g);
 
             if (void 0 == n) {
-              this.i = C.i;
-              this.m = C.m;
-              this.j = C.j.slice();
-              this.o = C.o;
-              this.s = C.s;
-              this.f = C.f;
+              this.i = E.i;
+              this.m = E.m;
+              this.j = E.j.slice();
+              this.o = E.o;
+              this.s = E.s;
+              this.f = E.f;
               break a;
-            } else if ("/" == n || "\\" == n) "\\" == n && M("\\ is an invalid code point."), y = "relative slash";else if ("?" == n) this.i = C.i, this.m = C.m, this.j = C.j.slice(), this.o = "?", this.s = C.s, this.f = C.f, y = "query";else if ("#" == n) this.i = C.i, this.m = C.m, this.j = C.j.slice(), this.o = C.o, this.u = "#", this.s = C.s, this.f = C.f, y = "fragment";else {
-              y = r[W + 1];
-              var I = r[W + 2];
-              if ("file" != this.g || !q.test(n) || ":" != y && "|" != y || void 0 != I && "/" != I && "\\" != I && "?" != I && "#" != I) this.i = C.i, this.m = C.m, this.s = C.s, this.f = C.f, this.j = C.j.slice(), this.j.pop();
+            } else if ("/" == n || "\\" == n) "\\" == n && M("\\ is an invalid code point."), y = "relative slash";else if ("?" == n) this.i = E.i, this.m = E.m, this.j = E.j.slice(), this.o = "?", this.s = E.s, this.f = E.f, y = "query";else if ("#" == n) this.i = E.i, this.m = E.m, this.j = E.j.slice(), this.o = E.o, this.u = "#", this.s = E.s, this.f = E.f, y = "fragment";else {
+              y = t[W + 1];
+              var I = t[W + 2];
+              if ("file" != this.g || !q.test(n) || ":" != y && "|" != y || void 0 != I && "/" != I && "\\" != I && "?" != I && "#" != I) this.i = E.i, this.m = E.m, this.s = E.s, this.f = E.f, this.j = E.j.slice(), this.j.pop();
               y = "relative path";
               continue;
             }
@@ -6339,7 +6376,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           case "relative slash":
             if ("/" == n || "\\" == n) "\\" == n && M("\\ is an invalid code point."), y = "file" == this.g ? "file host" : "authority ignore slashes";else {
-              "file" != this.g && (this.i = C.i, this.m = C.m, this.s = C.s, this.f = C.f);
+              "file" != this.g && (this.i = E.i, this.m = E.m, this.s = E.s, this.f = E.f);
               y = "relative path";
               continue;
             }
@@ -6373,8 +6410,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           case "authority":
             if ("@" == n) {
-              sa && (M("@ already seen."), v += "%40");
-              sa = !0;
+              ua && (M("@ already seen."), v += "%40");
+              ua = !0;
 
               for (n = 0; n < v.length; n++) {
                 I = v[n], "\t" == I || "\n" == I || "\r" == I ? M("Invalid whitespace in authority.") : ":" == I && null === this.f ? this.f = "" : (I = c(I), null !== this.f ? this.f += I : this.s += I);
@@ -6457,9 +6494,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this.A = this.h = !1;
     }
 
-    function g(r, F) {
+    function g(t, F) {
       void 0 === F || F instanceof g || (F = new g(String(F)));
-      this.a = r;
+      this.a = t;
       f.call(this);
       e.call(this, this.a.replace(/^[ \t\r\n\f]+|[ \t\r\n\f]+$/g, ""), null, F);
     }
@@ -6470,7 +6507,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var k = new URL("b", "http://a");
       k.pathname = "c%20d";
       h = "http://a/c%20d" === k.href;
-    } catch (r) {}
+    } catch (t) {}
 
     if (!h) {
       var l = Object.create(null);
@@ -6495,74 +6532,74 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         get href() {
           if (this.h) return this.a;
-          var r = "";
-          if ("" != this.s || null != this.f) r = this.s + (null != this.f ? ":" + this.f : "") + "@";
-          return this.protocol + (this.A ? "//" + r + this.host : "") + this.pathname + this.o + this.u;
+          var t = "";
+          if ("" != this.s || null != this.f) t = this.s + (null != this.f ? ":" + this.f : "") + "@";
+          return this.protocol + (this.A ? "//" + t + this.host : "") + this.pathname + this.o + this.u;
         },
 
-        set href(r) {
+        set href(t) {
           f.call(this);
-          e.call(this, r);
+          e.call(this, t);
         },
 
         get protocol() {
           return this.g + ":";
         },
 
-        set protocol(r) {
-          this.h || e.call(this, r + ":", "scheme start");
+        set protocol(t) {
+          this.h || e.call(this, t + ":", "scheme start");
         },
 
         get host() {
           return this.h ? "" : this.m ? this.i + ":" + this.m : this.i;
         },
 
-        set host(r) {
-          !this.h && this.A && e.call(this, r, "host");
+        set host(t) {
+          !this.h && this.A && e.call(this, t, "host");
         },
 
         get hostname() {
           return this.i;
         },
 
-        set hostname(r) {
-          !this.h && this.A && e.call(this, r, "hostname");
+        set hostname(t) {
+          !this.h && this.A && e.call(this, t, "hostname");
         },
 
         get port() {
           return this.m;
         },
 
-        set port(r) {
-          !this.h && this.A && e.call(this, r, "port");
+        set port(t) {
+          !this.h && this.A && e.call(this, t, "port");
         },
 
         get pathname() {
           return this.h ? "" : this.A ? "/" + this.j.join("/") : this.pa;
         },
 
-        set pathname(r) {
-          !this.h && this.A && (this.j = [], e.call(this, r, "relative path start"));
+        set pathname(t) {
+          !this.h && this.A && (this.j = [], e.call(this, t, "relative path start"));
         },
 
         get search() {
           return this.h || !this.o || "?" == this.o ? "" : this.o;
         },
 
-        set search(r) {
-          !this.h && this.A && (this.o = "?", "?" == r[0] && (r = r.slice(1)), e.call(this, r, "query"));
+        set search(t) {
+          !this.h && this.A && (this.o = "?", "?" == t[0] && (t = t.slice(1)), e.call(this, t, "query"));
         },
 
         get hash() {
           return this.h || !this.u || "#" == this.u ? "" : this.u;
         },
 
-        set hash(r) {
-          this.h || (r ? (this.u = "#", "#" == r[0] && (r = r.slice(1)), e.call(this, r, "fragment")) : this.u = "");
+        set hash(t) {
+          this.h || (t ? (this.u = "#", "#" == t[0] && (t = t.slice(1)), e.call(this, t, "fragment")) : this.u = "");
         },
 
         get origin() {
-          var r;
+          var t;
           if (this.h || !this.g) return "";
 
           switch (this.g) {
@@ -6573,15 +6610,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               return "null";
           }
 
-          return (r = this.host) ? this.g + "://" + r : "";
+          return (t = this.host) ? this.g + "://" + t : "";
         }
 
       };
-      var E = a.URL;
-      E && (g.createObjectURL = function (r) {
-        return E.createObjectURL.apply(E, arguments);
-      }, g.revokeObjectURL = function (r) {
-        E.revokeObjectURL(r);
+      var C = a.URL;
+      C && (g.createObjectURL = function (t) {
+        return C.createObjectURL.apply(C, arguments);
+      }, g.revokeObjectURL = function (t) {
+        C.revokeObjectURL(t);
       });
       a.URL = g;
     }
@@ -6595,32 +6632,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     configurable: !0,
     enumerable: !0
   });
-  var Yh = document.createElement("style");
-  Yh.textContent = "body {transition: opacity ease-in 0.2s; } \nbody[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } \n";
-  var Zh = document.querySelector("head");
-  Zh.insertBefore(Yh, Zh.firstChild);
-  var $h = window.customElements,
-      ai = !1,
-      bi = null;
-  $h.polyfillWrapFlushCallback && $h.polyfillWrapFlushCallback(function (a) {
-    bi = a;
-    ai && a();
+  var bi = document.createElement("style");
+  bi.textContent = "body {transition: opacity ease-in 0.2s; } \nbody[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } \n";
+  var ci = document.querySelector("head");
+  ci.insertBefore(bi, ci.firstChild);
+  /*
+  Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+  This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+  The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+  The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+  Code distributed by Google as part of the polymer project is also
+  subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+  */
+
+  var di = window.customElements,
+      ei = !1,
+      fi = null;
+  di.polyfillWrapFlushCallback && di.polyfillWrapFlushCallback(function (a) {
+    fi = a;
+    ei && a();
   });
 
-  function ci() {
+  function gi() {
     window.HTMLTemplateElement.bootstrap && window.HTMLTemplateElement.bootstrap(window.document);
-    bi && bi();
-    ai = !0;
+    fi && fi();
+    ei = !0;
     window.WebComponents.ready = !0;
     document.dispatchEvent(new CustomEvent("WebComponentsReady", {
       bubbles: !0
     }));
   }
 
-  "complete" !== document.readyState ? (window.addEventListener("load", ci), window.addEventListener("DOMContentLoaded", function () {
-    window.removeEventListener("load", ci);
-    ci();
-  })) : ci();
+  "complete" !== document.readyState ? (window.addEventListener("load", gi), window.addEventListener("DOMContentLoaded", function () {
+    window.removeEventListener("load", gi);
+    gi();
+  })) : gi();
 }).call(void 0);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
@@ -6631,12 +6677,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 /*!
-  * Bootstrap v4.5.0 (https://getbootstrap.com/)
+  * Bootstrap v4.5.2 (https://getbootstrap.com/)
   * Copyright 2011-2020 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 (function (global, factory) {
-  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports, require('jquery'), require('popper.js')) : typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) : (global = global || self, factory(global.bootstrap = {}, global.jQuery, global.Popper));
+  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports, require('jquery'), require('popper.js')) : typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) : (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.bootstrap = {}, global.jQuery, global.Popper));
 })(void 0, function (exports, $, Popper) {
   'use strict';
 
@@ -6659,53 +6705,22 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     return Constructor;
   }
 
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
-    }
+  function _extends() {
+    _extends = Object.assign || function (target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
 
-    return obj;
-  }
-
-  function ownKeys(object, enumerableOnly) {
-    var keys = Object.keys(object);
-
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-      if (enumerableOnly) symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-      keys.push.apply(keys, symbols);
-    }
-
-    return keys;
-  }
-
-  function _objectSpread2(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-
-      if (i % 2) {
-        ownKeys(Object(source), true).forEach(function (key) {
-          _defineProperty(target, key, source[key]);
-        });
-      } else if (Object.getOwnPropertyDescriptors) {
-        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-      } else {
-        ownKeys(Object(source)).forEach(function (key) {
-          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
       }
-    }
 
-    return target;
+      return target;
+    };
+
+    return _extends.apply(this, arguments);
   }
 
   function _inheritsLoose(subClass, superClass) {
@@ -6715,8 +6730,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   }
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v4.5.0): util.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * Bootstrap (v4.5.2): util.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
 
@@ -6897,7 +6912,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
    */
 
   var NAME = 'alert';
-  var VERSION = '4.5.0';
+  var VERSION = '4.5.2';
   var DATA_KEY = 'bs.alert';
   var EVENT_KEY = "." + DATA_KEY;
   var DATA_API_KEY = '.data-api';
@@ -7052,7 +7067,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
   var NAME$1 = 'button';
-  var VERSION$1 = '4.5.0';
+  var VERSION$1 = '4.5.2';
   var DATA_KEY$1 = 'bs.button';
   var EVENT_KEY$1 = "." + DATA_KEY$1;
   var DATA_API_KEY$1 = '.data-api';
@@ -7186,11 +7201,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         return;
       }
 
-      if (initialButton.tagName === 'LABEL' && inputBtn && inputBtn.type === 'checkbox') {
-        event.preventDefault(); // work around event sent to label and input
+      if (initialButton.tagName !== 'LABEL' || inputBtn && inputBtn.type !== 'checkbox') {
+        Button._jQueryInterface.call($(button), 'toggle');
       }
-
-      Button._jQueryInterface.call($(button), 'toggle');
     }
   }).on(EVENT_FOCUS_BLUR_DATA_API, SELECTOR_DATA_TOGGLE_CARROT, function (event) {
     var button = $(event.target).closest(SELECTOR_BUTTON)[0];
@@ -7246,7 +7259,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
   var NAME$2 = 'carousel';
-  var VERSION$2 = '4.5.0';
+  var VERSION$2 = '4.5.2';
   var DATA_KEY$2 = 'bs.carousel';
   var EVENT_KEY$2 = "." + DATA_KEY$2;
   var DATA_API_KEY$2 = '.data-api';
@@ -7432,7 +7445,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2({}, Default), config);
+      config = _extends({}, Default, config);
       Util.typeCheckConfig(NAME$2, config, DefaultType);
       return config;
     };
@@ -7722,10 +7735,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       return this.each(function () {
         var data = $(this).data(DATA_KEY$2);
 
-        var _config = _objectSpread2(_objectSpread2({}, Default), $(this).data());
+        var _config = _extends({}, Default, $(this).data());
 
         if (_typeof(config) === 'object') {
-          _config = _objectSpread2(_objectSpread2({}, _config), config);
+          _config = _extends({}, _config, config);
         }
 
         var action = typeof config === 'string' ? config : _config.slide;
@@ -7763,7 +7776,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         return;
       }
 
-      var config = _objectSpread2(_objectSpread2({}, $(target).data()), $(this).data());
+      var config = _extends({}, $(target).data(), $(this).data());
 
       var slideIndex = this.getAttribute('data-slide-to');
 
@@ -7832,7 +7845,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
   var NAME$3 = 'collapse';
-  var VERSION$3 = '4.5.0';
+  var VERSION$3 = '4.5.2';
   var DATA_KEY$3 = 'bs.collapse';
   var EVENT_KEY$3 = "." + DATA_KEY$3;
   var DATA_API_KEY$3 = '.data-api';
@@ -8046,7 +8059,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2({}, Default$1), config);
+      config = _extends({}, Default$1, config);
       config.toggle = Boolean(config.toggle); // Coerce string values
 
       Util.typeCheckConfig(NAME$3, config, DefaultType$1);
@@ -8100,7 +8113,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         var $this = $(this);
         var data = $this.data(DATA_KEY$3);
 
-        var _config = _objectSpread2(_objectSpread2(_objectSpread2({}, Default$1), $this.data()), _typeof(config) === 'object' && config ? config : {});
+        var _config = _extends({}, Default$1, $this.data(), _typeof(config) === 'object' && config ? config : {});
 
         if (!data && _config.toggle && typeof config === 'string' && /show|hide/.test(config)) {
           _config.toggle = false;
@@ -8180,7 +8193,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
   var NAME$4 = 'dropdown';
-  var VERSION$4 = '4.5.0';
+  var VERSION$4 = '4.5.2';
   var DATA_KEY$4 = 'bs.dropdown';
   var EVENT_KEY$4 = "." + DATA_KEY$4;
   var DATA_API_KEY$4 = '.data-api';
@@ -8406,7 +8419,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     };
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2(_objectSpread2({}, this.constructor.Default), $(this._element).data()), config);
+      config = _extends({}, this.constructor.Default, $(this._element).data(), config);
       Util.typeCheckConfig(NAME$4, config, this.constructor.DefaultType);
       return config;
     };
@@ -8451,7 +8464,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
       if (typeof this._config.offset === 'function') {
         offset.fn = function (data) {
-          data.offsets = _objectSpread2(_objectSpread2({}, data.offsets), _this2._config.offset(data.offsets, _this2._element) || {});
+          data.offsets = _extends({}, data.offsets, _this2._config.offset(data.offsets, _this2._element) || {});
           return data;
         };
       } else {
@@ -8481,7 +8494,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         };
       }
 
-      return _objectSpread2(_objectSpread2({}, popperConfig), this._config.popperConfig);
+      return _extends({}, popperConfig, this._config.popperConfig);
     } // Static
     ;
 
@@ -8693,7 +8706,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
   var NAME$5 = 'modal';
-  var VERSION$5 = '4.5.0';
+  var VERSION$5 = '4.5.2';
   var DATA_KEY$5 = 'bs.modal';
   var EVENT_KEY$5 = "." + DATA_KEY$5;
   var DATA_API_KEY$5 = '.data-api';
@@ -8884,7 +8897,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2({}, Default$3), config);
+      config = _extends({}, Default$3, config);
       Util.typeCheckConfig(NAME$5, config, DefaultType$3);
       return config;
     };
@@ -8900,11 +8913,24 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           return;
         }
 
+        var isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+
+        if (!isModalOverflowing) {
+          this._element.style.overflowY = 'hidden';
+        }
+
         this._element.classList.add(CLASS_NAME_STATIC);
 
-        var modalTransitionDuration = Util.getTransitionDurationFromElement(this._element);
+        var modalTransitionDuration = Util.getTransitionDurationFromElement(this._dialog);
+        $(this._element).off(Util.TRANSITION_END);
         $(this._element).one(Util.TRANSITION_END, function () {
           _this3._element.classList.remove(CLASS_NAME_STATIC);
+
+          if (!isModalOverflowing) {
+            $(_this3._element).one(Util.TRANSITION_END, function () {
+              _this3._element.style.overflowY = '';
+            }).emulateTransitionEnd(_this3._element, modalTransitionDuration);
+          }
         }).emulateTransitionEnd(modalTransitionDuration);
 
         this._element.focus();
@@ -8929,6 +8955,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       this._element.removeAttribute('aria-hidden');
 
       this._element.setAttribute('aria-modal', true);
+
+      this._element.setAttribute('role', 'dialog');
 
       if ($(this._dialog).hasClass(CLASS_NAME_SCROLLABLE) && modalBody) {
         modalBody.scrollTop = 0;
@@ -9016,6 +9044,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       this._element.setAttribute('aria-hidden', true);
 
       this._element.removeAttribute('aria-modal');
+
+      this._element.removeAttribute('role');
 
       this._isTransitioning = false;
 
@@ -9198,7 +9228,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       return this.each(function () {
         var data = $(this).data(DATA_KEY$5);
 
-        var _config = _objectSpread2(_objectSpread2(_objectSpread2({}, Default$3), $(this).data()), _typeof(config) === 'object' && config ? config : {});
+        var _config = _extends({}, Default$3, $(this).data(), _typeof(config) === 'object' && config ? config : {});
 
         if (!data) {
           data = new Modal(this, _config);
@@ -9248,7 +9278,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       target = document.querySelector(selector);
     }
 
-    var config = $(target).data(DATA_KEY$5) ? 'toggle' : _objectSpread2(_objectSpread2({}, $(target).data()), $(this).data());
+    var config = $(target).data(DATA_KEY$5) ? 'toggle' : _extends({}, $(target).data(), $(this).data());
 
     if (this.tagName === 'A' || this.tagName === 'AREA') {
       event.preventDefault();
@@ -9284,8 +9314,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   };
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v4.5.0): tools/sanitizer.js
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * Bootstrap (v4.5.2): tools/sanitizer.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
 
@@ -9412,7 +9442,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
   var NAME$6 = 'tooltip';
-  var VERSION$6 = '4.5.0';
+  var VERSION$6 = '4.5.2';
   var DATA_KEY$6 = 'bs.tooltip';
   var EVENT_KEY$6 = "." + DATA_KEY$6;
   var JQUERY_NO_CONFLICT$6 = $.fn[NAME$6];
@@ -9799,7 +9829,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           return _this3._handlePopperPlacementChange(data);
         }
       };
-      return _objectSpread2(_objectSpread2({}, defaultBsConfig), this.config.popperConfig);
+      return _extends({}, defaultBsConfig, this.config.popperConfig);
     };
 
     _proto._getOffset = function _getOffset() {
@@ -9809,7 +9839,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
       if (typeof this.config.offset === 'function') {
         offset.fn = function (data) {
-          data.offsets = _objectSpread2(_objectSpread2({}, data.offsets), _this4.config.offset(data.offsets, _this4.element) || {});
+          data.offsets = _extends({}, data.offsets, _this4.config.offset(data.offsets, _this4.element) || {});
           return data;
         };
       } else {
@@ -9864,7 +9894,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       $(this.element).closest('.modal').on('hide.bs.modal', this._hideModalHandler);
 
       if (this.config.selector) {
-        this.config = _objectSpread2(_objectSpread2({}, this.config), {}, {
+        this.config = _extends({}, this.config, {
           trigger: 'manual',
           selector: ''
         });
@@ -9964,7 +9994,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           delete dataAttributes[dataAttr];
         }
       });
-      config = _objectSpread2(_objectSpread2(_objectSpread2({}, this.constructor.Default), dataAttributes), _typeof(config) === 'object' && config ? config : {});
+      config = _extends({}, this.constructor.Default, dataAttributes, _typeof(config) === 'object' && config ? config : {});
 
       if (typeof config.delay === 'number') {
         config.delay = {
@@ -10123,21 +10153,21 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
   var NAME$7 = 'popover';
-  var VERSION$7 = '4.5.0';
+  var VERSION$7 = '4.5.2';
   var DATA_KEY$7 = 'bs.popover';
   var EVENT_KEY$7 = "." + DATA_KEY$7;
   var JQUERY_NO_CONFLICT$7 = $.fn[NAME$7];
   var CLASS_PREFIX$1 = 'bs-popover';
   var BSCLS_PREFIX_REGEX$1 = new RegExp("(^|\\s)" + CLASS_PREFIX$1 + "\\S+", 'g');
 
-  var Default$5 = _objectSpread2(_objectSpread2({}, Tooltip.Default), {}, {
+  var Default$5 = _extends({}, Tooltip.Default, {
     placement: 'right',
     trigger: 'click',
     content: '',
     template: '<div class="popover" role="tooltip">' + '<div class="arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div></div>'
   });
 
-  var DefaultType$5 = _objectSpread2(_objectSpread2({}, Tooltip.DefaultType), {}, {
+  var DefaultType$5 = _extends({}, Tooltip.DefaultType, {
     content: '(string|element|function)'
   });
 
@@ -10302,7 +10332,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
   var NAME$8 = 'scrollspy';
-  var VERSION$8 = '4.5.0';
+  var VERSION$8 = '4.5.2';
   var DATA_KEY$8 = 'bs.scrollspy';
   var EVENT_KEY$8 = "." + DATA_KEY$8;
   var DATA_API_KEY$6 = '.data-api';
@@ -10415,7 +10445,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2({}, Default$6), _typeof(config) === 'object' && config ? config : {});
+      config = _extends({}, Default$6, _typeof(config) === 'object' && config ? config : {});
 
       if (typeof config.target !== 'string' && Util.isElement(config.target)) {
         var id = $(config.target).attr('id');
@@ -10593,7 +10623,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
   var NAME$9 = 'tab';
-  var VERSION$9 = '4.5.0';
+  var VERSION$9 = '4.5.2';
   var DATA_KEY$9 = 'bs.tab';
   var EVENT_KEY$9 = "." + DATA_KEY$9;
   var DATA_API_KEY$7 = '.data-api';
@@ -10818,7 +10848,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 
   var NAME$a = 'toast';
-  var VERSION$a = '4.5.0';
+  var VERSION$a = '4.5.2';
   var DATA_KEY$a = 'bs.toast';
   var EVENT_KEY$a = "." + DATA_KEY$a;
   var JQUERY_NO_CONFLICT$a = $.fn[NAME$a];
@@ -10870,6 +10900,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         return;
       }
 
+      this._clearTimeout();
+
       if (this._config.animation) {
         this._element.classList.add(CLASS_NAME_FADE$5);
       }
@@ -10918,8 +10950,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     };
 
     _proto.dispose = function dispose() {
-      clearTimeout(this._timeout);
-      this._timeout = null;
+      this._clearTimeout();
 
       if (this._element.classList.contains(CLASS_NAME_SHOW$7)) {
         this._element.classList.remove(CLASS_NAME_SHOW$7);
@@ -10933,7 +10964,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     ;
 
     _proto._getConfig = function _getConfig(config) {
-      config = _objectSpread2(_objectSpread2(_objectSpread2({}, Default$7), $(this._element).data()), _typeof(config) === 'object' && config ? config : {});
+      config = _extends({}, Default$7, $(this._element).data(), _typeof(config) === 'object' && config ? config : {});
       Util.typeCheckConfig(NAME$a, config, this.constructor.DefaultType);
       return config;
     };
@@ -10963,6 +10994,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       } else {
         complete();
       }
+    };
+
+    _proto._clearTimeout = function _clearTimeout() {
+      clearTimeout(this._timeout);
+      this._timeout = null;
     } // Static
     ;
 
@@ -25404,9 +25440,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-// https://d3js.org/d3-fetch/ v1.1.2 Copyright 2018 Mike Bostock
+// https://d3js.org/d3-fetch/ v1.2.0 Copyright 2020 Mike Bostock
 (function (global, factory) {
-  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-dsv')) : typeof define === 'function' && define.amd ? define(['exports', 'd3-dsv'], factory) : factory(global.d3 = global.d3 || {}, global.d3);
+  (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-dsv')) : typeof define === 'function' && define.amd ? define(['exports', 'd3-dsv'], factory) : (global = global || self, factory(global.d3 = global.d3 || {}, global.d3));
 })(void 0, function (exports, d3Dsv) {
   'use strict';
 
@@ -25477,6 +25513,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   function responseJson(response) {
     if (!response.ok) throw new Error(response.status + " " + response.statusText);
+    if (response.status === 204 || response.status === 205) return;
     return response.json();
   }
 
@@ -25486,8 +25523,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
   function parser(type) {
     return function (input, init) {
-      return text(input, init).then(function (text$$1) {
-        return new DOMParser().parseFromString(text$$1, type);
+      return text(input, init).then(function (text) {
+        return new DOMParser().parseFromString(text, type);
       });
     };
   }
@@ -25497,15 +25534,15 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
   var svg = parser("image/svg+xml");
   exports.blob = blob;
   exports.buffer = buffer;
-  exports.dsv = dsv;
   exports.csv = csv;
-  exports.tsv = tsv;
+  exports.dsv = dsv;
+  exports.html = html;
   exports.image = image;
   exports.json = json;
-  exports.text = text;
-  exports.xml = xml;
-  exports.html = html;
   exports.svg = svg;
+  exports.text = text;
+  exports.tsv = tsv;
+  exports.xml = xml;
   Object.defineProperty(exports, '__esModule', {
     value: true
   });
@@ -26559,7 +26596,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-// https://d3js.org/d3-geo/ v1.12.0 Copyright 2020 Mike Bostock
+// https://d3js.org/d3-geo/ v1.12.1 Copyright 2020 Mike Bostock
 (function (global, factory) {
   (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-array')) : typeof define === 'function' && define.amd ? define(['exports', 'd3-array'], factory) : (global = global || self, factory(global.d3 = global.d3 || {}, global.d3));
 })(void 0, function (exports, d3Array) {
@@ -27318,8 +27355,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     var lines = [],
         line;
     return {
-      point: function point(x, y) {
-        line.push([x, y]);
+      point: function point(x, y, m) {
+        line.push([x, y, m]);
       },
       lineStart: function lineStart() {
         lines.push(line = []);
@@ -27366,19 +27403,22 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       var n,
           p0 = segment[0],
           p1 = segment[n],
-          x; // If the first and last points of a segment are coincident, then treat as a
-      // closed ring. TODO if all rings are closed, then the winding order of the
-      // exterior ring should be checked.
+          x;
 
       if (pointEqual(p0, p1)) {
-        stream.lineStart();
+        if (!p0[2] && !p1[2]) {
+          stream.lineStart();
 
-        for (i = 0; i < n; ++i) {
-          stream.point((p0 = segment[i])[0], p0[1]);
-        }
+          for (i = 0; i < n; ++i) {
+            stream.point((p0 = segment[i])[0], p0[1]);
+          }
 
-        stream.lineEnd();
-        return;
+          stream.lineEnd();
+          return;
+        } // handle degenerate cases by moving the point
+
+
+        p1[0] += 2 * epsilon;
       }
 
       subject.push(x = new Intersection(p0, segment, null, true));
@@ -27786,17 +27826,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
               point2,
               v = visible(lambda, phi),
               c = smallRadius ? v ? 0 : code(lambda, phi) : v ? code(lambda + (lambda < 0 ? pi : -pi), phi) : 0;
-          if (!point0 && (v00 = v0 = v)) stream.lineStart(); // Handle degeneracies.
-          // TODO ignore if not clipping polygons.
+          if (!point0 && (v00 = v0 = v)) stream.lineStart();
 
           if (v !== v0) {
             point2 = intersect(point0, point1);
-
-            if (!point2 || pointEqual(point0, point2) || pointEqual(point1, point2)) {
-              point1[0] += epsilon;
-              point1[1] += epsilon;
-              v = visible(point1[0], point1[1]);
-            }
+            if (!point2 || pointEqual(point0, point2) || pointEqual(point1, point2)) point1[2] = 1;
           }
 
           if (v !== v0) {
@@ -27810,7 +27844,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
             } else {
               // inside going out
               point2 = intersect(point0, point1);
-              stream.point(point2[0], point2[1]);
+              stream.point(point2[0], point2[1], 2);
               stream.lineEnd();
             }
 
@@ -27831,7 +27865,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
                 stream.point(t[1][0], t[1][1]);
                 stream.lineEnd();
                 stream.lineStart();
-                stream.point(t[0][0], t[0][1]);
+                stream.point(t[0][0], t[0][1], 3);
               }
             }
           }
@@ -34213,7 +34247,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-// https://d3js.org/d3-selection/ v1.4.1 Copyright 2019 Mike Bostock
+// https://d3js.org/d3-selection/ v1.4.2 Copyright 2020 Mike Bostock
 (function (global, factory) {
   (typeof exports === "undefined" ? "undefined" : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : (global = global || self, factory(global.d3 = global.d3 || {}));
 })(void 0, function (exports) {
@@ -56136,7 +56170,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.UpdatingElement = exports.notEqual = exports.defaultConverter = void 0;
 
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -56164,7 +56198,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -57156,7 +57190,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -57912,7 +57946,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -57922,7 +57956,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
@@ -59050,7 +59084,7 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.it
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
-function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
@@ -59252,7 +59286,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -62809,6 +62843,25 @@ var runtime = function (exports) {
   var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
   var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
 
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
+  }
+
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function define(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+
   function wrap(innerFn, outerFn, self, tryLocsList) {
     // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
     var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
@@ -62882,14 +62935,14 @@ var runtime = function (exports) {
   var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
   GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
   GeneratorFunctionPrototype.constructor = GeneratorFunction;
-  GeneratorFunctionPrototype[toStringTagSymbol] = GeneratorFunction.displayName = "GeneratorFunction"; // Helper for defining the .next, .throw, and .return methods of the
+  GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"); // Helper for defining the .next, .throw, and .return methods of the
   // Iterator interface in terms of a single ._invoke method.
 
   function defineIteratorMethods(prototype) {
     ["next", "throw", "return"].forEach(function (method) {
-      prototype[method] = function (arg) {
+      define(prototype, method, function (arg) {
         return this._invoke(method, arg);
-      };
+      });
     });
   }
 
@@ -62905,10 +62958,7 @@ var runtime = function (exports) {
       Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
     } else {
       genFun.__proto__ = GeneratorFunctionPrototype;
-
-      if (!(toStringTagSymbol in genFun)) {
-        genFun[toStringTagSymbol] = "GeneratorFunction";
-      }
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
     }
 
     genFun.prototype = Object.create(Gp);
@@ -63164,7 +63214,7 @@ var runtime = function (exports) {
 
 
   defineIteratorMethods(Gp);
-  Gp[toStringTagSymbol] = "Generator"; // A Generator should always return itself as the iterator object when the
+  define(Gp, toStringTagSymbol, "Generator"); // A Generator should always return itself as the iterator object when the
   // @@iterator function is called on it. Some browsers' implementations of the
   // iterator prototype chain incorrectly implement this, causing the Generator
   // object to not be returned from this call. This ensures that doesn't happen.
@@ -63633,7 +63683,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -63844,7 +63894,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -64221,7 +64271,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -64372,7 +64422,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -64510,7 +64560,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -64636,7 +64686,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -64775,7 +64825,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -64947,7 +64997,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -65541,7 +65591,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -66597,7 +66647,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -66878,7 +66928,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -68376,7 +68426,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -69165,7 +69215,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -69643,7 +69693,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -69932,7 +69982,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -70181,7 +70231,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -70399,7 +70449,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -70657,7 +70707,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -70949,7 +70999,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -71238,7 +71288,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -71496,7 +71546,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -71576,7 +71626,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -71780,7 +71830,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -72081,7 +72131,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -72247,7 +72297,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -72536,7 +72586,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -72610,7 +72660,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -72785,7 +72835,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 

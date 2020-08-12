@@ -73,6 +73,11 @@
 
 ## Features/Bugs/Notes
 
+- Allow use of keyboard in task!
+- Random w/o replacement for better balancing of trial types?
+- Labels on ROC curve?
+
+
 - Resolve ambiguity between different uses of same color
   - For example, "Respond Present" as a trial type versus "Present" as a response versus
     "?Present?" as part of a distribution
