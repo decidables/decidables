@@ -31,6 +31,11 @@
       "ignoreComments": false
     }],
     "multiline-ternary": ["error", "always-multiline"],
+    "no-multiple-empty-lines": ["error", {
+      "max": 2,
+      "maxBOF": 1,
+      "maxEOF": 0
+    }],
     "no-nested-ternary": ["off"],
     "no-param-reassign": ["error", {"props": false}],
     "object-curly-spacing": ["error", "never"],
