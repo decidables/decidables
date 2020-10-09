@@ -1,0 +1,41 @@
+{
+  "name": "@decidable/prospectable",
+  "version": "0.0.1",
+  "description": "prospectable: An Explorable Explanation of Cumulative Prospect Theory",
+  "main": "./dist/index.html",
+  "repository": "https://github.com/akrawitz/decidable/packages/prospectable",
+  "author": "Adam Krawitz",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "compile": "gulp compile",
+    "watch": "gulp watch",
+    "lint": "gulp lint",
+    "build": "gulp build",
+    "deploy": "gulp deploy",
+    "serve": "gulp serve"
+  },
+  "browserslist": [
+    "> 0.25%",
+    "not dead"
+  ],
+  "dependencies": {
+    "@decidable/prospectable-elements": "^0.0.1",
+    "@webcomponents/webcomponentsjs": "^2.4.1",
+    "bootstrap": "^4.5.0",
+    "core-js": "^3.6.4",
+    "d3": "^5.16.0",
+    "jquery": "^3.5.1",
+    "jstat": "^1.9.3",
+    "lit-element": "^2.2.0",
+    "popper.js": "^1.16.1",
+    "regenerator-runtime": "^0.13.3",
+    "source-code-pro": "^2.30.1",
+    "source-sans-pro": "^3.6.0",
+    "source-serif-pro": "^3.0.0"
+  },
+  "engines": {
+    "node": "^14.0.0",
+    "yarn": "^1.22.4"
+  }
+}
