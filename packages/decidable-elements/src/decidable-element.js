@@ -148,8 +148,9 @@ export default class DecidableElement extends LitElement {
     const erodeRadius = 1;
 
     const filters = shadows.elevations.map((z) => {
+      // <filter id=${`shadow-${z}`} x="-200%" y="-200%" width="500%" height="500%">
       return svg`
-        <filter id=${`shadow-${z}`} x="-200%" y="-200%" width="500%" height="500%">
+        <filter id=${`shadow-${z}`} filterUnits="userSpaceOnUse" x="-50vw" y="-50vh" width="100vw" height="100vh">
           <feComponentTransfer in="SourceAlpha" result="solid">
             <feFuncA  type="table" tableValues="0 1 1"/>
           </feComponentTransfer>

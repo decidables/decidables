@@ -1,0 +1,919 @@
+// FONTS
+
+$font-map: (
+  // filename: (family, style, weight, stretch)
+  SourceCodePro-Regular: ("Source Code Pro", normal, 400, normal),
+  SourceCodePro-It: ("Source Code Pro", italic, 400, normal),
+  SourceCodePro-Semibold: ("Source Code Pro", normal, 600, normal),
+  SourceCodePro-SemiboldIt: ("Source Code Pro", italic, 600, normal),
+  SourceCodePro-Bold: ("Source Code Pro", normal, 700, normal),
+  SourceCodePro-BoldIt: ("Source Code Pro", italic, 700, normal),
+  SourceSansPro-Regular: ("Source Sans Pro", normal, 400, normal),
+  SourceSansPro-It: ("Source Sans Pro", italic, 400, normal),
+  SourceSansPro-Semibold: ("Source Sans Pro", normal, 600, normal),
+  SourceSansPro-SemiboldIt: ("Source Sans Pro", italic, 600, normal),
+  SourceSansPro-Bold: ("Source Sans Pro", normal, 700, normal),
+  SourceSansPro-BoldIt: ("Source Sans Pro", italic, 700, normal),
+  SourceSerifPro-Regular: ("Source Serif Pro", normal, 400, normal),
+  SourceSerifPro-It: ("Source Serif Pro", italic, 400, normal),
+  SourceSerifPro-Semibold: ("Source Serif Pro", normal, 600, normal),
+  SourceSerifPro-SemiboldIt: ("Source Serif Pro", italic, 600, normal),
+  SourceSerifPro-Bold: ("Source Serif Pro", normal, 700, normal),
+  SourceSerifPro-BoldIt: ("Source Serif Pro", italic, 700, normal),
+);
+
+@each $file, $font-list in $font-map {
+  @font-face {
+    src: url("fonts/#{$file}.otf.woff") format("woff");
+    font-family: nth($font-list, 1);
+    font-style: nth($font-list, 2);
+    font-weight: nth($font-list, 3);
+    font-stretch: nth($font-list, 4);
+  }
+}
+
+// COLOR
+
+// SCSS variables
+// http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
+$color-map: (
+  x: #e41a1c, // red (CB1)
+  a: #ff7f00, // orange (CB5)
+  l: #ffff33, // yellow (CB6)
+  v: #f781bf, // pink (CB8)
+
+  p: #377eb8, // blue (CB2)
+  g: #4daf4a, // green (CB3)
+  w: #984ea3, // purple (CB4)
+
+  u: #a65628, // brown (CB7)
+
+  chosen: #999999, // grey (CB9)
+
+  better: #4545d0, // violet
+  worse: #f032e6, // magenta
+  even: #10dbc9, // cyan
+
+  correct: #ffffff, // white
+  error: #000000, // black
+
+  nr: #cccccc, // grey-light50
+);
+
+@function cpt-color($name) {
+  @return map-get($color-map, $name);
+}
+
+@function cpt-color-light($name) {
+  @return mix(#ffffff, map-get($color-map, $name), 50%);
+}
+
+@function cpt-color-dark($name) {
+  @return mix(#000000, map-get($color-map, $name), 50%);
+}
+
+// Greys:
+$color-grey-base: #999999; // baseline grey
+
+$color-white: #ffffff; // 100% lightness #ffffff
+$color-grey-light75: mix(#ffffff, $color-grey-base, 75%); // 90% lightness #e6e6e6
+$color-grey-light50: mix(#ffffff, $color-grey-base, 50%); // 80% lightness #cccccc
+$color-grey-light25: mix(#ffffff, $color-grey-base, 25%); // 70% lightness #b3b3b3
+$color-grey: $color-grey-base; // 60% lightness #999999
+$color-grey-dark25: mix(#000000, $color-grey-base, 25%); // 45% lightness #737373
+$color-grey-dark50: mix(#000000, $color-grey-base, 50%); // 30% lightness #4d4d4d
+$color-grey-dark75: mix(#000000, $color-grey-base, 75%); // 15% lightness #262626
+$color-black: #000000;  // 0% lightness #000000
+
+// Bootstrap SCSS variables
+$body-bg: $color-white;
+$border-color: $color-grey-light75;
+$body-color: $color-grey-dark75;
+$link-color: $color-grey-dark25;
+
+// Derived SCSS variables
+$color-background: #{$body-bg};
+$color-border: #{$border-color};
+$color-text: #{$body-color};
+$color-text-inverse: #{$color-white};
+$color-link: #{$link-color};
+$color-element-background: #{$color-grey-light75};
+$color-element-disabled: #{$color-grey-light50};
+$color-element-enabled: #{$color-grey};
+$color-element-selected: #{$color-grey-dark25};
+$color-element-border: #{$color-grey-dark50};
+$color-element-emphasis: #{$color-grey-dark75};
+
+// CSS variables
+:root {
+  @each $name in map-keys($color-map) {
+    --color-#{$name}: #{cpt-color($name)};
+    --color-#{$name}-light: #{cpt-color-light($name)};
+    --color-#{$name}-dark: #{cpt-color-dark($name)};
+  }
+  --color-background: #{$color-background};
+  --color-border: #{$color-border};
+  --color-text: #{$color-text};
+  --color-text-inverse: #{$color-text-inverse};
+  --color-link: #{$color-link};
+  --color-element-background: #{$color-element-background};
+  --color-element-disabled: #{$color-element-disabled};
+  --color-element-enabled: #{$color-element-enabled};
+  --color-element-selected: #{$color-element-selected};
+  --color-element-border: #{$color-element-border};
+  --color-element-emphasis: #{$color-element-emphasis};
+}
+
+// TODO
+// cleanup Links
+
+// BOOTSTRAP VARIABLES
+$font-family-base: "Source Sans Pro", sans-serif;
+$grid-gutter-width: 2rem;
+$border-width: 1px;
+$border-radius: 0.25rem;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1590px
+);
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1560px
+);
+
+// SCSS VARIABLES
+$font-family-math: "Source Serif Pro", serif; // Not in Bootstrap
+$border: $border-width solid $border-color;
+$transition-duration: 500ms;
+
+// Shadows based on Material Design
+// https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
+$shadow-baseline-color: #000000;
+$shadow-umbra-opacity: 0.2;
+$shadow-penumbra-opacity: 0.14;
+$shadow-ambient-opacity: 0.12;
+$shadow-opacity-boost: 0.2;
+
+$shadow-umbra-map: (
+  0: "0px 0px 0px 0px",
+  2: "1.5px 3px 1px -2px",
+  4: "1px 2px 4px -1px",
+  8: "2.5px 5px 5px -3px",
+  16: "4px 8px 10px -5px");
+
+$shadow-penumbra-map: (
+  0: "0px 0px 0px 0px",
+  2: "1px 2px 2px 0px",
+  4: "2px 4px 5px 0px",
+  8: "4px 8px 10px 1px",
+  16: "8px 16px 24px 2px"
+);
+
+$shadow-ambient-map: (
+  0: "0px 0px 0px 0px",
+  2: "0.5px 1px 5px 0px",
+  4: "0.5px 1px 10px 0px",
+  8: "1.5px 3px 14px 2px",
+  16: "3px 6px 30px 5px"
+);
+
+@mixin shadow($shadow-level) {
+  $shadow-umbra: map-get($shadow-umbra-map, $shadow-level);
+  $shadow-penumbra: map-get($shadow-penumbra-map, $shadow-level);
+  $shadow-ambient: map-get($shadow-ambient-map, $shadow-level);
+
+  $shadow-umbra-color: rgba($shadow-baseline-color, $shadow-umbra-opacity + $shadow-opacity-boost);
+  $shadow-penumbra-color: rgba($shadow-baseline-color, $shadow-penumbra-opacity + $shadow-opacity-boost);
+  $shadow-ambient-color: rgba($shadow-baseline-color, $shadow-ambient-opacity + $shadow-opacity-boost);
+
+  box-shadow:
+    #{$shadow-umbra} #{$shadow-umbra-color},
+    #{$shadow-penumbra} #{$shadow-penumbra-color},
+    #{$shadow-ambient} #{$shadow-ambient-color};
+}
+
+
+// CSS VARIABLES for CPT
+:root { /* stylelint-disable-line no-duplicate-selectors */
+  --font-family-base: #{$font-family-base};
+  --font-family-math: #{$font-family-math};
+  --border: #{$border};
+  --border-radius: #{$border-radius};
+  --transition-duration: #{$transition-duration};
+}
+
+
+// BOOTSTRAP IMPORTS
+// Structure
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+// Core
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+// @import "~bootstrap/scss/images";
+@import "~bootstrap/scss/grid";
+// Elements
+// @import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/dropdown";
+// @import "~bootstrap/scss/card";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+// @import "~bootstrap/scss/alert";
+// @import "~bootstrap/scss/list-group";
+// @import "~bootstrap/scss/close";
+// @import "~bootstrap/scss/modal";
+// Utility
+@import "~bootstrap/scss/utilities";
+
+
+// CUSTOM CSS
+
+// Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
+html {
+  font-size: 1rem;
+}
+
+@include media-breakpoint-down(sm) {
+  html {
+    font-size: 0.9rem;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  html {
+    font-size: 0.8rem;
+  }
+}
+
+body {
+  font-size: 1.125rem;
+}
+
+.math-var {
+  font-family: $font-family-math;
+  font-style: italic;
+}
+
+.math-greek {
+  font-family: $font-family-math;
+  font-style: normal;
+}
+
+// CLEAN
+.decidable-page {
+  @include make-container();
+}
+
+.decidable-layout {
+  @include make-row();
+}
+
+.decidable-sidebar {
+  @include make-col-ready();
+  @include make-col(10, 10);
+
+  order: 0;
+
+  border-bottom: $border;
+
+  @include media-breakpoint-up(md) {
+    @include make-col(2, 10);
+
+    min-height: 100vh;
+
+    border-right: $border;
+
+    @supports (position: sticky) or (position: -webkit-sticky) {
+      position: -webkit-sticky; /* stylelint-disable-line value-no-vendor-prefix */
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      height: 100vh;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include make-col(2, 12);
+  }
+
+  @include media-breakpoint-up(xl) {
+    flex: 0 1 20rem;
+  }
+
+  .decidable-brand {
+    font-size: 1.5rem;
+  }
+}
+
+.decidable-brandnav {
+  position: relative;
+  display: flex;
+
+  align-items: center;
+
+  padding: 0.5rem;
+  margin-right: ($grid-gutter-width / -2);
+  margin-left: ($grid-gutter-width / -2);
+}
+
+.decidable-tocnav-toggle {
+  @extend .btn;
+  @extend .btn-link;
+
+  padding: 0.1875rem 0.5rem;
+  margin: 0;
+
+  line-height: 1;
+  color: $color-text;
+
+  border: 0;
+
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+
+  &:hover {
+    @include shadow(2);
+
+    color: $color-text;
+  }
+
+  &:focus {
+    @include shadow(2);
+
+    color: $color-text;
+  }
+
+  &:active {
+    @include shadow(4);
+
+    color: $color-text;
+  }
+
+  svg {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
+}
+
+.decidable-brand-link {
+  @extend .navbar-brand;
+
+  padding: 0 0.5rem;
+  margin: 0;
+
+  font-weight: 600;
+  color: $color-text;
+
+  border-radius: 0.25rem;
+  outline: none;
+
+  &:hover {
+    @include shadow(2);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+
+  &:focus {
+    @include shadow(2);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+
+  &:active {
+    @include shadow(4);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+}
+
+.decidable-tocnav {
+  padding-top: 0.25rem;
+  padding-bottom: 0.5rem;
+  margin-right: ($grid-gutter-width / -2);
+  margin-left: ($grid-gutter-width / -2);
+
+  @include media-breakpoint-up(md) {
+    @supports (position: sticky) {
+      max-height: calc(100vh - 3.5rem);
+      overflow-y: auto;
+    }
+  }
+  // Override collapse behaviors
+  @include media-breakpoint-up(md) {
+    display: block !important;
+  }
+}
+
+.decidable-toc {
+  @extend .nav;
+
+  display: block;
+}
+
+.decidable-toclink {
+  padding: 0.375rem 0.5rem;
+
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: $color-link;
+
+  border-radius: 0.25rem;
+  outline: none;
+
+  &:hover {
+    @include shadow(2);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+
+  &:focus {
+    @include shadow(2);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+
+  &:active {
+    @include shadow(4);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+
+}
+
+.decidable-tocitem .decidable-toclink {
+  display: block;
+
+  padding: 0.375rem 0.5rem;
+  margin: 0 0.5rem;
+}
+
+.decidable-tocitem-active .decidable-toclink,
+.decidable-tocitem-active:hover .decidable-toclink {
+  font-weight: 700;
+  color: $color-text;
+}
+
+.decidable-tocitem-extra.decidable-tocitem-1 {
+  padding-top: 1.25rem;
+}
+
+.decidable-main {
+  @include make-col-ready();
+  @include make-col(10, 10);
+
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  @include media-breakpoint-up(md) {
+    @include make-col(8, 10);
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include make-col(10, 12);
+  }
+
+  @include media-breakpoint-up(xl) {
+    @include make-col(9, 12);
+    border-right: $border;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    @include make-col(8, 12);
+    border-right: $border;
+  }
+}
+
+.decidable-content {
+  padding-bottom: 1rem;
+
+  // STYLING FOR MARKDOWN
+  h2 {
+    padding-top: 1rem;
+  }
+
+  code {
+    padding: 0.0625rem 0.25rem;
+
+    font-family: "Source Code Pro", monospace;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    white-space: nowrap;
+
+    background-color: $color-element-background;
+    border-radius: 0.25rem;
+  }
+
+  // code[class="Bias"] {
+  //   background-color: cpt-color-light(c);
+  // }
+  //
+  // code[class="c"] {
+  //   font-family: "Source Serif Pro", serif;
+  //   font-style: italic;
+  //
+  //   background-color: cpt-color-light(c);
+  // }
+  //
+  // code[class="Iso-BiasCurve"] {
+  //   border: 2px solid cpt-color(c);
+  // }
+  //
+  // code[class="Sensitivity"] {
+  //   background-color: cpt-color-light(d);
+  // }
+  //
+  // code[class="d′"] {
+  //   font-family: "Source Serif Pro", serif;
+  //   font-style: italic;
+  //
+  //   background-color: cpt-color-light(d);
+  // }
+  //
+  // code[class="Iso-SensitivityCurve"] {
+  //   border: 2px solid cpt-color(d);
+  // }
+  //
+  // code[class="Variance"] {
+  //   background-color: cpt-color-light(s);
+  // }
+  //
+  // code[class="σ"] {
+  //   font-family: "Source Serif Pro", serif;
+  //   font-style: italic;
+  //
+  //   background-color: cpt-color-light(s);
+  // }
+  //
+  // code[class="RespondPresent"] {
+  //   background-color: cpt-color-light(present);
+  //   border: 3px solid cpt-color(present);
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="RespondAbsent"] {
+  //   background-color: cpt-color-light(absent);
+  //   border: 3px solid cpt-color(absent);
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="Evidence"] {
+  //   background-color: cpt-color-light(acc);
+  //   border: 3px solid cpt-color(acc);
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="SignalPresent"] {
+  //   background-color: cpt-color-light(hr);
+  //   border: 3px solid cpt-color(hr);
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="SignalAbsent"] {
+  //   background-color: cpt-color-light(far);
+  //   border: 3px solid cpt-color(far);
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="OutcomeHit"] {
+  //   background-color: cpt-color-light(h);
+  //   border: 3px solid cpt-color(h);
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="OutcomeMiss"] {
+  //   background-color: cpt-color-light(m);
+  //   border: 3px solid cpt-color(m);
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="OutcomeCorrectRejection"] {
+  //   background-color: cpt-color-light(cr);
+  //   border: 3px solid cpt-color(cr);
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="OutcomeFalseAlarm"] {
+  //   background-color: cpt-color-light(fa);
+  //   border: 3px solid cpt-color(fa);
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="Signal+Noise"] {
+  //   background-color: cpt-color-light(hr);
+  //   border: 2px solid $color-element-emphasis;
+  // }
+  //
+  // code[class="NoiseDistribution"] {
+  //   background-color: cpt-color-light(far);
+  //   border: 2px solid $color-element-emphasis;
+  // }
+  //
+  // code[class="Coherence"],
+  // code[class="Duration"],
+  // code[class="Trials"] {
+  //   position: relative;
+  //
+  //   padding-right: 1.5rem;
+  //
+  //   background-color: $color-element-background;
+  // }
+  //
+  // code[class="Coherence"]::before,
+  // code[class="Duration"]::before,
+  // code[class="Trials"]::before {
+  //   position: absolute;
+  //
+  //   top: 0;
+  //   right: 0.625rem;
+  //
+  //   width: 0.25rem;
+  //   height: 1.375rem;
+  //
+  //   content: "";
+  //
+  //   background-color: $color-element-disabled;
+  //   border-width: 0.125rem;
+  // }
+  //
+  // code[class="Coherence"]::after,
+  // code[class="Duration"]::after,
+  // code[class="Trials"]::after {
+  //   position: absolute;
+  //
+  //   top: 0.4rem;
+  //   right: 0.125rem;
+  //
+  //   width: 1.25rem;
+  //   height: 0.625rem;
+  //
+  //   content: "";
+  //
+  //   background-color: $color-element-enabled;
+  //   border-width: 0.25rem;
+  //   border-radius: 0.25rem;
+  // }
+  //
+  // code[class="Pause"],
+  // code[class="Reset"],
+  // code[class="Run"] {
+  //   color: $color-text-inverse;
+  //
+  //   background-color: $color-element-enabled;
+  // }
+  //
+  // code[class="+"],
+  // code[class="?"] {
+  //   background-color: $color-element-disabled;
+  //
+  //   border: 2px solid $color-element-emphasis;
+  //   border-radius: 1rem;
+  // }
+  //
+  // code[class="Present"] {
+  //   color: $color-text-inverse;
+  //
+  //   background-color: cpt-color(present);
+  // }
+  //
+  // code[class="Absent"] {
+  //   color: $color-text-inverse;
+  //
+  //   background-color: cpt-color(absent);
+  // }
+  //
+  // code[class="Correct"] {
+  //   background-color: cpt-color-light(correct);
+  //   border: 1px solid $color-element-emphasis;
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="Error"] {
+  //   color: $color-text-inverse;
+  //
+  //   background-color: cpt-color-light(error);
+  //   border: 1px solid $color-element-emphasis;
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="NoResponse"] {
+  //   background-color: cpt-color-light(nr);
+  //   border: 1px solid $color-element-emphasis;
+  //   border-radius: 0;
+  // }
+  //
+  // code[class="Hit"],
+  // code[class="Hits"] {
+  //   background-color: cpt-color-light(h);
+  // }
+  //
+  // code[class="Miss"],
+  // code[class="Misses"] {
+  //   background-color: cpt-color-light(m);
+  // }
+  //
+  // code[class="CorrectRejection"],
+  // code[class="CorrectRejections"] {
+  //   background-color: cpt-color-light(cr);
+  // }
+  //
+  // code[class="FalseAlarm"],
+  // code[class="FalseAlarms"] {
+  //   background-color: cpt-color-light(fa);
+  // }
+  //
+  // code[class="HitRate"] {
+  //   background-color: cpt-color-light(hr);
+  // }
+  //
+  // code[class="FalseAlarmRate"] {
+  //   background-color: cpt-color-light(far);
+  // }
+  //
+  // code[class="PositivePredictiveValue"] {
+  //   background-color: cpt-color-light(present);
+  // }
+  //
+  // code[class="FalseOmissionRate"] {
+  //   background-color: cpt-color-light(absent);
+  // }
+  //
+  // code[class="Accuracy"] {
+  //   background-color: cpt-color-light(acc);
+  // }
+
+  .csl-entry {
+    padding-left: 2rem;
+
+    text-indent: -2rem;
+  }
+}
+
+
+// Legend formatting
+.decidable-legend {
+  dt {
+    display: inline-block;
+
+    width: 12rem;
+    // padding: 0.375rem 0.675rem;
+    padding: 0.25rem 0.675rem;
+
+    font-weight: 600;
+  }
+
+  dd {
+    margin-top: 0.25rem;
+    margin-bottom: 1.5rem;
+    margin-left: 2rem;
+  }
+
+  .x {
+    background: cpt-color-light(x);
+    border-left: 1rem solid cpt-color(x);
+  }
+
+  .a {
+    background: cpt-color-light(a);
+    border-left: 1rem solid cpt-color(a);
+  }
+
+  .l {
+    background: cpt-color-light(l);
+    border-left: 1rem solid cpt-color(l);
+  }
+
+  .v {
+    background: cpt-color-light(v);
+    border-left: 1rem solid cpt-color(v);
+  }
+
+  .p {
+    background: cpt-color-light(p);
+    border-left: 1rem solid cpt-color(p);
+  }
+
+  .g {
+    background: cpt-color-light(g);
+    border-left: 1rem solid cpt-color(g);
+  }
+
+  .w {
+    background: cpt-color-light(w);
+    border-left: 1rem solid cpt-color(w);
+  }
+
+  .u {
+    background: cpt-color-light(u);
+    border-left: 1rem solid cpt-color(u);
+  }
+
+  .chosen {
+    background: cpt-color-light(chosen);
+    border-left: 1rem solid cpt-color(chosen);
+  }
+
+  .better {
+    background: cpt-color-light(better);
+    border-left: 1rem solid cpt-color(better);
+  }
+
+  .worse {
+    background: cpt-color-light(worse);
+    border-left: 1rem solid cpt-color(worse);
+  }
+
+  .even {
+    background: cpt-color-light(even);
+    border-left: 1rem solid cpt-color(even);
+  }
+
+  .correct {
+    padding-left: calc(1.675rem - 1px);
+
+    background: cpt-color(correct);
+    border: 1px solid $color-element-border;
+  }
+
+  .error {
+    color: $color-text-inverse;
+
+    background: cpt-color-light(error);
+    border-left: 1rem solid cpt-color(error);
+  }
+
+  // nr?
+}
+
+// Glossary formatting to get the term and definition inline, with a hanging indent
+.decidable-glossary {
+  margin-left: 2rem;
+
+  dt {
+    display: inline;
+
+    margin-left: -2rem;
+
+    font-weight: 600;
+  }
+
+  dt::after {
+    content: ":";
+  }
+
+  dd {
+    display: inline;
+  }
+
+  dd::after {
+    display: block;
+
+    content: "";
+  }
+}
+
+.decidable-footer {
+  @include make-row();
+
+  padding-top: 1rem;
+
+  border-top: $border;
+}
+
+.decidable-footer-item {
+  @include make-col-ready();
+
+  flex: 0 0 auto;
+
+  width: auto;
+  max-width: none;
+  padding: 0 0.5rem;
+
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.1;
+
+  &.decidable-footer-item-left {
+    margin-right: auto;
+  }
+}

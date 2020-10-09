@@ -1,0 +1,30 @@
+{
+  "name": "@decidable/prospectable-elements",
+  "version": "0.0.1",
+  "description": "prospectable-elements: Web Components for visualizing Cumulative Prospect Theory",
+  "main": "./src/index.js",
+  "repository": "https://github.com/akrawitz/decidable/packages/prospectable-elements",
+  "author": "Adam Krawitz",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "lint": "gulp lint",
+    "build": "gulp build"
+  },
+  "browserslist": [
+    "> 0.25%",
+    "not dead"
+  ],
+  "dependencies": {
+    "@decidable/decidable-elements": "^0.0.1",
+    "@decidable/prospectable-math": "^0.0.1",
+    "d3": "^5.16.0",
+    "jstat": "^1.9.3",
+    "lit-element": "^2.2.0",
+    "plotly.js": "^1.55.2"
+  },
+  "engines": {
+    "node": "^14.0.0",
+    "yarn": "^1.22.4"
+  }
+}
