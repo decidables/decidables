@@ -114,7 +114,7 @@ export default class SDTTable extends SDTElement {
 
     this.numeric = false;
 
-    this.summaries = ['stimulusRates, responseRates, accuracy'];
+    this.summaries = ['stimulusRates', 'responseRates', 'accuracy'];
     this.summary = new Set();
 
     this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
