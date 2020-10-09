@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="prospectable: <span class='prospectable'>prospect<span class='math-var'>α</span>b<span class='math-var'>λ</span>e</span>: An Explorable Explanation of Cumulative Prospect Theory">
+    <meta name="author" content="Dr. Adam Krawitz">
+
+    <title>prospectable: Introduction</title>
+
+    <link href="index.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="decidable-page">
+      <div class="decidable-layout">
+
+        <div class="decidable-sidebar">
+          <div class="decidable-brandnav">
+            <button class="decidable-tocnav-toggle" type="button" data-toggle="collapse" data-target="#decidable-tocnav" aria-controls="decidable-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"></path></svg>
+            </button>
+            <a class="decidable-brand-link" href="index.html"><span class="decidable-brand">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span></a>
+          </div>
+          <nav class="decidable-tocnav collapse" id="decidable-tocnav">
+            <ul class="decidable-toc">
+              
+                
+                  <li class="decidable-tocitem decidable-tocitem-main decidable-tocitem-1 decidable-tocitem-active">
+                
+                    <a class="decidable-toclink" href="index.html">
+                      Introduction
+                    </a>
+                  </li>
+              
+              
+                
+                  <li class="decidable-tocitem decidable-tocitem-extra decidable-tocitem-1">
+                
+                    <a class="decidable-toclink" href="references.html">
+                      References
+                    </a>
+                  </li>
+              
+                
+                  <li class="decidable-tocitem decidable-tocitem-extra decidable-tocitem-2">
+                
+                    <a class="decidable-toclink" href="about.html">
+                      About
+                    </a>
+                  </li>
+              
+            </ul>
+          </nav>
+        </div>
+
+        <main class="decidable-main">
+          <header>
+            <h1><span class='prospectable'>prospect<span class='math-var'>α</span>b<span class='math-var'>λ</span>e</span>: An Explorable Explanation of Cumulative Prospect Theory</h1>
+          </header>
+          <section class="decidable-content">
+            <h2>Introduction</h2>
+<p>Welcome to <strong>prospect<span class='math-var'>α</span>b<span class='math-var'>λ</span>e</strong>, an
+interactive introduction to Cumulative Prospect Theory (CPT). This site uses manipulable diagrams,
+dynamic tables, and live equations to explain the motivation, conceptualization, and application of
+CPT.</p>
+<cpt-example-interactive>
+  <decision-choice probability="0.6666" win="20" loss="0" sure="10" alpha="0.9" lambda="2" gamma="0.75"></decision-choice>
+  <decision-space></decision-space>
+  <cpt-value interactive line="first" point="all" value="5" alpha="0.9" lambda="2"></cpt-value>
+  <cpt-probability interactive line="first" point="first" probability="0.75" gamma="0.75"></cpt-probability>
+</cpt-example-interactive>
+<p><cpt-equation-xal2v></cpt-equation-xal2v></p>
+<p><cpt-equation-xal2v numeric interactive value="5" alpha="0.9" lambda="2"></cpt-equation-xal2v></p>
+<p><cpt-equation-pg2w></cpt-equation-pg2w></p>
+<p><cpt-equation-pg2w numeric interactive probability="0.75" gamma="0.75"></cpt-equation-pg2w></p>
+
+          </section>
+
+          <footer class="decidable-footer">
+            <div class="decidable-footer-item decidable-footer-item-left">
+              
+            </div>
+            <div class="decidable-footer-item decidable-footer-item-right">
+              
+            </div>
+          </footer>
+        </main>
+
+      </div>
+    </div>
+    <!-- Can't be a module for IE11 to work -->
+    <!-- <script type="module" src="index.js"></script> -->
+    <script src="index.js"></script>
+  </body>
+</html>
