@@ -17,7 +17,6 @@ const build = gulp.series(
   cleans.cleanLib,
   function buildLibrary() { return builds.buildLibraryTask('decidableElements'); }, /* eslint-disable-line prefer-arrow-callback */
 );
-exports.build = build;
 
 // Exports
 module.exports = {
