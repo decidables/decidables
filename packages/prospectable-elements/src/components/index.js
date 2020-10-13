@@ -5,3 +5,4 @@ export {default as DecisionChoice} from './decision-choice';
 export {default as DecisionOption} from './decision-option';
 export {default as DecisionOutcome} from './decision-outcome';
 export {default as DecisionSpace} from './decision-space';
+export {default as plotlyStyle} from './plotly-style';

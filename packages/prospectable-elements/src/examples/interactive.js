@@ -17,6 +17,13 @@ export default class CPTExampleInteractive extends CPTExample {
     // Use decisionChoice as source
 
     if (this.cptValue) {
+      this.cptValue.addEventListener('cpt-value-change', (event) => {
+        if (event.detail.name === 'default') {
+          const gamble = this.cptValue.get('gamble');
+          this.cptValue.set(gamble.x, event.detail.a, event.detail.l, 'gamble', 'g');
+        }
+      });
+
       if (this.decisionChoice) {
         this.cptValue.set(this.decisionChoice.xs, this.decisionChoice.a, this.decisionChoice.l, 'default', 's');
         this.cptValue.set(this.decisionChoice.xw, this.decisionChoice.a, this.decisionChoice.l, 'gamble', 'g');

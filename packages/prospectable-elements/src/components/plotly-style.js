@@ -1,4 +1,9 @@
-.js-plotly-plot .plotly, .js-plotly-plot .plotly div {
+
+import {css} from 'lit-element';
+
+const plotlyStyle = css`
+  /* inject:css */
+  .js-plotly-plot .plotly, .js-plotly-plot .plotly div {
   direction: ltr;
   font-family: 'Open Sans', verdana, arial, sans-serif;
   margin: 0;
@@ -256,3 +261,7 @@
       color: #444;
       text-decoration: none;
       cursor: pointer; }
+
+  /* endinject */
+`;
+export default plotlyStyle;
