@@ -143,6 +143,14 @@ export default class CPTValue extends CPTElement {
     });
   }
 
+  get(name = 'default') {
+    const location = this.locations.find((item) => {
+      return (item.name === name);
+    });
+
+    return (location === undefined) ? null : location;
+  }
+
   set(x, a, l, name = 'default', label = '') {
     if (name === 'default') {
       this.x = x;
