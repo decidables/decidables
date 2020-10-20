@@ -92,11 +92,35 @@ export default class DecisionOption extends CPTElement {
           fill: var(---color-even);
         }
 
-        .label {
+        .label.static {
           font-size: 1.75rem;
 
           dominant-baseline: middle;
           text-anchor: middle;
+        }
+
+        .label.interactive {
+          --decidable-spinner-font-size: 1.75rem;
+          --decidable-spinner-input-width: 4rem;
+          --decidable-spinner-prefix: "$";
+
+          width: var(--decidable-spinner-input-width);
+          height: calc(var(--decidable-spinner-font-size) * 1.5);
+          overflow: visible;
+          x: calc(var(--decidable-spinner-input-width) / -2);
+          y: calc(var(--decidable-spinner-font-size) * 1.5 / -2);
+        }
+
+        .label.interactive.win decidable-spinner {
+          background-color: var(---color-better);
+        }
+
+        .label.interactive.loss decidable-spinner {
+          background-color: var(---color-worse);
+        }
+
+        .label.interactive.sure decidable-spinner {
+          background-color: var(---color-even);
         }
       `,
     ];
@@ -168,15 +192,12 @@ export default class DecisionOption extends CPTElement {
 
     // Get outcomes from slots!
     const decisionOutcomes = this.querySelectorAll('decision-outcome');
-    const outcomes = [];
-    if (decisionOutcomes.length > 0) {
-      decisionOutcomes.forEach((decisionOutcome) => {
-        outcomes.push({p: decisionOutcome.p, x: decisionOutcome.x, name: decisionOutcome.name});
-      });
-    }
+    const pTotal = Array.from(decisionOutcomes).reduce((total, item) => { return total + item.p; }, 0);
     const arcs = d3.pie()
+      .startAngle(-(decisionOutcomes[0].p / pTotal) * Math.PI)
+      .endAngle((-(decisionOutcomes[0].p / pTotal) * Math.PI) + (2 * Math.PI))
       .sortValues(null) // Use inserted order!
-      .value((datum) => { return datum.p; })(outcomes);
+      .value((datum) => { return datum.p; })(decisionOutcomes);
 
     // Svg
     //  DATA-JOIN
@@ -218,15 +239,31 @@ export default class DecisionOption extends CPTElement {
 
     // Labels
     //  DATA-JOIN
-    const labelUpdate = pieMerge.selectAll('.label')
-      .data(arcs);
+    const labelStaticUpdate = pieMerge.selectAll('.label.static')
+      .data(arcs.filter((arc) => { return !arc.data.interactive; }));
+    const labelInteractiveUpdate = pieMerge.selectAll('.label.interactive')
+      .data(arcs.filter((arc) => { return arc.data.interactive; }));
     //  ENTER
-    const labelEnter = labelUpdate.enter().append('text');
+    const labelStaticEnter = labelStaticUpdate.enter().append('text');
+    const labelInteractiveEnter = labelInteractiveUpdate.enter().append('foreignObject');
+    labelInteractiveEnter.append('xhtml:decidable-spinner')
+      .on('input', (datum) => {
+        datum.data.x = parseFloat(d3.event.target.value);
+
+        this.dispatchEvent(new CustomEvent('decision-outcome-change', {
+          detail: {
+            x: datum.data.x,
+            p: datum.data.p,
+            name: datum.data.name,
+          },
+          bubbles: true,
+        }));
+      });
     //  MERGE
-    labelEnter.merge(labelUpdate)
-      .attr('class', (datum) => { return `label ${datum.data.name}`; })
-      .attr('transform', (datum, index, nodes) => {
-        if (nodes.length === 1) {
+    labelStaticEnter.merge(labelStaticUpdate)
+      .attr('class', (datum) => { return `label static ${datum.data.name}`; })
+      .attr('transform', (datum) => {
+        if (arcs.length === 1) {
           return 'translate(0, 0)';
         }
         const radius = (Math.min(width, height) / 2) * 0.6;
@@ -234,8 +271,21 @@ export default class DecisionOption extends CPTElement {
         return `translate(${arcLabel.centroid(datum)})`;
       })
       .text((datum) => { return `$${datum.data.x.toFixed(0)}`; });
+    const labelInteractiveMerge = labelInteractiveEnter.merge(labelInteractiveUpdate)
+      .attr('class', (datum) => { return `label interactive ${datum.data.name}`; })
+      .attr('transform', (datum) => {
+        if (arcs.length === 1) {
+          return 'translate(0, 0)';
+        }
+        const radius = (Math.min(width, height) / 2) * 0.6;
+        const arcLabel = d3.arc().innerRadius(radius).outerRadius(radius);
+        return `translate(${arcLabel.centroid(datum)})`;
+      });
+    labelInteractiveMerge.select('decidable-spinner')
+      .attr('value', (datum) => { return `${datum.data.x.toFixed(0)}`; });
     //  EXIT
-    labelUpdate.exit().remove();
+    labelStaticUpdate.exit().remove();
+    labelInteractiveUpdate.exit().remove();
   }
 }
 
