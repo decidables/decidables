@@ -192,7 +192,10 @@ export default class DecisionOption extends CPTElement {
 
     // Get outcomes from slots!
     const decisionOutcomes = this.querySelectorAll('decision-outcome');
-    const pTotal = Array.from(decisionOutcomes).reduce((total, item) => { return total + item.p; }, 0);
+    const pTotal = Array.from(decisionOutcomes).reduce(
+      (total, item) => { return total + item.p; },
+      0,
+    );
     const arcs = d3.pie()
       .startAngle(-(decisionOutcomes[0].p / pTotal) * Math.PI)
       .endAngle((-(decisionOutcomes[0].p / pTotal) * Math.PI) + (2 * Math.PI))
