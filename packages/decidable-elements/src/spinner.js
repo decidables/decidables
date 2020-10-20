@@ -55,6 +55,10 @@ export default class DecidableSpinner extends DecidableElement {
       super.styles,
       css`
         :host {
+          ---decidable-spinner-font-size: var(--decidable-spinner-font-size, 1.125rem);
+          ---decidable-spinner-input-width: var(--decidable-spinner-input-width, 4rem);
+          ---decidable-spinner-prefix: var(--decidable-spinner-prefix, "");
+
           display: block;
         }
 
@@ -74,19 +78,19 @@ export default class DecidableSpinner extends DecidableElement {
         label::before {
           position: absolute;
           bottom: 1px;
-          left: calc(50% - var(--decidable-spinner-input-width, 4rem) / 2 + 0.25rem);
+          left: calc(50% - var(---decidable-spinner-input-width) / 2 + 0.25rem);
 
-          font-size: 1.125rem;
+          font-size: var(---decidable-spinner-font-size);
           line-height: normal;
 
-          content: var(--decidable-spinner-prefix, "");
+          content: var(---decidable-spinner-prefix);
         }
 
         input[type=number] {
-          width: var(--decidable-spinner-input-width, 4rem);
+          width: var(---decidable-spinner-input-width);
 
           font-family: var(---font-family-base);
-          font-size: 1.125rem;
+          font-size: var(---decidable-spinner-font-size);
           color: inherit;
           text-align: right;
 
