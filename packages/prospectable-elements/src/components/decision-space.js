@@ -199,6 +199,8 @@ export default class DecisionSpace extends CPTElement {
 
         .plotly {
           height: 100%;
+
+          cursor: grab;
         }
 
         /* Plotly modebar styles */
