@@ -27,6 +27,11 @@ export default class CPTExampleInteractive extends CPTExample {
       if (this.decisionChoice) {
         this.cptValue.set(this.decisionChoice.xs, this.decisionChoice.a, this.decisionChoice.l, 'default', 's');
         this.cptValue.set(this.decisionChoice.xw, this.decisionChoice.a, this.decisionChoice.l, 'gamble', 'g');
+
+        this.decisionChoice.addEventListener('decision-choice-change', (event) => {
+          this.cptValue.set(event.detail.xs, event.detail.a, event.detail.l, 'default', 's');
+          this.cptValue.set(event.detail.xw, event.detail.a, event.detail.l, 'gamble', 'g');
+        });
       }
     }
 
@@ -34,6 +39,10 @@ export default class CPTExampleInteractive extends CPTExample {
       if (this.decisionChoice) {
         this.cptProbability.set(this.decisionChoice.pw, this.decisionChoice.g, 'default', '');
       }
+
+      this.decisionChoice.addEventListener('decision-choice-change', (event) => {
+        this.cptProbability.set(event.detail.pw, event.detail.g, 'default', '');
+      });
     }
 
     if (this.decisionChoice) {
@@ -67,6 +76,17 @@ export default class CPTExampleInteractive extends CPTExample {
         this.decisionSpace.xw = this.decisionChoice.xw;
         this.decisionSpace.pw = this.decisionChoice.pw;
         this.decisionSpace.xs = this.decisionChoice.xs;
+
+        this.decisionChoice.addEventListener('decision-choice-change', (event) => {
+          this.decisionSpace.a = event.detail.a;
+          this.decisionSpace.l = event.detail.l;
+          this.decisionSpace.g = event.detail.g;
+
+          this.decisionSpace.xl = event.detail.xl;
+          this.decisionSpace.xw = event.detail.xw;
+          this.decisionSpace.pw = event.detail.pw;
+          this.decisionSpace.xs = event.detail.xs;
+        });
       }
 
       if (this.cptValue) {
