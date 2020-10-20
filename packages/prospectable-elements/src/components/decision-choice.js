@@ -90,16 +90,42 @@ export default class DecisionChoice extends CPTElement {
     ];
   }
 
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('decision-choice-change', {
+      detail: {
+        xl: this.xl,
+        xw: this.xw,
+        pw: this.pw,
+        xs: this.xs,
+
+        a: this.a,
+        l: this.l,
+        g: this.g,
+      },
+      bubbles: true,
+    }));
+  }
+
+  xwInput(event) {
+    this.xw = parseFloat(event.detail.x);
+    this.sendEvent();
+  }
+
+  xsInput(event) {
+    this.xs = parseFloat(event.detail.x);
+    this.sendEvent();
+  }
+
   render() {
     return html`
       <div class="holder">
-        <decision-option alpha="${this.a}" lambda="${this.l}" gamma="${this.g}">
-          <decision-outcome probability="${this.pw}" value="${this.xw}" name="win"></decision-outcome>
+        <decision-option ?interactive=${this.interactive} alpha="${this.a}" lambda="${this.l}" gamma="${this.g}" @decision-outcome-change=${this.xwInput.bind(this)}>
+          <decision-outcome ?interactive=${this.interactive} probability="${this.pw}" value="${this.xw}" name="win"></decision-outcome>
           <decision-outcome probability="${(1 - this.pw)}" value="${this.xl}" name="loss"></decision-outcome>
         </decision-option>
         <span class="query">?</span>
-        <decision-option alpha="${this.a}" lambda="${this.l}" gamma="${this.g}">
-          <decision-outcome probability="1" value="${this.xs}" name="sure"></decision-outcome>
+        <decision-option ?interactive=${this.interactive} alpha="${this.a}" lambda="${this.l}" gamma="${this.g}" @decision-outcome-change=${this.xsInput.bind(this)}>
+          <decision-outcome ?interactive=${this.interactive} probability="1" value="${this.xs}" name="sure"></decision-outcome>
         </decision-option>
       </div>`;
   }
