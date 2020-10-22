@@ -73,11 +73,31 @@ export default class DecisionOption extends CPTElement {
         .main {
           width: 100%;
           height: 100%;
+          overflow: visible;
         }
 
         .arc {
           stroke: var(---color-element-emphasis);
           stroke-width: 2;
+        }
+
+        .arc.interactive {
+          cursor: move;
+
+          filter: url("#shadow-2");
+          outline: none;
+        }
+
+        .arc.interactive:hover {
+          filter: url("#shadow-4");
+        }
+
+        .arc.interactive:active {
+          filter: url("#shadow-8");
+        }
+
+        :host(.keyboard) .arc.interactive:focus {
+          filter: url("#shadow-8");
         }
 
         .arc.win {
@@ -94,6 +114,8 @@ export default class DecisionOption extends CPTElement {
 
         .label.static {
           font-size: 1.75rem;
+
+          user-select: none;
 
           dominant-baseline: middle;
           text-anchor: middle;
@@ -127,7 +149,10 @@ export default class DecisionOption extends CPTElement {
   }
 
   render() { // eslint-disable-line class-methods-use-this
-    return html`<slot></slot>`;
+    return html`
+      ${CPTElement.svgFilters}
+      <slot></slot>
+    `;
   }
 
   getDimensions() {
@@ -192,15 +217,79 @@ export default class DecisionOption extends CPTElement {
 
     // Get outcomes from slots!
     const decisionOutcomes = this.querySelectorAll('decision-outcome');
-    const pTotal = Array.from(decisionOutcomes).reduce(
-      (total, item) => { return total + item.p; },
-      0,
-    );
     const arcs = d3.pie()
-      .startAngle(-(decisionOutcomes[0].p / pTotal) * Math.PI)
-      .endAngle((-(decisionOutcomes[0].p / pTotal) * Math.PI) + (2 * Math.PI))
+      .startAngle((-decisionOutcomes[0].p * Math.PI) - Math.PI)
+      .endAngle((-decisionOutcomes[0].p * Math.PI) + Math.PI)
       .sortValues(null) // Use inserted order!
       .value((datum) => { return datum.p; })(decisionOutcomes);
+    const arcsStatic = arcs.filter(
+      (arc) => { return !(arc.data.interactive && (arcs.length > 1)); },
+    );
+    const arcsInteractive = arcs.filter(
+      (arc) => { return (arc.data.interactive && (arcs.length > 1)); },
+    );
+
+    // Define drag behavior for arcs
+    function fixAngle(angle) {
+      const modAngle = (angle + (2 * Math.PI)) % (2 * Math.PI);
+      const newAngle = (modAngle > Math.PI)
+        ? (modAngle - (2 * Math.PI))
+        : ((modAngle < -Math.PI)
+          ? (modAngle + (2 * Math.PI))
+          : modAngle);
+      return newAngle;
+    }
+    const arcDrag = d3.drag()
+      .subject((datum) => {
+        const arcAngle = fixAngle((datum.endAngle + datum.startAngle) / 2);
+        const dragAngle = fixAngle(Math.atan2(d3.event.y, d3.event.x) + (Math.PI / 2));
+        decisionOutcomes.forEach((item) => {
+          item.startP = item.p;
+        });
+        return {
+          arcAngle: arcAngle,
+          startAngle: fixAngle(dragAngle - arcAngle),
+        };
+      })
+      .on('start', (datum, index, elements) => {
+        const element = elements[index];
+        d3.select(element).classed('dragging', true);
+      })
+      .on('drag', (datum) => {
+        const angle = fixAngle(Math.atan2(d3.event.y, d3.event.x) + (Math.PI / 2));
+        const currentAngle = fixAngle(angle - d3.event.subject.arcAngle);
+        const changeAngle = fixAngle((d3.event.subject.startAngle > 0)
+          ? (currentAngle - d3.event.subject.startAngle)
+          : (d3.event.subject.startAngle - currentAngle));
+        const changeP = changeAngle / Math.PI;
+        const proposedP = datum.data.startP + changeP;
+        const newP = (proposedP > 0.99)
+          ? 0.99
+          : ((proposedP < 0.01)
+            ? 0.01
+            : proposedP);
+        decisionOutcomes.forEach((item) => {
+          item.p = (item === datum.data)
+            ? newP
+            : (item.startP / (1 - datum.data.startP)) * (1 - newP);
+        });
+
+        this.dispatchEvent(new CustomEvent('decision-outcome-change', {
+          detail: {
+            x: datum.data.x,
+            p: datum.data.p,
+            name: datum.data.name,
+          },
+          bubbles: true,
+        }));
+        // console.log(`x: ${d3.event.x}, y: ${d3.event.y}`);
+        // console.log(`change: ${changeAngle}, changeP: ${changeP}`);
+      })
+      .on('end', (datum, index, elements) => {
+        const element = elements[index];
+        d3.select(element).classed('dragging', false);
+      });
+
 
     // Svg
     //  DATA-JOIN
@@ -230,10 +319,13 @@ export default class DecisionOption extends CPTElement {
     const arcUpdate = pieMerge.selectAll('.arc')
       .data(arcs);
     //  ENTER
-    const arcEnter = arcUpdate.enter().append('path');
+    const arcEnter = arcUpdate.enter().append('path')
+      .call(arcDrag);
     //  MERGE
     arcEnter.merge(arcUpdate)
+      .attr('tabindex', (datum) => { return arcsInteractive.includes(datum) ? 0 : null; })
       .attr('class', (datum) => { return `arc ${datum.data.name}`; })
+      .classed('interactive', (datum) => { return arcsInteractive.includes(datum); })
       .attr('d', d3.arc()
         .innerRadius(0)
         .outerRadius(Math.min(width, height) / 2 - 1));
@@ -243,9 +335,9 @@ export default class DecisionOption extends CPTElement {
     // Labels
     //  DATA-JOIN
     const labelStaticUpdate = pieMerge.selectAll('.label.static')
-      .data(arcs.filter((arc) => { return !arc.data.interactive; }));
+      .data(arcsStatic);
     const labelInteractiveUpdate = pieMerge.selectAll('.label.interactive')
-      .data(arcs.filter((arc) => { return arc.data.interactive; }));
+      .data(arcsInteractive);
     //  ENTER
     const labelStaticEnter = labelStaticUpdate.enter().append('text');
     const labelInteractiveEnter = labelInteractiveUpdate.enter().append('foreignObject');

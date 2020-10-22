@@ -72,6 +72,10 @@ export default class DecisionChoice extends CPTElement {
           display: inline-block;
         }
 
+        .holder {
+          user-select: none;
+        }
+
         .holder > * {
           vertical-align: middle;
         }
@@ -106,12 +110,13 @@ export default class DecisionChoice extends CPTElement {
     }));
   }
 
-  xwInput(event) {
+  winChange(event) {
     this.xw = parseFloat(event.detail.x);
+    this.pw = parseFloat(event.detail.p);
     this.sendEvent();
   }
 
-  xsInput(event) {
+  sureChange(event) {
     this.xs = parseFloat(event.detail.x);
     this.sendEvent();
   }
@@ -119,12 +124,12 @@ export default class DecisionChoice extends CPTElement {
   render() {
     return html`
       <div class="holder">
-        <decision-option ?interactive=${this.interactive} alpha="${this.a}" lambda="${this.l}" gamma="${this.g}" @decision-outcome-change=${this.xwInput.bind(this)}>
-          <decision-outcome ?interactive=${this.interactive} probability="${this.pw}" value="${this.xw}" name="win"></decision-outcome>
+        <decision-option ?interactive=${this.interactive} alpha="${this.a}" lambda="${this.l}" gamma="${this.g}" @decision-outcome-change=${this.winChange.bind(this)}>
           <decision-outcome probability="${(1 - this.pw)}" value="${this.xl}" name="loss"></decision-outcome>
+          <decision-outcome ?interactive=${this.interactive} probability="${this.pw}" value="${this.xw}" name="win"></decision-outcome>
         </decision-option>
         <span class="query">?</span>
-        <decision-option ?interactive=${this.interactive} alpha="${this.a}" lambda="${this.l}" gamma="${this.g}" @decision-outcome-change=${this.xsInput.bind(this)}>
+        <decision-option ?interactive=${this.interactive} alpha="${this.a}" lambda="${this.l}" gamma="${this.g}" @decision-outcome-change=${this.sureChange.bind(this)}>
           <decision-outcome ?interactive=${this.interactive} probability="1" value="${this.xs}" name="sure"></decision-outcome>
         </decision-option>
       </div>`;
