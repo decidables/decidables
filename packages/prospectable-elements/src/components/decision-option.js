@@ -223,10 +223,10 @@ export default class DecisionOption extends CPTElement {
       .sortValues(null) // Use inserted order!
       .value((datum) => { return datum.p; })(decisionOutcomes);
     const arcsStatic = arcs.filter(
-      (arc) => { return !(arc.data.interactive && (arcs.length > 1)); },
+      (arc) => { return !arc.data.interactive; },
     );
     const arcsInteractive = arcs.filter(
-      (arc) => { return (arc.data.interactive && (arcs.length > 1)); },
+      (arc) => { return arc.data.interactive; },
     );
 
     // Define drag behavior for arcs
@@ -323,9 +323,9 @@ export default class DecisionOption extends CPTElement {
       .call(arcDrag);
     //  MERGE
     arcEnter.merge(arcUpdate)
-      .attr('tabindex', (datum) => { return arcsInteractive.includes(datum) ? 0 : null; })
+      .attr('tabindex', (datum) => { return (arcsInteractive.includes(datum) && (arcs.length > 1)) ? 0 : null; })
       .attr('class', (datum) => { return `arc ${datum.data.name}`; })
-      .classed('interactive', (datum) => { return arcsInteractive.includes(datum); })
+      .classed('interactive', (datum) => { return (arcsInteractive.includes(datum) && (arcs.length > 1)); })
       .attr('d', d3.arc()
         .innerRadius(0)
         .outerRadius(Math.min(width, height) / 2 - 1));
