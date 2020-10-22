@@ -48,12 +48,4 @@ export default class CPTMath {
   static pg2w(p, g) {
     return (p ** g) / (((p ** g) + ((1 - p) ** g)) ** (1 / g));
   }
-
-  static vw2u(v, w) {
-    return v * w;
-  }
-
-  static xpalg2u(x, p, a, l, g) {
-    return CPTMath.xal2v(x, a, l) * CPTMath.pg2w(p, g);
-  }
 }

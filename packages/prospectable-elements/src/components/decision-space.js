@@ -150,9 +150,9 @@ export default class DecisionSpace extends CPTElement {
                 this.decisionSpace.xw.push(xw);
                 this.decisionSpace.pw.push(pw);
 
-                const uDiff = CPTMath.xpalg2u(xw, pw, this.a, this.l, this.g)
-                  + CPTMath.xpalg2u(this.xl, 1 - pw, this.a, this.l, this.g)
-                  - CPTMath.xal2v(xs, this.a, this.l);
+                const uDiff = CPTMath.xal2v(xw, this.a, this.l) * CPTMath.pg2w(pw, this.g) // Win
+                  + CPTMath.xal2v(this.xl, this.a, this.l) * (1 - CPTMath.pg2w(pw, this.g)) // Loss
+                  - CPTMath.xal2v(xs, this.a, this.l); // Sure
 
                 this.decisionSpace.uDiff.push(uDiff);
               });

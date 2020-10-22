@@ -8,16 +8,18 @@
 
 - `CPTElement`: Base class for all *prospectable* web components
 - **Components**: Building blocks for interactive visualizations of CPT
-  - `CPTControl`: Control panel for CPT demos
+  - `?CPTControl?`: Control panel for CPT demos
   - `CPTValue`: Objective value to subjective value/utility function for CPT
   - `CPTProbability`: Objective probability to subjective decision weight function for CPT
+  - `DecisionOutcome` : A single outcome for an option (no display on its own)
+  - `DecisionOption` : A single option consisting of one or more outcomes (pie view!)
+  - `DecisionChoice` : A choice betweeen two options, one a gamble, and one sure
   - `???Task`: Displays stimuli for ??? decision task
   - `???`: Visualization of decision space???
 - **Equations**: Interactive equations for SDT
   - `CPTEquation`: Base class for all interactive CPT equations
   - `CPTEquationXAL2V`: Subjective value from objective value, marginal utility, and loss aversion
-  - `CPTEquationPG2W`: Subjective decision weight from objective probability and probability sensitivity
-  - `CPTEquationVW2V`: Expected value from subjective value and subjective decision weight
+  - `CPTEquationPG2W`: Subjective decision weight from objective probability and sensitivity
 - **Examples**: Full examples built from multiple components
   - `SDTExample`: Base class for all CPT examples
   - `SDTExampleModel`: Model simulates task based on CPT parameter values
@@ -25,6 +27,18 @@
 ---
 
 ## Features/Bugs/Notes
+
+<!--lint disable no-inline-padding -->
+
+- Make sure to use corrected formula!
+  v(xw) * w(xp) + v(xl) * w(1 - xp) ?><? v(xs)
+  (Nilsson, Rieskamp, & Wagenmakers, 2011)
+  VERSUS
+  v(xw) * w(xp) + v(xl) * 1 - w(xp) ?><? v(xs)
+  (Nilsson, Rieskamp, & Wagenmakers, 2020)
+  This follows (Tversky & Kahneman, 1992)!
+
+<!--lint enable no-inline-padding -->
 
 ---
 
