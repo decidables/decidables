@@ -13,6 +13,7 @@ export default class CPTExampleInteractive extends CPTExample {
     this.cptProbability = this.querySelector('cpt-probability');
     this.decisionChoice = this.querySelector('decision-choice');
     this.decisionSpace = this.querySelector('decision-space');
+    this.cptSpace = this.querySelector('cpt-space');
 
     // Use decisionChoice as source
 
@@ -105,6 +106,49 @@ export default class CPTExampleInteractive extends CPTExample {
         this.cptProbability.addEventListener('cpt-probability-change', (event) => {
           this.decisionSpace.g = event.detail.g;
           this.decisionSpace.pw = event.detail.p;
+        });
+      }
+    }
+
+    if (this.cptSpace) {
+      if (this.decisionChoice) {
+        this.cptSpace.a = this.decisionChoice.a;
+        this.cptSpace.l = this.decisionChoice.l;
+        this.cptSpace.g = this.decisionChoice.g;
+
+        this.cptSpace.xl = this.decisionChoice.xl;
+        this.cptSpace.xw = this.decisionChoice.xw;
+        this.cptSpace.pw = this.decisionChoice.pw;
+        this.cptSpace.xs = this.decisionChoice.xs;
+
+        this.decisionChoice.addEventListener('decision-choice-change', (event) => {
+          this.cptSpace.a = event.detail.a;
+          this.cptSpace.l = event.detail.l;
+          this.cptSpace.g = event.detail.g;
+
+          this.cptSpace.xl = event.detail.xl;
+          this.cptSpace.xw = event.detail.xw;
+          this.cptSpace.pw = event.detail.pw;
+          this.cptSpace.xs = event.detail.xs;
+        });
+      }
+
+      if (this.cptValue) {
+        this.cptValue.addEventListener('cpt-value-change', (event) => {
+          this.cptSpace.a = event.detail.a;
+          this.cptSpace.l = event.detail.l;
+          if (event.detail.name === 'default') {
+            this.cptSpace.xs = event.detail.x;
+          } else if (event.detail.name === 'gamble') {
+            this.cptSpace.xw = event.detail.x;
+          }
+        });
+      }
+
+      if (this.cptProbability) {
+        this.cptProbability.addEventListener('cpt-probability-change', (event) => {
+          this.cptSpace.g = event.detail.g;
+          this.cptSpace.pw = event.detail.p;
         });
       }
     }

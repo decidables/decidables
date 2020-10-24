@@ -32,7 +32,7 @@ Plotly.register([PlotlyIsoSurface, PlotlyScatter3d]);
   Styles:
     ??
 */
-export default class DecisionSpace extends CPTElement {
+export default class CPTSpace extends CPTElement {
   static get properties() {
     return {
       surface: {
@@ -61,12 +61,12 @@ export default class DecisionSpace extends CPTElement {
         type: Number,
         reflect: true,
       },
+
       xl: {
         attribute: 'loss',
         type: Number,
         reflect: true,
       },
-
       xw: {
         attribute: 'win',
         type: Number,
@@ -112,49 +112,49 @@ export default class DecisionSpace extends CPTElement {
     this.a = 0.8;
     this.l = 1.2;
     this.g = 0.8;
-    this.xl = 0; // Gamble Loss Value
 
+    this.xl = 0; // Gamble Loss Value
     this.xw = 20;
     this.pw = 0.5;
     this.xs = 10;
 
     this.range = {};
-    this.range.xs = {start: 5, stop: 15, step: 0.5}; // Sure Value
-    this.range.xw = {start: 10, stop: 30, step: 1}; // Gamble Win Value
-    this.range.pw = {start: 0, stop: 1, step: 0.05}; // Gamble Win Probability
+    this.range.a = {start: 0, stop: 1, step: 0.05}; // Sure Value
+    this.range.l = {start: 0, stop: 10, step: 0.5}; // Gamble Win Value
+    this.range.g = {start: 0, stop: 1, step: 0.05}; // Gamble Win Probability
 
     this.width = NaN;
     this.height = NaN;
     this.rem = NaN;
 
-    this.decisionSpace = [];
+    this.parameterSpace = [];
 
     this.alignState();
   }
 
   alignState() {
-    this.decisionSpace = {
-      xs: [],
-      xw: [],
-      pw: [],
+    this.parameterSpace = {
+      a: [],
+      l: [],
+      g: [],
       uDiff: [],
     };
 
-    d3.range(this.range.xs.start, this.range.xs.stop + 0.01, this.range.xs.step)
-      .forEach((xs) => {
-        d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step)
-          .forEach((xw) => {
-            d3.range(this.range.pw.start, this.range.pw.stop + 0.01, this.range.pw.step)
-              .forEach((pw) => {
-                this.decisionSpace.xs.push(xs);
-                this.decisionSpace.xw.push(xw);
-                this.decisionSpace.pw.push(pw);
+    d3.range(this.range.a.start, this.range.a.stop + 0.01, this.range.a.step)
+      .forEach((a) => {
+        d3.range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step)
+          .forEach((l) => {
+            d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step)
+              .forEach((g) => {
+                this.parameterSpace.a.push(a);
+                this.parameterSpace.l.push(l);
+                this.parameterSpace.g.push(g);
 
-                const uDiff = CPTMath.xal2v(xw, this.a, this.l) * CPTMath.pg2w(pw, this.g) // Win
-                  + CPTMath.xal2v(this.xl, this.a, this.l) * (1 - CPTMath.pg2w(pw, this.g)) // Loss
-                  - CPTMath.xal2v(xs, this.a, this.l); // Sure
+                const uDiff = CPTMath.xal2v(this.xw, a, l) * CPTMath.pg2w(this.pw, g) // Win
+                  + CPTMath.xal2v(this.xl, a, l) * (1 - CPTMath.pg2w(this.pw, g)) // Loss
+                  - CPTMath.xal2v(this.xs, a, l); // Sure
 
-                this.decisionSpace.uDiff.push(uDiff);
+                this.parameterSpace.uDiff.push(uDiff);
               });
           });
       });
@@ -246,10 +246,10 @@ export default class DecisionSpace extends CPTElement {
       {
         name: 'Decision Boundary',
         type: 'isosurface',
-        x: this.decisionSpace.xs,
-        y: this.decisionSpace.xw,
-        z: this.decisionSpace.pw,
-        value: this.decisionSpace.uDiff,
+        x: this.parameterSpace.a,
+        y: this.parameterSpace.l,
+        z: this.parameterSpace.g,
+        value: this.parameterSpace.uDiff,
         coloraxis: 'coloraxis',
         isomin: 0,
         isomax: 0,
@@ -258,10 +258,10 @@ export default class DecisionSpace extends CPTElement {
       {
         name: 'Difference in Subjective Utility',
         type: 'isosurface',
-        x: this.decisionSpace.xs,
-        y: this.decisionSpace.xw,
-        z: this.decisionSpace.pw,
-        value: this.decisionSpace.uDiff,
+        x: this.parameterSpace.a,
+        y: this.parameterSpace.l,
+        z: this.parameterSpace.g,
+        value: this.parameterSpace.uDiff,
         caps: {
           x: {show: false},
           y: {show: false},
@@ -272,18 +272,18 @@ export default class DecisionSpace extends CPTElement {
         isomax: 30,
         showscale: false,
         slices: {
-          x: {show: true, locations: [this.range.xs.stop]},
-          y: {show: true, locations: [this.range.xw.stop]},
-          z: {show: true, locations: [this.range.pw.start]},
+          x: {show: true, locations: [this.range.a.stop]},
+          y: {show: true, locations: [this.range.l.stop]},
+          z: {show: true, locations: [this.range.g.start]},
         },
         surface: {show: false},
       },
       {
         name: 'Current Decision',
         type: 'scatter3d',
-        x: [this.xs],
-        y: [this.xw],
-        z: [this.pw],
+        x: [this.a],
+        y: [this.l],
+        z: [this.g],
         mode: 'markers',
         marker: {
           color: 'black',
@@ -347,9 +347,9 @@ export default class DecisionSpace extends CPTElement {
           showline: true,
           linecolor: colorElementBorder,
           zeroline: false,
-          range: [this.range.xs.start, this.range.xs.stop],
+          range: [this.range.a.start, this.range.a.stop],
           title: {
-            text: 'Sure Value',
+            text: 'alpha',
             font: {
               size: this.rem * 1.125,
             },
@@ -366,9 +366,9 @@ export default class DecisionSpace extends CPTElement {
           showline: true,
           linecolor: colorElementBorder,
           zeroline: false,
-          range: [this.range.xw.start, this.range.xw.stop],
+          range: [this.range.l.start, this.range.l.stop],
           title: {
-            text: 'Win Value',
+            text: 'lambda',
             font: {
               size: this.rem * 1.125,
             },
@@ -385,9 +385,9 @@ export default class DecisionSpace extends CPTElement {
           showline: true,
           linecolor: colorElementBorder,
           zeroline: false,
-          range: [this.range.pw.start, this.range.pw.stop],
+          range: [this.range.g.start, this.range.g.stop],
           title: {
-            text: 'Win Probability',
+            text: 'gamma',
             font: {
               size: this.rem * 1.125,
             },
@@ -414,4 +414,4 @@ export default class DecisionSpace extends CPTElement {
   }
 }
 
-customElements.define('decision-space', DecisionSpace);
+customElements.define('cpt-space', CPTSpace);
