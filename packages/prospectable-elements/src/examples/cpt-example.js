@@ -62,7 +62,8 @@ export default class CPTExample extends CPTElement {
           margin-left: 0;
         }
 
-        .body ::slotted(decision-space) {
+        .body ::slotted(decision-space),
+        .body ::slotted(cpt-space) {
           width: 28rem;
           height: 20rem;
         }

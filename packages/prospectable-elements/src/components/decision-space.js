@@ -119,9 +119,9 @@ export default class DecisionSpace extends CPTElement {
     this.xs = 10;
 
     this.range = {};
-    this.range.xs = {start: 5, stop: 15, step: 1}; // Sure Value
-    this.range.xw = {start: 10, stop: 30, step: 2}; // Gamble Win Value
-    this.range.pw = {start: 0, stop: 1, step: 0.1}; // Gamble Win Probability
+    this.range.xs = {start: 5, stop: 15, step: 0.5}; // Sure Value
+    this.range.xw = {start: 10, stop: 30, step: 1}; // Gamble Win Value
+    this.range.pw = {start: 0, stop: 1, step: 0.05}; // Gamble Win Probability
 
     this.width = NaN;
     this.height = NaN;
@@ -158,34 +158,6 @@ export default class DecisionSpace extends CPTElement {
               });
           });
       });
-  }
-
-  set(x, a, l, name = 'default', label = '') {
-    if (name === 'default') {
-      this.x = x;
-      this.a = a;
-      this.l = l;
-      this.label = label;
-    }
-    const location = this.locations.find((item) => {
-      return (item.name === name);
-    });
-    if (location === undefined) {
-      this.locations.push({
-        name: name,
-        x: x,
-        a: a,
-        l: l,
-        label: label,
-      });
-    } else {
-      location.x = x;
-      location.a = a;
-      location.l = l;
-      location.label = label;
-    }
-
-    this.requestUpdate();
   }
 
   static get styles() {

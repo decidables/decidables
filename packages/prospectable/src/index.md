@@ -17,6 +17,7 @@ CPT.
   <decision-choice interactive probability="0.6666" win="20" loss="0" sure="10" alpha="0.9" lambda="2" gamma="0.75"></decision-choice>
   <cpt-probability interactive line="first" point="first" probability="0.75" gamma="0.75"></cpt-probability>
   <cpt-value interactive line="first" point="all" value="5" alpha="0.9" lambda="2"></cpt-value>
+  <cpt-space></cpt-space>
   <decision-space></decision-space>
 </cpt-example-interactive>
 
