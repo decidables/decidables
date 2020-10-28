@@ -236,14 +236,19 @@ export default class DecidableElement extends LitElement {
         box-sizing: border-box;
       }
 
-      .math-var {
-        font-family: var(---font-family-math);
-        font-style: italic;
-      }
-
       .math-greek {
         font-family: var(---font-family-math);
         font-style: normal;
+      }
+
+      .math-num {
+        font-family: var(---font-family-base);
+        font-style: normal;
+      }
+
+      .math-var {
+        font-family: var(---font-family-math);
+        font-style: italic;
       }
 
       .defs {

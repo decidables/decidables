@@ -105,7 +105,7 @@ export default class CPTEquationPG2W extends CPTEquation {
       </tr>
       <tr>
         <td>
-          <span class="bracket tight">[</span>${p}<sup class="exp">${g}</sup><span class="plus">+</span><span class="bracket tight">(</span>1<span class="minus">−</span>${p}<span class="bracket tight">)</span><sup class="exp">${g}</sup><span class="bracket tight">]</span><sup class="exp">1/${g}</sup>
+          <span class="bracket tight">[</span>${p}<sup class="exp">${g}</sup><span class="plus">+</span><span class="paren tight">(</span>1<span class="minus">−</span>${p}<span class="paren tight">)</span><sup class="exp">${g}</sup><span class="bracket tight">]</span><sup class="exp">1/${g}</sup>
         </td>
       </tr>`;
     return html`
