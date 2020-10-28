@@ -78,10 +78,34 @@ export default class CPTEquation extends CPTElement {
           font-size: 175%;
         }
 
+        .brace {
+          font-size: 200%;
+        }
+
         .exp {
           display: inline-block;
 
           font-size: 0.75rem;
+        }
+
+        .subscript {
+          display: inline-block;
+
+          font-size: 66.667%;
+        }
+
+        .summation {
+          display: flex;
+
+          flex-direction: column;
+
+          line-height: 0.8;
+        }
+
+        .sigma {
+          display: inline-block;
+
+          font-size: 200%;
         }
 
         /* Input wrapping <label> */
@@ -92,7 +116,16 @@ export default class CPTEquation extends CPTElement {
 
           padding: 0.125rem 0.375rem 0.375rem;
 
+          line-height: 1.5;
           vertical-align: middle;
+        }
+
+        .n {
+          --decidable-spinner-input-width: 2rem;
+        }
+
+        .left {
+          text-align: left;
         }
 
         .bottom {

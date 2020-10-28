@@ -117,15 +117,15 @@ export default class CPTEquationXAL2V extends CPTEquation {
     const equation = html`
       <tr>
         <td rowspan="2">
-          ${v}<span class="equals">=</span><span class="bracket tight">{</span>
+          ${v}<span class="equals">=</span><span class="brace tight">{</span>
         </td>
-        <td>
-          ${x}<sup class="exp">${a}</sup>,&emsp;if ${x}<span class="equals">&gt;=</span>0
+        <td class="left">
+          ${x}<sup class="exp">${a}</sup>,&emsp;if ${x}<span class="equals">&ge;</span>0
         </td>
       </tr>
       <tr>
-        <td>
-          <span class="minus tight">−</span>${l}<span class="bracket tight">(</span><span class="minus tight">−</span>${x}<span class="bracket tight">)</span><sup class="exp">${a}</sup>,&emsp;if ${x}<span class="equals">&lt;</span>0
+        <td class="left">
+          <span class="minus tight">−</span>${l}<span class="paren tight">(</span><span class="minus tight">−</span>${x}<span class="paren tight">)</span><sup class="exp">${a}</sup>,&emsp;if ${x}<span class="equals">&lt;</span>0
         </td>
       </tr>`;
     return html`

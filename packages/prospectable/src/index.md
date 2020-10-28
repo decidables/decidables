@@ -21,6 +21,10 @@ CPT.
   <decision-space></decision-space>
 </cpt-example-interactive>
 
+<cpt-equation-vw2u></cpt-equation-vw2u>
+
+<cpt-equation-vw2u numeric interactive outcomes="2" value="5 0" weight="0.9 0.1"></cpt-equation-vw2u>
+
 <cpt-equation-xal2v></cpt-equation-xal2v>
 
 <cpt-equation-xal2v numeric interactive value="5" alpha="0.9" lambda="2"></cpt-equation-xal2v>
