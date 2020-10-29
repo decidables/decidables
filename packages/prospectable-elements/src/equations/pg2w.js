@@ -74,21 +74,15 @@ export default class CPTEquationPG2W extends CPTEquation {
     let g;
     let w;
     if (this.numeric) {
-      p = html`
-        <decidable-spinner class="p bottom" ?disabled=${!this.interactive} min="0" max="1" step="0.01" .value="${this.p}" @input=${this.pInput.bind(this)}>
+      p = html`<decidable-spinner class="p bottom" ?disabled=${!this.interactive} min="0" max="1" step="0.01" .value="${this.p}" @input=${this.pInput.bind(this)}>
           <var class="math-var">p</var>
-        </decidable-spinner>
-      `;
-      g = html`
-        <decidable-spinner class="g bottom" ?disabled=${!this.interactive} min="0" max="1" step="0.01" .value="${this.g}" @input=${this.gInput.bind(this)}>
+        </decidable-spinner>`;
+      g = html`<decidable-spinner class="g bottom" ?disabled=${!this.interactive} min="0" max="1" step="0.01" .value="${this.g}" @input=${this.gInput.bind(this)}>
           <var class="math-var">γ</var>
-        </decidable-spinner>
-      `;
-      w = html`
-        <decidable-spinner class="w bottom" disabled min="0" max="1" step=".01" .value="${+this.w.toFixed(2)}">
+        </decidable-spinner>`;
+      w = html`<decidable-spinner class="w bottom" disabled min="0" max="1" step=".01" .value="${+this.w.toFixed(2)}">
           <var class="math-var">w</var>
-        </decidable-spinner>
-      `;
+        </decidable-spinner>`;
     } else {
       p = html`<var class="math-var p">p</var>`;
       g = html`<var class="math-var g">γ</var>`;

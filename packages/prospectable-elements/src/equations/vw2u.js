@@ -95,11 +95,9 @@ export default class CPTEquationVW2U extends CPTEquation {
     let v;
     if (numeric) {
       const index = Number.parseInt(subscript, 10) - 1;
-      v = html`
-        <decidable-spinner class="v" ?disabled=${!this.interactive} .value="${this.v[index]}" @input=${this.vInput.bind(this, index)}>
+      v = html`<decidable-spinner class="v" ?disabled=${!this.interactive} .value="${this.v[index]}" @input=${this.vInput.bind(this, index)}>
           <var class="math-var">v<sub class="subscript ${className}">${subscript}</sub></var>
-        </decidable-spinner>
-      `;
+        </decidable-spinner>`;
     } else {
       v = html`<var class="math-var v">v<sub class="subscript ${className}">${subscript}</sub></var>`;
     }
@@ -110,11 +108,9 @@ export default class CPTEquationVW2U extends CPTEquation {
     let w;
     if (numeric) {
       const index = Number.parseInt(subscript, 10) - 1;
-      w = html`
-        <decidable-spinner class="w" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.w[index]}" @input=${this.wInput.bind(this, index)}>
+      w = html`<decidable-spinner class="w" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.w[index]}" @input=${this.wInput.bind(this, index)}>
           <var class="math-var">w<sub class="subscript ${className}">${subscript}</sub></var>
-        </decidable-spinner>
-      `;
+        </decidable-spinner>`;
     } else {
       w = html`<var class="math-var w">w<sub class="subscript ${className}">${subscript}</sub></var>`;
     }
@@ -126,16 +122,12 @@ export default class CPTEquationVW2U extends CPTEquation {
     let u;
     let n;
     if (this.numeric) {
-      u = html`
-        <decidable-spinner class="u" disabled .value="${+this.u.toFixed(3)}">
+      u = html`<decidable-spinner class="u" disabled .value="${+this.u.toFixed(3)}">
           <var class="math-var">U</var>
-        </decidable-spinner>
-      `;
-      n = html`
-        <decidable-spinner class="n" ?disabled=${!this.interactive} min="1" max="4" step="1" .value="${this.n}" @input=${this.nInput.bind(this)}>
+        </decidable-spinner>`;
+      n = html`<decidable-spinner class="n" ?disabled=${!this.interactive} min="1" max="4" step="1" .value="${this.n}" @input=${this.nInput.bind(this)}>
           <var class="math-var">n</var>
-        </decidable-spinner>
-      `;
+        </decidable-spinner>`;
     } else {
       u = html`<var class="math-var u">U</var>`;
       n = html`<var class="math-var subscript">n</var>`;

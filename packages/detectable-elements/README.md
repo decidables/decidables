@@ -36,6 +36,7 @@
 
 ## Features/Bugs/Notes
 
+- Remove extraneous spaces from equation tagged template literals! 
 - Label values IN iso-plots? or allow hover or click querying of iso-plots?
   - Hover/click could be extended ROC generally and to Model plot as well?
 - Use localStorage to maintain state?
