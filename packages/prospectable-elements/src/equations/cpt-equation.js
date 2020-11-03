@@ -82,6 +82,27 @@ export default class CPTEquation extends CPTElement {
           font-size: 200%;
         }
 
+        .addend {
+          position: relative;
+          display: inline-block;
+        }
+
+        .comparison {
+          position: relative;
+          display: inline-block;
+
+          font-size: 125%;
+          font-weight: 600;
+        }
+
+        .function {
+          display: inline-block;
+        }
+
+        :host([numeric]) .function {
+          padding: 0.25rem;
+        }
+
         .exp {
           display: inline-block;
 
@@ -128,11 +149,31 @@ export default class CPTEquation extends CPTElement {
           text-align: left;
         }
 
+        .right {
+          text-align: right;
+        }
+
         .bottom {
           vertical-align: bottom;
         }
 
+        .top {
+          vertical-align: top;
+        }
+
         /* Color scheme */
+        /* .win {
+          background: var(---color-better);
+        }
+
+        .loss {
+          background: var(---color-worse);
+        }
+
+        .sure {
+          background: var(---color-even);
+        } */
+
         .x {
           background: var(---color-x-light);
         }
