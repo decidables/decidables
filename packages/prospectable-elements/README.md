@@ -8,21 +8,25 @@
 
 - `CPTElement`: Base class for all *prospectable* web components
 - **Components**: Building blocks for interactive visualizations of CPT
-  - `?CPTControl?`: Control panel for CPT demos
-  - `CPTValue`: Objective value to subjective value/utility function for CPT
+  - `CPTCalculation`: Calculation and comparison of subjective utility for gamble and sure options
   - `CPTProbability`: Objective probability to subjective decision weight function for CPT
-  - `DecisionOutcome` : A single outcome for an option (no display on its own)
-  - `DecisionOption` : A single option consisting of one or more outcomes (pie view!)
-  - `DecisionChoice` : A choice betweeen two options, one a gamble, and one sure
-  - `???Task`: Displays stimuli for ??? decision task
-  - `???`: Visualization of decision space???
+  - `CPTSpace`: 3D representation of parameter space for a given decision
+  - `CPTValue`: Objective value to subjective value/utility function for CPT
+  - `DecisionChoice`: A choice betweeen two options, one a gamble, and one sure
+  - `DecisionOption`: A single option consisting of one or more outcomes (pie view!)
+  - `DecisionOutcome`: A single outcome for an option (no display on its own)
+  - `DecisionSpace`: 3D representation of decision space for given parameter values
+  - `?CPTControl?`: Control panel for CPT demos
+  - `?DecisionTask?`: Displays stimuli for ??? decision task
 - **Equations**: Interactive equations for SDT
   - `CPTEquation`: Base class for all interactive CPT equations
   - `CPTEquationXAL2V`: Subjective value from objective value, marginal utility, and loss aversion
   - `CPTEquationPG2W`: Subjective decision weight from objective probability and sensitivity
+  - `CPTEquationVW2U`: Subjective utility from subjective value and subjective decision weight
 - **Examples**: Full examples built from multiple components
-  - `SDTExample`: Base class for all CPT examples
-  - `SDTExampleModel`: Model simulates task based on CPT parameter values
+  - `CPTExample`: Base class for all CPT examples
+  - `CPTExampleModel`: Model simulates task based on CPT parameter values
+  - `CPTExampleInteractive`: Explore how decision and model parameters relate
 
 ---
 
