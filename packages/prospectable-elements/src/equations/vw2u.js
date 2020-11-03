@@ -1,5 +1,6 @@
 
 import {html} from 'lit-element';
+import {transition, mark, slide} from 'lit-transition';
 
 import {DecidableConverterArray} from '@decidable/decidable-elements';
 
@@ -44,20 +45,34 @@ export default class CPTEquationVW2U extends CPTEquation {
     this.v = [10, 0];
     this.w = [0.75, 0.25];
     this.n = 2;
+
+    this.nMax = 4;
+    this.vMax = new Array(this.nMax).fill(0);
+    this.wMax = new Array(this.nMax).fill(0);
+
     this.alignState();
   }
 
   alignState() {
+    // Clean up v and w
     this.v = (this.v.length < this.n)
-      ? this.v.concat(Array(this.n - this.v.length).fill(0))
+      ? this.v.concat(this.vMax.slice(this.v.length, this.n))
       : (this.v.length > this.n)
         ? this.v.slice(0, this.n)
         : this.v;
     this.w = (this.w.length < this.n)
-      ? this.w.concat(Array(this.n - this.w.length).fill(0))
+      ? this.w.concat(this.wMax.slice(this.w.length, this.n))
       : (this.w.length > this.n)
         ? this.w.slice(0, this.n)
         : this.w;
+    // Update vMax and wMax to reflect current v and w
+    this.v.forEach((item, index) => {
+      this.vMax[index] = item;
+    });
+    this.w.forEach((item, index) => {
+      this.wMax[index] = item;
+    });
+    // Calculate u
     this.u = this.v.reduce((sum, value, index) => { return sum + value * this.w[index]; }, 0);
   }
 
@@ -149,11 +164,19 @@ export default class CPTEquationVW2U extends CPTEquation {
         </td>
         <td>
           ${this.numeric
-            ? Array(this.n).fill().map((_, index) => { return html`${(index !== 0) ? html`<span class="plus">+</span>` : html``}${this.vTemplate(index + 1, 'math-num', true)}&nbsp;${this.wTemplate(index + 1, 'math-num', true)}`; })
+            ? Array(this.nMax).fill().map((_, index) => {
+              return transition(
+                (index < this.n)
+                  ? mark(html`<span class="addend tight">${(index !== 0) ? html`<span class="plus">+</span>` : html``}${this.vTemplate(index + 1, 'math-num', true)}&nbsp;${this.wTemplate(index + 1, 'math-num', true)}</span>`, `${index}`)
+                  : null,
+                slide({mode: 'both', x: '-100%', x1: '-100%'}),
+              );
+            })
             : html`${this.vTemplate('1', 'math-num', false)}&nbsp;${this.wTemplate('1', 'math-num', false)}<span class="plus">+</span><span class="ellipsis">…</span><span class="plus">+</span>${this.vTemplate('n', 'math-var', false)}&nbsp;${this.wTemplate('n', 'math-var', false)}`
           }
         </td>
       </tr>`;
+      // : null, slide({mode: 'both', right: (index < this.n), left: !(index < this.n)}));
     return html`
       <div class="holder">
         <table class="equation">
