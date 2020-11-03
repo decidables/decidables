@@ -179,7 +179,7 @@ export default class CPTCalculation extends CPTEquation {
       xl = html`<decidable-spinner class="x" disabled .value="${this.xl}">
           <var class="math-var">x<sub class="subscript loss">loss</sub></var>
         </decidable-spinner>`;
-      pw = html`<decidable-spinner class="p" ?disabled=${!this.interactive} min="0" max="1" step=".01" .value="${this.pw}" @input=${this.pwInput.bind(this)}>
+      pw = html`<decidable-spinner class="p" ?disabled=${!this.interactive} min="0" max="1" step=".01" .value="${+this.pw.toFixed(2)}" @input=${this.pwInput.bind(this)}>
           <var class="math-var">p<sub class="subscript win">win</sub></var>
         </decidable-spinner>`;
       xs = html`<decidable-spinner class="x" ?disabled=${!this.interactive} .value="${this.xs}" @input=${this.xsInput.bind(this)}>
