@@ -1,4 +1,5 @@
 
+export {default as CPTCalculation} from './cpt-calculation';
 export {default as CPTProbability} from './cpt-probability';
 export {default as CPTSpace} from './cpt-space';
 export {default as CPTValue} from './cpt-value';
