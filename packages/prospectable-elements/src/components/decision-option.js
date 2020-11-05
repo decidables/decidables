@@ -101,15 +101,15 @@ export default class DecisionOption extends CPTElement {
         }
 
         .arc.win {
-          fill: var(---color-better);
+          fill: var(---color-better-light);
         }
 
         .arc.loss {
-          fill: var(---color-worse);
+          fill: var(---color-worse-light);
         }
 
         .arc.sure {
-          fill: var(---color-even);
+          fill: var(---color-even-light);
         }
 
         .label.static {
@@ -134,15 +134,15 @@ export default class DecisionOption extends CPTElement {
         }
 
         .label.interactive.win decidable-spinner {
-          background-color: var(---color-better);
+          background-color: var(---color-better-light);
         }
 
         .label.interactive.loss decidable-spinner {
-          background-color: var(---color-worse);
+          background-color: var(---color-worse-light);
         }
 
         .label.interactive.sure decidable-spinner {
-          background-color: var(---color-even);
+          background-color: var(---color-even-light);
         }
       `,
     ];
