@@ -1,5 +1,5 @@
 
-import {html, css, unsafeCSS} from 'lit-element';
+import {html, css} from 'lit-element';
 
 import '@decidable/decidable-elements';
 
@@ -182,10 +182,6 @@ export default class SDTControl extends SDTElement {
       super.styles,
       css`
         :host {
-          ---shadow-2-rotate: ${unsafeCSS(this.cssBoxShadow(2, true, false))};
-          ---shadow-4-rotate: ${unsafeCSS(this.cssBoxShadow(4, true, false))};
-          ---shadow-8-rotate: ${unsafeCSS(this.cssBoxShadow(8, true, false))};
-
           display: inline-block;
         }
 
