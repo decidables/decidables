@@ -13,8 +13,8 @@ interactive introduction to Cumulative Prospect Theory (CPT). This site uses man
 dynamic tables, and live equations to explain the motivation, conceptualization, and application of
 CPT.
 
-<cpt-example-interactive>
-  <decision-choice interactive probability="0.75" win="20" loss="0" sure="10" alpha="0.9" lambda="2" gamma="0.75"></decision-choice>
+<cpt-example-interactive probability="0.75" win="20" loss="0" sure="10" alpha="0.9" lambda="2" gamma="0.75">
+  <decision-choice interactive></decision-choice>
   <cpt-probability interactive line="first" point="first"></cpt-probability>
   <cpt-value interactive line="first" point="all"></cpt-value>
   <cpt-calculation numeric interactive></cpt-calculation>
