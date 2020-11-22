@@ -186,6 +186,7 @@
   /* stylelint-disable-line no-duplicate-selectors */
   --font-family-base: Source Sans Pro, sans-serif;
   --font-family-math: Source Serif Pro, serif;
+  --font-family-code: Source Code Pro, monospace;
   --border: 1px solid #e6e6e6;
   --border-radius: 0.25rem;
   --transition-duration: 500ms; }
