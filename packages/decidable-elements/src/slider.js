@@ -1,6 +1,6 @@
 
 import {ifDefined} from 'lit-html/directives/if-defined';
-import {html, css} from 'lit-element';
+import {html, css, unsafeCSS} from 'lit-element';
 
 import DecidableElement from './decidable-element';
 
@@ -65,6 +65,10 @@ export default class DecidableSlider extends DecidableElement {
       super.styles,
       css`
         :host {
+          ---shadow-2-rotate: var(--shadow-2-rotate, ${unsafeCSS(this.cssBoxShadow(2, true, false))});
+          ---shadow-4-rotate: var(--shadow-4-rotate, ${unsafeCSS(this.cssBoxShadow(4, true, false))});
+          ---shadow-8-rotate: var(--shadow-8-rotate, ${unsafeCSS(this.cssBoxShadow(8, true, false))});
+
           display: flex;
 
           flex-direction: column;
