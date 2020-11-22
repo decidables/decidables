@@ -151,6 +151,7 @@ $container-max-widths: (
 
 // SCSS VARIABLES
 $font-family-math: "Source Serif Pro", serif; // Not in Bootstrap
+$font-family-code: "Source Code Pro", monospace; // Not in Bootstrap
 $border: $border-width solid $border-color;
 $transition-duration: 500ms;
 
@@ -205,6 +206,7 @@ $shadow-ambient-map: (
 :root { /* stylelint-disable-line no-duplicate-selectors */
   --font-family-base: #{$font-family-base};
   --font-family-math: #{$font-family-math};
+  --font-family-code: #{$font-family-code};
   --border: #{$border};
   --border-radius: #{$border-radius};
   --transition-duration: #{$transition-duration};
@@ -514,7 +516,7 @@ body {
   code {
     padding: 0.0625rem 0.25rem;
 
-    font-family: "Source Code Pro", monospace;
+    font-family: $font-family-code;
     font-size: 1rem;
     font-style: normal;
     font-weight: 600;

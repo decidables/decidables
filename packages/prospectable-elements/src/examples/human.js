@@ -1,0 +1,113 @@
+
+// import CPTMath from '@decidable/prospectable-math';
+
+import CPTExample from './cpt-example';
+
+/*
+  CPTExampleInteractive element
+  <cpt-example-interactive>
+*/
+export default class CPTExampleHuman extends CPTExample {
+  firstUpdated(/* changedProperties */) {
+    this.decisionControl = this.querySelector('decision-control');
+    this.decisionTask = this.querySelector('decision-task');
+    this.decisionResponse = this.querySelector('decision-response');
+
+    this.cptCalculation = this.querySelector('cpt-calculation');
+    this.cptProbability = this.querySelector('cpt-probability');
+    this.cptSpace = this.querySelector('cpt-space');
+    this.cptValue = this.querySelector('cpt-value');
+    this.decisionSpace = this.querySelector('decision-space');
+
+    if (this.decisionControl) {
+      if (this.decisionControl.hasAttribute('trials')) {
+        this.decisionControl.addEventListener('decision-control-trials', (event) => {
+          if (this.decisionTask) {
+            this.decisionTask.trials = event.detail.trials;
+          }
+
+          if (this.decisionResponse) {
+            this.decisionResponse.trialTotal = event.detail.trials;
+          }
+        });
+      }
+
+      if (this.decisionControl.hasAttribute('duration')) {
+        this.decisionControl.addEventListener('decision-control-duration', (event) => {
+          if (this.decisionTask) {
+            this.decisionTask.duration = event.detail.duration;
+            this.decisionTask.iti = event.detail.duration;
+          }
+        });
+      }
+
+      if (this.decisionControl.hasAttribute('run')) {
+        this.decisionControl.addEventListener('decision-control-run', (/* event */) => {
+          if (this.decisionTask) {
+            this.decisionTask.running = true;
+          }
+        });
+      }
+
+      if (this.decisionControl.hasAttribute('pause')) {
+        this.decisionControl.addEventListener('decision-control-pause', (/* event */) => {
+          if (this.decisionTask) {
+            this.decisionTask.running = false;
+          }
+        });
+      }
+
+      if (this.decisionControl.hasAttribute('reset')) {
+        this.decisionControl.addEventListener('decision-control-reset', (/* event */) => {
+          if (this.decisionTask) {
+            this.decisionTask.reset();
+          }
+
+          if (this.decisionResponse) {
+            this.decisionResponse.reset();
+          }
+        });
+      }
+    }
+
+    if (this.decisionTask) {
+      if (this.decisionResponse) {
+        this.decisionResponse.trialTotal = this.decisionTask.trials;
+      }
+
+      this.decisionTask.addEventListener('decision-trial-start', (event) => {
+        if (this.decisionResponse) {
+          this.decisionResponse.start(
+            event.detail.xl,
+            event.detail.xw,
+            event.detail.pw,
+            event.detail.xs,
+            event.detail.gamblePayoff,
+            event.detail.surePayoff,
+            event.detail.better,
+            event.detail.trial,
+          );
+        }
+      });
+
+      this.decisionTask.addEventListener('decision-trial-end', (/* event */) => {
+        if (this.decisionResponse) {
+          this.decisionResponse.stop();
+        }
+      });
+
+      this.decisionTask.addEventListener('decision-block-end', (/* event */) => {
+        if (this.decisionControl) {
+          this.decisionControl.complete();
+        }
+      });
+    }
+
+    if (this.decisionResponse) {
+      this.decisionResponse.addEventListener('decision-response', (/* event */) => {
+      });
+    }
+  }
+}
+
+customElements.define('cpt-example-human', CPTExampleHuman);

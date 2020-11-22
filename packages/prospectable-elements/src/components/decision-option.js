@@ -14,22 +14,6 @@ import CPTElement from '../cpt-element';
 export default class DecisionOption extends CPTElement {
   static get properties() {
     return {
-      a: {
-        attribute: 'alpha',
-        type: Number,
-        reflect: true,
-      },
-      l: {
-        attribute: 'lambda',
-        type: Number,
-        reflect: true,
-      },
-      g: {
-        attribute: 'gamma',
-        type: Number,
-        reflect: true,
-      },
-
       width: {
         attribute: false,
         type: Number,
@@ -51,11 +35,6 @@ export default class DecisionOption extends CPTElement {
   constructor() {
     super();
 
-    // Attributes
-    this.a = 1; // alpha
-    this.l = 1; // lambda
-    this.g = 1; // gamma
-
     // Properties
     this.width = NaN; // Width of component in pixels
     this.height = NaN; // Height of component in pixels
@@ -74,6 +53,12 @@ export default class DecisionOption extends CPTElement {
           width: 100%;
           height: 100%;
           overflow: visible;
+        }
+
+        .outline {
+          fill: var(---color-element-background);
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2;
         }
 
         .arc {
@@ -217,9 +202,10 @@ export default class DecisionOption extends CPTElement {
 
     // Get outcomes from slots!
     const decisionOutcomes = this.querySelectorAll('decision-outcome');
+    const pCorrection = decisionOutcomes.length ? -decisionOutcomes[0].p : 0;
     const arcs = d3.pie()
-      .startAngle((-decisionOutcomes[0].p * Math.PI) - Math.PI)
-      .endAngle((-decisionOutcomes[0].p * Math.PI) + Math.PI)
+      .startAngle((pCorrection * Math.PI) - Math.PI)
+      .endAngle((pCorrection * Math.PI) + Math.PI)
       .sortValues(null) // Use inserted order!
       .value((datum) => { return datum.p; })(decisionOutcomes);
     const arcsStatic = arcs.filter(
@@ -290,7 +276,6 @@ export default class DecisionOption extends CPTElement {
         d3.select(element).classed('dragging', false);
       });
 
-
     // Svg
     //  DATA-JOIN
     const svgUpdate = d3.select(this.renderRoot).selectAll('.main')
@@ -308,11 +293,19 @@ export default class DecisionOption extends CPTElement {
 
     // Pie
     //  ENTER
-    svgEnter.append('g')
+    const pieEnter = svgEnter.append('g')
       .classed('pie', true);
     //  MERGE
     const pieMerge = svgMerge.select('.pie')
       .attr('transform', `translate(${width / 2}, ${height / 2})`);
+
+    // Outline
+    //  ENTER
+    pieEnter.append('circle')
+      .classed('outline', true);
+    //  MERGE
+    pieMerge.select('.outline')
+      .attr('r', Math.min(width, height) / 2 - 1);
 
     // Arcs
     //  DATA-JOIN
