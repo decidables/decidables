@@ -40,9 +40,9 @@ export default class DecisionSpace extends CPTElement {
         type: Boolean,
         reflect: true,
       },
-      points: {
-        attribute: 'points',
-        type: Boolean,
+      point: {
+        attribute: 'point',
+        type: String,
         reflect: true,
       },
 
@@ -107,16 +107,38 @@ export default class DecisionSpace extends CPTElement {
     this.firstUpdate = true;
 
     this.surface = true;
-    this.points = false;
+    this.points = ['all', 'first', 'rest', 'none'];
+    this.point = 'first';
 
     this.a = 0.8;
     this.l = 1.2;
     this.g = 0.8;
-    this.xl = 0; // Gamble Loss Value
+    this.xl = 0;
 
     this.xw = 20;
     this.pw = 0.5;
     this.xs = 10;
+    this.response = '';
+    this.label = '';
+
+    this.choices = [
+      {
+        name: 'default',
+        xw: this.xw,
+        pw: this.pw,
+        xs: this.xs,
+        response: this.response,
+        label: '',
+      },
+    ];
+
+    // Constants for categorical color codes
+    this.GAMBLE = 0;
+    this.SURE = 1;
+    this.NR = 0.25;
+    this.DEFAULT = 0.75;
+
+    this.pointList = [];
 
     this.range = {};
     this.range.xs = {start: 5, stop: 15, step: 0.5}; // Sure Value
@@ -133,13 +155,45 @@ export default class DecisionSpace extends CPTElement {
   }
 
   alignState() {
+    this.choices[0].name = 'default';
+    this.choices[0].xw = this.xw;
+    this.choices[0].pw = this.pw;
+    this.choices[0].xs = this.xs;
+    this.choices[0].response = this.response;
+    this.choices[0].label = this.label;
+
+    this.pointList = {
+      xw: [],
+      pw: [],
+      xs: [],
+      response: [],
+      label: [],
+    };
+    this.choices.forEach((item, index) => {
+      if (((index === 0) && (this.point === 'first' || this.point === 'all'))
+        || ((index > 0) && (this.point === 'rest' || this.point === 'all'))) {
+        this.pointList.xw.push(item.xw);
+        this.pointList.pw.push(item.pw);
+        this.pointList.xs.push(item.xs);
+        this.pointList.response.push(
+          (item.response === 'gamble')
+            ? this.GAMBLE
+            : (item.response === 'sure')
+              ? this.SURE
+              : (item.response === 'nr')
+                ? this.NR
+                : this.DEFAULT,
+        );
+        this.pointList.label.push(item.label);
+      }
+    });
+
     this.decisionSpace = {
       xs: [],
       xw: [],
       pw: [],
       uDiff: [],
     };
-
     d3.range(this.range.xs.start, this.range.xs.stop + 0.01, this.range.xs.step)
       .forEach((xs) => {
         d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step)
@@ -158,6 +212,51 @@ export default class DecisionSpace extends CPTElement {
               });
           });
       });
+  }
+
+  clear() {
+    this.choices = [{}];
+
+    this.requestUpdate();
+  }
+
+  get(name = 'default') {
+    const choice = this.choices.find((item) => {
+      return (item.name === name);
+    });
+
+    return (choice === undefined) ? null : choice;
+  }
+
+  set(xw, pw, xs, response, name = 'default', label = '') {
+    if (name === 'default') {
+      this.xw = xw;
+      this.pw = pw;
+      this.xs = xs;
+      this.response = response;
+      this.label = label;
+    }
+    const choice = this.choices.find((item) => {
+      return (item.name === name);
+    });
+    if (choice === undefined) {
+      this.choices.push({
+        name: name,
+        xw: xw,
+        pw: pw,
+        xs: xs,
+        response: response,
+        label: label,
+      });
+    } else {
+      choice.xw = xw;
+      choice.pw = pw;
+      choice.xs = xs;
+      choice.response = response;
+      choice.label = label;
+    }
+
+    this.requestUpdate();
   }
 
   static get styles() {
@@ -241,55 +340,67 @@ export default class DecisionSpace extends CPTElement {
     const colorText = this.getComputedStyleValue('---color-text');
     const colorElementBorder = this.getComputedStyleValue('---color-element-border');
     const colorElementBackground = this.getComputedStyleValue('---color-element-background');
+    const colorGamble = this.getComputedStyleValue('---color-worse');
+    const colorSure = this.getComputedStyleValue('---color-better');
+    const colorNr = this.getComputedStyleValue('---color-nr');
+    const colorDefault = this.getComputedStyleValue('---color-element-emphasis');
 
-    const data = [
-      {
-        name: 'Decision Boundary',
-        type: 'isosurface',
-        x: this.decisionSpace.xs,
-        y: this.decisionSpace.xw,
-        z: this.decisionSpace.pw,
-        value: this.decisionSpace.uDiff,
-        coloraxis: 'coloraxis',
-        isomin: 0,
-        isomax: 0,
-        opacity: 0.5,
-      },
-      {
-        name: 'Difference in Subjective Utility',
-        type: 'isosurface',
-        x: this.decisionSpace.xs,
-        y: this.decisionSpace.xw,
-        z: this.decisionSpace.pw,
-        value: this.decisionSpace.uDiff,
-        caps: {
-          x: {show: false},
-          y: {show: false},
-          z: {show: false},
+    const data = [];
+
+    if (this.surface) {
+      data.push(
+        {
+          name: 'Decision Boundary',
+          type: 'isosurface',
+          x: this.decisionSpace.xs,
+          y: this.decisionSpace.xw,
+          z: this.decisionSpace.pw,
+          value: this.decisionSpace.uDiff,
+          coloraxis: 'coloraxis',
+          isomin: 0,
+          isomax: 0,
+          opacity: 0.5,
         },
-        coloraxis: 'coloraxis',
-        isomin: -30,
-        isomax: 30,
-        showscale: false,
-        slices: {
-          x: {show: true, locations: [this.range.xs.stop]},
-          y: {show: true, locations: [this.range.xw.stop]},
-          z: {show: true, locations: [this.range.pw.start]},
+        {
+          name: 'Difference in Subjective Utility',
+          type: 'isosurface',
+          x: this.decisionSpace.xs,
+          y: this.decisionSpace.xw,
+          z: this.decisionSpace.pw,
+          value: this.decisionSpace.uDiff,
+          caps: {
+            x: {show: false},
+            y: {show: false},
+            z: {show: false},
+          },
+          coloraxis: 'coloraxis',
+          isomin: -30,
+          isomax: 30,
+          showscale: false,
+          slices: {
+            x: {show: true, locations: [this.range.xs.stop]},
+            y: {show: true, locations: [this.range.xw.stop]},
+            z: {show: true, locations: [this.range.pw.start]},
+          },
+          surface: {show: false},
         },
-        surface: {show: false},
-      },
+      );
+    }
+
+    data.push(
       {
         name: 'Current Decision',
         type: 'scatter3d',
-        x: [this.xs],
-        y: [this.xw],
-        z: [this.pw],
+        x: this.pointList.xs,
+        y: this.pointList.xw,
+        z: this.pointList.pw,
         mode: 'markers',
         marker: {
-          color: 'black',
+          color: this.pointList.response,
+          coloraxis: 'coloraxis2',
         },
       },
-    ];
+    );
 
     const layout = {
       coloraxis: {
@@ -316,6 +427,21 @@ export default class DecisionSpace extends CPTElement {
           [0.75, 'rgb(178,10,28)'],
           [1, 'rgb(178,10,28)'],
         ],
+      },
+      coloraxis2: {
+        cmin: 0,
+        cmax: 1,
+        colorscale: [
+          [0, colorGamble],
+          [0.01, colorGamble],
+          [0.24, colorNr],
+          [0.26, colorNr],
+          [0.74, colorDefault],
+          [0.76, colorDefault],
+          [0.99, colorSure],
+          [1, colorSure],
+        ],
+        showscale: false,
       },
       font: {
         family: '"Source Sans Pro", sans-serif',
