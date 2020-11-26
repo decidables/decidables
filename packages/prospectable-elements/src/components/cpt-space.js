@@ -241,6 +241,7 @@ export default class CPTSpace extends CPTElement {
     const colorText = this.getComputedStyleValue('---color-text');
     const colorElementBorder = this.getComputedStyleValue('---color-element-border');
     const colorElementBackground = this.getComputedStyleValue('---color-element-background');
+    const colorElementEmphasis = this.getComputedStyleValue('---color-element-emphasis');
 
     const data = [
       {
@@ -286,7 +287,7 @@ export default class CPTSpace extends CPTElement {
         z: [this.g],
         mode: 'markers',
         marker: {
-          color: 'black',
+          color: colorElementEmphasis,
         },
       },
     ];

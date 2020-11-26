@@ -66,6 +66,10 @@ export default class CPTExampleHuman extends CPTExample {
           if (this.decisionResponse) {
             this.decisionResponse.reset();
           }
+
+          if (this.decisionSpace) {
+            this.decisionSpace.clear();
+          }
         });
       }
     }
@@ -104,7 +108,17 @@ export default class CPTExampleHuman extends CPTExample {
     }
 
     if (this.decisionResponse) {
-      this.decisionResponse.addEventListener('decision-response', (/* event */) => {
+      this.decisionResponse.addEventListener('decision-response', (event) => {
+        if (this.decisionSpace) {
+          this.decisionSpace.set(
+            event.detail.xw,
+            event.detail.pw,
+            event.detail.xs,
+            event.detail.response,
+            event.detail.trial.toString(),
+            event.detail.trial.toString(),
+          );
+        }
       });
     }
   }
