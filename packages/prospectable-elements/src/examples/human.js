@@ -9,15 +9,35 @@ import CPTExample from './cpt-example';
 */
 export default class CPTExampleHuman extends CPTExample {
   firstUpdated(/* changedProperties */) {
+    this.cptFit = this.querySelector('cpt-fit');
     this.decisionControl = this.querySelector('decision-control');
     this.decisionTask = this.querySelector('decision-task');
     this.decisionResponse = this.querySelector('decision-response');
+    this.decisionSpace = this.querySelector('decision-space');
 
     this.cptCalculation = this.querySelector('cpt-calculation');
     this.cptProbability = this.querySelector('cpt-probability');
     this.cptSpace = this.querySelector('cpt-space');
     this.cptValue = this.querySelector('cpt-value');
-    this.decisionSpace = this.querySelector('decision-space');
+
+    if (this.cptFit) {
+      this.cptFit.addEventListener('cpt-fit-update', (event) => {
+        if (this.cptProbability) {
+          this.cptProbability.g = event.detail.a;
+        }
+
+        if (this.cptValue) {
+          this.cptValue.a = event.detail.a;
+          this.cptValue.l = event.detail.l;
+        }
+
+        if (this.decisionSpace) {
+          this.decisionSpace.a = event.detail.a;
+          this.decisionSpace.l = event.detail.l;
+          this.decisionSpace.g = event.detail.g;
+        }
+      });
+    }
 
     if (this.decisionControl) {
       if (this.decisionControl.hasAttribute('trials')) {
@@ -70,6 +90,10 @@ export default class CPTExampleHuman extends CPTExample {
           if (this.decisionSpace) {
             this.decisionSpace.clear();
           }
+
+          if (this.cptFit) {
+            this.cptFit.clear();
+          }
         });
       }
     }
@@ -111,6 +135,18 @@ export default class CPTExampleHuman extends CPTExample {
       this.decisionResponse.addEventListener('decision-response', (event) => {
         if (this.decisionSpace) {
           this.decisionSpace.set(
+            event.detail.xw,
+            event.detail.pw,
+            event.detail.xs,
+            event.detail.response,
+            event.detail.trial.toString(),
+            event.detail.trial.toString(),
+          );
+        }
+
+        if (this.cptFit) {
+          this.cptFit.set(
+            event.detail.xl,
             event.detail.xw,
             event.detail.pw,
             event.detail.xs,
