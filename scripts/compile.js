@@ -2,12 +2,12 @@
 // devDependencies
 const gulp = require('gulp');
 const gulpBro = require('gulp-bro');
+const gulpDartSass = require('gulp-dart-sass');
 const gulpEjs = require('gulp-ejs');
 const gulpFrontMatter = require('gulp-front-matter');
 const gulpNotify = require('gulp-notify');
 const gulpRemark = require('gulp-remark');
 const gulpRename = require('gulp-rename');
-const gulpSass = require('gulp-sass');
 const gulpSourcemaps = require('gulp-sourcemaps');
 const localeEnUs = require('locale-en-us');
 const nodeSassPackageImporter = require('node-sass-package-importer');
@@ -93,7 +93,7 @@ exports.compileScripts = compileScripts;
 function compileStyles() {
   return gulp.src('src/*.scss')
     .pipe(gulpSourcemaps.init({loadMaps: true}))
-    .pipe(gulpSass({importer: nodeSassPackageImporter()}).on('error', gulpSass.logError))
+    .pipe(gulpDartSass({importer: nodeSassPackageImporter()}).on('error', gulpDartSass.logError))
     .pipe(gulpSourcemaps.write('.'))
     .pipe(gulp.dest('local'))
     .pipe(gulpNotify({message: 'compile:styles done!', onLast: true}));
