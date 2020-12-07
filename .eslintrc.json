@@ -8,6 +8,12 @@
   "rules": {
     "arrow-body-style": ["error", "always"],
     "arrow-parens": ["error", "always"],
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": [
+        "scripts/**",
+        "**/gulpfile.js"
+      ]
+    }],
     "indent": ["error", 2, {
       "SwitchCase": 1,
       "VariableDeclarator": 1,
