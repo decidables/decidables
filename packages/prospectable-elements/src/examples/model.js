@@ -5,7 +5,7 @@ import CPTExample from './cpt-example';
 
 /*
   CPTExampleModel element
-  <sdt-example-model>
+  <cpt-example-model>
 */
 export default class CPTExampleModel extends CPTExample {
   firstUpdated(/* changedProperties */) {
