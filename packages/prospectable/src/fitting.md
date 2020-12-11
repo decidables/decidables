@@ -6,7 +6,7 @@ script: index
 
 ## From human performance to model parameters
 
-This is a test of the decision task.
+Fitting the model to your performance.
 
 <cpt-example-human>
   <decision-control trials="10" run pause reset></decision-control>
