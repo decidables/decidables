@@ -41,14 +41,14 @@ export default class DecidableElement extends LitElement {
     // Use focus highlighting if keyboard is used at all
     d3.select(this.renderRoot.host)
       .classed('keyboard', true)
-      .on('mousemove.keyboard touchstart.keyboard', (datum, index, elements) => {
-        const element = elements[index];
+      .on('mousemove.keyboard touchstart.keyboard', (event) => {
+        const element = event.currentTarget;
         d3.select(element.renderRoot.host)
           .classed('keyboard', false)
           .on('mousemove.keyboard touchstart.keyboard', null);
       })
-      .on('keydown.keyboard', (datum, index, elements) => {
-        const element = elements[index];
+      .on('keydown.keyboard', (event) => {
+        const element = event.currentTarget;
         d3.select(element.renderRoot.host)
           .classed('keyboard', true)
           .on('keydown.keyboard mousemove.keyboard touchstart.keyboard', null);

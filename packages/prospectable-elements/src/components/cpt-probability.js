@@ -381,34 +381,34 @@ export default class CPTProbability extends CPTElement {
 
     // Drag behaviors
     const curveDrag = d3.drag()
-      .subject((datum) => {
+      .subject((event, datum) => {
         return {
-          x: d3.event.x,
-          y: this.yScale(CPTMath.pg2w(this.xScale.invert(d3.event.x), datum.g)),
+          x: event.x,
+          y: this.yScale(CPTMath.pg2w(this.xScale.invert(event.x), datum.g)),
 
-          p: this.xScale.invert(d3.event.x),
+          p: this.xScale.invert(event.x),
           g: datum.g,
-          w: CPTMath.pg2w(this.xScale.invert(d3.event.x), datum.g),
+          w: CPTMath.pg2w(this.xScale.invert(event.x), datum.g),
         };
       })
-      .on('start', (datum, index, elements) => {
-        const element = elements[index];
+      .on('start', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
       })
-      .on('drag', (datum) => {
+      .on('drag', (event, datum) => {
         this.drag = true;
-        const p = this.xScale.invert(d3.event.x);
-        const w = this.yScale.invert(d3.event.y);
-        const pDiff = p - d3.event.subject.p;
-        const wDiff = w - d3.event.subject.w;
+        const p = this.xScale.invert(event.x);
+        const w = this.yScale.invert(event.y);
+        const pDiff = p - event.subject.p;
+        const wDiff = w - event.subject.w;
         const distance = (pDiff ** 2 + wDiff ** 2) ** 0.5;
-        const g = (d3.event.subject.p > d3.event.subject.w)
+        const g = (event.subject.p > event.subject.w)
           ? ((pDiff > wDiff)
-            ? d3.event.subject.g - distance
-            : d3.event.subject.g + distance)
+            ? event.subject.g - distance
+            : event.subject.g + distance)
           : ((pDiff > wDiff)
-            ? d3.event.subject.g + distance
-            : d3.event.subject.g - distance);
+            ? event.subject.g + distance
+            : event.subject.g - distance);
         // Clamp g to legal values [0, 1]
         datum.g = (g > 1)
           ? 1
@@ -431,25 +431,25 @@ export default class CPTProbability extends CPTElement {
           bubbles: true,
         }));
       })
-      .on('end', (datum, index, elements) => {
-        const element = elements[index];
+      .on('end', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
       });
 
     const pointDrag = d3.drag()
-      .subject((datum) => {
+      .subject((event, datum) => {
         return {
           x: this.xScale(datum.p),
           y: this.yScale(datum.w),
         };
       })
-      .on('start', (datum, index, elements) => {
-        const element = elements[index];
+      .on('start', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
       })
-      .on('drag', (datum) => {
+      .on('drag', (event, datum) => {
         this.drag = true;
-        const p = this.xScale.invert(d3.event.x);
+        const p = this.xScale.invert(event.x);
         // Clamp p to visible plot
         datum.p = (p < 0)
           ? 0
@@ -473,8 +473,8 @@ export default class CPTProbability extends CPTElement {
           bubbles: true,
         }));
       })
-      .on('end', (datum, index, elements) => {
-        const element = elements[index];
+      .on('end', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
       });
 
@@ -690,17 +690,17 @@ export default class CPTProbability extends CPTElement {
           .attr('tabindex', 0)
           .classed('interactive', true)
           .call(curveDrag)
-          .on('keydown', (datum) => {
-            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+          .on('keydown', (event, datum) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
               let g = datum.g; // eslint-disable-line prefer-destructuring
-              switch (d3.event.key) {
+              switch (event.key) {
                 case 'ArrowUp':
                 case 'ArrowLeft':
-                  g += d3.event.shiftKey ? 0.01 : 0.05;
+                  g += event.shiftKey ? 0.01 : 0.05;
                   break;
                 case 'ArrowDown':
                 case 'ArrowRight':
-                  g -= d3.event.shiftKey ? 0.01 : 0.05;
+                  g -= event.shiftKey ? 0.01 : 0.05;
                   break;
                 default:
                   // no-op
@@ -729,7 +729,7 @@ export default class CPTProbability extends CPTElement {
                   bubbles: true,
                 }));
               }
-              d3.event.preventDefault();
+              event.preventDefault();
             }
           });
       } else {
@@ -798,17 +798,17 @@ export default class CPTProbability extends CPTElement {
           .attr('tabindex', 0)
           .classed('interactive', true)
           .call(pointDrag)
-          .on('keydown', (datum) => {
-            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+          .on('keydown', (event, datum) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
               let p = datum.p; // eslint-disable-line prefer-destructuring
-              switch (d3.event.key) {
+              switch (event.key) {
                 case 'ArrowUp':
                 case 'ArrowRight':
-                  p += d3.event.shiftKey ? 0.01 : 0.05;
+                  p += event.shiftKey ? 0.01 : 0.05;
                   break;
                 case 'ArrowDown':
                 case 'ArrowLeft':
-                  p -= d3.event.shiftKey ? 0.01 : 0.05;
+                  p -= event.shiftKey ? 0.01 : 0.05;
                   break;
                 default:
                   // no-op
@@ -837,7 +837,7 @@ export default class CPTProbability extends CPTElement {
                   bubbles: true,
                 }));
               }
-              d3.event.preventDefault();
+              event.preventDefault();
             }
           });
       } else {

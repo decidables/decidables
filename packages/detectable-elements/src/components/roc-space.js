@@ -443,24 +443,24 @@ export default class ROCSpace extends SDTElement {
 
     // Drag behavior
     const drag = d3.drag()
-      .subject((datum) => {
+      .subject((event, datum) => {
         return {
           x: this.xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far),
           y: this.yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr),
         };
       })
-      .on('start', (datum, index, elements) => {
-        const element = elements[index];
+      .on('start', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
       })
-      .on('drag', (datum) => {
+      .on('drag', (event, datum) => {
         this.drag = true;
         const far = this.zRoc
-          ? SDTMath.zfar2Far(this.xScale.invert(d3.event.x))
-          : this.xScale.invert(d3.event.x);
+          ? SDTMath.zfar2Far(this.xScale.invert(event.x))
+          : this.xScale.invert(event.x);
         const hr = this.zRoc
-          ? SDTMath.zhr2Hr(this.yScale.invert(d3.event.y))
-          : this.yScale.invert(d3.event.y);
+          ? SDTMath.zhr2Hr(this.yScale.invert(event.y))
+          : this.yScale.invert(event.y);
         // Clamp FAR and HR to ROC Space
         datum.far = (far < 0.001)
           ? 0.001
@@ -492,8 +492,8 @@ export default class ROCSpace extends SDTElement {
           bubbles: true,
         }));
       })
-      .on('end', (datum, index, elements) => {
-        const element = elements[index];
+      .on('end', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
       });
 
@@ -1065,30 +1065,30 @@ export default class ROCSpace extends SDTElement {
           .attr('tabindex', 0)
           .classed('interactive', true)
           .call(drag)
-          .on('keydown', (datum) => {
-            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+          .on('keydown', (event, datum) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
               let hr = this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr;
               let far = this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far;
-              switch (d3.event.key) {
+              switch (event.key) {
                 case 'ArrowUp':
                   hr += this.zRoc
-                    ? (d3.event.shiftKey ? 0.05 : 0.25)
-                    : (d3.event.shiftKey ? 0.01 : 0.05);
+                    ? (event.shiftKey ? 0.05 : 0.25)
+                    : (event.shiftKey ? 0.01 : 0.05);
                   break;
                 case 'ArrowDown':
                   hr -= this.zRoc
-                    ? (d3.event.shiftKey ? 0.05 : 0.25)
-                    : (d3.event.shiftKey ? 0.01 : 0.05);
+                    ? (event.shiftKey ? 0.05 : 0.25)
+                    : (event.shiftKey ? 0.01 : 0.05);
                   break;
                 case 'ArrowRight':
                   far += this.zRoc
-                    ? (d3.event.shiftKey ? 0.05 : 0.25)
-                    : (d3.event.shiftKey ? 0.01 : 0.05);
+                    ? (event.shiftKey ? 0.05 : 0.25)
+                    : (event.shiftKey ? 0.01 : 0.05);
                   break;
                 case 'ArrowLeft':
                   far -= this.zRoc
-                    ? (d3.event.shiftKey ? 0.05 : 0.25)
-                    : (d3.event.shiftKey ? 0.01 : 0.05);
+                    ? (event.shiftKey ? 0.05 : 0.25)
+                    : (event.shiftKey ? 0.01 : 0.05);
                   break;
                 default:
                   // no-op
@@ -1128,7 +1128,7 @@ export default class ROCSpace extends SDTElement {
                   bubbles: true,
                 }));
               }
-              d3.event.preventDefault();
+              event.preventDefault();
             }
           });
       } else {

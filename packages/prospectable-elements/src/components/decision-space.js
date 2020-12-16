@@ -8,7 +8,7 @@ import * as PlotlyScatter3d from 'plotly.js/lib/scatter3d';
 import CPTMath from '@decidable/prospectable-math';
 
 import CPTElement from '../cpt-element';
-import plotlyStyle from './plotly-style';
+import plotlyStyle from './plotly-style.auto';
 
 // Load in the needed trace type
 Plotly.register([PlotlyIsoSurface, PlotlyScatter3d]);

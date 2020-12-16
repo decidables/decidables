@@ -185,13 +185,16 @@ export default class CPTCalculation extends CPTEquation {
       xs = html`<decidable-spinner class="x" ?disabled=${!this.interactive} .value="${this.xs}" @input=${this.xsInput.bind(this)}>
           <var class="math-var">x<sub class="subscript sure">sure</sub></var>
         </decidable-spinner>`;
-      // a = html`<decidable-spinner class="a" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.a.toFixed(3)}" @input=${this.aInput.bind(this)}>
+      // a = html`<decidable-spinner class="a" ?disabled=${!this.interactive} min="0" max="1"
+      //            step=".001" .value="${+this.a.toFixed(3)}" @input=${this.aInput.bind(this)}>
       //     <var class="math-var">α</var>
       //   </decidable-spinner>`;
-      // l = html`<decidable-spinner class="l" ?disabled=${!this.interactive} min="0" max="10" step=".001" .value="${+this.l.toFixed(3)}" @input=${this.lInput.bind(this)}>
+      // l = html`<decidable-spinner class="l" ?disabled=${!this.interactive} min="0" max="10"
+      //            step=".001" .value="${+this.l.toFixed(3)}" @input=${this.lInput.bind(this)}>
       //     <var class="math-var">λ</var>
       //   </decidable-spinner>`;
-      // g = html`<decidable-spinner class="g" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.g.toFixed(3)}" @input=${this.gInput.bind(this)}>
+      // g = html`<decidable-spinner class="g" ?disabled=${!this.interactive} min="0" max="1"
+      //            step=".001" .value="${+this.g.toFixed(3)}" @input=${this.gInput.bind(this)}>
       //     <var class="math-var">γ</var>
       //   </decidable-spinner>`;
       vw = html`<decidable-spinner class="v" disabled .value="${+this.vw.toFixed(1)}">

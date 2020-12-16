@@ -18,7 +18,7 @@ function buildLibraryTask(name) {
         ['babelify', {
           presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.1'}]],
           global: true,
-          ignore: [/core-js/],
+          ignore: [/core-js|plotly\.js/],
         }],
       ],
     }))

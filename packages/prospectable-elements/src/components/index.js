@@ -11,4 +11,3 @@ export {default as DecisionOutcome} from './decision-outcome';
 export {default as DecisionResponse} from './decision-response';
 export {default as DecisionSpace} from './decision-space';
 export {default as DecisionTask} from './decision-task';
-export {default as plotlyStyle} from './plotly-style';
