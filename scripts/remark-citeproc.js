@@ -3,12 +3,9 @@
 const fs = require('fs');
 
 // devDependencies
-const unistUtilVisit = require('unist-util-visit');
-const citeproc = require('citeproc');
 const citationJs = require('citation-js');
-
-// Module constants
-const referenceMarker = '{#ref}';
+const citeproc = require('citeproc');
+const unistUtilVisit = require('unist-util-visit');
 
 // Module variables
 let referencesLink;
@@ -68,12 +65,11 @@ function remarkCiteproc(options = {}) {
     throw new Error('_remark-citeproc_ must be initialized');
   }
 
-  return (tree /* , file */) => {
+  return (tree) => {
     // Walk markdown parsed into MDAST finding and processing all citations
-    unistUtilVisit(tree, 'linkReference', (node, i, parent) => {
-      // Citations use a reference-style link with no adjacent name. This gets parsed by MDAST as a
-      // LinkReference with a 'shortcut' type.
-      if (node.referenceType !== 'shortcut') return;
+    unistUtilVisit(tree, 'textDirective', (node, i, parent) => {
+      // Only looking for 'cite' nodes
+      if (node.name !== 'cite') return;
 
       // There must be exactly one 'text' child node containing atleast one '@'
       if (node.children.length !== 1 || node.children[0].type !== 'text' || !node.children[0].value.includes('@')) return;
@@ -121,7 +117,7 @@ function remarkCiteproc(options = {}) {
       // Update list of citations
       citationsPre.push([citationCluster.citationID, 0]);
 
-      // Build new MDAST nodes
+      // Build new MDAST node
       const children = [
         {
           type: 'html',
@@ -138,8 +134,9 @@ function remarkCiteproc(options = {}) {
     });
 
     // Walk markdown parsed into MDAST finding insertion point for references (bibliography)
-    unistUtilVisit(tree, 'text', (node, i, parent) => {
-      if (!node.value.includes(referenceMarker)) return;
+    unistUtilVisit(tree, 'leafDirective', (node, i, parent) => {
+      // Only looking for 'ref' nodes
+      if (node.name !== 'ref') return;
 
       // Build bibliography!
       const bibliography = citeprocEngine.makeBibliography();
@@ -154,20 +151,11 @@ function remarkCiteproc(options = {}) {
         return refString + ref;
       }, '') + bibliography[0].bibend;
 
-      // Build new MDAST nodes
-      const values = node.value.split(referenceMarker);
+      // Build new MDAST node
       const children = [
-        {
-          type: 'text',
-          value: values[0],
-        },
         {
           type: 'html',
           value: bibliographyString,
-        },
-        {
-          type: 'text',
-          value: values[1],
         },
       ];
       parent.children.splice(i, 1, ...children);

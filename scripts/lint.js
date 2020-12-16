@@ -14,7 +14,7 @@ function lintMarkdown() {
 exports.lintMarkdown = lintMarkdown;
 
 function lintScripts() {
-  return gulp.src(['src/**/*.js'])
+  return gulp.src(['src/**/*.js', '!src/**/*.auto.js'])
     .pipe(gulpEslint())
     .pipe(gulpEslint.format('pretty'))
     .pipe(gulpEslint.failAfterError());
@@ -22,7 +22,7 @@ function lintScripts() {
 exports.lintScripts = lintScripts;
 
 function lintStyles() {
-  return gulp.src(['src/**/*.js'])
+  return gulp.src(['src/**/*.js', '!src/**/*.auto.js'])
     .pipe(gulpStylelint({
       reporters: [{
         formatter: stylelintFormatterPretty,

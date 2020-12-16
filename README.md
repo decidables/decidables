@@ -150,9 +150,10 @@ approaches to human decision making.
 
 - Within a page:
   - Headings start at H2, only first letter is capitalized
-  - `Code` used for UI elements
-  - **Bold** used for keywords
   - *Italics* used for emphasis
+  - :key[] keyword
+  - :ui[] user interface component
+  - :term[] terminology
 
 ## Features/Bugs/Notes
 

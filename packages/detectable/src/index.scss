@@ -32,6 +32,7 @@ $font-map: (
   }
 }
 
+
 // COLOR
 
 // SCSS variables
@@ -121,6 +122,7 @@ $color-element-emphasis: #{$color-grey-dark75};
 // TODO
 // cleanup Links
 
+
 // BOOTSTRAP VARIABLES
 $font-family-base: "Source Sans Pro", sans-serif;
 $grid-gutter-width: 2rem;
@@ -142,6 +144,7 @@ $container-max-widths: (
   xl: 1140px,
   xxl: 1560px
 );
+
 
 // SCSS VARIABLES
 $font-family-math: "Source Serif Pro", serif; // Not in Bootstrap
@@ -505,7 +508,14 @@ body {
     padding-top: 1rem;
   }
 
-  code {
+  // Terms
+  .term {
+    font-weight: 700;
+  }
+
+  // Keys and UIs
+  .key,
+  .ui {
     padding: 0.0625rem 0.25rem;
 
     font-family: "Source Code Pro", monospace;
@@ -518,114 +528,201 @@ body {
     border-radius: 0.25rem;
   }
 
-  code[class="Bias"] {
+  // Keys
+  // Parameters (math)
+  .key[class~="c"],
+  .key[class~="d′"],
+  .key[class~="σ"] {
+    font-family: "Source Serif Pro", serif;
+    font-style: italic;
+  }
+
+  // Parameters (names)
+  .key[class~="Bias"],
+  .key[class~="c"] {
     background-color: sdt-color-light(c);
   }
 
-  code[class="c"] {
-    font-family: "Source Serif Pro", serif;
-    font-style: italic;
-
-    background-color: sdt-color-light(c);
-  }
-
-  code[class="Iso-BiasCurve"] {
-    border: 2px solid sdt-color(c);
-  }
-
-  code[class="Sensitivity"] {
+  .key[class~="Sensitivity"],
+  .key[class~="d′"] {
     background-color: sdt-color-light(d);
   }
 
-  code[class="d′"] {
-    font-family: "Source Serif Pro", serif;
-    font-style: italic;
-
-    background-color: sdt-color-light(d);
-  }
-
-  code[class="Iso-SensitivityCurve"] {
-    border: 2px solid sdt-color(d);
-  }
-
-  code[class="Variance"] {
+  .key[class~="Variance"],
+  .key[class~="σ"] {
     background-color: sdt-color-light(s);
   }
 
-  code[class="σ"] {
-    font-family: "Source Serif Pro", serif;
-    font-style: italic;
-
-    background-color: sdt-color-light(s);
+  // Iso-curves
+  .key[class~="Iso-BiasCurve"],
+  .key[class~="Iso-SensitivityCurve"] {
+    border: 2px solid;
   }
 
-  code[class="RespondPresent"] {
-    background-color: sdt-color-light(present);
-    border: 3px solid sdt-color(present);
+  .key[class~="Iso-BiasCurve"] {
+    border-color: sdt-color(c);
+  }
+
+  .key[class~="Iso-SensitivityCurve"] {
+    border-color: sdt-color(d);
+  }
+
+  // Trials: Evidence, Responses, Outcomes, Signals
+  .key[class~="Evidence"],
+  .key[class~="RespondPresent"],
+  .key[class~="RespondAbsent"],
+  .key[class~="SignalPresent"],
+  .key[class~="SignalAbsent"],
+  .key[class~="OutcomeHit"],
+  .key[class~="OutcomeMiss"],
+  .key[class~="OutcomeCorrectRejection"],
+  .key[class~="OutcomeFalseAlarm"] {
+    border: 3px solid;
     border-radius: 0;
   }
 
-  code[class="RespondAbsent"] {
-    background-color: sdt-color-light(absent);
-    border: 3px solid sdt-color(absent);
-    border-radius: 0;
-  }
-
-  code[class="Evidence"] {
+  .key[class~="Evidence"] {
     background-color: sdt-color-light(acc);
-    border: 3px solid sdt-color(acc);
-    border-radius: 0;
+    border-color: sdt-color(acc);
   }
 
-  code[class="SignalPresent"] {
+  .key[class~="RespondPresent"] {
+    background-color: sdt-color-light(present);
+    border-color: sdt-color(present);
+  }
+
+  .key[class~="RespondAbsent"] {
+    background-color: sdt-color-light(absent);
+    border-color: sdt-color(absent);
+  }
+
+  .key[class~="SignalPresent"] {
     background-color: sdt-color-light(hr);
-    border: 3px solid sdt-color(hr);
-    border-radius: 0;
+    border-color: sdt-color(hr);
   }
 
-  code[class="SignalAbsent"] {
+  .key[class~="SignalAbsent"] {
     background-color: sdt-color-light(far);
-    border: 3px solid sdt-color(far);
-    border-radius: 0;
+    border: sdt-color(far);
   }
 
-  code[class="OutcomeHit"] {
+  .key[class~="OutcomeHit"] {
     background-color: sdt-color-light(h);
-    border: 3px solid sdt-color(h);
-    border-radius: 0;
+    border-color: sdt-color(h);
   }
 
-  code[class="OutcomeMiss"] {
+  .key[class~="OutcomeMiss"] {
     background-color: sdt-color-light(m);
-    border: 3px solid sdt-color(m);
-    border-radius: 0;
+    border-color: sdt-color(m);
   }
 
-  code[class="OutcomeCorrectRejection"] {
+  .key[class~="OutcomeCorrectRejection"] {
     background-color: sdt-color-light(cr);
-    border: 3px solid sdt-color(cr);
-    border-radius: 0;
+    border-color: sdt-color(cr);
   }
 
-  code[class="OutcomeFalseAlarm"] {
+  .key[class~="OutcomeFalseAlarm"] {
     background-color: sdt-color-light(fa);
-    border: 3px solid sdt-color(fa);
+    border-color: sdt-color(fa);
+  }
+
+  // Signal and noise
+  .key[class~="Signal+NoiseDistribution"],
+  .key[class~="NoiseDistribution"] {
+    border: 2px solid $color-element-emphasis;
+  }
+
+  .key[class~="Signal+NoiseDistribution"] {
+    background-color: sdt-color-light(hr);
+  }
+
+  .key[class~="NoiseDistribution"] {
+    background-color: sdt-color-light(far);
+  }
+
+  // Outcomes
+  .key[class~="Hit"],
+  .key[class~="Hits"] {
+    background-color: sdt-color-light(h);
+  }
+
+  .key[class~="Miss"],
+  .key[class~="Misses"] {
+    background-color: sdt-color-light(m);
+  }
+
+  .key[class~="CorrectRejection"],
+  .key[class~="CorrectRejections"] {
+    background-color: sdt-color-light(cr);
+  }
+
+  .key[class~="FalseAlarm"],
+  .key[class~="FalseAlarms"] {
+    background-color: sdt-color-light(fa);
+  }
+
+  // Rates
+  .key[class~="HitRate"] {
+    background-color: sdt-color-light(hr);
+  }
+
+  .key[class~="FalseAlarmRate"] {
+    background-color: sdt-color-light(far);
+  }
+
+  .key[class~="PositivePredictiveValue"] {
+    background-color: sdt-color-light(present);
+  }
+
+  .key[class~="FalseOmissionRate"] {
+    background-color: sdt-color-light(absent);
+  }
+
+  .key[class~="Accuracy"] {
+    background-color: sdt-color-light(acc);
+  }
+
+  // Responses
+  .key[class~="Present"],
+  .key[class~="Absent"] {
+    color: $color-text-inverse;
+  }
+
+  .key[class~="Present"] {
+    background-color: sdt-color(present);
+  }
+
+  .key[class~="Absent"] {
+    background-color: sdt-color(absent);
+  }
+
+  // Outcomes
+  .key[class~="Correct"],
+  .key[class~="Error"],
+  .key[class~="NoResponse"] {
+    border: 1px solid $color-element-emphasis;
     border-radius: 0;
   }
 
-  code[class="Signal+Noise"] {
-    background-color: sdt-color-light(hr);
-    border: 2px solid $color-element-emphasis;
+  .key[class~="Correct"] {
+    background-color: sdt-color-light(correct);
   }
 
-  code[class="NoiseDistribution"] {
-    background-color: sdt-color-light(far);
-    border: 2px solid $color-element-emphasis;
+  .key[class~="Error"] {
+    color: $color-text-inverse;
+
+    background-color: sdt-color-light(error);
   }
 
-  code[class="Coherence"],
-  code[class="Duration"],
-  code[class="Trials"] {
+  .key[class~="NoResponse"] {
+    background-color: sdt-color-light(nr);
+  }
+
+  // UIs
+  // Sliders
+  .ui[class~="Coherence"],
+  .ui[class~="Duration"],
+  .ui[class~="Trials"] {
     position: relative;
 
     padding-right: 1.5rem;
@@ -633,9 +730,9 @@ body {
     background-color: $color-element-background;
   }
 
-  code[class="Coherence"]::before,
-  code[class="Duration"]::before,
-  code[class="Trials"]::before {
+  .ui[class~="Coherence"]::before,
+  .ui[class~="Duration"]::before,
+  .ui[class~="Trials"]::before {
     position: absolute;
 
     top: 0;
@@ -650,9 +747,9 @@ body {
     border-width: 0.125rem;
   }
 
-  code[class="Coherence"]::after,
-  code[class="Duration"]::after,
-  code[class="Trials"]::after {
+  .ui[class~="Coherence"]::after,
+  .ui[class~="Duration"]::after,
+  .ui[class~="Trials"]::after {
     position: absolute;
 
     top: 0.4rem;
@@ -668,92 +765,22 @@ body {
     border-radius: 0.25rem;
   }
 
-  code[class="Pause"],
-  code[class="Reset"],
-  code[class="Run"] {
+  // Buttons
+  .ui[class~="Pause"],
+  .ui[class~="Reset"],
+  .ui[class~="Run"] {
     color: $color-text-inverse;
 
     background-color: $color-element-enabled;
   }
 
-  code[class="+"],
-  code[class="?"] {
+  // Fixation/Cue
+  .ui[class~="+"],
+  .ui[class~="?"] {
     background-color: $color-element-disabled;
 
     border: 2px solid $color-element-emphasis;
     border-radius: 1rem;
-  }
-
-  code[class="Present"] {
-    color: $color-text-inverse;
-
-    background-color: sdt-color(present);
-  }
-
-  code[class="Absent"] {
-    color: $color-text-inverse;
-
-    background-color: sdt-color(absent);
-  }
-
-  code[class="Correct"] {
-    background-color: sdt-color-light(correct);
-    border: 1px solid $color-element-emphasis;
-    border-radius: 0;
-  }
-
-  code[class="Error"] {
-    color: $color-text-inverse;
-
-    background-color: sdt-color-light(error);
-    border: 1px solid $color-element-emphasis;
-    border-radius: 0;
-  }
-
-  code[class="NoResponse"] {
-    background-color: sdt-color-light(nr);
-    border: 1px solid $color-element-emphasis;
-    border-radius: 0;
-  }
-
-  code[class="Hit"],
-  code[class="Hits"] {
-    background-color: sdt-color-light(h);
-  }
-
-  code[class="Miss"],
-  code[class="Misses"] {
-    background-color: sdt-color-light(m);
-  }
-
-  code[class="CorrectRejection"],
-  code[class="CorrectRejections"] {
-    background-color: sdt-color-light(cr);
-  }
-
-  code[class="FalseAlarm"],
-  code[class="FalseAlarms"] {
-    background-color: sdt-color-light(fa);
-  }
-
-  code[class="HitRate"] {
-    background-color: sdt-color-light(hr);
-  }
-
-  code[class="FalseAlarmRate"] {
-    background-color: sdt-color-light(far);
-  }
-
-  code[class="PositivePredictiveValue"] {
-    background-color: sdt-color-light(present);
-  }
-
-  code[class="FalseOmissionRate"] {
-    background-color: sdt-color-light(absent);
-  }
-
-  code[class="Accuracy"] {
-    background-color: sdt-color-light(acc);
   }
 
   .csl-entry {

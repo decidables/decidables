@@ -11,15 +11,14 @@ const gulpRename = require('gulp-rename');
 const gulpSourcemaps = require('gulp-sourcemaps');
 const localeEnUs = require('locale-en-us');
 const nodeSassPackageImporter = require('node-sass-package-importer');
+const remarkDirective = require('remark-directive');
 const remarkHtml = require('remark-html');
 const resolvePkg = require('resolve-pkg');
 const styleApa = require('style-apa');
 
 // Local Dependencies
 const remarkCiteproc = require('./remark-citeproc');
-const remarkCodeclass = require('./remark-codeclass');
-const remarkDivs = require('./remark-divs');
-const remarkSpans = require('./remark-spans');
+const remarkTerminology = require('./remark-terminology');
 
 // Tasks
 function compileConfig() {
@@ -49,10 +48,9 @@ function compileMarkdown() {
   return gulp.src(['src/!(references).md', 'src/references.md']) // Insure that reference list includes references from all other files
     .pipe(gulpFrontMatter({property: 'data', remove: true}))
     .pipe(gulpRemark({detectConfig: false, quiet: true})
-      .use(remarkDivs)
-      .use(remarkSpans)
+      .use(remarkDirective)
       .use(remarkCiteproc)
-      .use(remarkCodeclass)
+      .use(remarkTerminology)
       .use(remarkHtml))
     .on('data', (file) => {
       return gulp.src(`src/${file.data.layout}.ejs`)
