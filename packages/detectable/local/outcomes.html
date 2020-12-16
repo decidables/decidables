@@ -228,9 +228,9 @@
           <section class="sdt-content">
             <h2>Accuracy</h2>
 <p>On each trial, when we make a response, we might wonder about the relationship between our response
-and the actual state of affairs. We can talk about this in terms of the <strong>accuracy</strong> of our
-response. And sometimes that may be all that really matters - was my answer <code class="Correct">Correct</code> or was it an
-<code class="Error">Error</code>?</p>
+and the actual state of affairs. We can talk about this in terms of the <span class="term accuracy">accuracy</span> of our
+response. And sometimes that may be all that really matters - was my answer <span class="key Correct">Correct</span> or was it
+an <span class="key Error">Error</span>?</p>
 <p>Try a few trials of the task:</p>
 <sdt-example-human>
   <sdt-control trials="5" run pause reset duration="1000" coherence=".5"></sdt-control>
@@ -238,21 +238,21 @@ response. And sometimes that may be all that really matters - was my answer <cod
     duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-response interactive trial feedback="accuracy"></sdt-response>
 </sdt-example-human>
-<p>As you have no doubt noticed, if you have given it a try, you receive feedback. For
-the moment, that feedback is either <code class="Correct">Correct</code> or <code class="Error">Error</code> (or <code class="NoResponse">No Response</code> if you do not respond in
+<p>As you have no doubt noticed, if you have given it a try, you receive feedback. For the moment, that
+feedback is either <span class="key Correct">Correct</span> or <span class="key Error">Error</span> (or <span class="key NoResponse">No Response</span> if you do not respond in
 time).</p>
 <h2>Outcomes</h2>
 <p>If we think about it a bit more, we realize that there are actually two ways we can be correct, and
 two ways we can be in error:</p>
 <ul>
-<li><code class="Hits">Hits</code>, also called <strong>true positives</strong>, are when the signal is actually <em>present</em>, and we
+<li><span class="key Hits">Hits</span>, also called <span class="term truepositives">true positives</span>, are when the signal is actually <em>present</em>, and we
 correctly respond <em>"present"</em></li>
-<li><code class="Misses">Misses</code>, also called <strong>false positives</strong> or <strong>type I errors</strong>, are when the signal is actually
-<em>present</em>, and we erroneously respond <em>"absent"</em></li>
-<li><code class="FalseAlarms">False Alarms</code>, also called <strong>false negatives</strong> or <strong>type II errors</strong>, are when the signal is
-actually <em>absent</em>, and we erroneously respond <em>"present"</em></li>
-<li><code class="CorrectRejections">Correct Rejections</code>, also called <strong>true negatives</strong>, are when the signal is actually <em>absent</em>,
-and we correctly respond <em>"absent"</em><br></li>
+<li><span class="key Misses">Misses</span>, also called <span class="term falsepositives">false positives</span> or <span class="term typeIerrors">type I errors</span>, are when the signal is
+actually <em>present</em>, and we erroneously respond <em>"absent"</em></li>
+<li><span class="key FalseAlarms">False Alarms</span>, also called <span class="term falsenegatives">false negatives</span> or <span class="term typeIIerrors">type II errors</span>, are when the
+signal is actually <em>absent</em>, and we erroneously respond <em>"present"</em></li>
+<li><span class="key CorrectRejections">Correct Rejections</span>, also called <span class="term truenegatives">true negatives</span>, are when the signal is actually
+<em>absent</em>, and we correctly respond <em>"absent"</em><br></li>
 </ul>
 <p>We have two possible states of the world (signal present or absent) and two
 possible responses ("present" or "absent"), leading to a nice two by two table of possible outcomes

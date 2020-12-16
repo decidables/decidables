@@ -241,26 +241,27 @@ but the counts are dependent not only our level of performance, but also on the 
 which often isn't that interesting to us.</p>
 <h2>Hit Rate (HR)</h2>
 <p>We can further summarize our performance by describing how we did, on average, when the signal was
-present, with a <code class="HitRate">Hit Rate</code> (HR), also called a <strong>true positive rate</strong> or <strong>type I error rate</strong>:</p>
+present, with a <span class="key HitRate">Hit Rate</span> (HR), also called a <span class="term truepositiverate">true positive rate</span> or <span class="term typeIerrorrate">type I error
+rate</span>:</p>
 <p><sdt-equation-hm2hr></sdt-equation-hm2hr></p>
-<p>The <code class="HitRate">Hit Rate</code> tells us the proportion of trials when the signal was <em>present</em> that we correctly
+<p>The <span class="key HitRate">Hit Rate</span> tells us the proportion of trials when the signal was <em>present</em> that we correctly
 responded <em>"present"</em>.</p>
 <p><sdt-equation-hm2hr numeric interactive hits="5" misses="5"></sdt-equation-hm2hr></p>
-<p>(This is a <em>live</em> equation. You can edit the number of <code class="Hits">Hits</code> or <code class="Misses">Misses</code> and the <code class="HitRate">Hit Rate</code> will
-immediately update.)</p>
+<p>(This is a <em>live</em> equation. You can edit the number of <span class="key Hits">Hits</span> or <span class="key Misses">Misses</span> and the <span class="key HitRate">Hit
+Rate</span> will immediately update.)</p>
 <h2>False Alarm Rate (FAR)</h2>
-<p>Likewise, we can summarize our performance when the signal was absent with a <code class="FalseAlarmRate">False Alarm Rate</code>
-(FAR), also called a <strong>false positive rate</strong> or <strong>type II error rate</strong>:</p>
+<p>Likewise, we can summarize our performance when the signal was absent with a <span class="key FalseAlarmRate">False Alarm Rate</span>
+(FAR), also called a <span class="term falsepositiverate">false positive rate</span> or <span class="term typeIIerrorrate">type II error rate</span>:</p>
 <p><sdt-equation-facr2far></sdt-equation-facr2far></p>
-<p>The <code class="FalseAlarmRate">False Alarm Rate</code> tells us the proportion of trials when the signal was <em>absent</em> that we
+<p>The <span class="key FalseAlarmRate">False Alarm Rate</span> tells us the proportion of trials when the signal was <em>absent</em> that we
 erroneously responded <em>"present"</em>.</p>
 <sdt-equation-facr2far numeric interactive false-alarms="5" correct-rejections="5">
   </sdt-equation-facr2far>
 <p>(Another <em>live</em> equation!)</p>
 <h2>A table of outcomes and rates</h2>
-<p>Since the <code class="HitRate">Hit Rate</code> summarizes performance when the signal was <em>present</em> and the <code class="FalseAlarmRate">False Alarm Rate</code>
-summarizes performance when the signal was <em>absent</em>, we can add them to the corresponding rows of
-our table of outcomes:</p>
+<p>Since the <span class="key HitRate">Hit Rate</span> summarizes performance when the signal was <em>present</em> and the <span class="key FalseAlarmRate">False
+Alarm Rate</span> summarizes performance when the signal was <em>absent</em>, we can add them to the
+corresponding rows of our table of outcomes:</p>
 <sdt-example-interactive>
   <sdt-table interactive numeric summary="stimulusRates"></sdt-table>
 </sdt-example-interactive>
@@ -269,21 +270,21 @@ the corresponding rate. Or, you can change a rate, and observe the effect on the
 counts of outcomes. Note that since the counts are necessarily whole numbers, whereas the rates are
 real numbers, small changes in a rate may not be reflected in the counts due to rounding.</p>
 <h2>Accuracy</h2>
-<p>If we want to summarize our overall performance with a single number, then we can use <code class="Accuracy">Accuracy</code>,
-which aggregates across all trials. <code class="Accuracy">Accuracy</code> tells us, on average, how we did across both signal
-present and signal absent trials:</p>
+<p>If we want to summarize our overall performance with a single number, then we can use
+<span class="key Accuracy">Accuracy</span>, which aggregates across all trials. <span class="key Accuracy">Accuracy</span> tells us, on average, how we did
+across both signal present and signal absent trials:</p>
 <p><sdt-equation-hmfacr2acc></sdt-equation-hmfacr2acc></p>
-<p>We can see that <code class="Hits">Hits</code> and <code class="CorrectRejections">Correct Rejections</code> are combined together since they are both types of
-<em>correct</em> responses.</p>
+<p>We can see that <span class="key Hits">Hits</span> and <span class="key CorrectRejections">Correct Rejections</span> are combined together since they are both
+types of <em>correct</em> responses.</p>
 <p><sdt-equation-hmfacr2acc numeric interactive hits="5" misses="5"
-  false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
-<p>We can add <code class="Accuracy">Accuracy</code> as an overall summary measure to out table of outcomes:</p>
+false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
+<p>We can add <span class="key Accuracy">Accuracy</span> as an overall summary measure to out table of outcomes:</p>
 <sdt-example-interactive>
   <sdt-table interactive numeric summary="stimulusRates accuracy"></sdt-table>
 </sdt-example-interactive>
-<p>If you change the <code class="Accuracy">Accuracy</code> then the other values will change as well, to keep the whole table
+<p>If you change the <span class="key Accuracy">Accuracy</span> then the other values will change as well, to keep the whole table
 consistent. If you play around a bit, you may notice that, even if you keep the total number of
-trials constant, you can come up with more than one set of values that has the same <code class="Accuracy">Accuracy</code>.</p>
+trials constant, you can come up with more than one set of values that has the same <span class="key Accuracy">Accuracy</span>.</p>
 <h2>Tabulating outcomes, rates, &#x26; accuracy</h2>
 <p>Now that we have a variety of summary measures, we can run a block of trials, and see how the table
 of outcomes and rates provides a running summary of performance:</p>
@@ -295,9 +296,9 @@ of outcomes and rates provides a running summary of performance:</p>
     </sdt-table>
 </sdt-example-human>
 <h2>Accuracy the great deceiver</h2>
-<p>At first glance, <code class="Accuracy">Accuracy</code> seems like a very convenient way to summarize overall performance in a
-single number. But as students of Signal Detection Theory, we must be very wary of <code class="Accuracy">Accuracy</code>.
-Indeed <code class="Accuracy">Accuracy</code> is the great deceiver! Let us see why:</p>
+<p>At first glance, <span class="key Accuracy">Accuracy</span> seems like a very convenient way to summarize overall performance in
+a single number. But as students of Signal Detection Theory, we must be very wary of <span class="key Accuracy">Accuracy</span>.
+Indeed <span class="key Accuracy">Accuracy</span> is the great deceiver! Let us see why:</p>
 <p>Consider this table of outcomes:</p>
 <sdt-example-interactive>
   <sdt-table numeric summary="stimulusRates accuracy" hits="100" misses="0" false-alarms="100" correct-rejections="0"></sdt-table>
@@ -306,18 +307,18 @@ Indeed <code class="Accuracy">Accuracy</code> is the great deceiver! Let us see 
 <sdt-example-interactive>
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></sdt-table>
 </sdt-example-interactive>
-<p>First, note that the <code class="Accuracy">Accuracy</code> is <strong>identical</strong> in the two tables at 50%. But now note that the
-actual patterns of performance are <strong>completely different</strong>! In the first instance, the participant
-had one hundred <code class="Hits">Hits</code> and zero <code class="Misses">Misses</code>, whereas in the second instance the participant had the
-exact opposite. On the other hand, the first participant had one hundred <code class="FalseAlarms">False Alarms</code> and zero
-<code class="CorrectRejections">Correct Rejections</code>, whereas again the second participant had the exact opposite. Indeed, if we
-look down the columns of the tables, we can observe that the first participant always responded
-<em>"Present"</em>, whereas the second participant always responded <em>"Absent"</em>. And yet, despite completely
-different performance, and completely different patterns of outcomes, they both resulted in the same
-<code class="Accuracy">Accuracy</code>. It turns out that in the context of signal detection, <code class="Accuracy">Accuracy</code> is a surprisingly poor
-indicator of performance.</p>
-<p>On the other hand, the <code class="HitRate">Hit Rate</code> and <code class="FalseAlarmRate">False Alarm Rate</code> are completely different for our two
-participants, clearly communicating the vast differences in performance. By telling us how the
+<p>First, note that the <span class="key Accuracy">Accuracy</span> is <em>identical</em> in the two tables at 50%. But now note that the
+actual patterns of performance are <em>completely different</em>! In the first instance, the participant
+had one hundred <span class="key Hits">Hits</span> and zero <span class="key Misses">Misses</span>, whereas in the second instance the participant had
+the exact opposite. On the other hand, the first participant had one hundred <span class="key FalseAlarms">False Alarms</span> and
+zero <span class="key CorrectRejections">Correct Rejections</span>, whereas again the second participant had the exact opposite. Indeed,
+if we look down the columns of the tables, we can observe that the first participant always
+responded <em>"Present"</em>, whereas the second participant always responded <em>"Absent"</em>. And yet, despite
+completely different performance, and completely different patterns of outcomes, they both resulted
+in the same <span class="key Accuracy">Accuracy</span>. It turns out that in the context of signal detection, <span class="key Accuracy">Accuracy</span> is
+a surprisingly poor indicator of performance.</p>
+<p>On the other hand, the <span class="key HitRate">Hit Rate</span> and <span class="key FalseAlarmRate">False Alarm Rate</span> are completely different for our
+two participants, clearly communicating the vast differences in performance. By telling us how the
 participant performed when the signal was <em>present</em> and when the signal was <em>absent</em>, the
 combination of HR and FAR give us a more complete summary picture of performance.</p>
 <p>Now, you may be mumbling to yourself that something else peculiar is going on in this example,

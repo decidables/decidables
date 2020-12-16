@@ -227,31 +227,38 @@
           </header>
           <section class="sdt-content">
             <h2>Calculating bias from hit rate and false alarm rate</h2>
-<p>On the previous page, we explored how <code class="Sensitivity">Sensitivity</code> (<code class="d′">d′</code>) can be determined from <code class="HitRate">Hit Rate</code> and
-<code class="FalseAlarmRate">False Alarm Rate</code>. Now we will consider how to do the same for <code class="Bias">Bias</code> (<code class="c">c</code>).</p>
+<p>On the previous page, we explored how <span class="key Sensitivity">Sensitivity</span> (<span class="key d′">d′</span>) can be determined from <span class="key HitRate">Hit
+Rate</span> and <span class="key FalseAlarmRate">False Alarm Rate</span>. Now we will consider how to do the same for <span class="key Bias">Bias</span> (<span class="key c">c</span>).</p>
 <sdt-example-interactive order="trm">
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
-<p>Try dragging the threshold around, and observe what effect this has on the proportion of <code class="Hits">Hits</code> for
-the <code class="Signal+Noise">Signal + Noise Distribution</code> and the proportion of <code class="FalseAlarms">False Alarms</code> for the <code class="NoiseDistribution">Noise Distribution</code>. In general, as the threshold moves to the left, and a more liberal bias, we increase the <code class="Hits">Hits</code> and <code class="FalseAlarms">False Alarms</code>. As the threshold moves to the right, and a more conservative bias, we decrease both <code class="Hits">Hits</code> and <code class="FalseAlarms">False Alarms</code>. This helps develop our intuition that <code class="c">c</code> is related to the sum of the <code class="HitRate">Hit Rate</code> and the <code class="FalseAlarmRate">False Alarm Rate</code>, using the inverse cumulative distribution function of the normal distribution, <span class="math-greek">Φ</span><sup class="exp">−1</sup>:</p>
+<p>Try dragging the threshold around, and observe what effect this has on the proportion of <span class="key Hits">Hits</span>
+for the <span class="key Signal+NoiseDistribution">Signal + Noise Distribution</span> and the proportion of <span class="key FalseAlarms">False Alarms</span> for the
+<span class="key NoiseDistribution">Noise Distribution</span>. In general, as the threshold moves to the left, and a more liberal bias,
+we increase the <span class="key Hits">Hits</span> and <span class="key FalseAlarms">False Alarms</span>. As the threshold moves to the right, and a more
+conservative bias, we decrease both <span class="key Hits">Hits</span> and <span class="key FalseAlarms">False Alarms</span>. This helps develop our
+intuition that <span class="key c">c</span> is related to the sum of the <span class="key HitRate">Hit Rate</span> and the <span class="key FalseAlarmRate">False Alarm Rate</span>,
+using the inverse cumulative distribution function of the normal distribution, <span
+class="math-greek">Φ</span><sup class="exp">−1</sup>:</p>
 <p><sdt-equation-hrfar2c></sdt-equation-hrfar2c></p>
 <sdt-equation-hrfar2c numeric interactive hit-rate=".5" false-alarm-rate=".5">
   </sdt-equation-hrfar2c>
 <h2>Iso-bias curves</h2>
-<p>As we did for <code class="Sensitivity">Sensitivity</code>, using the equation above we can now determine the <code class="Bias">Bias</code> for each point
-in ROC space. In the ROC space below, intensity of color (saturation) is used to represent <code class="c">c</code> along
-a continuum. In order to help us see the resulting pattern, contour lines have been added to show
-sets of points with the same values of <code class="c">c</code>. These are called <strong>iso-bias curves</strong>:</p>
+<p>As we did for <span class="key Sensitivity">Sensitivity</span>, using the equation above we can now determine the <span class="key Bias">Bias</span> for
+each point in ROC space. In the ROC space below, intensity of color (saturation) is used to
+represent <span class="key c">c</span> along a continuum. In order to help us see the resulting pattern, contour lines
+have been added to show sets of points with the same values of <span class="key c">c</span>. These are called
+<span class="term iso-biascurves">iso-bias curves</span>:</p>
 <sdt-example-interactive>
   <roc-space contour="bias" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
-<p>As with <code class="Sensitivity">Sensitivity</code>, <code class="Bias">Bias</code> has a non-linear relationship with <code class="HitRate">Hit Rate</code> and <code class="FalseAlarmRate">False Alarm Rate</code>.
-Furthermore, any <code class="c">c</code> can occur at any <code class="HitRate">Hit Rate</code>, and vice versa. And the same for
-<code class="FalseAlarmRate">False Alarm Rate</code>.</p>
+<p>As with <span class="key Sensitivity">Sensitivity</span>, <span class="key Bias">Bias</span> has a non-linear relationship with <span class="key HitRate">Hit Rate</span> and
+<span class="key FalseAlarmRate">False Alarm Rate</span>. Furthermore, any <span class="key c">c</span> can occur at any <span class="key HitRate">Hit Rate</span>, and vice versa.
+And the same for <span class="key FalseAlarmRate">False Alarm Rate</span>.</p>
 <h2>Visualizing the relationship between <span class="math-var">c</span>, HR, and FAR</h2>
-<p>Similar to what we did <code class="Sensitivity">Sensitivity</code>, we can plot a single <code class="Iso-BiasCurve">Iso-Bias Curve</code> through our data
-point. This <code class="Iso-BiasCurve">Iso-Bias Curve</code> shows all of the combinations of <code class="HitRate">Hit Rate</code> and
-<code class="FalseAlarmRate">False Alarm Rate</code> that have the same <code class="Bias">Bias</code> as our actual data.</p>
+<p>Similar to what we did <span class="key Sensitivity">Sensitivity</span>, we can plot a single <span class="key Iso-BiasCurve">Iso-Bias Curve</span> through our data
+point. This <span class="key Iso-BiasCurve">Iso-Bias Curve</span> shows all of the combinations of <span class="key HitRate">Hit Rate</span> and
+<span class="key FalseAlarmRate">False Alarm Rate</span> that have the same <span class="key Bias">Bias</span> as our actual data.</p>
 <p>You can change the performance data by altering values in the outcome table, adjusting the locations
 of the distributions or threshold in the model, or by directly moving the data point in ROC space.
 All of the other representations of performance change simultaneously:</p>
@@ -261,14 +268,15 @@ All of the other representations of performance change simultaneously:</p>
   <roc-space interactive point="all" iso-d="none" iso-c="all"></roc-space>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
-<p>The resulting similarities and differences with <code class="Sensitivity">Sensitivity</code> are instructive. The <code class="Iso-BiasCurve">Iso-Bias Curve</code>
-always spans from the top left to the bottom right corner of ROC space. As a result, <code class="HitRate">Hit Rate</code>
-alone or <code class="FalseAlarmRate">False Alarm Rate</code> alone does not tell you anything about <code class="Bias">Bias</code> - you need both! Likewise,
-altering only the <code class="HitRate">Hit Rate</code> or only the <code class="FalseAlarmRate">False Alarm Rate</code> necessarily changes the <code class="Bias">Bias</code>. However,
-there is one way to manipulate the performance in just such a way that the results change while
-keeping <code class="Bias">Bias</code> constant. This happens when we manipulate <code class="Sensitivity">Sensitivity</code>, which, by definition, is
-independent from <code class="Bias">Bias</code>. Adjusting the value of <code class="d′">d′</code> by moving the distributions in our model causes
-our data point to shift smoothly along the <code class="Iso-BiasCurve">Iso-Bias Curve</code> in ROC space.</p>
+<p>The resulting similarities and differences with <span class="key Sensitivity">Sensitivity</span> are instructive. The <span class="key Iso-BiasCurve">Iso-Bias
+Curve</span> always spans from the top left to the bottom right corner of ROC space. As a result, <span class="key HitRate">Hit
+Rate</span> alone or <span class="key FalseAlarmRate">False Alarm Rate</span> alone does not tell you anything about <span class="key Bias">Bias</span> - you need
+both! Likewise, altering only the <span class="key HitRate">Hit Rate</span> or only the <span class="key FalseAlarmRate">False Alarm Rate</span> necessarily
+changes the <span class="key Bias">Bias</span>. However, there is one way to manipulate the performance in just such a way
+that the results change while keeping <span class="key Bias">Bias</span> constant. This happens when we manipulate
+<span class="key Sensitivity">Sensitivity</span>, which, by definition, is independent from <span class="key Bias">Bias</span>. Adjusting the value of
+<span class="key d′">d′</span> by moving the distributions in our model causes our data point to shift smoothly along the
+<span class="key Iso-BiasCurve">Iso-Bias Curve</span> in ROC space.</p>
 
           </section>
 

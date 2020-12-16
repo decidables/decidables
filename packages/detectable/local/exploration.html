@@ -229,19 +229,19 @@
             <h2>Visualizing the relationship between performance and model</h2>
 <p>We are now ready to put everything we have learned about Signal Detection Theory together into an
 integrated and explorable view of performance and theory.</p>
-<p>The table of outcomes lists the count of each trial outcome: <code class="Hits">Hits</code>, <code class="Misses">Misses</code>, <code class="FalseAlarms">False Alarms</code>, and
-<code class="CorrectRejections">Correct Rejections</code>. These counts are further summarized with <code class="HitRate">Hit Rate</code>, <code class="FalseAlarmRate">False Alarm Rate</code>, and
-overall <code class="Accuracy">Accuracy</code>. You can modify any value, and any dependent values will update to maintain
-consistency.</p>
-<p>In ROC space, performance is plotted as <code class="HitRate">Hit Rate</code> versus <code class="FalseAlarmRate">False Alarm Rate</code>. All of the points with
-the same <code class="Sensitivity">Sensitivity</code> (<code class="d′">d′</code>) are illustrated with an <code class="Iso-SensitivityCurve">Iso-Sensitivity Curve</code>. All of the points
-with the same <code class="Bias">Bias</code> (<code class="c">c</code>) are illustrated with an <code class="Iso-BiasCurve">Iso-Bias Curve</code>. Moving the data point will
-cause the isocontours to update as well.</p>
-<p>The visual representation of the SDT model shows <code class="Sensitivity">Sensitivity</code> as the distance, <code class="d′">d′</code>, between the
-noise and signal plus noise distributions. And it shows <code class="Bias">Bias</code> as the location, <code class="c">c</code>, of the
-threshold. The threshold divides the signal plus noise distribution into <code class="Hit">Hit</code> and <code class="Miss">Miss</code> areas and
-divides the noise distribution into <code class="CorrectRejection">Correct Rejection</code> and <code class="FalseAlarm">False Alarm</code> areas. Moving the
-distributions or the threshold adjusts <code class="d′">d′</code> or <code class="c">c</code>, respectively.</p>
+<p>The table of outcomes lists the count of each trial outcome: <span class="key Hits">Hits</span>, <span class="key Misses">Misses</span>, <span class="key FalseAlarms">False
+Alarms</span>, and <span class="key CorrectRejections">Correct Rejections</span>. These counts are further summarized with <span class="key HitRate">Hit Rate</span>,
+<span class="key FalseAlarmRate">False Alarm Rate</span>, and overall <span class="key Accuracy">Accuracy</span>. You can modify any value, and any dependent
+values will update to maintain consistency.</p>
+<p>In ROC space, performance is plotted as <span class="key HitRate">Hit Rate</span> versus <span class="key FalseAlarmRate">False Alarm Rate</span>. All of the
+points with the same <span class="key Sensitivity">Sensitivity</span> (<span class="key d′">d′</span>) are illustrated with an <span class="key Iso-SensitivityCurve">Iso-Sensitivity
+Curve</span>. All of the points with the same <span class="key Bias">Bias</span> (<span class="key c">c</span>) are illustrated with an <span class="key Iso-BiasCurve">Iso-Bias
+Curve</span>. Moving the data point will cause the isocontours to update as well.</p>
+<p>The visual representation of the SDT model shows <span class="key Sensitivity">Sensitivity</span> as the distance, <span class="key d′">d′</span>,
+between the noise and signal plus noise distributions. And it shows <span class="key Bias">Bias</span> as the location,
+<span class="key c">c</span>, of the threshold. The threshold divides the signal plus noise distribution into <span class="key Hit">Hit</span>
+and <span class="key Miss">Miss</span> areas and divides the noise distribution into <span class="key CorrectRejection">Correct Rejection</span> and <span class="key FalseAlarm">False
+Alarm</span> areas. Moving the distributions or the threshold adjusts <span class="key d′">d′</span> or <span class="key c">c</span>, respectively.</p>
 <p>Across all three figures, the table of outcomes, ROC space, and the SDT model, adjustments to the
 performance or the model will be reflected immediately in the other figures as well.</p>
 <sdt-example-interactive>
@@ -253,11 +253,11 @@ performance or the model will be reflected immediately in the other figures as w
 <p>The table of outcomes summarizes performance. The model diagram illustrates an explanation of that
 performance in terms of SDT. And ROC space shows the relationship between behavior and theory. Note
 that every possible pattern of performance can be represented in ROC space in terms of the
-behavioral measures, <code class="HitRate">Hit Rate</code> and <code class="FalseAlarmRate">False Alarm Rate</code>, and can also be explained by a unique
-combination of model parameters, <code class="Sensitivity">Sensitivity</code> and <code class="Bias">Bias</code>. However the relationship between the
-behavioral measures and the model parameters is non-linear and surprisingly unintuitive, as
-illustrated by the <code class="Iso-SensitivityCurve">Iso-Sensitivity Curve</code> and the <code class="Iso-BiasCurve">Iso-Bias Curve</code>. Hopefully exploring their
-relationship through direct manipulation will help you gain a deeper understanding!</p>
+behavioral measures, <span class="key HitRate">Hit Rate</span> and <span class="key FalseAlarmRate">False Alarm Rate</span>, and can also be explained by a
+unique combination of model parameters, <span class="key Sensitivity">Sensitivity</span> and <span class="key Bias">Bias</span>. However the relationship
+between the behavioral measures and the model parameters is non-linear and surprisingly unintuitive,
+as illustrated by the <span class="key Iso-SensitivityCurve">Iso-Sensitivity Curve</span> and the <span class="key Iso-BiasCurve">Iso-Bias Curve</span>. Hopefully exploring
+their relationship through direct manipulation will help you gain a deeper understanding!</p>
 
           </section>
 
