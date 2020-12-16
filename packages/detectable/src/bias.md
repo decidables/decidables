@@ -6,15 +6,21 @@ script: index
 
 ## Calculating bias from hit rate and false alarm rate
 
-On the previous page, we explored how `Sensitivity` (`d′`) can be determined from `Hit Rate` and
-`False Alarm Rate`. Now we will consider how to do the same for `Bias` (`c`).
+On the previous page, we explored how :key[Sensitivity] (:key[d′]) can be determined from :key[Hit
+Rate] and :key[False Alarm Rate]. Now we will consider how to do the same for :key[Bias] (:key[c]).
 
 <sdt-example-interactive order="trm">
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
 
-Try dragging the threshold around, and observe what effect this has on the proportion of `Hits` for
-the `Signal + Noise Distribution` and the proportion of `False Alarms` for the `Noise Distribution`. In general, as the threshold moves to the left, and a more liberal bias, we increase the `Hits` and `False Alarms`. As the threshold moves to the right, and a more conservative bias, we decrease both `Hits` and `False Alarms`. This helps develop our intuition that `c` is related to the sum of the `Hit Rate` and the `False Alarm Rate`, using the inverse cumulative distribution function of the normal distribution, <span class="math-greek">Φ</span><sup class="exp">−1</sup>:
+Try dragging the threshold around, and observe what effect this has on the proportion of :key[Hits]
+for the :key[Signal + Noise Distribution] and the proportion of :key[False Alarms] for the
+:key[Noise Distribution]. In general, as the threshold moves to the left, and a more liberal bias,
+we increase the :key[Hits] and :key[False Alarms]. As the threshold moves to the right, and a more
+conservative bias, we decrease both :key[Hits] and :key[False Alarms]. This helps develop our
+intuition that :key[c] is related to the sum of the :key[Hit Rate] and the :key[False Alarm Rate],
+using the inverse cumulative distribution function of the normal distribution, <span
+class="math-greek">Φ</span><sup class="exp">−1</sup>:
 
 <sdt-equation-hrfar2c></sdt-equation-hrfar2c>
 
@@ -23,24 +29,25 @@ the `Signal + Noise Distribution` and the proportion of `False Alarms` for the `
 
 ## Iso-bias curves
 
-As we did for `Sensitivity`, using the equation above we can now determine the `Bias` for each point
-in ROC space. In the ROC space below, intensity of color (saturation) is used to represent `c` along
-a continuum. In order to help us see the resulting pattern, contour lines have been added to show
-sets of points with the same values of `c`. These are called **iso-bias curves**:
+As we did for :key[Sensitivity], using the equation above we can now determine the :key[Bias] for
+each point in ROC space. In the ROC space below, intensity of color (saturation) is used to
+represent :key[c] along a continuum. In order to help us see the resulting pattern, contour lines
+have been added to show sets of points with the same values of :key[c]. These are called
+:term[iso-bias curves]:
 
 <sdt-example-interactive>
   <roc-space contour="bias" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
 
-As with `Sensitivity`, `Bias` has a non-linear relationship with `Hit Rate` and `False Alarm Rate`.
-Furthermore, any `c` can occur at any `Hit Rate`, and vice versa. And the same for
-`False Alarm Rate`.
+As with :key[Sensitivity], :key[Bias] has a non-linear relationship with :key[Hit Rate] and
+:key[False Alarm Rate]. Furthermore, any :key[c] can occur at any :key[Hit Rate], and vice versa.
+And the same for :key[False Alarm Rate].
 
 ## Visualizing the relationship between <span class="math-var">c</span>, HR, and FAR
 
-Similar to what we did `Sensitivity`, we can plot a single `Iso-Bias Curve` through our data
-point. This `Iso-Bias Curve` shows all of the combinations of `Hit Rate` and
-`False Alarm Rate` that have the same `Bias` as our actual data.
+Similar to what we did :key[Sensitivity], we can plot a single :key[Iso-Bias Curve] through our data
+point. This :key[Iso-Bias Curve] shows all of the combinations of :key[Hit Rate] and
+:key[False Alarm Rate] that have the same :key[Bias] as our actual data.
 
 You can change the performance data by altering values in the outcome table, adjusting the locations
 of the distributions or threshold in the model, or by directly moving the data point in ROC space.
@@ -53,11 +60,12 @@ All of the other representations of performance change simultaneously:
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
 
-The resulting similarities and differences with `Sensitivity` are instructive. The `Iso-Bias Curve`
-always spans from the top left to the bottom right corner of ROC space. As a result, `Hit Rate`
-alone or `False Alarm Rate` alone does not tell you anything about `Bias` - you need both! Likewise,
-altering only the `Hit Rate` or only the `False Alarm Rate` necessarily changes the `Bias`. However,
-there is one way to manipulate the performance in just such a way that the results change while
-keeping `Bias` constant. This happens when we manipulate `Sensitivity`, which, by definition, is
-independent from `Bias`. Adjusting the value of `d′` by moving the distributions in our model causes
-our data point to shift smoothly along the `Iso-Bias Curve` in ROC space.
+The resulting similarities and differences with :key[Sensitivity] are instructive. The :key[Iso-Bias
+Curve] always spans from the top left to the bottom right corner of ROC space. As a result, :key[Hit
+Rate] alone or :key[False Alarm Rate] alone does not tell you anything about :key[Bias] - you need
+both! Likewise, altering only the :key[Hit Rate] or only the :key[False Alarm Rate] necessarily
+changes the :key[Bias]. However, there is one way to manipulate the performance in just such a way
+that the results change while keeping :key[Bias] constant. This happens when we manipulate
+:key[Sensitivity], which, by definition, is independent from :key[Bias]. Adjusting the value of
+:key[d′] by moving the distributions in our model causes our data point to shift smoothly along the
+:key[Iso-Bias Curve] in ROC space.

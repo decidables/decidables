@@ -7,12 +7,12 @@ script: index
 ## Making a decision
 
 On the previous page, we explored the first step in signal detection according to SDT: taking a
-measurement. Now it is time to consider the second step: making a **decision**. Our model will take
-the `Evidence` and use it to decide whether it is going to respond `Present`
-or `Absent`.
+measurement. Now it is time to consider the second step: making a :term[decision]. Our model will
+take the :key[Evidence] and use it to decide whether it is going to respond :key[Present] or
+:key[Absent].
 
-According to SDT, a **threshold** is set, such that on each trial, the `Evidence` is either greater
-than or less than that threshold:
+According to SDT, a :term[threshold] is set, such that on each trial, the :key[Evidence] is either
+greater than or less than that threshold:
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
@@ -23,8 +23,8 @@ than or less than that threshold:
 ## Responding present or absent
 
 A simple rule is then used to decide on a response: If the evidence is below the threshold, then
-this is a `Respond Absent` trial, and if the evidence is above the threshold, then this is a
-`Respond Present` trial:
+this is a :key[Respond Absent] trial, and if the evidence is above the threshold, then this is a
+:key[Respond Present] trial:
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
@@ -34,7 +34,7 @@ this is a `Respond Absent` trial, and if the evidence is above the threshold, th
 </sdt-example-model>
 
 Here, it is the *model* that is responding to the stimulus on each trial, based on whether the
-`Evidence` is above or below the threshold, instead of you our intrepid participant.
+:key[Evidence] is above or below the threshold, instead of you our intrepid participant.
 
 ## A higher or lower threshold
 
@@ -42,8 +42,8 @@ In the examples above, the threshold was set at the neutral point, where the evi
 suggestive of signal and noise. But SDT doesn't require this.
 
 The threshold can be set higher, so that stronger evidence must be measured for the model to
-`Respond Present` (and thus `Respond Absent` for a wider range of values). In this case, we say that
-the model is biased towards responding `Absent`:
+:key[Respond Present] (and thus :key[Respond Absent] for a wider range of values). In this case, we
+say that the model is biased towards responding :key[Absent]:
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
@@ -52,9 +52,9 @@ the model is biased towards responding `Absent`:
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
 
-Or the threshold can be set lower, so that even with weak evidence, the model will `Respond Present`
-(and thus the evidence must be lower to `Respond Absent`). In this case, we say that the model is
-biased towards responding `Present`:
+Or the threshold can be set lower, so that even with weak evidence, the model will :key[Respond
+Present] (and thus the evidence must be lower to :key[Respond Absent]). In this case, we say that
+the model is biased towards responding :key[Present]:
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
@@ -65,18 +65,18 @@ biased towards responding `Present`:
 
 ## Parameterizing our threshold with bias, <span class="math-var">c</span>
 
-The location of our threshold determines the `Bias` (sometimes called the **response bias**) of our
-model, which we will parameterize with `c`. It lies along a continuum from negative infinity to
-infinity. Zero indicates a neutral bias. Positive numbers indicate a **conservative bias**. The
-larger the positive bias, the more evidence necessary before a `Present` response is given. Negative
-numbers indicate a **liberal bias**. The larger the negative bias, the less evidence necessary to
-respond `Present`.
+The location of our threshold determines the :key[Bias] (sometimes called the :term[response bias])
+of our model, which we will parameterize with :key[c]. It lies along a continuum from negative
+infinity to infinity. Zero indicates a neutral bias. Positive numbers indicate a :term[conservative
+bias]. The larger the positive bias, the more evidence necessary before a :key[Present] response is
+given. Negative numbers indicate a :term[liberal bias]. The larger the negative bias, the less
+evidence necessary to respond :key[Present].
 
 In this example, the distance from the origin, or *neutral point*, to the threshold is explicitly
-labeled with `c`. You can drag the threshold line or its handle to adjust its position. If there are
-evidence measurements for individual trials, they will change between `Respond Present` and
-`Respond Absent` trials based on the location of the threshold, allowing you to see how the `Bias`
-determines the tendency to make more `Present` or `Absent` responses:
+labeled with :key[c]. You can drag the threshold line or its handle to adjust its position. If there
+are evidence measurements for individual trials, they will change between :key[Respond Present] and
+:key[Respond Absent] trials based on the location of the threshold, allowing you to see how the
+:key[Bias] determines the tendency to make more :key[Present] or :key[Absent] responses:
 
 <sdt-example-model>
   <sdt-control run pause reset trials="10" duration="500"></sdt-control>
@@ -85,19 +85,21 @@ determines the tendency to make more `Present` or `Absent` responses:
   <sdt-response feedback="none"></sdt-response>
 </sdt-example-model>
 
-If you are wondering why `Bias` is represented with the symbol `c`, perhaps it is because the
-threshold is often referred to as a <span class="math-var">c</span>riterion in the work on SDT.
-However, this reason was not explicitly stated in the original paper introducing `c` [@Ingham1970].
+If you are wondering why :key[Bias] is represented with the symbol :key[c], perhaps it is because
+the threshold is often referred to as a <span class="math-var">c</span>riterion in the work on SDT.
+However, this reason was not explicitly stated in the original paper introducing :key[c]
+:cite[@Ingham1970].
 
-Note that when `c` is zero, the threshold is precisely where the `Noise Distribution` and the
-`Signal + Noise Distribution` intersect. In other words, the model will respond `Present` whenever
-it is more likely that this is a `Signal Present` trial, and it will respond `Absent` whenever it is
-more likely that this is a `Signal Absent` trial. This is not coincidental, and hints at the strong
-link between SDT and decision making based on maximum likelihood and the likelihood ratio
-[@Creelman2015; @Peterson1954]. In fact, the early work on SDT usually expressed the bias, as <span
-class="math-var">β</span>, in terms of the likelihood ratio of signal and noise [@Peterson1954;
-@Tanner1954]. It was only later that `c` was introduced and suggested as a better measure of
-response bias for most purposes [@Ingham1970; @Macmillan1990; @Stanislaw1999].
+Note that when :key[c] is zero, the threshold is precisely where the :key[Noise Distribution] and
+the :key[Signal + Noise Distribution] intersect. In other words, the model will respond
+:key[Present] whenever it is more likely that this is a :key[Signal Present] trial, and it will
+respond :key[Absent] whenever it is more likely that this is a :key[Signal Absent] trial. This is
+not coincidental, and hints at the strong link between SDT and decision making based on maximum
+likelihood and the likelihood ratio :cite[@Creelman2015; @Peterson1954]. In fact, the early work on
+SDT usually expressed the bias, as <span class="math-var">β</span>, in terms of the likelihood ratio
+of signal and noise :cite[@Peterson1954; @Tanner1954]. It was only later that :key[c] was introduced
+and suggested as a better measure of response bias for most purposes :cite[@Ingham1970;
+@Macmillan1990; @Stanislaw1999].
 
 <!--
 

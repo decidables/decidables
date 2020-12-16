@@ -15,17 +15,18 @@ We will define any amount of coherent dot motion as our signal, and purely rando
 noise.
 
 In order to test our ability to differentiate signal from noise, we will use our random dot
-kinematogram (RDK) to create a **task**. As is typical of tasks in cognitive psychology experiments,
-our task will consist of one or more **trials**. Each trial will start with a **fixation** cross, `+`,
-in the middle of the display, then the RDK stimulus will appear for a short period of time, followed
-by a question mark, `?`. Your mission, should you choose to accept it, is to decide whether the
-signal (coherent dot motion!) is `Present` or `Absent` and push the appropriate button to indicate
-your choice - this is your **response**. You can make your selection at any time once the stimulus
-has begun (you will notice that the response buttons become active at that time). However, do not
-take too long, because once the question mark goes away, it is too late.
+kinematogram (RDK) to create a :term[task]. As is typical of tasks in cognitive psychology
+experiments, our task will consist of one or more :term[trials]. Each trial will start with a
+:term[fixation] cross, :ui[+], in the middle of the display, then the RDK stimulus will appear for a
+short period of time, followed by a question mark, :ui[?]. Your mission, should you choose to accept
+it, is to decide whether the signal (coherent dot motion!) is :key[Present] or :key[Absent] and push
+the appropriate button to indicate your choice - this is your :term[response]. You can make your
+selection at any time once the stimulus has begun (you will notice that the response buttons become
+active at that time). However, do not take too long, because once the question mark goes away, it is
+too late.
 
-Go ahead and give it a go! (`Run` to start the trial; `Pause` to temporarily freeze the trial,
-`Reset` to reinitialize the experiment, so you can run it again.)
+Go ahead and give it a go! (:ui[Run] to start the trial; :ui[Pause] to temporarily freeze the trial,
+:ui[Reset] to reinitialize the experiment, so you can run it again.)
 
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5"></sdt-control>
@@ -45,7 +46,7 @@ In the real world, you might attempt to detect a signal once, and then go about 
 your day, (things to do, people to see, yada yada). But typically in an experimental context we try
 detecting a signal multiple times in a row. Conveniently, our trials lend themselves to being
 sequenced one after another, ad infinitum. Ok, ok, perhaps an infinite sequence of trials would get
-a bit boring, so lets try something a bit more manageable, say, a **block** of five trials:
+a bit boring, so lets try something a bit more manageable, say, a :term[block] of five trials:
 
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5"></sdt-control>
@@ -62,10 +63,10 @@ challenge? All right then...
 
 ## A customizable block of trials!
 
-In this example, you can choose how many trials there will be in a block using the `Trials` slider,
-the proportion of coherence for the signal using the `Coherence` slider, and the duration the
-stimulus is available using the `Duration` slider. Now lookie here - we have ourselves something
-approaching a legitimate signal detection task!
+In this example, you can choose how many trials there will be in a block using the :ui[Trials]
+slider, the proportion of coherence for the signal using the :ui[Coherence] slider, and the duration
+the stimulus is available using the :ui[Duration] slider. Now lookie here - we have ourselves
+something approaching a legitimate signal detection task!
 
 <sdt-example-human>
   <sdt-control run pause reset coherence=".5" trials="5" duration="2000"></sdt-control>

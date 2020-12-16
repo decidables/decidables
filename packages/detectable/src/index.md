@@ -15,24 +15,24 @@ SDT.
 
 SDT was originally developed to understand the decisions of radar operators attempting to detect the
 faint traces of enemy aircraft, bogeys, among the spurious flashes on the radar screen
-[@Marcum1947; @Tanner1954; @Peterson1954]. The fundamental question was: How does a person decide
-if they are seeing signal or noise?
+:cite[@Marcum1947; @Tanner1954; @Peterson1954]. The fundamental question was: How does a person
+decide if they are seeing signal or noise?
 
 In answering this question, researchers attempted to decompose the underlying cognitive process into
 its constituent parts. Then they specified a theory describing these parts in a formal mathematical
-model. The result was Signal Detection Theory [@Green1966].
+model. The result was Signal Detection Theory :cite[@Green1966].
 
 SDT can be viewed as an early and classic example of computational cognitive neuroscience - the
 interdisciplinary study of mind, brain, and behavior through the melding of computational,
 psychological, and neuroscientific approaches. It does this by linking observed behavior to known
-neural mechanisms through a formal computational account of cognition [@Gold2007].
+neural mechanisms through a formal computational account of cognition :cite[@Gold2007].
 
 SDT simply and elegantly explains patterns found in actual perceptual decision-making data; it makes
 non-trivial predictions that can be tested; and it fits into a developing understanding of
-perceptual decision making as neural evidence accumulation [@Gold2002]. Thus the importance of SDT
-arises from its generality, specificity, and plausibility. As a result, it has been applied to a
-diverse set of problems, from memory retrieval [@Berry2008; @Banks1970] to medical decision making
-[@Lusted1971].
+perceptual decision making as neural evidence accumulation :cite[@Gold2002]. Thus the importance of
+SDT arises from its generality, specificity, and plausibility. As a result, it has been applied to a
+diverse set of problems, from memory retrieval :cite[@Berry2008; @Banks1970] to medical decision
+making :cite[@Lusted1971].
 
 This site approaches SDT from multiple complementary points of view. First, we use SDT to *fit*
 your empirical data from an example task, and consider how well the theory accounts for the data.

@@ -6,4 +6,4 @@ script: index
 
 ## Bibliography
 
-{#ref}
+::ref

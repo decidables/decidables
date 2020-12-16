@@ -24,26 +24,27 @@ which often isn't that interesting to us.
 ## Hit Rate (HR)
 
 We can further summarize our performance by describing how we did, on average, when the signal was
-present, with a `Hit Rate` (HR), also called a **true positive rate** or **type I error rate**:
+present, with a :key[Hit Rate] (HR), also called a :term[true positive rate] or :term[type I error
+rate]:
 
 <sdt-equation-hm2hr></sdt-equation-hm2hr>
 
-The `Hit Rate` tells us the proportion of trials when the signal was *present* that we correctly
+The :key[Hit Rate] tells us the proportion of trials when the signal was *present* that we correctly
 responded *"present"*.
 
 <sdt-equation-hm2hr numeric interactive hits="5" misses="5"></sdt-equation-hm2hr>
 
-(This is a *live* equation. You can edit the number of `Hits` or `Misses` and the `Hit Rate` will
-immediately update.)
+(This is a *live* equation. You can edit the number of :key[Hits] or :key[Misses] and the :key[Hit
+Rate] will immediately update.)
 
 ## False Alarm Rate (FAR)
 
-Likewise, we can summarize our performance when the signal was absent with a `False Alarm Rate`
-(FAR), also called a **false positive rate** or **type II error rate**:
+Likewise, we can summarize our performance when the signal was absent with a :key[False Alarm Rate]
+(FAR), also called a :term[false positive rate] or :term[type II error rate]:
 
 <sdt-equation-facr2far></sdt-equation-facr2far>
 
-The `False Alarm Rate` tells us the proportion of trials when the signal was *absent* that we
+The :key[False Alarm Rate] tells us the proportion of trials when the signal was *absent* that we
 erroneously responded *"present"*.
 
 <sdt-equation-facr2far numeric interactive false-alarms="5" correct-rejections="5">
@@ -53,9 +54,9 @@ erroneously responded *"present"*.
 
 ## A table of outcomes and rates
 
-Since the `Hit Rate` summarizes performance when the signal was *present* and the `False Alarm Rate`
-summarizes performance when the signal was *absent*, we can add them to the corresponding rows of
-our table of outcomes:
+Since the :key[Hit Rate] summarizes performance when the signal was *present* and the :key[False
+Alarm Rate] summarizes performance when the signal was *absent*, we can add them to the
+corresponding rows of our table of outcomes:
 
 <sdt-example-interactive>
   <sdt-table interactive numeric summary="stimulusRates"></sdt-table>
@@ -68,27 +69,27 @@ real numbers, small changes in a rate may not be reflected in the counts due to 
 
 ## Accuracy
 
-If we want to summarize our overall performance with a single number, then we can use `Accuracy`,
-which aggregates across all trials. `Accuracy` tells us, on average, how we did across both signal
-present and signal absent trials:
+If we want to summarize our overall performance with a single number, then we can use
+:key[Accuracy], which aggregates across all trials. :key[Accuracy] tells us, on average, how we did
+across both signal present and signal absent trials:
 
 <sdt-equation-hmfacr2acc></sdt-equation-hmfacr2acc>
 
-We can see that `Hits` and `Correct Rejections` are combined together since they are both types of
-*correct* responses.
+We can see that :key[Hits] and :key[Correct Rejections] are combined together since they are both
+types of *correct* responses.
 
 <sdt-equation-hmfacr2acc numeric interactive hits="5" misses="5"
   false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc>
 
-We can add `Accuracy` as an overall summary measure to out table of outcomes:
+We can add :key[Accuracy] as an overall summary measure to out table of outcomes:
 
 <sdt-example-interactive>
   <sdt-table interactive numeric summary="stimulusRates accuracy"></sdt-table>
 </sdt-example-interactive>
 
-If you change the `Accuracy` then the other values will change as well, to keep the whole table
+If you change the :key[Accuracy] then the other values will change as well, to keep the whole table
 consistent. If you play around a bit, you may notice that, even if you keep the total number of
-trials constant, you can come up with more than one set of values that has the same `Accuracy`.
+trials constant, you can come up with more than one set of values that has the same :key[Accuracy].
 
 ## Tabulating outcomes, rates, & accuracy
 
@@ -105,9 +106,9 @@ of outcomes and rates provides a running summary of performance:
 
 ## Accuracy the great deceiver
 
-At first glance, `Accuracy` seems like a very convenient way to summarize overall performance in a
-single number. But as students of Signal Detection Theory, we must be very wary of `Accuracy`.
-Indeed `Accuracy` is the great deceiver! Let us see why:
+At first glance, :key[Accuracy] seems like a very convenient way to summarize overall performance in
+a single number. But as students of Signal Detection Theory, we must be very wary of :key[Accuracy].
+Indeed :key[Accuracy] is the great deceiver! Let us see why:
 
 Consider this table of outcomes:
 
@@ -121,19 +122,19 @@ And now consider this table of outcomes:
   <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></sdt-table>
 </sdt-example-interactive>
 
-First, note that the `Accuracy` is **identical** in the two tables at 50%. But now note that the
-actual patterns of performance are **completely different**! In the first instance, the participant
-had one hundred `Hits` and zero `Misses`, whereas in the second instance the participant had the
-exact opposite. On the other hand, the first participant had one hundred `False Alarms` and zero
-`Correct Rejections`, whereas again the second participant had the exact opposite. Indeed, if we
-look down the columns of the tables, we can observe that the first participant always responded
-*"Present"*, whereas the second participant always responded *"Absent"*. And yet, despite completely
-different performance, and completely different patterns of outcomes, they both resulted in the same
-`Accuracy`. It turns out that in the context of signal detection, `Accuracy` is a surprisingly poor
-indicator of performance.
+First, note that the :key[Accuracy] is *identical* in the two tables at 50%. But now note that the
+actual patterns of performance are *completely different*! In the first instance, the participant
+had one hundred :key[Hits] and zero :key[Misses], whereas in the second instance the participant had
+the exact opposite. On the other hand, the first participant had one hundred :key[False Alarms] and
+zero :key[Correct Rejections], whereas again the second participant had the exact opposite. Indeed,
+if we look down the columns of the tables, we can observe that the first participant always
+responded *"Present"*, whereas the second participant always responded *"Absent"*. And yet, despite
+completely different performance, and completely different patterns of outcomes, they both resulted
+in the same :key[Accuracy]. It turns out that in the context of signal detection, :key[Accuracy] is
+a surprisingly poor indicator of performance.
 
-On the other hand, the `Hit Rate` and `False Alarm Rate` are completely different for our two
-participants, clearly communicating the vast differences in performance. By telling us how the
+On the other hand, the :key[Hit Rate] and :key[False Alarm Rate] are completely different for our
+two participants, clearly communicating the vast differences in performance. By telling us how the
 participant performed when the signal was *present* and when the signal was *absent*, the
 combination of HR and FAR give us a more complete summary picture of performance.
 
