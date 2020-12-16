@@ -1,7 +1,9 @@
+// Needed for d3 in WebWorker!
+import 'regenerator-runtime/runtime';
+
 import * as BayesDistributions from 'bayes.js/distributions';
 import * as BayesMcmc from 'bayes.js/mcmc';
 import * as d3 from 'd3';
-
 import CPTMath from '@decidable/prospectable-math';
 
 export default function CPTFitWorker(self) {

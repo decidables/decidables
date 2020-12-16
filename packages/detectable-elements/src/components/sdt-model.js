@@ -574,16 +574,16 @@ export default class SDTModel extends SDTElement {
 
     // Threshold Drag behavior
     const dragThreshold = d3.drag()
-      .subject((/* datum */) => {
+      .subject(() => {
         return {x: xScale(this.l), y: 0};
       })
-      .on('start', (datum, index, elements) => {
-        const element = elements[index];
+      .on('start', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
       })
-      .on('drag', (/* datum */) => {
+      .on('drag', (event) => {
         this.drag = true;
-        let l = xScale.invert(d3.event.x);
+        let l = xScale.invert(event.x);
         // Clamp lambda to stay visible
         l = (l < xScale.domain()[0])
           ? xScale.domain()[0]
@@ -594,23 +594,23 @@ export default class SDTModel extends SDTElement {
         this.alignState();
         this.sendEvent();
       })
-      .on('end', (datum, index, elements) => {
-        const element = elements[index];
+      .on('end', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
       });
 
     // Noise Curve Drag behavior
     const dragNoise = d3.drag()
-      .subject((/* datum */) => {
+      .subject(() => {
         return {x: xScale(this.muN), y: 0};
       })
-      .on('start', (datum, index, elements) => {
-        const element = elements[index];
+      .on('start', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
       })
-      .on('drag', (/* datum */) => {
+      .on('drag', (event) => {
         this.drag = true;
-        let muN = xScale.invert(d3.event.x);
+        let muN = xScale.invert(event.x);
         // Clamp Noise Curve to stay visible
         muN = (muN < xScale.domain()[0])
           ? xScale.domain()[0]
@@ -621,29 +621,29 @@ export default class SDTModel extends SDTElement {
         this.alignState();
         this.sendEvent();
       })
-      .on('end', (datum, index, elements) => {
-        const element = elements[index];
+      .on('end', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
       });
 
     // Signal+Noise Curve Drag behavior
     const dragSignal = d3.drag()
-      .subject((/* datum */) => {
+      .subject(() => {
         return {x: xScale(this.muS), y: yScale(this.hS)};
       })
-      .on('start', (datum, index, elements) => {
-        const element = elements[index];
+      .on('start', (event, datum) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
-        datum.startX = d3.event.x;
-        datum.startY = d3.event.y;
+        datum.startX = event.x;
+        datum.startY = event.y;
         datum.startHS = this.hS;
         datum.startMuS = this.muS;
       })
-      .on('drag', (datum) => {
+      .on('drag', (event, datum) => {
         this.drag = true;
         let muS = this.muS; // eslint-disable-line prefer-destructuring
         if (this.interactive) {
-          muS = xScale.invert(d3.event.x);
+          muS = xScale.invert(event.x);
           // Clamp Signal Curve to stay visible
           muS = (muS < xScale.domain()[0])
             ? xScale.domain()[0]
@@ -653,7 +653,7 @@ export default class SDTModel extends SDTElement {
         }
         let hS = this.hS; // eslint-disable-line prefer-destructuring
         if (this.unequal) {
-          hS = yScale.invert(d3.event.y);
+          hS = yScale.invert(event.y);
           // Clamp Signal Curve to stay visible
           hS = (hS < 0.01)
             ? 0.01
@@ -663,8 +663,8 @@ export default class SDTModel extends SDTElement {
         }
         if (this.interactive && this.unequal) {
           // Use shift key as modifier for single dimension
-          if (d3.event.sourceEvent.shiftKey) {
-            if (Math.abs(d3.event.x - datum.startX) > Math.abs(d3.event.y - datum.startY)) {
+          if (event.sourceEvent.shiftKey) {
+            if (Math.abs(event.x - datum.startX) > Math.abs(event.y - datum.startY)) {
               hS = datum.startHS;
             } else {
               muS = datum.startMuS;
@@ -679,8 +679,8 @@ export default class SDTModel extends SDTElement {
         this.alignState();
         this.sendEvent();
       })
-      .on('end', (datum, index, elements) => {
-        const element = elements[index];
+      .on('end', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
       });
 
@@ -845,15 +845,15 @@ export default class SDTModel extends SDTElement {
       .attr('tabindex', this.interactive ? 0 : null)
       .classed('interactive', this.interactive)
       .on('keydown', this.interactive
-        ? (/* datum */) => {
-          if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+        ? (event) => {
+          if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
             let muN = this.muN; // eslint-disable-line prefer-destructuring
-            switch (d3.event.key) {
+            switch (event.key) {
               case 'ArrowRight':
-                muN += d3.event.shiftKey ? 0.01 : 0.1;
+                muN += event.shiftKey ? 0.01 : 0.1;
                 break;
               case 'ArrowLeft':
-                muN -= d3.event.shiftKey ? 0.01 : 0.1;
+                muN -= event.shiftKey ? 0.01 : 0.1;
                 break;
               default:
             }
@@ -868,7 +868,7 @@ export default class SDTModel extends SDTElement {
               this.alignState();
               this.sendEvent();
             }
-            d3.event.preventDefault();
+            event.preventDefault();
           }
         }
         : null);
@@ -1040,15 +1040,15 @@ export default class SDTModel extends SDTElement {
       .classed('interactive', this.interactive)
       .classed('unequal', this.unequal)
       .on('keydown.sensitivity', this.interactive
-        ? (/* datum */) => {
-          if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+        ? (event) => {
+          if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
             let muS = this.muS; // eslint-disable-line prefer-destructuring
-            switch (d3.event.key) {
+            switch (event.key) {
               case 'ArrowRight':
-                muS += d3.event.shiftKey ? 0.01 : 0.1;
+                muS += event.shiftKey ? 0.01 : 0.1;
                 break;
               case 'ArrowLeft':
-                muS -= d3.event.shiftKey ? 0.01 : 0.1;
+                muS -= event.shiftKey ? 0.01 : 0.1;
                 break;
               default:
             }
@@ -1063,20 +1063,20 @@ export default class SDTModel extends SDTElement {
               this.alignState();
               this.sendEvent();
             }
-            d3.event.preventDefault();
+            event.preventDefault();
           }
         }
         : null)
       .on('keydown.variance', this.unequal
-        ? (/* datum */) => {
-          if (['ArrowUp', 'ArrowDown'].includes(d3.event.key)) {
+        ? (event) => {
+          if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
             let hS = this.hS; // eslint-disable-line prefer-destructuring
-            switch (d3.event.key) {
+            switch (event.key) {
               case 'ArrowUp':
-                hS += d3.event.shiftKey ? 0.002 : 0.02;
+                hS += event.shiftKey ? 0.002 : 0.02;
                 break;
               case 'ArrowDown':
-                hS -= d3.event.shiftKey ? 0.002 : 0.02;
+                hS -= event.shiftKey ? 0.002 : 0.02;
                 break;
               default:
             }
@@ -1093,7 +1093,7 @@ export default class SDTModel extends SDTElement {
               this.alignState();
               this.sendEvent();
             }
-            d3.event.preventDefault();
+            event.preventDefault();
           }
         }
         : null);
@@ -1477,15 +1477,15 @@ export default class SDTModel extends SDTElement {
       if (this.interactive) {
         thresholdMerge
           .call(dragThreshold)
-          .on('keydown', (/* datum */) => {
-            if (['ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+          .on('keydown', (event) => {
+            if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
               let l = this.l; // eslint-disable-line prefer-destructuring
-              switch (d3.event.key) {
+              switch (event.key) {
                 case 'ArrowRight':
-                  l += d3.event.shiftKey ? 0.01 : 0.1;
+                  l += event.shiftKey ? 0.01 : 0.1;
                   break;
                 case 'ArrowLeft':
-                  l -= d3.event.shiftKey ? 0.01 : 0.1;
+                  l -= event.shiftKey ? 0.01 : 0.1;
                   break;
                 default:
               }
@@ -1500,7 +1500,7 @@ export default class SDTModel extends SDTElement {
                 this.alignState();
                 this.sendEvent();
               }
-              d3.event.preventDefault();
+              event.preventDefault();
             }
           });
       } else {
@@ -1649,8 +1649,8 @@ export default class SDTModel extends SDTElement {
             );
             return (time) => { return interpolator(scaleOutGenerator(d3.easeCubicIn)(time)); };
           })
-          .on('end', (datum, index, elements) => {
-            const element = elements[index];
+          .on('end', (event, datum) => {
+            const element = event.currentTarget;
             element.removeAttribute('data-new-trial-ease-time');
             datum.new = false;
             this.alignTrial(datum);

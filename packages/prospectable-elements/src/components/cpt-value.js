@@ -413,20 +413,20 @@ export default class CPTValue extends CPTElement {
 
     // Drag behaviors
     const curvePDrag = d3.drag()
-      .subject((datum) => {
+      .subject((event, datum) => {
         return {
-          x: d3.event.x,
-          y: this.yScale(CPTMath.xal2v(this.xScale.invert(d3.event.x), datum.a, datum.l)),
+          x: event.x,
+          y: this.yScale(CPTMath.xal2v(this.xScale.invert(event.x), datum.a, datum.l)),
         };
       })
-      .on('start', (datum, index, elements) => {
-        const element = elements[index];
+      .on('start', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
       })
-      .on('drag', (datum) => {
+      .on('drag', (event, datum) => {
         this.drag = true;
-        const x = this.xScale.invert(d3.event.x);
-        const v = this.yScale.invert(d3.event.y);
+        const x = this.xScale.invert(event.x);
+        const v = this.yScale.invert(event.y);
         const a = CPTMath.xlv2a(x, datum.l, v);
         // Clamp a to legal values [0, 1]
         datum.a = (Number.isNaN(a) || (a < 0) || (a > 1) || (x < 0) || (v < 0))
@@ -452,26 +452,26 @@ export default class CPTValue extends CPTElement {
           bubbles: true,
         }));
       })
-      .on('end', (datum, index, elements) => {
-        const element = elements[index];
+      .on('end', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
       });
 
     const curveNDrag = d3.drag()
-      .subject((datum) => {
+      .subject((event, datum) => {
         return {
-          x: d3.event.x,
-          y: this.yScale(CPTMath.xal2v(this.xScale.invert(d3.event.x), datum.a, datum.l)),
+          x: event.x,
+          y: this.yScale(CPTMath.xal2v(this.xScale.invert(event.x), datum.a, datum.l)),
         };
       })
-      .on('start', (datum, index, elements) => {
-        const element = elements[index];
+      .on('start', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
       })
-      .on('drag', (datum) => {
+      .on('drag', (event, datum) => {
         this.drag = true;
-        const x = this.xScale.invert(d3.event.x);
-        const v = this.yScale.invert(d3.event.y);
+        const x = this.xScale.invert(event.x);
+        const v = this.yScale.invert(event.y);
         const l = CPTMath.xav2l(x, datum.a, v);
         // Clamp l to legal values [0, ?
         datum.l = (Number.isNaN(l) || (l < 0) || (l > 100) || (x > 0) || (v > 0))
@@ -497,25 +497,25 @@ export default class CPTValue extends CPTElement {
           bubbles: true,
         }));
       })
-      .on('end', (datum, index, elements) => {
-        const element = elements[index];
+      .on('end', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
       });
 
     const pointDrag = d3.drag()
-      .subject((datum) => {
+      .subject((event, datum) => {
         return {
           x: this.xScale(datum.x),
           y: this.yScale(datum.v),
         };
       })
-      .on('start', (datum, index, elements) => {
-        const element = elements[index];
+      .on('start', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
       })
-      .on('drag', (datum) => {
+      .on('drag', (event, datum) => {
         this.drag = true;
-        const x = this.xScale.invert(d3.event.x);
+        const x = this.xScale.invert(event.x);
         // Clamp x to visible plot
         datum.x = (x < -domainScale)
           ? -domainScale
@@ -540,8 +540,8 @@ export default class CPTValue extends CPTElement {
           bubbles: true,
         }));
       })
-      .on('end', (datum, index, elements) => {
-        const element = elements[index];
+      .on('end', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
       });
 
@@ -784,17 +784,17 @@ export default class CPTValue extends CPTElement {
           .attr('tabindex', 0)
           .classed('interactive', true)
           .call(curvePDrag)
-          .on('keydown', (datum) => {
-            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+          .on('keydown', (event, datum) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
               let a = datum.a; // eslint-disable-line prefer-destructuring
-              switch (d3.event.key) {
+              switch (event.key) {
                 case 'ArrowUp':
                 case 'ArrowLeft':
-                  a += d3.event.shiftKey ? 0.01 : 0.05;
+                  a += event.shiftKey ? 0.01 : 0.05;
                   break;
                 case 'ArrowDown':
                 case 'ArrowRight':
-                  a -= d3.event.shiftKey ? 0.01 : 0.05;
+                  a -= event.shiftKey ? 0.01 : 0.05;
                   break;
                 default:
                   // no-op
@@ -824,7 +824,7 @@ export default class CPTValue extends CPTElement {
                   bubbles: true,
                 }));
               }
-              d3.event.preventDefault();
+              event.preventDefault();
             }
           });
       } else {
@@ -893,17 +893,17 @@ export default class CPTValue extends CPTElement {
           .attr('tabindex', 0)
           .classed('interactive', true)
           .call(curveNDrag)
-          .on('keydown', (datum) => {
-            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+          .on('keydown', (event, datum) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
               let l = datum.l; // eslint-disable-line prefer-destructuring
-              switch (d3.event.key) {
+              switch (event.key) {
                 case 'ArrowUp':
                 case 'ArrowLeft':
-                  l -= d3.event.shiftKey ? 0.01 : 0.05;
+                  l -= event.shiftKey ? 0.01 : 0.05;
                   break;
                 case 'ArrowDown':
                 case 'ArrowRight':
-                  l += d3.event.shiftKey ? 0.01 : 0.05;
+                  l += event.shiftKey ? 0.01 : 0.05;
                   break;
                 default:
                   // no-op
@@ -933,7 +933,7 @@ export default class CPTValue extends CPTElement {
                   bubbles: true,
                 }));
               }
-              d3.event.preventDefault();
+              event.preventDefault();
             }
           });
       } else {
@@ -1008,17 +1008,17 @@ export default class CPTValue extends CPTElement {
           .attr('tabindex', 0)
           .classed('interactive', true)
           .call(pointDrag)
-          .on('keydown', (datum) => {
-            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(d3.event.key)) {
+          .on('keydown', (event, datum) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
               let x = datum.x; // eslint-disable-line prefer-destructuring
-              switch (d3.event.key) {
+              switch (event.key) {
                 case 'ArrowUp':
                 case 'ArrowRight':
-                  x += d3.event.shiftKey ? 0.01 : 0.05;
+                  x += event.shiftKey ? 0.01 : 0.05;
                   break;
                 case 'ArrowDown':
                 case 'ArrowLeft':
-                  x -= d3.event.shiftKey ? 0.01 : 0.05;
+                  x -= event.shiftKey ? 0.01 : 0.05;
                   break;
                 default:
                   // no-op
@@ -1048,7 +1048,7 @@ export default class CPTValue extends CPTElement {
                   bubbles: true,
                 }));
               }
-              d3.event.preventDefault();
+              event.preventDefault();
             }
           });
       } else {

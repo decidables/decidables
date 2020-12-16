@@ -32,7 +32,7 @@ function preparePlotly() {
         },
       },
     ))
-    .pipe(gulpRename('plotly-style.js'))
+    .pipe(gulpRename('plotly-style.auto.js'))
     .pipe(gulp.dest('src/components/'));
 }
 

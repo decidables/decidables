@@ -226,9 +226,9 @@ export default class DecisionOption extends CPTElement {
       return newAngle;
     }
     const arcDrag = d3.drag()
-      .subject((datum) => {
+      .subject((event, datum) => {
         const arcAngle = fixAngle((datum.endAngle + datum.startAngle) / 2);
-        const dragAngle = fixAngle(Math.atan2(d3.event.y, d3.event.x) + (Math.PI / 2));
+        const dragAngle = fixAngle(Math.atan2(event.y, event.x) + (Math.PI / 2));
         decisionOutcomes.forEach((item) => {
           item.startP = item.p;
         });
@@ -237,16 +237,16 @@ export default class DecisionOption extends CPTElement {
           startAngle: fixAngle(dragAngle - arcAngle),
         };
       })
-      .on('start', (datum, index, elements) => {
-        const element = elements[index];
+      .on('start', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
       })
-      .on('drag', (datum) => {
-        const angle = fixAngle(Math.atan2(d3.event.y, d3.event.x) + (Math.PI / 2));
-        const currentAngle = fixAngle(angle - d3.event.subject.arcAngle);
-        const changeAngle = fixAngle((d3.event.subject.startAngle > 0)
-          ? (currentAngle - d3.event.subject.startAngle)
-          : (d3.event.subject.startAngle - currentAngle));
+      .on('drag', (event, datum) => {
+        const angle = fixAngle(Math.atan2(event.y, event.x) + (Math.PI / 2));
+        const currentAngle = fixAngle(angle - event.subject.arcAngle);
+        const changeAngle = fixAngle((event.subject.startAngle > 0)
+          ? (currentAngle - event.subject.startAngle)
+          : (event.subject.startAngle - currentAngle));
         const changeP = changeAngle / Math.PI;
         const proposedP = datum.data.startP + changeP;
         const newP = (proposedP > 0.99)
@@ -268,11 +268,11 @@ export default class DecisionOption extends CPTElement {
           },
           bubbles: true,
         }));
-        // console.log(`x: ${d3.event.x}, y: ${d3.event.y}`);
+        // console.log(`x: ${event.x}, y: ${event.y}`);
         // console.log(`change: ${changeAngle}, changeP: ${changeP}`);
       })
-      .on('end', (datum, index, elements) => {
-        const element = elements[index];
+      .on('end', (event) => {
+        const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
       });
 
@@ -335,8 +335,8 @@ export default class DecisionOption extends CPTElement {
     const labelStaticEnter = labelStaticUpdate.enter().append('text');
     const labelInteractiveEnter = labelInteractiveUpdate.enter().append('foreignObject');
     labelInteractiveEnter.append('xhtml:decidable-spinner')
-      .on('input', (datum) => {
-        datum.data.x = parseFloat(d3.event.target.value);
+      .on('input', (event, datum) => {
+        datum.data.x = parseFloat(event.target.value);
 
         this.dispatchEvent(new CustomEvent('decision-outcome-change', {
           detail: {

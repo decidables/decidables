@@ -6,7 +6,7 @@ import Webworkify from 'webworkify';
 
 import CPTElement from '../cpt-element';
 import CPTFitWorker from './cpt-fit-worker';
-import plotlyStyle from './plotly-style';
+import plotlyStyle from './plotly-style.auto';
 
 // Load in the needed trace types
 Plotly.register([PlotlyHistogram]);
