@@ -539,14 +539,6 @@ export default class CPTValue extends CPTElement {
         this.requestUpdate();
         this.dispatchEvent(new CustomEvent('cpt-value-change', {
           detail: this.get(datum.name),
-          // detail: {
-          //   name: datum.name,
-          //   x: datum.x,
-          //   a: datum.a,
-          //   l: datum.l,
-          //   v: datum.v,
-          //   label: datum.label,
-          // },
           bubbles: true,
         }));
       })
@@ -585,14 +577,6 @@ export default class CPTValue extends CPTElement {
         this.requestUpdate();
         this.dispatchEvent(new CustomEvent('cpt-value-change', {
           detail: this.get(datum.name),
-          // detail: {
-          //   name: datum.name,
-          //   x: datum.x,
-          //   a: datum.a,
-          //   l: datum.l,
-          //   v: datum.v,
-          //   label: datum.label,
-          // },
           bubbles: true,
         }));
       })
@@ -1169,14 +1153,6 @@ export default class CPTValue extends CPTElement {
                 this.requestUpdate();
                 this.dispatchEvent(new CustomEvent('cpt-value-change', {
                   detail: this.get(datum.name),
-                  // detail: {
-                  //   name: datum.name,
-                  //   x: datum.x,
-                  //   a: datum.a,
-                  //   l: datum.l,
-                  //   v: datum.v,
-                  //   label: datum.label,
-                  // },
                   bubbles: true,
                 }));
               }
@@ -1274,14 +1250,6 @@ export default class CPTValue extends CPTElement {
                 this.requestUpdate();
                 this.dispatchEvent(new CustomEvent('cpt-value-change', {
                   detail: this.get(datum.name),
-                  // detail: {
-                  //   name: datum.name,
-                  //   x: datum.x,
-                  //   a: datum.a,
-                  //   l: datum.l,
-                  //   v: datum.v,
-                  //   label: datum.label,
-                  // },
                   bubbles: true,
                 }));
               }
