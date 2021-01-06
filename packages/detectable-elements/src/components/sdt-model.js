@@ -1649,8 +1649,8 @@ export default class SDTModel extends SDTElement {
             );
             return (time) => { return interpolator(scaleOutGenerator(d3.easeCubicIn)(time)); };
           })
-          .on('end', (event, datum) => {
-            const element = event.currentTarget;
+          .on('end', (datum, index, elements) => {
+            const element = elements[index];
             element.removeAttribute('data-new-trial-ease-time');
             datum.new = false;
             this.alignTrial(datum);
