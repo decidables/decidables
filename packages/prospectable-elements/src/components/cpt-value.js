@@ -15,12 +15,10 @@ import CPTElement from '../cpt-element';
   Attributes:
     interactive: true/false
 
-    line: 'all', 'first', 'rest', 'none'
-    point: 'all', 'first', 'rest', 'none'
-
     x: numeric (-infinity, infinity)
     a: numeric [0, 1]
     l: numeric [0, 100]
+    label: string
 
   Styles:
     ??
@@ -28,17 +26,6 @@ import CPTElement from '../cpt-element';
 export default class CPTValue extends CPTElement {
   static get properties() {
     return {
-      line: {
-        attribute: 'line',
-        type: String,
-        reflect: true,
-      },
-      point: {
-        attribute: 'point',
-        type: String,
-        reflect: true,
-      },
-
       x: {
         attribute: 'value',
         type: Number,
@@ -85,29 +72,35 @@ export default class CPTValue extends CPTElement {
     this.firstUpdate = true;
     this.drag = false;
 
-    this.lines = ['all', 'first', 'rest', 'none'];
-    this.line = 'first';
-    this.points = ['all', 'first', 'rest', 'none'];
-    this.point = 'first';
-
-    this.x = 10;
     this.a = 0.5;
     this.l = 2;
-
+    this.x = null;
     this.label = '';
+    this.function = 'default';
 
-    this.locations = [
+    this.functions = [
       {
         name: 'default',
-        x: this.x,
         a: this.a,
         l: this.l,
-        label: '',
       },
     ];
 
-    this.lineArray = [];
-    this.pointArray = [];
+    this.values = [
+      {
+        name: 'default',
+        x: this.x,
+        label: this.label,
+        function: this.function,
+      },
+    ];
+
+    this.xl = null;
+    this.xw = null;
+    this.pw = null;
+    this.xs = null;
+    this.trialCount = null;
+    this.response = null;
 
     this.width = NaN;
     this.height = NaN;
@@ -117,66 +110,170 @@ export default class CPTValue extends CPTElement {
   }
 
   alignState() {
-    this.locations[0].x = this.x;
-    this.locations[0].a = this.a;
-    this.locations[0].l = this.l;
-    this.locations[0].label = this.label;
+    // Default function
+    this.functions[0].a = this.a;
+    this.functions[0].l = this.l;
 
-    this.v = CPTMath.xal2v(this.x, this.a, this.l);
+    // Default values
+    this.values[0].x = this.x;
+    this.values[0].label = this.label;
+    this.values[0].function = this.function;
 
-    this.lineArray = [];
-    this.pointArray = [];
-    this.locations.forEach((item, index) => {
-      item.v = CPTMath.xal2v(item.x, item.a, item.l);
+    // Update subjective values
+    this.values.forEach((value) => {
+      const myFunction = this.functions.find((func) => {
+        return func.name === value.function;
+      });
+      value.v = CPTMath.xal2v(value.x, myFunction.a, myFunction.l);
+    });
+    this.v = this.values[0].v;
+  }
 
-      if ((index === 0) && (this.line === 'first' || this.line === 'all')) {
-        this.lineArray.push(item);
-      } else if ((index > 0) && (this.line === 'rest' || this.line === 'all')) {
-        this.lineArray.push(item);
-      }
+  trial(xl, xw, pw, xs, trial, response) {
+    // Remove the old trial
+    if (this.trialCount) this.removeValue(`${this.trialCount}-w`);
+    if (this.trialCount) this.removeValue(`${this.trialCount}-s`);
 
-      if ((index === 0) && (this.point === 'first' || this.point === 'all')) {
-        this.pointArray.push(item);
-      } else if ((index > 0) && (this.point === 'rest' || this.point === 'all')) {
-        this.pointArray.push(item);
-      }
+    this.xl = xl;
+    this.xw = xw;
+    this.pw = pw;
+    this.xs = xs;
+    this.trialCount = trial;
+    this.response = response;
+
+    // Add the new trial
+    this.setValue(this.xw, `${this.trialCount}-w`, 'g', 'default', true);
+    this.setValue(this.xs, `${this.trialCount}-s`, 's', 'default', true);
+  }
+
+  // Called to pause trial animations!
+  pauseTrial() {
+    const lineNew = d3.select(this.renderRoot).selectAll('.lines[data-animating-ease-time-1]');
+    lineNew.interrupt('new-1');
+    lineNew.interrupt('new-2');
+    lineNew.datum((datum) => {
+      datum.paused = true;
+      return datum;
+    });
+  }
+
+  // Called to resume trial animations!
+  resumeTrial() {
+    const lineNew = d3.select(this.renderRoot).selectAll('.lines[data-animating-ease-time-1]');
+    lineNew.datum((datum) => {
+      datum.paused = false;
+      return datum;
+    });
+    this.requestUpdate();
+  }
+
+  clearFunctions() {
+    this.functions.splice(1);
+
+    this.requestUpdate();
+  }
+
+  clearValues() {
+    this.values.splice(1);
+
+    this.requestUpdate();
+  }
+
+  clear() {
+    this.clearFunctions();
+    this.clearValues();
+  }
+
+  removeFunction(name) {
+    this.functions = this.functions.filter((func) => {
+      return (func.name !== name);
+    });
+
+    this.requestUpdate();
+  }
+
+  removeValue(name) {
+    this.values = this.values.filter((value) => {
+      return (value.name !== name);
+    });
+
+    this.requestUpdate();
+  }
+
+  remove(name) {
+    this.removeFunction(name);
+    this.removeValue(name);
+  }
+
+  getFunction(name = 'default') {
+    return this.functions.find((func) => {
+      return (func.name === name);
+    });
+  }
+
+  getValue(name = 'default') {
+    return this.values.find((value) => {
+      return (value.name === name);
     });
   }
 
   get(name = 'default') {
-    const location = this.locations.find((item) => {
-      return (item.name === name);
-    });
-
-    return (location === undefined) ? null : location;
+    return {...this.getFunction(name), ...this.getValue(name)};
   }
 
-  set(x, a, l, name = 'default', label = '') {
+  setFunction(a, l, name = 'default') {
     if (name === 'default') {
-      this.x = x;
       this.a = a;
       this.l = l;
-      this.label = label;
     }
-    const location = this.locations.find((item) => {
-      return (item.name === name);
+
+    const myFunction = this.functions.find((func) => {
+      return (func.name === name);
     });
-    if (location === undefined) {
-      this.locations.push({
+    if (myFunction === undefined) {
+      this.functions.push({
         name: name,
-        x: x,
         a: a,
         l: l,
-        label: label,
       });
     } else {
-      location.x = x;
-      location.a = a;
-      location.l = l;
-      location.label = label;
+      myFunction.a = a;
+      myFunction.l = l;
     }
 
     this.requestUpdate();
+  }
+
+  setValue(x, name = 'default', label = '', func = name, trial = false) {
+    if (name === 'default') {
+      this.x = x;
+      this.label = label;
+    }
+
+    const myValue = this.values.find((value) => {
+      return (value.name === name);
+    });
+    if (myValue === undefined) {
+      this.values.push({
+        name: name,
+        x: x,
+        label: label,
+        function: func,
+        trial: trial,
+        new: trial,
+      });
+    } else {
+      myValue.x = x;
+      myValue.label = label;
+      myValue.function = func;
+    }
+
+    this.requestUpdate();
+  }
+
+  set(x, a, l, name = 'default', label = '', func = name) {
+    this.setFunction(a, l, name);
+    this.setValue(x, name, label, func);
   }
 
   static get styles() {
@@ -441,14 +538,15 @@ export default class CPTValue extends CPTElement {
         this.alignState();
         this.requestUpdate();
         this.dispatchEvent(new CustomEvent('cpt-value-change', {
-          detail: {
-            name: datum.name,
-            x: datum.x,
-            a: datum.a,
-            l: datum.l,
-            v: datum.v,
-            label: datum.label,
-          },
+          detail: this.get(datum.name),
+          // detail: {
+          //   name: datum.name,
+          //   x: datum.x,
+          //   a: datum.a,
+          //   l: datum.l,
+          //   v: datum.v,
+          //   label: datum.label,
+          // },
           bubbles: true,
         }));
       })
@@ -486,14 +584,15 @@ export default class CPTValue extends CPTElement {
         this.alignState();
         this.requestUpdate();
         this.dispatchEvent(new CustomEvent('cpt-value-change', {
-          detail: {
-            name: datum.name,
-            x: datum.x,
-            a: datum.a,
-            l: datum.l,
-            v: datum.v,
-            label: datum.label,
-          },
+          detail: this.get(datum.name),
+          // detail: {
+          //   name: datum.name,
+          //   x: datum.x,
+          //   a: datum.a,
+          //   l: datum.l,
+          //   v: datum.v,
+          //   label: datum.label,
+          // },
           bubbles: true,
         }));
       })
@@ -532,10 +631,10 @@ export default class CPTValue extends CPTElement {
           detail: {
             name: datum.name,
             x: datum.x,
-            a: datum.a,
-            l: datum.l,
             v: datum.v,
             label: datum.label,
+            a: this.getFunction(datum.function).a,
+            l: this.getFunction(datum.function).l,
           },
           bubbles: true,
         }));
@@ -714,17 +813,263 @@ export default class CPTValue extends CPTElement {
     // Indicator lines
     //  DATA-JOIN
     const lineUpdate = contentMerge.selectAll('.lines')
-      .data(this.pointArray, (datum) => { return datum.name; });
+      .data(
+        this.values.filter((value) => { return value.x; }),
+        (datum) => { return datum.name; },
+      );
     //  ENTER
     const lineEnter = lineUpdate.enter().append('g')
       .classed('lines', true);
-    lineEnter.append('line')
-      .classed('line-x', true);
-    lineEnter.append('line')
-      .classed('line-v', true);
+    //  ENTER - All
+    lineEnter
+      .each((datum, index, elements) => {
+        const element = elements[index];
+        const selection = d3.select(element);
+        selection.append('line')
+          .classed('line-x above', true);
+        selection.append('line')
+          .classed('line-x below', true);
+        selection.append('line')
+          .classed('line-v before', true);
+        selection.append('line')
+          .classed('line-v after', true);
+      });
+    //  ENTER - Animating
+    lineEnter
+      .filter((datum) => { return datum.new; })
+      .attr('data-animating-ease-time-1', 0)
+      .attr('data-animating-ease-time-2', 0)
+      .each((datum, index, elements) => {
+        const element = elements[index];
+        const selection = d3.select(element);
+        selection.select('.line-x.above')
+          .attr('x1', xScale(datum.x))
+          .attr('x2', xScale(datum.x))
+          .attr('y1', yScale(domainScale))
+          .attr('y2', yScale(domainScale));
+        selection.select('.line-x.below')
+          .attr('x1', xScale(datum.x))
+          .attr('x2', xScale(datum.x))
+          .attr('y1', yScale(-domainScale))
+          .attr('y2', yScale(-domainScale));
+        selection.select('.line-v.before')
+          .attr('x1', xScale(datum.x))
+          .attr('x2', xScale(datum.x))
+          .attr('y1', yScale(datum.v))
+          .attr('y2', yScale(datum.v));
+        selection.select('.line-v.after')
+          .attr('x1', xScale(datum.x))
+          .attr('x2', xScale(datum.x))
+          .attr('y1', yScale(datum.v))
+          .attr('y2', yScale(datum.v));
+      });
     //  MERGE
     const lineMerge = lineEnter.merge(lineUpdate);
-    lineMerge.select('.line-x')
+    //  MERGE - Active Animating
+    const lineMergeActive = lineMerge.filter((datum) => {
+      return (datum.new && !datum.paused);
+    });
+    if (!lineMergeActive.empty()) {
+      const easeTime1 = lineMergeActive.attr('data-animating-ease-time-1');
+      const easeTime2 = lineMergeActive.attr('data-animating-ease-time-2');
+      const scaleIn1 = (time) => {
+        return d3.scaleLinear().domain([0, 1]).range([easeTime1, 1])(time);
+      };
+      const scaleIn1Inverse = (time) => {
+        return d3.scaleLinear().range([0, 1]).domain([easeTime1, 1])(time);
+      };
+      const scaleIn2 = (time) => {
+        return d3.scaleLinear().domain([0, 1]).range([easeTime2, 1])(time);
+      };
+      const scaleIn2Inverse = (time) => {
+        return d3.scaleLinear().range([0, 1]).domain([easeTime2, 1])(time);
+      };
+      const scaleOutGenerator1 = (easeFunction) => {
+        return (time) => {
+          return d3.scaleLinear()
+            .domain([easeFunction(easeTime1), 1]).range([0, 1])(easeFunction(time));
+        };
+      };
+      const scaleOutGenerator2 = (easeFunction) => {
+        return (time) => {
+          return d3.scaleLinear()
+            .domain([easeFunction(easeTime2), 1]).range([0, 1])(easeFunction(time));
+        };
+      };
+      lineMergeActive
+        .transition('new-1')
+        .duration(() => {
+          return Math.floor(transitionDuration * (1 - easeTime1));
+        })
+        .ease(scaleIn1)
+        .attr('data-animating-ease-time-1', 1)
+        .tween('animating', (datum, index, elements) => {
+          const element = elements[index];
+          const selection = d3.select(element);
+          const interpolateX = d3.interpolate(
+            (element.x !== undefined) ? element.x : datum.x,
+            datum.x,
+          );
+          const interpolateA = d3.interpolate(
+            (element.a !== undefined) ? element.a : this.getFunction(datum.function).a,
+            this.getFunction(datum.function).a,
+          );
+          const interpolateL = d3.interpolate(
+            (element.l !== undefined) ? element.l : this.getFunction(datum.function).l,
+            this.getFunction(datum.function).l,
+          );
+          const interpolateAbove = d3.interpolate(
+            yScale.invert(selection.select('.line-x.above').attr('y1')),
+            datum.v,
+          );
+          const interpolateBelow = d3.interpolate(
+            yScale.invert(selection.select('.line-x.below').attr('y1')),
+            datum.v,
+          );
+          return (time) => {
+            element.x = interpolateX(d3.easeCubicOut(scaleIn1Inverse(time)));
+            element.a = interpolateA(d3.easeCubicOut(scaleIn1Inverse(time)));
+            element.l = interpolateL(d3.easeCubicOut(scaleIn1Inverse(time)));
+            element.v = CPTMath.xal2v(element.x, element.a, element.l);
+            selection.select('.line-x.above')
+              .attr('x1', xScale(element.x))
+              .attr('x2', xScale(element.x))
+              .attr('y1', yScale(interpolateAbove(scaleOutGenerator1(d3.easeCubicIn)(time))))
+              .attr('y2', yScale(domainScale));
+            selection.select('.line-x.below')
+              .attr('x1', xScale(element.x))
+              .attr('x2', xScale(element.x))
+              .attr('y1', yScale(interpolateBelow(scaleOutGenerator1(d3.easeCubicIn)(time))))
+              .attr('y2', yScale(-domainScale));
+          };
+        })
+        .transition('new-2')
+        .duration(() => {
+          return Math.floor(transitionDuration * (1 - easeTime2));
+        })
+        .ease(scaleIn2)
+        .attr('data-animating-ease-time-2', 1)
+        .tween('animating', (datum, index, elements) => {
+          const element = elements[index];
+          const selection = d3.select(element);
+          const interpolateX = d3.interpolate(
+            (element.x !== undefined) ? element.x : datum.x,
+            datum.x,
+          );
+          const interpolateA = d3.interpolate(
+            (element.a !== undefined) ? element.a : this.getFunction(datum.function).a,
+            this.getFunction(datum.function).a,
+          );
+          const interpolateL = d3.interpolate(
+            (element.l !== undefined) ? element.l : this.getFunction(datum.function).l,
+            this.getFunction(datum.function).l,
+          );
+          const interpolateBefore = d3.interpolate(
+            xScale.invert(selection.select('.line-v.before').attr('x1')),
+            -domainScale,
+          );
+          const interpolateAfter = d3.interpolate(
+            xScale.invert(selection.select('.line-v.after').attr('x1')),
+            domainScale,
+          );
+          return (time) => {
+            element.x = interpolateX(d3.easeCubicOut(scaleIn2Inverse(time)));
+            element.a = interpolateA(d3.easeCubicOut(scaleIn2Inverse(time)));
+            element.l = interpolateL(d3.easeCubicOut(scaleIn2Inverse(time)));
+            element.v = CPTMath.xal2v(element.x, element.a, element.l);
+            selection.select('.line-v.before')
+              .attr('x1', xScale(interpolateBefore(scaleOutGenerator2(d3.easeCubicOut)(time))))
+              .attr('x2', xScale(element.x))
+              .attr('y1', yScale(element.v))
+              .attr('y2', yScale(element.v));
+            selection.select('.line-v.after')
+              .attr('x1', xScale(interpolateAfter(scaleOutGenerator2(d3.easeCubicOut)(time))))
+              .attr('x2', xScale(element.x))
+              .attr('y1', yScale(element.v))
+              .attr('y2', yScale(element.v));
+          };
+        })
+        .on('end', (datum, index, elements) => {
+          const element = elements[index];
+          element.removeAttribute('data-animating-ease-time-1');
+          element.removeAttribute('data-animating-ease-time-2');
+          datum.new = false;
+          this.dispatchEvent(new CustomEvent('decision-response', {
+            detail: {
+              trial: this.trialCount,
+              xl: this.xl,
+              xw: this.xw,
+              pw: this.pw,
+              xs: this.xs,
+              response: this.response,
+            },
+            bubbles: true,
+          }));
+        });
+    }
+    //  MERGE - Paused Animating
+    const lineMergePaused = lineMerge.filter((datum) => {
+      return (datum.new && datum.paused);
+    });
+    if (!lineMergePaused.empty()) {
+      const easeTime1 = lineMergePaused.attr('data-animating-ease-time-1');
+      const easeTime2 = lineMergePaused.attr('data-animating-ease-time-2');
+      lineMergePaused.transition()
+        .duration(this.drag
+          ? 0
+          : (this.firstUpdate
+            ? (transitionDuration * 2)
+            : transitionDuration))
+        .ease(d3.easeCubicOut)
+        .tween('paused', (datum, index, elements) => {
+          const element = elements[index];
+          const selection = d3.select(element);
+          const interpolateX = d3.interpolate(
+            (element.x !== undefined) ? element.x : datum.x,
+            datum.x,
+          );
+          const interpolateA = d3.interpolate(
+            (element.a !== undefined) ? element.a : this.getFunction(datum.function).a,
+            this.getFunction(datum.function).a,
+          );
+          const interpolateL = d3.interpolate(
+            (element.l !== undefined) ? element.l : this.getFunction(datum.function).l,
+            this.getFunction(datum.function).l,
+          );
+          const interpolateAbove = d3.interpolate(domainScale, datum.v);
+          const interpolateBelow = d3.interpolate(-domainScale, datum.v);
+          const interpolateBefore = d3.interpolate(datum.x, -domainScale);
+          const interpolateAfter = d3.interpolate(datum.x, domainScale);
+          return (time) => {
+            element.x = interpolateX(time);
+            element.a = interpolateA(time);
+            element.l = interpolateL(time);
+            element.v = CPTMath.xal2v(element.x, element.a, element.l);
+            selection.select('.line-x.above')
+              .attr('x1', xScale(element.x))
+              .attr('x2', xScale(element.x))
+              .attr('y1', yScale(interpolateAbove(d3.easeCubicIn(easeTime1))))
+              .attr('y2', yScale(domainScale));
+            selection.select('.line-x.below')
+              .attr('x1', xScale(element.x))
+              .attr('x2', xScale(element.x))
+              .attr('y1', yScale(interpolateBelow(d3.easeCubicIn(easeTime1))))
+              .attr('y2', yScale(-domainScale));
+            selection.select('.line-v.before')
+              .attr('x1', xScale(interpolateBefore(d3.easeCubicOut(easeTime2))))
+              .attr('x2', xScale(element.x))
+              .attr('y1', yScale(element.v))
+              .attr('y2', yScale(element.v));
+            selection.select('.line-v.after')
+              .attr('x1', xScale(interpolateAfter(d3.easeCubicOut(easeTime2))))
+              .attr('x2', xScale(element.x))
+              .attr('y1', yScale(element.v))
+              .attr('y2', yScale(element.v));
+          };
+        });
+    }
+    //  MERGE - Non-animating
+    lineMerge.filter((datum) => { return !datum.new; })
       .transition()
       .duration(this.drag
         ? 0
@@ -732,37 +1077,47 @@ export default class CPTValue extends CPTElement {
           ? (transitionDuration * 2)
           : transitionDuration))
       .ease(d3.easeCubicOut)
-      .attr('x1', (datum) => {
-        return `${xScale(datum.x)}`;
-      })
-      .attr('x2', (datum) => {
-        return `${xScale(datum.x)}`;
-      })
-      .attr('y1', (datum) => {
-        return `${yScale(datum.v)}`;
-      })
-      .attr('y2', () => {
-        return `${yScale(-domainScale)}`;
-      });
-    lineMerge.select('.line-v')
-      .transition()
-      .duration(this.drag
-        ? 0
-        : (this.firstUpdate
-          ? (transitionDuration * 2)
-          : transitionDuration))
-      .ease(d3.easeCubicOut)
-      .attr('x1', (datum) => {
-        return `${xScale(datum.x)}`;
-      })
-      .attr('x2', () => {
-        return `${xScale(-domainScale)}`;
-      })
-      .attr('y1', (datum) => {
-        return `${yScale(datum.v)}`;
-      })
-      .attr('y2', (datum) => {
-        return `${yScale(datum.v)}`;
+      .tween('non-animating', (datum, index, elements) => {
+        const element = elements[index];
+        const selection = d3.select(element);
+        const interpolateX = d3.interpolate(
+          (element.x !== undefined) ? element.x : datum.x,
+          datum.x,
+        );
+        const interpolateA = d3.interpolate(
+          (element.a !== undefined) ? element.a : this.getFunction(datum.function).a,
+          this.getFunction(datum.function).a,
+        );
+        const interpolateL = d3.interpolate(
+          (element.l !== undefined) ? element.l : this.getFunction(datum.function).l,
+          this.getFunction(datum.function).l,
+        );
+        return (time) => {
+          element.x = interpolateX(time);
+          element.a = interpolateA(time);
+          element.l = interpolateL(time);
+          element.v = CPTMath.xal2v(element.x, element.a, element.l);
+          selection.select('.line-x.above')
+            .attr('x1', xScale(element.x))
+            .attr('x2', xScale(element.x))
+            .attr('y1', yScale(element.v))
+            .attr('y2', yScale(domainScale));
+          selection.select('.line-x.below')
+            .attr('x1', xScale(element.x))
+            .attr('x2', xScale(element.x))
+            .attr('y1', yScale(element.v))
+            .attr('y2', yScale(-domainScale));
+          selection.select('.line-v.before')
+            .attr('x1', xScale(-domainScale))
+            .attr('x2', xScale(element.x))
+            .attr('y1', yScale(element.v))
+            .attr('y2', yScale(element.v));
+          selection.select('.line-v.after')
+            .attr('x1', xScale(domainScale))
+            .attr('x2', xScale(element.x))
+            .attr('y1', yScale(element.v))
+            .attr('y2', yScale(element.v));
+        };
       });
     //  EXIT
     // NOTE: Could add a transition here
@@ -771,7 +1126,7 @@ export default class CPTValue extends CPTElement {
     // Positive Value Curve
     //  DATA-JOIN
     const curvePUpdate = contentMerge.selectAll('.curve-p')
-      .data(this.lineArray, (datum) => { return datum.name; });
+      .data(this.functions, (datum) => { return datum.name; });
     //  ENTER
     const curvePEnter = curvePUpdate.enter().append('path')
       .classed('curve-p', true)
@@ -813,14 +1168,15 @@ export default class CPTValue extends CPTElement {
                 this.alignState();
                 this.requestUpdate();
                 this.dispatchEvent(new CustomEvent('cpt-value-change', {
-                  detail: {
-                    name: datum.name,
-                    x: datum.x,
-                    a: datum.a,
-                    l: datum.l,
-                    v: datum.v,
-                    label: datum.label,
-                  },
+                  detail: this.get(datum.name),
+                  // detail: {
+                  //   name: datum.name,
+                  //   x: datum.x,
+                  //   a: datum.a,
+                  //   l: datum.l,
+                  //   v: datum.v,
+                  //   label: datum.label,
+                  // },
                   bubbles: true,
                 }));
               }
@@ -844,10 +1200,6 @@ export default class CPTValue extends CPTElement {
       .ease(d3.easeCubicOut)
       .attrTween('d', (datum, index, elements) => {
         const element = elements[index];
-        const interpolateX = d3.interpolate(
-          (element.x !== undefined) ? element.x : datum.x,
-          datum.x,
-        );
         const interpolateA = d3.interpolate(
           (element.a !== undefined) ? element.a : datum.a,
           datum.a,
@@ -857,7 +1209,6 @@ export default class CPTValue extends CPTElement {
           datum.l,
         );
         return (time) => {
-          element.x = interpolateX(time);
           element.a = interpolateA(time);
           element.l = interpolateL(time);
           const curveP = d3.range(xScale(0), xScale.range()[1] + 1, 1).map((range) => {
@@ -880,7 +1231,7 @@ export default class CPTValue extends CPTElement {
     // Negative Value Curve
     //  DATA-JOIN
     const curveNUpdate = contentMerge.selectAll('.curve-n')
-      .data(this.lineArray, (datum) => { return datum.name; });
+      .data(this.functions, (datum) => { return datum.name; });
     //  ENTER
     const curveNEnter = curveNUpdate.enter().append('path')
       .classed('curve-n', true)
@@ -922,14 +1273,15 @@ export default class CPTValue extends CPTElement {
                 this.alignState();
                 this.requestUpdate();
                 this.dispatchEvent(new CustomEvent('cpt-value-change', {
-                  detail: {
-                    name: datum.name,
-                    x: datum.x,
-                    a: datum.a,
-                    l: datum.l,
-                    v: datum.v,
-                    label: datum.label,
-                  },
+                  detail: this.get(datum.name),
+                  // detail: {
+                  //   name: datum.name,
+                  //   x: datum.x,
+                  //   a: datum.a,
+                  //   l: datum.l,
+                  //   v: datum.v,
+                  //   label: datum.label,
+                  // },
                   bubbles: true,
                 }));
               }
@@ -953,10 +1305,6 @@ export default class CPTValue extends CPTElement {
       .ease(d3.easeCubicOut)
       .attrTween('d', (datum, index, elements) => {
         const element = elements[index];
-        const interpolateX = d3.interpolate(
-          (element.x !== undefined) ? element.x : datum.x,
-          datum.x,
-        );
         const interpolateA = d3.interpolate(
           (element.a !== undefined) ? element.a : datum.a,
           datum.a,
@@ -966,7 +1314,6 @@ export default class CPTValue extends CPTElement {
           datum.l,
         );
         return (time) => {
-          element.x = interpolateX(time);
           element.a = interpolateA(time);
           element.l = interpolateL(time);
           const curveN = d3.range(xScale.range()[0], xScale(0) + 1, 1).map((range) => {
@@ -989,7 +1336,10 @@ export default class CPTValue extends CPTElement {
     // Point
     //  DATA-JOIN
     const pointUpdate = contentMerge.selectAll('.point')
-      .data(this.pointArray, (datum) => { return datum.name; });
+      .data(
+        this.values.filter((value) => { return value.v; }),
+        (datum) => { return datum.name; },
+      );
     //  ENTER
     const pointEnter = pointUpdate.enter().append('g')
       .classed('point', true);
@@ -1002,63 +1352,61 @@ export default class CPTValue extends CPTElement {
     const pointMerge = pointEnter.merge(pointUpdate);
     pointMerge.select('text')
       .text((datum) => { return datum.label; });
-    if (this.firstUpdate || changedProperties.has('interactive')) {
-      if (this.interactive) {
-        pointMerge
-          .attr('tabindex', 0)
-          .classed('interactive', true)
-          .call(pointDrag)
-          .on('keydown', (event, datum) => {
-            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-              let x = datum.x; // eslint-disable-line prefer-destructuring
-              switch (event.key) {
-                case 'ArrowUp':
-                case 'ArrowRight':
-                  x += event.shiftKey ? 0.01 : 0.05;
-                  break;
-                case 'ArrowDown':
-                case 'ArrowLeft':
-                  x -= event.shiftKey ? 0.01 : 0.05;
-                  break;
-                default:
-                  // no-op
-              }
-              // Clamp x to visible plot
-              x = (x < -domainScale)
-                ? -domainScale
-                : ((x > domainScale)
-                  ? domainScale
-                  : x);
-              if (x !== datum.x) {
-                datum.x = x;
-                if (datum.name === 'default') {
-                  this.x = datum.x;
-                }
-                this.alignState();
-                this.requestUpdate();
-                this.dispatchEvent(new CustomEvent('cpt-value-change', {
-                  detail: {
-                    name: datum.name,
-                    x: datum.x,
-                    a: datum.a,
-                    l: datum.l,
-                    v: datum.v,
-                    label: datum.label,
-                  },
-                  bubbles: true,
-                }));
-              }
-              event.preventDefault();
+    // Interactive points
+    pointMerge.filter((datum) => { return (this.interactive && !datum.trial); })
+      .attr('tabindex', 0)
+      .classed('interactive', true)
+      .call(pointDrag)
+      .on('keydown', (event, datum) => {
+        if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
+          let x = datum.x; // eslint-disable-line prefer-destructuring
+          switch (event.key) {
+            case 'ArrowUp':
+            case 'ArrowRight':
+              x += event.shiftKey ? 0.2 : 1;
+              break;
+            case 'ArrowDown':
+            case 'ArrowLeft':
+              x -= event.shiftKey ? 0.2 : 1;
+              break;
+            default:
+              // no-op
+          }
+          // Clamp x to visible plot
+          x = (x < -domainScale)
+            ? -domainScale
+            : ((x > domainScale)
+              ? domainScale
+              : x);
+          if (x !== datum.x) {
+            datum.x = x;
+            if (datum.name === 'default') {
+              this.x = datum.x;
             }
-          });
-      } else {
-        pointMerge
-          .attr('tabindex', null)
-          .classed('interactive', false)
-          .on('drag', null)
-          .on('keydown', null);
-      }
-    }
+            this.alignState();
+            this.requestUpdate();
+            this.dispatchEvent(new CustomEvent('cpt-value-change', {
+              detail: {
+                name: datum.name,
+                x: datum.x,
+                v: datum.v,
+                label: datum.label,
+                a: this.getFunction(datum.function).a,
+                l: this.getFunction(datum.function).l,
+              },
+              bubbles: true,
+            }));
+          }
+          event.preventDefault();
+        }
+      });
+    // Non-interactive points
+    pointMerge.filter((datum) => { return (!this.interactive || datum.trial); })
+      .attr('tabindex', null)
+      .classed('interactive', false)
+      .on('drag', null)
+      .on('keydown', null);
+    // All points
     pointMerge.transition()
       .duration(this.drag
         ? 0
@@ -1073,12 +1421,12 @@ export default class CPTValue extends CPTElement {
           datum.x,
         );
         const interpolateA = d3.interpolate(
-          (element.a !== undefined) ? element.a : datum.a,
-          datum.a,
+          (element.a !== undefined) ? element.a : this.getFunction(datum.function).a,
+          this.getFunction(datum.function).a,
         );
         const interpolateL = d3.interpolate(
-          (element.l !== undefined) ? element.l : datum.l,
-          datum.l,
+          (element.l !== undefined) ? element.l : this.getFunction(datum.function).l,
+          this.getFunction(datum.function).l,
         );
         return (time) => {
           element.x = interpolateX(time);

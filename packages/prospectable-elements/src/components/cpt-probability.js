@@ -15,11 +15,9 @@ import CPTElement from '../cpt-element';
   Attributes:
     interactive: true/false
 
-    line: 'all', 'first', 'rest', 'none'
-    point: 'all', 'first', 'rest', 'none'
-
     p: numeric [0, 1]
     g: numeric [0, 1]
+    label: string
 
   Styles:
     ??
@@ -27,17 +25,6 @@ import CPTElement from '../cpt-element';
 export default class CPTProbability extends CPTElement {
   static get properties() {
     return {
-      line: {
-        attribute: 'line',
-        type: String,
-        reflect: true,
-      },
-      point: {
-        attribute: 'point',
-        type: String,
-        reflect: true,
-      },
-
       p: {
         attribute: 'probability',
         type: Number,
@@ -46,6 +33,11 @@ export default class CPTProbability extends CPTElement {
       g: {
         attribute: 'gamma',
         type: Number,
+        reflect: true,
+      },
+      label: {
+        attribute: 'label',
+        type: String,
         reflect: true,
       },
 
@@ -79,27 +71,33 @@ export default class CPTProbability extends CPTElement {
     this.firstUpdate = true;
     this.drag = false;
 
-    this.lines = ['all', 'first', 'rest', 'none'];
-    this.line = 'first';
-    this.points = ['all', 'first', 'rest', 'none'];
-    this.point = 'first';
-
-    this.p = 0.75;
     this.g = 0.5;
-
+    this.p = null;
     this.label = '';
+    this.function = 'default';
 
-    this.locations = [
+    this.functions = [
       {
         name: 'default',
-        p: this.p,
         g: this.g,
-        label: '',
       },
     ];
 
-    this.lineArray = [];
-    this.pointArray = [];
+    this.probabilities = [
+      {
+        name: 'default',
+        p: this.p,
+        label: this.label,
+        function: this.function,
+      },
+    ];
+
+    this.xl = null;
+    this.xw = null;
+    this.pw = null;
+    this.xs = null;
+    this.trialCount = null;
+    this.response = null;
 
     this.width = NaN;
     this.height = NaN;
@@ -109,54 +107,165 @@ export default class CPTProbability extends CPTElement {
   }
 
   alignState() {
-    this.locations[0].p = this.p;
-    this.locations[0].g = this.g;
-    this.locations[0].label = this.label;
+    // Default function
+    this.functions[0].g = this.g;
 
-    this.w = CPTMath.pg2w(this.p, this.g);
+    // Default probabilities
+    this.probabilities[0].p = this.p;
+    this.probabilities[0].label = this.label;
+    this.probabilities[0].function = this.function;
 
-    this.lineArray = [];
-    this.pointArray = [];
-    this.locations.forEach((item, index) => {
-      item.w = CPTMath.pg2w(item.p, item.g);
+    // Update subjective decision weights
+    this.probabilities.forEach((probability) => {
+      const myFunction = this.functions.find((func) => {
+        return func.name === probability.function;
+      });
 
-      if ((index === 0) && (this.line === 'first' || this.line === 'all')) {
-        this.lineArray.push(item);
-      } else if ((index > 0) && (this.line === 'rest' || this.line === 'all')) {
-        this.lineArray.push(item);
-      }
+      probability.w = CPTMath.pg2w(probability.p, myFunction.g);
+    });
+    this.w = this.probabilities[0].w;
+  }
 
-      if ((index === 0) && (this.point === 'first' || this.point === 'all')) {
-        this.pointArray.push(item);
-      } else if ((index > 0) && (this.point === 'rest' || this.point === 'all')) {
-        this.pointArray.push(item);
-      }
+  trial(xl, xw, pw, xs, trial, response) {
+    // Remove the old trial
+    if (this.trialCount) this.removeProbability(`${this.trialCount}`);
+
+    this.xl = xl;
+    this.xw = xw;
+    this.pw = pw;
+    this.xs = xs;
+    this.trialCount = trial;
+    this.response = response;
+
+    // Add the new trial
+    this.setProbability(this.pw, `${this.trialCount}`, '', 'default', true);
+  }
+
+  // Called to pause trial animations!
+  pauseTrial() {
+    const lineNew = d3.select(this.renderRoot).selectAll('.lines[data-animating-ease-time-1]');
+    lineNew.interrupt('new-1');
+    lineNew.interrupt('new-2');
+    lineNew.datum((datum) => {
+      datum.paused = true;
+      return datum;
     });
   }
 
-  set(p, g, name = 'default', label = '') {
-    if (name === 'default') {
-      this.p = p;
-      this.g = g;
-      this.label = label;
-    }
-    const location = this.locations.find((item) => {
-      return (item.name === name);
+  // Called to resume trial animations!
+  resumeTrial() {
+    const lineNew = d3.select(this.renderRoot).selectAll('.lines[data-animating-ease-time-1]');
+    lineNew.datum((datum) => {
+      datum.paused = false;
+      return datum;
     });
-    if (location === undefined) {
-      this.locations.push({
+    this.requestUpdate();
+  }
+
+  clearFunctions() {
+    this.functions.splice(1);
+
+    this.requestUpdate();
+  }
+
+  clearProbabilities() {
+    this.probabilities.splice(1);
+
+    this.requestUpdate();
+  }
+
+  clear() {
+    this.clearFunctions();
+    this.clearProbabilities();
+  }
+
+  removeFunction(name) {
+    this.functions = this.functions.filter((func) => {
+      return (func.name !== name);
+    });
+
+    this.requestUpdate();
+  }
+
+  removeProbability(name) {
+    this.probabilities = this.probabilities.filter((probability) => {
+      return (probability.name !== name);
+    });
+
+    this.requestUpdate();
+  }
+
+  remove(name) {
+    this.removeFunction(name);
+    this.removeProbability(name);
+  }
+
+  getFunction(name = 'default') {
+    return this.functions.find((func) => {
+      return (func.name === name);
+    });
+  }
+
+  getProbability(name = 'default') {
+    return this.probabilities.find((probability) => {
+      return (probability.name === name);
+    });
+  }
+
+  get(name = 'default') {
+    return {...this.getFunction(name), ...this.getProbability(name)};
+  }
+
+  setFunction(g, name = 'default') {
+    if (name === 'default') {
+      this.g = g;
+    }
+
+    const myFunction = this.functions.find((func) => {
+      return (func.name === name);
+    });
+    if (myFunction === undefined) {
+      this.functions.push({
         name: name,
-        p: p,
         g: g,
-        label: label,
       });
     } else {
-      location.p = p;
-      location.g = g;
-      location.label = label;
+      myFunction.g = g;
     }
 
     this.requestUpdate();
+  }
+
+  setProbability(p, name = 'default', label = '', func = name, trial = false) {
+    if (name === 'default') {
+      this.p = p;
+      this.label = label;
+    }
+
+    const myProbability = this.probabilities.find((probability) => {
+      return (probability.name === name);
+    });
+    if (myProbability === undefined) {
+      this.probabilities.push({
+        name: name,
+        p: p,
+        label: label,
+        function: func,
+        trial: trial,
+        new: trial,
+      });
+    } else {
+      myProbability.p = p;
+      myProbability.label = label;
+      myProbability.function = func;
+    }
+
+    this.requestUpdate();
+  }
+
+  set(p, g, name = 'default', label = '', func = name) {
+    this.setFunction(g, name);
+    this.setProbability(p, name, label, func);
   }
 
   static get styles() {
@@ -421,13 +530,7 @@ export default class CPTProbability extends CPTElement {
         this.alignState();
         this.requestUpdate();
         this.dispatchEvent(new CustomEvent('cpt-probability-change', {
-          detail: {
-            name: datum.name,
-            p: datum.p,
-            g: datum.g,
-            w: datum.w,
-            label: datum.label,
-          },
+          detail: this.get(datum.name),
           bubbles: true,
         }));
       })
@@ -466,9 +569,9 @@ export default class CPTProbability extends CPTElement {
           detail: {
             name: datum.name,
             p: datum.p,
-            g: datum.g,
             w: datum.w,
             label: datum.label,
+            g: this.getFunction(datum.function).g,
           },
           bubbles: true,
         }));
@@ -620,17 +723,248 @@ export default class CPTProbability extends CPTElement {
     // Indicator lines
     //  DATA-JOIN
     const lineUpdate = contentMerge.selectAll('.lines')
-      .data(this.pointArray, (datum) => { return datum.name; });
+      .data(
+        this.probabilities.filter((probability) => { return probability.p; }),
+        (datum) => { return datum.name; },
+      );
     //  ENTER
     const lineEnter = lineUpdate.enter().append('g')
       .classed('lines', true);
-    lineEnter.append('line')
-      .classed('line-p', true);
-    lineEnter.append('line')
-      .classed('line-w', true);
+    //  ENTER - All
+    lineEnter
+      .each((datum, index, elements) => {
+        const element = elements[index];
+        const selection = d3.select(element);
+        selection.append('line')
+          .classed('line-p above', true);
+        selection.append('line')
+          .classed('line-p below', true);
+        selection.append('line')
+          .classed('line-w before', true);
+        selection.append('line')
+          .classed('line-w after', true);
+      });
+    //  ENTER - Animating
+    lineEnter
+      .filter((datum) => { return datum.new; })
+      .attr('data-animating-ease-time-1', 0)
+      .attr('data-animating-ease-time-2', 0)
+      .each((datum, index, elements) => {
+        const element = elements[index];
+        const selection = d3.select(element);
+        selection.select('.line-p.above')
+          .attr('x1', xScale(datum.p))
+          .attr('x2', xScale(datum.p))
+          .attr('y1', yScale(1))
+          .attr('y2', yScale(1));
+        selection.select('.line-p.below')
+          .attr('x1', xScale(datum.p))
+          .attr('x2', xScale(datum.p))
+          .attr('y1', yScale(0))
+          .attr('y2', yScale(0));
+        selection.select('.line-w.before')
+          .attr('x1', xScale(datum.p))
+          .attr('x2', xScale(datum.p))
+          .attr('y1', yScale(datum.w))
+          .attr('y2', yScale(datum.w));
+        selection.select('.line-w.after')
+          .attr('x1', xScale(datum.p))
+          .attr('x2', xScale(datum.p))
+          .attr('y1', yScale(datum.w))
+          .attr('y2', yScale(datum.w));
+      });
     //  MERGE
     const lineMerge = lineEnter.merge(lineUpdate);
-    lineMerge.select('.line-p')
+    //  MERGE - Active Animating
+    const lineMergeActive = lineMerge.filter((datum) => {
+      return (datum.new && !datum.paused);
+    });
+    if (!lineMergeActive.empty()) {
+      const easeTime1 = lineMergeActive.attr('data-animating-ease-time-1');
+      const easeTime2 = lineMergeActive.attr('data-animating-ease-time-2');
+      const scaleIn1 = (time) => {
+        return d3.scaleLinear().domain([0, 1]).range([easeTime1, 1])(time);
+      };
+      const scaleIn1Inverse = (time) => {
+        return d3.scaleLinear().range([0, 1]).domain([easeTime1, 1])(time);
+      };
+      const scaleIn2 = (time) => {
+        return d3.scaleLinear().domain([0, 1]).range([easeTime2, 1])(time);
+      };
+      const scaleIn2Inverse = (time) => {
+        return d3.scaleLinear().range([0, 1]).domain([easeTime2, 1])(time);
+      };
+      const scaleOutGenerator1 = (easeFunction) => {
+        return (time) => {
+          return d3.scaleLinear()
+            .domain([easeFunction(easeTime1), 1]).range([0, 1])(easeFunction(time));
+        };
+      };
+      const scaleOutGenerator2 = (easeFunction) => {
+        return (time) => {
+          return d3.scaleLinear()
+            .domain([easeFunction(easeTime2), 1]).range([0, 1])(easeFunction(time));
+        };
+      };
+      lineMergeActive
+        .transition('new-1')
+        .duration(() => {
+          return Math.floor(transitionDuration * (1 - easeTime1));
+        })
+        .ease(scaleIn1)
+        .attr('data-animating-ease-time-1', 1)
+        .tween('animating', (datum, index, elements) => {
+          const element = elements[index];
+          const selection = d3.select(element);
+          const interpolateP = d3.interpolate(
+            (element.p !== undefined) ? element.p : datum.p,
+            datum.p,
+          );
+          const interpolateG = d3.interpolate(
+            (element.g !== undefined) ? element.g : this.getFunction(datum.function).g,
+            this.getFunction(datum.function).g,
+          );
+          const interpolateAbove = d3.interpolate(
+            yScale.invert(selection.select('.line-p.above').attr('y1')),
+            datum.w,
+          );
+          const interpolateBelow = d3.interpolate(
+            yScale.invert(selection.select('.line-p.below').attr('y1')),
+            datum.w,
+          );
+          return (time) => {
+            element.p = interpolateP(d3.easeCubicOut(scaleIn1Inverse(time)));
+            element.g = interpolateG(d3.easeCubicOut(scaleIn1Inverse(time)));
+            element.w = CPTMath.pg2w(element.p, element.g);
+            selection.select('.line-p.above')
+              .attr('x1', xScale(element.p))
+              .attr('x2', xScale(element.p))
+              .attr('y1', yScale(interpolateAbove(scaleOutGenerator1(d3.easeCubicIn)(time))))
+              .attr('y2', yScale(1));
+            selection.select('.line-p.below')
+              .attr('x1', xScale(element.p))
+              .attr('x2', xScale(element.p))
+              .attr('y1', yScale(interpolateBelow(scaleOutGenerator1(d3.easeCubicIn)(time))))
+              .attr('y2', yScale(0));
+          };
+        })
+        .transition('new-2')
+        .duration(() => {
+          return Math.floor(transitionDuration * (1 - easeTime2));
+        })
+        .ease(scaleIn2)
+        .attr('data-animating-ease-time-2', 1)
+        .tween('animating', (datum, index, elements) => {
+          const element = elements[index];
+          const selection = d3.select(element);
+          const interpolateP = d3.interpolate(
+            (element.p !== undefined) ? element.p : datum.p,
+            datum.p,
+          );
+          const interpolateG = d3.interpolate(
+            (element.g !== undefined) ? element.g : this.getFunction(datum.function).g,
+            this.getFunction(datum.function).g,
+          );
+          const interpolateBefore = d3.interpolate(
+            xScale.invert(selection.select('.line-w.before').attr('x1')),
+            0,
+          );
+          const interpolateAfter = d3.interpolate(
+            xScale.invert(selection.select('.line-w.after').attr('x1')),
+            1,
+          );
+          return (time) => {
+            element.p = interpolateP(d3.easeCubicOut(scaleIn2Inverse(time)));
+            element.g = interpolateG(d3.easeCubicOut(scaleIn2Inverse(time)));
+            element.w = CPTMath.pg2w(element.p, element.g);
+            selection.select('.line-w.before')
+              .attr('x1', xScale(interpolateBefore(scaleOutGenerator2(d3.easeCubicOut)(time))))
+              .attr('x2', xScale(element.p))
+              .attr('y1', yScale(element.w))
+              .attr('y2', yScale(element.w));
+            selection.select('.line-w.after')
+              .attr('x1', xScale(interpolateAfter(scaleOutGenerator2(d3.easeCubicOut)(time))))
+              .attr('x2', xScale(element.p))
+              .attr('y1', yScale(element.w))
+              .attr('y2', yScale(element.w));
+          };
+        })
+        .on('end', (datum, index, elements) => {
+          const element = elements[index];
+          element.removeAttribute('data-animating-ease-time-1');
+          element.removeAttribute('data-animating-ease-time-2');
+          datum.new = false;
+          this.dispatchEvent(new CustomEvent('decision-response', {
+            detail: {
+              trial: this.trialCount,
+              xl: this.xl,
+              xw: this.xw,
+              pw: this.pw,
+              xs: this.xs,
+              response: this.response,
+            },
+            bubbles: true,
+          }));
+        });
+    }
+    //  MERGE - Paused Animating
+    const lineMergePaused = lineMerge.filter((datum) => {
+      return (datum.new && datum.paused);
+    });
+    if (!lineMergePaused.empty()) {
+      const easeTime1 = lineMergePaused.attr('data-animating-ease-time-1');
+      const easeTime2 = lineMergePaused.attr('data-animating-ease-time-2');
+      lineMergePaused.transition()
+        .duration(this.drag
+          ? 0
+          : (this.firstUpdate
+            ? (transitionDuration * 2)
+            : transitionDuration))
+        .ease(d3.easeCubicOut)
+        .tween('paused', (datum, index, elements) => {
+          const element = elements[index];
+          const selection = d3.select(element);
+          const interpolateP = d3.interpolate(
+            (element.p !== undefined) ? element.p : datum.p,
+            datum.p,
+          );
+          const interpolateG = d3.interpolate(
+            (element.g !== undefined) ? element.g : this.getFunction(datum.function).g,
+            this.getFunction(datum.function).g,
+          );
+          const interpolateAbove = d3.interpolate(1, datum.w);
+          const interpolateBelow = d3.interpolate(0, datum.w);
+          const interpolateBefore = d3.interpolate(datum.p, 0);
+          const interpolateAfter = d3.interpolate(datum.p, 1);
+          return (time) => {
+            element.p = interpolateP(time);
+            element.g = interpolateG(time);
+            element.w = CPTMath.pg2w(element.p, element.g);
+            selection.select('.line-p.above')
+              .attr('x1', xScale(element.p))
+              .attr('x2', xScale(element.p))
+              .attr('y1', yScale(interpolateAbove(d3.easeCubicIn(easeTime1))))
+              .attr('y2', yScale(1));
+            selection.select('.line-p.below')
+              .attr('x1', xScale(element.p))
+              .attr('x2', xScale(element.p))
+              .attr('y1', yScale(interpolateBelow(d3.easeCubicIn(easeTime1))))
+              .attr('y2', yScale(0));
+            selection.select('.line-w.before')
+              .attr('x1', xScale(interpolateBefore(d3.easeCubicOut(easeTime2))))
+              .attr('x2', xScale(element.p))
+              .attr('y1', yScale(element.w))
+              .attr('y2', yScale(element.w));
+            selection.select('.line-w.after')
+              .attr('x1', xScale(interpolateAfter(d3.easeCubicOut(easeTime2))))
+              .attr('x2', xScale(element.p))
+              .attr('y1', yScale(element.w))
+              .attr('y2', yScale(element.w));
+          };
+        });
+    }
+    //  MERGE - Non-animating
+    lineMerge.filter((datum) => { return !datum.new; })
       .transition()
       .duration(this.drag
         ? 0
@@ -638,37 +972,42 @@ export default class CPTProbability extends CPTElement {
           ? (transitionDuration * 2)
           : transitionDuration))
       .ease(d3.easeCubicOut)
-      .attr('x1', (datum) => {
-        return `${xScale(datum.p)}`;
-      })
-      .attr('x2', (datum) => {
-        return `${xScale(datum.p)}`;
-      })
-      .attr('y1', (datum) => {
-        return `${yScale(datum.w)}`;
-      })
-      .attr('y2', () => {
-        return `${yScale(0)}`;
-      });
-    lineMerge.select('.line-w')
-      .transition()
-      .duration(this.drag
-        ? 0
-        : (this.firstUpdate
-          ? (transitionDuration * 2)
-          : transitionDuration))
-      .ease(d3.easeCubicOut)
-      .attr('x1', (datum) => {
-        return `${xScale(datum.p)}`;
-      })
-      .attr('x2', () => {
-        return `${xScale(0)}`;
-      })
-      .attr('y1', (datum) => {
-        return `${yScale(datum.w)}`;
-      })
-      .attr('y2', (datum) => {
-        return `${yScale(datum.w)}`;
+      .tween('non-animating', (datum, index, elements) => {
+        const element = elements[index];
+        const selection = d3.select(element);
+        const interpolateP = d3.interpolate(
+          (element.p !== undefined) ? element.p : datum.p,
+          datum.p,
+        );
+        const interpolateG = d3.interpolate(
+          (element.g !== undefined) ? element.g : this.getFunction(datum.function).g,
+          this.getFunction(datum.function).g,
+        );
+        return (time) => {
+          element.p = interpolateP(time);
+          element.g = interpolateG(time);
+          element.w = CPTMath.pg2w(element.p, element.g);
+          selection.select('.line-p.above')
+            .attr('x1', xScale(element.p))
+            .attr('x2', xScale(element.p))
+            .attr('y1', yScale(element.w))
+            .attr('y2', yScale(1));
+          selection.select('.line-p.below')
+            .attr('x1', xScale(element.p))
+            .attr('x2', xScale(element.p))
+            .attr('y1', yScale(element.w))
+            .attr('y2', yScale(0));
+          selection.select('.line-w.before')
+            .attr('x1', xScale(0))
+            .attr('x2', xScale(element.p))
+            .attr('y1', yScale(element.w))
+            .attr('y2', yScale(element.w));
+          selection.select('.line-w.after')
+            .attr('x1', xScale(1))
+            .attr('x2', xScale(element.p))
+            .attr('y1', yScale(element.w))
+            .attr('y2', yScale(element.w));
+        };
       });
     //  EXIT
     // NOTE: Could add a transition here
@@ -677,7 +1016,7 @@ export default class CPTProbability extends CPTElement {
     // Probability Curve
     //  DATA-JOIN
     const curveUpdate = contentMerge.selectAll('.curve')
-      .data(this.lineArray, (datum) => { return datum.name; });
+      .data(this.functions, (datum) => { return datum.name; });
     //  ENTER
     const curveEnter = curveUpdate.enter().append('path')
       .classed('curve', true)
@@ -719,13 +1058,7 @@ export default class CPTProbability extends CPTElement {
                 this.alignState();
                 this.requestUpdate();
                 this.dispatchEvent(new CustomEvent('cpt-probability-change', {
-                  detail: {
-                    name: datum.name,
-                    p: datum.p,
-                    g: datum.g,
-                    w: datum.w,
-                    label: datum.label,
-                  },
+                  detail: this.get(datum.name),
                   bubbles: true,
                 }));
               }
@@ -749,16 +1082,11 @@ export default class CPTProbability extends CPTElement {
       .ease(d3.easeCubicOut)
       .attrTween('d', (datum, index, elements) => {
         const element = elements[index];
-        const interpolateP = d3.interpolate(
-          (element.p !== undefined) ? element.p : datum.p,
-          datum.p,
-        );
         const interpolateG = d3.interpolate(
           (element.g !== undefined) ? element.g : datum.g,
           datum.g,
         );
         return (time) => {
-          element.p = interpolateP(time);
           element.g = interpolateG(time);
           const curve = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((range) => {
             return {
@@ -779,7 +1107,10 @@ export default class CPTProbability extends CPTElement {
     // Point
     //  DATA-JOIN
     const pointUpdate = contentMerge.selectAll('.point')
-      .data(this.pointArray, (datum) => { return datum.name; });
+      .data(
+        this.probabilities.filter((probability) => { return probability.p; }),
+        (datum) => { return datum.name; },
+      );
     //  ENTER
     const pointEnter = pointUpdate.enter().append('g')
       .classed('point', true);
@@ -792,62 +1123,60 @@ export default class CPTProbability extends CPTElement {
     const pointMerge = pointEnter.merge(pointUpdate);
     pointMerge.select('text')
       .text((datum) => { return datum.label; });
-    if (this.firstUpdate || changedProperties.has('interactive')) {
-      if (this.interactive) {
-        pointMerge
-          .attr('tabindex', 0)
-          .classed('interactive', true)
-          .call(pointDrag)
-          .on('keydown', (event, datum) => {
-            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-              let p = datum.p; // eslint-disable-line prefer-destructuring
-              switch (event.key) {
-                case 'ArrowUp':
-                case 'ArrowRight':
-                  p += event.shiftKey ? 0.01 : 0.05;
-                  break;
-                case 'ArrowDown':
-                case 'ArrowLeft':
-                  p -= event.shiftKey ? 0.01 : 0.05;
-                  break;
-                default:
-                  // no-op
-              }
-              // Clamp p to visible plot
-              p = (p < 0)
-                ? 0
-                : ((p > 1)
-                  ? 1
-                  : p);
-              if (p !== datum.p) {
-                datum.p = p;
-                if (datum.name === 'default') {
-                  this.p = datum.p;
-                }
-                this.alignState();
-                this.requestUpdate();
-                this.dispatchEvent(new CustomEvent('cpt-probability-change', {
-                  detail: {
-                    name: datum.name,
-                    p: datum.p,
-                    g: datum.g,
-                    w: datum.w,
-                    label: datum.label,
-                  },
-                  bubbles: true,
-                }));
-              }
-              event.preventDefault();
+    // Interactive points
+    pointMerge.filter((datum) => { return (this.interactive && !datum.trial); })
+      .attr('tabindex', 0)
+      .classed('interactive', true)
+      .call(pointDrag)
+      .on('keydown', (event, datum) => {
+        if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
+          let p = datum.p; // eslint-disable-line prefer-destructuring
+          switch (event.key) {
+            case 'ArrowUp':
+            case 'ArrowRight':
+              p += event.shiftKey ? 0.01 : 0.05;
+              break;
+            case 'ArrowDown':
+            case 'ArrowLeft':
+              p -= event.shiftKey ? 0.01 : 0.05;
+              break;
+            default:
+              // no-op
+          }
+          // Clamp p to visible plot
+          p = (p < 0)
+            ? 0
+            : ((p > 1)
+              ? 1
+              : p);
+          if (p !== datum.p) {
+            datum.p = p;
+            if (datum.name === 'default') {
+              this.p = datum.p;
             }
-          });
-      } else {
-        pointMerge
-          .attr('tabindex', null)
-          .classed('interactive', false)
-          .on('drag', null)
-          .on('keydown', null);
-      }
-    }
+            this.alignState();
+            this.requestUpdate();
+            this.dispatchEvent(new CustomEvent('cpt-probability-change', {
+              detail: {
+                name: datum.name,
+                p: datum.p,
+                w: datum.w,
+                label: datum.label,
+                g: this.getFunction(datum.function).g,
+              },
+              bubbles: true,
+            }));
+          }
+          event.preventDefault();
+        }
+      });
+    // Non-interactive points
+    pointMerge.filter((datum) => { return (!this.interactive || datum.trial); })
+      .attr('tabindex', null)
+      .classed('interactive', false)
+      .on('drag', null)
+      .on('keydown', null);
+    // All points
     pointMerge.transition()
       .duration(this.drag
         ? 0
@@ -862,8 +1191,8 @@ export default class CPTProbability extends CPTElement {
           datum.p,
         );
         const interpolateG = d3.interpolate(
-          (element.g !== undefined) ? element.g : datum.g,
-          datum.g,
+          (element.g !== undefined) ? element.g : this.getFunction(datum.function).g,
+          this.getFunction(datum.function).g,
         );
         return (time) => {
           element.p = interpolateP(time);

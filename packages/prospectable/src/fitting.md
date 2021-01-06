@@ -12,8 +12,8 @@ Fitting the model to your performance.
   <decision-control trials="10" run pause reset></decision-control>
   <decision-task trials="10"></decision-task>
   <decision-response interactive trial feedback="outcome" payoff="both"></decision-response>
-  <cpt-probability interactive line="first" point="none"></cpt-probability>
-  <cpt-value interactive line="first" point="none"></cpt-value>
+  <cpt-probability></cpt-probability>
+  <cpt-value></cpt-value>
   <decision-space point="rest" alpha="1" lambda="1" gamma="1"></decision-space>
   <cpt-fit></cpt-fit>
 <!--

@@ -23,7 +23,7 @@ export default class CPTExampleHuman extends CPTExample {
     if (this.cptFit) {
       this.cptFit.addEventListener('cpt-fit-update', (event) => {
         if (this.cptProbability) {
-          this.cptProbability.g = event.detail.a;
+          this.cptProbability.g = event.detail.g;
         }
 
         if (this.cptValue) {
