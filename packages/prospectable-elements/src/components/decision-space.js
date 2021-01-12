@@ -45,6 +45,11 @@ export default class DecisionSpace extends CPTElement {
         type: String,
         reflect: true,
       },
+      updateable: {
+        attribute: 'updateable',
+        type: Boolean,
+        reflect: true,
+      },
 
       a: {
         attribute: 'alpha',
@@ -109,6 +114,7 @@ export default class DecisionSpace extends CPTElement {
     this.surface = true;
     this.points = ['all', 'first', 'rest', 'none'];
     this.point = 'first';
+    this.updateable = false;
 
     this.a = 0.8;
     this.l = 1.2;
@@ -161,6 +167,18 @@ export default class DecisionSpace extends CPTElement {
     this.choices[0].xs = this.xs;
     this.choices[0].response = this.response;
     this.choices[0].label = this.label;
+
+    if (this.updateable) {
+      this.choices.forEach((item) => {
+        item.response = (
+          (CPTMath.xal2v(item.xw, this.a, this.l) * CPTMath.pg2w(item.pw, this.g))
+          + (CPTMath.xal2v(this.xl, this.a, this.l) * (1 - CPTMath.pg2w(item.pw, this.g)))
+        ) > CPTMath.xal2v(item.xs, this.a, this.l)
+          ? 'gamble'
+          : 'sure';
+      });
+      this.response = this.choices[0].response;
+    }
 
     this.pointList = {
       xw: [],
