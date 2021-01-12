@@ -16,5 +16,5 @@ In other words, we can have our model perform the task *as if* it were a partici
   <cpt-probability interactive></cpt-probability>
   <cpt-value interactive></cpt-value>
   <decision-response trial feedback="outcome" payoff="both"></decision-response>
-  <!-- <decision-space point="rest" alpha="1" lambda="1" gamma="1"></decision-space> -->
+  <decision-space updateable point="rest" alpha="1" lambda="1" gamma="1"></decision-space>
 </cpt-example-model>
