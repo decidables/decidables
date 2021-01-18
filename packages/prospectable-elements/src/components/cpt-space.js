@@ -14,20 +14,24 @@ import plotlyStyle from './plotly-style.auto';
 Plotly.register([PlotlyIsoSurface, PlotlyScatter3d]);
 
 /*
-  CPTValue element
-  <cpt-value>
-
-*** Add handles to lines?
+  CPTSpace element
+  <cpt-space>
 
   Attributes:
     interactive: true/false
 
-    line: 'all', 'first', 'rest', 'none'
-    point: 'all', 'first', 'rest', 'none'
+    surface: true/false
+    point: true/false
+    updateable: true/false
 
-    x: numeric (-infinity, infinity)
     a: numeric [0, 1]
     l: numeric [0, 100]
+    g: numeric [0, 1]
+
+    xl: numeric (-infinity, infinity)
+    xw: numeric (-infinity, infinity)
+    pw: numeric [0, 1]
+    xs: numeric (-infinity, infinity)
 
   Styles:
     ??
@@ -40,8 +44,13 @@ export default class CPTSpace extends CPTElement {
         type: Boolean,
         reflect: true,
       },
-      points: {
-        attribute: 'points',
+      point: {
+        attribute: 'point',
+        type: Boolean,
+        reflect: true,
+      },
+      updateable: {
+        attribute: 'updateable',
         type: Boolean,
         reflect: true,
       },
@@ -107,7 +116,14 @@ export default class CPTSpace extends CPTElement {
     this.firstUpdate = true;
 
     this.surface = true;
-    this.points = false;
+    this.point = true;
+    this.updateable = false;
+
+    // Constants for categorical color codes
+    this.GAMBLE = 0;
+    this.SURE = 1;
+    this.NR = 0.25;
+    this.DEFAULT = 0.75;
 
     this.a = 0.8;
     this.l = 1.2;
@@ -117,9 +133,10 @@ export default class CPTSpace extends CPTElement {
     this.xw = 20;
     this.pw = 0.5;
     this.xs = 10;
+    this.response = this.DEFAULT;
 
     this.range = {};
-    this.range.a = {start: 0, stop: 1, step: 0.05}; // Sure Value
+    this.range.a = {start: 0.0001, stop: 1, step: 0.05}; // Sure Value
     this.range.l = {start: 0, stop: 10, step: 0.5}; // Gamble Win Value
     this.range.g = {start: 0, stop: 1, step: 0.05}; // Gamble Win Probability
 
@@ -133,6 +150,14 @@ export default class CPTSpace extends CPTElement {
   }
 
   alignState() {
+    if (this.updateable) {
+      this.response = ((CPTMath.xal2v(this.xw, this.a, this.l) * CPTMath.pg2w(this.pw, this.g))
+        + (CPTMath.xal2v(this.xl, this.a, this.l) * (1 - CPTMath.pg2w(this.pw, this.g))))
+      > CPTMath.xal2v(this.xs, this.a, this.l)
+        ? this.GAMBLE
+        : this.SURE;
+    }
+
     this.parameterSpace = {
       a: [],
       l: [],
@@ -241,56 +266,69 @@ export default class CPTSpace extends CPTElement {
     const colorText = this.getComputedStyleValue('---color-text');
     const colorElementBorder = this.getComputedStyleValue('---color-element-border');
     const colorElementBackground = this.getComputedStyleValue('---color-element-background');
-    const colorElementEmphasis = this.getComputedStyleValue('---color-element-emphasis');
+    const colorGamble = this.getComputedStyleValue('---color-worse');
+    const colorSure = this.getComputedStyleValue('---color-better');
+    const colorNr = this.getComputedStyleValue('---color-nr');
+    const colorDefault = this.getComputedStyleValue('---color-element-emphasis');
 
-    const data = [
-      {
-        name: 'Decision Boundary',
-        type: 'isosurface',
-        x: this.parameterSpace.a,
-        y: this.parameterSpace.l,
-        z: this.parameterSpace.g,
-        value: this.parameterSpace.uDiff,
-        coloraxis: 'coloraxis',
-        isomin: 0,
-        isomax: 0,
-        opacity: 0.5,
-      },
-      {
-        name: 'Difference in Subjective Utility',
-        type: 'isosurface',
-        x: this.parameterSpace.a,
-        y: this.parameterSpace.l,
-        z: this.parameterSpace.g,
-        value: this.parameterSpace.uDiff,
-        caps: {
-          x: {show: false},
-          y: {show: false},
-          z: {show: false},
+    const data = [];
+
+    if (this.surface) {
+      data.push(
+        {
+          name: 'Decision Boundary',
+          type: 'isosurface',
+          x: this.parameterSpace.a,
+          y: this.parameterSpace.l,
+          z: this.parameterSpace.g,
+          value: this.parameterSpace.uDiff,
+          coloraxis: 'coloraxis',
+          isomin: 0,
+          isomax: 0,
+          opacity: 0.5,
         },
-        coloraxis: 'coloraxis',
-        isomin: -30,
-        isomax: 30,
-        showscale: false,
-        slices: {
-          x: {show: true, locations: [this.range.a.stop]},
-          y: {show: true, locations: [this.range.l.stop]},
-          z: {show: true, locations: [this.range.g.start]},
+        {
+          name: 'Difference in Subjective Utility',
+          type: 'isosurface',
+          x: this.parameterSpace.a,
+          y: this.parameterSpace.l,
+          z: this.parameterSpace.g,
+          value: this.parameterSpace.uDiff,
+          caps: {
+            x: {show: false},
+            y: {show: false},
+            z: {show: false},
+          },
+          coloraxis: 'coloraxis',
+          isomin: -30,
+          isomax: 30,
+          showscale: false,
+          slices: {
+            x: {show: true, locations: [this.range.a.stop]},
+            y: {show: true, locations: [this.range.l.stop]},
+            z: {show: true, locations: [this.range.g.start]},
+          },
+          surface: {show: false},
         },
-        surface: {show: false},
-      },
-      {
-        name: 'Current Decision',
-        type: 'scatter3d',
-        x: [this.a],
-        y: [this.l],
-        z: [this.g],
-        mode: 'markers',
-        marker: {
-          color: colorElementEmphasis,
+      );
+    }
+
+    if (this.point) {
+      data.push(
+        {
+          name: 'Current Decision',
+          type: 'scatter3d',
+          x: [this.a],
+          y: [this.l],
+          z: [this.g],
+          mode: 'markers',
+          marker: {
+            color: [this.response],
+            coloraxis: 'coloraxis2',
+          },
         },
-      },
-    ];
+      );
+    }
 
     const layout = {
       coloraxis: {
@@ -308,15 +346,27 @@ export default class CPTSpace extends CPTElement {
           ypad: 32,
         },
         colorscale: [
-          [0, 'rgb(5,10,172)'],
-          [0.25, 'rgb(5,10,172)'],
-          [0.425, 'rgb(106,137,247)'],
+          [0, 'rgb(35, 35, 104)'],
+          [0.35, 'rgb(69,69,208)'],
           [0.5, 'rgb(190,190,190)'],
-          [0.55, 'rgb(220,170,132)'],
-          [0.6, 'rgb(230,145,90)'],
-          [0.75, 'rgb(178,10,28)'],
-          [1, 'rgb(178,10,28)'],
+          [0.65, 'rgb(240,50,230)'],
+          [1, 'rgb(120,25,115)'],
         ],
+      },
+      coloraxis2: {
+        cmin: 0,
+        cmax: 1,
+        colorscale: [
+          [0, colorGamble],
+          [0.01, colorGamble],
+          [0.24, colorNr],
+          [0.26, colorNr],
+          [0.74, colorDefault],
+          [0.76, colorDefault],
+          [0.99, colorSure],
+          [1, colorSure],
+        ],
+        showscale: false,
       },
       font: {
         family: '"Source Sans Pro", sans-serif',
@@ -348,7 +398,7 @@ export default class CPTSpace extends CPTElement {
           showline: true,
           linecolor: colorElementBorder,
           zeroline: false,
-          range: [this.range.a.start, this.range.a.stop],
+          range: [Math.round(this.range.a.start), this.range.a.stop],
           title: {
             text: 'alpha',
             font: {
