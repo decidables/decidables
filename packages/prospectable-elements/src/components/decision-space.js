@@ -14,20 +14,24 @@ import plotlyStyle from './plotly-style.auto';
 Plotly.register([PlotlyIsoSurface, PlotlyScatter3d]);
 
 /*
-  CPTValue element
-  <cpt-value>
-
-*** Add handles to lines?
+  DecisionSpace element
+  <decision-space>
 
   Attributes:
     interactive: true/false
 
-    line: 'all', 'first', 'rest', 'none'
+    surface: true/false
     point: 'all', 'first', 'rest', 'none'
+    updateable: true/false
 
-    x: numeric (-infinity, infinity)
     a: numeric [0, 1]
     l: numeric [0, 100]
+    g: numeric [0, 1]
+
+    xl: numeric (-infinity, infinity)
+    xw: numeric (-infinity, infinity)
+    pw: numeric [0, 1]
+    xs: numeric (-infinity, infinity)
 
   Styles:
     ??
@@ -436,14 +440,11 @@ export default class DecisionSpace extends CPTElement {
           ypad: 32,
         },
         colorscale: [
-          [0, 'rgb(5,10,172)'],
-          [0.25, 'rgb(5,10,172)'],
-          [0.425, 'rgb(106,137,247)'],
+          [0, 'rgb(35, 35, 104)'],
+          [0.35, 'rgb(69,69,208)'],
           [0.5, 'rgb(190,190,190)'],
-          [0.55, 'rgb(220,170,132)'],
-          [0.6, 'rgb(230,145,90)'],
-          [0.75, 'rgb(178,10,28)'],
-          [1, 'rgb(178,10,28)'],
+          [0.65, 'rgb(240,50,230)'],
+          [1, 'rgb(120,25,115)'],
         ],
       },
       coloraxis2: {

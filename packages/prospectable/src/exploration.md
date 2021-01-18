@@ -13,6 +13,6 @@ Exploring the relationship between model parameters and behavior.
   <cpt-probability interactive></cpt-probability>
   <cpt-value interactive></cpt-value>
   <cpt-calculation numeric interactive></cpt-calculation>
-  <!-- <cpt-space></cpt-space>
-  <decision-space></decision-space> -->
+  <cpt-space updateable></cpt-space>
+  <decision-space updateable></decision-space>
 </cpt-example-interactive>
