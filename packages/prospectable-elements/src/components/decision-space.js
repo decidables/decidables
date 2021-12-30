@@ -362,10 +362,10 @@ export default class DecisionSpace extends CPTElement {
     const colorText = this.getComputedStyleValue('---color-text');
     const colorElementBorder = this.getComputedStyleValue('---color-element-border');
     const colorElementBackground = this.getComputedStyleValue('---color-element-background');
-    const colorGamble = this.getComputedStyleValue('---color-worse');
-    const colorSure = this.getComputedStyleValue('---color-better');
+    const colorElementEmphasis = this.getComputedStyleValue('---color-element-emphasis');
+    const colorWorse = this.getComputedStyleValue('---color-worse');
+    const colorBetter = this.getComputedStyleValue('---color-better');
     const colorNr = this.getComputedStyleValue('---color-nr');
-    const colorDefault = this.getComputedStyleValue('---color-element-emphasis');
 
     const data = [];
 
@@ -420,6 +420,11 @@ export default class DecisionSpace extends CPTElement {
         marker: {
           color: this.pointList.response,
           coloraxis: 'coloraxis2',
+          line: {
+            color: colorElementEmphasis,
+            width: 2,
+          },
+          size: 6,
         },
       },
     );
@@ -451,14 +456,14 @@ export default class DecisionSpace extends CPTElement {
         cmin: 0,
         cmax: 1,
         colorscale: [
-          [0, colorGamble],
-          [0.01, colorGamble],
+          [0, colorWorse],
+          [0.01, colorWorse],
           [0.24, colorNr],
           [0.26, colorNr],
-          [0.74, colorDefault],
-          [0.76, colorDefault],
-          [0.99, colorSure],
-          [1, colorSure],
+          [0.74, colorElementEmphasis],
+          [0.76, colorElementEmphasis],
+          [0.99, colorBetter],
+          [1, colorBetter],
         ],
         showscale: false,
       },
