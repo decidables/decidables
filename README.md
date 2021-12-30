@@ -15,8 +15,8 @@ approaches to human decision making.
 - *decidable*: Explorable Explanations of Decision Making
   - *detectable*: An Explorable Explanation of Signal Detection Theory
   - *prospectable*: An Explorable Explanation of Cumulative Prospect Theory **[proposed]**
-  - *accumulable*: An Explorable Explanation of Diffusion and Accumulation Models **[proposed]**
   - *discountable*: An Explorable Explanation of Temporal Discounting **[proposed]**
+  - *accumulable*: An Explorable Explanation of Diffusion and Accumulation Models **[proposed]**
   - ???
 
 ## Outline
@@ -192,9 +192,16 @@ Dependencies updated 8/12/2020.
 
 ### Global Tools
 
-- Manually install *git*
-- Manually install *node*
-- Manually install *yarn*
+#### Install
+
+- Manually install *chocolatey* <https://chocolatey.org/install>
+- `choco install git`
+- `choco install nodejs`
+- `choco install yarn`
+
+#### Update
+
+- `choco upgrade all`
 
 ### Local Commands
 
