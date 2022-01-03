@@ -1,5 +1,14 @@
 <!--lint disable first-level-heading -->
 
+# NOTES:
+
+- upgrade all major versions
+- upgrade yarn (with managed version?)
+- handle install errors
+- switch to esm (move to rollup)?
+- update gulp scripts to esm?
+
+
 # decidable: Explorable Explanations of Decision Making
 
 *decidable* is a collection of libraries and websites for explorable explanations of quantitative

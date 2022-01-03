@@ -73,7 +73,7 @@
     "unist-util-visit": "^2.0.2"
   },
   "engines": {
-    "node": "^15.0.0",
+    "node": ">15.0.0",
     "yarn": "^1.22.5"
   }
 }

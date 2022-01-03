@@ -51,7 +51,7 @@ function compileMarkdown() {
       .use(remarkDirective)
       .use(remarkCiteproc)
       .use(remarkTerminology)
-      .use(remarkHtml))
+      .use(remarkHtml, {sanitize: false}))
     .on('data', (file) => {
       return gulp.src(`src/${file.data.layout}.ejs`)
         .pipe(gulpFrontMatter({property: 'data'}))
