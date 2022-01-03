@@ -29,7 +29,7 @@
     "webworkify": "^1.5.0"
   },
   "engines": {
-    "node": "^15.0.0",
+    "node": ">15.0.0",
     "yarn": "^1.22.5"
   },
   "devDependencies": {
