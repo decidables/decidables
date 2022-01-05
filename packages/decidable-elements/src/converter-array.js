@@ -12,4 +12,4 @@ const DecidableConverterArray = {
   },
 };
 
-export {DecidableConverterArray as default};
+export default DecidableConverterArray;

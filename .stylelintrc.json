@@ -364,5 +364,11 @@
       }
     ],
     "string-quotes": "double"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.js"],
+      "customSyntax": "@stylelint/postcss-css-in-js"
+    }
+  ]
 }

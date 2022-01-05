@@ -1,7 +1,7 @@
 
 // devDependencies
 const gulp = require('gulp');
-const gulpEslint = require('gulp-eslint');
+const gulpEslintNew = require('gulp-eslint-new');
 const gulpRemark = require('gulp-remark');
 const gulpStylelint = require('gulp-stylelint');
 const stylelintFormatterPretty = require('stylelint-formatter-pretty');
@@ -15,9 +15,9 @@ exports.lintMarkdown = lintMarkdown;
 
 function lintScripts() {
   return gulp.src(['src/**/*.js', '!src/**/*.auto.js'])
-    .pipe(gulpEslint())
-    .pipe(gulpEslint.format('pretty'))
-    .pipe(gulpEslint.failAfterError());
+    .pipe(gulpEslintNew())
+    .pipe(gulpEslintNew.format('pretty'))
+    .pipe(gulpEslintNew.failAfterError());
 }
 exports.lintScripts = lintScripts;
 
