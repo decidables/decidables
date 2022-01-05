@@ -2,6 +2,7 @@
 
 # NOTES:
 
+- need to lint *.scss files
 - upgrade all major versions
 - upgrade yarn (with managed version?)
 - handle install errors

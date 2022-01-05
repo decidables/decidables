@@ -1,3 +1,5 @@
 
 // Internal dependencies
-export {default} from './sdt-math';
+import SDTMath from './sdt-math';
+
+export default SDTMath;

@@ -12,4 +12,4 @@ const DecidableConverterSet = {
   },
 };
 
-export {DecidableConverterSet as default};
+export default DecidableConverterSet;

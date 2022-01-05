@@ -68932,7 +68932,8 @@ var DecidableConverterArray = {
     }).join(' ') : null;
   }
 };
-exports.default = DecidableConverterArray;
+var _default = DecidableConverterArray;
+exports.default = _default;
 
 },{}],449:[function(require,module,exports){
 "use strict";
@@ -68966,7 +68967,8 @@ var DecidableConverterSet = {
     return value.size ? _toConsumableArray(value).join(' ') : null;
   }
 };
-exports.default = DecidableConverterSet;
+var _default = DecidableConverterSet;
+exports.default = _default;
 
 },{}],450:[function(require,module,exports){
 "use strict";
@@ -76287,16 +76289,15 @@ exports.default = SDTElement;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function get() {
-    return _sdtMath.default;
-  }
-});
+exports.default = void 0;
 
 var _sdtMath = _interopRequireDefault(require("./sdt-math"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// Internal dependencies
+var _default = _sdtMath.default;
+exports.default = _default;
 
 },{"./sdt-math":483}],483:[function(require,module,exports){
 "use strict";

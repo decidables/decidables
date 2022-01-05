@@ -1,3 +1,5 @@
 
 // Internal dependencies
-export {default} from './cpt-math';
+import CPTMath from './cpt-math';
+
+export default CPTMath;
