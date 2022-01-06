@@ -1,27 +1,23 @@
 
 // devDependencies
-const gulp = require('gulp');
+import gulp from 'gulp';
 
 // Local dependencies
-const compiles = require('./compile');
+import * as compiles from './compile.js';
 
 // Tasks
-function watchLibrariesTask(libraries) {
+export function watchLibrariesTask(libraries) {
   gulp.watch(libraries.map((library) => { return `../${library}/src/**/*.js`; }), {ignoreInitial: true}, compiles.compileScripts);
 }
-exports.watchLibrariesTask = watchLibrariesTask;
 
-function watchMarkdown() {
+export function watchMarkdown() {
   gulp.watch('src/**/*.{md,ejs}', {ignoreInitial: false}, compiles.compileMarkdown);
 }
-exports.watchMarkdown = watchMarkdown;
 
-function watchScripts() {
+export function watchScripts() {
   gulp.watch(['src/**/*.js'], {ignoreInitial: false}, compiles.compileScripts);
 }
-exports.watchScripts = watchScripts;
 
-function watchStyles() {
+export function watchStyles() {
   gulp.watch('src/**/*.scss', {ignoreInitial: false}, compiles.compileStyles);
 }
-exports.watchStyles = watchStyles;

@@ -1,15 +1,15 @@
 
 // devDependencies
-const cssnano = require('cssnano');
-const gulp = require('gulp');
-const gulpBro = require('gulp-bro');
-const gulpHtmlmin = require('gulp-htmlmin');
-const gulpPostcss = require('gulp-postcss');
-const gulpSourcemaps = require('gulp-sourcemaps');
-const gulpUglify = require('gulp-uglify');
+import cssnano from 'cssnano';
+import gulp from 'gulp';
+import gulpBro from 'gulp-bro';
+import gulpHtmlmin from 'gulp-htmlmin';
+import gulpPostcss from 'gulp-postcss';
+import gulpSourcemaps from 'gulp-sourcemaps';
+import gulpUglify from 'gulp-uglify';
 
 // Tasks
-function buildLibraryTask(name) {
+export function buildLibraryTask(name) {
   return gulp.src('src/index.js')
     .pipe(gulpBro({
       debug: true,
@@ -27,21 +27,18 @@ function buildLibraryTask(name) {
     .pipe(gulpSourcemaps.write('.'))
     .pipe(gulp.dest('lib'));
 }
-exports.buildLibraryTask = buildLibraryTask;
 
-function buildConfig() {
+export function buildConfig() {
   return gulp.src('local/.htaccess')
     .pipe(gulp.dest('dist'));
 }
-exports.buildConfig = buildConfig;
 
-function buildFonts() {
+export function buildFonts() {
   return gulp.src(['local/fonts/*.woff'])
     .pipe(gulp.dest('dist/fonts'));
 }
-exports.buildFonts = buildFonts;
 
-function buildMarkup() {
+export function buildMarkup() {
   return gulp.src(['local/*.html'])
     .pipe(gulpHtmlmin({
       collapseWhitespace: true,
@@ -49,18 +46,16 @@ function buildMarkup() {
     }))
     .pipe(gulp.dest('dist'));
 }
-exports.buildMarkup = buildMarkup;
 
-function buildScripts() {
+export function buildScripts() {
   return gulp.src(['local/*.js'])
     .pipe(gulpSourcemaps.init({loadMaps: true}))
     .pipe(gulpUglify())
     .pipe(gulpSourcemaps.write('.'))
     .pipe(gulp.dest('dist'));
 }
-exports.buildScripts = buildScripts;
 
-function buildStyles() {
+export function buildStyles() {
   return gulp.src('local/*.css')
     .pipe(gulpSourcemaps.init({loadMaps: true}))
     .pipe(gulpPostcss([
@@ -69,4 +64,3 @@ function buildStyles() {
     .pipe(gulpSourcemaps.write('.'))
     .pipe(gulp.dest('dist'));
 }
-exports.buildStyles = buildStyles;

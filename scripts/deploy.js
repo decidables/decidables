@@ -1,12 +1,12 @@
 
 // devDependencies
-const gulp = require('gulp');
-const gulpSsh = require('gulp-ssh');
-const inquirer = require('inquirer');
-const ssh2SftpClient = require('ssh2-sftp-client');
+import gulp from 'gulp';
+import gulpSsh from 'gulp-ssh';
+import inquirer from 'inquirer';
+import ssh2SftpClient from 'ssh2-sftp-client';
 
 // Tasks
-function deployPasswordTask(sftpConfig) {
+export function deployPasswordTask(sftpConfig) {
   return inquirer.prompt([{
     type: 'password',
     message: 'Enter password:',
@@ -17,9 +17,8 @@ function deployPasswordTask(sftpConfig) {
       sftpConfig.password = responses.password;
     });
 }
-exports.deployPasswordTask = deployPasswordTask;
 
-function deployCleanTask(sftpConfig) {
+export function deployCleanTask(sftpConfig) {
   const sftp = new ssh2SftpClient(); /* eslint-disable-line new-cap */
   return sftp.connect(sftpConfig)
     .then(() => {
@@ -34,9 +33,8 @@ function deployCleanTask(sftpConfig) {
       return sftp.end();
     });
 }
-exports.deployCleanTask = deployCleanTask;
 
-function deployDistTask(sftpConfig) {
+export function deployDistTask(sftpConfig) {
   const sftp = new gulpSsh({/* eslint-disable-line new-cap */
     ignoreErrors: false,
     sshConfig: sftpConfig,
@@ -44,4 +42,3 @@ function deployDistTask(sftpConfig) {
   return gulp.src(['dist/**/*', 'dist/**/.*'])
     .pipe(sftp.dest(sftpConfig.directory));
 }
-exports.deployDistTask = deployDistTask;

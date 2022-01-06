@@ -2,6 +2,7 @@
   "name": "@decidable/decidable-elements",
   "version": "0.0.1",
   "description": "decidable-elements: Basic UI Web Components for Visualizing Decision Making",
+  "type": "module",
   "main": "./src/index.js",
   "repository": "https://github.com/akrawitz/decidable/packages/decidable-elements",
   "author": "Adam Krawitz",

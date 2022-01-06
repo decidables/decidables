@@ -1,9 +1,9 @@
 
 // devDependencies
-const hastscript = require('hastscript');
-const unistUtilVisit = require('unist-util-visit');
+import hastscript from 'hastscript';
+import unistUtilVisit from 'unist-util-visit';
 
-function remarkTerminology() {
+export default function remarkTerminology() {
   return (tree) => {
     // Walk markdown parsed into MDAST finding and processing all citations
     unistUtilVisit(tree, 'textDirective', (node) => {
@@ -30,5 +30,3 @@ function remarkTerminology() {
     });
   };
 }
-
-module.exports = remarkTerminology;

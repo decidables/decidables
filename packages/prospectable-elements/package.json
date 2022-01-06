@@ -2,6 +2,7 @@
   "name": "@decidable/prospectable-elements",
   "version": "0.0.1",
   "description": "prospectable-elements: Web Components for visualizing Cumulative Prospect Theory",
+  "type": "module",
   "main": "./src/index.js",
   "repository": "https://github.com/akrawitz/decidable/packages/prospectable-elements",
   "author": "Adam Krawitz",

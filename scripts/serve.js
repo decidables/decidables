@@ -1,15 +1,14 @@
 
 // Node native modules
-const http = require('http');
+import http from 'http';
 
 // devDependencies
-const finalhandler = require('finalhandler');
-const serveStatic = require('serve-static');
+import finalhandler from 'finalhandler';
+import serveStatic from 'serve-static';
 
 // Tasks
-function serve() {
+export function serve() {
   http.createServer((req, res) => {
     (serveStatic('.', {index: ['index.html']}))(req, res, finalhandler(req, res));
   }).listen(8000);
 }
-exports.serve = serve;

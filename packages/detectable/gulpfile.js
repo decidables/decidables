@@ -1,27 +1,36 @@
 
 // devDependencies
-const gulp = require('gulp');
+import gulp from 'gulp';
 
 // Local dependencies
-const cleans = require('../../scripts/clean');
-const lints = require('../../scripts/lint');
-const compiles = require('../../scripts/compile');
-const watches = require('../../scripts/watch');
-const builds = require('../../scripts/build');
-const deploys = require('../../scripts/deploy');
-const serves = require('../../scripts/serve');
+import * as cleans from '../../scripts/clean.js';
+import * as lints from '../../scripts/lint.js';
+import * as compiles from '../../scripts/compile.js';
+import * as watches from '../../scripts/watch.js';
+import * as builds from '../../scripts/build.js';
+import * as deploys from '../../scripts/deploy.js';
+import * as serves from '../../scripts/serve.js';
+
+// Re-export
+export * from '../../scripts/clean.js';
+export * from '../../scripts/lint.js';
+export * from '../../scripts/compile.js';
+export * from '../../scripts/watch.js';
+export * from '../../scripts/build.js';
+export * from '../../scripts/deploy.js';
+export * from '../../scripts/serve.js';
 
 // Debug
 // .pipe(gulpDebug())
 
 // Tasks
-const lint = gulp.parallel(
+export const lint = gulp.parallel(
   lints.lintMarkdown,
   lints.lintScripts,
   lints.lintStyles,
 );
 
-const compile = gulp.series(
+export const compile = gulp.series(
   cleans.cleanLocal,
   gulp.parallel(
     compiles.compileConfig,
@@ -32,7 +41,7 @@ const compile = gulp.series(
   ),
 );
 
-const watch = gulp.parallel(
+export const watch = gulp.parallel(
   function watchLibraries() { /* eslint-disable-line prefer-arrow-callback */
     return watches.watchLibrariesTask([
       'decidable-elements',
@@ -45,7 +54,7 @@ const watch = gulp.parallel(
   watches.watchStyles,
 );
 
-const build = gulp.series(
+export const build = gulp.series(
   cleans.cleanDist,
   gulp.parallel(
     builds.buildConfig,
@@ -64,24 +73,8 @@ const sftpConfig = {
   directory: '/www/detectable',
 };
 
-const deploy = gulp.series(
+export const deploy = gulp.series(
   function deployPassword() { return deploys.deployPasswordTask(sftpConfig); }, /* eslint-disable-line prefer-arrow-callback */
   function deployClean() { return deploys.deployCleanTask(sftpConfig); }, /* eslint-disable-line prefer-arrow-callback */
   function deployDist() { return deploys.deployDistTask(sftpConfig); }, /* eslint-disable-line prefer-arrow-callback */
 );
-
-// Exports
-module.exports = {
-  ...cleans,
-  ...lints,
-  lint,
-  ...compiles,
-  compile,
-  ...watches,
-  watch,
-  ...builds,
-  build,
-  ...deploys,
-  deploy,
-  ...serves,
-};
