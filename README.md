@@ -3,6 +3,7 @@
 # NOTES:
 
 - need to lint *.scss files
+- need eslint overrides for dev scripts versus browser scripts 
 - upgrade all major versions
 - upgrade yarn (with managed version?)
 - handle install errors

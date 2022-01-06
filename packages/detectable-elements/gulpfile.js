@@ -1,28 +1,24 @@
 
 // devDependencies
-const gulp = require('gulp');
+import gulp from 'gulp';
 
 // Local dependencies
-const cleans = require('../../scripts/clean');
-const lints = require('../../scripts/lint');
-const builds = require('../../scripts/build');
+import * as cleans from '../../scripts/clean.js';
+import * as lints from '../../scripts/lint.js';
+import * as builds from '../../scripts/build.js';
+
+// Re-export
+export * from '../../scripts/clean.js';
+export * from '../../scripts/lint.js';
+export * from '../../scripts/build.js';
 
 // Tasks
-const lint = gulp.parallel(
+export const lint = gulp.parallel(
   lints.lintScripts,
   lints.lintStyles,
 );
 
-const build = gulp.series(
+export const build = gulp.series(
   cleans.cleanLib,
   function buildLibrary() { return builds.buildLibraryTask('detectableElements'); }, /* eslint-disable-line prefer-arrow-callback */
 );
-
-// Exports
-module.exports = {
-  ...cleans,
-  ...lints,
-  lint,
-  ...builds,
-  build,
-};

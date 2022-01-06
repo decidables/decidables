@@ -1,33 +1,32 @@
 
 // devDependencies
-const gulp = require('gulp');
-const gulpBro = require('gulp-bro');
-const gulpDartSass = require('gulp-dart-sass');
-const gulpEjs = require('gulp-ejs');
-const gulpFrontMatter = require('gulp-front-matter');
-const gulpNotify = require('gulp-notify');
-const gulpRemark = require('gulp-remark');
-const gulpRename = require('gulp-rename');
-const gulpSourcemaps = require('gulp-sourcemaps');
-const localeEnUs = require('locale-en-us');
-const nodeSassPackageImporter = require('node-sass-package-importer');
-const remarkDirective = require('remark-directive');
-const remarkHtml = require('remark-html');
-const resolvePkg = require('resolve-pkg');
-const styleApa = require('style-apa');
+import gulp from 'gulp';
+import gulpBro from 'gulp-bro';
+import gulpDartSass from 'gulp-dart-sass';
+import gulpEjs from 'gulp-ejs';
+import gulpFrontMatter from 'gulp-front-matter';
+import gulpNotify from 'gulp-notify';
+import gulpRemark from 'gulp-remark';
+import gulpRename from 'gulp-rename';
+import gulpSourcemaps from 'gulp-sourcemaps';
+import localeEnUs from 'locale-en-us';
+import nodeSassPackageImporter from 'node-sass-package-importer';
+import remarkDirective from 'remark-directive';
+import remarkHtml from 'remark-html';
+import resolvePkg from 'resolve-pkg';
+import styleApa from 'style-apa';
 
 // Local Dependencies
-const remarkCiteproc = require('./remark-citeproc');
-const remarkTerminology = require('./remark-terminology');
+import remarkCiteproc from './remark-citeproc.js';
+import remarkTerminology from './remark-terminology.js';
 
 // Tasks
-function compileConfig() {
+export function compileConfig() {
   return gulp.src('src/.htaccess')
     .pipe(gulp.dest('local'));
 }
-exports.compileConfig = compileConfig;
 
-function compileFonts() {
+export function compileFonts() {
   return gulp.src([
     resolvePkg('source-code-pro/WOFF/OTF/SourceCodePro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
     resolvePkg('source-sans-pro/WOFF/OTF/SourceSansPro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
@@ -35,9 +34,8 @@ function compileFonts() {
   ])
     .pipe(gulp.dest('local/fonts'));
 }
-exports.compileFonts = compileFonts;
 
-function compileMarkdown() {
+export function compileMarkdown() {
   remarkCiteproc({
     initialize: true,
     locale: localeEnUs,
@@ -67,9 +65,8 @@ function compileMarkdown() {
     })
     .pipe(gulpNotify({message: 'compile:markdown done!', onLast: true}));
 }
-exports.compileMarkdown = compileMarkdown;
 
-function compileScripts() {
+export function compileScripts() {
   return gulp.src('src/*.js')
     .pipe(gulpBro({
       debug: true,
@@ -86,9 +83,8 @@ function compileScripts() {
     .pipe(gulp.dest('local'))
     .pipe(gulpNotify({message: 'compile:scripts done!', onLast: true}));
 }
-exports.compileScripts = compileScripts;
 
-function compileStyles() {
+export function compileStyles() {
   return gulp.src('src/*.scss')
     .pipe(gulpSourcemaps.init({loadMaps: true}))
     .pipe(gulpDartSass({importer: nodeSassPackageImporter()}).on('error', gulpDartSass.logError))
@@ -96,4 +92,3 @@ function compileStyles() {
     .pipe(gulp.dest('local'))
     .pipe(gulpNotify({message: 'compile:styles done!', onLast: true}));
 }
-exports.compileStyles = compileStyles;

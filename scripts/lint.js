@@ -1,27 +1,25 @@
 
 // devDependencies
-const gulp = require('gulp');
-const gulpEslintNew = require('gulp-eslint-new');
-const gulpRemark = require('gulp-remark');
-const gulpStylelint = require('gulp-stylelint');
-const stylelintFormatterPretty = require('stylelint-formatter-pretty');
+import gulp from 'gulp';
+import gulpEslintNew from 'gulp-eslint-new';
+import gulpRemark from 'gulp-remark';
+import gulpStylelint from 'gulp-stylelint';
+import stylelintFormatterPretty from 'stylelint-formatter-pretty';
 
 // Tasks
-function lintMarkdown() {
+export function lintMarkdown() {
   return gulp.src('src/*.md')
     .pipe(gulpRemark());
 }
-exports.lintMarkdown = lintMarkdown;
 
-function lintScripts() {
+export function lintScripts() {
   return gulp.src(['src/**/*.js', '!src/**/*.auto.js'])
     .pipe(gulpEslintNew())
     .pipe(gulpEslintNew.format('pretty'))
     .pipe(gulpEslintNew.failAfterError());
 }
-exports.lintScripts = lintScripts;
 
-function lintStyles() {
+export function lintStyles() {
   return gulp.src(['src/**/*.js', '!src/**/*.auto.js'])
     .pipe(gulpStylelint({
       reporters: [{
@@ -30,4 +28,3 @@ function lintStyles() {
       }],
     }));
 }
-exports.lintStyles = lintStyles;

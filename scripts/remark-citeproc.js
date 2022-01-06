@@ -1,11 +1,11 @@
 
 // Node native modules
-const fs = require('fs');
+import fs from 'fs';
 
 // devDependencies
-const citationJs = require('citation-js');
-const citeproc = require('citeproc');
-const unistUtilVisit = require('unist-util-visit');
+import citationJs from 'citation-js';
+import citeproc from 'citeproc';
+import unistUtilVisit from 'unist-util-visit';
 
 // Module variables
 let referencesLink;
@@ -57,7 +57,7 @@ function initialize(options) {
   referencesLink = options.referencesLink; /* eslint-disable-line prefer-destructuring */
 }
 
-function remarkCiteproc(options = {}) {
+export default function remarkCiteproc(options = {}) {
   if ('initialize' in options && options.initialize) {
     initialize(options);
   }
@@ -164,5 +164,3 @@ function remarkCiteproc(options = {}) {
     });
   };
 }
-
-module.exports = remarkCiteproc;

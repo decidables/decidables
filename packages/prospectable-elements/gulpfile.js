@@ -1,23 +1,28 @@
 
 // devDependencies
-const gulp = require('gulp');
-const gulpInject = require('gulp-inject');
-const gulpRename = require('gulp-rename');
-const gulpDartSass = require('gulp-dart-sass');
-const nodeSassPackageImporter = require('node-sass-package-importer');
+import gulp from 'gulp';
+import gulpInject from 'gulp-inject';
+import gulpRename from 'gulp-rename';
+import gulpDartSass from 'gulp-dart-sass';
+import nodeSassPackageImporter from 'node-sass-package-importer';
 
 // Local dependencies
-const cleans = require('../../scripts/clean');
-const lints = require('../../scripts/lint');
-const builds = require('../../scripts/build');
+import * as cleans from '../../scripts/clean.js';
+import * as lints from '../../scripts/lint.js';
+import * as builds from '../../scripts/build.js';
+
+// Re-export
+export * from '../../scripts/clean.js';
+export * from '../../scripts/lint.js';
+export * from '../../scripts/build.js';
 
 // Tasks
-const lint = gulp.parallel(
+export const lint = gulp.parallel(
   lints.lintScripts,
   lints.lintStyles,
 );
 
-function preparePlotly() {
+export function preparePlotly() {
   return gulp.src('src/components/plotly-style.template.js')
     .pipe(gulpInject(
       gulp.src('src/components/plotly-style.scss')
@@ -36,17 +41,7 @@ function preparePlotly() {
     .pipe(gulp.dest('src/components/'));
 }
 
-const build = gulp.series(
+export const build = gulp.series(
   cleans.cleanLib,
   function buildLibrary() { return builds.buildLibraryTask('prospectableElements'); }, /* eslint-disable-line prefer-arrow-callback */
 );
-
-// Exports
-module.exports = {
-  ...cleans,
-  preparePlotly,
-  ...lints,
-  lint,
-  ...builds,
-  build,
-};
