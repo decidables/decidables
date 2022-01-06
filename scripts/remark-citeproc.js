@@ -5,7 +5,7 @@ import fs from 'fs';
 // devDependencies
 import citationJs from 'citation-js';
 import citeproc from 'citeproc';
-import unistUtilVisit from 'unist-util-visit';
+import {visit as unistUtilVisit} from 'unist-util-visit';
 
 // Module variables
 let referencesLink;

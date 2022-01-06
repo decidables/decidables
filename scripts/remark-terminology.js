@@ -1,7 +1,7 @@
 
 // devDependencies
-import hastscript from 'hastscript';
-import unistUtilVisit from 'unist-util-visit';
+import {h as hastscript} from 'hastscript';
+import {visit as unistUtilVisit} from 'unist-util-visit';
 
 export default function remarkTerminology() {
   return (tree) => {
