@@ -6,7 +6,7 @@ import gulpDartSass from 'gulp-dart-sass';
 import gulpEjs from 'gulp-ejs';
 import gulpFrontMatter from 'gulp-front-matter';
 import gulpNotify from 'gulp-notify';
-import gulpRemark from 'gulp-remark';
+import {remark as gulpRemark} from 'gulp-remark';
 import gulpRename from 'gulp-rename';
 import gulpSourcemaps from 'gulp-sourcemaps';
 import localeEnUs from 'locale-en-us';

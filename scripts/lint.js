@@ -2,7 +2,7 @@
 // devDependencies
 import gulp from 'gulp';
 import gulpEslintNew from 'gulp-eslint-new';
-import gulpRemark from 'gulp-remark';
+import {remark as gulpRemark} from 'gulp-remark';
 import gulpStylelint from 'gulp-stylelint';
 import stylelintFormatterPretty from 'stylelint-formatter-pretty';
 

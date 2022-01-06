@@ -2,14 +2,12 @@
 
 # NOTES:
 
-- need to lint *.scss files
-- need eslint overrides for dev scripts versus browser scripts 
-- upgrade all major versions
 - upgrade yarn (with managed version?)
 - handle install errors
-- switch to esm (move to rollup)?
-- update gulp scripts to esm?
-
+- move to rollup
+- need to lint *.scss files
+- need eslint overrides for dev scripts versus browser scripts
+- upgrade all major versions
 
 # decidable: Explorable Explanations of Decision Making
 
