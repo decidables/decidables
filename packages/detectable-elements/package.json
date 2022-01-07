@@ -16,15 +16,14 @@
     "> 0.25%",
     "not dead"
   ],
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  },
   "dependencies": {
     "@decidable/decidable-elements": "^0.0.1",
     "@decidable/detectable-math": "^0.0.1",
-    "d3": "^6.3.1",
-    "jstat": "^1.9.3",
-    "lit-element": "^2.2.0"
-  },
-  "engines": {
-    "node": ">15.0.0",
-    "yarn": "^1.22.5"
+    "d3": "^6.7.0",
+    "jstat": "^1.9.5",
+    "lit-element": "^2.5.1"
   }
 }

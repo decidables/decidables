@@ -20,23 +20,22 @@
     "> 0.25%",
     "not dead"
   ],
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  },
   "dependencies": {
     "@decidable/prospectable-elements": "^0.0.1",
-    "@webcomponents/webcomponentsjs": "^2.4.1",
-    "bootstrap": "^4.5.0",
-    "core-js": "^3.6.4",
-    "d3": "^6.3.1",
-    "jquery": "^3.5.1",
-    "jstat": "^1.9.3",
-    "lit-element": "^2.2.0",
+    "@webcomponents/webcomponentsjs": "^2.6.0",
+    "bootstrap": "^4.6.1",
+    "core-js": "^3.20.2",
+    "d3": "^6.7.0",
+    "jquery": "^3.6.0",
+    "jstat": "^1.9.5",
+    "lit-element": "^2.5.1",
     "popper.js": "^1.16.1",
-    "regenerator-runtime": "^0.13.3",
-    "source-code-pro": "^2.30.1",
+    "regenerator-runtime": "^0.13.9",
+    "source-code-pro": "^2.38.0",
     "source-sans-pro": "^3.6.0",
-    "source-serif-pro": "^3.0.0"
-  },
-  "engines": {
-    "node": ">15.0.0",
-    "yarn": "^1.22.5"
+    "source-serif-pro": "^3.1.0"
   }
 }
