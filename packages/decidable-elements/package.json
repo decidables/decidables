@@ -16,13 +16,12 @@
     "> 0.25%",
     "not dead"
   ],
-  "dependencies": {
-    "d3": "^6.3.1",
-    "lit-element": "^2.2.0",
-    "lit-html": "^1.2.1"
+  "devDependencies": {
+    "gulp": "^4.0.2"
   },
-  "engines": {
-    "node": ">15.0.0",
-    "yarn": "^1.22.5"
+  "dependencies": {
+    "d3": "^6.7.0",
+    "lit-element": "^2.5.1",
+    "lit-html": "^1.4.1"
   }
 }

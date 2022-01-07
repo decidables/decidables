@@ -16,11 +16,10 @@
     "> 0.25%",
     "not dead"
   ],
-  "dependencies": {
-    "jstat": "^1.9.3"
+  "devDependencies": {
+    "gulp": "^4.0.2"
   },
-  "engines": {
-    "node": ">15.0.0",
-    "yarn": "^1.22.5"
+  "dependencies": {
+    "jstat": "^1.9.5"
   }
 }
