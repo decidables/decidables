@@ -1,6 +1,6 @@
 
-import {ifDefined} from 'lit-html/directives/if-defined';
-import {html, css, unsafeCSS} from 'lit-element';
+import {ifDefined} from 'lit/directives/if-defined';
+import {html, css, unsafeCSS} from 'lit';
 
 import DecidableElement from './decidable-element';
 

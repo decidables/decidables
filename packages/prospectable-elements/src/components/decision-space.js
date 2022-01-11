@@ -1,9 +1,10 @@
 
-import {html, css} from 'lit-element';
+import {html, css} from 'lit';
 import * as d3 from 'd3';
 import * as Plotly from 'plotly.js/lib/core';
 import * as PlotlyIsoSurface from 'plotly.js/lib/isosurface';
 import * as PlotlyScatter3d from 'plotly.js/lib/scatter3d';
+// import Plotly from 'plotly.js-dist';
 
 import CPTMath from '@decidable/prospectable-math';
 

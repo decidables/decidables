@@ -14,6 +14,13 @@ import nodeSassPackageImporter from 'node-sass-package-importer';
 import remarkDirective from 'remark-directive';
 import remarkHtml from 'remark-html';
 import resolvePkg from 'resolve-pkg';
+import * as rollup from 'rollup';
+import * as rollupPluginBabel from '@rollup/plugin-babel';
+import rollupPluginCommonjs from '@rollup/plugin-commonjs';
+import rollupPluginJson from '@rollup/plugin-json';
+import rollupPluginNodePolyfills from 'rollup-plugin-polyfill-node';
+import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
+import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
 import styleApa from 'style-apa';
 
 // Local Dependencies
@@ -65,6 +72,40 @@ export function compileMarkdown() {
     })
     .pipe(gulpNotify({message: 'compile:markdown done!', onLast: true}));
 }
+
+// let rollupCache;
+// export async function compileScripts() {
+//   const bundle = await rollup.rollup({
+//     cache: rollupCache,
+//     input: 'src/index.js',
+//     plugins: [
+//       rollupPluginNodeResolve({preferBuiltins: false}),
+//       rollupPluginNodePolyfills(),
+//       rollupPluginCommonjs(),
+//       rollupPluginJson(),
+//       rollupPluginWebWorkerLoader(),
+//       rollupPluginBabel.babel({
+//         presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.20'}]],
+//         babelHelpers: 'bundled',
+//       }),
+//     ],
+//     // Hide warnings for circular dependencies, which are allowed in the ES6 spec
+//     // https://github.com/rollup/rollup/issues/2271#issuecomment-475540827
+//     onwarn: (warning, warn) => {
+//       if (warning.code !== 'CIRCULAR_DEPENDENCY') {
+//         warn(warning);
+//       }
+//     },
+//   });
+//
+//   rollupCache = bundle.cache;
+//
+//   bundle.write({
+//     dir: 'local',
+//     format: 'iife',
+//     sourcemap: true,
+//   });
+// }
 
 export function compileScripts() {
   return gulp.src('src/*.js')

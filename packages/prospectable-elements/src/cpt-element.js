@@ -2,7 +2,7 @@
 import {
   css,
   unsafeCSS,
-} from 'lit-element';
+} from 'lit';
 import * as d3 from 'd3';
 
 import {DecidableElement} from '@decidable/decidable-elements';

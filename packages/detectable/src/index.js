@@ -6,6 +6,9 @@ import 'regenerator-runtime/runtime';
 import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter';
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
+// Lit polyfills
+import 'lit/polyfill-support.js';
+
 // External dependencies
 import 'bootstrap';
 

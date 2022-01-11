@@ -2,12 +2,16 @@
 
 # NOTES:
 
-- remove lerna (no longer needed due to yarn workspaces?)
-- handle install errors
 - move to rollup
+- remove lerna (no longer needed due to yarn workspaces?)
+- handle install warnings
 - need to lint *.scss files
 - need eslint overrides for dev scripts versus browser scripts
-- upgrade all major versions
+- use focused imports to support Tree Shaking?
+- Cleanup bootstrap scss imports
+  - Is popper needed?
+- Add top-level decidable website?
+  - And/or provide way to serve all sites at once?
 
 # decidable: Explorable Explanations of Decision Making
 

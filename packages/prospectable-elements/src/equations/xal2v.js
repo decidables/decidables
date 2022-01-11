@@ -1,5 +1,5 @@
 
-import {html} from 'lit-element';
+import {html} from 'lit';
 
 import CPTMath from '@decidable/prospectable-math';
 
