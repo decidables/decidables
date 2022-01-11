@@ -1,6 +1,6 @@
 
-import {html, css} from 'lit-element';
-import {transition, mark, fade} from 'lit-transition';
+import {html, css} from 'lit';
+// import {transition, mark, fade} from 'lit-transition';
 
 import CPTMath from '@decidable/prospectable-math';
 
@@ -218,11 +218,16 @@ export default class CPTCalculation extends CPTEquation {
       us = html`<decidable-spinner class="u" disabled .value="${+this.us.toFixed(1)}">
           <var class="math-var">U<sub class="subscript sure">sure</sub></var>
         </decidable-spinner>`;
-      uDiff = html`${transition((this.uDiff > 0)
-        ? mark(html`<span class="comparison">&gt;</span>`, 'gt')
+      // uDiff = html`${transition((this.uDiff > 0)
+      //   ? mark(html`<span class="comparison">&gt;</span>`, 'gt')
+      //   : (this.uDiff < 0)
+      //     ? mark(html`<span class="comparison">&lt;</span>`, 'lt')
+      //     : mark(html`<span class="comparison">=</span>`, 'eq'), fade({mode: 'out-in', duration: 200}))}`;
+      uDiff = html`${(this.uDiff > 0)
+        ? html`<span class="comparison">&gt;</span>`
         : (this.uDiff < 0)
-          ? mark(html`<span class="comparison">&lt;</span>`, 'lt')
-          : mark(html`<span class="comparison">=</span>`, 'eq'), fade({mode: 'out-in', duration: 200}))}`;
+          ? html`<span class="comparison">&lt;</span>`
+          : html`<span class="comparison">=</span>`}`;
     } else {
       xw = html`<var class="math-var x">x<sub class="subscript win">win</sub></var>`;
       xl = html`<var class="math-var x">x<sub class="subscript loss">loss</sub></var>`;

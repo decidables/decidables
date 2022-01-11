@@ -1,5 +1,5 @@
 
-import {html, css} from 'lit-element';
+import {html, css} from 'lit';
 
 import {DecidableConverterSet} from '@decidable/decidable-elements';
 import SDTMath from '@decidable/detectable-math';

@@ -1,11 +1,13 @@
 
-import {html, css} from 'lit-element';
+import {html, css} from 'lit';
 import * as Plotly from 'plotly.js/lib/core';
 import * as PlotlyHistogram from 'plotly.js/lib/histogram';
+// import Plotly from 'plotly.js-dist';
 import Webworkify from 'webworkify';
 
-import CPTElement from '../cpt-element';
+// import CPTFitWorker from 'web-worker:./cpt-fit-worker';
 import CPTFitWorker from './cpt-fit-worker';
+import CPTElement from '../cpt-element';
 import plotlyStyle from './plotly-style.auto';
 
 // Load in the needed trace types
@@ -37,6 +39,7 @@ export default class CPTFit extends CPTElement {
 
     this.working = false;
     this.queued = false;
+    // this.worker = new CPTFitWorker();
     this.worker = Webworkify(CPTFitWorker);
 
     this.worker.onmessage = (event) => {

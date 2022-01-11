@@ -90,6 +90,7 @@ $body-bg: $color-white;
 $border-color: $color-grey-light75;
 $body-color: $color-grey-dark75;
 $link-color: $color-grey-dark25;
+$link-hover-color: $color-grey-dark50;
 
 // Derived SCSS variables
 $color-background: #{$body-bg};
@@ -127,11 +128,16 @@ $color-element-emphasis: #{$color-grey-dark75};
 // TODO
 // cleanup Links
 
+// Bootstrap options
+$enable-rfs: false;
+
 // BOOTSTRAP VARIABLES
 $font-family-base: "Source Sans Pro", sans-serif;
 $grid-gutter-width: 2rem;
 $border-width: 1px;
 $border-radius: 0.25rem;
+$link-decoration: none;
+$link-hover-decoration: underline;
 
 $grid-breakpoints: (
   xs: 0,
@@ -214,29 +220,32 @@ $shadow-ambient-map: (
 
 
 // BOOTSTRAP IMPORTS
-// Structure
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-// Core
-@import "~bootstrap/scss/reboot";
-@import "~bootstrap/scss/type";
-// @import "~bootstrap/scss/images";
-@import "~bootstrap/scss/grid";
-// Elements
-// @import "~bootstrap/scss/tables";
-@import "~bootstrap/scss/buttons";
-@import "~bootstrap/scss/transitions";
-@import "~bootstrap/scss/dropdown";
-// @import "~bootstrap/scss/card";
-@import "~bootstrap/scss/nav";
-@import "~bootstrap/scss/navbar";
-// @import "~bootstrap/scss/alert";
-// @import "~bootstrap/scss/list-group";
-// @import "~bootstrap/scss/close";
-// @import "~bootstrap/scss/modal";
-// Utility
-@import "~bootstrap/scss/utilities";
+
+@import "~bootstrap/scss/bootstrap";
+
+// // Structure
+// @import "~bootstrap/scss/functions";
+// @import "~bootstrap/scss/variables";
+// @import "~bootstrap/scss/mixins";
+// // Core
+// @import "~bootstrap/scss/reboot";
+// @import "~bootstrap/scss/type";
+// // @import "~bootstrap/scss/images";
+// @import "~bootstrap/scss/grid";
+// // Elements
+// // @import "~bootstrap/scss/tables";
+// @import "~bootstrap/scss/buttons";
+// @import "~bootstrap/scss/transitions";
+// @import "~bootstrap/scss/dropdown";
+// // @import "~bootstrap/scss/card";
+// @import "~bootstrap/scss/nav";
+// @import "~bootstrap/scss/navbar";
+// // @import "~bootstrap/scss/alert";
+// // @import "~bootstrap/scss/list-group";
+// // @import "~bootstrap/scss/close";
+// // @import "~bootstrap/scss/modal";
+// // Utility
+// @import "~bootstrap/scss/utilities";
 
 
 // CUSTOM CSS
@@ -246,13 +255,13 @@ html {
   font-size: 1rem;
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(md) {
   html {
     font-size: 0.9rem;
   }
 }
 
-@include media-breakpoint-down(xs) {
+@include media-breakpoint-down(sm) {
   html {
     font-size: 0.8rem;
   }
@@ -312,6 +321,8 @@ body {
 
   @include media-breakpoint-up(xl) {
     flex: 0 1 20rem;
+
+    max-width: 100% * 2 / 12;
   }
 
   .decidable-brand {

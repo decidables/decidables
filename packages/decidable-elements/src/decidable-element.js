@@ -4,7 +4,7 @@ import {
   css,
   svg,
   unsafeCSS,
-} from 'lit-element';
+} from 'lit';
 import * as d3 from 'd3';
 
 /*
