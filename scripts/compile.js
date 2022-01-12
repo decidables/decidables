@@ -1,7 +1,6 @@
 
 // devDependencies
 import gulp from 'gulp';
-import gulpBro from 'gulp-bro';
 import gulpDartSass from 'gulp-dart-sass';
 import gulpEjs from 'gulp-ejs';
 import gulpFrontMatter from 'gulp-front-matter';
@@ -17,8 +16,6 @@ import resolvePkg from 'resolve-pkg';
 import * as rollup from 'rollup';
 import * as rollupPluginBabel from '@rollup/plugin-babel';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
-import rollupPluginJson from '@rollup/plugin-json';
-import rollupPluginNodePolyfills from 'rollup-plugin-polyfill-node';
 import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
 import styleApa from 'style-apa';
@@ -73,56 +70,36 @@ export function compileMarkdown() {
     .pipe(gulpNotify({message: 'compile:markdown done!', onLast: true}));
 }
 
-// let rollupCache;
-// export async function compileScripts() {
-//   const bundle = await rollup.rollup({
-//     cache: rollupCache,
-//     input: 'src/index.js',
-//     plugins: [
-//       rollupPluginNodeResolve({preferBuiltins: false}),
-//       rollupPluginNodePolyfills(),
-//       rollupPluginCommonjs(),
-//       rollupPluginJson(),
-//       rollupPluginWebWorkerLoader(),
-//       rollupPluginBabel.babel({
-//         presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.20'}]],
-//         babelHelpers: 'bundled',
-//       }),
-//     ],
-//     // Hide warnings for circular dependencies, which are allowed in the ES6 spec
-//     // https://github.com/rollup/rollup/issues/2271#issuecomment-475540827
-//     onwarn: (warning, warn) => {
-//       if (warning.code !== 'CIRCULAR_DEPENDENCY') {
-//         warn(warning);
-//       }
-//     },
-//   });
-//
-//   rollupCache = bundle.cache;
-//
-//   bundle.write({
-//     dir: 'local',
-//     format: 'iife',
-//     sourcemap: true,
-//   });
-// }
+let rollupCache;
+export async function compileScripts() {
+  const bundle = await rollup.rollup({
+    cache: rollupCache,
+    input: 'src/index.js',
+    plugins: [
+      rollupPluginNodeResolve({preferBuiltins: false}),
+      rollupPluginCommonjs(),
+      rollupPluginWebWorkerLoader({targetPlatform: 'browser', sourcemap: true}),
+      rollupPluginBabel.babel({
+        presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.20'}]],
+        babelHelpers: 'bundled',
+      }),
+    ],
+    // Hide warnings for circular dependencies, which are allowed in the ES6 spec
+    // https://github.com/rollup/rollup/issues/2271#issuecomment-475540827
+    onwarn: (warning, warn) => {
+      if (warning.code !== 'CIRCULAR_DEPENDENCY') {
+        warn(warning);
+      }
+    },
+  });
 
-export function compileScripts() {
-  return gulp.src('src/*.js')
-    .pipe(gulpBro({
-      debug: true,
-      transform: [
-        ['babelify', {
-          presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.1'}]],
-          global: true,
-          ignore: [/core-js|plotly\.js/],
-        }],
-      ],
-    }))
-    .pipe(gulpSourcemaps.init({loadMaps: true}))
-    .pipe(gulpSourcemaps.write('.'))
-    .pipe(gulp.dest('local'))
-    .pipe(gulpNotify({message: 'compile:scripts done!', onLast: true}));
+  rollupCache = bundle.cache;
+
+  bundle.write({
+    dir: 'local',
+    format: 'iife',
+    sourcemap: true,
+  });
 }
 
 export function compileStyles() {

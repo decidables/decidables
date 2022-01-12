@@ -2,8 +2,7 @@
 
 # NOTES:
 
-- move to rollup
-- remove lerna (no longer needed due to yarn workspaces?)
+- notify on rollup completion
 - handle install warnings
 - need to lint *.scss files
 - need eslint overrides for dev scripts versus browser scripts
@@ -12,6 +11,8 @@
   - Is popper needed?
 - Add top-level decidable website?
   - And/or provide way to serve all sites at once?
+- git: use main instead of master
+- restore lit-transitions
 
 # decidable: Explorable Explanations of Decision Making
 

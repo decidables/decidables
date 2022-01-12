@@ -2,30 +2,51 @@
 // devDependencies
 import cssnano from 'cssnano';
 import gulp from 'gulp';
-import gulpBro from 'gulp-bro';
 import gulpHtmlmin from 'gulp-htmlmin';
 import gulpPostcss from 'gulp-postcss';
 import gulpSourcemaps from 'gulp-sourcemaps';
-import gulpUglify from 'gulp-uglify';
+import gulpTerser from 'gulp-terser';
+import * as rollup from 'rollup';
+import * as rollupPluginBabel from '@rollup/plugin-babel';
+import rollupPluginCommonjs from '@rollup/plugin-commonjs';
+import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
+import { terser as rollupPluginTerser } from "rollup-plugin-terser";
+import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
 
 // Tasks
-export function buildLibraryTask(name) {
-  return gulp.src('src/index.js')
-    .pipe(gulpBro({
-      debug: true,
-      standalone: name,
-      transform: [
-        ['babelify', {
-          presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.1'}]],
-          global: true,
-          ignore: [/core-js|plotly\.js/],
-        }],
-      ],
-    }))
-    .pipe(gulpSourcemaps.init({loadMaps: true}))
-    .pipe(gulpUglify())
-    .pipe(gulpSourcemaps.write('.'))
-    .pipe(gulp.dest('lib'));
+let rollupCache;
+export async function buildLibraryTask(name) {
+  const bundle = await rollup.rollup({
+    cache: rollupCache,
+    input: 'src/index.js',
+    plugins: [
+      rollupPluginNodeResolve({preferBuiltins: false}),
+      rollupPluginCommonjs(),
+      rollupPluginWebWorkerLoader({targetPlatform: 'browser', sourcemap: true}),
+      rollupPluginBabel.babel({
+        presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.20'}]],
+        babelHelpers: 'bundled',
+      }),
+      rollupPluginTerser(),
+    ],
+    // Hide warnings for circular dependencies, which are allowed in the ES6 spec
+    // https://github.com/rollup/rollup/issues/2271#issuecomment-475540827
+    onwarn: (warning, warn) => {
+      if (warning.code !== 'CIRCULAR_DEPENDENCY') {
+        warn(warning);
+      }
+    },
+  });
+
+  rollupCache = bundle.cache;
+
+  bundle.write({
+    // dir: 'lib',
+    name,
+    file: `lib/${name}.min.js`,
+    format: 'umd',
+    sourcemap: true,
+  });
 }
 
 export function buildConfig() {
@@ -50,7 +71,7 @@ export function buildMarkup() {
 export function buildScripts() {
   return gulp.src(['local/*.js'])
     .pipe(gulpSourcemaps.init({loadMaps: true}))
-    .pipe(gulpUglify())
+    .pipe(gulpTerser())
     .pipe(gulpSourcemaps.write('.'))
     .pipe(gulp.dest('dist'));
 }

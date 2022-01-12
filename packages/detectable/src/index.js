@@ -7,7 +7,7 @@ import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter';
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
 // Lit polyfills
-import 'lit/polyfill-support.js';
+import 'lit/polyfill-support.js'; /* eslint-disable-line import/extensions */
 
 // External dependencies
 import 'bootstrap';
