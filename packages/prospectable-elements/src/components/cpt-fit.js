@@ -2,11 +2,10 @@
 import {html, css} from 'lit';
 import * as Plotly from 'plotly.js/lib/core';
 import * as PlotlyHistogram from 'plotly.js/lib/histogram';
-// import Plotly from 'plotly.js-dist';
-import Webworkify from 'webworkify';
 
-// import CPTFitWorker from 'web-worker:./cpt-fit-worker';
-import CPTFitWorker from './cpt-fit-worker';
+// Special Web Worker import for rollup-plugin-web-worker-loader
+import CPTFitWorker from 'web-worker:./cpt-fit-worker'; /* eslint-disable-line import/no-unresolved */
+
 import CPTElement from '../cpt-element';
 import plotlyStyle from './plotly-style.auto';
 
@@ -39,8 +38,7 @@ export default class CPTFit extends CPTElement {
 
     this.working = false;
     this.queued = false;
-    // this.worker = new CPTFitWorker();
-    this.worker = Webworkify(CPTFitWorker);
+    this.worker = new CPTFitWorker();
 
     this.worker.onmessage = (event) => {
       this.working = false;

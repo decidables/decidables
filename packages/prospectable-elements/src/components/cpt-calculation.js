@@ -222,7 +222,8 @@ export default class CPTCalculation extends CPTEquation {
       //   ? mark(html`<span class="comparison">&gt;</span>`, 'gt')
       //   : (this.uDiff < 0)
       //     ? mark(html`<span class="comparison">&lt;</span>`, 'lt')
-      //     : mark(html`<span class="comparison">=</span>`, 'eq'), fade({mode: 'out-in', duration: 200}))}`;
+      //     : mark(html`<span class="comparison">=</span>`, 'eq'),
+      //   fade({mode: 'out-in', duration: 200}))}`;
       uDiff = html`${(this.uDiff > 0)
         ? html`<span class="comparison">&gt;</span>`
         : (this.uDiff < 0)

@@ -167,7 +167,13 @@ export default class CPTEquationVW2U extends CPTEquation {
             ? Array(this.nMax).fill().map((_, index) => {
               // return transition(
               //   (index < this.n)
-              //     ? mark(html`<span class="addend tight">${(index !== 0) ? html`<span class="plus">+</span>` : html``}${this.vTemplate(index + 1, 'math-num', true)}&nbsp;${this.wTemplate(index + 1, 'math-num', true)}</span>`, `${index}`)
+              //     ? mark(html`<span class="addend tight">${
+              //       (index !== 0)
+              //         ? html`<span class="plus">+</span>`
+              //         : html``
+              //     }${
+              //       this.vTemplate(index + 1, 'math-num', true)
+              //     }&nbsp;${this.wTemplate(index + 1, 'math-num', true)}</span>`, `${index}`)
               //     : null,
               //   slide({mode: 'both', x: '-100%', x1: '-100%'}),
               // );
