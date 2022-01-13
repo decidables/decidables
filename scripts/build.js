@@ -39,7 +39,7 @@ export async function buildLibraryTask(name) {
 
   rollupCache = bundle.cache;
 
-  bundle.write({
+  await bundle.write({
     name,
     file: `lib/${name}.min.js`,
     format: 'umd',
