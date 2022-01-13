@@ -4,7 +4,6 @@ import cssnano from 'cssnano';
 import gulp from 'gulp';
 import gulpHtmlmin from 'gulp-htmlmin';
 import gulpPostcss from 'gulp-postcss';
-import gulpSourcemaps from 'gulp-sourcemaps';
 import gulpTerser from 'gulp-terser';
 import * as rollup from 'rollup';
 import * as rollupPluginBabel from '@rollup/plugin-babel';
@@ -41,7 +40,6 @@ export async function buildLibraryTask(name) {
   rollupCache = bundle.cache;
 
   bundle.write({
-    // dir: 'lib',
     name,
     file: `lib/${name}.min.js`,
     format: 'umd',
@@ -55,7 +53,7 @@ export function buildConfig() {
 }
 
 export function buildFonts() {
-  return gulp.src(['local/fonts/*.woff'])
+  return gulp.src(['local/fonts/*.{woff,woff2}'])
     .pipe(gulp.dest('dist/fonts'));
 }
 
@@ -69,19 +67,15 @@ export function buildMarkup() {
 }
 
 export function buildScripts() {
-  return gulp.src(['local/*.js'])
-    .pipe(gulpSourcemaps.init({loadMaps: true}))
+  return gulp.src(['local/*.js'], {sourcemaps: true})
     .pipe(gulpTerser())
-    .pipe(gulpSourcemaps.write('.'))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist', {sourcemaps: '.'}));
 }
 
 export function buildStyles() {
-  return gulp.src('local/*.css')
-    .pipe(gulpSourcemaps.init({loadMaps: true}))
+  return gulp.src('local/*.css', {sourcemaps: true})
     .pipe(gulpPostcss([
       cssnano(),
     ]))
-    .pipe(gulpSourcemaps.write('.'))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist', {sourcemaps: '.'}));
 }

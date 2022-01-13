@@ -8,29 +8,30 @@ $font-map: (
   SourceCodePro-SemiboldIt: ("Source Code Pro", italic, 600, normal),
   SourceCodePro-Bold: ("Source Code Pro", normal, 700, normal),
   SourceCodePro-BoldIt: ("Source Code Pro", italic, 700, normal),
-  SourceSansPro-Regular: ("Source Sans Pro", normal, 400, normal),
-  SourceSansPro-It: ("Source Sans Pro", italic, 400, normal),
-  SourceSansPro-Semibold: ("Source Sans Pro", normal, 600, normal),
-  SourceSansPro-SemiboldIt: ("Source Sans Pro", italic, 600, normal),
-  SourceSansPro-Bold: ("Source Sans Pro", normal, 700, normal),
-  SourceSansPro-BoldIt: ("Source Sans Pro", italic, 700, normal),
-  SourceSerifPro-Regular: ("Source Serif Pro", normal, 400, normal),
-  SourceSerifPro-It: ("Source Serif Pro", italic, 400, normal),
-  SourceSerifPro-Semibold: ("Source Serif Pro", normal, 600, normal),
-  SourceSerifPro-SemiboldIt: ("Source Serif Pro", italic, 600, normal),
-  SourceSerifPro-Bold: ("Source Serif Pro", normal, 700, normal),
-  SourceSerifPro-BoldIt: ("Source Serif Pro", italic, 700, normal),
+  SourceSans3-Regular: ("Source Sans", normal, 400, normal),
+  SourceSans3-It: ("Source Sans", italic, 400, normal),
+  SourceSans3-Semibold: ("Source Sans", normal, 600, normal),
+  SourceSans3-SemiboldIt: ("Source Sans", italic, 600, normal),
+  SourceSans3-Bold: ("Source Sans", normal, 700, normal),
+  SourceSans3-BoldIt: ("Source Sans", italic, 700, normal),
+  SourceSerif4-Regular: ("Source Serif", normal, 400, normal),
+  SourceSerif4-It: ("Source Serif", italic, 400, normal),
+  SourceSerif4-Semibold: ("Source Serif", normal, 600, normal),
+  SourceSerif4-SemiboldIt: ("Source Serif", italic, 600, normal),
+  SourceSerif4-Bold: ("Source Serif", normal, 700, normal),
+  SourceSerif4-BoldIt: ("Source Serif", italic, 700, normal),
 );
 
 @each $file, $font-list in $font-map {
   @font-face {
-    src: url("fonts/#{$file}.otf.woff") format("woff");
+    src: url("fonts/#{$file}.otf.woff2") format("woff2"), url("fonts/#{$file}.otf.woff") format("woff");
     font-family: nth($font-list, 1);
     font-style: nth($font-list, 2);
     font-weight: nth($font-list, 3);
     font-stretch: nth($font-list, 4);
   }
 }
+
 
 // COLOR
 
@@ -132,7 +133,7 @@ $color-element-emphasis: #{$color-grey-dark75};
 $enable-rfs: false;
 
 // BOOTSTRAP VARIABLES
-$font-family-base: "Source Sans Pro", sans-serif;
+$font-family-base: "Source Sans", sans-serif;
 $grid-gutter-width: 2rem;
 $border-width: 1px;
 $border-radius: 0.25rem;
@@ -156,7 +157,7 @@ $container-max-widths: (
 );
 
 // SCSS VARIABLES
-$font-family-math: "Source Serif Pro", serif; // Not in Bootstrap
+$font-family-math: "Source Serif", serif; // Not in Bootstrap
 $font-family-code: "Source Code Pro", monospace; // Not in Bootstrap
 $border: $border-width solid $border-color;
 $transition-duration: 500ms;
@@ -542,7 +543,7 @@ body {
   // }
   //
   // code[class="c"] {
-  //   font-family: "Source Serif Pro", serif;
+  //   font-family: "Source Serif", serif;
   //   font-style: italic;
   //
   //   background-color: cpt-color-light(c);
@@ -557,7 +558,7 @@ body {
   // }
   //
   // code[class="d′"] {
-  //   font-family: "Source Serif Pro", serif;
+  //   font-family: "Source Serif", serif;
   //   font-style: italic;
   //
   //   background-color: cpt-color-light(d);
@@ -572,7 +573,7 @@ body {
   // }
   //
   // code[class="σ"] {
-  //   font-family: "Source Serif Pro", serif;
+  //   font-family: "Source Serif", serif;
   //   font-style: italic;
   //
   //   background-color: cpt-color-light(s);

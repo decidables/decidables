@@ -30291,7 +30291,7 @@
 	  mode: "open"
 	}, null == h$1 || h$1({
 	  ReactiveElement: a$1
-	}), (null !== (s$2 = globalThis.reactiveElementVersions) && void 0 !== s$2 ? s$2 : globalThis.reactiveElementVersions = []).push("1.1.1");
+	}), (null !== (s$2 = globalThis.reactiveElementVersions) && void 0 !== s$2 ? s$2 : globalThis.reactiveElementVersions = []).push("1.1.2");
 
 	/**
 	 * @license

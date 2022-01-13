@@ -1,126 +1,126 @@
 @charset "UTF-8";
 @font-face {
-  src: url("fonts/SourceCodePro-Regular.otf.woff") format("woff");
+  src: url("fonts/SourceCodePro-Regular.otf.woff2") format("woff2"), url("fonts/SourceCodePro-Regular.otf.woff") format("woff");
   font-family: "Source Code Pro";
   font-style: normal;
   font-weight: 400;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceCodePro-It.otf.woff") format("woff");
+  src: url("fonts/SourceCodePro-It.otf.woff2") format("woff2"), url("fonts/SourceCodePro-It.otf.woff") format("woff");
   font-family: "Source Code Pro";
   font-style: italic;
   font-weight: 400;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceCodePro-Semibold.otf.woff") format("woff");
+  src: url("fonts/SourceCodePro-Semibold.otf.woff2") format("woff2"), url("fonts/SourceCodePro-Semibold.otf.woff") format("woff");
   font-family: "Source Code Pro";
   font-style: normal;
   font-weight: 600;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceCodePro-SemiboldIt.otf.woff") format("woff");
+  src: url("fonts/SourceCodePro-SemiboldIt.otf.woff2") format("woff2"), url("fonts/SourceCodePro-SemiboldIt.otf.woff") format("woff");
   font-family: "Source Code Pro";
   font-style: italic;
   font-weight: 600;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceCodePro-Bold.otf.woff") format("woff");
+  src: url("fonts/SourceCodePro-Bold.otf.woff2") format("woff2"), url("fonts/SourceCodePro-Bold.otf.woff") format("woff");
   font-family: "Source Code Pro";
   font-style: normal;
   font-weight: 700;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceCodePro-BoldIt.otf.woff") format("woff");
+  src: url("fonts/SourceCodePro-BoldIt.otf.woff2") format("woff2"), url("fonts/SourceCodePro-BoldIt.otf.woff") format("woff");
   font-family: "Source Code Pro";
   font-style: italic;
   font-weight: 700;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSansPro-Regular.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
+  src: url("fonts/SourceSans3-Regular.otf.woff2") format("woff2"), url("fonts/SourceSans3-Regular.otf.woff") format("woff");
+  font-family: "Source Sans";
   font-style: normal;
   font-weight: 400;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSansPro-It.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
+  src: url("fonts/SourceSans3-It.otf.woff2") format("woff2"), url("fonts/SourceSans3-It.otf.woff") format("woff");
+  font-family: "Source Sans";
   font-style: italic;
   font-weight: 400;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSansPro-Semibold.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
+  src: url("fonts/SourceSans3-Semibold.otf.woff2") format("woff2"), url("fonts/SourceSans3-Semibold.otf.woff") format("woff");
+  font-family: "Source Sans";
   font-style: normal;
   font-weight: 600;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSansPro-SemiboldIt.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
+  src: url("fonts/SourceSans3-SemiboldIt.otf.woff2") format("woff2"), url("fonts/SourceSans3-SemiboldIt.otf.woff") format("woff");
+  font-family: "Source Sans";
   font-style: italic;
   font-weight: 600;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSansPro-Bold.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
+  src: url("fonts/SourceSans3-Bold.otf.woff2") format("woff2"), url("fonts/SourceSans3-Bold.otf.woff") format("woff");
+  font-family: "Source Sans";
   font-style: normal;
   font-weight: 700;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSansPro-BoldIt.otf.woff") format("woff");
-  font-family: "Source Sans Pro";
+  src: url("fonts/SourceSans3-BoldIt.otf.woff2") format("woff2"), url("fonts/SourceSans3-BoldIt.otf.woff") format("woff");
+  font-family: "Source Sans";
   font-style: italic;
   font-weight: 700;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSerifPro-Regular.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
+  src: url("fonts/SourceSerif4-Regular.otf.woff2") format("woff2"), url("fonts/SourceSerif4-Regular.otf.woff") format("woff");
+  font-family: "Source Serif";
   font-style: normal;
   font-weight: 400;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSerifPro-It.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
+  src: url("fonts/SourceSerif4-It.otf.woff2") format("woff2"), url("fonts/SourceSerif4-It.otf.woff") format("woff");
+  font-family: "Source Serif";
   font-style: italic;
   font-weight: 400;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSerifPro-Semibold.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
+  src: url("fonts/SourceSerif4-Semibold.otf.woff2") format("woff2"), url("fonts/SourceSerif4-Semibold.otf.woff") format("woff");
+  font-family: "Source Serif";
   font-style: normal;
   font-weight: 600;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSerifPro-SemiboldIt.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
+  src: url("fonts/SourceSerif4-SemiboldIt.otf.woff2") format("woff2"), url("fonts/SourceSerif4-SemiboldIt.otf.woff") format("woff");
+  font-family: "Source Serif";
   font-style: italic;
   font-weight: 600;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSerifPro-Bold.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
+  src: url("fonts/SourceSerif4-Bold.otf.woff2") format("woff2"), url("fonts/SourceSerif4-Bold.otf.woff") format("woff");
+  font-family: "Source Serif";
   font-style: normal;
   font-weight: 700;
   font-stretch: normal;
 }
 @font-face {
-  src: url("fonts/SourceSerifPro-BoldIt.otf.woff") format("woff");
-  font-family: "Source Serif Pro";
+  src: url("fonts/SourceSerif4-BoldIt.otf.woff2") format("woff2"), url("fonts/SourceSerif4-BoldIt.otf.woff") format("woff");
+  font-family: "Source Serif";
   font-style: italic;
   font-weight: 700;
   font-stretch: normal;
@@ -186,8 +186,8 @@
 
 :root {
   /* stylelint-disable-line no-duplicate-selectors */
-  --font-family-base: Source Sans Pro, sans-serif;
-  --font-family-math: Source Serif Pro, serif;
+  --font-family-base: Source Sans, sans-serif;
+  --font-family-math: Source Serif, serif;
   --border: 1px solid #e6e6e6;
   --border-radius: 0.25rem;
   --transition-duration: 500ms;
@@ -245,7 +245,7 @@
   --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
-  --bs-body-font-family: Source Sans Pro, sans-serif;
+  --bs-body-font-family: Source Sans, sans-serif;
   --bs-body-font-size: 1rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
@@ -5814,7 +5814,7 @@ textarea.form-control-lg {
   z-index: 1080;
   display: block;
   margin: 0;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Source Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -5916,7 +5916,7 @@ textarea.form-control-lg {
   z-index: 1070;
   display: block;
   max-width: 276px;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Source Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -11288,12 +11288,12 @@ body {
 }
 
 .math-var {
-  font-family: "Source Serif Pro", serif;
+  font-family: "Source Serif", serif;
   font-style: italic;
 }
 
 .math-greek {
-  font-family: "Source Serif Pro", serif;
+  font-family: "Source Serif", serif;
   font-style: normal;
 }
 
@@ -11550,7 +11550,7 @@ body {
 .sdt-content .key[class~=c],
 .sdt-content .key[class~=d′],
 .sdt-content .key[class~=σ] {
-  font-family: "Source Serif Pro", serif;
+  font-family: "Source Serif", serif;
   font-style: italic;
 }
 .sdt-content .key[class~=Bias],

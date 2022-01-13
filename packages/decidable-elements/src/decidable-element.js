@@ -222,8 +222,8 @@ export default class DecidableElement extends LitElement {
         ---color-element-border: var(--color-element-border, ${unsafeCSS(this.greys.dark50)});
         ---color-element-emphasis: var(--color-element-emphasis, ${unsafeCSS(this.greys.dark75)});
 
-        ---font-family-base: var(--font-family-base, "Source Sans Pro", sans-serif);
-        ---font-family-math: var(--font-family-math, "Source Serif Pro", serif);
+        ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
+        ---font-family-math: var(--font-family-math, "Source Serif", serif);
 
         ---transition-duration: var(--transition-duration, 500ms);
 
