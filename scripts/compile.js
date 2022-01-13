@@ -7,7 +7,6 @@ import gulpFrontMatter from 'gulp-front-matter';
 import gulpNotify from 'gulp-notify';
 import {remark as gulpRemark} from 'gulp-remark';
 import gulpRename from 'gulp-rename';
-import gulpSourcemaps from 'gulp-sourcemaps';
 import localeEnUs from 'locale-en-us';
 import nodeSassPackageImporter from 'node-sass-package-importer';
 import remarkDirective from 'remark-directive';
@@ -33,8 +32,11 @@ export function compileConfig() {
 export function compileFonts() {
   return gulp.src([
     resolvePkg('source-code-pro/WOFF/OTF/SourceCodePro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
-    resolvePkg('source-sans-pro/WOFF/OTF/SourceSansPro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
-    resolvePkg('source-serif-pro/WOFF/OTF/SourceSerifPro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
+    resolvePkg('source-sans/WOFF/OTF/SourceSans3-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
+    resolvePkg('source-serif/WOFF/OTF/SourceSerif4-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
+    resolvePkg('source-code-pro/WOFF2/OTF/SourceCodePro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff2'),
+    resolvePkg('source-sans/WOFF2/OTF/SourceSans3-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff2'),
+    resolvePkg('source-serif/WOFF2/OTF/SourceSerif4-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff2'),
   ])
     .pipe(gulp.dest('local/fonts'));
 }
@@ -103,10 +105,8 @@ export async function compileScripts() {
 }
 
 export function compileStyles() {
-  return gulp.src('src/*.scss')
-    .pipe(gulpSourcemaps.init({loadMaps: true}))
+  return gulp.src('src/*.scss', {sourcemaps: true})
     .pipe(gulpDartSass({importer: nodeSassPackageImporter()}).on('error', gulpDartSass.logError))
-    .pipe(gulpSourcemaps.write('.'))
-    .pipe(gulp.dest('local'))
+    .pipe(gulp.dest('local', {sourcemaps: '.'}))
     .pipe(gulpNotify({message: 'compile:styles done!', onLast: true}));
 }

@@ -1,9 +1,8 @@
 <!--lint disable first-level-heading -->
 
-# NOTES:
+# NOTES
 
 - notify on rollup completion
-- handle install warnings
 - need to lint *.scss files
 - need eslint overrides for dev scripts versus browser scripts
 - use focused imports to support Tree Shaking?
@@ -13,6 +12,7 @@
   - And/or provide way to serve all sites at once?
 - git: use main instead of master
 - restore lit-transitions
+- get remark-lint and stylelint working in editor
 
 # decidable: Explorable Explanations of Decision Making
 

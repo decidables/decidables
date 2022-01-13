@@ -469,7 +469,7 @@ export default class DecisionSpace extends CPTElement {
         showscale: false,
       },
       font: {
-        family: '"Source Sans Pro", sans-serif',
+        family: '"Source Sans", sans-serif',
         color: colorText,
       },
       margin: {t: 0, l: 0, b: 0},
