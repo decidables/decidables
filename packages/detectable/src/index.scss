@@ -1,3 +1,8 @@
+// Built-In Modules
+@use "sass:color";
+@use "sass:list";
+@use "sass:map";
+
 // FONTS
 
 $font-map: (
@@ -25,10 +30,10 @@ $font-map: (
 @each $file, $font-list in $font-map {
   @font-face {
     src: url("fonts/#{$file}.otf.woff2") format("woff2"), url("fonts/#{$file}.otf.woff") format("woff");
-    font-family: nth($font-list, 1);
-    font-style: nth($font-list, 2);
-    font-weight: nth($font-list, 3);
-    font-stretch: nth($font-list, 4);
+    font-family: list.nth($font-list, 1);
+    font-style: list.nth($font-list, 2);
+    font-weight: list.nth($font-list, 3);
+    font-stretch: list.nth($font-list, 4);
   }
 }
 
@@ -56,28 +61,28 @@ $color-map: (
 );
 
 @function sdt-color($name) {
-  @return map-get($color-map, $name);
+  @return map.get($color-map, $name);
 }
 
 @function sdt-color-light($name) {
-  @return mix(#ffffff, map-get($color-map, $name), 50%);
+  @return color.mix(#ffffff, map.get($color-map, $name), 50%);
 }
 
 @function sdt-color-dark($name) {
-  @return mix(#000000, map-get($color-map, $name), 50%);
+  @return color.mix(#000000, map.get($color-map, $name), 50%);
 }
 
 // Greys:
 $color-grey-base: #999999; // baseline grey
 
 $color-white: #ffffff; // 100% lightness #ffffff
-$color-grey-light75: mix(#ffffff, $color-grey-base, 75%); // 90% lightness #e6e6e6
-$color-grey-light50: mix(#ffffff, $color-grey-base, 50%); // 80% lightness #cccccc
-$color-grey-light25: mix(#ffffff, $color-grey-base, 25%); // 70% lightness #b3b3b3
+$color-grey-light75: color.mix(#ffffff, $color-grey-base, 75%); // 90% lightness #e6e6e6
+$color-grey-light50: color.mix(#ffffff, $color-grey-base, 50%); // 80% lightness #cccccc
+$color-grey-light25: color.mix(#ffffff, $color-grey-base, 25%); // 70% lightness #b3b3b3
 $color-grey: $color-grey-base; // 60% lightness #999999
-$color-grey-dark25: mix(#000000, $color-grey-base, 25%); // 45% lightness #737373
-$color-grey-dark50: mix(#000000, $color-grey-base, 50%); // 30% lightness #4d4d4d
-$color-grey-dark75: mix(#000000, $color-grey-base, 75%); // 15% lightness #262626
+$color-grey-dark25: color.mix(#000000, $color-grey-base, 25%); // 45% lightness #737373
+$color-grey-dark50: color.mix(#000000, $color-grey-base, 50%); // 30% lightness #4d4d4d
+$color-grey-dark75: color.mix(#000000, $color-grey-base, 75%); // 15% lightness #262626
 $color-black: #000000;  // 0% lightness #000000
 
 // Bootstrap SCSS variables
@@ -188,9 +193,9 @@ $shadow-ambient-map: (
 );
 
 @mixin shadow($shadow-level) {
-  $shadow-umbra: map-get($shadow-umbra-map, $shadow-level);
-  $shadow-penumbra: map-get($shadow-penumbra-map, $shadow-level);
-  $shadow-ambient: map-get($shadow-ambient-map, $shadow-level);
+  $shadow-umbra: map.get($shadow-umbra-map, $shadow-level);
+  $shadow-penumbra: map.get($shadow-penumbra-map, $shadow-level);
+  $shadow-ambient: map.get($shadow-ambient-map, $shadow-level);
 
   $shadow-umbra-color: rgba($shadow-baseline-color, $shadow-umbra-opacity + $shadow-opacity-boost);
   $shadow-penumbra-color: rgba($shadow-baseline-color, $shadow-penumbra-opacity + $shadow-opacity-boost);
@@ -214,32 +219,52 @@ $shadow-ambient-map: (
 
 
 // BOOTSTRAP IMPORTS
+/* stylelint-disable no-invalid-position-at-import-rule */
+// Bootstrap 5 Configuration
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";
 
-@import "~bootstrap/scss/bootstrap";
-
-// // Structure
-// @import "~bootstrap/scss/functions";
-// @import "~bootstrap/scss/variables";
-// @import "~bootstrap/scss/mixins";
-// // Core
-// @import "~bootstrap/scss/reboot";
-// @import "~bootstrap/scss/type";
-// // @import "~bootstrap/scss/images";
-// @import "~bootstrap/scss/grid";
-// // Elements
-// // @import "~bootstrap/scss/tables";
-// @import "~bootstrap/scss/buttons";
-// @import "~bootstrap/scss/transitions";
+// Bootstrap 5 Layout & components
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+// @import "~bootstrap/scss/images";
+@import "~bootstrap/scss/containers";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/tables";
+// @import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/transitions";
 // @import "~bootstrap/scss/dropdown";
-// // @import "~bootstrap/scss/card";
-// @import "~bootstrap/scss/nav";
-// @import "~bootstrap/scss/navbar";
-// // @import "~bootstrap/scss/alert";
-// // @import "~bootstrap/scss/list-group";
-// // @import "~bootstrap/scss/close";
-// // @import "~bootstrap/scss/modal";
-// // Utility
-// @import "~bootstrap/scss/utilities";
+// @import "~bootstrap/scss/button-group";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+// @import "~bootstrap/scss/card";
+// @import "~bootstrap/scss/accordion";
+// @import "~bootstrap/scss/breadcrumb";
+// @import "~bootstrap/scss/pagination";
+// @import "~bootstrap/scss/badge";
+// @import "~bootstrap/scss/alert";
+// @import "~bootstrap/scss/progress";
+// @import "~bootstrap/scss/list-group";
+// @import "~bootstrap/scss/close";
+// @import "~bootstrap/scss/toasts";
+// @import "~bootstrap/scss/modal";
+// @import "~bootstrap/scss/tooltip";
+// @import "~bootstrap/scss/popover";
+// @import "~bootstrap/scss/carousel";
+// @import "~bootstrap/scss/spinners";
+// @import "~bootstrap/scss/offcanvas";
+// @import "~bootstrap/scss/placeholders";
+
+// Bootstrap 5 Helpers
+@import "~bootstrap/scss/helpers";
+
+// Bootstrap 5 Utilities
+@import "~bootstrap/scss/utilities/api";
+/* stylelint-enable no-invalid-position-at-import-rule */
 
 
 // CUSTOM CSS

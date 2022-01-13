@@ -4494,6 +4494,7 @@ __metadata:
     postcss-syntax: ^0.36.2
     remark: ^14.0.2
     remark-directive: ^2.0.1
+    remark-frontmatter: ^4.0.1
     remark-html: ^15.0.1
     remark-lint: ^9.1.1
     remark-lint-first-heading-level: ^3.1.1
@@ -8702,6 +8703,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mdast-util-frontmatter@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "mdast-util-frontmatter@npm:1.0.0"
+  dependencies:
+    micromark-extension-frontmatter: ^1.0.0
+  checksum: 4fae0bd9f002e3b2a95829ab8d411a64cd7acf41de9c28fac8a70d6d96498efb6409c611e8433ce9e101b8b9d37a25ce3f9144dc7c06f0669ac5451460cc28e7
+  languageName: node
+  linkType: hard
+
 "mdast-util-heading-style@npm:^2.0.0":
   version: 2.0.0
   resolution: "mdast-util-heading-style@npm:2.0.0"
@@ -8844,6 +8854,17 @@ __metadata:
     parse-entities: ^4.0.0
     uvu: ^0.5.0
   checksum: 2c8e65d9697d1f49c3145f1906e26b6042bb6c0b672f2eb84c2eb56048aeec94aca2360d6290d41802880b2e31aeb96467cb8623780e8b4ac58e9adbdcd4d623
+  languageName: node
+  linkType: hard
+
+"micromark-extension-frontmatter@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "micromark-extension-frontmatter@npm:1.0.0"
+  dependencies:
+    fault: ^2.0.0
+    micromark-util-character: ^1.0.0
+    micromark-util-symbol: ^1.0.0
+  checksum: d0bacd6aadd6e33e26245628b93f5bcaf9a1de47787cea6807f8569213ceeb1376c37fadcf059280f5eafe6a07682bd148989e65489e99c9a3f4d523eea5f5c0
   languageName: node
   linkType: hard
 
@@ -11290,6 +11311,18 @@ __metadata:
     micromark-extension-directive: ^2.0.0
     unified: ^10.0.0
   checksum: 61539926813654011431cc34e3d6c5ba702a6b610a0e8210b4748828809e86614bbb3e2de5fdee59eed24501f95c41665b175b852cc26544079789db10ac6cd7
+  languageName: node
+  linkType: hard
+
+"remark-frontmatter@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "remark-frontmatter@npm:4.0.1"
+  dependencies:
+    "@types/mdast": ^3.0.0
+    mdast-util-frontmatter: ^1.0.0
+    micromark-extension-frontmatter: ^1.0.0
+    unified: ^10.0.0
+  checksum: c1c448923cd0239e9eeafb42d7129c05081c9a1bca4c8164b562cbb748e80d103bfd058597a48d54000ce3c776200ab8ccd64a9679d955423f07e4a4e77f10c3
   languageName: node
   linkType: hard
 

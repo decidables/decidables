@@ -3,11 +3,8 @@
 # NOTES
 
 - notify on rollup completion
-- need to lint *.scss files
 - need eslint overrides for dev scripts versus browser scripts
 - use focused imports to support Tree Shaking?
-- Cleanup bootstrap scss imports
-  - Is popper needed?
 - Add top-level decidable website?
   - And/or provide way to serve all sites at once?
 - git: use main instead of master
