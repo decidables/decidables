@@ -8,6 +8,7 @@ import gulpNotify from 'gulp-notify';
 import {remark as gulpRemark} from 'gulp-remark';
 import gulpRename from 'gulp-rename';
 import localeEnUs from 'locale-en-us';
+import nodeNotifier from 'node-notifier';
 import nodeSassPackageImporter from 'node-sass-package-importer';
 import remarkDirective from 'remark-directive';
 import remarkHtml from 'remark-html';
@@ -69,7 +70,7 @@ export function compileMarkdown() {
         }))
         .pipe(gulp.dest('local'));
     })
-    .pipe(gulpNotify({message: 'compile:markdown done!', onLast: true}));
+    .pipe(gulpNotify({title: 'Gulp: compileMarkdown done!', message: ' ', onLast: true}));
 }
 
 let rollupCache;
@@ -97,16 +98,18 @@ export async function compileScripts() {
 
   rollupCache = bundle.cache;
 
-  bundle.write({
+  await bundle.write({
     dir: 'local',
     format: 'iife',
     sourcemap: true,
   });
+
+  nodeNotifier.notify({title: 'Gulp: compileScripts done!', message: ' '});
 }
 
 export function compileStyles() {
   return gulp.src('src/*.scss', {sourcemaps: true})
     .pipe(gulpDartSass({importer: nodeSassPackageImporter()}).on('error', gulpDartSass.logError))
     .pipe(gulp.dest('local', {sourcemaps: '.'}))
-    .pipe(gulpNotify({message: 'compile:styles done!', onLast: true}));
+    .pipe(gulpNotify({title: 'Gulp: compileStyles done!', message: ' ', onLast: true}));
 }

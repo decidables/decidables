@@ -2,7 +2,6 @@
 
 # NOTES
 
-- notify on rollup completion
 - need eslint overrides for dev scripts versus browser scripts
 - use focused imports to support Tree Shaking?
 - Add top-level decidable website?
