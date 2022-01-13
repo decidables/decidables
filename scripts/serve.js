@@ -1,14 +1,22 @@
 
-// Node native modules
-import http from 'http';
-
 // devDependencies
-import finalhandler from 'finalhandler';
-import serveStatic from 'serve-static';
+import express from 'express';
 
 // Tasks
 export function serve() {
-  http.createServer((req, res) => {
-    (serveStatic('.', {index: ['index.html']}))(req, res, finalhandler(req, res));
-  }).listen(8000);
+  const app = express();
+  app.use(express.static('.'));
+  app.listen(8000);
+}
+
+export function serveAll() {
+  const app = express();
+
+  app.use('/local/detectable', express.static('packages/detectable/local'));
+  app.use('/local/prospectable', express.static('packages/prospectable/local'));
+
+  app.use('/dist/detectable', express.static('packages/detectable/dist'));
+  app.use('/dist/prospectable', express.static('packages/prospectable/dist'));
+
+  app.listen(8000);
 }
