@@ -1359,9 +1359,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@decidable/decidable-elements@^0.0.1, @decidable/decidable-elements@workspace:packages/decidable-elements":
+"@decidable/decidable-elements@^0.0.1, @decidable/decidable-elements@workspace:libraries/decidable-elements":
   version: 0.0.0-use.local
-  resolution: "@decidable/decidable-elements@workspace:packages/decidable-elements"
+  resolution: "@decidable/decidable-elements@workspace:libraries/decidable-elements"
   dependencies:
     d3: ^7.3.0
     gulp: ^4.0.2
@@ -1369,9 +1369,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/detectable-elements@^0.0.1, @decidable/detectable-elements@workspace:packages/detectable-elements":
+"@decidable/detectable-elements@^0.0.1, @decidable/detectable-elements@workspace:libraries/detectable-elements":
   version: 0.0.0-use.local
-  resolution: "@decidable/detectable-elements@workspace:packages/detectable-elements"
+  resolution: "@decidable/detectable-elements@workspace:libraries/detectable-elements"
   dependencies:
     "@decidable/decidable-elements": ^0.0.1
     "@decidable/detectable-math": ^0.0.1
@@ -1382,9 +1382,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/detectable-math@^0.0.1, @decidable/detectable-math@workspace:packages/detectable-math":
+"@decidable/detectable-math@^0.0.1, @decidable/detectable-math@workspace:libraries/detectable-math":
   version: 0.0.0-use.local
-  resolution: "@decidable/detectable-math@workspace:packages/detectable-math"
+  resolution: "@decidable/detectable-math@workspace:libraries/detectable-math"
   dependencies:
     gulp: ^4.0.2
     jstat: ^1.9.5
@@ -1392,9 +1392,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/detectable@workspace:packages/detectable":
+"@decidable/detectable@workspace:sites/detectable":
   version: 0.0.0-use.local
-  resolution: "@decidable/detectable@workspace:packages/detectable"
+  resolution: "@decidable/detectable@workspace:sites/detectable"
   dependencies:
     "@decidable/detectable-elements": ^0.0.1
     "@popperjs/core": ^2.11.2
@@ -1412,9 +1412,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/prospectable-elements@^0.0.1, @decidable/prospectable-elements@workspace:packages/prospectable-elements":
+"@decidable/prospectable-elements@^0.0.1, @decidable/prospectable-elements@workspace:libraries/prospectable-elements":
   version: 0.0.0-use.local
-  resolution: "@decidable/prospectable-elements@workspace:packages/prospectable-elements"
+  resolution: "@decidable/prospectable-elements@workspace:libraries/prospectable-elements"
   dependencies:
     "@decidable/decidable-elements": ^0.0.1
     "@decidable/prospectable-math": ^0.0.1
@@ -1429,9 +1429,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/prospectable-math@^0.0.1, @decidable/prospectable-math@workspace:packages/prospectable-math":
+"@decidable/prospectable-math@^0.0.1, @decidable/prospectable-math@workspace:libraries/prospectable-math":
   version: 0.0.0-use.local
-  resolution: "@decidable/prospectable-math@workspace:packages/prospectable-math"
+  resolution: "@decidable/prospectable-math@workspace:libraries/prospectable-math"
   dependencies:
     gulp: ^4.0.2
     jstat: ^1.9.5
@@ -1439,9 +1439,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/prospectable@workspace:packages/prospectable":
+"@decidable/prospectable@workspace:sites/prospectable":
   version: 0.0.0-use.local
-  resolution: "@decidable/prospectable@workspace:packages/prospectable"
+  resolution: "@decidable/prospectable@workspace:sites/prospectable"
   dependencies:
     "@decidable/prospectable-elements": ^0.0.1
     "@popperjs/core": ^2.11.2
