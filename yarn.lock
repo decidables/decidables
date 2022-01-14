@@ -1424,11 +1424,8 @@ __metadata:
     gulp-inject: ^5.0.5
     jstat: ^1.9.5
     lit: ^2.1.1
-    lit-transition: ^1.3.2
     plotly.js: ^2.8.3
-    plotly.js-dist: ^2.8.3
     regenerator-runtime: ^0.13.9
-    webworkify: ^1.5.0
   languageName: unknown
   linkType: soft
 
@@ -8299,15 +8296,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lit-transition@npm:^1.3.2":
-  version: 1.3.2
-  resolution: "lit-transition@npm:1.3.2"
-  peerDependencies:
-    lit-html: ^1.2.1
-  checksum: 9d02e4ba238a0319012f08240e394742c369e3cffdb57b9fb25597ab08164eb13b3588f012d335ee6befb81aed5d6297449db02f340936e4151a1d3f75a3d4ce
-  languageName: node
-  linkType: hard
-
 "lit@npm:^2.1.1":
   version: 2.1.1
   resolution: "lit@npm:2.1.1"
@@ -10457,13 +10445,6 @@ __metadata:
   version: 2.0.4
   resolution: "pinkie@npm:2.0.4"
   checksum: b12b10afea1177595aab036fc220785488f67b4b0fc49e7a27979472592e971614fa1c728e63ad3e7eb748b4ec3c3dbd780819331dad6f7d635c77c10537b9db
-  languageName: node
-  linkType: hard
-
-"plotly.js-dist@npm:^2.8.3":
-  version: 2.8.3
-  resolution: "plotly.js-dist@npm:2.8.3"
-  checksum: 0e4a6c9252a57bbd2819259fba358b71b5abd1200e68c5eb17d07873c89198ed428dbb9f8d63935cc3dc7b21b06c55f9c2d54af8662a2dbf38fe4cad019808a3
   languageName: node
   linkType: hard
 
@@ -15178,13 +15159,6 @@ __metadata:
   version: 3.0.1
   resolution: "webidl-conversions@npm:3.0.1"
   checksum: c92a0a6ab95314bde9c32e1d0a6dfac83b578f8fa5f21e675bc2706ed6981bc26b7eb7e6a1fab158e5ce4adf9caa4a0aee49a52505d4d13c7be545f15021b17c
-  languageName: node
-  linkType: hard
-
-"webworkify@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "webworkify@npm:1.5.0"
-  checksum: 426c10e0b94cac0678aed05fdf1abce98e8e11a523380537bab99fcd63df7c4b71b3630e61ab8052fdbd8d6e55e53700523b423cd475b258f95be5189d8cde49
   languageName: node
   linkType: hard
 

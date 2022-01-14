@@ -348,7 +348,7 @@ body {
   @include media-breakpoint-up(xl) {
     flex: 0 1 20rem;
 
-    max-width: 100% * 2 / 12;
+    max-width: calc(100% * 2 / 12);
   }
 
   .decidable-brand {
@@ -363,8 +363,8 @@ body {
   align-items: center;
 
   padding: 0.5rem;
-  margin-right: ($grid-gutter-width / -2);
-  margin-left: ($grid-gutter-width / -2);
+  margin-right: calc($grid-gutter-width / -2);
+  margin-left: calc($grid-gutter-width / -2);
 }
 
 .decidable-tocnav-toggle {
@@ -444,8 +444,8 @@ body {
 .decidable-tocnav {
   padding-top: 0.25rem;
   padding-bottom: 0.5rem;
-  margin-right: ($grid-gutter-width / -2);
-  margin-left: ($grid-gutter-width / -2);
+  margin-right: calc($grid-gutter-width / -2);
+  margin-left: calc($grid-gutter-width / -2);
 
   @include media-breakpoint-up(md) {
     @supports (position: sticky) {

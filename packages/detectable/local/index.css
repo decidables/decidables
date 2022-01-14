@@ -193,6 +193,7 @@
   --transition-duration: 500ms;
 }
 
+/* stylelint-disable no-invalid-position-at-import-rule */
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -8196,6 +8197,7 @@ progress {
     display: none !important;
   }
 }
+/* stylelint-enable no-invalid-position-at-import-rule */
 html {
   font-size: 1rem;
 }
