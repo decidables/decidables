@@ -2,11 +2,14 @@
 
 # NOTES
 
-- deploy all
-- use focused imports to support Tree Shaking
+- separate sites from libraries
 - git: use main instead of master
+- deploy all
+- watch all?
+- include preparePlotly in compile step?
+- use focused imports to support Tree Shaking
 - restore lit-transitions
-- get eslint, remark-lint and stylelint working in editor
+- get eslint, remark-lint, and stylelint working in editor
   - need eslint overrides for dev scripts versus browser scripts
 
 - Add top-level decidable website
