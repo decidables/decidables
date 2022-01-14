@@ -3,7 +3,6 @@
 # NOTES
 
 - separate sites from libraries
-- git: use main instead of master
 - deploy all
 - watch all?
 - include preparePlotly in compile step?
