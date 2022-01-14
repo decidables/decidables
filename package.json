@@ -15,7 +15,8 @@
     "serve": "gulp serveAll"
   },
   "workspaces": [
-    "packages/*"
+    "libraries/*",
+    "sites/*"
   ],
   "engines": {
     "node": ">=16.10.0"
