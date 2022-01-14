@@ -7,7 +7,7 @@ import * as compiles from './compile.js';
 
 // Tasks
 export function watchLibrariesTask(libraries) {
-  gulp.watch(libraries.map((library) => { return `../${library}/src/**/*.js`; }), {ignoreInitial: true}, compiles.compileScripts);
+  gulp.watch(libraries.map((library) => { return `../../libraries/${library}/src/**/*.js`; }), {ignoreInitial: true}, compiles.compileScripts);
 }
 
 export function watchMarkdown() {
