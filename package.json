@@ -12,7 +12,8 @@
     "lint": "yarn workspaces foreach -pitv -j 2 run lint",
     "compile": "yarn workspaces foreach -pitv -j 2 run compile",
     "build": "yarn workspaces foreach -pitv -j 2 run build",
-    "serve": "gulp serveAll"
+    "serve": "gulp serveAll",
+    "deploy": "gulp deployAll"
   },
   "workspaces": [
     "libraries/*",
@@ -38,6 +39,7 @@
     "eslint-formatter-pretty": "^4.1.0",
     "eslint-plugin-import": "^2.25.4",
     "express": "^4.17.2",
+    "glob": "^7.2.0",
     "gulp": "^4.0.2",
     "gulp-dart-sass": "^1.0.2",
     "gulp-ejs": "^5.1.0",

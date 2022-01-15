@@ -1,6 +1,7 @@
 
 // devDependencies
 import express from 'express';
+import glob from 'glob';
 
 // Tasks
 export function serve() {
@@ -10,13 +11,13 @@ export function serve() {
 }
 
 export function serveAll() {
+  const sites = glob.sync('*', {cwd: 'sites/'});
   const app = express();
 
-  app.use('/local/detectable', express.static('sites/detectable/local'));
-  app.use('/local/prospectable', express.static('sites/prospectable/local'));
-
-  app.use('/dist/detectable', express.static('sites/detectable/dist'));
-  app.use('/dist/prospectable', express.static('sites/prospectable/dist'));
+  sites.forEach((site) => {
+    app.use(`/local/${site}`, express.static(`sites/${site}/local`));
+    app.use(`/dist/${site}`, express.static(`sites/${site}/dist`));
+  });
 
   app.listen(8000);
 }
