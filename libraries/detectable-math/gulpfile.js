@@ -20,5 +20,5 @@ export const lint = gulp.parallel(
 
 export const build = gulp.series(
   cleans.cleanLib,
-  function buildLibrary() { return builds.buildLibraryTask('detectableMath'); }, /* eslint-disable-line prefer-arrow-callback */
+  await builds.buildLibraryTask('detectableMath'),
 );

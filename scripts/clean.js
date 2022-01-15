@@ -4,13 +4,13 @@ import del from 'del';
 
 // Tasks
 export function cleanLib() {
-  return del(['lib/**/*', 'lib/**/.*']);
+  return del('lib/**/{*,.*}');
 }
 
 export function cleanLocal() {
-  return del(['local/**/*', 'local/**/.*']);
+  return del('local/**/{*,.*}');
 }
 
 export function cleanDist() {
-  return del(['dist/**/*', 'dist/**/.*']);
+  return del('dist/**/{*,.*}');
 }

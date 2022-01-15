@@ -2,7 +2,6 @@
 
 # NOTES
 
-- deploy all
 - watch all?
 - include preparePlotly in compile step?
 - use focused imports to support Tree Shaking
@@ -17,8 +16,8 @@
 *decidable* is a collection of libraries and websites for explorable explanations of quantitative
 approaches to human decision making.
 
-*decidable* is implemented as a *git* monorepo on [GitHub](https://www.github.com). The packages are published to *npm* in the
-`@decidable` scope.
+*decidable* is implemented as a *git* monorepo on [GitHub](https://www.github.com). The packages are
+published to *npm* in the `@decidable` scope.
 
 <!--lint enable first-level-heading -->
 
@@ -151,10 +150,15 @@ approaches to human decision making.
 ## Packages
 
 - `@decidable`
-  - `decidable-elements`: Web components for UI elements used across all packages
-  - `detectable-math`: Provides a class with equations for calculating Signal Detection Theory
-  - `detectable-elements`: Web components for exploring Signal Detection Theory
-  - `detectable`: An Explorable Explanation of Signal Detection Theory
+  - *Libraries*
+    - `decidable-elements`: Web components for UI elements used across all packages
+    - `detectable-math`: Provides a class with equations for calculating Signal Detection Theory
+    - `detectable-elements`: Web components for exploring Signal Detection Theory
+    - `prospectable-math`: Provides a class with equations for calculating Cumulative Prospect Theory
+    - `prospectable-elements`: Web components for exploring Cumulative Prospect Theory
+  - *Sites*
+    - `detectable`: An Explorable Explanation of Signal Detection Theory
+    - `prospectable`: An Explorable Explanation of Cumulative Prospect Theory
 
 ---
 
@@ -261,8 +265,10 @@ Dependencies updated 8/12/2020.
 
 #### Deploy
 
+- `yarn deploy`
+  - Copy files for all sites from `dist/` to the remote server (requires login)
 - `yarn workspace @decidable/<site> deploy`
-  - Copy files from `dist/` to the remote server (requires login)
+  - Copy files for a single site from `dist/` to the remote server (requires login)
 
 #### Serve
 

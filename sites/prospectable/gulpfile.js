@@ -42,13 +42,11 @@ export const compile = gulp.series(
 );
 
 export const watch = gulp.parallel(
-  function watchLibraries() { /* eslint-disable-line prefer-arrow-callback */
-    return watches.watchLibrariesTask([
-      'decidable-elements',
-      'prospectable-math',
-      'prospectable-elements',
-    ]);
-  },
+  watches.watchLibrariesTask([
+    'decidable-elements',
+    'prospectable-math',
+    'prospectable-elements',
+  ]),
   watches.watchMarkdown,
   watches.watchScripts,
   watches.watchStyles,
@@ -74,7 +72,7 @@ const sftpConfig = {
 };
 
 export const deploy = gulp.series(
-  function deployPassword() { return deploys.deployPasswordTask(sftpConfig); }, /* eslint-disable-line prefer-arrow-callback */
-  function deployClean() { return deploys.deployCleanTask(sftpConfig); }, /* eslint-disable-line prefer-arrow-callback */
-  function deployDist() { return deploys.deployDistTask(sftpConfig); }, /* eslint-disable-line prefer-arrow-callback */
+  deploys.deployPasswordTask(sftpConfig),
+  deploys.deployCleanTask(sftpConfig),
+  deploys.deployDistTask(sftpConfig),
 );

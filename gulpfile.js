@@ -2,5 +2,10 @@
 // devDependencies
 import gulp from 'gulp';
 
-// Re-export local dependencies
-export {serveAll} from './scripts/serve.js';
+// local dependencies
+import {serveAll} from './scripts/serve.js';
+import {deployAllTask} from './scripts/deploy.js';
+
+const deployAll = deployAllTask();
+
+export {serveAll, deployAll};

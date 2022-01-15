@@ -43,5 +43,5 @@ export function preparePlotly() {
 
 export const build = gulp.series(
   cleans.cleanLib,
-  function buildLibrary() { return builds.buildLibraryTask('prospectableElements'); }, /* eslint-disable-line prefer-arrow-callback */
+  await builds.buildLibraryTask('prospectableElements'),
 );

@@ -20,7 +20,7 @@ export function lintScripts() {
 }
 
 export function lintStyles() {
-  return gulp.src(['src/**/*.scss', 'src/**/*.js', '!src/**/*.auto.js'])
+  return gulp.src(['src/**/*.{scss,js}', '!src/**/*.auto.js'])
     .pipe(gulpStylelint({
       reporters: [{
         formatter: stylelintFormatterPretty,
