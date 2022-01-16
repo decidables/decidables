@@ -2,7 +2,6 @@
 
 # NOTES
 
-- watch all?
 - include preparePlotly in compile step?
 - use focused imports to support Tree Shaking
 - restore lit-transitions
@@ -248,8 +247,12 @@ Dependencies updated 8/12/2020.
 
 #### Watch
 
+- `yarn watch`
+  - Re-`compile` all sites on file changes in `src/` or local library dependencies
 - `yarn workspace @decidable/<site> watch`
-  - Executes `compile` on file changes in `src/` or local library dependencies `../<library>/src/`
+  - Re-`compile` site on file changes in `src/` or local library dependencies
+- `yarn workspace @decidable/<site> gulp watch<type>`
+  - Re-`compile` site on `Markdown`, `Scripts`, or `Styles` changes in `src/` or local library dependencies
 
 #### Build
 

@@ -11,6 +11,7 @@
   "scripts": {
     "lint": "yarn workspaces foreach -pitv -j 2 run lint",
     "compile": "yarn workspaces foreach -pitv -j 2 run compile",
+    "watch": "yarn workspaces foreach -pitv -j 2 run watch",
     "build": "yarn workspaces foreach -pitv -j 2 run build",
     "serve": "gulp serveAll",
     "deploy": "gulp deployAll"

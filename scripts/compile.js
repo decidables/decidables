@@ -74,18 +74,22 @@ export function compileMarkdown() {
 }
 
 let rollupCache;
+const pluginNodeResolve = rollupPluginNodeResolve({preferBuiltins: false});
+const pluginCommonjs = rollupPluginCommonjs();
+const pluginWebWorkerLoader = rollupPluginWebWorkerLoader({targetPlatform: 'browser', sourcemap: true});
+const pluginBabel = rollupPluginBabel.babel({
+  presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.20'}]],
+  babelHelpers: 'bundled',
+});
 export async function compileScripts() {
   const bundle = await rollup.rollup({
     cache: rollupCache,
     input: 'src/index.js',
     plugins: [
-      rollupPluginNodeResolve({preferBuiltins: false}),
-      rollupPluginCommonjs(),
-      rollupPluginWebWorkerLoader({targetPlatform: 'browser', sourcemap: true}),
-      rollupPluginBabel.babel({
-        presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.20'}]],
-        babelHelpers: 'bundled',
-      }),
+      pluginNodeResolve,
+      pluginCommonjs,
+      pluginWebWorkerLoader,
+      pluginBabel,
     ],
     // Hide warnings for circular dependencies, which are allowed in the ES6 spec
     // https://github.com/rollup/rollup/issues/2271#issuecomment-475540827
@@ -95,15 +99,13 @@ export async function compileScripts() {
       }
     },
   });
-
   rollupCache = bundle.cache;
-
   await bundle.write({
     dir: 'local',
     format: 'iife',
     sourcemap: true,
   });
-
+  await bundle.close();
   nodeNotifier.notify({title: 'Gulp: compileScripts done!', message: ' '});
 }
 
