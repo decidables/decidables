@@ -23,6 +23,7 @@
   "dependencies": {
     "@decidable/decidable-elements": "^0.0.1",
     "@decidable/prospectable-math": "^0.0.1",
+    "@lit-labs/motion": "^1.0.1",
     "bayes.js": "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f",
     "d3": "^7.3.0",
     "jstat": "^1.9.5",

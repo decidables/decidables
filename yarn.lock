@@ -1418,6 +1418,7 @@ __metadata:
   dependencies:
     "@decidable/decidable-elements": ^0.0.1
     "@decidable/prospectable-math": ^0.0.1
+    "@lit-labs/motion": ^1.0.1
     bayes.js: "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f"
     d3: ^7.3.0
     gulp: ^4.0.2
@@ -1498,6 +1499,15 @@ __metadata:
   version: 1.2.1
   resolution: "@humanwhocodes/object-schema@npm:1.2.1"
   checksum: a824a1ec31591231e4bad5787641f59e9633827d0a2eaae131a288d33c9ef0290bd16fda8da6f7c0fcb014147865d12118df10db57f27f41e20da92369fcb3f1
+  languageName: node
+  linkType: hard
+
+"@lit-labs/motion@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@lit-labs/motion@npm:1.0.1"
+  dependencies:
+    lit: ^2.0.0
+  checksum: 0dd6443e40c32d181be6c4c398c15bcef2309055d95aeddf9aa2915654ca9a63f6fbd72806f7ba1177de5f6fc49aee1fca2ba665f11c56c0287ebdaab959bb5d
   languageName: node
   linkType: hard
 
@@ -8297,7 +8307,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lit@npm:^2.1.1":
+"lit@npm:^2.0.0, lit@npm:^2.1.1":
   version: 2.1.1
   resolution: "lit@npm:2.1.1"
   dependencies:
