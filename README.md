@@ -3,8 +3,7 @@
 # NOTES
 
 - include preparePlotly in compile step?
-- use focused imports to support Tree Shaking
-- restore lit-transitions
+- use focused imports to support tree shaking?
 - get eslint, remark-lint, and stylelint working in editor
   - need eslint overrides for dev scripts versus browser scripts
 

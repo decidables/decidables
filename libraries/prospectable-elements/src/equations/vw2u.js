@@ -1,6 +1,7 @@
 
 import {html} from 'lit';
 // import {transition, mark, slide} from 'lit-transition';
+import {animate, flyLeft, flyRight} from '@lit-labs/motion';
 
 import {DecidableConverterArray} from '@decidable/decidable-elements';
 
@@ -160,32 +161,39 @@ export default class CPTEquationVW2U extends CPTEquation {
           </div>
         </td>
         <td>
-          ${this.vTemplate('i', 'math-var', false)}&nbsp;${this.wTemplate('i', 'math-var', false)}<span class="equals">=</span>
+          ${
+            this.vTemplate('i', 'math-var', false)
+          }&nbsp;${
+            this.wTemplate('i', 'math-var', false)
+          }<span class="equals">=</span>
         </td>
         <td>
           ${this.numeric
             ? Array(this.nMax).fill().map((_, index) => {
-              // return transition(
-              //   (index < this.n)
-              //     ? mark(html`<span class="addend tight">${
-              //       (index !== 0)
-              //         ? html`<span class="plus">+</span>`
-              //         : html``
-              //     }${
-              //       this.vTemplate(index + 1, 'math-num', true)
-              //     }&nbsp;${this.wTemplate(index + 1, 'math-num', true)}</span>`, `${index}`)
-              //     : null,
-              //   slide({mode: 'both', x: '-100%', x1: '-100%'}),
-              // );
               return (index < this.n)
-                ? html`<span class="addend tight">${(index !== 0) ? html`<span class="plus">+</span>` : html``}${this.vTemplate(index + 1, 'math-num', true)}&nbsp;${this.wTemplate(index + 1, 'math-num', true)}</span>`
+                ? html`<span class="addend tight" ${animate({in: flyLeft, out: flyLeft})}>${
+                  (index !== 0)
+                    ? html`<span class="plus">+</span>`
+                    : html``
+                  }${
+                    this.vTemplate(index + 1, 'math-num', true)
+                  }&nbsp;${
+                    this.wTemplate(index + 1, 'math-num', true)
+                  }</span>`
                 : null;
             })
-            : html`${this.vTemplate('1', 'math-num', false)}&nbsp;${this.wTemplate('1', 'math-num', false)}<span class="plus">+</span><span class="ellipsis">…</span><span class="plus">+</span>${this.vTemplate('n', 'math-var', false)}&nbsp;${this.wTemplate('n', 'math-var', false)}`
+            : html`${
+              this.vTemplate('1', 'math-num', false)
+            }&nbsp;${
+              this.wTemplate('1', 'math-num', false)
+            }<span class="plus">+</span><span class="ellipsis">…</span><span class="plus">+</span>${
+              this.vTemplate('n', 'math-var', false)
+            }&nbsp;${
+              this.wTemplate('n', 'math-var', false)
+            }`
           }
         </td>
       </tr>`;
-      // : null, slide({mode: 'both', right: (index < this.n), left: !(index < this.n)}));
     return html`
       <div class="holder">
         <table class="equation">
