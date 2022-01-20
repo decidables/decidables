@@ -13,4 +13,4 @@ import 'lit/polyfill-support.js'; /* eslint-disable-line import/extensions */
 import 'bootstrap';
 
 // Internal dependencies
-import '@decidable/prospectable-elements';
+import '@decidables/prospectable-elements';

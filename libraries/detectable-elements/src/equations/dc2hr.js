@@ -1,7 +1,7 @@
 
 import {html} from 'lit';
 
-import SDTMath from '@decidable/detectable-math';
+import SDTMath from '@decidables/detectable-math';
 
 import SDTEquation from './sdt-equation';
 

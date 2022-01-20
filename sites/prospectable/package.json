@@ -1,5 +1,5 @@
 {
-  "name": "@decidable/prospectable",
+  "name": "@decidables/prospectable",
   "version": "0.0.1",
   "description": "prospectable: An Explorable Explanation of Cumulative Prospect Theory",
   "type": "module",
@@ -24,7 +24,7 @@
     "gulp": "^4.0.2"
   },
   "dependencies": {
-    "@decidable/prospectable-elements": "^0.0.1",
+    "@decidables/prospectable-elements": "^0.0.1",
     "@popperjs/core": "^2.11.2",
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "bootstrap": "^5.1.3",

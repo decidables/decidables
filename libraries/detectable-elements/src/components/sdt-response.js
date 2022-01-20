@@ -1,7 +1,7 @@
 
 import {html, css} from 'lit';
 
-import '@decidable/decidable-elements';
+import '@decidables/decidable-elements';
 
 import SDTElement from '../sdt-element';
 

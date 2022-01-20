@@ -1,5 +1,5 @@
 {
-  "name": "@decidable/prospectable-math",
+  "name": "@decidables/prospectable-math",
   "version": "0.0.1",
   "description": "prospectable-math: Equations for calculating Cumulative Prospect Theory",
   "type": "module",

@@ -2,7 +2,7 @@
 import {html, css} from 'lit';
 import {animate, fadeIn} from '@lit-labs/motion';
 
-import CPTMath from '@decidable/prospectable-math';
+import CPTMath from '@decidables/prospectable-math';
 
 import CPTEquation from '../equations/cpt-equation';
 

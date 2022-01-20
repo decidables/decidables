@@ -1,5 +1,5 @@
 {
-  "name": "@decidable/decidable-elements",
+  "name": "@decidables/decidable-elements",
   "version": "0.0.1",
   "description": "decidable-elements: Basic UI Web Components for Visualizing Decision Making",
   "type": "module",

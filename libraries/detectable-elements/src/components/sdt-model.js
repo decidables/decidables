@@ -3,7 +3,7 @@ import {html, css} from 'lit';
 import * as d3 from 'd3';
 import * as jStat from 'jstat';
 
-import SDTMath from '@decidable/detectable-math';
+import SDTMath from '@decidables/detectable-math';
 
 import SDTElement from '../sdt-element';
 

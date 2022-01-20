@@ -6,7 +6,7 @@ import 'regenerator-runtime/runtime';
 import * as BayesDistributions from 'bayes.js/distributions';
 import * as BayesMcmc from 'bayes.js/mcmc';
 import * as d3 from 'd3';
-import CPTMath from '@decidable/prospectable-math';
+import CPTMath from '@decidables/prospectable-math';
 
 self.onmessage = (event) => {
   const params = {
