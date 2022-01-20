@@ -1,14 +1,4 @@
 <!--lint disable first-level-heading -->
-
-# NOTES
-
-- include preparePlotly in compile step?
-- use focused imports to support tree shaking?
-- get eslint, remark-lint, and stylelint working in editor
-  - need eslint overrides for dev scripts versus browser scripts
-
-- Add top-level decidable website
-
 # decidable: Explorable Explanations of Decision Making
 
 *decidable* is a collection of libraries and websites for explorable explanations of quantitative
@@ -171,8 +161,14 @@ published to *npm* in the `@decidable` scope.
 
 ## Features/Bugs/Notes
 
+- Add top-level decidable website
+- include preparePlotly in compile step?
+- use focused imports to better support tree shaking?
+- get eslint, remark-lint, and stylelint working in editor
+  - need eslint overrides for dev scripts versus browser scripts
 - Linting and transpiling in tagged template literals?
 - Change 'browserslist' to `last 1 version, not dead, > 0.2%`?
+- Proper packaging, versioning, and registering of libraries
 - Clean way for inter-page references?
 - Use something else instead of inline code for terms
   - New remark-span! [content]{attributes}
@@ -201,7 +197,7 @@ published to *npm* in the `@decidable` scope.
 
 ## Development Tooling
 
-Dependencies updated 8/12/2020.
+Dependencies updated 17/1/2022.
 
 ### Global Tools
 
