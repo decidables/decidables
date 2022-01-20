@@ -3,7 +3,7 @@ import {html} from 'lit';
 // import {transition, mark, slide} from 'lit-transition';
 import {animate, flyLeft, flyRight} from '@lit-labs/motion';
 
-import {DecidableConverterArray} from '@decidable/decidable-elements';
+import {DecidableConverterArray} from '@decidables/decidable-elements';
 
 import CPTEquation from './cpt-equation';
 

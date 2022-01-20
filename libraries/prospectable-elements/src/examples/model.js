@@ -1,5 +1,5 @@
 
-import CPTMath from '@decidable/prospectable-math';
+import CPTMath from '@decidables/prospectable-math';
 
 import CPTExample from './cpt-example';
 

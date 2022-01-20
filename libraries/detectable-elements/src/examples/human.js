@@ -1,5 +1,5 @@
 
-import SDTMath from '@decidable/detectable-math';
+import SDTMath from '@decidables/detectable-math';
 
 import SDTExample from './sdt-example';
 

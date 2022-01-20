@@ -5,7 +5,7 @@ import {
 } from 'lit';
 import * as d3 from 'd3';
 
-import {DecidableElement} from '@decidable/decidable-elements';
+import {DecidableElement} from '@decidables/decidable-elements';
 
 /*
   SDTElement Base Class - Not intended for instantiation!

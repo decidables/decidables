@@ -1,5 +1,5 @@
 {
-  "name": "@decidable/detectable-elements",
+  "name": "@decidables/detectable-elements",
   "version": "0.0.1",
   "description": "detectable-elements: Web Components for visualizing Signal Detection Theory",
   "type": "module",
@@ -20,8 +20,8 @@
     "gulp": "^4.0.2"
   },
   "dependencies": {
-    "@decidable/decidable-elements": "^0.0.1",
-    "@decidable/detectable-math": "^0.0.1",
+    "@decidables/decidable-elements": "^0.0.1",
+    "@decidables/detectable-math": "^0.0.1",
     "d3": "^7.3.0",
     "jstat": "^1.9.5",
     "lit": "^2.1.1"

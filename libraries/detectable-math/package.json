@@ -1,5 +1,5 @@
 {
-  "name": "@decidable/detectable-math",
+  "name": "@decidables/detectable-math",
   "version": "0.0.1",
   "description": "detectable-math: Equations for calculating Signal Detection Theory",
   "type": "module",

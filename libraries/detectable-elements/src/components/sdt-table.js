@@ -1,8 +1,8 @@
 
 import {html, css} from 'lit';
 
-import {DecidableConverterSet} from '@decidable/decidable-elements';
-import SDTMath from '@decidable/detectable-math';
+import {DecidableConverterSet} from '@decidables/decidable-elements';
+import SDTMath from '@decidables/detectable-math';
 
 import SDTElement from '../sdt-element';
 

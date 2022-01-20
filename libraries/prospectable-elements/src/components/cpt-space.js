@@ -6,7 +6,7 @@ import * as PlotlyIsoSurface from 'plotly.js/lib/isosurface';
 import * as PlotlyScatter3d from 'plotly.js/lib/scatter3d';
 // import Plotly from 'plotly.js-dist';
 
-import CPTMath from '@decidable/prospectable-math';
+import CPTMath from '@decidables/prospectable-math';
 
 import CPTElement from '../cpt-element';
 import plotlyStyle from './plotly-style.auto';

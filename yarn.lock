@@ -1359,9 +1359,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@decidable/decidable-elements@^0.0.1, @decidable/decidable-elements@workspace:libraries/decidable-elements":
+"@decidables/decidable-elements@^0.0.1, @decidables/decidable-elements@workspace:libraries/decidable-elements":
   version: 0.0.0-use.local
-  resolution: "@decidable/decidable-elements@workspace:libraries/decidable-elements"
+  resolution: "@decidables/decidable-elements@workspace:libraries/decidable-elements"
   dependencies:
     d3: ^7.3.0
     gulp: ^4.0.2
@@ -1369,12 +1369,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/detectable-elements@^0.0.1, @decidable/detectable-elements@workspace:libraries/detectable-elements":
+"@decidables/detectable-elements@^0.0.1, @decidables/detectable-elements@workspace:libraries/detectable-elements":
   version: 0.0.0-use.local
-  resolution: "@decidable/detectable-elements@workspace:libraries/detectable-elements"
+  resolution: "@decidables/detectable-elements@workspace:libraries/detectable-elements"
   dependencies:
-    "@decidable/decidable-elements": ^0.0.1
-    "@decidable/detectable-math": ^0.0.1
+    "@decidables/decidable-elements": ^0.0.1
+    "@decidables/detectable-math": ^0.0.1
     d3: ^7.3.0
     gulp: ^4.0.2
     jstat: ^1.9.5
@@ -1382,9 +1382,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/detectable-math@^0.0.1, @decidable/detectable-math@workspace:libraries/detectable-math":
+"@decidables/detectable-math@^0.0.1, @decidables/detectable-math@workspace:libraries/detectable-math":
   version: 0.0.0-use.local
-  resolution: "@decidable/detectable-math@workspace:libraries/detectable-math"
+  resolution: "@decidables/detectable-math@workspace:libraries/detectable-math"
   dependencies:
     gulp: ^4.0.2
     jstat: ^1.9.5
@@ -1392,11 +1392,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/detectable@workspace:sites/detectable":
+"@decidables/detectable@workspace:sites/detectable":
   version: 0.0.0-use.local
-  resolution: "@decidable/detectable@workspace:sites/detectable"
+  resolution: "@decidables/detectable@workspace:sites/detectable"
   dependencies:
-    "@decidable/detectable-elements": ^0.0.1
+    "@decidables/detectable-elements": ^0.0.1
     "@popperjs/core": ^2.11.2
     "@webcomponents/webcomponentsjs": ^2.6.0
     bootstrap: ^5.1.3
@@ -1412,12 +1412,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/prospectable-elements@^0.0.1, @decidable/prospectable-elements@workspace:libraries/prospectable-elements":
+"@decidables/prospectable-elements@^0.0.1, @decidables/prospectable-elements@workspace:libraries/prospectable-elements":
   version: 0.0.0-use.local
-  resolution: "@decidable/prospectable-elements@workspace:libraries/prospectable-elements"
+  resolution: "@decidables/prospectable-elements@workspace:libraries/prospectable-elements"
   dependencies:
-    "@decidable/decidable-elements": ^0.0.1
-    "@decidable/prospectable-math": ^0.0.1
+    "@decidables/decidable-elements": ^0.0.1
+    "@decidables/prospectable-math": ^0.0.1
     "@lit-labs/motion": ^1.0.1
     bayes.js: "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f"
     d3: ^7.3.0
@@ -1430,9 +1430,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/prospectable-math@^0.0.1, @decidable/prospectable-math@workspace:libraries/prospectable-math":
+"@decidables/prospectable-math@^0.0.1, @decidables/prospectable-math@workspace:libraries/prospectable-math":
   version: 0.0.0-use.local
-  resolution: "@decidable/prospectable-math@workspace:libraries/prospectable-math"
+  resolution: "@decidables/prospectable-math@workspace:libraries/prospectable-math"
   dependencies:
     gulp: ^4.0.2
     jstat: ^1.9.5
@@ -1440,11 +1440,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidable/prospectable@workspace:sites/prospectable":
+"@decidables/prospectable@workspace:sites/prospectable":
   version: 0.0.0-use.local
-  resolution: "@decidable/prospectable@workspace:sites/prospectable"
+  resolution: "@decidables/prospectable@workspace:sites/prospectable"
   dependencies:
-    "@decidable/prospectable-elements": ^0.0.1
+    "@decidables/prospectable-elements": ^0.0.1
     "@popperjs/core": ^2.11.2
     "@webcomponents/webcomponentsjs": ^2.6.0
     bootstrap: ^5.1.3

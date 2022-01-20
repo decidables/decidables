@@ -1,7 +1,7 @@
 
 import {html} from 'lit';
 
-import CPTMath from '@decidable/prospectable-math';
+import CPTMath from '@decidables/prospectable-math';
 
 import CPTEquation from './cpt-equation';
 
