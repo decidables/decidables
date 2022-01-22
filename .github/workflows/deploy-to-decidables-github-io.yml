@@ -1,0 +1,22 @@
+# Deploy from decidables/decidables to decidables/decidables.github.io
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'decidables.github.io/**'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to decidables.github.io
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'decidables.github.io'
+          destination-github-username: 'decidables'
+          destination-repository-name: 'decidables.github.io'
+          user-email: akrawitz@uvic.ca
+          user-name: akrawitz
