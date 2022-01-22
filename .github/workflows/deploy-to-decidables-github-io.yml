@@ -5,18 +5,21 @@ on:
     branches:
       - main
     paths:
-      - 'decidables.github.io/**'
+      - decidables.github.io/**
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to decidables.github.io
-        uses: cpina/github-action-push-to-another-repository@main
+      - name: Checkout decidables
+        uses: actions/checkout@v2
+      - name: Push to decidables.github.io
+        uses: cpina/github-action-push-to-another-repository@v1.4.1
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-directory: 'decidables.github.io'
-          destination-github-username: 'decidables'
-          destination-repository-name: 'decidables.github.io'
+          source-directory: decidables.github.io
+          destination-github-username: decidables
+          destination-repository-name: decidables.github.io
           user-email: akrawitz@uvic.ca
           user-name: akrawitz
+          target-directory: docs
