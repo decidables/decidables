@@ -72,7 +72,9 @@ const sftpConfig = {
 };
 
 export const deploy = gulp.series(
-  deploys.deployPasswordTask(sftpConfig),
-  deploys.deployCleanTask(sftpConfig),
-  deploys.deployDistTask(sftpConfig),
+  cleans.cleanDeployTask('prospectable'),
+  deploys.deployTask('prospectable'),
+  // deploys.deployPasswordTask(sftpConfig),
+  // deploys.deployCleanTask(sftpConfig),
+  // deploys.deployDistTask(sftpConfig),
 );
