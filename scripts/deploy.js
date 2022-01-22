@@ -7,6 +7,14 @@ import inquirer from 'inquirer';
 import ssh2SftpClient from 'ssh2-sftp-client';
 
 // Tasks
+export function deployTask(site = null) {
+  return function deploy() {
+    const siteDir = `../../decidables.github.io${site ? `/${site}` : ``}`;
+    return gulp.src('dist/**/{*,.*}')
+      .pipe(gulp.dest(siteDir));
+  };
+}
+
 export function deployPasswordTask(sftpConfig) {
   return function deployPassword () {
     return inquirer.prompt([{

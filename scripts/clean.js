@@ -14,3 +14,10 @@ export function cleanLocal() {
 export function cleanDist() {
   return del('dist/**/{*,.*}');
 }
+
+export function cleanDeployTask(site = null) {
+  return function cleanDeploy() {
+    const siteDir = `../../decidables.github.io${site ? `/${site}` : ``}`;
+    return del([`${siteDir}/{*.*,.*}`, `${siteDir}/fonts`], {force: true});
+  };
+}
