@@ -12,46 +12,42 @@ import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import {terser as rollupPluginTerser} from 'rollup-plugin-terser';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
 
+// Local Dependencies
+import * as utilities from './utility.js';
+
 // Tasks
-export async function buildLibraryTask(name) {
-  let rollupCache;
-  return async function buildLibrary() {
-    const bundle = await rollup.rollup({
-      cache: rollupCache,
-      input: 'src/index.js',
-      plugins: [
-        rollupPluginNodeResolve({preferBuiltins: false}),
-        rollupPluginCommonjs(),
-        rollupPluginWebWorkerLoader({targetPlatform: 'browser', sourcemap: true}),
-        rollupPluginBabel.babel({
-          presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.20'}]],
-          babelHelpers: 'bundled',
-        }),
-        rollupPluginTerser(),
-      ],
-      // Hide warnings for circular dependencies, which are allowed in the ES6 spec
-      // https://github.com/rollup/rollup/issues/2271#issuecomment-475540827
-      onwarn: (warning, warn) => {
-        if (warning.code !== 'CIRCULAR_DEPENDENCY') {
-          warn(warning);
-        }
-      },
-    });
+let rollupCache;
+export async function buildLibrary() {
+  const bundle = await rollup.rollup({
+    cache: rollupCache,
+    input: 'src/index.js',
+    plugins: [
+      rollupPluginNodeResolve({preferBuiltins: false}),
+      rollupPluginCommonjs(),
+      rollupPluginWebWorkerLoader({targetPlatform: 'browser', sourcemap: true}),
+      rollupPluginBabel.babel({
+        presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.20'}]],
+        babelHelpers: 'bundled',
+      }),
+      rollupPluginTerser(),
+    ],
+    // Hide warnings for circular dependencies, which are allowed in the ES6 spec
+    // https://github.com/rollup/rollup/issues/2271#issuecomment-475540827
+    onwarn: (warning, warn) => {
+      if (warning.code !== 'CIRCULAR_DEPENDENCY') {
+        warn(warning);
+      }
+    },
+  });
+  rollupCache = bundle.cache;
 
-    rollupCache = bundle.cache;
-
-    await bundle.write({
-      name,
-      file: `lib/${name}.min.js`,
-      format: 'umd',
-      sourcemap: true,
-    });
-  };
-}
-
-export function buildConfig() {
-  return gulp.src('local/.htaccess')
-    .pipe(gulp.dest('dist'));
+  const packageName = utilities.getPackageNameCamelCase();
+  await bundle.write({
+    name: packageName,
+    file: `lib/${packageName}.min.js`,
+    format: 'umd',
+    sourcemap: true,
+  });
 }
 
 export function buildFonts() {

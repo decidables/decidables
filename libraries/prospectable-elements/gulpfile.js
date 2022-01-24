@@ -43,5 +43,5 @@ export function preparePlotly() {
 
 export const build = gulp.series(
   cleans.cleanLib,
-  await builds.buildLibraryTask('prospectableElements'),
+  builds.buildLibrary,
 );

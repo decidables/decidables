@@ -162,6 +162,7 @@ published to *npm* in the `@decidables` scope.
 ## Features/Bugs/Notes
 
 - Add top-level decidable website
+- Update About pages!
 - include preparePlotly in compile step?
 - use focused imports to better support tree shaking?
 - get eslint, remark-lint, and stylelint working in editor

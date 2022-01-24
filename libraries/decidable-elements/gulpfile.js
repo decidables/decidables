@@ -8,7 +8,7 @@ import * as lints from '../../scripts/lint.js';
 import * as builds from '../../scripts/build.js';
 
 // Re-export
-// export * from '../../scripts/clean.js';
+export * from '../../scripts/clean.js';
 export * from '../../scripts/lint.js';
 export * from '../../scripts/build.js';
 
@@ -20,5 +20,5 @@ export const lint = gulp.parallel(
 
 export const build = gulp.series(
   cleans.cleanLib,
-  await builds.buildLibraryTask('decidableElements'),
+  builds.buildLibrary,
 );

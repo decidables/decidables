@@ -1,7 +1,6 @@
 
 import {html} from 'lit';
-// import {transition, mark, slide} from 'lit-transition';
-import {animate, flyLeft, flyRight} from '@lit-labs/motion';
+import {animate, flyLeft} from '@lit-labs/motion';
 
 import {DecidableConverterArray} from '@decidables/decidable-elements';
 

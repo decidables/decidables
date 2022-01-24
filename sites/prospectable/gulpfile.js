@@ -33,7 +33,6 @@ export const lint = gulp.parallel(
 export const compile = gulp.series(
   cleans.cleanLocal,
   gulp.parallel(
-    compiles.compileConfig,
     compiles.compileFonts,
     compiles.compileMarkdown,
     compiles.compileScripts,
@@ -55,7 +54,6 @@ export const watch = gulp.parallel(
 export const build = gulp.series(
   cleans.cleanDist,
   gulp.parallel(
-    builds.buildConfig,
     builds.buildFonts,
     builds.buildMarkup,
     builds.buildScripts,
@@ -63,18 +61,7 @@ export const build = gulp.series(
   ),
 );
 
-const sftpConfig = {
-  host: 'web.uvic.ca',
-  port: 22,
-  username: 'akrawitz',
-  password: null,
-  directory: '/www/prospectable',
-};
-
 export const deploy = gulp.series(
-  cleans.cleanDeployTask('prospectable'),
-  deploys.deployTask('prospectable'),
-  // deploys.deployPasswordTask(sftpConfig),
-  // deploys.deployCleanTask(sftpConfig),
-  // deploys.deployDistTask(sftpConfig),
+  cleans.cleanDeploySite,
+  deploys.deploySite,
 );
