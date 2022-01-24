@@ -25,11 +25,6 @@ import remarkCiteproc from './remark-citeproc.js';
 import remarkTerminology from './remark-terminology.js';
 
 // Tasks
-export function compileConfig() {
-  return gulp.src('src/.htaccess')
-    .pipe(gulp.dest('local'));
-}
-
 export function compileFonts() {
   return gulp.src([
     resolvePkg('source-code-pro/WOFF/OTF/SourceCodePro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),

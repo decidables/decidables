@@ -2,22 +2,27 @@
 // devDependencies
 import del from 'del';
 
+// Local Dependencies
+import * as utilities from './utility.js';
+
 // Tasks
 export function cleanLib() {
-  return del('lib/**/{*,.*}');
+  return del('lib');
 }
 
 export function cleanLocal() {
-  return del('local/**/{*,.*}');
+  return del('local');
 }
 
 export function cleanDist() {
-  return del('dist/**/{*,.*}');
+  return del('dist');
 }
 
-export function cleanDeployTask(site = null) {
-  return function cleanDeploy() {
-    const siteDir = `../../decidables.github.io${site ? `/${site}` : ``}`;
-    return del([`${siteDir}/{*.*,.*}`, `${siteDir}/fonts`], {force: true});
-  };
+export function cleanDeploySite() {
+  const packageName = utilities.getPackageName();
+  return del(`../../decidables.github.io/${packageName}`, {force: true});
+}
+
+export function cleanDeployRoot() {
+  return del('../../decidables.github.io/{*.*,.*,fonts}', {force: true});
 }

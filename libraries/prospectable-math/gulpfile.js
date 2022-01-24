@@ -20,5 +20,5 @@ export const lint = gulp.parallel(
 
 export const build = gulp.series(
   cleans.cleanLib,
-  await builds.buildLibraryTask('prospectableMath'),
+  builds.buildLibrary,
 );

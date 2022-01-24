@@ -13,8 +13,8 @@
     "compile": "yarn workspaces foreach -pitv -j 2 run compile",
     "watch": "yarn workspaces foreach -pitv -j 2 run watch",
     "build": "yarn workspaces foreach -pitv -j 2 run build",
-    "serve": "gulp serveAll",
-    "deploy": "gulp deployAll"
+    "deploy": "yarn workspaces foreach -pitv -j 2 run deploy",
+    "serve": "gulp serveAll"
   },
   "workspaces": [
     "libraries/*",
@@ -31,6 +31,7 @@
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.1.3",
     "@stylelint/postcss-css-in-js": "^0.37.2",
+    "camelcase": "^6.3.0",
     "citation-js": "^0.5.5",
     "citeproc": "^2.4.62",
     "cssnano": "^5.0.15",
