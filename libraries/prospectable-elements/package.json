@@ -4,7 +4,7 @@
   "description": "prospectable-elements: Web Components for visualizing Cumulative Prospect Theory",
   "type": "module",
   "main": "./src/index.js",
-  "repository": "https://github.com/akrawitz/decidable/packages/prospectable-elements",
+  "repository": "https://github.com/decidables/decidables/tree/main/libraries/prospectable-elements",
   "author": "Adam Krawitz",
   "license": "UNLICENSED",
   "private": true,
