@@ -4,7 +4,7 @@
   "description": "decidable-elements: Basic UI Web Components for Visualizing Decision Making",
   "type": "module",
   "main": "./src/index.js",
-  "repository": "https://github.com/akrawitz/decidable/packages/decidable-elements",
+  "repository": "https://github.com/decidables/decidables/tree/main/libraries/decidable-elements",
   "author": "Adam Krawitz",
   "license": "UNLICENSED",
   "private": true,

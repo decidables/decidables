@@ -4,7 +4,7 @@
   "description": "prospectable: An Explorable Explanation of Cumulative Prospect Theory",
   "type": "module",
   "main": "./dist/index.html",
-  "repository": "https://github.com/akrawitz/decidable/packages/prospectable",
+  "repository": "https://github.com/decidables/decidables/tree/main/sites/prospectable",
   "author": "Adam Krawitz",
   "license": "UNLICENSED",
   "private": true,

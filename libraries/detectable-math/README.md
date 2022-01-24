@@ -24,8 +24,6 @@
 
 ## Development Tooling
 
-Dependencies updated 4/25/2020.
-
 ### Local Scripts
 
 - `yarn lint`

@@ -1,7 +1,7 @@
 {
-  "name": "decidable",
+  "name": "decidables",
   "version": "0.0.1",
-  "description": "decidable: Explorable Explanations of Decision Making",
+  "description": "decidables: Explorable Explanations of Decision Making",
   "type": "module",
   "main": "index.js",
   "repository": "https://github.com/akrawitz/decidable",

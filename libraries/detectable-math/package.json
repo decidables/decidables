@@ -4,7 +4,7 @@
   "description": "detectable-math: Equations for calculating Signal Detection Theory",
   "type": "module",
   "main": "./src/index.js",
-  "repository": "https://github.com/akrawitz/decidable/packages/detectable-math",
+  "repository": "https://github.com/decidables/decidables/tree/main/libraries/detectable-math",
   "author": "Adam Krawitz",
   "license": "UNLICENSED",
   "private": true,
