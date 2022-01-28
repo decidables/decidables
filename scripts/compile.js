@@ -27,6 +27,8 @@ import remarkTerminology from './remark-terminology.js';
 // Tasks
 export function compileFonts() {
   return gulp.src([
+    resolvePkg('bootstrap-icons/font/fonts/bootstrap-icons.woff'),
+    resolvePkg('bootstrap-icons/font/fonts/bootstrap-icons.woff2'),
     resolvePkg('source-code-pro/WOFF/OTF/SourceCodePro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
     resolvePkg('source-sans/WOFF/OTF/SourceSans3-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
     resolvePkg('source-serif/WOFF/OTF/SourceSerif4-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
@@ -66,6 +68,11 @@ export function compileMarkdown() {
         .pipe(gulp.dest('local'));
     })
     .pipe(gulpNotify({title: 'Gulp: compileMarkdown done!', message: ' ', onLast: true}));
+}
+
+export function compileMarkup() {
+  return gulp.src(['src/*.html'])
+    .pipe(gulp.dest('local'));
 }
 
 let rollupCache;

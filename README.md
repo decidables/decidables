@@ -145,6 +145,8 @@ published to *npm* in the `@decidables` scope.
     - `prospectable-math`: Provides a class with equations for calculating Cumulative Prospect Theory
     - `prospectable-elements`: Web components for exploring Cumulative Prospect Theory
   - *Sites*
+    - `decidables`: Explorable Explanations of Decision Making
+      - This is the root site with overall info and links to the indiividual explorables
     - `detectable`: An Explorable Explanation of Signal Detection Theory
     - `prospectable`: An Explorable Explanation of Cumulative Prospect Theory
 
@@ -230,7 +232,7 @@ Dependencies updated 17/1/2022.
   - Lints a single library or site
 - `yarn workspace @decidables/<library|site> gulp lint<type>`
   - Lints `Scripts` or `Styles` in a single library
-  - Lints `Markdown`, `Scripts`, or `Styles` in a single site
+  - Lints `Markdown`, `Markup`, `Scripts`, or `Styles` in a single site
 
 #### Compile
 
@@ -239,7 +241,7 @@ Dependencies updated 17/1/2022.
 - `yarn workspace @decidables/<site> compile`
   - Compiles a single site from `src/` to `local/`
 - `yarn workspace @decidables/<site> gulp compile<type>`
-  - Compiles `Fonts`, `Markdown`, `Scripts`, or `Styles` in a single site from `src/` to `local/`
+  - Compiles `Fonts`, `Markdown`, `Markup`, `Scripts`, or `Styles` in a single site from `src/` to `local/`
 
 #### Watch
 
@@ -248,7 +250,7 @@ Dependencies updated 17/1/2022.
 - `yarn workspace @decidables/<site> watch`
   - Re-`compile` site on file changes in `src/` or local library dependencies
 - `yarn workspace @decidables/<site> gulp watch<type>`
-  - Re-`compile` site on `Markdown`, `Scripts`, or `Styles` changes in `src/` or local library dependencies
+  - Re-`compile` site on `Markdown`, `Markup`, `Scripts`, or `Styles` changes in `src/` or local library dependencies
 
 #### Build
 
@@ -260,7 +262,7 @@ Dependencies updated 17/1/2022.
   - Builds a single site to browser-compatible optimized scripts from `local/` to `dist/`
 - `yarn workspace @decidables/<library|site> gulp build<type>`
   - Builds `Scripts` in a single library from `src/` to `lib/`
-  - Builds `Fonts`, `Markdown`, `Scripts`, or `Styles` in a single site from `local/` to `dist/`
+  - Builds `Fonts`, `Markup`, `Scripts`, or `Styles` in a single site from `local/` to `dist/`
 
 #### Deploy
 
