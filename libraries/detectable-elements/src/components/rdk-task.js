@@ -113,6 +113,7 @@ export default class RDKTask extends SDTElement {
     this.rem = NaN; // Pixels per rem for component
 
     // Private
+    this.firstUpdate = true;
     this.COHERENT = 0; // "Constant" for index to coherent dots
     this.RANDOM = 1; // "Constant" for index to random dots
     this.dots = [[], []]; // Array of array of dots
@@ -331,7 +332,7 @@ export default class RDKTask extends SDTElement {
       .attr('r', this.xScale(1) - this.yScale(0));
 
     // Start or stop trial block
-    if (changedProperties.has('running')) {
+    if (this.firstUpdate || changedProperties.has('running')) {
       if (this.running) {
         // (Re)Start
         if (this.pauseTime) {
@@ -346,6 +347,8 @@ export default class RDKTask extends SDTElement {
         this.pauseTime = d3.now();
       }
     }
+
+    this.firstUpdate = false;
   }
 
   reset() {
