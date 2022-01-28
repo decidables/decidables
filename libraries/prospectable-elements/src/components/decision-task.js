@@ -86,6 +86,8 @@ export default class DecisionTask extends CPTElement {
     );
 
     // Private
+    this.firstUpdate = true;
+
     this.xl = 0;
     this.xw = 0;
     this.pw = 0;
@@ -123,7 +125,7 @@ export default class DecisionTask extends CPTElement {
     super.update(changedProperties);
 
     // Start or stop trial block
-    if (changedProperties.has('running')) {
+    if (this.firstUpdate || changedProperties.has('running')) {
       if (this.running) {
         // (Re)Start
         if (this.pauseTime) {
@@ -138,6 +140,8 @@ export default class DecisionTask extends CPTElement {
         this.pauseTime = d3.now();
       }
     }
+
+    this.firstUpdate = false;
   }
 
   reset() {
