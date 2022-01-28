@@ -289,6 +289,9 @@ export default class DecisionSpace extends CPTElement {
       css`
         :host {
           display: inline-block;
+
+          width: 28rem;
+          height: 20rem;
         }
 
         .plotly {

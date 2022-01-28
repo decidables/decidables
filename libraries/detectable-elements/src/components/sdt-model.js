@@ -230,6 +230,9 @@ export default class SDTModel extends SDTElement {
       css`
         :host {
           display: inline-block;
+
+          width: 27rem;
+          height: 15rem;
         }
 
         .main {

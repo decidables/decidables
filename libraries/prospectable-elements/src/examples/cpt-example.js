@@ -47,36 +47,18 @@ export default class CPTExample extends CPTElement {
         /* HACK: Sibling selectors not working with ::slotted */
         /* .body > rdk-task + sdt-response,
         ::slotted(rdk-task) + ::slotted(sdt-response) { */
-        .body ::slotted(sdt-response) {
+        /* .body ::slotted(sdt-response) {
           margin-left: 0;
-        }
+        } */
 
         /* HACK: Sibling selectors not working with ::slotted */
         /* .body > sdt-control + rdk-task,
         ::slotted(sdt-control) + ::slotted(rdk-task) {
           margin-left: 0;
         } */
-        .body ::slotted(rdk-task) {
-          width: 10rem;
-          height: 10rem;
+        /* .body ::slotted(rdk-task) {
           margin-left: 0;
-        }
-
-        .body ::slotted(decision-space),
-        .body ::slotted(cpt-space) {
-          width: 28rem;
-          height: 20rem;
-        }
-
-        .body ::slotted(cpt-value) {
-          width: 20rem;
-          height: 20rem;
-        }
-
-        .body ::slotted(cpt-probability) {
-          width: 20rem;
-          height: 20rem;
-        }
+        } */
       `,
     ];
   }

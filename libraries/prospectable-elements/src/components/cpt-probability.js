@@ -274,6 +274,9 @@ export default class CPTProbability extends CPTElement {
       css`
         :host {
           display: inline-block;
+
+          width: 20rem;
+          height: 20rem;
         }
 
         .main {

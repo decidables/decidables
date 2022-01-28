@@ -57,19 +57,7 @@ export default class SDTExample extends SDTElement {
           margin-left: 0;
         } */
         .body ::slotted(rdk-task) {
-          width: 10rem;
-          height: 10rem;
           margin-left: 0;
-        }
-
-        .body ::slotted(roc-space) {
-          width: 20rem;
-          height: 20rem;
-        }
-
-        .body ::slotted(sdt-model) {
-          width: 27rem;
-          height: 15rem;
         }
       `,
     ];
