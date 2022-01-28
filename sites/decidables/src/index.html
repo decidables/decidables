@@ -47,6 +47,7 @@
 
       <div class="row row-cols-1 row-cols-lg-2 g-4 mt-0 justify-content-center">
 
+        <!-- DETECTABLE -->
         <section class="col">
           <div class="card h-100">
             <div class="card-body pb-0">
@@ -92,6 +93,7 @@
           </div>
         </section>
 
+        <!-- PROSPECTABLE -->
         <section class="col">
           <div class="card h-100">
             <div class="card-body pb-0">
@@ -118,7 +120,7 @@
                   <cpt-value interactive alpha="0.9" lambda="2" value="10"></cpt-value>
                 </div>
                 <div class="carousel-item text-center">
-                  <sdt-table numeric interactive summary="stimulusRates responseRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90" color="outcome"></sdt-table>
+                  <decision-task running trials="Infinity" duration="2500" iti="1500"></decision-task>
                 </div>
               </div>
               <button class="carousel-control-prev w-auto" type="button" data-bs-target="#prospectable-carousel" data-bs-slide="prev">
@@ -133,23 +135,24 @@
           </div>
         </section>
 
+        <!-- DISCOUNTABLE -->
         <section class="col">
           <div class="card h-100">
             <div class="card-body pb-0">
-              <a href="diskountable/" class="text-body">
+              <a href="discountable/" class="text-body">
                 <hgroup>
                   <h2 class="h4 card-title text-center">
-                    <span class="diskountable fw-semibold">dis<span class="math-var">k</span>ountable</span>
+                    <span class="discountable fw-semibold">dis<span class="math-var">k</span>ountable</span>
                   </h2>
                   <h3 class="h6 card-subtitle text-center font-serif">An Explorable Explanation of Hyperbolic Temporal Discounting</h3>
                 </hgroup>
               </a>
             </div>
-            <div id="diskountable-carousel" class="carousel carousel-dark slide card-img-bottom overflow-hidden" data-bs-interval="false">
+            <div id="discountable-carousel" class="carousel carousel-dark slide card-img-bottom overflow-hidden" data-bs-interval="false">
               <div class="carousel-indicators mb-1">
-                <button type="button" data-bs-target="#diskountable-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#diskountable-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#diskountable-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#discountable-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#discountable-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#discountable-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
               </div>
               <div class="carousel-inner pb-4 d-flex align-items-center" style="height: 21rem; padding-left: 2rem; padding-right: 2rem;">
                 <div class="carousel-item text-center active">
@@ -162,11 +165,11 @@
                   <sdt-table numeric interactive summary="stimulusRates responseRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90" color="outcome"></sdt-table>
                 </div>
               </div>
-              <button class="carousel-control-prev w-auto" type="button" data-bs-target="#diskountable-carousel" data-bs-slide="prev">
+              <button class="carousel-control-prev w-auto" type="button" data-bs-target="#discountable-carousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
               </button>
-              <button class="carousel-control-next w-auto mx-1" type="button" data-bs-target="#diskountable-carousel" data-bs-slide="next">
+              <button class="carousel-control-next w-auto mx-1" type="button" data-bs-target="#discountable-carousel" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
               </button>
