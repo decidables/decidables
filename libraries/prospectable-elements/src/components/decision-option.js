@@ -67,7 +67,7 @@ export default class DecisionOption extends CPTElement {
         }
 
         .arc.interactive {
-          cursor: move;
+          cursor: ns-resize;
 
           filter: url("#shadow-2");
           outline: none;
