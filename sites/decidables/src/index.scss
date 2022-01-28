@@ -115,6 +115,7 @@ $container-max-widths: (
 
 // SCSS VARIABLES
 $font-family-math: "Source Serif", serif; // Not in Bootstrap
+$font-family-code: "Source Code Pro", monospace; // Not in Bootstrap
 $font-family-serif: "Source Serif", serif; // Not in Bootstrap
 $border: $border-width solid $border-color;
 $transition-duration: 500ms;
@@ -169,6 +170,8 @@ $shadow-ambient-map: (
 // CSS VARIABLES for Decidables
 :root { /* stylelint-disable-line no-duplicate-selectors */
   --font-family-base: #{$font-family-base};
+  --font-family-math: #{$font-family-math};
+  --font-family-code: #{$font-family-code};
   --font-family-serif: #{$font-family-serif};
   --border: #{$border};
   --border-radius: #{$border-radius};
