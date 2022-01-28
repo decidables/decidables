@@ -282,6 +282,9 @@ export default class CPTValue extends CPTElement {
       css`
         :host {
           display: inline-block;
+
+          width: 20rem;
+          height: 20rem;
         }
 
         .main {

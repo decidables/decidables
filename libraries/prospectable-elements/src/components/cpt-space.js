@@ -193,6 +193,9 @@ export default class CPTSpace extends CPTElement {
       css`
         :host {
           display: inline-block;
+
+          width: 28rem;
+          height: 20rem;
         }
 
         .plotly {

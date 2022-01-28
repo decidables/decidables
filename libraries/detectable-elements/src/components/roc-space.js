@@ -243,6 +243,9 @@ export default class ROCSpace extends SDTElement {
       css`
         :host {
           display: inline-block;
+
+          width: 20rem;
+          height: 20rem;
         }
 
         .main {
