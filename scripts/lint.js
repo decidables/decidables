@@ -2,14 +2,32 @@
 // devDependencies
 import gulp from 'gulp';
 import gulpEslintNew from 'gulp-eslint-new';
+import gulpHtmlhint from 'gulp-htmlhint';
 import {remark as gulpRemark} from 'gulp-remark';
 import gulpStylelint from 'gulp-stylelint';
+import gulpW3cjs from 'gulp-w3cjs';
 import stylelintFormatterPretty from 'stylelint-formatter-pretty';
+import through2 from 'through2';
 
 // Tasks
 export function lintMarkdown() {
   return gulp.src('src/*.md')
     .pipe(gulpRemark());
+}
+
+export function lintMarkup() {
+  return gulp.src('src/*.html')
+    .pipe(gulpW3cjs({showInfo: true}))
+    .pipe(gulpW3cjs.reporter())
+    .pipe(through2.obj((file, enc, cb) => {
+      cb(null, file);
+      if (file.w3cjs.messages.length > 0) {
+        throw new Error('HTML validation issue(s) found');
+      }
+    }))
+    .pipe(gulpHtmlhint())
+    .pipe(gulpHtmlhint.reporter())
+    .pipe(gulpHtmlhint.failOnError({suppress: true}));
 }
 
 export function lintScripts() {
