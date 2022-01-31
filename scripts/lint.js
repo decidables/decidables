@@ -32,7 +32,16 @@ export function lintMarkup() {
 
 export function lintScripts() {
   return gulp.src(['src/**/*.js', '!src/**/*.auto.js'])
-    .pipe(gulpEslintNew())
+    .pipe(gulpEslintNew({
+      // This is needed until 'eslint-import-resolver-node' handles package.json export field!
+      overrideConfig: {
+        settings: {
+          'import/resolver': {
+            '@tophat/eslint-import-resolver-require': {}
+          },
+        },
+      },
+    }))
     .pipe(gulpEslintNew.format('pretty'))
     .pipe(gulpEslintNew.failAfterError());
 }
