@@ -1,8 +1,6 @@
 
 import {css} from 'lit';
 
-import '@decidables/decidable-elements';
-
 import SDTElement from '../sdt-element';
 
 /*

@@ -3,7 +3,12 @@
   "version": "0.0.1",
   "description": "prospectable-math: Equations for calculating Cumulative Prospect Theory",
   "type": "module",
-  "main": "./src/index.js",
+  "main": "./lib/prospectableMath.min.js",
+  "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./*": "./src/*.js"
+  },
   "repository": "https://github.com/decidables/decidables/tree/main/libraries/prospectable-math",
   "author": "Adam Krawitz",
   "license": "UNLICENSED",

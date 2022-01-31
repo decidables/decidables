@@ -1,6 +1,7 @@
 
 import {html} from 'lit';
 
+import '@decidables/decidable-elements/spinner';
 import CPTMath from '@decidables/prospectable-math';
 
 import CPTEquation from './cpt-equation';

@@ -1,7 +1,11 @@
 
 import {html, css} from 'lit';
 
-import '@decidables/decidable-elements';
+import '@decidables/decidable-elements/button';
+import '@decidables/decidable-elements/slider';
+import '@decidables/decidable-elements/switch';
+import '@decidables/decidable-elements/toggle';
+import '@decidables/decidable-elements/toggle-option';
 
 import SDTElement from '../sdt-element';
 

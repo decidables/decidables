@@ -2,6 +2,7 @@
 import {html, css} from 'lit';
 import * as d3 from 'd3';
 
+import './decision-choice';
 import CPTElement from '../cpt-element';
 
 /*

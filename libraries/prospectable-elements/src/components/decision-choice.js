@@ -2,6 +2,8 @@
 import {html, css} from 'lit';
 
 import CPTElement from '../cpt-element';
+import './decision-option';
+import './decision-outcome';
 
 /*
   DecisionChoice element
