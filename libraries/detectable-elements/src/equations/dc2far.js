@@ -1,6 +1,7 @@
 
 import {html} from 'lit';
 
+import '@decidables/decidable-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
 
 import SDTEquation from './sdt-equation';

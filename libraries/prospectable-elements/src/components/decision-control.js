@@ -1,7 +1,8 @@
 
 import {html, css} from 'lit';
 
-import '@decidables/decidable-elements';
+import '@decidables/decidable-elements/button';
+import '@decidables/decidable-elements/slider';
 
 import CPTElement from '../cpt-element';
 

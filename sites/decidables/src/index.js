@@ -13,14 +13,11 @@ import 'lit/polyfill-support.js'; /* eslint-disable-line import/extensions */
 import 'bootstrap';
 
 // Internal dependencies
-import {
-  RDKTask, /* eslint-disable-line no-unused-vars */
-  ROCSpace, /* eslint-disable-line no-unused-vars */
-  SDTModel, /* eslint-disable-line no-unused-vars */
-  SDTTable, /* eslint-disable-line no-unused-vars */
-} from '@decidables/detectable-elements';
-import {
-  CPTProbability, /* eslint-disable-line no-unused-vars */
-  CPTValue, /* eslint-disable-line no-unused-vars */
-  DecisionTask, /* eslint-disable-line no-unused-vars */
-} from '@decidables/prospectable-elements';
+import '@decidables/detectable-elements/components/rdk-task';
+import '@decidables/detectable-elements/components/roc-space';
+import '@decidables/detectable-elements/components/sdt-model';
+import '@decidables/detectable-elements/components/sdt-table';
+
+import '@decidables/prospectable-elements/components/cpt-probability';
+import '@decidables/prospectable-elements/components/cpt-value';
+import '@decidables/prospectable-elements/components/decision-task';

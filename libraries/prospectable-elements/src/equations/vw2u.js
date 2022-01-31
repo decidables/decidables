@@ -2,7 +2,8 @@
 import {html} from 'lit';
 import {animate, flyLeft} from '@lit-labs/motion';
 
-import {DecidableConverterArray} from '@decidables/decidable-elements';
+import '@decidables/decidable-elements/spinner';
+import DecidableConverterArray from '@decidables/decidable-elements/converter-array';
 
 import CPTEquation from './cpt-equation';
 

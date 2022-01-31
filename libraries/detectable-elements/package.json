@@ -3,7 +3,15 @@
   "version": "0.0.1",
   "description": "detectable-elements: Web Components for visualizing Signal Detection Theory",
   "type": "module",
-  "main": "./src/index.js",
+  "main": "./lib/detectableElements.min.js",
+  "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./components": "./src/components/index.js",
+    "./equations": "./src/equations/index.js",
+    "./examples": "./src/examples/index.js",
+    "./*": "./src/*.js"
+  },
   "repository": "https://github.com/decidables/decidables/tree/main/libraries/detectable-elements",
   "author": "Adam Krawitz",
   "license": "UNLICENSED",

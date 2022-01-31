@@ -1,8 +1,6 @@
 
 import {css} from 'lit';
 
-import '@decidables/decidable-elements';
-
 import CPTElement from '../cpt-element';
 
 /*

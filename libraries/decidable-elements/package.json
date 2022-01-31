@@ -3,7 +3,12 @@
   "version": "0.0.1",
   "description": "decidable-elements: Basic UI Web Components for Visualizing Decision Making",
   "type": "module",
-  "main": "./src/index.js",
+  "main": "./lib/decidableElements.min.js",
+  "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./*": "./src/*.js"
+  },
   "repository": "https://github.com/decidables/decidables/tree/main/libraries/decidable-elements",
   "author": "Adam Krawitz",
   "license": "UNLICENSED",
