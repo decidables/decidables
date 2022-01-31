@@ -164,6 +164,13 @@ published to *npm* in the `@decidables` scope.
 ## Features/Bugs/Notes
 
 - Add top-level decidable website
+- Proper outputs for libraries?
+  - UMD bundle in ES5
+  - ES bundle in ES6
+  - ES unbundled in ES6+
+- How to create tree-shakable imports with web components
+  - Issue: classes aren't used in JS, but registered components _are_ used!
+  - Maybe: (1) No sideEffects false, (2) Always import needed classes, (3) Always import from specific file?
 - Update About pages!
 - include preparePlotly in compile step?
 - use focused imports to better support tree shaking?
