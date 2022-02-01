@@ -11,14 +11,14 @@
     <link href="index.css" rel="stylesheet">
   </head>
   <body>
-    <header class="navbar navbar-expand-md navbar-dark bg-dark">
+    <header class="navbar navbar-expand-md navbar-dark bg-dark py-1">
       <nav class="container-xl">
         <a class="navbar-brand p-2" href="#">decidables</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#decidables-navbar" aria-controls="decidables-navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#decidables-navbar" aria-controls="decidables-navbar" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="decidables-navbar">
-          <ul class="navbar-nav ms-auto mb-2 mb-md-0 text-end">
+          <ul class="navbar-nav ms-auto mb-1 mb-md-0 text-end">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
@@ -38,12 +38,17 @@
 
     <main class="container-xl my-4">
 
-      <header class="row g-4">
-        <hgroup class="col">
-          <h1 class="display-1 fw-bolder text-center">decidables</h1>
-          <h2 class="text-center font-serif">Explorable Explanations of Decision Making</h2>
+      <header class="row g-4 justify-content-center">
+        <hgroup class="col-12">
+          <h1 class="display-1 fw-bold text-center">decidables</h1>
+          <h2 class="text-center fw-semibold font-serif">Explorable Explanations of Decision Making</h2>
         </hgroup>
-        <p class="lead">Interactive tutorials on quantitative approaches to the cognitive psychology of decision making.</p>
+        <p class="col-12 col-md-10 col-xxl-8 mt-3 fw-normal lead text-center">
+          In-depth tutorials about topics in the cognitive psychology of decision making.
+          Quantitative approaches presented with interactive tasks and manipulable diagrams.
+          <em>Fit</em>, <em>predict</em>, and <em>explore</em> the relationships between models and
+          data!
+        </p>
       </header>
 
       <div class="row row-cols-1 row-cols-lg-2 g-4 mt-0 justify-content-center">
@@ -51,15 +56,20 @@
         <!-- DETECTABLE -->
         <section class="col">
           <div class="card h-100">
-            <div class="card-body pb-0">
-              <a href="detectable/" class="text-body">
+            <div class="card-body pb-0 position-relative">
+              <a href="detectable/" class="text-body stretched-link">
                 <hgroup>
-                  <h2 class="h4 card-title text-center">
-                    <span class="detectable fw-semibold"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+                  <h2 class="h3 card-title fw-semibold text-center">
+                    <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
                   </h2>
-                  <h3 class="h6 card-subtitle text-center font-serif">An Explorable Explanation of Signal Detection Theory</h3>
+                  <h3 class="h5 card-subtitle fw-normal text-center font-serif">An Explorable Explanation of Signal Detection Theory</h3>
                 </hgroup>
               </a>
+              <p class="card-text fw-light text-center mx-md-4 mt-2">
+                How do we decide if a stimulus is present or absent?<br>
+                Building on early work studying radar operators, SDT mathematically models our
+                choices in terms of our detection <em>sensitivity</em> and response <em>bias</em>.
+              </p>
             </div>
             <div id="detectable-carousel" class="carousel carousel-dark slide card-img-bottom overflow-hidden" data-bs-interval="false">
               <div class="carousel-indicators mb-1">
@@ -68,18 +78,30 @@
                 <button type="button" data-bs-target="#detectable-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 <button type="button" data-bs-target="#detectable-carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
               </div>
-              <div class="carousel-inner pb-4 d-flex align-items-center" style="height: 21rem; padding-left: 2rem; padding-right: 2rem;">
-                <div class="carousel-item text-center active">
-                  <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
+              <div class="carousel-inner pb-4" style="height: 23.5rem; padding-left: 2rem; padding-right: 2rem;">
+                <div class="carousel-item h-100 text-center active">
+                  <figure class="figure h-100 d-flex flex-column align-items-center">
+                    <sdt-model class="my-auto" interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
+                    <figcaption class="figure-caption mb-2">Signal and noise distributions with threshold.</figcaption>
+                  </figure>
                 </div>
-                <div class="carousel-item text-center">
-                  <roc-space interactive point="all" iso-d="all" iso-c="all" far="0.1" hr="0.8"></roc-space>
+                <div class="carousel-item h-100 text-center">
+                  <figure class="figure h-100 d-flex flex-column align-items-center">
+                    <roc-space class="my-auto" interactive point="all" iso-d="all" iso-c="all" far="0.1" hr="0.8"></roc-space>
+                    <figcaption class="figure-caption mb-2">Receiver operating characteristic (ROC) space.</figcaption>
+                  </figure>
                 </div>
-                <div class="carousel-item text-center">
-                  <sdt-table numeric interactive summary="stimulusRates responseRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90" color="outcome"></sdt-table>
+                <div class="carousel-item h-100 text-center">
+                  <figure class="figure h-100 d-flex flex-column align-items-center">
+                    <sdt-table class="my-auto" numeric interactive summary="stimulusRates responseRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90" color="outcome"></sdt-table>
+                    <figcaption class="figure-caption mb-2">Stimulus-response contingency table.</figcaption>
+                  </figure>
                 </div>
-                <div class="carousel-item text-center">
-                  <rdk-task running count="100" coherence="0.5" trials="Infinity" probability="0.5" duration="1000" wait="1000" iti="1000"></rdk-task>
+                <div class="carousel-item h-100 text-center">
+                  <figure class="figure h-100 d-flex flex-column align-items-center">
+                    <rdk-task class="my-auto" running count="100" coherence="0.5" trials="Infinity" probability="0.5" duration="1000" wait="1000" iti="1000"></rdk-task>
+                    <figcaption class="figure-caption mb-2">Coherent motion detection task.</figcaption>
+                  </figure>
                 </div>
               </div>
               <button class="carousel-control-prev w-auto" type="button" data-bs-target="#detectable-carousel" data-bs-slide="prev">
@@ -97,15 +119,21 @@
         <!-- PROSPECTABLE -->
         <section class="col">
           <div class="card h-100">
-            <div class="card-body pb-0">
-              <a href="prospectable/" class="text-body">
+            <div class="card-body pb-0 position-relative">
+              <a href="prospectable/" class="text-body stretched-link">
                 <hgroup>
-                  <h2 class="h4 card-title text-center">
-                    <span class="prospectable fw-semibold">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
+                  <h2 class="h3 card-title fw-semibold text-center">
+                    <span class="prospectable">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
                   </h2>
-                  <h3 class="h6 card-subtitle text-center font-serif">An Explorable Explanation of Cumulative Prospect Theory</h3>
+                  <h3 class="h5 card-subtitle fw-normal text-center font-serif">An Explorable Explanation of Cumulative Prospect Theory</h3>
                 </hgroup>
               </a>
+              <p class="card-text fw-light text-center mx-md-4 mt-2">
+                How do we decide between risky options?<br>
+                CPT describes mathematical transformations of objective probabilities and values
+                into <em>decision weights</em> and <em>subjective values</em> which we combine on a
+                relative scale.
+              </p>
             </div>
             <div id="prospectable-carousel" class="carousel carousel-dark slide card-img-bottom overflow-hidden" data-bs-interval="false">
               <div class="carousel-indicators mb-1">
@@ -113,15 +141,24 @@
                 <button type="button" data-bs-target="#prospectable-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#prospectable-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
               </div>
-              <div class="carousel-inner pb-4 d-flex align-items-center" style="height: 21rem; padding-left: 2rem; padding-right: 2rem;">
-                <div class="carousel-item text-center active">
-                  <cpt-probability interactive gamma="0.75" label class probability="0.75"></cpt-probability>
+              <div class="carousel-inner pb-4" style="height: 23.5rem; padding-left: 2rem; padding-right: 2rem;">
+                <div class="carousel-item h-100 text-center active">
+                  <figure class="figure h-100 d-flex flex-column align-items-center">
+                    <cpt-probability class="my-auto" interactive gamma="0.75" label probability="0.75"></cpt-probability>
+                    <figcaption class="figure-caption mb-2">Probability weighting function.</figcaption>
+                  </figure>
                 </div>
-                <div class="carousel-item text-center">
-                  <cpt-value interactive alpha="0.9" lambda="2" value="10"></cpt-value>
+                <div class="carousel-item h-100 text-center">
+                  <figure class="figure h-100 d-flex flex-column align-items-center">
+                    <cpt-value class="my-auto" interactive alpha="0.9" lambda="2" value="10"></cpt-value>
+                    <figcaption class="figure-caption mb-2">Value function.</figcaption>
+                  </figure>
                 </div>
-                <div class="carousel-item text-center">
-                  <decision-task running trials="Infinity" duration="2500" iti="1500"></decision-task>
+                <div class="carousel-item h-100 text-center">
+                  <figure class="figure h-100 d-flex flex-column align-items-center">
+                    <decision-task class="my-auto" running trials="Infinity" duration="2500" iti="1500"></decision-task>
+                    <figcaption class="figure-caption mb-2">Risky decision task.</figcaption>
+                  </figure>
                 </div>
               </div>
               <button class="carousel-control-prev w-auto" type="button" data-bs-target="#prospectable-carousel" data-bs-slide="prev">
@@ -139,15 +176,20 @@
         <!-- DISCOUNTABLE -->
         <section class="col">
           <div class="card h-100">
-            <div class="card-body pb-0">
-              <a class="text-body text-opacity-50 pe-none"> <!-- href="discountable/" -->
+            <div class="card-body pb-0 position-relative pe-none">
+              <a class="text-body stretched-link text-opacity-50"> <!-- href="discountable/" -->
                 <hgroup>
-                  <h2 class="h4 card-title text-center">
-                    <span class="discountable fw-semibold">dis<span class="math-var">k</span>ountable</span>
+                  <h2 class="h3 card-title fw-semibold text-center">
+                    <span class="discountable">dis<span class="math-var">k</span>ountable</span>
                   </h2>
-                  <h3 class="h6 card-subtitle text-center font-serif">An Explorable Explanation of Hyperbolic Temporal Discounting</h3>
+                  <h3 class="h5 card-subtitle fw-normal text-center font-serif">An Explorable Explanation of Hyperbolic Temporal Discounting</h3>
                 </hgroup>
               </a>
+              <p class="card-text text-body text-opacity-50 fw-light text-center mx-md-4 mt-2">
+                How do we decide between less sooner or more later?<br>
+                <em>Hyperbolic discounting</em> mathematically describes how our subjective
+                perception of value changes over time.
+              </p>
             </div>
             <div id="discountable-carousel" class="carousel carousel-dark slide card-img-bottom overflow-hidden" data-bs-interval="false">
               <div class="carousel-indicators mb-1">
@@ -155,15 +197,24 @@
                 <button type="button" data-bs-target="#discountable-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#discountable-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
               </div>
-              <div class="carousel-inner pb-4 d-flex align-items-center" style="height: 21rem; padding-left: 2rem; padding-right: 2rem;">
-                <div class="carousel-item text-center active">
-                  <div class="fw-bold fs-1 fst-italic text-body text-opacity-50 pe-none">Coming soon...</div>
+              <div class="carousel-inner pb-4" style="height: 23.5rem; padding-left: 2rem; padding-right: 2rem;">
+                <div class="carousel-item h-100 text-center active">
+                  <figure class="figure h-100 d-flex flex-column align-items-center">
+                    <div class="my-auto fw-bold fs-1 fst-italic text-body text-opacity-50 pe-none">Coming soon...</div>
+                    <figcaption class="figure-caption mb-2"></figcaption>
+                  </figure>
                 </div>
-                <div class="carousel-item text-center">
-                  <div class="fw-bold fs-1 fst-italic text-body text-opacity-50 pe-none">Under construction...</div>
+                <div class="carousel-item h-100 text-center">
+                  <figure class="figure h-100 d-flex flex-column align-items-center">
+                    <div class="my-auto fw-bold fs-1 fst-italic text-body text-opacity-50 pe-none">Under construction...</div>
+                    <figcaption class="figure-caption mb-2"></figcaption>
+                  </figure>
                 </div>
-                <div class="carousel-item text-center">
-                  <div class="fw-bold fs-1 fst-italic text-body text-opacity-50 pe-none">Pending completion...</div>
+                <div class="carousel-item h-100 text-center">
+                  <figure class="figure h-100 d-flex flex-column align-items-center">
+                    <div class="my-auto fw-bold fs-1 fst-italic text-body text-opacity-50 pe-none">Pending completion...</div>
+                    <figcaption class="figure-caption mb-2"></figcaption>
+                  </figure>
                 </div>
               </div>
               <button class="carousel-control-prev w-auto" type="button" data-bs-target="#discountable-carousel" data-bs-slide="prev">
@@ -181,7 +232,7 @@
       </div>
     </main>
 
-    <footer class="navbar navbar-expand navbar-dark bg-dark">
+    <footer class="navbar navbar-expand navbar-dark bg-dark py-1">
       <nav class="container-xl">
         <a class="navbar-brand" href="#">decidables</a>
         <ul class="navbar-nav ms-auto text-end">
