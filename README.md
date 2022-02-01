@@ -164,21 +164,23 @@ published to *npm* in the `@decidables` scope.
 ## Features/Bugs/Notes
 
 - Add top-level decidable website
-- Proper outputs for libraries?
-  - UMD bundle in ES5
-  - ES bundle in ES6
-  - ES unbundled in ES6+
-- How to create tree-shakable imports with web components
-  - Issue: classes aren't used in JS, but registered components _are_ used!
-  - Maybe: (1) No sideEffects false, (2) Always import needed classes, (3) Always import from specific file?
+- use focused imports to better support tree shaking?
+- Libraries:
+  - Proper outputs?
+    - UMD bundle in ES5
+    - ES bundle in ES6
+    - ES unbundled in ES6+
+  - How to create tree-shakable imports with web components
+    - Issue: classes aren't used in JS, but registered components _are_ used!
+    - Maybe: (1) No sideEffects false, (2) Always import needed classes, (3) Always import from specific file?
+  - licenses!
+  - npm versioning & publishing
 - Update About pages!
 - include preparePlotly in compile step?
-- use focused imports to better support tree shaking?
 - get eslint, remark-lint, and stylelint working in editor
   - need eslint overrides for dev scripts versus browser scripts
 - Linting and transpiling in tagged template literals?
 - Change 'browserslist' to `last 1 version, not dead, > 0.2%`?
-- Proper packaging, versioning, and registering of libraries
 - Clean way for inter-page references?
 - Use something else instead of inline code for terms
   - New remark-span! [content]{attributes}
