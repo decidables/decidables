@@ -7,12 +7,12 @@
 
 $font-map: (
   // filename: (family, style, weight, stretch)
-  SourceCodePro-Regular: ("Source Code Pro", normal, 400, normal),
-  SourceCodePro-It: ("Source Code Pro", italic, 400, normal),
-  SourceCodePro-Semibold: ("Source Code Pro", normal, 600, normal),
-  SourceCodePro-SemiboldIt: ("Source Code Pro", italic, 600, normal),
-  SourceCodePro-Bold: ("Source Code Pro", normal, 700, normal),
-  SourceCodePro-BoldIt: ("Source Code Pro", italic, 700, normal),
+  SourceCodePro-Regular: ("Source Code", normal, 400, normal),
+  SourceCodePro-It: ("Source Code", italic, 400, normal),
+  SourceCodePro-Semibold: ("Source Code", normal, 600, normal),
+  SourceCodePro-SemiboldIt: ("Source Code", italic, 600, normal),
+  SourceCodePro-Bold: ("Source Code", normal, 700, normal),
+  SourceCodePro-BoldIt: ("Source Code", italic, 700, normal),
   SourceSans3-Regular: ("Source Sans", normal, 400, normal),
   SourceSans3-It: ("Source Sans", italic, 400, normal),
   SourceSans3-Semibold: ("Source Sans", normal, 600, normal),
@@ -163,7 +163,10 @@ $container-max-widths: (
 
 // SCSS VARIABLES
 $font-family-math: "Source Serif", serif; // Not in Bootstrap
-$font-family-code: "Source Code Pro", monospace; // Not in Bootstrap
+$font-family-code: "Source Code", monospace; // Not in Bootstrap
+$font-family-serif: "Source Serif", serif; // Not in Bootstrap
+$font-family-sans: "Source Sans", sans-serif; // Not in Bootstrap
+$font-family-mono: "Source Code", monospace; // Not in Bootstrap
 $border: $border-width solid $border-color;
 $transition-duration: 500ms;
 
@@ -219,6 +222,9 @@ $shadow-ambient-map: (
   --font-family-base: #{$font-family-base};
   --font-family-math: #{$font-family-math};
   --font-family-code: #{$font-family-code};
+  --font-family-serif: #{$font-family-serif};
+  --font-family-sans: #{$font-family-sans};
+  --font-family-mono: #{$font-family-mono};
   --border: #{$border};
   --border-radius: #{$border-radius};
   --transition-duration: #{$transition-duration};

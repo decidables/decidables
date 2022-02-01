@@ -8,24 +8,41 @@
 // FONTS
 $font-map: (
   // filename: (family, style, weight, stretch)
-  SourceCodePro-Regular: ("Source Code Pro", normal, 400, normal),
-  SourceCodePro-It: ("Source Code Pro", italic, 400, normal),
-  SourceCodePro-Semibold: ("Source Code Pro", normal, 600, normal),
-  SourceCodePro-SemiboldIt: ("Source Code Pro", italic, 600, normal),
-  SourceCodePro-Bold: ("Source Code Pro", normal, 700, normal),
-  SourceCodePro-BoldIt: ("Source Code Pro", italic, 700, normal),
+  SourceCodePro-Light: ("Source Code", normal, 300, normal),
+  SourceCodePro-LightIt: ("Source Code", italic, 300, normal),
+  SourceCodePro-Regular: ("Source Code", normal, 400, normal),
+  SourceCodePro-It: ("Source Code", italic, 400, normal),
+  SourceCodePro-Semibold: ("Source Code", normal, 600, normal),
+  SourceCodePro-SemiboldIt: ("Source Code", italic, 600, normal),
+  SourceCodePro-Bold: ("Source Code", normal, 700, normal),
+  SourceCodePro-BoldIt: ("Source Code", italic, 700, normal),
+
+  SourceSans3-Light: ("Source Sans", normal, 300, normal),
+  SourceSans3-LightIt: ("Source Sans", italic, 300, normal),
   SourceSans3-Regular: ("Source Sans", normal, 400, normal),
   SourceSans3-It: ("Source Sans", italic, 400, normal),
   SourceSans3-Semibold: ("Source Sans", normal, 600, normal),
   SourceSans3-SemiboldIt: ("Source Sans", italic, 600, normal),
   SourceSans3-Bold: ("Source Sans", normal, 700, normal),
   SourceSans3-BoldIt: ("Source Sans", italic, 700, normal),
+
+  SourceSerif4-Light: ("Source Serif", normal, 300, normal),
+  SourceSerif4-LightIt: ("Source Serif", italic, 300, normal),
   SourceSerif4-Regular: ("Source Serif", normal, 400, normal),
   SourceSerif4-It: ("Source Serif", italic, 400, normal),
   SourceSerif4-Semibold: ("Source Serif", normal, 600, normal),
   SourceSerif4-SemiboldIt: ("Source Serif", italic, 600, normal),
   SourceSerif4-Bold: ("Source Serif", normal, 700, normal),
   SourceSerif4-BoldIt: ("Source Serif", italic, 700, normal),
+
+  SourceCodeVariable-Roman: ("Source Code Variable", normal, 200 900, normal),
+  SourceCodeVariable-Italic: ("Source Code Variable", italic, 200 900, normal),
+
+  SourceSans3VF-Roman: ("Source Sans Variable", normal, 200 900, normal),
+  SourceSans3VF-Italic: ("Source Sans Variable", italic, 200 900, normal),
+
+  SourceSerif4Variable-Roman: ("Source Serif Variable", normal, 200 900, normal),
+  SourceSerif4Variable-Italic: ("Source Serif Variable", italic, 200 900, normal),
 );
 
 @each $file, $font-list in $font-map {
@@ -90,7 +107,7 @@ $color-element-emphasis: #{$color-grey-dark75};
 
 // BOOTSTRAP VARIABLES
 $enable-rfs: false;
-$font-family-base: "Source Sans", sans-serif;
+$font-family-base: "Source Sans Variable", "Source Sans", sans-serif;
 $grid-gutter-width: 2rem;
 $border-width: 1px;
 $border-radius: 0.25rem;
@@ -114,9 +131,11 @@ $container-max-widths: (
 
 
 // SCSS VARIABLES
-$font-family-math: "Source Serif", serif; // Not in Bootstrap
-$font-family-code: "Source Code Pro", monospace; // Not in Bootstrap
-$font-family-serif: "Source Serif", serif; // Not in Bootstrap
+$font-family-math: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
+$font-family-code: "Source Code Variable", "Source Code", monospace; // Not in Bootstrap
+$font-family-serif: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
+$font-family-sans: "Source Sans Variable", "Source Sans", sans-serif; // Not in Bootstrap
+$font-family-mono: "Source Code Variable", "Source Code", monospace; // Not in Bootstrap
 $border: $border-width solid $border-color;
 $transition-duration: 500ms;
 
@@ -173,6 +192,8 @@ $shadow-ambient-map: (
   --font-family-math: #{$font-family-math};
   --font-family-code: #{$font-family-code};
   --font-family-serif: #{$font-family-serif};
+  --font-family-sans: #{$font-family-sans};
+  --font-family-mono: #{$font-family-mono};
   --border: #{$border};
   --border-radius: #{$border-radius};
   --transition-duration: #{$transition-duration};
@@ -191,7 +212,7 @@ $shadow-ambient-map: (
 @import "~bootstrap/scss/root";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
-// @import "~bootstrap/scss/images";
+@import "~bootstrap/scss/images";
 @import "~bootstrap/scss/containers";
 @import "~bootstrap/scss/grid";
 @import "~bootstrap/scss/tables";
@@ -257,6 +278,8 @@ body {
   min-height: 100%;
 
   font-size: 1.125rem;
+
+  background-color: var(--color-element-background);
 }
 
 main {
