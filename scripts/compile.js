@@ -1,5 +1,6 @@
 
 // devDependencies
+import glob from 'glob';
 import gulp from 'gulp';
 import gulpDartSass from 'gulp-dart-sass';
 import gulpEjs from 'gulp-ejs';
@@ -25,18 +26,13 @@ import remarkCiteproc from './remark-citeproc.js';
 import remarkTerminology from './remark-terminology.js';
 
 // Tasks
-export function compileFonts() {
-  return gulp.src([
-    resolvePkg('bootstrap-icons/font/fonts/bootstrap-icons.woff'),
-    resolvePkg('bootstrap-icons/font/fonts/bootstrap-icons.woff2'),
-    resolvePkg('source-code-pro/WOFF/OTF/SourceCodePro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
-    resolvePkg('source-sans/WOFF/OTF/SourceSans3-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
-    resolvePkg('source-serif/WOFF/OTF/SourceSerif4-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff'),
-    resolvePkg('source-code-pro/WOFF2/OTF/SourceCodePro-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff2'),
-    resolvePkg('source-sans/WOFF2/OTF/SourceSans3-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff2'),
-    resolvePkg('source-serif/WOFF2/OTF/SourceSerif4-{Regular,It,Semibold,SemiboldIt,Bold,BoldIt}.otf.woff2'),
-  ])
-    .pipe(gulp.dest('local/fonts'));
+export function compileFontsTask(fonts) {
+  return function compileFonts() {
+    return gulp.src(fonts.flatMap((font) => {
+      return glob.sync(resolvePkg(font));
+    }))
+      .pipe(gulp.dest('local/fonts'));
+  };
 }
 
 export function compileMarkdown() {

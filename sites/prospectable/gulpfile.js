@@ -33,7 +33,11 @@ export const lint = gulp.parallel(
 export const compile = gulp.series(
   cleans.cleanLocal,
   gulp.parallel(
-    compiles.compileFonts,
+    compiles.compileFontsTask([
+      'source-code-pro/WOFF{,2}/OTF/SourceCodePro-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+      'source-sans/WOFF{,2}/OTF/SourceSans3-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+      'source-serif/WOFF{,2}/OTF/SourceSerif4-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+    ]),
     compiles.compileMarkdown,
     compiles.compileScripts,
     compiles.compileStyles,
