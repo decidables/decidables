@@ -5,6 +5,7 @@ import gulp from 'gulp';
 import gulpHtmlmin from 'gulp-htmlmin';
 import gulpPostcss from 'gulp-postcss';
 import gulpTerser from 'gulp-terser';
+import postcssPurgecss from '@fullhuman/postcss-purgecss';
 import * as rollup from 'rollup';
 import * as rollupPluginBabel from '@rollup/plugin-babel';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
@@ -73,6 +74,9 @@ export function buildScripts() {
 export function buildStyles() {
   return gulp.src('local/*.css', {sourcemaps: true})
     .pipe(gulpPostcss([
+      postcssPurgecss({
+        content: ['./local/*.{html,js}']
+      }),
       cssnano(),
     ]))
     .pipe(gulp.dest('dist', {sourcemaps: '.'}));

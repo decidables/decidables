@@ -35,7 +35,6 @@ export const compile = gulp.series(
   cleans.cleanLocal,
   gulp.parallel(
     compiles.compileFontsTask([
-      'bootstrap-icons/font/fonts/bootstrap-icons.woff{,2}',
       'source-code-pro/WOFF{,2}/OTF/SourceCodePro-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
       'source-sans/WOFF{,2}/OTF/SourceSans3-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
       'source-serif/WOFF{,2}/OTF/SourceSerif4-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',

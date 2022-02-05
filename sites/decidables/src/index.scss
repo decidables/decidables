@@ -1,10 +1,10 @@
-// Built-In Modules
+////////////////////////////////
+// BUILT-IN MODULES
 @use "sass:color";
 @use "sass:list";
 @use "sass:map";
 
-@import "~bootstrap-icons/font/bootstrap-icons";
-
+////////////////////////////////
 // FONTS
 $font-map: (
   // filename: (family, style, weight, stretch)
@@ -55,9 +55,55 @@ $font-map: (
   }
 }
 
+// SASS variables
+$font-family-serif: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
+$font-family-sans-serif: "Source Sans Variable", "Source Sans", sans-serif;
+$font-family-monospace: "Source Code Variable", "Source Code", monospace;
 
+$font-family-base: $font-family-sans-serif;
+$font-family-code: $font-family-monospace;
+$font-family-math: $font-family-serif; // Not in Bootstrap
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// CSS variables
+:root { /* stylelint-disable-line no-duplicate-selectors */
+  --font-family-base: #{$font-family-base};
+  --font-family-math: #{$font-family-math};
+  --font-family-code: #{$font-family-code};
+  --font-family-serif: #{$font-family-serif};
+  --font-family-sans-serif: #{$font-family-sans-serif};
+  --font-family-monospace: #{$font-family-monospace};
+}
+
+// Bootstrap utility
+$utilities: (
+  "font-family": (
+    property: font-family,
+    class: font,
+    values: (
+      serif: var(--font-family-serif),
+      sans-serif: var(--font-family-sans-serif),
+      monospace: var(--font-family-monospace),
+    ),
+  ),
+  "font-weight": (
+    property: font-weight,
+    class: fw,
+    values: (
+      light: $font-weight-light,
+      normal: $font-weight-normal,
+      semibold: $font-weight-semibold,
+      bold: $font-weight-bold,
+    ),
+  ),
+);
+
+////////////////////////////////
 // COLOR
-// SCSS variables
 $color-grey-base: #999999; // baseline grey
 $color-white: #ffffff; // 100% lightness #ffffff
 $color-grey-light75: color.mix(#ffffff, $color-grey-base, 75%); // 90% lightness #e6e6e6
@@ -69,14 +115,14 @@ $color-grey-dark50: color.mix(#000000, $color-grey-base, 50%); // 30% lightness 
 $color-grey-dark75: color.mix(#000000, $color-grey-base, 75%); // 15% lightness #262626
 $color-black: #000000;  // 0% lightness #000000
 
-// Bootstrap SCSS variables
+// Bootstrap SASS variables
 $body-bg: $color-white;
 $border-color: $color-grey-light75;
 $body-color: $color-grey-dark75;
 $link-color: $color-grey-dark25;
 $link-hover-color: $color-grey-dark50;
 
-// Derived SCSS variables
+// SASS variables
 $color-background: #{$body-bg};
 $color-border: #{$border-color};
 $color-text: #{$body-color};
@@ -104,56 +150,21 @@ $color-element-emphasis: #{$color-grey-dark75};
   --color-element-emphasis: #{$color-element-emphasis};
 }
 
-
-// BOOTSTRAP VARIABLES
-$enable-rfs: false;
-$font-family-base: "Source Sans Variable", "Source Sans", sans-serif;
-$grid-gutter-width: 2rem;
-$border-width: 1px;
-$border-radius: 0.25rem;
-$link-decoration: none;
-$link-hover-decoration: underline;
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1590px
-);
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px,
-  xxl: 1560px
-);
-
-
-// SCSS VARIABLES
-$font-family-math: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
-$font-family-code: "Source Code Variable", "Source Code", monospace; // Not in Bootstrap
-$font-family-serif: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
-$font-family-sans: "Source Sans Variable", "Source Sans", sans-serif; // Not in Bootstrap
-$font-family-mono: "Source Code Variable", "Source Code", monospace; // Not in Bootstrap
-$border: $border-width solid $border-color;
-$transition-duration: 500ms;
-
-// Shadows based on Material Design
+////////////////////////////////
+// SHADOWS
+// Based on Material Design
 // https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
 $shadow-baseline-color: #000000;
 $shadow-umbra-opacity: 0.2;
 $shadow-penumbra-opacity: 0.14;
 $shadow-ambient-opacity: 0.12;
 $shadow-opacity-boost: 0.2;
-
 $shadow-umbra-map: (
   0: "0px 0px 0px 0px",
   2: "1.5px 3px 1px -2px",
   4: "1px 2px 4px -1px",
   8: "2.5px 5px 5px -3px",
   16: "4px 8px 10px -5px");
-
 $shadow-penumbra-map: (
   0: "0px 0px 0px 0px",
   2: "1px 2px 2px 0px",
@@ -161,7 +172,6 @@ $shadow-penumbra-map: (
   8: "4px 8px 10px 1px",
   16: "8px 16px 24px 2px"
 );
-
 $shadow-ambient-map: (
   0: "0px 0px 0px 0px",
   2: "0.5px 1px 5px 0px",
@@ -185,21 +195,43 @@ $shadow-ambient-map: (
     #{$shadow-ambient} #{$shadow-ambient-color};
 }
 
+////////////////////////////////
+// OTHER
+// Bootstrap SASS variables
+$enable-rfs: false;
+$grid-gutter-width: 2rem;
+$border-width: 1px;
+$border-radius: 0.25rem;
+$link-decoration: none;
+$link-hover-decoration: underline;
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1590px
+);
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1560px
+);
 
-// CSS VARIABLES for Decidables
+// SASS variables
+$border: $border-width solid $border-color;
+$transition-duration: 500ms;
+
+// CSS variables
 :root { /* stylelint-disable-line no-duplicate-selectors */
-  --font-family-base: #{$font-family-base};
-  --font-family-math: #{$font-family-math};
-  --font-family-code: #{$font-family-code};
-  --font-family-serif: #{$font-family-serif};
-  --font-family-sans: #{$font-family-sans};
-  --font-family-mono: #{$font-family-mono};
   --border: #{$border};
   --border-radius: #{$border-radius};
   --transition-duration: #{$transition-duration};
 }
 
-
+////////////////////////////////
 // BOOTSTRAP IMPORTS
 /* stylelint-disable no-invalid-position-at-import-rule */
 // Bootstrap 5 Configuration
@@ -215,7 +247,7 @@ $shadow-ambient-map: (
 @import "~bootstrap/scss/images";
 @import "~bootstrap/scss/containers";
 @import "~bootstrap/scss/grid";
-@import "~bootstrap/scss/tables";
+// @import "~bootstrap/scss/tables";
 // @import "~bootstrap/scss/forms";
 @import "~bootstrap/scss/buttons";
 @import "~bootstrap/scss/transitions";
@@ -248,49 +280,9 @@ $shadow-ambient-map: (
 @import "~bootstrap/scss/utilities/api";
 /* stylelint-enable no-invalid-position-at-import-rule */
 
-
-// CUSTOM CSS
-
-// Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
-html {
-  height: 100%;
-
-  font-size: 1rem;
-}
-
-@include media-breakpoint-down(md) {
-  html {
-    font-size: 0.9rem;
-  }
-}
-
-@include media-breakpoint-down(sm) {
-  html {
-    font-size: 0.8rem;
-  }
-}
-
-body {
-  display: flex;
-
-  flex-direction: column;
-
-  min-height: 100%;
-
-  font-size: 1.125rem;
-
-  background-color: var(--color-element-background);
-}
-
-main {
-  --bs-gutter-x: 1.5rem;
-  --bs-gutter-y: 1.5rem;
-}
-
-footer {
-  margin-top: auto;
-}
-
+////////////////////////////////
+// SEMANTIC BOOTSTRAP
+// Content
 .math-var {
   font-family: $font-family-math;
   font-style: italic;
@@ -301,16 +293,134 @@ footer {
   font-style: normal;
 }
 
-.font-serif {
-  font-family: $font-family-serif;
-  font-style: normal;
+// Top-level
+// Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
+.dec-html {
+  height: 100%;
+
+  font-size: 1rem;
 }
 
-.fw-semibold {
-  font-weight: 600;
+@include media-breakpoint-down(md) {
+  .dec-html {
+    font-size: 0.9rem;
+  }
 }
 
-.card {
+@include media-breakpoint-down(sm) {
+  .dec-html {
+    font-size: 0.8rem;
+  }
+}
+
+.dec-body {
+  @extend .d-flex, .flex-column;
+
+  min-height: 100%;
+
+  font-size: 1.125rem;
+
+  background-color: var(--color-element-background);
+}
+
+// Header
+.dec-header {
+  @extend .navbar, .navbar-expand-md, .navbar-dark, .bg-dark, .py-1;
+}
+
+// Footer
+.dec-footer {
+  @extend .navbar, .navbar-expand, .navbar-dark, .bg-dark, .py-1, .mt-auto;
+}
+
+// Navigation
+.dec-nav {
+  @extend .container-xl;
+}
+
+.dec-nav-brand {
+  @extend .navbar-brand;
+
+  &:hover {
+    text-decoration: $link-hover-decoration;
+  }
+}
+
+.dec-nav-toggler {
+  @extend .navbar-toggler, .border-0;
+}
+
+.dec-nav-toggler-icon {
+  @extend .navbar-toggler-icon;
+}
+
+.dec-nav-collapse {
+  @extend .navbar-collapse;
+}
+
+.dec-nav-list {
+  @extend .navbar-nav, .ms-auto, .text-end;
+}
+
+.dec-nav-item {
+  @extend .nav-item;
+}
+
+.dec-nav-link {
+  @extend .nav-link;
+
+  &:hover {
+    text-decoration: $link-hover-decoration;
+  }
+}
+
+.dec-icon-github {
+  width: 1.125rem;
+  height: 1.125rem;
+
+  vertical-align: -0.125rem;
+}
+
+// Main
+.dec-main {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 1.5rem;
+
+  @extend .container-xl, .my-4;
+}
+
+.dec-main-header {
+  @extend .row, .g-4, .justify-content-center;
+}
+
+.dec-main-titles {
+  @extend .col-12;
+}
+
+.dec-main-title {
+  @extend .display-1, .fw-bold, .text-center;
+}
+
+.dec-main-subtitle {
+  @extend .text-center, .fw-semibold, .font-serif;
+}
+
+.dec-main-lead {
+  @extend .col-12, .col-md-10, .col-xxl-8, .mt-3, .fw-normal, .lead, .text-center;
+}
+
+// Sites
+.dec-sites {
+  @extend .row, .row-cols-1, .row-cols-lg-2, .g-4, .mt-0, .justify-content-center;
+}
+
+.dec-site {
+  @extend .col;
+}
+
+.dec-site-wrapper {
+  @extend .card, .h-100;
+
   @include shadow(2);
 
   &:hover {
@@ -318,9 +428,77 @@ footer {
   }
 }
 
-.navbar .navbar-brand,
-.navbar-nav .nav-item .nav-link {
-  &:hover {
-    text-decoration: underline;
-  }
+
+.dec-site-header {
+  @extend .card-body, .pb-0, .position-relative;
+}
+
+.dec-site-link {
+  @extend .text-body, .stretched-link;
+}
+
+// .dec-site-titles {
+// }
+
+.dec-site-title {
+  @extend .h3, .card-title, .fw-semibold, .text-center;
+}
+
+.dec-site-subtitle {
+  @extend .h5, .card-subtitle, .fw-normal, .text-center, .font-serif;
+}
+
+.dec-site-lead {
+  @extend .card-text, .fw-light, .text-center, .mx-md-4, .mt-2;
+}
+
+// Carousel
+.dec-carousel {
+  @extend .carousel-dark, .card-img-bottom, .overflow-hidden;
+}
+
+.dec-carousel-indicators {
+  @extend .mb-1;
+}
+
+.dec-carousel-control {
+  @extend .w-auto;
+}
+
+.dec-carousel-prev-icon {
+  @extend .carousel-control-prev-icon;
+}
+
+.dec-carousel-next-icon {
+  @extend .carousel-control-next-icon;
+}
+
+.dec-carousel-items {
+  @extend .carousel-inner, .pb-4;
+
+  height: 23.5rem;
+
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+
+.dec-carousel-item {
+  @extend .h-100, .text-center;
+}
+
+// Demo
+.dec-demo-figure {
+  @extend .figure, .h-100, .d-flex, .flex-column, .align-items-center;
+}
+
+.dec-demo {
+  @extend .my-auto;
+}
+
+.dec-demo-caption {
+  @extend .figure-caption, .mb-2;
+}
+
+.dec-demo-placeholder {
+  @extend .my-auto, .fw-bold, .fs-1, .fst-italic, .text-body;
 }
