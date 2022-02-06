@@ -136,7 +136,7 @@ $color-element-border: #{$color-grey-dark50};
 $color-element-emphasis: #{$color-grey-dark75};
 
 // CSS variables
-:root {
+:root { /* stylelint-disable-line no-duplicate-selectors */
   --color-background: #{$color-background};
   --color-border: #{$color-border};
   --color-text: #{$color-text};
