@@ -1,42 +1,42 @@
 @charset "UTF-8";
 @font-face {
   src: url("fonts/SourceCodePro-Regular.otf.woff2") format("woff2"), url("fonts/SourceCodePro-Regular.otf.woff") format("woff");
-  font-family: "Source Code Pro";
+  font-family: "Source Code";
   font-style: normal;
   font-weight: 400;
   font-stretch: normal;
 }
 @font-face {
   src: url("fonts/SourceCodePro-It.otf.woff2") format("woff2"), url("fonts/SourceCodePro-It.otf.woff") format("woff");
-  font-family: "Source Code Pro";
+  font-family: "Source Code";
   font-style: italic;
   font-weight: 400;
   font-stretch: normal;
 }
 @font-face {
   src: url("fonts/SourceCodePro-Semibold.otf.woff2") format("woff2"), url("fonts/SourceCodePro-Semibold.otf.woff") format("woff");
-  font-family: "Source Code Pro";
+  font-family: "Source Code";
   font-style: normal;
   font-weight: 600;
   font-stretch: normal;
 }
 @font-face {
   src: url("fonts/SourceCodePro-SemiboldIt.otf.woff2") format("woff2"), url("fonts/SourceCodePro-SemiboldIt.otf.woff") format("woff");
-  font-family: "Source Code Pro";
+  font-family: "Source Code";
   font-style: italic;
   font-weight: 600;
   font-stretch: normal;
 }
 @font-face {
   src: url("fonts/SourceCodePro-Bold.otf.woff2") format("woff2"), url("fonts/SourceCodePro-Bold.otf.woff") format("woff");
-  font-family: "Source Code Pro";
+  font-family: "Source Code";
   font-style: normal;
   font-weight: 700;
   font-stretch: normal;
 }
 @font-face {
   src: url("fonts/SourceCodePro-BoldIt.otf.woff2") format("woff2"), url("fonts/SourceCodePro-BoldIt.otf.woff") format("woff");
-  font-family: "Source Code Pro";
+  font-family: "Source Code";
   font-style: italic;
   font-weight: 700;
   font-stretch: normal;
@@ -188,6 +188,10 @@
   /* stylelint-disable-line no-duplicate-selectors */
   --font-family-base: Source Sans, sans-serif;
   --font-family-math: Source Serif, serif;
+  --font-family-code: Source Code, monospace;
+  --font-family-serif: Source Serif, serif;
+  --font-family-sans: Source Sans, sans-serif;
+  --font-family-mono: Source Code, monospace;
   --border: 1px solid #e6e6e6;
   --border-radius: 0.25rem;
   --transition-duration: 500ms;
@@ -414,7 +418,7 @@ pre,
 code,
 kbd,
 samp {
-  font-family: var(--bs-font-monospace);
+  font-family: "Source Code", monospace;
   font-size: 1em;
   direction: ltr /* rtl:ignore */;
   unicode-bidi: bidi-override;
@@ -8468,7 +8472,7 @@ body {
 .sdt-content .key,
 .sdt-content .ui {
   padding: 0.0625rem 0.25rem;
-  font-family: "Source Code Pro", monospace;
+  font-family: "Source Code", monospace;
   font-size: 1rem;
   font-style: normal;
   font-weight: 600;
@@ -8479,7 +8483,7 @@ body {
 .sdt-content .key[class~=c],
 .sdt-content .key[class~=d′],
 .sdt-content .key[class~=σ] {
-  font-family: "Source Serif", serif;
+  font-family: "Source Code", monospace;
   font-style: italic;
 }
 .sdt-content .key[class~=Bias],
