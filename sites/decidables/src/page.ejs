@@ -1,119 +1,85 @@
 ---
 toc:
-  main:
-    - {file: index, name: Introduction}
-    - {file: signal, name: Signal & Noise}
-    - {file: task, name: Task}
-    - {file: outcomes, name: Outcomes}
-    - {file: rates, name: Tables & Rates}
-    - {file: roc, name: ROC Space}
-    - {file: measurement, name: Measurement & Sensitivity}
-    - {file: threshold, name: Threshold & Bias}
-    - {file: sdt, name: SDT}
-    - {file: sensitivity, name: Iso-Sensitivity Curves}
-    - {file: bias, name: Iso-Bias Curves}
-    - {file: exploration, name: Model Exploration}
-    - {file: fitting, name: Model Fitting}
-    - {file: prediction, name: Model Predictions}
-    - {file: difficulty, name: Sensitivity & Difficulty}
-    - {file: incentive, name: Bias & Incentive}
-    - {file: zroc, name: <span class="math-var">z</span>ROC Space}
-    - {file: unequal, name: Unequal Variance}
-    - {file: conclusion, name: Conclusions}
-  extra:
-    - {file: legend, name: Legend}
-    - {file: glossary, name: Glossary}
-    - {file: equations, name: Equations}
+  top:
+    - {file: index, name: Home}
+    - {file: what, name: What}
+    - {file: why, name: Why}
+    - {file: how, name: How}
+  bottom:
     - {file: references, name: References}
-    - {file: about, name: About}
+    - {file: credits, name: Credits}
 ---
 <!doctype html>
-<html lang="en">
+<html class="dec-html" lang="en">
   <head>
-    <% for (var i=0; i < toc.main.length; i++) {
-        if (toc.main[i].file == file) {
-          var source = 'main';
-          var index = i;
-        }
-      }
-      for (var i=0; i < toc.extra.length; i++) {
-        if (toc.extra[i].file == file) {
-          var source = 'extra';
-          var index = i;
-        }
-      }
-      var windowTitle = toc[source][index].name.replace(/<[^>]+>/g, ''); %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="detectable: <%- title %>">
+    <meta name="description" content="decidables<%- (file !== 'index') ? `: ${title.replace(/<[^>]+>/g)}` : '' %>">
     <meta name="author" content="Dr. Adam Krawitz">
 
-    <title>d′etectable: <%- windowTitle %></title>
+    <title>decidables<%- (file !== 'index') ? `: ${[...toc.top, ...toc.bottom].find((page) => { return (page.file === file); }).name}` : '' %></title>
 
     <link href="index.css" rel="stylesheet">
   </head>
-  <body>
-    <div class="sdt-page">
-      <div class="sdt-layout">
-
-        <div class="sdt-sidebar">
-          <div class="sdt-brandnav">
-            <button class="sdt-tocnav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#sdt-tocnav" aria-controls="sdt-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"></path></svg>
-            </button>
-            <a class="sdt-brand-link" href="index.html"><span class="sdt-detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
-          </div>
-          <nav class="sdt-tocnav collapse" id="sdt-tocnav">
-            <ul class="sdt-toc">
-              <% for (var i=0; i < toc.main.length; i++) { %>
-                <% if ((source == 'main') && (index == i)) { %>
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-<%= i + 1 %> sdt-tocitem-active">
-                <% } else { %>
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-<%= i + 1 %>">
-                <% } %>
-                    <a class="sdt-toclink" href="<%= toc.main[i].file %>.html">
-                      <%- toc.main[i].name %>
-                    </a>
-                  </li>
-              <% } %>
-              <% for (var i=0; i < toc.extra.length; i++) { %>
-                <% if ((source == 'extra') && (index == i)) { %>
-                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-<%= i + 1 %> sdt-tocitem-active">
-                <% } else { %>
-                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-<%= i + 1 %>">
-                <% } %>
-                    <a class="sdt-toclink" href="<%= toc.extra[i].file %>.html">
-                      <%- toc.extra[i].name %>
-                    </a>
-                  </li>
-              <% } %>
-            </ul>
-          </nav>
+  <body class="dec-body <%- (file === 'index') ? 'dec-index' : '' %>">
+    <header class="dec-header">
+      <nav class="dec-nav">
+        <a class="dec-nav-brand" href="./">decidables</a>
+        <button class="dec-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dec-navbar" aria-controls="dec-navbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="dec-nav-toggler-icon"></span>
+        </button>
+        <div class="dec-nav-collapse collapse" id="dec-navbar">
+          <ul class="dec-nav-list">
+            <% for (const page of toc.top) { %>
+              <li class="dec-nav-item">
+                <a class="dec-nav-link <%- (page.file === file) ? 'active' : '' %>" href="<%= (page.file !== 'index') ? `${page.file}.html` : './' %>">
+                    <%- page.name %>
+                </a>
+              </li>
+            <% } %>
+          </ul>
         </div>
+      </nav>
+    </header>
 
-        <main class="sdt-main">
-          <header>
-            <h1><%- title %></h1>
-          </header>
-          <section class="sdt-content">
-            <%- contents %>
-          </section>
+    <main class="dec-main">
+      <% if (file !== 'index') { %>
+        <header>
+          <h1 class="dec-page-title"><%- title %></h1>
+        </header>
+      <% } %>
+      <%- contents %>
+    </main>
 
-          <footer class="sdt-footer">
-            <div class="sdt-footer-item sdt-footer-item-left">
-              <% if ((source == 'main') && (index > 0)) { %>
-                <a class="sdt-toclink" href="<%= toc.main[index - 1].file %>.html">&lt; <%- toc.main[index - 1].name %></a>
-              <% } %>
-            </div>
-            <div class="sdt-footer-item sdt-footer-item-right">
-              <% if ((source == 'main') && (index < (toc.main.length - 1))) { %>
-                <a class="sdt-toclink" href="<%= toc.main[index + 1].file %>.html"><%- toc.main[index + 1].name %> &gt;</a>
-              <% } %>
-            </div>
-          </footer>
-        </main>
+    <footer class="dec-footer">
+      <nav class="dec-nav">
+        <a class="dec-nav-brand" href="./">decidables</a>
+        <ul class="dec-nav-list">
+          <% for (const page of toc.bottom) { %>
+            <li class="dec-nav-item">
+              <a class="dec-nav-link <%- (page.file === file) ? 'active' : '' %>" href="<%= (page.file !== 'index') ? `${page.file}.html` : './' %>">
+                  <%- page.name %>
+              </a>
+            </li>
+          <% } %>
+          <li class="dec-nav-item">
+            <a class="dec-nav-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+          </li>
+          <li class="dec-nav-item">
+            <a class="dec-nav-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPLv3</a>
+          </li>
+          <li class="dec-nav-item">
+            <a class="dec-nav-link" href="https://github.com/decidables/decidables/" target="_blank" rel="noopener">
+              <!-- From: https://icons.getbootstrap.com/icons/github/ -->
+              <svg class="dec-icon-github" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </footer>
 
-      </div>
-    </div>
     <!-- Can't be a module for IE11 to work -->
     <!-- <script type="module" src="<%= script %>.js"></script> -->
     <script src="<%= script %>.js"></script>

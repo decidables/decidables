@@ -1,11 +1,8 @@
 ---
-title: "About <span class='detectable'>\
-  <span class='math-var d'>d′</span>ete<span class='math-var c'>c</span>table</span>"
+title: Credits for <span class="decidables">decidables</span>
 layout: page
 script: index
 ---
-
-## Credits
 
 **Created by:**  
 [Adam Krawitz](https://web.uvic.ca/psyc/krawitz/)
