@@ -293,6 +293,18 @@ $transition-duration: 500ms;
   font-style: normal;
 }
 
+.csl-entry {
+  padding-left: 2rem;
+
+  text-indent: -2rem;
+}
+
+.decidables {
+  font-family: $font-family-sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+
 // Top-level
 // Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
 .dec-html {
@@ -319,7 +331,9 @@ $transition-duration: 500ms;
   min-height: 100%;
 
   font-size: 1.125rem;
+}
 
+.dec-index {
   background-color: var(--color-element-background);
 }
 
@@ -330,7 +344,7 @@ $transition-duration: 500ms;
 
 // Footer
 .dec-footer {
-  @extend .navbar, .navbar-expand, .navbar-dark, .bg-dark, .py-1, .mt-auto;
+  @extend .navbar, .navbar-expand-md, .navbar-dark, .bg-dark, .py-1, .mt-auto;
 }
 
 // Navigation
@@ -339,7 +353,7 @@ $transition-duration: 500ms;
 }
 
 .dec-nav-brand {
-  @extend .navbar-brand;
+  @extend .navbar-brand, .align-self-start, .align-self-md-center, .fw-bold, .px-2;
 
   &:hover {
     text-decoration: $link-hover-decoration;
@@ -367,7 +381,7 @@ $transition-duration: 500ms;
 }
 
 .dec-nav-link {
-  @extend .nav-link;
+  @extend .nav-link, .px-2;
 
   &:hover {
     text-decoration: $link-hover-decoration;
@@ -386,7 +400,7 @@ $transition-duration: 500ms;
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 1.5rem;
 
-  @extend .container-xl, .my-4;
+  @extend .container-xl, .py-4;
 }
 
 .dec-main-header {
@@ -407,6 +421,10 @@ $transition-duration: 500ms;
 
 .dec-main-lead {
   @extend .col-12, .col-md-10, .col-xxl-8, .mt-3, .fw-normal, .lead, .text-center;
+}
+
+.dec-page-title {
+  @extend .fw-semibold, .font-serif;
 }
 
 // Sites
