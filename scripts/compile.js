@@ -66,11 +66,6 @@ export function compileMarkdown() {
     .pipe(gulpNotify({title: 'Gulp: compileMarkdown done!', message: ' ', onLast: true}));
 }
 
-export function compileMarkup() {
-  return gulp.src(['src/*.html'])
-    .pipe(gulp.dest('local'));
-}
-
 let rollupCache;
 const pluginNodeResolve = rollupPluginNodeResolve({preferBuiltins: false});
 const pluginCommonjs = rollupPluginCommonjs();

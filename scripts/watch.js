@@ -16,10 +16,6 @@ export function watchMarkdown() {
   gulp.watch('src/**/*.{md,ejs}', {ignoreInitial: false}, compiles.compileMarkdown);
 }
 
-export function watchMarkup() {
-  gulp.watch('src/**/*.html', {ignoreInitial: false}, compiles.compileMarkup);
-}
-
 export function watchScripts() {
   gulp.watch('src/**/*.js', {ignoreInitial: false}, compiles.compileScripts);
 }
