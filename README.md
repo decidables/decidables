@@ -236,7 +236,7 @@ Dependencies updated 17/1/2022.
 
 - `yarn lint`
   - Lints all libraries for scripts in `src/`
-  - Lints all sites for markdown, scripts, and styles in `src/`
+  - Lints all sites for markdown, scripts, and styles in `src/`, and compiled markup in `local/`
 - `yarn workspace @decidables/<library|site> lint`
   - Lints a single library or site
 - `yarn workspace @decidables/<library|site> gulp lint<type>`
@@ -250,7 +250,7 @@ Dependencies updated 17/1/2022.
 - `yarn workspace @decidables/<site> compile`
   - Compiles a single site from `src/` to `local/`
 - `yarn workspace @decidables/<site> gulp compile<type>`
-  - Compiles `Fonts`, `Markdown`, `Markup`, `Scripts`, or `Styles` in a single site from `src/` to `local/`
+  - Compiles `Fonts`, `Markdown`, `Scripts`, or `Styles` in a single site from `src/` to `local/`
 
 #### Watch
 
@@ -259,7 +259,7 @@ Dependencies updated 17/1/2022.
 - `yarn workspace @decidables/<site> watch`
   - Re-`compile` site on file changes in `src/` or local library dependencies
 - `yarn workspace @decidables/<site> gulp watch<type>`
-  - Re-`compile` site on `Markdown`, `Markup`, `Scripts`, or `Styles` changes in `src/` or local library dependencies
+  - Re-`compile` site on `Markdown`, `Scripts`, or `Styles` changes in `src/` or local library dependencies
 
 #### Build
 

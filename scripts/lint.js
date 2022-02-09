@@ -15,8 +15,8 @@ export function lintMarkdown() {
     .pipe(gulpRemark());
 }
 
-export function lintMarkup() {
-  return gulp.src('src/*.html')
+export function lintMarkupLocal() {
+  return gulp.src('local/*.html')
     .pipe(gulpW3cjs({showInfo: true}))
     .pipe(gulpW3cjs.reporter())
     .pipe(through2.obj((file, enc, cb) => {

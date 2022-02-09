@@ -26,7 +26,7 @@ export * from '../../scripts/serve.js';
 // Tasks
 export const lint = gulp.parallel(
   lints.lintMarkdown,
-  lints.lintMarkup,
+  gulp.series(compiles.compileMarkdown, lints.lintMarkupLocal),
   lints.lintScripts,
   lints.lintStyles,
 );
@@ -43,7 +43,6 @@ export const compile = gulp.series(
       'source-serif/WOFF{,2}/VAR/SourceSerif4Variable-{Roman,Italic}.otf.woff{,2}',
     ]),
     compiles.compileMarkdown,
-    compiles.compileMarkup,
     compiles.compileScripts,
     compiles.compileStyles,
   ),
@@ -58,7 +57,6 @@ export const watch = gulp.parallel(
     'prospectable-elements',
   ]),
   watches.watchMarkdown,
-  watches.watchMarkup,
   watches.watchScripts,
   watches.watchStyles,
 );
