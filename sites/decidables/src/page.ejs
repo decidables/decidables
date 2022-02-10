@@ -53,7 +53,17 @@ toc:
 
     <footer class="dec-footer">
       <nav class="dec-nav">
-        <a class="dec-nav-brand" href="./">decidables</a>
+        <ul class="dec-nav-brand-list">
+          <li class="dec-nav-item">
+            <a class="dec-nav-brand" href="./">decidables</a>
+          </li>
+          <li class="dec-nav-item">
+            <span class="dec-nav-text">v<%- utilities.getPackageVersion() %></span>
+          </li>
+          <li class="dec-nav-item">
+            <span class="dec-nav-text">(<%- utilities.getCurrentDate() %>)</span>
+          </li>
+        </ul>
         <ul class="dec-nav-list">
           <% for (const page of toc.bottom) { %>
             <li class="dec-nav-item">
