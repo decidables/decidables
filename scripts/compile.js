@@ -24,6 +24,7 @@ import styleApa from 'style-apa';
 // Local Dependencies
 import remarkCiteproc from './remark-citeproc.js';
 import remarkTerminology from './remark-terminology.js';
+import * as utilities from './utility.js';
 
 // Tasks
 export function compileFontsTask(fonts) {
@@ -44,7 +45,7 @@ export function compileMarkdown() {
     referencesLink: 'references.html',
   });
   return gulp.src(['src/!(references).md', 'src/references.md']) // Insure that reference list includes references from all other files
-    .pipe(gulpFrontMatter({property: 'data', remove: true}))
+    .pipe(gulpFrontMatter({property: 'data'}))
     .pipe(gulpRemark({detectConfig: false, quiet: true})
       .use(remarkDirective)
       .use(remarkCiteproc)
@@ -54,6 +55,7 @@ export function compileMarkdown() {
       return gulp.src(`src/${file.data.layout}.ejs`)
         .pipe(gulpFrontMatter({property: 'data'}))
         .pipe(gulpEjs(Object.assign(file.data, {
+          utilities,
           file: file.stem,
           contents: file.contents.toString(),
         })))

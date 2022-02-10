@@ -121,6 +121,9 @@ $border-color: $color-grey-light75;
 $body-color: $color-grey-dark75;
 $link-color: $color-grey-dark25;
 $link-hover-color: $color-grey-dark50;
+$navbar-dark-color: $color-grey-light25;
+$navbar-dark-hover-color: $color-grey-light75;
+$navbar-dark-active-color: $color-white;
 
 // SASS variables
 $color-background: #{$body-bg};
@@ -198,12 +201,16 @@ $shadow-ambient-map: (
 ////////////////////////////////
 // OTHER
 // Bootstrap SASS variables
-$enable-rfs: false;
-$grid-gutter-width: 2rem;
-$border-width: 1px;
 $border-radius: 0.25rem;
-$link-decoration: none;
-$link-hover-decoration: underline;
+$border-width: 1px;
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1560px
+);
+$enable-rfs: false;
 $grid-breakpoints: (
   xs: 0,
   sm: 576px,
@@ -212,13 +219,14 @@ $grid-breakpoints: (
   xl: 1200px,
   xxl: 1590px
 );
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px,
-  xxl: 1560px
-);
+$grid-gutter-width: 2rem;
+$link-decoration: none;
+$link-hover-decoration: underline;
+$navbar-brand-margin-end: 0;
+
+$nav-link-height: 1.125rem * 1.5 + 0.5 * 2;
+$navbar-brand-height: 1.25rem * 1.5;
+$navbar-brand-padding-y: ($nav-link-height - $navbar-brand-height) * .5;
 
 // SASS variables
 $border: $border-width solid $border-color;
@@ -353,11 +361,15 @@ $transition-duration: 500ms;
 }
 
 .dec-nav-brand {
-  @extend .navbar-brand, .align-self-start, .align-self-md-center, .fw-bold, .px-2;
+  @extend .navbar-brand, .d-block, .align-self-start, .align-self-md-center, .fw-bold, .px-2;
 
   &:hover {
     text-decoration: $link-hover-decoration;
   }
+}
+
+.dec-nav-text {
+  @extend .navbar-text, .d-block, .px-2;
 }
 
 .dec-nav-toggler {
@@ -369,11 +381,15 @@ $transition-duration: 500ms;
 }
 
 .dec-nav-collapse {
-  @extend .navbar-collapse;
+  @extend .navbar-collapse, .flex-grow-0;
 }
 
 .dec-nav-list {
-  @extend .navbar-nav, .ms-auto, .text-end;
+  @extend .navbar-nav, .text-end, .align-self-start, .align-self-md-center;
+}
+
+.dec-nav-brand-list {
+  @extend .navbar-nav, .align-self-start, .align-self-md-center;
 }
 
 .dec-nav-item {
