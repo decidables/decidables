@@ -2,10 +2,10 @@
 // devDependencies
 import gulp from 'gulp';
 import gulpEslintNew from 'gulp-eslint-new';
+import gulpHtml from 'gulp-html';
 import gulpHtmlhint from 'gulp-htmlhint';
 import {remark as gulpRemark} from 'gulp-remark';
 import gulpStylelint from 'gulp-stylelint';
-import gulpW3cjs from 'gulp-w3cjs';
 import stylelintFormatterPretty from 'stylelint-formatter-pretty';
 import through2 from 'through2';
 
@@ -17,14 +17,7 @@ export function lintMarkdown() {
 
 export function lintMarkupLocal() {
   return gulp.src('local/*.html')
-    .pipe(gulpW3cjs({showInfo: true}))
-    .pipe(gulpW3cjs.reporter())
-    .pipe(through2.obj((file, enc, cb) => {
-      cb(null, file);
-      if (file.w3cjs.messages.length > 0) {
-        throw new Error('HTML validation issue(s) found');
-      }
-    }))
+    .pipe(gulpHtml())
     .pipe(gulpHtmlhint())
     .pipe(gulpHtmlhint.reporter())
     .pipe(gulpHtmlhint.failOnError({suppress: true}));
