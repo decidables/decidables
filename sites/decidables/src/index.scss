@@ -5,6 +5,13 @@
 @use "sass:map";
 
 ////////////////////////////////
+// BOOTSTRAP INITIAL IMPORTS
+// Bootstrap 5 Configuration
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+////////////////////////////////
 // FONTS
 $font-map: (
   // filename: (family, style, weight, stretch)
@@ -68,6 +75,8 @@ $font-weight-light: 300;
 $font-weight-normal: 400;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
+
+$font-size-main: 1.125rem; // Not in Bootstrap
 
 // CSS variables
 :root { /* stylelint-disable-line no-duplicate-selectors */
@@ -219,14 +228,15 @@ $grid-breakpoints: (
   xl: 1200px,
   xxl: 1590px
 );
-$grid-gutter-width: 2rem;
+$grid-gutter-width: 1.5rem;
 $link-decoration: none;
 $link-hover-decoration: underline;
 $navbar-brand-margin-end: 0;
 
-$nav-link-height: 1.125rem * 1.5 + 0.5 * 2;
-$navbar-brand-height: 1.25rem * 1.5;
-$navbar-brand-padding-y: ($nav-link-height - $navbar-brand-height) * .5;
+// Compute the navbar-brand padding-y so the navbar-brand will have the same height as navbar-text and nav-link
+$nav-link-height: $font-size-main * $line-height-base + $nav-link-padding-y * 2;
+$navbar-brand-height: $navbar-brand-font-size * $line-height-base;
+$navbar-brand-padding-y: ($nav-link-height - $navbar-brand-height) * 0.5;
 
 // SASS variables
 $border: $border-width solid $border-color;
@@ -243,9 +253,9 @@ $transition-duration: 500ms;
 // BOOTSTRAP IMPORTS
 /* stylelint-disable no-invalid-position-at-import-rule */
 // Bootstrap 5 Configuration
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
+// @import "~bootstrap/scss/functions";
+// @import "~bootstrap/scss/variables";
+// @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/utilities";
 
 // Bootstrap 5 Layout & components
@@ -338,11 +348,13 @@ $transition-duration: 500ms;
 
   min-height: 100%;
 
-  font-size: 1.125rem;
+  font-size: $font-size-main;
+
+  background-color: $color-element-background;
 }
 
-.dec-index {
-  background-color: var(--color-element-background);
+.dec-page {
+  background-color: $color-background;
 }
 
 // Header
@@ -413,8 +425,8 @@ $transition-duration: 500ms;
 
 // Main
 .dec-main {
-  --bs-gutter-x: 1.5rem;
-  --bs-gutter-y: 1.5rem;
+  --bs-gutter-x: #{$grid-gutter-width};
+  --bs-gutter-y: #{$grid-gutter-width};
 
   @extend .container-xl, .py-4;
 }
@@ -439,8 +451,11 @@ $transition-duration: 500ms;
   @extend .col-12, .col-md-10, .col-xxl-8, .mt-3, .fw-normal, .lead, .text-center;
 }
 
+// .dec-page-header {
+// }
+
 .dec-page-title {
-  @extend .fw-semibold, .font-serif;
+  @extend .fw-semibold, .font-serif, .mb-3;
 }
 
 // Sites

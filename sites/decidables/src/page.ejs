@@ -21,7 +21,7 @@ toc:
 
     <link href="index.css" rel="stylesheet">
   </head>
-  <body class="dec-body <%- (file === 'index') ? 'dec-index' : '' %>">
+  <body class="dec-body <%- (file !== 'index') ? 'dec-page' : '' %>">
     <header class="dec-header">
       <nav class="dec-nav">
         <a class="dec-nav-brand" href="./">decidables</a>
@@ -44,7 +44,7 @@ toc:
 
     <main class="dec-main">
       <% if (file !== 'index') { %>
-        <header>
+        <header class="dec-page-header">
           <h1 class="dec-page-title"><%- title %></h1>
         </header>
       <% } %>
