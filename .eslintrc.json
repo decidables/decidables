@@ -2,18 +2,17 @@
   "env": {
     "browser": true
   },
+  "settings": {
+    "import/resolver": {
+      "@tophat/eslint-import-resolver-require": {}
+    }
+  },
   "extends": [
     "airbnb-base"
   ],
   "rules": {
     "arrow-body-style": ["error", "always"],
     "arrow-parens": ["error", "always"],
-    "import/no-extraneous-dependencies": ["error", {
-      "devDependencies": [
-        "scripts/**",
-        "**/gulpfile.js"
-      ]
-    }],
     "indent": ["error", 2, {
       "SwitchCase": 1,
       "VariableDeclarator": 1,
@@ -49,5 +48,18 @@
       "ignoreConstructors": false,
       "avoidQuotes": true
     }]
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "scripts/**",
+        "**/gulpfile.js"
+      ],
+      "rules":{
+        "import/extensions": ["error", "ignorePackages"],
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+        "import/no-relative-packages": "off"
+      }
+    }
+  ]
 }
