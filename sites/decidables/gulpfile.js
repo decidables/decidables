@@ -9,7 +9,6 @@ import * as compiles from '../../scripts/compile.js';
 import * as watches from '../../scripts/watch.js';
 import * as builds from '../../scripts/build.js';
 import * as deploys from '../../scripts/deploy.js';
-import * as serves from '../../scripts/serve.js';
 
 // Re-export
 export * from '../../scripts/clean.js';
