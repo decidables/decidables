@@ -7,7 +7,6 @@ import gulpHtmlhint from 'gulp-htmlhint';
 import {remark as gulpRemark} from 'gulp-remark';
 import gulpStylelint from 'gulp-stylelint';
 import stylelintFormatterPretty from 'stylelint-formatter-pretty';
-import through2 from 'through2';
 
 // Tasks
 export function lintMarkdown() {
@@ -25,16 +24,7 @@ export function lintMarkupLocal() {
 
 export function lintScripts() {
   return gulp.src(['src/**/*.js', '!src/**/*.auto.js'])
-    .pipe(gulpEslintNew({
-      // This is needed until 'eslint-import-resolver-node' handles package.json export field!
-      overrideConfig: {
-        settings: {
-          'import/resolver': {
-            '@tophat/eslint-import-resolver-require': {}
-          },
-        },
-      },
-    }))
+    .pipe(gulpEslintNew())
     .pipe(gulpEslintNew.format('pretty'))
     .pipe(gulpEslintNew.failAfterError());
 }
