@@ -10,7 +10,7 @@ import stylelintFormatterPretty from 'stylelint-formatter-pretty';
 
 // Tasks
 export function lintMarkdown() {
-  return gulp.src('src/*.md')
+  return gulp.src(['*.md', 'src/*.md'])
     .pipe(gulpRemark());
 }
 
@@ -23,7 +23,7 @@ export function lintMarkupLocal() {
 }
 
 export function lintScripts() {
-  return gulp.src(['src/**/*.js', '!src/**/*.auto.js'])
+  return gulp.src(['*.js', 'scripts/*.js', 'src/**/*.js', '!src/**/*.auto.js'])
     .pipe(gulpEslintNew())
     .pipe(gulpEslintNew.format('pretty'))
     .pipe(gulpEslintNew.failAfterError());

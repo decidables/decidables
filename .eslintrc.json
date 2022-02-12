@@ -3,9 +3,7 @@
     "browser": true
   },
   "settings": {
-    "import/resolver": {
-      "@tophat/eslint-import-resolver-require": {}
-    }
+    "import/resolver": "@tophat/eslint-import-resolver-require"
   },
   "extends": [
     "airbnb-base"
@@ -55,7 +53,14 @@
         "scripts/**",
         "**/gulpfile.js"
       ],
-      "rules":{
+      "env": {
+        "browser": false,
+        "node": true
+      },
+      "settings": {
+        "import/resolver": null
+      },
+      "rules": {
         "import/extensions": ["error", "ignorePackages"],
         "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
         "import/no-relative-packages": "off"
