@@ -4,4 +4,4 @@ layout: page
 script: index
 ---
 
-This is what it is.
+This is what it is :cite[@victor_explorable_2011].
