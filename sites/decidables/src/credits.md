@@ -4,17 +4,17 @@ layout: page
 script: index
 ---
 
-**Created by:**  
+**Created by:**
 [Adam Krawitz](https://web.uvic.ca/psyc/krawitz/)
 
-**Running in:**  
+**Running in:**
 [HTML](https://html.spec.whatwg.org/),
 [CSS](https://www.w3.org/Style/CSS/),
 [SVG](https://www.w3.org/Graphics/SVG/),
 and
-[JavaScript](https://www.ecma-international.org/publications/standards/Ecma-262.htm)
+[JavaScript](https://tc39.es/ecma262/)
 
-**Compiled from:**  
+**Compiled from:**
 [YAML](https://yaml.org/)
 with [front-matter](https://github.com/jxson/front-matter),
 [Markdown](https://spec.commonmark.org/)
@@ -25,41 +25,43 @@ and [Citation.js](https://citation.js.org/),
 [Embedded JavaScript](https://github.com/mde/ejs/blob/master/docs/syntax.md)
 with [EJS](https://ejs.co/),
 [SCSS](https://sass-lang.com/)
-with [LibSass](https://sass-lang.com/libsass),
+with [Dart Sass](https://sass-lang.com/dart-sass),
 and
 [ECMAScript 2015+](https://babeljs.io/docs/en/learn.html)
 with [Babel](https://babeljs.io/)
-and [browserify](http://browserify.org/)
+and [rollup](https://rollupjs.org/)
 
-**Depending on:**  
-[@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill),
+**Depending on:**
 [Bootstrap](https://getbootstrap.com/),
+[core-js](https://github.com/zloirock/core-js),
 [D3](https://d3js.org/),
-[jQuery](https://jquery.com/),
 [jStat](https://github.com/jstat/jstat),
-[LitElement](https://lit-element.polymer-project.org/),
-[Popper.js](https://popper.js.org/),
+[Lit](https://lit.dev/),
+[regenerator-runtime](http://facebook.github.io/regenerator/),
 and
 [webcomponents.js](https://github.com/WebComponents/webcomponentsjs)
 
-**Decorated with:**  
-[colors](http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9)
-from [ColorBrewer](http://colorbrewer2.org/),
-[Source Sans Pro](https://github.com/adobe-fonts/source-sans-pro)
+**Decorated with:**
+[colors](https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9)
+from [ColorBrewer](https://colorbrewer2.org/),
+[Source Code Pro](https://fonts.adobe.com/fonts/source-code-pro),
+[Source Sans](https://fonts.adobe.com/fonts/source-sans)
 and
-[Source Serif Pro](https://github.com/adobe-fonts/source-serif-pro) fonts
+[Source Serif](https://fonts.adobe.com/fonts/source-serif) fonts
 from [Adobe Originals](https://fonts.adobe.com/foundries/adobe),
 and
 [APA 6th Edition](https://www.npmjs.com/package/style-apa) citation style
 from the [Citation Style Language](https://citationstyles.org/) project
 
-**Linted through:**  
+**Linted through:**
 [eslint](https://eslint.org/),
+[HTMLHint](https://htmlhint.com/),
+[Nu Html Checker](https://validator.github.io/validator/),
 [remark-lint](https://github.com/remarkjs/remark-lint),
 and
 [stylelint](https://stylelint.io/)
 
-**Built using:**  
+**Built using:**
 [Atom](https://atom.io/)
 with [packages](https://atom.io/packages),
 [Git](https://git-scm.com/),
@@ -69,5 +71,3 @@ via [Yarn](https://yarnpkg.com/),
 and
 [gulp](https://gulpjs.com/)
 with [plugins](https://gulpjs.com/plugins/)
-
-© [Adam Krawitz](https://web.uvic.ca/psyc/krawitz/) 2019
