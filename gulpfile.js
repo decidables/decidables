@@ -2,7 +2,18 @@
 // devDependencies
 import gulp from 'gulp';
 
-// local dependencies
-import {serveAll} from './scripts/serve.js';
+// Local dependencies
+import * as lints from './scripts/lint.js';
 
-export {serveAll};
+// Re-export
+export * from './scripts/lint.js';
+export * from './scripts/serve.js';
+
+// Debug
+// .pipe(gulpDebug())
+
+// Tasks
+export const lint = gulp.parallel(
+  lints.lintMarkdown,
+  lints.lintScripts,
+);
