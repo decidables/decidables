@@ -144,8 +144,8 @@ script: index
   <section class="dec-site">
   <!-- DISCOUNTABLE -->
     <div class="dec-site-wrapper">
-      <header class="dec-site-header pe-none">
-        <a class="dec-site-link text-opacity-50"> <!-- href="discountable/" -->
+      <header class="dec-site-header">
+        <a class="dec-site-link dec-disabled"> <!-- href="discountable/" -->
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
               <span class="discountable">dis<span class="math-var">k</span>ountable</span>
@@ -153,7 +153,7 @@ script: index
             <h3 class="dec-site-subtitle">An Explorable Explanation of Hyperbolic Temporal Discounting</h3>
           </hgroup>
         </a>
-        <p class="dec-site-lead text-opacity-50">
+        <p class="dec-site-lead dec-disabled">
           How do we decide between less sooner or more later?<br>
           <em>Hyperbolic discounting</em> mathematically describes how our subjective
           perception of value changes over time.
@@ -168,19 +168,19 @@ script: index
         <div class="dec-carousel-items">
           <div class="dec-carousel-item carousel-item active">
             <figure class="dec-demo-figure">
-              <div class="dec-demo-placeholder text-opacity-50 pe-none">Coming soon...</div>
+              <div class="dec-demo-placeholder dec-disabled">Coming soon...</div>
               <figcaption class="dec-demo-caption"></figcaption>
             </figure>
           </div>
           <div class="dec-carousel-item carousel-item">
             <figure class="dec-demo-figure">
-              <div class="dec-demo-placeholder text-opacity-50 pe-none">Under construction...</div>
+              <div class="dec-demo-placeholder dec-disabled">Under construction...</div>
               <figcaption class="dec-demo-caption"></figcaption>
             </figure>
           </div>
           <div class="dec-carousel-item carousel-item">
             <figure class="dec-demo-figure">
-              <div class="dec-demo-placeholder text-opacity-50 pe-none">Pending completion...</div>
+              <div class="dec-demo-placeholder dec-disabled">Pending completion...</div>
               <figcaption class="dec-demo-caption"></figcaption>
             </figure>
           </div>

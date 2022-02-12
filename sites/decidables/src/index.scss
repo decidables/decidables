@@ -323,6 +323,10 @@ $transition-duration: 500ms;
   font-weight: bold;
 }
 
+.dec-disabled {
+  @extend .text-opacity-50, .pe-none;
+}
+
 // Top-level
 // Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
 .dec-html {
@@ -351,10 +355,6 @@ $transition-duration: 500ms;
   font-size: $font-size-main;
 
   background-color: $color-element-background;
-}
-
-.dec-page {
-  background-color: $color-background;
 }
 
 // Header
@@ -449,6 +449,11 @@ $transition-duration: 500ms;
 
 .dec-main-lead {
   @extend .col-12, .col-md-10, .col-xxl-8, .mt-3, .fw-normal, .lead, .text-center;
+}
+
+// Page
+.dec-page {
+  background-color: $color-background;
 }
 
 // .dec-page-header {
