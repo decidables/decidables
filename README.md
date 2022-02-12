@@ -1,13 +1,12 @@
-<!--lint disable first-level-heading -->
+<!--lint ignore first-heading-level-->
+
 # decidables: Explorable Explanations of Decision Making
 
 *decidables* is a collection of libraries and websites for explorable explanations of quantitative
 approaches to human decision making.
 
-*decidables* is implemented as a *git* monorepo on [GitHub](https://www.github.com). The packages are
-published to *npm* in the `@decidables` scope.
-
-<!--lint enable first-level-heading -->
+*decidables* is implemented as a *git* monorepo on [GitHub](https://www.github.com). The packages
+are published to *npm* in the `@decidables` scope.
 
 ## Overview
 
@@ -142,7 +141,8 @@ published to *npm* in the `@decidables` scope.
     - `decidable-elements`: Web components for UI elements used across all packages
     - `detectable-math`: Provides a class with equations for calculating Signal Detection Theory
     - `detectable-elements`: Web components for exploring Signal Detection Theory
-    - `prospectable-math`: Provides a class with equations for calculating Cumulative Prospect Theory
+    - `prospectable-math`: Provides a class with equations for calculating Cumulative Prospect
+      Theory
     - `prospectable-elements`: Web components for exploring Cumulative Prospect Theory
   - *Sites*
     - `decidables`: Explorable Explanations of Decision Making
@@ -171,8 +171,9 @@ published to *npm* in the `@decidables` scope.
     - ES bundle in ES6
     - ES unbundled in ES6+
   - How to create tree-shakable imports with web components
-    - Issue: classes aren't used in JS, but registered components _are_ used!
-    - Maybe: (1) No sideEffects false, (2) Always import needed classes, (3) Always import from specific file?
+    - Issue: classes aren't used in JS, but registered components *are* used!
+    - Maybe: (1) No sideEffects false, (2) Always import needed classes, (3) Always import from
+      specific file?
   - licenses!
   - npm versioning & publishing
 - Update About pages!
@@ -259,7 +260,8 @@ Dependencies updated 17/1/2022.
 - `yarn workspace @decidables/<site> watch`
   - Re-`compile` site on file changes in `src/` or local library dependencies
 - `yarn workspace @decidables/<site> gulp watch<type>`
-  - Re-`compile` site on `Markdown`, `Scripts`, or `Styles` changes in `src/` or local library dependencies
+  - Re-`compile` site on `Markdown`, `Scripts`, or `Styles` changes in `src/` or local library
+    dependencies
 
 #### Build
 
@@ -283,8 +285,9 @@ Dependencies updated 17/1/2022.
 #### Serve
 
 - `yarn serve`
-  - Serves each site mounted on `local/` and `dist/`, and all sites integrated on `deploy/`
-    (e.g. <http://localhost:8000/local/detectable>, <http://localhost:8000/dist/detectable>, and <http://localhost:8000/deploy/detectable>)
+  - Serves each site mounted on `local/` and `dist/`, and all sites integrated on `deploy/` (e.g.
+    <http://localhost:8000/local/detectable>, <http://localhost:8000/dist/detectable>, and
+    <http://localhost:8000/deploy/detectable>)
 - `yarn workspace @decidables/<site> serve`
   - Serves `<site>/` (e.g. <http://localhost:8000/local/> or <http://localhost:8000/dist/>)
 

@@ -23,5 +23,5 @@ export function getPackageVersion() {
 }
 
 export function getCurrentDate() {
-  return (new Date).toLocaleDateString('en-CA', {dateStyle: 'medium'});
+  return (new Date()).toLocaleDateString('en-CA', {dateStyle: 'medium'});
 }

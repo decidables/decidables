@@ -1,10 +1,6 @@
-<!--lint disable first-level-heading -->
+<!--lint ignore first-heading-level-->
 
 # decidables: Explorable Explanations of Decision Making
-
-<!--lint enable first-level-heading -->
-
-##
 
 Top-level site to house *decidables*
 
@@ -42,11 +38,9 @@ Top-level site to house *decidables*
   - How
   - Who
 
-
 ---
 
 ## Features/Bugs/Notes
-
 
 ---
 
