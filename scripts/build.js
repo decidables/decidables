@@ -75,7 +75,7 @@ export function buildStyles() {
   return gulp.src('local/*.css', {sourcemaps: true})
     .pipe(gulpPostcss([
       postcssPurgecss({
-        content: ['./local/*.{html,js}']
+        content: ['./local/*.{html,js}'],
       }),
       cssnano(),
     ]))

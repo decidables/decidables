@@ -13,7 +13,6 @@ export function deploySite() {
 }
 
 export function deployRoot() {
-  const packageName = utilities.getPackageName();
   return gulp.src('dist/**/{*,.*}')
     .pipe(gulp.dest('../../decidables.github.io'));
 }

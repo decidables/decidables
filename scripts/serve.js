@@ -15,13 +15,13 @@ export function serveAll() {
   const app = express();
 
   // local
-  app.use(`/local`, express.static(`sites/decidables/local`));
+  app.use('/local', express.static('sites/decidables/local'));
   sites.forEach((site) => {
     app.use(`/local/${site}`, express.static(`sites/${site}/local`));
   });
 
   // dist
-  app.use(`/dist`, express.static(`sites/decidables/dist`));
+  app.use('/dist', express.static('sites/decidables/dist'));
   sites.forEach((site) => {
     app.use(`/dist/${site}`, express.static(`sites/${site}/dist`));
   });
