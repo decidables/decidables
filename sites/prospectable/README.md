@@ -1,8 +1,6 @@
-<!--lint disable first-level-heading -->
+<!--lint ignore first-heading-level-->
 
 # prospectable: An Explorable Explanation of Cumulative Prospect Theory
-
-<!--lint enable first-level-heading -->
 
 ## Outline
 

@@ -58,7 +58,7 @@
         "node": true
       },
       "settings": {
-        "import/resolver": null
+        "import/resolver": "node"
       },
       "rules": {
         "import/extensions": ["error", "ignorePackages"],
