@@ -1,8 +1,6 @@
-<!--lint disable first-level-heading -->
+<!--lint ignore first-heading-level-->
 
 # d'etectable: An Explorable Explanation of Signal Detection Theory
-
-<!--lint enable first-level-heading -->
 
 ## Introduction
 
@@ -76,8 +74,6 @@
 - Allow use of keyboard in task!
 - Random w/o replacement for better balancing of trial types?
 - Labels on ROC curve?
-
-
 - Resolve ambiguity between different uses of same color
   - For example, "Respond Present" as a trial type versus "Present" as a response versus
     "?Present?" as part of a distribution
