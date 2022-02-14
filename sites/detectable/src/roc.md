@@ -1,5 +1,5 @@
 ---
-title: "The Receiver Operating Characteristic (ROC): Visualizing performance"
+title: 'The Receiver Operating Characteristic (ROC): Visualizing performance'
 layout: page
 script: index
 ---

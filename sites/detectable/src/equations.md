@@ -1,5 +1,5 @@
 ---
-title: "Equations"
+title: 'Equations'
 layout: page
 script: index
 ---

@@ -1,5 +1,5 @@
 ---
-title: "Unequal Variance Signal Detection Theory: Assumptions Revisited"
+title: 'Unequal Variance Signal Detection Theory: Assumptions Revisited'
 layout: page
 script: index
 ---
@@ -29,4 +29,4 @@ script: index
   <sdt-control z-roc></sdt-control>
   <sdt-model interactive unequal distributions sensitivity variance color="stimulus"></sdt-model>
   <roc-space z-roc contour="sensitivity" point="rest" iso-d="rest" iso-c="rest"></roc-space>
-</sdt-example-interactive>
+</sdt-example-unequal>

@@ -1,5 +1,5 @@
 ---
-title: "Legend"
+title: 'Legend'
 layout: page
 script: index
 ---

@@ -1,14 +1,14 @@
 ---
-title: "<span class='detectable'>\
-  <span class='math-var d'>d′</span>ete<span class='math-var c'>c</span>table</span>: \
-  An Explorable Explanation of Signal Detection Theory"
+title: '<span class="detectable">
+  <span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>:
+  An Explorable Explanation of Signal Detection Theory'
 layout: page
 script: index
 ---
 
 ## Introduction
 
-Welcome to **<span class='math-var'>d′</span>ete<span class='math-var'>c</span>table**, an
+Welcome to **<span class="math-var">d′</span>ete<span class="math-var">c</span>table**, an
 interactive introduction to Signal Detection Theory (SDT). This site uses manipulable diagrams,
 dynamic tables, and live equations to explain the motivation, conceptualization, and application of
 SDT.

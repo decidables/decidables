@@ -1,5 +1,5 @@
 ---
-title: "Model Prediction: Predicting Human Performance with Signal Detection Theory"
+title: 'Model Prediction: Predicting Human Performance with Signal Detection Theory'
 layout: page
 script: index
 ---

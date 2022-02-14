@@ -1,13 +1,13 @@
 ---
 toc:
   main:
-    - {file: index, name: Introduction}
-    - {file: exploration, name: Model Exploration}
-    - {file: fitting, name: Model Fitting}
-    - {file: prediction, name: Model Predictions}
+    - {file: index, name: 'Introduction'}
+    - {file: exploration, name: 'Model Exploration'}
+    - {file: fitting, name: 'Model Fitting'}
+    - {file: prediction, name: 'Model Predictions'}
   extra:
-    - {file: references, name: References}
-    - {file: about, name: About}
+    - {file: references, name: 'References'}
+    - {file: about, name: 'About'}
 ---
 <!doctype html>
 <html lang="en">
@@ -27,7 +27,7 @@ toc:
       var windowTitle = toc[source][index].name.replace(/<[^>]+>/g, ''); %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="prospectable: <%- title %>">
+    <meta name="description" content="prospectable: <%= title %>">
     <meta name="author" content="Dr. Adam Krawitz">
 
     <title>prospectable: <%- windowTitle %></title>

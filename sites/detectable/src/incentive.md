@@ -1,5 +1,5 @@
 ---
-title: "Bias Revisited: What Influences Bias?"
+title: 'Bias Revisited: What Influences Bias?'
 layout: page
 script: index
 ---

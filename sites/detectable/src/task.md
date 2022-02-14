@@ -1,5 +1,5 @@
 ---
-title: "Task: Detecting a Signal in a Random Dot Kinematogram"
+title: 'Task: Detecting a Signal in a Random Dot Kinematogram'
 layout: page
 script: index
 ---

@@ -25,6 +25,7 @@ export * from '../../scripts/serve.js';
 // Tasks
 export const lint = gulp.parallel(
   lints.lintMarkdown,
+  gulp.series(compiles.compileMarkdown, lints.lintMarkupLocal),
   lints.lintScripts,
   lints.lintStyles,
 );

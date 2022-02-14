@@ -1,5 +1,5 @@
 ---
-title: "Model Fitting: Fitting Human Performance to Signal Detection Theory"
+title: 'Model Fitting: Fitting Human Performance to Signal Detection Theory'
 layout: page
 script: index
 ---

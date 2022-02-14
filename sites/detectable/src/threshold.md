@@ -1,5 +1,5 @@
 ---
-title: "Threshold & Bias: Drawing a Line in the Sand"
+title: 'Threshold &amp; Bias: Drawing a Line in the Sand'
 layout: page
 script: index
 ---
