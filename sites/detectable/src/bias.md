@@ -1,5 +1,5 @@
 ---
-title: "Iso-Bias Curves: Visualizing Decision Criteria"
+title: 'Iso-Bias Curves: Visualizing Decision Criteria'
 layout: page
 script: index
 ---

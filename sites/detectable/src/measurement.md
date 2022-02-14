@@ -1,5 +1,5 @@
 ---
-title: "Measurement & Sensitivity: Towards a Theory of Performance"
+title: 'Measurement &amnp; Sensitivity: Towards a Theory of Performance'
 layout: page
 script: index
 ---

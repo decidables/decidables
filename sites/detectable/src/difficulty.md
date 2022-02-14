@@ -1,5 +1,5 @@
 ---
-title: "Sensitivity Revisited: What Influences Sensitivity?"
+title: 'Sensitivity Revisited: What Influences Sensitivity?'
 layout: page
 script: index
 ---

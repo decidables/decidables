@@ -1,5 +1,5 @@
 ---
-title: "<span class='math-var'>z</span>ROC Space: Transforming ROC space"
+title: '<span class="math-var">z</span>ROC Space: Transforming ROC space'
 layout: page
 script: index
 ---

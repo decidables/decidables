@@ -1,5 +1,5 @@
 ---
-title: "Outcomes: Going Beyond Accuracy"
+title: 'Outcomes: Going Beyond Accuracy'
 layout: page
 script: index
 ---

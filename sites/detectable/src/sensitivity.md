@@ -1,5 +1,5 @@
 ---
-title: "Iso-Sensitivity Curves: Visualizing Detector Performance"
+title: 'Iso-Sensitivity Curves: Visualizing Detector Performance'
 layout: page
 script: index
 ---

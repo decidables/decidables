@@ -1,5 +1,5 @@
 ---
-title: "Model Fitting: Fitting Human Performance to Cumulative Prospect Theory"
+title: 'Model Fitting: Fitting Human Performance to Cumulative Prospect Theory'
 layout: page
 script: index
 ---

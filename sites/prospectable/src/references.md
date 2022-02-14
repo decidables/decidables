@@ -1,5 +1,5 @@
 ---
-title: "References"
+title: 'References'
 layout: page
 script: index
 ---

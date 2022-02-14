@@ -1,5 +1,5 @@
 ---
-title: Credits for <span class="decidables">decidables</span>
+title: 'Credits for <span class="decidables">decidables</span>'
 layout: page
 script: index
 ---

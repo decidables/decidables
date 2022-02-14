@@ -1,5 +1,5 @@
 ---
-title: "Model Exploration: Parameter and Decision Space"
+title: 'Model Exploration: Parameter and Decision Space'
 layout: page
 script: index
 ---

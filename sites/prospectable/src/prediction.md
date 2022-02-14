@@ -1,5 +1,5 @@
 ---
-title: "Model Prediction: Predicting Performance with Cumulative Prospect Theory"
+title: 'Model Prediction: Predicting Performance with Cumulative Prospect Theory'
 layout: page
 script: index
 ---

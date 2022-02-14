@@ -1,5 +1,5 @@
 ---
-title: "Model Exploration: Sensitivity, Bias, Outcomes, and Rates"
+title: 'Model Exploration: Sensitivity, Bias, Outcomes, and Rates'
 layout: page
 script: index
 ---

@@ -1,5 +1,5 @@
 ---
-title: "Signal and Noise: Staring at Random Dot Kinematograms"
+title: 'Signal and Noise: Staring at Random Dot Kinematograms'
 layout: page
 script: index
 ---

@@ -1,5 +1,5 @@
 ---
-title: "Glossary"
+title: 'Glossary'
 layout: page
 script: index
 ---
@@ -16,7 +16,7 @@ script: index
   <dt>block</dt>
   <dd></dd>
 
-  <dt><span class='math-var'>c</span></dt>
+  <dt><span class="math-var">c</span></dt>
   <dd></dd>
 
   <dt>coherent</dt>
@@ -31,10 +31,10 @@ script: index
   <dt>correct rejection (true negative)</dt>
   <dd></dd>
 
-  <dt><span class='math-var'>d′</span></dt>
+  <dt><span class="math-var">d′</span></dt>
   <dd></dd>
 
-  <dt><span class='math-var'>d′</span>ete<span class='math-var'>c</span>table</dt>
+  <dt><span class="math-var">d′</span>ete<span class="math-var">c</span>table</dt>
   <dd></dd>
 
   <dt>decision</dt>

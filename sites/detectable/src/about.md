@@ -1,6 +1,6 @@
 ---
-title: "About <span class='detectable'>\
-  <span class='math-var d'>d′</span>ete<span class='math-var c'>c</span>table</span>"
+title: 'About <span class="detectable">
+  <span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>'
 layout: page
 script: index
 ---

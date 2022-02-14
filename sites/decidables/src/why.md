@@ -1,5 +1,5 @@
 ---
-title: Why create <span class="decidables">decidables</span>?
+title: 'Why create <span class="decidables">decidables</span>?'
 layout: page
 script: index
 ---

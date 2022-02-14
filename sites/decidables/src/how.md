@@ -1,5 +1,5 @@
 ---
-title: How was <span class="decidables">decidables</span> made?
+title: 'How was <span class="decidables">decidables</span> made?'
 layout: page
 script: index
 ---

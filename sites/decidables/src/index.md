@@ -1,5 +1,5 @@
 ---
-title: decidables
+title: 'decidables'
 layout: page
 script: index
 ---
