@@ -327,6 +327,18 @@ $transition-duration: 500ms;
   @extend .text-opacity-50, .pe-none;
 }
 
+.bi.bi-list {
+  width: 2rem;
+  height: 2rem;
+}
+
+.bi.bi-github {
+  width: 1.125rem;
+  height: 1.125rem;
+
+  vertical-align: -0.1875rem;
+}
+
 // Top-level
 // Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
 .dec-html {
@@ -386,10 +398,25 @@ $transition-duration: 500ms;
 
 .dec-nav-toggler {
   @extend .navbar-toggler, .border-0;
-}
+  
+  @include transition($nav-link-transition);
 
-.dec-nav-toggler-icon {
-  @extend .navbar-toggler-icon;
+  color: $navbar-dark-color;
+
+  &:focus {
+    color: $navbar-dark-hover-color;
+    
+    outline: revert;
+    box-shadow: none;
+  }
+
+  &:hover {
+    color: $navbar-dark-hover-color;
+  }
+
+  &[aria-expanded="true"] {
+    color: $navbar-dark-active-color;
+  }
 }
 
 .dec-nav-collapse {
@@ -414,13 +441,6 @@ $transition-duration: 500ms;
   &:hover {
     text-decoration: $link-hover-decoration;
   }
-}
-
-.dec-icon-github {
-  width: 1.125rem;
-  height: 1.125rem;
-
-  vertical-align: -0.125rem;
 }
 
 // Main
