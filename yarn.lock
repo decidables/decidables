@@ -1497,6 +1497,7 @@ __metadata:
     "@decidables/prospectable-elements": ^0.0.1
     "@webcomponents/webcomponentsjs": ^2.6.0
     bootstrap: ^5.1.3
+    bootstrap-icons: ^1.8.1
     core-js: ^3.21.0
     d3: ^7.3.0
     gulp: ^4.0.2
@@ -2986,6 +2987,13 @@ __metadata:
   version: 1.0.0
   resolution: "boolbase@npm:1.0.0"
   checksum: 3e25c80ef626c3a3487c73dbfc70ac322ec830666c9ad915d11b701142fab25ec1e63eff2c450c74347acfd2de854ccde865cd79ef4db1683f7c7b046ea43bb0
+  languageName: node
+  linkType: hard
+
+"bootstrap-icons@npm:^1.8.1":
+  version: 1.8.1
+  resolution: "bootstrap-icons@npm:1.8.1"
+  checksum: 2151c0312d74dced74abc6ac14e69640e1af08e85224868bf2c0161b73ec9e0c1fda03e8585069c4164e2fb9633db881f8c2d812f11cfdbaf1139849c0d30e6a
   languageName: node
   linkType: hard
 

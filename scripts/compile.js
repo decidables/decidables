@@ -55,6 +55,7 @@ export function compileMarkdown() {
       return gulp.src(`src/${file.data.layout}.ejs`)
         .pipe(gulpFrontMatter({property: 'data'}))
         .pipe(gulpEjs(Object.assign(file.data, {
+          resolvePkg,
           utilities,
           file: file.stem,
           contents: file.contents.toString(),
