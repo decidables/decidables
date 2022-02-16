@@ -7,8 +7,8 @@ export default function remarkTerminology() {
   return (tree) => {
     // Walk markdown parsed into MDAST finding and processing all citations
     unistUtilVisit(tree, 'textDirective', (node) => {
-      // Only looking for 'term', 'key', and 'ui' nodes
-      if (!['term', 'key', 'ui'].includes(node.name)) return;
+      // Only looking for specified nodes
+      if (!['key', 'term', 'tool', 'ui'].includes(node.name)) return;
 
       // There must be exactly one 'text' child node containing something
       if (node.children.length !== 1 || node.children[0].type !== 'text' || node.children[0].value.length === 0) return;
