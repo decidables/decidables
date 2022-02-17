@@ -30,7 +30,6 @@ export async function buildLibrary() {
         presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.20'}]],
         babelHelpers: 'bundled',
       }),
-      rollupPluginTerser(),
     ],
     // Hide warnings for circular dependencies, which are allowed in the ES6 spec
     // https://github.com/rollup/rollup/issues/2271#issuecomment-475540827
@@ -43,11 +42,39 @@ export async function buildLibrary() {
   rollupCache = bundle.cache;
 
   const packageName = utilities.getPackageNameCamelCase();
+
+  // UMD
   await bundle.write({
     name: packageName,
-    file: `lib/${packageName}.min.js`,
+    file: `lib/${packageName}.umd.js`,
     format: 'umd',
     sourcemap: true,
+  });
+
+  // Minified UMD
+  await bundle.write({
+    name: packageName,
+    file: `lib/${packageName}.umd.min.js`,
+    format: 'umd',
+    sourcemap: true,
+    plugins: [rollupPluginTerser()],
+  });
+
+  // ESM
+  await bundle.write({
+    name: packageName,
+    file: `lib/${packageName}.esm.js`,
+    format: 'esm',
+    sourcemap: true,
+  });
+
+  // Minified ESM
+  await bundle.write({
+    name: packageName,
+    file: `lib/${packageName}.esm.min.js`,
+    format: 'esm',
+    sourcemap: true,
+    plugins: [rollupPluginTerser()],
   });
 }
 

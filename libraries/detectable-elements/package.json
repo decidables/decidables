@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "detectable-elements: Web Components for visualizing Signal Detection Theory",
   "type": "module",
-  "main": "./lib/detectableElements.min.js",
-  "module": "./src/index.js",
+  "main": "./lib/detectableElements.umd.min.js",
+  "module": "./lib/detectableElements.esm.min.js",
   "exports": {
+    "./lib/*.js": "./lib/*.js",
     ".": "./src/index.js",
     "./components": "./src/components/index.js",
     "./equations": "./src/equations/index.js",

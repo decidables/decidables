@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "decidable-elements: Basic UI Web Components for Visualizing Decision Making",
   "type": "module",
-  "main": "./lib/decidableElements.min.js",
-  "module": "./src/index.js",
+  "main": "./lib/decidableElements.umd.min.js",
+  "module": "./lib/decidableElements.esm.min.js",
   "exports": {
+    "./lib/*.js": "./lib/*.js",
     ".": "./src/index.js",
     "./*": "./src/*.js"
   },
