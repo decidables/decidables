@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "detectable-math: Equations for calculating Signal Detection Theory",
   "type": "module",
-  "main": "./lib/detectableMath.min.js",
-  "module": "./src/index.js",
+  "main": "./lib/detectableMath.umd.min.js",
+  "module": "./lib/detectableMath.esm.min.js",
   "exports": {
+    "./lib/*.js": "./lib/*.js",
     ".": "./src/index.js",
     "./*": "./src/*.js"
   },

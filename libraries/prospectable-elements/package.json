@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "prospectable-elements: Web Components for visualizing Cumulative Prospect Theory",
   "type": "module",
-  "main": "./lib/prospectableElements.min.js",
-  "module": "./src/index.js",
+  "main": "./lib/prospectableElements.umd.min.js",
+  "module": "./lib/prospectableElements.esm.min.js",
   "exports": {
+    "./lib/*.js": "./lib/*.js",
     ".": "./src/index.js",
     "./*": "./src/*.js",
     "./components": "./src/components/index.js",

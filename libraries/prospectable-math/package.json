@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "prospectable-math: Equations for calculating Cumulative Prospect Theory",
   "type": "module",
-  "main": "./lib/prospectableMath.min.js",
-  "module": "./src/index.js",
+  "main": "./lib/prospectableMath.umd.min.js",
+  "module": "./lib/prospectableMath.esm.min.js",
   "exports": {
+    "./lib/*.js": "./lib/*.js",
     ".": "./src/index.js",
     "./*": "./src/*.js"
   },
