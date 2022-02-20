@@ -14,7 +14,7 @@ toc:
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="decidables<%- (file !== 'index') ? `: ${title.replace(/<[^>]+>/g)}` : '' %>">
+    <meta name="description" content="decidables<%- (file !== 'index') ? `: ${title.replace(/<[^>]+>/g, '')}` : '' %>">
     <meta name="author" content="Dr. Adam Krawitz">
 
     <title>decidables<%- (file !== 'index') ? `: ${[...toc.top, ...toc.bottom].find((page) => { return (page.file === file); }).name}` : '' %></title>

@@ -480,7 +480,31 @@ $transition-duration: 500ms;
 // }
 
 .dec-page-title {
-  @extend .fw-semibold, .font-serif, .mb-3;
+  @extend .mb-3;
+}
+
+// Page Content
+.dec-page .dec-main {
+  h2 {
+    @extend .font-serif, .pt-2;
+  }
+
+  h3 {
+    @extend .mb-1;
+  }
+
+  code {
+    padding: 0.125rem 0.25rem;
+
+    color: revert;
+
+    background-color: $color-element-background;
+    border-radius: $border-radius;
+  }
+
+  .tool {
+    font-weight: $font-weight-semibold;
+  }
 }
 
 // Sites
