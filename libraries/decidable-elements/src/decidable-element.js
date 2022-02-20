@@ -149,7 +149,7 @@ export default class DecidableElement extends LitElement {
 
     const filters = shadows.elevations.map((z) => {
       return svg`
-        <filter id=${`shadow-${z}`} x="-400%" y="-400%" width="900%" height="900%">
+        <filter id=${`shadow-${z}`} x="-250%" y="-250%" width="600%" height="600%">
           <feComponentTransfer in="SourceAlpha" result="solid">
             <feFuncA  type="table" tableValues="0 1 1"/>
           </feComponentTransfer>
