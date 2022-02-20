@@ -2873,7 +2873,7 @@ progress {
   box-shadow: 0 0 0 0.25rem;
 }
 
-.navbar-toggler-icon, .dec-nav-toggler-icon {
+.navbar-toggler-icon {
   display: inline-block;
   width: 1.5em;
   height: 1.5em;
@@ -3235,7 +3235,7 @@ progress {
   color: rgba(0, 0, 0, 0.55);
   border-color: rgba(0, 0, 0, 0.1);
 }
-.navbar-light .navbar-toggler-icon, .navbar-light .dec-nav-toggler-icon {
+.navbar-light .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 .navbar-light .navbar-text, .navbar-light .dec-nav-text {
@@ -3287,7 +3287,7 @@ progress {
   color: #b3b3b3;
   border-color: rgba(255, 255, 255, 0.1);
 }
-.navbar-dark .navbar-toggler-icon, .navbar-dark .dec-nav-toggler-icon, .dec-footer .navbar-toggler-icon, .dec-footer .dec-nav-toggler-icon, .dec-header .navbar-toggler-icon, .dec-header .dec-nav-toggler-icon {
+.navbar-dark .navbar-toggler-icon, .dec-footer .navbar-toggler-icon, .dec-header .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 .navbar-dark .navbar-text, .navbar-dark .dec-nav-text, .dec-footer .navbar-text, .dec-footer .dec-nav-text, .dec-header .navbar-text, .dec-header .dec-nav-text {
@@ -4602,7 +4602,7 @@ progress {
   margin-bottom: 0 !important;
 }
 
-.mb-1, .dec-carousel-indicators {
+.mb-1, .dec-carousel-indicators, .dec-page .dec-main h3, .dec-page .dec-main .h3, .dec-page .dec-main .dec-site-title {
   margin-bottom: 0.25rem !important;
 }
 
@@ -4746,7 +4746,7 @@ progress {
   padding-top: 0.25rem !important;
 }
 
-.pt-2 {
+.pt-2, .dec-page .dec-main h2, .dec-page .dec-main .h2 {
   padding-top: 0.5rem !important;
 }
 
@@ -4834,7 +4834,7 @@ progress {
   padding-left: 3rem !important;
 }
 
-.font-serif, .dec-site-subtitle, .dec-page-title, .dec-main-subtitle {
+.font-serif, .dec-site-subtitle, .dec-page .dec-main h2, .dec-page .dec-main .h2, .dec-main-subtitle {
   font-family: var(--font-family-serif) !important;
 }
 
@@ -4886,7 +4886,7 @@ progress {
   font-weight: 400 !important;
 }
 
-.fw-semibold, .dec-site-title, .dec-page-title, .dec-main-subtitle {
+.fw-semibold, .dec-site-title, .dec-main-subtitle {
   font-weight: 600 !important;
 }
 
@@ -8530,6 +8530,17 @@ progress {
   font-weight: bold;
 }
 
+.bi.bi-list {
+  width: 2rem;
+  height: 2rem;
+}
+
+.bi.bi-github {
+  width: 1.125rem;
+  height: 1.125rem;
+  vertical-align: -0.1875rem;
+}
+
 .dec-html {
   height: 100%;
   font-size: 1rem;
@@ -8555,14 +8566,29 @@ progress {
   text-decoration: underline;
 }
 
-.dec-nav-link:hover {
-  text-decoration: underline;
+.dec-nav-toggler {
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  color: #b3b3b3;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dec-nav-toggler {
+    transition: none;
+  }
+}
+.dec-nav-toggler:focus {
+  color: #e6e6e6;
+  outline: revert;
+  box-shadow: none;
+}
+.dec-nav-toggler:hover {
+  color: #e6e6e6;
+}
+.dec-nav-toggler[aria-expanded=true] {
+  color: #ffffff;
 }
 
-.dec-icon-github {
-  width: 1.125rem;
-  height: 1.125rem;
-  vertical-align: -0.125rem;
+.dec-nav-link:hover {
+  text-decoration: underline;
 }
 
 .dec-main {
@@ -8572,6 +8598,16 @@ progress {
 
 .dec-page {
   background-color: #ffffff;
+}
+
+.dec-page .dec-main code {
+  padding: 0.125rem 0.25rem;
+  color: revert;
+  background-color: #e6e6e6;
+  border-radius: 0.25rem;
+}
+.dec-page .dec-main .tool {
+  font-weight: 600;
 }
 
 .dec-site-wrapper {
