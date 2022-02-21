@@ -482,7 +482,8 @@ export default class CPTProbability extends CPTElement {
     // X Scale
     const xScale = d3.scaleLinear()
       .domain([0, 1])
-      .range([0, width]);
+      .range([0, width])
+      .clamp(true);
     this.xScale = xScale;
 
     // Y Scale
