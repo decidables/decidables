@@ -291,9 +291,9 @@ export default class SDTModel extends SDTElement {
           transform: translateX(0);
         }
 
-        .noise.interactive:hover,
-        .signal.interactive:hover,
-        .signal.unequal:hover,
+        .noise.interactive:active,
+        .signal.interactive:active,
+        .signal.unequal:active,
         .threshold.interactive:active {
           filter: url("#shadow-8");
 
