@@ -39,7 +39,7 @@ script: index
           choices in terms of our detection <em>sensitivity</em> and response <em>bias</em>.
         </p>
       </header>
-      <div class="dec-carousel carousel slide" id="detectable-carousel" data-bs-interval="false">
+      <div class="dec-carousel carousel slide" id="detectable-carousel" data-bs-interval="false" data-bs-touch="false">
         <div class="dec-carousel-indicators carousel-indicators">
           <button type="button" data-bs-target="#detectable-carousel" data-bs-slide-to="0" aria-label="Slide 1" class="active" aria-current="true"></button>
           <button type="button" data-bs-target="#detectable-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -103,7 +103,7 @@ script: index
           relative scale.
         </p>
       </header>
-      <div class="dec-carousel carousel slide" id="prospectable-carousel" data-bs-interval="false">
+      <div class="dec-carousel carousel slide" id="prospectable-carousel" data-bs-interval="false" data-bs-touch="false">
         <div class="dec-carousel-indicators carousel-indicators">
           <button type="button" data-bs-target="#prospectable-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
           <button type="button" data-bs-target="#prospectable-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -159,7 +159,7 @@ script: index
           perception of value changes over time.
         </p>
       </header>
-      <div class="dec-carousel carousel slide" id="discountable-carousel" data-bs-interval="false">
+      <div class="dec-carousel carousel slide" id="discountable-carousel" data-bs-interval="false" data-bs-touch="false">
         <div class="dec-carousel-indicators carousel-indicators">
           <button type="button" data-bs-target="#discountable-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
           <button type="button" data-bs-target="#discountable-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
