@@ -32,8 +32,6 @@
 
 ## Features/Bugs/Notes
 
-- probability function path returning NaN on Safari!
-
 <!--lint disable no-inline-padding -->
 
 - Make sure to use corrected formula!

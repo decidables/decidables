@@ -728,7 +728,7 @@ export default class CPTProbability extends CPTElement {
     //  DATA-JOIN
     const lineUpdate = contentMerge.selectAll('.lines')
       .data(
-        this.probabilities.filter((probability) => { return probability.p; }),
+        this.probabilities.filter((probability) => { return (probability.p != null); }),
         (datum) => { return datum.name; },
       );
     //  ENTER
@@ -1112,7 +1112,7 @@ export default class CPTProbability extends CPTElement {
     //  DATA-JOIN
     const pointUpdate = contentMerge.selectAll('.point')
       .data(
-        this.probabilities.filter((probability) => { return probability.p; }),
+        this.probabilities.filter((probability) => { return (probability.p != null); }),
         (datum) => { return datum.name; },
       );
     //  ENTER
