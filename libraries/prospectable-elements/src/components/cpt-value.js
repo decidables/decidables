@@ -801,7 +801,7 @@ export default class CPTValue extends CPTElement {
     //  DATA-JOIN
     const lineUpdate = contentMerge.selectAll('.lines')
       .data(
-        this.values.filter((value) => { return value.x; }),
+        this.values.filter((value) => { return (value.x != null); }),
         (datum) => { return datum.name; },
       );
     //  ENTER
@@ -1308,7 +1308,7 @@ export default class CPTValue extends CPTElement {
     //  DATA-JOIN
     const pointUpdate = contentMerge.selectAll('.point')
       .data(
-        this.values.filter((value) => { return value.v; }),
+        this.values.filter((value) => { return (value.x != null); }),
         (datum) => { return datum.name; },
       );
     //  ENTER
