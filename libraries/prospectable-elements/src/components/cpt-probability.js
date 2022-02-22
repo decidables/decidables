@@ -1128,7 +1128,7 @@ export default class CPTProbability extends CPTElement {
     pointMerge.select('text')
       .text((datum) => { return datum.label; });
     // Interactive points
-    pointMerge.filter((datum) => { return (this.interactive && !datum.trial); })
+    pointMerge.filter((datum) => { return ((this.firstUpdate || changedProperties.has('interactive')) && this.interactive && !datum.trial); })
       .attr('tabindex', 0)
       .classed('interactive', true)
       .call(pointDrag)
@@ -1175,7 +1175,7 @@ export default class CPTProbability extends CPTElement {
         }
       });
     // Non-interactive points
-    pointMerge.filter((datum) => { return (!this.interactive || datum.trial); })
+    pointMerge.filter((datum) => { return (((this.firstUpdate || changedProperties.has('interactive')) && !this.interactive) || datum.trial); })
       .attr('tabindex', null)
       .classed('interactive', false)
       .on('drag', null)
