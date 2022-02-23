@@ -46,6 +46,10 @@ export default class DecisionOption extends CPTElement {
       super.styles,
       css`
         :host {
+          --decidable-spinner-font-size: 1.75rem;
+          --decidable-spinner-input-width: 4rem;
+          --decidable-spinner-prefix: "$";
+
           display: inline-block;
         }
 
@@ -107,15 +111,16 @@ export default class DecisionOption extends CPTElement {
         }
 
         .label.interactive {
-          --decidable-spinner-font-size: 1.75rem;
-          --decidable-spinner-input-width: 4rem;
-          --decidable-spinner-prefix: "$";
-
           width: var(--decidable-spinner-input-width);
           height: calc(var(--decidable-spinner-font-size) * 1.5);
           overflow: visible;
-          x: calc(var(--decidable-spinner-input-width) / -2);
-          y: calc(var(--decidable-spinner-font-size) * 1.5 / -2);
+        }
+
+        /* HACK: Get Safari to work with SVG foreignObject */
+        /* https://stackoverflow.com/questions/51313873/svg-foreignobject-not-working-properly-on-safari */
+        /* https://bugs.webkit.org/show_bug.cgi?id=23113 */
+        .label.interactive decidable-spinner {
+          position: fixed;
         }
 
         .label.interactive.win decidable-spinner {
@@ -362,12 +367,21 @@ export default class DecisionOption extends CPTElement {
     const labelInteractiveMerge = labelInteractiveEnter.merge(labelInteractiveUpdate)
       .attr('class', (datum) => { return `label interactive ${datum.data.name}`; })
       .attr('transform', (datum) => {
+        // HACK: Center spinner here instead of CSS for Safari SVG foreignObject
+        // x: calc(var(--decidable-spinner-input-width) / -2);
+        // y: calc(var(--decidable-spinner-font-size) * 1.5 / -2);
+        const inputWidth = parseFloat(this.getComputedStyleValue('--decidable-spinner-input-width'));
+        const fontSize = parseFloat(this.getComputedStyleValue('--decidable-spinner-font-size'));
+        const rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
+        const x = (inputWidth * rem) / -2;
+        const y = (fontSize * rem * 1.5) / -2;
+
         if (arcs.length === 1) {
-          return 'translate(0, 0)';
+          return `translate(${x}, ${y})`;
         }
         const radius = (Math.min(width, height) / 2) * 0.6;
         const arcLabel = d3.arc().innerRadius(radius).outerRadius(radius);
-        return `translate(${arcLabel.centroid(datum)})`;
+        return `translate(${arcLabel.centroid(datum)[0] + x}, ${arcLabel.centroid(datum)[1] + y})`;
       });
     labelInteractiveMerge.select('decidable-spinner')
       .attr('value', (datum) => { return `${datum.data.x.toFixed(0)}`; });
