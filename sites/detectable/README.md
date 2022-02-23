@@ -17,27 +17,6 @@
   - [x] SDT as entry point into computational cognitive neuroscience
   - [x] Evidence accumulation and the neural basis of perceptual decision making
 
-## Write-up
-
-- Learning through interaction
-  - Understanding relationships through perception-action loops
-    - <https://arxiv.org/pdf/1112.1125.pdf>
-    - <https://blog.mindresearch.org/blog/perception-action-cycle>
-    - <https://doi.org/10.1186/s41235-017-0053-8>
-  - Learning & constructionism (Papert)
-    - <https://en.wikipedia.org/wiki/Constructionist_learning>
-- Content for learning cognitive psychology/neuroscience
-  - Example task
-  - Empirical data collection
-  - Live computational model
-  - Fit data to model
-  - Generate data from model
-- Technology for explorable explanations
-  - Build: git + node + yarn + gulp + plugins
-  - Text: markdown (remark) + citeproc
-  - Formatting: bootstrap + scss + ejs
-  - Interactive content: d3 + web components + lit-element
-
 ## Outline
 
 - Detectable: Signal Detection Theory
