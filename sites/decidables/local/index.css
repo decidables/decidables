@@ -3348,7 +3348,7 @@ progress {
   margin-bottom: 0;
 }
 
-.card-text:last-child, .dec-site-lead:last-child {
+.card-text:last-child, .dec-site-lead:last-child, .dec-site-intro:last-child {
   margin-bottom: 0;
 }
 
@@ -4870,7 +4870,7 @@ progress {
   font-size: 1rem !important;
 }
 
-.fst-italic, .dec-demo-placeholder {
+.fst-italic, .dec-demo-placeholder, .dec-site-intro {
   font-style: italic !important;
 }
 
@@ -4918,7 +4918,7 @@ progress {
   text-align: right !important;
 }
 
-.text-center, .dec-carousel-item, .dec-site-lead, .dec-site-subtitle, .dec-site-title, .dec-main-lead, .dec-main-subtitle, .dec-main-title {
+.text-center, .dec-carousel-item, .dec-site-lead, .dec-site-subtitle, .dec-site-title, .dec-site-intro, .dec-main-lead, .dec-main-subtitle, .dec-main-title {
   text-align: center !important;
 }
 
@@ -5011,7 +5011,7 @@ progress {
   color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-body, .dec-demo-placeholder, .dec-site-link {
+.text-body, .dec-demo-placeholder, .dec-site-link, .dec-site-intro {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
 }

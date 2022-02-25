@@ -40266,7 +40266,7 @@
 	  }, {
 	    key: "styles",
 	    get: function get() {
-	      return [_get(_getPrototypeOf(SDTModel), "styles", this), r$2(_templateObject2$7 || (_templateObject2$7 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n\n          width: 27rem;\n          height: 15rem;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line,\n        .axis-y2 path,\n        .axis-y2 line {\n          stroke: var(---color-element-border);\n        }\n\n        .noise.interactive,\n        .signal.interactive,\n        .threshold.interactive {\n          cursor: ew-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.unequal {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.interactive.unequal {\n          cursor: move;\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .noise.interactive:focus,\n        :host(.keyboard) .signal.interactive:focus,\n        :host(.keyboard) .signal.unequal:focus,\n        :host(.keyboard) .threshold.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .underlayer .background {\n          fill: var(---color-element-background);\n          stroke: none;\n        }\n\n        .overlayer .background {\n          fill: none;\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-y2 {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .curve-cr,\n        .curve-fa,\n        .curve-m,\n        .curve-h {\n          fill-opacity: 0.5;\n          stroke: none;\n\n          transition: fill var(---transition-duration) ease;\n        }\n\n        .curve-cr {\n          fill: var(---color-cr);\n        }\n\n        .curve-fa {\n          fill: var(---color-fa);\n        }\n\n        .curve-m {\n          fill: var(---color-m);\n        }\n\n        .curve-h {\n          fill: var(---color-h);\n        }\n\n        :host([color=\"accuracy\"]) .curve-h,\n        :host([color=\"accuracy\"]) .curve-cr {\n          fill: var(---color-correct);\n        }\n\n        :host([color=\"accuracy\"]) .curve-m,\n        :host([color=\"accuracy\"]) .curve-fa {\n          fill: var(---color-error);\n        }\n\n        :host([color=\"stimulus\"]) .curve-cr,\n        :host([color=\"stimulus\"]) .curve-fa {\n          fill: var(---color-far);\n        }\n\n        :host([color=\"stimulus\"]) .curve-m,\n        :host([color=\"stimulus\"]) .curve-h {\n          fill: var(---color-hr);\n        }\n\n        :host([color=\"response\"]) .curve-cr,\n        :host([color=\"response\"]) .curve-m {\n          fill: var(---color-absent);\n        }\n\n        :host([color=\"response\"]) .curve-fa,\n        :host([color=\"response\"]) .curve-h {\n          fill: var(---color-present);\n        }\n\n        :host([color=\"none\"]) .curve-cr,\n        :host([color=\"none\"]) .curve-fa,\n        :host([color=\"none\"]) .curve-m,\n        :host([color=\"none\"]) .curve-h {\n          fill: var(---color-element-enabled);\n        }\n\n        .curve-noise,\n        .curve-signal {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .measure-d,\n        .measure-c,\n        .measure-s {\n          pointer-events: none;\n        }\n\n        .threshold .line {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .threshold .handle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .threshold.interactive .handle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .measure-d .line,\n        .measure-d .cap-left,\n        .measure-d .cap-right {\n          stroke: var(---color-d);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-d .label {\n          font-size: 0.75rem;\n\n          text-anchor: start;\n          fill: currentColor;\n        }\n\n        .measure-c .line,\n        .measure-c .cap-zero {\n          stroke: var(---color-c);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-c .label {\n          font-size: 0.75rem;\n\n          fill: currentColor;\n        }\n\n        .measure-s .line,\n        .measure-s .cap-left,\n        .measure-s .cap-right {\n          stroke: var(---color-s);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-s .label {\n          font-size: 0.75rem;\n\n          text-anchor: middle;\n          fill: currentColor;\n        }\n      "])))];
+	      return [_get(_getPrototypeOf(SDTModel), "styles", this), r$2(_templateObject2$7 || (_templateObject2$7 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n\n          width: 27rem;\n          height: 15rem;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line,\n        .axis-y2 path,\n        .axis-y2 line {\n          stroke: var(---color-element-border);\n        }\n\n        .noise.interactive,\n        .signal.interactive,\n        .threshold.interactive {\n          cursor: ew-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.unequal {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.interactive.unequal {\n          cursor: move;\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .noise.interactive:active,\n        .signal.interactive:active,\n        .signal.unequal:active,\n        .threshold.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .noise.interactive:focus,\n        :host(.keyboard) .signal.interactive:focus,\n        :host(.keyboard) .signal.unequal:focus,\n        :host(.keyboard) .threshold.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .underlayer .background {\n          fill: var(---color-element-background);\n          stroke: none;\n        }\n\n        .overlayer .background {\n          fill: none;\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-y2 {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .curve-cr,\n        .curve-fa,\n        .curve-m,\n        .curve-h {\n          fill-opacity: 0.5;\n          stroke: none;\n\n          transition: fill var(---transition-duration) ease;\n        }\n\n        .curve-cr {\n          fill: var(---color-cr);\n        }\n\n        .curve-fa {\n          fill: var(---color-fa);\n        }\n\n        .curve-m {\n          fill: var(---color-m);\n        }\n\n        .curve-h {\n          fill: var(---color-h);\n        }\n\n        :host([color=\"accuracy\"]) .curve-h,\n        :host([color=\"accuracy\"]) .curve-cr {\n          fill: var(---color-correct);\n        }\n\n        :host([color=\"accuracy\"]) .curve-m,\n        :host([color=\"accuracy\"]) .curve-fa {\n          fill: var(---color-error);\n        }\n\n        :host([color=\"stimulus\"]) .curve-cr,\n        :host([color=\"stimulus\"]) .curve-fa {\n          fill: var(---color-far);\n        }\n\n        :host([color=\"stimulus\"]) .curve-m,\n        :host([color=\"stimulus\"]) .curve-h {\n          fill: var(---color-hr);\n        }\n\n        :host([color=\"response\"]) .curve-cr,\n        :host([color=\"response\"]) .curve-m {\n          fill: var(---color-absent);\n        }\n\n        :host([color=\"response\"]) .curve-fa,\n        :host([color=\"response\"]) .curve-h {\n          fill: var(---color-present);\n        }\n\n        :host([color=\"none\"]) .curve-cr,\n        :host([color=\"none\"]) .curve-fa,\n        :host([color=\"none\"]) .curve-m,\n        :host([color=\"none\"]) .curve-h {\n          fill: var(---color-element-enabled);\n        }\n\n        .curve-noise,\n        .curve-signal {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .measure-d,\n        .measure-c,\n        .measure-s {\n          pointer-events: none;\n        }\n\n        .threshold .line {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .threshold .handle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .threshold.interactive .handle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .measure-d .line,\n        .measure-d .cap-left,\n        .measure-d .cap-right {\n          stroke: var(---color-d);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-d .label {\n          font-size: 0.75rem;\n\n          text-anchor: start;\n          fill: currentColor;\n        }\n\n        .measure-c .line,\n        .measure-c .cap-zero {\n          stroke: var(---color-c);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-c .label {\n          font-size: 0.75rem;\n\n          fill: currentColor;\n        }\n\n        .measure-s .line,\n        .measure-s .cap-left,\n        .measure-s .cap-right {\n          stroke: var(---color-s);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-s .label {\n          font-size: 0.75rem;\n\n          text-anchor: middle;\n          fill: currentColor;\n        }\n      "])))];
 	    }
 	  }]);
 
@@ -41054,7 +41054,7 @@
 	      var width = elementSize - (margin.left + margin.right);
 	      var transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10); // X Scale
 
-	      var xScale = linear().domain([0, 1]).range([0, width]);
+	      var xScale = linear().domain([0, 1]).range([0, width]).clamp(true);
 	      this.xScale = xScale; // Y Scale
 
 	      var yScale = linear().domain([1, 0]).range([0, height]);
@@ -41221,7 +41221,7 @@
 	      //  DATA-JOIN
 
 	      var lineUpdate = contentMerge.selectAll('.lines').data(this.probabilities.filter(function (probability) {
-	        return probability.p;
+	        return probability.p != null;
 	      }), function (datum) {
 	        return datum.name;
 	      }); //  ENTER
@@ -41467,7 +41467,7 @@
 	      //  DATA-JOIN
 
 	      var pointUpdate = contentMerge.selectAll('.point').data(this.probabilities.filter(function (probability) {
-	        return probability.p;
+	        return probability.p != null;
 	      }), function (datum) {
 	        return datum.name;
 	      }); //  ENTER
@@ -41484,7 +41484,7 @@
 	      }); // Interactive points
 
 	      pointMerge.filter(function (datum) {
-	        return _this3.interactive && !datum.trial;
+	        return (_this3.firstUpdate || changedProperties.has('interactive')) && _this3.interactive && !datum.trial;
 	      }).attr('tabindex', 0).classed('interactive', true).call(pointDrag).on('keydown', function (event, datum) {
 	        if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
 	          var p = datum.p; // eslint-disable-line prefer-destructuring
@@ -41533,7 +41533,7 @@
 	      }); // Non-interactive points
 
 	      pointMerge.filter(function (datum) {
-	        return !_this3.interactive || datum.trial;
+	        return (_this3.firstUpdate || changedProperties.has('interactive')) && !_this3.interactive || datum.trial;
 	      }).attr('tabindex', null).classed('interactive', false).on('drag', null).on('keydown', null); // All points
 
 	      pointMerge.transition().duration(this.drag ? 0 : this.firstUpdate ? transitionDuration * 2 : transitionDuration).ease(cubicOut).attrTween('transform', function (datum, index, elements) {
@@ -42131,7 +42131,7 @@
 	      //  DATA-JOIN
 
 	      var lineUpdate = contentMerge.selectAll('.lines').data(this.values.filter(function (value) {
-	        return value.x;
+	        return value.x != null;
 	      }), function (datum) {
 	        return datum.name;
 	      }); //  ENTER
@@ -42463,7 +42463,7 @@
 	      //  DATA-JOIN
 
 	      var pointUpdate = contentMerge.selectAll('.point').data(this.values.filter(function (value) {
-	        return value.v;
+	        return value.x != null;
 	      }), function (datum) {
 	        return datum.name;
 	      }); //  ENTER
@@ -42480,7 +42480,7 @@
 	      }); // Interactive points
 
 	      pointMerge.filter(function (datum) {
-	        return _this3.interactive && !datum.trial;
+	        return (_this3.firstUpdate || changedProperties.has('interactive')) && _this3.interactive && !datum.trial;
 	      }).attr('tabindex', 0).classed('interactive', true).call(pointDrag).on('keydown', function (event, datum) {
 	        if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
 	          var x = datum.x; // eslint-disable-line prefer-destructuring
@@ -42530,7 +42530,7 @@
 	      }); // Non-interactive points
 
 	      pointMerge.filter(function (datum) {
-	        return !_this3.interactive || datum.trial;
+	        return (_this3.firstUpdate || changedProperties.has('interactive')) && !_this3.interactive || datum.trial;
 	      }).attr('tabindex', null).classed('interactive', false).on('drag', null).on('keydown', null); // All points
 
 	      pointMerge.transition().duration(this.drag ? 0 : this.firstUpdate ? transitionDuration * 2 : transitionDuration).ease(cubicOut).attrTween('transform', function (datum, index, elements) {
@@ -42843,13 +42843,22 @@
 	      var labelInteractiveMerge = labelInteractiveEnter.merge(labelInteractiveUpdate).attr('class', function (datum) {
 	        return "label interactive ".concat(datum.data.name);
 	      }).attr('transform', function (datum) {
+	        // HACK: Center spinner here instead of CSS for Safari SVG foreignObject
+	        // x: calc(var(--decidable-spinner-input-width) / -2);
+	        // y: calc(var(--decidable-spinner-font-size) * 1.5 / -2);
+	        var inputWidth = parseFloat(_this3.getComputedStyleValue('--decidable-spinner-input-width'));
+	        var fontSize = parseFloat(_this3.getComputedStyleValue('--decidable-spinner-font-size'));
+	        var rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
+	        var x = inputWidth * rem / -2;
+	        var y = fontSize * rem * 1.5 / -2;
+
 	        if (arcs.length === 1) {
-	          return 'translate(0, 0)';
+	          return "translate(".concat(x, ", ").concat(y, ")");
 	        }
 
 	        var radius = Math.min(width, height) / 2 * 0.6;
 	        var arcLabel = arc().innerRadius(radius).outerRadius(radius);
-	        return "translate(".concat(arcLabel.centroid(datum), ")");
+	        return "translate(".concat(arcLabel.centroid(datum)[0] + x, ", ").concat(arcLabel.centroid(datum)[1] + y, ")");
 	      });
 	      labelInteractiveMerge.select('decidable-spinner').attr('value', function (datum) {
 	        return "".concat(datum.data.x.toFixed(0));
@@ -42882,7 +42891,7 @@
 	  }, {
 	    key: "styles",
 	    get: function get() {
-	      return [_get(_getPrototypeOf(DecisionOption), "styles", this), r$2(_templateObject2$3 || (_templateObject2$3 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n          overflow: visible;\n        }\n\n        .outline {\n          fill: var(---color-element-background);\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .arc {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .arc.interactive {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .arc.interactive:hover {\n          filter: url(\"#shadow-4\");\n        }\n\n        .arc.interactive:active {\n          filter: url(\"#shadow-8\");\n        }\n\n        :host(.keyboard) .arc.interactive:focus {\n          filter: url(\"#shadow-8\");\n        }\n\n        .arc.win {\n          fill: var(---color-better-light);\n        }\n\n        .arc.loss {\n          fill: var(---color-worse-light);\n        }\n\n        .arc.sure {\n          fill: var(---color-even-light);\n        }\n\n        .label.static {\n          font-size: 1.75rem;\n\n          user-select: none;\n\n          dominant-baseline: middle;\n          text-anchor: middle;\n        }\n\n        .label.interactive {\n          --decidable-spinner-font-size: 1.75rem;\n          --decidable-spinner-input-width: 4rem;\n          --decidable-spinner-prefix: \"$\";\n\n          width: var(--decidable-spinner-input-width);\n          height: calc(var(--decidable-spinner-font-size) * 1.5);\n          overflow: visible;\n          x: calc(var(--decidable-spinner-input-width) / -2);\n          y: calc(var(--decidable-spinner-font-size) * 1.5 / -2);\n        }\n\n        .label.interactive.win decidable-spinner {\n          background-color: var(---color-better-light);\n        }\n\n        .label.interactive.loss decidable-spinner {\n          background-color: var(---color-worse-light);\n        }\n\n        .label.interactive.sure decidable-spinner {\n          background-color: var(---color-even-light);\n        }\n      "])))];
+	      return [_get(_getPrototypeOf(DecisionOption), "styles", this), r$2(_templateObject2$3 || (_templateObject2$3 = _taggedTemplateLiteral(["\n        :host {\n          --decidable-spinner-font-size: 1.75rem;\n          --decidable-spinner-input-width: 4rem;\n          --decidable-spinner-prefix: \"$\";\n\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n          overflow: visible;\n        }\n\n        .outline {\n          fill: var(---color-element-background);\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .arc {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .arc.interactive {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .arc.interactive:hover {\n          filter: url(\"#shadow-4\");\n        }\n\n        .arc.interactive:active {\n          filter: url(\"#shadow-8\");\n        }\n\n        :host(.keyboard) .arc.interactive:focus {\n          filter: url(\"#shadow-8\");\n        }\n\n        .arc.win {\n          fill: var(---color-better-light);\n        }\n\n        .arc.loss {\n          fill: var(---color-worse-light);\n        }\n\n        .arc.sure {\n          fill: var(---color-even-light);\n        }\n\n        .label.static {\n          font-size: 1.75rem;\n\n          user-select: none;\n\n          dominant-baseline: middle;\n          text-anchor: middle;\n        }\n\n        .label.interactive {\n          width: var(--decidable-spinner-input-width);\n          height: calc(var(--decidable-spinner-font-size) * 1.5);\n          overflow: visible;\n        }\n\n        /* HACK: Get Safari to work with SVG foreignObject */\n        /* https://stackoverflow.com/questions/51313873/svg-foreignobject-not-working-properly-on-safari */\n        /* https://bugs.webkit.org/show_bug.cgi?id=23113 */\n        .label.interactive decidable-spinner {\n          position: fixed;\n        }\n\n        .label.interactive.win decidable-spinner {\n          background-color: var(---color-better-light);\n        }\n\n        .label.interactive.loss decidable-spinner {\n          background-color: var(---color-worse-light);\n        }\n\n        .label.interactive.sure decidable-spinner {\n          background-color: var(---color-even-light);\n        }\n      "])))];
 	    }
 	  }]);
 
