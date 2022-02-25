@@ -7,6 +7,7 @@ script: index
 The [<span class="decidables">decidables</span>](./) project is a collection of explorable
 explanations of decision making. The focus is on quantitative theories from the field of cognitive
 psychology:
+
 - [**<span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var
   c">c</span>table</span>**](detectable/): Signal detection theory
 - [**<span class="prospectable">prospect<span class="math-var">α</span>b<span
@@ -17,14 +18,15 @@ class="math-var">λ</span>e</span>**](prospectable/): Cumulative prospect theory
 
 Explorable explanations combine interactive elements with supporting text. The goal is to help the
 learner understand a concept through an active process of engagement. Victor
-:cite[-@victor_explorable_2011] explains this as "environment to think in" instead of just
+:cite[-@victor_explorable_2011] explains this as an "environment to think in" instead of just
 "information to be consumed".
 
 The term "explorable explanation" was first used in a related context by Brusilovsky
 :cite[-@brusilovsky_explanatory_1994], but was popularized by Victor
 :cite[-@victor_explorable_2011], and has been championed by Case :cite[-@case_explorable_2022] with
 the wonderful [:tool[Explorable Explanations (https://explorabl.es/)]](https://explorabl.es/)
-website, which has links to examples, readings, tutorials, and tools :cite[@noauthor_explorable_2021].
+website, which has links to examples, readings, tutorials, and tools
+:cite[@noauthor_explorable_2021].
 
 ## Cognitive psychology
 
@@ -47,8 +49,8 @@ cognition.
 
 Central to each of these explorables are interactive simulations for model *exploration* :cite[i.e.
 "exploring the hypothesis space" or "proof of sufficiency", @Mcclelland2009; @stafford_what_2009;
-@zuidema_five_2020], *fitting* :cite[i.e. "parameter estimation", @Lewandowsky2010c; @wilson_ten_2019],
-and *prediction* :cite[i.e. "simulation", @stafford_what_2009; @wilson_ten_2019]:
+@zuidema_five_2020], *fitting* :cite[i.e. "parameter estimation", @Lewandowsky2010c;
+@wilson_ten_2019], and *prediction* :cite[i.e. "simulation", @stafford_what_2009; @wilson_ten_2019]:
 
 - Model *exploration* allows the learner to investigate the space of possible outcomes that a model
   can account for. Which patterns of behavior can or cannot be explained by the model?
@@ -60,6 +62,8 @@ and *prediction* :cite[i.e. "simulation", @stafford_what_2009; @wilson_ten_2019]
 
 ## Sites
 
+<!--lint ignore maximum-heading-length-->
+
 ### **<span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>**
 
 [**<span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var
@@ -67,6 +71,8 @@ c">c</span>table</span>**](detectable/) explores signal detection theory (SDT). 
 detect coherent motion in a random dot kinematogram. Is the motion stimulus present or absent?
 Building on early work studying radar operators, SDT mathematically models our choices in terms of
 our detection *sensitivity* and response *bias* :cite[@Peterson1954; @Tanner1954].
+
+<!--lint ignore maximum-heading-length-->
 
 ### **<span class="prospectable">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>**
 

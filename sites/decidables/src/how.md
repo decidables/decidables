@@ -127,8 +127,8 @@ etc...; *equations*, which are live visualizations of key equations; and *exampl
 components (and equations?) to form interconnected demonstrations. For example, [**<span
 class="detectable"><span class="math-var d">d′</span>ete<span class="math-var
 c">c</span>table</span>**](detectable/) has its own
-[:tool[detectable]](https://github.com/decidables/decidables/tree/main/sites/detectable) package, along
-with
+[:tool[detectable]](https://github.com/decidables/decidables/tree/main/sites/detectable) package,
+along with
 [:tool[detectable-math]](https://github.com/decidables/decidables/tree/main/libraries/detectable-math),
 and
 [:tool[detectable-elements]](https://github.com/decidables/decidables/tree/main/libraries/detectable-elements).

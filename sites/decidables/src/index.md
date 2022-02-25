@@ -25,6 +25,7 @@ script: index
   <!-- DETECTABLE -->
     <div class="dec-site-wrapper">
       <header class="dec-site-header">
+        <div class="dec-site-intro">Almost ready...</div>
         <a class="dec-site-link" href="detectable/">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
@@ -88,6 +89,7 @@ script: index
   <!-- PROSPECTABLE -->
     <div class="dec-site-wrapper">
       <header class="dec-site-header">
+        <div class="dec-site-intro">In progress...</div>
         <a class="dec-site-link" href="prospectable/">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
@@ -145,6 +147,7 @@ script: index
   <!-- DISCOUNTABLE -->
     <div class="dec-site-wrapper">
       <header class="dec-site-header">
+        <div class="dec-site-intro dec-disabled">Coming soon...</div>
         <a class="dec-site-link dec-disabled"> <!-- href="discountable/" -->
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
