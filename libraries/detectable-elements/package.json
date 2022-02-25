@@ -29,7 +29,7 @@
     "gulp": "^4.0.2"
   },
   "dependencies": {
-    "@decidables/decidable-elements": "^0.0.1",
+    "@decidables/decidables-elements": "^0.0.1",
     "@decidables/detectable-math": "^0.0.1",
     "d3": "^7.3.0",
     "jstat": "^1.9.5",

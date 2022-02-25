@@ -3,7 +3,7 @@
   Attribute: Space-separated sequence of strings
   Property: Set of strings
 */
-const DecidableConverterSet = {
+const DecidablesConverterSet = {
   fromAttribute: (value) => {
     return new Set(value.split(/\s+/));
   },
@@ -12,4 +12,4 @@ const DecidableConverterSet = {
   },
 };
 
-export default DecidableConverterSet;
+export default DecidablesConverterSet;

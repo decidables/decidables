@@ -1,7 +1,7 @@
 
 import {html, css} from 'lit';
 
-import '@decidables/decidable-elements/button';
+import '@decidables/decidables-elements/button';
 
 import CPTElement from '../cpt-element';
 
@@ -210,15 +210,15 @@ export default class DecisionResponse extends CPTElement {
         }
 
         .waiting[disabled] {
-          --decidable-button-background-color: var(---color-element-enabled);
+          --decidables-button-background-color: var(---color-element-enabled);
         }
 
         .selected[disabled][name="gamble"] {
-          --decidable-button-background-color: var(---color-worse);
+          --decidables-button-background-color: var(---color-worse);
         }
 
         .selected[disabled][name="sure"] {
-          --decidable-button-background-color: var(---color-better);
+          --decidables-button-background-color: var(---color-better);
         }
 
         /* Feedback messages */
@@ -300,8 +300,8 @@ export default class DecisionResponse extends CPTElement {
             </div>`
           : html``}
         <div class="responses">
-          <decidable-button name="gamble" class="response ${(this.state === 'feedback' && this.response === 'gamble') ? 'selected' : ((this.state === 'waiting') ? 'waiting' : '')}" ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.gamble.bind(this)}>Gamble</decidable-button>
-          <decidable-button name="sure" class="response ${(this.state === 'feedback' && this.response === 'sure') ? 'selected' : ((this.state === 'waiting') ? 'waiting' : '')}" ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.sure.bind(this)}>Sure</decidable-button>
+          <decidables-button name="gamble" class="response ${(this.state === 'feedback' && this.response === 'gamble') ? 'selected' : ((this.state === 'waiting') ? 'waiting' : '')}" ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.gamble.bind(this)}>Gamble</decidables-button>
+          <decidables-button name="sure" class="response ${(this.state === 'feedback' && this.response === 'sure') ? 'selected' : ((this.state === 'waiting') ? 'waiting' : '')}" ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.sure.bind(this)}>Sure</decidables-button>
         </div>
         ${(this.feedback !== 'none' || this.payoff !== 'none')
           ? html`

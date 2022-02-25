@@ -1,7 +1,7 @@
 
 import {html} from 'lit';
 
-import '@decidables/decidable-elements/spinner';
+import '@decidables/decidables-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
 
 import SDTEquation from './sdt-equation';
@@ -96,24 +96,24 @@ export default class SDTEquationDC2Far extends SDTEquation {
     let far;
     if (this.numeric) {
       d = html`
-        <decidable-spinner class="d bottom" ?disabled=${!this.interactive} step=".001" .value="${this.d}" @input=${this.dInput.bind(this)}>
+        <decidables-spinner class="d bottom" ?disabled=${!this.interactive} step=".001" .value="${this.d}" @input=${this.dInput.bind(this)}>
           <var class="math-var">d′</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       c = html`
-        <decidable-spinner class="c bottom" ?disabled=${!this.interactive} step=".001" .value="${this.c}" @input=${this.cInput.bind(this)}>
+        <decidables-spinner class="c bottom" ?disabled=${!this.interactive} step=".001" .value="${this.c}" @input=${this.cInput.bind(this)}>
           <var class="math-var">c</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       s = html`
-        <decidable-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
+        <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
           <var class="math-var">σ</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       far = html`
-        <decidable-spinner class="far bottom" disabled min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}">
+        <decidables-spinner class="far bottom" disabled min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}">
           <var>False Alarm Rate</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
     } else {
       d = html`<var class="math-var d">d′</var>`;

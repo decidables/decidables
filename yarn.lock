@@ -1479,9 +1479,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@decidables/decidable-elements@^0.0.1, @decidables/decidable-elements@workspace:libraries/decidable-elements":
+"@decidables/decidables-elements@^0.0.1, @decidables/decidables-elements@workspace:libraries/decidables-elements":
   version: 0.0.0-use.local
-  resolution: "@decidables/decidable-elements@workspace:libraries/decidable-elements"
+  resolution: "@decidables/decidables-elements@workspace:libraries/decidables-elements"
   dependencies:
     d3: ^7.3.0
     gulp: ^4.0.2
@@ -1514,7 +1514,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/detectable-elements@workspace:libraries/detectable-elements"
   dependencies:
-    "@decidables/decidable-elements": ^0.0.1
+    "@decidables/decidables-elements": ^0.0.1
     "@decidables/detectable-math": ^0.0.1
     d3: ^7.3.0
     gulp: ^4.0.2
@@ -1557,7 +1557,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable-elements@workspace:libraries/prospectable-elements"
   dependencies:
-    "@decidables/decidable-elements": ^0.0.1
+    "@decidables/decidables-elements": ^0.0.1
     "@decidables/prospectable-math": ^0.0.1
     "@lit-labs/motion": ^1.0.2
     bayes.js: "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f"

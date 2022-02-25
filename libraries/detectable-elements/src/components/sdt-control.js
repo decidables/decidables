@@ -1,11 +1,11 @@
 
 import {html, css} from 'lit';
 
-import '@decidables/decidable-elements/button';
-import '@decidables/decidable-elements/slider';
-import '@decidables/decidable-elements/switch';
-import '@decidables/decidable-elements/toggle';
-import '@decidables/decidable-elements/toggle-option';
+import '@decidables/decidables-elements/button';
+import '@decidables/decidables-elements/slider';
+import '@decidables/decidables-elements/switch';
+import '@decidables/decidables-elements/toggle';
+import '@decidables/decidables-elements/toggle-option';
 
 import SDTElement from '../sdt-element';
 
@@ -209,7 +209,7 @@ export default class SDTControl extends SDTElement {
 
         /* Payoff  Slider */
         .payoff {
-          --decidable-spinner-prefix: "$";
+          --decidables-spinner-prefix: "$";
         }
       `,
     ];
@@ -219,46 +219,46 @@ export default class SDTControl extends SDTElement {
     return html`
       <div class="holder">
         ${this.trials
-          ? html`<decidable-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidable-slider>`
+          ? html`<decidables-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>`
           : html``}
         ${this.duration
-          ? html`<decidable-slider min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidable-slider>`
+          ? html`<decidables-slider min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>`
           : html``}
         ${this.coherence
-          ? html`<decidable-slider min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidable-slider>`
+          ? html`<decidables-slider min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidables-slider>`
           : html``}
         ${this.payoff
-          ? html`<decidable-slider class="payoff" min="0" max="100" step="1" .value=${this.payoff} @change=${this.setPayoff.bind(this)} @input=${this.setPayoff.bind(this)}>Payoff</decidable-slider>`
+          ? html`<decidables-slider class="payoff" min="0" max="100" step="1" .value=${this.payoff} @change=${this.setPayoff.bind(this)} @input=${this.setPayoff.bind(this)}>Payoff</decidables-slider>`
           : html``}
         ${this.color !== undefined
           ? html`
-            <decidable-toggle @change=${this.chooseColor.bind(this)}>
+            <decidables-toggle @change=${this.chooseColor.bind(this)}>
               <span slot="label">Emphasis</span>
-              <decidable-toggle-option name=${`${this.uniqueId}-color`} value="none" ?checked=${this.color === 'none'}>None</decidable-toggle-option>
-              <decidable-toggle-option name=${`${this.uniqueId}-color`} value="accuracy" ?checked=${this.color === 'accuracy'}>Accuracy</decidable-toggle-option>
-              <decidable-toggle-option name=${`${this.uniqueId}-color`} value="stimulus" ?checked=${this.color === 'stimulus'}>Stimulus</decidable-toggle-option>
-              <decidable-toggle-option name=${`${this.uniqueId}-color`} value="response" ?checked=${this.color === 'response'}>Response</decidable-toggle-option>
-              <decidable-toggle-option name=${`${this.uniqueId}-color`} value="outcome" ?checked=${this.color === 'outcome'}>Outcome</decidable-toggle-option>
-            </decidable-toggle>
+              <decidables-toggle-option name=${`${this.uniqueId}-color`} value="none" ?checked=${this.color === 'none'}>None</decidables-toggle-option>
+              <decidables-toggle-option name=${`${this.uniqueId}-color`} value="accuracy" ?checked=${this.color === 'accuracy'}>Accuracy</decidables-toggle-option>
+              <decidables-toggle-option name=${`${this.uniqueId}-color`} value="stimulus" ?checked=${this.color === 'stimulus'}>Stimulus</decidables-toggle-option>
+              <decidables-toggle-option name=${`${this.uniqueId}-color`} value="response" ?checked=${this.color === 'response'}>Response</decidables-toggle-option>
+              <decidables-toggle-option name=${`${this.uniqueId}-color`} value="outcome" ?checked=${this.color === 'outcome'}>Outcome</decidables-toggle-option>
+            </decidables-toggle>
           `
           : html``}
         ${this.zRoc !== undefined
           ? html`
-            <decidable-switch ?checked=${this.zRoc} @change=${this.flipZRoc.bind(this)}>
+            <decidables-switch ?checked=${this.zRoc} @change=${this.flipZRoc.bind(this)}>
               <span class="math-var">z</span>ROC
               <span slot="off-label">ROC</span>
-            </decidable-switch>
+            </decidables-switch>
           `
           : html``}
         <div class="buttons">
           ${this.run
-            ? html`<decidable-button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</decidable-button>`
+            ? html`<decidables-button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</decidables-button>`
             : html``}
           ${this.pause
-            ? html`<decidable-button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</decidable-button>`
+            ? html`<decidables-button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</decidables-button>`
             : html``}
           ${this.reset
-            ? html`<decidable-button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</decidable-button>`
+            ? html`<decidables-button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</decidables-button>`
             : html``}
         </div>
       </div>`;

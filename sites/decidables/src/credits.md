@@ -90,7 +90,7 @@ as [<span class="decidables">decidables</span>](https://decidables.github.io/),
 as [`decidables/decidables`](https://github.com/decidables/decidables),
 and
 [npm](https://www.npmjs.com/)
-in the [`@decidable`](https://www.npmjs.com/search?q=%40decidables) scope
+in the [`@decidables`](https://www.npmjs.com/search?q=%40decidables) scope
 
 **Licensed as:**<br>
 [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/)

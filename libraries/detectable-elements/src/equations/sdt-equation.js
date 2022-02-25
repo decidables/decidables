@@ -81,8 +81,8 @@ export default class SDTEquation extends SDTElement {
         }
 
         /* Input wrapping <label> */
-        decidable-spinner {
-          --decidable-spinner-input-width: 4rem;
+        decidables-spinner {
+          --decidables-spinner-input-width: 4rem;
 
           display: inline-block;
 

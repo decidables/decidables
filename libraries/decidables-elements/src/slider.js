@@ -2,9 +2,9 @@
 import {ifDefined} from 'lit/directives/if-defined.js'; /* eslint-disable-line import/extensions */
 import {html, css, unsafeCSS} from 'lit';
 
-import DecidableElement from './decidable-element';
+import DecidablesElement from './decidables-element';
 
-export default class DecidableSlider extends DecidableElement {
+export default class DecidablesSlider extends DecidablesElement {
   static get properties() {
     return {
       disabled: {
@@ -89,8 +89,8 @@ export default class DecidableSlider extends DecidableElement {
           margin: 0 0.25rem 0.25rem;
         }
 
-        decidable-spinner {
-          --decidable-spinner-input-width: 3.5rem;
+        decidables-spinner {
+          --decidables-spinner-input-width: 3.5rem;
 
           margin: 0 0.25rem 0.25rem;
         }
@@ -325,9 +325,9 @@ export default class DecidableSlider extends DecidableElement {
       <div class="range">
         <input type="range" id=${`${this.uniqueId}-slider`} min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @change=${this.changed.bind(this)} @input=${this.inputted.bind(this)}>
       </div>
-      <decidable-spinner min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}></decidable-spinner>
+      <decidables-spinner min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}></decidables-spinner>
     `;
   }
 }
 
-customElements.define('decidable-slider', DecidableSlider);
+customElements.define('decidables-slider', DecidablesSlider);

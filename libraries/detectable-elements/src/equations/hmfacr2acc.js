@@ -1,7 +1,7 @@
 
 import {html} from 'lit';
 
-import '@decidables/decidable-elements/spinner';
+import '@decidables/decidables-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
 
 import SDTEquation from './sdt-equation';
@@ -104,29 +104,29 @@ export default class SDTEquationHMFaCr2Acc extends SDTEquation {
 
     if (this.numeric) {
       h = html`
-        <decidable-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
+        <decidables-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <var>Hits</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       m = html`
-        <decidable-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
+        <decidables-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <var>Misses</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       fa = html`
-        <decidable-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
+        <decidables-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <var>False Alarms</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       cr = html`
-        <decidable-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
+        <decidables-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <var>Correct Rejections</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       acc = html`
-        <decidable-spinner class="acc" disabled min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}">
+        <decidables-spinner class="acc" disabled min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}">
           <var>Accuracy</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
     } else {
       h = html`<var class="h">Hits</var>`;

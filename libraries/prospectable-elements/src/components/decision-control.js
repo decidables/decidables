@@ -1,8 +1,8 @@
 
 import {html, css} from 'lit';
 
-import '@decidables/decidable-elements/button';
-import '@decidables/decidable-elements/slider';
+import '@decidables/decidables-elements/button';
+import '@decidables/decidables-elements/slider';
 
 import CPTElement from '../cpt-element';
 
@@ -146,20 +146,20 @@ export default class DecisionControl extends CPTElement {
     return html`
       <div class="holder">
         ${this.trials
-          ? html`<decidable-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidable-slider>`
+          ? html`<decidables-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>`
           : html``}
         ${this.duration
-          ? html`<decidable-slider min="10" max="4000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidable-slider>`
+          ? html`<decidables-slider min="10" max="4000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>`
           : html``}
         <div class="buttons">
           ${this.run
-            ? html`<decidable-button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</decidable-button>`
+            ? html`<decidables-button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</decidables-button>`
             : html``}
           ${this.pause
-            ? html`<decidable-button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</decidable-button>`
+            ? html`<decidables-button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</decidables-button>`
             : html``}
           ${this.reset
-            ? html`<decidable-button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</decidable-button>`
+            ? html`<decidables-button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</decidables-button>`
             : html``}
         </div>
       </div>`;

@@ -49,7 +49,7 @@ export const compile = gulp.series(
 
 export const watch = gulp.parallel(
   watches.watchLibrariesTask([
-    'decidable-elements',
+    'decidables-elements',
     'detectable-math',
     'detectable-elements',
     'prospectable-math',

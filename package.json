@@ -4,7 +4,7 @@
   "description": "decidables: Explorable Explanations of Decision Making",
   "type": "module",
   "main": "index.js",
-  "repository": "https://github.com/akrawitz/decidable",
+  "repository": "https://github.com/akrawitz/decidables",
   "author": "Adam Krawitz <akrawitz@uvic.ca>",
   "license": "UNLICENSED",
   "private": true,

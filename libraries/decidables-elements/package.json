@@ -1,11 +1,11 @@
 {
-  "name": "@decidables/decidable-elements",
+  "name": "@decidables/decidables-elements",
   "version": "0.0.1",
-  "description": "decidable-elements: Basic UI Web Components for the decidables project",
+  "description": "decidables-elements: Basic UI Web Components for the decidables project",
   "type": "module",
-  "main": "./lib/decidableElements.umd.min.js",
-  "browser": "./lib/decidableElements.umd.min.js",
-  "module": "./lib/decidableElements.esm.min.js",
+  "main": "./lib/decidablesElements.umd.min.js",
+  "browser": "./lib/decidablesElements.umd.min.js",
+  "module": "./lib/decidablesElements.esm.min.js",
   "exports": {
     "./lib/*.js": "./lib/*.js",
     ".": "./src/index.js",
@@ -14,13 +14,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/decidables/decidables.git",
-    "directory": "libraries/decidable-elements"
+    "directory": "libraries/decidables-elements"
   },
   "bugs": "https://github.com/decidables/decidables/issues",
-  "homepage": "https://github.com/decidables/decidables/tree/main/libraries/decidable-elements",
+  "homepage": "https://github.com/decidables/decidables/tree/main/libraries/decidables-elements",
   "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
   "license": "GPL-3.0",
-  "private": false,
   "publishConfig": {
     "access": "public"
   },

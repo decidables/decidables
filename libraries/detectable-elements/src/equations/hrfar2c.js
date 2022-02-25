@@ -1,7 +1,7 @@
 
 import {html} from 'lit';
 
-import '@decidables/decidable-elements/spinner';
+import '@decidables/decidables-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
 
 import SDTEquation from './sdt-equation';
@@ -96,24 +96,24 @@ export default class SDTEquationHrFar2C extends SDTEquation {
     let c;
     if (this.numeric) {
       hr = html`
-        <decidable-spinner class="hr bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.hr}" @input=${this.hrInput.bind(this)}>
+        <decidables-spinner class="hr bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.hr}" @input=${this.hrInput.bind(this)}>
           <var>Hit Rate</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       far = html`
-        <decidable-spinner class="far bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.far}" @input=${this.farInput.bind(this)}>
+        <decidables-spinner class="far bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.far}" @input=${this.farInput.bind(this)}>
           <var>False Alarm Rate</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       s = html`
-        <decidable-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
+        <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
           <var class="math-var">σ</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       c = html`
-        <decidable-spinner class="c bottom" disabled step=".001" .value="${+this.c.toFixed(3)}">
+        <decidables-spinner class="c bottom" disabled step=".001" .value="${+this.c.toFixed(3)}">
           <var class="math-var">c</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
     } else {
       hr = html`<var class="hr">Hit Rate</var>`;

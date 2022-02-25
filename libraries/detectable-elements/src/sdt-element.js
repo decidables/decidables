@@ -5,13 +5,13 @@ import {
 } from 'lit';
 import * as d3 from 'd3';
 
-import {DecidableElement} from '@decidables/decidable-elements';
+import {DecidablesElement} from '@decidables/decidables-elements';
 
 /*
   SDTElement Base Class - Not intended for instantiation!
   <sdt-element>
 */
-export default class SDTElement extends DecidableElement {
+export default class SDTElement extends DecidablesElement {
   static get properties() {
     return {
       interactive: {

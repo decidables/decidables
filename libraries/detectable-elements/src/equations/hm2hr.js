@@ -1,7 +1,7 @@
 
 import {html} from 'lit';
 
-import '@decidables/decidable-elements/spinner';
+import '@decidables/decidables-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
 
 import SDTEquation from './sdt-equation';
@@ -75,19 +75,19 @@ export default class SDTEquationHM2Hr extends SDTEquation {
     let hr;
     if (this.numeric) {
       h = html`
-        <decidable-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
+        <decidables-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <var>Hits</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       m = html`
-        <decidable-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
+        <decidables-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <var>Misses</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       hr = html`
-        <decidable-spinner class="hr" disabled min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}">
+        <decidables-spinner class="hr" disabled min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}">
           <var>Hit Rate</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
     } else {
       h = html`<var class="h">Hits</var>`;

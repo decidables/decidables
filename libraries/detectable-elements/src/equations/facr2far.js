@@ -1,7 +1,7 @@
 
 import {html} from 'lit';
 
-import '@decidables/decidable-elements/spinner';
+import '@decidables/decidables-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
 
 import SDTEquation from './sdt-equation';
@@ -75,19 +75,19 @@ export default class SDTEquationFaCr2Far extends SDTEquation {
     let far;
     if (this.numeric) {
       fa = html`
-        <decidable-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
+        <decidables-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <var>False Alarms</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       cr = html`
-        <decidable-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
+        <decidables-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <var>Correct Rejections</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       far = html`
-        <decidable-spinner class="far" disabled min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}">
+        <decidables-spinner class="far" disabled min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}">
           <var>False Alarm Rate</var>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
     } else {
       fa = html`<var class="fa">False Alarms</var>`;

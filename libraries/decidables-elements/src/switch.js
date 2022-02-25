@@ -1,9 +1,9 @@
 
 import {html, css} from 'lit';
 
-import DecidableElement from './decidable-element';
+import DecidablesElement from './decidables-element';
 
-export default class DecidableSwitch extends DecidableElement {
+export default class DecidablesSwitch extends DecidablesElement {
   static get properties() {
     return {
       checked: {
@@ -176,4 +176,4 @@ export default class DecidableSwitch extends DecidableElement {
   }
 }
 
-customElements.define('decidable-switch', DecidableSwitch);
+customElements.define('decidables-switch', DecidablesSwitch);

@@ -2,9 +2,9 @@
 import {ifDefined} from 'lit/directives/if-defined.js'; /* eslint-disable-line import/extensions */
 import {html, css} from 'lit';
 
-import DecidableElement from './decidable-element';
+import DecidablesElement from './decidables-element';
 
-export default class DecidableSpinner extends DecidableElement {
+export default class DecidablesSpinner extends DecidablesElement {
   static get properties() {
     return {
       disabled: {
@@ -55,9 +55,9 @@ export default class DecidableSpinner extends DecidableElement {
       super.styles,
       css`
         :host {
-          ---decidable-spinner-font-size: var(--decidable-spinner-font-size, 1.125rem);
-          ---decidable-spinner-input-width: var(--decidable-spinner-input-width, 4rem);
-          ---decidable-spinner-prefix: var(--decidable-spinner-prefix, "");
+          ---decidables-spinner-font-size: var(--decidables-spinner-font-size, 1.125rem);
+          ---decidables-spinner-input-width: var(--decidables-spinner-input-width, 4rem);
+          ---decidables-spinner-prefix: var(--decidables-spinner-prefix, "");
 
           display: block;
         }
@@ -78,19 +78,19 @@ export default class DecidableSpinner extends DecidableElement {
         label::before {
           position: absolute;
           bottom: 1px;
-          left: calc(50% - var(---decidable-spinner-input-width) / 2 + 0.25rem);
+          left: calc(50% - var(---decidables-spinner-input-width) / 2 + 0.25rem);
 
-          font-size: var(---decidable-spinner-font-size);
+          font-size: var(---decidables-spinner-font-size);
           line-height: normal;
 
-          content: var(---decidable-spinner-prefix);
+          content: var(---decidables-spinner-prefix);
         }
 
         input[type=number] {
-          width: var(---decidable-spinner-input-width);
+          width: var(---decidables-spinner-input-width);
 
           font-family: var(---font-family-base);
-          font-size: var(---decidable-spinner-font-size);
+          font-size: var(---decidables-spinner-font-size);
           color: inherit;
           text-align: right;
 
@@ -146,4 +146,4 @@ export default class DecidableSpinner extends DecidableElement {
   }
 }
 
-customElements.define('decidable-spinner', DecidableSpinner);
+customElements.define('decidables-spinner', DecidablesSpinner);

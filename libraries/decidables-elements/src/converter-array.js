@@ -3,7 +3,7 @@
   Attribute: Space-separated sequence of numbers
   Property: Array of numbers
 */
-const DecidableConverterArray = {
+const DecidablesConverterArray = {
   fromAttribute: (value) => {
     return value.split(/\s+/).map((item) => { return Number.parseFloat(item); });
   },
@@ -12,4 +12,4 @@ const DecidableConverterArray = {
   },
 };
 
-export default DecidableConverterArray;
+export default DecidablesConverterArray;
