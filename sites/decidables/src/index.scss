@@ -526,9 +526,12 @@ $transition-duration: 500ms;
   }
 }
 
-
 .dec-site-header {
   @extend .card-body, .pb-0, .position-relative;
+}
+
+.dec-site-intro {
+  @extend .card-text, .text-center, .text-body, .fst-italic;
 }
 
 .dec-site-link {

@@ -84,12 +84,17 @@ and
 with [plugins](https://gulpjs.com/plugins/)
 
 **Hosted at:**<br>
-[GitHub Pages](https://pages.github.com/) as [<span class="decidables">decidables</span>](https://decidables.github.io/),
-[GitHub](https://github.com/) as [`decidables/decidables`](https://github.com/decidables/decidables),
+[GitHub Pages](https://pages.github.com/)
+as [<span class="decidables">decidables</span>](https://decidables.github.io/),
+[GitHub](https://github.com/)
+as [`decidables/decidables`](https://github.com/decidables/decidables),
 and
-[npm](https://www.npmjs.com/) in the [`@decidable`](https://www.npmjs.com/search?q=%40decidables) scope
+[npm](https://www.npmjs.com/)
+in the [`@decidable`](https://www.npmjs.com/search?q=%40decidables) scope
 
 **Licensed as:**<br>
-[Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/) for content
+[Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/)
+for content
 and
-[GNU General Public License, Version 3 (GPLv3)](https://www.gnu.org/licenses/gpl-3.0.html) for code
+[GNU General Public License, Version 3 (GPLv3)](https://www.gnu.org/licenses/gpl-3.0.html)
+for code

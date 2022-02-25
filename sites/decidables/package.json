@@ -1,6 +1,6 @@
 {
   "name": "@decidables/decidables",
-  "version": "0.0.1-pre-alpha",
+  "version": "0.0.1",
   "description": "decidables: Explorable Explanations of Decision Making",
   "type": "module",
   "main": "./dist/index.html",
