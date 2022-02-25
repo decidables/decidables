@@ -1,19 +1,29 @@
 {
   "name": "@decidables/decidable-elements",
   "version": "0.0.1",
-  "description": "decidable-elements: Basic UI Web Components for Visualizing Decision Making",
+  "description": "decidable-elements: Basic UI Web Components for the decidables project",
   "type": "module",
   "main": "./lib/decidableElements.umd.min.js",
+  "browser": "./lib/decidableElements.umd.min.js",
   "module": "./lib/decidableElements.esm.min.js",
   "exports": {
     "./lib/*.js": "./lib/*.js",
     ".": "./src/index.js",
     "./*": "./src/*.js"
   },
-  "repository": "https://github.com/decidables/decidables/tree/main/libraries/decidable-elements",
-  "author": "Adam Krawitz",
-  "license": "UNLICENSED",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decidables/decidables.git",
+    "directory": "libraries/decidable-elements"
+  },
+  "bugs": "https://github.com/decidables/decidables/issues",
+  "homepage": "https://github.com/decidables/decidables/tree/main/libraries/decidable-elements",
+  "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
+  "license": "GPL-3.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "lint": "gulp lint",
     "build": "gulp build"
