@@ -35,35 +35,35 @@ toc:
     <link href="index.css" rel="stylesheet">
   </head>
   <body>
-    <div class="decidable-page">
-      <div class="decidable-layout">
+    <div class="decidables-page">
+      <div class="decidables-layout">
 
-        <div class="decidable-sidebar">
-          <div class="decidable-brandnav">
-            <button class="decidable-tocnav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#decidable-tocnav" aria-controls="decidable-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"></path></svg>
+        <div class="decidables-sidebar">
+          <div class="decidables-brandnav">
+            <button class="decidables-tocnav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#decidables-tocnav" aria-controls="decidables-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"></path></svg>
             </button>
-            <a class="decidable-brand-link" href="index.html"><span class="decidable-brand">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span></a>
+            <a class="decidables-brand-link" href="index.html"><span class="decidables-brand">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span></a>
           </div>
-          <nav class="decidable-tocnav collapse" id="decidable-tocnav">
-            <ul class="decidable-toc">
+          <nav class="decidables-tocnav collapse" id="decidables-tocnav">
+            <ul class="decidables-toc">
               <% for (var i=0; i < toc.main.length; i++) { %>
                 <% if ((source == 'main') && (index == i)) { %>
-                  <li class="decidable-tocitem decidable-tocitem-main decidable-tocitem-<%= i + 1 %> decidable-tocitem-active">
+                  <li class="decidables-tocitem decidables-tocitem-main decidables-tocitem-<%= i + 1 %> decidables-tocitem-active">
                 <% } else { %>
-                  <li class="decidable-tocitem decidable-tocitem-main decidable-tocitem-<%= i + 1 %>">
+                  <li class="decidables-tocitem decidables-tocitem-main decidables-tocitem-<%= i + 1 %>">
                 <% } %>
-                    <a class="decidable-toclink" href="<%= toc.main[i].file %>.html">
+                    <a class="decidables-toclink" href="<%= toc.main[i].file %>.html">
                       <%- toc.main[i].name %>
                     </a>
                   </li>
               <% } %>
               <% for (var i=0; i < toc.extra.length; i++) { %>
                 <% if ((source == 'extra') && (index == i)) { %>
-                  <li class="decidable-tocitem decidable-tocitem-extra decidable-tocitem-<%= i + 1 %> decidable-tocitem-active">
+                  <li class="decidables-tocitem decidables-tocitem-extra decidables-tocitem-<%= i + 1 %> decidables-tocitem-active">
                 <% } else { %>
-                  <li class="decidable-tocitem decidable-tocitem-extra decidable-tocitem-<%= i + 1 %>">
+                  <li class="decidables-tocitem decidables-tocitem-extra decidables-tocitem-<%= i + 1 %>">
                 <% } %>
-                    <a class="decidable-toclink" href="<%= toc.extra[i].file %>.html">
+                    <a class="decidables-toclink" href="<%= toc.extra[i].file %>.html">
                       <%- toc.extra[i].name %>
                     </a>
                   </li>
@@ -72,23 +72,23 @@ toc:
           </nav>
         </div>
 
-        <main class="decidable-main">
+        <main class="decidables-main">
           <header>
             <h1><%- title %></h1>
           </header>
-          <section class="decidable-content">
+          <section class="decidables-content">
             <%- contents %>
           </section>
 
-          <footer class="decidable-footer">
-            <div class="decidable-footer-item decidable-footer-item-left">
+          <footer class="decidables-footer">
+            <div class="decidables-footer-item decidables-footer-item-left">
               <% if ((source == 'main') && (index > 0)) { %>
-                <a class="decidable-toclink" href="<%= toc.main[index - 1].file %>.html">&lt; <%- toc.main[index - 1].name %></a>
+                <a class="decidables-toclink" href="<%= toc.main[index - 1].file %>.html">&lt; <%- toc.main[index - 1].name %></a>
               <% } %>
             </div>
-            <div class="decidable-footer-item decidable-footer-item-right">
+            <div class="decidables-footer-item decidables-footer-item-right">
               <% if ((source == 'main') && (index < (toc.main.length - 1))) { %>
-                <a class="decidable-toclink" href="<%= toc.main[index + 1].file %>.html"><%- toc.main[index + 1].name %> &gt;</a>
+                <a class="decidables-toclink" href="<%= toc.main[index + 1].file %>.html"><%- toc.main[index + 1].name %> &gt;</a>
               <% } %>
             </div>
           </footer>

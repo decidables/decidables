@@ -2,7 +2,7 @@
 import {html, css} from 'lit';
 import {animate, fadeIn} from '@lit-labs/motion';
 
-import '@decidables/decidable-elements/spinner';
+import '@decidables/decidables-elements/spinner';
 import CPTMath from '@decidables/prospectable-math';
 
 import CPTEquation from '../equations/cpt-equation';
@@ -174,51 +174,51 @@ export default class CPTCalculation extends CPTEquation {
     let us;
     let uDiff;
     if (this.numeric) {
-      xw = html`<decidable-spinner class="x" ?disabled=${!this.interactive} .value="${this.xw}" @input=${this.xwInput.bind(this)}>
+      xw = html`<decidables-spinner class="x" ?disabled=${!this.interactive} .value="${this.xw}" @input=${this.xwInput.bind(this)}>
           <var class="math-var">x<sub class="subscript win">win</sub></var>
-        </decidable-spinner>`;
-      xl = html`<decidable-spinner class="x" disabled .value="${this.xl}">
+        </decidables-spinner>`;
+      xl = html`<decidables-spinner class="x" disabled .value="${this.xl}">
           <var class="math-var">x<sub class="subscript loss">loss</sub></var>
-        </decidable-spinner>`;
-      pw = html`<decidable-spinner class="p" ?disabled=${!this.interactive} min="0" max="1" step=".01" .value="${+this.pw.toFixed(2)}" @input=${this.pwInput.bind(this)}>
+        </decidables-spinner>`;
+      pw = html`<decidables-spinner class="p" ?disabled=${!this.interactive} min="0" max="1" step=".01" .value="${+this.pw.toFixed(2)}" @input=${this.pwInput.bind(this)}>
           <var class="math-var">p<sub class="subscript win">win</sub></var>
-        </decidable-spinner>`;
-      xs = html`<decidable-spinner class="x" ?disabled=${!this.interactive} .value="${this.xs}" @input=${this.xsInput.bind(this)}>
+        </decidables-spinner>`;
+      xs = html`<decidables-spinner class="x" ?disabled=${!this.interactive} .value="${this.xs}" @input=${this.xsInput.bind(this)}>
           <var class="math-var">x<sub class="subscript sure">sure</sub></var>
-        </decidable-spinner>`;
-      // a = html`<decidable-spinner class="a" ?disabled=${!this.interactive} min="0" max="1"
+        </decidables-spinner>`;
+      // a = html`<decidables-spinner class="a" ?disabled=${!this.interactive} min="0" max="1"
       //            step=".001" .value="${+this.a.toFixed(3)}" @input=${this.aInput.bind(this)}>
       //     <var class="math-var">α</var>
-      //   </decidable-spinner>`;
-      // l = html`<decidable-spinner class="l" ?disabled=${!this.interactive} min="0" max="10"
+      //   </decidables-spinner>`;
+      // l = html`<decidables-spinner class="l" ?disabled=${!this.interactive} min="0" max="10"
       //            step=".001" .value="${+this.l.toFixed(3)}" @input=${this.lInput.bind(this)}>
       //     <var class="math-var">λ</var>
-      //   </decidable-spinner>`;
-      // g = html`<decidable-spinner class="g" ?disabled=${!this.interactive} min="0" max="1"
+      //   </decidables-spinner>`;
+      // g = html`<decidables-spinner class="g" ?disabled=${!this.interactive} min="0" max="1"
       //            step=".001" .value="${+this.g.toFixed(3)}" @input=${this.gInput.bind(this)}>
       //     <var class="math-var">γ</var>
-      //   </decidable-spinner>`;
-      vw = html`<decidable-spinner class="v" disabled .value="${+this.vw.toFixed(1)}">
+      //   </decidables-spinner>`;
+      vw = html`<decidables-spinner class="v" disabled .value="${+this.vw.toFixed(1)}">
           <var class="math-var">v<sub class="subscript win">win</sub></var>
-        </decidable-spinner>`;
-      vl = html`<decidable-spinner class="v" disabled .value="${+this.vl.toFixed(1)}">
+        </decidables-spinner>`;
+      vl = html`<decidables-spinner class="v" disabled .value="${+this.vl.toFixed(1)}">
           <var class="math-var">v<sub class="subscript loss">loss</sub></var>
-        </decidable-spinner>`;
-      ww = html`<decidable-spinner class="w" disabled .value="${+this.ww.toFixed(2)}">
+        </decidables-spinner>`;
+      ww = html`<decidables-spinner class="w" disabled .value="${+this.ww.toFixed(2)}">
           <var class="math-var">w<sub class="subscript win">win</sub></var>
-        </decidable-spinner>`;
-      wl = html`<decidable-spinner class="w" disabled .value="${+this.wl.toFixed(2)}">
+        </decidables-spinner>`;
+      wl = html`<decidables-spinner class="w" disabled .value="${+this.wl.toFixed(2)}">
           <var class="math-var">w<sub class="subscript loss">loss</sub></var>
-        </decidable-spinner>`;
-      vs = html`<decidable-spinner class="v" disabled .value="${+this.vs.toFixed(1)}">
+        </decidables-spinner>`;
+      vs = html`<decidables-spinner class="v" disabled .value="${+this.vs.toFixed(1)}">
           <var class="math-var">v<sub class="subscript sure">sure</sub></var>
-        </decidable-spinner>`;
-      ug = html`<decidable-spinner class="u" disabled .value="${+this.ug.toFixed(1)}">
+        </decidables-spinner>`;
+      ug = html`<decidables-spinner class="u" disabled .value="${+this.ug.toFixed(1)}">
           <var class="math-var">U<sub class="subscript gamble">gamble</sub></var>
-        </decidable-spinner>`;
-      us = html`<decidable-spinner class="u" disabled .value="${+this.us.toFixed(1)}">
+        </decidables-spinner>`;
+      us = html`<decidables-spinner class="u" disabled .value="${+this.us.toFixed(1)}">
           <var class="math-var">U<sub class="subscript sure">sure</sub></var>
-        </decidable-spinner>`;
+        </decidables-spinner>`;
       uDiff = html`${(this.uDiff > 0)
         ? html`<span class="comparison" ${animate({in: fadeIn})}>&gt;</span>`
         : (this.uDiff < 0)

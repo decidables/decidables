@@ -1,8 +1,8 @@
 
 import {html, css} from 'lit';
 
-import '@decidables/decidable-elements/spinner';
-import DecidableConverterSet from '@decidables/decidable-elements/converter-set';
+import '@decidables/decidables-elements/spinner';
+import DecidablesConverterSet from '@decidables/decidables-elements/converter-set';
 import SDTMath from '@decidables/detectable-math';
 
 import SDTElement from '../sdt-element';
@@ -24,7 +24,7 @@ export default class SDTTable extends SDTElement {
       },
       summary: {
         attribute: 'summary',
-        converter: DecidableConverterSet,
+        converter: DecidablesConverterSet,
         reflect: true,
       },
       color: {
@@ -308,12 +308,12 @@ export default class SDTTable extends SDTElement {
         }
 
         /* User interaction <input> */
-        .td-data decidable-spinner {
-          --decidable-spinner-input-width: 3.5rem;
+        .td-data decidables-spinner {
+          --decidables-spinner-input-width: 3.5rem;
         }
 
-        .td-summary decidable-spinner {
-          --decidable-spinner-input-width: 4.5rem;
+        .td-summary decidables-spinner {
+          --decidables-spinner-input-width: 4.5rem;
         }
 
         /* Color schemes & Table emphasis */
@@ -453,53 +453,53 @@ export default class SDTTable extends SDTElement {
     let fomr;
     if (this.numeric) {
       h = html`
-        <decidable-spinner ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <span>Hits</span>
           ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.hPayoff)}</span>` : html``}
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       m = html`
-        <decidable-spinner ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <span>Misses</span>
           ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.mPayoff)}</span>` : html``}
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       fa = html`
-        <decidable-spinner ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <span>False Alarms</span>
           ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.faPayoff)}</span>` : html``}
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       cr = html`
-        <decidable-spinner ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <span>Correct Rejections</span>
           ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.crPayoff)}</span>` : html``}
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       hr = html`
-        <decidable-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}" @input=${this.hrInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}" @input=${this.hrInput.bind(this)}>
           <span>Hit Rate</span>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       far = html`
-        <decidable-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}" @input=${this.farInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}" @input=${this.farInput.bind(this)}>
           <span>False Alarm Rate</span>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       acc = html`
-        <decidable-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}" @input=${this.accInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}" @input=${this.accInput.bind(this)}>
           <span>Accuracy</span>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       ppv = html`
-        <decidable-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.ppv.toFixed(3)}" @input=${this.ppvInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.ppv.toFixed(3)}" @input=${this.ppvInput.bind(this)}>
           <span>Positive Predictive Value</span>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
       fomr = html`
-        <decidable-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.fomr.toFixed(3)}" @input=${this.fomrInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.fomr.toFixed(3)}" @input=${this.fomrInput.bind(this)}>
           <span>False Omission Rate</span>
-        </decidable-spinner>
+        </decidables-spinner>
       `;
     } else {
       h = html`<span>Hits</span>

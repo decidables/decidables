@@ -159,7 +159,7 @@ are published to *npm* in the `@decidables` scope.
 
 - `@decidables`
   - *Libraries*
-    - `decidable-elements`: Web components for UI elements used across all packages
+    - `decidables-elements`: Web components for UI elements used across all packages
     - `detectable-math`: Provides a class with equations for calculating Signal Detection Theory
     - `detectable-elements`: Web components for exploring Signal Detection Theory
     - `prospectable-math`: Provides a class with equations for calculating Cumulative Prospect
@@ -192,7 +192,7 @@ are published to *npm* in the `@decidables` scope.
 - use APA v7 (https://github.com/citation-style-language/styles)
 - use eslint-plugin-lit? (https://www.npmjs.com/package/eslint-plugin-lit)
 - use eslint-plugin-wc? (https://github.com/43081j/eslint-plugin-wc)
-- Add top-level decidable website
+- Add top-level decidables website
 - use focused imports to better support tree shaking?
 - Libraries:
   - Proper outputs?

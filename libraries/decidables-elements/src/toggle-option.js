@@ -1,9 +1,9 @@
 
 import {html, css} from 'lit';
 
-import DecidableElement from './decidable-element';
+import DecidablesElement from './decidables-element';
 
-export default class DecidableToggleOption extends DecidableElement {
+export default class DecidablesToggleOption extends DecidablesElement {
   static get properties() {
     return {
       checked: {
@@ -160,4 +160,4 @@ export default class DecidableToggleOption extends DecidableElement {
   }
 }
 
-customElements.define('decidable-toggle-option', DecidableToggleOption);
+customElements.define('decidables-toggle-option', DecidablesToggleOption);

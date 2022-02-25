@@ -1,7 +1,7 @@
 
 import {html} from 'lit';
 
-import '@decidables/decidable-elements/spinner';
+import '@decidables/decidables-elements/spinner';
 import CPTMath from '@decidables/prospectable-math';
 
 import CPTEquation from './cpt-equation';
@@ -89,18 +89,18 @@ export default class CPTEquationXAL2V extends CPTEquation {
     let l;
     let v;
     if (this.numeric) {
-      x = html`<decidable-spinner class="x bottom" ?disabled=${!this.interactive} step="1" .value="${this.x}" @input=${this.xInput.bind(this)}>
+      x = html`<decidables-spinner class="x bottom" ?disabled=${!this.interactive} step="1" .value="${this.x}" @input=${this.xInput.bind(this)}>
           <var class="math-var">x</var>
-        </decidable-spinner>`;
-      a = html`<decidable-spinner class="a bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.a}" @input=${this.aInput.bind(this)}>
+        </decidables-spinner>`;
+      a = html`<decidables-spinner class="a bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.a}" @input=${this.aInput.bind(this)}>
           <var class="math-var">α</var>
-        </decidable-spinner>`;
-      l = html`<decidable-spinner class="l bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.l}" @input=${this.lInput.bind(this)}>
+        </decidables-spinner>`;
+      l = html`<decidables-spinner class="l bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.l}" @input=${this.lInput.bind(this)}>
           <var class="math-var">λ</var>
-        </decidable-spinner>`;
-      v = html`<decidable-spinner class="v bottom" disabled step=".001" .value="${+this.v.toFixed(3)}">
+        </decidables-spinner>`;
+      v = html`<decidables-spinner class="v bottom" disabled step=".001" .value="${+this.v.toFixed(3)}">
           <var class="math-var">v</var>
-        </decidable-spinner>`;
+        </decidables-spinner>`;
     } else {
       x = html`<var class="math-var x">x</var>`;
       a = html`<var class="math-var a">α</var>`;

@@ -1,7 +1,7 @@
 
 import {html} from 'lit';
 
-import '@decidables/decidable-elements/spinner';
+import '@decidables/decidables-elements/spinner';
 import CPTMath from '@decidables/prospectable-math';
 
 import CPTEquation from './cpt-equation';
@@ -75,15 +75,15 @@ export default class CPTEquationPG2W extends CPTEquation {
     let g;
     let w;
     if (this.numeric) {
-      p = html`<decidable-spinner class="p bottom" ?disabled=${!this.interactive} min="0" max="1" step="0.01" .value="${this.p}" @input=${this.pInput.bind(this)}>
+      p = html`<decidables-spinner class="p bottom" ?disabled=${!this.interactive} min="0" max="1" step="0.01" .value="${this.p}" @input=${this.pInput.bind(this)}>
           <var class="math-var">p</var>
-        </decidable-spinner>`;
-      g = html`<decidable-spinner class="g bottom" ?disabled=${!this.interactive} min="0" max="1" step="0.01" .value="${this.g}" @input=${this.gInput.bind(this)}>
+        </decidables-spinner>`;
+      g = html`<decidables-spinner class="g bottom" ?disabled=${!this.interactive} min="0" max="1" step="0.01" .value="${this.g}" @input=${this.gInput.bind(this)}>
           <var class="math-var">γ</var>
-        </decidable-spinner>`;
-      w = html`<decidable-spinner class="w bottom" disabled min="0" max="1" step=".01" .value="${+this.w.toFixed(2)}">
+        </decidables-spinner>`;
+      w = html`<decidables-spinner class="w bottom" disabled min="0" max="1" step=".01" .value="${+this.w.toFixed(2)}">
           <var class="math-var">w</var>
-        </decidable-spinner>`;
+        </decidables-spinner>`;
     } else {
       p = html`<var class="math-var p">p</var>`;
       g = html`<var class="math-var g">γ</var>`;

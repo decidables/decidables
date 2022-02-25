@@ -134,7 +134,7 @@ and
 [:tool[detectable-elements]](https://github.com/decidables/decidables/tree/main/libraries/detectable-elements).
 
 In addition, there is a core
-[:tool[decidable-elements]](https://github.com/decidables/decidables/tree/main/libraries/decidable-elements)
+[:tool[decidables-elements]](https://github.com/decidables/decidables/tree/main/libraries/decidables-elements)
 package with basic UI components that are shared across the individual explorables.
 
 ### Code
@@ -204,7 +204,7 @@ class="fw-semibold">@decidables</code>](https://www.npmjs.com/search?q=%40decida
 example, the
 [:tool[detectable-elements]](https://github.com/decidables/decidables/tree/main/libraries/detectable-elements)
 package would be [<code
-class="fw-semibold">@decidables/detectable-elements</code>](https://www.npmjs.com/package/@decidables/decidable-elements).
+class="fw-semibold">@decidables/detectable-elements</code>](https://www.npmjs.com/package/@decidables/detectable-elements).
 
 ## Development tools
 

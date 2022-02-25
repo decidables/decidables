@@ -128,8 +128,8 @@ export default class CPTEquation extends CPTElement {
         }
 
         /* Input wrapping <label> */
-        decidable-spinner {
-          --decidable-spinner-input-width: 4rem;
+        decidables-spinner {
+          --decidables-spinner-input-width: 4rem;
 
           display: inline-block;
 
@@ -140,7 +140,7 @@ export default class CPTEquation extends CPTElement {
         }
 
         .n {
-          --decidable-spinner-input-width: 2rem;
+          --decidables-spinner-input-width: 2rem;
         }
 
         .left {

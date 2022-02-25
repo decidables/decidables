@@ -32012,26 +32012,26 @@
 
 	var _templateObject$i, _templateObject2$g, _templateObject3$2, _templateObject4$2, _templateObject5$2, _templateObject6$1, _templateObject7$1, _templateObject8$1, _templateObject9$1;
 	/*
-	  DecidableElement Base Class - Not intended for instantiation!
-	  <decidable-element>
+	  DecidablesElement Base Class - Not intended for instantiation!
+	  <decidables-element>
 	*/
 
-	var DecidableElement = /*#__PURE__*/function (_LitElement) {
-	  _inherits(DecidableElement, _LitElement);
+	var DecidablesElement = /*#__PURE__*/function (_LitElement) {
+	  _inherits(DecidablesElement, _LitElement);
 
-	  var _super = _createSuper(DecidableElement);
+	  var _super = _createSuper(DecidablesElement);
 
-	  function DecidableElement() {
+	  function DecidablesElement() {
 	    var _this;
 
-	    _classCallCheck(this, DecidableElement);
+	    _classCallCheck(this, DecidablesElement);
 
 	    _this = _super.call(this);
-	    _this.uniqueId = "decidable-".concat(DecidableElement.uniqueId);
+	    _this.uniqueId = "decidables-".concat(DecidablesElement.uniqueId);
 	    return _this;
 	  }
 
-	  _createClass(DecidableElement, [{
+	  _createClass(DecidablesElement, [{
 	    key: "getComputedStyleValue",
 	    value: function getComputedStyleValue(property) {
 	      // HACK: IE11 requires use of polyfill interface to get custom property value in Javascript
@@ -32044,7 +32044,7 @@
 	  }, {
 	    key: "firstUpdated",
 	    value: function firstUpdated(changedProperties) {
-	      _get(_getPrototypeOf(DecidableElement.prototype), "firstUpdated", this).call(this, changedProperties); // Use focus highlighting if keyboard is used at all
+	      _get(_getPrototypeOf(DecidablesElement.prototype), "firstUpdated", this).call(this, changedProperties); // Use focus highlighting if keyboard is used at all
 
 
 	      select(this.renderRoot.host).classed('keyboard', true).on('mousemove.keyboard touchstart.keyboard', function (event) {
@@ -32057,14 +32057,14 @@
 	    }
 	  }], [{
 	    key: "uniqueId",
-	    get: // HACK: Create a unique ID for each DecidableElement
+	    get: // HACK: Create a unique ID for each DecidablesElement
 	    // This is needed because Edge/IE11 don't have real Shadow DOM, so IDs leak
 	    // out of elements and collide if there is more than one of an element on a
 	    // page. Known issue for checkbox/switches and the id/for pattern on <input>
 	    // and <label>
 	    function get() {
-	      DecidableElement.ID += 1;
-	      return DecidableElement.ID;
+	      DecidablesElement.ID += 1;
+	      return DecidablesElement.ID;
 	    }
 	  }, {
 	    key: "greys",
@@ -32228,7 +32228,7 @@
 	  }, {
 	    key: "svgFilters",
 	    get: function get() {
-	      var shadows = DecidableElement.shadows; // eslint-disable-line prefer-destructuring
+	      var shadows = DecidablesElement.shadows; // eslint-disable-line prefer-destructuring
 
 	      var erodeRadius = 1;
 	      var filters = shadows.elevations.map(function (z) {
@@ -32243,21 +32243,21 @@
 	    }
 	  }]);
 
-	  return DecidableElement;
-	}(s); // Static property of DecidableElement!
-	DecidableElement.ID = 0;
+	  return DecidablesElement;
+	}(s); // Static property of DecidablesElement!
+	DecidablesElement.ID = 0;
 
 	var _templateObject$h, _templateObject2$f;
 
-	var DecidableButton = /*#__PURE__*/function (_DecidableElement) {
-	  _inherits(DecidableButton, _DecidableElement);
+	var DecidablesButton = /*#__PURE__*/function (_DecidablesElement) {
+	  _inherits(DecidablesButton, _DecidablesElement);
 
-	  var _super = _createSuper(DecidableButton);
+	  var _super = _createSuper(DecidablesButton);
 
-	  function DecidableButton() {
+	  function DecidablesButton() {
 	    var _this;
 
-	    _classCallCheck(this, DecidableButton);
+	    _classCallCheck(this, DecidablesButton);
 
 	    _this = _super.call(this); // Attributes
 
@@ -32265,7 +32265,7 @@
 	    return _this;
 	  }
 
-	  _createClass(DecidableButton, [{
+	  _createClass(DecidablesButton, [{
 	    key: "render",
 	    value: function render() {
 	      return $(_templateObject$h || (_templateObject$h = _taggedTemplateLiteral(["\n      <button ?disabled=", ">\n        <slot></slot>\n      </button>\n    "])), this.disabled);
@@ -32284,13 +32284,13 @@
 	  }, {
 	    key: "styles",
 	    get: function get() {
-	      return [_get(_getPrototypeOf(DecidableButton), "styles", this), r$2(_templateObject2$f || (_templateObject2$f = _taggedTemplateLiteral(["\n        :host {\n          margin: 0.25rem;\n        }\n\n        button {\n          width: 100%;\n          height: 100%;\n          padding: 0.375rem 0.75rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-text-inverse);\n\n          border: 0;\n          border-radius: 0.25rem;\n          outline: none;\n        }\n\n        button:disabled {\n          background-color: var(--decidable-button-background-color, var(---color-element-disabled));\n          outline: none;\n          box-shadow: none;\n        }\n\n        button:enabled {\n          cursor: pointer;\n\n          background-color: var(--decidable-button-background-color, var(---color-element-enabled));\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        button:enabled:hover {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        button:enabled:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(.keyboard) button:enabled:focus {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) button:enabled:focus:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
+	      return [_get(_getPrototypeOf(DecidablesButton), "styles", this), r$2(_templateObject2$f || (_templateObject2$f = _taggedTemplateLiteral(["\n        :host {\n          margin: 0.25rem;\n        }\n\n        button {\n          width: 100%;\n          height: 100%;\n          padding: 0.375rem 0.75rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-text-inverse);\n\n          border: 0;\n          border-radius: 0.25rem;\n          outline: none;\n        }\n\n        button:disabled {\n          background-color: var(--decidables-button-background-color, var(---color-element-disabled));\n          outline: none;\n          box-shadow: none;\n        }\n\n        button:enabled {\n          cursor: pointer;\n\n          background-color: var(--decidables-button-background-color, var(---color-element-enabled));\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        button:enabled:hover {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        button:enabled:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(.keyboard) button:enabled:focus {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) button:enabled:focus:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
 	    }
 	  }]);
 
-	  return DecidableButton;
-	}(DecidableElement);
-	customElements.define('decidable-button', DecidableButton);
+	  return DecidablesButton;
+	}(DecidablesElement);
+	customElements.define('decidables-button', DecidablesButton);
 
 	/**
 	 * @license
@@ -32304,15 +32304,15 @@
 
 	var _templateObject$g, _templateObject2$e;
 
-	var DecidableSlider = /*#__PURE__*/function (_DecidableElement) {
-	  _inherits(DecidableSlider, _DecidableElement);
+	var DecidablesSlider = /*#__PURE__*/function (_DecidablesElement) {
+	  _inherits(DecidablesSlider, _DecidablesElement);
 
-	  var _super = _createSuper(DecidableSlider);
+	  var _super = _createSuper(DecidablesSlider);
 
-	  function DecidableSlider() {
+	  function DecidablesSlider() {
 	    var _this;
 
-	    _classCallCheck(this, DecidableSlider);
+	    _classCallCheck(this, DecidablesSlider);
 
 	    _this = _super.call(this); // Attributes
 
@@ -32324,7 +32324,7 @@
 	    return _this;
 	  }
 
-	  _createClass(DecidableSlider, [{
+	  _createClass(DecidablesSlider, [{
 	    key: "changed",
 	    value: function changed(event) {
 	      this.value = event.target.value;
@@ -32343,7 +32343,7 @@
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      return $(_templateObject$g || (_templateObject$g = _taggedTemplateLiteral(["\n      <label for=", ">\n        <slot></slot>\n      </label>\n      <div class=\"range\">\n        <input type=\"range\" id=", " min=", " max=", " step=", " .value=", " @change=", " @input=", ">\n      </div>\n      <decidable-spinner min=", " max=", " step=", " .value=", " @input=", "></decidable-spinner>\n    "])), "".concat(this.uniqueId, "-slider"), "".concat(this.uniqueId, "-slider"), l(this.min), l(this.max), l(this.step), this.value, this.changed.bind(this), this.inputted.bind(this), l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
+	      return $(_templateObject$g || (_templateObject$g = _taggedTemplateLiteral(["\n      <label for=", ">\n        <slot></slot>\n      </label>\n      <div class=\"range\">\n        <input type=\"range\" id=", " min=", " max=", " step=", " .value=", " @change=", " @input=", ">\n      </div>\n      <decidables-spinner min=", " max=", " step=", " .value=", " @input=", "></decidables-spinner>\n    "])), "".concat(this.uniqueId, "-slider"), "".concat(this.uniqueId, "-slider"), l(this.min), l(this.max), l(this.step), this.value, this.changed.bind(this), this.inputted.bind(this), l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
 	    }
 	  }], [{
 	    key: "properties",
@@ -32379,25 +32379,25 @@
 	  }, {
 	    key: "styles",
 	    get: function get() {
-	      return [_get(_getPrototypeOf(DecidableSlider), "styles", this), r$2(_templateObject2$e || (_templateObject2$e = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: var(--shadow-2-rotate, ", ");\n          ---shadow-4-rotate: var(--shadow-4-rotate, ", ");\n          ---shadow-8-rotate: var(--shadow-8-rotate, ", ");\n\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        decidable-spinner {\n          --decidable-spinner-input-width: 3.5rem;\n\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        /* Adapted from http://danielstern.ca/range.css/#/ */\n        /* Overall */\n        input[type=range] {\n          width: 4.75rem;\n          height: 3.5rem;\n          padding: 0;\n          margin: 0;\n\n          background-color: unset;\n\n          transform: rotate(-90deg);\n          transform-origin: 2.375rem 2.375rem;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:enabled {\n          cursor: ns-resize;\n        }\n\n        input[type=range]:focus {\n          outline: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-tooltip {\n          display: none;\n        }\n\n        /* Track */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-runnable-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        input[type=range]:focus::-webkit-slider-runnable-track {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-track {\n          width: 100%;\n          height: 4px;\n\n          color: transparent;\n\n          background: transparent;\n          border-color: transparent;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-lower {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-upper {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-lower {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-upper {\n          background: var(---color-element-disabled);\n        }\n\n        /* Thumb */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: -8px;\n\n          border: 0;\n          border-radius: 4px;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:disabled::-webkit-slider-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=range]:enabled::-webkit-slider-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        input[type=range]:enabled:hover::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        input[type=range]:enabled:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-thumb {\n          width: 10px;\n          height: 20px;\n\n          border: 0;\n          border-radius: 4px;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-moz-range-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-moz-range-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: 0;\n\n          background: #999999;\n          /* background: var(---color-element-enabled); */\n          border: 0;\n          border-radius: 4px;\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-ms-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-ms-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-ms-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n      "])), o$3(this.cssBoxShadow(2, true, false)), o$3(this.cssBoxShadow(4, true, false)), o$3(this.cssBoxShadow(8, true, false)))];
+	      return [_get(_getPrototypeOf(DecidablesSlider), "styles", this), r$2(_templateObject2$e || (_templateObject2$e = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: var(--shadow-2-rotate, ", ");\n          ---shadow-4-rotate: var(--shadow-4-rotate, ", ");\n          ---shadow-8-rotate: var(--shadow-8-rotate, ", ");\n\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        decidables-spinner {\n          --decidables-spinner-input-width: 3.5rem;\n\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        /* Adapted from http://danielstern.ca/range.css/#/ */\n        /* Overall */\n        input[type=range] {\n          width: 4.75rem;\n          height: 3.5rem;\n          padding: 0;\n          margin: 0;\n\n          background-color: unset;\n\n          transform: rotate(-90deg);\n          transform-origin: 2.375rem 2.375rem;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:enabled {\n          cursor: ns-resize;\n        }\n\n        input[type=range]:focus {\n          outline: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-tooltip {\n          display: none;\n        }\n\n        /* Track */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-runnable-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        input[type=range]:focus::-webkit-slider-runnable-track {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-track {\n          width: 100%;\n          height: 4px;\n\n          color: transparent;\n\n          background: transparent;\n          border-color: transparent;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-lower {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-upper {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-lower {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-upper {\n          background: var(---color-element-disabled);\n        }\n\n        /* Thumb */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: -8px;\n\n          border: 0;\n          border-radius: 4px;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:disabled::-webkit-slider-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=range]:enabled::-webkit-slider-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        input[type=range]:enabled:hover::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        input[type=range]:enabled:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-thumb {\n          width: 10px;\n          height: 20px;\n\n          border: 0;\n          border-radius: 4px;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-moz-range-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-moz-range-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: 0;\n\n          background: #999999;\n          /* background: var(---color-element-enabled); */\n          border: 0;\n          border-radius: 4px;\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-ms-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-ms-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-ms-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n      "])), o$3(this.cssBoxShadow(2, true, false)), o$3(this.cssBoxShadow(4, true, false)), o$3(this.cssBoxShadow(8, true, false)))];
 	    }
 	  }]);
 
-	  return DecidableSlider;
-	}(DecidableElement);
-	customElements.define('decidable-slider', DecidableSlider);
+	  return DecidablesSlider;
+	}(DecidablesElement);
+	customElements.define('decidables-slider', DecidablesSlider);
 
 	var _templateObject$f, _templateObject2$d;
 
-	var DecidableSpinner = /*#__PURE__*/function (_DecidableElement) {
-	  _inherits(DecidableSpinner, _DecidableElement);
+	var DecidablesSpinner = /*#__PURE__*/function (_DecidablesElement) {
+	  _inherits(DecidablesSpinner, _DecidablesElement);
 
-	  var _super = _createSuper(DecidableSpinner);
+	  var _super = _createSuper(DecidablesSpinner);
 
-	  function DecidableSpinner() {
+	  function DecidablesSpinner() {
 	    var _this;
 
-	    _classCallCheck(this, DecidableSpinner);
+	    _classCallCheck(this, DecidablesSpinner);
 
 	    _this = _super.call(this); // Attributes
 
@@ -32409,7 +32409,7 @@
 	    return _this;
 	  }
 
-	  _createClass(DecidableSpinner, [{
+	  _createClass(DecidablesSpinner, [{
 	    key: "inputted",
 	    value: function inputted(event) {
 	      this.value = event.target.value;
@@ -32453,25 +32453,25 @@
 	  }, {
 	    key: "styles",
 	    get: function get() {
-	      return [_get(_getPrototypeOf(DecidableSpinner), "styles", this), r$2(_templateObject2$d || (_templateObject2$d = _taggedTemplateLiteral(["\n        :host {\n          ---decidable-spinner-font-size: var(--decidable-spinner-font-size, 1.125rem);\n          ---decidable-spinner-input-width: var(--decidable-spinner-input-width, 4rem);\n          ---decidable-spinner-prefix: var(--decidable-spinner-prefix, \"\");\n\n          display: block;\n        }\n\n        label {\n          position: relative;\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          margin: 0;\n\n          font-size: 0.75rem;\n        }\n\n        label::before {\n          position: absolute;\n          bottom: 1px;\n          left: calc(50% - var(---decidable-spinner-input-width) / 2 + 0.25rem);\n\n          font-size: var(---decidable-spinner-font-size);\n          line-height: normal;\n\n          content: var(---decidable-spinner-prefix);\n        }\n\n        input[type=number] {\n          width: var(---decidable-spinner-input-width);\n\n          font-family: var(---font-family-base);\n          font-size: var(---decidable-spinner-font-size);\n          color: inherit;\n          text-align: right;\n\n          background: none;\n          border: 0;\n          border-radius: 0;\n          outline: none;\n          box-shadow: var(---shadow-2);\n\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n\n        input[type=number]:hover {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=number]:focus,\n        input[type=number]:active {\n          box-shadow: var(---shadow-8);\n        }\n\n        input[type=number]:disabled {\n          color: var(---color-text);\n\n          border: 0;\n          box-shadow: none;\n\n          /* HACK: Use correct text color in Safari */\n          -webkit-opacity: 1;\n          /* HACK: Hide spinners in disabled input for Firefox and Safari */\n          -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */\n          /* HACK: Use correct text color in Safari */\n          -webkit-text-fill-color: var(---color-text);\n        }\n\n        /* HACK: Hide spinners in disabled input for Firefox and Safari */\n        input[type=number]:disabled::-webkit-outer-spin-button,\n        input[type=number]:disabled::-webkit-inner-spin-button {\n          margin: 0;\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n      "])))];
+	      return [_get(_getPrototypeOf(DecidablesSpinner), "styles", this), r$2(_templateObject2$d || (_templateObject2$d = _taggedTemplateLiteral(["\n        :host {\n          ---decidables-spinner-font-size: var(--decidables-spinner-font-size, 1.125rem);\n          ---decidables-spinner-input-width: var(--decidables-spinner-input-width, 4rem);\n          ---decidables-spinner-prefix: var(--decidables-spinner-prefix, \"\");\n\n          display: block;\n        }\n\n        label {\n          position: relative;\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          margin: 0;\n\n          font-size: 0.75rem;\n        }\n\n        label::before {\n          position: absolute;\n          bottom: 1px;\n          left: calc(50% - var(---decidables-spinner-input-width) / 2 + 0.25rem);\n\n          font-size: var(---decidables-spinner-font-size);\n          line-height: normal;\n\n          content: var(---decidables-spinner-prefix);\n        }\n\n        input[type=number] {\n          width: var(---decidables-spinner-input-width);\n\n          font-family: var(---font-family-base);\n          font-size: var(---decidables-spinner-font-size);\n          color: inherit;\n          text-align: right;\n\n          background: none;\n          border: 0;\n          border-radius: 0;\n          outline: none;\n          box-shadow: var(---shadow-2);\n\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n\n        input[type=number]:hover {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=number]:focus,\n        input[type=number]:active {\n          box-shadow: var(---shadow-8);\n        }\n\n        input[type=number]:disabled {\n          color: var(---color-text);\n\n          border: 0;\n          box-shadow: none;\n\n          /* HACK: Use correct text color in Safari */\n          -webkit-opacity: 1;\n          /* HACK: Hide spinners in disabled input for Firefox and Safari */\n          -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */\n          /* HACK: Use correct text color in Safari */\n          -webkit-text-fill-color: var(---color-text);\n        }\n\n        /* HACK: Hide spinners in disabled input for Firefox and Safari */\n        input[type=number]:disabled::-webkit-outer-spin-button,\n        input[type=number]:disabled::-webkit-inner-spin-button {\n          margin: 0;\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n      "])))];
 	    }
 	  }]);
 
-	  return DecidableSpinner;
-	}(DecidableElement);
-	customElements.define('decidable-spinner', DecidableSpinner);
+	  return DecidablesSpinner;
+	}(DecidablesElement);
+	customElements.define('decidables-spinner', DecidablesSpinner);
 
 	var _templateObject$e, _templateObject2$c;
 
-	var DecidableSwitch = /*#__PURE__*/function (_DecidableElement) {
-	  _inherits(DecidableSwitch, _DecidableElement);
+	var DecidablesSwitch = /*#__PURE__*/function (_DecidablesElement) {
+	  _inherits(DecidablesSwitch, _DecidablesElement);
 
-	  var _super = _createSuper(DecidableSwitch);
+	  var _super = _createSuper(DecidablesSwitch);
 
-	  function DecidableSwitch() {
+	  function DecidablesSwitch() {
 	    var _this;
 
-	    _classCallCheck(this, DecidableSwitch);
+	    _classCallCheck(this, DecidablesSwitch);
 
 	    _this = _super.call(this); // Attributes
 
@@ -32480,7 +32480,7 @@
 	    return _this;
 	  }
 
-	  _createClass(DecidableSwitch, [{
+	  _createClass(DecidablesSwitch, [{
 	    key: "changed",
 	    value: function changed(event) {
 	      this.checked = event.target.checked;
@@ -32515,25 +32515,25 @@
 	  }, {
 	    key: "styles",
 	    get: function get() {
-	      return [_get(_getPrototypeOf(DecidableSwitch), "styles", this), r$2(_templateObject2$c || (_templateObject2$c = _taggedTemplateLiteral(["\n        :host {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */\n        input[type=checkbox] {\n          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n          position: absolute;\n\n          width: 1px;\n          height: 1px;\n          padding: 0;\n          margin: -1px;\n          overflow: hidden;\n          clip: rect(0 0 0 0);\n\n          white-space: nowrap;\n\n          border: 0;\n          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n        }\n\n        input[type=checkbox] + label {\n          order: 1;\n\n          margin: 0 0.25rem 0.25rem;\n\n          font-weight: 400;\n        }\n\n        input[type=checkbox] + label + label {\n          position: relative;\n\n          min-width: 24px;\n          padding: 0 0 36px;\n          margin: 0.25rem 0.25rem 0;\n\n          font-weight: 400;\n\n          outline: none;\n        }\n\n        input[type=checkbox] + label + label::before,\n        input[type=checkbox] + label + label::after {\n          position: absolute;\n\n          left: 50%;\n\n          margin: 0;\n\n          content: \"\";\n\n          outline: 0;\n\n          transition: all var(---transition-duration) ease;\n          transform: translate(-50%, 0);\n        }\n\n        input[type=checkbox] + label + label::before {\n          bottom: 1px;\n\n          width: 8px;\n          height: 34px;\n\n          background-color: var(---color-element-disabled);\n          border-radius: 4px;\n        }\n\n        input[type=checkbox] + label + label::after {\n          bottom: 0;\n\n          width: 18px;\n          height: 18px;\n\n          background-color: var(---color-element-enabled);\n          border-radius: 50%;\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=checkbox]:checked + label + label::after {\n          transform: translate(-50%, -100%);\n        }\n\n        input[type=checkbox]:disabled + label + label::after {\n          background-color: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=checkbox]:enabled + label,\n        input[type=checkbox]:enabled + label + label {\n          cursor: pointer;\n        }\n\n        input[type=checkbox]:enabled + label:hover + label::after,\n        input[type=checkbox]:enabled + label + label:hover::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=checkbox]:enabled + label:active + label::after,\n        input[type=checkbox]:enabled + label + label:active::after {\n          box-shadow: var(---shadow-8);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,\n        :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
+	      return [_get(_getPrototypeOf(DecidablesSwitch), "styles", this), r$2(_templateObject2$c || (_templateObject2$c = _taggedTemplateLiteral(["\n        :host {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */\n        input[type=checkbox] {\n          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n          position: absolute;\n\n          width: 1px;\n          height: 1px;\n          padding: 0;\n          margin: -1px;\n          overflow: hidden;\n          clip: rect(0 0 0 0);\n\n          white-space: nowrap;\n\n          border: 0;\n          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n        }\n\n        input[type=checkbox] + label {\n          order: 1;\n\n          margin: 0 0.25rem 0.25rem;\n\n          font-weight: 400;\n        }\n\n        input[type=checkbox] + label + label {\n          position: relative;\n\n          min-width: 24px;\n          padding: 0 0 36px;\n          margin: 0.25rem 0.25rem 0;\n\n          font-weight: 400;\n\n          outline: none;\n        }\n\n        input[type=checkbox] + label + label::before,\n        input[type=checkbox] + label + label::after {\n          position: absolute;\n\n          left: 50%;\n\n          margin: 0;\n\n          content: \"\";\n\n          outline: 0;\n\n          transition: all var(---transition-duration) ease;\n          transform: translate(-50%, 0);\n        }\n\n        input[type=checkbox] + label + label::before {\n          bottom: 1px;\n\n          width: 8px;\n          height: 34px;\n\n          background-color: var(---color-element-disabled);\n          border-radius: 4px;\n        }\n\n        input[type=checkbox] + label + label::after {\n          bottom: 0;\n\n          width: 18px;\n          height: 18px;\n\n          background-color: var(---color-element-enabled);\n          border-radius: 50%;\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=checkbox]:checked + label + label::after {\n          transform: translate(-50%, -100%);\n        }\n\n        input[type=checkbox]:disabled + label + label::after {\n          background-color: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=checkbox]:enabled + label,\n        input[type=checkbox]:enabled + label + label {\n          cursor: pointer;\n        }\n\n        input[type=checkbox]:enabled + label:hover + label::after,\n        input[type=checkbox]:enabled + label + label:hover::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=checkbox]:enabled + label:active + label::after,\n        input[type=checkbox]:enabled + label + label:active::after {\n          box-shadow: var(---shadow-8);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,\n        :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
 	    }
 	  }]);
 
-	  return DecidableSwitch;
-	}(DecidableElement);
-	customElements.define('decidable-switch', DecidableSwitch);
+	  return DecidablesSwitch;
+	}(DecidablesElement);
+	customElements.define('decidables-switch', DecidablesSwitch);
 
 	var _templateObject$d, _templateObject2$b;
 
-	var DecidableToggle = /*#__PURE__*/function (_DecidableElement) {
-	  _inherits(DecidableToggle, _DecidableElement);
+	var DecidablesToggle = /*#__PURE__*/function (_DecidablesElement) {
+	  _inherits(DecidablesToggle, _DecidablesElement);
 
-	  var _super = _createSuper(DecidableToggle);
+	  var _super = _createSuper(DecidablesToggle);
 
-	  function DecidableToggle() {
+	  function DecidablesToggle() {
 	    var _this;
 
-	    _classCallCheck(this, DecidableToggle);
+	    _classCallCheck(this, DecidablesToggle);
 
 	    _this = _super.call(this); // Attributes
 
@@ -32541,7 +32541,7 @@
 	    return _this;
 	  }
 
-	  _createClass(DecidableToggle, [{
+	  _createClass(DecidablesToggle, [{
 	    key: "render",
 	    value: function render() {
 	      return $(_templateObject$d || (_templateObject$d = _taggedTemplateLiteral(["\n      <fieldset ?disabled=", ">\n        <legend><slot name=\"label\"></slot></legend>\n        <slot></slot>\n      </fieldset>\n    "])), this.disabled);
@@ -32560,25 +32560,25 @@
 	  }, {
 	    key: "styles",
 	    get: function get() {
-	      return [_get(_getPrototypeOf(DecidableToggle), "styles", this), r$2(_templateObject2$b || (_templateObject2$b = _taggedTemplateLiteral(["\n        fieldset {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n\n          margin: 0.25rem;\n\n          border: 0;\n        }\n\n        legend {\n          text-align: center;\n        }\n      "])))];
+	      return [_get(_getPrototypeOf(DecidablesToggle), "styles", this), r$2(_templateObject2$b || (_templateObject2$b = _taggedTemplateLiteral(["\n        fieldset {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n\n          margin: 0.25rem;\n\n          border: 0;\n        }\n\n        legend {\n          text-align: center;\n        }\n      "])))];
 	    }
 	  }]);
 
-	  return DecidableToggle;
-	}(DecidableElement);
-	customElements.define('decidable-toggle', DecidableToggle);
+	  return DecidablesToggle;
+	}(DecidablesElement);
+	customElements.define('decidables-toggle', DecidablesToggle);
 
 	var _templateObject$c, _templateObject2$a;
 
-	var DecidableToggleOption = /*#__PURE__*/function (_DecidableElement) {
-	  _inherits(DecidableToggleOption, _DecidableElement);
+	var DecidablesToggleOption = /*#__PURE__*/function (_DecidablesElement) {
+	  _inherits(DecidablesToggleOption, _DecidablesElement);
 
-	  var _super = _createSuper(DecidableToggleOption);
+	  var _super = _createSuper(DecidablesToggleOption);
 
-	  function DecidableToggleOption() {
+	  function DecidablesToggleOption() {
 	    var _this;
 
-	    _classCallCheck(this, DecidableToggleOption);
+	    _classCallCheck(this, DecidablesToggleOption);
 
 	    _this = _super.call(this); // Attributes
 
@@ -32589,7 +32589,7 @@
 	    return _this;
 	  }
 
-	  _createClass(DecidableToggleOption, [{
+	  _createClass(DecidablesToggleOption, [{
 	    key: "changed",
 	    value: function changed(event) {
 	      this.checked = event.target.checked;
@@ -32635,19 +32635,19 @@
 	  }, {
 	    key: "styles",
 	    get: function get() {
-	      return [_get(_getPrototypeOf(DecidableToggleOption), "styles", this), r$2(_templateObject2$a || (_templateObject2$a = _taggedTemplateLiteral(["\n        :host {\n          display: flex;\n        }\n\n        input[type=radio] {\n          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n          position: absolute;\n\n          width: 1px;\n          height: 1px;\n          padding: 0;\n          margin: -1px;\n          overflow: hidden;\n          clip: rect(0 0 0 0);\n\n          white-space: nowrap;\n\n          border: 0;\n          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n        }\n\n        input[type=radio] + label {\n          width: 100%;\n          padding: 0.375rem 0.75rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-text-inverse);\n          text-align: center;\n\n          cursor: pointer;\n\n          background-color: var(---color-element-enabled);\n          border: 0;\n          border-radius: 0;\n          outline: none;\n\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=radio]:checked + label {\n          background-color: var(---color-element-selected);\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=radio] + label:hover {\n          z-index: 1;\n\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=radio] + label:active {\n          z-index: 2;\n\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(:first-of-type) input[type=radio] + label {\n          border-top-left-radius: 0.25rem;\n          border-top-right-radius: 0.25rem;\n        }\n\n        :host(:last-of-type) input[type=radio] + label {\n          border-bottom-right-radius: 0.25rem;\n          border-bottom-left-radius: 0.25rem;\n        }\n\n        :host(.keyboard) input[type=radio]:focus + label {\n          z-index: 1;\n\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) input[type=radio]:focus:checked + label {\n          z-index: 1;\n\n          background-color: var(---color-element-selected);\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) input[type=radio]:focus + label:active {\n          z-index: 2;\n\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
+	      return [_get(_getPrototypeOf(DecidablesToggleOption), "styles", this), r$2(_templateObject2$a || (_templateObject2$a = _taggedTemplateLiteral(["\n        :host {\n          display: flex;\n        }\n\n        input[type=radio] {\n          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n          position: absolute;\n\n          width: 1px;\n          height: 1px;\n          padding: 0;\n          margin: -1px;\n          overflow: hidden;\n          clip: rect(0 0 0 0);\n\n          white-space: nowrap;\n\n          border: 0;\n          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n        }\n\n        input[type=radio] + label {\n          width: 100%;\n          padding: 0.375rem 0.75rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-text-inverse);\n          text-align: center;\n\n          cursor: pointer;\n\n          background-color: var(---color-element-enabled);\n          border: 0;\n          border-radius: 0;\n          outline: none;\n\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=radio]:checked + label {\n          background-color: var(---color-element-selected);\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=radio] + label:hover {\n          z-index: 1;\n\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=radio] + label:active {\n          z-index: 2;\n\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(:first-of-type) input[type=radio] + label {\n          border-top-left-radius: 0.25rem;\n          border-top-right-radius: 0.25rem;\n        }\n\n        :host(:last-of-type) input[type=radio] + label {\n          border-bottom-right-radius: 0.25rem;\n          border-bottom-left-radius: 0.25rem;\n        }\n\n        :host(.keyboard) input[type=radio]:focus + label {\n          z-index: 1;\n\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) input[type=radio]:focus:checked + label {\n          z-index: 1;\n\n          background-color: var(---color-element-selected);\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) input[type=radio]:focus + label:active {\n          z-index: 2;\n\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
 	    }
 	  }]);
 
-	  return DecidableToggleOption;
-	}(DecidableElement);
-	customElements.define('decidable-toggle-option', DecidableToggleOption);
+	  return DecidablesToggleOption;
+	}(DecidablesElement);
+	customElements.define('decidables-toggle-option', DecidablesToggleOption);
 
 	/*
 	  Attribute: Space-separated sequence of strings
 	  Property: Set of strings
 	*/
-	var DecidableConverterSet = {
+	var DecidablesConverterSet = {
 	  fromAttribute: function fromAttribute(value) {
 	    return new Set(value.split(/\s+/));
 	  },
@@ -32662,8 +32662,8 @@
 	  <sdt-element>
 	*/
 
-	var SDTElement = /*#__PURE__*/function (_DecidableElement) {
-	  _inherits(SDTElement, _DecidableElement);
+	var SDTElement = /*#__PURE__*/function (_DecidablesElement) {
+	  _inherits(SDTElement, _DecidablesElement);
 
 	  var _super = _createSuper(SDTElement);
 
@@ -32733,7 +32733,7 @@
 	  }]);
 
 	  return SDTElement;
-	}(DecidableElement);
+	}(DecidablesElement);
 
 	var _templateObject$a, _templateObject2$9;
 	/*
@@ -40472,15 +40472,15 @@
 	      var fomr;
 
 	      if (this.numeric) {
-	        h = $(_templateObject$7 || (_templateObject$7 = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Hits</span>\n          ", "\n        </decidable-spinner>\n      "])), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? $(_templateObject2$6 || (_templateObject2$6 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.hPayoff)) : $(_templateObject3$1 || (_templateObject3$1 = _taggedTemplateLiteral([""]))));
-	        m = $(_templateObject4$1 || (_templateObject4$1 = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Misses</span>\n          ", "\n        </decidable-spinner>\n      "])), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? $(_templateObject5$1 || (_templateObject5$1 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.mPayoff)) : $(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral([""]))));
-	        fa = $(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>False Alarms</span>\n          ", "\n        </decidable-spinner>\n      "])), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? $(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.faPayoff)) : $(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral([""]))));
-	        cr = $(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Correct Rejections</span>\n          ", "\n        </decidable-spinner>\n      "])), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? $(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.crPayoff)) : $(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral([""]))));
-	        hr = $(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Hit Rate</span>\n        </decidable-spinner>\n      "])), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
-	        far = $(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Alarm Rate</span>\n        </decidable-spinner>\n      "])), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
-	        acc = $(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Accuracy</span>\n        </decidable-spinner>\n      "])), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
-	        ppv = $(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Positive Predictive Value</span>\n        </decidable-spinner>\n      "])), !this.interactive, +this.ppv.toFixed(3), this.ppvInput.bind(this));
-	        fomr = $(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["\n        <decidable-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Omission Rate</span>\n        </decidable-spinner>\n      "])), !this.interactive, +this.fomr.toFixed(3), this.fomrInput.bind(this));
+	        h = $(_templateObject$7 || (_templateObject$7 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Hits</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? $(_templateObject2$6 || (_templateObject2$6 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.hPayoff)) : $(_templateObject3$1 || (_templateObject3$1 = _taggedTemplateLiteral([""]))));
+	        m = $(_templateObject4$1 || (_templateObject4$1 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Misses</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? $(_templateObject5$1 || (_templateObject5$1 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.mPayoff)) : $(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral([""]))));
+	        fa = $(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>False Alarms</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? $(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.faPayoff)) : $(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral([""]))));
+	        cr = $(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Correct Rejections</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? $(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.crPayoff)) : $(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral([""]))));
+	        hr = $(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Hit Rate</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
+	        far = $(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Alarm Rate</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
+	        acc = $(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Accuracy</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
+	        ppv = $(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Positive Predictive Value</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.ppv.toFixed(3), this.ppvInput.bind(this));
+	        fomr = $(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Omission Rate</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.fomr.toFixed(3), this.fomrInput.bind(this));
 	      } else {
 	        h = $(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["<span>Hits</span>\n        ", ""])), this.payoff ? $(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.hPayoff)) : $(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral([""]))));
 	        m = $(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral(["<span>Misses</span>\n        ", ""])), this.payoff ? $(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.mPayoff)) : $(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral([""]))));
@@ -40506,7 +40506,7 @@
 	        },
 	        summary: {
 	          attribute: 'summary',
-	          converter: DecidableConverterSet,
+	          converter: DecidablesConverterSet,
 	          reflect: true
 	        },
 	        color: {
@@ -40592,7 +40592,7 @@
 	  }, {
 	    key: "styles",
 	    get: function get() {
-	      return [_get(_getPrototypeOf(SDTTable), "styles", this), r$2(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n\n          transition: all var(---transition-duration) ease;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        .td-data decidable-spinner {\n          --decidable-spinner-input-width: 3.5rem;\n        }\n\n        .td-summary decidable-spinner {\n          --decidable-spinner-input-width: 4.5rem;\n        }\n\n        /* Color schemes & Table emphasis */\n\n        /* (Default) Outcome color scheme */\n        .h {\n          background: var(---color-h-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .ppv {\n          background: var(---color-present-light);\n        }\n\n        .fomr {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .cr {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .fa {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .fomr {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .fa {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .h {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .m {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .h {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .acc {\n          background: var(---color-element-background);\n        }\n      "])))];
+	      return [_get(_getPrototypeOf(SDTTable), "styles", this), r$2(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n\n          transition: all var(---transition-duration) ease;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        .td-data decidables-spinner {\n          --decidables-spinner-input-width: 3.5rem;\n        }\n\n        .td-summary decidables-spinner {\n          --decidables-spinner-input-width: 4.5rem;\n        }\n\n        /* Color schemes & Table emphasis */\n\n        /* (Default) Outcome color scheme */\n        .h {\n          background: var(---color-h-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .ppv {\n          background: var(---color-present-light);\n        }\n\n        .fomr {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .cr {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .fa {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .fomr {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .fa {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .h {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .m {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .h {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .acc {\n          background: var(---color-element-background);\n        }\n      "])))];
 	    }
 	  }]);
 
@@ -40672,8 +40672,8 @@
 	  <sdt-element>
 	*/
 
-	var CPTElement = /*#__PURE__*/function (_DecidableElement) {
-	  _inherits(CPTElement, _DecidableElement);
+	var CPTElement = /*#__PURE__*/function (_DecidablesElement) {
+	  _inherits(CPTElement, _DecidablesElement);
 
 	  var _super = _createSuper(CPTElement);
 
@@ -40743,7 +40743,7 @@
 	  }]);
 
 	  return CPTElement;
-	}(DecidableElement);
+	}(DecidablesElement);
 
 	var _templateObject$5, _templateObject2$5;
 	/*
@@ -42814,7 +42814,7 @@
 
 	      var labelStaticEnter = labelStaticUpdate.enter().append('text');
 	      var labelInteractiveEnter = labelInteractiveUpdate.enter().append('foreignObject');
-	      labelInteractiveEnter.append('xhtml:decidable-spinner').on('input', function (event, datum) {
+	      labelInteractiveEnter.append('xhtml:decidables-spinner').on('input', function (event, datum) {
 	        datum.data.x = parseFloat(event.target.value);
 
 	        _this3.dispatchEvent(new CustomEvent('decision-outcome-change', {
@@ -42844,10 +42844,10 @@
 	        return "label interactive ".concat(datum.data.name);
 	      }).attr('transform', function (datum) {
 	        // HACK: Center spinner here instead of CSS for Safari SVG foreignObject
-	        // x: calc(var(--decidable-spinner-input-width) / -2);
-	        // y: calc(var(--decidable-spinner-font-size) * 1.5 / -2);
-	        var inputWidth = parseFloat(_this3.getComputedStyleValue('--decidable-spinner-input-width'));
-	        var fontSize = parseFloat(_this3.getComputedStyleValue('--decidable-spinner-font-size'));
+	        // x: calc(var(--decidables-spinner-input-width) / -2);
+	        // y: calc(var(--decidables-spinner-font-size) * 1.5 / -2);
+	        var inputWidth = parseFloat(_this3.getComputedStyleValue('--decidables-spinner-input-width'));
+	        var fontSize = parseFloat(_this3.getComputedStyleValue('--decidables-spinner-font-size'));
 	        var rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
 	        var x = inputWidth * rem / -2;
 	        var y = fontSize * rem * 1.5 / -2;
@@ -42860,7 +42860,7 @@
 	        var arcLabel = arc().innerRadius(radius).outerRadius(radius);
 	        return "translate(".concat(arcLabel.centroid(datum)[0] + x, ", ").concat(arcLabel.centroid(datum)[1] + y, ")");
 	      });
-	      labelInteractiveMerge.select('decidable-spinner').attr('value', function (datum) {
+	      labelInteractiveMerge.select('decidables-spinner').attr('value', function (datum) {
 	        return "".concat(datum.data.x.toFixed(0));
 	      }); //  EXIT
 
@@ -42891,7 +42891,7 @@
 	  }, {
 	    key: "styles",
 	    get: function get() {
-	      return [_get(_getPrototypeOf(DecisionOption), "styles", this), r$2(_templateObject2$3 || (_templateObject2$3 = _taggedTemplateLiteral(["\n        :host {\n          --decidable-spinner-font-size: 1.75rem;\n          --decidable-spinner-input-width: 4rem;\n          --decidable-spinner-prefix: \"$\";\n\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n          overflow: visible;\n        }\n\n        .outline {\n          fill: var(---color-element-background);\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .arc {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .arc.interactive {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .arc.interactive:hover {\n          filter: url(\"#shadow-4\");\n        }\n\n        .arc.interactive:active {\n          filter: url(\"#shadow-8\");\n        }\n\n        :host(.keyboard) .arc.interactive:focus {\n          filter: url(\"#shadow-8\");\n        }\n\n        .arc.win {\n          fill: var(---color-better-light);\n        }\n\n        .arc.loss {\n          fill: var(---color-worse-light);\n        }\n\n        .arc.sure {\n          fill: var(---color-even-light);\n        }\n\n        .label.static {\n          font-size: 1.75rem;\n\n          user-select: none;\n\n          dominant-baseline: middle;\n          text-anchor: middle;\n        }\n\n        .label.interactive {\n          width: var(--decidable-spinner-input-width);\n          height: calc(var(--decidable-spinner-font-size) * 1.5);\n          overflow: visible;\n        }\n\n        /* HACK: Get Safari to work with SVG foreignObject */\n        /* https://stackoverflow.com/questions/51313873/svg-foreignobject-not-working-properly-on-safari */\n        /* https://bugs.webkit.org/show_bug.cgi?id=23113 */\n        .label.interactive decidable-spinner {\n          position: fixed;\n        }\n\n        .label.interactive.win decidable-spinner {\n          background-color: var(---color-better-light);\n        }\n\n        .label.interactive.loss decidable-spinner {\n          background-color: var(---color-worse-light);\n        }\n\n        .label.interactive.sure decidable-spinner {\n          background-color: var(---color-even-light);\n        }\n      "])))];
+	      return [_get(_getPrototypeOf(DecisionOption), "styles", this), r$2(_templateObject2$3 || (_templateObject2$3 = _taggedTemplateLiteral(["\n        :host {\n          --decidables-spinner-font-size: 1.75rem;\n          --decidables-spinner-input-width: 4rem;\n          --decidables-spinner-prefix: \"$\";\n\n          display: inline-block;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n          overflow: visible;\n        }\n\n        .outline {\n          fill: var(---color-element-background);\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .arc {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .arc.interactive {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .arc.interactive:hover {\n          filter: url(\"#shadow-4\");\n        }\n\n        .arc.interactive:active {\n          filter: url(\"#shadow-8\");\n        }\n\n        :host(.keyboard) .arc.interactive:focus {\n          filter: url(\"#shadow-8\");\n        }\n\n        .arc.win {\n          fill: var(---color-better-light);\n        }\n\n        .arc.loss {\n          fill: var(---color-worse-light);\n        }\n\n        .arc.sure {\n          fill: var(---color-even-light);\n        }\n\n        .label.static {\n          font-size: 1.75rem;\n\n          user-select: none;\n\n          dominant-baseline: middle;\n          text-anchor: middle;\n        }\n\n        .label.interactive {\n          width: var(--decidables-spinner-input-width);\n          height: calc(var(--decidables-spinner-font-size) * 1.5);\n          overflow: visible;\n        }\n\n        /* HACK: Get Safari to work with SVG foreignObject */\n        /* https://stackoverflow.com/questions/51313873/svg-foreignobject-not-working-properly-on-safari */\n        /* https://bugs.webkit.org/show_bug.cgi?id=23113 */\n        .label.interactive decidables-spinner {\n          position: fixed;\n        }\n\n        .label.interactive.win decidables-spinner {\n          background-color: var(---color-better-light);\n        }\n\n        .label.interactive.loss decidables-spinner {\n          background-color: var(---color-worse-light);\n        }\n\n        .label.interactive.sure decidables-spinner {\n          background-color: var(---color-even-light);\n        }\n      "])))];
 	    }
 	  }]);
 

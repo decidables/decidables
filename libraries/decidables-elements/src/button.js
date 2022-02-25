@@ -1,9 +1,9 @@
 
 import {html, css} from 'lit';
 
-import DecidableElement from './decidable-element';
+import DecidablesElement from './decidables-element';
 
-export default class DecidableButton extends DecidableElement {
+export default class DecidablesButton extends DecidablesElement {
   static get properties() {
     return {
       disabled: {
@@ -45,7 +45,7 @@ export default class DecidableButton extends DecidableElement {
         }
 
         button:disabled {
-          background-color: var(--decidable-button-background-color, var(---color-element-disabled));
+          background-color: var(--decidables-button-background-color, var(---color-element-disabled));
           outline: none;
           box-shadow: none;
         }
@@ -53,7 +53,7 @@ export default class DecidableButton extends DecidableElement {
         button:enabled {
           cursor: pointer;
 
-          background-color: var(--decidable-button-background-color, var(---color-element-enabled));
+          background-color: var(--decidables-button-background-color, var(---color-element-enabled));
           outline: none;
           box-shadow: var(---shadow-2);
         }
@@ -90,4 +90,4 @@ export default class DecidableButton extends DecidableElement {
   }
 }
 
-customElements.define('decidable-button', DecidableButton);
+customElements.define('decidables-button', DecidablesButton);

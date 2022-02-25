@@ -1,11 +1,11 @@
 
-export {default as DecidableElement} from './decidable-element';
-export {default as DecidableButton} from './button';
-export {default as DecidableSlider} from './slider';
-export {default as DecidableSpinner} from './spinner';
-export {default as DecidableSwitch} from './switch';
-export {default as DecidableToggle} from './toggle';
-export {default as DecidableToggleOption} from './toggle-option';
+export {default as DecidablesElement} from './decidables-element';
+export {default as DecidablesButton} from './button';
+export {default as DecidablesSlider} from './slider';
+export {default as DecidablesSpinner} from './spinner';
+export {default as DecidablesSwitch} from './switch';
+export {default as DecidablesToggle} from './toggle';
+export {default as DecidablesToggleOption} from './toggle-option';
 
-export {default as DecidableConverterArray} from './converter-array';
-export {default as DecidableConverterSet} from './converter-set';
+export {default as DecidablesConverterArray} from './converter-array';
+export {default as DecidablesConverterSet} from './converter-set';
