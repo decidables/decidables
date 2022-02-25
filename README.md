@@ -184,6 +184,14 @@ are published to *npm* in the `@decidables` scope.
 
 ## Features/Bugs/Notes
 
+- testing!
+  - Jest? Web Test Runner? Testing Library?
+- versioning & publishing
+  - yarn? lerna?
+  - conventional commits?
+- use APA v7 (https://github.com/citation-style-language/styles)
+- use eslint-plugin-lit? (https://www.npmjs.com/package/eslint-plugin-lit)
+- use eslint-plugin-wc? (https://github.com/43081j/eslint-plugin-wc)
 - Add top-level decidable website
 - use focused imports to better support tree shaking?
 - Libraries:
