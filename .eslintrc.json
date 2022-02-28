@@ -65,6 +65,15 @@
         "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
         "import/no-relative-packages": "off"
       }
+    },
+    {
+      "files": [
+        "**/test/*.test.js"
+      ],
+      "env": {
+        "browser": true,
+        "mocha": true
+      }
     }
   ]
 }

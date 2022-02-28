@@ -25,6 +25,7 @@
   },
   "scripts": {
     "lint": "gulp lint",
+    "test": "web-test-runner test/**/*.test.js --config ../../.webtestrunnerrc.js",
     "build": "gulp build"
   },
   "browserslist": [
@@ -32,6 +33,8 @@
     "not dead"
   ],
   "devDependencies": {
+    "@open-wc/testing": "^3.1.1",
+    "@web/test-runner": "^0.13.27",
     "gulp": "^4.0.2"
   },
   "dependencies": {
