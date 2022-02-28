@@ -15,7 +15,8 @@
     "watch": "yarn workspaces foreach -pitv -j 2 run watch",
     "build": "yarn workspaces foreach -pitv -j 2 run build",
     "deploy": "yarn workspaces foreach -pitv -j 2 run deploy",
-    "serve": "gulp serveAll"
+    "serve": "gulp serveAll",
+    "publish": "lerna publish --no-private --conventional-commits"
   },
   "workspaces": [
     "libraries/*",
@@ -63,6 +64,7 @@
     "gulp-terser": "^2.1.0",
     "hastscript": "^7.0.2",
     "husky": "^7.0.4",
+    "lerna": "^4.0.0",
     "locale-en-us": "^0.0.2",
     "node-notifier": "^10.0.1",
     "node-sass-package-importer": "^5.3.2",

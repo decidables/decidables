@@ -1,0 +1,13 @@
+{
+  "packages": [
+    "libraries/*",
+    "sites/*"
+  ],
+  "version": "independent",
+  "command": {
+    "version": {
+      "message": "chore(libraries): bump versions"
+    }
+  },
+  "changelogPreset": "conventional-changelog-conventionalcommits"
+}
