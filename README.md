@@ -185,10 +185,10 @@ are published to *npm* in the `@decidables` scope.
 ## Features/Bugs/Notes
 
 - testing!
-  - Jest? Web Test Runner? Testing Library?
+  - @web/test-runner + @open-wc/testing
 - versioning & publishing
-  - yarn? lerna?
-  - conventional commits?
+  - lerna
+  - husky + @commitlint/cli + @commitlint/config-conventional + vscode-conventional-commits
 - use APA v7 (https://github.com/citation-style-language/styles)
 - use eslint-plugin-lit? (https://www.npmjs.com/package/eslint-plugin-lit)
 - use eslint-plugin-wc? (https://github.com/43081j/eslint-plugin-wc)
