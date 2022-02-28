@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "@commitlint/config-conventional"
+  ],
+  "rules": {
+    "scope-empty": [2, "never"],
+    "scope-enum": [2, "always", [
+      "root",
+      "all",
+      "libraries",
+      "decidables-elements",
+      "detectable-math",
+      "detectable-elements",
+      "prospectable-math",
+      "prospectable-elements",
+      "sites",
+      "decidables",
+      "detectable",
+      "prospectable"
+    ]]
+  }
+}
