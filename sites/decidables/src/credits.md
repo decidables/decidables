@@ -96,5 +96,5 @@ in the [`@decidables`](https://www.npmjs.com/search?q=%40decidables) scope
 [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/)
 for content
 and
-[GNU General Public License, Version 3 (GPLv3)](https://www.gnu.org/licenses/gpl-3.0.html)
+[GNU General Public License, Version 3 (GPL-3.0)](https://www.gnu.org/licenses/gpl-3.0.html)
 for code
