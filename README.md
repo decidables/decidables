@@ -186,8 +186,9 @@ are published to *npm* in the `@decidables` scope.
 
 - testing!
   - @web/test-runner + @open-wc/testing
+  - Would really like to use @testing-library/dom for interface testing!
 - versioning & publishing
-  - lerna
+  - lerna + conventional-changelog-conventionalcommits
   - husky + @commitlint/cli + @commitlint/config-conventional + vscode-conventional-commits
 - use APA v7 (https://github.com/citation-style-language/styles)
 - use eslint-plugin-lit? (https://www.npmjs.com/package/eslint-plugin-lit)
