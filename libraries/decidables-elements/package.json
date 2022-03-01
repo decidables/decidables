@@ -26,6 +26,7 @@
   "scripts": {
     "lint": "gulp lint",
     "test": "web-test-runner test/**/*.test.js --config ../../.webtestrunnerrc.js",
+    "test-file": "web-test-runner $@ --config ../../.webtestrunnerrc.js",
     "build": "gulp build"
   },
   "browserslist": [
