@@ -16,7 +16,7 @@
     "build": "yarn workspaces foreach -pitv -j 2 run build",
     "deploy": "yarn workspaces foreach -pitv -j 2 run deploy",
     "serve": "gulp serveAll",
-    "publish": "lerna publish --no-private --conventional-commits"
+    "publish": "lerna publish --no-private --conventional-commits --otp $@"
   },
   "workspaces": [
     "libraries/*",
