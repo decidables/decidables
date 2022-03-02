@@ -6,7 +6,7 @@
   "main": "index.js",
   "repository": "https://github.com/akrawitz/decidables",
   "author": "Adam Krawitz <akrawitz@uvic.ca>",
-  "license": "UNLICENSED",
+  "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
   "private": true,
   "scripts": {
     "postinstall": "husky install",

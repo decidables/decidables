@@ -19,14 +19,14 @@
   "bugs": "https://github.com/decidables/decidables/issues",
   "homepage": "https://github.com/decidables/decidables/tree/main/libraries/decidables-elements",
   "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
-  "license": "GPL-3.0",
+  "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "lint": "gulp lint",
     "test": "web-test-runner test/**/*.test.js --config ../../.webtestrunnerrc.js",
-    "test-file": "web-test-runner $@ --config ../../.webtestrunnerrc.js",
+    "test:file": "web-test-runner $@ --config ../../.webtestrunnerrc.js",
     "build": "gulp build"
   },
   "browserslist": [
