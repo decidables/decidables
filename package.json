@@ -1,6 +1,6 @@
 {
   "name": "decidables",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "decidables: Explorable Explanations of Decision Making",
   "type": "module",
   "main": "index.js",
