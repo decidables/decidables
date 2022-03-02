@@ -6,7 +6,7 @@
   "main": "./dist/index.html",
   "repository": "https://github.com/decidables/decidables/tree/main/sites/decidables",
   "author": "Adam Krawitz",
-  "license": "UNLICENSED",
+  "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
   "private": true,
   "scripts": {
     "compile": "gulp compile",
