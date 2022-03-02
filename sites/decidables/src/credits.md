@@ -63,6 +63,11 @@ from [Adobe Originals](https://fonts.adobe.com/foundries/adobe)
 and
 [stylelint](https://stylelint.io/)
 
+**Tested under:**<br>
+[Web Test Runner](https://modern-web.dev/docs/test-runner/overview/)
+and
+[Open Web Components Testing Package](https://open-wc.org/docs/testing/testing-package/)
+
 **Minified via:**<br>
 [cssnano](https://cssnano.co/),
 [htmlmin](https://htmlmin.readthedocs.io/),
@@ -84,17 +89,24 @@ and
 with [plugins](https://gulpjs.com/plugins/)
 
 **Hosted at:**<br>
-[GitHub Pages](https://pages.github.com/)
-as [<span class="decidables">decidables</span>](https://decidables.github.io/),
 [GitHub](https://github.com/)
 as [`decidables/decidables`](https://github.com/decidables/decidables),
+
+**Published to:**<br>
+[GitHub Pages](https://pages.github.com/)
+with [GitHub Actions](https://docs.github.com/en/actions)
+as [<span class="decidables">decidables</span>](https://decidables.github.io/)
 and
 [npm](https://www.npmjs.com/)
+with [lerna](https://github.com/lerna/lerna),
+[husky](https://typicode.github.io/husky/),
+and
+[commitlint](https://commitlint.js.org/)
 in the [`@decidables`](https://www.npmjs.com/search?q=%40decidables) scope
 
 **Licensed as:**<br>
-[Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/)
+[Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA-4.0)](https://creativecommons.org/licenses/by-sa/4.0/)
 for content
 and
-[GNU General Public License, Version 3 (GPL-3.0)](https://www.gnu.org/licenses/gpl-3.0.html)
+[GNU General Public License, Version 3 (GPL-3.0-or-later)](https://www.gnu.org/licenses/gpl-3.0.html)
 for code
