@@ -6,7 +6,7 @@
   "version": "independent",
   "command": {
     "version": {
-      "message": "chore(libraries): bump versions"
+      "message": "chore(libraries): lerna version bumps"
     }
   },
   "changelogPreset": "conventional-changelog-conventionalcommits"
