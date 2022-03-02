@@ -198,8 +198,10 @@ of things, including a nice selection of statistical distributions, to get us wh
 All of the libraries, like the sites, are developed in the [<span
 class="decidables">decidables</span> monorepo](https://github.com/decidables/decidables/) which is a
 [:tool[Git]](https://git-scm.com/) repository hosted on [:tool[GitHub]](https://github.com/). Unlike
-the sites, the library packages are published to the [:tool[npm]](https://www.npmjs.com/) registry.
-They all reside in the [<code
+the sites, the library packages are published to the [:tool[npm]](https://www.npmjs.com/) registry
+using [lerna](https://github.com/lerna/lerna) with [semantic versioning
+(semver)](https://semver.org/) supported by the use of [conventional
+commits](https://www.conventionalcommits.org/). The libraries all reside in the [<code
 class="fw-semibold">@decidables</code>](https://www.npmjs.com/search?q=%40decidables) namespace. For
 example, the
 [:tool[detectable-elements]](https://github.com/decidables/decidables/tree/main/libraries/detectable-elements)
@@ -223,6 +225,13 @@ tools to statically analyze code in order to catch errors early and maintain con
 JavaScript with [eslint](https://eslint.org/), CSS with [stylelint](https://stylelint.io/), markdown
 with [remark-lint](https://github.com/remarkjs/remark-lint), and HTML with
 [HTMLHint](https://htmlhint.com/) and [Nu Html Checker](https://validator.github.io/validator/).
+
+### Testing
+
+Good software development practice includes automated testing. We are implementing testing of our
+web component libraries using [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/)
+and the [Open Web Components Testing Package](https://open-wc.org/docs/testing/testing-package/).
+Each component has a corresponding test file with appropriate tests.
 
 ### Task automation
 
@@ -257,6 +266,11 @@ A version control system/source code management tool facilitates and empowers th
 recording an accurate history of every step along the way. We use
 [:tool[Git]](8https://git-scm.com/) for this with a remote repository hosted on
 [:tool[GitHub]](https://github.com/), which allows for highly distributed development.
+
+We are using [husky](https://typicode.github.io/husky/) and [commitlint](https://commitlint.js.org/)
+to consistently use [conventional commits](https://www.conventionalcommits.org/). Using a standard
+format for `git commit` messages makes it easier to understand what is changing, and facilitates
+adherence to the principles of [semantic versioning](https://semver.org/).
 
 ### File editing
 
