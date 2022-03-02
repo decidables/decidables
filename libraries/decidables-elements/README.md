@@ -36,7 +36,9 @@
 - `yarn lint`
   - Lints markdown, scripts and styles
 - `yarn test`
-  - Runs tests and reports coverage in `test/coverage/`
+  - Runs all tests and reports coverage in `test/coverage/`
+- `yarn test:file <filename>`
+  - Runs tests for a single file and reports coverage in `test/coverage/`
 - `yarn build`
   - Builds bundles from `src/` to `lib/`
 
