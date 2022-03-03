@@ -9,5 +9,6 @@
       "message": "chore(libraries): lerna version bumps"
     }
   },
-  "changelogPreset": "conventional-changelog-conventionalcommits"
+  "changelogPreset": "conventional-changelog-conventionalcommits",
+  "ignoreChanges": ["**/local/**", "**/dist/**"]
 }

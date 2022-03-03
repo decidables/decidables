@@ -266,13 +266,22 @@ Dependencies updated 17/1/2022.
 #### Lint
 
 - `yarn lint`
-  - Lints all libraries for scripts in `src/`
+  - Lints all libraries for markdown and scripts in `src/`
   - Lints all sites for markdown, scripts, and styles in `src/`, and compiled markup in `local/`
 - `yarn workspace @decidables/<library|site> lint`
   - Lints a single library or site
 - `yarn workspace @decidables/<library|site> gulp lint<type>`
   - Lints `Scripts` or `Styles` in a single library
   - Lints `Markdown`, `Markup`, `Scripts`, or `Styles` in a single site
+
+#### Test
+
+- `yarn test`
+  - Runs all tests for all libraries and reports coverage in `test/coverage/`
+- `yarn workspace @decidables/<library> test`
+  - Runs all tests for a single library and reports coverage in `test/coverage/`
+- `yarn workspace @decidables/<library> test:file <filename>`
+  - Runs tests for a single file and reports coverage in `test/coverage/`
 
 #### Compile
 
@@ -304,6 +313,20 @@ Dependencies updated 17/1/2022.
 - `yarn workspace @decidables/<library|site> gulp build<type>`
   - Builds `Scripts` in a single library from `src/` to `lib/`
   - Builds `Fonts`, `Markup`, `Scripts`, or `Styles` in a single site from `local/` to `dist/`
+
+#### Version
+
+- `yarn version`
+  - Bumps version numbers of all libraries and sites as needed based on conventional commits
+  - Transitive dependencies updated in each `package.json`
+  - Git tags added for new versions
+  - All of this is committed and pushed
+
+#### Publish
+
+- `yarn publish`
+  - **Note:** to be run immediately after `yarn version`
+  - Publishes all new versions of *public* libraries to *npm*
 
 #### Deploy
 
