@@ -11,12 +11,14 @@
   "scripts": {
     "postinstall": "husky install",
     "lint": "yarn workspaces foreach -pitv -j 2 run lint",
+    "test": "yarn workspaces foreach -pitv -j 2 run test",
     "compile": "yarn workspaces foreach -pitv -j 2 run compile",
     "watch": "yarn workspaces foreach -pitv -j 2 run watch",
     "build": "yarn workspaces foreach -pitv -j 2 run build",
     "deploy": "yarn workspaces foreach -pitv -j 2 run deploy",
-    "serve": "gulp serveAll",
-    "publish": "lerna publish --no-private --conventional-commits --otp $@"
+    "version": "lerna version --conventional-commits",
+    "publish": "lerna publish from-git --no-private --otp $@",
+    "serve": "gulp serveAll"
   },
   "workspaces": [
     "libraries/*",
