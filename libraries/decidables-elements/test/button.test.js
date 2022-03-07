@@ -1,4 +1,4 @@
-import {expect, fixture, html} from '@open-wc/testing';
+import {expect, fixture, html} from '../../../scripts/test';
 
 import '../src/button';
 

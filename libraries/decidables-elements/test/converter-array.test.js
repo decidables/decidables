@@ -1,4 +1,4 @@
-import {expect} from '@open-wc/testing';
+import {expect} from '../../../scripts/test';
 
 import DecidablesConvertArray from '../src/converter-array';
 
