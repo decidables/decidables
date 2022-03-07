@@ -4,18 +4,36 @@
   "description": "detectable-math: Equations for calculating Signal Detection Theory",
   "type": "module",
   "main": "./lib/detectableMath.umd.min.js",
+  "browser": "./lib/detectableMath.umd.min.js",
   "module": "./lib/detectableMath.esm.min.js",
   "exports": {
     "./lib/*.js": "./lib/*.js",
     ".": "./src/index.js",
     "./*": "./src/*.js"
   },
-  "repository": "https://github.com/decidables/decidables/tree/main/libraries/detectable-math",
-  "author": "Adam Krawitz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decidables/decidables.git",
+    "directory": "libraries/decidables-math"
+  },
+  "bugs": "https://github.com/decidables/decidables/issues",
+  "homepage": "https://github.com/decidables/decidables/tree/main/libraries/decidables-math",
+  "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
   "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "package.json",
+    "*.md",
+    "src",
+    "lib"
+  ],
   "scripts": {
     "lint": "gulp lint",
+    "test": "web-test-runner test/**/*.test.js --config ../../.webtestrunnerrc.js",
+    "test:watch": "web-test-runner test/**/*.test.js --config ../../.webtestrunnerrc.js --watch",
+    "test:file": "web-test-runner $@ --config ../../.webtestrunnerrc.js",
     "build": "gulp build"
   },
   "browserslist": [
@@ -23,6 +41,7 @@
     "not dead"
   ],
   "devDependencies": {
+    "@web/test-runner": "^0.13.27",
     "gulp": "^4.0.2"
   },
   "dependencies": {
