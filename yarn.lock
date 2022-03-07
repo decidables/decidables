@@ -1683,11 +1683,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@decidables/decidables-elements@^0.0.0, @decidables/decidables-elements@workspace:libraries/decidables-elements":
+"@decidables/decidables-elements@^0.0.2, @decidables/decidables-elements@workspace:libraries/decidables-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/decidables-elements@workspace:libraries/decidables-elements"
   dependencies:
-    "@open-wc/testing": ^3.1.1
     "@web/test-runner": ^0.13.27
     d3: ^7.3.0
     gulp: ^4.0.2
@@ -1699,8 +1698,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/decidables@workspace:sites/decidables"
   dependencies:
-    "@decidables/detectable-elements": ^0.0.0
-    "@decidables/prospectable-elements": ^0.0.0
+    "@decidables/detectable-elements": ^0.0.1
+    "@decidables/prospectable-elements": ^0.0.1
     "@webcomponents/webcomponentsjs": ^2.6.0
     bootstrap: ^5.1.3
     bootstrap-icons: ^1.8.1
@@ -1716,12 +1715,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/detectable-elements@^0.0.0, @decidables/detectable-elements@workspace:libraries/detectable-elements":
+"@decidables/detectable-elements@^0.0.1, @decidables/detectable-elements@workspace:libraries/detectable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/detectable-elements@workspace:libraries/detectable-elements"
   dependencies:
-    "@decidables/decidables-elements": ^0.0.0
-    "@decidables/detectable-math": ^0.0.0
+    "@decidables/decidables-elements": ^0.0.2
+    "@decidables/detectable-math": ^0.0.1
     d3: ^7.3.0
     gulp: ^4.0.2
     jstat: ^1.9.5
@@ -1729,10 +1728,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/detectable-math@^0.0.0, @decidables/detectable-math@workspace:libraries/detectable-math":
+"@decidables/detectable-math@^0.0.1, @decidables/detectable-math@workspace:libraries/detectable-math":
   version: 0.0.0-use.local
   resolution: "@decidables/detectable-math@workspace:libraries/detectable-math"
   dependencies:
+    "@web/test-runner": ^0.13.27
     gulp: ^4.0.2
     jstat: ^1.9.5
     lit: ^2.1.2
@@ -1743,7 +1743,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/detectable@workspace:sites/detectable"
   dependencies:
-    "@decidables/detectable-elements": ^0.0.0
+    "@decidables/detectable-elements": ^0.0.1
     "@popperjs/core": ^2.11.2
     "@webcomponents/webcomponentsjs": ^2.6.0
     bootstrap: ^5.1.3
@@ -1759,12 +1759,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/prospectable-elements@^0.0.0, @decidables/prospectable-elements@workspace:libraries/prospectable-elements":
+"@decidables/prospectable-elements@^0.0.1, @decidables/prospectable-elements@workspace:libraries/prospectable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable-elements@workspace:libraries/prospectable-elements"
   dependencies:
-    "@decidables/decidables-elements": ^0.0.0
-    "@decidables/prospectable-math": ^0.0.0
+    "@decidables/decidables-elements": ^0.0.2
+    "@decidables/prospectable-math": ^0.0.1
     "@lit-labs/motion": ^1.0.2
     bayes.js: "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f"
     d3: ^7.3.0
@@ -1780,7 +1780,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/prospectable-math@^0.0.0, @decidables/prospectable-math@workspace:libraries/prospectable-math":
+"@decidables/prospectable-math@^0.0.1, @decidables/prospectable-math@workspace:libraries/prospectable-math":
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable-math@workspace:libraries/prospectable-math"
   dependencies:
@@ -1794,7 +1794,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable@workspace:sites/prospectable"
   dependencies:
-    "@decidables/prospectable-elements": ^0.0.0
+    "@decidables/prospectable-elements": ^0.0.1
     "@popperjs/core": ^2.11.2
     "@webcomponents/webcomponentsjs": ^2.6.0
     bootstrap: ^5.1.3
@@ -3080,30 +3080,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-wc/testing-helpers@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@open-wc/testing-helpers@npm:2.1.1"
+"@open-wc/testing-helpers@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "@open-wc/testing-helpers@npm:2.1.2"
   dependencies:
     "@open-wc/scoped-elements": ^2.0.1
     lit: ^2.0.0
     lit-html: ^2.0.0
-  checksum: 8a80c1a16dd1a4bded8f00516f78a489467bc227db5615f36b99d1ceee0230049e69414b9de53c1d2f07e25703281a1e09f7747b9489446eabcf1f03e8440a0a
+  checksum: 49982aaa2abd090597b3e901c46feedb4110c3594a3beb7c687f85562120656b1091cb813e95f04322e21245bb313edd2ae941bade7177ca5fe1026d59f5d894
   languageName: node
   linkType: hard
 
-"@open-wc/testing@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "@open-wc/testing@npm:3.1.1"
+"@open-wc/testing@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "@open-wc/testing@npm:3.1.2"
   dependencies:
     "@esm-bundle/chai": ^4.3.4
     "@open-wc/chai-dom-equals": ^0.12.36
     "@open-wc/semantic-dom-diff": ^0.19.5
-    "@open-wc/testing-helpers": ^2.1.1
+    "@open-wc/testing-helpers": ^2.1.2
     "@types/chai": ^4.2.11
     "@types/chai-dom": ^0.0.9
     "@types/sinon-chai": ^3.2.3
     chai-a11y-axe: ^1.3.2
-  checksum: 7e82fe0e8d86897446215d6779b8a1ec9590c6f40fb617f3c5051edc2186c490060c5f2a5c7fa1ee56313ba67206c1ddc8b628c668a666ae62649d2c37415e5e
+  checksum: f209996b1bf67b3f8f409361eb0e962d1fe2eb62381ccb5f33db2b72a2ac88e4616c81b427f8f1f63f7da119663ea8c592bdf848d2d382f799499fc4c23267de
   languageName: node
   linkType: hard
 
@@ -3179,9 +3179,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-commonjs@npm:^21.0.1":
-  version: 21.0.2
-  resolution: "@rollup/plugin-commonjs@npm:21.0.2"
+"@rollup/plugin-commonjs@npm:^18.1.0":
+  version: 18.1.0
+  resolution: "@rollup/plugin-commonjs@npm:18.1.0"
   dependencies:
     "@rollup/pluginutils": ^3.1.0
     commondir: ^1.0.1
@@ -3191,8 +3191,8 @@ __metadata:
     magic-string: ^0.25.7
     resolve: ^1.17.0
   peerDependencies:
-    rollup: ^2.38.3
-  checksum: 5fd4c7b75d7881070f4395d7ba5f9035934f53b25e92d136583cc794461a456efc1e2a2204f946ec567dfea58073c38cb48f24d27155b89af0df0447c2cd0758
+    rollup: ^2.30.0
+  checksum: 7bb553119b0dcc1860e1c0b74ccc81b9519f5163c15660649191622e5911c6d3a1b1ecd743c510dcc28b8c88cd6c3df4776131a384719b9502328ff5f30cb8d6
   languageName: node
   linkType: hard
 
@@ -3904,7 +3904,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web/dev-server-rollup@npm:^0.3.13":
+"@web/dev-server-rollup@npm:^0.3.13, @web/dev-server-rollup@npm:^0.3.15":
   version: 0.3.15
   resolution: "@web/dev-server-rollup@npm:0.3.15"
   dependencies:
@@ -7198,15 +7198,18 @@ __metadata:
     "@commitlint/cli": ^16.2.1
     "@commitlint/config-conventional": ^16.2.1
     "@fullhuman/postcss-purgecss": ^4.1.3
+    "@open-wc/testing": ^3.1.2
     "@rollup/plugin-babel": ^5.3.0
-    "@rollup/plugin-commonjs": ^21.0.1
+    "@rollup/plugin-commonjs": ^18.1.0
     "@rollup/plugin-node-resolve": ^13.1.3
     "@stylelint/postcss-css-in-js": ^0.37.2
     "@tophat/eslint-import-resolver-require": ^0.1.3
+    "@web/dev-server-rollup": ^0.3.15
     camelcase: ^6.3.0
     citation-js: ^0.5.5
     citeproc: ^2.4.62
     cssnano: ^5.0.16
+    deep-eql: ^4.0.1
     del: ^6.0.0
     eslint: ^8.8.0
     eslint-config-airbnb-base: ^15.0.0
@@ -7262,6 +7265,7 @@ __metadata:
     stylelint-order: ^5.0.0
     stylelint-scss: ^4.1.0
     through2: ^4.0.2
+    type-detect: ^4.0.8
     unist-util-visit: ^4.1.0
   languageName: unknown
   linkType: soft
@@ -7286,6 +7290,15 @@ __metadata:
   version: 0.7.0
   resolution: "dedent@npm:0.7.0"
   checksum: 87de191050d9a40dd70cad01159a0bcf05ecb59750951242070b6abf9569088684880d00ba92a955b4058804f16eeaf91d604f283929b4f614d181cd7ae633d2
+  languageName: node
+  linkType: hard
+
+"deep-eql@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "deep-eql@npm:4.0.1"
+  dependencies:
+    type-detect: ^4.0.0
+  checksum: 304161c2d94566f36dcd6dea7b0cdbd555fe5e98eaab5f0d8203b12507f81ed4042e4040b3e4bd1c8f893f865cec643f725c6aa184984947fb69d1a80d19a9f7
   languageName: node
   linkType: hard
 
@@ -19351,6 +19364,13 @@ __metadata:
   dependencies:
     prelude-ls: ~1.1.2
   checksum: dd3b1495642731bc0e1fc40abe5e977e0263005551ac83342ecb6f4f89551d106b368ec32ad3fb2da19b3bd7b2d1f64330da2ea9176d8ddbfe389fb286eb5124
+  languageName: node
+  linkType: hard
+
+"type-detect@npm:^4.0.0, type-detect@npm:^4.0.8":
+  version: 4.0.8
+  resolution: "type-detect@npm:4.0.8"
+  checksum: 62b5628bff67c0eb0b66afa371bd73e230399a8d2ad30d852716efcc4656a7516904570cd8631a49a3ce57c10225adf5d0cbdcb47f6b0255fe6557c453925a15
   languageName: node
   linkType: hard
 
