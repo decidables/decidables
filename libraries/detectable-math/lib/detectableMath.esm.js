@@ -25,9 +25,12 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-var jstat = {exports: {}};
+function createCommonjsModule(fn) {
+  var module = { exports: {} };
+	return fn(module, module.exports), module.exports;
+}
 
-(function (module, exports) {
+var jstat = createCommonjsModule(function (module, exports) {
   (function (window, factory) {
     {
       module.exports = factory();
@@ -4759,7 +4762,7 @@ var jstat = {exports: {}};
     jStat.jStat = jStat;
     return jStat;
   });
-})(jstat);
+});
 
 /*
   SDTMath Static Class - Not intended for instantiation!
@@ -4770,7 +4773,9 @@ var jstat = {exports: {}};
     FA = false alarms
     CR = correct rejections
     HR = hit rate
+    zHR = Z-transformed hit rate
     FAR = false alarm rate
+    zFAR = Z-transformed false alarm rate
     ACC = accuracy
     PPV = positive predictive value
     FOMR = false omission rate (used FOMR to avoid keyword FOR!)
@@ -4781,6 +4786,10 @@ var jstat = {exports: {}};
     muS = mean of signal distribution
     l = lambda, threshold location, with l = 0 indicating no response bias
     h = height of signal distribution
+
+  Functions:
+    Z = z-score
+    Z^-1 = inverse z-score
 
   Equations (* = unequal variance):
     HR = H / (H + M)
@@ -4821,13 +4830,22 @@ var jstat = {exports: {}};
     *d' = (2 / (s^2 + 1))^(1/2) * ((s + 1) / s) * muS
 
     l = c
-    l = ((s^2 + 1) / 2)^(1/2) * c
+    *l = ((s^2 + 1) / 2)^(1/2) * c
 
     c = l
-    c = (2 / (s^2 + 1))^(1/2) * l
+    *c = (2 / (s^2 + 1))^(1/2) * l
 
     h = 1 / (s * (2 * pi)^(1/2))
     s = 1 / (h * (2 * pi)^(1/2))
+
+    zHR = Z(HR)
+
+    zFAR = Z(FAR)
+
+    HR = Z^-1(zHR)
+
+    FAR = Z^-1(zFAR)
+
 */
 
 var SDTMath = /*#__PURE__*/function () {
@@ -4889,43 +4907,43 @@ var SDTMath = /*#__PURE__*/function () {
     key: "hrFar2D",
     value: function hrFar2D(hr, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.exports.normal.inv(hr, 0, 1) - jstat.exports.normal.inv(far, 0, 1);
-      return Math.sqrt(2 / (s * s + 1)) * (s * jstat.exports.normal.inv(hr, 0, 1) - jstat.exports.normal.inv(far, 0, 1));
+      if (s === 1) return jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1);
+      return Math.sqrt(2 / (s * s + 1)) * (s * jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1));
     }
   }, {
     key: "hrFar2C",
     value: function hrFar2C(hr, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return -(jstat.exports.normal.inv(hr, 0, 1) + jstat.exports.normal.inv(far, 0, 1)) / 2;
-      return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jstat.exports.normal.inv(hr, 0, 1) + jstat.exports.normal.inv(far, 0, 1));
+      if (s === 1) return -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1)) / 2;
+      return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1));
     }
   }, {
     key: "dC2Hr",
     value: function dC2Hr(d, c) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.exports.normal.cdf(d / 2 - c, 0, 1);
-      return jstat.exports.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
+      if (s === 1) return jstat.normal.cdf(d / 2 - c, 0, 1);
+      return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
     }
   }, {
     key: "dC2Far",
     value: function dC2Far(d, c) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.exports.normal.cdf(-(d / 2 + c), 0, 1);
-      return jstat.exports.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
+      if (s === 1) return jstat.normal.cdf(-(d / 2 + c), 0, 1);
+      return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
     }
   }, {
     key: "dFar2Hr",
     value: function dFar2Hr(d, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.exports.normal.cdf(d + jstat.exports.normal.inv(far, 0, 1), 0, 1);
-      return jstat.exports.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jstat.exports.normal.inv(far, 0, 1)) / s, 0, 1);
+      if (s === 1) return jstat.normal.cdf(d + jstat.normal.inv(far, 0, 1), 0, 1);
+      return jstat.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jstat.normal.inv(far, 0, 1)) / s, 0, 1);
     }
   }, {
     key: "cFar2Hr",
     value: function cFar2Hr(c, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.exports.normal.cdf(-(2 * c) - jstat.exports.normal.inv(far, 0, 1), 0, 1);
-      return jstat.exports.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jstat.exports.normal.inv(far, 0, 1), 0, 1);
+      if (s === 1) return jstat.normal.cdf(-(2 * c) - jstat.normal.inv(far, 0, 1), 0, 1);
+      return jstat.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jstat.normal.inv(far, 0, 1), 0, 1);
     }
   }, {
     key: "d2MuN",
@@ -4983,22 +5001,22 @@ var SDTMath = /*#__PURE__*/function () {
   }, {
     key: "hr2Zhr",
     value: function hr2Zhr(hr) {
-      return jstat.exports.normal.inv(hr, 0, 1);
+      return jstat.normal.inv(hr, 0, 1);
     }
   }, {
     key: "far2Zfar",
     value: function far2Zfar(far) {
-      return jstat.exports.normal.inv(far, 0, 1);
+      return jstat.normal.inv(far, 0, 1);
     }
   }, {
     key: "zhr2Hr",
     value: function zhr2Hr(zhr) {
-      return jstat.exports.normal.cdf(zhr, 0, 1);
+      return jstat.normal.cdf(zhr, 0, 1);
     }
   }, {
     key: "zfar2Far",
     value: function zfar2Far(zfar) {
-      return jstat.exports.normal.cdf(zfar, 0, 1);
+      return jstat.normal.cdf(zfar, 0, 1);
     }
   }]);
 

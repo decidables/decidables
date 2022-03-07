@@ -8761,9 +8761,12 @@ customElements.define('rdk-task', RDKTask);
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-var jstat = {exports: {}};
+function createCommonjsModule(fn) {
+  var module = { exports: {} };
+	return fn(module, module.exports), module.exports;
+}
 
-(function (module, exports) {
+var jstat = createCommonjsModule(function (module, exports) {
   (function (window, factory) {
     {
       module.exports = factory();
@@ -13495,7 +13498,7 @@ var jstat = {exports: {}};
     jStat.jStat = jStat;
     return jStat;
   });
-})(jstat);
+});
 
 /*
   SDTMath Static Class - Not intended for instantiation!
@@ -13506,7 +13509,9 @@ var jstat = {exports: {}};
     FA = false alarms
     CR = correct rejections
     HR = hit rate
+    zHR = Z-transformed hit rate
     FAR = false alarm rate
+    zFAR = Z-transformed false alarm rate
     ACC = accuracy
     PPV = positive predictive value
     FOMR = false omission rate (used FOMR to avoid keyword FOR!)
@@ -13517,6 +13522,10 @@ var jstat = {exports: {}};
     muS = mean of signal distribution
     l = lambda, threshold location, with l = 0 indicating no response bias
     h = height of signal distribution
+
+  Functions:
+    Z = z-score
+    Z^-1 = inverse z-score
 
   Equations (* = unequal variance):
     HR = H / (H + M)
@@ -13557,13 +13566,22 @@ var jstat = {exports: {}};
     *d' = (2 / (s^2 + 1))^(1/2) * ((s + 1) / s) * muS
 
     l = c
-    l = ((s^2 + 1) / 2)^(1/2) * c
+    *l = ((s^2 + 1) / 2)^(1/2) * c
 
     c = l
-    c = (2 / (s^2 + 1))^(1/2) * l
+    *c = (2 / (s^2 + 1))^(1/2) * l
 
     h = 1 / (s * (2 * pi)^(1/2))
     s = 1 / (h * (2 * pi)^(1/2))
+
+    zHR = Z(HR)
+
+    zFAR = Z(FAR)
+
+    HR = Z^-1(zHR)
+
+    FAR = Z^-1(zFAR)
+
 */
 
 var SDTMath = /*#__PURE__*/function () {
@@ -13625,43 +13643,43 @@ var SDTMath = /*#__PURE__*/function () {
     key: "hrFar2D",
     value: function hrFar2D(hr, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.exports.normal.inv(hr, 0, 1) - jstat.exports.normal.inv(far, 0, 1);
-      return Math.sqrt(2 / (s * s + 1)) * (s * jstat.exports.normal.inv(hr, 0, 1) - jstat.exports.normal.inv(far, 0, 1));
+      if (s === 1) return jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1);
+      return Math.sqrt(2 / (s * s + 1)) * (s * jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1));
     }
   }, {
     key: "hrFar2C",
     value: function hrFar2C(hr, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return -(jstat.exports.normal.inv(hr, 0, 1) + jstat.exports.normal.inv(far, 0, 1)) / 2;
-      return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jstat.exports.normal.inv(hr, 0, 1) + jstat.exports.normal.inv(far, 0, 1));
+      if (s === 1) return -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1)) / 2;
+      return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1));
     }
   }, {
     key: "dC2Hr",
     value: function dC2Hr(d, c) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.exports.normal.cdf(d / 2 - c, 0, 1);
-      return jstat.exports.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
+      if (s === 1) return jstat.normal.cdf(d / 2 - c, 0, 1);
+      return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
     }
   }, {
     key: "dC2Far",
     value: function dC2Far(d, c) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.exports.normal.cdf(-(d / 2 + c), 0, 1);
-      return jstat.exports.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
+      if (s === 1) return jstat.normal.cdf(-(d / 2 + c), 0, 1);
+      return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
     }
   }, {
     key: "dFar2Hr",
     value: function dFar2Hr(d, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.exports.normal.cdf(d + jstat.exports.normal.inv(far, 0, 1), 0, 1);
-      return jstat.exports.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jstat.exports.normal.inv(far, 0, 1)) / s, 0, 1);
+      if (s === 1) return jstat.normal.cdf(d + jstat.normal.inv(far, 0, 1), 0, 1);
+      return jstat.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jstat.normal.inv(far, 0, 1)) / s, 0, 1);
     }
   }, {
     key: "cFar2Hr",
     value: function cFar2Hr(c, far) {
       var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.exports.normal.cdf(-(2 * c) - jstat.exports.normal.inv(far, 0, 1), 0, 1);
-      return jstat.exports.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jstat.exports.normal.inv(far, 0, 1), 0, 1);
+      if (s === 1) return jstat.normal.cdf(-(2 * c) - jstat.normal.inv(far, 0, 1), 0, 1);
+      return jstat.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jstat.normal.inv(far, 0, 1), 0, 1);
     }
   }, {
     key: "d2MuN",
@@ -13719,22 +13737,22 @@ var SDTMath = /*#__PURE__*/function () {
   }, {
     key: "hr2Zhr",
     value: function hr2Zhr(hr) {
-      return jstat.exports.normal.inv(hr, 0, 1);
+      return jstat.normal.inv(hr, 0, 1);
     }
   }, {
     key: "far2Zfar",
     value: function far2Zfar(far) {
-      return jstat.exports.normal.inv(far, 0, 1);
+      return jstat.normal.inv(far, 0, 1);
     }
   }, {
     key: "zhr2Hr",
     value: function zhr2Hr(zhr) {
-      return jstat.exports.normal.cdf(zhr, 0, 1);
+      return jstat.normal.cdf(zhr, 0, 1);
     }
   }, {
     key: "zfar2Far",
     value: function zfar2Far(zfar) {
-      return jstat.exports.normal.cdf(zfar, 0, 1);
+      return jstat.normal.cdf(zfar, 0, 1);
     }
   }]);
 
@@ -14871,7 +14889,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
       trial.duration = duration;
       trial.wait = wait;
       trial.iti = iti;
-      trial.evidence = jstat.exports.normal.sample(0, 1);
+      trial.evidence = jstat.normal.sample(0, 1);
       this.alignTrial(trial);
       this.trials.push(trial);
       this.requestUpdate();
@@ -15267,12 +15285,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           var correctRejections = range(xScale.domain()[0], SDTMath.c2L(element.c, element.s), 0.05).map(function (e) {
             return {
               e: e,
-              p: jstat.exports.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
+              p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
             };
           });
           correctRejections.push({
             e: SDTMath.c2L(element.c, element.s),
-            p: jstat.exports.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuN(element.d, element.s), 1)
+            p: jstat.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuN(element.d, element.s), 1)
           });
           correctRejections.push({
             e: SDTMath.c2L(element.c, element.s),
@@ -15301,12 +15319,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           var falseAlarms = range(SDTMath.c2L(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jstat.exports.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
+              p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
             };
           });
           falseAlarms.push({
             e: xScale.domain()[1],
-            p: jstat.exports.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
+            p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
           });
           falseAlarms.push({
             e: xScale.domain()[1],
@@ -15333,12 +15351,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           var noise = range(xScale.domain()[0], xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jstat.exports.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
+              p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
             };
           });
           noise.push({
             e: xScale.domain()[1],
-            p: jstat.exports.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
+            p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
           });
           return line$1(noise);
         };
@@ -15429,12 +15447,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           var misses = range(xScale.domain()[0], SDTMath.c2L(element.c, element.s), 0.05).map(function (e) {
             return {
               e: e,
-              p: jstat.exports.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
+              p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
             };
           });
           misses.push({
             e: SDTMath.c2L(element.c, element.s),
-            p: jstat.exports.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuS(element.d, element.s), element.s)
+            p: jstat.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuS(element.d, element.s), element.s)
           });
           misses.push({
             e: SDTMath.c2L(element.c, element.s),
@@ -15463,12 +15481,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           var hits = range(SDTMath.c2L(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jstat.exports.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
+              p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
             };
           });
           hits.push({
             e: xScale.domain()[1],
-            p: jstat.exports.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
+            p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
           });
           hits.push({
             e: xScale.domain()[1],
@@ -15495,12 +15513,12 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
           var signal = range(xScale.domain()[0], xScale.domain()[1], 0.05).map(function (e) {
             return {
               e: e,
-              p: jstat.exports.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
+              p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
             };
           });
           signal.push({
             e: xScale.domain()[1],
-            p: jstat.exports.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
+            p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
           });
           return line$1(signal);
         };
@@ -15585,16 +15603,16 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
       sLabel.append('tspan').classed('value', true); //  MERGE
 
       var sMerge = sEnter.merge(sUpdate);
-      sMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstat.exports.normal.pdf(this.s, 0, this.s)) + 10 / this.s) // FIX - no hardcoding
-      .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstat.exports.normal.pdf(this.s, 0, this.s)) + 10 / this.s); // FIX - no hardcoding
+      sMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s); // FIX - no hardcoding
 
-      sMerge.select('.cap-left').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstat.exports.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
-      .attr('x2', xScale(this.muS - this.s)).attr('y2', yScale(jstat.exports.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
+      sMerge.select('.cap-left').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS - this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
 
-      sMerge.select('.cap-right').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS + this.s)).attr('y1', yScale(jstat.exports.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
-      .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstat.exports.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
+      sMerge.select('.cap-right').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS + this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
+      .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
 
-      var sLabelTransition = sMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(this.muS)).attr('y', yScale(jstat.exports.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 3); // FIX - no hardcoding
+      var sLabelTransition = sMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(this.muS)).attr('y', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 3); // FIX - no hardcoding
 
       sLabelTransition.select('.value').tween('text', function (datum, index, elements) {
         var element = elements[index];
