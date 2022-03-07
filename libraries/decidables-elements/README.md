@@ -37,6 +37,8 @@
   - Lints markdown, scripts and styles
 - `yarn test`
   - Runs all tests and reports coverage in `test/coverage/`
+- `yarn test:watch`
+  - Runs all tests in watch mode and reports coverage in `test/coverage/`
 - `yarn test:file <filename>`
   - Runs tests for a single file and reports coverage in `test/coverage/`
 - `yarn build`
