@@ -1,5 +1,5 @@
 
-import * as jStat from 'jstat';
+import jStat from 'jstat';
 
 /*
   SDTMath Static Class - Not intended for instantiation!
@@ -10,7 +10,9 @@ import * as jStat from 'jstat';
     FA = false alarms
     CR = correct rejections
     HR = hit rate
+    zHR = Z-transformed hit rate
     FAR = false alarm rate
+    zFAR = Z-transformed false alarm rate
     ACC = accuracy
     PPV = positive predictive value
     FOMR = false omission rate (used FOMR to avoid keyword FOR!)
@@ -21,6 +23,10 @@ import * as jStat from 'jstat';
     muS = mean of signal distribution
     l = lambda, threshold location, with l = 0 indicating no response bias
     h = height of signal distribution
+
+  Functions:
+    Z = z-score
+    Z^-1 = inverse z-score
 
   Equations (* = unequal variance):
     HR = H / (H + M)
@@ -61,13 +67,22 @@ import * as jStat from 'jstat';
     *d' = (2 / (s^2 + 1))^(1/2) * ((s + 1) / s) * muS
 
     l = c
-    l = ((s^2 + 1) / 2)^(1/2) * c
+    *l = ((s^2 + 1) / 2)^(1/2) * c
 
     c = l
-    c = (2 / (s^2 + 1))^(1/2) * l
+    *c = (2 / (s^2 + 1))^(1/2) * l
 
     h = 1 / (s * (2 * pi)^(1/2))
     s = 1 / (h * (2 * pi)^(1/2))
+
+    zHR = Z(HR)
+
+    zFAR = Z(FAR)
+
+    HR = Z^-1(zHR)
+
+    FAR = Z^-1(zFAR)
+
 */
 export default class SDTMath {
   static hM2Hr(h, m) {

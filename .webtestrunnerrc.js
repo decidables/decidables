@@ -14,6 +14,7 @@ export default {
     commonjsPlugin({
       include: [
         '../../**/node_modules/deep-eql/**/*',
+        '../../**/node_modules/jstat/**/*',
         '../../**/node_modules/type-detect/**/*',
       ],
     }),
