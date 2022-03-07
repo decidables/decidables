@@ -23,6 +23,12 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "package.json",
+    "*.md",
+    "src",
+    "lib"
+  ],
   "scripts": {
     "lint": "gulp lint",
     "test": "web-test-runner test/**/*.test.js --config ../../.webtestrunnerrc.js",
