@@ -32,12 +32,12 @@ Button for taking actions
 - Attribute: `disabled`
   - Boolean (default: `false`)
   - In disabled state user can't interact
-- Example: 
-  ```html
-  <decidables-button disabled>
-    Click me
-  </decidables-button>
-  ```
+Example: 
+```html
+<decidables-button disabled>
+  Click me
+</decidables-button>
+```
 
 #### `DecidablesSlider` / `<decidables-slider>`
 
@@ -60,12 +60,13 @@ Slider w/spinner for selecting a numeric value from a range
 - Attribute: `value`
   - Number (default: `undefined`)
   - Initial value of the slider
-- Example:
-  ```html
-  <decidables-slider disabled max="0" min="100" step="2" value="50">
-    Move me
-  </decidables-slider>
-  ```
+
+Example:
+```html
+<decidables-slider disabled max="0" min="100" step="2" value="50">
+  Move me
+</decidables-slider>
+```
 
 #### `DecidablesSpinner` / `<decidables-spinner>`
 
@@ -88,12 +89,13 @@ Text field w/spinner arrows for selecting a continuous numeric value
 - Attribute: `value`
   - Number (default: `undefined`)
   - Initial value of the slider
-- Example:
-  ```html
-  <decidables-spinner disabled max="0" min="100" step="2" value="50">
-    Change me
-  </decidables-spinner>
-  ```
+
+Example:
+```html
+<decidables-spinner disabled max="0" min="100" step="2" value="50">
+  Change me
+</decidables-spinner>
+```
 
 #### `DecidablesSwitch` / `<decidables-switch>`
 
@@ -109,13 +111,14 @@ Switch for turning an option on or off
 - Attribute: `checked`
   - Number (default: `false`)
   - Whether the switch is **on** (`true`) or **off** ('false`)
-- Example:
-  ```html
-  <decidables-switch disabled checked>
-    <span>On</span>
-    <span slot="off-label">Off</span>
-  </decidables-switch>
-  ```
+
+Example:
+```html
+<decidables-switch disabled checked>
+  <span>On</span>
+  <span slot="off-label">Off</span>
+</decidables-switch>
+```
 
 #### `DecidablesToggleOption` / `<decidables-toggle-option>`
 
@@ -135,12 +138,13 @@ One option in a toggle set
 - Attribute: `value`
   - String (default: `undefined`)
   - An identifier specific to this option to uniquely identify it in the group
-- Example:
-  ```html
-  <decidables-toggle-option disabled name="flavors" value="chocolate" checked>
-    Chocolate
-  </decidables-toggle-option>
-  ```
+
+Example:
+```html
+<decidables-toggle-option disabled name="flavors" value="chocolate" checked>
+  Chocolate
+</decidables-toggle-option>
+```
 
 #### `DecidablesToggle` / `<decidables-toggle>`
 
@@ -153,22 +157,23 @@ Toggle for selecting one option from a set
 - Attribute: `disabled`
   - Boolean (default: `false`)
   - In disabled state user can't interact
-- Example:
-  ```html
-  <decidables-toggle disabled>
-    <span>Pick one</span>
-    <span slot="label">Flavors</span>
-    <decidables-toggle-option disabled name="flavors" value="chocolate">
-      Chocolate
-    </decidables-toggle-option>
-    <decidables-toggle-option disabled name="flavors" value="strawberry">
-      Strawberry
-    </decidables-toggle-option>
-    <decidables-toggle-option disabled name="flavors" value="vanilla" checked>
-      Vanilla
-    </decidables-toggle-option>
-  </decidables-toggle>
-  ```
+
+Example:
+```html
+<decidables-toggle disabled>
+  <span>Pick one</span>
+  <span slot="label">Flavors</span>
+  <decidables-toggle-option disabled name="flavors" value="chocolate">
+    Chocolate
+  </decidables-toggle-option>
+  <decidables-toggle-option disabled name="flavors" value="strawberry">
+    Strawberry
+  </decidables-toggle-option>
+  <decidables-toggle-option disabled name="flavors" value="vanilla" checked>
+    Vanilla
+  </decidables-toggle-option>
+</decidables-toggle>
+```
 
 ### Base class
 
@@ -176,13 +181,15 @@ Toggle for selecting one option from a set
 
 Base class for all *decidables* web components
 
-- To define a new element:
-  ```javascript
-  export default class DecidablesSomething extends DecidablesElement {
-    ...
-  }
-  ```
-- This library is built on `Lit`, so the resulting `DecidableElement` is also a `LitElement` 
+To define a new element:
+
+```javascript
+export default class DecidablesSomething extends DecidablesElement {
+  ...
+}
+```
+
+This library is built on `Lit`, so the resulting `DecidableElement` is also a `LitElement` 
 
 ### Utilities
 
@@ -190,47 +197,53 @@ Base class for all *decidables* web components
 
 Utility for attributes that can take an array of values
 
-- If you are defining a `DecidablesElement` with an attribute that can take an array of numbers,
-  then you can use this to automatically convert between a space-separated list as the attribute
-  and an `Array` of numbers as the property:
-  ```javascript
-  static get properties() {
-    return {
-      stuff: {
-        attribute: 'values',
-        converter: DecidablesConverterArray,
-        reflect: true,
-      },
-    };
+If you are defining a `DecidablesElement` with an attribute that can take an array of numbers,
+then you can use this to automatically convert between a space-separated list as the attribute
+and an `Array` of numbers as the property:
+
+```javascript
+static get properties() {
+  return {
+    stuff: {
+      attribute: 'values',
+      converter: DecidablesConverterArray,
+      reflect: true,
+    },
   };
-  ```
-  ```html
-  <decidables-something values="1.23 3.56 -2.97"></decidables-something>
-  ```
-  And `this.values` will be the `Array`: `[1.23 3.56 -2.97]`
+};
+```
+
+```html
+<decidables-something values="1.23 3.56 -2.97"></decidables-something>
+```
+
+And `this.values` will be the `Array`: `[1.23 3.56 -2.97]`
 
 #### `DecidablesConverterSet`
 
 Utility for attributes that can take a set of values
 
-- If you are defining a `DecidablesElement` with an attribute that can take a set of string
-  values, then you can use this to automatically convert between a space-separated list as the
-  attribute and a `Set` of strings as the property:
-  ```javascript
-  static get properties() {
-    return {
-      stuff: {
-        attribute: 'stuff',
-        converter: DecidablesConverterSet,
-        reflect: true,
-      },
-    };
+If you are defining a `DecidablesElement` with an attribute that can take a set of string
+values, then you can use this to automatically convert between a space-separated list as the
+attribute and a `Set` of strings as the property:
+
+```javascript
+static get properties() {
+  return {
+    stuff: {
+      attribute: 'stuff',
+      converter: DecidablesConverterSet,
+      reflect: true,
+    },
   };
-  ```
-  ```html
-  <decidables-something stuff="this that other"></decidables-something>
-  ```
-  And `this.stuff` will be a `Set` with members: `'this'`, `'that'`, and `'other'`
+};
+```
+
+```html
+<decidables-something stuff="this that other"></decidables-something>
+```
+
+And `this.stuff` will be a `Set` with members: `'this'`, `'that'`, and `'other'`
 
 ---
 
