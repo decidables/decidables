@@ -204,8 +204,8 @@ describe('sdt-math', () => {
   });
 
   it('calculates false alarm rate from Z-transformed false alarm rate', () => {
-    expect(SDTMath.zhr2Hr(-1.28)).to.be.almost(0.1, 0.01);
-    expect(SDTMath.zhr2Hr(0)).to.be.almost(0.5, 0.01);
-    expect(SDTMath.zhr2Hr(1.28)).to.be.almost(0.9, 0.01);
+    expect(SDTMath.zfar2Far(-1.28)).to.be.almost(0.1, 0.01);
+    expect(SDTMath.zfar2Far(0)).to.be.almost(0.5, 0.01);
+    expect(SDTMath.zfar2Far(1.28)).to.be.almost(0.9, 0.01);
   });
 });

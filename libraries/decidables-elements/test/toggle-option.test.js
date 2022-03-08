@@ -9,7 +9,6 @@ describe('decidables-toggle-option', () => {
         Possibly
       </decidables-toggle-option>
     `);
-
     expect(el).shadowDom.to.equal(`
       <input type="radio" id="decidables-1-radio" name="test" value="possibly">
       <label for="decidables-1-radio">
@@ -24,7 +23,6 @@ describe('decidables-toggle-option', () => {
         Possibly
       </decidables-toggle-option>
     `);
-
     expect(el).lightDom.to.equal(`
       Possibly
     `);
@@ -36,7 +34,6 @@ describe('decidables-toggle-option', () => {
         Possibly
       </decidables-toggle-option>
     `);
-
     expect(el.shadowRoot).to.have.descendant('input').that.has.attribute('disabled');
   });
 
@@ -46,7 +43,6 @@ describe('decidables-toggle-option', () => {
         Possibly
       </decidables-toggle-option>
     `);
-
     expect(el.shadowRoot).to.have.descendant('input').that.has.property('checked', false);
   });
 
@@ -56,7 +52,6 @@ describe('decidables-toggle-option', () => {
         Possibly
       </decidables-toggle-option>
     `);
-
     expect(el.shadowRoot).to.have.descendant('input').that.has.property('checked', true);
   });
 });

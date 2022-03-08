@@ -18,7 +18,6 @@ describe('decidables-toggle', () => {
         </decidables-toggle-option>
       </decidables-toggle>
     `);
-
     expect(el).shadowDom.to.equal(`
       <fieldset>
         <legend><slot name="label"></slot></legend>
@@ -42,7 +41,6 @@ describe('decidables-toggle', () => {
         </decidables-toggle-option>
       </decidables-toggle>
     `);
-
     expect(el).lightDom.to.equal(`
       <span slot="label">Choose</span>
       <decidables-toggle-option name="test" value="possibly">
@@ -72,7 +70,6 @@ describe('decidables-toggle', () => {
         </decidables-toggle-option>
       </decidables-toggle>
     `);
-
     expect(el.shadowRoot).to.have.descendant('fieldset').that.has.attribute('disabled');
   });
 
@@ -91,7 +88,6 @@ describe('decidables-toggle', () => {
         </decidables-toggle-option>
       </decidables-toggle>
     `);
-
     expect(el).to.have.descendants('decidables-toggle-option[checked]').with.length(1);
     expect(el).to.have.descendants('decidables-toggle-option:not([checked])').with.length(2);
   });
