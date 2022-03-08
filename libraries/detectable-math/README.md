@@ -1,113 +1,124 @@
-<!--lint ignore first-heading-level -->
+<!--lint ignore first-heading-level-->
 
 # detectable-math: Equations for Calculating Signal Detection Theory
 
 ## Usage
 
-- Install:
-  ```shell
-  yarn add @decidables/detectable-math
-  ```
-- Use:
-  ```javascript
-  import SDTMath from '@decidables/detectable-math';
-  ```
-  A class providing static functions for calculating Signal Detection Theory equations
+### Install
+
+```shell
+yarn add @decidables/detectable-math
+```
+
+### Use
+
+```javascript
+import SDTMath from '@decidables/detectable-math';
+```
+A class providing static functions for calculating Signal Detection Theory equations
 
 ## Contents
 
-- `SDTMath`
-  - Single class exposing static functions for SDT calculations. Each function takes values for one
-    or more variables and returns the value of another variable. The functions are named with a list
-    of the input variables followed by a '2' followed by the output variable, in camelcase. For
-    example, `hM2Hr` takes as input the number of hits, `H`, and the number of misses, `M`, and
-    outputs the hit rate, `HR`
-  - Variable names
-    - H = hits
-    - M = misses
-    - FA = false alarms
-    - CR = correct rejections
-    - HR = hit rate
-    - zHR = Z-transformed hit rate
-    - FAR = false alarm rate
-    - zFAR = Z-transformed false alarm rate
-    - ACC = accuracy
-    - PPV = positive predictive value
-    - FOMR = false omission rate (used FOMR to avoid keyword FOR!)
-    - d' = sensitivity (d' for equal variance, d_a for unequal variance)
-    - c = response bias (c for equal variance, c_a for unequal variance)
-    - s = standard deviation of signal distribution,
-      with standard deviation of noise distribution = 1
-    - muN = mean of noise distribution
-    - muS = mean of signal distribution
-    - l = lambda, threshold location, with l = 0 indicating no response bias
-    - h = height of signal distribution
-  - Function names
-    - Z = z-score
-    - Z^-1 = inverse z-score
-  - Methods w/implemented equations
-    - Many methods take an optional `s` for unequal variance. A different equation, marked with a *
-      is used in these cases.
-    - `hM2Hr(h, m)`
-      - HR = H / (H + M)
-    - `faCr2Far(fa, cr)`
-      - FAR = FA / (FA + CR)
-    - `hMFaCr2Acc(h, m, fa, cr)`
-      - ACC = (H + CR) / (H + M + FA + CR)
-    - `hrFar2Acc(hr, far)`
-      - ACC = (HR + (1 - FAR)) / 2
-    - `hFa2Ppv(h, fa)`
-      - PPV = H / (H + FA)
-    - `mCr2Fomr(m, cr)`
-      - FOMR = M / (M + CR)
-    - `hrFar2D(hr, far, s = 1)`
-      - d' = Z^-1(HR) - Z^-1(FAR)
-      - \* d' = (2 / (s^2 + 1))^(1/2) * (s * Z^-1(HR) - Z^-1(FAR))
-    - `hrFar2C(hr, far, s = 1)`
-      - c = -(Z^-1(HR) + Z^-1(FAR))/2
-      - \* c = (2 / (s^2 + 1))^(1/2) * (s / s + 1) * -(Z^-1(HR) + Z^-1(FAR))
-    - `dC2Hr(d, c, s = 1)`
-      - HR = Z(d'/2 - c)
-      - \* HR = Z(((s^2 + 1) / 2)^(1/2) * (d' / (s + 1) - c / s))
-    - `dC2Far(d, c, s = 1)`
-      - FAR = Z(-d'/2 - c)
-      - \* FAR = Z(((s^2 + 1) / 2)^(1/2) * -(d' / (s + 1) + c))
-    - `dFar2Hr(d, far, s = 1)`
-      - HR = Z(d' + Z^-1(FAR))
-      - \* HR = Z(((s^2 + 1) / 2)^(1/2) * d' + Z^-1(FAR) / s)
-    - `cFar2Hr(c, far, s = 1)`
-      - HR = Z(-2c - Z^-1(FAR))
-      - \* HR = Z(-((s^2 + 1) / 2)^(1/2) * ((s + 1) / s) * c - Z^-1(FAR))
-    - `d2MuN(d, s = 1)`
-      - muN = -d'/2
-      - \* muN = -((s^2 + 1) / 2)^(1/2) * (1 / (s + 1)) * d'
-    - `muN2D(muN, s = 1)`
-      - d' = -2 * muN
-      - \* d' = -(2 / (s^2 + 1))^(1/2) * (s + 1) * muN
-    - `d2MuS(d, s = 1)`
-      - muS = d'/2
-      - \* muS = ((s^2 + 1) / 2)^(1/2) * (s / (s + 1)) * d'
-    - `muS2D(muS, s = 1)`
-      - d' = 2 * muS
-      - \* d' = (2 / (s^2 + 1))^(1/2) * ((s + 1) / s) * muS
-    - `c2L(c, s = 1)`
-      - l = c
-      - \* l = ((s^2 + 1) / 2)^(1/2) * c
-    - `l2C(l, s = 1)`
-      - c = l
-      - \* c = (2 / (s^2 + 1))^(1/2) * l
-    - `s2H(s = 1)`
-      - h = 1 / (s * (2 * pi)^(1/2))
-    - `h2S(h)`
-      - s = 1 / (h * (2 * pi)^(1/2))
-    - `hr2Zhr(hr)`
-      - zHR = Z(HR)
-    - `far2Zfar(far)`
-      - zFAR = Z(FAR)
-    - `zhr2Hr(zhr)`
-      - HR = Z^-1(zHR)
-    - `zfar2Far(zfar)`
-      - FAR = Z^-1(zFAR)
+### `SDTMath`
+
+Single class exposing static functions for SDT calculations. Each function takes values for one or
+more variables and returns the value of another variable. The functions are named with a list of the
+input variables followed by a '2' followed by the output variable, in camelcase. For example,
+`hM2Hr` takes as input the number of hits, `H`, and the number of misses, `M`, and outputs the hit
+rate, `HR`
+
+#### Variable names
+
+- H = hits
+- M = misses
+- FA = false alarms
+- CR = correct rejections
+- HR = hit rate
+- zHR = Z-transformed hit rate
+- FAR = false alarm rate
+- zFAR = Z-transformed false alarm rate
+- ACC = accuracy
+- PPV = positive predictive value
+- FOMR = false omission rate (used FOMR to avoid keyword FOR!)
+- d' = sensitivity (d' for equal variance, d_a for unequal variance)
+- c = response bias (c for equal variance, c_a for unequal variance)
+- s = standard deviation of signal distribution,
+  with standard deviation of noise distribution = 1
+- muN = mean of noise distribution
+- muS = mean of signal distribution
+- l = lambda, threshold location, with l = 0 indicating no response bias
+- h = height of signal distribution
+
+#### Function names
+
+- Z = z-score
+- Z^-1 = inverse z-score
+
+#### Methods w/implemented equations
+
+Many methods take an optional `s` for unequal variance. A different equation, marked with a * is
+used in these cases.
+
+- `hM2Hr(h, m)`
+  - HR = H / (H + M)
+- `faCr2Far(fa, cr)`
+  - FAR = FA / (FA + CR)
+- `hMFaCr2Acc(h, m, fa, cr)`
+  - ACC = (H + CR) / (H + M + FA + CR)
+- `hrFar2Acc(hr, far)`
+  - ACC = (HR + (1 - FAR)) / 2
+- `hFa2Ppv(h, fa)`
+  - PPV = H / (H + FA)
+- `mCr2Fomr(m, cr)`
+  - FOMR = M / (M + CR)
+- `hrFar2D(hr, far, s = 1)`
+  - d' = Z^-1(HR) - Z^-1(FAR)
+  - \* d' = (2 / (s^2 + 1))^(1/2) * (s * Z^-1(HR) - Z^-1(FAR))
+- `hrFar2C(hr, far, s = 1)`
+  - c = -(Z^-1(HR) + Z^-1(FAR))/2
+  - \* c = (2 / (s^2 + 1))^(1/2) * (s / s + 1) * -(Z^-1(HR) + Z^-1(FAR))
+- `dC2Hr(d, c, s = 1)`
+  - HR = Z(d'/2 - c)
+  - \* HR = Z(((s^2 + 1) / 2)^(1/2) * (d' / (s + 1) - c / s))
+- `dC2Far(d, c, s = 1)`
+  - FAR = Z(-d'/2 - c)
+  - \* FAR = Z(((s^2 + 1) / 2)^(1/2) * -(d' / (s + 1) + c))
+- `dFar2Hr(d, far, s = 1)`
+  - HR = Z(d' + Z^-1(FAR))
+  - \* HR = Z(((s^2 + 1) / 2)^(1/2) * d' + Z^-1(FAR) / s)
+- `cFar2Hr(c, far, s = 1)`
+  - HR = Z(-2c - Z^-1(FAR))
+  - \* HR = Z(-((s^2 + 1) / 2)^(1/2) * ((s + 1) / s) * c - Z^-1(FAR))
+- `d2MuN(d, s = 1)`
+  - muN = -d'/2
+  - \* muN = -((s^2 + 1) / 2)^(1/2) * (1 / (s + 1)) * d'
+- `muN2D(muN, s = 1)`
+  - d' = -2 * muN
+  - \* d' = -(2 / (s^2 + 1))^(1/2) * (s + 1) * muN
+- `d2MuS(d, s = 1)`
+  - muS = d'/2
+  - \* muS = ((s^2 + 1) / 2)^(1/2) * (s / (s + 1)) * d'
+- `muS2D(muS, s = 1)`
+  - d' = 2 * muS
+  - \* d' = (2 / (s^2 + 1))^(1/2) * ((s + 1) / s) * muS
+- `c2L(c, s = 1)`
+  - l = c
+  - \* l = ((s^2 + 1) / 2)^(1/2) * c
+- `l2C(l, s = 1)`
+  - c = l
+  - \* c = (2 / (s^2 + 1))^(1/2) * l
+- `s2H(s = 1)`
+  - h = 1 / (s * (2 * pi)^(1/2))
+- `h2S(h)`
+  - s = 1 / (h * (2 * pi)^(1/2))
+- `hr2Zhr(hr)`
+  - zHR = Z(HR)
+- `far2Zfar(far)`
+  - zFAR = Z(FAR)
+- `zhr2Hr(zhr)`
+  - HR = Z^-1(zHR)
+- `zfar2Far(zfar)`
+  - FAR = Z^-1(zFAR)
 
 ---
 
