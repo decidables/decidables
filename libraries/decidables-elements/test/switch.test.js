@@ -10,7 +10,6 @@ describe('decidables-switch', () => {
         <span slot="off-label">Off</span>
       </decidables-switch>
     `);
-
     expect(el).shadowDom.to.equal(`
       <input type="checkbox" id="decidables-1-checkbox">
       <label for="decidables-1-checkbox">
@@ -29,7 +28,6 @@ describe('decidables-switch', () => {
         <span slot="off-label">Off</span>
       </decidables-switch>
     `);
-
     expect(el).lightDom.to.equal(`
       <span>On</span>
       <span slot="off-label">Off</span>
@@ -43,7 +41,6 @@ describe('decidables-switch', () => {
         <span slot="off-label">Off</span>
       </decidables-switch>
     `);
-
     expect(el.shadowRoot).to.have.descendant('input').that.has.attribute('disabled');
   });
 
@@ -54,7 +51,6 @@ describe('decidables-switch', () => {
         <span slot="off-label">Off</span>
       </decidables-switch>
     `);
-
     expect(el.shadowRoot).to.have.descendant('input').that.does.not.have.attribute('checked');
   });
 
@@ -65,7 +61,6 @@ describe('decidables-switch', () => {
         <span slot="off-label">Off</span>
       </decidables-switch>
     `);
-
     expect(el.shadowRoot).to.have.descendant('input').that.has.attribute('checked');
   });
 });
