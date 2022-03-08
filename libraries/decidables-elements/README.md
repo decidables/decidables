@@ -27,11 +27,12 @@ for use in HTML.
 
 Button for taking actions
 
-- Slot: *unnamed*
-  - Inline content as label
-- Attribute: `disabled`
-  - Boolean (default: `false`)
-  - In disabled state user can't interact
+- Slots
+  - *unnamed*
+    - Inline content as label
+- Attributes
+  - `disabled: boolean = false`
+    - In disabled state user can't interact
 Example: 
 ```html
 <decidables-button disabled>
@@ -43,23 +44,20 @@ Example:
 
 Slider w/spinner for selecting a numeric value from a range
 
-- Slot: *unnamed*
-  - Inline content as label
-- Attribute: `disabled`
-  - Boolean (default: `false`)
-  - In disabled state user can't interact
-- Attribute: `max`
-  - Number (default: `undefined`)
-  - Maximum value the slider can take
-- Attribute: `min`
-  - Number (default: `undefined`)
-  - Minimum value the slider can take
-- Attribute: `step`
-  - Number (default: `undefined`)
-  - Amount that value increments with smallest movement of the slider
-- Attribute: `value`
-  - Number (default: `undefined`)
-  - Initial value of the slider
+- Slots
+  - *unnamed*
+    - Inline content as label
+- Attributes
+  - `disabled: boolean = false`
+    - In disabled state user can't interact
+  - `max: number = undefined`
+    - Maximum value the slider can take
+  - `min: number = undefined`
+    - Minimum value the slider can take
+  - `step: number = undefined`
+    - Amount that value increments with smallest movement of the slider
+  - `value: number = undefined`
+    - Initial value of the slider
 
 Example:
 ```html
@@ -72,23 +70,20 @@ Example:
 
 Text field w/spinner arrows for selecting a continuous numeric value
 
-- Slot: *unnamed*
-  - Inline content as label
-- Attribute: `disabled`
-  - Boolean (default: `false`)
-  - In disabled state user can't interact
-- Attribute: `max`
-  - Number (default: `undefined`)
-  - Maximum value the slider can take
-- Attribute: `min`
-  - Number (default: `undefined`)
-  - Minimum value the slider can take
-- Attribute: `step`
-  - Number (default: `undefined`)
-  - Amount that value increments with smallest movement of the slider
-- Attribute: `value`
-  - Number (default: `undefined`)
-  - Initial value of the slider
+- Slots
+  - *unnamed*
+    - Inline content as label
+- Attributes
+  - `disabled: boolean = false`
+    - In disabled state user can't interact
+  - `max: number = undefined`
+    - Maximum value the slider can take
+  - `min: number = undefined`
+    - Minimum value the slider can take
+  - `step: number = undefined`
+    - Amount that value increments with smallest movement of the slider
+  - `value: number = undefined`
+    - Initial value of the slider
 
 Example:
 ```html
@@ -101,16 +96,16 @@ Example:
 
 Switch for turning an option on or off
 
-- Slot: *unnamed*
-  - Inline content as label for **on** state
-- Slot: `off-label`
-  - Inline content as label for **off** state
-- Attribute: `disabled`
-  - Boolean (default: `false`)
-  - In disabled state user can't interact
-- Attribute: `checked`
-  - Number (default: `false`)
-  - Whether the switch is **on** (`true`) or **off** ('false`)
+- Slots
+  - *unnamed*
+    - Inline content as label for **on** state
+  - `off-label`
+    - Inline content as label for **off** state
+- Attributes
+  - `disabled: boolean = false`
+    - In disabled state user can't interact
+  - `checked: number = false`
+    - Whether the switch is **on** (`true`) or **off** (`false`)
 
 Example:
 ```html
@@ -124,20 +119,18 @@ Example:
 
 One option in a toggle set
 
-- Slot: *unnamed*
-  - Inline content as label for option
-- Attribute: `disabled`
-  - Boolean (default: `false`)
-  - In disabled state user can't interact
-- Attribute: `checked`
-  - Number (default: `false`)
-  - Whether the option is selected (`true`) or not ('false`)
-- Attribute: `name`
-  - String (default: `undefined`)
-  - An identifier to be shared by all options in a mutually exclusive group
-- Attribute: `value`
-  - String (default: `undefined`)
-  - An identifier specific to this option to uniquely identify it in the group
+- Slots
+  - *unnamed*
+    - Inline content as label for option
+- Attributes
+  - `disabled: boolean = false`
+    - In disabled state user can't interact
+  - `checked: number = false`
+    - Whether the option is selected (`true`) or not ('false`)
+  - `name: string = undefined`
+    - An identifier to be shared by all options in a mutually exclusive group
+  - `value: string = undefined`
+    - An identifier specific to this option to uniquely identify it in the group
 
 Example:
 ```html
@@ -150,13 +143,14 @@ Example:
 
 Toggle for selecting one option from a set
 
-- Slot: *unnamed*
-  - Inline content as label for set
-- Slot: `label`
-  - Inline content as legend for options
-- Attribute: `disabled`
-  - Boolean (default: `false`)
-  - In disabled state user can't interact
+- Slots
+  - *unnamed*
+    - Inline content as label for set
+  - `label`
+    - Inline content as legend for options
+- Attributes
+  - `disabled: boolean = false`
+    - In disabled state user can't interact
 
 Example:
 ```html
