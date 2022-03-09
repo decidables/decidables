@@ -68,6 +68,7 @@
     },
     {
       "files": [
+        "scripts/test.js",
         "**/test/**/*.test.js"
       ],
       "env": {
