@@ -15,6 +15,7 @@ yarn add @decidables/detectable-math
 ```javascript
 import SDTMath from '@decidables/detectable-math';
 ```
+
 A class providing static functions for calculating Signal Detection Theory equations
 
 ## Contents
