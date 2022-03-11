@@ -1,7 +1,7 @@
 
 import {html, css} from 'lit';
 import * as d3 from 'd3';
-import * as jStat from 'jstat';
+import jStat from 'jstat';
 
 import SDTMath from '@decidables/detectable-math';
 
