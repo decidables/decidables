@@ -355,7 +355,9 @@ export default class RDKTask extends SDTElement {
   }
 
   reset() {
-    this.runner.stop();
+    if (this.runner !== undefined) {
+      this.runner.stop();
+    }
     this.running = false;
     this.trial = 0;
     this.state = 'resetted';
