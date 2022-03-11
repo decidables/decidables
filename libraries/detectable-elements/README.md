@@ -1,5 +1,5 @@
-
 <!--lint ignore first-heading-level-->
+
 # detectable-elements: Web Components for Visualizing Signal Detection Theory
 
 ## Usage
@@ -563,6 +563,7 @@ positive predictive value and those on response 'absent' trials with the false o
 overall results are optionally marginalized with accuracy.
 
 ##### Attributes
+
 - `interactive: boolean = false`
   - Allow user to change values in the table
 - `numeric: boolean = false`
