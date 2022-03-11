@@ -28,10 +28,12 @@ for use in HTML.
 Button for taking actions
 
 ##### Slots
+
 - *unnamed*
   - Inline content as label
 
 ##### Attributes
+
 - `disabled: boolean = false`
   - In disabled state user can't interact
 
@@ -78,6 +80,7 @@ Slider w/spinner for selecting a numeric value from a range
 Text field w/spinner arrows for selecting a continuous numeric value
 
 ##### Slots
+
 - *unnamed*
   - Inline content as label
 
