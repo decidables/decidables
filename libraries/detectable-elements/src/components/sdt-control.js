@@ -250,17 +250,21 @@ export default class SDTControl extends SDTElement {
             </decidables-switch>
           `
           : html``}
-        <div class="buttons">
-          ${this.run
-            ? html`<decidables-button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</decidables-button>`
-            : html``}
-          ${this.pause
-            ? html`<decidables-button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</decidables-button>`
-            : html``}
-          ${this.reset
-            ? html`<decidables-button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</decidables-button>`
-            : html``}
-        </div>
+        ${this.run || this.pause || this.reset
+          ? html`
+            <div class="buttons">
+              ${this.run
+                ? html`<decidables-button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</decidables-button>`
+                : html``}
+              ${this.pause
+                ? html`<decidables-button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</decidables-button>`
+                : html``}
+              ${this.reset
+                ? html`<decidables-button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</decidables-button>`
+                : html``}
+            </div>
+          `
+          : html``}
       </div>`;
   }
 }
