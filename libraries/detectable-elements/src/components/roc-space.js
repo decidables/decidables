@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 
 import SDTMath from '@decidables/detectable-math';
 
-import SDTElement from '../sdt-element';
+import DetectableElement from '../detectable-element';
 
 /*
   ROCSpace element
@@ -23,7 +23,7 @@ import SDTElement from '../sdt-element';
   Styles:
     ??
 */
-export default class ROCSpace extends SDTElement {
+export default class ROCSpace extends DetectableElement {
   static get properties() {
     return {
       contour: {
@@ -378,7 +378,7 @@ export default class ROCSpace extends SDTElement {
 
   render() { // eslint-disable-line class-methods-use-this
     return html`
-      ${SDTElement.svgFilters}
+      ${DetectableElement.svgFilters}
     `;
   }
 

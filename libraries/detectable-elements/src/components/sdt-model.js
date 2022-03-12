@@ -5,7 +5,7 @@ import jStat from 'jstat';
 
 import SDTMath from '@decidables/detectable-math';
 
-import SDTElement from '../sdt-element';
+import DetectableElement from '../detectable-element';
 
 /*
   SDTModel element
@@ -21,7 +21,7 @@ import SDTElement from '../sdt-element';
     Styles:
       ??
 */
-export default class SDTModel extends SDTElement {
+export default class SDTModel extends DetectableElement {
   static get properties() {
     return {
       color: {
@@ -475,7 +475,7 @@ export default class SDTModel extends SDTElement {
 
   render() { // eslint-disable-line class-methods-use-this
     return html`
-      ${SDTElement.svgFilters}
+      ${DetectableElement.svgFilters}
     `;
   }
 
@@ -1657,7 +1657,7 @@ export default class SDTModel extends SDTElement {
             element.removeAttribute('data-new-trial-ease-time');
             datum.new = false;
             this.alignTrial(datum);
-            this.dispatchEvent(new CustomEvent('sdt-response', {
+            this.dispatchEvent(new CustomEvent('detectable-response', {
               detail: {
                 stimulus: datum.signal,
                 response: datum.response,

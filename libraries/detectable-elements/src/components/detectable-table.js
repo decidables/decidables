@@ -5,16 +5,16 @@ import '@decidables/decidables-elements/spinner';
 import DecidablesConverterSet from '@decidables/decidables-elements/converter-set';
 import SDTMath from '@decidables/detectable-math';
 
-import SDTElement from '../sdt-element';
+import DetectableElement from '../detectable-element';
 
 /*
-  SDTTable element
-  <sdt-table>
+  DetectableTable element
+  <detectable-table>
 
   Attributes:
   Hit; Miss; FalseAlarm; CorrectRejection;
 */
-export default class SDTTable extends SDTElement {
+export default class DetectableTable extends DetectableElement {
   static get properties() {
     return {
       numeric: {
@@ -143,7 +143,7 @@ export default class SDTTable extends SDTElement {
   }
 
   sendEvent() {
-    this.dispatchEvent(new CustomEvent('sdt-table-change', {
+    this.dispatchEvent(new CustomEvent('detectable-table-change', {
       detail: {
         h: this.h,
         m: this.m,
@@ -599,4 +599,4 @@ export default class SDTTable extends SDTElement {
   }
 }
 
-customElements.define('sdt-table', SDTTable);
+customElements.define('detectable-table', DetectableTable);

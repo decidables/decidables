@@ -1,13 +1,13 @@
 
 import {css} from 'lit';
 
-import SDTElement from '../sdt-element';
+import DetectableElement from '../detectable-element';
 
 /*
   SDTEquation Base Class - Not intended for instantiation!
   <sdt-equation>
 */
-export default class SDTEquation extends SDTElement {
+export default class SDTEquation extends DetectableElement {
   static get properties() {
     return {
       numeric: {

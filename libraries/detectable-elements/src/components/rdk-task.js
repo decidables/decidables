@@ -2,7 +2,7 @@
 import {html, css} from 'lit';
 import * as d3 from 'd3';
 
-import SDTElement from '../sdt-element';
+import DetectableElement from '../detectable-element';
 
 /*
   RDKTask element
@@ -12,7 +12,7 @@ import SDTElement from '../sdt-element';
   Dots; Coherence;
   # Direction, Speed, Lifetime
 */
-export default class RDKTask extends SDTElement {
+export default class RDKTask extends DetectableElement {
   static get properties() {
     return {
       coherence: {

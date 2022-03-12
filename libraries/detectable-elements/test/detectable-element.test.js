@@ -1,8 +1,8 @@
 import {expect} from '../../../scripts/test';
 
-import DetectableElement from '../src/sdt-element';
+import DetectableElement from '../src/detectable-element';
 
-describe('sdt-element', () => {
+describe('detectable-element', () => {
   it('has property "interactive"', () => {
     const properties = DetectableElement.properties; // eslint-disable-line prefer-destructuring
     expect(properties).to.have.property('interactive');

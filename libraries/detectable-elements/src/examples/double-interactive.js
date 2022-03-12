@@ -29,8 +29,8 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
     this.two.d = SDTMath.hrFar2D(this.two.hr, this.two.far);
     this.two.c = SDTMath.hrFar2C(this.two.hr, this.two.far);
 
-    this.sdtTableOne = this.querySelector('sdt-table:nth-of-type(1)');
-    this.sdtTableTwo = this.querySelector('sdt-table:nth-of-type(2)');
+    this.sdtTableOne = this.querySelector('detectable-table:nth-of-type(1)');
+    this.sdtTableTwo = this.querySelector('detectable-table:nth-of-type(2)');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModelOne = this.querySelector('sdt-model:nth-of-type(1)');
     this.sdtModelTwo = this.querySelector('sdt-model:nth-of-type(2)');
@@ -41,7 +41,7 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
       this.sdtTableOne.fa = this.one.fa;
       this.sdtTableOne.cr = this.one.cr;
 
-      this.sdtTableOne.addEventListener('sdt-table-change', (event) => {
+      this.sdtTableOne.addEventListener('detectable-table-change', (event) => {
         if (this.rocSpace) {
           this.rocSpace.set(event.detail.hr, event.detail.far, 'default', '↑');
         }
@@ -59,7 +59,7 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
       this.sdtTableTwo.fa = this.two.fa;
       this.sdtTableTwo.cr = this.two.cr;
 
-      this.sdtTableTwo.addEventListener('sdt-table-change', (event) => {
+      this.sdtTableTwo.addEventListener('detectable-table-change', (event) => {
         if (this.rocSpace) {
           this.rocSpace.set(event.detail.hr, event.detail.far, 'two', '↓');
         }

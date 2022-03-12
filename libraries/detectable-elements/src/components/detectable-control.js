@@ -7,16 +7,16 @@ import '@decidables/decidables-elements/switch';
 import '@decidables/decidables-elements/toggle';
 import '@decidables/decidables-elements/toggle-option';
 
-import SDTElement from '../sdt-element';
+import DetectableElement from '../detectable-element';
 
 /*
-  SDTControl element
-  <sdt-control>
+  DetectableControl element
+  <detectable-control>
 
   Attributes:
 
 */
-export default class SDTControl extends SDTElement {
+export default class DetectableControl extends DetectableElement {
   static get properties() {
     return {
       trials: {
@@ -95,7 +95,7 @@ export default class SDTControl extends SDTElement {
 
   setTrials(e) {
     this.trials = e.target.value;
-    this.dispatchEvent(new CustomEvent('sdt-control-trials', {
+    this.dispatchEvent(new CustomEvent('detectable-control-trials', {
       detail: {
         trials: this.trials,
       },
@@ -105,7 +105,7 @@ export default class SDTControl extends SDTElement {
 
   setDuration(e) {
     this.duration = e.target.value;
-    this.dispatchEvent(new CustomEvent('sdt-control-duration', {
+    this.dispatchEvent(new CustomEvent('detectable-control-duration', {
       detail: {
         duration: this.duration,
       },
@@ -115,7 +115,7 @@ export default class SDTControl extends SDTElement {
 
   setCoherence(e) {
     this.coherence = e.target.value;
-    this.dispatchEvent(new CustomEvent('sdt-control-coherence', {
+    this.dispatchEvent(new CustomEvent('detectable-control-coherence', {
       detail: {
         coherence: this.coherence,
       },
@@ -125,7 +125,7 @@ export default class SDTControl extends SDTElement {
 
   setPayoff(e) {
     this.payoff = e.target.value;
-    this.dispatchEvent(new CustomEvent('sdt-control-payoff', {
+    this.dispatchEvent(new CustomEvent('detectable-control-payoff', {
       detail: {
         payoff: this.payoff,
       },
@@ -135,7 +135,7 @@ export default class SDTControl extends SDTElement {
 
   chooseColor(e) {
     this.color = e.target.value;
-    this.dispatchEvent(new CustomEvent('sdt-control-color', {
+    this.dispatchEvent(new CustomEvent('detectable-control-color', {
       detail: {
         color: this.color,
       },
@@ -145,7 +145,7 @@ export default class SDTControl extends SDTElement {
 
   flipZRoc(e) {
     this.zRoc = e.target.checked;
-    this.dispatchEvent(new CustomEvent('sdt-control-z-roc', {
+    this.dispatchEvent(new CustomEvent('detectable-control-z-roc', {
       detail: {
         zRoc: this.zRoc,
       },
@@ -155,7 +155,7 @@ export default class SDTControl extends SDTElement {
 
   doRun() {
     this.state = 'running';
-    this.dispatchEvent(new CustomEvent('sdt-control-run', {
+    this.dispatchEvent(new CustomEvent('detectable-control-run', {
       detail: {},
       bubbles: true,
     }));
@@ -163,7 +163,7 @@ export default class SDTControl extends SDTElement {
 
   doPause() {
     this.state = 'paused';
-    this.dispatchEvent(new CustomEvent('sdt-control-pause', {
+    this.dispatchEvent(new CustomEvent('detectable-control-pause', {
       detail: {},
       bubbles: true,
     }));
@@ -171,7 +171,7 @@ export default class SDTControl extends SDTElement {
 
   doReset() {
     this.state = 'resetted';
-    this.dispatchEvent(new CustomEvent('sdt-control-reset', {
+    this.dispatchEvent(new CustomEvent('detectable-control-reset', {
       detail: {},
       bubbles: true,
     }));
@@ -269,4 +269,4 @@ export default class SDTControl extends SDTElement {
   }
 }
 
-customElements.define('sdt-control', SDTControl);
+customElements.define('detectable-control', DetectableControl);

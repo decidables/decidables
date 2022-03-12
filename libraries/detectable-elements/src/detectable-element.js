@@ -8,10 +8,10 @@ import * as d3 from 'd3';
 import {DecidablesElement} from '@decidables/decidables-elements';
 
 /*
-  SDTElement Base Class - Not intended for instantiation!
-  <sdt-element>
+  DetectableElement Base Class - Not intended for instantiation!
+  <detectable-element>
 */
-export default class SDTElement extends DecidablesElement {
+export default class DetectableElement extends DecidablesElement {
   static get properties() {
     return {
       interactive: {
@@ -48,15 +48,15 @@ export default class SDTElement extends DecidablesElement {
   }
 
   static get lights() {
-    return Object.keys(SDTElement.colors).reduce((acc, cur) => {
-      acc[cur] = d3.interpolateRgb(SDTElement.colors[cur], '#ffffff')(0.5);
+    return Object.keys(DetectableElement.colors).reduce((acc, cur) => {
+      acc[cur] = d3.interpolateRgb(DetectableElement.colors[cur], '#ffffff')(0.5);
       return acc;
     }, {});
   }
 
   static get darks() {
-    return Object.keys(SDTElement.colors).reduce((acc, cur) => {
-      acc[cur] = d3.interpolateRgb(SDTElement.colors[cur], '#000000')(0.5);
+    return Object.keys(DetectableElement.colors).reduce((acc, cur) => {
+      acc[cur] = d3.interpolateRgb(DetectableElement.colors[cur], '#000000')(0.5);
       return acc;
     }, {});
   }

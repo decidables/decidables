@@ -7,11 +7,11 @@ import {
   mouseClickElement,
 } from '../../../../scripts/test';
 
-import '../../src/components/sdt-control';
+import '../../src/components/detectable-control';
 
-describe('sdt-control', () => {
+describe('detectable-control', () => {
   it('has a shadowDom', async () => {
-    const el = await fixture(html`<sdt-control></sdt-control>`);
+    const el = await fixture(html`<detectable-control></detectable-control>`);
     // Give the component a chance to render!
     await aTimeout();
     expect(el).shadowDom.to.equal(`
@@ -21,13 +21,13 @@ describe('sdt-control', () => {
   });
 
   it('has an empty lightDom', async () => {
-    const el = await fixture(html`<sdt-control></sdt-control>`);
+    const el = await fixture(html`<detectable-control></detectable-control>`);
     await aTimeout();
     expect(el).lightDom.to.equal('');
   });
 
   it('can have a trials slider', async () => {
-    const el = await fixture(html`<sdt-control trials="15"></sdt-control>`);
+    const el = await fixture(html`<detectable-control trials="15"></detectable-control>`);
     await aTimeout();
     // Check "before" state
     expect(el.trials).to.equal(15);
@@ -35,14 +35,14 @@ describe('sdt-control', () => {
     // Action
     const target = el.shadowRoot.querySelector('decidables-slider');
     setTimeout(() => { mouseClickElement(target); });
-    const {detail} = await oneEvent(el, 'sdt-control-trials');
+    const {detail} = await oneEvent(el, 'detectable-control-trials');
     // Check "after" state
     expect(+detail.trials).to.be.above(15);
     expect(+el.trials).to.be.above(15);
   });
 
   it('can have a duration slider', async () => {
-    const el = await fixture(html`<sdt-control duration="20"></sdt-control>`);
+    const el = await fixture(html`<detectable-control duration="20"></detectable-control>`);
     await aTimeout();
     // Check "before" state
     expect(el.duration).to.equal(20);
@@ -50,14 +50,14 @@ describe('sdt-control', () => {
     // Action
     const target = el.shadowRoot.querySelector('decidables-slider');
     setTimeout(() => { mouseClickElement(target); });
-    const {detail} = await oneEvent(el, 'sdt-control-duration');
+    const {detail} = await oneEvent(el, 'detectable-control-duration');
     // Check "after" state
     expect(+detail.duration).to.be.above(20);
     expect(+el.duration).to.be.above(20);
   });
 
   it('can have a coherence slider', async () => {
-    const el = await fixture(html`<sdt-control coherence="0.1"></sdt-control>`);
+    const el = await fixture(html`<detectable-control coherence="0.1"></detectable-control>`);
     await aTimeout();
     // Check "before" state
     expect(el.coherence).to.equal(0.1);
@@ -65,14 +65,14 @@ describe('sdt-control', () => {
     // Action
     const target = el.shadowRoot.querySelector('decidables-slider');
     setTimeout(() => { mouseClickElement(target); });
-    const {detail} = await oneEvent(el, 'sdt-control-coherence');
+    const {detail} = await oneEvent(el, 'detectable-control-coherence');
     // Check "after" state
     expect(+detail.coherence).to.be.above(0.1);
     expect(+el.coherence).to.be.above(0.1);
   });
 
   it('can have a payoff slider', async () => {
-    const el = await fixture(html`<sdt-control payoff="5"></sdt-control>`);
+    const el = await fixture(html`<detectable-control payoff="5"></detectable-control>`);
     await aTimeout();
     // Check "before" state
     expect(el.payoff).to.equal(5);
@@ -80,7 +80,7 @@ describe('sdt-control', () => {
     // Action
     const target = el.shadowRoot.querySelector('decidables-slider');
     setTimeout(() => { mouseClickElement(target); });
-    const {detail} = await oneEvent(el, 'sdt-control-payoff');
+    const {detail} = await oneEvent(el, 'detectable-control-payoff');
     // Check "after" state
     expect(+detail.payoff).to.be.above(5);
     expect(+el.payoff).to.be.above(5);
@@ -88,7 +88,7 @@ describe('sdt-control', () => {
 
   it('can have a color toggle', async () => {
     // Get everything set
-    const el = await fixture(html`<sdt-control color="none"></sdt-control>`);
+    const el = await fixture(html`<detectable-control color="none"></detectable-control>`);
     await aTimeout();
     // Check "before" state
     expect(el.color).to.equal('none');
@@ -96,14 +96,14 @@ describe('sdt-control', () => {
     // Action
     const target = el.shadowRoot.querySelector('decidables-toggle');
     setTimeout(() => { mouseClickElement(target); });
-    const {detail} = await oneEvent(el, 'sdt-control-color');
+    const {detail} = await oneEvent(el, 'detectable-control-color');
     // Check "after" state
     expect(detail.color).to.not.equal('none');
     expect(el.color).to.not.equal('none');
   });
 
   it('can have a zROC switch', async () => {
-    const el = await fixture(html`<sdt-control z-roc></sdt-control>`);
+    const el = await fixture(html`<detectable-control z-roc></detectable-control>`);
     await aTimeout();
     // Check "before" state
     expect(el.zRoc).to.equal(true);
@@ -111,14 +111,14 @@ describe('sdt-control', () => {
     // Action
     const target = el.shadowRoot.querySelector('decidables-switch');
     setTimeout(() => { mouseClickElement(target); });
-    const {detail} = await oneEvent(el, 'sdt-control-z-roc');
+    const {detail} = await oneEvent(el, 'detectable-control-z-roc');
     // Check "after" state
     expect(detail.zRoc).to.equal(false);
     expect(el.zRoc).to.equal(false);
   });
 
   it('can have a run button', async () => {
-    const el = await fixture(html`<sdt-control run></sdt-control>`);
+    const el = await fixture(html`<detectable-control run></detectable-control>`);
     await aTimeout();
     // Check "before" state
     expect(el.run).to.equal(true);
@@ -126,14 +126,14 @@ describe('sdt-control', () => {
     // Action
     const target = el.shadowRoot.querySelector('decidables-button');
     setTimeout(() => { mouseClickElement(target); });
-    const {detail} = await oneEvent(el, 'sdt-control-run');
+    const {detail} = await oneEvent(el, 'detectable-control-run');
     // Check "after" state
     expect(detail).to.deep.equal({});
     expect(el.run).to.equal(true);
   });
 
   it('can have a pause button', async () => {
-    const el = await fixture(html`<sdt-control pause></sdt-control>`);
+    const el = await fixture(html`<detectable-control pause></detectable-control>`);
     await aTimeout();
     // Check "before" state
     expect(el.pause).to.equal(true);
@@ -141,14 +141,14 @@ describe('sdt-control', () => {
     // Action
     const target = el.shadowRoot.querySelector('decidables-button');
     setTimeout(() => { mouseClickElement(target); });
-    const {detail} = await oneEvent(el, 'sdt-control-pause');
+    const {detail} = await oneEvent(el, 'detectable-control-pause');
     // Check "after" state
     expect(detail).to.deep.equal({});
     expect(el.pause).to.equal(true);
   });
 
   it('can have a reset button', async () => {
-    const el = await fixture(html`<sdt-control reset></sdt-control>`);
+    const el = await fixture(html`<detectable-control reset></detectable-control>`);
     await aTimeout();
     // Check "before" state
     expect(el.reset).to.equal(true);
@@ -156,7 +156,7 @@ describe('sdt-control', () => {
     // Action
     const target = el.shadowRoot.querySelector('decidables-button');
     setTimeout(() => { mouseClickElement(target); });
-    const {detail} = await oneEvent(el, 'sdt-control-reset');
+    const {detail} = await oneEvent(el, 'detectable-control-reset');
     // Check "after" state
     expect(detail).to.deep.equal({});
     expect(el.reset).to.equal(true);
