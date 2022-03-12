@@ -16,8 +16,8 @@ signal and noise in the output of radar receivers used to detect enemy planes du
 A point in ROC space uniquely defines a combination of HR and FAR:
 
 <sdt-example-interactive>
-  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20"
-    false-alarms="10" correct-rejections="90"></sdt-table>
+  <detectable-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20"
+    false-alarms="10" correct-rejections="90"></detectable-table>
   <roc-space interactive point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
 
@@ -58,11 +58,11 @@ with the up arrow, '↑', is described in the table above the ROC space; the poi
 arrow, '↓', is described in the table below the ROC space.
 
 <sdt-example-double-interactive>
-  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
-    false-alarms="0" correct-rejections="0"></sdt-table>
+  <detectable-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
+    false-alarms="0" correct-rejections="0"></detectable-table>
   <roc-space interactive contour="accuracy" point="all" iso-d="none" iso-c="none"></roc-space>
-  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
-    false-alarms="0" correct-rejections="0"></sdt-table>
+  <detectable-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
+    false-alarms="0" correct-rejections="0"></detectable-table>
 </sdt-example-double-interactive>
 
 Try some other positions... What about two points that are symmetric about the dotted diagonal from
@@ -79,11 +79,11 @@ including some levels that make the task a real challenge. (If you want to remov
 just reload the page.)
 
 <sdt-example-human>
-  <sdt-control duration="1000" coherence=".5" trials="10" run pause reset></sdt-control>
+  <detectable-control duration="1000" coherence=".5" trials="10" run pause reset></detectable-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </sdt-table>
+  <detectable-response interactive trial feedback="outcome"></detectable-response>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+    </detectable-table>
   <roc-space point="all" iso-d="none" iso-c="none" history far=".5" hr=".5"></roc-space>
 </sdt-example-human>
 

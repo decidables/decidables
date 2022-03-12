@@ -32,7 +32,7 @@ on top of the one or ones already there. As a result, we end up with a histogram
 values, with the count of occurrences on the vertical y-axis.
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="1000"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="1000"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-model histogram color="none" d="0" c="0"></sdt-model>
 </sdt-example-model>
@@ -48,7 +48,7 @@ signal or noise trial. So we can color the measurement from each trial based on 
 :key[Signal Present] or :key[Signal Absent] trial.
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="20" duration="750"></sdt-control>
+  <detectable-control run pause reset trials="20" duration="750"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="20" duration="750" wait="750" iti="750"></rdk-task>
   <sdt-model histogram color="stimulus" d="2" c="0"></sdt-model>
 </sdt-example-model>
@@ -74,7 +74,7 @@ the y-axis scale for the probability distributions is on the left side of the gr
 y-axis scale for the histogram is on the right.)
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d="2" c="0"></sdt-model>
 </sdt-example-model>
@@ -87,7 +87,7 @@ observations on signal and noise trials are to each other. When the :key[Noise D
 evidence on :key[Signal Absent] and :key[Signal Present] trials:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d=".5" c="0"></sdt-model>
 </sdt-example-model>
@@ -98,7 +98,7 @@ different means, we tend to make distinct measurements of evidence on :key[Signa
 :key[Signal Present] trials:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d="5" c="0"></sdt-model>
 </sdt-example-model>
@@ -128,7 +128,7 @@ they were drawn from, allowing you to see how the :key[Sensitivity] determines t
 between the :key[Noise Distribution] and the :key[Signal + Noise Distribution]:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive distributions sensitivity histogram color="stimulus" d="1.5" c="0"></sdt-model>
 </sdt-example-model>

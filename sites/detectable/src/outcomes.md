@@ -14,10 +14,10 @@ an :key[Error]?
 Try a few trials of the task:
 
 <sdt-example-human>
-  <sdt-control trials="5" run pause reset duration="1000" coherence=".5"></sdt-control>
+  <detectable-control trials="5" run pause reset duration="1000" coherence=".5"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5"
     duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-response interactive trial feedback="accuracy"></sdt-response>
+  <detectable-response interactive trial feedback="accuracy"></detectable-response>
 </sdt-example-human>
 
 As you have no doubt noticed, if you have given it a try, you receive feedback. For the moment, that
@@ -43,17 +43,17 @@ possible responses ("present" or "absent"), leading to a nice two by two table o
 (brightly colored by yours truly):
 
 <sdt-example-interactive>
-  <sdt-table></sdt-table>
+  <detectable-table></detectable-table>
 </sdt-example-interactive>
 
 Try a few more trials of the task, and this time the feedback will inform you of which of the four
 possible outcomes occurred:
 
 <sdt-example-human>
-  <sdt-control trials="5" run pause reset duration="1000" coherence=".5"></sdt-control>
+  <detectable-control trials="5" run pause reset duration="1000" coherence=".5"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5"
     duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-response interactive trial feedback="outcome"></sdt-response>
+  <detectable-response interactive trial feedback="outcome"></detectable-response>
 </sdt-example-human>
 
 Now that we know how to classify the outcome of individual trials, we might wonder how we can

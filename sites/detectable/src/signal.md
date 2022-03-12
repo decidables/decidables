@@ -16,7 +16,7 @@ Our :term[signal] will be :term[coherent] dot motion. Go ahead and push the
 :ui[Run] button to see what it looks like:
 
 <sdt-example-human>
-  <sdt-control run pause reset></sdt-control>
+  <detectable-control run pause reset></detectable-control>
   <rdk-task count="100" coherence="1" trials="1" probability="1" duration="Infinity"
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
@@ -36,7 +36,7 @@ Our :term[noise] will be :term[random] dot motion. Give it a try (:ui[Run] to st
 :ui[Pause] to freeze, :ui[Reset] to reinitialize):
 
 <sdt-example-human>
-  <sdt-control run pause reset></sdt-control>
+  <detectable-control run pause reset></detectable-control>
   <rdk-task count="100" coherence="0" trials="1" probability="1" duration="Infinity"
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
@@ -53,7 +53,7 @@ is buried amongst many other stimuli, the noise.
 Our signal, coherent dot motion, is mixed with random dot motion:
 
 <sdt-example-human>
-  <sdt-control run pause reset></sdt-control>
+  <detectable-control run pause reset></detectable-control>
   <rdk-task count="100" coherence="0.5" trials="1" probability="1" duration="Infinity"
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
@@ -71,7 +71,7 @@ noise, or anywhere in between (move the :ui[Coherence] slider up and down or edi
 adjust the proportion of coherence — even while the dots are moving!):
 
 <sdt-example-human>
-  <sdt-control run pause reset coherence="0.5"></sdt-control>
+  <detectable-control run pause reset coherence="0.5"></detectable-control>
   <rdk-task count="100" coherence="0.5" trials="1" probability="1" duration="Infinity"
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>

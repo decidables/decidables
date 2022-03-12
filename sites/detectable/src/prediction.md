@@ -12,12 +12,12 @@ to simulate task performance in order to generate predictions. In other words, w
 perform the task *as if* it were a participant.
 
 <sdt-example-model>
-  <sdt-control run pause reset coherence=".5" trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset coherence=".5" trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1" c=".5"></sdt-model>
-  <sdt-response trial feedback="outcome"></sdt-response>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </sdt-table>
+  <detectable-response trial feedback="outcome"></detectable-response>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+    </detectable-table>
   <roc-space hr=".5" far=".5" point="all" iso-d="all" iso-c="all"></roc-space>
 </sdt-example-model>

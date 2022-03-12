@@ -15,7 +15,7 @@ According to SDT, a :term[threshold] is set, such that on each trial, the :key[E
 greater than or less than that threshold:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="none" d="2.5" c="0"></sdt-model>
 </sdt-example-model>
@@ -27,10 +27,10 @@ this is a :key[Respond Absent] trial, and if the evidence is above the threshold
 :key[Respond Present] trial:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="0"></sdt-model>
-  <sdt-response feedback="none"></sdt-response>
+  <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
 Here, it is the *model* that is responding to the stimulus on each trial, based on whether the
@@ -46,10 +46,10 @@ The threshold can be set higher, so that stronger evidence must be measured for 
 say that the model is biased towards responding :key[Absent]:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="2"></sdt-model>
-  <sdt-response feedback="none"></sdt-response>
+  <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
 Or the threshold can be set lower, so that even with weak evidence, the model will :key[Respond
@@ -57,10 +57,10 @@ Present] (and thus the evidence must be lower to :key[Respond Absent]). In this 
 the model is biased towards responding :key[Present]:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="-2"></sdt-model>
-  <sdt-response feedback="none"></sdt-response>
+  <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
 ## Parameterizing our threshold with bias, <span class="math-var">c</span>
@@ -79,10 +79,10 @@ are evidence measurements for individual trials, they will change between :key[R
 :key[Bias] determines the tendency to make more :key[Present] or :key[Absent] responses:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias histogram color="response" d="2.5" c="1"></sdt-model>
-  <sdt-response feedback="none"></sdt-response>
+  <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
 If you are wondering why :key[Bias] is represented with the symbol :key[c], perhaps it is because
@@ -106,9 +106,9 @@ and suggested as a better measure of response bias for most purposes :cite[@Ingh
 ## Perspectives on the relationship between model and performance
 
 <sdt-example-interactive>
-  <sdt-control color="outcome"></sdt-control>
-  <sdt-table numeric interactive summary="stimulusRates responseRates accuracy"
-    hits="80" misses="20" false-alarms="10" correct-rejections="90"></sdt-table>
+  <detectable-control color="outcome"></detectable-control>
+  <detectable-table numeric interactive summary="stimulusRates responseRates accuracy"
+    hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
 

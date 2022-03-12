@@ -10,10 +10,10 @@ When we perform a block of trials, we can count how many times each of our four 
 occurred:
 
 <sdt-example-human>
-  <sdt-control coherence=".5" trials="10" run pause reset duration="1000"></sdt-control>
+  <detectable-control coherence=".5" trials="10" run pause reset duration="1000"></detectable-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
+  <detectable-response interactive trial feedback="outcome"></detectable-response>
+  <detectable-table numeric hits="0" misses="0" false-alarms="0" correct-rejections="0"></detectable-table>
 </sdt-example-human>
 
 By collecting our outcomes across all of the trials in the block we now have our first aggregate
@@ -59,7 +59,7 @@ Alarm Rate] summarizes performance when the signal was *absent*, we can add them
 corresponding rows of our table of outcomes:
 
 <sdt-example-interactive>
-  <sdt-table interactive numeric summary="stimulusRates"></sdt-table>
+  <detectable-table interactive numeric summary="stimulusRates"></detectable-table>
 </sdt-example-interactive>
 
 This is a *live* table, so you can change the count of any type of outcome and observe the effect on
@@ -84,7 +84,7 @@ types of *correct* responses.
 We can add :key[Accuracy] as an overall summary measure to out table of outcomes:
 
 <sdt-example-interactive>
-  <sdt-table interactive numeric summary="stimulusRates accuracy"></sdt-table>
+  <detectable-table interactive numeric summary="stimulusRates accuracy"></detectable-table>
 </sdt-example-interactive>
 
 If you change the :key[Accuracy] then the other values will change as well, to keep the whole table
@@ -97,11 +97,11 @@ Now that we have a variety of summary measures, we can run a block of trials, an
 of outcomes and rates provides a running summary of performance:
 
 <sdt-example-human>
-  <sdt-control coherence=".5" trials="10" run pause reset duration="1000"></sdt-control>
+  <detectable-control coherence=".5" trials="10" run pause reset duration="1000"></detectable-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </sdt-table>
+  <detectable-response interactive trial feedback="outcome"></detectable-response>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+    </detectable-table>
 </sdt-example-human>
 
 ## Accuracy the great deceiver
@@ -113,13 +113,13 @@ Indeed :key[Accuracy] is the great deceiver! Let us see why:
 Consider this table of outcomes:
 
 <sdt-example-interactive>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="100" misses="0" false-alarms="100" correct-rejections="0"></sdt-table>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="100" misses="0" false-alarms="100" correct-rejections="0"></detectable-table>
 </sdt-example-interactive>
 
 And now consider this table of outcomes:
 
 <sdt-example-interactive>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></sdt-table>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></detectable-table>
 </sdt-example-interactive>
 
 First, note that the :key[Accuracy] is *identical* in the two tables at 50%. But now note that the
@@ -146,6 +146,6 @@ reader, are on to something important, which the next few pages will bring into 
 ## Marginals
 
 <sdt-example-interactive>
-  <sdt-control color="outcome"></sdt-control>
-  <sdt-table interactive numeric summary="stimulusRates responseRates accuracy"></sdt-table>
+  <detectable-control color="outcome"></detectable-control>
+  <detectable-table interactive numeric summary="stimulusRates responseRates accuracy"></detectable-table>
 </sdt-example-interactive>
