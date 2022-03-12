@@ -9,15 +9,15 @@ import SDTExample from './sdt-example';
 */
 export default class SDTExampleInteractive extends SDTExample {
   firstUpdated(/* changedProperties */) {
-    this.sdtControl = this.querySelector('sdt-control');
-    this.sdtTable = this.querySelector('sdt-table');
+    this.sdtControl = this.querySelector('detectable-control');
+    this.sdtTable = this.querySelector('detectable-table');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
 
     this.rocSpaces = this.querySelectorAll('roc-space');
 
     if (this.sdtControl && this.sdtControl.hasAttribute('color')) {
-      this.sdtControl.addEventListener('sdt-control-color', (event) => {
+      this.sdtControl.addEventListener('detectable-control-color', (event) => {
         if (this.sdtModel) {
           this.sdtModel.color = event.detail.color;
         }
@@ -29,7 +29,7 @@ export default class SDTExampleInteractive extends SDTExample {
     }
 
     if (this.sdtControl) {
-      this.sdtControl.addEventListener('sdt-control-z-roc', (event) => {
+      this.sdtControl.addEventListener('detectable-control-z-roc', (event) => {
         if (this.rocSpaces.length > 0) {
           this.rocSpaces.forEach((rocSpace) => {
             rocSpace.zRoc = event.detail.zRoc;
@@ -57,7 +57,7 @@ export default class SDTExampleInteractive extends SDTExample {
         );
       }
 
-      this.sdtTable.addEventListener('sdt-table-change', (event) => {
+      this.sdtTable.addEventListener('detectable-table-change', (event) => {
         if (this.rocSpace) {
           this.rocSpace.far = event.detail.far;
           this.rocSpace.hr = event.detail.hr;

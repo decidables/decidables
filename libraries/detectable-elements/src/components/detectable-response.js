@@ -3,16 +3,16 @@ import {html, css} from 'lit';
 
 import '@decidables/decidables-elements/button';
 
-import SDTElement from '../sdt-element';
+import DetectableElement from '../detectable-element';
 
 /*
-  SDTResponse element
-  <sdt-response>
+  DetectableResponse element
+  <detectable-response>
 
   Attributes:
 
 */
-export default class SDTResponse extends SDTElement {
+export default class DetectableResponse extends DetectableElement {
   static get properties() {
     return {
       feedback: {
@@ -193,7 +193,7 @@ export default class SDTResponse extends SDTElement {
       this.c += 1;
     }
 
-    this.dispatchEvent(new CustomEvent('sdt-response', {
+    this.dispatchEvent(new CustomEvent('detectable-response', {
       detail: {
         trial: this.trialCount,
         signal: this.signal,
@@ -411,4 +411,4 @@ export default class SDTResponse extends SDTElement {
   }
 }
 
-customElements.define('sdt-response', SDTResponse);
+customElements.define('detectable-response', DetectableResponse);

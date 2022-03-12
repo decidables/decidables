@@ -1,13 +1,13 @@
 
 import {html, css} from 'lit';
 
-import SDTElement from '../sdt-element';
+import DetectableElement from '../detectable-element';
 
 /*
   SDTExample Base Class - Not intended for instantiation!
   <sdt-example>
 */
-export default class SDTExample extends SDTElement {
+export default class SDTExample extends DetectableElement {
   static get styles() {
     return [
       super.styles,
@@ -45,15 +45,15 @@ export default class SDTExample extends SDTElement {
         }
 
         /* HACK: Sibling selectors not working with ::slotted */
-        /* .body > rdk-task + sdt-response,
-        ::slotted(rdk-task) + ::slotted(sdt-response) { */
-        .body ::slotted(sdt-response) {
+        /* .body > rdk-task + detectable-response,
+        ::slotted(rdk-task) + ::slotted(detectable-response) { */
+        .body ::slotted(detectable-response) {
           margin-left: 0;
         }
 
         /* HACK: Sibling selectors not working with ::slotted */
-        /* .body > sdt-control + rdk-task,
-        ::slotted(sdt-control) + ::slotted(rdk-task) {
+        /* .body > detectable-control + rdk-task,
+        ::slotted(detectable-control) + ::slotted(rdk-task) {
           margin-left: 0;
         } */
         .body ::slotted(rdk-task) {

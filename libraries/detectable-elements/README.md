@@ -218,7 +218,7 @@ iso-bias, or iso-accuracy.
 <roc-space interactive contour="bias" point="all" isoD="first" isoC="first" z-roc far="0.2" hr="0.9"></roc-space>
 ```
 
-#### `SDTControl` / `<sdt-control>`
+#### `DetectableControl` / `<detectable-control>`
 
 Control panel for SDT demos
 
@@ -278,47 +278,47 @@ block of trials.
 
 ##### Custom Events
 
-- `sdt-control-trials`
+- `detectable-control-trials`
   - Indicates the number of trials slider has been adjusted
   - `detail`
     - `trials: number`
       - The new number of trials
-- `sdt-control-duration`
+- `detectable-control-duration`
   - Indicates the duration of trials slider has been adjusted
   - `detail`
     - `duration: number`
       - The new duration
-- `sdt-control-coherence`
+- `detectable-control-coherence`
   - Indicates the coherence of stimulus dots slider has been adjusted
   - `detail`
     - `coherence: number`
       - The new coherence
-- `sdt-control-payoff`
+- `detectable-control-payoff`
   - Indicates the payoff slider has been adjusted
   - `detail`
     - `payoff: number`
       - The new payoff
-- `sdt-control-color`
+- `detectable-control-color`
   - Indicates the color selection for the results table has been toggled
   - `detail`
     - `color: string`
       - The new color scheme
-- `sdt-control-z-roc`
+- `detectable-control-z-roc`
   - Indicates the plot coordinates switch have been changed
   - `detail`
     - `zRoc: boolean`
       - Whether or not to use z-transformed coordinates now
-- `sdt-control-run`
+- `detectable-control-run`
   - Indicates the run button has been pushed
-- `sdt-control-pause`
+- `detectable-control-pause`
   - Indicates the pause button has been pushed
-- `sdt-control-reset`
+- `detectable-control-reset`
   - Indicates the reset button has been pushed
 
 ##### Example
 
 ```html
-<sdt-control trials="15" duration="1500" coherence="0.2" payoff="75" color="outcome" z-roc run pause reset></sdt-control>
+<detectable-control trials="15" duration="1500" coherence="0.2" payoff="75" color="outcome" z-roc run pause reset></detectable-control>
 ```
 
 #### `SDTModel` / `<sdt-model>`
@@ -421,7 +421,7 @@ responses, or the outcomes.
       - False alarms
     - `cr: number`
       - Correct rejections
-- `sdt-response`
+- `detectable-response`
   - Indicates that an animated histogram trial has generated a response 
   - `detail`
     - `stimulus: string`
@@ -448,7 +448,7 @@ responses, or the outcomes.
 <sdt-model interactive color="outcome" distributions threshold unequal sensitivity bias variance histogram d="2" c="1" s="1.5"></sdt-model>
 ```
 
-#### `SDTResponse` / `<sdt-response>`
+#### `DetectableResponse` / `<detectable-response>`
 
 Response buttons, feedback, and payoffs for signal detection tasks
 
@@ -517,7 +517,7 @@ and total payoff.
 
 ##### Custom Events
 
-- `sdt-response`
+- `detectable-response`
   - Indicates that a response has been made on this trial 
   - `detail`
     - `trial: number`
@@ -547,10 +547,10 @@ and total payoff.
 ##### Example
 
 ```html
-<sdt-response interactive feedback="outcome" trial payoff="total" hit-payoff="60" miss-payoff="-60" false-alarm-payoff="-40" correct-rejection-payoff="40" no-response-payoff="-100"></sdt-response>
+<detectable-response interactive feedback="outcome" trial payoff="total" hit-payoff="60" miss-payoff="-60" false-alarm-payoff="-40" correct-rejection-payoff="40" no-response-payoff="-100"></detectable-response>
 ```
 
-#### `SDTTable` / `<sdt-table>`
+#### `DetectableTable` / `<detectable-table>`
 
 Interactive table of SDT outcomes
 
@@ -612,7 +612,7 @@ overall results are optionally marginalized with accuracy.
 
 ##### Custom Events
 
-- `sdt-table-change`
+- `detectable-table-change`
   - One or more values in the table have changed
   - `detail`
     - `h: number`
@@ -637,7 +637,7 @@ overall results are optionally marginalized with accuracy.
 ##### Example
 
 ```html
-<sdt-table interactive numeric summary="stimulusRates responseRates accuracy" = color="outcome" hits="80" misses="20" false-alarms="35" correct-rejections="65" payoff hit-payoff="60" miss-payoff="-60" false-alarm-payoff="-40" correct-rejection-payoff="40"></sdt-table>
+<detectable-table interactive numeric summary="stimulusRates responseRates accuracy" = color="outcome" hits="80" misses="20" false-alarms="35" correct-rejections="65" payoff hit-payoff="60" miss-payoff="-60" false-alarm-payoff="-40" correct-rejection-payoff="40"></detectable-table>
 ```
 
 ### Equations
@@ -958,13 +958,13 @@ export default class SDTEquationSomething extends SDTEquation {
 }
 ```
 
-`SDTEquation` extends `SDTElement` extends `DecidableElement` extends `LitElement`
+`SDTEquation` extends `DetectableElement` extends `DecidableElement` extends `LitElement`
 
 ### Examples
 
 Full examples built from multiple components
 
-#### `SDTExampleHuman` / `<sdt-example-human>`
+#### `DetectableExampleHuman` / `<detectable-example-human>`
 
 User runs task, and results are fit and displayed in real-time using SDT
 
@@ -979,13 +979,13 @@ performance.
 - *unnamed*
   - Place relevant `detectable-elements` components here
   - Wired elements
-    - `<sdt-control>`
+    - `<detectable-control>`
       - Allows user to adjust parameters and control the task
     - `<rdk-task>`
       - Displays the task
-    - `<sdt-response>`
+    - `<detectable-response>`
       - Allows user to make responses and see feedback and payoffs
-    - `<sdt-table>`
+    - `<detectable-table>`
       - Displays numerical results for the current block of trials
     - `<roc-space>`
       - Displays the hit rate and false alarm rate in ROC space based on current results
@@ -995,17 +995,17 @@ performance.
 ##### Example
 
 ```html
-<sdt-example-human>
-  <sdt-control coherence=".5" trials="10" duration="1000" run pause reset></sdt-control>
+<detectable-example-human>
+  <detectable-control coherence=".5" trials="10" duration="1000" run pause reset></detectable-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
+  <detectable-response interactive trial feedback="outcome"></detectable-response>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></detectable-table>
   <roc-space point="all" iso-d="all" iso-c="all" far=".5" hr=".5"></roc-space>
   <sdt-model threshold bias distributions sensitivity histogram color="outcome" d="0" c="0"></sdt-model>
-</sdt-example-human>
+</detectable-example-human>
 ```
 
-#### `SDTExampleInteractive` / `<sdt-example-interactive>`
+#### `DetectableExampleInteractive` / `<detectable-example-interactive>`
 
 Exploration of relationship between SDT visualizations
 
@@ -1019,9 +1019,9 @@ to allow the user to modify values and see the implications for the other compon
 - *unnamed*
   - Place relevant `detectable-elements` components here
   - Wired elements
-    - `<sdt-control>`
+    - `<detectable-control>`
       - Allows user to adjust parameters
-    - `<sdt-table>`
+    - `<detectable-table>`
       - Display and change numerical results
     - `<roc-space>`
       - Display and change the hit rate and false alarm rate in ROC space
@@ -1031,14 +1031,14 @@ to allow the user to modify values and see the implications for the other compon
 ##### Example
 
 ```html
-<sdt-example-interactive>
-  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></sdt-table>
+<detectable-example-interactive>
+  <detectable-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
   <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
-</sdt-example-interactive>
+</detectable-example-interactive>
 ```
 
-#### `SDTExampleDoubleInteractive` / `<sdt-example-double-interactive>`
+#### `DetectableExampleDoubleInteractive` / `<detectable-example-double-interactive>`
 
 Compare two sets of results using signal detection theory
 
@@ -1052,7 +1052,7 @@ allow the user to modify values and see the implications for the other component
 - *unnamed*
   - Place relevant `detectable-elements` components here
   - Wired elements
-    - **2×** `<sdt-table>`
+    - **2×** `<detectable-table>`
       - Display and change values for two sets of results
     - `<roc-space>`
       - Display and change the hit rate and false alarm rate in ROC space for each of two results
@@ -1062,14 +1062,14 @@ allow the user to modify values and see the implications for the other component
 ##### Example
 
 ```html
-<sdt-example-double-interactive>
-  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
+<detectable-example-double-interactive>
+  <detectable-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></detectable-table>
   <roc-space interactive contour="accuracy" point="all" iso-d="none" iso-c="none"></roc-space>
-  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
-</sdt-example-double-interactive>
+  <detectable-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></detectable-table>
+</detectable-example-double-interactive>
 ```
 
-#### `SDTExampleModel` / `<sdt-example-model>`
+#### `DetectableExampleModel` / `<detectable-example-model>`
 
 Model simulates task based on SDT parameter values
 
@@ -1084,15 +1084,15 @@ because their values are received from the model's task performance.
 - *unnamed*
   - Place relevant `detectable-elements` components here
   - Wired elements
-    - `<sdt-control>`
+    - `<detectable-control>`
       - Allows user to adjust parameters and control the task
     - `<rdk-task>`
       - Displays the task
     - `<sdt-model>`
       - Display and change a visual rendering of the sensitivity and bias of the model
-    - `<sdt-response>`
+    - `<detectable-response>`
       - Displays model's responses and the resulting feedback and payoffs
-    - `<sdt-table>`
+    - `<detectable-table>`
       - Displays model's numerical results for the current block of trials
     - `<roc-space>`
       - Displays the model's hit rate and false alarm rate in ROC space based on current results
@@ -1100,17 +1100,17 @@ because their values are received from the model's task performance.
 ##### Example
 
 ```html
-<sdt-example-model>
-  <sdt-control run pause reset coherence=".5" trials="10" duration="500"></sdt-control>
+<detectable-example-model>
+  <detectable-control run pause reset coherence=".5" trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram color="outcome" d="1" c=".5"></sdt-model>
-  <sdt-response trial feedback="outcome"></sdt-response>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
+  <detectable-response trial feedback="outcome"></detectable-response>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></detectable-table>
   <roc-space hr=".5" far=".5" point="all" iso-d="all" iso-c="all"></roc-space>
-</sdt-example-model>
+</detectable-example-model>
 ```
 
-#### `SDTExampleUnequal` / `<sdt-example-unequal>`
+#### `DetectableExampleUnequal` / `<detectable-example-unequal>`
 
 Unequal variance example
 
@@ -1118,7 +1118,7 @@ Used to build specialized examples illustrating the implications of unequal vari
 include controls, ROC space, and a visual rendering of signal detection theory. The SDT model and
 ROC space can be interactive.
 
-**Note:** Unequal variance can be included in other examples, such as `<sdt-example-interactive>` as
+**Note:** Unequal variance can be included in other examples, such as `<detectable-example-interactive>` as
 well. This example is for a particular bespoke illustration, and illustrates the highly specialized
 demonstrations that are possible by composing the various elements.
 
@@ -1127,7 +1127,7 @@ demonstrations that are possible by composing the various elements.
 - *unnamed*
   - Place relevant `detectable-elements` components here
   - Wired elements
-    - `<sdt-control>`
+    - `<detectable-control>`
       - Allows user to adjust parameters
     - `<sdt-model>`
       - Display and change a visual rendering of sensitivity and bias
@@ -1137,42 +1137,42 @@ demonstrations that are possible by composing the various elements.
 ##### Example
 
 ```html
-<sdt-example-unequal>
-  <sdt-control z-roc></sdt-control>
+<detectable-example-unequal>
+  <detectable-control z-roc></detectable-control>
   <sdt-model interactive unequal distributions sensitivity variance color="stimulus"></sdt-model>
   <roc-space z-roc contour="sensitivity" point="rest" iso-d="rest" iso-c="rest"></roc-space>
-</sdt-example-unequal>
+</detectable-example-unequal>
 ```
 
-#### `SDTExample`
+#### `DetectableExample`
 
 Base class for all SDT examples
 
 To define a new example:
 
 ```javascript
-export default class SDTExampleSomething extends SDTExample {
+export default class DetectableExampleSomething extends DetectableExample {
   ...
 }
 ```
 
-`SDTExample` extends `SDTElement` extends `DecidableElement` extends `LitElement`
+`DetectableExample` extends `DetectableElement` extends `DecidableElement` extends `LitElement`
 
 ### Base class
 
-#### `SDTElement`
+#### `DetectableElement`
 
 Base class for all *detectable* web components
 
 To define a new element:
 
 ```javascript
-export default class SDTElementSomething extends SDTElement {
+export default class DetectableElementSomething extends DetectableElement {
   ...
 }
 ```
 
-`SDTElement` extends `DecidableElement` extends `LitElement`
+`DetectableElement` extends `DecidableElement` extends `LitElement`
 
 ---
 
