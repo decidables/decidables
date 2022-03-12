@@ -502,7 +502,7 @@ and total payoff.
       - The count of the trial within the block
 - `stop()`
   - Indicates that the trial is over and it is time to display any requested feedback
-  - Note that if no response has been made yet, the trial is recorded as having no response
+  - **Note:** If no response has been made yet, the trial is recorded as having no response
 - `present()`
   - Emulate a 'present' response  
 - `absent()`
@@ -644,37 +644,321 @@ overall results are optionally marginalized with accuracy.
 
 Interactive equations for SDT
 
+The equations can either be static and display the variable names, be static and display names and
+values or be interactive with names and editable values, in which case only the values on the right
+side of the equals sign are editable.
+
+**Note:** The layout for these equations leaves something to be desired, especially on smaller
+screens. Ideally a proper math renderer would be used, but I haven't found one that takes kindly to
+insertion of the custom elements needed for live editing.
+
 #### `SDTEquationDC2Far` / `<sdt-equation-dc2far>`
 
 False alarm rate from sensitivity and bias
+
+##### Attributes
+
+- `numeric: boolean = false`
+  - Show values instead of just the names of variables
+- `interactive: boolean = false`
+  - Allow editing of numeric values in the equation
+- `unequal: boolean = false`
+  - Show the unequal variance version of the equation, including a variance parameter
+- `d: number = 0`
+  - Sensitivity, *d`*
+- `c: number = 0`
+  - Bias, *c*
+- `s: number = 1`
+  - Variance, *s*
+
+##### Properties
+
+- `far: number`
+  - False alarm rate
+
+##### Custom Events
+
+- `sdt-equation-dc2far-change`
+  - Indicates that the values in the equation have changed
+  - `detail`
+    - `d: number`
+      - New value of sensitivity
+    - `c: number`
+      - New value of bias
+    - `s: number`
+      - New value of variance
+    - `far: number`
+      - New value of false alarm rate
+
+##### Example
+
+```html
+<sdt-equation-dc2far numeric interactive unequal d="2" c="-1" s="1.5"></sdt-equation-dc2far>
+```
 
 #### `SDTEquationDC2Hr` / `<sdt-equation-dc2hr>`
 
 Hit rate from sensitivity and bias
 
+##### Attributes
+
+- `numeric: boolean = false`
+  - Show values instead of just the names of variables
+- `interactive: boolean = false`
+  - Allow editing of numeric values in the equation
+- `unequal: boolean = false`
+  - Show the unequal variance version of the equation, including a variance parameter
+- `d: number = 0`
+  - Sensitivity, *d`*
+- `c: number = 0`
+  - Bias, *c*
+- `s: number = 1`
+  - Variance, *s*
+
+##### Properties
+
+- `hr: number`
+  - Hit rate
+
+##### Custom Events
+
+- `sdt-equation-dc2hr-change`
+  - Indicates that the values in the equation have changed
+  - `detail`
+    - `d: number`
+      - New value of sensitivity
+    - `c: number`
+      - New value of bias
+    - `s: number`
+      - New value of variance
+    - `hr: number`
+      - New value of hit rate
+
+##### Example
+
+```html
+<sdt-equation-dc2hr numeric interactive unequal d="2" c="-1" s="1.5"></sdt-equation-dc2hr>
+```
+
 #### `SDTEquationFaCr2Far` / `<sdt-equation-facr2far>'
 
 False alarm rate from false alarms and correct rejections
 
-#### `SDTEquationHM2Hr` / `<sdt-equation-hm2r>`
+##### Attributes
+
+- `numeric: boolean = false`
+  - Show values instead of just the names of variables
+- `interactive: boolean = false`
+  - Allow editing of numeric values in the equation
+- `false-alarms: number = 0`
+  - False alarms
+- `correct-rejections: number = 0`
+  - Correct rejections
+
+##### Properties
+
+- `far: number`
+  - False alarm rate
+
+##### Custom Events
+
+- `sdt-equation-facr2far-change`
+  - Indicates that the values in the equation have changed
+  - `detail`
+    - `fa: number`
+      - New value of false alarms
+    - `cr: number`
+      - New value of correct rejections
+    - `far: number`
+      - New value of false alarm rate
+
+##### Example
+
+```html
+<sdt-equation-facr2far numeric interactive false-alarms="25" correct-rejections="75"></sdt-equation-facr2far>
+```
+
+#### `SDTEquationHM2Hr` / `<sdt-equation-hm2hr>`
 
 Hit rate from hits and misses
+
+##### Attributes
+
+- `numeric: boolean = false`
+  - Show values instead of just the names of variables
+- `interactive: boolean = false`
+  - Allow editing of numeric values in the equation
+- `hits: number = 0`
+  - Hits
+- `misses: number = 0`
+  - Misses
+
+##### Properties
+
+- `far: number`
+  - Hit rate
+
+##### Custom Events
+
+- `sdt-equation-hm2hr-change`
+  - Indicates that the values in the equation have changed
+  - `detail`
+    - `h: number`
+      - New value of hits
+    - `m: number`
+      - New value of misses
+    - `hr: number`
+      - New value of hit rate
+
+##### Example
+
+```html
+<sdt-equation-hm2hr numeric interactive hits="75" misses="25"></sdt-equation-hm2hr>
+```
 
 #### `SDTEquationHMFaCr2Acc` / `<sdt-equation-hmfacr2c>`
 
 Accuracy from hits, misses, false alarms, and correct rejections
 
+##### Attributes
+
+- `numeric: boolean = false`
+  - Show values instead of just the names of variables
+- `interactive: boolean = false`
+  - Allow editing of numeric values in the equation
+- `hits: number = 0`
+  - Hits
+- `misses: number = 0`
+  - Misses
+- `false-alarms: number = 0`
+  - False alarms
+- `correct-rejections: number = 0`
+  - Correct rejections
+
+##### Properties
+
+- `acc: number`
+  - Accuracy
+
+##### Custom Events
+
+- `sdt-equation-hmfacr2c-change`
+  - Indicates that the values in the equation have changed
+  - `detail`
+    - `h: number`
+      - New value of hits
+    - `m: number`
+      - New value of misses
+    - `fa: number`
+      - New value of false alarms
+    - `cr: number`
+      - New value of correct rejections
+    - `acc: number`
+      - New value of accuracy
+
+##### Example
+
+```html
+<sdt-equation-hmfacr2c numeric interactive hits="75" misses="25" false-alarms="25" correct-rejections="75"></sdt-equation-hmfacr2c>
+```
+
 #### `SDTEquationHrFar2C` / `<sdt-equation-hrfar2c>`
 
 Bias from hit rate and false alarm rate
+
+##### Attributes
+
+- `numeric: boolean = false`
+  - Show values instead of just the names of variables
+- `interactive: boolean = false`
+  - Allow editing of numeric values in the equation
+- `hit-rate: number = 0`
+  - Hits
+- `false-alarm-rate: number = 0`
+  - Misses
+- `s: number = 1`
+  - Variance, *s*
+
+##### Properties
+
+- `c: number`
+  - Bias, *c*
+
+##### Custom Events
+
+- `sdt-equation-hrfar2c-change`
+  - Indicates that the values in the equation have changed
+  - `detail`
+    - `hr: number`
+      - New value of hits
+    - `far: number`
+      - New value of misses
+    - `s: number`
+      - New value of variance
+    - `c: number`
+      - New value of bias
+
+##### Example
+
+```html
+<sdt-equation-hrfar2c numeric interactive unequal hit-rate="0.75" false-alarm-rate="0.25" s="1.5"></sdt-equation-hrfar2c>
+```
 
 #### `SDTEquationHrFar2D` / `<sdt-equation-hrfar2d>`
 
 Sensitivity from hit rate and false alarm rate
 
+##### Attributes
+
+- `numeric: boolean = false`
+  - Show values instead of just the names of variables
+- `interactive: boolean = false`
+  - Allow editing of numeric values in the equation
+- `hit-rate: number = 0`
+  - Hits
+- `false-alarm-rate: number = 0`
+  - Misses
+- `s: number = 1`
+  - Variance, *s*
+
+##### Properties
+
+- `d: number`
+  - Sensitivity, *d`*
+
+##### Custom Events
+
+- `sdt-equation-hrfar2c-change`
+  - Indicates that the values in the equation have changed
+  - `detail`
+    - `hr: number`
+      - New value of hits
+    - `far: number`
+      - New value of misses
+    - `s: number`
+      - New value of variance
+    - `d: number`
+      - New value of sensitivity
+
+##### Example
+
+```html
+<sdt-equation-hrfar2d numeric interactive unequal hit-rate="0.75" false-alarm-rate="0.25" s="1.5"></sdt-equation-hrfar2d>
+```
+
 #### `SDTEquation`
 
 Base class for all interactive SDT equations
+
+To define a new equation:
+
+```javascript
+export default class SDTEquationSomething extends SDTEquation {
+  ...
+}
+```
+
+`SDTEquation` extends `SDTElement` extends `DecidableElement` extends `LitElement`
 
 ### Examples
 
@@ -682,33 +966,213 @@ Full examples built from multiple components
 
 #### `SDTExampleHuman` / `<sdt-example-human>`
 
-User runs task, and results are fit using SDT
+User runs task, and results are fit and displayed in real-time using SDT
+
+Used to build examples where the user is performing the random-dot kinematogram task. Can include
+controls, the task itself, response buttons with feedback and payoffs, a table of results, ROC
+space, and a visual rendering of signal detection theory. The table of results, ROC space, and the
+SDT model should not be interactive, because their values are received from the user's task
+performance.
+
+##### Slots
+
+- *unnamed*
+  - Place relevant `detectable-elements` components here
+  - Wired elements
+    - `<sdt-control>`
+      - Allows user to adjust parameters and control the task
+    - `<rdk-task>`
+      - Displays the task
+    - `<sdt-response>`
+      - Allows user to make responses and see feedback and payoffs
+    - `<sdt-table>`
+      - Displays numerical results for the current block of trials
+    - `<roc-space>`
+      - Displays the hit rate and false alarm rate in ROC space based on current results
+    - `<sdt-model>`
+      - Displays a visual rendering of sensitivity and bias based on current results
+
+##### Example
+
+```html
+<sdt-example-human>
+  <sdt-control coherence=".5" trials="10" duration="1000" run pause reset></sdt-control>
+  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+  <sdt-response interactive trial feedback="outcome"></sdt-response>
+  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
+  <roc-space point="all" iso-d="all" iso-c="all" far=".5" hr=".5"></roc-space>
+  <sdt-model threshold bias distributions sensitivity histogram color="outcome" d="0" c="0"></sdt-model>
+</sdt-example-human>
+```
 
 #### `SDTExampleInteractive` / `<sdt-example-interactive>`
 
 Exploration of relationship between SDT visualizations
 
+Used to build examples where the user can explore the relationship between results and
+model parameters. Can include controls, a table of results, ROC space, and a visual rendering of
+signal detection theory. The table of results, ROC space, and the SDT model should be interactive,
+to allow the user to modify values and see the implications for the other components.
+
+##### Slots
+
+- *unnamed*
+  - Place relevant `detectable-elements` components here
+  - Wired elements
+    - `<sdt-control>`
+      - Allows user to adjust parameters
+    - `<sdt-table>`
+      - Display and change numerical results
+    - `<roc-space>`
+      - Display and change the hit rate and false alarm rate in ROC space
+    - `<sdt-model>`
+      - Display and change sensitivity and bias in a visualization
+
+##### Example
+
+```html
+<sdt-example-interactive>
+  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></sdt-table>
+  <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
+  <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
+</sdt-example-interactive>
+```
+
 #### `SDTExampleDoubleInteractive` / `<sdt-example-double-interactive>`
 
-Compare two sets of SDT values directly
+Compare two sets of results using signal detection theory
+
+Used to build examples where the user can explore the relationship between two sets of results and
+model parameters. Can include two tables of results, a single ROC space, and two visual renderings
+of signal detection theory. The tables of results, ROC space, and models can all be interactive, to
+allow the user to modify values and see the implications for the other components.
+
+##### Slots
+
+- *unnamed*
+  - Place relevant `detectable-elements` components here
+  - Wired elements
+    - **2×** `<sdt-table>`
+      - Display and change values for two sets of results
+    - `<roc-space>`
+      - Display and change the hit rate and false alarm rate in ROC space for each of two results
+    - **2×** `<sdt-model>`
+      - Display and change sensitivity and bias in a visualization for two sets of results
+
+##### Example
+
+```html
+<sdt-example-double-interactive>
+  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
+  <roc-space interactive contour="accuracy" point="all" iso-d="none" iso-c="none"></roc-space>
+  <sdt-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
+</sdt-example-double-interactive>
+```
 
 #### `SDTExampleModel` / `<sdt-example-model>`
 
 Model simulates task based on SDT parameter values
 
+Used to build examples where the model is simulated to perform the random-dot kinematogram task. Can
+include controls, the task itself, response buttons with feedback and payoffs, a table of results,
+ROC space, and a visual rendering of signal detection theory. The SDT model should be interactive,
+so the user can modify the model. The table of results and ROC space should not be interactive,
+because their values are received from the model's task performance.
+
+##### Slots
+
+- *unnamed*
+  - Place relevant `detectable-elements` components here
+  - Wired elements
+    - `<sdt-control>`
+      - Allows user to adjust parameters and control the task
+    - `<rdk-task>`
+      - Displays the task
+    - `<sdt-model>`
+      - Display and change a visual rendering of the sensitivity and bias of the model
+    - `<sdt-response>`
+      - Displays model's responses and the resulting feedback and payoffs
+    - `<sdt-table>`
+      - Displays model's numerical results for the current block of trials
+    - `<roc-space>`
+      - Displays the model's hit rate and false alarm rate in ROC space based on current results
+
+##### Example
+
+```html
+<sdt-example-model>
+  <sdt-control run pause reset coherence=".5" trials="10" duration="500"></sdt-control>
+  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
+  <sdt-model interactive threshold bias distributions sensitivity histogram color="outcome" d="1" c=".5"></sdt-model>
+  <sdt-response trial feedback="outcome"></sdt-response>
+  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
+  <roc-space hr=".5" far=".5" point="all" iso-d="all" iso-c="all"></roc-space>
+</sdt-example-model>
+```
+
 #### `SDTExampleUnequal` / `<sdt-example-unequal>`
 
 Unequal variance example
 
+Used to build specialized examples illustrating the implications of unequal variance. Can
+include controls, ROC space, and a visual rendering of signal detection theory. The SDT model and
+ROC space can be interactive.
+
+**Note:** Unequal variance can be included in other examples, such as `<sdt-example-interactive>` as
+well. This example is for a particular bespoke illustration, and illustrates the highly specialized
+demonstrations that are possible by composing the various elements.
+
+##### Slots
+
+- *unnamed*
+  - Place relevant `detectable-elements` components here
+  - Wired elements
+    - `<sdt-control>`
+      - Allows user to adjust parameters
+    - `<sdt-model>`
+      - Display and change a visual rendering of sensitivity and bias
+    - `<roc-space>`
+      - Displays the hit rate and false alarm rate in ROC space
+
+##### Example
+
+```html
+<sdt-example-unequal>
+  <sdt-control z-roc></sdt-control>
+  <sdt-model interactive unequal distributions sensitivity variance color="stimulus"></sdt-model>
+  <roc-space z-roc contour="sensitivity" point="rest" iso-d="rest" iso-c="rest"></roc-space>
+</sdt-example-unequal>
+```
+
 #### `SDTExample`
 
 Base class for all SDT examples
+
+To define a new example:
+
+```javascript
+export default class SDTExampleSomething extends SDTExample {
+  ...
+}
+```
+
+`SDTExample` extends `SDTElement` extends `DecidableElement` extends `LitElement`
 
 ### Base class
 
 #### `SDTElement`
 
 Base class for all *detectable* web components
+
+To define a new element:
+
+```javascript
+export default class SDTElementSomething extends SDTElement {
+  ...
+}
+```
+
+`SDTElement` extends `DecidableElement` extends `LitElement`
 
 ---
 
