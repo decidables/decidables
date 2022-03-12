@@ -233,10 +233,10 @@ response. And sometimes that may be all that really matters - was my answer <spa
 an <span class="key Error">Error</span>?</p>
 <p>Try a few trials of the task:</p>
 <sdt-example-human>
-  <sdt-control trials="5" run pause reset duration="1000" coherence=".5"></sdt-control>
+  <detectable-control trials="5" run pause reset duration="1000" coherence=".5"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5"
     duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-response interactive trial feedback="accuracy"></sdt-response>
+  <detectable-response interactive trial feedback="accuracy"></detectable-response>
 </sdt-example-human>
 <p>As you have no doubt noticed, if you have given it a try, you receive feedback. For the moment, that
 feedback is either <span class="key Correct">Correct</span> or <span class="key Error">Error</span> (or <span class="key NoResponse">No Response</span> if you do not respond in
@@ -258,15 +258,15 @@ signal is actually <em>absent</em>, and we erroneously respond <em>"present"</em
 possible responses ("present" or "absent"), leading to a nice two by two table of possible outcomes
 (brightly colored by yours truly):</p>
 <sdt-example-interactive>
-  <sdt-table></sdt-table>
+  <detectable-table></detectable-table>
 </sdt-example-interactive>
 <p>Try a few more trials of the task, and this time the feedback will inform you of which of the four
 possible outcomes occurred:</p>
 <sdt-example-human>
-  <sdt-control trials="5" run pause reset duration="1000" coherence=".5"></sdt-control>
+  <detectable-control trials="5" run pause reset duration="1000" coherence=".5"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5"
     duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-response interactive trial feedback="outcome"></sdt-response>
+  <detectable-response interactive trial feedback="outcome"></detectable-response>
 </sdt-example-human>
 <p>Now that we know how to classify the outcome of individual trials, we might wonder how we can
 aggregate and summarize these results...</p>

@@ -31084,26 +31084,26 @@
 
   var _templateObject$b;
   /*
-    SDTElement Base Class - Not intended for instantiation!
-    <sdt-element>
+    DetectableElement Base Class - Not intended for instantiation!
+    <detectable-element>
   */
 
-  var SDTElement = /*#__PURE__*/function (_DecidablesElement) {
-    _inherits(SDTElement, _DecidablesElement);
+  var DetectableElement = /*#__PURE__*/function (_DecidablesElement) {
+    _inherits(DetectableElement, _DecidablesElement);
 
-    var _super = _createSuper(SDTElement);
+    var _super = _createSuper(DetectableElement);
 
-    function SDTElement() {
+    function DetectableElement() {
       var _this;
 
-      _classCallCheck(this, SDTElement);
+      _classCallCheck(this, DetectableElement);
 
       _this = _super.call(this);
       _this.interactive = false;
       return _this;
     }
 
-    _createClass(SDTElement, null, [{
+    _createClass(DetectableElement, null, [{
       key: "properties",
       get: function get() {
         return {
@@ -31138,27 +31138,27 @@
     }, {
       key: "lights",
       get: function get() {
-        return Object.keys(SDTElement.colors).reduce(function (acc, cur) {
-          acc[cur] = interpolateRgb(SDTElement.colors[cur], '#ffffff')(0.5);
+        return Object.keys(DetectableElement.colors).reduce(function (acc, cur) {
+          acc[cur] = interpolateRgb(DetectableElement.colors[cur], '#ffffff')(0.5);
           return acc;
         }, {});
       }
     }, {
       key: "darks",
       get: function get() {
-        return Object.keys(SDTElement.colors).reduce(function (acc, cur) {
-          acc[cur] = interpolateRgb(SDTElement.colors[cur], '#000000')(0.5);
+        return Object.keys(DetectableElement.colors).reduce(function (acc, cur) {
+          acc[cur] = interpolateRgb(DetectableElement.colors[cur], '#000000')(0.5);
           return acc;
         }, {});
       }
     }, {
       key: "styles",
       get: function get() {
-        return [_get(_getPrototypeOf(SDTElement), "styles", this), r$2(_templateObject$b || (_templateObject$b = _taggedTemplateLiteral(["\n        :host {\n          ---color-h: var(--color-h, ", ");\n          ---color-m: var(--color-m, ", ");\n          ---color-fa: var(--color-fa, ", ");\n          ---color-cr: var(--color-cr, ", ");\n          ---color-hr: var(--color-hr, ", ");\n          ---color-far: var(--color-far, ", ");\n          ---color-acc: var(--color-acc, ", ");\n          ---color-d: var(--color-d, ", ");\n          ---color-c: var(--color-c, ", ");\n          ---color-s: var(--color-s, ", ");\n          ---color-present: var(--color-present, ", ");\n          ---color-absent: var(--color-absent, ", ");\n          ---color-correct: var(--color-correct, ", ");\n          ---color-error: var(--color-error, ", ");\n          ---color-nr: var(--color-nr, ", ");\n\n          ---color-h-light: var(--color-h-light, ", ");\n          ---color-m-light: var(--color-m-light, ", ");\n          ---color-fa-light: var(--color-fa-light, ", ");\n          ---color-cr-light: var(--color-cr-light, ", ");\n          ---color-hr-light: var(--color-hr-light, ", ");\n          ---color-far-light: var(--color-far-light, ", ");\n          ---color-acc-light: var(--color-acc-light, ", ");\n          ---color-d-light: var(--color-d-light, ", ");\n          ---color-c-light: var(--color-c-light, ", ");\n          ---color-s-light: var(--color-s-light, ", ");\n          ---color-present-light: var(--color-present-light, ", ");\n          ---color-absent-light: var(--color-absent-light, ", ");\n          ---color-correct-light: var(--color-correct-light, ", ");\n          ---color-error-light: var(--color-error-light, ", ");\n          ---color-nr-light: var(--color-nr-light, ", ");\n\n          ---color-h-dark: var(--color-h-dark, ", ");\n          ---color-m-dark: var(--color-m-dark, ", ");\n          ---color-fa-dark: var(--color-fa-dark, ", ");\n          ---color-cr-dark: var(--color-cr-dark, ", ");\n          ---color-hr-dark: var(--color-hr-dark, ", ");\n          ---color-far-dark: var(--color-far-dark, ", ");\n          ---color-acc-dark: var(--color-acc-dark, ", ");\n          ---color-d-dark: var(--color-d-dark, ", ");\n          ---color-c-dark: var(--color-c-dark, ", ");\n          ---color-s-dark: var(--color-s-dark, ", ");\n          ---color-present-dark: var(--color-present-dark, ", ");\n          ---color-absent-dark: var(--color-absent-dark, ", ");\n          ---color-correct-dark: var(--color-correct-dark, ", ");\n          ---color-error-dark: var(--color-error-dark, ", ");\n          ---color-nr-dark: var(--color-nr-dark, ", ");\n        }\n      "])), o$3(this.colors.h), o$3(this.colors.m), o$3(this.colors.fa), o$3(this.colors.cr), o$3(this.colors.hr), o$3(this.colors.far), o$3(this.colors.acc), o$3(this.colors.d), o$3(this.colors.c), o$3(this.colors.s), o$3(this.colors.present), o$3(this.colors.absent), o$3(this.colors.correct), o$3(this.colors.error), o$3(this.colors.nr), o$3(this.lights.h), o$3(this.lights.m), o$3(this.lights.fa), o$3(this.lights.cr), o$3(this.lights.hr), o$3(this.lights.far), o$3(this.lights.acc), o$3(this.lights.d), o$3(this.lights.c), o$3(this.lights.s), o$3(this.lights.present), o$3(this.lights.absent), o$3(this.lights.correct), o$3(this.lights.error), o$3(this.lights.nr), o$3(this.darks.h), o$3(this.darks.m), o$3(this.darks.fa), o$3(this.darks.cr), o$3(this.darks.hr), o$3(this.darks.far), o$3(this.darks.acc), o$3(this.darks.d), o$3(this.darks.c), o$3(this.darks.s), o$3(this.darks.present), o$3(this.darks.absent), o$3(this.darks.correct), o$3(this.darks.error), o$3(this.darks.nr))];
+        return [_get(_getPrototypeOf(DetectableElement), "styles", this), r$2(_templateObject$b || (_templateObject$b = _taggedTemplateLiteral(["\n        :host {\n          ---color-h: var(--color-h, ", ");\n          ---color-m: var(--color-m, ", ");\n          ---color-fa: var(--color-fa, ", ");\n          ---color-cr: var(--color-cr, ", ");\n          ---color-hr: var(--color-hr, ", ");\n          ---color-far: var(--color-far, ", ");\n          ---color-acc: var(--color-acc, ", ");\n          ---color-d: var(--color-d, ", ");\n          ---color-c: var(--color-c, ", ");\n          ---color-s: var(--color-s, ", ");\n          ---color-present: var(--color-present, ", ");\n          ---color-absent: var(--color-absent, ", ");\n          ---color-correct: var(--color-correct, ", ");\n          ---color-error: var(--color-error, ", ");\n          ---color-nr: var(--color-nr, ", ");\n\n          ---color-h-light: var(--color-h-light, ", ");\n          ---color-m-light: var(--color-m-light, ", ");\n          ---color-fa-light: var(--color-fa-light, ", ");\n          ---color-cr-light: var(--color-cr-light, ", ");\n          ---color-hr-light: var(--color-hr-light, ", ");\n          ---color-far-light: var(--color-far-light, ", ");\n          ---color-acc-light: var(--color-acc-light, ", ");\n          ---color-d-light: var(--color-d-light, ", ");\n          ---color-c-light: var(--color-c-light, ", ");\n          ---color-s-light: var(--color-s-light, ", ");\n          ---color-present-light: var(--color-present-light, ", ");\n          ---color-absent-light: var(--color-absent-light, ", ");\n          ---color-correct-light: var(--color-correct-light, ", ");\n          ---color-error-light: var(--color-error-light, ", ");\n          ---color-nr-light: var(--color-nr-light, ", ");\n\n          ---color-h-dark: var(--color-h-dark, ", ");\n          ---color-m-dark: var(--color-m-dark, ", ");\n          ---color-fa-dark: var(--color-fa-dark, ", ");\n          ---color-cr-dark: var(--color-cr-dark, ", ");\n          ---color-hr-dark: var(--color-hr-dark, ", ");\n          ---color-far-dark: var(--color-far-dark, ", ");\n          ---color-acc-dark: var(--color-acc-dark, ", ");\n          ---color-d-dark: var(--color-d-dark, ", ");\n          ---color-c-dark: var(--color-c-dark, ", ");\n          ---color-s-dark: var(--color-s-dark, ", ");\n          ---color-present-dark: var(--color-present-dark, ", ");\n          ---color-absent-dark: var(--color-absent-dark, ", ");\n          ---color-correct-dark: var(--color-correct-dark, ", ");\n          ---color-error-dark: var(--color-error-dark, ", ");\n          ---color-nr-dark: var(--color-nr-dark, ", ");\n        }\n      "])), o$3(this.colors.h), o$3(this.colors.m), o$3(this.colors.fa), o$3(this.colors.cr), o$3(this.colors.hr), o$3(this.colors.far), o$3(this.colors.acc), o$3(this.colors.d), o$3(this.colors.c), o$3(this.colors.s), o$3(this.colors.present), o$3(this.colors.absent), o$3(this.colors.correct), o$3(this.colors.error), o$3(this.colors.nr), o$3(this.lights.h), o$3(this.lights.m), o$3(this.lights.fa), o$3(this.lights.cr), o$3(this.lights.hr), o$3(this.lights.far), o$3(this.lights.acc), o$3(this.lights.d), o$3(this.lights.c), o$3(this.lights.s), o$3(this.lights.present), o$3(this.lights.absent), o$3(this.lights.correct), o$3(this.lights.error), o$3(this.lights.nr), o$3(this.darks.h), o$3(this.darks.m), o$3(this.darks.fa), o$3(this.darks.cr), o$3(this.darks.hr), o$3(this.darks.far), o$3(this.darks.acc), o$3(this.darks.d), o$3(this.darks.c), o$3(this.darks.s), o$3(this.darks.present), o$3(this.darks.absent), o$3(this.darks.correct), o$3(this.darks.error), o$3(this.darks.nr))];
       }
     }]);
 
-    return SDTElement;
+    return DetectableElement;
   }(DecidablesElement);
 
   var _templateObject$a, _templateObject2$9;
@@ -31171,8 +31171,8 @@
     # Direction, Speed, Lifetime
   */
 
-  var RDKTask = /*#__PURE__*/function (_SDTElement) {
-    _inherits(RDKTask, _SDTElement);
+  var RDKTask = /*#__PURE__*/function (_DetectableElement) {
+    _inherits(RDKTask, _DetectableElement);
 
     var _super = _createSuper(RDKTask);
 
@@ -31390,7 +31390,10 @@
     }, {
       key: "reset",
       value: function reset() {
-        this.runner.stop();
+        if (this.runner !== undefined) {
+          this.runner.stop();
+        }
+
         this.running = false;
         this.trial = 0;
         this.state = 'resetted';
@@ -31683,7 +31686,7 @@
     }]);
 
     return RDKTask;
-  }(SDTElement);
+  }(DetectableElement);
   customElements.define('rdk-task', RDKTask);
 
   var jstat = createCommonjsModule(function (module, exports) {
@@ -36698,8 +36701,8 @@
       ??
   */
 
-  var ROCSpace = /*#__PURE__*/function (_SDTElement) {
-    _inherits(ROCSpace, _SDTElement);
+  var ROCSpace = /*#__PURE__*/function (_DetectableElement) {
+    _inherits(ROCSpace, _DetectableElement);
 
     var _super = _createSuper(ROCSpace);
 
@@ -36856,7 +36859,7 @@
       key: "render",
       value: function render() {
         // eslint-disable-line class-methods-use-this
-        return $(_templateObject$9 || (_templateObject$9 = _taggedTemplateLiteral(["\n      ", "\n    "])), SDTElement.svgFilters);
+        return $(_templateObject$9 || (_templateObject$9 = _taggedTemplateLiteral(["\n      ", "\n    "])), DetectableElement.svgFilters);
       }
     }, {
       key: "getDimensions",
@@ -37484,7 +37487,7 @@
     }]);
 
     return ROCSpace;
-  }(SDTElement);
+  }(DetectableElement);
   customElements.define('roc-space', ROCSpace);
 
   var _templateObject$8, _templateObject2$7;
@@ -37503,8 +37506,8 @@
         ??
   */
 
-  var SDTModel = /*#__PURE__*/function (_SDTElement) {
-    _inherits(SDTModel, _SDTElement);
+  var SDTModel = /*#__PURE__*/function (_DetectableElement) {
+    _inherits(SDTModel, _DetectableElement);
 
     var _super = _createSuper(SDTModel);
 
@@ -37646,7 +37649,7 @@
       key: "render",
       value: function render() {
         // eslint-disable-line class-methods-use-this
-        return $(_templateObject$8 || (_templateObject$8 = _taggedTemplateLiteral(["\n      ", "\n    "])), SDTElement.svgFilters);
+        return $(_templateObject$8 || (_templateObject$8 = _taggedTemplateLiteral(["\n      ", "\n    "])), DetectableElement.svgFilters);
       }
     }, {
       key: "sendEvent",
@@ -38492,7 +38495,7 @@
 
               _this2.alignTrial(datum);
 
-              _this2.dispatchEvent(new CustomEvent('sdt-response', {
+              _this2.dispatchEvent(new CustomEvent('detectable-response', {
                 detail: {
                   stimulus: datum.signal,
                   response: datum.response,
@@ -38710,27 +38713,27 @@
     }]);
 
     return SDTModel;
-  }(SDTElement);
+  }(DetectableElement);
   customElements.define('sdt-model', SDTModel);
 
   var _templateObject$7, _templateObject2$6, _templateObject3$1, _templateObject4$1, _templateObject5$1, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16, _templateObject17, _templateObject18, _templateObject19, _templateObject20, _templateObject21, _templateObject22, _templateObject23, _templateObject24, _templateObject25, _templateObject26, _templateObject27, _templateObject28, _templateObject29, _templateObject30, _templateObject31, _templateObject32, _templateObject33, _templateObject34, _templateObject35, _templateObject36, _templateObject37, _templateObject38, _templateObject39, _templateObject40, _templateObject41, _templateObject42, _templateObject43, _templateObject44, _templateObject45, _templateObject46;
   /*
-    SDTTable element
-    <sdt-table>
+    DetectableTable element
+    <detectable-table>
 
     Attributes:
     Hit; Miss; FalseAlarm; CorrectRejection;
   */
 
-  var SDTTable = /*#__PURE__*/function (_SDTElement) {
-    _inherits(SDTTable, _SDTElement);
+  var DetectableTable = /*#__PURE__*/function (_DetectableElement) {
+    _inherits(DetectableTable, _DetectableElement);
 
-    var _super = _createSuper(SDTTable);
+    var _super = _createSuper(DetectableTable);
 
-    function SDTTable() {
+    function DetectableTable() {
       var _this;
 
-      _classCallCheck(this, SDTTable);
+      _classCallCheck(this, DetectableTable);
 
       _this = _super.call(this);
       _this.numeric = false;
@@ -38757,7 +38760,7 @@
       return _this;
     }
 
-    _createClass(SDTTable, [{
+    _createClass(DetectableTable, [{
       key: "alignState",
       value: function alignState() {
         this.hr = SDTMath.hM2Hr(this.h, this.m);
@@ -38769,7 +38772,7 @@
     }, {
       key: "sendEvent",
       value: function sendEvent() {
-        this.dispatchEvent(new CustomEvent('sdt-table-change', {
+        this.dispatchEvent(new CustomEvent('detectable-table-change', {
           detail: {
             h: this.h,
             m: this.m,
@@ -39031,13 +39034,13 @@
     }, {
       key: "styles",
       get: function get() {
-        return [_get(_getPrototypeOf(SDTTable), "styles", this), r$2(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n\n          transition: all var(---transition-duration) ease;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        .td-data decidables-spinner {\n          --decidables-spinner-input-width: 3.5rem;\n        }\n\n        .td-summary decidables-spinner {\n          --decidables-spinner-input-width: 4.5rem;\n        }\n\n        /* Color schemes & Table emphasis */\n\n        /* (Default) Outcome color scheme */\n        .h {\n          background: var(---color-h-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .ppv {\n          background: var(---color-present-light);\n        }\n\n        .fomr {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .cr {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .fa {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .fomr {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .fa {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .h {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .m {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .h {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .acc {\n          background: var(---color-element-background);\n        }\n      "])))];
+        return [_get(_getPrototypeOf(DetectableTable), "styles", this), r$2(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n\n          transition: all var(---transition-duration) ease;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        .td-data decidables-spinner {\n          --decidables-spinner-input-width: 3.5rem;\n        }\n\n        .td-summary decidables-spinner {\n          --decidables-spinner-input-width: 4.5rem;\n        }\n\n        /* Color schemes & Table emphasis */\n\n        /* (Default) Outcome color scheme */\n        .h {\n          background: var(---color-h-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .ppv {\n          background: var(---color-present-light);\n        }\n\n        .fomr {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .cr {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .fa {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .fomr {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .fa {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .h {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .m {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .h {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .acc {\n          background: var(---color-element-background);\n        }\n      "])))];
       }
     }]);
 
-    return SDTTable;
-  }(SDTElement);
-  customElements.define('sdt-table', SDTTable);
+    return DetectableTable;
+  }(DetectableElement);
+  customElements.define('detectable-table', DetectableTable);
 
   // import * as jStat from 'jstat';
 

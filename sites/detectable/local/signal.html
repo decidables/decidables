@@ -234,7 +234,7 @@ thought of as a signal.</p>
 <p>Our <span class="term signal">signal</span> will be <span class="term coherent">coherent</span> dot motion. Go ahead and push the
 <span class="ui Run">Run</span> button to see what it looks like:</p>
 <sdt-example-human>
-  <sdt-control run pause reset></sdt-control>
+  <detectable-control run pause reset></detectable-control>
   <rdk-task count="100" coherence="1" trials="1" probability="1" duration="Infinity"
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
@@ -249,7 +249,7 @@ interested in, but that are interfering with your ability to detect the signal.<
 <p>Our <span class="term noise">noise</span> will be <span class="term random">random</span> dot motion. Give it a try (<span class="ui Run">Run</span> to start,
 <span class="ui Pause">Pause</span> to freeze, <span class="ui Reset">Reset</span> to reinitialize):</p>
 <sdt-example-human>
-  <sdt-control run pause reset></sdt-control>
+  <detectable-control run pause reset></detectable-control>
   <rdk-task count="100" coherence="0" trials="1" probability="1" duration="Infinity"
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
@@ -261,7 +261,7 @@ smell of truffles among the other smells of soil. The stimulus you are trying to
 is buried amongst many other stimuli, the noise.</p>
 <p>Our signal, coherent dot motion, is mixed with random dot motion:</p>
 <sdt-example-human>
-  <sdt-control run pause reset></sdt-control>
+  <detectable-control run pause reset></detectable-control>
   <rdk-task count="100" coherence="0.5" trials="1" probability="1" duration="Infinity"
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
@@ -275,7 +275,7 @@ coherently between one and zero, we can elegantly vary our stimulus from "pure" 
 noise, or anywhere in between (move the <span class="ui Coherence">Coherence</span> slider up and down or edit the number to
 adjust the proportion of coherence — even while the dots are moving!):</p>
 <sdt-example-human>
-  <sdt-control run pause reset coherence="0.5"></sdt-control>
+  <detectable-control run pause reset coherence="0.5"></detectable-control>
   <rdk-task count="100" coherence="0.5" trials="1" probability="1" duration="Infinity"
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>

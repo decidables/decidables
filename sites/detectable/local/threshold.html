@@ -234,7 +234,7 @@ take the <span class="key Evidence">Evidence</span> and use it to decide whether
 <p>According to SDT, a <span class="term threshold">threshold</span> is set, such that on each trial, the <span class="key Evidence">Evidence</span> is either
 greater than or less than that threshold:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="none" d="2.5" c="0"></sdt-model>
 </sdt-example-model>
@@ -243,10 +243,10 @@ greater than or less than that threshold:</p>
 this is a <span class="key RespondAbsent">Respond Absent</span> trial, and if the evidence is above the threshold, then this is a
 <span class="key RespondPresent">Respond Present</span> trial:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="0"></sdt-model>
-  <sdt-response feedback="none"></sdt-response>
+  <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 <p>Here, it is the <em>model</em> that is responding to the stimulus on each trial, based on whether the
 <span class="key Evidence">Evidence</span> is above or below the threshold, instead of you our intrepid participant.</p>
@@ -257,19 +257,19 @@ suggestive of signal and noise. But SDT doesn't require this.</p>
 <span class="key RespondPresent">Respond Present</span> (and thus <span class="key RespondAbsent">Respond Absent</span> for a wider range of values). In this case, we
 say that the model is biased towards responding <span class="key Absent">Absent</span>:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="2"></sdt-model>
-  <sdt-response feedback="none"></sdt-response>
+  <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 <p>Or the threshold can be set lower, so that even with weak evidence, the model will <span class="key RespondPresent">Respond
 Present</span> (and thus the evidence must be lower to <span class="key RespondAbsent">Respond Absent</span>). In this case, we say that
 the model is biased towards responding <span class="key Present">Present</span>:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model histogram threshold color="response" d="2.5" c="-2"></sdt-model>
-  <sdt-response feedback="none"></sdt-response>
+  <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 <h2>Parameterizing our threshold with bias, <span class="math-var">c</span></h2>
 <p>The location of our threshold determines the <span class="key Bias">Bias</span> (sometimes called the <span class="term responsebias">response bias</span>)
@@ -284,10 +284,10 @@ are evidence measurements for individual trials, they will change between <span 
 <span class="key RespondAbsent">Respond Absent</span> trials based on the location of the threshold, allowing you to see how the
 <span class="key Bias">Bias</span> determines the tendency to make more <span class="key Present">Present</span> or <span class="key Absent">Absent</span> responses:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias histogram color="response" d="2.5" c="1"></sdt-model>
-  <sdt-response feedback="none"></sdt-response>
+  <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 <p>If you are wondering why <span class="key Bias">Bias</span> is represented with the symbol <span class="key c">c</span>, perhaps it is because
 the threshold is often referred to as a <span class="math-var">c</span>riterion in the work on SDT.
@@ -307,9 +307,9 @@ and suggested as a better measure of response bias for most purposes (<a class="
 ## Perspectives on the relationship between model and performance
 
 <sdt-example-interactive>
-  <sdt-control color="outcome"></sdt-control>
-  <sdt-table numeric interactive summary="stimulusRates responseRates accuracy"
-    hits="80" misses="20" false-alarms="10" correct-rejections="90"></sdt-table>
+  <detectable-control color="outcome"></detectable-control>
+  <detectable-table numeric interactive summary="stimulusRates responseRates accuracy"
+    hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
 

@@ -250,7 +250,7 @@ measurement is taken for which the evidence falls into the same <em>bin</em>, th
 on top of the one or ones already there. As a result, we end up with a histogram of the evidence
 values, with the count of occurrences on the vertical y-axis.</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="1000"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="1000"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
   <sdt-model histogram color="none" d="0" c="0"></sdt-model>
 </sdt-example-model>
@@ -262,7 +262,7 @@ trial, or indeed anything else other than the value of the <span class="key Evid
 signal or noise trial. So we can color the measurement from each trial based on whether it was a
 <span class="key SignalPresent">Signal Present</span> or <span class="key SignalAbsent">Signal Absent</span> trial.</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="20" duration="750"></sdt-control>
+  <detectable-control run pause reset trials="20" duration="750"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="20" duration="750" wait="750" iti="750"></rdk-task>
   <sdt-model histogram color="stimulus" d="2" c="0"></sdt-model>
 </sdt-example-model>
@@ -283,7 +283,7 @@ formed by the trial-by-trial data would match the underlying probability distrib
 the y-axis scale for the probability distributions is on the left side of the graph, while the
 y-axis scale for the histogram is on the right.)</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d="2" c="0"></sdt-model>
 </sdt-example-model>
@@ -293,7 +293,7 @@ observations on signal and noise trials are to each other. When the <span class=
 <span class="key Signal+NoiseDistribution">Signal + Noise Distribution</span> have similar means, we tend to make similar measurements of
 evidence on <span class="key SignalAbsent">Signal Absent</span> and <span class="key SignalPresent">Signal Present</span> trials:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d=".5" c="0"></sdt-model>
 </sdt-example-model>
@@ -302,7 +302,7 @@ hand, when the <span class="key NoiseDistribution">Noise Distribution</span> and
 different means, we tend to make distinct measurements of evidence on <span class="key SignalAbsent">Signal Absent</span> and
 <span class="key SignalPresent">Signal Present</span> trials:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model distributions histogram color="stimulus" d="5" c="0"></sdt-model>
 </sdt-example-model>
@@ -327,7 +327,7 @@ there are evidence measurements for individual trials, they will move along with
 they were drawn from, allowing you to see how the <span class="key Sensitivity">Sensitivity</span> determines the degree of overlap
 between the <span class="key NoiseDistribution">Noise Distribution</span> and the <span class="key Signal+NoiseDistribution">Signal + Noise Distribution</span>:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="20" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive distributions sensitivity histogram color="stimulus" d="1.5" c="0"></sdt-model>
 </sdt-example-model>

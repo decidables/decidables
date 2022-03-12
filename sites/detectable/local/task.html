@@ -246,10 +246,10 @@ too late.</p>
 <p>Go ahead and give it a go! (<span class="ui Run">Run</span> to start the trial; <span class="ui Pause">Pause</span> to temporarily freeze the trial,
 <span class="ui Reset">Reset</span> to reinitialize the experiment, so you can run it again.)</p>
 <sdt-example-human>
-  <sdt-control run pause reset coherence=".5"></sdt-control>
+  <detectable-control run pause reset coherence=".5"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="1" probability=".5" duration="2000"
     wait="2000" iti="2000"></rdk-task>
-  <sdt-response interactive feedback="none"></sdt-response>
+  <detectable-response interactive feedback="none"></detectable-response>
 </sdt-example-human>
 <p>Having fun yet?</p>
 <p>In case you were wondering, the fixation lasts for two seconds, followed by the
@@ -261,10 +261,10 @@ detecting a signal multiple times in a row. Conveniently, our trials lend themse
 sequenced one after another, ad infinitum. Ok, ok, perhaps an infinite sequence of trials would get
 a bit boring, so lets try something a bit more manageable, say, a <span class="term block">block</span> of five trials:</p>
 <sdt-example-human>
-  <sdt-control run pause reset coherence=".5"></sdt-control>
+  <detectable-control run pause reset coherence=".5"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
     wait="2000" iti="2000"></rdk-task>
-  <sdt-response interactive feedback="none"></sdt-response>
+  <detectable-response interactive feedback="none"></detectable-response>
 </sdt-example-human>
 <p>OK, now are you having fun? It can take a bit of practice to get the hang of the timing of the
 trials, the positioning of the response buttons, etc... If you keep at it, sooner or later you may
@@ -277,10 +277,10 @@ slider, the proportion of coherence for the signal using the <span class="ui Coh
 the stimulus is available using the <span class="ui Duration">Duration</span> slider. Now lookie here - we have ourselves
 something approaching a legitimate signal detection task!</p>
 <sdt-example-human>
-  <sdt-control run pause reset coherence=".5" trials="5" duration="2000"></sdt-control>
+  <detectable-control run pause reset coherence=".5" trials="5" duration="2000"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
     wait="2000" iti="2000"></rdk-task>
-  <sdt-response  interactive feedback="none"></sdt-response>
+  <detectable-response  interactive feedback="none"></detectable-response>
 </sdt-example-human>
 <p>However, you may be feeling a bit dissatisfied, because you don't know how you are doing. Well, go
 to the next page then, so we can start talking about outcomes and feedback!</p>

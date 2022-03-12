@@ -8157,26 +8157,26 @@ var DecidablesConverterSet = {
 
 var _templateObject$f;
 /*
-  SDTElement Base Class - Not intended for instantiation!
-  <sdt-element>
+  DetectableElement Base Class - Not intended for instantiation!
+  <detectable-element>
 */
 
-var SDTElement = /*#__PURE__*/function (_DecidablesElement) {
-  _inherits(SDTElement, _DecidablesElement);
+var DetectableElement = /*#__PURE__*/function (_DecidablesElement) {
+  _inherits(DetectableElement, _DecidablesElement);
 
-  var _super = _createSuper(SDTElement);
+  var _super = _createSuper(DetectableElement);
 
-  function SDTElement() {
+  function DetectableElement() {
     var _this;
 
-    _classCallCheck(this, SDTElement);
+    _classCallCheck(this, DetectableElement);
 
     _this = _super.call(this);
     _this.interactive = false;
     return _this;
   }
 
-  _createClass(SDTElement, null, [{
+  _createClass(DetectableElement, null, [{
     key: "properties",
     get: function get() {
       return {
@@ -8211,27 +8211,27 @@ var SDTElement = /*#__PURE__*/function (_DecidablesElement) {
   }, {
     key: "lights",
     get: function get() {
-      return Object.keys(SDTElement.colors).reduce(function (acc, cur) {
-        acc[cur] = interpolateRgb(SDTElement.colors[cur], '#ffffff')(0.5);
+      return Object.keys(DetectableElement.colors).reduce(function (acc, cur) {
+        acc[cur] = interpolateRgb(DetectableElement.colors[cur], '#ffffff')(0.5);
         return acc;
       }, {});
     }
   }, {
     key: "darks",
     get: function get() {
-      return Object.keys(SDTElement.colors).reduce(function (acc, cur) {
-        acc[cur] = interpolateRgb(SDTElement.colors[cur], '#000000')(0.5);
+      return Object.keys(DetectableElement.colors).reduce(function (acc, cur) {
+        acc[cur] = interpolateRgb(DetectableElement.colors[cur], '#000000')(0.5);
         return acc;
       }, {});
     }
   }, {
     key: "styles",
     get: function get() {
-      return [_get(_getPrototypeOf(SDTElement), "styles", this), r$2(_templateObject$f || (_templateObject$f = _taggedTemplateLiteral(["\n        :host {\n          ---color-h: var(--color-h, ", ");\n          ---color-m: var(--color-m, ", ");\n          ---color-fa: var(--color-fa, ", ");\n          ---color-cr: var(--color-cr, ", ");\n          ---color-hr: var(--color-hr, ", ");\n          ---color-far: var(--color-far, ", ");\n          ---color-acc: var(--color-acc, ", ");\n          ---color-d: var(--color-d, ", ");\n          ---color-c: var(--color-c, ", ");\n          ---color-s: var(--color-s, ", ");\n          ---color-present: var(--color-present, ", ");\n          ---color-absent: var(--color-absent, ", ");\n          ---color-correct: var(--color-correct, ", ");\n          ---color-error: var(--color-error, ", ");\n          ---color-nr: var(--color-nr, ", ");\n\n          ---color-h-light: var(--color-h-light, ", ");\n          ---color-m-light: var(--color-m-light, ", ");\n          ---color-fa-light: var(--color-fa-light, ", ");\n          ---color-cr-light: var(--color-cr-light, ", ");\n          ---color-hr-light: var(--color-hr-light, ", ");\n          ---color-far-light: var(--color-far-light, ", ");\n          ---color-acc-light: var(--color-acc-light, ", ");\n          ---color-d-light: var(--color-d-light, ", ");\n          ---color-c-light: var(--color-c-light, ", ");\n          ---color-s-light: var(--color-s-light, ", ");\n          ---color-present-light: var(--color-present-light, ", ");\n          ---color-absent-light: var(--color-absent-light, ", ");\n          ---color-correct-light: var(--color-correct-light, ", ");\n          ---color-error-light: var(--color-error-light, ", ");\n          ---color-nr-light: var(--color-nr-light, ", ");\n\n          ---color-h-dark: var(--color-h-dark, ", ");\n          ---color-m-dark: var(--color-m-dark, ", ");\n          ---color-fa-dark: var(--color-fa-dark, ", ");\n          ---color-cr-dark: var(--color-cr-dark, ", ");\n          ---color-hr-dark: var(--color-hr-dark, ", ");\n          ---color-far-dark: var(--color-far-dark, ", ");\n          ---color-acc-dark: var(--color-acc-dark, ", ");\n          ---color-d-dark: var(--color-d-dark, ", ");\n          ---color-c-dark: var(--color-c-dark, ", ");\n          ---color-s-dark: var(--color-s-dark, ", ");\n          ---color-present-dark: var(--color-present-dark, ", ");\n          ---color-absent-dark: var(--color-absent-dark, ", ");\n          ---color-correct-dark: var(--color-correct-dark, ", ");\n          ---color-error-dark: var(--color-error-dark, ", ");\n          ---color-nr-dark: var(--color-nr-dark, ", ");\n        }\n      "])), o$3(this.colors.h), o$3(this.colors.m), o$3(this.colors.fa), o$3(this.colors.cr), o$3(this.colors.hr), o$3(this.colors.far), o$3(this.colors.acc), o$3(this.colors.d), o$3(this.colors.c), o$3(this.colors.s), o$3(this.colors.present), o$3(this.colors.absent), o$3(this.colors.correct), o$3(this.colors.error), o$3(this.colors.nr), o$3(this.lights.h), o$3(this.lights.m), o$3(this.lights.fa), o$3(this.lights.cr), o$3(this.lights.hr), o$3(this.lights.far), o$3(this.lights.acc), o$3(this.lights.d), o$3(this.lights.c), o$3(this.lights.s), o$3(this.lights.present), o$3(this.lights.absent), o$3(this.lights.correct), o$3(this.lights.error), o$3(this.lights.nr), o$3(this.darks.h), o$3(this.darks.m), o$3(this.darks.fa), o$3(this.darks.cr), o$3(this.darks.hr), o$3(this.darks.far), o$3(this.darks.acc), o$3(this.darks.d), o$3(this.darks.c), o$3(this.darks.s), o$3(this.darks.present), o$3(this.darks.absent), o$3(this.darks.correct), o$3(this.darks.error), o$3(this.darks.nr))];
+      return [_get(_getPrototypeOf(DetectableElement), "styles", this), r$2(_templateObject$f || (_templateObject$f = _taggedTemplateLiteral(["\n        :host {\n          ---color-h: var(--color-h, ", ");\n          ---color-m: var(--color-m, ", ");\n          ---color-fa: var(--color-fa, ", ");\n          ---color-cr: var(--color-cr, ", ");\n          ---color-hr: var(--color-hr, ", ");\n          ---color-far: var(--color-far, ", ");\n          ---color-acc: var(--color-acc, ", ");\n          ---color-d: var(--color-d, ", ");\n          ---color-c: var(--color-c, ", ");\n          ---color-s: var(--color-s, ", ");\n          ---color-present: var(--color-present, ", ");\n          ---color-absent: var(--color-absent, ", ");\n          ---color-correct: var(--color-correct, ", ");\n          ---color-error: var(--color-error, ", ");\n          ---color-nr: var(--color-nr, ", ");\n\n          ---color-h-light: var(--color-h-light, ", ");\n          ---color-m-light: var(--color-m-light, ", ");\n          ---color-fa-light: var(--color-fa-light, ", ");\n          ---color-cr-light: var(--color-cr-light, ", ");\n          ---color-hr-light: var(--color-hr-light, ", ");\n          ---color-far-light: var(--color-far-light, ", ");\n          ---color-acc-light: var(--color-acc-light, ", ");\n          ---color-d-light: var(--color-d-light, ", ");\n          ---color-c-light: var(--color-c-light, ", ");\n          ---color-s-light: var(--color-s-light, ", ");\n          ---color-present-light: var(--color-present-light, ", ");\n          ---color-absent-light: var(--color-absent-light, ", ");\n          ---color-correct-light: var(--color-correct-light, ", ");\n          ---color-error-light: var(--color-error-light, ", ");\n          ---color-nr-light: var(--color-nr-light, ", ");\n\n          ---color-h-dark: var(--color-h-dark, ", ");\n          ---color-m-dark: var(--color-m-dark, ", ");\n          ---color-fa-dark: var(--color-fa-dark, ", ");\n          ---color-cr-dark: var(--color-cr-dark, ", ");\n          ---color-hr-dark: var(--color-hr-dark, ", ");\n          ---color-far-dark: var(--color-far-dark, ", ");\n          ---color-acc-dark: var(--color-acc-dark, ", ");\n          ---color-d-dark: var(--color-d-dark, ", ");\n          ---color-c-dark: var(--color-c-dark, ", ");\n          ---color-s-dark: var(--color-s-dark, ", ");\n          ---color-present-dark: var(--color-present-dark, ", ");\n          ---color-absent-dark: var(--color-absent-dark, ", ");\n          ---color-correct-dark: var(--color-correct-dark, ", ");\n          ---color-error-dark: var(--color-error-dark, ", ");\n          ---color-nr-dark: var(--color-nr-dark, ", ");\n        }\n      "])), o$3(this.colors.h), o$3(this.colors.m), o$3(this.colors.fa), o$3(this.colors.cr), o$3(this.colors.hr), o$3(this.colors.far), o$3(this.colors.acc), o$3(this.colors.d), o$3(this.colors.c), o$3(this.colors.s), o$3(this.colors.present), o$3(this.colors.absent), o$3(this.colors.correct), o$3(this.colors.error), o$3(this.colors.nr), o$3(this.lights.h), o$3(this.lights.m), o$3(this.lights.fa), o$3(this.lights.cr), o$3(this.lights.hr), o$3(this.lights.far), o$3(this.lights.acc), o$3(this.lights.d), o$3(this.lights.c), o$3(this.lights.s), o$3(this.lights.present), o$3(this.lights.absent), o$3(this.lights.correct), o$3(this.lights.error), o$3(this.lights.nr), o$3(this.darks.h), o$3(this.darks.m), o$3(this.darks.fa), o$3(this.darks.cr), o$3(this.darks.hr), o$3(this.darks.far), o$3(this.darks.acc), o$3(this.darks.d), o$3(this.darks.c), o$3(this.darks.s), o$3(this.darks.present), o$3(this.darks.absent), o$3(this.darks.correct), o$3(this.darks.error), o$3(this.darks.nr))];
     }
   }]);
 
-  return SDTElement;
+  return DetectableElement;
 }(DecidablesElement);
 
 var _templateObject$e, _templateObject2$d;
@@ -8244,8 +8244,8 @@ var _templateObject$e, _templateObject2$d;
   # Direction, Speed, Lifetime
 */
 
-var RDKTask = /*#__PURE__*/function (_SDTElement) {
-  _inherits(RDKTask, _SDTElement);
+var RDKTask = /*#__PURE__*/function (_DetectableElement) {
+  _inherits(RDKTask, _DetectableElement);
 
   var _super = _createSuper(RDKTask);
 
@@ -8463,7 +8463,10 @@ var RDKTask = /*#__PURE__*/function (_SDTElement) {
   }, {
     key: "reset",
     value: function reset() {
-      this.runner.stop();
+      if (this.runner !== undefined) {
+        this.runner.stop();
+      }
+
       this.running = false;
       this.trial = 0;
       this.state = 'resetted';
@@ -8756,7 +8759,7 @@ var RDKTask = /*#__PURE__*/function (_SDTElement) {
   }]);
 
   return RDKTask;
-}(SDTElement);
+}(DetectableElement);
 customElements.define('rdk-task', RDKTask);
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -13778,8 +13781,8 @@ var _templateObject$d, _templateObject2$c;
     ??
 */
 
-var ROCSpace = /*#__PURE__*/function (_SDTElement) {
-  _inherits(ROCSpace, _SDTElement);
+var ROCSpace = /*#__PURE__*/function (_DetectableElement) {
+  _inherits(ROCSpace, _DetectableElement);
 
   var _super = _createSuper(ROCSpace);
 
@@ -13936,7 +13939,7 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
     key: "render",
     value: function render() {
       // eslint-disable-line class-methods-use-this
-      return $(_templateObject$d || (_templateObject$d = _taggedTemplateLiteral(["\n      ", "\n    "])), SDTElement.svgFilters);
+      return $(_templateObject$d || (_templateObject$d = _taggedTemplateLiteral(["\n      ", "\n    "])), DetectableElement.svgFilters);
     }
   }, {
     key: "getDimensions",
@@ -14564,27 +14567,27 @@ var ROCSpace = /*#__PURE__*/function (_SDTElement) {
   }]);
 
   return ROCSpace;
-}(SDTElement);
+}(DetectableElement);
 customElements.define('roc-space', ROCSpace);
 
-var _templateObject$c, _templateObject2$b, _templateObject3$9, _templateObject4$9, _templateObject5$9, _templateObject6$9, _templateObject7$9, _templateObject8$7, _templateObject9$7, _templateObject10$7, _templateObject11$7, _templateObject12$2, _templateObject13$2, _templateObject14$2, _templateObject15$2, _templateObject16$2, _templateObject17$2, _templateObject18$2, _templateObject19$2, _templateObject20$2;
+var _templateObject$c, _templateObject2$b, _templateObject3$9, _templateObject4$9, _templateObject5$9, _templateObject6$9, _templateObject7$9, _templateObject8$7, _templateObject9$7, _templateObject10$7, _templateObject11$7, _templateObject12$2, _templateObject13$2, _templateObject14$2, _templateObject15$2, _templateObject16$2, _templateObject17$2, _templateObject18$2, _templateObject19$2, _templateObject20$2, _templateObject21$1, _templateObject22$1;
 /*
-  SDTControl element
-  <sdt-control>
+  DetectableControl element
+  <detectable-control>
 
   Attributes:
 
 */
 
-var SDTControl = /*#__PURE__*/function (_SDTElement) {
-  _inherits(SDTControl, _SDTElement);
+var DetectableControl = /*#__PURE__*/function (_DetectableElement) {
+  _inherits(DetectableControl, _DetectableElement);
 
-  var _super = _createSuper(SDTControl);
+  var _super = _createSuper(DetectableControl);
 
-  function SDTControl() {
+  function DetectableControl() {
     var _this;
 
-    _classCallCheck(this, SDTControl);
+    _classCallCheck(this, DetectableControl);
 
     _this = _super.call(this); // Attributes
 
@@ -14604,11 +14607,11 @@ var SDTControl = /*#__PURE__*/function (_SDTElement) {
     return _this;
   }
 
-  _createClass(SDTControl, [{
+  _createClass(DetectableControl, [{
     key: "setTrials",
     value: function setTrials(e) {
       this.trials = e.target.value;
-      this.dispatchEvent(new CustomEvent('sdt-control-trials', {
+      this.dispatchEvent(new CustomEvent('detectable-control-trials', {
         detail: {
           trials: this.trials
         },
@@ -14619,7 +14622,7 @@ var SDTControl = /*#__PURE__*/function (_SDTElement) {
     key: "setDuration",
     value: function setDuration(e) {
       this.duration = e.target.value;
-      this.dispatchEvent(new CustomEvent('sdt-control-duration', {
+      this.dispatchEvent(new CustomEvent('detectable-control-duration', {
         detail: {
           duration: this.duration
         },
@@ -14630,7 +14633,7 @@ var SDTControl = /*#__PURE__*/function (_SDTElement) {
     key: "setCoherence",
     value: function setCoherence(e) {
       this.coherence = e.target.value;
-      this.dispatchEvent(new CustomEvent('sdt-control-coherence', {
+      this.dispatchEvent(new CustomEvent('detectable-control-coherence', {
         detail: {
           coherence: this.coherence
         },
@@ -14641,7 +14644,7 @@ var SDTControl = /*#__PURE__*/function (_SDTElement) {
     key: "setPayoff",
     value: function setPayoff(e) {
       this.payoff = e.target.value;
-      this.dispatchEvent(new CustomEvent('sdt-control-payoff', {
+      this.dispatchEvent(new CustomEvent('detectable-control-payoff', {
         detail: {
           payoff: this.payoff
         },
@@ -14652,7 +14655,7 @@ var SDTControl = /*#__PURE__*/function (_SDTElement) {
     key: "chooseColor",
     value: function chooseColor(e) {
       this.color = e.target.value;
-      this.dispatchEvent(new CustomEvent('sdt-control-color', {
+      this.dispatchEvent(new CustomEvent('detectable-control-color', {
         detail: {
           color: this.color
         },
@@ -14663,7 +14666,7 @@ var SDTControl = /*#__PURE__*/function (_SDTElement) {
     key: "flipZRoc",
     value: function flipZRoc(e) {
       this.zRoc = e.target.checked;
-      this.dispatchEvent(new CustomEvent('sdt-control-z-roc', {
+      this.dispatchEvent(new CustomEvent('detectable-control-z-roc', {
         detail: {
           zRoc: this.zRoc
         },
@@ -14674,7 +14677,7 @@ var SDTControl = /*#__PURE__*/function (_SDTElement) {
     key: "doRun",
     value: function doRun() {
       this.state = 'running';
-      this.dispatchEvent(new CustomEvent('sdt-control-run', {
+      this.dispatchEvent(new CustomEvent('detectable-control-run', {
         detail: {},
         bubbles: true
       }));
@@ -14683,7 +14686,7 @@ var SDTControl = /*#__PURE__*/function (_SDTElement) {
     key: "doPause",
     value: function doPause() {
       this.state = 'paused';
-      this.dispatchEvent(new CustomEvent('sdt-control-pause', {
+      this.dispatchEvent(new CustomEvent('detectable-control-pause', {
         detail: {},
         bubbles: true
       }));
@@ -14692,7 +14695,7 @@ var SDTControl = /*#__PURE__*/function (_SDTElement) {
     key: "doReset",
     value: function doReset() {
       this.state = 'resetted';
-      this.dispatchEvent(new CustomEvent('sdt-control-reset', {
+      this.dispatchEvent(new CustomEvent('detectable-control-reset', {
         detail: {},
         bubbles: true
       }));
@@ -14705,7 +14708,7 @@ var SDTControl = /*#__PURE__*/function (_SDTElement) {
   }, {
     key: "render",
     value: function render() {
-      return $(_templateObject$c || (_templateObject$c = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        <div class=\"buttons\">\n          ", "\n          ", "\n          ", "\n        </div>\n      </div>"])), this.trials ? $(_templateObject2$b || (_templateObject2$b = _taggedTemplateLiteral(["<decidables-slider min=\"1\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Trials</decidables-slider>"])), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : $(_templateObject3$9 || (_templateObject3$9 = _taggedTemplateLiteral([""]))), this.duration ? $(_templateObject4$9 || (_templateObject4$9 = _taggedTemplateLiteral(["<decidables-slider min=\"10\" max=\"2000\" step=\"10\" .value=", " @change=", " @input=", ">Duration</decidables-slider>"])), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : $(_templateObject5$9 || (_templateObject5$9 = _taggedTemplateLiteral([""]))), this.coherence ? $(_templateObject6$9 || (_templateObject6$9 = _taggedTemplateLiteral(["<decidables-slider min=\"0\" max=\"1\" step=\".01\" .value=", " @change=", " @input=", ">Coherence</decidables-slider>"])), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : $(_templateObject7$9 || (_templateObject7$9 = _taggedTemplateLiteral([""]))), this.payoff ? $(_templateObject8$7 || (_templateObject8$7 = _taggedTemplateLiteral(["<decidables-slider class=\"payoff\" min=\"0\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Payoff</decidables-slider>"])), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : $(_templateObject9$7 || (_templateObject9$7 = _taggedTemplateLiteral([""]))), this.color !== undefined ? $(_templateObject10$7 || (_templateObject10$7 = _taggedTemplateLiteral(["\n            <decidables-toggle @change=", ">\n              <span slot=\"label\">Emphasis</span>\n              <decidables-toggle-option name=", " value=\"none\" ?checked=", ">None</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"accuracy\" ?checked=", ">Accuracy</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"stimulus\" ?checked=", ">Stimulus</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"response\" ?checked=", ">Response</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"outcome\" ?checked=", ">Outcome</decidables-toggle-option>\n            </decidables-toggle>\n          "])), this.chooseColor.bind(this), "".concat(this.uniqueId, "-color"), this.color === 'none', "".concat(this.uniqueId, "-color"), this.color === 'accuracy', "".concat(this.uniqueId, "-color"), this.color === 'stimulus', "".concat(this.uniqueId, "-color"), this.color === 'response', "".concat(this.uniqueId, "-color"), this.color === 'outcome') : $(_templateObject11$7 || (_templateObject11$7 = _taggedTemplateLiteral([""]))), this.zRoc !== undefined ? $(_templateObject12$2 || (_templateObject12$2 = _taggedTemplateLiteral(["\n            <decidables-switch ?checked=", " @change=", ">\n              <span class=\"math-var\">z</span>ROC\n              <span slot=\"off-label\">ROC</span>\n            </decidables-switch>\n          "])), this.zRoc, this.flipZRoc.bind(this)) : $(_templateObject13$2 || (_templateObject13$2 = _taggedTemplateLiteral([""]))), this.run ? $(_templateObject14$2 || (_templateObject14$2 = _taggedTemplateLiteral(["<decidables-button name=\"run\" ?disabled=", " @click=", ">Run</decidables-button>"])), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : $(_templateObject15$2 || (_templateObject15$2 = _taggedTemplateLiteral([""]))), this.pause ? $(_templateObject16$2 || (_templateObject16$2 = _taggedTemplateLiteral(["<decidables-button name=\"pause\" ?disabled=", " @click=", ">Pause</decidables-button>"])), this.state !== 'running', this.doPause.bind(this)) : $(_templateObject17$2 || (_templateObject17$2 = _taggedTemplateLiteral([""]))), this.reset ? $(_templateObject18$2 || (_templateObject18$2 = _taggedTemplateLiteral(["<decidables-button name=\"reset\" ?disabled=", " @click=", ">Reset</decidables-button>"])), this.state === 'resetted', this.doReset.bind(this)) : $(_templateObject19$2 || (_templateObject19$2 = _taggedTemplateLiteral([""]))));
+      return $(_templateObject$c || (_templateObject$c = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n      </div>"])), this.trials ? $(_templateObject2$b || (_templateObject2$b = _taggedTemplateLiteral(["<decidables-slider min=\"1\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Trials</decidables-slider>"])), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : $(_templateObject3$9 || (_templateObject3$9 = _taggedTemplateLiteral([""]))), this.duration ? $(_templateObject4$9 || (_templateObject4$9 = _taggedTemplateLiteral(["<decidables-slider min=\"10\" max=\"2000\" step=\"10\" .value=", " @change=", " @input=", ">Duration</decidables-slider>"])), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : $(_templateObject5$9 || (_templateObject5$9 = _taggedTemplateLiteral([""]))), this.coherence ? $(_templateObject6$9 || (_templateObject6$9 = _taggedTemplateLiteral(["<decidables-slider min=\"0\" max=\"1\" step=\".01\" .value=", " @change=", " @input=", ">Coherence</decidables-slider>"])), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : $(_templateObject7$9 || (_templateObject7$9 = _taggedTemplateLiteral([""]))), this.payoff ? $(_templateObject8$7 || (_templateObject8$7 = _taggedTemplateLiteral(["<decidables-slider class=\"payoff\" min=\"0\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Payoff</decidables-slider>"])), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : $(_templateObject9$7 || (_templateObject9$7 = _taggedTemplateLiteral([""]))), this.color !== undefined ? $(_templateObject10$7 || (_templateObject10$7 = _taggedTemplateLiteral(["\n            <decidables-toggle @change=", ">\n              <span slot=\"label\">Emphasis</span>\n              <decidables-toggle-option name=", " value=\"none\" ?checked=", ">None</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"accuracy\" ?checked=", ">Accuracy</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"stimulus\" ?checked=", ">Stimulus</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"response\" ?checked=", ">Response</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"outcome\" ?checked=", ">Outcome</decidables-toggle-option>\n            </decidables-toggle>\n          "])), this.chooseColor.bind(this), "".concat(this.uniqueId, "-color"), this.color === 'none', "".concat(this.uniqueId, "-color"), this.color === 'accuracy', "".concat(this.uniqueId, "-color"), this.color === 'stimulus', "".concat(this.uniqueId, "-color"), this.color === 'response', "".concat(this.uniqueId, "-color"), this.color === 'outcome') : $(_templateObject11$7 || (_templateObject11$7 = _taggedTemplateLiteral([""]))), this.zRoc !== undefined ? $(_templateObject12$2 || (_templateObject12$2 = _taggedTemplateLiteral(["\n            <decidables-switch ?checked=", " @change=", ">\n              <span class=\"math-var\">z</span>ROC\n              <span slot=\"off-label\">ROC</span>\n            </decidables-switch>\n          "])), this.zRoc, this.flipZRoc.bind(this)) : $(_templateObject13$2 || (_templateObject13$2 = _taggedTemplateLiteral([""]))), this.run || this.pause || this.reset ? $(_templateObject14$2 || (_templateObject14$2 = _taggedTemplateLiteral(["\n            <div class=\"buttons\">\n              ", "\n              ", "\n              ", "\n            </div>\n          "])), this.run ? $(_templateObject15$2 || (_templateObject15$2 = _taggedTemplateLiteral(["<decidables-button name=\"run\" ?disabled=", " @click=", ">Run</decidables-button>"])), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : $(_templateObject16$2 || (_templateObject16$2 = _taggedTemplateLiteral([""]))), this.pause ? $(_templateObject17$2 || (_templateObject17$2 = _taggedTemplateLiteral(["<decidables-button name=\"pause\" ?disabled=", " @click=", ">Pause</decidables-button>"])), this.state !== 'running', this.doPause.bind(this)) : $(_templateObject18$2 || (_templateObject18$2 = _taggedTemplateLiteral([""]))), this.reset ? $(_templateObject19$2 || (_templateObject19$2 = _taggedTemplateLiteral(["<decidables-button name=\"reset\" ?disabled=", " @click=", ">Reset</decidables-button>"])), this.state === 'resetted', this.doReset.bind(this)) : $(_templateObject20$2 || (_templateObject20$2 = _taggedTemplateLiteral([""])))) : $(_templateObject21$1 || (_templateObject21$1 = _taggedTemplateLiteral([""]))));
     }
   }], [{
     key: "properties",
@@ -14766,13 +14769,13 @@ var SDTControl = /*#__PURE__*/function (_SDTElement) {
   }, {
     key: "styles",
     get: function get() {
-      return [_get(_getPrototypeOf(SDTControl), "styles", this), r$2(_templateObject20$2 || (_templateObject20$2 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        /* Payoff  Slider */\n        .payoff {\n          --decidables-spinner-prefix: \"$\";\n        }\n      "])))];
+      return [_get(_getPrototypeOf(DetectableControl), "styles", this), r$2(_templateObject22$1 || (_templateObject22$1 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        /* Payoff  Slider */\n        .payoff {\n          --decidables-spinner-prefix: \"$\";\n        }\n      "])))];
     }
   }]);
 
-  return SDTControl;
-}(SDTElement);
-customElements.define('sdt-control', SDTControl);
+  return DetectableControl;
+}(DetectableElement);
+customElements.define('detectable-control', DetectableControl);
 
 var _templateObject$b, _templateObject2$a;
 /*
@@ -14790,8 +14793,8 @@ var _templateObject$b, _templateObject2$a;
       ??
 */
 
-var SDTModel = /*#__PURE__*/function (_SDTElement) {
-  _inherits(SDTModel, _SDTElement);
+var SDTModel = /*#__PURE__*/function (_DetectableElement) {
+  _inherits(SDTModel, _DetectableElement);
 
   var _super = _createSuper(SDTModel);
 
@@ -14933,7 +14936,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
     key: "render",
     value: function render() {
       // eslint-disable-line class-methods-use-this
-      return $(_templateObject$b || (_templateObject$b = _taggedTemplateLiteral(["\n      ", "\n    "])), SDTElement.svgFilters);
+      return $(_templateObject$b || (_templateObject$b = _taggedTemplateLiteral(["\n      ", "\n    "])), DetectableElement.svgFilters);
     }
   }, {
     key: "sendEvent",
@@ -15779,7 +15782,7 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
 
             _this2.alignTrial(datum);
 
-            _this2.dispatchEvent(new CustomEvent('sdt-response', {
+            _this2.dispatchEvent(new CustomEvent('detectable-response', {
               detail: {
                 stimulus: datum.signal,
                 response: datum.response,
@@ -15997,27 +16000,27 @@ var SDTModel = /*#__PURE__*/function (_SDTElement) {
   }]);
 
   return SDTModel;
-}(SDTElement);
+}(DetectableElement);
 customElements.define('sdt-model', SDTModel);
 
 var _templateObject$a, _templateObject2$9, _templateObject3$8, _templateObject4$8, _templateObject5$8, _templateObject6$8, _templateObject7$8, _templateObject8$6, _templateObject9$6, _templateObject10$6, _templateObject11$6, _templateObject12$1, _templateObject13$1, _templateObject14$1, _templateObject15$1, _templateObject16$1, _templateObject17$1, _templateObject18$1, _templateObject19$1, _templateObject20$1;
 /*
-  SDTResponse element
-  <sdt-response>
+  DetectableResponse element
+  <detectable-response>
 
   Attributes:
 
 */
 
-var SDTResponse = /*#__PURE__*/function (_SDTElement) {
-  _inherits(SDTResponse, _SDTElement);
+var DetectableResponse = /*#__PURE__*/function (_DetectableElement) {
+  _inherits(DetectableResponse, _DetectableElement);
 
-  var _super = _createSuper(SDTResponse);
+  var _super = _createSuper(DetectableResponse);
 
-  function SDTResponse() {
+  function DetectableResponse() {
     var _this;
 
-    _classCallCheck(this, SDTResponse);
+    _classCallCheck(this, DetectableResponse);
 
     _this = _super.call(this); // Attributes
 
@@ -16084,7 +16087,7 @@ var SDTResponse = /*#__PURE__*/function (_SDTElement) {
     return _this;
   }
 
-  _createClass(SDTResponse, [{
+  _createClass(DetectableResponse, [{
     key: "trialPayoff",
     get: function get() {
       switch (this.outcome) {
@@ -16170,7 +16173,7 @@ var SDTResponse = /*#__PURE__*/function (_SDTElement) {
         this.c += 1;
       }
 
-      this.dispatchEvent(new CustomEvent('sdt-response', {
+      this.dispatchEvent(new CustomEvent('detectable-response', {
         detail: {
           trial: this.trialCount,
           signal: this.signal,
@@ -16273,32 +16276,32 @@ var SDTResponse = /*#__PURE__*/function (_SDTElement) {
   }, {
     key: "styles",
     get: function get() {
-      return [_get(_getPrototypeOf(SDTResponse), "styles", this), r$2(_templateObject20$1 || (_templateObject20$1 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall container */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n        }\n\n        /* Response buttons */\n        .responses {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .waiting[disabled] {\n          --decidables-button-background-color: var(---color-element-enabled);\n        }\n\n        .selected[disabled][name=\"present\"] {\n          --decidables-button-background-color: var(---color-present);\n        }\n\n        .selected[disabled][name=\"absent\"] {\n          --decidables-button-background-color: var(---color-absent);\n        }\n\n        /* Feedback messages */\n        .feedbacks {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        /* Trial feedback */\n        .trial {\n          text-align: center;\n        }\n\n        .trial .label {\n          font-weight: 600;\n        }\n\n        /* Outcome feedback */\n        .feedback {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          width: 6rem;\n          height: 3.5rem;\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          text-align: center;\n\n          background-color: var(---color-element-background);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .feedback.h {\n          background-color: var(---color-h-light);\n        }\n\n        .feedback.m {\n          background-color: var(---color-m-light);\n        }\n\n        .feedback.fa {\n          background-color: var(---color-fa-light);\n        }\n\n        .feedback.cr {\n          background-color: var(---color-cr-light);\n        }\n\n        .feedback.nr {\n          background-color: var(---color-nr-light);\n        }\n\n        .feedback.c {\n          background-color: var(---color-correct-light);\n        }\n\n        .feedback.e {\n          color: var(---color-text-inverse);\n\n          background-color: var(---color-error-light);\n        }\n\n        .feedback .outcome {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n\n        :host([payoff=\"trial\"]) .feedback,\n        :host([payoff=\"total\"]) .feedback {\n          height: 4rem;\n        }\n\n        /* Payoff feedback */\n        .payoff {\n          text-align: center;\n        }\n\n        .payoff .label {\n          font-weight: 600;\n        }\n      "])))];
+      return [_get(_getPrototypeOf(DetectableResponse), "styles", this), r$2(_templateObject20$1 || (_templateObject20$1 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall container */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n        }\n\n        /* Response buttons */\n        .responses {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .waiting[disabled] {\n          --decidables-button-background-color: var(---color-element-enabled);\n        }\n\n        .selected[disabled][name=\"present\"] {\n          --decidables-button-background-color: var(---color-present);\n        }\n\n        .selected[disabled][name=\"absent\"] {\n          --decidables-button-background-color: var(---color-absent);\n        }\n\n        /* Feedback messages */\n        .feedbacks {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        /* Trial feedback */\n        .trial {\n          text-align: center;\n        }\n\n        .trial .label {\n          font-weight: 600;\n        }\n\n        /* Outcome feedback */\n        .feedback {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          width: 6rem;\n          height: 3.5rem;\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          text-align: center;\n\n          background-color: var(---color-element-background);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .feedback.h {\n          background-color: var(---color-h-light);\n        }\n\n        .feedback.m {\n          background-color: var(---color-m-light);\n        }\n\n        .feedback.fa {\n          background-color: var(---color-fa-light);\n        }\n\n        .feedback.cr {\n          background-color: var(---color-cr-light);\n        }\n\n        .feedback.nr {\n          background-color: var(---color-nr-light);\n        }\n\n        .feedback.c {\n          background-color: var(---color-correct-light);\n        }\n\n        .feedback.e {\n          color: var(---color-text-inverse);\n\n          background-color: var(---color-error-light);\n        }\n\n        .feedback .outcome {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n\n        :host([payoff=\"trial\"]) .feedback,\n        :host([payoff=\"total\"]) .feedback {\n          height: 4rem;\n        }\n\n        /* Payoff feedback */\n        .payoff {\n          text-align: center;\n        }\n\n        .payoff .label {\n          font-weight: 600;\n        }\n      "])))];
     }
   }]);
 
-  return SDTResponse;
-}(SDTElement);
-customElements.define('sdt-response', SDTResponse);
+  return DetectableResponse;
+}(DetectableElement);
+customElements.define('detectable-response', DetectableResponse);
 
 var _templateObject$9, _templateObject2$8, _templateObject3$7, _templateObject4$7, _templateObject5$7, _templateObject6$7, _templateObject7$7, _templateObject8$5, _templateObject9$5, _templateObject10$5, _templateObject11$5, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16, _templateObject17, _templateObject18, _templateObject19, _templateObject20, _templateObject21, _templateObject22, _templateObject23, _templateObject24, _templateObject25, _templateObject26, _templateObject27, _templateObject28, _templateObject29, _templateObject30, _templateObject31, _templateObject32, _templateObject33, _templateObject34, _templateObject35, _templateObject36, _templateObject37, _templateObject38, _templateObject39, _templateObject40, _templateObject41, _templateObject42, _templateObject43, _templateObject44, _templateObject45, _templateObject46;
 /*
-  SDTTable element
-  <sdt-table>
+  DetectableTable element
+  <detectable-table>
 
   Attributes:
   Hit; Miss; FalseAlarm; CorrectRejection;
 */
 
-var SDTTable = /*#__PURE__*/function (_SDTElement) {
-  _inherits(SDTTable, _SDTElement);
+var DetectableTable = /*#__PURE__*/function (_DetectableElement) {
+  _inherits(DetectableTable, _DetectableElement);
 
-  var _super = _createSuper(SDTTable);
+  var _super = _createSuper(DetectableTable);
 
-  function SDTTable() {
+  function DetectableTable() {
     var _this;
 
-    _classCallCheck(this, SDTTable);
+    _classCallCheck(this, DetectableTable);
 
     _this = _super.call(this);
     _this.numeric = false;
@@ -16325,7 +16328,7 @@ var SDTTable = /*#__PURE__*/function (_SDTElement) {
     return _this;
   }
 
-  _createClass(SDTTable, [{
+  _createClass(DetectableTable, [{
     key: "alignState",
     value: function alignState() {
       this.hr = SDTMath.hM2Hr(this.h, this.m);
@@ -16337,7 +16340,7 @@ var SDTTable = /*#__PURE__*/function (_SDTElement) {
   }, {
     key: "sendEvent",
     value: function sendEvent() {
-      this.dispatchEvent(new CustomEvent('sdt-table-change', {
+      this.dispatchEvent(new CustomEvent('detectable-table-change', {
         detail: {
           h: this.h,
           m: this.m,
@@ -16599,13 +16602,13 @@ var SDTTable = /*#__PURE__*/function (_SDTElement) {
   }, {
     key: "styles",
     get: function get() {
-      return [_get(_getPrototypeOf(SDTTable), "styles", this), r$2(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n\n          transition: all var(---transition-duration) ease;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        .td-data decidables-spinner {\n          --decidables-spinner-input-width: 3.5rem;\n        }\n\n        .td-summary decidables-spinner {\n          --decidables-spinner-input-width: 4.5rem;\n        }\n\n        /* Color schemes & Table emphasis */\n\n        /* (Default) Outcome color scheme */\n        .h {\n          background: var(---color-h-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .ppv {\n          background: var(---color-present-light);\n        }\n\n        .fomr {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .cr {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .fa {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .fomr {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .fa {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .h {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .m {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .h {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .acc {\n          background: var(---color-element-background);\n        }\n      "])))];
+      return [_get(_getPrototypeOf(DetectableTable), "styles", this), r$2(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n\n          transition: all var(---transition-duration) ease;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        .td-data decidables-spinner {\n          --decidables-spinner-input-width: 3.5rem;\n        }\n\n        .td-summary decidables-spinner {\n          --decidables-spinner-input-width: 4.5rem;\n        }\n\n        /* Color schemes & Table emphasis */\n\n        /* (Default) Outcome color scheme */\n        .h {\n          background: var(---color-h-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .ppv {\n          background: var(---color-present-light);\n        }\n\n        .fomr {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .cr {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .fa {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .fomr {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .fa {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .h {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .m {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .h {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .acc {\n          background: var(---color-element-background);\n        }\n      "])))];
     }
   }]);
 
-  return SDTTable;
-}(SDTElement);
-customElements.define('sdt-table', SDTTable);
+  return DetectableTable;
+}(DetectableElement);
+customElements.define('detectable-table', DetectableTable);
 
 var _templateObject$8;
 /*
@@ -16613,8 +16616,8 @@ var _templateObject$8;
   <sdt-equation>
 */
 
-var SDTEquation = /*#__PURE__*/function (_SDTElement) {
-  _inherits(SDTEquation, _SDTElement);
+var SDTEquation = /*#__PURE__*/function (_DetectableElement) {
+  _inherits(SDTEquation, _DetectableElement);
 
   var _super = _createSuper(SDTEquation);
 
@@ -16647,7 +16650,7 @@ var SDTEquation = /*#__PURE__*/function (_SDTElement) {
   }]);
 
   return SDTEquation;
-}(SDTElement);
+}(DetectableElement);
 
 var _templateObject$7, _templateObject2$7, _templateObject3$6, _templateObject4$6, _templateObject5$6, _templateObject6$6, _templateObject7$6, _templateObject8$4, _templateObject9$4, _templateObject10$4, _templateObject11$4;
 /*
@@ -17555,8 +17558,8 @@ var _templateObject, _templateObject2;
   <sdt-example>
 */
 
-var SDTExample = /*#__PURE__*/function (_SDTElement) {
-  _inherits(SDTExample, _SDTElement);
+var SDTExample = /*#__PURE__*/function (_DetectableElement) {
+  _inherits(SDTExample, _DetectableElement);
 
   var _super = _createSuper(SDTExample);
 
@@ -17575,12 +17578,12 @@ var SDTExample = /*#__PURE__*/function (_SDTElement) {
   }], [{
     key: "styles",
     get: function get() {
-      return [_get(_getPrototypeOf(SDTExample), "styles", this), r$2(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n        :host {\n          ---border: var(--border, 1px solid var(---color-border));\n          display: inline-block;\n\n          /* This makes IE11 happy */\n          width: 100%;\n\n          margin-bottom: 1rem;\n        }\n\n        .holder {\n          display: flex;\n        }\n\n        .body {\n          display: flex;\n\n          flex-wrap: wrap;\n\n          align-items: center;\n          justify-content: left;\n\n          padding: 0.625rem;\n\n          border: var(---border);\n          border-radius: 0.25rem;\n        }\n\n        .body ::slotted(*) {\n          margin: 0.625rem;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > rdk-task + sdt-response,\n        ::slotted(rdk-task) + ::slotted(sdt-response) { */\n        .body ::slotted(sdt-response) {\n          margin-left: 0;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > sdt-control + rdk-task,\n        ::slotted(sdt-control) + ::slotted(rdk-task) {\n          margin-left: 0;\n        } */\n        .body ::slotted(rdk-task) {\n          margin-left: 0;\n        }\n      "])))];
+      return [_get(_getPrototypeOf(SDTExample), "styles", this), r$2(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n        :host {\n          ---border: var(--border, 1px solid var(---color-border));\n          display: inline-block;\n\n          /* This makes IE11 happy */\n          width: 100%;\n\n          margin-bottom: 1rem;\n        }\n\n        .holder {\n          display: flex;\n        }\n\n        .body {\n          display: flex;\n\n          flex-wrap: wrap;\n\n          align-items: center;\n          justify-content: left;\n\n          padding: 0.625rem;\n\n          border: var(---border);\n          border-radius: 0.25rem;\n        }\n\n        .body ::slotted(*) {\n          margin: 0.625rem;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > rdk-task + detectable-response,\n        ::slotted(rdk-task) + ::slotted(detectable-response) { */\n        .body ::slotted(detectable-response) {\n          margin-left: 0;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > detectable-control + rdk-task,\n        ::slotted(detectable-control) + ::slotted(rdk-task) {\n          margin-left: 0;\n        } */\n        .body ::slotted(rdk-task) {\n          margin-left: 0;\n        }\n      "])))];
     }
   }]);
 
   return SDTExample;
-}(SDTElement);
+}(DetectableElement);
 customElements.define('sdt-example', SDTExample);
 
 /*
@@ -17624,8 +17627,8 @@ var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
       this.two.far = SDTMath.faCr2Far(this.two.fa, this.two.cr);
       this.two.d = SDTMath.hrFar2D(this.two.hr, this.two.far);
       this.two.c = SDTMath.hrFar2C(this.two.hr, this.two.far);
-      this.sdtTableOne = this.querySelector('sdt-table:nth-of-type(1)');
-      this.sdtTableTwo = this.querySelector('sdt-table:nth-of-type(2)');
+      this.sdtTableOne = this.querySelector('detectable-table:nth-of-type(1)');
+      this.sdtTableTwo = this.querySelector('detectable-table:nth-of-type(2)');
       this.rocSpace = this.querySelector('roc-space');
       this.sdtModelOne = this.querySelector('sdt-model:nth-of-type(1)');
       this.sdtModelTwo = this.querySelector('sdt-model:nth-of-type(2)');
@@ -17635,7 +17638,7 @@ var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
         this.sdtTableOne.m = this.one.m;
         this.sdtTableOne.fa = this.one.fa;
         this.sdtTableOne.cr = this.one.cr;
-        this.sdtTableOne.addEventListener('sdt-table-change', function (event) {
+        this.sdtTableOne.addEventListener('detectable-table-change', function (event) {
           if (_this.rocSpace) {
             _this.rocSpace.set(event.detail.hr, event.detail.far, 'default', '↑');
           }
@@ -17652,7 +17655,7 @@ var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
         this.sdtTableTwo.m = this.two.m;
         this.sdtTableTwo.fa = this.two.fa;
         this.sdtTableTwo.cr = this.two.cr;
-        this.sdtTableTwo.addEventListener('sdt-table-change', function (event) {
+        this.sdtTableTwo.addEventListener('detectable-table-change', function (event) {
           if (_this.rocSpace) {
             _this.rocSpace.set(event.detail.hr, event.detail.far, 'two', '↓');
           }
@@ -17774,10 +17777,10 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
       var _this = this;
 
       this.count = 1;
-      this.sdtControl = this.querySelector('sdt-control');
+      this.sdtControl = this.querySelector('detectable-control');
       this.rdkTask = this.querySelector('rdk-task');
-      this.sdtResponse = this.querySelector('sdt-response');
-      this.sdtTable = this.querySelector('sdt-table');
+      this.sdtResponse = this.querySelector('detectable-response');
+      this.sdtTable = this.querySelector('detectable-table');
       this.rocSpace = this.querySelector('roc-space');
       this.sdtModel = this.querySelector('sdt-model');
 
@@ -17788,7 +17791,7 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
-        this.sdtControl.addEventListener('sdt-control-trials', function (event) {
+        this.sdtControl.addEventListener('detectable-control-trials', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.trials = event.detail.trials;
           }
@@ -17800,7 +17803,7 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
-        this.sdtControl.addEventListener('sdt-control-duration', function (event) {
+        this.sdtControl.addEventListener('detectable-control-duration', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.duration = event.detail.duration;
             _this.rdkTask.wait = event.detail.duration;
@@ -17810,7 +17813,7 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('coherence')) {
-        this.sdtControl.addEventListener('sdt-control-coherence', function (event) {
+        this.sdtControl.addEventListener('detectable-control-coherence', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.coherence = event.detail.coherence;
           }
@@ -17818,7 +17821,7 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('payoff')) {
-        this.sdtControl.addEventListener('sdt-control-payoff', function (event) {
+        this.sdtControl.addEventListener('detectable-control-payoff', function (event) {
           if (_this.sdtResponse) {
             _this.sdtResponse.hPayoff = event.detail.payoff;
             _this.sdtResponse.mPayoff = -event.detail.payoff + 0; // Get rid of -0
@@ -17840,7 +17843,7 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('run')) {
-        this.sdtControl.addEventListener('sdt-control-run', function
+        this.sdtControl.addEventListener('detectable-control-run', function
           /* event */
         () {
           if (_this.rdkTask) {
@@ -17850,7 +17853,7 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('pause')) {
-        this.sdtControl.addEventListener('sdt-control-pause', function
+        this.sdtControl.addEventListener('detectable-control-pause', function
           /* event */
         () {
           if (_this.rdkTask) {
@@ -17860,7 +17863,7 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('reset')) {
-        this.sdtControl.addEventListener('sdt-control-reset', function
+        this.sdtControl.addEventListener('detectable-control-reset', function
           /* event */
         () {
           if (_this.rdkTask) {
@@ -17931,7 +17934,7 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtResponse) {
-        this.sdtResponse.addEventListener('sdt-response', function (event) {
+        this.sdtResponse.addEventListener('detectable-response', function (event) {
           if (_this.sdtTable) {
             _this.sdtTable.h = event.detail.h;
             _this.sdtTable.m = event.detail.m;
@@ -17987,14 +17990,14 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
     firstUpdated() {
       var _this = this;
 
-      this.sdtControl = this.querySelector('sdt-control');
-      this.sdtTable = this.querySelector('sdt-table');
+      this.sdtControl = this.querySelector('detectable-control');
+      this.sdtTable = this.querySelector('detectable-table');
       this.rocSpace = this.querySelector('roc-space');
       this.sdtModel = this.querySelector('sdt-model');
       this.rocSpaces = this.querySelectorAll('roc-space');
 
       if (this.sdtControl && this.sdtControl.hasAttribute('color')) {
-        this.sdtControl.addEventListener('sdt-control-color', function (event) {
+        this.sdtControl.addEventListener('detectable-control-color', function (event) {
           if (_this.sdtModel) {
             _this.sdtModel.color = event.detail.color;
           }
@@ -18006,7 +18009,7 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl) {
-        this.sdtControl.addEventListener('sdt-control-z-roc', function (event) {
+        this.sdtControl.addEventListener('detectable-control-z-roc', function (event) {
           if (_this.rocSpaces.length > 0) {
             _this.rocSpaces.forEach(function (rocSpace) {
               rocSpace.zRoc = event.detail.zRoc;
@@ -18026,7 +18029,7 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
           this.sdtModel.c = SDTMath.hrFar2C(SDTMath.hM2Hr(this.sdtTable.h, this.sdtTable.m), SDTMath.faCr2Far(this.sdtTable.fa, this.sdtTable.cr), this.sdtModel.s);
         }
 
-        this.sdtTable.addEventListener('sdt-table-change', function (event) {
+        this.sdtTable.addEventListener('detectable-table-change', function (event) {
           if (_this.rocSpace) {
             _this.rocSpace.far = event.detail.far;
             _this.rocSpace.hr = event.detail.hr;
@@ -18117,15 +18120,15 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
       var _this = this;
 
       this.count = 1;
-      this.sdtControl = this.querySelector('sdt-control');
+      this.sdtControl = this.querySelector('detectable-control');
       this.rdkTask = this.querySelector('rdk-task');
       this.sdtModel = this.querySelector('sdt-model');
-      this.sdtResponse = this.querySelector('sdt-response');
-      this.sdtTable = this.querySelector('sdt-table');
+      this.sdtResponse = this.querySelector('detectable-response');
+      this.sdtTable = this.querySelector('detectable-table');
       this.rocSpace = this.querySelector('roc-space');
 
       if (this.sdtControl && this.sdtControl.hasAttribute('color')) {
-        this.sdtControl.addEventListener('sdt-control-color', function (event) {
+        this.sdtControl.addEventListener('detectable-control-color', function (event) {
           if (_this.sdtModel) {
             _this.sdtModel.color = event.detail.color;
           }
@@ -18137,7 +18140,7 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
-        this.sdtControl.addEventListener('sdt-control-duration', function (event) {
+        this.sdtControl.addEventListener('detectable-control-duration', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.duration = event.detail.duration;
             _this.rdkTask.wait = event.detail.duration;
@@ -18147,7 +18150,7 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
-        this.sdtControl.addEventListener('sdt-control-trials', function (event) {
+        this.sdtControl.addEventListener('detectable-control-trials', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.trials = event.detail.trials;
           }
@@ -18159,7 +18162,7 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('coherence')) {
-        this.sdtControl.addEventListener('sdt-control-coherence', function (event) {
+        this.sdtControl.addEventListener('detectable-control-coherence', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.coherence = event.detail.coherence;
           }
@@ -18167,7 +18170,7 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('run')) {
-        this.sdtControl.addEventListener('sdt-control-run', function
+        this.sdtControl.addEventListener('detectable-control-run', function
           /* event */
         () {
           if (_this.rdkTask) {
@@ -18181,7 +18184,7 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('pause')) {
-        this.sdtControl.addEventListener('sdt-control-pause', function
+        this.sdtControl.addEventListener('detectable-control-pause', function
           /* event */
         () {
           if (_this.rdkTask) {
@@ -18195,7 +18198,7 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtControl && this.sdtControl.hasAttribute('reset')) {
-        this.sdtControl.addEventListener('sdt-control-reset', function
+        this.sdtControl.addEventListener('detectable-control-reset', function
           /* event */
         () {
           if (_this.rdkTask) {
@@ -18278,7 +18281,7 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.sdtModel) {
-        this.sdtModel.addEventListener('sdt-response', function (event) {
+        this.sdtModel.addEventListener('detectable-response', function (event) {
           if (_this.sdtResponse) {
             _this.sdtResponse.responded(event.detail.response);
           }
@@ -18342,12 +18345,12 @@ var SDTExampleUnequal = /*#__PURE__*/function (_SDTExample) {
     firstUpdated() {
       var _this = this;
 
-      this.sdtControl = this.querySelector('sdt-control');
+      this.sdtControl = this.querySelector('detectable-control');
       this.rocSpace = this.querySelector('roc-space');
       this.sdtModel = this.querySelector('sdt-model');
 
       if (this.sdtControl) {
-        this.sdtControl.addEventListener('sdt-control-z-roc', function (event) {
+        this.sdtControl.addEventListener('detectable-control-z-roc', function (event) {
           _this.rocSpace.zRoc = event.detail.zRoc;
         });
       }
@@ -18378,5 +18381,5 @@ var SDTExampleUnequal = /*#__PURE__*/function (_SDTExample) {
 }(SDTExample);
 customElements.define('sdt-example-unequal', SDTExampleUnequal);
 
-export { RDKTask, ROCSpace, SDTControl, SDTElement, SDTEquationDC2Far, SDTEquationDC2Hr, SDTEquationFaCr2Far, SDTEquationHM2Hr, SDTEquationHMFaCr2Acc, SDTEquationHrFar2C, SDTEquationHrFar2D, SDTExampleDoubleInteractive, SDTExampleHuman, SDTExampleInteractive, SDTExampleModel, SDTExampleUnequal, SDTModel, SDTResponse, SDTTable };
+export { DetectableControl, DetectableElement, DetectableResponse, DetectableTable, RDKTask, ROCSpace, SDTEquationDC2Far, SDTEquationDC2Hr, SDTEquationFaCr2Far, SDTEquationHM2Hr, SDTEquationHMFaCr2Acc, SDTEquationHrFar2C, SDTEquationHrFar2D, SDTExampleDoubleInteractive, SDTExampleHuman, SDTExampleInteractive, SDTExampleModel, SDTExampleUnequal, SDTModel };
 //# sourceMappingURL=detectableElements.esm.js.map

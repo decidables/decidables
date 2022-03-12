@@ -230,10 +230,10 @@
 <p>When we perform a block of trials, we can count how many times each of our four types of outcomes
 occurred:</p>
 <sdt-example-human>
-  <sdt-control coherence=".5" trials="10" run pause reset duration="1000"></sdt-control>
+  <detectable-control coherence=".5" trials="10" run pause reset duration="1000"></detectable-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric hits="0" misses="0" false-alarms="0" correct-rejections="0"></sdt-table>
+  <detectable-response interactive trial feedback="outcome"></detectable-response>
+  <detectable-table numeric hits="0" misses="0" false-alarms="0" correct-rejections="0"></detectable-table>
 </sdt-example-human>
 <p>By collecting our outcomes across all of the trials in the block we now have our first aggregate
 measures of performance. We can describe our performance on the task by reporting these four counts,
@@ -263,7 +263,7 @@ erroneously responded <em>"present"</em>.</p>
 Alarm Rate</span> summarizes performance when the signal was <em>absent</em>, we can add them to the
 corresponding rows of our table of outcomes:</p>
 <sdt-example-interactive>
-  <sdt-table interactive numeric summary="stimulusRates"></sdt-table>
+  <detectable-table interactive numeric summary="stimulusRates"></detectable-table>
 </sdt-example-interactive>
 <p>This is a <em>live</em> table, so you can change the count of any type of outcome and observe the effect on
 the corresponding rate. Or, you can change a rate, and observe the effect on the corresponding
@@ -280,7 +280,7 @@ types of <em>correct</em> responses.</p>
 false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
 <p>We can add <span class="key Accuracy">Accuracy</span> as an overall summary measure to out table of outcomes:</p>
 <sdt-example-interactive>
-  <sdt-table interactive numeric summary="stimulusRates accuracy"></sdt-table>
+  <detectable-table interactive numeric summary="stimulusRates accuracy"></detectable-table>
 </sdt-example-interactive>
 <p>If you change the <span class="key Accuracy">Accuracy</span> then the other values will change as well, to keep the whole table
 consistent. If you play around a bit, you may notice that, even if you keep the total number of
@@ -289,11 +289,11 @@ trials constant, you can come up with more than one set of values that has the s
 <p>Now that we have a variety of summary measures, we can run a block of trials, and see how the table
 of outcomes and rates provides a running summary of performance:</p>
 <sdt-example-human>
-  <sdt-control coherence=".5" trials="10" run pause reset duration="1000"></sdt-control>
+  <detectable-control coherence=".5" trials="10" run pause reset duration="1000"></detectable-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-response interactive trial feedback="outcome"></sdt-response>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </sdt-table>
+  <detectable-response interactive trial feedback="outcome"></detectable-response>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+    </detectable-table>
 </sdt-example-human>
 <h2>Accuracy the great deceiver</h2>
 <p>At first glance, <span class="key Accuracy">Accuracy</span> seems like a very convenient way to summarize overall performance in
@@ -301,11 +301,11 @@ a single number. But as students of Signal Detection Theory, we must be very war
 Indeed <span class="key Accuracy">Accuracy</span> is the great deceiver! Let us see why:</p>
 <p>Consider this table of outcomes:</p>
 <sdt-example-interactive>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="100" misses="0" false-alarms="100" correct-rejections="0"></sdt-table>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="100" misses="0" false-alarms="100" correct-rejections="0"></detectable-table>
 </sdt-example-interactive>
 <p>And now consider this table of outcomes:</p>
 <sdt-example-interactive>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></sdt-table>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></detectable-table>
 </sdt-example-interactive>
 <p>First, note that the <span class="key Accuracy">Accuracy</span> is <em>identical</em> in the two tables at 50%. But now note that the
 actual patterns of performance are <em>completely different</em>! In the first instance, the participant
@@ -327,8 +327,8 @@ responding either "present" or "absent" can be done without regard to the stimul
 reader, are on to something important, which the next few pages will bring into focus.</p>
 <h2>Marginals</h2>
 <sdt-example-interactive>
-  <sdt-control color="outcome"></sdt-control>
-  <sdt-table interactive numeric summary="stimulusRates responseRates accuracy"></sdt-table>
+  <detectable-control color="outcome"></detectable-control>
+  <detectable-table interactive numeric summary="stimulusRates responseRates accuracy"></detectable-table>
 </sdt-example-interactive>
 
           </section>

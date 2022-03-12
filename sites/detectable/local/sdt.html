@@ -234,11 +234,11 @@ this will be a <span class="key RespondPresent">Respond Present</span> or <span 
 the threshold together, so we can see how <span class="key Sensitivity">Sensitivity</span> (<span class="key d′">d′</span>) and <span class="key Bias">Bias</span> (<span class="key c">c</span>)
 collectively determine our response:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="response" d="2.5" c="1"></sdt-model>
-  <sdt-response feedback="none"></sdt-response>
+  <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 <p>As you change <span class="key d′">d′</span> by adjusting the distance between the distributions, and <span class="key c">c</span> by moving
 the location of the threshold, note that these two parameters operate independently to collectively
@@ -255,11 +255,11 @@ distribution. The model's response and the resulting outcome and feedback will d
 values of <span class="key d′">d′</span> and <span class="key c">c</span>. The measurements and resulting outcomes for each trial in the
 histogram will update as you drag the distributions or the threshold to adjust the parameter values.</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
-  <sdt-response trial feedback="outcome"></sdt-response>
+  <detectable-response trial feedback="outcome"></detectable-response>
 </sdt-example-model>
 <p>Run a bunch of trials and watch them accumulate in the histogram. Drag the distributions closer
 together or farther apart to adjust <span class="key Sensitivity">Sensitivity</span>. Drag the criterion higher or lower to adjust
@@ -270,13 +270,13 @@ jointly determine performance.</p>
 determine performance, we can summarize the performance of our model using an outcome table and ROC
 space, just as we did for human performance previously:</p>
 <sdt-example-model>
-  <sdt-control run pause reset trials="40" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="40" duration="500"></detectable-control>
   <rdk-task count="100" trials="40" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
-  <sdt-response trial feedback="outcome"></sdt-response>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </sdt-table>
+  <detectable-response trial feedback="outcome"></detectable-response>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+    </detectable-table>
   <roc-space hr=".5" far=".5" point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-model>
 <p>Now we can see how the parameters <span class="key d′">d′</span> and <span class="key c">c</span> jointly determine the model's performance in
