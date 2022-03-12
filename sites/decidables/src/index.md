@@ -62,7 +62,7 @@ script: index
           </div>
           <div class="dec-carousel-item carousel-item">
             <figure class="dec-demo-figure">
-              <sdt-table class="dec-demo" numeric interactive summary="stimulusRates responseRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90" color="outcome"></sdt-table>
+              <detectable-table class="dec-demo" numeric interactive summary="stimulusRates responseRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90" color="outcome"></detectable-table>
               <figcaption class="dec-demo-caption">Stimulus-response contingency table.</figcaption>
             </figure>
           </div>

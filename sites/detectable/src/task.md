@@ -29,10 +29,10 @@ Go ahead and give it a go! (:ui[Run] to start the trial; :ui[Pause] to temporari
 :ui[Reset] to reinitialize the experiment, so you can run it again.)
 
 <sdt-example-human>
-  <sdt-control run pause reset coherence=".5"></sdt-control>
+  <detectable-control run pause reset coherence=".5"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="1" probability=".5" duration="2000"
     wait="2000" iti="2000"></rdk-task>
-  <sdt-response interactive feedback="none"></sdt-response>
+  <detectable-response interactive feedback="none"></detectable-response>
 </sdt-example-human>
 
 Having fun yet?
@@ -49,10 +49,10 @@ sequenced one after another, ad infinitum. Ok, ok, perhaps an infinite sequence 
 a bit boring, so lets try something a bit more manageable, say, a :term[block] of five trials:
 
 <sdt-example-human>
-  <sdt-control run pause reset coherence=".5"></sdt-control>
+  <detectable-control run pause reset coherence=".5"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
     wait="2000" iti="2000"></rdk-task>
-  <sdt-response interactive feedback="none"></sdt-response>
+  <detectable-response interactive feedback="none"></detectable-response>
 </sdt-example-human>
 
 OK, now are you having fun? It can take a bit of practice to get the hang of the timing of the
@@ -69,10 +69,10 @@ the stimulus is available using the :ui[Duration] slider. Now lookie here - we h
 something approaching a legitimate signal detection task!
 
 <sdt-example-human>
-  <sdt-control run pause reset coherence=".5" trials="5" duration="2000"></sdt-control>
+  <detectable-control run pause reset coherence=".5" trials="5" duration="2000"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
     wait="2000" iti="2000"></rdk-task>
-  <sdt-response  interactive feedback="none"></sdt-response>
+  <detectable-response  interactive feedback="none"></detectable-response>
 </sdt-example-human>
 
 However, you may be feeling a bit dissatisfied, because you don't know how you are doing. Well, go

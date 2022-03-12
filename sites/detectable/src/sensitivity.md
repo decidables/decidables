@@ -57,8 +57,8 @@ distributions or threshold in the model, or by directly moving the data point in
 the other representations of performance change simultaneously:
 
 <sdt-example-interactive order="trm">
-  <sdt-table interactive numeric summary="stimulusRates accuracy" hits="80" misses="20"
-    false-alarms="10" correct-rejections="90"></sdt-table>
+  <detectable-table interactive numeric summary="stimulusRates accuracy" hits="80" misses="20"
+    false-alarms="10" correct-rejections="90"></detectable-table>
   <roc-space interactive point="all" iso-d="all" iso-c="none"></roc-space>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>

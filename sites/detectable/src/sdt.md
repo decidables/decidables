@@ -14,11 +14,11 @@ the threshold together, so we can see how :key[Sensitivity] (:key[d′]) and :ke
 collectively determine our response:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="response" d="2.5" c="1"></sdt-model>
-  <sdt-response feedback="none"></sdt-response>
+  <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
 As you change :key[d′] by adjusting the distance between the distributions, and :key[c] by moving
@@ -40,11 +40,11 @@ values of :key[d′] and :key[c]. The measurements and resulting outcomes for ea
 histogram will update as you drag the distributions or the threshold to adjust the parameter values.
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="10" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
-  <sdt-response trial feedback="outcome"></sdt-response>
+  <detectable-response trial feedback="outcome"></detectable-response>
 </sdt-example-model>
 
 Run a bunch of trials and watch them accumulate in the histogram. Drag the distributions closer
@@ -59,13 +59,13 @@ determine performance, we can summarize the performance of our model using an ou
 space, just as we did for human performance previously:
 
 <sdt-example-model>
-  <sdt-control run pause reset trials="40" duration="500"></sdt-control>
+  <detectable-control run pause reset trials="40" duration="500"></detectable-control>
   <rdk-task count="100" trials="40" duration="500" wait="500" iti="500"></rdk-task>
   <sdt-model interactive threshold bias distributions sensitivity histogram
     color="outcome" d="1.5" c="0"></sdt-model>
-  <sdt-response trial feedback="outcome"></sdt-response>
-  <sdt-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </sdt-table>
+  <detectable-response trial feedback="outcome"></detectable-response>
+  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
+    </detectable-table>
   <roc-space hr=".5" far=".5" point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-model>
 

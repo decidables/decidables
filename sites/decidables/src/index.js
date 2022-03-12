@@ -27,7 +27,7 @@ import 'bootstrap/js/dist/collapse';
 import '@decidables/detectable-elements/components/rdk-task';
 import '@decidables/detectable-elements/components/roc-space';
 import '@decidables/detectable-elements/components/sdt-model';
-import '@decidables/detectable-elements/components/sdt-table';
+import '@decidables/detectable-elements/components/detectable-table';
 
 import '@decidables/prospectable-elements/components/cpt-probability';
 import '@decidables/prospectable-elements/components/cpt-value';
