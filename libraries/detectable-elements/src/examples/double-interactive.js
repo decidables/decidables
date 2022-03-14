@@ -115,8 +115,8 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
     }
 
     if (this.sdtModelOne) {
-      this.sdtModelOne.h = this.one.d;
-      this.sdtModelOne.m = this.one.c;
+      this.sdtModelOne.d = this.one.d;
+      this.sdtModelOne.c = this.one.c;
 
       this.sdtModelOne.addEventListener('sdt-model-change', (event) => {
         if (this.rocSpace) {
@@ -141,8 +141,8 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
     }
 
     if (this.sdtModelTwo) {
-      this.sdtModelTwo.h = this.two.d;
-      this.sdtModelTwo.m = this.two.c;
+      this.sdtModelTwo.d = this.two.d;
+      this.sdtModelTwo.c = this.two.c;
 
       this.sdtModelTwo.addEventListener('sdt-model-change', (event) => {
         if (this.rocSpace) {
