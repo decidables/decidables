@@ -1,0 +1,22 @@
+# Deploy from decidables/decidables to decidables/decidables.github.io
+name: test
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '@decidable/*@[0-9]+.[0-9]+.[0-9]+'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout decidables
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17'
+      - run: corepack enable
+      - name: Install
+        run: yarn install
+      - name: Build?
+        run: yarn workspace @decidables/decidables-elements run build
