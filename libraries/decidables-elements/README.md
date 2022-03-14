@@ -2,8 +2,8 @@
 
 # decidables-elements: Basic UI Web Components for [**decidables**](https://github.com/decidables/decidables)
 
-[![npm (scoped)](https://img.shields.io/npm/v/@decidables/decidables-elements?logo=npm)](https://www.npmjs.com/package/@decidables/decidables-elements)
-[![npm (scoped)](https://img.shields.io/npm/l/@decidables/decidables-elements)](https://www.npmjs.com/package/@decidables/decidables-elements)
+[![npm version](https://img.shields.io/npm/v/@decidables/decidables-elements?logo=npm)](https://www.npmjs.com/package/@decidables/decidables-elements)
+[![license](https://img.shields.io/npm/l/@decidables/decidables-elements)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
 
 ## Usage
 

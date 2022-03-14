@@ -2,6 +2,9 @@
 
 # detectable-elements: Web Components for Visualizing Signal Detection Theory
 
+[![npm version](https://img.shields.io/npm/v/@decidables/detectable-elements?logo=npm)](https://www.npmjs.com/package/@decidables/detectable-elements)
+[![license](https://img.shields.io/npm/l/@decidables/detectable-elements)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
+
 ## Usage
 
 ### Install
