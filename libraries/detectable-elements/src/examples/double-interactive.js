@@ -29,19 +29,19 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
     this.two.d = SDTMath.hrFar2D(this.two.hr, this.two.far);
     this.two.c = SDTMath.hrFar2C(this.two.hr, this.two.far);
 
-    this.sdtTableOne = this.querySelector('detectable-table:nth-of-type(1)');
-    this.sdtTableTwo = this.querySelector('detectable-table:nth-of-type(2)');
+    this.detectableTableOne = this.querySelector('detectable-table:nth-of-type(1)');
+    this.detectableTableTwo = this.querySelector('detectable-table:nth-of-type(2)');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModelOne = this.querySelector('sdt-model:nth-of-type(1)');
     this.sdtModelTwo = this.querySelector('sdt-model:nth-of-type(2)');
 
-    if (this.sdtTableOne) {
-      this.sdtTableOne.h = this.one.h;
-      this.sdtTableOne.m = this.one.m;
-      this.sdtTableOne.fa = this.one.fa;
-      this.sdtTableOne.cr = this.one.cr;
+    if (this.detectableTableOne) {
+      this.detectableTableOne.h = this.one.h;
+      this.detectableTableOne.m = this.one.m;
+      this.detectableTableOne.fa = this.one.fa;
+      this.detectableTableOne.cr = this.one.cr;
 
-      this.sdtTableOne.addEventListener('detectable-table-change', (event) => {
+      this.detectableTableOne.addEventListener('detectable-table-change', (event) => {
         if (this.rocSpace) {
           this.rocSpace.set(event.detail.hr, event.detail.far, 'default', '↑');
         }
@@ -53,13 +53,13 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
       });
     }
 
-    if (this.sdtTableTwo) {
-      this.sdtTableTwo.h = this.two.h;
-      this.sdtTableTwo.m = this.two.m;
-      this.sdtTableTwo.fa = this.two.fa;
-      this.sdtTableTwo.cr = this.two.cr;
+    if (this.detectableTableTwo) {
+      this.detectableTableTwo.h = this.two.h;
+      this.detectableTableTwo.m = this.two.m;
+      this.detectableTableTwo.fa = this.two.fa;
+      this.detectableTableTwo.cr = this.two.cr;
 
-      this.sdtTableTwo.addEventListener('detectable-table-change', (event) => {
+      this.detectableTableTwo.addEventListener('detectable-table-change', (event) => {
         if (this.rocSpace) {
           this.rocSpace.set(event.detail.hr, event.detail.far, 'two', '↓');
         }
@@ -84,24 +84,32 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
           this.sdtModelTwo.c = event.detail.c;
         }
 
-        if (event.detail.name === 'default' && this.sdtTableOne) {
-          const newh = Math.round((this.sdtTableOne.h + this.sdtTableOne.m) * event.detail.hr);
-          const newm = (this.sdtTableOne.h + this.sdtTableOne.m) - newh;
-          const newfa = Math.round((this.sdtTableOne.fa + this.sdtTableOne.cr) * event.detail.far);
-          const newcr = (this.sdtTableOne.fa + this.sdtTableOne.cr) - newfa;
-          this.sdtTableOne.h = newh;
-          this.sdtTableOne.m = newm;
-          this.sdtTableOne.fa = newfa;
-          this.sdtTableOne.cr = newcr;
-        } else if (event.detail.name === 'two' && this.sdtTableTwo) {
-          const newh = Math.round((this.sdtTableTwo.h + this.sdtTableTwo.m) * event.detail.hr);
-          const newm = (this.sdtTableTwo.h + this.sdtTableTwo.m) - newh;
-          const newfa = Math.round((this.sdtTableTwo.fa + this.sdtTableTwo.cr) * event.detail.far);
-          const newcr = (this.sdtTableTwo.fa + this.sdtTableTwo.cr) - newfa;
-          this.sdtTableTwo.h = newh;
-          this.sdtTableTwo.m = newm;
-          this.sdtTableTwo.fa = newfa;
-          this.sdtTableTwo.cr = newcr;
+        if (event.detail.name === 'default' && this.detectableTableOne) {
+          const newh = Math.round(
+            (this.detectableTableOne.h + this.detectableTableOne.m) * event.detail.hr,
+          );
+          const newm = (this.detectableTableOne.h + this.detectableTableOne.m) - newh;
+          const newfa = Math.round(
+            (this.detectableTableOne.fa + this.detectableTableOne.cr) * event.detail.far,
+          );
+          const newcr = (this.detectableTableOne.fa + this.detectableTableOne.cr) - newfa;
+          this.detectableTableOne.h = newh;
+          this.detectableTableOne.m = newm;
+          this.detectableTableOne.fa = newfa;
+          this.detectableTableOne.cr = newcr;
+        } else if (event.detail.name === 'two' && this.detectableTableTwo) {
+          const newh = Math.round(
+            (this.detectableTableTwo.h + this.detectableTableTwo.m) * event.detail.hr,
+          );
+          const newm = (this.detectableTableTwo.h + this.detectableTableTwo.m) - newh;
+          const newfa = Math.round(
+            (this.detectableTableTwo.fa + this.detectableTableTwo.cr) * event.detail.far,
+          );
+          const newcr = (this.detectableTableTwo.fa + this.detectableTableTwo.cr) - newfa;
+          this.detectableTableTwo.h = newh;
+          this.detectableTableTwo.m = newm;
+          this.detectableTableTwo.fa = newfa;
+          this.detectableTableTwo.cr = newcr;
         }
       });
     }
@@ -115,15 +123,19 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
           this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', '↑');
         }
 
-        if (this.sdtTableOne) {
-          const newh = Math.round((this.sdtTableOne.h + this.sdtTableOne.m) * event.detail.hr);
-          const newm = (this.sdtTableOne.h + this.sdtTableOne.m) - newh;
-          const newfa = Math.round((this.sdtTableOne.fa + this.sdtTableOne.cr) * event.detail.far);
-          const newcr = (this.sdtTableOne.fa + this.sdtTableOne.cr) - newfa;
-          this.sdtTableOne.h = newh;
-          this.sdtTableOne.m = newm;
-          this.sdtTableOne.fa = newfa;
-          this.sdtTableOne.cr = newcr;
+        if (this.detectableTableOne) {
+          const newh = Math.round(
+            (this.detectableTableOne.h + this.detectableTableOne.m) * event.detail.hr,
+          );
+          const newm = (this.detectableTableOne.h + this.detectableTableOne.m) - newh;
+          const newfa = Math.round(
+            (this.detectableTableOne.fa + this.detectableTableOne.cr) * event.detail.far,
+          );
+          const newcr = (this.detectableTableOne.fa + this.detectableTableOne.cr) - newfa;
+          this.detectableTableOne.h = newh;
+          this.detectableTableOne.m = newm;
+          this.detectableTableOne.fa = newfa;
+          this.detectableTableOne.cr = newcr;
         }
       });
     }
@@ -137,15 +149,19 @@ export default class SDTExampleDoubleInteractive extends SDTExample {
           this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'two', '↓');
         }
 
-        if (this.sdtTableTwo) {
-          const newh = Math.round((this.sdtTableTwo.h + this.sdtTableTwo.m) * event.detail.hr);
-          const newm = (this.sdtTableTwo.h + this.sdtTableTwo.m) - newh;
-          const newfa = Math.round((this.sdtTableTwo.fa + this.sdtTableTwo.cr) * event.detail.far);
-          const newcr = (this.sdtTableTwo.fa + this.sdtTableTwo.cr) - newfa;
-          this.sdtTableTwo.h = newh;
-          this.sdtTableTwo.m = newm;
-          this.sdtTableTwo.fa = newfa;
-          this.sdtTableTwo.cr = newcr;
+        if (this.detectableTableTwo) {
+          const newh = Math.round(
+            (this.detectableTableTwo.h + this.detectableTableTwo.m) * event.detail.hr,
+          );
+          const newm = (this.detectableTableTwo.h + this.detectableTableTwo.m) - newh;
+          const newfa = Math.round(
+            (this.detectableTableTwo.fa + this.detectableTableTwo.cr) * event.detail.far,
+          );
+          const newcr = (this.detectableTableTwo.fa + this.detectableTableTwo.cr) - newfa;
+          this.detectableTableTwo.h = newh;
+          this.detectableTableTwo.m = newm;
+          this.detectableTableTwo.fa = newfa;
+          this.detectableTableTwo.cr = newcr;
         }
       });
     }

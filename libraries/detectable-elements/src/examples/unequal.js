@@ -8,12 +8,12 @@ import SDTExample from './sdt-example';
 */
 export default class SDTExampleUnequal extends SDTExample {
   firstUpdated(/* changedProperties */) {
-    this.sdtControl = this.querySelector('detectable-control');
+    this.detectableControl = this.querySelector('detectable-control');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
 
-    if (this.sdtControl) {
-      this.sdtControl.addEventListener('detectable-control-z-roc', (event) => {
+    if (this.detectableControl) {
+      this.detectableControl.addEventListener('detectable-control-z-roc', (event) => {
         this.rocSpace.zRoc = event.detail.zRoc;
       });
     }

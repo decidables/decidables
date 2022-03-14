@@ -11,10 +11,10 @@ export default class SDTExampleHuman extends SDTExample {
   firstUpdated(/* changedProperties */) {
     this.count = 1;
 
-    this.sdtControl = this.querySelector('detectable-control');
+    this.detectableControl = this.querySelector('detectable-control');
     this.rdkTask = this.querySelector('rdk-task');
-    this.sdtResponse = this.querySelector('detectable-response');
-    this.sdtTable = this.querySelector('detectable-table');
+    this.detectableResponse = this.querySelector('detectable-response');
+    this.detectableTable = this.querySelector('detectable-table');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
 
@@ -24,20 +24,20 @@ export default class SDTExampleHuman extends SDTExample {
       }
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
-      this.sdtControl.addEventListener('detectable-control-trials', (event) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('trials')) {
+      this.detectableControl.addEventListener('detectable-control-trials', (event) => {
         if (this.rdkTask) {
           this.rdkTask.trials = event.detail.trials;
         }
 
-        if (this.sdtResponse) {
-          this.sdtResponse.trialTotal = event.detail.trials;
+        if (this.detectableResponse) {
+          this.detectableResponse.trialTotal = event.detail.trials;
         }
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
-      this.sdtControl.addEventListener('detectable-control-duration', (event) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('duration')) {
+      this.detectableControl.addEventListener('detectable-control-duration', (event) => {
         if (this.rdkTask) {
           this.rdkTask.duration = event.detail.duration;
           this.rdkTask.wait = event.detail.duration;
@@ -46,62 +46,62 @@ export default class SDTExampleHuman extends SDTExample {
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('coherence')) {
-      this.sdtControl.addEventListener('detectable-control-coherence', (event) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('coherence')) {
+      this.detectableControl.addEventListener('detectable-control-coherence', (event) => {
         if (this.rdkTask) {
           this.rdkTask.coherence = event.detail.coherence;
         }
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('payoff')) {
-      this.sdtControl.addEventListener('detectable-control-payoff', (event) => {
-        if (this.sdtResponse) {
-          this.sdtResponse.hPayoff = event.detail.payoff;
-          this.sdtResponse.mPayoff = -event.detail.payoff + 0; // Get rid of -0
-          this.sdtResponse.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
-          this.sdtResponse.crPayoff = (100 - event.detail.payoff);
+    if (this.detectableControl && this.detectableControl.hasAttribute('payoff')) {
+      this.detectableControl.addEventListener('detectable-control-payoff', (event) => {
+        if (this.detectableResponse) {
+          this.detectableResponse.hPayoff = event.detail.payoff;
+          this.detectableResponse.mPayoff = -event.detail.payoff + 0; // Get rid of -0
+          this.detectableResponse.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
+          this.detectableResponse.crPayoff = (100 - event.detail.payoff);
         }
-        if (this.sdtTable) {
-          this.sdtTable.hPayoff = event.detail.payoff;
-          this.sdtTable.mPayoff = -event.detail.payoff + 0; // Get rid of -0
-          this.sdtTable.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
-          this.sdtTable.crPayoff = (100 - event.detail.payoff);
+        if (this.detectableTable) {
+          this.detectableTable.hPayoff = event.detail.payoff;
+          this.detectableTable.mPayoff = -event.detail.payoff + 0; // Get rid of -0
+          this.detectableTable.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
+          this.detectableTable.crPayoff = (100 - event.detail.payoff);
         }
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('run')) {
-      this.sdtControl.addEventListener('detectable-control-run', (/* event */) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('run')) {
+      this.detectableControl.addEventListener('detectable-control-run', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.running = true;
         }
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('pause')) {
-      this.sdtControl.addEventListener('detectable-control-pause', (/* event */) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('pause')) {
+      this.detectableControl.addEventListener('detectable-control-pause', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.running = false;
         }
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('reset')) {
-      this.sdtControl.addEventListener('detectable-control-reset', (/* event */) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('reset')) {
+      this.detectableControl.addEventListener('detectable-control-reset', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.reset();
         }
 
-        if (this.sdtResponse) {
-          this.sdtResponse.reset();
+        if (this.detectableResponse) {
+          this.detectableResponse.reset();
         }
 
-        if (this.sdtTable) {
-          this.sdtTable.h = 0;
-          this.sdtTable.m = 0;
-          this.sdtTable.fa = 0;
-          this.sdtTable.cr = 0;
+        if (this.detectableTable) {
+          this.detectableTable.h = 0;
+          this.detectableTable.m = 0;
+          this.detectableTable.fa = 0;
+          this.detectableTable.cr = 0;
         }
 
         if (this.rocSpace) {
@@ -122,42 +122,42 @@ export default class SDTExampleHuman extends SDTExample {
     }
 
     if (this.rdkTask) {
-      if (this.sdtResponse) {
-        this.sdtResponse.trialTotal = this.rdkTask.trials;
+      if (this.detectableResponse) {
+        this.detectableResponse.trialTotal = this.rdkTask.trials;
       }
     }
 
     if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-trial-start', (event) => {
-        if (this.sdtResponse) {
-          this.sdtResponse.start(event.detail.signal, event.detail.trial);
+        if (this.detectableResponse) {
+          this.detectableResponse.start(event.detail.signal, event.detail.trial);
         }
       });
     }
 
     if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-trial-end', (/* event */) => {
-        if (this.sdtResponse) {
-          this.sdtResponse.stop();
+        if (this.detectableResponse) {
+          this.detectableResponse.stop();
         }
       });
     }
 
     if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-block-end', (/* event */) => {
-        if (this.sdtControl) {
-          this.sdtControl.complete();
+        if (this.detectableControl) {
+          this.detectableControl.complete();
         }
       });
     }
 
-    if (this.sdtResponse) {
-      this.sdtResponse.addEventListener('detectable-response', (event) => {
-        if (this.sdtTable) {
-          this.sdtTable.h = event.detail.h;
-          this.sdtTable.m = event.detail.m;
-          this.sdtTable.fa = event.detail.fa;
-          this.sdtTable.cr = event.detail.cr;
+    if (this.detectableResponse) {
+      this.detectableResponse.addEventListener('detectable-response', (event) => {
+        if (this.detectableTable) {
+          this.detectableTable.h = event.detail.h;
+          this.detectableTable.m = event.detail.m;
+          this.detectableTable.fa = event.detail.fa;
+          this.detectableTable.cr = event.detail.cr;
         }
 
         const newhr = SDTMath.hM2Hr((event.detail.h + 1), (event.detail.m + 1));
