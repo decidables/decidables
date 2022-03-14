@@ -2,6 +2,9 @@
 
 # detectable-math: Equations for Calculating Signal Detection Theory
 
+[![npm (scoped)](https://img.shields.io/npm/v/@decidables/detectable-math?logo=npm)](https://www.npmjs.com/package/@decidables/detectable-math)
+[![npm (scoped)](https://img.shields.io/npm/l/@decidables/detectable-math)](https://www.npmjs.com/package/@decidables/detectable-math)
+
 ## Usage
 
 ### Install
