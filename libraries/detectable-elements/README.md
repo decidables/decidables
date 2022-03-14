@@ -1174,8 +1174,6 @@ export default class DetectableElementSomething extends DetectableElement {
 
 `DetectableElement` extends `DecidableElement` extends `LitElement`
 
----
-
 ## Features/Bugs/Notes
 
 - Remove extraneous spaces from equation tagged template literals!
@@ -1185,8 +1183,6 @@ export default class DetectableElementSomething extends DetectableElement {
 - Optimize update() based on changedProperties?
 - Edge/IE11 - minor edge defects between SVG element and shadow
 - Firefox - No CSS SVG Geometry Properties
-
----
 
 ## Development Tooling
 
@@ -1202,8 +1198,6 @@ export default class DetectableElementSomething extends DetectableElement {
   - Runs tests for a single file and reports coverage in `test/coverage/`
 - `yarn build`
   - Builds browser-compatible optimized bundle from `src/` to `lib/`
-
----
 
 ## File Organization
 

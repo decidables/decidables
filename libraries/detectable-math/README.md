@@ -124,8 +124,6 @@ used in these cases.
 - `zfar2Far(zfar)`
   - FAR = Z^-1(zFAR)
 
----
-
 ## Features/Bugs/Notes
 
 - Unequal variance
@@ -135,8 +133,6 @@ used in these cases.
   - muN != muS != d'
   - lambda != c
   - distinction between parameter s and sigma
-
----
 
 ## Development Tooling
 
@@ -152,8 +148,6 @@ used in these cases.
   - Runs tests for a single file and reports coverage in `test/coverage/`
 - `yarn build`
   - Builds bundles from `src/` to `lib/`
-
----
 
 ## File Organization
 
