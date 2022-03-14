@@ -9,27 +9,27 @@ import SDTExample from './sdt-example';
 */
 export default class SDTExampleInteractive extends SDTExample {
   firstUpdated(/* changedProperties */) {
-    this.sdtControl = this.querySelector('detectable-control');
-    this.sdtTable = this.querySelector('detectable-table');
+    this.detectableControl = this.querySelector('detectable-control');
+    this.detectableTable = this.querySelector('detectable-table');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
 
     this.rocSpaces = this.querySelectorAll('roc-space');
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('color')) {
-      this.sdtControl.addEventListener('detectable-control-color', (event) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('color')) {
+      this.detectableControl.addEventListener('detectable-control-color', (event) => {
         if (this.sdtModel) {
           this.sdtModel.color = event.detail.color;
         }
 
-        if (this.sdtTable) {
-          this.sdtTable.color = event.detail.color;
+        if (this.detectableTable) {
+          this.detectableTable.color = event.detail.color;
         }
       });
     }
 
-    if (this.sdtControl) {
-      this.sdtControl.addEventListener('detectable-control-z-roc', (event) => {
+    if (this.detectableControl) {
+      this.detectableControl.addEventListener('detectable-control-z-roc', (event) => {
         if (this.rocSpaces.length > 0) {
           this.rocSpaces.forEach((rocSpace) => {
             rocSpace.zRoc = event.detail.zRoc;
@@ -38,26 +38,26 @@ export default class SDTExampleInteractive extends SDTExample {
       });
     }
 
-    if (this.sdtTable) {
+    if (this.detectableTable) {
       if (this.rocSpace) {
-        this.rocSpace.hr = SDTMath.hM2Hr(this.sdtTable.h, this.sdtTable.m);
-        this.rocSpace.far = SDTMath.faCr2Far(this.sdtTable.fa, this.sdtTable.cr);
+        this.rocSpace.hr = SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m);
+        this.rocSpace.far = SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr);
       }
 
       if (this.sdtModel) {
         this.sdtModel.d = SDTMath.hrFar2D(
-          SDTMath.hM2Hr(this.sdtTable.h, this.sdtTable.m),
-          SDTMath.faCr2Far(this.sdtTable.fa, this.sdtTable.cr),
+          SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m),
+          SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr),
           this.sdtModel.s,
         );
         this.sdtModel.c = SDTMath.hrFar2C(
-          SDTMath.hM2Hr(this.sdtTable.h, this.sdtTable.m),
-          SDTMath.faCr2Far(this.sdtTable.fa, this.sdtTable.cr),
+          SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m),
+          SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr),
           this.sdtModel.s,
         );
       }
 
-      this.sdtTable.addEventListener('detectable-table-change', (event) => {
+      this.detectableTable.addEventListener('detectable-table-change', (event) => {
         if (this.rocSpace) {
           this.rocSpace.far = event.detail.far;
           this.rocSpace.hr = event.detail.hr;
@@ -71,7 +71,7 @@ export default class SDTExampleInteractive extends SDTExample {
     }
 
     if (this.rocSpace) {
-      if (this.sdtModel && !this.sdtTable) {
+      if (this.sdtModel && !this.detectableTable) {
         this.sdtModel.d = SDTMath.hrFar2D(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
         this.sdtModel.c = SDTMath.hrFar2C(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
         this.sdtModel.s = this.rocSpace.s;
@@ -84,15 +84,19 @@ export default class SDTExampleInteractive extends SDTExample {
           this.sdtModel.s = event.detail.s;
         }
 
-        if (this.sdtTable) {
-          const newh = Math.round((this.sdtTable.h + this.sdtTable.m) * event.detail.hr);
-          const newm = (this.sdtTable.h + this.sdtTable.m) - newh;
-          const newfa = Math.round((this.sdtTable.fa + this.sdtTable.cr) * event.detail.far);
-          const newcr = (this.sdtTable.fa + this.sdtTable.cr) - newfa;
-          this.sdtTable.h = newh;
-          this.sdtTable.m = newm;
-          this.sdtTable.fa = newfa;
-          this.sdtTable.cr = newcr;
+        if (this.detectableTable) {
+          const newh = Math.round(
+            (this.detectableTable.h + this.detectableTable.m) * event.detail.hr,
+          );
+          const newm = (this.detectableTable.h + this.detectableTable.m) - newh;
+          const newfa = Math.round(
+            (this.detectableTable.fa + this.detectableTable.cr) * event.detail.far,
+          );
+          const newcr = (this.detectableTable.fa + this.detectableTable.cr) - newfa;
+          this.detectableTable.h = newh;
+          this.detectableTable.m = newm;
+          this.detectableTable.fa = newfa;
+          this.detectableTable.cr = newcr;
         }
       });
     }
@@ -105,15 +109,19 @@ export default class SDTExampleInteractive extends SDTExample {
           });
         }
 
-        if (this.sdtTable) {
-          const newh = Math.round((this.sdtTable.h + this.sdtTable.m) * event.detail.hr);
-          const newm = (this.sdtTable.h + this.sdtTable.m) - newh;
-          const newfa = Math.round((this.sdtTable.fa + this.sdtTable.cr) * event.detail.far);
-          const newcr = (this.sdtTable.fa + this.sdtTable.cr) - newfa;
-          this.sdtTable.h = newh;
-          this.sdtTable.m = newm;
-          this.sdtTable.fa = newfa;
-          this.sdtTable.cr = newcr;
+        if (this.detectableTable) {
+          const newh = Math.round(
+            (this.detectableTable.h + this.detectableTable.m) * event.detail.hr,
+          );
+          const newm = (this.detectableTable.h + this.detectableTable.m) - newh;
+          const newfa = Math.round(
+            (this.detectableTable.fa + this.detectableTable.cr) * event.detail.far,
+          );
+          const newcr = (this.detectableTable.fa + this.detectableTable.cr) - newfa;
+          this.detectableTable.h = newh;
+          this.detectableTable.m = newm;
+          this.detectableTable.fa = newfa;
+          this.detectableTable.cr = newcr;
         }
       });
     }

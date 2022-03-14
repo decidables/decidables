@@ -11,27 +11,27 @@ export default class SDTExampleModel extends SDTExample {
   firstUpdated(/* changedProperties */) {
     this.count = 1;
 
-    this.sdtControl = this.querySelector('detectable-control');
+    this.detectableControl = this.querySelector('detectable-control');
     this.rdkTask = this.querySelector('rdk-task');
     this.sdtModel = this.querySelector('sdt-model');
-    this.sdtResponse = this.querySelector('detectable-response');
-    this.sdtTable = this.querySelector('detectable-table');
+    this.detectableResponse = this.querySelector('detectable-response');
+    this.detectableTable = this.querySelector('detectable-table');
     this.rocSpace = this.querySelector('roc-space');
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('color')) {
-      this.sdtControl.addEventListener('detectable-control-color', (event) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('color')) {
+      this.detectableControl.addEventListener('detectable-control-color', (event) => {
         if (this.sdtModel) {
           this.sdtModel.color = event.detail.color;
         }
 
-        if (this.sdtTable) {
-          this.sdtTable.color = event.detail.color;
+        if (this.detectableTable) {
+          this.detectableTable.color = event.detail.color;
         }
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
-      this.sdtControl.addEventListener('detectable-control-duration', (event) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('duration')) {
+      this.detectableControl.addEventListener('detectable-control-duration', (event) => {
         if (this.rdkTask) {
           this.rdkTask.duration = event.detail.duration;
           this.rdkTask.wait = event.detail.duration;
@@ -40,28 +40,28 @@ export default class SDTExampleModel extends SDTExample {
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
-      this.sdtControl.addEventListener('detectable-control-trials', (event) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('trials')) {
+      this.detectableControl.addEventListener('detectable-control-trials', (event) => {
         if (this.rdkTask) {
           this.rdkTask.trials = event.detail.trials;
         }
 
-        if (this.sdtResponse) {
-          this.sdtResponse.trialTotal = event.detail.trials;
+        if (this.detectableResponse) {
+          this.detectableResponse.trialTotal = event.detail.trials;
         }
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('coherence')) {
-      this.sdtControl.addEventListener('detectable-control-coherence', (event) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('coherence')) {
+      this.detectableControl.addEventListener('detectable-control-coherence', (event) => {
         if (this.rdkTask) {
           this.rdkTask.coherence = event.detail.coherence;
         }
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('run')) {
-      this.sdtControl.addEventListener('detectable-control-run', (/* event */) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('run')) {
+      this.detectableControl.addEventListener('detectable-control-run', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.running = true;
         }
@@ -71,8 +71,8 @@ export default class SDTExampleModel extends SDTExample {
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('pause')) {
-      this.sdtControl.addEventListener('detectable-control-pause', (/* event */) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('pause')) {
+      this.detectableControl.addEventListener('detectable-control-pause', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.running = false;
         }
@@ -82,25 +82,25 @@ export default class SDTExampleModel extends SDTExample {
       });
     }
 
-    if (this.sdtControl && this.sdtControl.hasAttribute('reset')) {
-      this.sdtControl.addEventListener('detectable-control-reset', (/* event */) => {
+    if (this.detectableControl && this.detectableControl.hasAttribute('reset')) {
+      this.detectableControl.addEventListener('detectable-control-reset', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.reset();
         }
 
-        if (this.sdtResponse) {
-          this.sdtResponse.reset();
+        if (this.detectableResponse) {
+          this.detectableResponse.reset();
         }
 
         if (this.sdtModel) {
           this.sdtModel.reset();
         }
 
-        if (this.sdtTable) {
-          this.sdtTable.h = 0;
-          this.sdtTable.m = 0;
-          this.sdtTable.fa = 0;
-          this.sdtTable.cr = 0;
+        if (this.detectableTable) {
+          this.detectableTable.h = 0;
+          this.detectableTable.m = 0;
+          this.detectableTable.fa = 0;
+          this.detectableTable.cr = 0;
         }
 
         if (this.rocSpace) {
@@ -116,15 +116,15 @@ export default class SDTExampleModel extends SDTExample {
     }
 
     if (this.rdkTask) {
-      if (this.sdtResponse) {
-        this.sdtResponse.trialTotal = this.rdkTask.trials;
+      if (this.detectableResponse) {
+        this.detectableResponse.trialTotal = this.rdkTask.trials;
       }
     }
 
     if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-trial-start', (event) => {
-        if (this.sdtResponse) {
-          this.sdtResponse.start(event.detail.signal, event.detail.trial);
+        if (this.detectableResponse) {
+          this.detectableResponse.start(event.detail.signal, event.detail.trial);
         }
         if (this.sdtModel) {
           this.sdtModel.trial(
@@ -148,31 +148,31 @@ export default class SDTExampleModel extends SDTExample {
 
     if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-trial-end', (/* event */) => {
-        if (this.sdtResponse) {
-          this.sdtResponse.stop();
+        if (this.detectableResponse) {
+          this.detectableResponse.stop();
         }
       });
     }
 
     if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-block-end', (/* event */) => {
-        if (this.sdtControl) {
-          this.sdtControl.complete();
+        if (this.detectableControl) {
+          this.detectableControl.complete();
         }
       });
     }
 
     if (this.sdtModel) {
       this.sdtModel.addEventListener('detectable-response', (event) => {
-        if (this.sdtResponse) {
-          this.sdtResponse.responded(event.detail.response);
+        if (this.detectableResponse) {
+          this.detectableResponse.responded(event.detail.response);
         }
 
-        if (this.sdtTable) {
-          this.sdtTable.h = event.detail.h;
-          this.sdtTable.m = event.detail.m;
-          this.sdtTable.fa = event.detail.fa;
-          this.sdtTable.cr = event.detail.cr;
+        if (this.detectableTable) {
+          this.detectableTable.h = event.detail.h;
+          this.detectableTable.m = event.detail.m;
+          this.detectableTable.fa = event.detail.fa;
+          this.detectableTable.cr = event.detail.cr;
         }
 
         if (this.rocSpace) {
@@ -184,11 +184,11 @@ export default class SDTExampleModel extends SDTExample {
 
     if (this.sdtModel) {
       this.sdtModel.addEventListener('sdt-model-change', (event) => {
-        if (this.sdtTable) {
-          this.sdtTable.h = event.detail.h;
-          this.sdtTable.m = event.detail.m;
-          this.sdtTable.fa = event.detail.fa;
-          this.sdtTable.cr = event.detail.cr;
+        if (this.detectableTable) {
+          this.detectableTable.h = event.detail.h;
+          this.detectableTable.m = event.detail.m;
+          this.detectableTable.fa = event.detail.fa;
+          this.detectableTable.cr = event.detail.cr;
         }
 
         if (this.rocSpace) {
