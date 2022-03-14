@@ -267,8 +267,6 @@ static get properties() {
 
 And `this.stuff` will be a `Set` with members: `'this'`, `'that'`, and `'other'`
 
----
-
 ## Features/Bugs/Notes
 
 - Custom spinner that looks better than User Agent spinners?
@@ -276,8 +274,6 @@ And `this.stuff` will be a `Set` with members: `'this'`, `'that'`, and `'other'`
 - Edge/IE11 - no arrows for numeric controls
 - Firefox - spinner arrows look ugly and asymmetrical
 - IE11 - No CSS variables outside custom elements (and not patched by ShadyCSS!)
-
----
 
 ## Development Tooling
 
@@ -293,8 +289,6 @@ And `this.stuff` will be a `Set` with members: `'this'`, `'that'`, and `'other'`
   - Runs tests for a single file and reports coverage in `test/coverage/`
 - `yarn build`
   - Builds bundles from `src/` to `lib/`
-
----
 
 ## File Organization
 
