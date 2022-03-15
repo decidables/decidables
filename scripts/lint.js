@@ -10,7 +10,7 @@ import stylelintFormatterPretty from 'stylelint-formatter-pretty';
 
 // Tasks
 export function lintMarkdown() {
-  return gulp.src(['*.md', '!CHANGELOG.md', 'src/*.md'])
+  return gulp.src(['*.md', '!CHANGELOG.md', '!LICENSE.md', 'src/*.md'])
     .pipe(gulpRemark());
 }
 
