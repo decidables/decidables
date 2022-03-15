@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.0.3](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.0.2...@decidables/detectable-elements@0.0.3) (2022-03-15)
+
+
+### Bug Fixes
+
+* **detectable-elements:** fix models in sdt-example-double-interactive ([60d6dd3](https://github.com/decidables/decidables/commit/60d6dd3ed7382ef37201dafd9128c83bf21c7468))
+* **detectable-elements:** fix reset() ([c720979](https://github.com/decidables/decidables/commit/c72097968f06c3ff82e2bfb390335d28764d5274))
+* **detectable-elements:** fix sdt-control button container ([5da14c7](https://github.com/decidables/decidables/commit/5da14c731b0b108a2da0d262e2ae578aa70d482c))
+* **detectable-elements:** fix sdt-model jStat import ([5b2b0f6](https://github.com/decidables/decidables/commit/5b2b0f61dc2eb7f3c064676c5bbdcbc8a75b0c64))
+
+
+
 ### [0.0.2](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.0.1...@decidables/detectable-elements@0.0.2) (2022-03-07)
 
 
