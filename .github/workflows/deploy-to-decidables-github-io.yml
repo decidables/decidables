@@ -1,6 +1,7 @@
 # Deploy from decidables/decidables to decidables/decidables.github.io
 name: Deployment
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
