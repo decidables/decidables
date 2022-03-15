@@ -17627,18 +17627,18 @@ var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
       this.two.far = SDTMath.faCr2Far(this.two.fa, this.two.cr);
       this.two.d = SDTMath.hrFar2D(this.two.hr, this.two.far);
       this.two.c = SDTMath.hrFar2C(this.two.hr, this.two.far);
-      this.sdtTableOne = this.querySelector('detectable-table:nth-of-type(1)');
-      this.sdtTableTwo = this.querySelector('detectable-table:nth-of-type(2)');
+      this.detectableTableOne = this.querySelector('detectable-table:nth-of-type(1)');
+      this.detectableTableTwo = this.querySelector('detectable-table:nth-of-type(2)');
       this.rocSpace = this.querySelector('roc-space');
       this.sdtModelOne = this.querySelector('sdt-model:nth-of-type(1)');
       this.sdtModelTwo = this.querySelector('sdt-model:nth-of-type(2)');
 
-      if (this.sdtTableOne) {
-        this.sdtTableOne.h = this.one.h;
-        this.sdtTableOne.m = this.one.m;
-        this.sdtTableOne.fa = this.one.fa;
-        this.sdtTableOne.cr = this.one.cr;
-        this.sdtTableOne.addEventListener('detectable-table-change', function (event) {
+      if (this.detectableTableOne) {
+        this.detectableTableOne.h = this.one.h;
+        this.detectableTableOne.m = this.one.m;
+        this.detectableTableOne.fa = this.one.fa;
+        this.detectableTableOne.cr = this.one.cr;
+        this.detectableTableOne.addEventListener('detectable-table-change', function (event) {
           if (_this.rocSpace) {
             _this.rocSpace.set(event.detail.hr, event.detail.far, 'default', '↑');
           }
@@ -17650,12 +17650,12 @@ var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
         });
       }
 
-      if (this.sdtTableTwo) {
-        this.sdtTableTwo.h = this.two.h;
-        this.sdtTableTwo.m = this.two.m;
-        this.sdtTableTwo.fa = this.two.fa;
-        this.sdtTableTwo.cr = this.two.cr;
-        this.sdtTableTwo.addEventListener('detectable-table-change', function (event) {
+      if (this.detectableTableTwo) {
+        this.detectableTableTwo.h = this.two.h;
+        this.detectableTableTwo.m = this.two.m;
+        this.detectableTableTwo.fa = this.two.fa;
+        this.detectableTableTwo.cr = this.two.cr;
+        this.detectableTableTwo.addEventListener('detectable-table-change', function (event) {
           if (_this.rocSpace) {
             _this.rocSpace.set(event.detail.hr, event.detail.far, 'two', '↓');
           }
@@ -17679,70 +17679,70 @@ var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
             _this.sdtModelTwo.c = event.detail.c;
           }
 
-          if (event.detail.name === 'default' && _this.sdtTableOne) {
-            var newh = Math.round((_this.sdtTableOne.h + _this.sdtTableOne.m) * event.detail.hr);
-            var newm = _this.sdtTableOne.h + _this.sdtTableOne.m - newh;
-            var newfa = Math.round((_this.sdtTableOne.fa + _this.sdtTableOne.cr) * event.detail.far);
-            var newcr = _this.sdtTableOne.fa + _this.sdtTableOne.cr - newfa;
-            _this.sdtTableOne.h = newh;
-            _this.sdtTableOne.m = newm;
-            _this.sdtTableOne.fa = newfa;
-            _this.sdtTableOne.cr = newcr;
-          } else if (event.detail.name === 'two' && _this.sdtTableTwo) {
-            var _newh = Math.round((_this.sdtTableTwo.h + _this.sdtTableTwo.m) * event.detail.hr);
+          if (event.detail.name === 'default' && _this.detectableTableOne) {
+            var newh = Math.round((_this.detectableTableOne.h + _this.detectableTableOne.m) * event.detail.hr);
+            var newm = _this.detectableTableOne.h + _this.detectableTableOne.m - newh;
+            var newfa = Math.round((_this.detectableTableOne.fa + _this.detectableTableOne.cr) * event.detail.far);
+            var newcr = _this.detectableTableOne.fa + _this.detectableTableOne.cr - newfa;
+            _this.detectableTableOne.h = newh;
+            _this.detectableTableOne.m = newm;
+            _this.detectableTableOne.fa = newfa;
+            _this.detectableTableOne.cr = newcr;
+          } else if (event.detail.name === 'two' && _this.detectableTableTwo) {
+            var _newh = Math.round((_this.detectableTableTwo.h + _this.detectableTableTwo.m) * event.detail.hr);
 
-            var _newm = _this.sdtTableTwo.h + _this.sdtTableTwo.m - _newh;
+            var _newm = _this.detectableTableTwo.h + _this.detectableTableTwo.m - _newh;
 
-            var _newfa = Math.round((_this.sdtTableTwo.fa + _this.sdtTableTwo.cr) * event.detail.far);
+            var _newfa = Math.round((_this.detectableTableTwo.fa + _this.detectableTableTwo.cr) * event.detail.far);
 
-            var _newcr = _this.sdtTableTwo.fa + _this.sdtTableTwo.cr - _newfa;
+            var _newcr = _this.detectableTableTwo.fa + _this.detectableTableTwo.cr - _newfa;
 
-            _this.sdtTableTwo.h = _newh;
-            _this.sdtTableTwo.m = _newm;
-            _this.sdtTableTwo.fa = _newfa;
-            _this.sdtTableTwo.cr = _newcr;
+            _this.detectableTableTwo.h = _newh;
+            _this.detectableTableTwo.m = _newm;
+            _this.detectableTableTwo.fa = _newfa;
+            _this.detectableTableTwo.cr = _newcr;
           }
         });
       }
 
       if (this.sdtModelOne) {
-        this.sdtModelOne.h = this.one.d;
-        this.sdtModelOne.m = this.one.c;
+        this.sdtModelOne.d = this.one.d;
+        this.sdtModelOne.c = this.one.c;
         this.sdtModelOne.addEventListener('sdt-model-change', function (event) {
           if (_this.rocSpace) {
             _this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', '↑');
           }
 
-          if (_this.sdtTableOne) {
-            var newh = Math.round((_this.sdtTableOne.h + _this.sdtTableOne.m) * event.detail.hr);
-            var newm = _this.sdtTableOne.h + _this.sdtTableOne.m - newh;
-            var newfa = Math.round((_this.sdtTableOne.fa + _this.sdtTableOne.cr) * event.detail.far);
-            var newcr = _this.sdtTableOne.fa + _this.sdtTableOne.cr - newfa;
-            _this.sdtTableOne.h = newh;
-            _this.sdtTableOne.m = newm;
-            _this.sdtTableOne.fa = newfa;
-            _this.sdtTableOne.cr = newcr;
+          if (_this.detectableTableOne) {
+            var newh = Math.round((_this.detectableTableOne.h + _this.detectableTableOne.m) * event.detail.hr);
+            var newm = _this.detectableTableOne.h + _this.detectableTableOne.m - newh;
+            var newfa = Math.round((_this.detectableTableOne.fa + _this.detectableTableOne.cr) * event.detail.far);
+            var newcr = _this.detectableTableOne.fa + _this.detectableTableOne.cr - newfa;
+            _this.detectableTableOne.h = newh;
+            _this.detectableTableOne.m = newm;
+            _this.detectableTableOne.fa = newfa;
+            _this.detectableTableOne.cr = newcr;
           }
         });
       }
 
       if (this.sdtModelTwo) {
-        this.sdtModelTwo.h = this.two.d;
-        this.sdtModelTwo.m = this.two.c;
+        this.sdtModelTwo.d = this.two.d;
+        this.sdtModelTwo.c = this.two.c;
         this.sdtModelTwo.addEventListener('sdt-model-change', function (event) {
           if (_this.rocSpace) {
             _this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'two', '↓');
           }
 
-          if (_this.sdtTableTwo) {
-            var newh = Math.round((_this.sdtTableTwo.h + _this.sdtTableTwo.m) * event.detail.hr);
-            var newm = _this.sdtTableTwo.h + _this.sdtTableTwo.m - newh;
-            var newfa = Math.round((_this.sdtTableTwo.fa + _this.sdtTableTwo.cr) * event.detail.far);
-            var newcr = _this.sdtTableTwo.fa + _this.sdtTableTwo.cr - newfa;
-            _this.sdtTableTwo.h = newh;
-            _this.sdtTableTwo.m = newm;
-            _this.sdtTableTwo.fa = newfa;
-            _this.sdtTableTwo.cr = newcr;
+          if (_this.detectableTableTwo) {
+            var newh = Math.round((_this.detectableTableTwo.h + _this.detectableTableTwo.m) * event.detail.hr);
+            var newm = _this.detectableTableTwo.h + _this.detectableTableTwo.m - newh;
+            var newfa = Math.round((_this.detectableTableTwo.fa + _this.detectableTableTwo.cr) * event.detail.far);
+            var newcr = _this.detectableTableTwo.fa + _this.detectableTableTwo.cr - newfa;
+            _this.detectableTableTwo.h = newh;
+            _this.detectableTableTwo.m = newm;
+            _this.detectableTableTwo.fa = newfa;
+            _this.detectableTableTwo.cr = newcr;
           }
         });
       }
@@ -17777,10 +17777,10 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
       var _this = this;
 
       this.count = 1;
-      this.sdtControl = this.querySelector('detectable-control');
+      this.detectableControl = this.querySelector('detectable-control');
       this.rdkTask = this.querySelector('rdk-task');
-      this.sdtResponse = this.querySelector('detectable-response');
-      this.sdtTable = this.querySelector('detectable-table');
+      this.detectableResponse = this.querySelector('detectable-response');
+      this.detectableTable = this.querySelector('detectable-table');
       this.rocSpace = this.querySelector('roc-space');
       this.sdtModel = this.querySelector('sdt-model');
 
@@ -17790,20 +17790,20 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
         }
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
-        this.sdtControl.addEventListener('detectable-control-trials', function (event) {
+      if (this.detectableControl && this.detectableControl.hasAttribute('trials')) {
+        this.detectableControl.addEventListener('detectable-control-trials', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.trials = event.detail.trials;
           }
 
-          if (_this.sdtResponse) {
-            _this.sdtResponse.trialTotal = event.detail.trials;
+          if (_this.detectableResponse) {
+            _this.detectableResponse.trialTotal = event.detail.trials;
           }
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
-        this.sdtControl.addEventListener('detectable-control-duration', function (event) {
+      if (this.detectableControl && this.detectableControl.hasAttribute('duration')) {
+        this.detectableControl.addEventListener('detectable-control-duration', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.duration = event.detail.duration;
             _this.rdkTask.wait = event.detail.duration;
@@ -17812,38 +17812,38 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('coherence')) {
-        this.sdtControl.addEventListener('detectable-control-coherence', function (event) {
+      if (this.detectableControl && this.detectableControl.hasAttribute('coherence')) {
+        this.detectableControl.addEventListener('detectable-control-coherence', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.coherence = event.detail.coherence;
           }
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('payoff')) {
-        this.sdtControl.addEventListener('detectable-control-payoff', function (event) {
-          if (_this.sdtResponse) {
-            _this.sdtResponse.hPayoff = event.detail.payoff;
-            _this.sdtResponse.mPayoff = -event.detail.payoff + 0; // Get rid of -0
+      if (this.detectableControl && this.detectableControl.hasAttribute('payoff')) {
+        this.detectableControl.addEventListener('detectable-control-payoff', function (event) {
+          if (_this.detectableResponse) {
+            _this.detectableResponse.hPayoff = event.detail.payoff;
+            _this.detectableResponse.mPayoff = -event.detail.payoff + 0; // Get rid of -0
 
-            _this.sdtResponse.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
+            _this.detectableResponse.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
 
-            _this.sdtResponse.crPayoff = 100 - event.detail.payoff;
+            _this.detectableResponse.crPayoff = 100 - event.detail.payoff;
           }
 
-          if (_this.sdtTable) {
-            _this.sdtTable.hPayoff = event.detail.payoff;
-            _this.sdtTable.mPayoff = -event.detail.payoff + 0; // Get rid of -0
+          if (_this.detectableTable) {
+            _this.detectableTable.hPayoff = event.detail.payoff;
+            _this.detectableTable.mPayoff = -event.detail.payoff + 0; // Get rid of -0
 
-            _this.sdtTable.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
+            _this.detectableTable.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
 
-            _this.sdtTable.crPayoff = 100 - event.detail.payoff;
+            _this.detectableTable.crPayoff = 100 - event.detail.payoff;
           }
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('run')) {
-        this.sdtControl.addEventListener('detectable-control-run', function
+      if (this.detectableControl && this.detectableControl.hasAttribute('run')) {
+        this.detectableControl.addEventListener('detectable-control-run', function
           /* event */
         () {
           if (_this.rdkTask) {
@@ -17852,8 +17852,8 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('pause')) {
-        this.sdtControl.addEventListener('detectable-control-pause', function
+      if (this.detectableControl && this.detectableControl.hasAttribute('pause')) {
+        this.detectableControl.addEventListener('detectable-control-pause', function
           /* event */
         () {
           if (_this.rdkTask) {
@@ -17862,23 +17862,23 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('reset')) {
-        this.sdtControl.addEventListener('detectable-control-reset', function
+      if (this.detectableControl && this.detectableControl.hasAttribute('reset')) {
+        this.detectableControl.addEventListener('detectable-control-reset', function
           /* event */
         () {
           if (_this.rdkTask) {
             _this.rdkTask.reset();
           }
 
-          if (_this.sdtResponse) {
-            _this.sdtResponse.reset();
+          if (_this.detectableResponse) {
+            _this.detectableResponse.reset();
           }
 
-          if (_this.sdtTable) {
-            _this.sdtTable.h = 0;
-            _this.sdtTable.m = 0;
-            _this.sdtTable.fa = 0;
-            _this.sdtTable.cr = 0;
+          if (_this.detectableTable) {
+            _this.detectableTable.h = 0;
+            _this.detectableTable.m = 0;
+            _this.detectableTable.fa = 0;
+            _this.detectableTable.cr = 0;
           }
 
           if (_this.rocSpace) {
@@ -17900,15 +17900,15 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.rdkTask) {
-        if (this.sdtResponse) {
-          this.sdtResponse.trialTotal = this.rdkTask.trials;
+        if (this.detectableResponse) {
+          this.detectableResponse.trialTotal = this.rdkTask.trials;
         }
       }
 
       if (this.rdkTask) {
         this.rdkTask.addEventListener('rdk-trial-start', function (event) {
-          if (_this.sdtResponse) {
-            _this.sdtResponse.start(event.detail.signal, event.detail.trial);
+          if (_this.detectableResponse) {
+            _this.detectableResponse.start(event.detail.signal, event.detail.trial);
           }
         });
       }
@@ -17917,8 +17917,8 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
         this.rdkTask.addEventListener('rdk-trial-end', function
           /* event */
         () {
-          if (_this.sdtResponse) {
-            _this.sdtResponse.stop();
+          if (_this.detectableResponse) {
+            _this.detectableResponse.stop();
           }
         });
       }
@@ -17927,19 +17927,19 @@ var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
         this.rdkTask.addEventListener('rdk-block-end', function
           /* event */
         () {
-          if (_this.sdtControl) {
-            _this.sdtControl.complete();
+          if (_this.detectableControl) {
+            _this.detectableControl.complete();
           }
         });
       }
 
-      if (this.sdtResponse) {
-        this.sdtResponse.addEventListener('detectable-response', function (event) {
-          if (_this.sdtTable) {
-            _this.sdtTable.h = event.detail.h;
-            _this.sdtTable.m = event.detail.m;
-            _this.sdtTable.fa = event.detail.fa;
-            _this.sdtTable.cr = event.detail.cr;
+      if (this.detectableResponse) {
+        this.detectableResponse.addEventListener('detectable-response', function (event) {
+          if (_this.detectableTable) {
+            _this.detectableTable.h = event.detail.h;
+            _this.detectableTable.m = event.detail.m;
+            _this.detectableTable.fa = event.detail.fa;
+            _this.detectableTable.cr = event.detail.cr;
           }
 
           var newhr = SDTMath.hM2Hr(event.detail.h + 1, event.detail.m + 1);
@@ -17990,26 +17990,26 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
     firstUpdated() {
       var _this = this;
 
-      this.sdtControl = this.querySelector('detectable-control');
-      this.sdtTable = this.querySelector('detectable-table');
+      this.detectableControl = this.querySelector('detectable-control');
+      this.detectableTable = this.querySelector('detectable-table');
       this.rocSpace = this.querySelector('roc-space');
       this.sdtModel = this.querySelector('sdt-model');
       this.rocSpaces = this.querySelectorAll('roc-space');
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('color')) {
-        this.sdtControl.addEventListener('detectable-control-color', function (event) {
+      if (this.detectableControl && this.detectableControl.hasAttribute('color')) {
+        this.detectableControl.addEventListener('detectable-control-color', function (event) {
           if (_this.sdtModel) {
             _this.sdtModel.color = event.detail.color;
           }
 
-          if (_this.sdtTable) {
-            _this.sdtTable.color = event.detail.color;
+          if (_this.detectableTable) {
+            _this.detectableTable.color = event.detail.color;
           }
         });
       }
 
-      if (this.sdtControl) {
-        this.sdtControl.addEventListener('detectable-control-z-roc', function (event) {
+      if (this.detectableControl) {
+        this.detectableControl.addEventListener('detectable-control-z-roc', function (event) {
           if (_this.rocSpaces.length > 0) {
             _this.rocSpaces.forEach(function (rocSpace) {
               rocSpace.zRoc = event.detail.zRoc;
@@ -18018,18 +18018,18 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
         });
       }
 
-      if (this.sdtTable) {
+      if (this.detectableTable) {
         if (this.rocSpace) {
-          this.rocSpace.hr = SDTMath.hM2Hr(this.sdtTable.h, this.sdtTable.m);
-          this.rocSpace.far = SDTMath.faCr2Far(this.sdtTable.fa, this.sdtTable.cr);
+          this.rocSpace.hr = SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m);
+          this.rocSpace.far = SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr);
         }
 
         if (this.sdtModel) {
-          this.sdtModel.d = SDTMath.hrFar2D(SDTMath.hM2Hr(this.sdtTable.h, this.sdtTable.m), SDTMath.faCr2Far(this.sdtTable.fa, this.sdtTable.cr), this.sdtModel.s);
-          this.sdtModel.c = SDTMath.hrFar2C(SDTMath.hM2Hr(this.sdtTable.h, this.sdtTable.m), SDTMath.faCr2Far(this.sdtTable.fa, this.sdtTable.cr), this.sdtModel.s);
+          this.sdtModel.d = SDTMath.hrFar2D(SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m), SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr), this.sdtModel.s);
+          this.sdtModel.c = SDTMath.hrFar2C(SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m), SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr), this.sdtModel.s);
         }
 
-        this.sdtTable.addEventListener('detectable-table-change', function (event) {
+        this.detectableTable.addEventListener('detectable-table-change', function (event) {
           if (_this.rocSpace) {
             _this.rocSpace.far = event.detail.far;
             _this.rocSpace.hr = event.detail.hr;
@@ -18043,7 +18043,7 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.rocSpace) {
-        if (this.sdtModel && !this.sdtTable) {
+        if (this.sdtModel && !this.detectableTable) {
           this.sdtModel.d = SDTMath.hrFar2D(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
           this.sdtModel.c = SDTMath.hrFar2C(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
           this.sdtModel.s = this.rocSpace.s;
@@ -18056,15 +18056,15 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
             _this.sdtModel.s = event.detail.s;
           }
 
-          if (_this.sdtTable) {
-            var newh = Math.round((_this.sdtTable.h + _this.sdtTable.m) * event.detail.hr);
-            var newm = _this.sdtTable.h + _this.sdtTable.m - newh;
-            var newfa = Math.round((_this.sdtTable.fa + _this.sdtTable.cr) * event.detail.far);
-            var newcr = _this.sdtTable.fa + _this.sdtTable.cr - newfa;
-            _this.sdtTable.h = newh;
-            _this.sdtTable.m = newm;
-            _this.sdtTable.fa = newfa;
-            _this.sdtTable.cr = newcr;
+          if (_this.detectableTable) {
+            var newh = Math.round((_this.detectableTable.h + _this.detectableTable.m) * event.detail.hr);
+            var newm = _this.detectableTable.h + _this.detectableTable.m - newh;
+            var newfa = Math.round((_this.detectableTable.fa + _this.detectableTable.cr) * event.detail.far);
+            var newcr = _this.detectableTable.fa + _this.detectableTable.cr - newfa;
+            _this.detectableTable.h = newh;
+            _this.detectableTable.m = newm;
+            _this.detectableTable.fa = newfa;
+            _this.detectableTable.cr = newcr;
           }
         });
       }
@@ -18077,15 +18077,15 @@ var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
             });
           }
 
-          if (_this.sdtTable) {
-            var newh = Math.round((_this.sdtTable.h + _this.sdtTable.m) * event.detail.hr);
-            var newm = _this.sdtTable.h + _this.sdtTable.m - newh;
-            var newfa = Math.round((_this.sdtTable.fa + _this.sdtTable.cr) * event.detail.far);
-            var newcr = _this.sdtTable.fa + _this.sdtTable.cr - newfa;
-            _this.sdtTable.h = newh;
-            _this.sdtTable.m = newm;
-            _this.sdtTable.fa = newfa;
-            _this.sdtTable.cr = newcr;
+          if (_this.detectableTable) {
+            var newh = Math.round((_this.detectableTable.h + _this.detectableTable.m) * event.detail.hr);
+            var newm = _this.detectableTable.h + _this.detectableTable.m - newh;
+            var newfa = Math.round((_this.detectableTable.fa + _this.detectableTable.cr) * event.detail.far);
+            var newcr = _this.detectableTable.fa + _this.detectableTable.cr - newfa;
+            _this.detectableTable.h = newh;
+            _this.detectableTable.m = newm;
+            _this.detectableTable.fa = newfa;
+            _this.detectableTable.cr = newcr;
           }
         });
       }
@@ -18120,27 +18120,27 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
       var _this = this;
 
       this.count = 1;
-      this.sdtControl = this.querySelector('detectable-control');
+      this.detectableControl = this.querySelector('detectable-control');
       this.rdkTask = this.querySelector('rdk-task');
       this.sdtModel = this.querySelector('sdt-model');
-      this.sdtResponse = this.querySelector('detectable-response');
-      this.sdtTable = this.querySelector('detectable-table');
+      this.detectableResponse = this.querySelector('detectable-response');
+      this.detectableTable = this.querySelector('detectable-table');
       this.rocSpace = this.querySelector('roc-space');
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('color')) {
-        this.sdtControl.addEventListener('detectable-control-color', function (event) {
+      if (this.detectableControl && this.detectableControl.hasAttribute('color')) {
+        this.detectableControl.addEventListener('detectable-control-color', function (event) {
           if (_this.sdtModel) {
             _this.sdtModel.color = event.detail.color;
           }
 
-          if (_this.sdtTable) {
-            _this.sdtTable.color = event.detail.color;
+          if (_this.detectableTable) {
+            _this.detectableTable.color = event.detail.color;
           }
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('duration')) {
-        this.sdtControl.addEventListener('detectable-control-duration', function (event) {
+      if (this.detectableControl && this.detectableControl.hasAttribute('duration')) {
+        this.detectableControl.addEventListener('detectable-control-duration', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.duration = event.detail.duration;
             _this.rdkTask.wait = event.detail.duration;
@@ -18149,28 +18149,28 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('trials')) {
-        this.sdtControl.addEventListener('detectable-control-trials', function (event) {
+      if (this.detectableControl && this.detectableControl.hasAttribute('trials')) {
+        this.detectableControl.addEventListener('detectable-control-trials', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.trials = event.detail.trials;
           }
 
-          if (_this.sdtResponse) {
-            _this.sdtResponse.trialTotal = event.detail.trials;
+          if (_this.detectableResponse) {
+            _this.detectableResponse.trialTotal = event.detail.trials;
           }
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('coherence')) {
-        this.sdtControl.addEventListener('detectable-control-coherence', function (event) {
+      if (this.detectableControl && this.detectableControl.hasAttribute('coherence')) {
+        this.detectableControl.addEventListener('detectable-control-coherence', function (event) {
           if (_this.rdkTask) {
             _this.rdkTask.coherence = event.detail.coherence;
           }
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('run')) {
-        this.sdtControl.addEventListener('detectable-control-run', function
+      if (this.detectableControl && this.detectableControl.hasAttribute('run')) {
+        this.detectableControl.addEventListener('detectable-control-run', function
           /* event */
         () {
           if (_this.rdkTask) {
@@ -18183,8 +18183,8 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('pause')) {
-        this.sdtControl.addEventListener('detectable-control-pause', function
+      if (this.detectableControl && this.detectableControl.hasAttribute('pause')) {
+        this.detectableControl.addEventListener('detectable-control-pause', function
           /* event */
         () {
           if (_this.rdkTask) {
@@ -18197,27 +18197,27 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
         });
       }
 
-      if (this.sdtControl && this.sdtControl.hasAttribute('reset')) {
-        this.sdtControl.addEventListener('detectable-control-reset', function
+      if (this.detectableControl && this.detectableControl.hasAttribute('reset')) {
+        this.detectableControl.addEventListener('detectable-control-reset', function
           /* event */
         () {
           if (_this.rdkTask) {
             _this.rdkTask.reset();
           }
 
-          if (_this.sdtResponse) {
-            _this.sdtResponse.reset();
+          if (_this.detectableResponse) {
+            _this.detectableResponse.reset();
           }
 
           if (_this.sdtModel) {
             _this.sdtModel.reset();
           }
 
-          if (_this.sdtTable) {
-            _this.sdtTable.h = 0;
-            _this.sdtTable.m = 0;
-            _this.sdtTable.fa = 0;
-            _this.sdtTable.cr = 0;
+          if (_this.detectableTable) {
+            _this.detectableTable.h = 0;
+            _this.detectableTable.m = 0;
+            _this.detectableTable.fa = 0;
+            _this.detectableTable.cr = 0;
           }
 
           if (_this.rocSpace) {
@@ -18234,15 +18234,15 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
       }
 
       if (this.rdkTask) {
-        if (this.sdtResponse) {
-          this.sdtResponse.trialTotal = this.rdkTask.trials;
+        if (this.detectableResponse) {
+          this.detectableResponse.trialTotal = this.rdkTask.trials;
         }
       }
 
       if (this.rdkTask) {
         this.rdkTask.addEventListener('rdk-trial-start', function (event) {
-          if (_this.sdtResponse) {
-            _this.sdtResponse.start(event.detail.signal, event.detail.trial);
+          if (_this.detectableResponse) {
+            _this.detectableResponse.start(event.detail.signal, event.detail.trial);
           }
 
           if (_this.sdtModel) {
@@ -18264,8 +18264,8 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
         this.rdkTask.addEventListener('rdk-trial-end', function
           /* event */
         () {
-          if (_this.sdtResponse) {
-            _this.sdtResponse.stop();
+          if (_this.detectableResponse) {
+            _this.detectableResponse.stop();
           }
         });
       }
@@ -18274,23 +18274,23 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
         this.rdkTask.addEventListener('rdk-block-end', function
           /* event */
         () {
-          if (_this.sdtControl) {
-            _this.sdtControl.complete();
+          if (_this.detectableControl) {
+            _this.detectableControl.complete();
           }
         });
       }
 
       if (this.sdtModel) {
         this.sdtModel.addEventListener('detectable-response', function (event) {
-          if (_this.sdtResponse) {
-            _this.sdtResponse.responded(event.detail.response);
+          if (_this.detectableResponse) {
+            _this.detectableResponse.responded(event.detail.response);
           }
 
-          if (_this.sdtTable) {
-            _this.sdtTable.h = event.detail.h;
-            _this.sdtTable.m = event.detail.m;
-            _this.sdtTable.fa = event.detail.fa;
-            _this.sdtTable.cr = event.detail.cr;
+          if (_this.detectableTable) {
+            _this.detectableTable.h = event.detail.h;
+            _this.detectableTable.m = event.detail.m;
+            _this.detectableTable.fa = event.detail.fa;
+            _this.detectableTable.cr = event.detail.cr;
           }
 
           if (_this.rocSpace) {
@@ -18302,11 +18302,11 @@ var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
 
       if (this.sdtModel) {
         this.sdtModel.addEventListener('sdt-model-change', function (event) {
-          if (_this.sdtTable) {
-            _this.sdtTable.h = event.detail.h;
-            _this.sdtTable.m = event.detail.m;
-            _this.sdtTable.fa = event.detail.fa;
-            _this.sdtTable.cr = event.detail.cr;
+          if (_this.detectableTable) {
+            _this.detectableTable.h = event.detail.h;
+            _this.detectableTable.m = event.detail.m;
+            _this.detectableTable.fa = event.detail.fa;
+            _this.detectableTable.cr = event.detail.cr;
           }
 
           if (_this.rocSpace) {
@@ -18345,12 +18345,12 @@ var SDTExampleUnequal = /*#__PURE__*/function (_SDTExample) {
     firstUpdated() {
       var _this = this;
 
-      this.sdtControl = this.querySelector('detectable-control');
+      this.detectableControl = this.querySelector('detectable-control');
       this.rocSpace = this.querySelector('roc-space');
       this.sdtModel = this.querySelector('sdt-model');
 
-      if (this.sdtControl) {
-        this.sdtControl.addEventListener('detectable-control-z-roc', function (event) {
+      if (this.detectableControl) {
+        this.detectableControl.addEventListener('detectable-control-z-roc', function (event) {
           _this.rocSpace.zRoc = event.detail.zRoc;
         });
       }
