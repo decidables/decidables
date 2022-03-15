@@ -1,177 +1,52 @@
 <!--lint ignore first-heading-level-->
 
-# decidables: Explorable Explanations of Decision Making
+# [**decidables**](https://decidables.github.io): Explorable Explanations of Decision Making
 
-*decidables* is a collection of libraries and websites for explorable explanations of quantitative
-approaches to human decision making.
+**decidables** is a collection of websites and supporting libraries for explorable explanations of
+quantitative approaches to human decision making.
 
-*decidables* is implemented as a *git* monorepo on [GitHub](https://www.github.com). The packages
-are published to *npm* in the `@decidables` scope.
+**decidables** is implemented as a *git* monorepo on [GitHub](https://www.github.com).
 
-## Overview
+## Sites
 
-- *decidables*: Explorable Explanations of Decision Making
-  - *detectable*: An Explorable Explanation of Signal Detection Theory
-  - *prospectable*: An Explorable Explanation of Cumulative Prospect Theory **[proposed]**
-  - *discountable*: An Explorable Explanation of Temporal Discounting **[proposed]**
-  - *accumulable*: An Explorable Explanation of Diffusion and Accumulation Models **[proposed]**
-  - ???
+The sites are served from *GitHub Pages*.
 
-## Write-up
+- [**decidables**](https://decidables.github.io): Explorable Explanations of Decision Making
+  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/sites/decidables)
+  - The root site with overall info and links to the individual explorables
+- *Almost ready...* [***d′*ete*c*table**](https://decidables.github.io/detectable):
+  An Explorable Explanation of Signal Detection Theory
+  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/sites/detectable)
+- *In progress...* [**prospect*α*b*λ*e**](https://decidables.github.io/prospectable):
+  An Explorable Explanation of Cumulative Prospect Theory
+  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/sites/prospectable)
+- *Coming soon...* **dis*k*ountable**:
+  An Explorable Explanation of Hyperbolic Temporal Discounting
 
-- Learning through interaction
-  - Understanding relationships through perception-action loops
-    - <https://arxiv.org/pdf/1112.1125.pdf>
-    - <https://blog.mindresearch.org/blog/perception-action-cycle>
-    - <https://doi.org/10.1186/s41235-017-0053-8>
-  - Learning & constructionism (Papert)
-    - <https://en.wikipedia.org/wiki/Constructionist_learning>
-- Content for learning cognitive psychology/neuroscience
-  - Example task
-  - Empirical data collection
-  - Live computational model
-  - Fit data to model
-  - Generate data from model
-- Technology for explorable explanations
-  - Build: git + node + yarn + gulp + plugins
-  - Text: markdown (remark) + citeproc
-  - Formatting: bootstrap + scss + ejs
-  - Interactive content: d3 + web components + lit-element
+## Libraries
 
-## Outline
+The libraries are published to *npm* in the
+[**`@decidables`**](https://www.npmjs.com/search?q=%40decidables) scope.
 
-- *decidables*
-  - *detectable*: Signal Detection Theory
-    - Introduction
-    - Behavior: Yes/No RDK task
-      - Stimulus: signal & noise
-      - Response: present or absent
-      - Outcome: correct/error, hit/miss/FA/CR
-      - Tables & rates
-      - ROC space
-    - Model: SDT
-      - Measurement & sensitivity
-      - Threshold & bias
-      - SDT
-      - Iso-sensitivity curves
-      - Iso-bias curves
-      - Model exploration
-      - Model fitting
-      - Model predictions
-    - Advanced
-      - Sensitivity & difficulty
-      - Bias & incentive
-      - zROC space
-      - Unequal variance
-    - Applications
-      - Memory?
-      - Medical diagnostics?
-    - Conclusion
-  - *prospectable*: Cumulative Prospect Theory (versus Expected Value & Expected Utility)
-    - [Visualizations]
-      - Pie chart options? gamble vs sure
-      - Value function
-      - Probability function
-      - Marschak-Machina triangle?
-    - Introduction
-    - Risky decision making
-      - Choosing between sure outcomes and gambles
-    - Value
-      - Prescriptive: EV (& EU)
-      - Empirical: violations - marginal utility
-      - Empirical: violations - loss aversion
-      - Descriptive: subjective utility function
-    - Probability
-      - Prescriptive: EV (& EU)
-      - Empirical: violations - overweighting small probabilities
-      - Empirical: violations - underweighting large probabilities
-      - Descriptive: decision weight function
-    - Reference point
-      - Prescriptive: absolute
-      - Empirical: violations - framing
-      - Descriptive: relative
-    - CPT
-      - Decision space visualization?
-      - Model exploration
-      - Model fitting
-      - Model prediction
-    - Advanced
-      - Separate decision weights for gains and losses
-      - Discrete performance from continuous parameters?
-      - Individual differences?
-    - Applications
-      - Health message framing?
-    - Conclusion
-  - *accumulable*: Drift-diffusion/race/LBA model of RT
-    - Introduction
-    - Behavior: 2AFC RDK task
-      - Stimulus: motion left or right?
-      - Response: left or right
-      - Outcome: correct or error
-      - RT mean and SD
-      - RT histograms
-      - RT quantiles?
-    - Model: DDM/LBA/?
-      - Evidence accumulation
-      - Starting point
-      - Drift rate
-      - Boundary
-      - RT distributions
-      - Model exploration
-      - Model fitting
-      - Model prediction
-    - Advanced
-      - Race vs. diffusion <https://doi.org/10.1016/j.tics.2016.01.007>
-      - Variability (e.g. within vs between trials)
-      - Time limits & collapsing boundaries
-    - Applications
-      - ?Neural modeling?
-    - Conclusion
-  - *discountable*: Temporal discounting
-    - Introduction
-    - Behavior
-      - Task: intertemporal choice task
-      - Method: stairstep procedure
-      - Analysis: area under the curve (AUC)
-    - Model (hyperbolic discounting)
-      - Prescriptive: exponential
-      - Empirical: violations - preference reversals
-      - Descriptive: hyperbolic
-      - Model comparison: none, linear, exponential, hyperbolic
-      - Model exploration
-      - Model fitting
-      - Model prediction
-    - Advanced
-      - Interaction of temporal discounting and PT value function?
-    - Applications
-      - Drug addiction?
-    - Conclusion
-  - Possibilities...
-    - Ambiguity?
-      - Sure vs risky vs ambiguous options
-      - Models of ambiguity?
-    - Learning?
-      - IGT & BART
-    - Volatility?
-    - Bayesian inference?
-
-## Packages
-
-- `@decidables`
-  - *Libraries*
-    - `decidables-elements`: Web components for UI elements used across all packages
-    - `detectable-math`: Provides a class with equations for calculating Signal Detection Theory
-    - `detectable-elements`: Web components for exploring Signal Detection Theory
-    - `prospectable-math`: Provides a class with equations for calculating Cumulative Prospect
-      Theory
-    - `prospectable-elements`: Web components for exploring Cumulative Prospect Theory
-  - *Sites*
-    - `decidables`: Explorable Explanations of Decision Making
-      - This is the root site with overall info and links to the indiividual explorables
-    - `detectable`: An Explorable Explanation of Signal Detection Theory
-    - `prospectable`: An Explorable Explanation of Cumulative Prospect Theory
-
----
+- [**`decidables-elements`**](https://www.npmjs.com/package/@decidables/decidables-elements):
+  Web components for UI elements used across all packages
+  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/libraries/decidables-elements)
+- [**`detectable-math`**](https://www.npmjs.com/package/@decidables/detectable-math):
+  Provides a class with equations for calculating Signal Detection Theory
+  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/libraries/detectable-math)
+- [**`detectable-elements`**](https://www.npmjs.com/package/@decidables/detectable-elements):
+  Web components for exploring Signal Detection Theory
+  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/libraries/detectable-elements)
+- *In progress...* **`prospectable-math`**:
+  Provides a class with equations for calculating Cumulative Prospect Theory
+  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/libraries/prospectable-math)
+- *In progress...* **`prospectable-elements`**:
+  Web components for exploring Cumulative Prospect Theory
+  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/libraries/prospectable-elements)
+- *Coming soon...* **`discountable-math`**:
+  Provides a class with equations for calculating Hyperbolic Temporal Discounting
+- *Coming soon...* **`discountable-elements`**:
+  Web components for exploring Hyperbolic Temporal Discounting
 
 ## Style Guide
 
@@ -222,7 +97,7 @@ are published to *npm* in the `@decidables` scope.
 - Add "question" blocks for thoughts for readers to try - maybe with foldout answers?
   - :::{.question} :::
 
-## Compatibility
+## Compatibility Goals
 
 - Desktop (Current & Current-1)
   - Chrome
@@ -235,8 +110,6 @@ are published to *npm* in the `@decidables` scope.
   - Chrome on Android
   - Safari on iOS
   - Other browser and/or other mobile OS?
-
----
 
 ## Development Tooling
 
@@ -353,28 +226,30 @@ Dependencies updated 17/1/2022.
 - `yarn upgrade-interactive`
   - Manual upgrade to newer dependencies, with option to ignore semver
 
----
-
 ## File Organization
 
 - `decidables/`
   - `.git/` (Repository for *git*) **[autogenerated]**
-  - `.github/` (Configuration for GitHub Actions)
-  - `.yarn/` (Repository for *git*)  **[autogenerated]**
+  - `.github/` (Configuration for *GitHub Actions*)
+  - `.vscode/` (Editor configuration for *VSCode*)
+  - `.yarn/` (Repository for *yarn*)  **[autogenerated]**
   - `decidables.github.io/` (Sites organized for deployment) **[autogenerated]**
   - `libraries/` (All libraries are found here)
   - `node_modules/` (*dependencies* & *devDependencies* installed by `yarn install`)
     **[autogenerated]**
-  - `packages/` (All packages, both libraries and sites are found here)
-  - `scripts/` (*gulp* scripts used to build all packages)
+  - `scripts/` (*gulp* support scripts used for tooling)
   - `sites/` (All sites are found here)
-  - `.eslintrc.json` (Configuration for *eslint*)
-  - `.gitattributes` (Configuration for *git*)
-  - `.gitignore` (Configuration for *git*)
-  - `.remarkrc.json` (Configuration for *remark-lint*)
-  - `.stylelintrc.json` (Configuration for *stylelint*)
-  - `.yarnrc.yml` (Configuration for *yarn*)
-  - `gulpfile.js` (Config for *gulp*)
+  - `.commitlint.json` (Commit linting configuration for *commitlint*)
+  - `.eslintrc.json` (Code linting configuration for *eslint*)
+  - `.gitattributes` (Version control configuration for *git*)
+  - `.gitignore` (Version control configuration for *git*)
+  - `.remarkrc.json` (Markdown linting configuration for *remark-lint*)
+  - `.stylelintrc.json` (Style linting configuration for *stylelint*)
+  - `.webtestrunner.js` (Testing configuration for *web-test-runner*)
+  - `.yarnrc.yml` (Package manager configuration for *yarn*)
+  - `gulpfile.js` (Tasks for *gulp*)
+  - `lerna.json` (Monorepo configuration for *lerna*)
+  - `LICENSE.md` (Describes licenses for this project)
   - `package.json` (Overall configuration for monorepo)
   - `README.md` (This file)
   - `yarn.lock` (Proprietary file for tracking package installations by *yarn*) **[autogenerated]**
