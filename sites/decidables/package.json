@@ -16,10 +16,6 @@
     "deploy": "gulp deploy",
     "serve": "gulp serve"
   },
-  "browserslist": [
-    "> 0.25%",
-    "not dead"
-  ],
   "devDependencies": {
     "bootstrap-icons": "^1.8.1",
     "gulp": "^4.0.2"
