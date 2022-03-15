@@ -21,10 +21,6 @@
     "lint": "gulp lint",
     "build": "gulp build"
   },
-  "browserslist": [
-    "> 0.25%",
-    "not dead"
-  ],
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-dart-sass": "^1.0.2",

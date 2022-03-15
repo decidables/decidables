@@ -36,10 +36,6 @@
     "test:file": "web-test-runner $@ --config ../../.webtestrunnerrc.js",
     "build": "gulp build"
   },
-  "browserslist": [
-    "> 0.25%",
-    "not dead"
-  ],
   "devDependencies": {
     "@web/test-runner": "^0.13.27",
     "gulp": "^4.0.2"
