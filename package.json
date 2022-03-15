@@ -1,11 +1,14 @@
 {
   "name": "decidables",
-  "version": "0.0.0",
-  "description": "decidables: Explorable Explanations of Decision Making",
+  "description": "Monorepo for decidables: Explorable Explanations of Decision Making",
   "type": "module",
-  "main": "index.js",
-  "repository": "https://github.com/akrawitz/decidables",
-  "author": "Adam Krawitz <akrawitz@uvic.ca>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decidables/decidables.git"
+  },
+  "bugs": "https://github.com/decidables/decidables/issues",
+  "homepage": "https://github.com/decidables/decidables",
+  "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
   "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
   "private": true,
   "scripts": {
