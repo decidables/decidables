@@ -4,8 +4,14 @@
   "description": "decidables: Explorable Explanations of Decision Making",
   "type": "module",
   "main": "./dist/index.html",
-  "repository": "https://github.com/decidables/decidables/tree/main/sites/decidables",
-  "author": "Adam Krawitz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decidables/decidables.git",
+    "directory": "sites/decidables"
+  },
+  "bugs": "https://github.com/decidables/decidables/issues",
+  "homepage": "https://github.com/decidables/decidables/tree/main/sites/decidables",
+  "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
   "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
   "private": true,
   "scripts": {
