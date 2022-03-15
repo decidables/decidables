@@ -10,7 +10,7 @@
   "private": true,
   "scripts": {
     "postinstall": "husky install",
-    "lint": "yarn workspaces foreach -pitv -j 2 run lint",
+    "lint": "yarn gulp lint && yarn workspaces foreach -pitv -j 2 run lint",
     "test": "yarn workspaces foreach -pitv -j 2 run test",
     "compile": "yarn workspaces foreach -pitv -j 2 run compile",
     "watch": "yarn workspaces foreach -pitv -j 2 run watch",
