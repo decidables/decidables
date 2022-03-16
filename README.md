@@ -1,26 +1,32 @@
 <!--lint ignore first-heading-level-->
 
-# [**decidables**](https://decidables.github.io): Explorable Explanations of Decision Making
+# [<b>decidables</b>](https://decidables.github.io)<br>Explorable Explanations of Decision Making
 
-**decidables** is a collection of websites and supporting libraries for explorable explanations of
+[![license](https://img.shields.io/github/package-json/license/decidables/decidables?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
+
+<b>decidables</b> is a collection of websites and supporting libraries for explorable explanations of
 quantitative approaches to human decision making.
 
-**decidables** is implemented as a *git* monorepo on [GitHub](https://www.github.com).
+<b>decidables</b> is implemented as a *git* monorepo on [GitHub](https://www.github.com).
 
 ## Sites
 
-The sites are served from *GitHub Pages*.
+The sites are served from *GitHub Pages* at [**decidables.github.io**](https://decidables.github.io).
 
-- [**decidables**](https://decidables.github.io): Explorable Explanations of Decision Making
-  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/sites/decidables)
-  - The root site with overall info and links to the individual explorables
-- *Almost ready...* [***d′*ete*c*table**](https://decidables.github.io/detectable):
-  An Explorable Explanation of Signal Detection Theory
-  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/sites/detectable)
-- *In progress...* [**prospect*α*b*λ*e**](https://decidables.github.io/prospectable):
-  An Explorable Explanation of Cumulative Prospect Theory
-  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/sites/prospectable)
-- *Coming soon...* **dis*k*ountable**:
+- [<b>decidables</b>](https://decidables.github.io)<br>
+  Explorable Explanations of Decision Making<br>
+  The root site with overall info and links to the individual explorables<br>
+  [(source)](https://github.com/decidables/decidables/tree/main/sites/decidables)
+- *Almost ready...*
+  [<b><i>d′</i>ete<i>c</i>table</b>](https://decidables.github.io/detectable)<br>
+  An Explorable Explanation of Signal Detection Theory<br>
+  [(source)](https://github.com/decidables/decidables/tree/main/sites/detectable)
+- *In progress...*
+  [<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable)<br>
+  An Explorable Explanation of Cumulative Prospect Theory<br>
+  [(source)](https://github.com/decidables/decidables/tree/main/sites/prospectable)
+- *Coming soon...*
+  <b>dis<i>k</i>ountable</b><br>
   An Explorable Explanation of Hyperbolic Temporal Discounting
 
 ## Libraries
@@ -28,76 +34,65 @@ The sites are served from *GitHub Pages*.
 The libraries are published to *npm* in the
 [**`@decidables`**](https://www.npmjs.com/search?q=%40decidables) scope.
 
-- [**`decidables-elements`**](https://www.npmjs.com/package/@decidables/decidables-elements):
-  Web components for UI elements used across all packages
-  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/libraries/decidables-elements)
-- [**`detectable-math`**](https://www.npmjs.com/package/@decidables/detectable-math):
-  Provides a class with equations for calculating Signal Detection Theory
-  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/libraries/detectable-math)
-- [**`detectable-elements`**](https://www.npmjs.com/package/@decidables/detectable-elements):
-  Web components for exploring Signal Detection Theory
-  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/libraries/detectable-elements)
-- *In progress...* **`prospectable-math`**:
-  Provides a class with equations for calculating Cumulative Prospect Theory
-  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/libraries/prospectable-math)
-- *In progress...* **`prospectable-elements`**:
-  Web components for exploring Cumulative Prospect Theory
-  [(GitHub directory)](https://github.com/decidables/decidables/tree/main/libraries/prospectable-elements)
-- *Coming soon...* **`discountable-math`**:
+- [**`decidables-elements`**](https://www.npmjs.com/package/@decidables/decidables-elements)<br>
+  Web components for UI elements used across all packages<br>
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/decidables-elements)
+- [**`detectable-math`**](https://www.npmjs.com/package/@decidables/detectable-math)<br>
+  Provides a class with equations for calculating Signal Detection Theory<br>
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/detectable-math)
+- [**`detectable-elements`**](https://www.npmjs.com/package/@decidables/detectable-elements)<br>
+  Web components for exploring Signal Detection Theory<br>
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/detectable-elements)
+- *In progress...* **`prospectable-math`**<br>
+  Provides a class with equations for calculating Cumulative Prospect Theory<br>
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/prospectable-math)
+- *In progress...* **`prospectable-elements`**<br>
+  Web components for exploring Cumulative Prospect Theory<br>
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/prospectable-elements)
+- *Coming soon...* **`discountable-math`**<br>
   Provides a class with equations for calculating Hyperbolic Temporal Discounting
-- *Coming soon...* **`discountable-elements`**:
+- *Coming soon...* **`discountable-elements`**<br>
   Web components for exploring Hyperbolic Temporal Discounting
 
-## Style Guide
+## Development
 
-- Within a page:
-  - Headings start at H2, only first letter is capitalized
-  - *Italics* used for emphasis
-  - :key[] keyword
-  - :ui[] user interface component
-  - :term[] terminology
+Dependencies updated 17/1/2022.
 
-## Features/Bugs/Notes
+### Features/Bugs/Notes
 
-- testing!
-  - @web/test-runner + @open-wc/testing
-  - Would really like to use @testing-library/dom for interface testing!
-- versioning & publishing
-  - lerna + conventional-changelog-conventionalcommits
-  - husky + @commitlint/cli + @commitlint/config-conventional + vscode-conventional-commits
-- use APA v7 (https://github.com/citation-style-language/styles)
-- use eslint-plugin-lit? (https://www.npmjs.com/package/eslint-plugin-lit)
-- use eslint-plugin-wc? (https://github.com/43081j/eslint-plugin-wc)
-- Add top-level decidables website
-- use focused imports to better support tree shaking?
-- Libraries:
-  - Proper outputs?
-    - UMD bundle in ES5
-    - ES bundle in ES6
-    - ES unbundled in ES6+
+- Can we use *@testing-library/dom* for interface testing?
+- Use APA v7 (https://github.com/citation-style-language/styles)
+- Use *eslint-plugin-lit*? (https://www.npmjs.com/package/eslint-plugin-lit)
+- Use *eslint-plugin-wc*? (https://github.com/43081j/eslint-plugin-wc)
+- Use more focused imports to better support tree shaking?
+- Libraries
+  - Revisit proper targets?
   - How to create tree-shakable imports with web components
     - Issue: classes aren't used in JS, but registered components *are* used!
-    - Maybe: (1) No sideEffects false, (2) Always import needed classes, (3) Always import from
-      specific file?
-  - licenses!
-  - npm versioning & publishing
+    - Maybe:
+      1. No sideEffects false
+      2. Always import needed classes
+      3. Always import from specific file?
 - Update About pages!
-- include preparePlotly in compile step?
-- get eslint, remark-lint, and stylelint working in editor
-  - need eslint overrides for dev scripts versus browser scripts
+- Include `preparePlotly` in compile step?
+- Get *remark-lint* working in editor
 - Linting and transpiling in tagged template literals?
-- Change 'browserslist' to `last 1 version, not dead, > 0.2%`?
+- Change `browserslist` to `last 1 version, not dead, > 0.2%`?
 - Clean way for inter-page references?
-- Use something else instead of inline code for terms
-  - New remark-span! [content]{attributes}
-- More generally, use a different method to mark "UI elements", "keywords", "math", etc...
-  - Use remark-span for all of these: [UI element]{.ui} [keyword]{.key} [math]{.math} etc...
-- Add "ui" blocks for explaining UI stuff that isn't "real" content
-  - :::{.ui} :::
+- Add "ui" blocks for explaining UI stuff that isn't "real" content?
+  ```
+  :::ui
+  Content about UI
+  :::
+  ```
 - Add "question" blocks for thoughts for readers to try - maybe with foldout answers?
-  - :::{.question} :::
+  ```
+  :::question[Question?]
+  Answer
+  :::
+  ```
 
-## Compatibility Goals
+### Compatibility Goals
 
 - Desktop (Current & Current-1)
   - Chrome
@@ -111,11 +106,20 @@ The libraries are published to *npm* in the
   - Safari on iOS
   - Other browser and/or other mobile OS?
 
-## Development Tooling
+### Style Guide
 
-Dependencies updated 17/1/2022.
+- Within a page:
+  - Headings start at `H2`, only first letter is capitalized
+  - *Italics* used for emphasis
+  - Using *remark-directive*:
+    - `:cite[]` citations
+    - `:key[]` keywords
+    - `:ui[]` user interface components
+    - `:term[]` terminology
 
 ### Global Tools
+
+**Note:** If not on Windows, replace `choco` with OS package manager of choice 
 
 #### Install
 
@@ -129,7 +133,7 @@ Dependencies updated 17/1/2022.
 
 - `choco upgrade all`
 
-### Local Commands
+### Package Scripts
 
 #### Install
 
@@ -226,7 +230,7 @@ Dependencies updated 17/1/2022.
 - `yarn upgrade-interactive`
   - Manual upgrade to newer dependencies, with option to ignore semver
 
-## File Organization
+### File Organization
 
 - `decidables/`
   - `.git/` (Repository for *git*) **[autogenerated]**
@@ -253,3 +257,10 @@ Dependencies updated 17/1/2022.
   - `package.json` (Overall configuration for monorepo)
   - `README.md` (This file)
   - `yarn.lock` (Proprietary file for tracking package installations by *yarn*) **[autogenerated]**
+
+## [License](https://github.com/decidables/decidables/blob/main/LICENSE.md)
+
+The content of this project is licensed under [Creative Commons Attribution-ShareAlike 4.0
+International License (CC-BY-SA-4.0)](https://creativecommons.org/licenses/by-sa/4.0/) and the
+source code of this project is licensed under [GNU General Public License v3.0 or any later version
+(GPL-3.0-or-later)](https://www.gnu.org/licenses/gpl-3.0.html).
