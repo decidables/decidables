@@ -5,8 +5,8 @@ toc:
     - {file: what, name: 'What'}
     - {file: why, name: 'Why'}
     - {file: how, name: 'How'}
-  bottom:
     - {file: references, name: 'References'}
+  bottom:
     - {file: credits, name: 'Credits'}
 ---
 <!doctype html>
@@ -60,11 +60,6 @@ toc:
           <li class="dec-nav-item">
             <span class="dec-nav-text">v<%- utilities.getPackageVersion() %></span>
           </li>
-          <li class="dec-nav-item">
-            <span class="dec-nav-text">(<%- utilities.getCurrentDate() %>)</span>
-          </li>
-        </ul>
-        <ul class="dec-nav-list">
           <% for (const page of toc.bottom) { %>
             <li class="dec-nav-item">
               <a class="dec-nav-link <%- (page.file === file) ? 'active' : '' %>" href="<%= (page.file !== 'index') ? `${page.file}.html` : './' %>">
@@ -72,6 +67,8 @@ toc:
               </a>
             </li>
           <% } %>
+        </ul>
+        <ul class="dec-nav-list">
           <li class="dec-nav-item">
             <a class="dec-nav-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
           </li>
