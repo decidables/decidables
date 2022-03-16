@@ -2,6 +2,13 @@
   "name": "@decidables/decidables-elements",
   "version": "0.0.4",
   "description": "decidables-elements: Basic UI Web Components for the decidables project",
+  "keywords": [
+    "web component",
+    "explorable explanation",
+    "explorable",
+    "decision making",
+    "decidables"
+  ],
   "type": "module",
   "main": "./lib/decidablesElements.umd.min.js",
   "browser": "./lib/decidablesElements.umd.min.js",

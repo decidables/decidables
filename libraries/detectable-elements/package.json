@@ -2,6 +2,18 @@
   "name": "@decidables/detectable-elements",
   "version": "0.0.3",
   "description": "detectable-elements: Web Components for visualizing Signal Detection Theory",
+  "keywords": [
+    "web component",
+    "explorable explanation",
+    "explorable",
+    "decision making",
+    "decidables",
+    "signal detection theory",
+    "receiver operating characteristic",
+    "roc",
+    "random dot kinematogram",
+    "detectable"
+  ],
   "type": "module",
   "main": "./lib/detectableElements.umd.min.js",
   "browser": "./lib/detectableElements.umd.min.js",
