@@ -208,9 +208,11 @@ Dependencies updated 17/1/2022.
 #### Deploy
 
 - `yarn deploy`
-  - Copy files for all sites from `dist/` to `decidables.github.io/` for GitHub Pages deployment
+  - Re-compile and build markdown (to grab new version) then copy files for all sites from `dist/`
+    to `decidables.github.io/` for GitHub Pages deployment
 - `yarn workspace @decidables/<site> deploy`
-  - Copy files for a single site from `dist/` to `decidables.github.io/` for GitHub Pages deployment
+  - Re-compile and build markdown (to grab new version) then copy files for a single site from
+    `dist/` to `decidables.github.io/` for GitHub Pages deployment
 
 #### Serve
 

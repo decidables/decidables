@@ -24,7 +24,8 @@ links to each of the individual explorables. It also provides high-level overvie
 - `yarn build`
   - Builds optimized project from `local/` to `dist/`
 - `yarn deploy`
-  - Copies files from `dist/` to top level server directory `decidables.github.io`
+  - Re-compile and build markdown (to grab new version) then copies files from `dist/` to top level
+    server directory `decidables.github.io`
 - `yarn serve`
   - Runs a basic http server, to serve `decidables/` (e.g. <http://localhost:8000/local/> or
     <http://localhost:8000/dist/>)
