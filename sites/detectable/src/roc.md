@@ -1,7 +1,7 @@
 ---
 title: 'The Receiver Operating Characteristic (ROC): Visualizing performance'
 layout: page
-script: index
+script: page
 ---
 
 ## ROC space

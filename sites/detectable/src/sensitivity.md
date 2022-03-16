@@ -1,7 +1,7 @@
 ---
 title: 'Iso-Sensitivity Curves: Visualizing Detector Performance'
 layout: page
-script: index
+script: page
 ---
 
 ## Calculating sensitivity from hit rate and false alarm rate

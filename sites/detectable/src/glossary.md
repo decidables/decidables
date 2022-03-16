@@ -1,7 +1,7 @@
 ---
 title: 'Glossary'
 layout: page
-script: index
+script: page
 ---
 
 ## Terminology

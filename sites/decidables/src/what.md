@@ -1,7 +1,7 @@
 ---
 title: 'What is <span class="decidables">decidables</span>?'
 layout: page
-script: index
+script: page
 ---
 
 The [<span class="decidables">decidables</span>](./) project is a collection of explorable

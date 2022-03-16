@@ -1,7 +1,7 @@
 ---
 title: 'Iso-Bias Curves: Visualizing Decision Criteria'
 layout: page
-script: index
+script: page
 ---
 
 ## Calculating bias from hit rate and false alarm rate

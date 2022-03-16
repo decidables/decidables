@@ -1,7 +1,7 @@
 ---
 title: 'References'
 layout: page
-script: index
+script: page
 ---
 
 ## Bibliography

@@ -1,7 +1,7 @@
 ---
 title: 'Task: Detecting a Signal in a Random Dot Kinematogram'
 layout: page
-script: index
+script: page
 ---
 
 ## A response

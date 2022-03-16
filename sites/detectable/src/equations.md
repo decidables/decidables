@@ -1,7 +1,7 @@
 ---
 title: 'Equations'
 layout: page
-script: index
+script: page
 ---
 
 ## Summarizing outcomes

@@ -1,7 +1,7 @@
 ---
 title: 'Measurement &amnp; Sensitivity: Towards a Theory of Performance'
 layout: page
-script: index
+script: page
 ---
 
 ## Measuring stimuli

@@ -3,7 +3,7 @@ title: '<span class="prospectable">
   prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>:
   An Explorable Explanation of Cumulative Prospect Theory'
 layout: page
-script: index
+script: page
 ---
 
 ## Introduction

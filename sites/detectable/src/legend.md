@@ -1,7 +1,7 @@
 ---
 title: 'Legend'
 layout: page
-script: index
+script: page
 ---
 
 ## Use of color
