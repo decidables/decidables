@@ -57,9 +57,11 @@
 - `yarn build`
   - Builds optimized project from `local/` to `dist/`
 - `yarn deploy`
-  - Copies files from `dist/` to server
+  - Re-compile and build markdown (to grab new version) then copies files from `dist/` to top level
+    server directory `decidables.github.io`
 - `yarn serve`
-  - Runs a basic http server, to serve `prospectable/` (e.g. <http://localhost:8000/local/> or <http://localhost:8000/dist/>)
+  - Runs a basic http server, to serve `prospectable/` (e.g. <http://localhost:8000/local/> or
+    <http://localhost:8000/dist/>)
 
 ---
 
