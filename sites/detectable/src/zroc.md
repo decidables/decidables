@@ -1,7 +1,7 @@
 ---
 title: '<span class="math-var">z</span>ROC Space: Transforming ROC space'
 layout: page
-script: index
+script: page
 ---
 
 ## A <span class="math-var">z</span>-transformed ROC space

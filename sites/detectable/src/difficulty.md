@@ -1,7 +1,7 @@
 ---
 title: 'Sensitivity Revisited: What Influences Sensitivity?'
 layout: page
-script: index
+script: page
 ---
 
 ## A harder task

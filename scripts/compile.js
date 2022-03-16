@@ -80,7 +80,7 @@ const pluginBabel = rollupPluginBabel.babel({
 export async function compileScripts() {
   const bundle = await rollup.rollup({
     cache: rollupCache,
-    input: 'src/index.js',
+    input: 'src/page.js',
     plugins: [
       pluginNodeResolve,
       pluginCommonjs,

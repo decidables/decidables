@@ -1,7 +1,7 @@
 ---
 title: 'Outcomes: Going Beyond Accuracy'
 layout: page
-script: index
+script: page
 ---
 
 ## Accuracy

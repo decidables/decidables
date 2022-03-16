@@ -1,7 +1,7 @@
 ---
 title: 'Conclusions: The Power of Simplicity'
 layout: page
-script: index
+script: page
 ---
 
 ## Further topics in SDT

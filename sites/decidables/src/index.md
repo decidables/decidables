@@ -1,7 +1,7 @@
 ---
 title: 'decidables'
 layout: page
-script: index
+script: page
 ---
 
 <!--lint ignore first-heading-level-->

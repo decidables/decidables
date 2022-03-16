@@ -1,7 +1,7 @@
 ---
 title: 'Bias Revisited: What Influences Bias?'
 layout: page
-script: index
+script: page
 ---
 
 ## When detecting hits is most important

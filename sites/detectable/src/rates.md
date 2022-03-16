@@ -1,7 +1,7 @@
 ---
 title: 'Tables &amp; Rates: Tabulating and Summarizing Task Performance'
 layout: page
-script: index
+script: page
 ---
 
 ## Tabulating outcomes

@@ -1,7 +1,7 @@
 ---
 title: 'Signal and Noise: Staring at Random Dot Kinematograms'
 layout: page
-script: index
+script: page
 ---
 
 ## Signal

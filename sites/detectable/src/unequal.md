@@ -1,7 +1,7 @@
 ---
 title: 'Unequal Variance Signal Detection Theory: Assumptions Revisited'
 layout: page
-script: index
+script: page
 ---
 
 ## Relaxing the equal variance assumption
