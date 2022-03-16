@@ -10,5 +10,9 @@
     }
   },
   "changelogPreset": "conventional-changelog-conventionalcommits",
-  "ignoreChanges": ["**/local/**", "**/dist/**"]
+  "ignoreChanges": [
+    "**/local/**",
+    "**/dist/**",
+    "**/test/**"
+  ]
 }
