@@ -1,31 +1,19 @@
 <!--lint ignore first-heading-level-->
 
-# decidables: Explorable Explanations of Decision Making
+# [<b>decidables</b>](https://decidables.github.io)<br>Explorable Explanations of Decision Making
 
-Top-level site to house *decidables*
+[![GitHub version](https://img.shields.io/github/package-json/v/decidables/decidables?filename=sites%2Fdecidables%2Fpackage.json&logo=github)](https:/decidables.github.io)
+[![license](https://img.shields.io/github/package-json/license/decidables/decidables?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
 
-## Outline
+The top-level website for [<b>decidables</b>](https://decidables.github.io). This website provides
+links to each of the individual explorables. It also provides high-level overviews of the *what*,
+*why* and *how* of the project.
 
-- *decidables*: Explorable Explanations of Decision Making
-  - Explorable explanations
-    - *detectable*: An Explorable Explanation of Signal Detection Theory
-    - *prospectable*: An Explorable Explanation of Cumulative Prospect Theory **[proposed]**
-    - *discountable*: An Explorable Explanation of Hyperbolic Temporal Discounting **[proposed]**
-  - What
-  - Why
-  - How
-  - Credits
-  - References
+## Development
 
----
+### Features/Bugs/Notes
 
-## Features/Bugs/Notes
-
----
-
-## Development Tooling
-
-### Local Scripts
+### Package Scripts
 
 - `yarn lint`
   - Lints markdown, scripts, and styles in `src/`
@@ -41,9 +29,7 @@ Top-level site to house *decidables*
   - Runs a basic http server, to serve `decidables/` (e.g. <http://localhost:8000/local/> or
     <http://localhost:8000/dist/>)
 
----
-
-## File Organization
+### File Organization
 
 - `decidables/`
   - `dist/` (Optimized files for distribution, created from `local` by `build`)
@@ -55,3 +41,10 @@ Top-level site to house *decidables*
   - `gulpfile.js` (Tasks for *gulp*)
   - `package.json` (Package config for *yarn* and *npm*)
   - `README.md` (This file)
+
+## [License](https://github.com/decidables/decidables/blob/main/LICENSE.md)
+
+The content of this project is licensed under [Creative Commons Attribution-ShareAlike 4.0
+International License (CC-BY-SA-4.0)](https://creativecommons.org/licenses/by-sa/4.0/) and the
+source code of this project is licensed under [GNU General Public License v3.0 or any later version
+(GPL-3.0-or-later)](https://www.gnu.org/licenses/gpl-3.0.html).
