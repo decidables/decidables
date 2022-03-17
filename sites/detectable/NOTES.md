@@ -41,4 +41,3 @@
     - Memory?
     - Medical diagnostics?
   - Conclusion
-
