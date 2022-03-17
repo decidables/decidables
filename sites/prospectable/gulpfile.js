@@ -31,9 +31,9 @@ export const lint = gulp.parallel(
 );
 
 export const compileFonts = compiles.compileFontsTask([
-  'source-code-pro/WOFF{,2}/OTF/SourceCodePro-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
-  'source-sans/WOFF{,2}/OTF/SourceSans3-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
-  'source-serif/WOFF{,2}/OTF/SourceSerif4-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+  'source-code-pro/WOFF{,2}/OTF/SourceCodePro-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+  'source-sans/WOFF{,2}/OTF/SourceSans3-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+  'source-serif/WOFF{,2}/OTF/SourceSerif4-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
 ]);
 
 export const compile = gulp.series(
