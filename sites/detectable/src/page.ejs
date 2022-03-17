@@ -57,60 +57,61 @@ toc:
       <div class="det-layout">
 
         <div class="det-sidebar">
-          <div class="det-nav-top">
-            <button class="det-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#det-nav" aria-controls="det-nav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"></path></svg>
-            </button>
-            <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+          <div class="det-nav-group">
+            <div class="det-nav-top">
+              <button class="det-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#det-nav" aria-controls="det-nav" aria-expanded="false" aria-label="Toggle table of contents">
+                <%- include(resolvePkg('bootstrap-icons/icons/list.svg')) %>
+              </button>
+              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+            </div>
+            <nav class="det-nav-collapse collapse" id="det-nav">
+              <ul class="det-toc det-toc-main">
+                <% for (var i=0; i < toc.main.length; i++) { %>
+                  <% if ((source == 'main') && (index == i)) { %>
+                    <li class="det-toc-item det-toc-item-active">
+                  <% } else { %>
+                    <li class="det-toc-item">
+                  <% } %>
+                      <a class="det-toc-link" href="<%= toc.main[i].file %>.html">
+                        <%- toc.main[i].name %>
+                      </a>
+                    </li>
+                <% } %>
+              </ul>
+              <ul class="det-toc det-toc-extra">
+                <% for (var i=0; i < toc.extra.length; i++) { %>
+                  <% if ((source == 'extra') && (index == i)) { %>
+                    <li class="det-toc-item det-toc-item-active">
+                  <% } else { %>
+                    <li class="det-toc-item">
+                  <% } %>
+                      <a class="det-toc-link" href="<%= toc.extra[i].file %>.html">
+                        <%- toc.extra[i].name %>
+                      </a>
+                    </li>
+                <% } %>
+              </ul>
+              <ul class="det-toc det-toc-external">
+                <li class="det-toc-item">
+                  <span class="det-toc-text">v<%- utilities.getPackageVersion() %></span>
+                </li>
+                <li class="det-toc-item">
+                  <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                </li>
+                <li class="det-toc-item">
+                  <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                </li>
+                <li class="det-toc-item">
+                  <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
+                    <%- include(resolvePkg('bootstrap-icons/icons/github.svg')) %>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
-          <nav class="det-nav-collapse collapse" id="det-nav">
-            <ul class="det-toc det-toc-main">
-              <% for (var i=0; i < toc.main.length; i++) { %>
-                <% if ((source == 'main') && (index == i)) { %>
-                  <li class="det-toc-item det-toc-item-active">
-                <% } else { %>
-                  <li class="det-toc-item">
-                <% } %>
-                    <a class="det-toc-link" href="<%= toc.main[i].file %>.html">
-                      <%- toc.main[i].name %>
-                    </a>
-                  </li>
-              <% } %>
-            </ul>
-            <ul class="det-toc det-toc-extra">
-              <% for (var i=0; i < toc.extra.length; i++) { %>
-                <% if ((source == 'extra') && (index == i)) { %>
-                  <li class="det-toc-item det-toc-item-active">
-                <% } else { %>
-                  <li class="det-toc-item">
-                <% } %>
-                    <a class="det-toc-link" href="<%= toc.extra[i].file %>.html">
-                      <%- toc.extra[i].name %>
-                    </a>
-                  </li>
-              <% } %>
-            </ul>
-            <ul class="det-toc det-toc-external">
-              <li class="det-toc-item">
-                <span class="det-toc-text">v<%- utilities.getPackageVersion() %></span>
-              </li>
-              <li class="det-toc-item">
-                <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
-              </li>
-              <li class="det-toc-item">
-                <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
-              </li>
-              <li class="det-toc-item">
-                <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
-                  <%- include(resolvePkg('bootstrap-icons/icons/github.svg')) %>
-                </a>
-              </li>
-            </ul>
-            <ul class="det-toc det-toc-decidables">
-              <li class="det-toc-item">
-                <a class="det-toc-link" href="../"><span class="decidables">decidables</span></a>
-              </li>
-            </ul>
-          </nav>
+          <div class="det-nav-bottom">
+            <a class="det-nav-decidables" href="../"><span class="decidables">decidables</span></a>
+          </div>
         </div>
 
         <main class="det-main">
