@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html class="det-html" lang="en">
   <head>
     
     <meta charset="utf-8">
@@ -11,221 +11,249 @@
 
     <link href="page.css" rel="stylesheet">
   </head>
-  <body>
-    <div class="sdt-page">
-      <div class="sdt-layout">
+  <body class="det-body">
+    <div class="det-page">
+      <div class="det-layout">
 
-        <div class="sdt-sidebar">
-          <div class="sdt-brandnav">
-            <button class="sdt-tocnav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#sdt-tocnav" aria-controls="sdt-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"></path></svg>
-            </button>
-            <a class="sdt-brand-link" href="index.html"><span class="sdt-detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+        <div class="det-sidebar">
+          <div class="det-nav-group">
+            <div class="det-nav-top">
+              <button class="det-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#det-nav" aria-controls="det-nav" aria-expanded="false" aria-label="Toggle table of contents">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+</svg>
+              </button>
+              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+            </div>
+            <nav class="det-nav-collapse collapse" id="det-nav">
+              <ul class="det-toc det-toc-main">
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="signal.html">
+                        Signal &amp; Noise
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="task.html">
+                        Task
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="outcomes.html">
+                        Outcomes
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item det-toc-item-active">
+                  
+                      <a class="det-toc-link" href="rates.html">
+                        Tables &amp; Rates
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="roc.html">
+                        ROC Space
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="measurement.html">
+                        Measurement &amp; Sensitivity
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="threshold.html">
+                        Threshold &amp; Bias
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="sdt.html">
+                        SDT
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="sensitivity.html">
+                        Iso-Sensitivity Curves
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="bias.html">
+                        Iso-Bias Curves
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="exploration.html">
+                        Model Exploration
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="fitting.html">
+                        Model Fitting
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="prediction.html">
+                        Model Predictions
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="difficulty.html">
+                        Sensitivity &amp; Difficulty
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="incentive.html">
+                        Bias &amp; Incentive
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="zroc.html">
+                        <span class="math-var">z</span>ROC Space
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="unequal.html">
+                        Unequal Variance
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="conclusion.html">
+                        Conclusions
+                      </a>
+                    </li>
+                
+              </ul>
+              <ul class="det-toc det-toc-extra">
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="legend.html">
+                        Legend
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="glossary.html">
+                        Glossary
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="equations.html">
+                        Equations
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="references.html">
+                        References
+                      </a>
+                    </li>
+                
+                  
+                    <li class="det-toc-item">
+                  
+                      <a class="det-toc-link" href="about.html">
+                        About
+                      </a>
+                    </li>
+                
+              </ul>
+              <ul class="det-toc det-toc-external">
+                <li class="det-toc-item">
+                  <span class="det-toc-text">v0.0.3</span>
+                </li>
+                <li class="det-toc-item">
+                  <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                </li>
+                <li class="det-toc-item">
+                  <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                </li>
+                <li class="det-toc-item">
+                  <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+</svg>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
-          <nav class="sdt-tocnav collapse" id="sdt-tocnav">
-            <ul class="sdt-toc">
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-1">
-                
-                    <a class="sdt-toclink" href="index.html">
-                      Introduction
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-2">
-                
-                    <a class="sdt-toclink" href="signal.html">
-                      Signal &amp; Noise
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-3">
-                
-                    <a class="sdt-toclink" href="task.html">
-                      Task
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-4">
-                
-                    <a class="sdt-toclink" href="outcomes.html">
-                      Outcomes
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-5 sdt-tocitem-active">
-                
-                    <a class="sdt-toclink" href="rates.html">
-                      Tables &amp; Rates
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-6">
-                
-                    <a class="sdt-toclink" href="roc.html">
-                      ROC Space
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-7">
-                
-                    <a class="sdt-toclink" href="measurement.html">
-                      Measurement &amp; Sensitivity
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-8">
-                
-                    <a class="sdt-toclink" href="threshold.html">
-                      Threshold &amp; Bias
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-9">
-                
-                    <a class="sdt-toclink" href="sdt.html">
-                      SDT
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-10">
-                
-                    <a class="sdt-toclink" href="sensitivity.html">
-                      Iso-Sensitivity Curves
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-11">
-                
-                    <a class="sdt-toclink" href="bias.html">
-                      Iso-Bias Curves
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-12">
-                
-                    <a class="sdt-toclink" href="exploration.html">
-                      Model Exploration
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-13">
-                
-                    <a class="sdt-toclink" href="fitting.html">
-                      Model Fitting
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-14">
-                
-                    <a class="sdt-toclink" href="prediction.html">
-                      Model Predictions
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-15">
-                
-                    <a class="sdt-toclink" href="difficulty.html">
-                      Sensitivity &amp; Difficulty
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-16">
-                
-                    <a class="sdt-toclink" href="incentive.html">
-                      Bias &amp; Incentive
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-17">
-                
-                    <a class="sdt-toclink" href="zroc.html">
-                      <span class="math-var">z</span>ROC Space
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-18">
-                
-                    <a class="sdt-toclink" href="unequal.html">
-                      Unequal Variance
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-main sdt-tocitem-19">
-                
-                    <a class="sdt-toclink" href="conclusion.html">
-                      Conclusions
-                    </a>
-                  </li>
-              
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-1">
-                
-                    <a class="sdt-toclink" href="legend.html">
-                      Legend
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-2">
-                
-                    <a class="sdt-toclink" href="glossary.html">
-                      Glossary
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-3">
-                
-                    <a class="sdt-toclink" href="equations.html">
-                      Equations
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-4">
-                
-                    <a class="sdt-toclink" href="references.html">
-                      References
-                    </a>
-                  </li>
-              
-                
-                  <li class="sdt-tocitem sdt-tocitem-extra sdt-tocitem-5">
-                
-                    <a class="sdt-toclink" href="about.html">
-                      About
-                    </a>
-                  </li>
-              
-            </ul>
-          </nav>
+          <div class="det-nav-bottom">
+            <a class="det-nav-decidables" href="../"><span class="decidables">decidables</span></a>
+          </div>
         </div>
 
-        <main class="sdt-main">
+        <main class="det-main">
           <header>
             <h1>Tables &amp; Rates: Tabulating and Summarizing Task Performance</h1>
           </header>
-          <section class="sdt-content">
+          <section class="det-content">
             <h2>Tabulating outcomes</h2>
 <p>When we perform a block of trials, we can count how many times each of our four types of outcomes
 occurred:</p>
@@ -333,15 +361,15 @@ reader, are on to something important, which the next few pages will bring into 
 
           </section>
 
-          <footer class="sdt-footer">
-            <div class="sdt-footer-item sdt-footer-item-left">
+          <footer class="det-footer">
+            <div class="det-footer-item det-footer-item-left">
               
-                <a class="sdt-toclink" href="outcomes.html">&lt; Outcomes</a>
+                <a class="det-toc-link" href="outcomes.html">&lt; Outcomes</a>
               
             </div>
-            <div class="sdt-footer-item sdt-footer-item-right">
+            <div class="det-footer-item det-footer-item-right">
               
-                <a class="sdt-toclink" href="roc.html">ROC Space &gt;</a>
+                <a class="det-toc-link" href="roc.html">ROC Space &gt;</a>
               
             </div>
           </footer>
