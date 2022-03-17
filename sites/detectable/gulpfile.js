@@ -34,9 +34,12 @@ export const compile = gulp.series(
   cleans.cleanLocal,
   gulp.parallel(
     compiles.compileFontsTask([
-      'source-code-pro/WOFF{,2}/OTF/SourceCodePro-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
-      'source-sans/WOFF{,2}/OTF/SourceSans3-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
-      'source-serif/WOFF{,2}/OTF/SourceSerif4-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+      'source-code-pro/WOFF{,2}/OTF/SourceCodePro-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+      'source-sans/WOFF{,2}/OTF/SourceSans3-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+      'source-serif/WOFF{,2}/OTF/SourceSerif4-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+      'source-code-pro/WOFF{,2}/VAR/SourceCodeVariable-{Roman,Italic}.otf.woff{,2}',
+      'source-sans/WOFF{,2}/VAR/SourceSans3VF-{Roman,Italic}.otf.woff{,2}',
+      'source-serif/WOFF{,2}/VAR/SourceSerif4Variable-{Roman,Italic}.otf.woff{,2}',
     ]),
     compiles.compileMarkdown,
     compiles.compileScripts,
