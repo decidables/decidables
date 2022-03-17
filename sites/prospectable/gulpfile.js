@@ -30,26 +30,30 @@ export const lint = gulp.parallel(
   lints.lintStyles,
 );
 
+export const compileFonts = compiles.compileFontsTask([
+  'source-code-pro/WOFF{,2}/OTF/SourceCodePro-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+  'source-sans/WOFF{,2}/OTF/SourceSans3-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+  'source-serif/WOFF{,2}/OTF/SourceSerif4-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
+]);
+
 export const compile = gulp.series(
   cleans.cleanLocal,
   gulp.parallel(
-    compiles.compileFontsTask([
-      'source-code-pro/WOFF{,2}/OTF/SourceCodePro-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
-      'source-sans/WOFF{,2}/OTF/SourceSans3-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
-      'source-serif/WOFF{,2}/OTF/SourceSerif4-{,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
-    ]),
+    compileFonts,
     compiles.compileMarkdown,
     compiles.compileScripts,
     compiles.compileStyles,
   ),
 );
 
+export const watchLibraries = watches.watchLibrariesTask([
+  'decidables-elements',
+  'prospectable-math',
+  'prospectable-elements',
+]);
+
 export const watch = gulp.parallel(
-  watches.watchLibrariesTask([
-    'decidables-elements',
-    'prospectable-math',
-    'prospectable-elements',
-  ]),
+  watchLibraries,
   watches.watchMarkdown,
   watches.watchScripts,
   watches.watchStyles,
