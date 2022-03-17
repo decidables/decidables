@@ -1,10 +1,18 @@
-// Built-In Modules
+////////////////////////////////
+// BUILT-IN MODULES
 @use "sass:color";
 @use "sass:list";
 @use "sass:map";
 
-// FONTS
+////////////////////////////////
+// BOOTSTRAP INITIAL IMPORTS
+// Bootstrap 5 Configuration
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
 
+////////////////////////////////
+// FONTS
 $font-map: (
   // filename: (family, style, weight, stretch)
   SourceCodePro-Regular: ("Source Code", normal, 400, normal),
@@ -13,18 +21,29 @@ $font-map: (
   SourceCodePro-SemiboldIt: ("Source Code", italic, 600, normal),
   SourceCodePro-Bold: ("Source Code", normal, 700, normal),
   SourceCodePro-BoldIt: ("Source Code", italic, 700, normal),
+
   SourceSans3-Regular: ("Source Sans", normal, 400, normal),
   SourceSans3-It: ("Source Sans", italic, 400, normal),
   SourceSans3-Semibold: ("Source Sans", normal, 600, normal),
   SourceSans3-SemiboldIt: ("Source Sans", italic, 600, normal),
   SourceSans3-Bold: ("Source Sans", normal, 700, normal),
   SourceSans3-BoldIt: ("Source Sans", italic, 700, normal),
+
   SourceSerif4-Regular: ("Source Serif", normal, 400, normal),
   SourceSerif4-It: ("Source Serif", italic, 400, normal),
   SourceSerif4-Semibold: ("Source Serif", normal, 600, normal),
   SourceSerif4-SemiboldIt: ("Source Serif", italic, 600, normal),
   SourceSerif4-Bold: ("Source Serif", normal, 700, normal),
   SourceSerif4-BoldIt: ("Source Serif", italic, 700, normal),
+
+  SourceCodeVariable-Roman: ("Source Code Variable", normal, 200 900, normal),
+  SourceCodeVariable-Italic: ("Source Code Variable", italic, 200 900, normal),
+
+  SourceSans3VF-Roman: ("Source Sans Variable", normal, 200 900, normal),
+  SourceSans3VF-Italic: ("Source Sans Variable", italic, 200 900, normal),
+
+  SourceSerif4Variable-Roman: ("Source Serif Variable", normal, 200 900, normal),
+  SourceSerif4Variable-Italic: ("Source Serif Variable", italic, 200 900, normal),
 );
 
 @each $file, $font-list in $font-map {
@@ -37,10 +56,57 @@ $font-map: (
   }
 }
 
+// SASS variables
+$font-family-serif: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
+$font-family-sans-serif: "Source Sans Variable", "Source Sans", sans-serif;
+$font-family-monospace: "Source Code Variable", "Source Code", monospace;
 
+$font-family-base: $font-family-sans-serif;
+$font-family-code: $font-family-monospace;
+$font-family-math: $font-family-serif; // Not in Bootstrap
+
+$font-weight-normal: 400;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+$font-size-main: 1.125rem; // Not in Bootstrap
+
+// CSS variables
+:root { /* stylelint-disable-line no-duplicate-selectors */
+  --font-family-base: #{$font-family-base};
+  --font-family-math: #{$font-family-math};
+  --font-family-code: #{$font-family-code};
+  --font-family-serif: #{$font-family-serif};
+  --font-family-sans-serif: #{$font-family-sans-serif};
+  --font-family-monospace: #{$font-family-monospace};
+}
+
+// Bootstrap utility
+$utilities: (
+  "font-family": (
+    property: font-family,
+    class: font,
+    values: (
+      serif: var(--font-family-serif),
+      sans-serif: var(--font-family-sans-serif),
+      monospace: var(--font-family-monospace),
+    ),
+  ),
+  "font-weight": (
+    property: font-weight,
+    class: fw,
+    values: (
+      normal: $font-weight-normal,
+      semibold: $font-weight-semibold,
+      bold: $font-weight-bold,
+    ),
+  ),
+);
+
+////////////////////////////////
 // COLOR
 
-// SCSS variables
+// SASS variables
 // http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
 $color-map: (
   h: #4daf4a, // green (CB3)
@@ -72,9 +138,8 @@ $color-map: (
   @return color.mix(#000000, map.get($color-map, $name), 50%);
 }
 
-// Greys:
+// Greys
 $color-grey-base: #999999; // baseline grey
-
 $color-white: #ffffff; // 100% lightness #ffffff
 $color-grey-light75: color.mix(#ffffff, $color-grey-base, 75%); // 90% lightness #e6e6e6
 $color-grey-light50: color.mix(#ffffff, $color-grey-base, 50%); // 80% lightness #cccccc
@@ -85,14 +150,14 @@ $color-grey-dark50: color.mix(#000000, $color-grey-base, 50%); // 30% lightness 
 $color-grey-dark75: color.mix(#000000, $color-grey-base, 75%); // 15% lightness #262626
 $color-black: #000000;  // 0% lightness #000000
 
-// Bootstrap SCSS variables
+// Bootstrap SASS variables
 $body-bg: $color-white;
 $border-color: $color-grey-light75;
 $body-color: $color-grey-dark75;
 $link-color: $color-grey-dark25;
 $link-hover-color: $color-grey-dark50;
 
-// Derived SCSS variables
+// SASS variables
 $color-background: #{$body-bg};
 $color-border: #{$border-color};
 $color-text: #{$body-color};
@@ -106,7 +171,7 @@ $color-element-border: #{$color-grey-dark50};
 $color-element-emphasis: #{$color-grey-dark75};
 
 // CSS variables
-:root {
+:root { /* stylelint-disable-line no-duplicate-selectors */
   @each $name in map-keys($color-map) {
     --color-#{$name}: #{sdt-color($name)};
     --color-#{$name}-light: #{sdt-color-light($name)};
@@ -125,61 +190,22 @@ $color-element-emphasis: #{$color-grey-dark75};
   --color-element-emphasis: #{$color-element-emphasis};
 }
 
-// TODO
-// cleanup Links
-
-// Bootstrap options
-$enable-rfs: false;
-
-// BOOTSTRAP VARIABLES
-$font-family-base: "Source Sans", sans-serif;
-$grid-gutter-width: 2rem;
-$border-width: 1px;
-$border-radius: 0.25rem;
-$link-decoration: none;
-$link-hover-decoration: underline;
-
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1590px
-);
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px,
-  xxl: 1560px
-);
-
-
-// SCSS VARIABLES
-$font-family-math: "Source Serif", serif; // Not in Bootstrap
-$font-family-code: "Source Code", monospace; // Not in Bootstrap
-$font-family-serif: "Source Serif", serif; // Not in Bootstrap
-$font-family-sans: "Source Sans", sans-serif; // Not in Bootstrap
-$font-family-mono: "Source Code", monospace; // Not in Bootstrap
-$border: $border-width solid $border-color;
-$transition-duration: 500ms;
-
-// Shadows based on Material Design
+////////////////////////////////
+// SHADOWS
+// Based on Material Design
 // https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
 $shadow-baseline-color: #000000;
 $shadow-umbra-opacity: 0.2;
 $shadow-penumbra-opacity: 0.14;
 $shadow-ambient-opacity: 0.12;
 $shadow-opacity-boost: 0.2;
-
 $shadow-umbra-map: (
   0: "0px 0px 0px 0px",
   2: "1.5px 3px 1px -2px",
   4: "1px 2px 4px -1px",
   8: "2.5px 5px 5px -3px",
-  16: "4px 8px 10px -5px");
-
+  16: "4px 8px 10px -5px"
+);
 $shadow-penumbra-map: (
   0: "0px 0px 0px 0px",
   2: "1px 2px 2px 0px",
@@ -187,7 +213,6 @@ $shadow-penumbra-map: (
   8: "4px 8px 10px 1px",
   16: "8px 16px 24px 2px"
 );
-
 $shadow-ambient-map: (
   0: "0px 0px 0px 0px",
   2: "0.5px 1px 5px 0px",
@@ -211,27 +236,50 @@ $shadow-ambient-map: (
     #{$shadow-ambient} #{$shadow-ambient-color};
 }
 
+////////////////////////////////
+// OTHER
+// Bootstrap SASS variables
+$border-radius: 0.25rem;
+$border-width: 1px;
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1560px
+);
+$container-padding-x: 1rem;
+$enable-rfs: false;
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1590px
+);
+$grid-gutter-width: 2rem;
+$link-decoration: none;
+$link-hover-decoration: underline;
 
-// CSS VARIABLES for SDT
+// SASS variables
+$border: $border-width solid $border-color;
+$transition-duration: 500ms;
+
+// CSS variables
 :root { /* stylelint-disable-line no-duplicate-selectors */
-  --font-family-base: #{$font-family-base};
-  --font-family-math: #{$font-family-math};
-  --font-family-code: #{$font-family-code};
-  --font-family-serif: #{$font-family-serif};
-  --font-family-sans: #{$font-family-sans};
-  --font-family-mono: #{$font-family-mono};
   --border: #{$border};
   --border-radius: #{$border-radius};
   --transition-duration: #{$transition-duration};
 }
 
-
+////////////////////////////////
 // BOOTSTRAP IMPORTS
 /* stylelint-disable no-invalid-position-at-import-rule */
 // Bootstrap 5 Configuration
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
+// @import "~bootstrap/scss/functions";
+// @import "~bootstrap/scss/variables";
+// @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/utilities";
 
 // Bootstrap 5 Layout & components
@@ -274,30 +322,9 @@ $shadow-ambient-map: (
 @import "~bootstrap/scss/utilities/api";
 /* stylelint-enable no-invalid-position-at-import-rule */
 
-
-// CUSTOM CSS
-
-// Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
-html {
-  font-size: 1rem;
-}
-
-@include media-breakpoint-down(md) {
-  html {
-    font-size: 0.9rem;
-  }
-}
-
-@include media-breakpoint-down(sm) {
-  html {
-    font-size: 0.8rem;
-  }
-}
-
-body {
-  font-size: 1.125rem;
-}
-
+////////////////////////////////
+// SEMANTIC BOOTSTRAP
+// Content
 .math-var {
   font-family: $font-family-math;
   font-style: italic;
@@ -308,16 +335,50 @@ body {
   font-style: normal;
 }
 
-// CLEAN
-.sdt-page {
+.detectable {
+  font-family: $font-family-sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+
+.decidables {
+  font-family: $font-family-sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+
+// Top-level
+// Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
+.det-html {
+  font-size: 1rem;
+}
+
+@include media-breakpoint-down(md) {
+  .det-html {
+    font-size: 0.9rem;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .det-html {
+    font-size: 0.8rem;
+  }
+}
+
+.det-body {
+  font-size: 1.125rem;
+}
+
+.det-page {
   @include make-container();
 }
 
-.sdt-layout {
+.det-layout {
   @include make-row();
 }
 
-.sdt-sidebar {
+// Sidebar
+.det-sidebar {
   @include make-col-ready();
   @include make-col(10, 10);
 
@@ -351,13 +412,9 @@ body {
 
     max-width: calc(100% * 2 / 12);
   }
-
-  .sdt-detectable {
-    font-size: 1.5rem;
-  }
 }
 
-.sdt-brandnav {
+.det-nav-top {
   position: relative;
   display: flex;
 
@@ -368,7 +425,7 @@ body {
   margin-left: calc($grid-gutter-width / -2);
 }
 
-.sdt-tocnav-toggle {
+.det-nav-toggler {
   @extend .btn;
   @extend .btn-link;
 
@@ -408,12 +465,13 @@ body {
   }
 }
 
-.sdt-brand-link {
+.det-nav-brand {
   @extend .navbar-brand;
 
   padding: 0 0.5rem;
   margin: 0;
 
+  font-size: 1.5rem;
   font-weight: 600;
   color: $color-text;
 
@@ -442,7 +500,7 @@ body {
   }
 }
 
-.sdt-tocnav {
+.det-nav-collapse {
   padding-top: 0.25rem;
   padding-bottom: 0.5rem;
   margin-right: calc($grid-gutter-width / -2);
@@ -460,21 +518,35 @@ body {
   }
 }
 
-.sdt-toc {
+.det-toc {
   @extend .nav;
 
   display: block;
 }
 
-.sdt-toclink {
+.det-toc-extra,
+.det-toc-external,
+.det-toc-decidables {
+  padding-top: 1rem;
+}
+
+.det-toc-decidables .decidables {
+  font-size: 1.5rem;
+}
+
+.det-toc-text,
+.det-toc-link {
   padding: 0.375rem 0.5rem;
 
   font-size: 1rem;
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1;
   color: $color-link;
 
   border-radius: 0.25rem;
+}
+
+.det-toc-link {
   outline: none;
 
   &:hover {
@@ -497,27 +569,24 @@ body {
     color: $color-text;
     text-decoration: none;
   }
-
 }
 
-.sdt-tocitem .sdt-toclink {
+
+.det-toc-item .det-toc-text,
+.det-toc-item .det-toc-link {
   display: block;
 
-  padding: 0.375rem 0.5rem;
   margin: 0 0.5rem;
 }
 
-.sdt-tocitem-active .sdt-toclink,
-.sdt-tocitem-active:hover .sdt-toclink {
+.det-toc-item-active .det-toc-link,
+.det-toc-item-active:hover .det-toc-link {
   font-weight: 700;
   color: $color-text;
 }
 
-.sdt-tocitem-extra.sdt-tocitem-1 {
-  padding-top: 1.25rem;
-}
-
-.sdt-main {
+// Main
+.det-main {
   @include make-col-ready();
   @include make-col(10, 10);
 
@@ -543,10 +612,37 @@ body {
   }
 }
 
-.sdt-content {
+// Footer
+.det-footer {
+  @include make-row();
+
+  padding-top: 1rem;
+
+  border-top: $border;
+}
+
+.det-footer-item {
+  @include make-col-ready();
+
+  flex: 0 0 auto;
+
+  width: auto;
+  max-width: none;
+  padding: 0 0.5rem;
+
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+
+  &.det-footer-item-left {
+    margin-right: auto;
+  }
+}
+
+// Page Content
+.det-content {
   padding-bottom: 1rem;
 
-  // STYLING FOR MARKDOWN
   h2 {
     padding-top: 1rem;
   }
@@ -561,7 +657,7 @@ body {
   .ui {
     padding: 0.0625rem 0.25rem;
 
-    font-family: $font-family-mono;
+    font-family: $font-family-monospace;
     font-size: 1rem;
     font-style: normal;
     font-weight: 600;
@@ -576,7 +672,7 @@ body {
   .key[class~="c"],
   .key[class~="d′"],
   .key[class~="σ"] {
-    font-family: $font-family-mono;
+    font-family: $font-family-monospace;
     font-style: italic;
   }
 
@@ -833,9 +929,8 @@ body {
   }
 }
 
-
-// Legend formatting
-.sdt-legend {
+// Legend
+.det-legend {
   dt {
     display: inline-block;
 
@@ -927,8 +1022,8 @@ body {
   }
 }
 
-// Glossary formatting to get the term and definition inline, with a hanging indent
-.sdt-glossary {
+// Glossary
+.det-glossary {
   margin-left: 2rem;
 
   dt {
@@ -951,31 +1046,5 @@ body {
     display: block;
 
     content: "";
-  }
-}
-
-.sdt-footer {
-  @include make-row();
-
-  padding-top: 1rem;
-
-  border-top: $border;
-}
-
-.sdt-footer-item {
-  @include make-col-ready();
-
-  flex: 0 0 auto;
-
-  width: auto;
-  max-width: none;
-  padding: 0 0.5rem;
-
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.1;
-
-  &.sdt-footer-item-left {
-    margin-right: auto;
   }
 }
