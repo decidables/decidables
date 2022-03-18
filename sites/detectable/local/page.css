@@ -8668,7 +8668,7 @@ progress {
 }
 .det-content .key[class~=SignalAbsent] {
   background-color: #cca7d1;
-  border: #984ea3;
+  border-color: #984ea3;
 }
 .det-content .key[class~=OutcomeHit] {
   background-color: #a6d7a5;
@@ -8870,6 +8870,10 @@ progress {
   color: #ffffff;
   background: gray;
   border-left: 1rem solid #000000;
+}
+.det-legend .nr {
+  background: #e6e6e6;
+  border-left: 1rem solid #cccccc;
 }
 
 .det-glossary {

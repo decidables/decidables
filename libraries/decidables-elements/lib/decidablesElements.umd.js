@@ -661,12 +661,12 @@
       key: "requestUpdate",
       value: function requestUpdate(t, i, s) {
         var e = !0;
-        void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || n$2)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$Ei !== t && (void 0 === this._$E_ && (this._$E_ = new Map()), this._$E_.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$Ep = this._$EC());
+        void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || n$2)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$Ei !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$Ep = this._$E_());
       }
     }, {
-      key: "_$EC",
+      key: "_$E_",
       value: function () {
-        var _$EC2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _$E_2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
           var t;
           return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
@@ -709,11 +709,11 @@
           }, _callee, this, [[1, 6]]);
         }));
 
-        function _$EC() {
-          return _$EC2.apply(this, arguments);
+        function _$E_() {
+          return _$E_2.apply(this, arguments);
         }
 
-        return _$EC;
+        return _$E_;
       }()
     }, {
       key: "scheduleUpdate",
@@ -781,9 +781,9 @@
       value: function update(t) {
         var _this5 = this;
 
-        void 0 !== this._$E_ && (this._$E_.forEach(function (t, i) {
+        void 0 !== this._$EC && (this._$EC.forEach(function (t, i) {
           return _this5._$ES(i, _this5[i], t);
-        }), this._$E_ = void 0), this._$EU();
+        }), this._$EC = void 0), this._$EU();
       }
     }, {
       key: "updated",
@@ -910,7 +910,7 @@
     mode: "open"
   }, null == h$1 || h$1({
     ReactiveElement: a$1
-  }), (null !== (s$2 = globalThis.reactiveElementVersions) && void 0 !== s$2 ? s$2 : globalThis.reactiveElementVersions = []).push("1.1.2");
+  }), (null !== (s$2 = globalThis.reactiveElementVersions) && void 0 !== s$2 ? s$2 : globalThis.reactiveElementVersions = []).push("1.3.1");
 
   /**
    * @license
@@ -947,7 +947,7 @@
       f = />|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g,
       _ = /'/g,
       m = /"/g,
-      g = /^(?:script|style|textarea)$/i,
+      g = /^(?:script|style|textarea|title)$/i,
       p = function p(t) {
     return function (i) {
       for (var _len = arguments.length, s = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -1236,23 +1236,23 @@
       key: "_$AI",
       value: function _$AI(t) {
         var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-        t = P(this, t, i), r(t) ? t === w || null == t || "" === t ? (this._$AH !== w && this._$AR(), this._$AH = w) : t !== this._$AH && t !== b && this.$(t) : void 0 !== t._$litType$ ? this.T(t) : void 0 !== t.nodeType ? this.S(t) : u(t) ? this.A(t) : this.$(t);
+        t = P(this, t, i), r(t) ? t === w || null == t || "" === t ? (this._$AH !== w && this._$AR(), this._$AH = w) : t !== this._$AH && t !== b && this.$(t) : void 0 !== t._$litType$ ? this.T(t) : void 0 !== t.nodeType ? this.k(t) : u(t) ? this.S(t) : this.$(t);
       }
     }, {
-      key: "M",
-      value: function M(t) {
+      key: "A",
+      value: function A(t) {
         var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this._$AB;
         return this._$AA.parentNode.insertBefore(t, i);
       }
     }, {
-      key: "S",
-      value: function S(t) {
-        this._$AH !== t && (this._$AR(), this._$AH = this.M(t));
+      key: "k",
+      value: function k(t) {
+        this._$AH !== t && (this._$AR(), this._$AH = this.A(t));
       }
     }, {
       key: "$",
       value: function $(t) {
-        this._$AH !== w && r(this._$AH) ? this._$AA.nextSibling.data = t : this.S(l$2.createTextNode(t)), this._$AH = t;
+        this._$AH !== w && r(this._$AH) ? this._$AA.nextSibling.data = t : this.k(l$2.createTextNode(t)), this._$AH = t;
       }
     }, {
       key: "T",
@@ -1265,7 +1265,7 @@
           var _t8 = new V(o, this),
               _i9 = _t8.p(this.options);
 
-          _t8.m(s), this.S(_i9), this._$AH = _t8;
+          _t8.m(s), this.k(_i9), this._$AH = _t8;
         }
       }
     }, {
@@ -1275,8 +1275,8 @@
         return void 0 === i && T.set(t.strings, i = new E(t)), i;
       }
     }, {
-      key: "A",
-      value: function A(t) {
+      key: "S",
+      value: function S(t) {
         d(this._$AH) || (this._$AH = [], this._$AR());
         var i = this._$AH;
         var s,
@@ -1288,7 +1288,7 @@
         try {
           for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
             var _o2 = _step3.value;
-            e === i.length ? i.push(s = new N(this.M(h()), this.M(h()), this, this.options)) : s = i[e], s._$AI(_o2), e++;
+            e === i.length ? i.push(s = new N(this.A(h()), this.A(h()), this, this.options)) : s = i[e], s._$AI(_o2), e++;
           }
         } catch (err) {
           _iterator3.e(err);
@@ -1355,11 +1355,11 @@
             _h = P(this, _e[s + _l], i, _l), _h === b && (_h = this._$AH[_l]), n || (n = !r(_h) || _h !== this._$AH[_l]), _h === w ? t = w : t !== w && (t += (null != _h ? _h : "") + o[_l + 1]), this._$AH[_l] = _h;
           }
         }
-        n && !e && this.k(t);
+        n && !e && this.C(t);
       }
     }, {
-      key: "k",
-      value: function k(t) {
+      key: "C",
+      value: function C(t) {
         t === w ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, null != t ? t : "");
       }
     }]);
@@ -1382,8 +1382,8 @@
     }
 
     _createClass(M, [{
-      key: "k",
-      value: function k(t) {
+      key: "C",
+      value: function C(t) {
         this.element[this.name] = t === w ? void 0 : t;
       }
     }]);
@@ -1391,7 +1391,7 @@
     return M;
   }(S);
 
-  var _k = i ? i.emptyScript : "";
+  var k = i ? i.emptyScript : "";
 
   var H = /*#__PURE__*/function (_S2) {
     _inherits(H, _S2);
@@ -1408,9 +1408,9 @@
     }
 
     _createClass(H, [{
-      key: "k",
-      value: function k(t) {
-        t && t !== w ? this.element.setAttribute(this.name, _k) : this.element.removeAttribute(this.name);
+      key: "C",
+      value: function C(t) {
+        t && t !== w ? this.element.setAttribute(this.name, k) : this.element.removeAttribute(this.name);
       }
     }]);
 
@@ -1476,7 +1476,7 @@
   }();
 
   var z = window.litHtmlPolyfillSupport;
-  null == z || z(E, N), (null !== (t = globalThis.litHtmlVersions) && void 0 !== t ? t : globalThis.litHtmlVersions = []).push("2.1.1");
+  null == z || z(E, N), (null !== (t = globalThis.litHtmlVersions) && void 0 !== t ? t : globalThis.litHtmlVersions = []).push("2.2.1");
 
   /**
    * @license
@@ -1546,7 +1546,7 @@
   null == n || n({
     LitElement: s
   });
-  (null !== (o = globalThis.litElementVersions) && void 0 !== o ? o : globalThis.litElementVersions = []).push("3.1.1");
+  (null !== (o = globalThis.litElementVersions) && void 0 !== o ? o : globalThis.litElementVersions = []).push("3.2.0");
 
   var noop = {
     value: function value() {}
