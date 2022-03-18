@@ -113,16 +113,21 @@ $color-map: (
   m: #ff7f00, // orange (CB5)
   fa: #377eb8, // blue (CB2)
   cr: #e41a1c, // red (CB1)
+
   hr: #ffff33, // yellow (CB6)
   far:#984ea3, // purple (CB4)
   acc: #999999, // grey (CB9)
+
   d: #f781bf, // pink (CB8)
   c: #a65628, // brown (CB7)
   s: #4545d0, // violet
+
   present: #f032e6, // magenta
   absent: #10dbc9, // cyan
+
   correct: #ffffff, // white
   error: #000000, // black
+
   nr: #cccccc, // grey-light50
 );
 
@@ -781,7 +786,7 @@ $transition-duration: 500ms;
 
   .key[class~="SignalAbsent"] {
     background-color: sdt-color-light(far);
-    border: sdt-color(far);
+    border-color: sdt-color(far);
   }
 
   .key[class~="OutcomeHit"] {
@@ -974,7 +979,6 @@ $transition-duration: 500ms;
     display: inline-block;
 
     width: 12rem;
-    // padding: 0.375rem 0.675rem;
     padding: 0.25rem 0.675rem;
 
     font-weight: 600;
@@ -1058,6 +1062,11 @@ $transition-duration: 500ms;
 
     background: sdt-color-light(error);
     border-left: 1rem solid sdt-color(error);
+  }
+
+  .nr {
+    background: sdt-color-light(nr);
+    border-left: 1rem solid sdt-color(nr);
   }
 }
 
