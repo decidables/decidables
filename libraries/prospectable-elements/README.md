@@ -1,4 +1,4 @@
-<!--lint ignore first-heading-level-->
+<!--lint ignore first-heading-level  maximum-heading-length-->
 
 # **`@decidables\prospectable-elements`**<br>Web Components for Visualizing Cumulative Prospect Theory in [<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable)
 
