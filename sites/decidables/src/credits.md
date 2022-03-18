@@ -11,8 +11,7 @@ script: page
 [HTML](https://html.spec.whatwg.org/),
 [SVG](https://www.w3.org/Graphics/SVG/),
 [CSS](https://www.w3.org/Style/CSS/),
-and
-[JavaScript](https://262.ecma-international.org/5.1/)
+and [JavaScript](https://262.ecma-international.org/5.1/)
 
 **Compiled from:**<br>
 [YAML](https://yaml.org/)
@@ -26,8 +25,7 @@ and [Citation.js](https://citation.js.org/),
 with [EJS](https://ejs.co/),
 [SCSS](https://sass-lang.com/)
 with [Dart Sass](https://sass-lang.com/dart-sass),
-and
-[ES.NEXT](https://tc39.es/ecma262/)
+and [ES.NEXT](https://tc39.es/ecma262/)
 with [Babel](https://babeljs.io/)
 and [rollup](https://rollupjs.org/)
 
@@ -38,8 +36,7 @@ and [rollup](https://rollupjs.org/)
 [jStat](https://github.com/jstat/jstat),
 [Lit](https://lit.dev/),
 [regenerator-runtime](http://facebook.github.io/regenerator/),
-and
-[webcomponents.js](https://github.com/WebComponents/webcomponentsjs)
+and [webcomponents.js](https://github.com/WebComponents/webcomponentsjs)
 
 **Decorated with:**<br>
 [APA 6th Edition](https://www.npmjs.com/package/style-apa) citation style
@@ -48,11 +45,9 @@ from the [Citation Style Language](https://citationstyles.org/) project,
 from [ColorBrewer](https://colorbrewer2.org/),
 [icons](https://icons.getbootstrap.com/#icons)
 from [Bootstrap Icons](https://icons.getbootstrap.com/),
-and
-[Source Code Pro](https://fonts.adobe.com/fonts/source-code-pro),
-[Source Sans](https://fonts.adobe.com/fonts/source-sans)
-and
-[Source Serif](https://fonts.adobe.com/fonts/source-serif) fonts
+and [Source Code Pro](https://fonts.adobe.com/fonts/source-code-pro),
+[Source Sans](https://fonts.adobe.com/fonts/source-sans),
+and [Source Serif](https://fonts.adobe.com/fonts/source-serif) fonts
 from [Adobe Originals](https://fonts.adobe.com/foundries/adobe)
 
 **Linted through:**<br>
@@ -60,20 +55,17 @@ from [Adobe Originals](https://fonts.adobe.com/foundries/adobe)
 [HTMLHint](https://htmlhint.com/),
 [Nu Html Checker](https://validator.github.io/validator/),
 [remark-lint](https://github.com/remarkjs/remark-lint),
-and
-[stylelint](https://stylelint.io/)
+and [stylelint](https://stylelint.io/)
 
 **Tested under:**<br>
 [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/)
-and
-[Open Web Components Testing Package](https://open-wc.org/docs/testing/testing-package/)
+and [Open Web Components Testing Package](https://open-wc.org/docs/testing/testing-package/)
 
 **Minified via:**<br>
 [cssnano](https://cssnano.co/),
 [htmlmin](https://htmlmin.readthedocs.io/),
 [PurgeCSS](https://purgecss.com/),
-and
-[terser](https://terser.org/)
+and [terser](https://terser.org/)
 
 **Built using:**<br>
 [Atom](https://atom.io/)
@@ -84,29 +76,25 @@ with [extensions](https://marketplace.visualstudio.com/VSCode),
 [Node.js](https://nodejs.org/)
 with [npm packages](https://www.npmjs.com/)
 via [Yarn](https://yarnpkg.com/),
-and
-[gulp](https://gulpjs.com/)
+and [gulp](https://gulpjs.com/)
 with [plugins](https://gulpjs.com/plugins/)
 
 **Hosted at:**<br>
 [GitHub](https://github.com/)
-as [`decidables/decidables`](https://github.com/decidables/decidables),
+as [**`decidables/decidables`**](https://github.com/decidables/decidables),
 
 **Published to:**<br>
 [GitHub Pages](https://pages.github.com/)
 with [GitHub Actions](https://docs.github.com/en/actions)
 as [<span class="decidables">decidables</span>](https://decidables.github.io/)
-and
-[npm](https://www.npmjs.com/)
+and [npm](https://www.npmjs.com/)
 with [lerna](https://github.com/lerna/lerna),
 [husky](https://typicode.github.io/husky/),
-and
-[commitlint](https://commitlint.js.org/)
-in the [`@decidables`](https://www.npmjs.com/search?q=%40decidables) scope
+and [commitlint](https://commitlint.js.org/)
+in the [**`@decidables`**](https://www.npmjs.com/search?q=%40decidables) scope
 
 **Licensed as:**<br>
 [Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA-4.0)](https://creativecommons.org/licenses/by-sa/4.0/)
-for content
-and
+for content and
 [GNU General Public License, Version 3 (GPL-3.0-or-later)](https://www.gnu.org/licenses/gpl-3.0.html)
 for code

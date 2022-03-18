@@ -7,17 +7,16 @@ script: page
 
 ## Credits
 
-**Created by:**  
+**Created by:**<br>
 [Adam Krawitz](https://web.uvic.ca/psyc/krawitz/)
 
-**Running in:**  
+**Running in:**<br>
 [HTML](https://html.spec.whatwg.org/),
-[CSS](https://www.w3.org/Style/CSS/),
 [SVG](https://www.w3.org/Graphics/SVG/),
-and
-[JavaScript](https://www.ecma-international.org/publications/standards/Ecma-262.htm)
+[CSS](https://www.w3.org/Style/CSS/),
+and [JavaScript](https://262.ecma-international.org/5.1/)
 
-**Compiled from:**  
+**Compiled from:**<br>
 [YAML](https://yaml.org/)
 with [front-matter](https://github.com/jxson/front-matter),
 [Markdown](https://spec.commonmark.org/)
@@ -28,49 +27,80 @@ and [Citation.js](https://citation.js.org/),
 [Embedded JavaScript](https://github.com/mde/ejs/blob/master/docs/syntax.md)
 with [EJS](https://ejs.co/),
 [SCSS](https://sass-lang.com/)
-with [LibSass](https://sass-lang.com/libsass),
-and
-[ECMAScript 2015+](https://babeljs.io/docs/en/learn.html)
+with [Dart Sass](https://sass-lang.com/dart-sass),
+and [ES.NEXT](https://tc39.es/ecma262/)
 with [Babel](https://babeljs.io/)
-and [browserify](http://browserify.org/)
+and [rollup](https://rollupjs.org/)
 
-**Depending on:**  
-[@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill),
+**Depending on:**<br>
 [Bootstrap](https://getbootstrap.com/),
+[core-js](https://github.com/zloirock/core-js),
 [D3](https://d3js.org/),
-[jQuery](https://jquery.com/),
 [jStat](https://github.com/jstat/jstat),
-[LitElement](https://lit-element.polymer-project.org/),
-[Popper.js](https://popper.js.org/),
-and
-[webcomponents.js](https://github.com/WebComponents/webcomponentsjs)
+[Lit](https://lit.dev/),
+[regenerator-runtime](http://facebook.github.io/regenerator/),
+and [webcomponents.js](https://github.com/WebComponents/webcomponentsjs)
 
-**Decorated with:**  
-[colors](http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9)
-from [ColorBrewer](http://colorbrewer2.org/),
-[Source Sans Pro](https://github.com/adobe-fonts/source-sans-pro)
-and
-[Source Serif Pro](https://github.com/adobe-fonts/source-serif-pro) fonts
-from [Adobe Originals](https://fonts.adobe.com/foundries/adobe),
-and
+**Decorated with:**<br>
 [APA 6th Edition](https://www.npmjs.com/package/style-apa) citation style
-from the [Citation Style Language](https://citationstyles.org/) project
+from the [Citation Style Language](https://citationstyles.org/) project,
+[colors](https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9)
+from [ColorBrewer](https://colorbrewer2.org/),
+[icons](https://icons.getbootstrap.com/#icons)
+from [Bootstrap Icons](https://icons.getbootstrap.com/),
+and [Source Code Pro](https://fonts.adobe.com/fonts/source-code-pro),
+[Source Sans](https://fonts.adobe.com/fonts/source-sans),
+and [Source Serif](https://fonts.adobe.com/fonts/source-serif) fonts
+from [Adobe Originals](https://fonts.adobe.com/foundries/adobe)
 
-**Linted through:**  
+**Linted through:**<br>
 [eslint](https://eslint.org/),
+[HTMLHint](https://htmlhint.com/),
+[Nu Html Checker](https://validator.github.io/validator/),
 [remark-lint](https://github.com/remarkjs/remark-lint),
-and
-[stylelint](https://stylelint.io/)
+and [stylelint](https://stylelint.io/)
 
-**Built using:**  
+**Tested under:**<br>
+[Web Test Runner](https://modern-web.dev/docs/test-runner/overview/)
+and [Open Web Components Testing Package](https://open-wc.org/docs/testing/testing-package/)
+
+**Minified via:**<br>
+[cssnano](https://cssnano.co/),
+[htmlmin](https://htmlmin.readthedocs.io/),
+[PurgeCSS](https://purgecss.com/),
+and [terser](https://terser.org/)
+
+**Built using:**<br>
 [Atom](https://atom.io/)
 with [packages](https://atom.io/packages),
+[VSCode](https://code.visualstudio.com/)
+with [extensions](https://marketplace.visualstudio.com/VSCode),
 [Git](https://git-scm.com/),
 [Node.js](https://nodejs.org/)
 with [npm packages](https://www.npmjs.com/)
 via [Yarn](https://yarnpkg.com/),
-and
-[gulp](https://gulpjs.com/)
+and [gulp](https://gulpjs.com/)
 with [plugins](https://gulpjs.com/plugins/)
 
-© [Adam Krawitz](https://web.uvic.ca/psyc/krawitz/) 2019
+**Hosted at:**<br>
+[GitHub](https://github.com/)
+in the [**`decidables/decidables`**](https://github.com/decidables/decidables) monorepo
+as [**`sites/detectable`**](https://github.com/decidables/decidables/tree/main/sites/detectable)
+
+**Published to:**<br>
+[GitHub Pages](https://pages.github.com/)
+with [GitHub Actions](https://docs.github.com/en/actions)
+as [<span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>](https://decidables.github.io/detectable/)
+and [npm](https://www.npmjs.com/)
+with [lerna](https://github.com/lerna/lerna),
+[husky](https://typicode.github.io/husky/),
+and [commitlint](https://commitlint.js.org/)
+as [**`@decidables/decidables-elements`**](https://www.npmjs.com/package/@decidables/decidables-elements),
+[**`@decidables/detectable-math`**](https://www.npmjs.com/package/@decidables/detectable-math),
+and [**`@decidables/detectable-elements`**](https://www.npmjs.com/package/@decidables/detectable-elements)
+
+**Licensed as:**<br>
+[Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA-4.0)](https://creativecommons.org/licenses/by-sa/4.0/)
+for content and
+[GNU General Public License, Version 3 (GPL-3.0-or-later)](https://www.gnu.org/licenses/gpl-3.0.html)
+for code
