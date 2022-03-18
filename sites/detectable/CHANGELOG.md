@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.2.2](https://github.com/decidables/decidables/compare/@decidables/detectable@0.2.1...@decidables/detectable@0.2.2) (2022-03-18)
+
+
+### Bug Fixes
+
+* **sites:** fix how code is styled ([ede80c9](https://github.com/decidables/decidables/commit/ede80c9c625f0bc324d5be16fec39d847ade93e3))
+
+
+
 ### [0.2.1](https://github.com/decidables/decidables/compare/@decidables/detectable@0.2.0...@decidables/detectable@0.2.1) (2022-03-18)
 
 
