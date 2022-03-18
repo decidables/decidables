@@ -8519,11 +8519,6 @@ progress {
   font-style: normal;
 }
 
-.csl-entry {
-  padding-left: 2rem;
-  text-indent: -2rem;
-}
-
 .decidables {
   font-family: "Source Sans Variable", "Source Sans", sans-serif;
   font-style: normal;
@@ -8608,6 +8603,10 @@ progress {
 }
 .dec-page .dec-main .tool {
   font-weight: 600;
+}
+.dec-page .dec-main .csl-entry {
+  padding-left: 2rem;
+  text-indent: -2rem;
 }
 
 .dec-site-wrapper {

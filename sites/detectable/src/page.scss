@@ -691,6 +691,15 @@ $transition-duration: 500ms;
     padding-top: 1rem;
   }
 
+  code {
+    padding: 0.125rem 0.25rem;
+
+    color: revert;
+
+    background-color: $color-element-background;
+    border-radius: $border-radius;
+  }
+
   // Terms
   .term {
     font-weight: 700;

@@ -8596,6 +8596,12 @@ progress {
 .det-content h2, .det-content .h2 {
   padding-top: 1rem;
 }
+.det-content code {
+  padding: 0.125rem 0.25rem;
+  color: revert;
+  background-color: #e6e6e6;
+  border-radius: 0.25rem;
+}
 .det-content .term {
   font-weight: 700;
 }

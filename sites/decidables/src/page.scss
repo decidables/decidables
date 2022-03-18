@@ -312,12 +312,6 @@ $transition-duration: 500ms;
   font-style: normal;
 }
 
-.csl-entry {
-  padding-left: 2rem;
-
-  text-indent: -2rem;
-}
-
 .decidables {
   font-family: $font-family-sans-serif;
   font-style: normal;
@@ -505,6 +499,12 @@ $transition-duration: 500ms;
 
   .tool {
     font-weight: $font-weight-semibold;
+  }
+
+  .csl-entry {
+    padding-left: 2rem;
+  
+    text-indent: -2rem;
   }
 }
 

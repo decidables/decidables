@@ -690,9 +690,17 @@ $transition-duration: 500ms;
 .pro-content {
   padding-bottom: 1rem;
 
-  // STYLING FOR MARKDOWN
   h2 {
     padding-top: 1rem;
+  }
+
+  code {
+    padding: 0.125rem 0.25rem;
+
+    color: revert;
+
+    background-color: $color-element-background;
+    border-radius: $border-radius;
   }
 
   // Terms
