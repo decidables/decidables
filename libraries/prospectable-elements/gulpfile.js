@@ -18,6 +18,7 @@ export * from '../../scripts/build.js';
 
 // Tasks
 export const lint = gulp.parallel(
+  lints.lintMarkdown,
   lints.lintScripts,
   lints.lintStyles,
 );
