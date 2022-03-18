@@ -5,9 +5,8 @@
 [![npm version](https://img.shields.io/npm/v/@decidables/detectable-math?logo=npm)](https://www.npmjs.com/package/@decidables/detectable-math)
 [![license](https://img.shields.io/npm/l/@decidables/detectable-math?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
 
-Helper functions for calculations related to Signal Detection Theory for [<b><i
-style="font-family: serif;">d′</i>ete<i style="font-family:
-serif;">c</i>table</b>](https://decidables.github.io/detectable).
+Helper functions for calculations related to Signal Detection Theory for
+[<b><i>d′</i>ete<i>c</i>table</b>](https://decidables.github.io/detectable).
 
 ## Usage
 

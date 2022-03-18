@@ -5,10 +5,10 @@
 [![npm version](https://img.shields.io/npm/v/@decidables/detectable-elements?logo=npm)](https://www.npmjs.com/package/@decidables/detectable-elements)
 [![license](https://img.shields.io/npm/l/@decidables/detectable-elements?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
 
-The web components used to visualize Signal Detection Theory in [<b><i>d′</i>ete<i
-style="font-family: serif;">c</i>table</b>](https://decidables.github.io/detectable). There is an
-emphasis on direct manipulation and consistent use of color. SVG is used extensively to provide
-clean scalable diagrams.
+The web components used to visualize Signal Detection Theory in
+[<b><i>d′</i>ete<i>c</i>table</b>](https://decidables.github.io/detectable). There is an emphasis on
+direct manipulation and consistent use of color. SVG is used extensively to provide clean scalable
+diagrams.
 
 ## Usage
 

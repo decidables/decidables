@@ -2,7 +2,7 @@
 
 # [<b><i>d′</i>ete<i>c</i>table</b>](https://decidables.github.io/detectable)<br>An Explorable Explanation of Signal Detection Theory
 
-[![GitHub version](https://img.shields.io/github/package-json/v/decidables/decidables?filename=sites%2Fdetectable%2Fpackage.json&logo=github)](https:/decidables.github.io)
+[![GitHub version](https://img.shields.io/github/package-json/v/decidables/decidables?filename=sites%2Fdetectable%2Fpackage.json&logo=github)](https:/decidables.github.io/detectable)
 [![license](https://img.shields.io/github/package-json/license/decidables/decidables?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
 
 The website for [<b><i>d′</i>ete<i style="font-family:
