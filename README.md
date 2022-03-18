@@ -71,8 +71,8 @@ Dependencies updated 17/1/2022.
     - Issue: classes aren't used in JS, but registered components *are* used!
     - Maybe:
       1. No sideEffects false
-      2. Always import needed classes
-      3. Always import from specific file?
+      1. Always import needed classes
+      1. Always import from specific file?
 - Update About pages!
 - Include `preparePlotly` in compile step?
 - Get *remark-lint* working in editor
@@ -80,13 +80,13 @@ Dependencies updated 17/1/2022.
 - Change `browserslist` to `last 1 version, not dead, > 0.2%`?
 - Clean way for inter-page references?
 - Add "ui" blocks for explaining UI stuff that isn't "real" content?
-  ```
+  ```markdown
   :::ui
   Content about UI
   :::
   ```
 - Add "question" blocks for thoughts for readers to try - maybe with foldout answers?
-  ```
+  ```markdown
   :::question[Question?]
   Answer
   :::

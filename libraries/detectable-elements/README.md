@@ -1,4 +1,4 @@
-<!--lint ignore first-heading-level-->
+<!--lint ignore first-heading-level  maximum-heading-length-->
 
 # **`@decidables/detectable-elements`**<br>Web Components for Visualizing Signal Detection Theory in [<b><i>d′</i>ete<i>c</i>table</b>](https://decidables.github.io/detectable)
 

@@ -1,4 +1,4 @@
-<!--lint ignore first-heading-level -->
+<!--lint ignore first-heading-level  maximum-heading-length-->
 
 # **`@decidables/prospectable-math`**<br>Equations for Calculating Cumulative Prospect Theory in [<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable)
 
