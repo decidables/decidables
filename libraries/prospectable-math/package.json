@@ -4,14 +4,21 @@
   "description": "prospectable-math: Equations for calculating Cumulative Prospect Theory",
   "type": "module",
   "main": "./lib/prospectableMath.umd.min.js",
+  "browser": "./lib/prospectableMath.umd.min.js",
   "module": "./lib/prospectableMath.esm.min.js",
   "exports": {
     "./lib/*.js": "./lib/*.js",
     ".": "./src/index.js",
     "./*": "./src/*.js"
   },
-  "repository": "https://github.com/decidables/decidables/tree/main/libraries/prospectable-math",
-  "author": "Adam Krawitz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decidables/decidables.git",
+    "directory": "libraries/prospectable-math"
+  },
+  "bugs": "https://github.com/decidables/decidables/issues",
+  "homepage": "https://github.com/decidables/decidables/tree/main/libraries/prospectable-math",
+  "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
   "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
   "private": true,
   "scripts": {

@@ -4,17 +4,24 @@
   "description": "prospectable-elements: Web Components for visualizing Cumulative Prospect Theory",
   "type": "module",
   "main": "./lib/prospectableElements.umd.min.js",
+  "browser": "./lib/prospectableElements.umd.min.js",
   "module": "./lib/prospectableElements.esm.min.js",
   "exports": {
     "./lib/*.js": "./lib/*.js",
     ".": "./src/index.js",
-    "./*": "./src/*.js",
     "./components": "./src/components/index.js",
     "./equations": "./src/equations/index.js",
-    "./examples": "./src/examples/index.js"
+    "./examples": "./src/examples/index.js",
+    "./*": "./src/*.js"
   },
-  "repository": "https://github.com/decidables/decidables/tree/main/libraries/prospectable-elements",
-  "author": "Adam Krawitz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decidables/decidables.git",
+    "directory": "libraries/prospectable-elements"
+  },
+  "bugs": "https://github.com/decidables/decidables/issues",
+  "homepage": "https://github.com/decidables/decidables/tree/main/libraries/prospectable-elements",
+  "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
   "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
   "private": true,
   "scripts": {
