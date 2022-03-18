@@ -18,9 +18,9 @@
     "compile": "yarn workspaces foreach -pitv -j 2 run compile",
     "watch": "yarn workspaces foreach -pitv -j 2 run watch",
     "build": "yarn workspaces foreach -pitv -j 2 run build",
-    "deploy": "yarn workspaces foreach -pitv -j 2 run deploy",
     "version": "lerna version --conventional-commits --create-release github",
     "publish": "lerna publish from-git --no-private --otp $@",
+    "deploy": "yarn workspaces foreach -pitv -j 2 run deploy",
     "serve": "gulp serveAll"
   },
   "workspaces": [
