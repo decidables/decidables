@@ -34,7 +34,7 @@
     "directory": "libraries/decidables-math"
   },
   "bugs": "https://github.com/decidables/decidables/issues",
-  "homepage": "https://github.com/decidables/decidables/tree/main/libraries/decidables-math",
+  "homepage": "https://github.com/decidables/decidables/tree/main/libraries/detectable-math",
   "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
   "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
   "publishConfig": {
