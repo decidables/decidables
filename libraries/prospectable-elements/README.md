@@ -1,36 +1,125 @@
-<!--lint disable first-level-heading -->
+<!--lint ignore first-heading-level-->
 
-# prospectable-elements: Web Components for Visualizing Cumulative Prospect Theory
+# **`@decidables\prospectable-elements`**<br>Web Components for Visualizing Cumulative Prospect Theory in [<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable)
 
-<!--lint enable first-level-heading -->
+**NOT PUBLISHED YET!**
+
+[![npm version](https://img.shields.io/npm/v/@decidables/prospectable-elements?logo=npm)](https://www.npmjs.com/package/@decidables/prospectable-elements)
+[![license](https://img.shields.io/npm/l/@decidables/prospectable-elements?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
+
+The web components used to visualize Cumulative Prospect Theory in
+[<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable). There is an emphasis
+on direct manipulation and consistent use of color. SVG is used extensively to provide clean
+scalable diagrams.
+
+## Usage
+
+### Install
+
+```shell
+yarn add @decidables/prospectable-elements
+```
+
+### Use
+
+```javascript
+import '@decidables/prospectable-elements';
+```
+
+A bare import is used to register the elements in the custom registry, so they are then available
+for use in HTML.
 
 ## Contents
 
-- `CPTElement`: Base class for all *prospectable* web components
-- **Components**: Building blocks for interactive visualizations of CPT
-  - `CPTCalculation`: Calculation and comparison of subjective utility for gamble and sure options
-  - `CPTProbability`: Objective probability to subjective decision weight function for CPT
-  - `CPTSpace`: 3D representation of parameter space for a given decision
-  - `CPTValue`: Objective value to subjective value/utility function for CPT
-  - `DecisionChoice`: A choice betweeen two options, one a gamble, and one sure
-  - `DecisionOption`: A single option consisting of one or more outcomes (pie view!)
-  - `DecisionOutcome`: A single outcome for an option (no display on its own)
-  - `DecisionSpace`: 3D representation of decision space for given parameter values
-  - `?CPTControl?`: Control panel for CPT demos
-  - `?DecisionTask?`: Displays stimuli for ??? decision task
-- **Equations**: Interactive equations for SDT
-  - `CPTEquation`: Base class for all interactive CPT equations
-  - `CPTEquationXAL2V`: Subjective value from objective value, marginal utility, and loss aversion
-  - `CPTEquationPG2W`: Subjective decision weight from objective probability and sensitivity
-  - `CPTEquationVW2U`: Subjective utility from subjective value and subjective decision weight
-- **Examples**: Full examples built from multiple components
-  - `CPTExample`: Base class for all CPT examples
-  - `CPTExampleModel`: Model simulates task based on CPT parameter values
-  - `CPTExampleInteractive`: Explore how decision and model parameters relate
+### Components
 
----
+Building blocks for interactive visualizations of CPT
 
-## Features/Bugs/Notes
+#### `CPTCalculation`
+
+Calculation and comparison of subjective utility for gamble and sure options
+
+#### `CPTProbability`
+
+Objective probability to subjective decision weight function for CPT
+
+#### `CPTSpace`
+
+3D representation of parameter space for a given decision
+
+#### `CPTValue`
+
+Objective value to subjective value/utility function for CPT
+
+#### `DecisionChoice`
+
+A choice between two options, one a gamble, and one sure
+
+#### `DecisionOption`
+
+A single option consisting of one or more outcomes (pie view!)
+
+#### `DecisionOutcome`
+
+A single outcome for an option (no display on its own)
+
+#### `DecisionSpace`
+
+3D representation of decision space for given parameter values
+
+#### ?CPTControl?
+
+Control panel for CPT demos
+
+#### ?DecisionTask?
+
+Displays stimuli for ??? decision task
+
+### Equations
+
+Interactive equations for SDT
+
+#### `CPTEquationXAL2V`
+
+Subjective value from objective value, marginal utility, and loss aversion
+
+#### `CPTEquationPG2W`
+
+Subjective decision weight from objective probability and sensitivity
+
+#### `CPTEquationVW2U`
+
+Subjective utility from subjective value and subjective decision weight
+
+#### `CPTEquation`
+
+Base class for all interactive CPT equations
+
+### Examples
+
+Full examples built from multiple components
+
+#### `CPTExampleModel`
+
+Model simulates task based on CPT parameter values
+
+#### `CPTExampleInteractive`
+
+Explore how decision and model parameters relate
+
+#### `CPTExample`
+
+Base class for all CPT examples
+
+### Base class
+
+#### `CPTElement`
+
+Base class for all *prospectable* web components
+
+## Development
+
+### Features/Bugs/Notes
 
 <!--lint disable no-inline-padding -->
 
@@ -44,26 +133,30 @@
 
 <!--lint enable no-inline-padding -->
 
----
-
-### Local Scripts
+### Package Scripts
 
 - `yarn lint`
   - Lints scripts in `src/`
 - `yarn build`
   - Builds browser-compatible optimized bundle from `src/` to `lib/`
 
----
-
-## File Organization
+### File Organization
 
 - `prospectable-elements/`
-  - `lib/` (Browser-compatible optimized bundles created from `src/` by `build`)
+  - `lib/` (Bundles created from `src/` by `build`)
     **\[autogenerated\]**
   - `src/` (Source files)
     - `components/` (Source for visualizations)
     - `equations/` (Source for equations)
     - `examples/` (Source for examples combining visualizations)
-  - `gulpfile.js` (Config for *gulp*)
-  - `package.json` (Config for *yarn*)
+  - `CHANGELOG.md` (Based on conventional commits) **\[autogenerated\]**
+  - `gulpfile.js` (Tasks for *gulp*)
+  - `package.json` (Package config for *yarn* and *npm*)
   - `README.md` (This file)
+
+## [License](https://github.com/decidables/decidables/blob/main/LICENSE.md)
+
+The content of this project is licensed under [Creative Commons Attribution-ShareAlike 4.0
+International License (CC-BY-SA-4.0)](https://creativecommons.org/licenses/by-sa/4.0/) and the
+source code of this project is licensed under [GNU General Public License v3.0 or any later version
+(GPL-3.0-or-later)](https://www.gnu.org/licenses/gpl-3.0.html).
