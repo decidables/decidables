@@ -10,7 +10,7 @@ toc:
     - {file: about, name: 'About'}
 ---
 <!doctype html>
-<html lang="en">
+<html class="pro-html" lang="en">
   <head>
     <% for (var i=0; i < toc.main.length; i++) {
         if (toc.main[i].file == file) {
@@ -34,61 +34,85 @@ toc:
 
     <link href="page.css" rel="stylesheet">
   </head>
-  <body>
-    <div class="decidables-page">
-      <div class="decidables-layout">
+  <body class="pro-body">
+    <div class="pro-page">
+      <div class="pro-layout">
 
-        <div class="decidables-sidebar">
-          <div class="decidables-brandnav">
-            <button class="decidables-tocnav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#decidables-tocnav" aria-controls="decidables-tocnav" aria-expanded="false" aria-label="Toggle table of contents"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M2 7h26M2 15h26M2 23h26"></path></svg>
-            </button>
-            <a class="decidables-brand-link" href="index.html"><span class="decidables-brand">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span></a>
+        <div class="pro-sidebar">
+          <div class="pro-nav-group">
+            <div class="pro-nav-top">
+              <button class="pro-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#pro-nav" aria-controls="pro-nav" aria-expanded="false" aria-label="Toggle table of contents">
+                <%- include(resolvePkg('bootstrap-icons/icons/list.svg')) %>
+              </button>
+              <a class="pro-nav-brand" href="index.html"><span class="prospectable">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span></a>
+           </div>
+            <nav class="pro-nav-collapse collapse" id="pro-nav">
+              <ul class="pro-toc pro-toc-main">
+                <% for (var i=0; i < toc.main.length; i++) { %>
+                  <% if ((source == 'main') && (index == i)) { %>
+                    <li class="pro-toc-item pro-toc-item-active">
+                  <% } else { %>
+                    <li class="pro-toc-item">
+                  <% } %>
+                      <a class="pro-toc-link" href="<%= toc.main[i].file %>.html">
+                        <%- toc.main[i].name %>
+                      </a>
+                    </li>
+                <% } %>
+              </ul>
+              <ul class="pro-toc pro-toc-extra">
+                <% for (var i=0; i < toc.extra.length; i++) { %>
+                  <% if ((source == 'extra') && (index == i)) { %>
+                    <li class="pro-toc-item pro-toc-item-active">
+                  <% } else { %>
+                    <li class="pro-toc-item">
+                  <% } %>
+                      <a class="pro-toc-link" href="<%= toc.extra[i].file %>.html">
+                        <%- toc.extra[i].name %>
+                      </a>
+                    </li>
+                <% } %>
+              </ul>
+              <ul class="pro-toc pro-toc-external">
+                <li class="pro-toc-item">
+                  <span class="pro-toc-text">v<%- utilities.getPackageVersion() %></span>
+                </li>
+                <li class="pro-toc-item">
+                  <a class="pro-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                </li>
+                <li class="pro-toc-item">
+                  <a class="pro-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                </li>
+                <li class="pro-toc-item">
+                  <a class="pro-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/prospectable" target="_blank" rel="noopener">
+                    <%- include(resolvePkg('bootstrap-icons/icons/github.svg')) %>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
-          <nav class="decidables-tocnav collapse" id="decidables-tocnav">
-            <ul class="decidables-toc">
-              <% for (var i=0; i < toc.main.length; i++) { %>
-                <% if ((source == 'main') && (index == i)) { %>
-                  <li class="decidables-tocitem decidables-tocitem-main decidables-tocitem-<%= i + 1 %> decidables-tocitem-active">
-                <% } else { %>
-                  <li class="decidables-tocitem decidables-tocitem-main decidables-tocitem-<%= i + 1 %>">
-                <% } %>
-                    <a class="decidables-toclink" href="<%= toc.main[i].file %>.html">
-                      <%- toc.main[i].name %>
-                    </a>
-                  </li>
-              <% } %>
-              <% for (var i=0; i < toc.extra.length; i++) { %>
-                <% if ((source == 'extra') && (index == i)) { %>
-                  <li class="decidables-tocitem decidables-tocitem-extra decidables-tocitem-<%= i + 1 %> decidables-tocitem-active">
-                <% } else { %>
-                  <li class="decidables-tocitem decidables-tocitem-extra decidables-tocitem-<%= i + 1 %>">
-                <% } %>
-                    <a class="decidables-toclink" href="<%= toc.extra[i].file %>.html">
-                      <%- toc.extra[i].name %>
-                    </a>
-                  </li>
-              <% } %>
-            </ul>
-          </nav>
+          <div class="pro-nav-bottom">
+            <a class="pro-nav-decidables" href="../"><span class="decidables">decidables</span></a>
+          </div>
         </div>
 
-        <main class="decidables-main">
+        <main class="pro-main">
           <header>
             <h1><%- title %></h1>
           </header>
-          <section class="decidables-content">
+          <section class="pro-content">
             <%- contents %>
           </section>
 
-          <footer class="decidables-footer">
-            <div class="decidables-footer-item decidables-footer-item-left">
+          <footer class="pro-footer">
+            <div class="pro-footer-item pro-footer-item-left">
               <% if ((source == 'main') && (index > 0)) { %>
-                <a class="decidables-toclink" href="<%= toc.main[index - 1].file %>.html">&lt; <%- toc.main[index - 1].name %></a>
+                <a class="pro-toc-link" href="<%= toc.main[index - 1].file %>.html">&lt; <%- toc.main[index - 1].name %></a>
               <% } %>
             </div>
-            <div class="decidables-footer-item decidables-footer-item-right">
+            <div class="pro-footer-item pro-footer-item-right">
               <% if ((source == 'main') && (index < (toc.main.length - 1))) { %>
-                <a class="decidables-toclink" href="<%= toc.main[index + 1].file %>.html"><%- toc.main[index + 1].name %> &gt;</a>
+                <a class="pro-toc-link" href="<%= toc.main[index + 1].file %>.html"><%- toc.main[index + 1].name %> &gt;</a>
               <% } %>
             </div>
           </footer>
