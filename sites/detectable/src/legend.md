@@ -6,19 +6,19 @@ script: page
 
 ## Use of color
 
-<dl class="sdt-legend">
+<dl class="det-legend">
   <dt class="h">Hits</dt>
   <dd>
-    <span class="key key Hit">Hit</span>
-    (<span class="key key Hit"><var class="math-var">H</var></span>) outcome,
-    <span class="key key OutcomeHit">Outcome Hit</span> trials
+    <span class="key Hit">Hit</span>
+    (<span class="key Hit"><var class="math-var">H</var></span>) outcome,
+    <span class="key OutcomeHit">Outcome Hit</span> trials
   </dd>
 
   <dt class="m">Misses</dt>
   <dd>
-    <span class="key key Miss">Miss</span>
-    (<span class="key key Miss"><var class="math-var">M</var></span>) outcome,
-    <span class="key key OutcomeMiss">Outcome Miss</span> trials
+    <span class="key Miss">Miss</span>
+    (<span class="key Miss"><var class="math-var">M</var></span>) outcome,
+    <span class="key OutcomeMiss">Outcome Miss</span> trials
   </dd>
 
   <dt class="fa">False Alarms</dt>
@@ -75,6 +75,11 @@ script: page
   <dt class="error">Error</dt>
   <dd>
     <span class="key Error">Error</span> outcome
+  </dd>
+
+  <dt class="nr">No Response</dt>
+  <dd>
+    <span class="key NoResponse">No Response</span> outcome
   </dd>
 
   <dt class="acc">Accuracy</dt>
