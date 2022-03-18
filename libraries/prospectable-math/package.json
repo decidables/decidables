@@ -1,6 +1,6 @@
 {
   "name": "@decidables/prospectable-math",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "prospectable-math: Equations for calculating Cumulative Prospect Theory",
   "type": "module",
   "main": "./lib/prospectableMath.umd.min.js",
