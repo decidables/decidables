@@ -1,10 +1,18 @@
-// Built-In Modules
+////////////////////////////////
+// BUILT-IN MODULES
 @use "sass:color";
 @use "sass:list";
 @use "sass:map";
 
-// FONTS
+////////////////////////////////
+// BOOTSTRAP INITIAL IMPORTS
+// Bootstrap 5 Configuration
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
 
+////////////////////////////////
+// FONTS
 $font-map: (
   // filename: (family, style, weight, stretch)
   SourceCodePro-Regular: ("Source Code", normal, 400, normal),
@@ -13,18 +21,29 @@ $font-map: (
   SourceCodePro-SemiboldIt: ("Source Code", italic, 600, normal),
   SourceCodePro-Bold: ("Source Code", normal, 700, normal),
   SourceCodePro-BoldIt: ("Source Code", italic, 700, normal),
+
   SourceSans3-Regular: ("Source Sans", normal, 400, normal),
   SourceSans3-It: ("Source Sans", italic, 400, normal),
   SourceSans3-Semibold: ("Source Sans", normal, 600, normal),
   SourceSans3-SemiboldIt: ("Source Sans", italic, 600, normal),
   SourceSans3-Bold: ("Source Sans", normal, 700, normal),
   SourceSans3-BoldIt: ("Source Sans", italic, 700, normal),
+
   SourceSerif4-Regular: ("Source Serif", normal, 400, normal),
   SourceSerif4-It: ("Source Serif", italic, 400, normal),
   SourceSerif4-Semibold: ("Source Serif", normal, 600, normal),
   SourceSerif4-SemiboldIt: ("Source Serif", italic, 600, normal),
   SourceSerif4-Bold: ("Source Serif", normal, 700, normal),
   SourceSerif4-BoldIt: ("Source Serif", italic, 700, normal),
+
+  SourceCodeVariable-Roman: ("Source Code Variable", normal, 200 900, normal),
+  SourceCodeVariable-Italic: ("Source Code Variable", italic, 200 900, normal),
+
+  SourceSans3VF-Roman: ("Source Sans Variable", normal, 200 900, normal),
+  SourceSans3VF-Italic: ("Source Sans Variable", italic, 200 900, normal),
+
+  SourceSerif4Variable-Roman: ("Source Serif Variable", normal, 200 900, normal),
+  SourceSerif4Variable-Italic: ("Source Serif Variable", italic, 200 900, normal),
 );
 
 @each $file, $font-list in $font-map {
@@ -37,10 +56,57 @@ $font-map: (
   }
 }
 
+// SASS variables
+$font-family-serif: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
+$font-family-sans-serif: "Source Sans Variable", "Source Sans", sans-serif;
+$font-family-monospace: "Source Code Variable", "Source Code", monospace;
 
+$font-family-base: $font-family-sans-serif;
+$font-family-code: $font-family-monospace;
+$font-family-math: $font-family-serif; // Not in Bootstrap
+
+$font-weight-normal: 400;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+$font-size-main: 1.125rem; // Not in Bootstrap
+
+// CSS variables
+:root { /* stylelint-disable-line no-duplicate-selectors */
+  --font-family-base: #{$font-family-base};
+  --font-family-math: #{$font-family-math};
+  --font-family-code: #{$font-family-code};
+  --font-family-serif: #{$font-family-serif};
+  --font-family-sans-serif: #{$font-family-sans-serif};
+  --font-family-monospace: #{$font-family-monospace};
+}
+
+// Bootstrap utility
+$utilities: (
+  "font-family": (
+    property: font-family,
+    class: font,
+    values: (
+      serif: var(--font-family-serif),
+      sans-serif: var(--font-family-sans-serif),
+      monospace: var(--font-family-monospace),
+    ),
+  ),
+  "font-weight": (
+    property: font-weight,
+    class: fw,
+    values: (
+      normal: $font-weight-normal,
+      semibold: $font-weight-semibold,
+      bold: $font-weight-bold,
+    ),
+  ),
+);
+
+////////////////////////////////
 // COLOR
 
-// SCSS variables
+// SASS variables
 // http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
 $color-map: (
   x: #e41a1c, // red (CB1)
@@ -91,18 +157,19 @@ $color-grey-dark50: color.mix(#000000, $color-grey-base, 50%); // 30% lightness 
 $color-grey-dark75: color.mix(#000000, $color-grey-base, 75%); // 15% lightness #262626
 $color-black: #000000;  // 0% lightness #000000
 
-// Bootstrap SCSS variables
+// Bootstrap SASS variables
 $body-bg: $color-white;
 $border-color: $color-grey-light75;
 $body-color: $color-grey-dark75;
 $link-color: $color-grey-dark25;
 $link-hover-color: $color-grey-dark50;
 
-// Derived SCSS variables
+// SASS variables
 $color-background: #{$body-bg};
+$color-background-inverse: #{$body-color};
 $color-border: #{$border-color};
 $color-text: #{$body-color};
-$color-text-inverse: #{$color-white};
+$color-text-inverse: #{$body-bg};
 $color-link: #{$link-color};
 $color-element-background: #{$color-grey-light75};
 $color-element-disabled: #{$color-grey-light50};
@@ -112,13 +179,14 @@ $color-element-border: #{$color-grey-dark50};
 $color-element-emphasis: #{$color-grey-dark75};
 
 // CSS variables
-:root {
+:root { /* stylelint-disable-line no-duplicate-selectors */
   @each $name in map-keys($color-map) {
     --color-#{$name}: #{cpt-color($name)};
     --color-#{$name}-light: #{cpt-color-light($name)};
     --color-#{$name}-dark: #{cpt-color-dark($name)};
   }
   --color-background: #{$color-background};
+  --color-background-inverse: #{$color-background-inverse};
   --color-border: #{$color-border};
   --color-text: #{$color-text};
   --color-text-inverse: #{$color-text-inverse};
@@ -131,60 +199,22 @@ $color-element-emphasis: #{$color-grey-dark75};
   --color-element-emphasis: #{$color-element-emphasis};
 }
 
-// TODO
-// cleanup Links
-
-// Bootstrap options
-$enable-rfs: false;
-
-// BOOTSTRAP VARIABLES
-$font-family-base: "Source Sans", sans-serif;
-$grid-gutter-width: 2rem;
-$border-width: 1px;
-$border-radius: 0.25rem;
-$link-decoration: none;
-$link-hover-decoration: underline;
-
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1590px
-);
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px,
-  xxl: 1560px
-);
-
-// SCSS VARIABLES
-$font-family-math: "Source Serif", serif; // Not in Bootstrap
-$font-family-code: "Source Code", monospace; // Not in Bootstrap
-$font-family-serif: "Source Serif", serif; // Not in Bootstrap
-$font-family-sans: "Source Sans", sans-serif; // Not in Bootstrap
-$font-family-mono: "Source Code", monospace; // Not in Bootstrap
-$border: $border-width solid $border-color;
-$transition-duration: 500ms;
-
-// Shadows based on Material Design
+////////////////////////////////
+// SHADOWS
+// Based on Material Design
 // https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
 $shadow-baseline-color: #000000;
 $shadow-umbra-opacity: 0.2;
 $shadow-penumbra-opacity: 0.14;
 $shadow-ambient-opacity: 0.12;
 $shadow-opacity-boost: 0.2;
-
 $shadow-umbra-map: (
   0: "0px 0px 0px 0px",
   2: "1.5px 3px 1px -2px",
   4: "1px 2px 4px -1px",
   8: "2.5px 5px 5px -3px",
-  16: "4px 8px 10px -5px");
-
+  16: "4px 8px 10px -5px"
+);
 $shadow-penumbra-map: (
   0: "0px 0px 0px 0px",
   2: "1px 2px 2px 0px",
@@ -192,7 +222,6 @@ $shadow-penumbra-map: (
   8: "4px 8px 10px 1px",
   16: "8px 16px 24px 2px"
 );
-
 $shadow-ambient-map: (
   0: "0px 0px 0px 0px",
   2: "0.5px 1px 5px 0px",
@@ -216,27 +245,50 @@ $shadow-ambient-map: (
     #{$shadow-ambient} #{$shadow-ambient-color};
 }
 
+////////////////////////////////
+// OTHER
+// Bootstrap SASS variables
+$border-width: 1px;
+$border-radius: 0.25rem;
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1560px
+);
+$container-padding-x: 1rem;
+$enable-rfs: false;
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1590px
+);
+$grid-gutter-width: 2rem;
+$link-decoration: none;
+$link-hover-decoration: underline;
 
-// CSS VARIABLES for CPT
+// SASS variables
+$border: $border-width solid $border-color;
+$transition-duration: 500ms;
+
+// CSS variables
 :root { /* stylelint-disable-line no-duplicate-selectors */
-  --font-family-base: #{$font-family-base};
-  --font-family-math: #{$font-family-math};
-  --font-family-code: #{$font-family-code};
-  --font-family-serif: #{$font-family-serif};
-  --font-family-sans: #{$font-family-sans};
-  --font-family-mono: #{$font-family-mono};
   --border: #{$border};
   --border-radius: #{$border-radius};
   --transition-duration: #{$transition-duration};
 }
 
-
+////////////////////////////////
 // BOOTSTRAP IMPORTS
 /* stylelint-disable no-invalid-position-at-import-rule */
 // Bootstrap 5 Configuration
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
+// @import "~bootstrap/scss/functions";
+// @import "~bootstrap/scss/variables";
+// @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/utilities";
 
 // Bootstrap 5 Layout & components
@@ -279,29 +331,9 @@ $shadow-ambient-map: (
 @import "~bootstrap/scss/utilities/api";
 /* stylelint-enable no-invalid-position-at-import-rule */
 
-
-// CUSTOM CSS
-
-// Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
-html {
-  font-size: 1rem;
-}
-
-@include media-breakpoint-down(md) {
-  html {
-    font-size: 0.9rem;
-  }
-}
-
-@include media-breakpoint-down(sm) {
-  html {
-    font-size: 0.8rem;
-  }
-}
-
-body {
-  font-size: 1.125rem;
-}
+////////////////////////////////
+// SEMANTIC BOOTSTRAP
+// Content
 
 .math-var {
   font-family: $font-family-math;
@@ -313,29 +345,81 @@ body {
   font-style: normal;
 }
 
-// CLEAN
-.decidables-page {
+.prospectable {
+  font-family: $font-family-sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+
+.decidables {
+  font-family: $font-family-sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+
+.bi.bi-list {
+  width: 2rem;
+  height: 2rem;
+}
+
+.bi.bi-github {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+// Top-level
+// Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
+.pro-html {
+  font-size: 1rem;
+}
+
+@include media-breakpoint-down(md) {
+  .pro-html {
+    font-size: 0.9rem;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .pro-html {
+    font-size: 0.8rem;
+  }
+}
+
+.pro-body {
+  font-size: 1.125rem;
+}
+
+.pro-page {
   @include make-container();
 }
 
-.decidables-layout {
+.pro-layout {
   @include make-row();
 }
 
-.decidables-sidebar {
+// Sidebar
+.pro-sidebar {
   @include make-col-ready();
   @include make-col(10, 10);
 
-  order: 0;
+  display: flex;
+
+  align-items: start;
+  justify-content: space-between;
 
   border-bottom: $border;
 
   @include media-breakpoint-up(md) {
     @include make-col(2, 10);
 
+    flex-direction: column;
+    
+    align-items: stretch;
+
     min-height: 100vh;
 
     border-right: $border;
+    border-bottom: 0;
 
     @supports (position: sticky) or (position: -webkit-sticky) {
       position: -webkit-sticky; /* stylelint-disable-line value-no-vendor-prefix */
@@ -356,13 +440,9 @@ body {
 
     max-width: calc(100% * 2 / 12);
   }
-
-  .decidables-brand {
-    font-size: 1.5rem;
-  }
 }
 
-.decidables-brandnav {
+.pro-nav-top {
   position: relative;
   display: flex;
 
@@ -373,7 +453,7 @@ body {
   margin-left: calc($grid-gutter-width / -2);
 }
 
-.decidables-tocnav-toggle {
+.pro-nav-toggler {
   @extend .btn;
   @extend .btn-link;
 
@@ -406,20 +486,15 @@ body {
 
     color: $color-text;
   }
-
-  svg {
-    width: 1.875rem;
-    height: 1.875rem;
-  }
 }
 
-.decidables-brand-link {
+.pro-nav-brand {
   @extend .navbar-brand;
 
   padding: 0 0.5rem;
   margin: 0;
 
-  font-weight: 600;
+  font-size: 1.5rem;
   color: $color-text;
 
   border-radius: 0.25rem;
@@ -447,7 +522,7 @@ body {
   }
 }
 
-.decidables-tocnav {
+.pro-nav-collapse {
   padding-top: 0.25rem;
   padding-bottom: 0.5rem;
   margin-right: calc($grid-gutter-width / -2);
@@ -455,7 +530,7 @@ body {
 
   @include media-breakpoint-up(md) {
     @supports (position: sticky) {
-      max-height: calc(100vh - 3.5rem);
+      max-height: calc(100vh - 6.3125rem);
       overflow-y: auto;
     }
   }
@@ -465,21 +540,30 @@ body {
   }
 }
 
-.decidables-toc {
+.pro-toc {
   @extend .nav;
 
   display: block;
 }
 
-.decidables-toclink {
+.pro-toc-extra,
+.pro-toc-external {
+  padding-top: 1rem;
+}
+
+.pro-toc-text,
+.pro-toc-link {
   padding: 0.375rem 0.5rem;
 
   font-size: 1rem;
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1;
   color: $color-link;
 
   border-radius: 0.25rem;
+}
+
+.pro-toc-link {
   outline: none;
 
   &:hover {
@@ -505,24 +589,51 @@ body {
 
 }
 
-.decidables-tocitem .decidables-toclink {
+.pro-toc-item .pro-toc-text,
+.pro-toc-item .pro-toc-link {
   display: block;
 
-  padding: 0.375rem 0.5rem;
   margin: 0 0.5rem;
 }
 
-.decidables-tocitem-active .decidables-toclink,
-.decidables-tocitem-active:hover .decidables-toclink {
+.pro-toc-item-active .pro-toc-link,
+.pro-toc-item-active:hover .pro-toc-link {
   font-weight: 700;
   color: $color-text;
 }
 
-.decidables-tocitem-extra.decidables-tocitem-1 {
-  padding-top: 1.25rem;
+.pro-nav-bottom {
+  padding: 0.75rem 0.5rem;
+  margin-right: calc($grid-gutter-width / -2);
+  margin-left: calc($grid-gutter-width / -2);
+
+  font-size: 1.5rem;
+
+  background-color: $color-background-inverse;
+
+  @include media-breakpoint-up(md) {
+    padding: 0.5625rem 0.5rem;
+  }
 }
 
-.decidables-main {
+.pro-nav-decidables {
+  display: block;
+
+  padding: 0 0.5rem;
+  margin: 0;
+
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $color-text-inverse;
+
+  &:hover {
+    color: $color-text-inverse;
+    text-decoration: underline;
+  }
+}
+
+// Main
+.pro-main {
   @include make-col-ready();
   @include make-col(10, 10);
 
@@ -548,7 +659,35 @@ body {
   }
 }
 
-.decidables-content {
+// Footer
+.pro-footer {
+  @include make-row();
+
+  padding-top: 1rem;
+
+  border-top: $border;
+}
+
+.pro-footer-item {
+  @include make-col-ready();
+
+  flex: 0 0 auto;
+
+  width: auto;
+  max-width: none;
+  padding: 0 0.5rem;
+
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+
+  &.pro-footer-item-left {
+    margin-right: auto;
+  }
+}
+
+// Page Content
+.pro-content {
   padding-bottom: 1rem;
 
   // STYLING FOR MARKDOWN
@@ -556,10 +695,17 @@ body {
     padding-top: 1rem;
   }
 
-  code {
+  // Terms
+  .term {
+    font-weight: 700;
+  }
+
+  // Keys and UIs
+  .key,
+  .ui {
     padding: 0.0625rem 0.25rem;
 
-    font-family: $font-family-code;
+    font-family: $font-family-monospace;
     font-size: 1rem;
     font-style: normal;
     font-weight: 600;
@@ -568,247 +714,7 @@ body {
     background-color: $color-element-background;
     border-radius: 0.25rem;
   }
-
-  /* stylelint-disable scss/comment-no-empty */
-  // code[class="Bias"] {
-  //   background-color: cpt-color-light(c);
-  // }
-  //
-  // code[class="c"] {
-  //   font-family: "Source Serif", serif;
-  //   font-style: italic;
-  //
-  //   background-color: cpt-color-light(c);
-  // }
-  //
-  // code[class="Iso-BiasCurve"] {
-  //   border: 2px solid cpt-color(c);
-  // }
-  //
-  // code[class="Sensitivity"] {
-  //   background-color: cpt-color-light(d);
-  // }
-  //
-  // code[class="d′"] {
-  //   font-family: "Source Serif", serif;
-  //   font-style: italic;
-  //
-  //   background-color: cpt-color-light(d);
-  // }
-  //
-  // code[class="Iso-SensitivityCurve"] {
-  //   border: 2px solid cpt-color(d);
-  // }
-  //
-  // code[class="Variance"] {
-  //   background-color: cpt-color-light(s);
-  // }
-  //
-  // code[class="σ"] {
-  //   font-family: "Source Serif", serif;
-  //   font-style: italic;
-  //
-  //   background-color: cpt-color-light(s);
-  // }
-  //
-  // code[class="RespondPresent"] {
-  //   background-color: cpt-color-light(present);
-  //   border: 3px solid cpt-color(present);
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="RespondAbsent"] {
-  //   background-color: cpt-color-light(absent);
-  //   border: 3px solid cpt-color(absent);
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="Evidence"] {
-  //   background-color: cpt-color-light(acc);
-  //   border: 3px solid cpt-color(acc);
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="SignalPresent"] {
-  //   background-color: cpt-color-light(hr);
-  //   border: 3px solid cpt-color(hr);
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="SignalAbsent"] {
-  //   background-color: cpt-color-light(far);
-  //   border: 3px solid cpt-color(far);
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="OutcomeHit"] {
-  //   background-color: cpt-color-light(h);
-  //   border: 3px solid cpt-color(h);
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="OutcomeMiss"] {
-  //   background-color: cpt-color-light(m);
-  //   border: 3px solid cpt-color(m);
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="OutcomeCorrectRejection"] {
-  //   background-color: cpt-color-light(cr);
-  //   border: 3px solid cpt-color(cr);
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="OutcomeFalseAlarm"] {
-  //   background-color: cpt-color-light(fa);
-  //   border: 3px solid cpt-color(fa);
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="Signal+Noise"] {
-  //   background-color: cpt-color-light(hr);
-  //   border: 2px solid $color-element-emphasis;
-  // }
-  //
-  // code[class="NoiseDistribution"] {
-  //   background-color: cpt-color-light(far);
-  //   border: 2px solid $color-element-emphasis;
-  // }
-  //
-  // code[class="Coherence"],
-  // code[class="Duration"],
-  // code[class="Trials"] {
-  //   position: relative;
-  //
-  //   padding-right: 1.5rem;
-  //
-  //   background-color: $color-element-background;
-  // }
-  //
-  // code[class="Coherence"]::before,
-  // code[class="Duration"]::before,
-  // code[class="Trials"]::before {
-  //   position: absolute;
-  //
-  //   top: 0;
-  //   right: 0.625rem;
-  //
-  //   width: 0.25rem;
-  //   height: 1.375rem;
-  //
-  //   content: "";
-  //
-  //   background-color: $color-element-disabled;
-  //   border-width: 0.125rem;
-  // }
-  //
-  // code[class="Coherence"]::after,
-  // code[class="Duration"]::after,
-  // code[class="Trials"]::after {
-  //   position: absolute;
-  //
-  //   top: 0.4rem;
-  //   right: 0.125rem;
-  //
-  //   width: 1.25rem;
-  //   height: 0.625rem;
-  //
-  //   content: "";
-  //
-  //   background-color: $color-element-enabled;
-  //   border-width: 0.25rem;
-  //   border-radius: 0.25rem;
-  // }
-  //
-  // code[class="Pause"],
-  // code[class="Reset"],
-  // code[class="Run"] {
-  //   color: $color-text-inverse;
-  //
-  //   background-color: $color-element-enabled;
-  // }
-  //
-  // code[class="+"],
-  // code[class="?"] {
-  //   background-color: $color-element-disabled;
-  //
-  //   border: 2px solid $color-element-emphasis;
-  //   border-radius: 1rem;
-  // }
-  //
-  // code[class="Present"] {
-  //   color: $color-text-inverse;
-  //
-  //   background-color: cpt-color(present);
-  // }
-  //
-  // code[class="Absent"] {
-  //   color: $color-text-inverse;
-  //
-  //   background-color: cpt-color(absent);
-  // }
-  //
-  // code[class="Correct"] {
-  //   background-color: cpt-color-light(correct);
-  //   border: 1px solid $color-element-emphasis;
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="Error"] {
-  //   color: $color-text-inverse;
-  //
-  //   background-color: cpt-color-light(error);
-  //   border: 1px solid $color-element-emphasis;
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="NoResponse"] {
-  //   background-color: cpt-color-light(nr);
-  //   border: 1px solid $color-element-emphasis;
-  //   border-radius: 0;
-  // }
-  //
-  // code[class="Hit"],
-  // code[class="Hits"] {
-  //   background-color: cpt-color-light(h);
-  // }
-  //
-  // code[class="Miss"],
-  // code[class="Misses"] {
-  //   background-color: cpt-color-light(m);
-  // }
-  //
-  // code[class="CorrectRejection"],
-  // code[class="CorrectRejections"] {
-  //   background-color: cpt-color-light(cr);
-  // }
-  //
-  // code[class="FalseAlarm"],
-  // code[class="FalseAlarms"] {
-  //   background-color: cpt-color-light(fa);
-  // }
-  //
-  // code[class="HitRate"] {
-  //   background-color: cpt-color-light(hr);
-  // }
-  //
-  // code[class="FalseAlarmRate"] {
-  //   background-color: cpt-color-light(far);
-  // }
-  //
-  // code[class="PositivePredictiveValue"] {
-  //   background-color: cpt-color-light(present);
-  // }
-  //
-  // code[class="FalseOmissionRate"] {
-  //   background-color: cpt-color-light(absent);
-  // }
-  //
-  // code[class="Accuracy"] {
-  //   background-color: cpt-color-light(acc);
-  // }
-  /* stylelint-enable scss/comment-no-empty */
-
+  
   .csl-entry {
     padding-left: 2rem;
 
@@ -816,14 +722,12 @@ body {
   }
 }
 
-
-// Legend formatting
-.decidables-legend {
+// Legend
+.pro-legend {
   dt {
     display: inline-block;
 
     width: 12rem;
-    // padding: 0.375rem 0.675rem;
     padding: 0.25rem 0.675rem;
 
     font-weight: 600;
@@ -909,11 +813,14 @@ body {
     border-left: 1rem solid cpt-color(error);
   }
 
-  // nr?
+  .nr {
+    background: sdt-color-light(nr);
+    border-left: 1rem solid sdt-color(nr);
+  }
 }
 
-// Glossary formatting to get the term and definition inline, with a hanging indent
-.decidables-glossary {
+// Glossary
+.pro-glossary {
   margin-left: 2rem;
 
   dt {
@@ -936,31 +843,5 @@ body {
     display: block;
 
     content: "";
-  }
-}
-
-.decidables-footer {
-  @include make-row();
-
-  padding-top: 1rem;
-
-  border-top: $border;
-}
-
-.decidables-footer-item {
-  @include make-col-ready();
-
-  flex: 0 0 auto;
-
-  width: auto;
-  max-width: none;
-  padding: 0 0.5rem;
-
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.1;
-
-  &.decidables-footer-item-left {
-    margin-right: auto;
   }
 }
