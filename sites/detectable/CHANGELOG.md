@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.2.2...@decidables/detectable@0.3.0) (2022-03-19)
+
+
+### Features
+
+* **sites:** consistently use serif for H2 ([8f139ff](https://github.com/decidables/decidables/commit/8f139ff6d6001b7b7f282e6d2ac55292f178c459))
+
+
+
 ### [0.2.2](https://github.com/decidables/decidables/compare/@decidables/detectable@0.2.1...@decidables/detectable@0.2.2) (2022-03-18)
 
 
