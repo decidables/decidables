@@ -1,6 +1,6 @@
 {
   "name": "@decidables/detectable",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "detectable: An Explorable Explanation of Signal Detection Theory",
   "type": "module",
   "main": "./dist/index.html",
