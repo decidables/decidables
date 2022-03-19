@@ -8595,6 +8595,7 @@ progress {
 }
 .pro-content h2, .pro-content .h2 {
   padding-top: 1rem;
+  font-family: "Source Serif Variable", "Source Serif", serif;
 }
 .pro-content code {
   padding: 0.125rem 0.25rem;
