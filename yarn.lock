@@ -1745,7 +1745,6 @@ __metadata:
   dependencies:
     "@decidables/detectable-elements": ^0.1.0
     "@decidables/prospectable-elements": ^0.1.0
-    "@webcomponents/webcomponentsjs": ^2.6.0
     bootstrap: ^5.1.3
     bootstrap-icons: ^1.8.1
     core-js: ^3.21.1
@@ -1788,7 +1787,6 @@ __metadata:
   resolution: "@decidables/detectable@workspace:sites/detectable"
   dependencies:
     "@decidables/detectable-elements": ^0.1.0
-    "@webcomponents/webcomponentsjs": ^2.6.0
     bootstrap: ^5.1.3
     bootstrap-icons: ^1.8.1
     core-js: ^3.21.1
@@ -1837,7 +1835,6 @@ __metadata:
   resolution: "@decidables/prospectable@workspace:sites/prospectable"
   dependencies:
     "@decidables/prospectable-elements": ^0.1.0
-    "@webcomponents/webcomponentsjs": ^2.6.0
     bootstrap: ^5.1.3
     bootstrap-icons: ^1.8.1
     core-js: ^3.21.1
@@ -4105,13 +4102,6 @@ __metadata:
   version: 0.0.3
   resolution: "@webcomponents/scoped-custom-element-registry@npm:0.0.3"
   checksum: e378ab8b2607ae3d8126673dbd558017720492e0c4e81fa7a7a68cab9d63a9266719bcd6e8aa01c14dfbbb2230244866abca3b958366665e3320e9aadc0835a9
-  languageName: node
-  linkType: hard
-
-"@webcomponents/webcomponentsjs@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "@webcomponents/webcomponentsjs@npm:2.6.0"
-  checksum: b1325d7ce201644890e666b723c33cd759c3286fe222962073a4652fa671ad07a8a6797303411440b7ad21a65399373dd9a4a920f6cefe758fa98cbc71e704b5
   languageName: node
   linkType: hard
 

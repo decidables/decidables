@@ -18,18 +18,32 @@ import * as utilities from './utility.js';
 
 // Tasks
 let rollupCache;
+const pluginNodeResolve = rollupPluginNodeResolve({
+  preferBuiltins: false,
+});
+const pluginCommonjs = rollupPluginCommonjs();
+const pluginWebWorkerLoader = rollupPluginWebWorkerLoader({
+  targetPlatform: 'browser',
+  sourcemap: true,
+});
+const pluginBabel = rollupPluginBabel.babel({
+  presets: [['@babel/preset-env', {
+    bugfixes: true,
+    useBuiltIns: 'entry',
+    corejs: '3.21',
+  }]],
+  babelHelpers: 'bundled',
+});
+const pluginTerser = rollupPluginTerser();
 export async function buildLibrary() {
   const bundle = await rollup.rollup({
     cache: rollupCache,
     input: 'src/index.js',
     plugins: [
-      rollupPluginNodeResolve({preferBuiltins: false}),
-      rollupPluginCommonjs(),
-      rollupPluginWebWorkerLoader({targetPlatform: 'browser', sourcemap: true}),
-      rollupPluginBabel.babel({
-        presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.20'}]],
-        babelHelpers: 'bundled',
-      }),
+      pluginNodeResolve,
+      pluginCommonjs,
+      pluginWebWorkerLoader,
+      pluginBabel,
     ],
     // Hide warnings for circular dependencies, which are allowed in the ES6 spec
     // https://github.com/rollup/rollup/issues/2271#issuecomment-475540827
@@ -57,7 +71,7 @@ export async function buildLibrary() {
     file: `lib/${packageName}.umd.min.js`,
     format: 'umd',
     sourcemap: true,
-    plugins: [rollupPluginTerser()],
+    plugins: [pluginTerser],
   });
 
   // ESM
@@ -74,7 +88,7 @@ export async function buildLibrary() {
     file: `lib/${packageName}.esm.min.js`,
     format: 'esm',
     sourcemap: true,
-    plugins: [rollupPluginTerser()],
+    plugins: [pluginTerser],
   });
 }
 

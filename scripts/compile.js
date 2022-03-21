@@ -70,11 +70,19 @@ export function compileMarkdown() {
 }
 
 let rollupCache;
-const pluginNodeResolve = rollupPluginNodeResolve({preferBuiltins: false});
+const pluginNodeResolve = rollupPluginNodeResolve({
+  preferBuiltins: false,
+});
 const pluginCommonjs = rollupPluginCommonjs();
-const pluginWebWorkerLoader = rollupPluginWebWorkerLoader({targetPlatform: 'browser', sourcemap: true});
+const pluginWebWorkerLoader = rollupPluginWebWorkerLoader({
+  targetPlatform: 'browser',
+  sourcemap: true,
+});
 const pluginBabel = rollupPluginBabel.babel({
-  presets: [['@babel/preset-env', {useBuiltIns: 'entry', corejs: '3.20'}]],
+  presets: [['@babel/preset-env', {
+    useBuiltIns: 'entry',
+    corejs: '3.21',
+  }]],
   babelHelpers: 'bundled',
 });
 export async function compileScripts() {
@@ -98,7 +106,7 @@ export async function compileScripts() {
   rollupCache = bundle.cache;
   await bundle.write({
     dir: 'local',
-    format: 'iife',
+    format: 'module',
     sourcemap: true,
   });
   await bundle.close();
