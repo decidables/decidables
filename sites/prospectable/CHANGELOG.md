@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.2.0...@decidables/prospectable@0.3.0) (2022-03-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* **all:** Drop IE 11 support
+
+### Performance Improvements
+
+* **all:** drop IE 11 support ([8f7788e](https://github.com/decidables/decidables/commit/8f7788e0e1409e823dce0e16caf793b58084af91))
+
+
+
 ## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.1.2...@decidables/prospectable@0.2.0) (2022-03-19)
 
 
