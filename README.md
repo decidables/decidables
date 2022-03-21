@@ -64,7 +64,13 @@ Dependencies updated 17/1/2022.
 - Use APA v7 (https://github.com/citation-style-language/styles)
 - Use *eslint-plugin-lit*? (https://www.npmjs.com/package/eslint-plugin-lit)
 - Use *eslint-plugin-wc*? (https://github.com/43081j/eslint-plugin-wc)
-- Use more focused imports to better support tree shaking?
+- Reducing bundle sizes
+  - Replace *jStat* with *stdlib*?
+    - Is *stdlib* here to stay?
+  - Tighter *D3* imports?
+    - Tried this once and the bundle actually grew!
+  - Drop *regenerator-runtime* and/or *core-js*?
+    - Drop *Babel* entirely?
 - Libraries
   - Revisit proper targets?
   - How to create tree-shakable imports with web components
@@ -73,11 +79,9 @@ Dependencies updated 17/1/2022.
       1. No sideEffects false
       1. Always import needed classes
       1. Always import from specific file?
-- Update About pages!
 - Include `preparePlotly` in compile step?
 - Get *remark-lint* working in editor
 - Linting and transpiling in tagged template literals?
-- Change `browserslist` to `last 1 version, not dead, > 0.2%`?
 - Clean way for inter-page references?
 - Add "ui" blocks for explaining UI stuff that isn't "real" content?
   ```markdown
