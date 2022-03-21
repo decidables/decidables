@@ -1,484 +1,52 @@
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
-    return typeof obj;
-  } : function (obj) {
-    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-  }, _typeof(obj);
-}
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  Object.defineProperty(Constructor, "prototype", {
-    writable: false
-  });
-  return Constructor;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  Object.defineProperty(subClass, "prototype", {
-    writable: false
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _isNativeReflectConstruct() {
-  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-  if (Reflect.construct.sham) return false;
-  if (typeof Proxy === "function") return true;
-
-  try {
-    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-function _construct(Parent, args, Class) {
-  if (_isNativeReflectConstruct()) {
-    _construct = Reflect.construct;
-  } else {
-    _construct = function _construct(Parent, args, Class) {
-      var a = [null];
-      a.push.apply(a, args);
-      var Constructor = Function.bind.apply(Parent, a);
-      var instance = new Constructor();
-      if (Class) _setPrototypeOf(instance, Class.prototype);
-      return instance;
-    };
-  }
-
-  return _construct.apply(null, arguments);
-}
-
-function _isNativeFunction(fn) {
-  return Function.toString.call(fn).indexOf("[native code]") !== -1;
-}
-
-function _wrapNativeSuper(Class) {
-  var _cache = typeof Map === "function" ? new Map() : undefined;
-
-  _wrapNativeSuper = function _wrapNativeSuper(Class) {
-    if (Class === null || !_isNativeFunction(Class)) return Class;
-
-    if (typeof Class !== "function") {
-      throw new TypeError("Super expression must either be null or a function");
-    }
-
-    if (typeof _cache !== "undefined") {
-      if (_cache.has(Class)) return _cache.get(Class);
-
-      _cache.set(Class, Wrapper);
-    }
-
-    function Wrapper() {
-      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
-    }
-
-    Wrapper.prototype = Object.create(Class.prototype, {
-      constructor: {
-        value: Wrapper,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    return _setPrototypeOf(Wrapper, Class);
-  };
-
-  return _wrapNativeSuper(Class);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  } else if (call !== void 0) {
-    throw new TypeError("Derived constructors may only return object or undefined");
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _createSuper(Derived) {
-  var hasNativeReflectConstruct = _isNativeReflectConstruct();
-
-  return function _createSuperInternal() {
-    var Super = _getPrototypeOf(Derived),
-        result;
-
-    if (hasNativeReflectConstruct) {
-      var NewTarget = _getPrototypeOf(this).constructor;
-
-      result = Reflect.construct(Super, arguments, NewTarget);
-    } else {
-      result = Super.apply(this, arguments);
-    }
-
-    return _possibleConstructorReturn(this, result);
-  };
-}
-
-function _superPropBase(object, property) {
-  while (!Object.prototype.hasOwnProperty.call(object, property)) {
-    object = _getPrototypeOf(object);
-    if (object === null) break;
-  }
-
-  return object;
-}
-
-function _get() {
-  if (typeof Reflect !== "undefined" && Reflect.get) {
-    _get = Reflect.get;
-  } else {
-    _get = function _get(target, property, receiver) {
-      var base = _superPropBase(target, property);
-
-      if (!base) return;
-      var desc = Object.getOwnPropertyDescriptor(base, property);
-
-      if (desc.get) {
-        return desc.get.call(arguments.length < 3 ? target : receiver);
-      }
-
-      return desc.value;
-    };
-  }
-
-  return _get.apply(this, arguments);
-}
-
-function _taggedTemplateLiteral(strings, raw) {
-  if (!raw) {
-    raw = strings.slice(0);
-  }
-
-  return Object.freeze(Object.defineProperties(strings, {
-    raw: {
-      value: Object.freeze(raw)
-    }
-  }));
-}
-
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-
-function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-
-  var _s, _e;
-
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-  return arr2;
-}
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-function _createForOfIteratorHelper(o, allowArrayLike) {
-  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
-
-  if (!it) {
-    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
-      if (it) o = it;
-      var i = 0;
-
-      var F = function () {};
-
-      return {
-        s: F,
-        n: function () {
-          if (i >= o.length) return {
-            done: true
-          };
-          return {
-            done: false,
-            value: o[i++]
-          };
-        },
-        e: function (e) {
-          throw e;
-        },
-        f: F
-      };
-    }
-
-    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-
-  var normalCompletion = true,
-      didErr = false,
-      err;
-  return {
-    s: function () {
-      it = it.call(o);
-    },
-    n: function () {
-      var step = it.next();
-      normalCompletion = step.done;
-      return step;
-    },
-    e: function (e) {
-      didErr = true;
-      err = e;
-    },
-    f: function () {
-      try {
-        if (!normalCompletion && it.return != null) it.return();
-      } finally {
-        if (didErr) throw err;
-      }
-    }
-  };
-}
-
 /**
  * @license
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-var t$1 = window.ShadowRoot && (void 0 === window.ShadyCSS || window.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
-    e$2 = Symbol(),
-    n$3 = new Map();
+const t$1 = window.ShadowRoot && (void 0 === window.ShadyCSS || window.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
+      e$2 = Symbol(),
+      n$3 = new Map();
 
-var s$3 = /*#__PURE__*/function () {
-  function s(t, n) {
-    _classCallCheck(this, s);
-
+class s$3 {
+  constructor(t, n) {
     if (this._$cssResult$ = !0, n !== e$2) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
     this.cssText = t;
   }
 
-  _createClass(s, [{
-    key: "styleSheet",
-    get: function get() {
-      var e = n$3.get(this.cssText);
-      return t$1 && void 0 === e && (n$3.set(this.cssText, e = new CSSStyleSheet()), e.replaceSync(this.cssText)), e;
-    }
-  }, {
-    key: "toString",
-    value: function toString() {
-      return this.cssText;
-    }
-  }]);
-
-  return s;
-}();
-
-var o$3 = function o(t) {
-  return new s$3("string" == typeof t ? t : t + "", e$2);
-},
-    r$2 = function r(t) {
-  for (var _len = arguments.length, n = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    n[_key - 1] = arguments[_key];
+  get styleSheet() {
+    let e = n$3.get(this.cssText);
+    return t$1 && void 0 === e && (n$3.set(this.cssText, e = new CSSStyleSheet()), e.replaceSync(this.cssText)), e;
   }
 
-  var o = 1 === t.length ? t[0] : n.reduce(function (e, n, s) {
-    return e + function (t) {
-      if (!0 === t._$cssResult$) return t.cssText;
-      if ("number" == typeof t) return t;
-      throw Error("Value passed to 'css' function must be a 'css' function result: " + t + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
-    }(n) + t[s + 1];
-  }, t[0]);
+  toString() {
+    return this.cssText;
+  }
+
+}
+
+const o$3 = t => new s$3("string" == typeof t ? t : t + "", e$2),
+      r$2 = (t, ...n) => {
+  const o = 1 === t.length ? t[0] : n.reduce((e, n, s) => e + (t => {
+    if (!0 === t._$cssResult$) return t.cssText;
+    if ("number" == typeof t) return t;
+    throw Error("Value passed to 'css' function must be a 'css' function result: " + t + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
+  })(n) + t[s + 1], t[0]);
   return new s$3(o, e$2);
 },
-    i$1 = function i(e, n) {
-  t$1 ? e.adoptedStyleSheets = n.map(function (t) {
-    return t instanceof CSSStyleSheet ? t : t.styleSheet;
-  }) : n.forEach(function (t) {
-    var n = document.createElement("style"),
-        s = window.litNonce;
+      i$1 = (e, n) => {
+  t$1 ? e.adoptedStyleSheets = n.map(t => t instanceof CSSStyleSheet ? t : t.styleSheet) : n.forEach(t => {
+    const n = document.createElement("style"),
+          s = window.litNonce;
     void 0 !== s && n.setAttribute("nonce", s), n.textContent = t.cssText, e.appendChild(n);
   });
 },
-    S$1 = t$1 ? function (t) {
-  return t;
-} : function (t) {
-  return t instanceof CSSStyleSheet ? function (t) {
-    var e = "";
+      S$1 = t$1 ? t => t : t => t instanceof CSSStyleSheet ? (t => {
+  let e = "";
 
-    var _iterator = _createForOfIteratorHelper(t.cssRules),
-        _step;
+  for (const n of t.cssRules) e += n.cssText;
 
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var _n = _step.value;
-        e += _n.cssText;
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-
-    return o$3(e);
-  }(t) : t;
-};
+  return o$3(e);
+})(t) : t;
 
 /**
  * @license
@@ -488,11 +56,11 @@ var o$3 = function o(t) {
 
 var s$2;
 
-var e$1 = window.trustedTypes,
-    r$1 = e$1 ? e$1.emptyScript : "",
-    h$1 = window.reactiveElementPolyfillSupport,
-    o$2 = {
-  toAttribute: function toAttribute(t, i) {
+const e$1 = window.trustedTypes,
+      r$1 = e$1 ? e$1.emptyScript : "",
+      h$1 = window.reactiveElementPolyfillSupport,
+      o$2 = {
+  toAttribute(t, i) {
     switch (i) {
       case Boolean:
         t = t ? r$1 : null;
@@ -505,8 +73,9 @@ var e$1 = window.trustedTypes,
 
     return t;
   },
-  fromAttribute: function fromAttribute(t, i) {
-    var s = t;
+
+  fromAttribute(t, i) {
+    let s = t;
 
     switch (i) {
       case Boolean:
@@ -529,11 +98,10 @@ var e$1 = window.trustedTypes,
 
     return s;
   }
+
 },
-    n$2 = function n(t, i) {
-  return i !== t && (i == i || t == t);
-},
-    l$3 = {
+      n$2 = (t, i) => i !== t && (i == i || t == t),
+      l$3 = {
   attribute: !0,
   type: String,
   converter: o$2,
@@ -541,364 +109,236 @@ var e$1 = window.trustedTypes,
   hasChanged: n$2
 };
 
-var a$1 = /*#__PURE__*/function (_HTMLElement) {
-  _inherits(a, _HTMLElement);
-
-  var _super = _createSuper(a);
-
-  function a() {
-    var _this;
-
-    _classCallCheck(this, a);
-
-    _this = _super.call(this), _this._$Et = new Map(), _this.isUpdatePending = !1, _this.hasUpdated = !1, _this._$Ei = null, _this.o();
-    return _this;
+class a$1 extends HTMLElement {
+  constructor() {
+    super(), this._$Et = new Map(), this.isUpdatePending = !1, this.hasUpdated = !1, this._$Ei = null, this.o();
   }
 
-  _createClass(a, [{
-    key: "o",
-    value: function o() {
-      var _this2 = this;
+  static addInitializer(t) {
+    var i;
+    null !== (i = this.l) && void 0 !== i || (this.l = []), this.l.push(t);
+  }
 
-      var t;
-      this._$Ep = new Promise(function (t) {
-        return _this2.enableUpdating = t;
-      }), this._$AL = new Map(), this._$Em(), this.requestUpdate(), null === (t = this.constructor.l) || void 0 === t || t.forEach(function (t) {
-        return t(_this2);
-      });
+  static get observedAttributes() {
+    this.finalize();
+    const t = [];
+    return this.elementProperties.forEach((i, s) => {
+      const e = this._$Eh(s, i);
+
+      void 0 !== e && (this._$Eu.set(e, s), t.push(e));
+    }), t;
+  }
+
+  static createProperty(t, i = l$3) {
+    if (i.state && (i.attribute = !1), this.finalize(), this.elementProperties.set(t, i), !i.noAccessor && !this.prototype.hasOwnProperty(t)) {
+      const s = "symbol" == typeof t ? Symbol() : "__" + t,
+            e = this.getPropertyDescriptor(t, s, i);
+      void 0 !== e && Object.defineProperty(this.prototype, t, e);
     }
-  }, {
-    key: "addController",
-    value: function addController(t) {
-      var i, s;
-      (null !== (i = this._$Eg) && void 0 !== i ? i : this._$Eg = []).push(t), void 0 !== this.renderRoot && this.isConnected && (null === (s = t.hostConnected) || void 0 === s || s.call(t));
+  }
+
+  static getPropertyDescriptor(t, i, s) {
+    return {
+      get() {
+        return this[i];
+      },
+
+      set(e) {
+        const r = this[t];
+        this[i] = e, this.requestUpdate(t, r, s);
+      },
+
+      configurable: !0,
+      enumerable: !0
+    };
+  }
+
+  static getPropertyOptions(t) {
+    return this.elementProperties.get(t) || l$3;
+  }
+
+  static finalize() {
+    if (this.hasOwnProperty("finalized")) return !1;
+    this.finalized = !0;
+    const t = Object.getPrototypeOf(this);
+
+    if (t.finalize(), this.elementProperties = new Map(t.elementProperties), this._$Eu = new Map(), this.hasOwnProperty("properties")) {
+      const t = this.properties,
+            i = [...Object.getOwnPropertyNames(t), ...Object.getOwnPropertySymbols(t)];
+
+      for (const s of i) this.createProperty(s, t[s]);
     }
-  }, {
-    key: "removeController",
-    value: function removeController(t) {
+
+    return this.elementStyles = this.finalizeStyles(this.styles), !0;
+  }
+
+  static finalizeStyles(i) {
+    const s = [];
+
+    if (Array.isArray(i)) {
+      const e = new Set(i.flat(1 / 0).reverse());
+
+      for (const i of e) s.unshift(S$1(i));
+    } else void 0 !== i && s.push(S$1(i));
+
+    return s;
+  }
+
+  static _$Eh(t, i) {
+    const s = i.attribute;
+    return !1 === s ? void 0 : "string" == typeof s ? s : "string" == typeof t ? t.toLowerCase() : void 0;
+  }
+
+  o() {
+    var t;
+    this._$Ep = new Promise(t => this.enableUpdating = t), this._$AL = new Map(), this._$Em(), this.requestUpdate(), null === (t = this.constructor.l) || void 0 === t || t.forEach(t => t(this));
+  }
+
+  addController(t) {
+    var i, s;
+    (null !== (i = this._$Eg) && void 0 !== i ? i : this._$Eg = []).push(t), void 0 !== this.renderRoot && this.isConnected && (null === (s = t.hostConnected) || void 0 === s || s.call(t));
+  }
+
+  removeController(t) {
+    var i;
+    null === (i = this._$Eg) || void 0 === i || i.splice(this._$Eg.indexOf(t) >>> 0, 1);
+  }
+
+  _$Em() {
+    this.constructor.elementProperties.forEach((t, i) => {
+      this.hasOwnProperty(i) && (this._$Et.set(i, this[i]), delete this[i]);
+    });
+  }
+
+  createRenderRoot() {
+    var t;
+    const s = null !== (t = this.shadowRoot) && void 0 !== t ? t : this.attachShadow(this.constructor.shadowRootOptions);
+    return i$1(s, this.constructor.elementStyles), s;
+  }
+
+  connectedCallback() {
+    var t;
+    void 0 === this.renderRoot && (this.renderRoot = this.createRenderRoot()), this.enableUpdating(!0), null === (t = this._$Eg) || void 0 === t || t.forEach(t => {
       var i;
-      null === (i = this._$Eg) || void 0 === i || i.splice(this._$Eg.indexOf(t) >>> 0, 1);
-    }
-  }, {
-    key: "_$Em",
-    value: function _$Em() {
-      var _this3 = this;
+      return null === (i = t.hostConnected) || void 0 === i ? void 0 : i.call(t);
+    });
+  }
 
-      this.constructor.elementProperties.forEach(function (t, i) {
-        _this3.hasOwnProperty(i) && (_this3._$Et.set(i, _this3[i]), delete _this3[i]);
-      });
-    }
-  }, {
-    key: "createRenderRoot",
-    value: function createRenderRoot() {
-      var t;
-      var s = null !== (t = this.shadowRoot) && void 0 !== t ? t : this.attachShadow(this.constructor.shadowRootOptions);
-      return i$1(s, this.constructor.elementStyles), s;
-    }
-  }, {
-    key: "connectedCallback",
-    value: function connectedCallback() {
-      var t;
-      void 0 === this.renderRoot && (this.renderRoot = this.createRenderRoot()), this.enableUpdating(!0), null === (t = this._$Eg) || void 0 === t || t.forEach(function (t) {
-        var i;
-        return null === (i = t.hostConnected) || void 0 === i ? void 0 : i.call(t);
-      });
-    }
-  }, {
-    key: "enableUpdating",
-    value: function enableUpdating(t) {}
-  }, {
-    key: "disconnectedCallback",
-    value: function disconnectedCallback() {
-      var t;
-      null === (t = this._$Eg) || void 0 === t || t.forEach(function (t) {
-        var i;
-        return null === (i = t.hostDisconnected) || void 0 === i ? void 0 : i.call(t);
-      });
-    }
-  }, {
-    key: "attributeChangedCallback",
-    value: function attributeChangedCallback(t, i, s) {
-      this._$AK(t, s);
-    }
-  }, {
-    key: "_$ES",
-    value: function _$ES(t, i) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : l$3;
-      var e, r;
+  enableUpdating(t) {}
 
-      var h = this.constructor._$Eh(t, s);
+  disconnectedCallback() {
+    var t;
+    null === (t = this._$Eg) || void 0 === t || t.forEach(t => {
+      var i;
+      return null === (i = t.hostDisconnected) || void 0 === i ? void 0 : i.call(t);
+    });
+  }
 
-      if (void 0 !== h && !0 === s.reflect) {
-        var _n = (null !== (r = null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute) && void 0 !== r ? r : o$2.toAttribute)(i, s.type);
+  attributeChangedCallback(t, i, s) {
+    this._$AK(t, s);
+  }
 
-        this._$Ei = t, null == _n ? this.removeAttribute(h) : this.setAttribute(h, _n), this._$Ei = null;
-      }
+  _$ES(t, i, s = l$3) {
+    var e, r;
+
+    const h = this.constructor._$Eh(t, s);
+
+    if (void 0 !== h && !0 === s.reflect) {
+      const n = (null !== (r = null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute) && void 0 !== r ? r : o$2.toAttribute)(i, s.type);
+      this._$Ei = t, null == n ? this.removeAttribute(h) : this.setAttribute(h, n), this._$Ei = null;
     }
-  }, {
-    key: "_$AK",
-    value: function _$AK(t, i) {
-      var s, e, r;
+  }
 
-      var h = this.constructor,
+  _$AK(t, i) {
+    var s, e, r;
+
+    const h = this.constructor,
           n = h._$Eu.get(t);
 
-      if (void 0 !== n && this._$Ei !== n) {
-        var _t = h.getPropertyOptions(n),
-            _l = _t.converter,
-            _a2 = null !== (r = null !== (e = null === (s = _l) || void 0 === s ? void 0 : s.fromAttribute) && void 0 !== e ? e : "function" == typeof _l ? _l : null) && void 0 !== r ? r : o$2.fromAttribute;
-
-        this._$Ei = n, this[n] = _a2(i, _t.type), this._$Ei = null;
-      }
+    if (void 0 !== n && this._$Ei !== n) {
+      const t = h.getPropertyOptions(n),
+            l = t.converter,
+            a = null !== (r = null !== (e = null === (s = l) || void 0 === s ? void 0 : s.fromAttribute) && void 0 !== e ? e : "function" == typeof l ? l : null) && void 0 !== r ? r : o$2.fromAttribute;
+      this._$Ei = n, this[n] = a(i, t.type), this._$Ei = null;
     }
-  }, {
-    key: "requestUpdate",
-    value: function requestUpdate(t, i, s) {
-      var e = !0;
-      void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || n$2)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$Ei !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$Ep = this._$E_());
+  }
+
+  requestUpdate(t, i, s) {
+    let e = !0;
+    void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || n$2)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$Ei !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$Ep = this._$E_());
+  }
+
+  async _$E_() {
+    this.isUpdatePending = !0;
+
+    try {
+      await this._$Ep;
+    } catch (t) {
+      Promise.reject(t);
     }
-  }, {
-    key: "_$E_",
-    value: function () {
-      var _$E_2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var t;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                this.isUpdatePending = !0;
-                _context.prev = 1;
-                _context.next = 4;
-                return this._$Ep;
 
-              case 4:
-                _context.next = 9;
-                break;
+    const t = this.scheduleUpdate();
+    return null != t && (await t), !this.isUpdatePending;
+  }
 
-              case 6:
-                _context.prev = 6;
-                _context.t0 = _context["catch"](1);
-                Promise.reject(_context.t0);
+  scheduleUpdate() {
+    return this.performUpdate();
+  }
 
-              case 9:
-                t = this.scheduleUpdate();
-                _context.t1 = null != t;
+  performUpdate() {
+    var t;
+    if (!this.isUpdatePending) return;
+    this.hasUpdated, this._$Et && (this._$Et.forEach((t, i) => this[i] = t), this._$Et = void 0);
+    let i = !1;
+    const s = this._$AL;
 
-                if (!_context.t1) {
-                  _context.next = 14;
-                  break;
-                }
-
-                _context.next = 14;
-                return t;
-
-              case 14:
-                return _context.abrupt("return", !this.isUpdatePending);
-
-              case 15:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this, [[1, 6]]);
-      }));
-
-      function _$E_() {
-        return _$E_2.apply(this, arguments);
-      }
-
-      return _$E_;
-    }()
-  }, {
-    key: "scheduleUpdate",
-    value: function scheduleUpdate() {
-      return this.performUpdate();
-    }
-  }, {
-    key: "performUpdate",
-    value: function performUpdate() {
-      var _this4 = this;
-
-      var t;
-      if (!this.isUpdatePending) return;
-      this.hasUpdated, this._$Et && (this._$Et.forEach(function (t, i) {
-        return _this4[i] = t;
-      }), this._$Et = void 0);
-      var i = !1;
-      var s = this._$AL;
-
-      try {
-        i = this.shouldUpdate(s), i ? (this.willUpdate(s), null === (t = this._$Eg) || void 0 === t || t.forEach(function (t) {
-          var i;
-          return null === (i = t.hostUpdate) || void 0 === i ? void 0 : i.call(t);
-        }), this.update(s)) : this._$EU();
-      } catch (t) {
-        throw i = !1, this._$EU(), t;
-      }
-
-      i && this._$AE(s);
-    }
-  }, {
-    key: "willUpdate",
-    value: function willUpdate(t) {}
-  }, {
-    key: "_$AE",
-    value: function _$AE(t) {
-      var i;
-      null === (i = this._$Eg) || void 0 === i || i.forEach(function (t) {
+    try {
+      i = this.shouldUpdate(s), i ? (this.willUpdate(s), null === (t = this._$Eg) || void 0 === t || t.forEach(t => {
         var i;
-        return null === (i = t.hostUpdated) || void 0 === i ? void 0 : i.call(t);
-      }), this.hasUpdated || (this.hasUpdated = !0, this.firstUpdated(t)), this.updated(t);
+        return null === (i = t.hostUpdate) || void 0 === i ? void 0 : i.call(t);
+      }), this.update(s)) : this._$EU();
+    } catch (t) {
+      throw i = !1, this._$EU(), t;
     }
-  }, {
-    key: "_$EU",
-    value: function _$EU() {
-      this._$AL = new Map(), this.isUpdatePending = !1;
-    }
-  }, {
-    key: "updateComplete",
-    get: function get() {
-      return this.getUpdateComplete();
-    }
-  }, {
-    key: "getUpdateComplete",
-    value: function getUpdateComplete() {
-      return this._$Ep;
-    }
-  }, {
-    key: "shouldUpdate",
-    value: function shouldUpdate(t) {
-      return !0;
-    }
-  }, {
-    key: "update",
-    value: function update(t) {
-      var _this5 = this;
 
-      void 0 !== this._$EC && (this._$EC.forEach(function (t, i) {
-        return _this5._$ES(i, _this5[i], t);
-      }), this._$EC = void 0), this._$EU();
-    }
-  }, {
-    key: "updated",
-    value: function updated(t) {}
-  }, {
-    key: "firstUpdated",
-    value: function firstUpdated(t) {}
-  }], [{
-    key: "addInitializer",
-    value: function addInitializer(t) {
+    i && this._$AE(s);
+  }
+
+  willUpdate(t) {}
+
+  _$AE(t) {
+    var i;
+    null === (i = this._$Eg) || void 0 === i || i.forEach(t => {
       var i;
-      null !== (i = this.l) && void 0 !== i || (this.l = []), this.l.push(t);
-    }
-  }, {
-    key: "observedAttributes",
-    get: function get() {
-      var _this6 = this;
+      return null === (i = t.hostUpdated) || void 0 === i ? void 0 : i.call(t);
+    }), this.hasUpdated || (this.hasUpdated = !0, this.firstUpdated(t)), this.updated(t);
+  }
 
-      this.finalize();
-      var t = [];
-      return this.elementProperties.forEach(function (i, s) {
-        var e = _this6._$Eh(s, i);
+  _$EU() {
+    this._$AL = new Map(), this.isUpdatePending = !1;
+  }
 
-        void 0 !== e && (_this6._$Eu.set(e, s), t.push(e));
-      }), t;
-    }
-  }, {
-    key: "createProperty",
-    value: function createProperty(t) {
-      var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : l$3;
+  get updateComplete() {
+    return this.getUpdateComplete();
+  }
 
-      if (i.state && (i.attribute = !1), this.finalize(), this.elementProperties.set(t, i), !i.noAccessor && !this.prototype.hasOwnProperty(t)) {
-        var _s = "symbol" == _typeof(t) ? Symbol() : "__" + t,
-            _e = this.getPropertyDescriptor(t, _s, i);
+  getUpdateComplete() {
+    return this._$Ep;
+  }
 
-        void 0 !== _e && Object.defineProperty(this.prototype, t, _e);
-      }
-    }
-  }, {
-    key: "getPropertyDescriptor",
-    value: function getPropertyDescriptor(t, i, s) {
-      return {
-        get: function get() {
-          return this[i];
-        },
-        set: function set(e) {
-          var r = this[t];
-          this[i] = e, this.requestUpdate(t, r, s);
-        },
-        configurable: !0,
-        enumerable: !0
-      };
-    }
-  }, {
-    key: "getPropertyOptions",
-    value: function getPropertyOptions(t) {
-      return this.elementProperties.get(t) || l$3;
-    }
-  }, {
-    key: "finalize",
-    value: function finalize() {
-      if (this.hasOwnProperty("finalized")) return !1;
-      this.finalized = !0;
-      var t = Object.getPrototypeOf(this);
+  shouldUpdate(t) {
+    return !0;
+  }
 
-      if (t.finalize(), this.elementProperties = new Map(t.elementProperties), this._$Eu = new Map(), this.hasOwnProperty("properties")) {
-        var _t2 = this.properties,
-            _i = [].concat(_toConsumableArray(Object.getOwnPropertyNames(_t2)), _toConsumableArray(Object.getOwnPropertySymbols(_t2)));
+  update(t) {
+    void 0 !== this._$EC && (this._$EC.forEach((t, i) => this._$ES(i, this[i], t)), this._$EC = void 0), this._$EU();
+  }
 
-        var _iterator = _createForOfIteratorHelper(_i),
-            _step;
+  updated(t) {}
 
-        try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var _s2 = _step.value;
-            this.createProperty(_s2, _t2[_s2]);
-          }
-        } catch (err) {
-          _iterator.e(err);
-        } finally {
-          _iterator.f();
-        }
-      }
+  firstUpdated(t) {}
 
-      return this.elementStyles = this.finalizeStyles(this.styles), !0;
-    }
-  }, {
-    key: "finalizeStyles",
-    value: function finalizeStyles(i) {
-      var s = [];
-
-      if (Array.isArray(i)) {
-        var _e2 = new Set(i.flat(1 / 0).reverse());
-
-        var _iterator2 = _createForOfIteratorHelper(_e2),
-            _step2;
-
-        try {
-          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-            var _i2 = _step2.value;
-            s.unshift(S$1(_i2));
-          }
-        } catch (err) {
-          _iterator2.e(err);
-        } finally {
-          _iterator2.f();
-        }
-      } else void 0 !== i && s.push(S$1(i));
-
-      return s;
-    }
-  }, {
-    key: "_$Eh",
-    value: function _$Eh(t, i) {
-      var s = i.attribute;
-      return !1 === s ? void 0 : "string" == typeof s ? s : "string" == typeof t ? t.toLowerCase() : void 0;
-    }
-  }]);
-
-  return a;
-}( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
+}
 
 a$1.finalized = !0, a$1.elementProperties = new Map(), a$1.elementStyles = [], a$1.shadowRootOptions = {
   mode: "open"
@@ -913,563 +353,395 @@ a$1.finalized = !0, a$1.elementProperties = new Map(), a$1.elementStyles = [], a
  */
 var t;
 
-var i = globalThis.trustedTypes,
-    s$1 = i ? i.createPolicy("lit-html", {
-  createHTML: function createHTML(t) {
-    return t;
-  }
+const i = globalThis.trustedTypes,
+      s$1 = i ? i.createPolicy("lit-html", {
+  createHTML: t => t
 }) : void 0,
-    e = "lit$".concat((Math.random() + "").slice(9), "$"),
-    o$1 = "?" + e,
-    n$1 = "<".concat(o$1, ">"),
-    l$2 = document,
-    h = function h() {
-  var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-  return l$2.createComment(t);
-},
-    r = function r(t) {
-  return null === t || "object" != _typeof(t) && "function" != typeof t;
-},
-    d = Array.isArray,
-    u = function u(t) {
+      e = `lit$${(Math.random() + "").slice(9)}$`,
+      o$1 = "?" + e,
+      n$1 = `<${o$1}>`,
+      l$2 = document,
+      h = (t = "") => l$2.createComment(t),
+      r = t => null === t || "object" != typeof t && "function" != typeof t,
+      d = Array.isArray,
+      u = t => {
   var i;
   return d(t) || "function" == typeof (null === (i = t) || void 0 === i ? void 0 : i[Symbol.iterator]);
 },
-    c = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
-    v = /-->/g,
-    a = />/g,
-    f = />|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g,
-    _ = /'/g,
-    m = /"/g,
-    g = /^(?:script|style|textarea|title)$/i,
-    p = function p(t) {
-  return function (i) {
-    for (var _len = arguments.length, s = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      s[_key - 1] = arguments[_key];
-    }
-
-    return {
-      _$litType$: t,
-      strings: i,
-      values: s
-    };
-  };
-},
-    $ = p(1),
-    y$1 = p(2),
-    b = Symbol.for("lit-noChange"),
-    w = Symbol.for("lit-nothing"),
-    T = new WeakMap(),
-    x$1 = function x(t, i, s) {
+      c = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
+      v = /-->/g,
+      a = />/g,
+      f = />|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g,
+      _$n = /'/g,
+      m = /"/g,
+      g = /^(?:script|style|textarea|title)$/i,
+      p = t => (i, ...s) => ({
+  _$litType$: t,
+  strings: i,
+  values: s
+}),
+      $ = p(1),
+      y$1 = p(2),
+      b = Symbol.for("lit-noChange"),
+      w = Symbol.for("lit-nothing"),
+      T = new WeakMap(),
+      x$1 = (t, i, s) => {
   var e, o;
-  var n = null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i;
-  var l = n._$litPart$;
+  const n = null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i;
+  let l = n._$litPart$;
 
   if (void 0 === l) {
-    var _t = null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o ? o : null;
-
-    n._$litPart$ = l = new N(i.insertBefore(h(), _t), _t, void 0, null != s ? s : {});
+    const t = null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o ? o : null;
+    n._$litPart$ = l = new N(i.insertBefore(h(), t), t, void 0, null != s ? s : {});
   }
 
   return l._$AI(t), l;
 },
-    A = l$2.createTreeWalker(l$2, 129, null, !1),
-    C = function C(t, i) {
-  var o = t.length - 1,
-      l = [];
-  var h,
+      A = l$2.createTreeWalker(l$2, 129, null, !1),
+      C = (t, i) => {
+  const o = t.length - 1,
+        l = [];
+  let h,
       r = 2 === i ? "<svg>" : "",
       d = c;
 
-  for (var _i = 0; _i < o; _i++) {
-    var _s = t[_i];
+  for (let i = 0; i < o; i++) {
+    const s = t[i];
+    let o,
+        u,
+        p = -1,
+        $ = 0;
 
-    var _o = void 0,
-        _u = void 0,
-        _p = -1,
-        _$ = 0;
+    for (; $ < s.length && (d.lastIndex = $, u = d.exec(s), null !== u);) $ = d.lastIndex, d === c ? "!--" === u[1] ? d = v : void 0 !== u[1] ? d = a : void 0 !== u[2] ? (g.test(u[2]) && (h = RegExp("</" + u[2], "g")), d = f) : void 0 !== u[3] && (d = f) : d === f ? ">" === u[0] ? (d = null != h ? h : c, p = -1) : void 0 === u[1] ? p = -2 : (p = d.lastIndex - u[2].length, o = u[1], d = void 0 === u[3] ? f : '"' === u[3] ? m : _$n) : d === m || d === _$n ? d = f : d === v || d === a ? d = c : (d = f, h = void 0);
 
-    for (; _$ < _s.length && (d.lastIndex = _$, _u = d.exec(_s), null !== _u);) {
-      _$ = d.lastIndex, d === c ? "!--" === _u[1] ? d = v : void 0 !== _u[1] ? d = a : void 0 !== _u[2] ? (g.test(_u[2]) && (h = RegExp("</" + _u[2], "g")), d = f) : void 0 !== _u[3] && (d = f) : d === f ? ">" === _u[0] ? (d = null != h ? h : c, _p = -1) : void 0 === _u[1] ? _p = -2 : (_p = d.lastIndex - _u[2].length, _o = _u[1], d = void 0 === _u[3] ? f : '"' === _u[3] ? m : _) : d === m || d === _ ? d = f : d === v || d === a ? d = c : (d = f, h = void 0);
-    }
-
-    var _y = d === f && t[_i + 1].startsWith("/>") ? " " : "";
-
-    r += d === c ? _s + n$1 : _p >= 0 ? (l.push(_o), _s.slice(0, _p) + "$lit$" + _s.slice(_p) + e + _y) : _s + e + (-2 === _p ? (l.push(void 0), _i) : _y);
+    const y = d === f && t[i + 1].startsWith("/>") ? " " : "";
+    r += d === c ? s + n$1 : p >= 0 ? (l.push(o), s.slice(0, p) + "$lit$" + s.slice(p) + e + y) : s + e + (-2 === p ? (l.push(void 0), i) : y);
   }
 
-  var u = r + (t[o] || "<?>") + (2 === i ? "</svg>" : "");
+  const u = r + (t[o] || "<?>") + (2 === i ? "</svg>" : "");
   if (!Array.isArray(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return [void 0 !== s$1 ? s$1.createHTML(u) : u, l];
 };
 
-var E = /*#__PURE__*/function () {
-  function E(_ref, n) {
-    var t = _ref.strings,
-        s = _ref._$litType$;
-
-    _classCallCheck(this, E);
-
-    var l;
+class E {
+  constructor({
+    strings: t,
+    _$litType$: s
+  }, n) {
+    let l;
     this.parts = [];
-    var r = 0,
+    let r = 0,
         d = 0;
-
-    var u = t.length - 1,
-        c = this.parts,
-        _C = C(t, s),
-        _C2 = _slicedToArray(_C, 2),
-        v = _C2[0],
-        a = _C2[1];
+    const u = t.length - 1,
+          c = this.parts,
+          [v, a] = C(t, s);
 
     if (this.el = E.createElement(v, n), A.currentNode = this.el.content, 2 === s) {
-      var _t2 = this.el.content,
-          _i2 = _t2.firstChild;
-      _i2.remove(), _t2.append.apply(_t2, _toConsumableArray(_i2.childNodes));
+      const t = this.el.content,
+            i = t.firstChild;
+      i.remove(), t.append(...i.childNodes);
     }
 
     for (; null !== (l = A.nextNode()) && c.length < u;) {
       if (1 === l.nodeType) {
         if (l.hasAttributes()) {
-          var _t3 = [];
+          const t = [];
 
-          var _iterator = _createForOfIteratorHelper(l.getAttributeNames()),
-              _step;
+          for (const i of l.getAttributeNames()) if (i.endsWith("$lit$") || i.startsWith(e)) {
+            const s = a[d++];
 
-          try {
-            for (_iterator.s(); !(_step = _iterator.n()).done;) {
-              var _i5 = _step.value;
-
-              if (_i5.endsWith("$lit$") || _i5.startsWith(e)) {
-                var _s2 = a[d++];
-
-                if (_t3.push(_i5), void 0 !== _s2) {
-                  var _t5 = l.getAttribute(_s2.toLowerCase() + "$lit$").split(e),
-                      _i6 = /([.?@])?(.*)/.exec(_s2);
-
-                  c.push({
-                    type: 1,
-                    index: r,
-                    name: _i6[2],
-                    strings: _t5,
-                    ctor: "." === _i6[1] ? M : "?" === _i6[1] ? H : "@" === _i6[1] ? I : S
-                  });
-                } else c.push({
-                  type: 6,
-                  index: r
-                });
-              }
-            }
-          } catch (err) {
-            _iterator.e(err);
-          } finally {
-            _iterator.f();
+            if (t.push(i), void 0 !== s) {
+              const t = l.getAttribute(s.toLowerCase() + "$lit$").split(e),
+                    i = /([.?@])?(.*)/.exec(s);
+              c.push({
+                type: 1,
+                index: r,
+                name: i[2],
+                strings: t,
+                ctor: "." === i[1] ? M : "?" === i[1] ? H : "@" === i[1] ? I : S
+              });
+            } else c.push({
+              type: 6,
+              index: r
+            });
           }
 
-          for (var _i3 = 0, _t4 = _t3; _i3 < _t4.length; _i3++) {
-            var _i4 = _t4[_i3];
-            l.removeAttribute(_i4);
-          }
+          for (const i of t) l.removeAttribute(i);
         }
 
         if (g.test(l.tagName)) {
-          var _t6 = l.textContent.split(e),
-              _s3 = _t6.length - 1;
+          const t = l.textContent.split(e),
+                s = t.length - 1;
 
-          if (_s3 > 0) {
+          if (s > 0) {
             l.textContent = i ? i.emptyScript : "";
 
-            for (var _i7 = 0; _i7 < _s3; _i7++) {
-              l.append(_t6[_i7], h()), A.nextNode(), c.push({
-                type: 2,
-                index: ++r
-              });
-            }
+            for (let i = 0; i < s; i++) l.append(t[i], h()), A.nextNode(), c.push({
+              type: 2,
+              index: ++r
+            });
 
-            l.append(_t6[_s3], h());
+            l.append(t[s], h());
           }
         }
       } else if (8 === l.nodeType) if (l.data === o$1) c.push({
         type: 2,
         index: r
       });else {
-        var _t7 = -1;
+        let t = -1;
 
-        for (; -1 !== (_t7 = l.data.indexOf(e, _t7 + 1));) {
-          c.push({
-            type: 7,
-            index: r
-          }), _t7 += e.length - 1;
-        }
+        for (; -1 !== (t = l.data.indexOf(e, t + 1));) c.push({
+          type: 7,
+          index: r
+        }), t += e.length - 1;
       }
 
       r++;
     }
   }
 
-  _createClass(E, null, [{
-    key: "createElement",
-    value: function createElement(t, i) {
-      var s = l$2.createElement("template");
-      return s.innerHTML = t, s;
-    }
-  }]);
+  static createElement(t, i) {
+    const s = l$2.createElement("template");
+    return s.innerHTML = t, s;
+  }
 
-  return E;
-}();
+}
 
-function P(t, i) {
-  var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : t;
-  var e = arguments.length > 3 ? arguments[3] : undefined;
+function P(t, i, s = t, e) {
   var o, n, l, h;
   if (i === b) return i;
-  var d = void 0 !== e ? null === (o = s._$Cl) || void 0 === o ? void 0 : o[e] : s._$Cu;
-  var u = r(i) ? void 0 : i._$litDirective$;
+  let d = void 0 !== e ? null === (o = s._$Cl) || void 0 === o ? void 0 : o[e] : s._$Cu;
+  const u = r(i) ? void 0 : i._$litDirective$;
   return (null == d ? void 0 : d.constructor) !== u && (null === (n = null == d ? void 0 : d._$AO) || void 0 === n || n.call(d, !1), void 0 === u ? d = void 0 : (d = new u(t), d._$AT(t, s, e)), void 0 !== e ? (null !== (l = (h = s)._$Cl) && void 0 !== l ? l : h._$Cl = [])[e] = d : s._$Cu = d), void 0 !== d && (i = P(t, d._$AS(t, i.values), d, e)), i;
 }
 
-var V = /*#__PURE__*/function () {
-  function V(t, i) {
-    _classCallCheck(this, V);
-
+class V {
+  constructor(t, i) {
     this.v = [], this._$AN = void 0, this._$AD = t, this._$AM = i;
   }
 
-  _createClass(V, [{
-    key: "parentNode",
-    get: function get() {
-      return this._$AM.parentNode;
-    }
-  }, {
-    key: "_$AU",
-    get: function get() {
-      return this._$AM._$AU;
-    }
-  }, {
-    key: "p",
-    value: function p(t) {
-      var i;
-      var _this$_$AD = this._$AD,
-          s = _this$_$AD.el.content,
-          e = _this$_$AD.parts,
+  get parentNode() {
+    return this._$AM.parentNode;
+  }
+
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+
+  p(t) {
+    var i;
+    const {
+      el: {
+        content: s
+      },
+      parts: e
+    } = this._$AD,
           o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i ? i : l$2).importNode(s, !0);
-      A.currentNode = o;
-      var n = A.nextNode(),
-          h = 0,
-          r = 0,
-          d = e[0];
+    A.currentNode = o;
+    let n = A.nextNode(),
+        h = 0,
+        r = 0,
+        d = e[0];
 
-      for (; void 0 !== d;) {
-        if (h === d.index) {
-          var _i8 = void 0;
-
-          2 === d.type ? _i8 = new N(n, n.nextSibling, this, t) : 1 === d.type ? _i8 = new d.ctor(n, d.name, d.strings, this, t) : 6 === d.type && (_i8 = new L(n, this, t)), this.v.push(_i8), d = e[++r];
-        }
-
-        h !== (null == d ? void 0 : d.index) && (n = A.nextNode(), h++);
+    for (; void 0 !== d;) {
+      if (h === d.index) {
+        let i;
+        2 === d.type ? i = new N(n, n.nextSibling, this, t) : 1 === d.type ? i = new d.ctor(n, d.name, d.strings, this, t) : 6 === d.type && (i = new L(n, this, t)), this.v.push(i), d = e[++r];
       }
 
-      return o;
+      h !== (null == d ? void 0 : d.index) && (n = A.nextNode(), h++);
     }
-  }, {
-    key: "m",
-    value: function m(t) {
-      var i = 0;
 
-      var _iterator2 = _createForOfIteratorHelper(this.v),
-          _step2;
+    return o;
+  }
 
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var _s4 = _step2.value;
-          void 0 !== _s4 && (void 0 !== _s4.strings ? (_s4._$AI(t, _s4, i), i += _s4.strings.length - 2) : _s4._$AI(t[i])), i++;
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-    }
-  }]);
+  m(t) {
+    let i = 0;
 
-  return V;
-}();
+    for (const s of this.v) void 0 !== s && (void 0 !== s.strings ? (s._$AI(t, s, i), i += s.strings.length - 2) : s._$AI(t[i])), i++;
+  }
 
-var N = /*#__PURE__*/function () {
-  function N(t, i, s, e) {
-    _classCallCheck(this, N);
+}
 
+class N {
+  constructor(t, i, s, e) {
     var o;
     this.type = 2, this._$AH = w, this._$AN = void 0, this._$AA = t, this._$AB = i, this._$AM = s, this.options = e, this._$Cg = null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o;
   }
 
-  _createClass(N, [{
-    key: "_$AU",
-    get: function get() {
-      var t, i;
-      return null !== (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) && void 0 !== i ? i : this._$Cg;
-    }
-  }, {
-    key: "parentNode",
-    get: function get() {
-      var t = this._$AA.parentNode;
-      var i = this._$AM;
-      return void 0 !== i && 11 === t.nodeType && (t = i.parentNode), t;
-    }
-  }, {
-    key: "startNode",
-    get: function get() {
-      return this._$AA;
-    }
-  }, {
-    key: "endNode",
-    get: function get() {
-      return this._$AB;
-    }
-  }, {
-    key: "_$AI",
-    value: function _$AI(t) {
-      var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-      t = P(this, t, i), r(t) ? t === w || null == t || "" === t ? (this._$AH !== w && this._$AR(), this._$AH = w) : t !== this._$AH && t !== b && this.$(t) : void 0 !== t._$litType$ ? this.T(t) : void 0 !== t.nodeType ? this.k(t) : u(t) ? this.S(t) : this.$(t);
-    }
-  }, {
-    key: "A",
-    value: function A(t) {
-      var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this._$AB;
-      return this._$AA.parentNode.insertBefore(t, i);
-    }
-  }, {
-    key: "k",
-    value: function k(t) {
-      this._$AH !== t && (this._$AR(), this._$AH = this.A(t));
-    }
-  }, {
-    key: "$",
-    value: function $(t) {
-      this._$AH !== w && r(this._$AH) ? this._$AA.nextSibling.data = t : this.k(l$2.createTextNode(t)), this._$AH = t;
-    }
-  }, {
-    key: "T",
-    value: function T(t) {
-      var i;
-      var s = t.values,
-          e = t._$litType$,
+  get _$AU() {
+    var t, i;
+    return null !== (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) && void 0 !== i ? i : this._$Cg;
+  }
+
+  get parentNode() {
+    let t = this._$AA.parentNode;
+    const i = this._$AM;
+    return void 0 !== i && 11 === t.nodeType && (t = i.parentNode), t;
+  }
+
+  get startNode() {
+    return this._$AA;
+  }
+
+  get endNode() {
+    return this._$AB;
+  }
+
+  _$AI(t, i = this) {
+    t = P(this, t, i), r(t) ? t === w || null == t || "" === t ? (this._$AH !== w && this._$AR(), this._$AH = w) : t !== this._$AH && t !== b && this.$(t) : void 0 !== t._$litType$ ? this.T(t) : void 0 !== t.nodeType ? this.k(t) : u(t) ? this.S(t) : this.$(t);
+  }
+
+  A(t, i = this._$AB) {
+    return this._$AA.parentNode.insertBefore(t, i);
+  }
+
+  k(t) {
+    this._$AH !== t && (this._$AR(), this._$AH = this.A(t));
+  }
+
+  $(t) {
+    this._$AH !== w && r(this._$AH) ? this._$AA.nextSibling.data = t : this.k(l$2.createTextNode(t)), this._$AH = t;
+  }
+
+  T(t) {
+    var i;
+    const {
+      values: s,
+      _$litType$: e
+    } = t,
           o = "number" == typeof e ? this._$AC(t) : (void 0 === e.el && (e.el = E.createElement(e.h, this.options)), e);
-      if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o) this._$AH.m(s);else {
-        var _t8 = new V(o, this),
-            _i9 = _t8.p(this.options);
-
-        _t8.m(s), this.k(_i9), this._$AH = _t8;
-      }
+    if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o) this._$AH.m(s);else {
+      const t = new V(o, this),
+            i = t.p(this.options);
+      t.m(s), this.k(i), this._$AH = t;
     }
-  }, {
-    key: "_$AC",
-    value: function _$AC(t) {
-      var i = T.get(t.strings);
-      return void 0 === i && T.set(t.strings, i = new E(t)), i;
+  }
+
+  _$AC(t) {
+    let i = T.get(t.strings);
+    return void 0 === i && T.set(t.strings, i = new E(t)), i;
+  }
+
+  S(t) {
+    d(this._$AH) || (this._$AH = [], this._$AR());
+    const i = this._$AH;
+    let s,
+        e = 0;
+
+    for (const o of t) e === i.length ? i.push(s = new N(this.A(h()), this.A(h()), this, this.options)) : s = i[e], s._$AI(o), e++;
+
+    e < i.length && (this._$AR(s && s._$AB.nextSibling, e), i.length = e);
+  }
+
+  _$AR(t = this._$AA.nextSibling, i) {
+    var s;
+
+    for (null === (s = this._$AP) || void 0 === s || s.call(this, !1, !0, i); t && t !== this._$AB;) {
+      const i = t.nextSibling;
+      t.remove(), t = i;
     }
-  }, {
-    key: "S",
-    value: function S(t) {
-      d(this._$AH) || (this._$AH = [], this._$AR());
-      var i = this._$AH;
-      var s,
-          e = 0;
+  }
 
-      var _iterator3 = _createForOfIteratorHelper(t),
-          _step3;
+  setConnected(t) {
+    var i;
+    void 0 === this._$AM && (this._$Cg = t, null === (i = this._$AP) || void 0 === i || i.call(this, t));
+  }
 
-      try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var _o2 = _step3.value;
-          e === i.length ? i.push(s = new N(this.A(h()), this.A(h()), this, this.options)) : s = i[e], s._$AI(_o2), e++;
-        }
-      } catch (err) {
-        _iterator3.e(err);
-      } finally {
-        _iterator3.f();
-      }
+}
 
-      e < i.length && (this._$AR(s && s._$AB.nextSibling, e), i.length = e);
-    }
-  }, {
-    key: "_$AR",
-    value: function _$AR() {
-      var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._$AA.nextSibling;
-      var i = arguments.length > 1 ? arguments[1] : undefined;
-      var s;
-
-      for (null === (s = this._$AP) || void 0 === s || s.call(this, !1, !0, i); t && t !== this._$AB;) {
-        var _i10 = t.nextSibling;
-        t.remove(), t = _i10;
-      }
-    }
-  }, {
-    key: "setConnected",
-    value: function setConnected(t) {
-      var i;
-      void 0 === this._$AM && (this._$Cg = t, null === (i = this._$AP) || void 0 === i || i.call(this, t));
-    }
-  }]);
-
-  return N;
-}();
-
-var S = /*#__PURE__*/function () {
-  function S(t, i, s, e, o) {
-    _classCallCheck(this, S);
-
+class S {
+  constructor(t, i, s, e, o) {
     this.type = 1, this._$AH = w, this._$AN = void 0, this.element = t, this.name = i, this._$AM = e, this.options = o, s.length > 2 || "" !== s[0] || "" !== s[1] ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = w;
   }
 
-  _createClass(S, [{
-    key: "tagName",
-    get: function get() {
-      return this.element.tagName;
-    }
-  }, {
-    key: "_$AU",
-    get: function get() {
-      return this._$AM._$AU;
-    }
-  }, {
-    key: "_$AI",
-    value: function _$AI(t) {
-      var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-      var s = arguments.length > 2 ? arguments[2] : undefined;
-      var e = arguments.length > 3 ? arguments[3] : undefined;
-      var o = this.strings;
-      var n = !1;
-      if (void 0 === o) t = P(this, t, i, 0), n = !r(t) || t !== this._$AH && t !== b, n && (this._$AH = t);else {
-        var _e = t;
-
-        var _l, _h;
-
-        for (t = o[0], _l = 0; _l < o.length - 1; _l++) {
-          _h = P(this, _e[s + _l], i, _l), _h === b && (_h = this._$AH[_l]), n || (n = !r(_h) || _h !== this._$AH[_l]), _h === w ? t = w : t !== w && (t += (null != _h ? _h : "") + o[_l + 1]), this._$AH[_l] = _h;
-        }
-      }
-      n && !e && this.C(t);
-    }
-  }, {
-    key: "C",
-    value: function C(t) {
-      t === w ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, null != t ? t : "");
-    }
-  }]);
-
-  return S;
-}();
-
-var M = /*#__PURE__*/function (_S) {
-  _inherits(M, _S);
-
-  var _super = _createSuper(M);
-
-  function M() {
-    var _this;
-
-    _classCallCheck(this, M);
-
-    _this = _super.apply(this, arguments), _this.type = 3;
-    return _this;
+  get tagName() {
+    return this.element.tagName;
   }
 
-  _createClass(M, [{
-    key: "C",
-    value: function C(t) {
-      this.element[this.name] = t === w ? void 0 : t;
-    }
-  }]);
-
-  return M;
-}(S);
-
-var k = i ? i.emptyScript : "";
-
-var H = /*#__PURE__*/function (_S2) {
-  _inherits(H, _S2);
-
-  var _super2 = _createSuper(H);
-
-  function H() {
-    var _this2;
-
-    _classCallCheck(this, H);
-
-    _this2 = _super2.apply(this, arguments), _this2.type = 4;
-    return _this2;
+  get _$AU() {
+    return this._$AM._$AU;
   }
 
-  _createClass(H, [{
-    key: "C",
-    value: function C(t) {
-      t && t !== w ? this.element.setAttribute(this.name, k) : this.element.removeAttribute(this.name);
+  _$AI(t, i = this, s, e) {
+    const o = this.strings;
+    let n = !1;
+    if (void 0 === o) t = P(this, t, i, 0), n = !r(t) || t !== this._$AH && t !== b, n && (this._$AH = t);else {
+      const e = t;
+      let l, h;
+
+      for (t = o[0], l = 0; l < o.length - 1; l++) h = P(this, e[s + l], i, l), h === b && (h = this._$AH[l]), n || (n = !r(h) || h !== this._$AH[l]), h === w ? t = w : t !== w && (t += (null != h ? h : "") + o[l + 1]), this._$AH[l] = h;
     }
-  }]);
-
-  return H;
-}(S);
-
-var I = /*#__PURE__*/function (_S3) {
-  _inherits(I, _S3);
-
-  var _super3 = _createSuper(I);
-
-  function I(t, i, s, e, o) {
-    var _this3;
-
-    _classCallCheck(this, I);
-
-    _this3 = _super3.call(this, t, i, s, e, o), _this3.type = 5;
-    return _this3;
+    n && !e && this.C(t);
   }
 
-  _createClass(I, [{
-    key: "_$AI",
-    value: function _$AI(t) {
-      var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-      var s;
-      if ((t = null !== (s = P(this, t, i, 0)) && void 0 !== s ? s : w) === b) return;
-      var e = this._$AH,
+  C(t) {
+    t === w ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, null != t ? t : "");
+  }
+
+}
+
+class M extends S {
+  constructor() {
+    super(...arguments), this.type = 3;
+  }
+
+  C(t) {
+    this.element[this.name] = t === w ? void 0 : t;
+  }
+
+}
+
+const k = i ? i.emptyScript : "";
+
+class H extends S {
+  constructor() {
+    super(...arguments), this.type = 4;
+  }
+
+  C(t) {
+    t && t !== w ? this.element.setAttribute(this.name, k) : this.element.removeAttribute(this.name);
+  }
+
+}
+
+class I extends S {
+  constructor(t, i, s, e, o) {
+    super(t, i, s, e, o), this.type = 5;
+  }
+
+  _$AI(t, i = this) {
+    var s;
+    if ((t = null !== (s = P(this, t, i, 0)) && void 0 !== s ? s : w) === b) return;
+    const e = this._$AH,
           o = t === w && e !== w || t.capture !== e.capture || t.once !== e.once || t.passive !== e.passive,
           n = t !== w && (e === w || o);
-      o && this.element.removeEventListener(this.name, this, e), n && this.element.addEventListener(this.name, this, t), this._$AH = t;
-    }
-  }, {
-    key: "handleEvent",
-    value: function handleEvent(t) {
-      var i, s;
-      "function" == typeof this._$AH ? this._$AH.call(null !== (s = null === (i = this.options) || void 0 === i ? void 0 : i.host) && void 0 !== s ? s : this.element, t) : this._$AH.handleEvent(t);
-    }
-  }]);
+    o && this.element.removeEventListener(this.name, this, e), n && this.element.addEventListener(this.name, this, t), this._$AH = t;
+  }
 
-  return I;
-}(S);
+  handleEvent(t) {
+    var i, s;
+    "function" == typeof this._$AH ? this._$AH.call(null !== (s = null === (i = this.options) || void 0 === i ? void 0 : i.host) && void 0 !== s ? s : this.element, t) : this._$AH.handleEvent(t);
+  }
 
-var L = /*#__PURE__*/function () {
-  function L(t, i, s) {
-    _classCallCheck(this, L);
+}
 
+class L {
+  constructor(t, i, s) {
     this.element = t, this.type = 6, this._$AN = void 0, this._$AM = i, this.options = s;
   }
 
-  _createClass(L, [{
-    key: "_$AU",
-    get: function get() {
-      return this._$AM._$AU;
-    }
-  }, {
-    key: "_$AI",
-    value: function _$AI(t) {
-      P(this, t);
-    }
-  }]);
+  get _$AU() {
+    return this._$AM._$AU;
+  }
 
-  return L;
-}();
+  _$AI(t) {
+    P(this, t);
+  }
 
-var z = window.litHtmlPolyfillSupport;
+}
+
+const z = window.litHtmlPolyfillSupport;
 null == z || z(E, N), (null !== (t = globalThis.litHtmlVersions) && void 0 !== t ? t : globalThis.litHtmlVersions = []).push("2.2.1");
 
 /**
@@ -1480,63 +752,44 @@ null == z || z(E, N), (null !== (t = globalThis.litHtmlVersions) && void 0 !== t
 
 var l$1, o;
 
-var s = /*#__PURE__*/function (_t) {
-  _inherits(s, _t);
-
-  var _super = _createSuper(s);
-
-  function s() {
-    var _this;
-
-    _classCallCheck(this, s);
-
-    _this = _super.apply(this, arguments), _this.renderOptions = {
-      host: _assertThisInitialized(_this)
-    }, _this._$Dt = void 0;
-    return _this;
+class s extends a$1 {
+  constructor() {
+    super(...arguments), this.renderOptions = {
+      host: this
+    }, this._$Dt = void 0;
   }
 
-  _createClass(s, [{
-    key: "createRenderRoot",
-    value: function createRenderRoot() {
-      var t, e;
+  createRenderRoot() {
+    var t, e;
+    const i = super.createRenderRoot();
+    return null !== (t = (e = this.renderOptions).renderBefore) && void 0 !== t || (e.renderBefore = i.firstChild), i;
+  }
 
-      var i = _get(_getPrototypeOf(s.prototype), "createRenderRoot", this).call(this);
+  update(t) {
+    const i = this.render();
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Dt = x$1(i, this.renderRoot, this.renderOptions);
+  }
 
-      return null !== (t = (e = this.renderOptions).renderBefore) && void 0 !== t || (e.renderBefore = i.firstChild), i;
-    }
-  }, {
-    key: "update",
-    value: function update(t) {
-      var i = this.render();
-      this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), _get(_getPrototypeOf(s.prototype), "update", this).call(this, t), this._$Dt = x$1(i, this.renderRoot, this.renderOptions);
-    }
-  }, {
-    key: "connectedCallback",
-    value: function connectedCallback() {
-      var t;
-      _get(_getPrototypeOf(s.prototype), "connectedCallback", this).call(this), null === (t = this._$Dt) || void 0 === t || t.setConnected(!0);
-    }
-  }, {
-    key: "disconnectedCallback",
-    value: function disconnectedCallback() {
-      var t;
-      _get(_getPrototypeOf(s.prototype), "disconnectedCallback", this).call(this), null === (t = this._$Dt) || void 0 === t || t.setConnected(!1);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return b;
-    }
-  }]);
+  connectedCallback() {
+    var t;
+    super.connectedCallback(), null === (t = this._$Dt) || void 0 === t || t.setConnected(!0);
+  }
 
-  return s;
-}(a$1);
+  disconnectedCallback() {
+    var t;
+    super.disconnectedCallback(), null === (t = this._$Dt) || void 0 === t || t.setConnected(!1);
+  }
+
+  render() {
+    return b;
+  }
+
+}
 
 s.finalized = !0, s._$litElement$ = !0, null === (l$1 = globalThis.litElementHydrateSupport) || void 0 === l$1 || l$1.call(globalThis, {
   LitElement: s
 });
-var n = globalThis.litElementPolyfillSupport;
+const n = globalThis.litElementPolyfillSupport;
 null == n || n({
   LitElement: s
 });
@@ -1547,31 +800,24 @@ function ascending$2(a, b) {
 }
 
 function bisector(f) {
-  var delta = f;
-  var compare1 = f;
-  var compare2 = f;
+  let delta = f;
+  let compare1 = f;
+  let compare2 = f;
 
   if (f.length !== 2) {
-    delta = function delta(d, x) {
-      return f(d) - x;
-    };
+    delta = (d, x) => f(d) - x;
 
     compare1 = ascending$2;
 
-    compare2 = function compare2(d, x) {
-      return ascending$2(f(d), x);
-    };
+    compare2 = (d, x) => ascending$2(f(d), x);
   }
 
-  function left(a, x) {
-    var lo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-    var hi = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : a.length;
-
+  function left(a, x, lo = 0, hi = a.length) {
     if (lo < hi) {
       if (compare1(x, x) !== 0) return hi;
 
       do {
-        var mid = lo + hi >>> 1;
+        const mid = lo + hi >>> 1;
         if (compare2(a[mid], x) < 0) lo = mid + 1;else hi = mid;
       } while (lo < hi);
     }
@@ -1579,15 +825,12 @@ function bisector(f) {
     return lo;
   }
 
-  function right(a, x) {
-    var lo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-    var hi = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : a.length;
-
+  function right(a, x, lo = 0, hi = a.length) {
     if (lo < hi) {
       if (compare1(x, x) !== 0) return hi;
 
       do {
-        var mid = lo + hi >>> 1;
+        const mid = lo + hi >>> 1;
         if (compare2(a[mid], x) <= 0) lo = mid + 1;else hi = mid;
       } while (lo < hi);
     }
@@ -1595,17 +838,15 @@ function bisector(f) {
     return lo;
   }
 
-  function center(a, x) {
-    var lo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-    var hi = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : a.length;
-    var i = left(a, x, lo, hi - 1);
+  function center(a, x, lo = 0, hi = a.length) {
+    const i = left(a, x, lo, hi - 1);
     return i > lo && delta(a[i - 1], x) > -delta(a[i], x) ? i - 1 : i;
   }
 
   return {
-    left: left,
-    center: center,
-    right: right
+    left,
+    center,
+    right
   };
 }
 
@@ -1613,49 +854,27 @@ function number$2(x) {
   return x === null ? NaN : +x;
 }
 
-var ascendingBisect = bisector(ascending$2);
-var bisectRight = ascendingBisect.right;
+const ascendingBisect = bisector(ascending$2);
+const bisectRight = ascendingBisect.right;
 bisector(number$2).center;
 var bisect = bisectRight;
 
 function count(values, valueof) {
-  var count = 0;
+  let count = 0;
 
   if (valueof === undefined) {
-    var _iterator = _createForOfIteratorHelper(values),
-        _step;
-
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var value = _step.value;
-
-        if (value != null && (value = +value) >= value) {
-          ++count;
-        }
+    for (let value of values) {
+      if (value != null && (value = +value) >= value) {
+        ++count;
       }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
     }
   } else {
-    var index = -1;
+    let index = -1;
 
-    var _iterator2 = _createForOfIteratorHelper(values),
-        _step2;
-
-    try {
-      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-        var _value = _step2.value;
-
-        if ((_value = valueof(_value, ++index, values)) != null && (_value = +_value) >= _value) {
-          ++count;
-        }
+    for (let value of values) {
+      if ((value = valueof(value, ++index, values)) != null && (value = +value) >= value) {
+        ++count;
       }
-    } catch (err) {
-      _iterator2.e(err);
-    } finally {
-      _iterator2.f();
     }
   }
 
@@ -1663,54 +882,32 @@ function count(values, valueof) {
 }
 
 function extent(values, valueof) {
-  var min;
-  var max;
+  let min;
+  let max;
 
   if (valueof === undefined) {
-    var _iterator = _createForOfIteratorHelper(values),
-        _step;
-
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var value = _step.value;
-
-        if (value != null) {
-          if (min === undefined) {
-            if (value >= value) min = max = value;
-          } else {
-            if (min > value) min = value;
-            if (max < value) max = value;
-          }
+    for (const value of values) {
+      if (value != null) {
+        if (min === undefined) {
+          if (value >= value) min = max = value;
+        } else {
+          if (min > value) min = value;
+          if (max < value) max = value;
         }
       }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
     }
   } else {
-    var index = -1;
+    let index = -1;
 
-    var _iterator2 = _createForOfIteratorHelper(values),
-        _step2;
-
-    try {
-      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-        var _value = _step2.value;
-
-        if ((_value = valueof(_value, ++index, values)) != null) {
-          if (min === undefined) {
-            if (_value >= _value) min = max = _value;
-          } else {
-            if (min > _value) min = _value;
-            if (max < _value) max = _value;
-          }
+    for (let value of values) {
+      if ((value = valueof(value, ++index, values)) != null) {
+        if (min === undefined) {
+          if (value >= value) min = max = value;
+        } else {
+          if (min > value) min = value;
+          if (max < value) max = value;
         }
       }
-    } catch (err) {
-      _iterator2.e(err);
-    } finally {
-      _iterator2.f();
     }
   }
 
@@ -1718,66 +915,59 @@ function extent(values, valueof) {
 }
 
 // https://github.com/python/cpython/blob/a74eea238f5baba15797e2e8b570d153bc8690a7/Modules/mathmodule.c#L1423
-var Adder = /*#__PURE__*/function () {
-  function Adder() {
-    _classCallCheck(this, Adder);
-
+class Adder {
+  constructor() {
     this._partials = new Float64Array(32);
     this._n = 0;
   }
 
-  _createClass(Adder, [{
-    key: "add",
-    value: function add(x) {
-      var p = this._partials;
-      var i = 0;
+  add(x) {
+    const p = this._partials;
+    let i = 0;
 
-      for (var j = 0; j < this._n && j < 32; j++) {
-        var y = p[j],
+    for (let j = 0; j < this._n && j < 32; j++) {
+      const y = p[j],
             hi = x + y,
             lo = Math.abs(x) < Math.abs(y) ? x - (hi - y) : y - (hi - x);
-        if (lo) p[i++] = lo;
+      if (lo) p[i++] = lo;
+      x = hi;
+    }
+
+    p[i] = x;
+    this._n = i + 1;
+    return this;
+  }
+
+  valueOf() {
+    const p = this._partials;
+    let n = this._n,
+        x,
+        y,
+        lo,
+        hi = 0;
+
+    if (n > 0) {
+      hi = p[--n];
+
+      while (n > 0) {
         x = hi;
+        y = p[--n];
+        hi = x + y;
+        lo = y - (hi - x);
+        if (lo) break;
       }
 
-      p[i] = x;
-      this._n = i + 1;
-      return this;
-    }
-  }, {
-    key: "valueOf",
-    value: function valueOf() {
-      var p = this._partials;
-      var n = this._n,
-          x,
-          y,
-          lo,
-          hi = 0;
-
-      if (n > 0) {
-        hi = p[--n];
-
-        while (n > 0) {
-          x = hi;
-          y = p[--n];
-          hi = x + y;
-          lo = y - (hi - x);
-          if (lo) break;
-        }
-
-        if (n > 0 && (lo < 0 && p[n - 1] < 0 || lo > 0 && p[n - 1] > 0)) {
-          y = lo * 2;
-          x = hi + y;
-          if (y == x - hi) hi = x;
-        }
+      if (n > 0 && (lo < 0 && p[n - 1] < 0 || lo > 0 && p[n - 1] > 0)) {
+        y = lo * 2;
+        x = hi + y;
+        if (y == x - hi) hi = x;
       }
-
-      return hi;
     }
-  }]);
 
-  return Adder;
-}();
+    return hi;
+  }
+
+}
 
 function identity$6(x) {
   return x;
@@ -1787,9 +977,7 @@ var array$3 = Array.prototype;
 var slice$1 = array$3.slice;
 
 function constant$5(x) {
-  return function () {
-    return x;
-  };
+  return () => x;
 }
 
 var e10 = Math.sqrt(50),
@@ -1807,28 +995,22 @@ function ticks(start, stop, count) {
   if ((step = tickIncrement(start, stop, count)) === 0 || !isFinite(step)) return [];
 
   if (step > 0) {
-    var r0 = Math.round(start / step),
+    let r0 = Math.round(start / step),
         r1 = Math.round(stop / step);
     if (r0 * step < start) ++r0;
     if (r1 * step > stop) --r1;
     ticks = new Array(n = r1 - r0 + 1);
 
-    while (++i < n) {
-      ticks[i] = (r0 + i) * step;
-    }
+    while (++i < n) ticks[i] = (r0 + i) * step;
   } else {
     step = -step;
+    let r0 = Math.round(start * step),
+        r1 = Math.round(stop * step);
+    if (r0 / step < start) ++r0;
+    if (r1 / step > stop) --r1;
+    ticks = new Array(n = r1 - r0 + 1);
 
-    var _r = Math.round(start * step),
-        _r2 = Math.round(stop * step);
-
-    if (_r / step < start) ++_r;
-    if (_r2 / step > stop) --_r2;
-    ticks = new Array(n = _r2 - _r + 1);
-
-    while (++i < n) {
-      ticks[i] = (_r + i) / step;
-    }
+    while (++i < n) ticks[i] = (r0 + i) / step;
   }
 
   if (reverse) ticks.reverse();
@@ -1849,10 +1031,10 @@ function tickStep(start, stop, count) {
 }
 
 function nice(start, stop, count) {
-  var prestep;
+  let prestep;
 
   while (true) {
-    var step = tickIncrement(start, stop, count);
+    const step = tickIncrement(start, stop, count);
 
     if (step === prestep || step === 0 || !isFinite(step)) {
       return [start, stop];
@@ -1895,18 +1077,9 @@ function bin() {
     // default domain accordingly.
 
     if (!Array.isArray(tz)) {
-      var max = x1,
-          tn = +tz;
-
-      if (domain === extent) {
-        var _nice = nice(x0, x1, tn);
-
-        var _nice2 = _slicedToArray(_nice, 2);
-
-        x0 = _nice2[0];
-        x1 = _nice2[1];
-      }
-
+      const max = x1,
+            tn = +tz;
+      if (domain === extent) [x0, x1] = nice(x0, x1, tn);
       tz = ticks(x0, x1, tn); // If the last threshold is coincident with the domain’s upper bound, the
       // last bin will be zero-width. If the default domain is used, and this
       // last threshold is coincident with the maximum input value, we can
@@ -1917,7 +1090,7 @@ function bin() {
 
       if (tz[tz.length - 1] >= x1) {
         if (max >= x1 && domain === extent) {
-          var step = tickIncrement(x0, x1, tn);
+          const step = tickIncrement(x0, x1, tn);
 
           if (isFinite(step)) {
             if (step > 0) {
@@ -1935,13 +1108,9 @@ function bin() {
 
     var m = tz.length;
 
-    while (tz[0] <= x0) {
-      tz.shift(), --m;
-    }
+    while (tz[0] <= x0) tz.shift(), --m;
 
-    while (tz[m - 1] > x1) {
-      tz.pop(), --m;
-    }
+    while (tz[m - 1] > x1) tz.pop(), --m;
 
     var bins = new Array(m + 1),
         bin; // Initialize bins.
@@ -1979,56 +1148,10 @@ function bin() {
   return histogram;
 }
 
-var _marked$1 = /*#__PURE__*/regeneratorRuntime.mark(flatten);
-
-function flatten(arrays) {
-  var _iterator, _step, array;
-
-  return regeneratorRuntime.wrap(function flatten$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          _iterator = _createForOfIteratorHelper(arrays);
-          _context.prev = 1;
-
-          _iterator.s();
-
-        case 3:
-          if ((_step = _iterator.n()).done) {
-            _context.next = 8;
-            break;
-          }
-
-          array = _step.value;
-          return _context.delegateYield(array, "t0", 6);
-
-        case 6:
-          _context.next = 3;
-          break;
-
-        case 8:
-          _context.next = 13;
-          break;
-
-        case 10:
-          _context.prev = 10;
-          _context.t1 = _context["catch"](1);
-
-          _iterator.e(_context.t1);
-
-        case 13:
-          _context.prev = 13;
-
-          _iterator.f();
-
-          return _context.finish(13);
-
-        case 16:
-        case "end":
-          return _context.stop();
-      }
-    }
-  }, _marked$1, null, [[1, 10, 13, 16]]);
+function* flatten(arrays) {
+  for (const array of arrays) {
+    yield* array;
+  }
 }
 
 function merge(arrays) {
@@ -2067,17 +1190,13 @@ function translateY(y) {
 }
 
 function number$1(scale) {
-  return function (d) {
-    return +scale(d);
-  };
+  return d => +scale(d);
 }
 
 function center(scale, offset) {
   offset = Math.max(0, scale.bandwidth() - offset * 2) / 2;
   if (scale.round()) offset = Math.round(offset);
-  return function (d) {
-    return +scale(d) + offset;
-  };
+  return d => +scale(d) + offset;
 }
 
 function entering() {
@@ -2196,7 +1315,7 @@ function axisLeft(scale) {
 }
 
 var noop$2 = {
-  value: function value() {}
+  value: () => {}
 };
 
 function dispatch() {
@@ -2227,7 +1346,7 @@ function parseTypenames$1(typenames, types) {
 
 Dispatch.prototype = dispatch.prototype = {
   constructor: Dispatch,
-  on: function on(typename, callback) {
+  on: function (typename, callback) {
     var _ = this._,
         T = parseTypenames$1(typename + "", _),
         t,
@@ -2235,9 +1354,7 @@ Dispatch.prototype = dispatch.prototype = {
         n = T.length; // If no callback was specified, return the callback of the given type and name.
 
     if (arguments.length < 2) {
-      while (++i < n) {
-        if ((t = (typename = T[i]).type) && (t = get$1(_[t], typename.name))) return t;
-      }
+      while (++i < n) if ((t = (typename = T[i]).type) && (t = get$1(_[t], typename.name))) return t;
 
       return;
     } // If a type was specified, set the callback for the given type and name.
@@ -2247,39 +1364,29 @@ Dispatch.prototype = dispatch.prototype = {
     if (callback != null && typeof callback !== "function") throw new Error("invalid callback: " + callback);
 
     while (++i < n) {
-      if (t = (typename = T[i]).type) _[t] = set$1(_[t], typename.name, callback);else if (callback == null) for (t in _) {
-        _[t] = set$1(_[t], typename.name, null);
-      }
+      if (t = (typename = T[i]).type) _[t] = set$1(_[t], typename.name, callback);else if (callback == null) for (t in _) _[t] = set$1(_[t], typename.name, null);
     }
 
     return this;
   },
-  copy: function copy() {
+  copy: function () {
     var copy = {},
         _ = this._;
 
-    for (var t in _) {
-      copy[t] = _[t].slice();
-    }
+    for (var t in _) copy[t] = _[t].slice();
 
     return new Dispatch(copy);
   },
-  call: function call(type, that) {
-    if ((n = arguments.length - 2) > 0) for (var args = new Array(n), i = 0, n, t; i < n; ++i) {
-      args[i] = arguments[i + 2];
-    }
+  call: function (type, that) {
+    if ((n = arguments.length - 2) > 0) for (var args = new Array(n), i = 0, n, t; i < n; ++i) args[i] = arguments[i + 2];
     if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
 
-    for (t = this._[type], i = 0, n = t.length; i < n; ++i) {
-      t[i].value.apply(that, args);
-    }
+    for (t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
   },
-  apply: function apply(type, that, args) {
+  apply: function (type, that, args) {
     if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
 
-    for (var t = this._[type], i = 0, n = t.length; i < n; ++i) {
-      t[i].value.apply(that, args);
-    }
+    for (var t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
   }
 };
 
@@ -2481,16 +1588,16 @@ function EnterNode(parent, datum) {
 }
 EnterNode.prototype = {
   constructor: EnterNode,
-  appendChild: function appendChild(child) {
+  appendChild: function (child) {
     return this._parent.insertBefore(child, this._next);
   },
-  insertBefore: function insertBefore(child, next) {
+  insertBefore: function (child, next) {
     return this._parent.insertBefore(child, next);
   },
-  querySelector: function querySelector(selector) {
+  querySelector: function (selector) {
     return this._parent.querySelector(selector);
   },
-  querySelectorAll: function querySelectorAll(selector) {
+  querySelectorAll: function (selector) {
     return this._parent.querySelectorAll(selector);
   }
 };
@@ -2599,8 +1706,7 @@ function selection_data (value, key) {
       if (previous = enterGroup[i0]) {
         if (i0 >= i1) i1 = i0 + 1;
 
-        while (!(next = updateGroup[i1]) && ++i1 < dataLength) {
-        }
+        while (!(next = updateGroup[i1]) && ++i1 < dataLength);
 
         previous._next = next || null;
       }
@@ -2619,7 +1725,7 @@ function selection_data (value, key) {
 // don’t; we’d rather avoid a gratuitous copy.)
 
 function arraylike(data) {
-  return _typeof(data) === "object" && "length" in data ? data // Array, TypedArray, NodeList, array-like
+  return typeof data === "object" && "length" in data ? data // Array, TypedArray, NodeList, array-like
   : Array.from(data); // Map, Set, iterable, string, or anything else
 }
 
@@ -2726,22 +1832,10 @@ function selection_node () {
 }
 
 function selection_size () {
-  var size = 0;
+  let size = 0;
 
-  var _iterator = _createForOfIteratorHelper(this),
-      _step;
+  for (const node of this) ++size; // eslint-disable-line no-unused-vars
 
-  try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var node = _step.value;
-      ++size;
-    } // eslint-disable-line no-unused-vars
-
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
-  }
 
   return size;
 }
@@ -2878,7 +1972,7 @@ function ClassList(node) {
 }
 
 ClassList.prototype = {
-  add: function add(name) {
+  add: function (name) {
     var i = this._names.indexOf(name);
 
     if (i < 0) {
@@ -2887,7 +1981,7 @@ ClassList.prototype = {
       this._node.setAttribute("class", this._names.join(" "));
     }
   },
-  remove: function remove(name) {
+  remove: function (name) {
     var i = this._names.indexOf(name);
 
     if (i >= 0) {
@@ -2896,7 +1990,7 @@ ClassList.prototype = {
       this._node.setAttribute("class", this._names.join(" "));
     }
   },
-  contains: function contains(name) {
+  contains: function (name) {
     return this._names.indexOf(name) >= 0;
   }
 };
@@ -2906,9 +2000,7 @@ function classedAdd(node, names) {
       i = -1,
       n = names.length;
 
-  while (++i < n) {
-    list.add(names[i]);
-  }
+  while (++i < n) list.add(names[i]);
 }
 
 function classedRemove(node, names) {
@@ -2916,9 +2008,7 @@ function classedRemove(node, names) {
       i = -1,
       n = names.length;
 
-  while (++i < n) {
-    list.remove(names[i]);
-  }
+  while (++i < n) list.remove(names[i]);
 }
 
 function classedTrue(names) {
@@ -2947,9 +2037,7 @@ function selection_classed (name, value) {
         i = -1,
         n = names.length;
 
-    while (++i < n) {
-      if (!list.contains(names[i])) return false;
-    }
+    while (++i < n) if (!list.contains(names[i])) return false;
 
     return true;
   }
@@ -3144,9 +2232,7 @@ function selection_on (typename, value, options) {
 
   on = value ? onAdd : onRemove;
 
-  for (i = 0; i < n; ++i) {
-    this.each(on(typenames[i], value, options));
-  }
+  for (i = 0; i < n; ++i) this.each(on(typenames[i], value, options));
 
   return this;
 }
@@ -3181,54 +2267,12 @@ function selection_dispatch (type, params) {
   return this.each((typeof params === "function" ? dispatchFunction : dispatchConstant)(type, params));
 }
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(_callee);
-
-function _callee() {
-  var groups, j, m, group, i, n, node;
-  return regeneratorRuntime.wrap(function _callee$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          groups = this._groups, j = 0, m = groups.length;
-
-        case 1:
-          if (!(j < m)) {
-            _context.next = 13;
-            break;
-          }
-
-          group = groups[j], i = 0, n = group.length;
-
-        case 3:
-          if (!(i < n)) {
-            _context.next = 10;
-            break;
-          }
-
-          if (!(node = group[i])) {
-            _context.next = 7;
-            break;
-          }
-
-          _context.next = 7;
-          return node;
-
-        case 7:
-          ++i;
-          _context.next = 3;
-          break;
-
-        case 10:
-          ++j;
-          _context.next = 1;
-          break;
-
-        case 13:
-        case "end":
-          return _context.stop();
-      }
+function* selection_iterator () {
+  for (var groups = this._groups, j = 0, m = groups.length; j < m; ++j) {
+    for (var group = groups[j], i = 0, n = group.length, node; i < n; ++i) {
+      if (node = group[i]) yield node;
     }
-  }, _marked, this);
+  }
 }
 
 var root = [null];
@@ -3245,7 +2289,7 @@ function selection_selection() {
   return this;
 }
 
-Selection$1.prototype = selection.prototype = _defineProperty({
+Selection$1.prototype = selection.prototype = {
   constructor: Selection$1,
   select: selection_select,
   selectAll: selection_selectAll,
@@ -3280,19 +2324,18 @@ Selection$1.prototype = selection.prototype = _defineProperty({
   clone: selection_clone,
   datum: selection_datum,
   on: selection_on,
-  dispatch: selection_dispatch
-}, Symbol.iterator, _callee);
+  dispatch: selection_dispatch,
+  [Symbol.iterator]: selection_iterator
+};
 
 function select (selector) {
   return typeof selector === "string" ? new Selection$1([[document.querySelector(selector)]], [document.documentElement]) : new Selection$1([[selector]], root);
 }
 
 function sourceEvent (event) {
-  var sourceEvent;
+  let sourceEvent;
 
-  while (sourceEvent = event.sourceEvent) {
-    event = sourceEvent;
-  }
+  while (sourceEvent = event.sourceEvent) event = sourceEvent;
 
   return event;
 }
@@ -3322,10 +2365,10 @@ function pointer (event, node) {
 
 // These are typically used in conjunction with noevent to ensure that we can
 // preventDefault on the event.
-var nonpassive = {
+const nonpassive = {
   passive: false
 };
-var nonpassivecapture = {
+const nonpassivecapture = {
   capture: true,
   passive: false
 };
@@ -3367,23 +2410,20 @@ function yesdrag(view, noclick) {
   }
 }
 
-var constant$3 = (function (x) {
-  return function () {
-    return x;
-  };
-});
+var constant$3 = (x => () => x);
 
-function DragEvent(type, _ref) {
-  var sourceEvent = _ref.sourceEvent,
-      subject = _ref.subject,
-      target = _ref.target,
-      identifier = _ref.identifier,
-      active = _ref.active,
-      x = _ref.x,
-      y = _ref.y,
-      dx = _ref.dx,
-      dy = _ref.dy,
-      dispatch = _ref.dispatch;
+function DragEvent(type, {
+  sourceEvent,
+  subject,
+  target,
+  identifier,
+  active,
+  x,
+  y,
+  dx,
+  dy,
+  dispatch
+}) {
   Object.defineProperties(this, {
     type: {
       value: type,
@@ -3573,13 +2613,13 @@ function drag () {
     if ((s = subject.call(that, new DragEvent("beforestart", {
       sourceEvent: event,
       target: drag,
-      identifier: identifier,
-      active: active,
+      identifier,
+      active,
       x: p[0],
       y: p[1],
       dx: 0,
       dy: 0,
-      dispatch: dispatch
+      dispatch
     }), d)) == null) return;
     dx = s.x - p[0] || 0;
     dy = s.y - p[1] || 0;
@@ -3605,13 +2645,13 @@ function drag () {
         sourceEvent: event,
         subject: s,
         target: drag,
-        identifier: identifier,
+        identifier,
         active: n,
         x: p[0] + dx,
         y: p[1] + dy,
         dx: p[0] - p0[0],
         dy: p[1] - p0[1],
-        dispatch: dispatch
+        dispatch
       }), d);
     };
   }
@@ -3651,17 +2691,14 @@ function define (constructor, factory, prototype) {
 function extend(parent, definition) {
   var prototype = Object.create(parent.prototype);
 
-  for (var key in definition) {
-    prototype[key] = definition[key];
-  }
+  for (var key in definition) prototype[key] = definition[key];
 
   return prototype;
 }
 
 function Color() {}
-var _darker = 0.7;
-
-var _brighter = 1 / _darker;
+var darker = 0.7;
+var brighter = 1 / darker;
 var reI = "\\s*([+-]?\\d+)\\s*",
     reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*",
     reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*",
@@ -3823,10 +2860,10 @@ var named = {
   yellowgreen: 0x9acd32
 };
 define(Color, color, {
-  copy: function copy(channels) {
+  copy: function (channels) {
     return Object.assign(new this.constructor(), this, channels);
   },
-  displayable: function displayable() {
+  displayable: function () {
     return this.rgb().displayable();
   },
   hex: color_formatHex,
@@ -3892,18 +2929,18 @@ function Rgb(r, g, b, opacity) {
   this.opacity = +opacity;
 }
 define(Rgb, rgb, extend(Color, {
-  brighter: function brighter(k) {
-    k = k == null ? _brighter : Math.pow(_brighter, k);
+  brighter: function (k) {
+    k = k == null ? brighter : Math.pow(brighter, k);
     return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
   },
-  darker: function darker(k) {
-    k = k == null ? _darker : Math.pow(_darker, k);
+  darker: function (k) {
+    k = k == null ? darker : Math.pow(darker, k);
     return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
   },
-  rgb: function rgb() {
+  rgb: function () {
     return this;
   },
-  displayable: function displayable() {
+  displayable: function () {
     return -0.5 <= this.r && this.r < 255.5 && -0.5 <= this.g && this.g < 255.5 && -0.5 <= this.b && this.b < 255.5 && 0 <= this.opacity && this.opacity <= 1;
   },
   hex: rgb_formatHex,
@@ -3970,15 +3007,15 @@ function Hsl(h, s, l, opacity) {
 }
 
 define(Hsl, hsl, extend(Color, {
-  brighter: function brighter(k) {
-    k = k == null ? _brighter : Math.pow(_brighter, k);
+  brighter: function (k) {
+    k = k == null ? brighter : Math.pow(brighter, k);
     return new Hsl(this.h, this.s, this.l * k, this.opacity);
   },
-  darker: function darker(k) {
-    k = k == null ? _darker : Math.pow(_darker, k);
+  darker: function (k) {
+    k = k == null ? darker : Math.pow(darker, k);
     return new Hsl(this.h, this.s, this.l * k, this.opacity);
   },
-  rgb: function rgb() {
+  rgb: function () {
     var h = this.h % 360 + (this.h < 0) * 360,
         s = isNaN(h) || isNaN(this.s) ? 0 : this.s,
         l = this.l,
@@ -3986,10 +3023,10 @@ define(Hsl, hsl, extend(Color, {
         m1 = 2 * l - m2;
     return new Rgb(hsl2rgb(h >= 240 ? h - 240 : h + 120, m1, m2), hsl2rgb(h, m1, m2), hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2), this.opacity);
   },
-  displayable: function displayable() {
+  displayable: function () {
     return (0 <= this.s && this.s <= 1 || isNaN(this.s)) && 0 <= this.l && this.l <= 1 && 0 <= this.opacity && this.opacity <= 1;
   },
-  formatHsl: function formatHsl() {
+  formatHsl: function () {
     var a = this.opacity;
     a = isNaN(a) ? 1 : Math.max(0, Math.min(1, a));
     return (a === 1 ? "hsl(" : "hsla(") + (this.h || 0) + ", " + (this.s || 0) * 100 + "%, " + (this.l || 0) * 100 + "%" + (a === 1 ? ")" : ", " + a + ")");
@@ -4001,11 +3038,7 @@ function hsl2rgb(h, m1, m2) {
   return (h < 60 ? m1 + (m2 - m1) * h / 60 : h < 180 ? m2 : h < 240 ? m1 + (m2 - m1) * (240 - h) / 60 : m1) * 255;
 }
 
-var constant$2 = (function (x) {
-  return function () {
-    return x;
-  };
-});
+var constant$2 = (x => () => x);
 
 function linear$2(a, d) {
   return function (t) {
@@ -4055,9 +3088,7 @@ function numberArray (a, b) {
       c = b.slice(),
       i;
   return function (t) {
-    for (i = 0; i < n; ++i) {
-      c[i] = a[i] * (1 - t) + b[i] * t;
-    }
+    for (i = 0; i < n; ++i) c[i] = a[i] * (1 - t) + b[i] * t;
 
     return c;
   };
@@ -4073,18 +3104,12 @@ function genericArray(a, b) {
       c = new Array(nb),
       i;
 
-  for (i = 0; i < na; ++i) {
-    x[i] = interpolate$1(a[i], b[i]);
-  }
+  for (i = 0; i < na; ++i) x[i] = interpolate$1(a[i], b[i]);
 
-  for (; i < nb; ++i) {
-    c[i] = b[i];
-  }
+  for (; i < nb; ++i) c[i] = b[i];
 
   return function (t) {
-    for (i = 0; i < na; ++i) {
-      c[i] = x[i](t);
-    }
+    for (i = 0; i < na; ++i) c[i] = x[i](t);
 
     return c;
   };
@@ -4107,8 +3132,8 @@ function object (a, b) {
   var i = {},
       c = {},
       k;
-  if (a === null || _typeof(a) !== "object") a = {};
-  if (b === null || _typeof(b) !== "object") b = {};
+  if (a === null || typeof a !== "object") a = {};
+  if (b === null || typeof b !== "object") b = {};
 
   for (k in b) {
     if (k in a) {
@@ -4119,9 +3144,7 @@ function object (a, b) {
   }
 
   return function (t) {
-    for (k in i) {
-      c[k] = i[k](t);
-    }
+    for (k in i) c[k] = i[k](t);
 
     return c;
   };
@@ -4194,18 +3217,15 @@ function interpolateString (a, b) {
 
 
   return s.length < 2 ? q[0] ? one(q[0].x) : zero(b) : (b = q.length, function (t) {
-    for (var i = 0, o; i < b; ++i) {
-      s[(o = q[i]).i] = o.x(t);
-    }
+    for (var i = 0, o; i < b; ++i) s[(o = q[i]).i] = o.x(t);
 
     return s.join("");
   });
 }
 
 function interpolate$1 (a, b) {
-  var t = _typeof(b),
+  var t = typeof b,
       c;
-
   return b == null || t === "boolean" ? constant$2(b) : (t === "number" ? interpolateNumber : t === "string" ? (c = color(b)) ? (b = c, interpolateRgb) : interpolateString : b instanceof color ? interpolateRgb : b instanceof Date ? date : isNumberArray(b) ? numberArray : Array.isArray(b) ? genericArray : typeof b.valueOf !== "function" && typeof b.toString !== "function" || isNaN(b) ? object : interpolateNumber)(a, b);
 }
 
@@ -4244,7 +3264,7 @@ var svgNode;
 /* eslint-disable no-undef */
 
 function parseCss(value) {
-  var m = new (typeof DOMMatrix === "function" ? DOMMatrix : WebKitCSSMatrix)(value + "");
+  const m = new (typeof DOMMatrix === "function" ? DOMMatrix : WebKitCSSMatrix)(value + "");
   return m.isIdentity ? identity$4 : decompose(m.a, m.b, m.c, m.d, m.e, m.f);
 }
 function parseSvg(value) {
@@ -4332,9 +3352,7 @@ function interpolateTransform(parse, pxComma, pxParen, degParen) {
           n = q.length,
           o;
 
-      while (++i < n) {
-        s[(o = q[i]).i] = o.x(t);
-      }
+      while (++i < n) s[(o = q[i]).i] = o.x(t);
 
       return s.join("");
     };
@@ -4357,8 +3375,8 @@ taskHead,
     clockLast = 0,
     clockNow = 0,
     clockSkew = 0,
-    clock = (typeof performance === "undefined" ? "undefined" : _typeof(performance)) === "object" && performance.now ? performance : Date,
-    setFrame = (typeof window === "undefined" ? "undefined" : _typeof(window)) === "object" && window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (f) {
+    clock = typeof performance === "object" && performance.now ? performance : Date,
+    setFrame = typeof window === "object" && window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (f) {
   setTimeout(f, 17);
 };
 function now() {
@@ -4374,7 +3392,7 @@ function Timer() {
 }
 Timer.prototype = timer.prototype = {
   constructor: Timer,
-  restart: function restart(callback, delay, time) {
+  restart: function (callback, delay, time) {
     if (typeof callback !== "function") throw new TypeError("callback is not a function");
     time = (time == null ? now() : +time) + (delay == null ? 0 : +delay);
 
@@ -4387,7 +3405,7 @@ Timer.prototype = timer.prototype = {
     this._time = time;
     sleep();
   },
-  stop: function stop() {
+  stop: function () {
     if (this._call) {
       this._call = null;
       this._time = Infinity;
@@ -4473,7 +3491,7 @@ function sleep(time) {
 function timeout (callback, delay, time) {
   var t = new Timer();
   delay = delay == null ? 0 : +delay;
-  t.restart(function (elapsed) {
+  t.restart(elapsed => {
     t.stop();
     callback(elapsed + delay);
   }, delay, time);
@@ -4639,9 +3657,7 @@ function create(node, id, self) {
     self.timer.stop();
     delete schedules[id];
 
-    for (var i in schedules) {
-      return;
-    } // eslint-disable-line no-unused-vars
+    for (var i in schedules) return; // eslint-disable-line no-unused-vars
 
 
     delete node.__transition;
@@ -5000,9 +4016,7 @@ function removeFunction(id) {
   return function () {
     var parent = this.parentNode;
 
-    for (var i in this.__transition) {
-      if (+i !== id) return;
-    }
+    for (var i in this.__transition) if (+i !== id) return;
 
     if (parent) parent.removeChild(this);
   };
@@ -5222,7 +4236,7 @@ function transition_end () {
       value: reject
     },
         end = {
-      value: function value() {
+      value: function () {
         if (--size === 0) resolve();
       }
     };
@@ -5260,7 +4274,7 @@ function newId() {
   return ++id;
 }
 var selection_prototype = selection.prototype;
-Transition.prototype = _defineProperty({
+Transition.prototype = {
   constructor: Transition,
   select: transition_select,
   selectAll: transition_selectAll,
@@ -5289,12 +4303,11 @@ Transition.prototype = _defineProperty({
   duration: transition_duration,
   ease: transition_ease,
   easeVarying: transition_easeVarying,
-  end: transition_end
-}, Symbol.iterator, selection_prototype[Symbol.iterator]);
-
-var linear$1 = function linear(t) {
-  return +t;
+  end: transition_end,
+  [Symbol.iterator]: selection_prototype[Symbol.iterator]
 };
+
+const linear$1 = t => +t;
 
 function cubicIn(t) {
   return t * t * t;
@@ -5319,7 +4332,7 @@ function inherit(node, id) {
 
   while (!(timing = node.__transition) || !(timing = timing[id])) {
     if (!(node = node.parentNode)) {
-      throw new Error("transition ".concat(id, " not found"));
+      throw new Error(`transition ${id} not found`);
     }
   }
 
@@ -5349,10 +4362,10 @@ function selection_transition (name) {
 selection.prototype.interrupt = selection_interrupt;
 selection.prototype.transition = selection_transition;
 
-var pi$1 = Math.PI,
-    tau$1 = 2 * pi$1,
-    epsilon$1 = 1e-6,
-    tauEpsilon = tau$1 - epsilon$1;
+const pi$1 = Math.PI,
+      tau$1 = 2 * pi$1,
+      epsilon$1 = 1e-6,
+      tauEpsilon = tau$1 - epsilon$1;
 
 function Path() {
   this._x0 = this._y0 = // start of current subpath
@@ -5367,25 +4380,25 @@ function path() {
 
 Path.prototype = path.prototype = {
   constructor: Path,
-  moveTo: function moveTo(x, y) {
+  moveTo: function (x, y) {
     this._ += "M" + (this._x0 = this._x1 = +x) + "," + (this._y0 = this._y1 = +y);
   },
-  closePath: function closePath() {
+  closePath: function () {
     if (this._x1 !== null) {
       this._x1 = this._x0, this._y1 = this._y0;
       this._ += "Z";
     }
   },
-  lineTo: function lineTo(x, y) {
+  lineTo: function (x, y) {
     this._ += "L" + (this._x1 = +x) + "," + (this._y1 = +y);
   },
-  quadraticCurveTo: function quadraticCurveTo(x1, y1, x, y) {
+  quadraticCurveTo: function (x1, y1, x, y) {
     this._ += "Q" + +x1 + "," + +y1 + "," + (this._x1 = +x) + "," + (this._y1 = +y);
   },
-  bezierCurveTo: function bezierCurveTo(x1, y1, x2, y2, x, y) {
+  bezierCurveTo: function (x1, y1, x2, y2, x, y) {
     this._ += "C" + +x1 + "," + +y1 + "," + +x2 + "," + +y2 + "," + (this._x1 = +x) + "," + (this._y1 = +y);
   },
-  arcTo: function arcTo(x1, y1, x2, y2, r) {
+  arcTo: function (x1, y1, x2, y2, r) {
     x1 = +x1, y1 = +y1, x2 = +x2, y2 = +y2, r = +r;
     var x0 = this._x1,
         y0 = this._y1,
@@ -5424,7 +4437,7 @@ Path.prototype = path.prototype = {
       this._ += "A" + r + "," + r + ",0,0," + +(y01 * x20 > x01 * y20) + "," + (this._x1 = x1 + t21 * x21) + "," + (this._y1 = y1 + t21 * y21);
     }
   },
-  arc: function arc(x, y, r, a0, a1, ccw) {
+  arc: function (x, y, r, a0, a1, ccw) {
     x = +x, y = +y, r = +r, ccw = !!ccw;
     var dx = r * Math.cos(a0),
         dy = r * Math.sin(a0),
@@ -5454,10 +4467,10 @@ Path.prototype = path.prototype = {
       this._ += "A" + r + "," + r + ",0," + +(da >= pi$1) + "," + cw + "," + (this._x1 = x + r * Math.cos(a1)) + "," + (this._y1 = y + r * Math.sin(a1));
     }
   },
-  rect: function rect(x, y, w, h) {
+  rect: function (x, y, w, h) {
     this._ += "M" + (this._x0 = this._x1 = +x) + "," + (this._y0 = this._y1 = +y) + "h" + +w + "v" + +h + "h" + -w + "Z";
   },
-  toString: function toString() {
+  toString: function () {
     return this._;
   }
 };
@@ -5474,27 +4487,19 @@ function area (ring) {
       n = ring.length,
       area = ring[n - 1][1] * ring[0][0] - ring[n - 1][0] * ring[0][1];
 
-  while (++i < n) {
-    area += ring[i - 1][1] * ring[i][0] - ring[i - 1][0] * ring[i][1];
-  }
+  while (++i < n) area += ring[i - 1][1] * ring[i][0] - ring[i - 1][0] * ring[i][1];
 
   return area;
 }
 
-var constant$1 = (function (x) {
-  return function () {
-    return x;
-  };
-});
+var constant$1 = (x => () => x);
 
 function contains (ring, hole) {
   var i = -1,
       n = hole.length,
       c;
 
-  while (++i < n) {
-    if (c = ringContains(ring, hole[i])) return c;
-  }
+  while (++i < n) if (c = ringContains(ring, hole[i])) return c;
 
   return 0;
 }
@@ -5544,16 +4549,14 @@ function contours () {
     var tz = threshold(values); // Convert number of thresholds into uniform thresholds.
 
     if (!Array.isArray(tz)) {
-      var e = extent(values),
-          ts = tickStep(e[0], e[1], tz);
+      const e = extent(values),
+            ts = tickStep(e[0], e[1], tz);
       tz = ticks(Math.floor(e[0] / ts) * ts, Math.floor(e[1] / ts - 1) * ts, tz);
     } else {
       tz = tz.slice().sort(ascending);
     }
 
-    return tz.map(function (value) {
-      return contour(values, value);
-    });
+    return tz.map(value => contour(values, value));
   } // Accumulate, smooth contour rings, assign holes to exterior rings.
   // Based on https://github.com/mbostock/shapefile/blob/v0.6.2/shp/polygon.js
 
@@ -5863,39 +4866,19 @@ function formatRounded (x, p) {
 }
 
 var formatTypes = {
-  "%": function _(x, p) {
-    return (x * 100).toFixed(p);
-  },
-  "b": function b(x) {
-    return Math.round(x).toString(2);
-  },
-  "c": function c(x) {
-    return x + "";
-  },
+  "%": (x, p) => (x * 100).toFixed(p),
+  "b": x => Math.round(x).toString(2),
+  "c": x => x + "",
   "d": formatDecimal,
-  "e": function e(x, p) {
-    return x.toExponential(p);
-  },
-  "f": function f(x, p) {
-    return x.toFixed(p);
-  },
-  "g": function g(x, p) {
-    return x.toPrecision(p);
-  },
-  "o": function o(x) {
-    return Math.round(x).toString(8);
-  },
-  "p": function p(x, _p) {
-    return formatRounded(x * 100, _p);
-  },
+  "e": (x, p) => x.toExponential(p),
+  "f": (x, p) => x.toFixed(p),
+  "g": (x, p) => x.toPrecision(p),
+  "o": x => Math.round(x).toString(8),
+  "p": (x, p) => formatRounded(x * 100, p),
   "r": formatRounded,
   "s": formatPrefixAuto,
-  "X": function X(x) {
-    return Math.round(x).toString(16).toUpperCase();
-  },
-  "x": function x(_x) {
-    return Math.round(_x).toString(16);
-  }
+  "X": x => Math.round(x).toString(16).toUpperCase(),
+  "x": x => Math.round(x).toString(16)
 };
 
 function identity$3 (x) {
@@ -6083,68 +5066,58 @@ function streamGeometry(geometry, stream) {
 }
 
 var streamObjectType = {
-  Feature: function Feature(object, stream) {
+  Feature: function (object, stream) {
     streamGeometry(object.geometry, stream);
   },
-  FeatureCollection: function FeatureCollection(object, stream) {
+  FeatureCollection: function (object, stream) {
     var features = object.features,
         i = -1,
         n = features.length;
 
-    while (++i < n) {
-      streamGeometry(features[i].geometry, stream);
-    }
+    while (++i < n) streamGeometry(features[i].geometry, stream);
   }
 };
 var streamGeometryType = {
-  Sphere: function Sphere(object, stream) {
+  Sphere: function (object, stream) {
     stream.sphere();
   },
-  Point: function Point(object, stream) {
+  Point: function (object, stream) {
     object = object.coordinates;
     stream.point(object[0], object[1], object[2]);
   },
-  MultiPoint: function MultiPoint(object, stream) {
+  MultiPoint: function (object, stream) {
     var coordinates = object.coordinates,
         i = -1,
         n = coordinates.length;
 
-    while (++i < n) {
-      object = coordinates[i], stream.point(object[0], object[1], object[2]);
-    }
+    while (++i < n) object = coordinates[i], stream.point(object[0], object[1], object[2]);
   },
-  LineString: function LineString(object, stream) {
+  LineString: function (object, stream) {
     streamLine(object.coordinates, stream, 0);
   },
-  MultiLineString: function MultiLineString(object, stream) {
+  MultiLineString: function (object, stream) {
     var coordinates = object.coordinates,
         i = -1,
         n = coordinates.length;
 
-    while (++i < n) {
-      streamLine(coordinates[i], stream, 0);
-    }
+    while (++i < n) streamLine(coordinates[i], stream, 0);
   },
-  Polygon: function Polygon(object, stream) {
+  Polygon: function (object, stream) {
     streamPolygon(object.coordinates, stream);
   },
-  MultiPolygon: function MultiPolygon(object, stream) {
+  MultiPolygon: function (object, stream) {
     var coordinates = object.coordinates,
         i = -1,
         n = coordinates.length;
 
-    while (++i < n) {
-      streamPolygon(coordinates[i], stream);
-    }
+    while (++i < n) streamPolygon(coordinates[i], stream);
   },
-  GeometryCollection: function GeometryCollection(object, stream) {
+  GeometryCollection: function (object, stream) {
     var geometries = object.geometries,
         i = -1,
         n = geometries.length;
 
-    while (++i < n) {
-      streamGeometry(geometries[i], stream);
-    }
+    while (++i < n) streamGeometry(geometries[i], stream);
   }
 };
 
@@ -6154,9 +5127,7 @@ function streamLine(coordinates, stream, closed) {
       coordinate;
   stream.lineStart();
 
-  while (++i < n) {
-    coordinate = coordinates[i], stream.point(coordinate[0], coordinate[1], coordinate[2]);
-  }
+  while (++i < n) coordinate = coordinates[i], stream.point(coordinate[0], coordinate[1], coordinate[2]);
 
   stream.lineEnd();
 }
@@ -6166,9 +5137,7 @@ function streamPolygon(coordinates, stream) {
       n = coordinates.length;
   stream.polygonStart();
 
-  while (++i < n) {
-    streamLine(coordinates[i], stream, 1);
-  }
+  while (++i < n) streamLine(coordinates[i], stream, 1);
 
   stream.polygonEnd();
 }
@@ -6185,17 +5154,17 @@ function clipBuffer () {
   var lines = [],
       line;
   return {
-    point: function point(x, y, m) {
+    point: function (x, y, m) {
       line.push([x, y, m]);
     },
-    lineStart: function lineStart() {
+    lineStart: function () {
       lines.push(line = []);
     },
     lineEnd: noop,
-    rejoin: function rejoin() {
+    rejoin: function () {
       if (lines.length > 1) lines.push(lines.pop().concat(lines.shift()));
     },
-    result: function result() {
+    result: function () {
       var result = lines;
       lines = [];
       line = null;
@@ -6239,9 +5208,7 @@ function clipRejoin (segments, compareIntersection, startInside, interpolate, st
       if (!p0[2] && !p1[2]) {
         stream.lineStart();
 
-        for (i = 0; i < n; ++i) {
-          stream.point((p0 = segment[i])[0], p0[1]);
-        }
+        for (i = 0; i < n; ++i) stream.point((p0 = segment[i])[0], p0[1]);
 
         stream.lineEnd();
         return;
@@ -6274,9 +5241,7 @@ function clipRejoin (segments, compareIntersection, startInside, interpolate, st
     var current = start,
         isSubject = true;
 
-    while (current.v) {
-      if ((current = current.n) === start) return;
-    }
+    while (current.v) if ((current = current.n) === start) return;
 
     points = current.z;
     stream.lineStart();
@@ -6286,9 +5251,7 @@ function clipRejoin (segments, compareIntersection, startInside, interpolate, st
 
       if (current.e) {
         if (isSubject) {
-          for (i = 0, n = points.length; i < n; ++i) {
-            stream.point((point = points[i])[0], point[1]);
-          }
+          for (i = 0, n = points.length; i < n; ++i) stream.point((point = points[i])[0], point[1]);
         } else {
           interpolate(current.x, current.n.x, 1, stream);
         }
@@ -6298,9 +5261,7 @@ function clipRejoin (segments, compareIntersection, startInside, interpolate, st
         if (isSubject) {
           points = current.p.z;
 
-          for (i = points.length - 1; i >= 0; --i) {
-            stream.point((point = points[i])[0], point[1]);
-          }
+          for (i = points.length - 1; i >= 0; --i) stream.point((point = points[i])[0], point[1]);
         } else {
           interpolate(current.x, current.p.x, -1, stream);
         }
@@ -6411,9 +5372,7 @@ function clipRectangle(x0, y0, x1, y1) {
         a1 = 0;
 
     if (from == null || (a = corner(from, direction)) !== (a1 = corner(to, direction)) || comparePoint(from, to) < 0 ^ direction > 0) {
-      do {
-        stream.point(a === 0 || a === 3 ? x0 : x1, a > 1 ? y1 : y0);
-      } while ((a = (a + direction + 4) % 4) !== a1);
+      do stream.point(a === 0 || a === 3 ? x0 : x1, a > 1 ? y1 : y0); while ((a = (a + direction + 4) % 4) !== a1);
     } else {
       stream.point(to[0], to[1]);
     }
@@ -6571,9 +5530,7 @@ function clipRectangle(x0, y0, x1, y1) {
   };
 }
 
-var identity$2 = (function (x) {
-  return x;
-});
+var identity$2 = (x => x);
 
 var areaSum = new Adder(),
     areaRingSum = new Adder(),
@@ -6585,16 +5542,16 @@ var areaStream = {
   point: noop,
   lineStart: noop,
   lineEnd: noop,
-  polygonStart: function polygonStart() {
+  polygonStart: function () {
     areaStream.lineStart = areaRingStart;
     areaStream.lineEnd = areaRingEnd;
   },
-  polygonEnd: function polygonEnd() {
+  polygonEnd: function () {
     areaStream.lineStart = areaStream.lineEnd = areaStream.point = noop;
     areaSum.add(abs(areaRingSum));
     areaRingSum = new Adder();
   },
-  result: function result() {
+  result: function () {
     var area = areaSum / 2;
     areaSum = new Adder();
     return area;
@@ -6631,7 +5588,7 @@ var boundsStream = {
   lineEnd: noop,
   polygonStart: noop,
   polygonEnd: noop,
-  result: function result() {
+  result: function () {
     var bounds = [[x0$2, y0$2], [x1, y1]];
     x1 = y1 = -(y0$2 = x0$2 = Infinity);
     return bounds;
@@ -6664,16 +5621,16 @@ var centroidStream = {
   point: centroidPoint,
   lineStart: centroidLineStart,
   lineEnd: centroidLineEnd,
-  polygonStart: function polygonStart() {
+  polygonStart: function () {
     centroidStream.lineStart = centroidRingStart;
     centroidStream.lineEnd = centroidRingEnd;
   },
-  polygonEnd: function polygonEnd() {
+  polygonEnd: function () {
     centroidStream.point = centroidPoint;
     centroidStream.lineStart = centroidLineStart;
     centroidStream.lineEnd = centroidLineEnd;
   },
-  result: function result() {
+  result: function () {
     var centroid = Z2 ? [X2 / Z2, Y2 / Z2] : Z1 ? [X1 / Z1, Y1 / Z1] : Z0 ? [X0 / Z0, Y0 / Z0] : [NaN, NaN];
     X0 = Y0 = Z0 = X1 = Y1 = Z1 = X2 = Y2 = Z2 = 0;
     return centroid;
@@ -6743,23 +5700,23 @@ function PathContext(context) {
 }
 PathContext.prototype = {
   _radius: 4.5,
-  pointRadius: function pointRadius(_) {
+  pointRadius: function (_) {
     return this._radius = _, this;
   },
-  polygonStart: function polygonStart() {
+  polygonStart: function () {
     this._line = 0;
   },
-  polygonEnd: function polygonEnd() {
+  polygonEnd: function () {
     this._line = NaN;
   },
-  lineStart: function lineStart() {
+  lineStart: function () {
     this._point = 0;
   },
-  lineEnd: function lineEnd() {
+  lineEnd: function () {
     if (this._line === 0) this._context.closePath();
     this._point = NaN;
   },
-  point: function point(x, y) {
+  point: function (x, y) {
     switch (this._point) {
       case 0:
         {
@@ -6797,20 +5754,20 @@ var lengthSum = new Adder(),
     y0;
 var lengthStream = {
   point: noop,
-  lineStart: function lineStart() {
+  lineStart: function () {
     lengthStream.point = lengthPointFirst;
   },
-  lineEnd: function lineEnd() {
+  lineEnd: function () {
     if (lengthRing) lengthPoint(x00, y00);
     lengthStream.point = noop;
   },
-  polygonStart: function polygonStart() {
+  polygonStart: function () {
     lengthRing = true;
   },
-  polygonEnd: function polygonEnd() {
+  polygonEnd: function () {
     lengthRing = null;
   },
-  result: function result() {
+  result: function () {
     var length = +lengthSum;
     lengthSum = new Adder();
     return length;
@@ -6836,24 +5793,24 @@ function PathString() {
 PathString.prototype = {
   _radius: 4.5,
   _circle: circle(4.5),
-  pointRadius: function pointRadius(_) {
+  pointRadius: function (_) {
     if ((_ = +_) !== this._radius) this._radius = _, this._circle = null;
     return this;
   },
-  polygonStart: function polygonStart() {
+  polygonStart: function () {
     this._line = 0;
   },
-  polygonEnd: function polygonEnd() {
+  polygonEnd: function () {
     this._line = NaN;
   },
-  lineStart: function lineStart() {
+  lineStart: function () {
     this._point = 0;
   },
-  lineEnd: function lineEnd() {
+  lineEnd: function () {
     if (this._line === 0) this._string.push("Z");
     this._point = NaN;
   },
-  point: function point(x, y) {
+  point: function (x, y) {
     switch (this._point) {
       case 0:
         {
@@ -6880,7 +5837,7 @@ PathString.prototype = {
         }
     }
   },
-  result: function result() {
+  result: function () {
     if (this._string.length) {
       var result = this._string.join("");
 
@@ -6954,9 +5911,7 @@ function transformer$1(methods) {
   return function (stream) {
     var s = new TransformStream();
 
-    for (var key in methods) {
-      s[key] = methods[key];
-    }
+    for (var key in methods) s[key] = methods[key];
 
     s.stream = stream;
     return s;
@@ -6967,22 +5922,22 @@ function TransformStream() {}
 
 TransformStream.prototype = {
   constructor: TransformStream,
-  point: function point(x, y) {
+  point: function (x, y) {
     this.stream.point(x, y);
   },
-  sphere: function sphere() {
+  sphere: function () {
     this.stream.sphere();
   },
-  lineStart: function lineStart() {
+  lineStart: function () {
     this.stream.lineStart();
   },
-  lineEnd: function lineEnd() {
+  lineEnd: function () {
     this.stream.lineEnd();
   },
-  polygonStart: function polygonStart() {
+  polygonStart: function () {
     this.stream.polygonStart();
   },
-  polygonEnd: function polygonEnd() {
+  polygonEnd: function () {
     this.stream.polygonEnd();
   }
 };
@@ -7048,7 +6003,7 @@ function identity$1 () {
   kx = 1,
       ky = 1,
       transform = transformer$1({
-    point: function point(x, y) {
+    point: function (x, y) {
       var p = projection([x, y]);
       this.stream.point(p[0], p[1]);
     }
@@ -7390,9 +6345,7 @@ function colors (specifier) {
       colors = new Array(n),
       i = 0;
 
-  while (i < n) {
-    colors[i] = "#" + specifier.slice(i * 6, ++i * 6);
-  }
+  while (i < n) colors[i] = "#" + specifier.slice(i * 6, ++i * 6);
 
   return colors;
 }
@@ -7406,7 +6359,7 @@ function constant (x) {
 }
 
 function array (x) {
-  return _typeof(x) === "object" && "length" in x ? x // Array, TypedArray, NodeList, array-like
+  return typeof x === "object" && "length" in x ? x // Array, TypedArray, NodeList, array-like
   : Array.from(x); // Map, Set, iterable, string, or anything else
 }
 
@@ -7415,20 +6368,20 @@ function Linear(context) {
 }
 
 Linear.prototype = {
-  areaStart: function areaStart() {
+  areaStart: function () {
     this._line = 0;
   },
-  areaEnd: function areaEnd() {
+  areaEnd: function () {
     this._line = NaN;
   },
-  lineStart: function lineStart() {
+  lineStart: function () {
     this._point = 0;
   },
-  lineEnd: function lineEnd() {
+  lineEnd: function () {
     if (this._line || this._line !== 0 && this._point === 1) this._context.closePath();
     this._line = 1 - this._line;
   },
-  point: function point(x, y) {
+  point: function (x, y) {
     x = +x, y = +y;
 
     switch (this._point) {
@@ -7509,286 +6462,408 @@ function line (x$1, y$1) {
   return line;
 }
 
-var _templateObject$m, _templateObject2$k, _templateObject3$a, _templateObject4$a, _templateObject5$a, _templateObject6$a, _templateObject7$a, _templateObject8$8, _templateObject9$8;
+let _$m = t => t,
+    _t$m,
+    _t2$k,
+    _t3$a,
+    _t4$a,
+    _t5$a,
+    _t6$a,
+    _t7$a,
+    _t8$8,
+    _t9$8;
 /*
   DecidablesElement Base Class - Not intended for instantiation!
   <decidables-element>
 */
 
-var DecidablesElement = /*#__PURE__*/function (_LitElement) {
-  _inherits(DecidablesElement, _LitElement);
-
-  var _super = _createSuper(DecidablesElement);
-
-  function DecidablesElement() {
-    var _this;
-
-    _classCallCheck(this, DecidablesElement);
-
-    _this = _super.call(this);
-    _this.uniqueId = "decidables-".concat(DecidablesElement.uniqueId);
-    return _this;
+class DecidablesElement extends s {
+  // HACK: Create a unique ID for each DecidablesElement
+  // This is needed because Edge/IE11 don't have real Shadow DOM, so IDs leak
+  // out of elements and collide if there is more than one of an element on a
+  // page. Known issue for checkbox/switches and the id/for pattern on <input>
+  // and <label>
+  static get uniqueId() {
+    DecidablesElement.ID += 1;
+    return DecidablesElement.ID;
   }
 
-  _createClass(DecidablesElement, [{
-    key: "getComputedStyleValue",
-    value: function getComputedStyleValue(property) {
-      // HACK: IE11 requires use of polyfill interface to get custom property value in Javascript
-      if (window.ShadyCSS) {
-        return window.ShadyCSS.getComputedStyleValue(this, property);
+  constructor() {
+    super();
+    this.uniqueId = `decidables-${DecidablesElement.uniqueId}`;
+  }
+
+  getComputedStyleValue(property) {
+    // HACK: IE11 requires use of polyfill interface to get custom property value in Javascript
+    if (window.ShadyCSS) {
+      return window.ShadyCSS.getComputedStyleValue(this, property);
+    }
+
+    return getComputedStyle(this).getPropertyValue(property);
+  }
+
+  firstUpdated(changedProperties) {
+    super.firstUpdated(changedProperties); // Use focus highlighting if keyboard is used at all
+
+    select(this.renderRoot.host).classed('keyboard', true).on('mousemove.keyboard touchstart.keyboard', event => {
+      const element = event.currentTarget;
+      select(element.renderRoot.host).classed('keyboard', false).on('mousemove.keyboard touchstart.keyboard', null);
+    }).on('keydown.keyboard', event => {
+      const element = event.currentTarget;
+      select(element.renderRoot.host).classed('keyboard', true).on('keydown.keyboard mousemove.keyboard touchstart.keyboard', null);
+    });
+  }
+
+  static get greys() {
+    const grey = '#999999';
+    const greys = {};
+    greys.white = '#ffffff';
+    greys.light75 = interpolateRgb(grey, '#ffffff')(0.75);
+    greys.light50 = interpolateRgb(grey, '#ffffff')(0.5);
+    greys.light25 = interpolateRgb(grey, '#ffffff')(0.25);
+    greys.grey = grey;
+    greys.dark25 = interpolateRgb(grey, '#000000')(0.25);
+    greys.dark50 = interpolateRgb(grey, '#000000')(0.5);
+    greys.dark75 = interpolateRgb(grey, '#000000')(0.75);
+    greys.black = '#000000';
+    return greys;
+  }
+
+  static get shadows() {
+    // Material Design elevation styles
+    // References:
+    //   https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
+    //   https://codepen.io/hanger/pen/yOGvQp
+
+    /* eslint-disable key-spacing, object-curly-newline */
+    return {
+      elevations: [0, 2, 4, 8, 16],
+      baselineColor: '#000000',
+      baselineColorString: '0, 0, 0',
+      inverseBaselineColor: '#FFFFFF',
+      inverseBaselineColorString: '255, 255, 255',
+      opacityUmbra: 0.2,
+      opacityPenumbra: 0.14,
+      opacityAmbient: 0.12,
+      opacityBoost: 0.2,
+      mapUmbra: {
+        // $mdc-elevation-umbra-map
+        0: {
+          x: 0,
+          y: 0,
+          b: 0,
+          s: 0
+        },
+        // offset-x, offset-y, blur-radius, spread-radius
+        2: {
+          x: 0,
+          y: 3,
+          b: 1,
+          s: -2
+        },
+        4: {
+          x: 0,
+          y: 2,
+          b: 4,
+          s: -1
+        },
+        8: {
+          x: 0,
+          y: 5,
+          b: 5,
+          s: -3
+        },
+        16: {
+          x: 0,
+          y: 8,
+          b: 10,
+          s: -5
+        }
+      },
+      mapPenumbra: {
+        // $mdc-elevation-penumbra-map
+        0: {
+          x: 0,
+          y: 0,
+          b: 0,
+          s: 0
+        },
+        // offset-x, offset-y, blur-radius, spread-radius
+        2: {
+          x: 0,
+          y: 2,
+          b: 2,
+          s: 0
+        },
+        4: {
+          x: 0,
+          y: 4,
+          b: 5,
+          s: 0
+        },
+        8: {
+          x: 0,
+          y: 8,
+          b: 10,
+          s: 1
+        },
+        16: {
+          x: 0,
+          y: 16,
+          b: 24,
+          s: 2
+        }
+      },
+      mapAmbient: {
+        // $mdc-elevation-ambient-map
+        0: {
+          x: 0,
+          y: 0,
+          b: 0,
+          s: 0
+        },
+        // offset-x, offset-y, blur-radius, spread-radius
+        2: {
+          x: 0,
+          y: 1,
+          b: 5,
+          s: 0
+        },
+        4: {
+          x: 0,
+          y: 1,
+          b: 10,
+          s: 0
+        },
+        8: {
+          x: 0,
+          y: 3,
+          b: 14,
+          s: 2
+        },
+        16: {
+          x: 0,
+          y: 6,
+          b: 30,
+          s: 5
+        }
+      }
+    };
+    /* eslint-enable key-spacing, object-curly-newline */
+  }
+
+  static cssBoxShadow(elevation, rotate = false, inverse = false) {
+    const umbraO = this.shadows.opacityUmbra + this.shadows.opacityBoost;
+    const penumbraO = this.shadows.opacityPenumbra + this.shadows.opacityBoost;
+    const ambientO = this.shadows.opacityAmbient + this.shadows.opacityBoost;
+    const umbraC = inverse ? `rgba(${this.shadows.inverseBaselineColorString}, ${umbraO})` : `rgba(${this.shadows.baselineColorString}, ${umbraO})`;
+    const penumbraC = inverse ? `rgba(${this.shadows.inverseBaselineColorString}, ${penumbraO})` : `rgba(${this.shadows.baselineColorString}, ${penumbraO})`;
+    const ambientC = inverse ? `rgba(${this.shadows.inverseBaselineColorString}, ${ambientO})` : `rgba(${this.shadows.baselineColorString}, ${ambientO})`;
+    const umbraM = this.shadows.mapUmbra[elevation];
+    const penumbraM = this.shadows.mapPenumbra[elevation];
+    const ambientM = this.shadows.mapAmbient[elevation];
+    const umbraS = rotate ? `${-umbraM.y}px ${umbraM.y / 2}px ${umbraM.b}px ${umbraM.s}px` : `${umbraM.y / 2}px ${umbraM.y}px ${umbraM.b}px ${umbraM.s}px`;
+    const penumbraS = rotate ? `${-penumbraM.y}px ${penumbraM.y / 2}px ${penumbraM.b}px ${penumbraM.s}px` : `${penumbraM.y / 2}px ${penumbraM.y}px ${penumbraM.b}px ${penumbraM.s}px`;
+    const ambientS = rotate ? `${-ambientM.y}px ${ambientM.y / 2}px ${ambientM.b}px ${ambientM.s}px` : `${ambientM.y / 2}px ${ambientM.y}px ${ambientM.b}px ${ambientM.s}px`;
+    return `${umbraS} ${umbraC}, ${penumbraS} ${penumbraC}, ${ambientS} ${ambientC}`;
+  }
+
+  static get svgFilters() {
+    const shadows = DecidablesElement.shadows; // eslint-disable-line prefer-destructuring
+
+    const erodeRadius = 1;
+    const filters = shadows.elevations.map(z => {
+      return y$1(_t$m || (_t$m = _$m`
+        <filter id=${0} x="-250%" y="-250%" width="600%" height="600%">
+          <feComponentTransfer in="SourceAlpha" result="solid">
+            <feFuncA  type="table" tableValues="0 1 1"/>
+          </feComponentTransfer>
+          <feOffset in="solid" result="offU" dx=${0} dy=${0} />
+          <feOffset in="solid" result="offP" dx=${0} dy=${0} />
+          <feOffset in="solid" result="offA" dx=${0} dy=${0} />
+          ${0}
+          ${0}
+          ${0}
+          <feGaussianBlur in=${0} result="blurU" stdDeviation=${0} />
+          <feGaussianBlur in=${0} result="blurP" stdDeviation=${0} />
+          <feGaussianBlur in=${0} result="blurA" stdDeviation=${0} />
+          <feFlood in="SourceGraphic" result="opU" flood-color=${0} flood-opacity=${0} />
+          <feFlood in="SourceGraphic" result="opP" flood-color=${0} flood-opacity=${0} />
+          <feFlood in="SourceGraphic" result="opA" flood-color=${0} flood-opacity=${0} />
+          <feComposite in="opU" in2="blurU" result="shU" operator="in" />
+          <feComposite in="opP" in2="blurP" result="shP" operator="in" />
+          <feComposite in="opA" in2="blurA" result="shA" operator="in" />
+          <!-- HACK Edge: Using a dynamic value for erode radius stops Edge from corrupting the "radius" value! -->
+          <feMorphology in="solid" result="smaller" operator="erode" radius=${0} />
+          <feComposite in="shU" in2="smaller" result="finalU" operator="out" />
+          <feComposite in="shP" in2="smaller" result="finalP" operator="out" />
+          <feComposite in="shA" in2="smaller" result="finalA" operator="out" />
+          <feMerge>
+            <feMergeNode in="finalU" />
+            <feMergeNode in="finalP" />
+            <feMergeNode in="finalA" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>`), `shadow-${z}`, shadows.mapUmbra[z].y / 2, shadows.mapUmbra[z].y, shadows.mapPenumbra[z].y / 2, shadows.mapPenumbra[z].y, shadows.mapAmbient[z].y / 2, shadows.mapAmbient[z].y, shadows.mapUmbra[z].s === 0 ? y$1(_t2$k || (_t2$k = _$m``)) : y$1(_t3$a || (_t3$a = _$m`<feMorphology in="offU" result="spreadU" operator=${0} radius=${0} />`), shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapUmbra[z].s)), shadows.mapPenumbra[z].s === 0 ? y$1(_t4$a || (_t4$a = _$m``)) : y$1(_t5$a || (_t5$a = _$m`<feMorphology in="offP" result="spreadP" operator=${0} radius=${0} />`), shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapPenumbra[z].s)), shadows.mapAmbient[z].s === 0 ? y$1(_t6$a || (_t6$a = _$m``)) : y$1(_t7$a || (_t7$a = _$m`<feMorphology in="offA" result="spreadA" operator=${0} radius=${0} />`), shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapAmbient[z].s)), shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU', shadows.mapUmbra[z].b / 2, shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP', shadows.mapPenumbra[z].b / 2, shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA', shadows.mapAmbient[z].b / 2, shadows.baselineColor, shadows.opacityUmbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityPenumbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityAmbient + shadows.opacityBoost, erodeRadius);
+    });
+    return y$1(_t8$8 || (_t8$8 = _$m`
+      <svg class="defs">
+        <defs>
+          ${0}
+        </defs>
+      </svg>
+    `), filters);
+  }
+
+  static get styles() {
+    return r$2(_t9$8 || (_t9$8 = _$m`
+      :host {
+        ---shadow-0: var(--shadow-0, ${0});
+        ---shadow-2: var(--shadow-2, ${0});
+        ---shadow-4: var(--shadow-4, ${0});
+        ---shadow-8: var(--shadow-8, ${0});
+
+        ---color-background: var(--color-background, ${0});
+        ---color-border: var(--color-border, ${0});
+        ---color-text: var(--color-text, ${0});
+        ---color-text-inverse: var(--color-text-inverse, ${0});
+        ---color-link: var(--color-link, ${0});
+        ---color-element-background: var(--color-element-background, ${0});
+        ---color-element-disabled: var(--color-element-disabled, ${0});
+        ---color-element-enabled: var(--color-element-enabled, ${0});
+        ---color-element-selected: var(--color-element-selected, ${0});
+        ---color-element-border: var(--color-element-border, ${0});
+        ---color-element-emphasis: var(--color-element-emphasis, ${0});
+
+        ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
+        ---font-family-math: var(--font-family-math, "Source Serif", serif);
+
+        ---transition-duration: var(--transition-duration, 500ms);
+
+        font-family: var(---font-family-base);
       }
 
-      return getComputedStyle(this).getPropertyValue(property);
-    }
-  }, {
-    key: "firstUpdated",
-    value: function firstUpdated(changedProperties) {
-      _get(_getPrototypeOf(DecidablesElement.prototype), "firstUpdated", this).call(this, changedProperties); // Use focus highlighting if keyboard is used at all
+      :host,
+      :host *,
+      :host *::before,
+      :host *::after {
+        box-sizing: border-box;
+      }
 
+      .math-greek {
+        font-family: var(---font-family-math);
+        font-style: normal;
+      }
 
-      select(this.renderRoot.host).classed('keyboard', true).on('mousemove.keyboard touchstart.keyboard', function (event) {
-        var element = event.currentTarget;
-        select(element.renderRoot.host).classed('keyboard', false).on('mousemove.keyboard touchstart.keyboard', null);
-      }).on('keydown.keyboard', function (event) {
-        var element = event.currentTarget;
-        select(element.renderRoot.host).classed('keyboard', true).on('keydown.keyboard mousemove.keyboard touchstart.keyboard', null);
-      });
-    }
-  }], [{
-    key: "uniqueId",
-    get: // HACK: Create a unique ID for each DecidablesElement
-    // This is needed because Edge/IE11 don't have real Shadow DOM, so IDs leak
-    // out of elements and collide if there is more than one of an element on a
-    // page. Known issue for checkbox/switches and the id/for pattern on <input>
-    // and <label>
-    function get() {
-      DecidablesElement.ID += 1;
-      return DecidablesElement.ID;
-    }
-  }, {
-    key: "greys",
-    get: function get() {
-      var grey = '#999999';
-      var greys = {};
-      greys.white = '#ffffff';
-      greys.light75 = interpolateRgb(grey, '#ffffff')(0.75);
-      greys.light50 = interpolateRgb(grey, '#ffffff')(0.5);
-      greys.light25 = interpolateRgb(grey, '#ffffff')(0.25);
-      greys.grey = grey;
-      greys.dark25 = interpolateRgb(grey, '#000000')(0.25);
-      greys.dark50 = interpolateRgb(grey, '#000000')(0.5);
-      greys.dark75 = interpolateRgb(grey, '#000000')(0.75);
-      greys.black = '#000000';
-      return greys;
-    }
-  }, {
-    key: "shadows",
-    get: function get() {
-      // Material Design elevation styles
-      // References:
-      //   https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
-      //   https://codepen.io/hanger/pen/yOGvQp
+      .math-num {
+        font-family: var(---font-family-base);
+        font-style: normal;
+      }
 
-      /* eslint-disable key-spacing, object-curly-newline */
-      return {
-        elevations: [0, 2, 4, 8, 16],
-        baselineColor: '#000000',
-        baselineColorString: '0, 0, 0',
-        inverseBaselineColor: '#FFFFFF',
-        inverseBaselineColorString: '255, 255, 255',
-        opacityUmbra: 0.2,
-        opacityPenumbra: 0.14,
-        opacityAmbient: 0.12,
-        opacityBoost: 0.2,
-        mapUmbra: {
-          // $mdc-elevation-umbra-map
-          0: {
-            x: 0,
-            y: 0,
-            b: 0,
-            s: 0
-          },
-          // offset-x, offset-y, blur-radius, spread-radius
-          2: {
-            x: 0,
-            y: 3,
-            b: 1,
-            s: -2
-          },
-          4: {
-            x: 0,
-            y: 2,
-            b: 4,
-            s: -1
-          },
-          8: {
-            x: 0,
-            y: 5,
-            b: 5,
-            s: -3
-          },
-          16: {
-            x: 0,
-            y: 8,
-            b: 10,
-            s: -5
-          }
-        },
-        mapPenumbra: {
-          // $mdc-elevation-penumbra-map
-          0: {
-            x: 0,
-            y: 0,
-            b: 0,
-            s: 0
-          },
-          // offset-x, offset-y, blur-radius, spread-radius
-          2: {
-            x: 0,
-            y: 2,
-            b: 2,
-            s: 0
-          },
-          4: {
-            x: 0,
-            y: 4,
-            b: 5,
-            s: 0
-          },
-          8: {
-            x: 0,
-            y: 8,
-            b: 10,
-            s: 1
-          },
-          16: {
-            x: 0,
-            y: 16,
-            b: 24,
-            s: 2
-          }
-        },
-        mapAmbient: {
-          // $mdc-elevation-ambient-map
-          0: {
-            x: 0,
-            y: 0,
-            b: 0,
-            s: 0
-          },
-          // offset-x, offset-y, blur-radius, spread-radius
-          2: {
-            x: 0,
-            y: 1,
-            b: 5,
-            s: 0
-          },
-          4: {
-            x: 0,
-            y: 1,
-            b: 10,
-            s: 0
-          },
-          8: {
-            x: 0,
-            y: 3,
-            b: 14,
-            s: 2
-          },
-          16: {
-            x: 0,
-            y: 6,
-            b: 30,
-            s: 5
-          }
-        }
-      };
-      /* eslint-enable key-spacing, object-curly-newline */
-    }
-  }, {
-    key: "cssBoxShadow",
-    value: function cssBoxShadow(elevation) {
-      var rotate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var inverse = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var umbraO = this.shadows.opacityUmbra + this.shadows.opacityBoost;
-      var penumbraO = this.shadows.opacityPenumbra + this.shadows.opacityBoost;
-      var ambientO = this.shadows.opacityAmbient + this.shadows.opacityBoost;
-      var umbraC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(umbraO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(umbraO, ")");
-      var penumbraC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(penumbraO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(penumbraO, ")");
-      var ambientC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(ambientO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(ambientO, ")");
-      var umbraM = this.shadows.mapUmbra[elevation];
-      var penumbraM = this.shadows.mapPenumbra[elevation];
-      var ambientM = this.shadows.mapAmbient[elevation];
-      var umbraS = rotate ? "".concat(-umbraM.y, "px ").concat(umbraM.y / 2, "px ").concat(umbraM.b, "px ").concat(umbraM.s, "px") : "".concat(umbraM.y / 2, "px ").concat(umbraM.y, "px ").concat(umbraM.b, "px ").concat(umbraM.s, "px");
-      var penumbraS = rotate ? "".concat(-penumbraM.y, "px ").concat(penumbraM.y / 2, "px ").concat(penumbraM.b, "px ").concat(penumbraM.s, "px") : "".concat(penumbraM.y / 2, "px ").concat(penumbraM.y, "px ").concat(penumbraM.b, "px ").concat(penumbraM.s, "px");
-      var ambientS = rotate ? "".concat(-ambientM.y, "px ").concat(ambientM.y / 2, "px ").concat(ambientM.b, "px ").concat(ambientM.s, "px") : "".concat(ambientM.y / 2, "px ").concat(ambientM.y, "px ").concat(ambientM.b, "px ").concat(ambientM.s, "px");
-      return "".concat(umbraS, " ").concat(umbraC, ", ").concat(penumbraS, " ").concat(penumbraC, ", ").concat(ambientS, " ").concat(ambientC);
-    }
-  }, {
-    key: "svgFilters",
-    get: function get() {
-      var shadows = DecidablesElement.shadows; // eslint-disable-line prefer-destructuring
+      .math-var {
+        font-family: var(---font-family-math);
+        font-style: italic;
+      }
 
-      var erodeRadius = 1;
-      var filters = shadows.elevations.map(function (z) {
-        return y$1(_templateObject$m || (_templateObject$m = _taggedTemplateLiteral(["\n        <filter id=", " x=\"-250%\" y=\"-250%\" width=\"600%\" height=\"600%\">\n          <feComponentTransfer in=\"SourceAlpha\" result=\"solid\">\n            <feFuncA  type=\"table\" tableValues=\"0 1 1\"/>\n          </feComponentTransfer>\n          <feOffset in=\"solid\" result=\"offU\" dx=", " dy=", " />\n          <feOffset in=\"solid\" result=\"offP\" dx=", " dy=", " />\n          <feOffset in=\"solid\" result=\"offA\" dx=", " dy=", " />\n          ", "\n          ", "\n          ", "\n          <feGaussianBlur in=", " result=\"blurU\" stdDeviation=", " />\n          <feGaussianBlur in=", " result=\"blurP\" stdDeviation=", " />\n          <feGaussianBlur in=", " result=\"blurA\" stdDeviation=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opU\" flood-color=", " flood-opacity=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opP\" flood-color=", " flood-opacity=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opA\" flood-color=", " flood-opacity=", " />\n          <feComposite in=\"opU\" in2=\"blurU\" result=\"shU\" operator=\"in\" />\n          <feComposite in=\"opP\" in2=\"blurP\" result=\"shP\" operator=\"in\" />\n          <feComposite in=\"opA\" in2=\"blurA\" result=\"shA\" operator=\"in\" />\n          <!-- HACK Edge: Using a dynamic value for erode radius stops Edge from corrupting the \"radius\" value! -->\n          <feMorphology in=\"solid\" result=\"smaller\" operator=\"erode\" radius=", " />\n          <feComposite in=\"shU\" in2=\"smaller\" result=\"finalU\" operator=\"out\" />\n          <feComposite in=\"shP\" in2=\"smaller\" result=\"finalP\" operator=\"out\" />\n          <feComposite in=\"shA\" in2=\"smaller\" result=\"finalA\" operator=\"out\" />\n          <feMerge>\n            <feMergeNode in=\"finalU\" />\n            <feMergeNode in=\"finalP\" />\n            <feMergeNode in=\"finalA\" />\n            <feMergeNode in=\"SourceGraphic\" />\n          </feMerge>\n        </filter>"])), "shadow-".concat(z), shadows.mapUmbra[z].y / 2, shadows.mapUmbra[z].y, shadows.mapPenumbra[z].y / 2, shadows.mapPenumbra[z].y, shadows.mapAmbient[z].y / 2, shadows.mapAmbient[z].y, shadows.mapUmbra[z].s === 0 ? y$1(_templateObject2$k || (_templateObject2$k = _taggedTemplateLiteral([""]))) : y$1(_templateObject3$a || (_templateObject3$a = _taggedTemplateLiteral(["<feMorphology in=\"offU\" result=\"spreadU\" operator=", " radius=", " />"])), shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapUmbra[z].s)), shadows.mapPenumbra[z].s === 0 ? y$1(_templateObject4$a || (_templateObject4$a = _taggedTemplateLiteral([""]))) : y$1(_templateObject5$a || (_templateObject5$a = _taggedTemplateLiteral(["<feMorphology in=\"offP\" result=\"spreadP\" operator=", " radius=", " />"])), shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapPenumbra[z].s)), shadows.mapAmbient[z].s === 0 ? y$1(_templateObject6$a || (_templateObject6$a = _taggedTemplateLiteral([""]))) : y$1(_templateObject7$a || (_templateObject7$a = _taggedTemplateLiteral(["<feMorphology in=\"offA\" result=\"spreadA\" operator=", " radius=", " />"])), shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapAmbient[z].s)), shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU', shadows.mapUmbra[z].b / 2, shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP', shadows.mapPenumbra[z].b / 2, shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA', shadows.mapAmbient[z].b / 2, shadows.baselineColor, shadows.opacityUmbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityPenumbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityAmbient + shadows.opacityBoost, erodeRadius);
-      });
-      return y$1(_templateObject8$8 || (_templateObject8$8 = _taggedTemplateLiteral(["\n      <svg class=\"defs\">\n        <defs>\n          ", "\n        </defs>\n      </svg>\n    "])), filters);
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return r$2(_templateObject9$8 || (_templateObject9$8 = _taggedTemplateLiteral(["\n      :host {\n        ---shadow-0: var(--shadow-0, ", ");\n        ---shadow-2: var(--shadow-2, ", ");\n        ---shadow-4: var(--shadow-4, ", ");\n        ---shadow-8: var(--shadow-8, ", ");\n\n        ---color-background: var(--color-background, ", ");\n        ---color-border: var(--color-border, ", ");\n        ---color-text: var(--color-text, ", ");\n        ---color-text-inverse: var(--color-text-inverse, ", ");\n        ---color-link: var(--color-link, ", ");\n        ---color-element-background: var(--color-element-background, ", ");\n        ---color-element-disabled: var(--color-element-disabled, ", ");\n        ---color-element-enabled: var(--color-element-enabled, ", ");\n        ---color-element-selected: var(--color-element-selected, ", ");\n        ---color-element-border: var(--color-element-border, ", ");\n        ---color-element-emphasis: var(--color-element-emphasis, ", ");\n\n        ---font-family-base: var(--font-family-base, \"Source Sans\", sans-serif);\n        ---font-family-math: var(--font-family-math, \"Source Serif\", serif);\n\n        ---transition-duration: var(--transition-duration, 500ms);\n\n        font-family: var(---font-family-base);\n      }\n\n      :host,\n      :host *,\n      :host *::before,\n      :host *::after {\n        box-sizing: border-box;\n      }\n\n      .math-greek {\n        font-family: var(---font-family-math);\n        font-style: normal;\n      }\n\n      .math-num {\n        font-family: var(---font-family-base);\n        font-style: normal;\n      }\n\n      .math-var {\n        font-family: var(---font-family-math);\n        font-style: italic;\n      }\n\n      .defs {\n        display: block;\n\n        width: 0;\n        height: 0;\n      }\n    "])), o$3(this.cssBoxShadow(0)), o$3(this.cssBoxShadow(2)), o$3(this.cssBoxShadow(4)), o$3(this.cssBoxShadow(8)), o$3(this.greys.white), o$3(this.greys.light75), o$3(this.greys.dark75), o$3(this.greys.white), o$3(this.greys.dark25), o$3(this.greys.light75), o$3(this.greys.light50), o$3(this.greys.grey), o$3(this.greys.dark25), o$3(this.greys.dark50), o$3(this.greys.dark75));
-    }
-  }]);
+      .defs {
+        display: block;
 
-  return DecidablesElement;
-}(s); // Static property of DecidablesElement!
-DecidablesElement.ID = 0;
-
-var _templateObject$l, _templateObject2$j;
-
-var DecidablesButton = /*#__PURE__*/function (_DecidablesElement) {
-  _inherits(DecidablesButton, _DecidablesElement);
-
-  var _super = _createSuper(DecidablesButton);
-
-  function DecidablesButton() {
-    var _this;
-
-    _classCallCheck(this, DecidablesButton);
-
-    _this = _super.call(this); // Attributes
-
-    _this.disabled = false;
-    return _this;
+        width: 0;
+        height: 0;
+      }
+    `), o$3(this.cssBoxShadow(0)), o$3(this.cssBoxShadow(2)), o$3(this.cssBoxShadow(4)), o$3(this.cssBoxShadow(8)), o$3(this.greys.white), o$3(this.greys.light75), o$3(this.greys.dark75), o$3(this.greys.white), o$3(this.greys.dark25), o$3(this.greys.light75), o$3(this.greys.light50), o$3(this.greys.grey), o$3(this.greys.dark25), o$3(this.greys.dark50), o$3(this.greys.dark75));
   }
 
-  _createClass(DecidablesButton, [{
-    key: "render",
-    value: function render() {
-      return $(_templateObject$l || (_templateObject$l = _taggedTemplateLiteral(["\n      <button ?disabled=", ">\n        <slot></slot>\n      </button>\n    "])), this.disabled);
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        disabled: {
-          attribute: 'disabled',
-          type: Boolean,
-          reflect: true
-        }
-      };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(DecidablesButton), "styles", this), r$2(_templateObject2$j || (_templateObject2$j = _taggedTemplateLiteral(["\n        :host {\n          margin: 0.25rem;\n        }\n\n        button {\n          width: 100%;\n          height: 100%;\n          padding: 0.375rem 0.75rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-text-inverse);\n\n          border: 0;\n          border-radius: 0.25rem;\n          outline: none;\n        }\n\n        button:disabled {\n          background-color: var(--decidables-button-background-color, var(---color-element-disabled));\n          outline: none;\n          box-shadow: none;\n        }\n\n        button:enabled {\n          cursor: pointer;\n\n          background-color: var(--decidables-button-background-color, var(---color-element-enabled));\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        button:enabled:hover {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        button:enabled:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(.keyboard) button:enabled:focus {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) button:enabled:focus:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
-    }
-  }]);
+} // Static property of DecidablesElement!
 
-  return DecidablesButton;
-}(DecidablesElement);
+DecidablesElement.ID = 0;
+
+let _$l = t => t,
+    _t$l,
+    _t2$j;
+class DecidablesButton extends DecidablesElement {
+  static get properties() {
+    return {
+      disabled: {
+        attribute: 'disabled',
+        type: Boolean,
+        reflect: true
+      }
+    };
+  }
+
+  constructor() {
+    super(); // Attributes
+
+    this.disabled = false;
+  }
+
+  static get styles() {
+    return [super.styles, r$2(_t$l || (_t$l = _$l`
+        :host {
+          margin: 0.25rem;
+        }
+
+        button {
+          width: 100%;
+          height: 100%;
+          padding: 0.375rem 0.75rem;
+
+          font-family: var(---font-family-base);
+          font-size: 1.125rem;
+          line-height: 1.5;
+          color: var(---color-text-inverse);
+
+          border: 0;
+          border-radius: 0.25rem;
+          outline: none;
+        }
+
+        button:disabled {
+          background-color: var(--decidables-button-background-color, var(---color-element-disabled));
+          outline: none;
+          box-shadow: none;
+        }
+
+        button:enabled {
+          cursor: pointer;
+
+          background-color: var(--decidables-button-background-color, var(---color-element-enabled));
+          outline: none;
+          box-shadow: var(---shadow-2);
+        }
+
+        button:enabled:hover {
+          outline: none;
+          box-shadow: var(---shadow-4);
+        }
+
+        button:enabled:active {
+          outline: none;
+          box-shadow: var(---shadow-8);
+        }
+
+        :host(.keyboard) button:enabled:focus {
+          outline: none;
+          box-shadow: var(---shadow-4);
+        }
+
+        :host(.keyboard) button:enabled:focus:active {
+          outline: none;
+          box-shadow: var(---shadow-8);
+        }
+      `))];
+  }
+
+  render() {
+    return $(_t2$j || (_t2$j = _$l`
+      <button ?disabled=${0}>
+        <slot></slot>
+      </button>
+    `), this.disabled);
+  }
+
+}
 customElements.define('decidables-button', DecidablesButton);
 
 /**
@@ -7797,444 +6872,992 @@ customElements.define('decidables-button', DecidablesButton);
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-var l = function l(_l) {
-  return null != _l ? _l : w;
-};
+const l = l => null != l ? l : w;
 
-var _templateObject$k, _templateObject2$i;
-
-var DecidablesSlider = /*#__PURE__*/function (_DecidablesElement) {
-  _inherits(DecidablesSlider, _DecidablesElement);
-
-  var _super = _createSuper(DecidablesSlider);
-
-  function DecidablesSlider() {
-    var _this;
-
-    _classCallCheck(this, DecidablesSlider);
-
-    _this = _super.call(this); // Attributes
-
-    _this.disabled = false;
-    _this.max = undefined;
-    _this.min = undefined;
-    _this.step = undefined;
-    _this.value = undefined;
-    return _this;
+let _$k = t => t,
+    _t$k,
+    _t2$i;
+class DecidablesSlider extends DecidablesElement {
+  static get properties() {
+    return {
+      disabled: {
+        attribute: 'disabled',
+        type: Boolean,
+        reflect: true
+      },
+      max: {
+        attribute: 'max',
+        type: Number,
+        reflect: true
+      },
+      min: {
+        attribute: 'min',
+        type: Number,
+        reflect: true
+      },
+      step: {
+        attribute: 'step',
+        type: Number,
+        reflect: true
+      },
+      value: {
+        attribute: 'value',
+        type: Number,
+        reflect: true
+      }
+    };
   }
 
-  _createClass(DecidablesSlider, [{
-    key: "changed",
-    value: function changed(event) {
-      this.value = event.target.value;
-      this.dispatchEvent(new CustomEvent('change', {
-        detail: {
-          value: this.value
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "inputted",
-    value: function inputted(event) {
-      this.value = event.target.value;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return $(_templateObject$k || (_templateObject$k = _taggedTemplateLiteral(["\n      <label for=", ">\n        <slot></slot>\n      </label>\n      <div class=\"range\">\n        <input type=\"range\" id=", " min=", " max=", " step=", " .value=", " @change=", " @input=", ">\n      </div>\n      <decidables-spinner min=", " max=", " step=", " .value=", " @input=", "></decidables-spinner>\n    "])), "".concat(this.uniqueId, "-slider"), "".concat(this.uniqueId, "-slider"), l(this.min), l(this.max), l(this.step), this.value, this.changed.bind(this), this.inputted.bind(this), l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        disabled: {
-          attribute: 'disabled',
-          type: Boolean,
-          reflect: true
-        },
-        max: {
-          attribute: 'max',
-          type: Number,
-          reflect: true
-        },
-        min: {
-          attribute: 'min',
-          type: Number,
-          reflect: true
-        },
-        step: {
-          attribute: 'step',
-          type: Number,
-          reflect: true
-        },
-        value: {
-          attribute: 'value',
-          type: Number,
-          reflect: true
-        }
-      };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(DecidablesSlider), "styles", this), r$2(_templateObject2$i || (_templateObject2$i = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: var(--shadow-2-rotate, ", ");\n          ---shadow-4-rotate: var(--shadow-4-rotate, ", ");\n          ---shadow-8-rotate: var(--shadow-8-rotate, ", ");\n\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        decidables-spinner {\n          --decidables-spinner-input-width: 3.5rem;\n\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        /* Adapted from http://danielstern.ca/range.css/#/ */\n        /* Overall */\n        input[type=range] {\n          width: 4.75rem;\n          height: 3.5rem;\n          padding: 0;\n          margin: 0;\n\n          background-color: unset;\n\n          transform: rotate(-90deg);\n          transform-origin: 2.375rem 2.375rem;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:enabled {\n          cursor: ns-resize;\n        }\n\n        input[type=range]:focus {\n          outline: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-tooltip {\n          display: none;\n        }\n\n        /* Track */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-runnable-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        input[type=range]:focus::-webkit-slider-runnable-track {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-track {\n          width: 100%;\n          height: 4px;\n\n          color: transparent;\n\n          background: transparent;\n          border-color: transparent;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-lower {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-upper {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-lower {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-upper {\n          background: var(---color-element-disabled);\n        }\n\n        /* Thumb */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: -8px;\n\n          border: 0;\n          border-radius: 4px;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:disabled::-webkit-slider-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=range]:enabled::-webkit-slider-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        input[type=range]:enabled:hover::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        input[type=range]:enabled:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-thumb {\n          width: 10px;\n          height: 20px;\n\n          border: 0;\n          border-radius: 4px;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-moz-range-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-moz-range-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: 0;\n\n          background: #999999;\n          /* background: var(---color-element-enabled); */\n          border: 0;\n          border-radius: 4px;\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-ms-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-ms-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-ms-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n      "])), o$3(this.cssBoxShadow(2, true, false)), o$3(this.cssBoxShadow(4, true, false)), o$3(this.cssBoxShadow(8, true, false)))];
-    }
-  }]);
+  constructor() {
+    super(); // Attributes
 
-  return DecidablesSlider;
-}(DecidablesElement);
+    this.disabled = false;
+    this.max = undefined;
+    this.min = undefined;
+    this.step = undefined;
+    this.value = undefined;
+  }
+
+  changed(event) {
+    this.value = event.target.value;
+    this.dispatchEvent(new CustomEvent('change', {
+      detail: {
+        value: this.value
+      },
+      bubbles: true
+    }));
+  }
+
+  inputted(event) {
+    this.value = event.target.value;
+  }
+
+  static get styles() {
+    return [super.styles, r$2(_t$k || (_t$k = _$k`
+        :host {
+          ---shadow-2-rotate: var(--shadow-2-rotate, ${0});
+          ---shadow-4-rotate: var(--shadow-4-rotate, ${0});
+          ---shadow-8-rotate: var(--shadow-8-rotate, ${0});
+
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: center;
+          justify-content: center;
+        }
+
+        label {
+          margin: 0.25rem 0.25rem 0;
+        }
+
+        .range {
+          display: inline-block;
+
+          width: 3.5rem;
+          height: 4.75rem;
+          margin: 0 0.25rem 0.25rem;
+        }
+
+        decidables-spinner {
+          --decidables-spinner-input-width: 3.5rem;
+
+          margin: 0 0.25rem 0.25rem;
+        }
+
+        /* Adapted from http://danielstern.ca/range.css/#/ */
+        /* Overall */
+        input[type=range] {
+          width: 4.75rem;
+          height: 3.5rem;
+          padding: 0;
+          margin: 0;
+
+          background-color: unset;
+
+          transform: rotate(-90deg);
+          transform-origin: 2.375rem 2.375rem;
+
+          /* stylelint-disable-next-line property-no-vendor-prefix */
+          -webkit-appearance: none;
+        }
+
+        input[type=range]:enabled {
+          cursor: ns-resize;
+        }
+
+        input[type=range]:focus {
+          outline: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-ms-tooltip {
+          display: none;
+        }
+
+        /* Track */
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 4px;
+
+          background: var(---color-element-disabled);
+          border: 0;
+          border-radius: 2px;
+          box-shadow: none;
+        }
+
+        input[type=range]:focus::-webkit-slider-runnable-track {
+          background: var(---color-element-disabled);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-moz-range-track {
+          width: 100%;
+          height: 4px;
+
+          background: var(---color-element-disabled);
+          border: 0;
+          border-radius: 2px;
+          box-shadow: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-ms-track {
+          width: 100%;
+          height: 4px;
+
+          color: transparent;
+
+          background: transparent;
+          border-color: transparent;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-ms-fill-lower {
+          background: #cccccc;
+          /* background: var(---color-element-disabled); */
+          border: 0;
+          border-radius: 2px;
+          box-shadow: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-ms-fill-upper {
+          background: #cccccc;
+          /* background: var(---color-element-disabled); */
+          border: 0;
+          border-radius: 2px;
+          box-shadow: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:focus::-ms-fill-lower {
+          background: var(---color-element-disabled);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:focus::-ms-fill-upper {
+          background: var(---color-element-disabled);
+        }
+
+        /* Thumb */
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-webkit-slider-thumb {
+          width: 10px;
+          height: 20px;
+          margin-top: -8px;
+
+          border: 0;
+          border-radius: 4px;
+
+          /* stylelint-disable-next-line property-no-vendor-prefix */
+          -webkit-appearance: none;
+        }
+
+        input[type=range]:disabled::-webkit-slider-thumb {
+          background: var(---color-element-disabled);
+          box-shadow: none;
+        }
+
+        input[type=range]:enabled::-webkit-slider-thumb {
+          background: var(---color-element-enabled);
+          box-shadow: var(---shadow-2-rotate);
+        }
+
+        input[type=range]:enabled:hover::-webkit-slider-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        input[type=range]:enabled:active::-webkit-slider-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+
+        :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-moz-range-thumb {
+          width: 10px;
+          height: 20px;
+
+          border: 0;
+          border-radius: 4px;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:disabled::-moz-range-thumb {
+          background: var(---color-element-disabled);
+          box-shadow: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled::-moz-range-thumb {
+          background: var(---color-element-enabled);
+          box-shadow: var(---shadow-2-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled:hover::-moz-range-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled:active::-moz-range-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+
+        :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-ms-thumb {
+          width: 10px;
+          height: 20px;
+          margin-top: 0;
+
+          background: #999999;
+          /* background: var(---color-element-enabled); */
+          border: 0;
+          border-radius: 4px;
+          box-shadow: var(---shadow-2-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:disabled::-ms-thumb {
+          background: var(---color-element-disabled);
+          box-shadow: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled::-ms-thumb {
+          background: var(---color-element-enabled);
+          box-shadow: var(---shadow-2-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled:hover::-ms-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled:active::-ms-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+      `), o$3(this.cssBoxShadow(2, true, false)), o$3(this.cssBoxShadow(4, true, false)), o$3(this.cssBoxShadow(8, true, false)))];
+  }
+
+  render() {
+    return $(_t2$i || (_t2$i = _$k`
+      <label for=${0}>
+        <slot></slot>
+      </label>
+      <div class="range">
+        <input type="range" id=${0} min=${0} max=${0} step=${0} .value=${0} @change=${0} @input=${0}>
+      </div>
+      <decidables-spinner min=${0} max=${0} step=${0} .value=${0} @input=${0}></decidables-spinner>
+    `), `${this.uniqueId}-slider`, `${this.uniqueId}-slider`, l(this.min), l(this.max), l(this.step), this.value, this.changed.bind(this), this.inputted.bind(this), l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
+  }
+
+}
 customElements.define('decidables-slider', DecidablesSlider);
 
-var _templateObject$j, _templateObject2$h;
-
-var DecidablesSpinner = /*#__PURE__*/function (_DecidablesElement) {
-  _inherits(DecidablesSpinner, _DecidablesElement);
-
-  var _super = _createSuper(DecidablesSpinner);
-
-  function DecidablesSpinner() {
-    var _this;
-
-    _classCallCheck(this, DecidablesSpinner);
-
-    _this = _super.call(this); // Attributes
-
-    _this.disabled = false;
-    _this.max = undefined;
-    _this.min = undefined;
-    _this.step = undefined;
-    _this.value = undefined;
-    return _this;
+let _$j = t => t,
+    _t$j,
+    _t2$h;
+class DecidablesSpinner extends DecidablesElement {
+  static get properties() {
+    return {
+      disabled: {
+        attribute: 'disabled',
+        type: Boolean,
+        reflect: true
+      },
+      max: {
+        attribute: 'max',
+        type: Number,
+        reflect: true
+      },
+      min: {
+        attribute: 'min',
+        type: Number,
+        reflect: true
+      },
+      step: {
+        attribute: 'step',
+        type: Number,
+        reflect: true
+      },
+      value: {
+        attribute: 'value',
+        type: Number,
+        reflect: true
+      }
+    };
   }
 
-  _createClass(DecidablesSpinner, [{
-    key: "inputted",
-    value: function inputted(event) {
-      this.value = event.target.value;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return $(_templateObject$j || (_templateObject$j = _taggedTemplateLiteral(["\n      <label>\n        <slot></slot>\n        <input ?disabled=", " type=\"number\" min=", " max=", " step=", " .value=", " @input=", ">\n      </label>\n    "])), this.disabled, l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        disabled: {
-          attribute: 'disabled',
-          type: Boolean,
-          reflect: true
-        },
-        max: {
-          attribute: 'max',
-          type: Number,
-          reflect: true
-        },
-        min: {
-          attribute: 'min',
-          type: Number,
-          reflect: true
-        },
-        step: {
-          attribute: 'step',
-          type: Number,
-          reflect: true
-        },
-        value: {
-          attribute: 'value',
-          type: Number,
-          reflect: true
-        }
-      };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(DecidablesSpinner), "styles", this), r$2(_templateObject2$h || (_templateObject2$h = _taggedTemplateLiteral(["\n        :host {\n          ---decidables-spinner-font-size: var(--decidables-spinner-font-size, 1.125rem);\n          ---decidables-spinner-input-width: var(--decidables-spinner-input-width, 4rem);\n          ---decidables-spinner-prefix: var(--decidables-spinner-prefix, \"\");\n\n          display: block;\n        }\n\n        label {\n          position: relative;\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          margin: 0;\n\n          font-size: 0.75rem;\n        }\n\n        label::before {\n          position: absolute;\n          bottom: 1px;\n          left: calc(50% - var(---decidables-spinner-input-width) / 2 + 0.25rem);\n\n          font-size: var(---decidables-spinner-font-size);\n          line-height: normal;\n\n          content: var(---decidables-spinner-prefix);\n        }\n\n        input[type=number] {\n          width: var(---decidables-spinner-input-width);\n\n          font-family: var(---font-family-base);\n          font-size: var(---decidables-spinner-font-size);\n          color: inherit;\n          text-align: right;\n\n          background: none;\n          border: 0;\n          border-radius: 0;\n          outline: none;\n          box-shadow: var(---shadow-2);\n\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n\n        input[type=number]:hover {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=number]:focus,\n        input[type=number]:active {\n          box-shadow: var(---shadow-8);\n        }\n\n        input[type=number]:disabled {\n          color: var(---color-text);\n\n          border: 0;\n          box-shadow: none;\n\n          /* HACK: Use correct text color in Safari */\n          -webkit-opacity: 1;\n          /* HACK: Hide spinners in disabled input for Firefox and Safari */\n          -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */\n          /* HACK: Use correct text color in Safari */\n          -webkit-text-fill-color: var(---color-text);\n        }\n\n        /* HACK: Hide spinners in disabled input for Firefox and Safari */\n        input[type=number]:disabled::-webkit-outer-spin-button,\n        input[type=number]:disabled::-webkit-inner-spin-button {\n          margin: 0;\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n      "])))];
-    }
-  }]);
+  constructor() {
+    super(); // Attributes
 
-  return DecidablesSpinner;
-}(DecidablesElement);
+    this.disabled = false;
+    this.max = undefined;
+    this.min = undefined;
+    this.step = undefined;
+    this.value = undefined;
+  }
+
+  inputted(event) {
+    this.value = event.target.value;
+  }
+
+  static get styles() {
+    return [super.styles, r$2(_t$j || (_t$j = _$j`
+        :host {
+          ---decidables-spinner-font-size: var(--decidables-spinner-font-size, 1.125rem);
+          ---decidables-spinner-input-width: var(--decidables-spinner-input-width, 4rem);
+          ---decidables-spinner-prefix: var(--decidables-spinner-prefix, "");
+
+          display: block;
+        }
+
+        label {
+          position: relative;
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: center;
+
+          margin: 0;
+
+          font-size: 0.75rem;
+        }
+
+        label::before {
+          position: absolute;
+          bottom: 1px;
+          left: calc(50% - var(---decidables-spinner-input-width) / 2 + 0.25rem);
+
+          font-size: var(---decidables-spinner-font-size);
+          line-height: normal;
+
+          content: var(---decidables-spinner-prefix);
+        }
+
+        input[type=number] {
+          width: var(---decidables-spinner-input-width);
+
+          font-family: var(---font-family-base);
+          font-size: var(---decidables-spinner-font-size);
+          color: inherit;
+          text-align: right;
+
+          background: none;
+          border: 0;
+          border-radius: 0;
+          outline: none;
+          box-shadow: var(---shadow-2);
+
+          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+        }
+
+        input[type=number]:hover {
+          box-shadow: var(---shadow-4);
+        }
+
+        input[type=number]:focus,
+        input[type=number]:active {
+          box-shadow: var(---shadow-8);
+        }
+
+        input[type=number]:disabled {
+          color: var(---color-text);
+
+          border: 0;
+          box-shadow: none;
+
+          /* HACK: Use correct text color in Safari */
+          -webkit-opacity: 1;
+          /* HACK: Hide spinners in disabled input for Firefox and Safari */
+          -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */
+          /* HACK: Use correct text color in Safari */
+          -webkit-text-fill-color: var(---color-text);
+        }
+
+        /* HACK: Hide spinners in disabled input for Firefox and Safari */
+        input[type=number]:disabled::-webkit-outer-spin-button,
+        input[type=number]:disabled::-webkit-inner-spin-button {
+          margin: 0;
+          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+        }
+      `))];
+  }
+
+  render() {
+    return $(_t2$h || (_t2$h = _$j`
+      <label>
+        <slot></slot>
+        <input ?disabled=${0} type="number" min=${0} max=${0} step=${0} .value=${0} @input=${0}>
+      </label>
+    `), this.disabled, l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
+  }
+
+}
 customElements.define('decidables-spinner', DecidablesSpinner);
 
-var _templateObject$i, _templateObject2$g;
-
-var DecidablesSwitch = /*#__PURE__*/function (_DecidablesElement) {
-  _inherits(DecidablesSwitch, _DecidablesElement);
-
-  var _super = _createSuper(DecidablesSwitch);
-
-  function DecidablesSwitch() {
-    var _this;
-
-    _classCallCheck(this, DecidablesSwitch);
-
-    _this = _super.call(this); // Attributes
-
-    _this.checked = false;
-    _this.disabled = false;
-    return _this;
+let _$i = t => t,
+    _t$i,
+    _t2$g;
+class DecidablesSwitch extends DecidablesElement {
+  static get properties() {
+    return {
+      checked: {
+        attribute: 'checked',
+        type: Boolean,
+        reflect: true
+      },
+      disabled: {
+        attribute: 'disabled',
+        type: Boolean,
+        reflect: true
+      }
+    };
   }
 
-  _createClass(DecidablesSwitch, [{
-    key: "changed",
-    value: function changed(event) {
-      this.checked = event.target.checked;
-      this.dispatchEvent(new CustomEvent('change', {
-        detail: {
-          checked: this.checked
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return $(_templateObject$i || (_templateObject$i = _taggedTemplateLiteral(["\n      <input type=\"checkbox\" id=", " ?checked=", " ?disabled=", " @change=", ">\n      <label for=", ">\n        <slot name=\"off-label\"></slot>\n      </label>\n      <label for=", ">\n        <slot></slot>\n      </label>\n    "])), "".concat(this.uniqueId, "-checkbox"), this.checked, this.disabled, this.changed.bind(this), "".concat(this.uniqueId, "-checkbox"), "".concat(this.uniqueId, "-checkbox"));
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        checked: {
-          attribute: 'checked',
-          type: Boolean,
-          reflect: true
-        },
-        disabled: {
-          attribute: 'disabled',
-          type: Boolean,
-          reflect: true
-        }
-      };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(DecidablesSwitch), "styles", this), r$2(_templateObject2$g || (_templateObject2$g = _taggedTemplateLiteral(["\n        :host {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */\n        input[type=checkbox] {\n          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n          position: absolute;\n\n          width: 1px;\n          height: 1px;\n          padding: 0;\n          margin: -1px;\n          overflow: hidden;\n          clip: rect(0 0 0 0);\n\n          white-space: nowrap;\n\n          border: 0;\n          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n        }\n\n        input[type=checkbox] + label {\n          order: 1;\n\n          margin: 0 0.25rem 0.25rem;\n\n          font-weight: 400;\n        }\n\n        input[type=checkbox] + label + label {\n          position: relative;\n\n          min-width: 24px;\n          padding: 0 0 36px;\n          margin: 0.25rem 0.25rem 0;\n\n          font-weight: 400;\n\n          outline: none;\n        }\n\n        input[type=checkbox] + label + label::before,\n        input[type=checkbox] + label + label::after {\n          position: absolute;\n\n          left: 50%;\n\n          margin: 0;\n\n          content: \"\";\n\n          outline: 0;\n\n          transition: all var(---transition-duration) ease;\n          transform: translate(-50%, 0);\n        }\n\n        input[type=checkbox] + label + label::before {\n          bottom: 1px;\n\n          width: 8px;\n          height: 34px;\n\n          background-color: var(---color-element-disabled);\n          border-radius: 4px;\n        }\n\n        input[type=checkbox] + label + label::after {\n          bottom: 0;\n\n          width: 18px;\n          height: 18px;\n\n          background-color: var(---color-element-enabled);\n          border-radius: 50%;\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=checkbox]:checked + label + label::after {\n          transform: translate(-50%, -100%);\n        }\n\n        input[type=checkbox]:disabled + label + label::after {\n          background-color: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=checkbox]:enabled + label,\n        input[type=checkbox]:enabled + label + label {\n          cursor: pointer;\n        }\n\n        input[type=checkbox]:enabled + label:hover + label::after,\n        input[type=checkbox]:enabled + label + label:hover::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=checkbox]:enabled + label:active + label::after,\n        input[type=checkbox]:enabled + label + label:active::after {\n          box-shadow: var(---shadow-8);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,\n        :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
-    }
-  }]);
+  constructor() {
+    super(); // Attributes
 
-  return DecidablesSwitch;
-}(DecidablesElement);
+    this.checked = false;
+    this.disabled = false;
+  }
+
+  changed(event) {
+    this.checked = event.target.checked;
+    this.dispatchEvent(new CustomEvent('change', {
+      detail: {
+        checked: this.checked
+      },
+      bubbles: true
+    }));
+  }
+
+  static get styles() {
+    return [super.styles, r$2(_t$i || (_t$i = _$i`
+        :host {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */
+        input[type=checkbox] {
+          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */
+          position: absolute;
+
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+
+          white-space: nowrap;
+
+          border: 0;
+          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */
+        }
+
+        input[type=checkbox] + label {
+          order: 1;
+
+          margin: 0 0.25rem 0.25rem;
+
+          font-weight: 400;
+        }
+
+        input[type=checkbox] + label + label {
+          position: relative;
+
+          min-width: 24px;
+          padding: 0 0 36px;
+          margin: 0.25rem 0.25rem 0;
+
+          font-weight: 400;
+
+          outline: none;
+        }
+
+        input[type=checkbox] + label + label::before,
+        input[type=checkbox] + label + label::after {
+          position: absolute;
+
+          left: 50%;
+
+          margin: 0;
+
+          content: "";
+
+          outline: 0;
+
+          transition: all var(---transition-duration) ease;
+          transform: translate(-50%, 0);
+        }
+
+        input[type=checkbox] + label + label::before {
+          bottom: 1px;
+
+          width: 8px;
+          height: 34px;
+
+          background-color: var(---color-element-disabled);
+          border-radius: 4px;
+        }
+
+        input[type=checkbox] + label + label::after {
+          bottom: 0;
+
+          width: 18px;
+          height: 18px;
+
+          background-color: var(---color-element-enabled);
+          border-radius: 50%;
+          box-shadow: var(---shadow-2);
+        }
+
+        input[type=checkbox]:checked + label + label::after {
+          transform: translate(-50%, -100%);
+        }
+
+        input[type=checkbox]:disabled + label + label::after {
+          background-color: var(---color-element-disabled);
+          box-shadow: none;
+        }
+
+        input[type=checkbox]:enabled + label,
+        input[type=checkbox]:enabled + label + label {
+          cursor: pointer;
+        }
+
+        input[type=checkbox]:enabled + label:hover + label::after,
+        input[type=checkbox]:enabled + label + label:hover::after {
+          box-shadow: var(---shadow-4);
+        }
+
+        input[type=checkbox]:enabled + label:active + label::after,
+        input[type=checkbox]:enabled + label + label:active::after {
+          box-shadow: var(---shadow-8);
+        }
+
+        /* stylelint-disable-next-line selector-max-compound-selectors */
+        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {
+          box-shadow: var(---shadow-4);
+        }
+
+        /* stylelint-disable-next-line selector-max-compound-selectors */
+        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,
+        :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {
+          box-shadow: var(---shadow-8);
+        }
+      `))];
+  }
+
+  render() {
+    return $(_t2$g || (_t2$g = _$i`
+      <input type="checkbox" id=${0} ?checked=${0} ?disabled=${0} @change=${0}>
+      <label for=${0}>
+        <slot name="off-label"></slot>
+      </label>
+      <label for=${0}>
+        <slot></slot>
+      </label>
+    `), `${this.uniqueId}-checkbox`, this.checked, this.disabled, this.changed.bind(this), `${this.uniqueId}-checkbox`, `${this.uniqueId}-checkbox`);
+  }
+
+}
 customElements.define('decidables-switch', DecidablesSwitch);
 
-var _templateObject$h, _templateObject2$f;
-
-var DecidablesToggle = /*#__PURE__*/function (_DecidablesElement) {
-  _inherits(DecidablesToggle, _DecidablesElement);
-
-  var _super = _createSuper(DecidablesToggle);
-
-  function DecidablesToggle() {
-    var _this;
-
-    _classCallCheck(this, DecidablesToggle);
-
-    _this = _super.call(this); // Attributes
-
-    _this.disabled = false;
-    return _this;
+let _$h = t => t,
+    _t$h,
+    _t2$f;
+class DecidablesToggle extends DecidablesElement {
+  static get properties() {
+    return {
+      disabled: {
+        attribute: 'disabled',
+        type: Boolean,
+        reflect: true
+      }
+    };
   }
 
-  _createClass(DecidablesToggle, [{
-    key: "render",
-    value: function render() {
-      return $(_templateObject$h || (_templateObject$h = _taggedTemplateLiteral(["\n      <fieldset ?disabled=", ">\n        <legend><slot name=\"label\"></slot></legend>\n        <slot></slot>\n      </fieldset>\n    "])), this.disabled);
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        disabled: {
-          attribute: 'disabled',
-          type: Boolean,
-          reflect: true
-        }
-      };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(DecidablesToggle), "styles", this), r$2(_templateObject2$f || (_templateObject2$f = _taggedTemplateLiteral(["\n        fieldset {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n\n          margin: 0.25rem;\n\n          border: 0;\n        }\n\n        legend {\n          text-align: center;\n        }\n      "])))];
-    }
-  }]);
+  constructor() {
+    super(); // Attributes
 
-  return DecidablesToggle;
-}(DecidablesElement);
+    this.disabled = false;
+  }
+
+  static get styles() {
+    return [super.styles, r$2(_t$h || (_t$h = _$h`
+        fieldset {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: stretch;
+          justify-content: center;
+
+          margin: 0.25rem;
+
+          border: 0;
+        }
+
+        legend {
+          text-align: center;
+        }
+      `))];
+  }
+
+  render() {
+    return $(_t2$f || (_t2$f = _$h`
+      <fieldset ?disabled=${0}>
+        <legend><slot name="label"></slot></legend>
+        <slot></slot>
+      </fieldset>
+    `), this.disabled);
+  }
+
+}
 customElements.define('decidables-toggle', DecidablesToggle);
 
-var _templateObject$g, _templateObject2$e;
-
-var DecidablesToggleOption = /*#__PURE__*/function (_DecidablesElement) {
-  _inherits(DecidablesToggleOption, _DecidablesElement);
-
-  var _super = _createSuper(DecidablesToggleOption);
-
-  function DecidablesToggleOption() {
-    var _this;
-
-    _classCallCheck(this, DecidablesToggleOption);
-
-    _this = _super.call(this); // Attributes
-
-    _this.checked = false;
-    _this.disabled = false;
-    _this.name = undefined;
-    _this.value = undefined;
-    return _this;
+let _$g = t => t,
+    _t$g,
+    _t2$e;
+class DecidablesToggleOption extends DecidablesElement {
+  static get properties() {
+    return {
+      checked: {
+        attribute: 'checked',
+        type: Boolean,
+        reflect: true
+      },
+      disabled: {
+        attribute: 'disabled',
+        type: Boolean,
+        reflect: true
+      },
+      name: {
+        attribute: 'name',
+        type: String,
+        reflect: true
+      },
+      value: {
+        attribute: 'value',
+        type: String,
+        reflect: true
+      }
+    };
   }
 
-  _createClass(DecidablesToggleOption, [{
-    key: "changed",
-    value: function changed(event) {
-      this.checked = event.target.checked;
-      this.dispatchEvent(new CustomEvent('change', {
-        detail: {
-          checked: this.checked,
-          value: this.value
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return $(_templateObject$g || (_templateObject$g = _taggedTemplateLiteral(["\n      <input type=\"radio\" id=", " name=", " value=", " .checked=", " @change=", ">\n      <label for=", ">\n        <slot></slot>\n      </label>\n    "])), "".concat(this.uniqueId, "-radio"), this.name, this.value, this.checked, this.changed.bind(this), "".concat(this.uniqueId, "-radio"));
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        checked: {
-          attribute: 'checked',
-          type: Boolean,
-          reflect: true
-        },
-        disabled: {
-          attribute: 'disabled',
-          type: Boolean,
-          reflect: true
-        },
-        name: {
-          attribute: 'name',
-          type: String,
-          reflect: true
-        },
-        value: {
-          attribute: 'value',
-          type: String,
-          reflect: true
-        }
-      };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(DecidablesToggleOption), "styles", this), r$2(_templateObject2$e || (_templateObject2$e = _taggedTemplateLiteral(["\n        :host {\n          display: flex;\n        }\n\n        input[type=radio] {\n          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n          position: absolute;\n\n          width: 1px;\n          height: 1px;\n          padding: 0;\n          margin: -1px;\n          overflow: hidden;\n          clip: rect(0 0 0 0);\n\n          white-space: nowrap;\n\n          border: 0;\n          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n        }\n\n        input[type=radio] + label {\n          width: 100%;\n          padding: 0.375rem 0.75rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-text-inverse);\n          text-align: center;\n\n          cursor: pointer;\n\n          background-color: var(---color-element-enabled);\n          border: 0;\n          border-radius: 0;\n          outline: none;\n\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=radio]:checked + label {\n          background-color: var(---color-element-selected);\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=radio] + label:hover {\n          z-index: 1;\n\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=radio] + label:active {\n          z-index: 2;\n\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(:first-of-type) input[type=radio] + label {\n          border-top-left-radius: 0.25rem;\n          border-top-right-radius: 0.25rem;\n        }\n\n        :host(:last-of-type) input[type=radio] + label {\n          border-bottom-right-radius: 0.25rem;\n          border-bottom-left-radius: 0.25rem;\n        }\n\n        :host(.keyboard) input[type=radio]:focus + label {\n          z-index: 1;\n\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) input[type=radio]:focus:checked + label {\n          z-index: 1;\n\n          background-color: var(---color-element-selected);\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) input[type=radio]:focus + label:active {\n          z-index: 2;\n\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
-    }
-  }]);
+  constructor() {
+    super(); // Attributes
 
-  return DecidablesToggleOption;
-}(DecidablesElement);
+    this.checked = false;
+    this.disabled = false;
+    this.name = undefined;
+    this.value = undefined;
+  }
+
+  changed(event) {
+    this.checked = event.target.checked;
+    this.dispatchEvent(new CustomEvent('change', {
+      detail: {
+        checked: this.checked,
+        value: this.value
+      },
+      bubbles: true
+    }));
+  }
+
+  static get styles() {
+    return [super.styles, r$2(_t$g || (_t$g = _$g`
+        :host {
+          display: flex;
+        }
+
+        input[type=radio] {
+          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */
+          position: absolute;
+
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+
+          white-space: nowrap;
+
+          border: 0;
+          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */
+        }
+
+        input[type=radio] + label {
+          width: 100%;
+          padding: 0.375rem 0.75rem;
+
+          font-family: var(---font-family-base);
+          font-size: 1.125rem;
+          line-height: 1.5;
+          color: var(---color-text-inverse);
+          text-align: center;
+
+          cursor: pointer;
+
+          background-color: var(---color-element-enabled);
+          border: 0;
+          border-radius: 0;
+          outline: none;
+
+          box-shadow: var(---shadow-2);
+        }
+
+        input[type=radio]:checked + label {
+          background-color: var(---color-element-selected);
+          outline: none;
+          box-shadow: var(---shadow-2);
+        }
+
+        input[type=radio] + label:hover {
+          z-index: 1;
+
+          outline: none;
+          box-shadow: var(---shadow-4);
+        }
+
+        input[type=radio] + label:active {
+          z-index: 2;
+
+          outline: none;
+          box-shadow: var(---shadow-8);
+        }
+
+        :host(:first-of-type) input[type=radio] + label {
+          border-top-left-radius: 0.25rem;
+          border-top-right-radius: 0.25rem;
+        }
+
+        :host(:last-of-type) input[type=radio] + label {
+          border-bottom-right-radius: 0.25rem;
+          border-bottom-left-radius: 0.25rem;
+        }
+
+        :host(.keyboard) input[type=radio]:focus + label {
+          z-index: 1;
+
+          outline: none;
+          box-shadow: var(---shadow-4);
+        }
+
+        :host(.keyboard) input[type=radio]:focus:checked + label {
+          z-index: 1;
+
+          background-color: var(---color-element-selected);
+          outline: none;
+          box-shadow: var(---shadow-4);
+        }
+
+        :host(.keyboard) input[type=radio]:focus + label:active {
+          z-index: 2;
+
+          outline: none;
+          box-shadow: var(---shadow-8);
+        }
+      `))];
+  }
+
+  render() {
+    return $(_t2$e || (_t2$e = _$g`
+      <input type="radio" id=${0} name=${0} value=${0} .checked=${0} @change=${0}>
+      <label for=${0}>
+        <slot></slot>
+      </label>
+    `), `${this.uniqueId}-radio`, this.name, this.value, this.checked, this.changed.bind(this), `${this.uniqueId}-radio`);
+  }
+
+}
 customElements.define('decidables-toggle-option', DecidablesToggleOption);
 
 /*
   Attribute: Space-separated sequence of strings
   Property: Set of strings
 */
-var DecidablesConverterSet = {
-  fromAttribute: function fromAttribute(value) {
+const DecidablesConverterSet = {
+  fromAttribute: value => {
     return new Set(value.split(/\s+/));
   },
-  toAttribute: function toAttribute(value) {
-    return value.size ? _toConsumableArray(value).join(' ') : null;
+  toAttribute: value => {
+    return value.size ? [...value].join(' ') : null;
   }
 };
 
-var _templateObject$f;
+let _$f = t => t,
+    _t$f;
 /*
   DetectableElement Base Class - Not intended for instantiation!
   <detectable-element>
 */
 
-var DetectableElement = /*#__PURE__*/function (_DecidablesElement) {
-  _inherits(DetectableElement, _DecidablesElement);
-
-  var _super = _createSuper(DetectableElement);
-
-  function DetectableElement() {
-    var _this;
-
-    _classCallCheck(this, DetectableElement);
-
-    _this = _super.call(this);
-    _this.interactive = false;
-    return _this;
+class DetectableElement extends DecidablesElement {
+  static get properties() {
+    return {
+      interactive: {
+        attribute: 'interactive',
+        type: Boolean,
+        reflect: true
+      }
+    };
   }
 
-  _createClass(DetectableElement, null, [{
-    key: "properties",
-    get: function get() {
-      return {
-        interactive: {
-          attribute: 'interactive',
-          type: Boolean,
-          reflect: true
+  constructor() {
+    super();
+    this.interactive = false;
+  }
+
+  static get colors() {
+    return {
+      h: Set1[2],
+      m: Set1[4],
+      fa: Set1[1],
+      cr: Set1[0],
+      hr: Set1[5],
+      far: Set1[3],
+      acc: Set1[8],
+      d: Set1[7],
+      c: Set1[6],
+      s: '#4545d0',
+      present: '#f032e6',
+      absent: '#10dbc9',
+      correct: '#ffffff',
+      error: '#000000',
+      nr: '#cccccc'
+    };
+  }
+
+  static get lights() {
+    return Object.keys(DetectableElement.colors).reduce((acc, cur) => {
+      acc[cur] = interpolateRgb(DetectableElement.colors[cur], '#ffffff')(0.5);
+      return acc;
+    }, {});
+  }
+
+  static get darks() {
+    return Object.keys(DetectableElement.colors).reduce((acc, cur) => {
+      acc[cur] = interpolateRgb(DetectableElement.colors[cur], '#000000')(0.5);
+      return acc;
+    }, {});
+  }
+
+  static get styles() {
+    return [super.styles, r$2(_t$f || (_t$f = _$f`
+        :host {
+          ---color-h: var(--color-h, ${0});
+          ---color-m: var(--color-m, ${0});
+          ---color-fa: var(--color-fa, ${0});
+          ---color-cr: var(--color-cr, ${0});
+          ---color-hr: var(--color-hr, ${0});
+          ---color-far: var(--color-far, ${0});
+          ---color-acc: var(--color-acc, ${0});
+          ---color-d: var(--color-d, ${0});
+          ---color-c: var(--color-c, ${0});
+          ---color-s: var(--color-s, ${0});
+          ---color-present: var(--color-present, ${0});
+          ---color-absent: var(--color-absent, ${0});
+          ---color-correct: var(--color-correct, ${0});
+          ---color-error: var(--color-error, ${0});
+          ---color-nr: var(--color-nr, ${0});
+
+          ---color-h-light: var(--color-h-light, ${0});
+          ---color-m-light: var(--color-m-light, ${0});
+          ---color-fa-light: var(--color-fa-light, ${0});
+          ---color-cr-light: var(--color-cr-light, ${0});
+          ---color-hr-light: var(--color-hr-light, ${0});
+          ---color-far-light: var(--color-far-light, ${0});
+          ---color-acc-light: var(--color-acc-light, ${0});
+          ---color-d-light: var(--color-d-light, ${0});
+          ---color-c-light: var(--color-c-light, ${0});
+          ---color-s-light: var(--color-s-light, ${0});
+          ---color-present-light: var(--color-present-light, ${0});
+          ---color-absent-light: var(--color-absent-light, ${0});
+          ---color-correct-light: var(--color-correct-light, ${0});
+          ---color-error-light: var(--color-error-light, ${0});
+          ---color-nr-light: var(--color-nr-light, ${0});
+
+          ---color-h-dark: var(--color-h-dark, ${0});
+          ---color-m-dark: var(--color-m-dark, ${0});
+          ---color-fa-dark: var(--color-fa-dark, ${0});
+          ---color-cr-dark: var(--color-cr-dark, ${0});
+          ---color-hr-dark: var(--color-hr-dark, ${0});
+          ---color-far-dark: var(--color-far-dark, ${0});
+          ---color-acc-dark: var(--color-acc-dark, ${0});
+          ---color-d-dark: var(--color-d-dark, ${0});
+          ---color-c-dark: var(--color-c-dark, ${0});
+          ---color-s-dark: var(--color-s-dark, ${0});
+          ---color-present-dark: var(--color-present-dark, ${0});
+          ---color-absent-dark: var(--color-absent-dark, ${0});
+          ---color-correct-dark: var(--color-correct-dark, ${0});
+          ---color-error-dark: var(--color-error-dark, ${0});
+          ---color-nr-dark: var(--color-nr-dark, ${0});
         }
-      };
-    }
-  }, {
-    key: "colors",
-    get: function get() {
-      return {
-        h: Set1[2],
-        m: Set1[4],
-        fa: Set1[1],
-        cr: Set1[0],
-        hr: Set1[5],
-        far: Set1[3],
-        acc: Set1[8],
-        d: Set1[7],
-        c: Set1[6],
-        s: '#4545d0',
-        present: '#f032e6',
-        absent: '#10dbc9',
-        correct: '#ffffff',
-        error: '#000000',
-        nr: '#cccccc'
-      };
-    }
-  }, {
-    key: "lights",
-    get: function get() {
-      return Object.keys(DetectableElement.colors).reduce(function (acc, cur) {
-        acc[cur] = interpolateRgb(DetectableElement.colors[cur], '#ffffff')(0.5);
-        return acc;
-      }, {});
-    }
-  }, {
-    key: "darks",
-    get: function get() {
-      return Object.keys(DetectableElement.colors).reduce(function (acc, cur) {
-        acc[cur] = interpolateRgb(DetectableElement.colors[cur], '#000000')(0.5);
-        return acc;
-      }, {});
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(DetectableElement), "styles", this), r$2(_templateObject$f || (_templateObject$f = _taggedTemplateLiteral(["\n        :host {\n          ---color-h: var(--color-h, ", ");\n          ---color-m: var(--color-m, ", ");\n          ---color-fa: var(--color-fa, ", ");\n          ---color-cr: var(--color-cr, ", ");\n          ---color-hr: var(--color-hr, ", ");\n          ---color-far: var(--color-far, ", ");\n          ---color-acc: var(--color-acc, ", ");\n          ---color-d: var(--color-d, ", ");\n          ---color-c: var(--color-c, ", ");\n          ---color-s: var(--color-s, ", ");\n          ---color-present: var(--color-present, ", ");\n          ---color-absent: var(--color-absent, ", ");\n          ---color-correct: var(--color-correct, ", ");\n          ---color-error: var(--color-error, ", ");\n          ---color-nr: var(--color-nr, ", ");\n\n          ---color-h-light: var(--color-h-light, ", ");\n          ---color-m-light: var(--color-m-light, ", ");\n          ---color-fa-light: var(--color-fa-light, ", ");\n          ---color-cr-light: var(--color-cr-light, ", ");\n          ---color-hr-light: var(--color-hr-light, ", ");\n          ---color-far-light: var(--color-far-light, ", ");\n          ---color-acc-light: var(--color-acc-light, ", ");\n          ---color-d-light: var(--color-d-light, ", ");\n          ---color-c-light: var(--color-c-light, ", ");\n          ---color-s-light: var(--color-s-light, ", ");\n          ---color-present-light: var(--color-present-light, ", ");\n          ---color-absent-light: var(--color-absent-light, ", ");\n          ---color-correct-light: var(--color-correct-light, ", ");\n          ---color-error-light: var(--color-error-light, ", ");\n          ---color-nr-light: var(--color-nr-light, ", ");\n\n          ---color-h-dark: var(--color-h-dark, ", ");\n          ---color-m-dark: var(--color-m-dark, ", ");\n          ---color-fa-dark: var(--color-fa-dark, ", ");\n          ---color-cr-dark: var(--color-cr-dark, ", ");\n          ---color-hr-dark: var(--color-hr-dark, ", ");\n          ---color-far-dark: var(--color-far-dark, ", ");\n          ---color-acc-dark: var(--color-acc-dark, ", ");\n          ---color-d-dark: var(--color-d-dark, ", ");\n          ---color-c-dark: var(--color-c-dark, ", ");\n          ---color-s-dark: var(--color-s-dark, ", ");\n          ---color-present-dark: var(--color-present-dark, ", ");\n          ---color-absent-dark: var(--color-absent-dark, ", ");\n          ---color-correct-dark: var(--color-correct-dark, ", ");\n          ---color-error-dark: var(--color-error-dark, ", ");\n          ---color-nr-dark: var(--color-nr-dark, ", ");\n        }\n      "])), o$3(this.colors.h), o$3(this.colors.m), o$3(this.colors.fa), o$3(this.colors.cr), o$3(this.colors.hr), o$3(this.colors.far), o$3(this.colors.acc), o$3(this.colors.d), o$3(this.colors.c), o$3(this.colors.s), o$3(this.colors.present), o$3(this.colors.absent), o$3(this.colors.correct), o$3(this.colors.error), o$3(this.colors.nr), o$3(this.lights.h), o$3(this.lights.m), o$3(this.lights.fa), o$3(this.lights.cr), o$3(this.lights.hr), o$3(this.lights.far), o$3(this.lights.acc), o$3(this.lights.d), o$3(this.lights.c), o$3(this.lights.s), o$3(this.lights.present), o$3(this.lights.absent), o$3(this.lights.correct), o$3(this.lights.error), o$3(this.lights.nr), o$3(this.darks.h), o$3(this.darks.m), o$3(this.darks.fa), o$3(this.darks.cr), o$3(this.darks.hr), o$3(this.darks.far), o$3(this.darks.acc), o$3(this.darks.d), o$3(this.darks.c), o$3(this.darks.s), o$3(this.darks.present), o$3(this.darks.absent), o$3(this.darks.correct), o$3(this.darks.error), o$3(this.darks.nr))];
-    }
-  }]);
+      `), o$3(this.colors.h), o$3(this.colors.m), o$3(this.colors.fa), o$3(this.colors.cr), o$3(this.colors.hr), o$3(this.colors.far), o$3(this.colors.acc), o$3(this.colors.d), o$3(this.colors.c), o$3(this.colors.s), o$3(this.colors.present), o$3(this.colors.absent), o$3(this.colors.correct), o$3(this.colors.error), o$3(this.colors.nr), o$3(this.lights.h), o$3(this.lights.m), o$3(this.lights.fa), o$3(this.lights.cr), o$3(this.lights.hr), o$3(this.lights.far), o$3(this.lights.acc), o$3(this.lights.d), o$3(this.lights.c), o$3(this.lights.s), o$3(this.lights.present), o$3(this.lights.absent), o$3(this.lights.correct), o$3(this.lights.error), o$3(this.lights.nr), o$3(this.darks.h), o$3(this.darks.m), o$3(this.darks.fa), o$3(this.darks.cr), o$3(this.darks.hr), o$3(this.darks.far), o$3(this.darks.acc), o$3(this.darks.d), o$3(this.darks.c), o$3(this.darks.s), o$3(this.darks.present), o$3(this.darks.absent), o$3(this.darks.correct), o$3(this.darks.error), o$3(this.darks.nr))];
+  }
 
-  return DetectableElement;
-}(DecidablesElement);
+}
 
-var _templateObject$e, _templateObject2$d;
+let _$e = t => t,
+    _t$e,
+    _t2$d;
 /*
   RDKTask element
   <rdk-task>
@@ -8244,522 +7867,533 @@ var _templateObject$e, _templateObject2$d;
   # Direction, Speed, Lifetime
 */
 
-var RDKTask = /*#__PURE__*/function (_DetectableElement) {
-  _inherits(RDKTask, _DetectableElement);
-
-  var _super = _createSuper(RDKTask);
-
-  function RDKTask() {
-    var _this;
-
-    _classCallCheck(this, RDKTask);
-
-    _this = _super.call(this); // Attributes
-
-    _this.coherence = 0.5; // Proportion of dots moving coherently
-
-    _this.count = 100; // Number of dots
-
-    _this.probability = 0.5; // Probability of signal (as opposed to noise)
-
-    _this.duration = 2000; // Duration of stimulus in milliseconds
-
-    _this.wait = 2000; // Duration of wait period for response in milliseconds
-
-    _this.iti = 2000; // Duration of inter-trial interval in milliseconds
-
-    _this.trials = 5; // Number of trials per block
-
-    _this.running = false; // Currently executing block of trials
-    // Properties
-
-    _this.direction = -1; // Direction of current trial in degrees
-
-    _this.lifetime = 400; // Lifetime of each dot in milliseconds
-
-    _this.speed = 50; // Rate of dot movement in pixels per second
-
-    _this.width = NaN; // Width of component in pixels
-
-    _this.height = NaN; // Height of component in pixels
-
-    _this.rem = NaN; // Pixels per rem for component
-    // Private
-
-    _this.firstUpdate = true;
-    _this.COHERENT = 0; // "Constant" for index to coherent dots
-
-    _this.RANDOM = 1; // "Constant" for index to random dots
-
-    _this.dots = [[], []]; // Array of array of dots
-
-    _this.trial = 0; // Count of current trial
-
-    _this.states = ['resetted', 'iti', 'stimulus', 'wait', 'ended']; // Possible states of task
-
-    _this.state = 'resetted'; // Current state of task
-
-    _this.baseTime = 0; // Real time, in milliseconds, that the current block started
-
-    _this.pauseTime = 0; // Real time, in milliseconds, that block was paused at
-
-    _this.startTime = 0; // Virtual time, in milliseconds, that current stage of trial started
-
-    _this.lastTime = 0; // Virtual time, in milliseconds, of the most recent frame
-
-    _this.currentDirection = undefined; // Direction in degrees for current trial
-
-    _this.signals = ['present', 'absent']; // Possible trial types
-
-    _this.signal = undefined; // Current trial type
-
-    _this.runner = undefined; // D3 Interval for frame timing
-
-    _this.xScale = undefined; // D3 Scale for x-axis
-
-    _this.yScale = undefined; // D3 Scale for y-axis
-
-    return _this;
+class RDKTask extends DetectableElement {
+  static get properties() {
+    return {
+      coherence: {
+        attribute: 'coherence',
+        type: Number,
+        reflect: true
+      },
+      count: {
+        attribute: 'count',
+        type: Number,
+        reflect: true
+      },
+      probability: {
+        attribute: 'probability',
+        type: Number,
+        reflect: true
+      },
+      duration: {
+        attribute: 'duration',
+        type: Number,
+        reflect: true
+      },
+      wait: {
+        attribute: 'wait',
+        type: Number,
+        reflect: true
+      },
+      iti: {
+        attribute: 'iti',
+        type: Number,
+        reflect: true
+      },
+      trials: {
+        attribute: 'trials',
+        type: Number,
+        reflect: true
+      },
+      running: {
+        attribute: 'running',
+        type: Boolean,
+        reflect: true
+      },
+      direction: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      lifetime: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      speed: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      width: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      height: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      rem: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(RDKTask, [{
-    key: "render",
-    value: function render() {
-      // eslint-disable-line class-methods-use-this
-      return $(_templateObject$e || (_templateObject$e = _taggedTemplateLiteral([""])));
-    }
-  }, {
-    key: "getDimensions",
-    value: function getDimensions() {
-      this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-      this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-      this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10); // console.log(`rdk-task: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-    }
-  }, {
-    key: "connectedCallback",
-    value: function connectedCallback() {
-      _get(_getPrototypeOf(RDKTask.prototype), "connectedCallback", this).call(this);
+  constructor() {
+    super(); // Attributes
 
-      window.addEventListener('resize', this.getDimensions.bind(this));
-    }
-  }, {
-    key: "disconnectedCallback",
-    value: function disconnectedCallback() {
-      window.removeEventListener('resize', this.getDimensions.bind(this));
+    this.coherence = 0.5; // Proportion of dots moving coherently
 
-      _get(_getPrototypeOf(RDKTask.prototype), "disconnectedCallback", this).call(this);
-    }
-  }, {
-    key: "firstUpdated",
-    value: function firstUpdated(changedProperties) {
-      _get(_getPrototypeOf(RDKTask.prototype), "firstUpdated", this).call(this, changedProperties); // Get the width and height after initial render/update has occurred
-      // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
+    this.count = 100; // Number of dots
 
+    this.probability = 0.5; // Probability of signal (as opposed to noise)
 
-      window.setTimeout(this.getDimensions.bind(this), 0);
-    }
-  }, {
-    key: "update",
-    value: function update(changedProperties) {
-      var _this2 = this;
+    this.duration = 2000; // Duration of stimulus in milliseconds
 
-      _get(_getPrototypeOf(RDKTask.prototype), "update", this).call(this, changedProperties); // Bail out if we can't get the width/height/rem
+    this.wait = 2000; // Duration of wait period for response in milliseconds
 
+    this.iti = 2000; // Duration of inter-trial interval in milliseconds
 
-      if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
-        return;
-      }
+    this.trials = 5; // Number of trials per block
 
-      var elementWidth = this.width;
-      var elementHeight = this.height;
-      var elementSize = Math.min(elementWidth, elementHeight);
-      var margin = {
-        top: 0.25 * this.rem,
-        bottom: 0.25 * this.rem,
-        left: 0.25 * this.rem,
-        right: 0.25 * this.rem
-      };
-      var height = elementSize - (margin.top + margin.bottom);
-      var width = elementSize - (margin.left + margin.right); // X Scale
+    this.running = false; // Currently executing block of trials
+    // Properties
 
-      this.xScale = linear().domain([-1, 1]).range([0, width]); // Y Scale
+    this.direction = -1; // Direction of current trial in degrees
 
-      this.yScale = linear().domain([1, -1]).range([0, height]); // Svg
-      //  DATA-JOIN
+    this.lifetime = 400; // Lifetime of each dot in milliseconds
 
-      var svgUpdate = select(this.renderRoot).selectAll('.main').data([{
-        width: this.width,
-        height: this.height,
-        rem: this.rem
-      }]); //  ENTER
+    this.speed = 50; // Rate of dot movement in pixels per second
 
-      var svgEnter = svgUpdate.enter().append('svg').classed('main', true); //  MERGE
+    this.width = NaN; // Width of component in pixels
 
-      var svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', "0 0 ".concat(elementSize, " ").concat(elementSize)); // Clippath
-      //  ENTER
+    this.height = NaN; // Height of component in pixels
 
-      svgEnter.append('clipPath').attr('id', 'clip-rdk-task').append('circle'); //  MERGE
+    this.rem = NaN; // Pixels per rem for component
+    // Private
 
-      svgMerge.select('clipPath circle').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.xScale(0)); // Plot
-      //  ENTER
+    this.firstUpdate = true;
+    this.COHERENT = 0; // "Constant" for index to coherent dots
 
-      var plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
+    this.RANDOM = 1; // "Constant" for index to random dots
 
-      var plotMerge = svgMerge.select('.plot').attr('transform', "translate(".concat(margin.left, ", ").concat(margin.top, ")")); // Underlayer
-      //  ENTER
+    this.dots = [[], []]; // Array of array of dots
 
-      var underlayerEnter = plotEnter.append('g').classed('underlayer', true); // MERGE
+    this.trial = 0; // Count of current trial
 
-      var underlayerMerge = plotMerge.select('.underlayer'); // Background
-      //  ENTER
+    this.states = ['resetted', 'iti', 'stimulus', 'wait', 'ended']; // Possible states of task
 
-      underlayerEnter.append('circle').classed('background', true); //  MERGE
+    this.state = 'resetted'; // Current state of task
 
-      underlayerMerge.select('.background').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.xScale(0)); // Content
-      //  ENTER
+    this.baseTime = 0; // Real time, in milliseconds, that the current block started
 
-      plotEnter.append('g').classed('content', true).attr('clip-path', 'url(#clip-rdk-task)'); //  MERGE
+    this.pauseTime = 0; // Real time, in milliseconds, that block was paused at
 
-      var contentMerge = plotMerge.select('.content'); // Dot Groups
-      //  DATA-JOIN
+    this.startTime = 0; // Virtual time, in milliseconds, that current stage of trial started
 
-      var dotsUpdate = contentMerge.selectAll('.dots').data([[], []]); //  ENTER
+    this.lastTime = 0; // Virtual time, in milliseconds, of the most recent frame
 
-      dotsUpdate.enter().append('g').classed('dots', true).classed('coherent', function (datum, index) {
-        return index === _this2.COHERENT;
-      }).classed('random', function (datum, index) {
-        return index === _this2.RANDOM;
-      }); // Overlayer
-      //  ENTER
+    this.currentDirection = undefined; // Direction in degrees for current trial
 
-      var overlayerEnter = plotEnter.append('g').classed('overlayer', true); // MERGE
+    this.signals = ['present', 'absent']; // Possible trial types
 
-      var overlayerMerge = plotMerge.select('.overlayer'); // Outline
-      //  ENTER
+    this.signal = undefined; // Current trial type
 
-      overlayerEnter.append('circle').classed('outline', true); //  MERGE
+    this.runner = undefined; // D3 Interval for frame timing
 
-      overlayerMerge.select('.outline').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.yScale(0)); // Start or stop trial block
+    this.xScale = undefined; // D3 Scale for x-axis
 
-      if (this.firstUpdate || changedProperties.has('running')) {
-        if (this.running) {
-          // (Re)Start
-          if (this.pauseTime) {
-            // Shift timeline forward as if paused time never happened
-            this.baseTime += now() - this.pauseTime;
-            this.pauseTime = 0;
-          }
+    this.yScale = undefined; // D3 Scale for y-axis
+  }
 
-          this.runner = interval(this.run.bind(this), 20); // FIXME??
-        } else if (this.runner !== undefined) {
-          // Pause
-          this.runner.stop();
-          this.pauseTime = now();
+  static get styles() {
+    return [super.styles, r$2(_t$e || (_t$e = _$e`
+        :host {
+          display: inline-block;
+
+          width: 10rem;
+          height: 10rem;
         }
-      }
 
-      this.firstUpdate = false;
+        .main {
+          width: 100%;
+          height: 100%;
+        }
+
+        .background {
+          fill: var(---color-element-disabled);
+          stroke: none;
+        }
+
+        .outline {
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2px;
+        }
+
+        .dot {
+          /* r: 2px; HACK: Firefox does not support CSS SVG Geometry Properties */
+        }
+
+        .dots.coherent {
+          fill: var(---color-background);
+        }
+
+        .dots.random {
+          fill: var(---color-background);
+        }
+
+        .fixation {
+          stroke: var(---color-text);
+          stroke-width: 2px;
+        }
+
+        .query {
+          font-size: 1.75rem;
+          font-weight: 600;
+        }
+      `))];
+  }
+
+  render() {
+    // eslint-disable-line class-methods-use-this
+    return $(_t2$d || (_t2$d = _$e``));
+  }
+
+  getDimensions() {
+    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
+    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
+    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10); // console.log(`rdk-task: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this.getDimensions.bind(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('resize', this.getDimensions.bind(this));
+    super.disconnectedCallback();
+  }
+
+  firstUpdated(changedProperties) {
+    super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
+    // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
+
+    window.setTimeout(this.getDimensions.bind(this), 0);
+  }
+
+  update(changedProperties) {
+    super.update(changedProperties); // Bail out if we can't get the width/height/rem
+
+    if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
+      return;
     }
-  }, {
-    key: "reset",
-    value: function reset() {
-      if (this.runner !== undefined) {
-        this.runner.stop();
-      }
 
-      this.running = false;
-      this.trial = 0;
-      this.state = 'resetted';
-      this.baseTime = 0;
-      this.pauseTime = 0;
-      this.startTime = 0;
-      this.lastTime = 0;
-      this.signal = undefined;
-      this.currentDirection = undefined;
-      var dotsUpdate = select(this.renderRoot).select('.content').selectAll('.dots').data([[], []]);
-      var dotUpdate = dotsUpdate.selectAll('.dot').data(function (datum) {
-        return datum;
-      });
-      dotUpdate.exit().remove();
-      var fixationUpdate = select(this.renderRoot).select('.content').selectAll('.fixation').data([]);
-      fixationUpdate.exit().remove();
-      var queryUpdate = select(this.renderRoot).select('.content').selectAll('.query').data([]);
-      queryUpdate.exit().remove();
-    }
-  }, {
-    key: "run",
-    value: function
-      /* elapsed */
-    run() {
-      var realTime = now();
-      var currentTime = this.baseTime ? realTime - this.baseTime : 0;
-      var elapsedTime = this.baseTime ? currentTime - this.startTime : 0;
-      var frameTime = this.baseTime ? currentTime - this.lastTime : 0;
-      this.lastTime = currentTime;
-      var newTrial = false;
+    const elementWidth = this.width;
+    const elementHeight = this.height;
+    const elementSize = Math.min(elementWidth, elementHeight);
+    const margin = {
+      top: 0.25 * this.rem,
+      bottom: 0.25 * this.rem,
+      left: 0.25 * this.rem,
+      right: 0.25 * this.rem
+    };
+    const height = elementSize - (margin.top + margin.bottom);
+    const width = elementSize - (margin.left + margin.right); // X Scale
 
-      if (this.state === 'resetted') {
-        // Start block with an ITI
-        this.state = 'iti';
-        this.baseTime = realTime;
-        this.startTime = 0;
-        this.dispatchEvent(new CustomEvent('rdk-block-start', {
-          detail: {
-            trials: this.trials
-          },
-          bubbles: true
-        }));
-      } else if (this.state === 'iti' && elapsedTime >= this.iti) {
-        // Start new trial with a stimulus
-        newTrial = true;
-        this.trial += 1;
-        this.state = 'stimulus';
-        this.startTime = currentTime;
-        this.signal = Math.random() < this.probability ? 'present' : 'absent';
-        this.currentDirection = this.signal === 'absent' ? undefined : this.direction >= 0 ? this.direction : Math.random() * 360;
-        this.dispatchEvent(new CustomEvent('rdk-trial-start', {
-          detail: {
-            trials: this.trials,
-            duration: this.duration,
-            wait: this.wait,
-            iti: this.iti,
-            trial: this.trial,
-            signal: this.signal
-          },
-          bubbles: true
-        }));
-      } else if (this.state === 'stimulus' && elapsedTime >= this.duration) {
-        // Stimulus is over, now wait
-        this.state = 'wait';
-        this.startTime = currentTime;
-        this.dispatchEvent(new CustomEvent('rdk-trial-middle', {
-          detail: {
-            trials: this.trials,
-            duration: this.duration,
-            wait: this.wait,
-            iti: this.iti,
-            trial: this.trial,
-            signal: this.signal
-          },
-          bubbles: true
-        }));
-      } else if (this.state === 'wait' && elapsedTime >= this.wait) {
-        // Wait is over, end of trial
-        this.dispatchEvent(new CustomEvent('rdk-trial-end', {
-          detail: {
-            trials: this.trials,
-            duration: this.duration,
-            wait: this.wait,
-            iti: this.iti,
-            trial: this.trial,
-            signal: this.signal
-          },
-          bubbles: true
-        }));
+    this.xScale = linear().domain([-1, 1]).range([0, width]); // Y Scale
 
-        if (this.trial >= this.trials) {
-          // End of block
-          this.runner.stop();
-          this.running = false;
-          this.state = 'ended';
-          this.baseTime = 0;
+    this.yScale = linear().domain([1, -1]).range([0, height]); // Svg
+    //  DATA-JOIN
+
+    const svgUpdate = select(this.renderRoot).selectAll('.main').data([{
+      width: this.width,
+      height: this.height,
+      rem: this.rem
+    }]); //  ENTER
+
+    const svgEnter = svgUpdate.enter().append('svg').classed('main', true); //  MERGE
+
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementSize} ${elementSize}`); // Clippath
+    //  ENTER
+
+    svgEnter.append('clipPath').attr('id', 'clip-rdk-task').append('circle'); //  MERGE
+
+    svgMerge.select('clipPath circle').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.xScale(0)); // Plot
+    //  ENTER
+
+    const plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
+
+    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`); // Underlayer
+    //  ENTER
+
+    const underlayerEnter = plotEnter.append('g').classed('underlayer', true); // MERGE
+
+    const underlayerMerge = plotMerge.select('.underlayer'); // Background
+    //  ENTER
+
+    underlayerEnter.append('circle').classed('background', true); //  MERGE
+
+    underlayerMerge.select('.background').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.xScale(0)); // Content
+    //  ENTER
+
+    plotEnter.append('g').classed('content', true).attr('clip-path', 'url(#clip-rdk-task)'); //  MERGE
+
+    const contentMerge = plotMerge.select('.content'); // Dot Groups
+    //  DATA-JOIN
+
+    const dotsUpdate = contentMerge.selectAll('.dots').data([[], []]); //  ENTER
+
+    dotsUpdate.enter().append('g').classed('dots', true).classed('coherent', (datum, index) => {
+      return index === this.COHERENT;
+    }).classed('random', (datum, index) => {
+      return index === this.RANDOM;
+    }); // Overlayer
+    //  ENTER
+
+    const overlayerEnter = plotEnter.append('g').classed('overlayer', true); // MERGE
+
+    const overlayerMerge = plotMerge.select('.overlayer'); // Outline
+    //  ENTER
+
+    overlayerEnter.append('circle').classed('outline', true); //  MERGE
+
+    overlayerMerge.select('.outline').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.yScale(0)); // Start or stop trial block
+
+    if (this.firstUpdate || changedProperties.has('running')) {
+      if (this.running) {
+        // (Re)Start
+        if (this.pauseTime) {
+          // Shift timeline forward as if paused time never happened
+          this.baseTime += now() - this.pauseTime;
           this.pauseTime = 0;
-          this.startTime = 0;
-          this.lastTime = 0;
-          this.signal = undefined;
-          this.currentDirection = undefined;
-          this.dispatchEvent(new CustomEvent('rdk-block-end', {
-            detail: {
-              trials: this.trial
-            },
-            bubbles: true
-          }));
-        } else {
-          // ITI
-          this.state = 'iti';
-          this.startTime = currentTime;
         }
-      } // Dots
+
+        this.runner = interval(this.run.bind(this), 20); // FIXME??
+      } else if (this.runner !== undefined) {
+        // Pause
+        this.runner.stop();
+        this.pauseTime = now();
+      }
+    }
+
+    this.firstUpdate = false;
+  }
+
+  reset() {
+    if (this.runner !== undefined) {
+      this.runner.stop();
+    }
+
+    this.running = false;
+    this.trial = 0;
+    this.state = 'resetted';
+    this.baseTime = 0;
+    this.pauseTime = 0;
+    this.startTime = 0;
+    this.lastTime = 0;
+    this.signal = undefined;
+    this.currentDirection = undefined;
+    const dotsUpdate = select(this.renderRoot).select('.content').selectAll('.dots').data([[], []]);
+    const dotUpdate = dotsUpdate.selectAll('.dot').data(datum => {
+      return datum;
+    });
+    dotUpdate.exit().remove();
+    const fixationUpdate = select(this.renderRoot).select('.content').selectAll('.fixation').data([]);
+    fixationUpdate.exit().remove();
+    const queryUpdate = select(this.renderRoot).select('.content').selectAll('.query').data([]);
+    queryUpdate.exit().remove();
+  }
+
+  run() {
+    const realTime = now();
+    const currentTime = this.baseTime ? realTime - this.baseTime : 0;
+    const elapsedTime = this.baseTime ? currentTime - this.startTime : 0;
+    const frameTime = this.baseTime ? currentTime - this.lastTime : 0;
+    this.lastTime = currentTime;
+    let newTrial = false;
+
+    if (this.state === 'resetted') {
+      // Start block with an ITI
+      this.state = 'iti';
+      this.baseTime = realTime;
+      this.startTime = 0;
+      this.dispatchEvent(new CustomEvent('rdk-block-start', {
+        detail: {
+          trials: this.trials
+        },
+        bubbles: true
+      }));
+    } else if (this.state === 'iti' && elapsedTime >= this.iti) {
+      // Start new trial with a stimulus
+      newTrial = true;
+      this.trial += 1;
+      this.state = 'stimulus';
+      this.startTime = currentTime;
+      this.signal = Math.random() < this.probability ? 'present' : 'absent';
+      this.currentDirection = this.signal === 'absent' ? undefined : this.direction >= 0 ? this.direction : Math.random() * 360;
+      this.dispatchEvent(new CustomEvent('rdk-trial-start', {
+        detail: {
+          trials: this.trials,
+          duration: this.duration,
+          wait: this.wait,
+          iti: this.iti,
+          trial: this.trial,
+          signal: this.signal
+        },
+        bubbles: true
+      }));
+    } else if (this.state === 'stimulus' && elapsedTime >= this.duration) {
+      // Stimulus is over, now wait
+      this.state = 'wait';
+      this.startTime = currentTime;
+      this.dispatchEvent(new CustomEvent('rdk-trial-middle', {
+        detail: {
+          trials: this.trials,
+          duration: this.duration,
+          wait: this.wait,
+          iti: this.iti,
+          trial: this.trial,
+          signal: this.signal
+        },
+        bubbles: true
+      }));
+    } else if (this.state === 'wait' && elapsedTime >= this.wait) {
+      // Wait is over, end of trial
+      this.dispatchEvent(new CustomEvent('rdk-trial-end', {
+        detail: {
+          trials: this.trials,
+          duration: this.duration,
+          wait: this.wait,
+          iti: this.iti,
+          trial: this.trial,
+          signal: this.signal
+        },
+        bubbles: true
+      }));
+
+      if (this.trial >= this.trials) {
+        // End of block
+        this.runner.stop();
+        this.running = false;
+        this.state = 'ended';
+        this.baseTime = 0;
+        this.pauseTime = 0;
+        this.startTime = 0;
+        this.lastTime = 0;
+        this.signal = undefined;
+        this.currentDirection = undefined;
+        this.dispatchEvent(new CustomEvent('rdk-block-end', {
+          detail: {
+            trials: this.trial
+          },
+          bubbles: true
+        }));
+      } else {
+        // ITI
+        this.state = 'iti';
+        this.startTime = currentTime;
+      }
+    } // Dots
 
 
-      if (this.state === 'stimulus') {
-        this.dots[this.COHERENT].length = this.signal === 'present' ? Math.round(this.count * this.coherence) : 0;
-        this.dots[this.RANDOM].length = this.signal === 'present' ? this.count - this.dots[this.COHERENT].length : this.count;
+    if (this.state === 'stimulus') {
+      this.dots[this.COHERENT].length = this.signal === 'present' ? Math.round(this.count * this.coherence) : 0;
+      this.dots[this.RANDOM].length = this.signal === 'present' ? this.count - this.dots[this.COHERENT].length : this.count;
 
-        for (var t = 0; t < this.dots.length; t += 1) {
-          for (var i = 0; i < this.dots[t].length; i += 1) {
-            var newDot = this.dots[t][i] === undefined;
+      for (let t = 0; t < this.dots.length; t += 1) {
+        for (let i = 0; i < this.dots[t].length; i += 1) {
+          const newDot = this.dots[t][i] === undefined;
 
-            if (newDot) {
-              this.dots[t][i] = {};
+          if (newDot) {
+            this.dots[t][i] = {};
+          }
+
+          const dot = this.dots[t][i];
+
+          if (newTrial || newDot) {
+            dot.direction = t === this.RANDOM ? Math.random() * 360 : this.currentDirection;
+            dot.birth = currentTime - Math.floor(Math.random() * this.lifetime);
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = Math.sqrt(Math.random());
+            dot.x = this.xScale(radius * Math.cos(angle));
+            dot.y = this.yScale(radius * Math.sin(angle));
+          } else if (currentTime > dot.birth + this.lifetime) {
+            // Dot has died, so rebirth
+            dot.birth += this.lifetime;
+            dot.direction = t === this.RANDOM ? Math.random() * 360 : this.currentDirection;
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = Math.sqrt(Math.random());
+            dot.x = this.xScale(radius * Math.cos(angle));
+            dot.y = this.yScale(radius * Math.sin(angle));
+          } else {
+            if (t === this.COHERENT) {
+              dot.direction = this.currentDirection;
             }
 
-            var dot = this.dots[t][i];
+            const directionR = dot.direction * (Math.PI / 180);
+            dot.dx = this.speed * (frameTime / 1000) * Math.cos(directionR);
+            dot.dy = this.speed * (frameTime / 1000) * Math.sin(directionR); // Update position
 
-            if (newTrial || newDot) {
-              dot.direction = t === this.RANDOM ? Math.random() * 360 : this.currentDirection;
-              dot.birth = currentTime - Math.floor(Math.random() * this.lifetime);
-              var angle = Math.random() * 2 * Math.PI;
-              var radius = Math.sqrt(Math.random());
-              dot.x = this.xScale(radius * Math.cos(angle));
-              dot.y = this.yScale(radius * Math.sin(angle));
-            } else if (currentTime > dot.birth + this.lifetime) {
-              // Dot has died, so rebirth
-              dot.birth += this.lifetime;
-              dot.direction = t === this.RANDOM ? Math.random() * 360 : this.currentDirection;
+            dot.x += dot.dx;
+            dot.y += dot.dy; // Calculate squared distance from center
 
-              var _angle = Math.random() * 2 * Math.PI;
+            const distance2 = (dot.x - this.xScale(0)) ** 2 + (dot.y - this.yScale(0)) ** 2;
+            const radius2 = (this.xScale(1) - this.xScale(0)) ** 2;
 
-              var _radius = Math.sqrt(Math.random());
-
-              dot.x = this.xScale(_radius * Math.cos(_angle));
-              dot.y = this.yScale(_radius * Math.sin(_angle));
-            } else {
-              if (t === this.COHERENT) {
-                dot.direction = this.currentDirection;
-              }
-
-              var directionR = dot.direction * (Math.PI / 180);
-              dot.dx = this.speed * (frameTime / 1000) * Math.cos(directionR);
-              dot.dy = this.speed * (frameTime / 1000) * Math.sin(directionR); // Update position
-
-              dot.x += dot.dx;
-              dot.y += dot.dy; // Calculate squared distance from center
-
-              var distance2 = Math.pow(dot.x - this.xScale(0), 2) + Math.pow(dot.y - this.yScale(0), 2);
-              var radius2 = Math.pow(this.xScale(1) - this.xScale(0), 2);
-
-              if (distance2 > radius2) {
-                // Dot has exited so move to other side
-                dot.x = -(dot.x - this.xScale(0)) + this.xScale(0);
-                dot.y = -(dot.y - this.yScale(0)) + this.yScale(0);
-              }
+            if (distance2 > radius2) {
+              // Dot has exited so move to other side
+              dot.x = -(dot.x - this.xScale(0)) + this.xScale(0);
+              dot.y = -(dot.y - this.yScale(0)) + this.yScale(0);
             }
           }
         }
-      } // Fixation
-      //  DATA-JOIN
+      }
+    } // Fixation
+    //  DATA-JOIN
 
 
-      var fixationUpdate = select(this.renderRoot).select('.content').selectAll('.fixation').data(this.state === 'iti' ? [true] : []); //  ENTER
+    const fixationUpdate = select(this.renderRoot).select('.content').selectAll('.fixation').data(this.state === 'iti' ? [true] : []); //  ENTER
 
-      var fixationEnter = fixationUpdate.enter().append('g').classed('fixation', true);
-      fixationEnter.append('line').attr('x1', this.xScale(-0.1)).attr('y1', this.xScale(0)).attr('x2', this.xScale(0.1)).attr('y2', this.xScale(0));
-      fixationEnter.append('line').attr('x1', this.xScale(0)).attr('y1', this.xScale(-0.1)).attr('x2', this.xScale(0)).attr('y2', this.xScale(0.1)); //  EXIT
+    const fixationEnter = fixationUpdate.enter().append('g').classed('fixation', true);
+    fixationEnter.append('line').attr('x1', this.xScale(-0.1)).attr('y1', this.xScale(0)).attr('x2', this.xScale(0.1)).attr('y2', this.xScale(0));
+    fixationEnter.append('line').attr('x1', this.xScale(0)).attr('y1', this.xScale(-0.1)).attr('x2', this.xScale(0)).attr('y2', this.xScale(0.1)); //  EXIT
 
-      fixationUpdate.exit().remove(); // Dots
-      //  DATA-JOIN
+    fixationUpdate.exit().remove(); // Dots
+    //  DATA-JOIN
 
-      var dotsUpdate = select(this.renderRoot).select('.content').selectAll('.dots').data(this.state === 'stimulus' ? this.dots : [[], []]);
-      var dotUpdate = dotsUpdate.selectAll('.dot').data(function (datum) {
-        return datum;
-      }); //  ENTER
+    const dotsUpdate = select(this.renderRoot).select('.content').selectAll('.dots').data(this.state === 'stimulus' ? this.dots : [[], []]);
+    const dotUpdate = dotsUpdate.selectAll('.dot').data(datum => {
+      return datum;
+    }); //  ENTER
 
-      var dotEnter = dotUpdate.enter().append('circle').classed('dot', true).attr('r', 2);
-      /* HACK: Firefox does not support CSS SVG Geometry Properties */
-      //  MERGE
+    const dotEnter = dotUpdate.enter().append('circle').classed('dot', true).attr('r', 2);
+    /* HACK: Firefox does not support CSS SVG Geometry Properties */
+    //  MERGE
 
-      dotEnter.merge(dotUpdate).attr('cx', function (datum) {
-        return datum.x;
-      }).attr('cy', function (datum) {
-        return datum.y;
-      }); //  EXIT
+    dotEnter.merge(dotUpdate).attr('cx', datum => {
+      return datum.x;
+    }).attr('cy', datum => {
+      return datum.y;
+    }); //  EXIT
 
-      dotUpdate.exit().remove(); // Query
-      //  DATA-JOIN
+    dotUpdate.exit().remove(); // Query
+    //  DATA-JOIN
 
-      var queryUpdate = select(this.renderRoot).select('.content').selectAll('.query').data(this.state === 'wait' ? [true] : []); //  ENTER
+    const queryUpdate = select(this.renderRoot).select('.content').selectAll('.query').data(this.state === 'wait' ? [true] : []); //  ENTER
 
-      var queryEnter = queryUpdate.enter().append('g').classed('query', true);
-      queryEnter.append('text').attr('x', this.xScale(0)).attr('y', this.xScale(0)).attr('text-anchor', 'middle').attr('alignment-baseline', 'middle').text('?'); //  EXIT
+    const queryEnter = queryUpdate.enter().append('g').classed('query', true);
+    queryEnter.append('text').attr('x', this.xScale(0)).attr('y', this.xScale(0)).attr('text-anchor', 'middle').attr('alignment-baseline', 'middle').text('?'); //  EXIT
 
-      queryUpdate.exit().remove();
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        coherence: {
-          attribute: 'coherence',
-          type: Number,
-          reflect: true
-        },
-        count: {
-          attribute: 'count',
-          type: Number,
-          reflect: true
-        },
-        probability: {
-          attribute: 'probability',
-          type: Number,
-          reflect: true
-        },
-        duration: {
-          attribute: 'duration',
-          type: Number,
-          reflect: true
-        },
-        wait: {
-          attribute: 'wait',
-          type: Number,
-          reflect: true
-        },
-        iti: {
-          attribute: 'iti',
-          type: Number,
-          reflect: true
-        },
-        trials: {
-          attribute: 'trials',
-          type: Number,
-          reflect: true
-        },
-        running: {
-          attribute: 'running',
-          type: Boolean,
-          reflect: true
-        },
-        direction: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        lifetime: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        speed: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        width: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        height: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        rem: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        }
-      };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(RDKTask), "styles", this), r$2(_templateObject2$d || (_templateObject2$d = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n\n          width: 10rem;\n          height: 10rem;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        .background {\n          fill: var(---color-element-disabled);\n          stroke: none;\n        }\n\n        .outline {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2px;\n        }\n\n        .dot {\n          /* r: 2px; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        .dots.coherent {\n          fill: var(---color-background);\n        }\n\n        .dots.random {\n          fill: var(---color-background);\n        }\n\n        .fixation {\n          stroke: var(---color-text);\n          stroke-width: 2px;\n        }\n\n        .query {\n          font-size: 1.75rem;\n          font-weight: 600;\n        }\n      "])))];
-    }
-  }]);
+    queryUpdate.exit().remove();
+  }
 
-  return RDKTask;
-}(DetectableElement);
+}
 customElements.define('rdk-task', RDKTask);
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -8821,9 +8455,7 @@ var jstat = createCommonjsModule(function (module, exports) {
             // See if a mapping function was also passed.
             if (isFunction(args[1])) args[0] = jStat.map(args[0], args[1]); // Iterate over each is faster than this.push.apply(this, args[0].
 
-            for (var i = 0; i < args[0].length; i++) {
-              this[i] = args[0][i];
-            }
+            for (var i = 0; i < args[0].length; i++) this[i] = args[0][i];
 
             this.length = args[0].length; // Otherwise must be a vector.
           } else {
@@ -8871,17 +8503,13 @@ var jstat = createCommonjsModule(function (module, exports) {
         var i, j;
 
         if (arguments.length === 1) {
-          for (j in obj) {
-            jStat[j] = obj[j];
-          }
+          for (j in obj) jStat[j] = obj[j];
 
           return this;
         }
 
         for (i = 1; i < arguments.length; i++) {
-          for (j in arguments[i]) {
-            obj[j] = arguments[i][j];
-          }
+          for (j in arguments[i]) obj[j] = arguments[i][j];
         }
 
         return obj;
@@ -8939,9 +8567,7 @@ var jstat = createCommonjsModule(function (module, exports) {
 
         var column = new Array(arr.length);
 
-        for (var i = 0; i < arr.length; i++) {
-          column[i] = [arr[i][index]];
-        }
+        for (var i = 0; i < arr.length; i++) column[i] = [arr[i][index]];
 
         return column;
       }; // return column as array
@@ -8959,9 +8585,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         var nrow = jStat.rows(arr);
         var res = new Array(nrow);
 
-        for (var row = 0; row < nrow; row++) {
-          res[row] = [arr[row][row]];
-        }
+        for (var row = 0; row < nrow; row++) res[row] = [arr[row][row]];
 
         return res;
       }; // Returns the anti-diagonal of the matrix
@@ -8971,9 +8595,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         var nrow = jStat.rows(arr) - 1;
         var res = new Array(nrow);
 
-        for (var i = 0; nrow >= 0; nrow--, i++) {
-          res[i] = [arr[i][nrow]];
-        }
+        for (var i = 0; nrow >= 0; nrow--, i++) res[i] = [arr[i][nrow]];
 
         return res;
       }; // Transpose a matrix or array.
@@ -8990,9 +8612,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         for (i = 0; i < cols; i++) {
           objArr = new Array(rows);
 
-          for (j = 0; j < rows; j++) {
-            objArr[j] = arr[j][i];
-          }
+          for (j = 0; j < rows; j++) objArr[j] = arr[j][i];
 
           obj.push(objArr);
         } // If obj is vector, return only single array.
@@ -9014,9 +8634,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           // if the row doesn't exist, create it
           if (!res[row]) res[row] = new Array(ncol);
 
-          for (col = 0; col < ncol; col++) {
-            res[row][col] = func(arr[row][col], row, col);
-          }
+          for (col = 0; col < ncol; col++) res[row][col] = func(arr[row][col], row, col);
         }
 
         return res.length === 1 ? res[0] : res;
@@ -9035,9 +8653,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (!res[row]) res[row] = new Array(ncol);
           if (ncol > 0) res[row][0] = arr[row][0];
 
-          for (col = 1; col < ncol; col++) {
-            res[row][col] = func(res[row][col - 1], arr[row][col]);
-          }
+          for (col = 1; col < ncol; col++) res[row][col] = func(res[row][col - 1], arr[row][col]);
         }
 
         return res.length === 1 ? res[0] : res;
@@ -9061,9 +8677,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         for (i = 0; i < rows; i++) {
           res[i] = new Array(cols);
 
-          for (j = 0; j < cols; j++) {
-            res[i][j] = func(i, j);
-          }
+          for (j = 0; j < cols; j++) res[i][j] = func(i, j);
         }
 
         return res;
@@ -9112,9 +8726,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         if (arr.length !== arr[0].length) return false;
 
         for (row = 0; row < size; row++) {
-          for (col = 0; col < size; col++) {
-            if (arr[col][row] !== arr[row][col]) return false;
-          }
+          for (col = 0; col < size; col++) if (arr[col][row] !== arr[row][col]) return false;
         }
 
         return true;
@@ -9366,55 +8978,49 @@ var jstat = createCommonjsModule(function (module, exports) {
 
 
       (function (funcs) {
-        for (var i = 0; i < funcs.length; i++) {
-          (function (passfunc) {
-            jProto[passfunc] = function (func) {
-              var self = this,
-                  results; // Check for callback.
+        for (var i = 0; i < funcs.length; i++) (function (passfunc) {
+          jProto[passfunc] = function (func) {
+            var self = this,
+                results; // Check for callback.
 
-              if (func) {
-                setTimeout(function () {
-                  func.call(self, jProto[passfunc].call(self));
-                });
-                return this;
-              }
+            if (func) {
+              setTimeout(function () {
+                func.call(self, jProto[passfunc].call(self));
+              });
+              return this;
+            }
 
-              results = jStat[passfunc](this);
-              return isArray(results) ? jStat(results) : results;
-            };
-          })(funcs[i]);
-        }
+            results = jStat[passfunc](this);
+            return isArray(results) ? jStat(results) : results;
+          };
+        })(funcs[i]);
       })('transpose clear symmetric rows cols dimensions diag antidiag'.split(' ')); // Extend prototype with methods that have one argument.
 
 
       (function (funcs) {
-        for (var i = 0; i < funcs.length; i++) {
-          (function (passfunc) {
-            jProto[passfunc] = function (index, func) {
-              var self = this; // check for callback
+        for (var i = 0; i < funcs.length; i++) (function (passfunc) {
+          jProto[passfunc] = function (index, func) {
+            var self = this; // check for callback
 
-              if (func) {
-                setTimeout(function () {
-                  func.call(self, jProto[passfunc].call(self, index));
-                });
-                return this;
-              }
+            if (func) {
+              setTimeout(function () {
+                func.call(self, jProto[passfunc].call(self, index));
+              });
+              return this;
+            }
 
-              return jStat(jStat[passfunc](this, index));
-            };
-          })(funcs[i]);
-        }
+            return jStat(jStat[passfunc](this, index));
+          };
+        })(funcs[i]);
       })('row col'.split(' ')); // Extend prototype with simple shortcut methods.
 
 
       (function (funcs) {
-        for (var i = 0; i < funcs.length; i++) {
-          (function (passfunc) {
-            jProto[passfunc] = function () {
-              return jStat(jStat[passfunc].apply(null, arguments));
-            };
-          })(funcs[i]);
-        }
+        for (var i = 0; i < funcs.length; i++) (function (passfunc) {
+          jProto[passfunc] = function () {
+            return jStat(jStat[passfunc].apply(null, arguments));
+          };
+        })(funcs[i]);
       })('create zeros ones rand identity'.split(' ')); // Exposing jStat.
 
 
@@ -9437,9 +9043,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         var sum = 0;
         var i = arr.length;
 
-        while (--i >= 0) {
-          sum += arr[i];
-        }
+        while (--i >= 0) sum += arr[i];
 
         return sum;
       }; // sum squared
@@ -9449,9 +9053,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         var sum = 0;
         var i = arr.length;
 
-        while (--i >= 0) {
-          sum += arr[i] * arr[i];
-        }
+        while (--i >= 0) sum += arr[i] * arr[i];
 
         return sum;
       }; // sum of squared errors of prediction (SSE)
@@ -9476,9 +9078,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         var sum = 0;
         var i = arr.length;
 
-        while (--i >= 0) {
-          sum += arr[i];
-        }
+        while (--i >= 0) sum += arr[i];
 
         return sum;
       }; // product of an array
@@ -9488,9 +9088,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         var prod = 1;
         var i = arr.length;
 
-        while (--i >= 0) {
-          prod *= arr[i];
-        }
+        while (--i >= 0) prod *= arr[i];
 
         return prod;
       }; // minimum value of an array
@@ -9500,9 +9098,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         var low = arr[0];
         var i = 0;
 
-        while (++i < arr.length) {
-          if (arr[i] < low) low = arr[i];
-        }
+        while (++i < arr.length) if (arr[i] < low) low = arr[i];
 
         return low;
       }; // maximum value of an array
@@ -9512,9 +9108,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         var high = arr[0];
         var i = 0;
 
-        while (++i < arr.length) {
-          if (arr[i] > high) high = arr[i];
-        }
+        while (++i < arr.length) if (arr[i] > high) high = arr[i];
 
         return high;
       }; // unique values of an array
@@ -9580,9 +9174,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         var arrLen = arr.length;
         var i;
 
-        for (i = 1; i < arrLen; i++) {
-          diffs.push(arr[i] - arr[i - 1]);
-        }
+        for (i = 1; i < arrLen; i++) diffs.push(arr[i] - arr[i - 1]);
 
         return diffs;
       }; // ranks of an array
@@ -9811,13 +9403,9 @@ var jstat = createCommonjsModule(function (module, exports) {
         var bins = [];
         var i;
 
-        for (i = 0; i < binCnt; i++) {
-          bins[i] = 0;
-        }
+        for (i = 0; i < binCnt; i++) bins[i] = 0;
 
-        for (i = 0; i < len; i++) {
-          bins[Math.min(Math.floor((arr[i] - first) / binWidth), binCnt - 1)] += 1;
-        }
+        for (i = 0; i < len; i++) bins[Math.min(Math.floor((arr[i] - first) / binWidth), binCnt - 1)] += 1;
 
         return bins;
       }; // covariance of two arrays
@@ -9830,9 +9418,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         var sq_dev = new Array(arr1Len);
         var i;
 
-        for (i = 0; i < arr1Len; i++) {
-          sq_dev[i] = (arr1[i] - u) * (arr2[i] - v);
-        }
+        for (i = 0; i < arr1Len; i++) sq_dev[i] = (arr1[i] - u) * (arr2[i] - v);
 
         return jStat.sum(sq_dev) / (arr1Len - 1);
       }; // (pearson's) population correlation coefficient, rho
@@ -9857,9 +9443,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         var len = arr.length;
         var skewSum = 0;
 
-        for (var i = 0; i < len; i++) {
-          skewSum += Math.pow((arr[i] - mu) / sigma, n);
-        }
+        for (var i = 0; i < len; i++) skewSum += Math.pow((arr[i] - mu) / sigma, n);
 
         return skewSum / arr.length;
       }; // (pearson's) moment coefficient of skewness
@@ -9881,132 +9465,120 @@ var jstat = createCommonjsModule(function (module, exports) {
       // columns.
 
       (function (funcs) {
-        for (var i = 0; i < funcs.length; i++) {
-          (function (passfunc) {
-            // If a matrix is passed, automatically assume operation should be done on
-            // the columns.
-            jProto[passfunc] = function (fullbool, func) {
-              var arr = [];
-              var i = 0;
-              var tmpthis = this; // Assignment reassignation depending on how parameters were passed in.
+        for (var i = 0; i < funcs.length; i++) (function (passfunc) {
+          // If a matrix is passed, automatically assume operation should be done on
+          // the columns.
+          jProto[passfunc] = function (fullbool, func) {
+            var arr = [];
+            var i = 0;
+            var tmpthis = this; // Assignment reassignation depending on how parameters were passed in.
 
-              if (isFunction(fullbool)) {
-                func = fullbool;
-                fullbool = false;
-              } // Check if a callback was passed with the function.
-
-
-              if (func) {
-                setTimeout(function () {
-                  func.call(tmpthis, jProto[passfunc].call(tmpthis, fullbool));
-                });
-                return this;
-              } // Check if matrix and run calculations.
+            if (isFunction(fullbool)) {
+              func = fullbool;
+              fullbool = false;
+            } // Check if a callback was passed with the function.
 
 
-              if (this.length > 1) {
-                tmpthis = fullbool === true ? this : this.transpose();
-
-                for (; i < tmpthis.length; i++) {
-                  arr[i] = jStat[passfunc](tmpthis[i]);
-                }
-
-                return arr;
-              } // Pass fullbool if only vector, not a matrix. for variance and stdev.
+            if (func) {
+              setTimeout(function () {
+                func.call(tmpthis, jProto[passfunc].call(tmpthis, fullbool));
+              });
+              return this;
+            } // Check if matrix and run calculations.
 
 
-              return jStat[passfunc](this[0], fullbool);
-            };
-          })(funcs[i]);
-        }
+            if (this.length > 1) {
+              tmpthis = fullbool === true ? this : this.transpose();
+
+              for (; i < tmpthis.length; i++) arr[i] = jStat[passfunc](tmpthis[i]);
+
+              return arr;
+            } // Pass fullbool if only vector, not a matrix. for variance and stdev.
+
+
+            return jStat[passfunc](this[0], fullbool);
+          };
+        })(funcs[i]);
       })('cumsum cumprod'.split(' ')); // Extend jProto with methods which don't require arguments and work on columns.
 
 
       (function (funcs) {
-        for (var i = 0; i < funcs.length; i++) {
-          (function (passfunc) {
-            // If a matrix is passed, automatically assume operation should be done on
-            // the columns.
-            jProto[passfunc] = function (fullbool, func) {
-              var arr = [];
-              var i = 0;
-              var tmpthis = this; // Assignment reassignation depending on how parameters were passed in.
+        for (var i = 0; i < funcs.length; i++) (function (passfunc) {
+          // If a matrix is passed, automatically assume operation should be done on
+          // the columns.
+          jProto[passfunc] = function (fullbool, func) {
+            var arr = [];
+            var i = 0;
+            var tmpthis = this; // Assignment reassignation depending on how parameters were passed in.
 
-              if (isFunction(fullbool)) {
-                func = fullbool;
-                fullbool = false;
-              } // Check if a callback was passed with the function.
-
-
-              if (func) {
-                setTimeout(function () {
-                  func.call(tmpthis, jProto[passfunc].call(tmpthis, fullbool));
-                });
-                return this;
-              } // Check if matrix and run calculations.
+            if (isFunction(fullbool)) {
+              func = fullbool;
+              fullbool = false;
+            } // Check if a callback was passed with the function.
 
 
-              if (this.length > 1) {
-                if (passfunc !== 'sumrow') tmpthis = fullbool === true ? this : this.transpose();
-
-                for (; i < tmpthis.length; i++) {
-                  arr[i] = jStat[passfunc](tmpthis[i]);
-                }
-
-                return fullbool === true ? jStat[passfunc](jStat.utils.toVector(arr)) : arr;
-              } // Pass fullbool if only vector, not a matrix. for variance and stdev.
+            if (func) {
+              setTimeout(function () {
+                func.call(tmpthis, jProto[passfunc].call(tmpthis, fullbool));
+              });
+              return this;
+            } // Check if matrix and run calculations.
 
 
-              return jStat[passfunc](this[0], fullbool);
-            };
-          })(funcs[i]);
-        }
+            if (this.length > 1) {
+              if (passfunc !== 'sumrow') tmpthis = fullbool === true ? this : this.transpose();
+
+              for (; i < tmpthis.length; i++) arr[i] = jStat[passfunc](tmpthis[i]);
+
+              return fullbool === true ? jStat[passfunc](jStat.utils.toVector(arr)) : arr;
+            } // Pass fullbool if only vector, not a matrix. for variance and stdev.
+
+
+            return jStat[passfunc](this[0], fullbool);
+          };
+        })(funcs[i]);
       })(('sum sumsqrd sumsqerr sumrow product min max unique mean meansqerr ' + 'geomean median diff rank mode range variance deviation stdev meandev ' + 'meddev coeffvar quartiles histogram skewness kurtosis').split(' ')); // Extend jProto with functions that take arguments. Operations on matrices are
       // done on columns.
 
 
       (function (funcs) {
-        for (var i = 0; i < funcs.length; i++) {
-          (function (passfunc) {
-            jProto[passfunc] = function () {
-              var arr = [];
-              var i = 0;
-              var tmpthis = this;
-              var args = Array.prototype.slice.call(arguments);
-              var callbackFunction; // If the last argument is a function, we assume it's a callback; we
-              // strip the callback out and call the function again.
+        for (var i = 0; i < funcs.length; i++) (function (passfunc) {
+          jProto[passfunc] = function () {
+            var arr = [];
+            var i = 0;
+            var tmpthis = this;
+            var args = Array.prototype.slice.call(arguments);
+            var callbackFunction; // If the last argument is a function, we assume it's a callback; we
+            // strip the callback out and call the function again.
 
-              if (isFunction(args[args.length - 1])) {
-                callbackFunction = args[args.length - 1];
-                var argsToPass = args.slice(0, args.length - 1);
-                setTimeout(function () {
-                  callbackFunction.call(tmpthis, jProto[passfunc].apply(tmpthis, argsToPass));
-                });
-                return this; // Otherwise we curry the function args and call normally.
-              } else {
-                callbackFunction = undefined;
+            if (isFunction(args[args.length - 1])) {
+              callbackFunction = args[args.length - 1];
+              var argsToPass = args.slice(0, args.length - 1);
+              setTimeout(function () {
+                callbackFunction.call(tmpthis, jProto[passfunc].apply(tmpthis, argsToPass));
+              });
+              return this; // Otherwise we curry the function args and call normally.
+            } else {
+              callbackFunction = undefined;
 
-                var curriedFunction = function curriedFunction(vector) {
-                  return jStat[passfunc].apply(tmpthis, [vector].concat(args));
-                };
-              } // If this is a matrix, run column-by-column.
-
-
-              if (this.length > 1) {
-                tmpthis = tmpthis.transpose();
-
-                for (; i < tmpthis.length; i++) {
-                  arr[i] = curriedFunction(tmpthis[i]);
-                }
-
-                return arr;
-              } // Otherwise run on the vector.
+              var curriedFunction = function curriedFunction(vector) {
+                return jStat[passfunc].apply(tmpthis, [vector].concat(args));
+              };
+            } // If this is a matrix, run column-by-column.
 
 
-              return curriedFunction(this[0]);
-            };
-          })(funcs[i]);
-        }
+            if (this.length > 1) {
+              tmpthis = tmpthis.transpose();
+
+              for (; i < tmpthis.length; i++) arr[i] = curriedFunction(tmpthis[i]);
+
+              return arr;
+            } // Otherwise run on the vector.
+
+
+            return curriedFunction(this[0]);
+          };
+        })(funcs[i]);
       })('quantiles percentileOfScore'.split(' '));
     })(jStat, Math); // Special functions //
 
@@ -10021,9 +9593,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         tmp = (y = xx = x) + 5.5;
         tmp -= (xx + 0.5) * Math.log(tmp);
 
-        for (; j < 6; j++) {
-          ser += cof[j] / ++y;
-        }
+        for (; j < 6; j++) ser += cof[j] / ++y;
 
         return Math.log(2.5066282746310005 * ser / xx) - tmp;
       };
@@ -10452,93 +10022,83 @@ var jstat = createCommonjsModule(function (module, exports) {
 
 
       (function (funcs) {
-        for (var i = 0; i < funcs.length; i++) {
-          (function (passfunc) {
-            jStat.fn[passfunc] = function () {
-              return jStat(jStat.map(this, function (value) {
-                return jStat[passfunc](value);
-              }));
-            };
-          })(funcs[i]);
-        }
+        for (var i = 0; i < funcs.length; i++) (function (passfunc) {
+          jStat.fn[passfunc] = function () {
+            return jStat(jStat.map(this, function (value) {
+              return jStat[passfunc](value);
+            }));
+          };
+        })(funcs[i]);
       })('gammaln gammafn factorial factorialln'.split(' '));
 
       (function (funcs) {
-        for (var i = 0; i < funcs.length; i++) {
-          (function (passfunc) {
-            jStat.fn[passfunc] = function () {
-              return jStat(jStat[passfunc].apply(null, arguments));
-            };
-          })(funcs[i]);
-        }
+        for (var i = 0; i < funcs.length; i++) (function (passfunc) {
+          jStat.fn[passfunc] = function () {
+            return jStat(jStat[passfunc].apply(null, arguments));
+          };
+        })(funcs[i]);
       })('randn'.split(' '));
     })(jStat, Math);
 
     (function (jStat, Math) {
       // generate all distribution instance methods
       (function (list) {
-        for (var i = 0; i < list.length; i++) {
-          (function (func) {
-            // distribution instance method
-            jStat[func] = function f(a, b, c) {
-              if (!(this instanceof f)) return new f(a, b, c);
-              this._a = a;
-              this._b = b;
-              this._c = c;
-              return this;
-            }; // distribution method to be used on a jStat instance
+        for (var i = 0; i < list.length; i++) (function (func) {
+          // distribution instance method
+          jStat[func] = function f(a, b, c) {
+            if (!(this instanceof f)) return new f(a, b, c);
+            this._a = a;
+            this._b = b;
+            this._c = c;
+            return this;
+          }; // distribution method to be used on a jStat instance
 
 
-            jStat.fn[func] = function (a, b, c) {
-              var newthis = jStat[func](a, b, c);
-              newthis.data = this;
-              return newthis;
-            }; // sample instance method
+          jStat.fn[func] = function (a, b, c) {
+            var newthis = jStat[func](a, b, c);
+            newthis.data = this;
+            return newthis;
+          }; // sample instance method
 
 
-            jStat[func].prototype.sample = function (arr) {
-              var a = this._a;
-              var b = this._b;
-              var c = this._c;
-              if (arr) return jStat.alter(arr, function () {
-                return jStat[func].sample(a, b, c);
-              });else return jStat[func].sample(a, b, c);
-            }; // generate the pdf, cdf and inv instance methods
+          jStat[func].prototype.sample = function (arr) {
+            var a = this._a;
+            var b = this._b;
+            var c = this._c;
+            if (arr) return jStat.alter(arr, function () {
+              return jStat[func].sample(a, b, c);
+            });else return jStat[func].sample(a, b, c);
+          }; // generate the pdf, cdf and inv instance methods
 
 
-            (function (vals) {
-              for (var i = 0; i < vals.length; i++) {
-                (function (fnfunc) {
-                  jStat[func].prototype[fnfunc] = function (x) {
-                    var a = this._a;
-                    var b = this._b;
-                    var c = this._c;
-                    if (!x && x !== 0) x = this.data;
+          (function (vals) {
+            for (var i = 0; i < vals.length; i++) (function (fnfunc) {
+              jStat[func].prototype[fnfunc] = function (x) {
+                var a = this._a;
+                var b = this._b;
+                var c = this._c;
+                if (!x && x !== 0) x = this.data;
 
-                    if (typeof x !== 'number') {
-                      return jStat.fn.map.call(x, function (x) {
-                        return jStat[func][fnfunc](x, a, b, c);
-                      });
-                    }
-
+                if (typeof x !== 'number') {
+                  return jStat.fn.map.call(x, function (x) {
                     return jStat[func][fnfunc](x, a, b, c);
-                  };
-                })(vals[i]);
-              }
-            })('pdf cdf inv'.split(' ')); // generate the mean, median, mode and variance instance methods
+                  });
+                }
+
+                return jStat[func][fnfunc](x, a, b, c);
+              };
+            })(vals[i]);
+          })('pdf cdf inv'.split(' ')); // generate the mean, median, mode and variance instance methods
 
 
-            (function (vals) {
-              for (var i = 0; i < vals.length; i++) {
-                (function (fnfunc) {
-                  jStat[func].prototype[fnfunc] = function () {
-                    return jStat[func][fnfunc](this._a, this._b, this._c);
-                  };
-                })(vals[i]);
-              }
-            })('mean median mode variance'.split(' '));
-          })(list[i]);
-        }
+          (function (vals) {
+            for (var i = 0; i < vals.length; i++) (function (fnfunc) {
+              jStat[func].prototype[fnfunc] = function () {
+                return jStat[func][fnfunc](this._a, this._b, this._c);
+              };
+            })(vals[i]);
+          })('mean median mode variance'.split(' '));
+        })(list[i]);
       })(('beta centralF cauchy chisquare exponential gamma invgamma kumaraswamy ' + 'laplace lognormal noncentralt normal pareto studentt weibull uniform ' + 'binomial negbin hypgeom poisson triangular tukey arcsine').split(' ')); // extend beta function with static methods
 
 
@@ -10641,7 +10201,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         cdf: function cdf(x, local, scale) {
           return Math.atan((x - local) / scale) / Math.PI + 0.5;
         },
-        inv: function inv(p, local, scale) {
+        inv: function (p, local, scale) {
           return local + scale * Math.tan(Math.PI * (p - 0.5));
         },
         median: function median(local
@@ -10668,10 +10228,10 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (x < 0) return 0;
           return jStat.lowRegGamma(dof / 2, x / 2);
         },
-        inv: function inv(p, dof) {
+        inv: function (p, dof) {
           return 2 * jStat.gammapinv(p, 0.5 * dof);
         },
-        mean: function mean(dof) {
+        mean: function (dof) {
           return dof;
         },
         // TODO: this is an approximation (is there a better way?)
@@ -10696,13 +10256,13 @@ var jstat = createCommonjsModule(function (module, exports) {
         cdf: function cdf(x, rate) {
           return x < 0 ? 0 : 1 - Math.exp(-rate * x);
         },
-        inv: function inv(p, rate) {
+        inv: function (p, rate) {
           return -Math.log(1 - p) / rate;
         },
-        mean: function mean(rate) {
+        mean: function (rate) {
           return 1 / rate;
         },
-        median: function median(rate) {
+        median: function (rate) {
           return 1 / rate * Math.log(2);
         },
         mode: function
@@ -10713,7 +10273,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         sample: function sample(rate) {
           return -1 / rate * Math.log(jStat._random_fn());
         },
-        variance: function variance(rate) {
+        variance: function (rate) {
           return Math.pow(rate, -2);
         }
       }); // extend gamma function with static methods
@@ -10727,10 +10287,10 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (x < 0) return 0;
           return jStat.lowRegGamma(shape, x / scale);
         },
-        inv: function inv(p, shape, scale) {
+        inv: function (p, shape, scale) {
           return jStat.gammapinv(p, shape) * scale;
         },
-        mean: function mean(shape, scale) {
+        mean: function (shape, scale) {
           return shape * scale;
         },
         mode: function mode(shape, scale) {
@@ -10754,10 +10314,10 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (x <= 0) return 0;
           return 1 - jStat.lowRegGamma(shape, scale / x);
         },
-        inv: function inv(p, shape, scale) {
+        inv: function (p, shape, scale) {
           return scale / jStat.gammapinv(1 - p, shape);
         },
-        mean: function mean(shape, scale) {
+        mean: function (shape, scale) {
           return shape > 1 ? scale / (shape - 1) : undefined;
         },
         mode: function mode(shape, scale) {
@@ -10784,7 +10344,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         inv: function inv(p, alpha, beta) {
           return Math.pow(1 - Math.pow(1 - p, 1 / beta), 1 / alpha);
         },
-        mean: function mean(alpha, beta) {
+        mean: function (alpha, beta) {
           return beta * jStat.gammafn(1 + 1 / alpha) * jStat.gammafn(beta) / jStat.gammafn(1 + 1 / alpha + beta);
         },
         median: function median(alpha, beta) {
@@ -10810,7 +10370,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (x < 0) return 0;
           return 0.5 + 0.5 * jStat.erf((Math.log(x) - mu) / Math.sqrt(2 * sigma * sigma));
         },
-        inv: function inv(p, mu, sigma) {
+        inv: function (p, mu, sigma) {
           return Math.exp(-1.41421356237309505 * sigma * jStat.erfcinv(2 * p) + mu);
         },
         mean: function mean(mu, sigma) {
@@ -10892,20 +10452,20 @@ var jstat = createCommonjsModule(function (module, exports) {
         cdf: function cdf(x, mean, std) {
           return 0.5 * (1 + jStat.erf((x - mean) / Math.sqrt(2 * std * std)));
         },
-        inv: function inv(p, mean, std) {
+        inv: function (p, mean, std) {
           return -1.41421356237309505 * std * jStat.erfcinv(2 * p) + mean;
         },
-        mean: function mean(_mean
+        mean: function (mean
         /*, std*/
         ) {
-          return _mean;
+          return mean;
         },
         median: function median(mean
         /*, std*/
         ) {
           return mean;
         },
-        mode: function mode(mean
+        mode: function (mean
         /*, std*/
         ) {
           return mean;
@@ -10913,7 +10473,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         sample: function sample(mean, std) {
           return jStat.randn() * std + mean;
         },
-        variance: function variance(mean, std) {
+        variance: function (mean, std) {
           return std * std;
         }
       }); // extend pareto function with static methods
@@ -10942,7 +10502,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         ) {
           return scale;
         },
-        variance: function variance(scale, shape) {
+        variance: function (scale, shape) {
           if (shape <= 2) return undefined;
           return scale * scale * shape / (Math.pow(shape - 1, 2) * (shape - 2));
         }
@@ -10957,7 +10517,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           var dof2 = dof / 2;
           return jStat.ibeta((x + Math.sqrt(x * x + dof)) / (2 * Math.sqrt(x * x + dof)), dof2, dof2);
         },
-        inv: function inv(p, dof) {
+        inv: function (p, dof) {
           var x = jStat.ibetainv(2 * Math.min(p, 1 - p), 0.5 * dof, 0.5);
           x = Math.sqrt(dof * (1 - x) / x);
           return p > 0.5 ? x : -x;
@@ -10991,10 +10551,10 @@ var jstat = createCommonjsModule(function (module, exports) {
         cdf: function cdf(x, scale, shape) {
           return x < 0 ? 0 : 1 - Math.exp(-Math.pow(x / scale, shape));
         },
-        inv: function inv(p, scale, shape) {
+        inv: function (p, scale, shape) {
           return scale * Math.pow(-Math.log(1 - p), 1 / shape);
         },
-        mean: function mean(scale, shape) {
+        mean: function (scale, shape) {
           return scale * jStat.gammafn(1 + 1 / shape);
         },
         median: function median(scale, shape) {
@@ -11020,7 +10580,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (x < a) return 0;else if (x < b) return (x - a) / (b - a);
           return 1;
         },
-        inv: function inv(p, a, b) {
+        inv: function (p, a, b) {
           return a + p * (b - a);
         },
         mean: function mean(a, b) {
@@ -11276,10 +10836,10 @@ var jstat = createCommonjsModule(function (module, exports) {
 
           return jStat.sum(sumarr);
         },
-        mean: function mean(l) {
+        mean: function (l) {
           return l;
         },
-        variance: function variance(l) {
+        variance: function (l) {
           return l;
         },
         sampleSmall: function sampleSmall(l) {
@@ -11401,7 +10961,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (x < a) return 0;else if (x < b) return 2 / Math.PI * Math.asin(Math.sqrt((x - a) / (b - a)));
           return 1;
         },
-        inv: function inv(p, a, b) {
+        inv: function (p, a, b) {
           return a + (0.5 - 0.5 * Math.cos(Math.PI * p)) * (b - a);
         },
         mean: function mean(a, b) {
@@ -11445,22 +11005,22 @@ var jstat = createCommonjsModule(function (module, exports) {
             return 1 - 0.5 * Math.exp(-(x - mu) / b);
           }
         },
-        mean: function mean(mu
+        mean: function (mu
         /*, b*/
         ) {
           return mu;
         },
-        median: function median(mu
+        median: function (mu
         /*, b*/
         ) {
           return mu;
         },
-        mode: function mode(mu
+        mode: function (mu
         /*, b*/
         ) {
           return mu;
         },
-        variance: function variance(mu, b) {
+        variance: function (mu, b) {
           return 2 * b * b;
         },
         sample: function sample(mu, b) {
@@ -11676,7 +11236,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (ans > 1) ans = 1;
           return ans;
         },
-        inv: function inv(p, nmeans, df) {
+        inv: function (p, nmeans, df) {
           // Identical implementation as the R qtukey() function as of commit 68947
           var rr = 1;
           var cc = nmeans;
@@ -11792,9 +11352,7 @@ var jstat = createCommonjsModule(function (module, exports) {
               for (row = 0; row < nrow; row++) {
                 sum = 0;
 
-                for (col = 0; col < ncol; col++) {
-                  sum += arr[row][col] * arg[col][rescols];
-                }
+                for (col = 0; col < ncol; col++) sum += arr[row][col] * arg[col][rescols];
 
                 res[row][rescols] = sum;
               }
@@ -11835,9 +11393,7 @@ var jstat = createCommonjsModule(function (module, exports) {
             res[row] = [];
             sum = 0;
 
-            for (col = 0; col < ncol; col++) {
-              sum += left[row][col] * right[row][col];
-            }
+            for (col = 0; col < ncol; col++) sum += left[row][col] * right[row][col];
 
             res[row] = sum;
           }
@@ -11920,9 +11476,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           for (; i < rows; i++) {
             result[i] = [];
 
-            for (j = cols; j < c[0].length; j++) {
-              result[i][j - cols] = c[i][j];
-            }
+            for (j = cols; j < c[0].length; j++) result[i][j - cols] = c[i][j];
           }
 
           return result;
@@ -12315,9 +11869,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           for (; i < m - 1; i++) {
             alpha = 0;
 
-            for (j = i + 1; j < n; j++) {
-              alpha += a[j][i] * a[j][i];
-            }
+            for (j = i + 1; j < n; j++) alpha += a[j][i] * a[j][i];
 
             factor = a[i + 1][i] > 0 ? -1 : 1;
             alpha = factor * Math.sqrt(alpha);
@@ -12325,9 +11877,7 @@ var jstat = createCommonjsModule(function (module, exports) {
             w = jStat.zeros(m, 1);
             w[i + 1][0] = (a[i + 1][i] - alpha) / (2 * r);
 
-            for (k = i + 2; k < m; k++) {
-              w[k][0] = a[k][i] / (2 * r);
-            }
+            for (k = i + 2; k < m; k++) w[k][0] = a[k][i] / (2 * r);
 
             p = jStat.subtract(jStat.identity(m, n), jStat.multiply(jStat.multiply(w, jStat.transpose(w)), 2));
             a = jStat.multiply(p, jStat.multiply(a, p));
@@ -12516,9 +12066,7 @@ var jstat = createCommonjsModule(function (module, exports) {
             }
           }
 
-          for (i = 0; i < n; i++) {
-            ev.push(a[i][i]);
-          } //returns both the eigenvalue and eigenmatrix
+          for (i = 0; i < n; i++) ev.push(a[i][i]); //returns both the eigenvalue and eigenmatrix
 
 
           return [e, ev];
@@ -12561,9 +12109,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           while (i < order / 2) {
             I = f(a);
 
-            for (j = a, k = 0; j <= b; j = j + h, k++) {
-              x[k] = j;
-            }
+            for (j = a, k = 0; j <= b; j = j + h, k++) x[k] = j;
 
             m = x.length;
 
@@ -12581,9 +12127,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           m = 1;
 
           while (a1 !== 1) {
-            for (j = 0; j < a1 - 1; j++) {
-              h1[j] = (Math.pow(4, m) * g[j + 1] - g[j]) / (Math.pow(4, m) - 1);
-            }
+            for (j = 0; j < a1 - 1; j++) h1[j] = (Math.pow(4, m) * g[j + 1] - g[j]) / (Math.pow(4, m) - 1);
 
             a1 = h1.length;
             g = h1;
@@ -12599,9 +12143,7 @@ var jstat = createCommonjsModule(function (module, exports) {
             var n = X.length;
             var p;
 
-            for (; i < n; i++) {
-              if (X[i] === x) p = i;
-            }
+            for (; i < n; i++) if (X[i] === x) p = i;
 
             return p;
           }
@@ -12624,9 +12166,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           m = 1;
 
           while (a != 1) {
-            for (j = 0; j < a - 1; j++) {
-              h1[j] = (Math.pow(4, m) * g[j + 1] - g[j]) / (Math.pow(4, m) - 1);
-            }
+            for (j = 0; j < a - 1; j++) h1[j] = (Math.pow(4, m) * g[j + 1] - g[j]) / (Math.pow(4, m) - 1);
 
             a = h1.length;
             g = h1;
@@ -12645,9 +12185,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           var i = 1;
           var m;
 
-          for (; j <= b; j = j + h, k++) {
-            x[k] = j;
-          }
+          for (; j <= b; j = j + h, k++) x[k] = j;
 
           m = x.length;
 
@@ -12719,9 +12257,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           var b = [];
           var d = [];
 
-          for (; i < n - 1; i++) {
-            h[i] = X[i + 1] - X[i];
-          }
+          for (; i < n - 1; i++) h[i] = X[i + 1] - X[i];
 
           alpha[0] = 0;
 
@@ -12826,22 +12362,20 @@ var jstat = createCommonjsModule(function (module, exports) {
       }); // extend jStat.fn with methods that require one argument
 
       (function (funcs) {
-        for (var i = 0; i < funcs.length; i++) {
-          (function (passfunc) {
-            jStat.fn[passfunc] = function (arg, func) {
-              var tmpthis = this; // check for callback
+        for (var i = 0; i < funcs.length; i++) (function (passfunc) {
+          jStat.fn[passfunc] = function (arg, func) {
+            var tmpthis = this; // check for callback
 
-              if (func) {
-                setTimeout(function () {
-                  func.call(tmpthis, jStat.fn[passfunc].call(tmpthis, arg));
-                }, 15);
-                return this;
-              }
+            if (func) {
+              setTimeout(function () {
+                func.call(tmpthis, jStat.fn[passfunc].call(tmpthis, arg));
+              }, 15);
+              return this;
+            }
 
-              if (typeof jStat[passfunc](this, arg) === 'number') return jStat[passfunc](this, arg);else return jStat(jStat[passfunc](this, arg));
-            };
-          })(funcs[i]);
-        }
+            if (typeof jStat[passfunc](this, arg) === 'number') return jStat[passfunc](this, arg);else return jStat(jStat[passfunc](this, arg));
+          };
+        })(funcs[i]);
       })('add divide multiply subtract dot pow exp log abs norm angle'.split(' '));
     })(jStat, Math);
 
@@ -13274,7 +12808,7 @@ var jstat = createCommonjsModule(function (module, exports) {
       function F_test(model) {
         var F_statistic = model.R2 / model.df_model / ((1 - model.R2) / model.df_resid);
 
-        var fcdf = function fcdf(x, n1, n2) {
+        var fcdf = function (x, n1, n2) {
           return jStat.beta.cdf(x / (n2 / n1 + x), n1 / 2, n2 / 2);
         };
 
@@ -13587,182 +13121,140 @@ var jstat = createCommonjsModule(function (module, exports) {
 
 */
 
-var SDTMath = /*#__PURE__*/function () {
-  function SDTMath() {
-    _classCallCheck(this, SDTMath);
+class SDTMath {
+  static hM2Hr(h, m) {
+    if (h === 0 && m === 0) {
+      return 0;
+    }
+
+    return h / (h + m);
   }
 
-  _createClass(SDTMath, null, [{
-    key: "hM2Hr",
-    value: function hM2Hr(h, m) {
-      if (h === 0 && m === 0) {
-        return 0;
-      }
+  static faCr2Far(fa, cr) {
+    if (fa === 0 && cr === 0) {
+      return 0;
+    }
 
-      return h / (h + m);
-    }
-  }, {
-    key: "faCr2Far",
-    value: function faCr2Far(fa, cr) {
-      if (fa === 0 && cr === 0) {
-        return 0;
-      }
+    return fa / (fa + cr);
+  }
 
-      return fa / (fa + cr);
+  static hMFaCr2Acc(h, m, fa, cr) {
+    if (h === 0 && m === 0 && fa === 0 && cr === 0) {
+      return 0;
     }
-  }, {
-    key: "hMFaCr2Acc",
-    value: function hMFaCr2Acc(h, m, fa, cr) {
-      if (h === 0 && m === 0 && fa === 0 && cr === 0) {
-        return 0;
-      }
 
-      return (h + cr) / (h + m + fa + cr);
-    }
-  }, {
-    key: "hrFar2Acc",
-    value: function hrFar2Acc(hr, far) {
-      return (hr + (1 - far)) / 2;
-    }
-  }, {
-    key: "hFa2Ppv",
-    value: function hFa2Ppv(h, fa) {
-      if (h === 0 && fa === 0) {
-        return 0;
-      }
+    return (h + cr) / (h + m + fa + cr);
+  }
 
-      return h / (h + fa);
-    }
-  }, {
-    key: "mCr2Fomr",
-    value: function mCr2Fomr(m, cr) {
-      if (m === 0 && cr === 0) {
-        return 0;
-      }
+  static hrFar2Acc(hr, far) {
+    return (hr + (1 - far)) / 2;
+  }
 
-      return m / (m + cr);
+  static hFa2Ppv(h, fa) {
+    if (h === 0 && fa === 0) {
+      return 0;
     }
-  }, {
-    key: "hrFar2D",
-    value: function hrFar2D(hr, far) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1);
-      return Math.sqrt(2 / (s * s + 1)) * (s * jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1));
-    }
-  }, {
-    key: "hrFar2C",
-    value: function hrFar2C(hr, far) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1)) / 2;
-      return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1));
-    }
-  }, {
-    key: "dC2Hr",
-    value: function dC2Hr(d, c) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.normal.cdf(d / 2 - c, 0, 1);
-      return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
-    }
-  }, {
-    key: "dC2Far",
-    value: function dC2Far(d, c) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.normal.cdf(-(d / 2 + c), 0, 1);
-      return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
-    }
-  }, {
-    key: "dFar2Hr",
-    value: function dFar2Hr(d, far) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.normal.cdf(d + jstat.normal.inv(far, 0, 1), 0, 1);
-      return jstat.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jstat.normal.inv(far, 0, 1)) / s, 0, 1);
-    }
-  }, {
-    key: "cFar2Hr",
-    value: function cFar2Hr(c, far) {
-      var s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (s === 1) return jstat.normal.cdf(-(2 * c) - jstat.normal.inv(far, 0, 1), 0, 1);
-      return jstat.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jstat.normal.inv(far, 0, 1), 0, 1);
-    }
-  }, {
-    key: "d2MuN",
-    value: function d2MuN(d) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return -d / 2;
-      return -Math.sqrt((s * s + 1) / 2) * (1 / (s + 1)) * d;
-    }
-  }, {
-    key: "muN2D",
-    value: function muN2D(muN) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return -2 * muN;
-      return -Math.sqrt(2 / (s * s + 1)) * (s + 1) * muN;
-    }
-  }, {
-    key: "d2MuS",
-    value: function d2MuS(d) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return d / 2;
-      return Math.sqrt((s * s + 1) / 2) * (s / (s + 1)) * d;
-    }
-  }, {
-    key: "muS2D",
-    value: function muS2D(muS) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return 2 * muS;
-      return Math.sqrt(2 / (s * s + 1)) * ((s + 1) / s) * muS;
-    }
-  }, {
-    key: "c2L",
-    value: function c2L(c) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return c;
-      return Math.sqrt((s * s + 1) / 2) * c;
-    }
-  }, {
-    key: "l2C",
-    value: function l2C(l) {
-      var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if (s === 1) return l;
-      return Math.sqrt(2 / (s * s + 1)) * l;
-    }
-  }, {
-    key: "s2H",
-    value: function s2H() {
-      var s = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      return 1 / (s * Math.sqrt(2 * Math.PI));
-    }
-  }, {
-    key: "h2S",
-    value: function h2S(h) {
-      return 1 / (h * Math.sqrt(2 * Math.PI));
-    }
-  }, {
-    key: "hr2Zhr",
-    value: function hr2Zhr(hr) {
-      return jstat.normal.inv(hr, 0, 1);
-    }
-  }, {
-    key: "far2Zfar",
-    value: function far2Zfar(far) {
-      return jstat.normal.inv(far, 0, 1);
-    }
-  }, {
-    key: "zhr2Hr",
-    value: function zhr2Hr(zhr) {
-      return jstat.normal.cdf(zhr, 0, 1);
-    }
-  }, {
-    key: "zfar2Far",
-    value: function zfar2Far(zfar) {
-      return jstat.normal.cdf(zfar, 0, 1);
-    }
-  }]);
 
-  return SDTMath;
-}();
+    return h / (h + fa);
+  }
 
-var _templateObject$d, _templateObject2$c;
+  static mCr2Fomr(m, cr) {
+    if (m === 0 && cr === 0) {
+      return 0;
+    }
+
+    return m / (m + cr);
+  }
+
+  static hrFar2D(hr, far, s = 1) {
+    if (s === 1) return jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1);
+    return Math.sqrt(2 / (s * s + 1)) * (s * jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1));
+  }
+
+  static hrFar2C(hr, far, s = 1) {
+    if (s === 1) return -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1)) / 2;
+    return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1));
+  }
+
+  static dC2Hr(d, c, s = 1) {
+    if (s === 1) return jstat.normal.cdf(d / 2 - c, 0, 1);
+    return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
+  }
+
+  static dC2Far(d, c, s = 1) {
+    if (s === 1) return jstat.normal.cdf(-(d / 2 + c), 0, 1);
+    return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
+  }
+
+  static dFar2Hr(d, far, s = 1) {
+    if (s === 1) return jstat.normal.cdf(d + jstat.normal.inv(far, 0, 1), 0, 1);
+    return jstat.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jstat.normal.inv(far, 0, 1)) / s, 0, 1);
+  }
+
+  static cFar2Hr(c, far, s = 1) {
+    if (s === 1) return jstat.normal.cdf(-(2 * c) - jstat.normal.inv(far, 0, 1), 0, 1);
+    return jstat.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jstat.normal.inv(far, 0, 1), 0, 1);
+  }
+
+  static d2MuN(d, s = 1) {
+    if (s === 1) return -d / 2;
+    return -Math.sqrt((s * s + 1) / 2) * (1 / (s + 1)) * d;
+  }
+
+  static muN2D(muN, s = 1) {
+    if (s === 1) return -2 * muN;
+    return -Math.sqrt(2 / (s * s + 1)) * (s + 1) * muN;
+  }
+
+  static d2MuS(d, s = 1) {
+    if (s === 1) return d / 2;
+    return Math.sqrt((s * s + 1) / 2) * (s / (s + 1)) * d;
+  }
+
+  static muS2D(muS, s = 1) {
+    if (s === 1) return 2 * muS;
+    return Math.sqrt(2 / (s * s + 1)) * ((s + 1) / s) * muS;
+  }
+
+  static c2L(c, s = 1) {
+    if (s === 1) return c;
+    return Math.sqrt((s * s + 1) / 2) * c;
+  }
+
+  static l2C(l, s = 1) {
+    if (s === 1) return l;
+    return Math.sqrt(2 / (s * s + 1)) * l;
+  }
+
+  static s2H(s = 1) {
+    return 1 / (s * Math.sqrt(2 * Math.PI));
+  }
+
+  static h2S(h) {
+    return 1 / (h * Math.sqrt(2 * Math.PI));
+  }
+
+  static hr2Zhr(hr) {
+    return jstat.normal.inv(hr, 0, 1);
+  }
+
+  static far2Zfar(far) {
+    return jstat.normal.inv(far, 0, 1);
+  }
+
+  static zhr2Hr(zhr) {
+    return jstat.normal.cdf(zhr, 0, 1);
+  }
+
+  static zfar2Far(zfar) {
+    return jstat.normal.cdf(zfar, 0, 1);
+  }
+
+}
+
+let _$d = t => t,
+    _t$d,
+    _t2$c;
 /*
   ROCSpace element
   <roc-space>
@@ -13781,796 +13273,910 @@ var _templateObject$d, _templateObject2$c;
     ??
 */
 
-var ROCSpace = /*#__PURE__*/function (_DetectableElement) {
-  _inherits(ROCSpace, _DetectableElement);
-
-  var _super = _createSuper(ROCSpace);
-
-  function ROCSpace() {
-    var _this;
-
-    _classCallCheck(this, ROCSpace);
-
-    _this = _super.call(this);
-    _this.firstUpdate = true;
-    _this.drag = false;
-    _this.sdt = false;
-    _this.contours = ['sensitivity', 'bias', 'accuracy'];
-    _this.contour = undefined;
-    _this.points = ['all', 'first', 'rest', 'none'];
-    _this.point = 'all';
-    _this.isoDs = ['all', 'first', 'rest', 'none'];
-    _this.isoD = 'first';
-    _this.isoCs = ['all', 'first', 'rest', 'none'];
-    _this.isoC = 'first';
-    _this.zRoc = false;
-    _this.far = 0.25;
-    _this.hr = 0.75;
-    _this.s = 1;
-    _this.label = '';
-    _this.locations = [{
-      name: 'default',
-      far: _this.far,
-      hr: _this.hr,
-      s: _this.s,
-      label: ''
-    }];
-    _this.pointArray = [];
-    _this.isoDArray = [];
-    _this.isoCArray = [];
-    _this.width = NaN;
-    _this.height = NaN;
-    _this.rem = NaN;
-
-    _this.alignState();
-
-    return _this;
+class ROCSpace extends DetectableElement {
+  static get properties() {
+    return {
+      contour: {
+        attribute: 'contour',
+        type: String,
+        reflect: true
+      },
+      point: {
+        attribute: 'point',
+        type: String,
+        reflect: true
+      },
+      isoD: {
+        attribute: 'iso-d',
+        type: String,
+        reflect: true
+      },
+      isoC: {
+        attribute: 'iso-c',
+        type: String,
+        reflect: true
+      },
+      zRoc: {
+        attribute: 'z-roc',
+        type: Boolean,
+        reflect: true
+      },
+      far: {
+        attribute: 'far',
+        type: Number,
+        reflect: true
+      },
+      hr: {
+        attribute: 'hr',
+        type: Number,
+        reflect: true
+      },
+      d: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      c: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      s: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      width: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      height: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      rem: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(ROCSpace, [{
-    key: "alignState",
-    value: function alignState() {
-      var _this2 = this;
+  constructor() {
+    super();
+    this.firstUpdate = true;
+    this.drag = false;
+    this.sdt = false;
+    this.contours = ['sensitivity', 'bias', 'accuracy'];
+    this.contour = undefined;
+    this.points = ['all', 'first', 'rest', 'none'];
+    this.point = 'all';
+    this.isoDs = ['all', 'first', 'rest', 'none'];
+    this.isoD = 'first';
+    this.isoCs = ['all', 'first', 'rest', 'none'];
+    this.isoC = 'first';
+    this.zRoc = false;
+    this.far = 0.25;
+    this.hr = 0.75;
+    this.s = 1;
+    this.label = '';
+    this.locations = [{
+      name: 'default',
+      far: this.far,
+      hr: this.hr,
+      s: this.s,
+      label: ''
+    }];
+    this.pointArray = [];
+    this.isoDArray = [];
+    this.isoCArray = [];
+    this.width = NaN;
+    this.height = NaN;
+    this.rem = NaN;
+    this.alignState();
+  }
 
-      this.locations[0].hr = this.hr;
-      this.locations[0].far = this.far;
-      this.locations[0].s = this.s;
-      this.locations[0].label = this.label;
-      this.d = SDTMath.hrFar2D(this.hr, this.far, this.s);
-      this.c = SDTMath.hrFar2C(this.hr, this.far, this.s);
-      this.pointArray = [];
-      this.isoDArray = [];
-      this.isoCArray = [];
-      this.locations.forEach(function (item, index) {
-        item.d = SDTMath.hrFar2D(item.hr, item.far, item.s);
-        item.c = SDTMath.hrFar2C(item.hr, item.far, item.s);
+  alignState() {
+    this.locations[0].hr = this.hr;
+    this.locations[0].far = this.far;
+    this.locations[0].s = this.s;
+    this.locations[0].label = this.label;
+    this.d = SDTMath.hrFar2D(this.hr, this.far, this.s);
+    this.c = SDTMath.hrFar2C(this.hr, this.far, this.s);
+    this.pointArray = [];
+    this.isoDArray = [];
+    this.isoCArray = [];
+    this.locations.forEach((item, index) => {
+      item.d = SDTMath.hrFar2D(item.hr, item.far, item.s);
+      item.c = SDTMath.hrFar2C(item.hr, item.far, item.s);
 
-        if (index === 0 && (_this2.point === 'first' || _this2.point === 'all')) {
-          _this2.pointArray.push(item);
-        } else if (index > 0 && (_this2.point === 'rest' || _this2.point === 'all')) {
-          _this2.pointArray.push(item);
-        }
+      if (index === 0 && (this.point === 'first' || this.point === 'all')) {
+        this.pointArray.push(item);
+      } else if (index > 0 && (this.point === 'rest' || this.point === 'all')) {
+        this.pointArray.push(item);
+      }
 
-        if (index === 0 && (_this2.isoD === 'first' || _this2.isoD === 'all')) {
-          _this2.isoDArray.push(item);
-        } else if (index > 0 && (_this2.isoD === 'rest' || _this2.isoD === 'all')) {
-          _this2.isoDArray.push(item);
-        }
+      if (index === 0 && (this.isoD === 'first' || this.isoD === 'all')) {
+        this.isoDArray.push(item);
+      } else if (index > 0 && (this.isoD === 'rest' || this.isoD === 'all')) {
+        this.isoDArray.push(item);
+      }
 
-        if (index === 0 && (_this2.isoC === 'first' || _this2.isoC === 'all')) {
-          _this2.isoCArray.push(item);
-        } else if (index > 0 && (_this2.isoC === 'rest' || _this2.isoC === 'all')) {
-          _this2.isoCArray.push(item);
-        }
+      if (index === 0 && (this.isoC === 'first' || this.isoC === 'all')) {
+        this.isoCArray.push(item);
+      } else if (index > 0 && (this.isoC === 'rest' || this.isoC === 'all')) {
+        this.isoCArray.push(item);
+      }
+    });
+  }
+
+  set(hr, far, name = 'default', label = '', s = 1) {
+    if (name === 'default') {
+      this.hr = hr;
+      this.far = far;
+      this.s = s;
+      this.label = label;
+    }
+
+    const location = this.locations.find(item => {
+      return item.name === name;
+    });
+
+    if (location === undefined) {
+      this.locations.push({
+        name: name,
+        far: far,
+        hr: hr,
+        s: s,
+        label: label
       });
+    } else {
+      location.hr = hr;
+      location.far = far;
+      location.s = s;
+      location.label = label;
     }
-  }, {
-    key: "set",
-    value: function set(hr, far) {
-      var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'default';
-      var label = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
-      var s = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
-      if (name === 'default') {
-        this.hr = hr;
-        this.far = far;
-        this.s = s;
-        this.label = label;
-      }
+    this.requestUpdate();
+  }
 
-      var location = this.locations.find(function (item) {
-        return item.name === name;
+  setWithSDT(d, c, name = 'default', label = '', s = 1) {
+    if (name === 'default') {
+      this.hr = SDTMath.dC2Hr(d, c, s);
+      this.far = SDTMath.dC2Far(d, c, s);
+      this.s = s;
+      this.label = label;
+    }
+
+    const location = this.locations.find(item => {
+      return item.name === name;
+    });
+
+    if (location === undefined) {
+      this.locations.push({
+        name: name,
+        far: SDTMath.dC2Far(d, c, s),
+        hr: SDTMath.dC2Hr(d, c, s),
+        s: s,
+        label: label
       });
-
-      if (location === undefined) {
-        this.locations.push({
-          name: name,
-          far: far,
-          hr: hr,
-          s: s,
-          label: label
-        });
-      } else {
-        location.hr = hr;
-        location.far = far;
-        location.s = s;
-        location.label = label;
-      }
-
-      this.requestUpdate();
+    } else {
+      location.hr = SDTMath.dC2Hr(d, c, s);
+      location.far = SDTMath.dC2Far(d, c, s);
+      location.s = s;
+      location.label = label;
     }
-  }, {
-    key: "setWithSDT",
-    value: function setWithSDT(d, c) {
-      var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'default';
-      var label = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
-      var s = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 
-      if (name === 'default') {
-        this.hr = SDTMath.dC2Hr(d, c, s);
-        this.far = SDTMath.dC2Far(d, c, s);
-        this.s = s;
-        this.label = label;
-      }
+    this.sdt = true;
+    this.requestUpdate();
+  }
 
-      var location = this.locations.find(function (item) {
-        return item.name === name;
-      });
+  static get styles() {
+    return [super.styles, r$2(_t$d || (_t$d = _$d`
+        :host {
+          display: inline-block;
 
-      if (location === undefined) {
-        this.locations.push({
-          name: name,
-          far: SDTMath.dC2Far(d, c, s),
-          hr: SDTMath.dC2Hr(d, c, s),
-          s: s,
-          label: label
-        });
-      } else {
-        location.hr = SDTMath.dC2Hr(d, c, s);
-        location.far = SDTMath.dC2Far(d, c, s);
-        location.s = s;
-        location.label = label;
-      }
-
-      this.sdt = true;
-      this.requestUpdate();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      // eslint-disable-line class-methods-use-this
-      return $(_templateObject$d || (_templateObject$d = _taggedTemplateLiteral(["\n      ", "\n    "])), DetectableElement.svgFilters);
-    }
-  }, {
-    key: "getDimensions",
-    value: function getDimensions() {
-      this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-      this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-      this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10); // console.log(`roc-space: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-    }
-  }, {
-    key: "connectedCallback",
-    value: function connectedCallback() {
-      _get(_getPrototypeOf(ROCSpace.prototype), "connectedCallback", this).call(this);
-
-      window.addEventListener('resize', this.getDimensions.bind(this));
-    }
-  }, {
-    key: "disconnectedCallback",
-    value: function disconnectedCallback() {
-      window.removeEventListener('resize', this.getDimensions.bind(this));
-
-      _get(_getPrototypeOf(ROCSpace.prototype), "disconnectedCallback", this).call(this);
-    }
-  }, {
-    key: "firstUpdated",
-    value: function firstUpdated(changedProperties) {
-      _get(_getPrototypeOf(ROCSpace.prototype), "firstUpdated", this).call(this, changedProperties); // Get the width and height after initial render/update has occurred
-      // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
-
-
-      window.setTimeout(this.getDimensions.bind(this), 0);
-    }
-  }, {
-    key: "update",
-    value: function update(changedProperties) {
-      var _this3 = this;
-
-      _get(_getPrototypeOf(ROCSpace.prototype), "update", this).call(this, changedProperties);
-
-      this.alignState(); // Bail out if we can't get the width/height/rem
-
-      if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
-        return;
-      }
-
-      var elementWidth = this.width;
-      var elementHeight = this.height;
-      var elementSize = Math.min(elementWidth, elementHeight);
-      var margin = {
-        top: 2 * this.rem,
-        bottom: 3 * this.rem,
-        left: 3 * this.rem,
-        right: 2 * this.rem
-      };
-      var height = elementSize - (margin.top + margin.bottom);
-      var width = elementSize - (margin.left + margin.right);
-      var transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10); // X Scale
-
-      var xScale = linear().domain(this.zRoc ? [-3, 3] : [0, 1]) // zFAR or FAR
-      .range([0, width]);
-      this.xScale = xScale; // Y Scale
-
-      var yScale = linear().domain(this.zRoc ? [3, -3] : [1, 0]) // zHR or HR
-      .range([0, height]);
-      this.yScale = yScale; // Drag behavior
-
-      var drag$1 = drag().subject(function (event, datum) {
-        return {
-          x: _this3.xScale(_this3.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far),
-          y: _this3.yScale(_this3.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr)
-        };
-      }).on('start', function (event) {
-        var element = event.currentTarget;
-        select(element).classed('dragging', true);
-      }).on('drag', function (event, datum) {
-        _this3.drag = true;
-        var far = _this3.zRoc ? SDTMath.zfar2Far(_this3.xScale.invert(event.x)) : _this3.xScale.invert(event.x);
-        var hr = _this3.zRoc ? SDTMath.zhr2Hr(_this3.yScale.invert(event.y)) : _this3.yScale.invert(event.y); // Clamp FAR and HR to ROC Space
-
-        datum.far = far < 0.001 ? 0.001 : far > 0.999 ? 0.999 : far;
-        datum.hr = hr <= 0.001 ? 0.001 : hr >= 0.999 ? 0.999 : hr; // console.log(`roc-space.drag: far = ${datum.far}, hr = ${datum.hr}`);
-
-        if (datum.name === 'default') {
-          _this3.far = datum.far;
-          _this3.hr = datum.hr;
+          width: 20rem;
+          height: 20rem;
         }
 
-        _this3.alignState();
+        .main {
+          width: 100%;
+          height: 100%;
+        }
 
-        _this3.requestUpdate();
+        .plot-contour,
+        .legend-contour .contour {
+          stroke: var(---color-background);
+          stroke-width: 0.5;
+        }
 
-        _this3.dispatchEvent(new CustomEvent('roc-point-change', {
-          detail: {
-            name: datum.name,
-            far: datum.far,
-            hr: datum.hr,
-            d: datum.d,
-            c: datum.c,
-            s: datum.s,
-            label: datum.label
-          },
-          bubbles: true
-        }));
-      }).on('end', function (event) {
-        var element = event.currentTarget;
-        select(element).classed('dragging', false);
-      }); // Line for FAR/HR Space
+        text {
+          /* stylelint-disable property-no-vendor-prefix */
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
 
-      var line$1 = line().x(function (datum) {
-        return xScale(_this3.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far);
-      }).y(function (datum) {
-        return yScale(_this3.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr);
-      }); // Svg
-      //  DATA-JOIN
+        .point.interactive {
+          cursor: move;
 
-      var svgUpdate = select(this.renderRoot).selectAll('.main').data([{
-        width: this.width,
-        height: this.height,
-        rem: this.rem
-      }]); //  ENTER
+          filter: url("#shadow-2");
+          outline: none;
 
-      var svgEnter = svgUpdate.enter().append('svg').classed('main', true); //  MERGE
+          /* HACK: This gets Safari to correctly apply the filter! */
+          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
+          stroke: #000000;
+          stroke-opacity: 0;
+          stroke-width: 0;
+        }
 
-      var svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', "0 0 ".concat(elementSize, " ").concat(elementSize)); // Plot
-      //  ENTER
-
-      var plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
-
-      var plotMerge = svgMerge.select('.plot').attr('transform', "translate(".concat(margin.left, ", ").concat(margin.top, ")")); // Clippath
-      //  ENTER
-
-      plotEnter.append('clipPath').attr('id', 'clip-roc-space').append('rect'); //  MERGE
-
-      plotMerge.select('clipPath rect').attr('height', height + 1).attr('width', width + 1); // Underlayer
-      //  ENTER
-
-      var underlayerEnter = plotEnter.append('g').classed('underlayer', true); // MERGE
-
-      var underlayerMerge = plotMerge.select('.underlayer'); // Background
-      //  ENTER
-
-      underlayerEnter.append('rect').classed('background', true); //  MERGE
-
-      underlayerMerge.select('.background').attr('height', height).attr('width', width); // Contour Plotting
-      //  Handles: Bias, Sensitivity, & Accuracy
-
-      if (this.firstUpdate || changedProperties.has('contour') || changedProperties.has('zRoc') || changedProperties.has('width') || changedProperties.has('height') || changedProperties.has('rem') || changedProperties.has('s')) {
-        if (this.contour !== undefined) {
-          // Contour Plot
-          var n = 100; // Resolution
-
-          var contourValues = [];
-
-          for (var j = 0.5, k = 0; j < n; j += 1) {
-            for (var i = 0.5; i < n; i += 1, k += 1) {
-              var hr = this.zRoc ? SDTMath.zhr2Hr(i / n * 6 - 3) : i / n;
-              var far = this.zRoc ? SDTMath.zfar2Far((1 - j / n) * 6 - 3) : 1 - j / n;
-              contourValues[k] = this.contour === 'bias' ? SDTMath.hrFar2C(hr, far, this.s) : this.contour === 'sensitivity' ? SDTMath.hrFar2D(hr, far, this.s) : this.contour === 'accuracy' ? SDTMath.hrFar2Acc(hr, far) : null;
-            }
+        /* Make a larger target for touch users */
+        @media (pointer: coarse) {
+          .point.interactive .circle {
+            stroke: #000000;
+            stroke-opacity: 0;
+            stroke-width: 12px;
           }
-
-          var contourThresholds = this.contour === 'bias' ? range(-3, 3, 0.25) : this.contour === 'sensitivity' ? range(-6, 6, 0.5) : this.contour === 'accuracy' ? range(0, 1, 0.05) : null;
-          var contours$1 = contours().size([n, n]).thresholds(contourThresholds);
-          var contourColorStart = this.getComputedStyleValue(this.contour === 'bias' ? '---color-element-background' : this.contour === 'sensitivity' ? '---color-d' : this.contour === 'accuracy' ? '---color-acc-dark' : null);
-          var contourColorEnd = this.getComputedStyleValue(this.contour === 'bias' ? '---color-c' : this.contour === 'sensitivity' ? '---color-element-background' : this.contour === 'accuracy' ? '---color-element-background' : null);
-          var contourColor = linear().domain(extent(contourThresholds)).interpolate(function () {
-            return interpolateRgb(contourColorStart, contourColorEnd);
-          }); //  DATA-JOIN
-
-          var contourPlotUpdate = underlayerMerge.selectAll('.plot-contour').data([this.contour]); //  ENTER
-
-          var contourPlotEnter = contourPlotUpdate.enter().append('g').classed('plot-contour', true); //  MERGE
-
-          var contourPlotMerge = contourPlotEnter.merge(contourPlotUpdate); // Contour Plot Contours
-          //  DATA-JOIN
-
-          var contoursUpdate = contourPlotMerge.selectAll('.contour').data(contours$1(contourValues)); //  ENTER
-
-          var contoursEnter = contoursUpdate.enter().append('path').classed('contour', true); //  MERGE
-
-          contoursEnter.merge(contoursUpdate).transition().duration(transitionDuration * 2) // Extra long transition!
-          .ease(cubicOut).attr('d', index(identity$1().scale(width / n))) // ????
-          .attr('fill', function (datum) {
-            return contourColor(datum.value);
-          }); //  EXIT
-
-          contoursUpdate.exit().remove(); // Contour Title
-          //  DATA-JOIN
-
-          var contourTitleUpdate = underlayerMerge.selectAll('.title-contour').data([this.contour]); //  ENTER
-
-          var contourTitleEnter = contourTitleUpdate.enter().append('text').classed('title-contour', true).attr('text-anchor', 'middle'); //  MERGE
-
-          contourTitleEnter.merge(contourTitleUpdate).classed('math-var', this.contour === 'bias' || this.contour === 'sensitivity').attr('transform', this.contour === 'bias' ? "translate(".concat(width + 1.25 * this.rem, ", ").concat(this.rem, ")") : this.contour === 'sensitivity' ? "translate(".concat(width + 1.25 * this.rem, ", ").concat(this.rem, ")") : this.contour === 'accuracy' ? "translate(".concat(width + 1.125 * this.rem, ", ").concat(this.rem, ")") : null).text(this.contour === 'bias' ? 'c' : this.contour === 'sensitivity' ? 'd′' : this.contour === 'accuracy' ? 'Acc' : null); // Contour Legend
-
-          var l = 100;
-          var contourLegendValues = []; // new Array(4 * l);
-
-          for (var _i = 0.5, _k = 0; _i < l; _i += 1, _k += 4) {
-            contourLegendValues[_k] = this.contour === 'bias' ? -(_i / n * 6 - 3) : this.contour === 'sensitivity' ? _i / n * 12 - 6 : this.contour === 'accuracy' ? _i / n : null;
-            contourLegendValues[_k + 1] = contourLegendValues[_k];
-            contourLegendValues[_k + 2] = contourLegendValues[_k];
-            contourLegendValues[_k + 3] = contourLegendValues[_k];
-          }
-
-          var legendContours = contours().size([4, l]).thresholds(contourThresholds);
-          var legendScale = linear().domain(this.contour === 'bias' ? [3, -3] : this.contour === 'sensitivity' ? [6, -6] : this.contour === 'accuracy' ? [1, 0] : null).range([0, 10 * this.rem]); //  DATA-JOIN
-
-          var contourLegendUpdate = underlayerMerge.selectAll('.legend-contour').data([this.contour]); //  ENTER
-
-          var contourLegendEnter = contourLegendUpdate.enter().append('g').classed('legend-contour', true); //  MERGE
-
-          var contourLegendMerge = contourLegendEnter.merge(contourLegendUpdate).attr('transform', this.contour === 'bias' ? "translate(".concat(width + 1.25 * this.rem, ", ").concat(1.5 * this.rem, ")") : this.contour === 'sensitivity' ? "translate(".concat(width + 1.25 * this.rem, ", ").concat(1.5 * this.rem, ")") : this.contour === 'accuracy' ? "translate(".concat(width + 1.5 * this.rem, ", ").concat(1.5 * this.rem, ")") : null); //  EXIT
-
-          contourLegendUpdate.exit().remove(); // Contour Legend Axis
-          //  ENTER
-
-          contourLegendEnter.append('g').classed('axis-contour', true); //  MERGE
-
-          contourLegendMerge.select('.axis-contour').call(axisLeft(legendScale).ticks(7).tickSize(0)).attr('font-size', null).attr('font-family', null); // Contour Legend Contours
-          //  DATA-JOIN
-
-          var legendContoursUpdate = contourLegendMerge.selectAll('.contour').data(legendContours(contourLegendValues)); //  ENTER
-
-          var legendContoursEnter = legendContoursUpdate.enter().append('path').classed('contour', true); //  MERGE
-
-          legendContoursEnter.merge(legendContoursUpdate).attr('d', index(identity$1().scale(10 * this.rem / l))) // ????
-          .attr('fill', function (datum) {
-            return contourColor(datum.value);
-          }); //  EXIT
-
-          legendContoursUpdate.exit().remove();
-        } else {
-          // Contour Plot
-          //  DATA-JOIN
-          var _contourPlotUpdate = underlayerMerge.selectAll('.plot-contour').data([]); //  EXIT
-
-
-          _contourPlotUpdate.exit().remove(); // Contour Title
-          //  DATA-JOIN
-
-
-          var _contourTitleUpdate = underlayerMerge.selectAll('.title-contour').data([]); //  EXIT
-
-
-          _contourTitleUpdate.exit().remove(); // Contour Legend
-          //  DATA-JOIN
-
-
-          var _contourLegendUpdate = underlayerMerge.selectAll('.legend-contour').data([]); //  EXIT
-
-
-          _contourLegendUpdate.exit().remove();
         }
-      } // X Axis
-      //  ENTER
 
+        .point.interactive:hover {
+          filter: url("#shadow-4");
 
-      underlayerEnter.append('g').classed('axis-x', true); //  MERGE
-
-      var axisXMerge = underlayerMerge.select('.axis-x').attr('transform', "translate(0, ".concat(height, ")"));
-      var axisXTransition = axisXMerge.transition().duration(transitionDuration * 2) // Extra long transition!
-      .ease(cubicOut).call(axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
-      axisXTransition.selectAll('line, path').attr('stroke', null); // X Axis Title
-      //  ENTER
-
-      var titleXEnter = underlayerEnter.append('text').classed('title-x', true).attr('text-anchor', 'middle');
-      titleXEnter.append('tspan').classed('z math-var', true);
-      titleXEnter.append('tspan').classed('name', true); //  MERGE
-
-      var titleXMerge = underlayerMerge.select('.title-x').attr('transform', "translate(".concat(width / 2, ", ").concat(height + 2.25 * this.rem, ")"));
-      titleXMerge.select('tspan.z').text(this.zRoc ? 'z' : '');
-      titleXMerge.select('tspan.name').text(this.zRoc ? '(False Alarm Rate)' : 'False Alarm Rate'); // Y Axis
-      //  ENTER
-
-      underlayerEnter.append('g').classed('axis-y', true); // MERGE
-
-      var axisYTransition = underlayerMerge.select('.axis-y').transition().duration(transitionDuration * 2) // Extra long transition!
-      .ease(cubicOut).call(axisLeft(yScale)).attr('font-size', null).attr('font-family', null);
-      axisYTransition.selectAll('line, path').attr('stroke', null); // Y Axis Title
-      //  ENTER
-
-      var titleYEnter = underlayerEnter.append('text').classed('title-y', true).attr('text-anchor', 'middle');
-      titleYEnter.append('tspan').classed('z math-var', true);
-      titleYEnter.append('tspan').classed('name', true); //  MERGE
-
-      var titleYMerge = underlayerMerge.select('.title-y').attr('transform', "translate(".concat(-2 * this.rem, ", ").concat(height / 2, ")rotate(-90)"));
-      titleYMerge.select('tspan.z').text(this.zRoc ? 'z' : '');
-      titleYMerge.select('tspan.name').text(this.zRoc ? '(Hit Rate)' : 'Hit Rate'); // No-Information Line
-      //  ENTER
-
-      underlayerEnter.append('line').classed('diagonal', true); //  MERGE
-
-      underlayerMerge.select('.diagonal').attr('x1', this.zRoc ? xScale(-3) : xScale(0)).attr('y1', this.zRoc ? yScale(-3) : yScale(0)).attr('x2', this.zRoc ? xScale(3) : xScale(1)).attr('y2', this.zRoc ? yScale(3) : yScale(1)); // Content
-      //  ENTER
-
-      plotEnter.append('g').classed('content', true); //  MERGE
-
-      var contentMerge = plotMerge.select('.content'); // Iso-sensitivity Curve
-      //  DATA-JOIN
-
-      var isoDUpdate = contentMerge.selectAll('.curve-iso-d').data(this.isoDArray, function (datum) {
-        return datum.name;
-      }); //  ENTER
-
-      var isoDEnter = isoDUpdate.enter().append('path').classed('curve-iso-d', true).attr('clip-path', 'url(#clip-roc-space)'); //  MERGE
-
-      var isoDMerge = isoDEnter.merge(isoDUpdate);
-
-      if (this.firstUpdate || changedProperties.has('zRoc')) {
-        isoDMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
-        .ease(cubicOut).attr('d', function (datum) {
-          return line$1(range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
-            return {
-              far: _this3.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
-              hr: _this3.zRoc ? SDTMath.dFar2Hr(datum.d, SDTMath.zfar2Far(xScale.invert(x)), datum.s) : SDTMath.dFar2Hr(datum.d, xScale.invert(x), datum.s)
-            };
-          }));
-        });
-      } else if (this.sdt) {
-        isoDMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', function (datum, index, elements) {
-          var element = elements[index];
-          element.hr = undefined;
-          element.far = undefined;
-          var interpolateD = interpolate$1(element.d !== undefined ? element.d : datum.d, datum.d);
-          var interpolateS = interpolate$1(element.s !== undefined ? element.s : datum.s, datum.s);
-          return function (time) {
-            element.d = interpolateD(time);
-            element.s = interpolateS(time);
-            var isoD = range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
-              return {
-                far: _this3.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? SDTMath.dFar2Hr(element.d, SDTMath.zfar2Far(xScale.invert(x)), element.s) : SDTMath.dFar2Hr(element.d, xScale.invert(x), element.s)
-              };
-            });
-            return line$1(isoD);
-          };
-        });
-      } else {
-        isoDMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', function (datum, index, elements) {
-          var element = elements[index];
-          element.d = undefined;
-          element.s = undefined;
-          var interpolateHr = interpolate$1(element.hr !== undefined ? element.hr : datum.hr, datum.hr);
-          var interpolateFar = interpolate$1(element.far !== undefined ? element.far : datum.far, datum.far);
-          return function (time) {
-            element.hr = interpolateHr(time);
-            element.far = interpolateFar(time);
-            var isoD = range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
-              return {
-                far: _this3.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? SDTMath.dFar2Hr(SDTMath.hrFar2D(element.hr, element.far, datum.s), SDTMath.zfar2Far(xScale.invert(x)), datum.s) : SDTMath.dFar2Hr(SDTMath.hrFar2D(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
-              };
-            });
-            return line$1(isoD);
-          };
-        });
-      } //  EXIT
-      // NOTE: Could add a transition here
-
-
-      isoDUpdate.exit().remove(); // Iso-bias Curve
-      //  DATA-JOIN
-
-      var isoCUpdate = contentMerge.selectAll('.curve-iso-c').data(this.isoCArray, function (datum) {
-        return datum.name;
-      }); //  ENTER
-
-      var isoCEnter = isoCUpdate.enter().append('path').classed('curve-iso-c', true).attr('clip-path', 'url(#clip-roc-space)'); //  MERGE
-
-      var isoCMerge = isoCEnter.merge(isoCUpdate);
-
-      if (this.firstUpdate || changedProperties.has('zRoc')) {
-        isoCMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
-        .ease(cubicOut).attr('d', function (datum) {
-          return line$1(range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
-            return {
-              far: _this3.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
-              hr: _this3.zRoc ? SDTMath.cFar2Hr(datum.c, SDTMath.zfar2Far(xScale.invert(x)), datum.s) : SDTMath.cFar2Hr(datum.c, xScale.invert(x), datum.s)
-            };
-          }));
-        });
-      } else if (this.sdt) {
-        isoCMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', function (datum, index, elements) {
-          var element = elements[index];
-          element.hr = undefined;
-          element.far = undefined;
-          var interpolateC = interpolate$1(element.c !== undefined ? element.c : datum.c, datum.c);
-          var interpolateS = interpolate$1(element.s !== undefined ? element.s : datum.s, datum.s);
-          return function (time) {
-            element.c = interpolateC(time);
-            element.s = interpolateS(time);
-            var isoC = range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
-              return {
-                far: _this3.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? SDTMath.cFar2Hr(element.c, SDTMath.zfar2Far(xScale.invert(x)), element.s) : SDTMath.cFar2Hr(element.c, xScale.invert(x), element.s)
-              };
-            });
-            return line$1(isoC);
-          };
-        });
-      } else {
-        isoCMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', function (datum, index, elements) {
-          var element = elements[index];
-          element.c = undefined;
-          element.s = undefined;
-          var interpolateHr = interpolate$1(element.hr !== undefined ? element.hr : datum.hr, datum.hr);
-          var interpolateFar = interpolate$1(element.far !== undefined ? element.far : datum.far, datum.far);
-          return function (time) {
-            element.hr = interpolateHr(time);
-            element.far = interpolateFar(time);
-            var isoC = range(xScale.range()[0], xScale.range()[1] + 1, 1).map(function (x) {
-              return {
-                far: _this3.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
-                hr: _this3.zRoc ? SDTMath.cFar2Hr(SDTMath.hrFar2C(element.hr, element.far, datum.s), SDTMath.zfar2Far(xScale.invert(x)), datum.s) : SDTMath.cFar2Hr(SDTMath.hrFar2C(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
-              };
-            });
-            return line$1(isoC);
-          };
-        });
-      } //  EXIT
-      // NOTE: Could add a transition here
-
-
-      isoCUpdate.exit().remove(); // Point
-      //  DATA-JOIN
-
-      var pointUpdate = contentMerge.selectAll('.point').data(this.pointArray, function (datum) {
-        return datum.name;
-      }); //  ENTER
-
-      var pointEnter = pointUpdate.enter().append('g').classed('point', true);
-      pointEnter.append('circle').classed('circle', true).attr('r', 6);
-      /* HACK: Firefox does not support CSS SVG Geometry Properties */
-
-      pointEnter.append('text').classed('label', true); //  MERGE
-
-      var pointMerge = pointEnter.merge(pointUpdate);
-      pointMerge.select('text').text(function (datum) {
-        return datum.label;
-      });
-
-      if (this.firstUpdate || changedProperties.has('interactive')) {
-        if (this.interactive) {
-          pointMerge.attr('tabindex', 0).classed('interactive', true).call(drag$1).on('keydown', function (event, datum) {
-            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-              var _hr = _this3.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr;
-
-              var _far = _this3.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far;
-
-              switch (event.key) {
-                case 'ArrowUp':
-                  _hr += _this3.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
-                  break;
-
-                case 'ArrowDown':
-                  _hr -= _this3.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
-                  break;
-
-                case 'ArrowRight':
-                  _far += _this3.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
-                  break;
-
-                case 'ArrowLeft':
-                  _far -= _this3.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
-                  break;
-
-              }
-
-              _hr = _this3.zRoc ? SDTMath.zhr2Hr(_hr) : _hr;
-              _far = _this3.zRoc ? SDTMath.zfar2Far(_far) : _far; // Clamp FAR and HR to ROC Space
-
-              _hr = _hr < 0.001 ? 0.001 : _hr > 0.999 ? 0.999 : _hr;
-              _far = _far < 0.001 ? 0.001 : _far > 0.999 ? 0.999 : _far;
-
-              if (_hr !== datum.hr || _far !== datum.far) {
-                datum.hr = _hr;
-                datum.far = _far;
-
-                if (datum.name === 'default') {
-                  _this3.hr = datum.hr;
-                  _this3.far = datum.far;
-                }
-
-                _this3.alignState();
-
-                _this3.requestUpdate();
-
-                _this3.dispatchEvent(new CustomEvent('roc-point-change', {
-                  detail: {
-                    name: datum.name,
-                    far: datum.far,
-                    hr: datum.hr,
-                    d: datum.d,
-                    c: datum.c,
-                    s: datum.s,
-                    label: datum.label
-                  },
-                  bubbles: true
-                }));
-              }
-
-              event.preventDefault();
-            }
-          });
-        } else {
-          pointMerge.attr('tabindex', null).classed('interactive', false).on('drag', null).on('keydown', null);
+          /* HACK: This gets Safari to correctly apply the filter! */
+          stroke: #ff0000;
         }
-      }
 
-      if (this.firstUpdate || changedProperties.has('zRoc')) {
-        pointMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
-        .ease(cubicOut).attr('transform', function (datum, index, elements) {
-          var element = elements[index];
-          element.d = undefined;
-          element.c = undefined;
-          element.s = undefined;
-          return "translate(\n            ".concat(xScale(_this3.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far), ",\n            ").concat(yScale(_this3.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr), "\n          )");
-        });
-      } else if (this.sdt) {
-        pointMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('transform', function (datum, index, elements) {
-          var element = elements[index];
-          var interpolateD = interpolate$1(element.d !== undefined ? element.d : datum.d, datum.d);
-          var interpolateC = interpolate$1(element.c !== undefined ? element.c : datum.c, datum.c);
-          var interpolateS = interpolate$1(element.s !== undefined ? element.s : datum.s, datum.s);
-          return function (time) {
-            element.d = interpolateD(time);
-            element.c = interpolateC(time);
-            element.s = interpolateS(time);
-            return "translate(\n              ".concat(xScale(_this3.zRoc ? SDTMath.far2Zfar(SDTMath.dC2Far(element.d, element.c, element.s)) : SDTMath.dC2Far(element.d, element.c, element.s)), ",\n              ").concat(yScale(_this3.zRoc ? SDTMath.hr2Zhr(SDTMath.dC2Hr(element.d, element.c, element.s)) : SDTMath.dC2Hr(element.d, element.c, element.s)), "\n            )");
-          };
-        });
-      } else {
-        pointMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('transform', function (datum, index, elements) {
-          var element = elements[index];
-          element.d = undefined;
-          element.c = undefined;
-          element.s = undefined;
-          return "translate(\n            ".concat(xScale(_this3.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far), ",\n            ").concat(yScale(_this3.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr), "\n          )");
-        });
-      } //  EXIT
-      // NOTE: Could add a transition here
+        .point.interactive:active {
+          filter: url("#shadow-8");
 
+          /* HACK: This gets Safari to correctly apply the filter! */
+          stroke: #00ff00;
+        }
 
-      pointUpdate.exit().remove();
-      this.drag = false;
-      this.sdt = false;
-      this.firstUpdate = false;
+        :host(.keyboard) .point.interactive:focus {
+          filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          stroke: #0000ff;
+        }
+
+        .background {
+          fill: var(---color-element-background);
+          stroke: var(---color-element-border);
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+
+        .title-x,
+        .title-y,
+        .title-contour {
+          font-weight: 600;
+
+          fill: currentColor;
+        }
+
+        .tick {
+          font-size: 0.75rem;
+        }
+
+        .axis-x path,
+        .axis-x line,
+        .axis-y path,
+        .axis-y line {
+          stroke: var(---color-element-border);
+        }
+
+        .axis-contour .domain {
+          stroke: none;
+        }
+
+        .diagonal {
+          stroke: var(---color-element-border);
+          stroke-dasharray: 4;
+          stroke-width: 1;
+        }
+
+        .curve-iso-d {
+          fill: none;
+          stroke: var(---color-d);
+          stroke-width: 2;
+        }
+
+        .curve-iso-c {
+          fill: none;
+          stroke: var(---color-c);
+          stroke-width: 2;
+        }
+
+        .point .circle {
+          fill: var(---color-element-emphasis);
+
+          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */
+        }
+
+        .point .label {
+          font-size: 0.75rem;
+
+          dominant-baseline: middle;
+          text-anchor: middle;
+
+          fill: var(---color-text-inverse);
+        }
+      `))];
+  }
+
+  render() {
+    // eslint-disable-line class-methods-use-this
+    return $(_t2$c || (_t2$c = _$d`
+      ${0}
+    `), DetectableElement.svgFilters);
+  }
+
+  getDimensions() {
+    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
+    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
+    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10); // console.log(`roc-space: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this.getDimensions.bind(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('resize', this.getDimensions.bind(this));
+    super.disconnectedCallback();
+  }
+
+  firstUpdated(changedProperties) {
+    super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
+    // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
+
+    window.setTimeout(this.getDimensions.bind(this), 0);
+  }
+
+  update(changedProperties) {
+    super.update(changedProperties);
+    this.alignState(); // Bail out if we can't get the width/height/rem
+
+    if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
+      return;
     }
-  }], [{
-    key: "properties",
-    get: function get() {
+
+    const elementWidth = this.width;
+    const elementHeight = this.height;
+    const elementSize = Math.min(elementWidth, elementHeight);
+    const margin = {
+      top: 2 * this.rem,
+      bottom: 3 * this.rem,
+      left: 3 * this.rem,
+      right: 2 * this.rem
+    };
+    const height = elementSize - (margin.top + margin.bottom);
+    const width = elementSize - (margin.left + margin.right);
+    const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10); // X Scale
+
+    const xScale = linear().domain(this.zRoc ? [-3, 3] : [0, 1]) // zFAR or FAR
+    .range([0, width]);
+    this.xScale = xScale; // Y Scale
+
+    const yScale = linear().domain(this.zRoc ? [3, -3] : [1, 0]) // zHR or HR
+    .range([0, height]);
+    this.yScale = yScale; // Drag behavior
+
+    const drag$1 = drag().subject((event, datum) => {
       return {
-        contour: {
-          attribute: 'contour',
-          type: String,
-          reflect: true
-        },
-        point: {
-          attribute: 'point',
-          type: String,
-          reflect: true
-        },
-        isoD: {
-          attribute: 'iso-d',
-          type: String,
-          reflect: true
-        },
-        isoC: {
-          attribute: 'iso-c',
-          type: String,
-          reflect: true
-        },
-        zRoc: {
-          attribute: 'z-roc',
-          type: Boolean,
-          reflect: true
-        },
-        far: {
-          attribute: 'far',
-          type: Number,
-          reflect: true
-        },
-        hr: {
-          attribute: 'hr',
-          type: Number,
-          reflect: true
-        },
-        d: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        c: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        s: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        width: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        height: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        rem: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        }
+        x: this.xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far),
+        y: this.yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr)
       };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(ROCSpace), "styles", this), r$2(_templateObject2$c || (_templateObject2$c = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n\n          width: 20rem;\n          height: 20rem;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        .plot-contour,\n        .legend-contour .contour {\n          stroke: var(---color-background);\n          stroke-width: 0.5;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .point.interactive {\n          cursor: move;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */\n          stroke: #000000;\n          stroke-opacity: 0;\n          stroke-width: 0;\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .point.interactive .circle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .point.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          stroke: #ff0000;\n        }\n\n        .point.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          stroke: #00ff00;\n        }\n\n        :host(.keyboard) .point.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          stroke: #0000ff;\n        }\n\n        .background {\n          fill: var(---color-element-background);\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-contour {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line {\n          stroke: var(---color-element-border);\n        }\n\n        .axis-contour .domain {\n          stroke: none;\n        }\n\n        .diagonal {\n          stroke: var(---color-element-border);\n          stroke-dasharray: 4;\n          stroke-width: 1;\n        }\n\n        .curve-iso-d {\n          fill: none;\n          stroke: var(---color-d);\n          stroke-width: 2;\n        }\n\n        .curve-iso-c {\n          fill: none;\n          stroke: var(---color-c);\n          stroke-width: 2;\n        }\n\n        .point .circle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        .point .label {\n          font-size: 0.75rem;\n\n          dominant-baseline: middle;\n          text-anchor: middle;\n\n          fill: var(---color-text-inverse);\n        }\n      "])))];
-    }
-  }]);
+    }).on('start', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', true);
+    }).on('drag', (event, datum) => {
+      this.drag = true;
+      const far = this.zRoc ? SDTMath.zfar2Far(this.xScale.invert(event.x)) : this.xScale.invert(event.x);
+      const hr = this.zRoc ? SDTMath.zhr2Hr(this.yScale.invert(event.y)) : this.yScale.invert(event.y); // Clamp FAR and HR to ROC Space
 
-  return ROCSpace;
-}(DetectableElement);
+      datum.far = far < 0.001 ? 0.001 : far > 0.999 ? 0.999 : far;
+      datum.hr = hr <= 0.001 ? 0.001 : hr >= 0.999 ? 0.999 : hr; // console.log(`roc-space.drag: far = ${datum.far}, hr = ${datum.hr}`);
+
+      if (datum.name === 'default') {
+        this.far = datum.far;
+        this.hr = datum.hr;
+      }
+
+      this.alignState();
+      this.requestUpdate();
+      this.dispatchEvent(new CustomEvent('roc-point-change', {
+        detail: {
+          name: datum.name,
+          far: datum.far,
+          hr: datum.hr,
+          d: datum.d,
+          c: datum.c,
+          s: datum.s,
+          label: datum.label
+        },
+        bubbles: true
+      }));
+    }).on('end', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', false);
+    }); // Line for FAR/HR Space
+
+    const line$1 = line().x(datum => {
+      return xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far);
+    }).y(datum => {
+      return yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr);
+    }); // Svg
+    //  DATA-JOIN
+
+    const svgUpdate = select(this.renderRoot).selectAll('.main').data([{
+      width: this.width,
+      height: this.height,
+      rem: this.rem
+    }]); //  ENTER
+
+    const svgEnter = svgUpdate.enter().append('svg').classed('main', true); //  MERGE
+
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementSize} ${elementSize}`); // Plot
+    //  ENTER
+
+    const plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
+
+    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`); // Clippath
+    //  ENTER
+
+    plotEnter.append('clipPath').attr('id', 'clip-roc-space').append('rect'); //  MERGE
+
+    plotMerge.select('clipPath rect').attr('height', height + 1).attr('width', width + 1); // Underlayer
+    //  ENTER
+
+    const underlayerEnter = plotEnter.append('g').classed('underlayer', true); // MERGE
+
+    const underlayerMerge = plotMerge.select('.underlayer'); // Background
+    //  ENTER
+
+    underlayerEnter.append('rect').classed('background', true); //  MERGE
+
+    underlayerMerge.select('.background').attr('height', height).attr('width', width); // Contour Plotting
+    //  Handles: Bias, Sensitivity, & Accuracy
+
+    if (this.firstUpdate || changedProperties.has('contour') || changedProperties.has('zRoc') || changedProperties.has('width') || changedProperties.has('height') || changedProperties.has('rem') || changedProperties.has('s')) {
+      if (this.contour !== undefined) {
+        // Contour Plot
+        const n = 100; // Resolution
+
+        const contourValues = [];
+
+        for (let j = 0.5, k = 0; j < n; j += 1) {
+          for (let i = 0.5; i < n; i += 1, k += 1) {
+            const hr = this.zRoc ? SDTMath.zhr2Hr(i / n * 6 - 3) : i / n;
+            const far = this.zRoc ? SDTMath.zfar2Far((1 - j / n) * 6 - 3) : 1 - j / n;
+            contourValues[k] = this.contour === 'bias' ? SDTMath.hrFar2C(hr, far, this.s) : this.contour === 'sensitivity' ? SDTMath.hrFar2D(hr, far, this.s) : this.contour === 'accuracy' ? SDTMath.hrFar2Acc(hr, far) : null;
+          }
+        }
+
+        const contourThresholds = this.contour === 'bias' ? range(-3, 3, 0.25) : this.contour === 'sensitivity' ? range(-6, 6, 0.5) : this.contour === 'accuracy' ? range(0, 1, 0.05) : null;
+        const contours$1 = contours().size([n, n]).thresholds(contourThresholds);
+        const contourColorStart = this.getComputedStyleValue(this.contour === 'bias' ? '---color-element-background' : this.contour === 'sensitivity' ? '---color-d' : this.contour === 'accuracy' ? '---color-acc-dark' : null);
+        const contourColorEnd = this.getComputedStyleValue(this.contour === 'bias' ? '---color-c' : this.contour === 'sensitivity' ? '---color-element-background' : this.contour === 'accuracy' ? '---color-element-background' : null);
+        const contourColor = linear().domain(extent(contourThresholds)).interpolate(() => {
+          return interpolateRgb(contourColorStart, contourColorEnd);
+        }); //  DATA-JOIN
+
+        const contourPlotUpdate = underlayerMerge.selectAll('.plot-contour').data([this.contour]); //  ENTER
+
+        const contourPlotEnter = contourPlotUpdate.enter().append('g').classed('plot-contour', true); //  MERGE
+
+        const contourPlotMerge = contourPlotEnter.merge(contourPlotUpdate); // Contour Plot Contours
+        //  DATA-JOIN
+
+        const contoursUpdate = contourPlotMerge.selectAll('.contour').data(contours$1(contourValues)); //  ENTER
+
+        const contoursEnter = contoursUpdate.enter().append('path').classed('contour', true); //  MERGE
+
+        contoursEnter.merge(contoursUpdate).transition().duration(transitionDuration * 2) // Extra long transition!
+        .ease(cubicOut).attr('d', index(identity$1().scale(width / n))) // ????
+        .attr('fill', datum => {
+          return contourColor(datum.value);
+        }); //  EXIT
+
+        contoursUpdate.exit().remove(); // Contour Title
+        //  DATA-JOIN
+
+        const contourTitleUpdate = underlayerMerge.selectAll('.title-contour').data([this.contour]); //  ENTER
+
+        const contourTitleEnter = contourTitleUpdate.enter().append('text').classed('title-contour', true).attr('text-anchor', 'middle'); //  MERGE
+
+        contourTitleEnter.merge(contourTitleUpdate).classed('math-var', this.contour === 'bias' || this.contour === 'sensitivity').attr('transform', this.contour === 'bias' ? `translate(${width + 1.25 * this.rem}, ${this.rem})` : this.contour === 'sensitivity' ? `translate(${width + 1.25 * this.rem}, ${this.rem})` : this.contour === 'accuracy' ? `translate(${width + 1.125 * this.rem}, ${this.rem})` : null).text(this.contour === 'bias' ? 'c' : this.contour === 'sensitivity' ? 'd′' : this.contour === 'accuracy' ? 'Acc' : null); // Contour Legend
+
+        const l = 100;
+        const contourLegendValues = []; // new Array(4 * l);
+
+        for (let i = 0.5, k = 0; i < l; i += 1, k += 4) {
+          contourLegendValues[k] = this.contour === 'bias' ? -(i / n * 6 - 3) : this.contour === 'sensitivity' ? i / n * 12 - 6 : this.contour === 'accuracy' ? i / n : null;
+          contourLegendValues[k + 1] = contourLegendValues[k];
+          contourLegendValues[k + 2] = contourLegendValues[k];
+          contourLegendValues[k + 3] = contourLegendValues[k];
+        }
+
+        const legendContours = contours().size([4, l]).thresholds(contourThresholds);
+        const legendScale = linear().domain(this.contour === 'bias' ? [3, -3] : this.contour === 'sensitivity' ? [6, -6] : this.contour === 'accuracy' ? [1, 0] : null).range([0, 10 * this.rem]); //  DATA-JOIN
+
+        const contourLegendUpdate = underlayerMerge.selectAll('.legend-contour').data([this.contour]); //  ENTER
+
+        const contourLegendEnter = contourLegendUpdate.enter().append('g').classed('legend-contour', true); //  MERGE
+
+        const contourLegendMerge = contourLegendEnter.merge(contourLegendUpdate).attr('transform', this.contour === 'bias' ? `translate(${width + 1.25 * this.rem}, ${1.5 * this.rem})` : this.contour === 'sensitivity' ? `translate(${width + 1.25 * this.rem}, ${1.5 * this.rem})` : this.contour === 'accuracy' ? `translate(${width + 1.5 * this.rem}, ${1.5 * this.rem})` : null); //  EXIT
+
+        contourLegendUpdate.exit().remove(); // Contour Legend Axis
+        //  ENTER
+
+        contourLegendEnter.append('g').classed('axis-contour', true); //  MERGE
+
+        contourLegendMerge.select('.axis-contour').call(axisLeft(legendScale).ticks(7).tickSize(0)).attr('font-size', null).attr('font-family', null); // Contour Legend Contours
+        //  DATA-JOIN
+
+        const legendContoursUpdate = contourLegendMerge.selectAll('.contour').data(legendContours(contourLegendValues)); //  ENTER
+
+        const legendContoursEnter = legendContoursUpdate.enter().append('path').classed('contour', true); //  MERGE
+
+        legendContoursEnter.merge(legendContoursUpdate).attr('d', index(identity$1().scale(10 * this.rem / l))) // ????
+        .attr('fill', datum => {
+          return contourColor(datum.value);
+        }); //  EXIT
+
+        legendContoursUpdate.exit().remove();
+      } else {
+        // Contour Plot
+        //  DATA-JOIN
+        const contourPlotUpdate = underlayerMerge.selectAll('.plot-contour').data([]); //  EXIT
+
+        contourPlotUpdate.exit().remove(); // Contour Title
+        //  DATA-JOIN
+
+        const contourTitleUpdate = underlayerMerge.selectAll('.title-contour').data([]); //  EXIT
+
+        contourTitleUpdate.exit().remove(); // Contour Legend
+        //  DATA-JOIN
+
+        const contourLegendUpdate = underlayerMerge.selectAll('.legend-contour').data([]); //  EXIT
+
+        contourLegendUpdate.exit().remove();
+      }
+    } // X Axis
+    //  ENTER
+
+
+    underlayerEnter.append('g').classed('axis-x', true); //  MERGE
+
+    const axisXMerge = underlayerMerge.select('.axis-x').attr('transform', `translate(0, ${height})`);
+    const axisXTransition = axisXMerge.transition().duration(transitionDuration * 2) // Extra long transition!
+    .ease(cubicOut).call(axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
+    axisXTransition.selectAll('line, path').attr('stroke', null); // X Axis Title
+    //  ENTER
+
+    const titleXEnter = underlayerEnter.append('text').classed('title-x', true).attr('text-anchor', 'middle');
+    titleXEnter.append('tspan').classed('z math-var', true);
+    titleXEnter.append('tspan').classed('name', true); //  MERGE
+
+    const titleXMerge = underlayerMerge.select('.title-x').attr('transform', `translate(${width / 2}, ${height + 2.25 * this.rem})`);
+    titleXMerge.select('tspan.z').text(this.zRoc ? 'z' : '');
+    titleXMerge.select('tspan.name').text(this.zRoc ? '(False Alarm Rate)' : 'False Alarm Rate'); // Y Axis
+    //  ENTER
+
+    underlayerEnter.append('g').classed('axis-y', true); // MERGE
+
+    const axisYTransition = underlayerMerge.select('.axis-y').transition().duration(transitionDuration * 2) // Extra long transition!
+    .ease(cubicOut).call(axisLeft(yScale)).attr('font-size', null).attr('font-family', null);
+    axisYTransition.selectAll('line, path').attr('stroke', null); // Y Axis Title
+    //  ENTER
+
+    const titleYEnter = underlayerEnter.append('text').classed('title-y', true).attr('text-anchor', 'middle');
+    titleYEnter.append('tspan').classed('z math-var', true);
+    titleYEnter.append('tspan').classed('name', true); //  MERGE
+
+    const titleYMerge = underlayerMerge.select('.title-y').attr('transform', `translate(${-2 * this.rem}, ${height / 2})rotate(-90)`);
+    titleYMerge.select('tspan.z').text(this.zRoc ? 'z' : '');
+    titleYMerge.select('tspan.name').text(this.zRoc ? '(Hit Rate)' : 'Hit Rate'); // No-Information Line
+    //  ENTER
+
+    underlayerEnter.append('line').classed('diagonal', true); //  MERGE
+
+    underlayerMerge.select('.diagonal').attr('x1', this.zRoc ? xScale(-3) : xScale(0)).attr('y1', this.zRoc ? yScale(-3) : yScale(0)).attr('x2', this.zRoc ? xScale(3) : xScale(1)).attr('y2', this.zRoc ? yScale(3) : yScale(1)); // Content
+    //  ENTER
+
+    plotEnter.append('g').classed('content', true); //  MERGE
+
+    const contentMerge = plotMerge.select('.content'); // Iso-sensitivity Curve
+    //  DATA-JOIN
+
+    const isoDUpdate = contentMerge.selectAll('.curve-iso-d').data(this.isoDArray, datum => {
+      return datum.name;
+    }); //  ENTER
+
+    const isoDEnter = isoDUpdate.enter().append('path').classed('curve-iso-d', true).attr('clip-path', 'url(#clip-roc-space)'); //  MERGE
+
+    const isoDMerge = isoDEnter.merge(isoDUpdate);
+
+    if (this.firstUpdate || changedProperties.has('zRoc')) {
+      isoDMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
+      .ease(cubicOut).attr('d', datum => {
+        return line$1(range(xScale.range()[0], xScale.range()[1] + 1, 1).map(x => {
+          return {
+            far: this.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
+            hr: this.zRoc ? SDTMath.dFar2Hr(datum.d, SDTMath.zfar2Far(xScale.invert(x)), datum.s) : SDTMath.dFar2Hr(datum.d, xScale.invert(x), datum.s)
+          };
+        }));
+      });
+    } else if (this.sdt) {
+      isoDMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        element.hr = undefined;
+        element.far = undefined;
+        const interpolateD = interpolate$1(element.d !== undefined ? element.d : datum.d, datum.d);
+        const interpolateS = interpolate$1(element.s !== undefined ? element.s : datum.s, datum.s);
+        return time => {
+          element.d = interpolateD(time);
+          element.s = interpolateS(time);
+          const isoD = range(xScale.range()[0], xScale.range()[1] + 1, 1).map(x => {
+            return {
+              far: this.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
+              hr: this.zRoc ? SDTMath.dFar2Hr(element.d, SDTMath.zfar2Far(xScale.invert(x)), element.s) : SDTMath.dFar2Hr(element.d, xScale.invert(x), element.s)
+            };
+          });
+          return line$1(isoD);
+        };
+      });
+    } else {
+      isoDMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        element.d = undefined;
+        element.s = undefined;
+        const interpolateHr = interpolate$1(element.hr !== undefined ? element.hr : datum.hr, datum.hr);
+        const interpolateFar = interpolate$1(element.far !== undefined ? element.far : datum.far, datum.far);
+        return time => {
+          element.hr = interpolateHr(time);
+          element.far = interpolateFar(time);
+          const isoD = range(xScale.range()[0], xScale.range()[1] + 1, 1).map(x => {
+            return {
+              far: this.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
+              hr: this.zRoc ? SDTMath.dFar2Hr(SDTMath.hrFar2D(element.hr, element.far, datum.s), SDTMath.zfar2Far(xScale.invert(x)), datum.s) : SDTMath.dFar2Hr(SDTMath.hrFar2D(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
+            };
+          });
+          return line$1(isoD);
+        };
+      });
+    } //  EXIT
+    // NOTE: Could add a transition here
+
+
+    isoDUpdate.exit().remove(); // Iso-bias Curve
+    //  DATA-JOIN
+
+    const isoCUpdate = contentMerge.selectAll('.curve-iso-c').data(this.isoCArray, datum => {
+      return datum.name;
+    }); //  ENTER
+
+    const isoCEnter = isoCUpdate.enter().append('path').classed('curve-iso-c', true).attr('clip-path', 'url(#clip-roc-space)'); //  MERGE
+
+    const isoCMerge = isoCEnter.merge(isoCUpdate);
+
+    if (this.firstUpdate || changedProperties.has('zRoc')) {
+      isoCMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
+      .ease(cubicOut).attr('d', datum => {
+        return line$1(range(xScale.range()[0], xScale.range()[1] + 1, 1).map(x => {
+          return {
+            far: this.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
+            hr: this.zRoc ? SDTMath.cFar2Hr(datum.c, SDTMath.zfar2Far(xScale.invert(x)), datum.s) : SDTMath.cFar2Hr(datum.c, xScale.invert(x), datum.s)
+          };
+        }));
+      });
+    } else if (this.sdt) {
+      isoCMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        element.hr = undefined;
+        element.far = undefined;
+        const interpolateC = interpolate$1(element.c !== undefined ? element.c : datum.c, datum.c);
+        const interpolateS = interpolate$1(element.s !== undefined ? element.s : datum.s, datum.s);
+        return time => {
+          element.c = interpolateC(time);
+          element.s = interpolateS(time);
+          const isoC = range(xScale.range()[0], xScale.range()[1] + 1, 1).map(x => {
+            return {
+              far: this.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
+              hr: this.zRoc ? SDTMath.cFar2Hr(element.c, SDTMath.zfar2Far(xScale.invert(x)), element.s) : SDTMath.cFar2Hr(element.c, xScale.invert(x), element.s)
+            };
+          });
+          return line$1(isoC);
+        };
+      });
+    } else {
+      isoCMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        element.c = undefined;
+        element.s = undefined;
+        const interpolateHr = interpolate$1(element.hr !== undefined ? element.hr : datum.hr, datum.hr);
+        const interpolateFar = interpolate$1(element.far !== undefined ? element.far : datum.far, datum.far);
+        return time => {
+          element.hr = interpolateHr(time);
+          element.far = interpolateFar(time);
+          const isoC = range(xScale.range()[0], xScale.range()[1] + 1, 1).map(x => {
+            return {
+              far: this.zRoc ? SDTMath.zfar2Far(xScale.invert(x)) : xScale.invert(x),
+              hr: this.zRoc ? SDTMath.cFar2Hr(SDTMath.hrFar2C(element.hr, element.far, datum.s), SDTMath.zfar2Far(xScale.invert(x)), datum.s) : SDTMath.cFar2Hr(SDTMath.hrFar2C(element.hr, element.far, datum.s), xScale.invert(x), datum.s)
+            };
+          });
+          return line$1(isoC);
+        };
+      });
+    } //  EXIT
+    // NOTE: Could add a transition here
+
+
+    isoCUpdate.exit().remove(); // Point
+    //  DATA-JOIN
+
+    const pointUpdate = contentMerge.selectAll('.point').data(this.pointArray, datum => {
+      return datum.name;
+    }); //  ENTER
+
+    const pointEnter = pointUpdate.enter().append('g').classed('point', true);
+    pointEnter.append('circle').classed('circle', true).attr('r', 6);
+    /* HACK: Firefox does not support CSS SVG Geometry Properties */
+
+    pointEnter.append('text').classed('label', true); //  MERGE
+
+    const pointMerge = pointEnter.merge(pointUpdate);
+    pointMerge.select('text').text(datum => {
+      return datum.label;
+    });
+
+    if (this.firstUpdate || changedProperties.has('interactive')) {
+      if (this.interactive) {
+        pointMerge.attr('tabindex', 0).classed('interactive', true).call(drag$1).on('keydown', (event, datum) => {
+          if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
+            let hr = this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr;
+            let far = this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far;
+
+            switch (event.key) {
+              case 'ArrowUp':
+                hr += this.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
+                break;
+
+              case 'ArrowDown':
+                hr -= this.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
+                break;
+
+              case 'ArrowRight':
+                far += this.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
+                break;
+
+              case 'ArrowLeft':
+                far -= this.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
+                break;
+
+            }
+
+            hr = this.zRoc ? SDTMath.zhr2Hr(hr) : hr;
+            far = this.zRoc ? SDTMath.zfar2Far(far) : far; // Clamp FAR and HR to ROC Space
+
+            hr = hr < 0.001 ? 0.001 : hr > 0.999 ? 0.999 : hr;
+            far = far < 0.001 ? 0.001 : far > 0.999 ? 0.999 : far;
+
+            if (hr !== datum.hr || far !== datum.far) {
+              datum.hr = hr;
+              datum.far = far;
+
+              if (datum.name === 'default') {
+                this.hr = datum.hr;
+                this.far = datum.far;
+              }
+
+              this.alignState();
+              this.requestUpdate();
+              this.dispatchEvent(new CustomEvent('roc-point-change', {
+                detail: {
+                  name: datum.name,
+                  far: datum.far,
+                  hr: datum.hr,
+                  d: datum.d,
+                  c: datum.c,
+                  s: datum.s,
+                  label: datum.label
+                },
+                bubbles: true
+              }));
+            }
+
+            event.preventDefault();
+          }
+        });
+      } else {
+        pointMerge.attr('tabindex', null).classed('interactive', false).on('drag', null).on('keydown', null);
+      }
+    }
+
+    if (this.firstUpdate || changedProperties.has('zRoc')) {
+      pointMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
+      .ease(cubicOut).attr('transform', (datum, index, elements) => {
+        const element = elements[index];
+        element.d = undefined;
+        element.c = undefined;
+        element.s = undefined;
+        return `translate(
+            ${xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far)},
+            ${yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr)}
+          )`;
+      });
+    } else if (this.sdt) {
+      pointMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('transform', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateD = interpolate$1(element.d !== undefined ? element.d : datum.d, datum.d);
+        const interpolateC = interpolate$1(element.c !== undefined ? element.c : datum.c, datum.c);
+        const interpolateS = interpolate$1(element.s !== undefined ? element.s : datum.s, datum.s);
+        return time => {
+          element.d = interpolateD(time);
+          element.c = interpolateC(time);
+          element.s = interpolateS(time);
+          return `translate(
+              ${xScale(this.zRoc ? SDTMath.far2Zfar(SDTMath.dC2Far(element.d, element.c, element.s)) : SDTMath.dC2Far(element.d, element.c, element.s))},
+              ${yScale(this.zRoc ? SDTMath.hr2Zhr(SDTMath.dC2Hr(element.d, element.c, element.s)) : SDTMath.dC2Hr(element.d, element.c, element.s))}
+            )`;
+        };
+      });
+    } else {
+      pointMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('transform', (datum, index, elements) => {
+        const element = elements[index];
+        element.d = undefined;
+        element.c = undefined;
+        element.s = undefined;
+        return `translate(
+            ${xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far)},
+            ${yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr)}
+          )`;
+      });
+    } //  EXIT
+    // NOTE: Could add a transition here
+
+
+    pointUpdate.exit().remove();
+    this.drag = false;
+    this.sdt = false;
+    this.firstUpdate = false;
+  }
+
+}
 customElements.define('roc-space', ROCSpace);
 
-var _templateObject$c, _templateObject2$b, _templateObject3$9, _templateObject4$9, _templateObject5$9, _templateObject6$9, _templateObject7$9, _templateObject8$7, _templateObject9$7, _templateObject10$7, _templateObject11$7, _templateObject12$2, _templateObject13$2, _templateObject14$2, _templateObject15$2, _templateObject16$2, _templateObject17$2, _templateObject18$2, _templateObject19$2, _templateObject20$2, _templateObject21$1, _templateObject22$1;
+let _$c = t => t,
+    _t$c,
+    _t2$b,
+    _t3$9,
+    _t4$9,
+    _t5$9,
+    _t6$9,
+    _t7$9,
+    _t8$7,
+    _t9$7,
+    _t10$7,
+    _t11$7,
+    _t12$2,
+    _t13$2,
+    _t14$2,
+    _t15$2,
+    _t16$2,
+    _t17$2,
+    _t18$2,
+    _t19$2,
+    _t20$2,
+    _t21$1,
+    _t22$1;
 /*
   DetectableControl element
   <detectable-control>
@@ -14579,205 +14185,238 @@ var _templateObject$c, _templateObject2$b, _templateObject3$9, _templateObject4$
 
 */
 
-var DetectableControl = /*#__PURE__*/function (_DetectableElement) {
-  _inherits(DetectableControl, _DetectableElement);
-
-  var _super = _createSuper(DetectableControl);
-
-  function DetectableControl() {
-    var _this;
-
-    _classCallCheck(this, DetectableControl);
-
-    _this = _super.call(this); // Attributes
-
-    _this.trials = undefined;
-    _this.duration = undefined;
-    _this.coherence = undefined;
-    _this.payoff = undefined;
-    _this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
-    _this.color = undefined;
-    _this.zRoc = undefined;
-    _this.run = false;
-    _this.pause = false;
-    _this.reset = false; // Properties
-
-    _this.states = ['resetted', 'running', 'paused', 'ended'];
-    _this.state = 'resetted';
-    return _this;
+class DetectableControl extends DetectableElement {
+  static get properties() {
+    return {
+      trials: {
+        attribute: 'trials',
+        type: Number,
+        reflect: true
+      },
+      duration: {
+        attribute: 'duration',
+        type: Number,
+        reflect: true
+      },
+      coherence: {
+        attribute: 'coherence',
+        type: Number,
+        reflect: true
+      },
+      payoff: {
+        attribute: 'payoff',
+        type: Number,
+        reflect: true
+      },
+      color: {
+        attribute: 'color',
+        type: String,
+        reflect: true
+      },
+      zRoc: {
+        attribute: 'z-roc',
+        type: Boolean,
+        reflect: true
+      },
+      run: {
+        attribute: 'run',
+        type: Boolean,
+        reflect: true
+      },
+      pause: {
+        attribute: 'pause',
+        type: Boolean,
+        reflect: true
+      },
+      reset: {
+        attribute: 'reset',
+        type: Boolean,
+        reflect: true
+      },
+      state: {
+        atribute: false,
+        type: String,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(DetectableControl, [{
-    key: "setTrials",
-    value: function setTrials(e) {
-      this.trials = e.target.value;
-      this.dispatchEvent(new CustomEvent('detectable-control-trials', {
-        detail: {
-          trials: this.trials
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "setDuration",
-    value: function setDuration(e) {
-      this.duration = e.target.value;
-      this.dispatchEvent(new CustomEvent('detectable-control-duration', {
-        detail: {
-          duration: this.duration
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "setCoherence",
-    value: function setCoherence(e) {
-      this.coherence = e.target.value;
-      this.dispatchEvent(new CustomEvent('detectable-control-coherence', {
-        detail: {
-          coherence: this.coherence
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "setPayoff",
-    value: function setPayoff(e) {
-      this.payoff = e.target.value;
-      this.dispatchEvent(new CustomEvent('detectable-control-payoff', {
-        detail: {
-          payoff: this.payoff
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "chooseColor",
-    value: function chooseColor(e) {
-      this.color = e.target.value;
-      this.dispatchEvent(new CustomEvent('detectable-control-color', {
-        detail: {
-          color: this.color
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "flipZRoc",
-    value: function flipZRoc(e) {
-      this.zRoc = e.target.checked;
-      this.dispatchEvent(new CustomEvent('detectable-control-z-roc', {
-        detail: {
-          zRoc: this.zRoc
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "doRun",
-    value: function doRun() {
-      this.state = 'running';
-      this.dispatchEvent(new CustomEvent('detectable-control-run', {
-        detail: {},
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "doPause",
-    value: function doPause() {
-      this.state = 'paused';
-      this.dispatchEvent(new CustomEvent('detectable-control-pause', {
-        detail: {},
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "doReset",
-    value: function doReset() {
-      this.state = 'resetted';
-      this.dispatchEvent(new CustomEvent('detectable-control-reset', {
-        detail: {},
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "complete",
-    value: function complete() {
-      this.state = 'ended';
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return $(_templateObject$c || (_templateObject$c = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n      </div>"])), this.trials ? $(_templateObject2$b || (_templateObject2$b = _taggedTemplateLiteral(["<decidables-slider min=\"1\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Trials</decidables-slider>"])), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : $(_templateObject3$9 || (_templateObject3$9 = _taggedTemplateLiteral([""]))), this.duration ? $(_templateObject4$9 || (_templateObject4$9 = _taggedTemplateLiteral(["<decidables-slider min=\"10\" max=\"2000\" step=\"10\" .value=", " @change=", " @input=", ">Duration</decidables-slider>"])), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : $(_templateObject5$9 || (_templateObject5$9 = _taggedTemplateLiteral([""]))), this.coherence ? $(_templateObject6$9 || (_templateObject6$9 = _taggedTemplateLiteral(["<decidables-slider min=\"0\" max=\"1\" step=\".01\" .value=", " @change=", " @input=", ">Coherence</decidables-slider>"])), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : $(_templateObject7$9 || (_templateObject7$9 = _taggedTemplateLiteral([""]))), this.payoff ? $(_templateObject8$7 || (_templateObject8$7 = _taggedTemplateLiteral(["<decidables-slider class=\"payoff\" min=\"0\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Payoff</decidables-slider>"])), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : $(_templateObject9$7 || (_templateObject9$7 = _taggedTemplateLiteral([""]))), this.color !== undefined ? $(_templateObject10$7 || (_templateObject10$7 = _taggedTemplateLiteral(["\n            <decidables-toggle @change=", ">\n              <span slot=\"label\">Emphasis</span>\n              <decidables-toggle-option name=", " value=\"none\" ?checked=", ">None</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"accuracy\" ?checked=", ">Accuracy</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"stimulus\" ?checked=", ">Stimulus</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"response\" ?checked=", ">Response</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"outcome\" ?checked=", ">Outcome</decidables-toggle-option>\n            </decidables-toggle>\n          "])), this.chooseColor.bind(this), "".concat(this.uniqueId, "-color"), this.color === 'none', "".concat(this.uniqueId, "-color"), this.color === 'accuracy', "".concat(this.uniqueId, "-color"), this.color === 'stimulus', "".concat(this.uniqueId, "-color"), this.color === 'response', "".concat(this.uniqueId, "-color"), this.color === 'outcome') : $(_templateObject11$7 || (_templateObject11$7 = _taggedTemplateLiteral([""]))), this.zRoc !== undefined ? $(_templateObject12$2 || (_templateObject12$2 = _taggedTemplateLiteral(["\n            <decidables-switch ?checked=", " @change=", ">\n              <span class=\"math-var\">z</span>ROC\n              <span slot=\"off-label\">ROC</span>\n            </decidables-switch>\n          "])), this.zRoc, this.flipZRoc.bind(this)) : $(_templateObject13$2 || (_templateObject13$2 = _taggedTemplateLiteral([""]))), this.run || this.pause || this.reset ? $(_templateObject14$2 || (_templateObject14$2 = _taggedTemplateLiteral(["\n            <div class=\"buttons\">\n              ", "\n              ", "\n              ", "\n            </div>\n          "])), this.run ? $(_templateObject15$2 || (_templateObject15$2 = _taggedTemplateLiteral(["<decidables-button name=\"run\" ?disabled=", " @click=", ">Run</decidables-button>"])), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : $(_templateObject16$2 || (_templateObject16$2 = _taggedTemplateLiteral([""]))), this.pause ? $(_templateObject17$2 || (_templateObject17$2 = _taggedTemplateLiteral(["<decidables-button name=\"pause\" ?disabled=", " @click=", ">Pause</decidables-button>"])), this.state !== 'running', this.doPause.bind(this)) : $(_templateObject18$2 || (_templateObject18$2 = _taggedTemplateLiteral([""]))), this.reset ? $(_templateObject19$2 || (_templateObject19$2 = _taggedTemplateLiteral(["<decidables-button name=\"reset\" ?disabled=", " @click=", ">Reset</decidables-button>"])), this.state === 'resetted', this.doReset.bind(this)) : $(_templateObject20$2 || (_templateObject20$2 = _taggedTemplateLiteral([""])))) : $(_templateObject21$1 || (_templateObject21$1 = _taggedTemplateLiteral([""]))));
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        trials: {
-          attribute: 'trials',
-          type: Number,
-          reflect: true
-        },
-        duration: {
-          attribute: 'duration',
-          type: Number,
-          reflect: true
-        },
-        coherence: {
-          attribute: 'coherence',
-          type: Number,
-          reflect: true
-        },
-        payoff: {
-          attribute: 'payoff',
-          type: Number,
-          reflect: true
-        },
-        color: {
-          attribute: 'color',
-          type: String,
-          reflect: true
-        },
-        zRoc: {
-          attribute: 'z-roc',
-          type: Boolean,
-          reflect: true
-        },
-        run: {
-          attribute: 'run',
-          type: Boolean,
-          reflect: true
-        },
-        pause: {
-          attribute: 'pause',
-          type: Boolean,
-          reflect: true
-        },
-        reset: {
-          attribute: 'reset',
-          type: Boolean,
-          reflect: true
-        },
-        state: {
-          atribute: false,
-          type: String,
-          reflect: false
-        }
-      };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(DetectableControl), "styles", this), r$2(_templateObject22$1 || (_templateObject22$1 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        /* Payoff  Slider */\n        .payoff {\n          --decidables-spinner-prefix: \"$\";\n        }\n      "])))];
-    }
-  }]);
+  constructor() {
+    super(); // Attributes
 
-  return DetectableControl;
-}(DetectableElement);
+    this.trials = undefined;
+    this.duration = undefined;
+    this.coherence = undefined;
+    this.payoff = undefined;
+    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
+    this.color = undefined;
+    this.zRoc = undefined;
+    this.run = false;
+    this.pause = false;
+    this.reset = false; // Properties
+
+    this.states = ['resetted', 'running', 'paused', 'ended'];
+    this.state = 'resetted';
+  }
+
+  setTrials(e) {
+    this.trials = e.target.value;
+    this.dispatchEvent(new CustomEvent('detectable-control-trials', {
+      detail: {
+        trials: this.trials
+      },
+      bubbles: true
+    }));
+  }
+
+  setDuration(e) {
+    this.duration = e.target.value;
+    this.dispatchEvent(new CustomEvent('detectable-control-duration', {
+      detail: {
+        duration: this.duration
+      },
+      bubbles: true
+    }));
+  }
+
+  setCoherence(e) {
+    this.coherence = e.target.value;
+    this.dispatchEvent(new CustomEvent('detectable-control-coherence', {
+      detail: {
+        coherence: this.coherence
+      },
+      bubbles: true
+    }));
+  }
+
+  setPayoff(e) {
+    this.payoff = e.target.value;
+    this.dispatchEvent(new CustomEvent('detectable-control-payoff', {
+      detail: {
+        payoff: this.payoff
+      },
+      bubbles: true
+    }));
+  }
+
+  chooseColor(e) {
+    this.color = e.target.value;
+    this.dispatchEvent(new CustomEvent('detectable-control-color', {
+      detail: {
+        color: this.color
+      },
+      bubbles: true
+    }));
+  }
+
+  flipZRoc(e) {
+    this.zRoc = e.target.checked;
+    this.dispatchEvent(new CustomEvent('detectable-control-z-roc', {
+      detail: {
+        zRoc: this.zRoc
+      },
+      bubbles: true
+    }));
+  }
+
+  doRun() {
+    this.state = 'running';
+    this.dispatchEvent(new CustomEvent('detectable-control-run', {
+      detail: {},
+      bubbles: true
+    }));
+  }
+
+  doPause() {
+    this.state = 'paused';
+    this.dispatchEvent(new CustomEvent('detectable-control-pause', {
+      detail: {},
+      bubbles: true
+    }));
+  }
+
+  doReset() {
+    this.state = 'resetted';
+    this.dispatchEvent(new CustomEvent('detectable-control-reset', {
+      detail: {},
+      bubbles: true
+    }));
+  }
+
+  complete() {
+    this.state = 'ended';
+  }
+
+  static get styles() {
+    return [super.styles, r$2(_t$c || (_t$c = _$c`
+        :host {
+          display: inline-block;
+        }
+
+        .holder {
+          display: flex;
+
+          flex-direction: row;
+
+          align-items: stretch;
+          justify-content: center;
+        }
+
+        .buttons {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: stretch;
+          justify-content: center;
+        }
+
+        /* Payoff  Slider */
+        .payoff {
+          --decidables-spinner-prefix: "$";
+        }
+      `))];
+  }
+
+  render() {
+    return $(_t2$b || (_t2$b = _$c`
+      <div class="holder">
+        ${0}
+        ${0}
+        ${0}
+        ${0}
+        ${0}
+        ${0}
+        ${0}
+      </div>`), this.trials ? $(_t3$9 || (_t3$9 = _$c`<decidables-slider min="1" max="100" step="1" .value=${0} @change=${0} @input=${0}>Trials</decidables-slider>`), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : $(_t4$9 || (_t4$9 = _$c``)), this.duration ? $(_t5$9 || (_t5$9 = _$c`<decidables-slider min="10" max="2000" step="10" .value=${0} @change=${0} @input=${0}>Duration</decidables-slider>`), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : $(_t6$9 || (_t6$9 = _$c``)), this.coherence ? $(_t7$9 || (_t7$9 = _$c`<decidables-slider min="0" max="1" step=".01" .value=${0} @change=${0} @input=${0}>Coherence</decidables-slider>`), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : $(_t8$7 || (_t8$7 = _$c``)), this.payoff ? $(_t9$7 || (_t9$7 = _$c`<decidables-slider class="payoff" min="0" max="100" step="1" .value=${0} @change=${0} @input=${0}>Payoff</decidables-slider>`), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : $(_t10$7 || (_t10$7 = _$c``)), this.color !== undefined ? $(_t11$7 || (_t11$7 = _$c`
+            <decidables-toggle @change=${0}>
+              <span slot="label">Emphasis</span>
+              <decidables-toggle-option name=${0} value="none" ?checked=${0}>None</decidables-toggle-option>
+              <decidables-toggle-option name=${0} value="accuracy" ?checked=${0}>Accuracy</decidables-toggle-option>
+              <decidables-toggle-option name=${0} value="stimulus" ?checked=${0}>Stimulus</decidables-toggle-option>
+              <decidables-toggle-option name=${0} value="response" ?checked=${0}>Response</decidables-toggle-option>
+              <decidables-toggle-option name=${0} value="outcome" ?checked=${0}>Outcome</decidables-toggle-option>
+            </decidables-toggle>
+          `), this.chooseColor.bind(this), `${this.uniqueId}-color`, this.color === 'none', `${this.uniqueId}-color`, this.color === 'accuracy', `${this.uniqueId}-color`, this.color === 'stimulus', `${this.uniqueId}-color`, this.color === 'response', `${this.uniqueId}-color`, this.color === 'outcome') : $(_t12$2 || (_t12$2 = _$c``)), this.zRoc !== undefined ? $(_t13$2 || (_t13$2 = _$c`
+            <decidables-switch ?checked=${0} @change=${0}>
+              <span class="math-var">z</span>ROC
+              <span slot="off-label">ROC</span>
+            </decidables-switch>
+          `), this.zRoc, this.flipZRoc.bind(this)) : $(_t14$2 || (_t14$2 = _$c``)), this.run || this.pause || this.reset ? $(_t15$2 || (_t15$2 = _$c`
+            <div class="buttons">
+              ${0}
+              ${0}
+              ${0}
+            </div>
+          `), this.run ? $(_t16$2 || (_t16$2 = _$c`<decidables-button name="run" ?disabled=${0} @click=${0}>Run</decidables-button>`), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : $(_t17$2 || (_t17$2 = _$c``)), this.pause ? $(_t18$2 || (_t18$2 = _$c`<decidables-button name="pause" ?disabled=${0} @click=${0}>Pause</decidables-button>`), this.state !== 'running', this.doPause.bind(this)) : $(_t19$2 || (_t19$2 = _$c``)), this.reset ? $(_t20$2 || (_t20$2 = _$c`<decidables-button name="reset" ?disabled=${0} @click=${0}>Reset</decidables-button>`), this.state === 'resetted', this.doReset.bind(this)) : $(_t21$1 || (_t21$1 = _$c``))) : $(_t22$1 || (_t22$1 = _$c``)));
+  }
+
+}
 customElements.define('detectable-control', DetectableControl);
 
-var _templateObject$b, _templateObject2$a;
+let _$b = t => t,
+    _t$b,
+    _t2$a;
 /*
   SDTModel element
   <sdt-model>
@@ -14793,1217 +14432,1430 @@ var _templateObject$b, _templateObject2$a;
       ??
 */
 
-var SDTModel = /*#__PURE__*/function (_DetectableElement) {
-  _inherits(SDTModel, _DetectableElement);
-
-  var _super = _createSuper(SDTModel);
-
-  function SDTModel() {
-    var _this;
-
-    _classCallCheck(this, SDTModel);
-
-    _this = _super.call(this); // Attributes
-
-    _this.colors = ['outcome', 'response', 'stimulus', 'none']; // Allowable values of 'color'
-
-    _this.color = 'outcome'; // How to color distributions and trials
-
-    _this.distributions = false; // Show distributions?
-
-    _this.threshold = false; // Show threshold?
-
-    _this.unequal = false; // Allow unequal variance?
-
-    _this.sensitivity = false; // Show d'?
-
-    _this.bias = false; // Show c?
-
-    _this.variance = false; // Show variance?
-
-    _this.histogram = false; // Show histogram?
-
-    _this.d = 1; // Sensitivity
-
-    _this.c = 0; // Bias
-
-    _this.s = 1; // Variance
-    // Properties
-
-    _this.binWidth = 0.25; // Histogram bin width in units of evidence
-
-    _this.signals = ['present', 'absent']; // Allowable values of trial.signal
-
-    _this.responses = ['present', 'absent']; // Allowable values of trial.response
-
-    _this.trials = []; // Array of simulated trials
-
-    _this.width = NaN; // Width of component in pixels
-
-    _this.height = NaN; // Height of component in pixels
-
-    _this.rem = NaN; // Pixels per rem for component
-    // Private
-
-    _this.muN = NaN; // Mean of noise distribution
-
-    _this.muS = NaN; // Mean of signal distribution
-
-    _this.l = NaN; // lambda (threshold location)
-
-    _this.hS = NaN; // Height of signal distribution
-
-    _this.binRange = [-3.0, 3.0]; // Range of histogram
-
-    _this.h = 0; // Hits
-
-    _this.m = 0; // Misses
-
-    _this.fa = 0; // False alarms
-
-    _this.cr = 0; // Correct rejections
-
-    _this.firstUpdate = true; // Are we waiting for the first update?
-
-    _this.drag = false; // Are we currently dragging?
-
-    _this.alignState();
-
-    return _this;
+class SDTModel extends DetectableElement {
+  static get properties() {
+    return {
+      color: {
+        attribute: 'color',
+        type: String,
+        reflect: true
+      },
+      distributions: {
+        attribute: 'distributions',
+        type: Boolean,
+        reflect: true
+      },
+      threshold: {
+        attribute: 'threshold',
+        type: Boolean,
+        reflect: true
+      },
+      unequal: {
+        attribute: 'unequal',
+        type: Boolean,
+        reflect: true
+      },
+      sensitivity: {
+        attribute: 'sensitivity',
+        type: Boolean,
+        reflect: true
+      },
+      bias: {
+        attribute: 'bias',
+        type: Boolean,
+        reflect: true
+      },
+      variance: {
+        attribute: 'variance',
+        type: Boolean,
+        reflect: true
+      },
+      histogram: {
+        attribute: 'histogram',
+        type: Boolean,
+        reflect: true
+      },
+      d: {
+        attribute: 'd',
+        type: Number,
+        reflect: true
+      },
+      c: {
+        attribute: 'c',
+        type: Number,
+        reflect: true
+      },
+      s: {
+        attribute: 's',
+        type: Number,
+        reflect: true
+      },
+      far: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      hr: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      binWidth: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      trials: {
+        attribute: false,
+        type: Array,
+        reflect: false
+      },
+      width: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      height: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      rem: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(SDTModel, [{
-    key: "reset",
-    value: function reset() {
-      this.trials = [];
-      this.h = 0;
-      this.m = 0;
-      this.fa = 0;
-      this.cr = 0;
+  constructor() {
+    super(); // Attributes
+
+    this.colors = ['outcome', 'response', 'stimulus', 'none']; // Allowable values of 'color'
+
+    this.color = 'outcome'; // How to color distributions and trials
+
+    this.distributions = false; // Show distributions?
+
+    this.threshold = false; // Show threshold?
+
+    this.unequal = false; // Allow unequal variance?
+
+    this.sensitivity = false; // Show d'?
+
+    this.bias = false; // Show c?
+
+    this.variance = false; // Show variance?
+
+    this.histogram = false; // Show histogram?
+
+    this.d = 1; // Sensitivity
+
+    this.c = 0; // Bias
+
+    this.s = 1; // Variance
+    // Properties
+
+    this.binWidth = 0.25; // Histogram bin width in units of evidence
+
+    this.signals = ['present', 'absent']; // Allowable values of trial.signal
+
+    this.responses = ['present', 'absent']; // Allowable values of trial.response
+
+    this.trials = []; // Array of simulated trials
+
+    this.width = NaN; // Width of component in pixels
+
+    this.height = NaN; // Height of component in pixels
+
+    this.rem = NaN; // Pixels per rem for component
+    // Private
+
+    this.muN = NaN; // Mean of noise distribution
+
+    this.muS = NaN; // Mean of signal distribution
+
+    this.l = NaN; // lambda (threshold location)
+
+    this.hS = NaN; // Height of signal distribution
+
+    this.binRange = [-3.0, 3.0]; // Range of histogram
+
+    this.h = 0; // Hits
+
+    this.m = 0; // Misses
+
+    this.fa = 0; // False alarms
+
+    this.cr = 0; // Correct rejections
+
+    this.firstUpdate = true; // Are we waiting for the first update?
+
+    this.drag = false; // Are we currently dragging?
+
+    this.alignState();
+  }
+
+  reset() {
+    this.trials = [];
+    this.h = 0;
+    this.m = 0;
+    this.fa = 0;
+    this.cr = 0;
+  }
+
+  trial(trialNumber, signal, duration, wait, iti) {
+    const trial = {};
+    trial.new = true;
+    trial.paused = false;
+    trial.trial = trialNumber;
+    trial.signal = signal;
+    trial.duration = duration;
+    trial.wait = wait;
+    trial.iti = iti;
+    trial.evidence = jstat.normal.sample(0, 1);
+    this.alignTrial(trial);
+    this.trials.push(trial);
+    this.requestUpdate();
+  }
+
+  alignTrial(trial) {
+    if (trial.signal === 'present') {
+      trial.trueEvidence = trial.evidence * this.s + this.muS;
+      trial.response = trial.trueEvidence > this.l ? 'present' : 'absent';
+      trial.outcome = trial.response === 'present' ? 'h' : 'm';
+    } else {
+      // trial.signal == 'absent'
+      trial.trueEvidence = trial.evidence + this.muN;
+      trial.response = trial.trueEvidence > this.l ? 'present' : 'absent';
+      trial.outcome = trial.response === 'present' ? 'fa' : 'cr';
     }
-  }, {
-    key: "trial",
-    value: function trial(trialNumber, signal, duration, wait, iti) {
-      var trial = {};
-      trial.new = true;
-      trial.paused = false;
-      trial.trial = trialNumber;
-      trial.signal = signal;
-      trial.duration = duration;
-      trial.wait = wait;
-      trial.iti = iti;
-      trial.evidence = jstat.normal.sample(0, 1);
-      this.alignTrial(trial);
-      this.trials.push(trial);
-      this.requestUpdate();
+
+    if (!trial.new) this[trial.outcome] += 1;
+    return trial;
+  }
+
+  alignState() {
+    this.far = SDTMath.dC2Far(this.d, this.c, this.s);
+    this.hr = SDTMath.dC2Hr(this.d, this.c, this.s);
+    this.muN = SDTMath.d2MuN(this.d, this.s);
+    this.muS = SDTMath.d2MuS(this.d, this.s);
+    this.l = SDTMath.c2L(this.c, this.s);
+    this.hS = SDTMath.s2H(this.s);
+    this.h = 0;
+    this.m = 0;
+    this.fa = 0;
+    this.cr = 0;
+
+    for (let i = 0; i < this.trials.length; i += 1) {
+      this.alignTrial(this.trials[i]);
     }
-  }, {
-    key: "alignTrial",
-    value: function alignTrial(trial) {
-      if (trial.signal === 'present') {
-        trial.trueEvidence = trial.evidence * this.s + this.muS;
-        trial.response = trial.trueEvidence > this.l ? 'present' : 'absent';
-        trial.outcome = trial.response === 'present' ? 'h' : 'm';
-      } else {
-        // trial.signal == 'absent'
-        trial.trueEvidence = trial.evidence + this.muN;
-        trial.response = trial.trueEvidence > this.l ? 'present' : 'absent';
-        trial.outcome = trial.response === 'present' ? 'fa' : 'cr';
-      }
+  }
 
-      if (!trial.new) this[trial.outcome] += 1;
-      return trial;
+  static get styles() {
+    return [super.styles, r$2(_t$b || (_t$b = _$b`
+        :host {
+          display: inline-block;
+
+          width: 27rem;
+          height: 15rem;
+        }
+
+        .main {
+          width: 100%;
+          height: 100%;
+        }
+
+        text {
+          /* stylelint-disable property-no-vendor-prefix */
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        .tick {
+          font-size: 0.75rem;
+        }
+
+        .axis-x path,
+        .axis-x line,
+        .axis-y path,
+        .axis-y line,
+        .axis-y2 path,
+        .axis-y2 line {
+          stroke: var(---color-element-border);
+        }
+
+        .noise.interactive,
+        .signal.interactive,
+        .threshold.interactive {
+          cursor: ew-resize;
+
+          filter: url("#shadow-2");
+          outline: none;
+        }
+
+        .signal.unequal {
+          cursor: ns-resize;
+
+          filter: url("#shadow-2");
+          outline: none;
+        }
+
+        .signal.interactive.unequal {
+          cursor: move;
+        }
+
+        .noise.interactive:hover,
+        .signal.interactive:hover,
+        .signal.unequal:hover,
+        .threshold.interactive:hover {
+          filter: url("#shadow-4");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateX(0);
+        }
+
+        .noise.interactive:active,
+        .signal.interactive:active,
+        .signal.unequal:active,
+        .threshold.interactive:active {
+          filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateY(0);
+        }
+
+        :host(.keyboard) .noise.interactive:focus,
+        :host(.keyboard) .signal.interactive:focus,
+        :host(.keyboard) .signal.unequal:focus,
+        :host(.keyboard) .threshold.interactive:focus {
+          filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateZ(0);
+        }
+
+        .underlayer .background {
+          fill: var(---color-element-background);
+          stroke: none;
+        }
+
+        .overlayer .background {
+          fill: none;
+          stroke: var(---color-element-border);
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+
+        .title-x,
+        .title-y,
+        .title-y2 {
+          font-weight: 600;
+
+          fill: currentColor;
+        }
+
+        .curve-cr,
+        .curve-fa,
+        .curve-m,
+        .curve-h {
+          fill-opacity: 0.5;
+          stroke: none;
+
+          transition: fill var(---transition-duration) ease;
+        }
+
+        .curve-cr {
+          fill: var(---color-cr);
+        }
+
+        .curve-fa {
+          fill: var(---color-fa);
+        }
+
+        .curve-m {
+          fill: var(---color-m);
+        }
+
+        .curve-h {
+          fill: var(---color-h);
+        }
+
+        :host([color="accuracy"]) .curve-h,
+        :host([color="accuracy"]) .curve-cr {
+          fill: var(---color-correct);
+        }
+
+        :host([color="accuracy"]) .curve-m,
+        :host([color="accuracy"]) .curve-fa {
+          fill: var(---color-error);
+        }
+
+        :host([color="stimulus"]) .curve-cr,
+        :host([color="stimulus"]) .curve-fa {
+          fill: var(---color-far);
+        }
+
+        :host([color="stimulus"]) .curve-m,
+        :host([color="stimulus"]) .curve-h {
+          fill: var(---color-hr);
+        }
+
+        :host([color="response"]) .curve-cr,
+        :host([color="response"]) .curve-m {
+          fill: var(---color-absent);
+        }
+
+        :host([color="response"]) .curve-fa,
+        :host([color="response"]) .curve-h {
+          fill: var(---color-present);
+        }
+
+        :host([color="none"]) .curve-cr,
+        :host([color="none"]) .curve-fa,
+        :host([color="none"]) .curve-m,
+        :host([color="none"]) .curve-h {
+          fill: var(---color-element-enabled);
+        }
+
+        .curve-noise,
+        .curve-signal {
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2;
+        }
+
+        .measure-d,
+        .measure-c,
+        .measure-s {
+          pointer-events: none;
+        }
+
+        .threshold .line {
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2;
+        }
+
+        .threshold .handle {
+          fill: var(---color-element-emphasis);
+
+          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */
+        }
+
+        /* Make a larger target for touch users */
+        @media (pointer: coarse) {
+          .threshold.interactive .handle {
+            stroke: #000000;
+            stroke-opacity: 0;
+            stroke-width: 12px;
+          }
+        }
+
+        .measure-d .line,
+        .measure-d .cap-left,
+        .measure-d .cap-right {
+          stroke: var(---color-d);
+          stroke-width: 2;
+          shape-rendering: crispEdges;
+        }
+
+        .measure-d .label {
+          font-size: 0.75rem;
+
+          text-anchor: start;
+          fill: currentColor;
+        }
+
+        .measure-c .line,
+        .measure-c .cap-zero {
+          stroke: var(---color-c);
+          stroke-width: 2;
+          shape-rendering: crispEdges;
+        }
+
+        .measure-c .label {
+          font-size: 0.75rem;
+
+          fill: currentColor;
+        }
+
+        .measure-s .line,
+        .measure-s .cap-left,
+        .measure-s .cap-right {
+          stroke: var(---color-s);
+          stroke-width: 2;
+          shape-rendering: crispEdges;
+        }
+
+        .measure-s .label {
+          font-size: 0.75rem;
+
+          text-anchor: middle;
+          fill: currentColor;
+        }
+      `))];
+  }
+
+  render() {
+    // eslint-disable-line class-methods-use-this
+    return $(_t2$a || (_t2$a = _$b`
+      ${0}
+    `), DetectableElement.svgFilters);
+  }
+
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('sdt-model-change', {
+      detail: {
+        d: this.d,
+        c: this.c,
+        s: this.s,
+        far: this.far,
+        hr: this.hr,
+        h: this.h,
+        m: this.m,
+        fa: this.fa,
+        cr: this.cr
+      },
+      bubbles: true
+    }));
+  }
+
+  getDimensions() {
+    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
+    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
+    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10); // console.log(`sdt-model: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this.getDimensions.bind(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('resize', this.getDimensions.bind(this));
+    super.disconnectedCallback();
+  }
+
+  firstUpdated(changedProperties) {
+    super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
+    // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
+
+    window.setTimeout(this.getDimensions.bind(this), 0);
+  }
+
+  update(changedProperties) {
+    super.update(changedProperties);
+    this.alignState(); // Bail out if we can't get the width/height
+
+    if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
+      return;
     }
-  }, {
-    key: "alignState",
-    value: function alignState() {
-      this.far = SDTMath.dC2Far(this.d, this.c, this.s);
-      this.hr = SDTMath.dC2Hr(this.d, this.c, this.s);
-      this.muN = SDTMath.d2MuN(this.d, this.s);
-      this.muS = SDTMath.d2MuS(this.d, this.s);
-      this.l = SDTMath.c2L(this.c, this.s);
-      this.hS = SDTMath.s2H(this.s);
-      this.h = 0;
-      this.m = 0;
-      this.fa = 0;
-      this.cr = 0;
 
-      for (var i = 0; i < this.trials.length; i += 1) {
-        this.alignTrial(this.trials[i]);
-      }
+    const hostWidth = this.width;
+    const hostHeight = this.height;
+    const hostAspectRatio = hostWidth / hostHeight;
+    const elementAspectRatio = 1.8;
+    let elementWidth;
+    let elementHeight;
+
+    if (hostAspectRatio > elementAspectRatio) {
+      elementHeight = hostHeight;
+      elementWidth = elementHeight * elementAspectRatio;
+    } else {
+      elementWidth = hostWidth;
+      elementHeight = elementWidth / elementAspectRatio;
     }
-  }, {
-    key: "render",
-    value: function render() {
-      // eslint-disable-line class-methods-use-this
-      return $(_templateObject$b || (_templateObject$b = _taggedTemplateLiteral(["\n      ", "\n    "])), DetectableElement.svgFilters);
-    }
-  }, {
-    key: "sendEvent",
-    value: function sendEvent() {
-      this.dispatchEvent(new CustomEvent('sdt-model-change', {
-        detail: {
-          d: this.d,
-          c: this.c,
-          s: this.s,
-          far: this.far,
-          hr: this.hr,
-          h: this.h,
-          m: this.m,
-          fa: this.fa,
-          cr: this.cr
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "getDimensions",
-    value: function getDimensions() {
-      this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-      this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-      this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10); // console.log(`sdt-model: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-    }
-  }, {
-    key: "connectedCallback",
-    value: function connectedCallback() {
-      _get(_getPrototypeOf(SDTModel.prototype), "connectedCallback", this).call(this);
 
-      window.addEventListener('resize', this.getDimensions.bind(this));
-    }
-  }, {
-    key: "disconnectedCallback",
-    value: function disconnectedCallback() {
-      window.removeEventListener('resize', this.getDimensions.bind(this));
+    const margin = {
+      top: 2 * this.rem,
+      bottom: 3 * this.rem,
+      left: 3 * this.rem,
+      right: (this.histogram && this.distributions ? 3 : 0.75) * this.rem
+    };
+    const height = elementHeight - (margin.top + margin.bottom);
+    const width = elementWidth - (margin.left + margin.right);
+    const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10); // X Scale
 
-      _get(_getPrototypeOf(SDTModel.prototype), "disconnectedCallback", this).call(this);
-    }
-  }, {
-    key: "firstUpdated",
-    value: function firstUpdated(changedProperties) {
-      _get(_getPrototypeOf(SDTModel.prototype), "firstUpdated", this).call(this, changedProperties); // Get the width and height after initial render/update has occurred
-      // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
+    const xScale = linear().domain([-3, 3]) // Evidence // FIX - no hardcoding
+    .range([0, width]); // Y Scale
 
+    const yScale = linear().domain([0.5, 0]) // Probability // FIX - no hardcoding
+    .range([0, height]); // 2nd Y Scale
 
-      window.setTimeout(this.getDimensions.bind(this), 0);
-    }
-  }, {
-    key: "update",
-    value: function update(changedProperties) {
-      var _this2 = this;
+    const strokeWidth = 3; // FIX - no hardcoding
 
-      _get(_getPrototypeOf(SDTModel.prototype), "update", this).call(this, changedProperties);
+    const binWidth = xScale(this.binWidth) - xScale(0);
+    const y2Scale = linear().domain([height / binWidth, 0]) // Number of Stimuli
+    .range([0, height]); // Threshold Drag behavior
 
-      this.alignState(); // Bail out if we can't get the width/height
-
-      if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
-        return;
-      }
-
-      var hostWidth = this.width;
-      var hostHeight = this.height;
-      var hostAspectRatio = hostWidth / hostHeight;
-      var elementAspectRatio = 1.8;
-      var elementWidth;
-      var elementHeight;
-
-      if (hostAspectRatio > elementAspectRatio) {
-        elementHeight = hostHeight;
-        elementWidth = elementHeight * elementAspectRatio;
-      } else {
-        elementWidth = hostWidth;
-        elementHeight = elementWidth / elementAspectRatio;
-      }
-
-      var margin = {
-        top: 2 * this.rem,
-        bottom: 3 * this.rem,
-        left: 3 * this.rem,
-        right: (this.histogram && this.distributions ? 3 : 0.75) * this.rem
+    const dragThreshold = drag().subject(() => {
+      return {
+        x: xScale(this.l),
+        y: 0
       };
-      var height = elementHeight - (margin.top + margin.bottom);
-      var width = elementWidth - (margin.left + margin.right);
-      var transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10); // X Scale
+    }).on('start', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', true);
+    }).on('drag', event => {
+      this.drag = true;
+      let l = xScale.invert(event.x); // Clamp lambda to stay visible
 
-      var xScale = linear().domain([-3, 3]) // Evidence // FIX - no hardcoding
-      .range([0, width]); // Y Scale
+      l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
+      this.c = SDTMath.l2C(l, this.s);
+      this.alignState();
+      this.sendEvent();
+    }).on('end', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', false);
+    }); // Noise Curve Drag behavior
 
-      var yScale = linear().domain([0.5, 0]) // Probability // FIX - no hardcoding
-      .range([0, height]); // 2nd Y Scale
+    const dragNoise = drag().subject(() => {
+      return {
+        x: xScale(this.muN),
+        y: 0
+      };
+    }).on('start', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', true);
+    }).on('drag', event => {
+      this.drag = true;
+      let muN = xScale.invert(event.x); // Clamp Noise Curve to stay visible
 
-      var strokeWidth = 3; // FIX - no hardcoding
+      muN = muN < xScale.domain()[0] ? xScale.domain()[0] : muN > xScale.domain()[1] ? xScale.domain()[1] : muN;
+      this.d = SDTMath.muN2D(muN, this.s);
+      this.alignState();
+      this.sendEvent();
+    }).on('end', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', false);
+    }); // Signal+Noise Curve Drag behavior
 
-      var binWidth = xScale(this.binWidth) - xScale(0);
-      var y2Scale = linear().domain([height / binWidth, 0]) // Number of Stimuli
-      .range([0, height]); // Threshold Drag behavior
+    const dragSignal = drag().subject(() => {
+      return {
+        x: xScale(this.muS),
+        y: yScale(this.hS)
+      };
+    }).on('start', (event, datum) => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', true);
+      datum.startX = event.x;
+      datum.startY = event.y;
+      datum.startHS = this.hS;
+      datum.startMuS = this.muS;
+    }).on('drag', (event, datum) => {
+      this.drag = true;
+      let muS = this.muS; // eslint-disable-line prefer-destructuring
 
-      var dragThreshold = drag().subject(function () {
-        return {
-          x: xScale(_this2.l),
-          y: 0
-        };
-      }).on('start', function (event) {
-        var element = event.currentTarget;
-        select(element).classed('dragging', true);
-      }).on('drag', function (event) {
-        _this2.drag = true;
-        var l = xScale.invert(event.x); // Clamp lambda to stay visible
+      if (this.interactive) {
+        muS = xScale.invert(event.x); // Clamp Signal Curve to stay visible
 
-        l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
-        _this2.c = SDTMath.l2C(l, _this2.s);
+        muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
+      }
 
-        _this2.alignState();
+      let hS = this.hS; // eslint-disable-line prefer-destructuring
 
-        _this2.sendEvent();
-      }).on('end', function (event) {
-        var element = event.currentTarget;
-        select(element).classed('dragging', false);
-      }); // Noise Curve Drag behavior
+      if (this.unequal) {
+        hS = yScale.invert(event.y); // Clamp Signal Curve to stay visible
 
-      var dragNoise = drag().subject(function () {
-        return {
-          x: xScale(_this2.muN),
-          y: 0
-        };
-      }).on('start', function (event) {
-        var element = event.currentTarget;
-        select(element).classed('dragging', true);
-      }).on('drag', function (event) {
-        _this2.drag = true;
-        var muN = xScale.invert(event.x); // Clamp Noise Curve to stay visible
+        hS = hS < 0.01 ? 0.01 : hS > yScale.domain()[0] ? yScale.domain()[0] : hS;
+      }
+
+      if (this.interactive && this.unequal) {
+        // Use shift key as modifier for single dimension
+        if (event.sourceEvent.shiftKey) {
+          if (Math.abs(event.x - datum.startX) > Math.abs(event.y - datum.startY)) {
+            hS = datum.startHS;
+          } else {
+            muS = datum.startMuS;
+          }
+        }
+      }
+
+      if (this.unequal) {
+        this.s = SDTMath.h2S(hS);
+        this.c = SDTMath.l2C(this.l, this.s);
+      }
+
+      this.d = SDTMath.muS2D(muS, this.s);
+      this.alignState();
+      this.sendEvent();
+    }).on('end', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', false);
+    }); // Line for Evidence/Probability Space
+
+    const line$1 = line().x(datum => {
+      return xScale(datum.e);
+    }).y(datum => {
+      return yScale(datum.p);
+    }); // Svg
+    //  DATA-JOIN
+
+    const svgUpdate = select(this.renderRoot).selectAll('.main').data([{
+      width: this.width,
+      height: this.height,
+      rem: this.rem
+    }]); // ENTER
+
+    const svgEnter = svgUpdate.enter().append('svg').classed('main', true); // MERGE
+
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`); // Plot
+    //  ENTER
+
+    const plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
+
+    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`); // Underlayer
+    //  ENTER
+
+    const underlayerEnter = plotEnter.append('g').classed('underlayer', true); // MERGE
+
+    const underlayerMerge = plotMerge.select('.underlayer'); // Background
+    //  ENTER
+
+    underlayerEnter.append('rect').classed('background', true); //  MERGE
+
+    underlayerMerge.select('.background').attr('height', height).attr('width', width); // X Axis
+    //  ENTER
+
+    underlayerEnter.append('g').classed('axis-x', true); //  MERGE
+
+    const axisXMerge = underlayerMerge.select('.axis-x').attr('transform', `translate(0, ${height})`).call(axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
+    axisXMerge.selectAll('line, path').attr('stroke', null); // X Axis Title
+    //  ENTER
+
+    underlayerEnter.append('text').classed('title-x', true).attr('text-anchor', 'middle').text('Evidence'); //  MERGE
+
+    underlayerMerge.select('.title-x').attr('transform', `translate(${width / 2}, ${height + 2.25 * this.rem})`); // Y Axis
+    //  DATA-JOIN
+
+    const axisYUpdate = underlayerMerge.selectAll('.axis-y').data(this.distributions ? [{}] : []); //  ENTER
+
+    const axisYEnter = axisYUpdate.enter().append('g').classed('axis-y', true); //  MERGE
+
+    const axisYMerge = axisYEnter.merge(axisYUpdate).call(axisLeft(yScale).ticks(5)).attr('font-size', null).attr('font-family', null);
+    axisYMerge.selectAll('line, path').attr('stroke', null); //  EXIT
+
+    axisYUpdate.exit().remove(); // Y Axis Title
+    //  DATA-JOIN
+
+    const titleYUpdate = underlayerMerge.selectAll('.title-y').data(this.distributions ? [{}] : []); //  ENTER
+
+    const titleYEnter = titleYUpdate.enter().append('text').classed('title-y', true).attr('text-anchor', 'middle').text('Probability'); //  MERGE
+
+    titleYEnter.merge(titleYUpdate).attr('transform', `translate(${-2 * this.rem}, ${height / 2})rotate(-90)`); //  EXIT
+
+    titleYUpdate.exit().remove(); // 2nd Y Axis
+    //  DATA-JOIN
+
+    const axisY2Update = underlayerMerge.selectAll('.axis-y2').data(this.histogram ? [{}] : []); //  ENTER
+
+    const axisY2Enter = axisY2Update.enter().append('g').classed('axis-y2', true); //  MERGE
+
+    const axisY2Merge = axisY2Enter.merge(axisY2Update).attr('transform', this.distributions ? `translate(${width}, 0)` : '').call(this.distributions ? axisRight(y2Scale).ticks(10) : axisLeft(y2Scale).ticks(10)).attr('font-size', null).attr('font-family', null);
+    axisY2Merge.selectAll('line, path').attr('stroke', null); //  EXIT
+
+    axisY2Update.exit().remove(); // 2nd Y Axis Title
+    //  DATA-JOIN
+
+    const titleY2Update = underlayerMerge.selectAll('.title-y2').data(this.histogram ? [{}] : []); //  ENTER
+
+    const titleY2Enter = titleY2Update.enter().append('text').classed('title-y2', true).attr('text-anchor', 'middle').text('Count'); //  MERGE
+
+    titleY2Enter.merge(titleY2Update).attr('transform', this.distributions ? `translate(${width + 1.5 * this.rem}, ${height / 2})rotate(90)` : `translate(${-1.5 * this.rem}, ${height / 2})rotate(-90)`); //  EXIT
+
+    titleY2Update.exit().remove(); // Plot Content
+
+    plotEnter.append('g').classed('content', true); //  MERGE
+
+    const contentMerge = plotMerge.select('.content'); // Noise & Signal + Noise Distributions
+    //  DATA-JOIN
+
+    const signalNoiseUpdate = contentMerge.selectAll('.signal-noise').data(this.distributions ? [{}] : []); //  ENTER
+
+    const signalNoiseEnter = signalNoiseUpdate.enter().append('g').classed('signal-noise', true); //  MERGE
+
+    const signalNoiseMerge = signalNoiseEnter.merge(signalNoiseUpdate); //  EXIT
+
+    signalNoiseUpdate.exit().remove(); // Noise Distribution
+    //  ENTER
+
+    const noiseEnter = signalNoiseEnter.append('g').classed('noise', true); //  MERGE
+
+    const noiseMerge = signalNoiseMerge.selectAll('.noise').attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive).on('keydown', this.interactive ? event => {
+      if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
+        let muN = this.muN; // eslint-disable-line prefer-destructuring
+
+        switch (event.key) {
+          case 'ArrowRight':
+            muN += event.shiftKey ? 0.01 : 0.1;
+            break;
+
+          case 'ArrowLeft':
+            muN -= event.shiftKey ? 0.01 : 0.1;
+            break;
+        } // Clamp C to visible extent
+
 
         muN = muN < xScale.domain()[0] ? xScale.domain()[0] : muN > xScale.domain()[1] ? xScale.domain()[1] : muN;
-        _this2.d = SDTMath.muN2D(muN, _this2.s);
 
-        _this2.alignState();
-
-        _this2.sendEvent();
-      }).on('end', function (event) {
-        var element = event.currentTarget;
-        select(element).classed('dragging', false);
-      }); // Signal+Noise Curve Drag behavior
-
-      var dragSignal = drag().subject(function () {
-        return {
-          x: xScale(_this2.muS),
-          y: yScale(_this2.hS)
-        };
-      }).on('start', function (event, datum) {
-        var element = event.currentTarget;
-        select(element).classed('dragging', true);
-        datum.startX = event.x;
-        datum.startY = event.y;
-        datum.startHS = _this2.hS;
-        datum.startMuS = _this2.muS;
-      }).on('drag', function (event, datum) {
-        _this2.drag = true;
-        var muS = _this2.muS; // eslint-disable-line prefer-destructuring
-
-        if (_this2.interactive) {
-          muS = xScale.invert(event.x); // Clamp Signal Curve to stay visible
-
-          muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
+        if (muN !== this.muN) {
+          this.d = SDTMath.muN2D(muN, this.s);
+          this.alignState();
+          this.sendEvent();
         }
 
-        var hS = _this2.hS; // eslint-disable-line prefer-destructuring
-
-        if (_this2.unequal) {
-          hS = yScale.invert(event.y); // Clamp Signal Curve to stay visible
-
-          hS = hS < 0.01 ? 0.01 : hS > yScale.domain()[0] ? yScale.domain()[0] : hS;
-        }
-
-        if (_this2.interactive && _this2.unequal) {
-          // Use shift key as modifier for single dimension
-          if (event.sourceEvent.shiftKey) {
-            if (Math.abs(event.x - datum.startX) > Math.abs(event.y - datum.startY)) {
-              hS = datum.startHS;
-            } else {
-              muS = datum.startMuS;
-            }
-          }
-        }
-
-        if (_this2.unequal) {
-          _this2.s = SDTMath.h2S(hS);
-          _this2.c = SDTMath.l2C(_this2.l, _this2.s);
-        }
-
-        _this2.d = SDTMath.muS2D(muS, _this2.s);
-
-        _this2.alignState();
-
-        _this2.sendEvent();
-      }).on('end', function (event) {
-        var element = event.currentTarget;
-        select(element).classed('dragging', false);
-      }); // Line for Evidence/Probability Space
-
-      var line$1 = line().x(function (datum) {
-        return xScale(datum.e);
-      }).y(function (datum) {
-        return yScale(datum.p);
-      }); // Svg
-      //  DATA-JOIN
-
-      var svgUpdate = select(this.renderRoot).selectAll('.main').data([{
-        width: this.width,
-        height: this.height,
-        rem: this.rem
-      }]); // ENTER
-
-      var svgEnter = svgUpdate.enter().append('svg').classed('main', true); // MERGE
-
-      var svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', "0 0 ".concat(elementWidth, " ").concat(elementHeight)); // Plot
-      //  ENTER
-
-      var plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
-
-      var plotMerge = svgMerge.select('.plot').attr('transform', "translate(".concat(margin.left, ", ").concat(margin.top, ")")); // Underlayer
-      //  ENTER
-
-      var underlayerEnter = plotEnter.append('g').classed('underlayer', true); // MERGE
-
-      var underlayerMerge = plotMerge.select('.underlayer'); // Background
-      //  ENTER
-
-      underlayerEnter.append('rect').classed('background', true); //  MERGE
-
-      underlayerMerge.select('.background').attr('height', height).attr('width', width); // X Axis
-      //  ENTER
-
-      underlayerEnter.append('g').classed('axis-x', true); //  MERGE
-
-      var axisXMerge = underlayerMerge.select('.axis-x').attr('transform', "translate(0, ".concat(height, ")")).call(axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
-      axisXMerge.selectAll('line, path').attr('stroke', null); // X Axis Title
-      //  ENTER
-
-      underlayerEnter.append('text').classed('title-x', true).attr('text-anchor', 'middle').text('Evidence'); //  MERGE
-
-      underlayerMerge.select('.title-x').attr('transform', "translate(".concat(width / 2, ", ").concat(height + 2.25 * this.rem, ")")); // Y Axis
-      //  DATA-JOIN
-
-      var axisYUpdate = underlayerMerge.selectAll('.axis-y').data(this.distributions ? [{}] : []); //  ENTER
-
-      var axisYEnter = axisYUpdate.enter().append('g').classed('axis-y', true); //  MERGE
-
-      var axisYMerge = axisYEnter.merge(axisYUpdate).call(axisLeft(yScale).ticks(5)).attr('font-size', null).attr('font-family', null);
-      axisYMerge.selectAll('line, path').attr('stroke', null); //  EXIT
-
-      axisYUpdate.exit().remove(); // Y Axis Title
-      //  DATA-JOIN
-
-      var titleYUpdate = underlayerMerge.selectAll('.title-y').data(this.distributions ? [{}] : []); //  ENTER
-
-      var titleYEnter = titleYUpdate.enter().append('text').classed('title-y', true).attr('text-anchor', 'middle').text('Probability'); //  MERGE
-
-      titleYEnter.merge(titleYUpdate).attr('transform', "translate(".concat(-2 * this.rem, ", ").concat(height / 2, ")rotate(-90)")); //  EXIT
-
-      titleYUpdate.exit().remove(); // 2nd Y Axis
-      //  DATA-JOIN
-
-      var axisY2Update = underlayerMerge.selectAll('.axis-y2').data(this.histogram ? [{}] : []); //  ENTER
-
-      var axisY2Enter = axisY2Update.enter().append('g').classed('axis-y2', true); //  MERGE
-
-      var axisY2Merge = axisY2Enter.merge(axisY2Update).attr('transform', this.distributions ? "translate(".concat(width, ", 0)") : '').call(this.distributions ? axisRight(y2Scale).ticks(10) : axisLeft(y2Scale).ticks(10)).attr('font-size', null).attr('font-family', null);
-      axisY2Merge.selectAll('line, path').attr('stroke', null); //  EXIT
-
-      axisY2Update.exit().remove(); // 2nd Y Axis Title
-      //  DATA-JOIN
-
-      var titleY2Update = underlayerMerge.selectAll('.title-y2').data(this.histogram ? [{}] : []); //  ENTER
-
-      var titleY2Enter = titleY2Update.enter().append('text').classed('title-y2', true).attr('text-anchor', 'middle').text('Count'); //  MERGE
-
-      titleY2Enter.merge(titleY2Update).attr('transform', this.distributions ? "translate(".concat(width + 1.5 * this.rem, ", ").concat(height / 2, ")rotate(90)") : "translate(".concat(-1.5 * this.rem, ", ").concat(height / 2, ")rotate(-90)")); //  EXIT
-
-      titleY2Update.exit().remove(); // Plot Content
-
-      plotEnter.append('g').classed('content', true); //  MERGE
-
-      var contentMerge = plotMerge.select('.content'); // Noise & Signal + Noise Distributions
-      //  DATA-JOIN
-
-      var signalNoiseUpdate = contentMerge.selectAll('.signal-noise').data(this.distributions ? [{}] : []); //  ENTER
-
-      var signalNoiseEnter = signalNoiseUpdate.enter().append('g').classed('signal-noise', true); //  MERGE
-
-      var signalNoiseMerge = signalNoiseEnter.merge(signalNoiseUpdate); //  EXIT
-
-      signalNoiseUpdate.exit().remove(); // Noise Distribution
-      //  ENTER
-
-      var noiseEnter = signalNoiseEnter.append('g').classed('noise', true); //  MERGE
-
-      var noiseMerge = signalNoiseMerge.selectAll('.noise').attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive).on('keydown', this.interactive ? function (event) {
-        if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-          var muN = _this2.muN; // eslint-disable-line prefer-destructuring
-
-          switch (event.key) {
-            case 'ArrowRight':
-              muN += event.shiftKey ? 0.01 : 0.1;
-              break;
-
-            case 'ArrowLeft':
-              muN -= event.shiftKey ? 0.01 : 0.1;
-              break;
-          } // Clamp C to visible extent
-
-
-          muN = muN < xScale.domain()[0] ? xScale.domain()[0] : muN > xScale.domain()[1] ? xScale.domain()[1] : muN;
-
-          if (muN !== _this2.muN) {
-            _this2.d = SDTMath.muN2D(muN, _this2.s);
-
-            _this2.alignState();
-
-            _this2.sendEvent();
-          }
-
-          event.preventDefault();
-        }
-      } : null);
-
-      if (this.firstUpdate || changedProperties.has('interactive')) {
-        if (this.interactive) {
-          noiseMerge.call(dragNoise);
-        } else {
-          noiseMerge.on('.drag', null);
-        }
-      } // CR Curve
-      //  ENTER
-
-
-      noiseEnter.append('path').classed('curve-cr', true); //  MERGE
-
-      noiseMerge.select('.curve-cr').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', function (datum, index, elements) {
-        var element = elements[index];
-        var interpolateD = interpolate$1(element.d !== undefined ? element.d : _this2.d, _this2.d);
-        var interpolateC = interpolate$1(element.c !== undefined ? element.c : _this2.c, _this2.c);
-        var interpolateS = interpolate$1(element.s !== undefined ? element.s : _this2.s, _this2.s);
-        return function (time) {
-          element.d = interpolateD(time);
-          element.c = interpolateC(time);
-          element.s = interpolateS(time);
-          var correctRejections = range(xScale.domain()[0], SDTMath.c2L(element.c, element.s), 0.05).map(function (e) {
-            return {
-              e: e,
-              p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
-            };
-          });
-          correctRejections.push({
-            e: SDTMath.c2L(element.c, element.s),
-            p: jstat.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuN(element.d, element.s), 1)
-          });
-          correctRejections.push({
-            e: SDTMath.c2L(element.c, element.s),
-            p: 0
-          });
-          correctRejections.push({
-            e: xScale.domain()[0],
-            p: 0
-          });
-          return line$1(correctRejections);
-        };
-      }); // FA Curve
-      //  ENTER
-
-      noiseEnter.append('path').classed('curve-fa', true); //  MERGE
-
-      noiseMerge.select('.curve-fa').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', function (datum, index, elements) {
-        var element = elements[index];
-        var interpolateD = interpolate$1(element.d !== undefined ? element.d : _this2.d, _this2.d);
-        var interpolateC = interpolate$1(element.c !== undefined ? element.c : _this2.c, _this2.c);
-        var interpolateS = interpolate$1(element.s !== undefined ? element.s : _this2.s, _this2.s);
-        return function (time) {
-          element.d = interpolateD(time);
-          element.c = interpolateC(time);
-          element.s = interpolateS(time);
-          var falseAlarms = range(SDTMath.c2L(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
-            return {
-              e: e,
-              p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
-            };
-          });
-          falseAlarms.push({
-            e: xScale.domain()[1],
-            p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
-          });
-          falseAlarms.push({
-            e: xScale.domain()[1],
-            p: 0
-          });
-          falseAlarms.push({
-            e: SDTMath.c2L(element.c, element.s),
-            p: 0
-          });
-          return line$1(falseAlarms);
-        };
-      }); // Noise Curve
-      //  ENTER
-
-      noiseEnter.append('path').classed('curve-noise', true); //  MERGE
-
-      noiseMerge.select('.curve-noise').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', function (datum, index, elements) {
-        var element = elements[index];
-        var interpolateD = interpolate$1(element.d !== undefined ? element.d : _this2.d, _this2.d);
-        var interpolateS = interpolate$1(element.s !== undefined ? element.s : _this2.s, _this2.s);
-        return function (time) {
-          element.d = interpolateD(time);
-          element.s = interpolateS(time);
-          var noise = range(xScale.domain()[0], xScale.domain()[1], 0.05).map(function (e) {
-            return {
-              e: e,
-              p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
-            };
-          });
-          noise.push({
-            e: xScale.domain()[1],
-            p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
-          });
-          return line$1(noise);
-        };
-      }); // Signal + Noise Distribution
-      //  ENTER
-
-      var signalEnter = signalNoiseEnter.append('g').classed('signal', true); //  MERGE
-
-      var signalMerge = signalNoiseMerge.selectAll('.signal').attr('tabindex', this.interactive || this.unequal ? 0 : null).classed('interactive', this.interactive).classed('unequal', this.unequal).on('keydown.sensitivity', this.interactive ? function (event) {
-        if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-          var muS = _this2.muS; // eslint-disable-line prefer-destructuring
-
-          switch (event.key) {
-            case 'ArrowRight':
-              muS += event.shiftKey ? 0.01 : 0.1;
-              break;
-
-            case 'ArrowLeft':
-              muS -= event.shiftKey ? 0.01 : 0.1;
-              break;
-          } // Clamp C to visible extent
-
-
-          muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
-
-          if (muS !== _this2.muS) {
-            _this2.d = SDTMath.muS2D(muS, _this2.s);
-
-            _this2.alignState();
-
-            _this2.sendEvent();
-          }
-
-          event.preventDefault();
-        }
-      } : null).on('keydown.variance', this.unequal ? function (event) {
-        if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-          var hS = _this2.hS; // eslint-disable-line prefer-destructuring
-
-          switch (event.key) {
-            case 'ArrowUp':
-              hS += event.shiftKey ? 0.002 : 0.02;
-              break;
-
-            case 'ArrowDown':
-              hS -= event.shiftKey ? 0.002 : 0.02;
-              break;
-          } // Clamp s so distribution stays visible
-
-
-          hS = hS < 0.01 ? 0.01 : hS > yScale.domain()[0] ? yScale.domain()[0] : hS;
-
-          if (hS !== _this2.hS) {
-            _this2.s = SDTMath.h2S(hS);
-            _this2.d = SDTMath.muN2D(_this2.muN, _this2.s);
-            _this2.c = SDTMath.l2C(_this2.l, _this2.s);
-
-            _this2.alignState();
-
-            _this2.sendEvent();
-          }
-
-          event.preventDefault();
-        }
-      } : null);
-
-      if (this.firstUpdate || changedProperties.has('interactive') || changedProperties.has('unequal')) {
-        if (this.interactive || this.unequal) {
-          signalMerge.call(dragSignal);
-        } else {
-          signalMerge.on('.drag', null);
-        }
-      } // M Curve
-      //  ENTER
-
-
-      signalEnter.append('path').classed('curve-m', true); //  MERGE
-
-      signalMerge.select('.curve-m').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', function (datum, index, elements) {
-        var element = elements[index];
-        var interpolateD = interpolate$1(element.d !== undefined ? element.d : _this2.d, _this2.d);
-        var interpolateC = interpolate$1(element.c !== undefined ? element.c : _this2.c, _this2.c);
-        var interpolateS = interpolate$1(element.s !== undefined ? element.s : _this2.s, _this2.s);
-        return function (time) {
-          element.d = interpolateD(time);
-          element.c = interpolateC(time);
-          element.s = interpolateS(time);
-          var misses = range(xScale.domain()[0], SDTMath.c2L(element.c, element.s), 0.05).map(function (e) {
-            return {
-              e: e,
-              p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
-            };
-          });
-          misses.push({
-            e: SDTMath.c2L(element.c, element.s),
-            p: jstat.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuS(element.d, element.s), element.s)
-          });
-          misses.push({
-            e: SDTMath.c2L(element.c, element.s),
-            p: 0
-          });
-          misses.push({
-            e: xScale.domain()[0],
-            p: 0
-          });
-          return line$1(misses);
-        };
-      }); // H Curve
-      //  ENTER
-
-      signalEnter.append('path').classed('curve-h', true); //  MERGE
-
-      signalMerge.select('.curve-h').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', function (datum, index, elements) {
-        var element = elements[index];
-        var interpolateD = interpolate$1(element.d !== undefined ? element.d : _this2.d, _this2.d);
-        var interpolateC = interpolate$1(element.c !== undefined ? element.c : _this2.c, _this2.c);
-        var interpolateS = interpolate$1(element.s !== undefined ? element.s : _this2.s, _this2.s);
-        return function (time) {
-          element.d = interpolateD(time);
-          element.c = interpolateC(time);
-          element.s = interpolateS(time);
-          var hits = range(SDTMath.c2L(element.c, element.s), xScale.domain()[1], 0.05).map(function (e) {
-            return {
-              e: e,
-              p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
-            };
-          });
-          hits.push({
-            e: xScale.domain()[1],
-            p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
-          });
-          hits.push({
-            e: xScale.domain()[1],
-            p: 0
-          });
-          hits.push({
-            e: SDTMath.c2L(element.c, element.s),
-            p: 0
-          });
-          return line$1(hits);
-        };
-      }); // Signal Curve
-      //  ENTER
-
-      signalEnter.append('path').classed('curve-signal', true); //  MERGE
-
-      signalMerge.select('.curve-signal').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', function (datum, index, elements) {
-        var element = elements[index];
-        var interpolateD = interpolate$1(element.d !== undefined ? element.d : _this2.d, _this2.d);
-        var interpolateS = interpolate$1(element.s !== undefined ? element.s : _this2.s, _this2.s);
-        return function (time) {
-          element.d = interpolateD(time);
-          element.s = interpolateS(time);
-          var signal = range(xScale.domain()[0], xScale.domain()[1], 0.05).map(function (e) {
-            return {
-              e: e,
-              p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
-            };
-          });
-          signal.push({
-            e: xScale.domain()[1],
-            p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
-          });
-          return line$1(signal);
-        };
-      }); // d' Measure
-      //  DATA-JOIN
-
-      var dUpdate = contentMerge.selectAll('.measure-d').data(this.sensitivity ? [{}] : []); //  ENTER
-
-      var dEnter = dUpdate.enter().append('g').classed('measure-d', true);
-      dEnter.append('line').classed('line', true);
-      dEnter.append('line').classed('cap-left', true);
-      dEnter.append('line').classed('cap-right', true);
-      var dLabel = dEnter.append('text').classed('label', true);
-      dLabel.append('tspan').classed('d math-var', true).text('d′');
-      dLabel.append('tspan').classed('equals', true).text(' = ');
-      dLabel.append('tspan').classed('value', true); //  MERGE
-
-      var dMerge = dEnter.merge(dUpdate);
-      dMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43)) // FIX - no hardcoding
-      .attr('x2', xScale(this.muS)).attr('y2', yScale(0.43)); // FIX - no hardcoding
-
-      dMerge.select('.cap-left').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
-      .attr('x2', xScale(this.muN)).attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
-
-      dMerge.select('.cap-right').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
-      .attr('x2', xScale(this.muS)).attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
-
-      var dLabelTransition = dMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(this.muN > this.muS ? this.muN : this.muS) + 5).attr('y', yScale(0.43) + 3); // FIX - no hardcoding
-
-      dLabelTransition.select('.value').tween('text', function (datum, index, elements) {
-        var element = elements[index];
-        var interpolateD = interpolate$1(element.d !== undefined ? element.d : _this2.d, _this2.d);
-        return function (time) {
-          element.d = interpolateD(time);
-          select(element).text(+element.d.toFixed(3));
-        };
-      }); //  EXIT
-
-      dUpdate.exit().remove(); // c Measure
-      //  DATA-JOIN
-
-      var cUpdate = contentMerge.selectAll('.measure-c').data(this.bias ? [{}] : []); //  ENTER
-
-      var cEnter = cUpdate.enter().append('g').classed('measure-c', true);
-      cEnter.append('line').classed('line', true);
-      cEnter.append('line').classed('cap-zero', true);
-      var cLabel = cEnter.append('text').classed('label', true);
-      cLabel.append('tspan').classed('c math-var', true).text('c');
-      cLabel.append('tspan').classed('equals', true).text(' = ');
-      cLabel.append('tspan').classed('value', true); //  MERGE
-
-      var cMerge = cEnter.merge(cUpdate);
-      cMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0.47)) // FIX - no hardcoding
-      .attr('x2', xScale(0)).attr('y2', yScale(0.47)); // FIX - no hardcoding
-
-      cMerge.select('.cap-zero').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(0)).attr('y1', yScale(0.47) + 5) // FIX - no hardcoding
-      .attr('x2', xScale(0)).attr('y2', yScale(0.47) - 5); // FIX - no hardcoding
-
-      var cLabelTransition = cMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(0) + (this.l < 0 ? 5 : -5)).attr('y', yScale(0.47) + 3) // FIX - no hardcoding
-      .attr('text-anchor', this.c < 0 ? 'start' : 'end');
-      cLabelTransition.select('.value').tween('text', function (datum, index, elements) {
-        var element = elements[index];
-        var interpolateC = interpolate$1(element.c !== undefined ? element.c : _this2.c, _this2.c);
-        return function (time) {
-          element.c = interpolateC(time);
-          select(element).text(+element.c.toFixed(3));
-        };
-      }); //  EXIT
-
-      cUpdate.exit().remove(); // s Measure
-      //  DATA-JOIN
-
-      var sUpdate = contentMerge.selectAll('.measure-s').data(this.variance ? [{}] : []); //  ENTER
-
-      var sEnter = sUpdate.enter().append('g').classed('measure-s', true);
-      sEnter.append('line').classed('line', true);
-      sEnter.append('line').classed('cap-left', true);
-      sEnter.append('line').classed('cap-right', true);
-      var sLabel = sEnter.append('text').classed('label', true);
-      sLabel.append('tspan').classed('s math-var', true).text('σ');
-      sLabel.append('tspan').classed('equals', true).text(' = ');
-      sLabel.append('tspan').classed('value', true); //  MERGE
-
-      var sMerge = sEnter.merge(sUpdate);
-      sMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s) // FIX - no hardcoding
-      .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s); // FIX - no hardcoding
-
-      sMerge.select('.cap-left').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
-      .attr('x2', xScale(this.muS - this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
-
-      sMerge.select('.cap-right').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS + this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
-      .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
-
-      var sLabelTransition = sMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(this.muS)).attr('y', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 3); // FIX - no hardcoding
-
-      sLabelTransition.select('.value').tween('text', function (datum, index, elements) {
-        var element = elements[index];
-        var interpolateS = interpolate$1(element.s !== undefined ? element.s : _this2.s, _this2.s);
-        return function (time) {
-          element.s = interpolateS(time);
-          select(element).text(+element.s.toFixed(3));
-        };
-      }); //  EXIT
-
-      sUpdate.exit().remove(); // Threshold Line
-      //  DATA-JOIN
-
-      var thresholdUpdate = contentMerge.selectAll('.threshold').data(this.threshold ? [{}] : []); //  ENTER
-
-      var thresholdEnter = thresholdUpdate.enter().append('g').classed('threshold', true);
-      thresholdEnter.append('line').classed('line', true);
-      thresholdEnter.append('circle').classed('handle', true).attr('r', 6);
-      /* HACK: Firefox does not support CSS SVG Geometry Properties */
-      //  MERGE
-
-      var thresholdMerge = thresholdEnter.merge(thresholdUpdate).attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive);
-
-      if (this.firstUpdate || changedProperties.has('interactive')) {
-        if (this.interactive) {
-          thresholdMerge.call(dragThreshold).on('keydown', function (event) {
-            if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-              var l = _this2.l; // eslint-disable-line prefer-destructuring
-
-              switch (event.key) {
-                case 'ArrowRight':
-                  l += event.shiftKey ? 0.01 : 0.1;
-                  break;
-
-                case 'ArrowLeft':
-                  l -= event.shiftKey ? 0.01 : 0.1;
-                  break;
-              } // Clamp C to visible extent
-
-
-              l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
-
-              if (l !== _this2.l) {
-                _this2.c = SDTMath.l2C(l, _this2.s);
-
-                _this2.alignState();
-
-                _this2.sendEvent();
-              }
-
-              event.preventDefault();
-            }
-          });
-        } else {
-          thresholdMerge.on('drag', null).on('keydown', null);
-        }
+        event.preventDefault();
       }
+    } : null);
 
-      thresholdMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0)).attr('x2', xScale(this.l)).attr('y2', yScale(0.54));
-      thresholdMerge.select('.handle').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('cx', xScale(this.l)).attr('cy', yScale(0.54)); //  EXIT
-
-      thresholdUpdate.exit().remove(); // Histogram
-      //  DATA-JOIN
-
-      var histogramUpdate = contentMerge.selectAll('.histogram').data(this.histogram ? [{}] : []); //  ENTER
-
-      var histogramEnter = histogramUpdate.enter().append('g').classed('histogram', true); //  MERGE
-
-      var histogramMerge = histogramEnter.merge(histogramUpdate); //  EXIT
-
-      histogramUpdate.exit().remove(); // Trials
-
-      if (this.histogram) {
-        var histogram = bin().value(function (datum) {
-          return datum.trueEvidence;
-        }).domain(xScale.domain()).thresholds(range(this.binRange[0], this.binRange[1], this.binWidth));
-        var hist = histogram(this.trials);
-        var binCountLeft = -1;
-        var binCountRight = -1;
-
-        for (var i = 0; i < hist.length; i += 1) {
-          for (var j = 0; j < hist[i].length; j += 1) {
-            hist[i][j].binValue = hist[i].x0;
-            hist[i][j].binCount = j;
-            if (i === 0) binCountLeft = j;
-            if (i === hist.length - 1) binCountRight = j;
-          }
-        } // Put out-of-range values in extreme left/right bins
+    if (this.firstUpdate || changedProperties.has('interactive')) {
+      if (this.interactive) {
+        noiseMerge.call(dragNoise);
+      } else {
+        noiseMerge.on('.drag', null);
+      }
+    } // CR Curve
+    //  ENTER
 
 
-        for (var _i = 0; _i < this.trials.length; _i += 1) {
-          if (this.trials[_i].trueEvidence < this.binRange[0]) {
-            binCountLeft += 1;
-            this.trials[_i].binCount = binCountLeft;
-            this.trials[_i].binValue = hist[0].x0;
-          }
+    noiseEnter.append('path').classed('curve-cr', true); //  MERGE
 
-          if (this.trials[_i].trueEvidence > this.binRange[1]) {
-            binCountRight += 1;
-            this.trials[_i].binCount = binCountRight;
-            this.trials[_i].binValue = hist[hist.length - 1].x0;
-          }
-        } //  DATA-JOIN
-
-
-        var trialUpdate = histogramMerge.selectAll('.trial').data(this.trials, function (datum) {
-          return datum.trial;
-        }); //  ENTER
-
-        var trialEnter = trialUpdate.enter().append('rect').attr('stroke-width', strokeWidth).attr('data-new-trial-ease-time', 0) // use 'data-trial-enter'
-        .attr('stroke', this.getComputedStyleValue('---color-acc')).attr('fill', this.getComputedStyleValue('---color-acc-light')); //  MERGE
-
-        var trialMerge = trialEnter.merge(trialUpdate).attr('class', function (datum) {
-          return "trial ".concat(datum.outcome);
-        }).attr('width', binWidth - strokeWidth).attr('height', binWidth - strokeWidth); //  MERGE - Active New Trials
-
-        var trialMergeNewActive = trialMerge.filter(function (datum) {
-          return datum.new && !datum.paused;
+    noiseMerge.select('.curve-cr').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
+      const interpolateC = interpolate$1(element.c !== undefined ? element.c : this.c, this.c);
+      const interpolateS = interpolate$1(element.s !== undefined ? element.s : this.s, this.s);
+      return time => {
+        element.d = interpolateD(time);
+        element.c = interpolateC(time);
+        element.s = interpolateS(time);
+        const correctRejections = range(xScale.domain()[0], SDTMath.c2L(element.c, element.s), 0.05).map(e => {
+          return {
+            e: e,
+            p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
+          };
         });
-
-        if (!trialMergeNewActive.empty()) {
-          var easeTime = trialMergeNewActive.attr('data-new-trial-ease-time');
-
-          var scaleIn = function scaleIn(time) {
-            return linear().domain([0, 1]).range([easeTime, 1])(time);
-          };
-
-          var scaleOutGenerator = function scaleOutGenerator(easeFunction) {
-            return function (time) {
-              return linear().domain([easeFunction(easeTime), 1]).range([0, 1])(easeFunction(time));
-            };
-          };
-
-          trialMergeNewActive.transition('new').duration(function (datum) {
-            return Math.floor((datum.duration * 0.75 + datum.wait * 0.25) * (1 - easeTime));
-          }).ease(scaleIn).attr('data-new-trial-ease-time', 1).attrTween('stroke', function (datum, index, elements) {
-            var element = elements[index];
-            var interpolator = interpolateRgb(element.getAttribute('stroke'), _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr') : _this2.getComputedStyleValue('---color-far') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response)) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome)) : _this2.getComputedStyleValue('---color-acc'));
-            return function (time) {
-              return interpolator(scaleOutGenerator(cubicIn)(time));
-            };
-          }).attrTween('fill', function (datum, index, elements) {
-            var element = elements[index];
-            var interpolator = interpolateRgb(element.getAttribute('fill'), _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr-light') : _this2.getComputedStyleValue('---color-far-light') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response, "-light")) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome, "-light")) : _this2.getComputedStyleValue('---color-acc-light'));
-            return function (time) {
-              return interpolator(scaleOutGenerator(cubicIn)(time));
-            };
-          }).attrTween('x', function (datum, index, elements) {
-            var element = elements[index];
-            var interpolator = interpolate$1(element.getAttribute('x'), xScale(datum.binValue) + strokeWidth / 2);
-            return function (time) {
-              return interpolator(scaleOutGenerator(cubicOut)(time));
-            };
-          }).attrTween('y', function (datum, index, elements) {
-            var element = elements[index];
-            var interpolator = interpolate$1(element.getAttribute('y'), yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth);
-            return function (time) {
-              return interpolator(scaleOutGenerator(cubicIn)(time));
-            };
-          }).on('end', function (datum, index, elements) {
-            var element = elements[index];
-            element.removeAttribute('data-new-trial-ease-time');
-            datum.new = false;
-
-            _this2.alignTrial(datum);
-
-            _this2.dispatchEvent(new CustomEvent('detectable-response', {
-              detail: {
-                stimulus: datum.signal,
-                response: datum.response,
-                outcome: datum.outcome,
-                h: _this2.h,
-                m: _this2.m,
-                fa: _this2.fa,
-                cr: _this2.cr,
-                nr: 0
-              },
-              bubbles: true
-            }));
-          });
-        } // MERGE - Paused New Trials
-
-
-        var trialMergeNewPaused = trialMerge.filter(function (datum) {
-          return datum.new && datum.paused;
+        correctRejections.push({
+          e: SDTMath.c2L(element.c, element.s),
+          p: jstat.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuN(element.d, element.s), 1)
         });
-
-        if (!trialMergeNewPaused.empty()) {
-          var _easeTime = trialMergeNewPaused.attr('data-new-trial-ease-time');
-
-          trialMergeNewPaused.transition().duration(transitionDuration).ease(cubicOut).attr('x', function (datum) {
-            var interpolator = interpolate$1(0, xScale(datum.binValue) + strokeWidth / 2);
-            return interpolator(cubicOut(_easeTime));
-          }).attr('y', function (datum) {
-            var interpolator = interpolate$1(0, yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth);
-            return interpolator(cubicIn(_easeTime));
-          }).attr('stroke', function (datum) {
-            var interpolator = interpolateRgb(_this2.getComputedStyleValue('---color-acc'), _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr') : _this2.getComputedStyleValue('---color-far') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response)) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome)) : _this2.getComputedStyleValue('---color-acc'));
-            return interpolator(cubicIn(_easeTime));
-          }).attr('fill', function (datum) {
-            var interpolator = interpolateRgb(_this2.getComputedStyleValue('---color-acc-light'), _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr-light') : _this2.getComputedStyleValue('---color-far-light') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response, "-light")) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome, "-light")) : _this2.getComputedStyleValue('---color-acc-light'));
-            return interpolator(cubicIn(_easeTime));
-          });
-        } //  MERGE - Old Trials
-
-
-        trialMerge.filter(function (datum) {
-          return !datum.new;
-        }).transition().duration(transitionDuration).ease(cubicOut).attr('x', function (datum) {
-          return xScale(datum.binValue) + strokeWidth / 2;
-        }).attr('y', function (datum) {
-          return yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth;
-        }).attr('stroke', function (datum) {
-          return _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr') : _this2.getComputedStyleValue('---color-far') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response)) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome)) : _this2.getComputedStyleValue('---color-acc');
-        }).attr('fill', function (datum) {
-          return _this2.color === 'stimulus' ? datum.signal === 'present' ? _this2.getComputedStyleValue('---color-hr-light') : _this2.getComputedStyleValue('---color-far-light') : _this2.color === 'response' ? _this2.getComputedStyleValue("---color-".concat(datum.response, "-light")) : _this2.color === 'outcome' ? _this2.getComputedStyleValue("---color-".concat(datum.outcome, "-light")) : _this2.getComputedStyleValue('---color-acc-light');
-        }); //  EXIT
-
-        trialUpdate.exit().transition().duration(transitionDuration).ease(linear$1).attrTween('stroke', function (datum, index, elements) {
-          var element = elements[index];
-          var interpolator = interpolateRgb(element.getAttribute('stroke'), _this2.getComputedStyleValue('---color-acc'));
-          return function (time) {
-            return interpolator(cubicIn(time));
-          };
-        }).attrTween('fill', function (datum, index, elements) {
-          var element = elements[index];
-          var interpolator = interpolateRgb(element.getAttribute('fill'), _this2.getComputedStyleValue('---color-acc-light'));
-          return function (time) {
-            return interpolator(cubicIn(time));
-          };
-        }).attrTween('x', function (datum, index, elements) {
-          var element = elements[index];
-          var interpolator = interpolate$1(element.getAttribute('x'), 0);
-          return function (time) {
-            return interpolator(cubicIn(time));
-          };
-        }).attrTween('y', function (datum, index, elements) {
-          var element = elements[index];
-          var interpolator = interpolate$1(element.getAttribute('y'), 0);
-          return function (time) {
-            return interpolator(cubicOut(time));
-          };
-        }).remove();
-      } // Overlayer
-      //  ENTER
-
-
-      var overlayerEnter = plotEnter.append('g').classed('overlayer', true); // MERGE
-
-      var overlayerMerge = plotMerge.select('.overlayer'); // Background
-      //  ENTER
-
-      overlayerEnter.append('rect').classed('background', true); //  MERGE
-
-      overlayerMerge.select('.background').attr('height', height).attr('width', width);
-      this.drag = false;
-      this.firstUpdate = false;
-    } // Called to pause trial animations!
-
-  }, {
-    key: "pauseTrial",
-    value: function pauseTrial() {
-      var trialNew = select(this.renderRoot).select('.trial[data-new-trial-ease-time]');
-      trialNew.interrupt('new');
-      trialNew.datum(function (datum) {
-        datum.paused = true;
-        return datum;
-      });
-    } // Called to resume trial animations!
-
-  }, {
-    key: "resumeTrial",
-    value: function resumeTrial() {
-      var trialNew = select(this.renderRoot).select('.trial[data-new-trial-ease-time]');
-      trialNew.datum(function (datum) {
-        datum.paused = false;
-        return datum;
-      });
-      this.requestUpdate();
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        color: {
-          attribute: 'color',
-          type: String,
-          reflect: true
-        },
-        distributions: {
-          attribute: 'distributions',
-          type: Boolean,
-          reflect: true
-        },
-        threshold: {
-          attribute: 'threshold',
-          type: Boolean,
-          reflect: true
-        },
-        unequal: {
-          attribute: 'unequal',
-          type: Boolean,
-          reflect: true
-        },
-        sensitivity: {
-          attribute: 'sensitivity',
-          type: Boolean,
-          reflect: true
-        },
-        bias: {
-          attribute: 'bias',
-          type: Boolean,
-          reflect: true
-        },
-        variance: {
-          attribute: 'variance',
-          type: Boolean,
-          reflect: true
-        },
-        histogram: {
-          attribute: 'histogram',
-          type: Boolean,
-          reflect: true
-        },
-        d: {
-          attribute: 'd',
-          type: Number,
-          reflect: true
-        },
-        c: {
-          attribute: 'c',
-          type: Number,
-          reflect: true
-        },
-        s: {
-          attribute: 's',
-          type: Number,
-          reflect: true
-        },
-        far: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        hr: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        binWidth: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        trials: {
-          attribute: false,
-          type: Array,
-          reflect: false
-        },
-        width: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        height: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        rem: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        }
+        correctRejections.push({
+          e: SDTMath.c2L(element.c, element.s),
+          p: 0
+        });
+        correctRejections.push({
+          e: xScale.domain()[0],
+          p: 0
+        });
+        return line$1(correctRejections);
       };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(SDTModel), "styles", this), r$2(_templateObject2$a || (_templateObject2$a = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n\n          width: 27rem;\n          height: 15rem;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line,\n        .axis-y2 path,\n        .axis-y2 line {\n          stroke: var(---color-element-border);\n        }\n\n        .noise.interactive,\n        .signal.interactive,\n        .threshold.interactive {\n          cursor: ew-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.unequal {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.interactive.unequal {\n          cursor: move;\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .noise.interactive:active,\n        .signal.interactive:active,\n        .signal.unequal:active,\n        .threshold.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .noise.interactive:focus,\n        :host(.keyboard) .signal.interactive:focus,\n        :host(.keyboard) .signal.unequal:focus,\n        :host(.keyboard) .threshold.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .underlayer .background {\n          fill: var(---color-element-background);\n          stroke: none;\n        }\n\n        .overlayer .background {\n          fill: none;\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-y2 {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .curve-cr,\n        .curve-fa,\n        .curve-m,\n        .curve-h {\n          fill-opacity: 0.5;\n          stroke: none;\n\n          transition: fill var(---transition-duration) ease;\n        }\n\n        .curve-cr {\n          fill: var(---color-cr);\n        }\n\n        .curve-fa {\n          fill: var(---color-fa);\n        }\n\n        .curve-m {\n          fill: var(---color-m);\n        }\n\n        .curve-h {\n          fill: var(---color-h);\n        }\n\n        :host([color=\"accuracy\"]) .curve-h,\n        :host([color=\"accuracy\"]) .curve-cr {\n          fill: var(---color-correct);\n        }\n\n        :host([color=\"accuracy\"]) .curve-m,\n        :host([color=\"accuracy\"]) .curve-fa {\n          fill: var(---color-error);\n        }\n\n        :host([color=\"stimulus\"]) .curve-cr,\n        :host([color=\"stimulus\"]) .curve-fa {\n          fill: var(---color-far);\n        }\n\n        :host([color=\"stimulus\"]) .curve-m,\n        :host([color=\"stimulus\"]) .curve-h {\n          fill: var(---color-hr);\n        }\n\n        :host([color=\"response\"]) .curve-cr,\n        :host([color=\"response\"]) .curve-m {\n          fill: var(---color-absent);\n        }\n\n        :host([color=\"response\"]) .curve-fa,\n        :host([color=\"response\"]) .curve-h {\n          fill: var(---color-present);\n        }\n\n        :host([color=\"none\"]) .curve-cr,\n        :host([color=\"none\"]) .curve-fa,\n        :host([color=\"none\"]) .curve-m,\n        :host([color=\"none\"]) .curve-h {\n          fill: var(---color-element-enabled);\n        }\n\n        .curve-noise,\n        .curve-signal {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .measure-d,\n        .measure-c,\n        .measure-s {\n          pointer-events: none;\n        }\n\n        .threshold .line {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .threshold .handle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .threshold.interactive .handle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .measure-d .line,\n        .measure-d .cap-left,\n        .measure-d .cap-right {\n          stroke: var(---color-d);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-d .label {\n          font-size: 0.75rem;\n\n          text-anchor: start;\n          fill: currentColor;\n        }\n\n        .measure-c .line,\n        .measure-c .cap-zero {\n          stroke: var(---color-c);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-c .label {\n          font-size: 0.75rem;\n\n          fill: currentColor;\n        }\n\n        .measure-s .line,\n        .measure-s .cap-left,\n        .measure-s .cap-right {\n          stroke: var(---color-s);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-s .label {\n          font-size: 0.75rem;\n\n          text-anchor: middle;\n          fill: currentColor;\n        }\n      "])))];
-    }
-  }]);
+    }); // FA Curve
+    //  ENTER
 
-  return SDTModel;
-}(DetectableElement);
+    noiseEnter.append('path').classed('curve-fa', true); //  MERGE
+
+    noiseMerge.select('.curve-fa').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
+      const interpolateC = interpolate$1(element.c !== undefined ? element.c : this.c, this.c);
+      const interpolateS = interpolate$1(element.s !== undefined ? element.s : this.s, this.s);
+      return time => {
+        element.d = interpolateD(time);
+        element.c = interpolateC(time);
+        element.s = interpolateS(time);
+        const falseAlarms = range(SDTMath.c2L(element.c, element.s), xScale.domain()[1], 0.05).map(e => {
+          return {
+            e: e,
+            p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
+          };
+        });
+        falseAlarms.push({
+          e: xScale.domain()[1],
+          p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
+        });
+        falseAlarms.push({
+          e: xScale.domain()[1],
+          p: 0
+        });
+        falseAlarms.push({
+          e: SDTMath.c2L(element.c, element.s),
+          p: 0
+        });
+        return line$1(falseAlarms);
+      };
+    }); // Noise Curve
+    //  ENTER
+
+    noiseEnter.append('path').classed('curve-noise', true); //  MERGE
+
+    noiseMerge.select('.curve-noise').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
+      const interpolateS = interpolate$1(element.s !== undefined ? element.s : this.s, this.s);
+      return time => {
+        element.d = interpolateD(time);
+        element.s = interpolateS(time);
+        const noise = range(xScale.domain()[0], xScale.domain()[1], 0.05).map(e => {
+          return {
+            e: e,
+            p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
+          };
+        });
+        noise.push({
+          e: xScale.domain()[1],
+          p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
+        });
+        return line$1(noise);
+      };
+    }); // Signal + Noise Distribution
+    //  ENTER
+
+    const signalEnter = signalNoiseEnter.append('g').classed('signal', true); //  MERGE
+
+    const signalMerge = signalNoiseMerge.selectAll('.signal').attr('tabindex', this.interactive || this.unequal ? 0 : null).classed('interactive', this.interactive).classed('unequal', this.unequal).on('keydown.sensitivity', this.interactive ? event => {
+      if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
+        let muS = this.muS; // eslint-disable-line prefer-destructuring
+
+        switch (event.key) {
+          case 'ArrowRight':
+            muS += event.shiftKey ? 0.01 : 0.1;
+            break;
+
+          case 'ArrowLeft':
+            muS -= event.shiftKey ? 0.01 : 0.1;
+            break;
+        } // Clamp C to visible extent
+
+
+        muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
+
+        if (muS !== this.muS) {
+          this.d = SDTMath.muS2D(muS, this.s);
+          this.alignState();
+          this.sendEvent();
+        }
+
+        event.preventDefault();
+      }
+    } : null).on('keydown.variance', this.unequal ? event => {
+      if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
+        let hS = this.hS; // eslint-disable-line prefer-destructuring
+
+        switch (event.key) {
+          case 'ArrowUp':
+            hS += event.shiftKey ? 0.002 : 0.02;
+            break;
+
+          case 'ArrowDown':
+            hS -= event.shiftKey ? 0.002 : 0.02;
+            break;
+        } // Clamp s so distribution stays visible
+
+
+        hS = hS < 0.01 ? 0.01 : hS > yScale.domain()[0] ? yScale.domain()[0] : hS;
+
+        if (hS !== this.hS) {
+          this.s = SDTMath.h2S(hS);
+          this.d = SDTMath.muN2D(this.muN, this.s);
+          this.c = SDTMath.l2C(this.l, this.s);
+          this.alignState();
+          this.sendEvent();
+        }
+
+        event.preventDefault();
+      }
+    } : null);
+
+    if (this.firstUpdate || changedProperties.has('interactive') || changedProperties.has('unequal')) {
+      if (this.interactive || this.unequal) {
+        signalMerge.call(dragSignal);
+      } else {
+        signalMerge.on('.drag', null);
+      }
+    } // M Curve
+    //  ENTER
+
+
+    signalEnter.append('path').classed('curve-m', true); //  MERGE
+
+    signalMerge.select('.curve-m').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
+      const interpolateC = interpolate$1(element.c !== undefined ? element.c : this.c, this.c);
+      const interpolateS = interpolate$1(element.s !== undefined ? element.s : this.s, this.s);
+      return time => {
+        element.d = interpolateD(time);
+        element.c = interpolateC(time);
+        element.s = interpolateS(time);
+        const misses = range(xScale.domain()[0], SDTMath.c2L(element.c, element.s), 0.05).map(e => {
+          return {
+            e: e,
+            p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
+          };
+        });
+        misses.push({
+          e: SDTMath.c2L(element.c, element.s),
+          p: jstat.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuS(element.d, element.s), element.s)
+        });
+        misses.push({
+          e: SDTMath.c2L(element.c, element.s),
+          p: 0
+        });
+        misses.push({
+          e: xScale.domain()[0],
+          p: 0
+        });
+        return line$1(misses);
+      };
+    }); // H Curve
+    //  ENTER
+
+    signalEnter.append('path').classed('curve-h', true); //  MERGE
+
+    signalMerge.select('.curve-h').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
+      const interpolateC = interpolate$1(element.c !== undefined ? element.c : this.c, this.c);
+      const interpolateS = interpolate$1(element.s !== undefined ? element.s : this.s, this.s);
+      return time => {
+        element.d = interpolateD(time);
+        element.c = interpolateC(time);
+        element.s = interpolateS(time);
+        const hits = range(SDTMath.c2L(element.c, element.s), xScale.domain()[1], 0.05).map(e => {
+          return {
+            e: e,
+            p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
+          };
+        });
+        hits.push({
+          e: xScale.domain()[1],
+          p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
+        });
+        hits.push({
+          e: xScale.domain()[1],
+          p: 0
+        });
+        hits.push({
+          e: SDTMath.c2L(element.c, element.s),
+          p: 0
+        });
+        return line$1(hits);
+      };
+    }); // Signal Curve
+    //  ENTER
+
+    signalEnter.append('path').classed('curve-signal', true); //  MERGE
+
+    signalMerge.select('.curve-signal').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
+      const interpolateS = interpolate$1(element.s !== undefined ? element.s : this.s, this.s);
+      return time => {
+        element.d = interpolateD(time);
+        element.s = interpolateS(time);
+        const signal = range(xScale.domain()[0], xScale.domain()[1], 0.05).map(e => {
+          return {
+            e: e,
+            p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
+          };
+        });
+        signal.push({
+          e: xScale.domain()[1],
+          p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
+        });
+        return line$1(signal);
+      };
+    }); // d' Measure
+    //  DATA-JOIN
+
+    const dUpdate = contentMerge.selectAll('.measure-d').data(this.sensitivity ? [{}] : []); //  ENTER
+
+    const dEnter = dUpdate.enter().append('g').classed('measure-d', true);
+    dEnter.append('line').classed('line', true);
+    dEnter.append('line').classed('cap-left', true);
+    dEnter.append('line').classed('cap-right', true);
+    const dLabel = dEnter.append('text').classed('label', true);
+    dLabel.append('tspan').classed('d math-var', true).text('d′');
+    dLabel.append('tspan').classed('equals', true).text(' = ');
+    dLabel.append('tspan').classed('value', true); //  MERGE
+
+    const dMerge = dEnter.merge(dUpdate);
+    dMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43)) // FIX - no hardcoding
+    .attr('x2', xScale(this.muS)).attr('y2', yScale(0.43)); // FIX - no hardcoding
+
+    dMerge.select('.cap-left').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
+    .attr('x2', xScale(this.muN)).attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
+
+    dMerge.select('.cap-right').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
+    .attr('x2', xScale(this.muS)).attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
+
+    const dLabelTransition = dMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(this.muN > this.muS ? this.muN : this.muS) + 5).attr('y', yScale(0.43) + 3); // FIX - no hardcoding
+
+    dLabelTransition.select('.value').tween('text', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
+      return time => {
+        element.d = interpolateD(time);
+        select(element).text(+element.d.toFixed(3));
+      };
+    }); //  EXIT
+
+    dUpdate.exit().remove(); // c Measure
+    //  DATA-JOIN
+
+    const cUpdate = contentMerge.selectAll('.measure-c').data(this.bias ? [{}] : []); //  ENTER
+
+    const cEnter = cUpdate.enter().append('g').classed('measure-c', true);
+    cEnter.append('line').classed('line', true);
+    cEnter.append('line').classed('cap-zero', true);
+    const cLabel = cEnter.append('text').classed('label', true);
+    cLabel.append('tspan').classed('c math-var', true).text('c');
+    cLabel.append('tspan').classed('equals', true).text(' = ');
+    cLabel.append('tspan').classed('value', true); //  MERGE
+
+    const cMerge = cEnter.merge(cUpdate);
+    cMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0.47)) // FIX - no hardcoding
+    .attr('x2', xScale(0)).attr('y2', yScale(0.47)); // FIX - no hardcoding
+
+    cMerge.select('.cap-zero').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(0)).attr('y1', yScale(0.47) + 5) // FIX - no hardcoding
+    .attr('x2', xScale(0)).attr('y2', yScale(0.47) - 5); // FIX - no hardcoding
+
+    const cLabelTransition = cMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(0) + (this.l < 0 ? 5 : -5)).attr('y', yScale(0.47) + 3) // FIX - no hardcoding
+    .attr('text-anchor', this.c < 0 ? 'start' : 'end');
+    cLabelTransition.select('.value').tween('text', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateC = interpolate$1(element.c !== undefined ? element.c : this.c, this.c);
+      return time => {
+        element.c = interpolateC(time);
+        select(element).text(+element.c.toFixed(3));
+      };
+    }); //  EXIT
+
+    cUpdate.exit().remove(); // s Measure
+    //  DATA-JOIN
+
+    const sUpdate = contentMerge.selectAll('.measure-s').data(this.variance ? [{}] : []); //  ENTER
+
+    const sEnter = sUpdate.enter().append('g').classed('measure-s', true);
+    sEnter.append('line').classed('line', true);
+    sEnter.append('line').classed('cap-left', true);
+    sEnter.append('line').classed('cap-right', true);
+    const sLabel = sEnter.append('text').classed('label', true);
+    sLabel.append('tspan').classed('s math-var', true).text('σ');
+    sLabel.append('tspan').classed('equals', true).text(' = ');
+    sLabel.append('tspan').classed('value', true); //  MERGE
+
+    const sMerge = sEnter.merge(sUpdate);
+    sMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s) // FIX - no hardcoding
+    .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s); // FIX - no hardcoding
+
+    sMerge.select('.cap-left').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
+    .attr('x2', xScale(this.muS - this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
+
+    sMerge.select('.cap-right').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS + this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
+    .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
+
+    const sLabelTransition = sMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(this.muS)).attr('y', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 3); // FIX - no hardcoding
+
+    sLabelTransition.select('.value').tween('text', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateS = interpolate$1(element.s !== undefined ? element.s : this.s, this.s);
+      return time => {
+        element.s = interpolateS(time);
+        select(element).text(+element.s.toFixed(3));
+      };
+    }); //  EXIT
+
+    sUpdate.exit().remove(); // Threshold Line
+    //  DATA-JOIN
+
+    const thresholdUpdate = contentMerge.selectAll('.threshold').data(this.threshold ? [{}] : []); //  ENTER
+
+    const thresholdEnter = thresholdUpdate.enter().append('g').classed('threshold', true);
+    thresholdEnter.append('line').classed('line', true);
+    thresholdEnter.append('circle').classed('handle', true).attr('r', 6);
+    /* HACK: Firefox does not support CSS SVG Geometry Properties */
+    //  MERGE
+
+    const thresholdMerge = thresholdEnter.merge(thresholdUpdate).attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive);
+
+    if (this.firstUpdate || changedProperties.has('interactive')) {
+      if (this.interactive) {
+        thresholdMerge.call(dragThreshold).on('keydown', event => {
+          if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
+            let l = this.l; // eslint-disable-line prefer-destructuring
+
+            switch (event.key) {
+              case 'ArrowRight':
+                l += event.shiftKey ? 0.01 : 0.1;
+                break;
+
+              case 'ArrowLeft':
+                l -= event.shiftKey ? 0.01 : 0.1;
+                break;
+            } // Clamp C to visible extent
+
+
+            l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
+
+            if (l !== this.l) {
+              this.c = SDTMath.l2C(l, this.s);
+              this.alignState();
+              this.sendEvent();
+            }
+
+            event.preventDefault();
+          }
+        });
+      } else {
+        thresholdMerge.on('drag', null).on('keydown', null);
+      }
+    }
+
+    thresholdMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0)).attr('x2', xScale(this.l)).attr('y2', yScale(0.54));
+    thresholdMerge.select('.handle').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('cx', xScale(this.l)).attr('cy', yScale(0.54)); //  EXIT
+
+    thresholdUpdate.exit().remove(); // Histogram
+    //  DATA-JOIN
+
+    const histogramUpdate = contentMerge.selectAll('.histogram').data(this.histogram ? [{}] : []); //  ENTER
+
+    const histogramEnter = histogramUpdate.enter().append('g').classed('histogram', true); //  MERGE
+
+    const histogramMerge = histogramEnter.merge(histogramUpdate); //  EXIT
+
+    histogramUpdate.exit().remove(); // Trials
+
+    if (this.histogram) {
+      const histogram = bin().value(datum => {
+        return datum.trueEvidence;
+      }).domain(xScale.domain()).thresholds(range(this.binRange[0], this.binRange[1], this.binWidth));
+      const hist = histogram(this.trials);
+      let binCountLeft = -1;
+      let binCountRight = -1;
+
+      for (let i = 0; i < hist.length; i += 1) {
+        for (let j = 0; j < hist[i].length; j += 1) {
+          hist[i][j].binValue = hist[i].x0;
+          hist[i][j].binCount = j;
+          if (i === 0) binCountLeft = j;
+          if (i === hist.length - 1) binCountRight = j;
+        }
+      } // Put out-of-range values in extreme left/right bins
+
+
+      for (let i = 0; i < this.trials.length; i += 1) {
+        if (this.trials[i].trueEvidence < this.binRange[0]) {
+          binCountLeft += 1;
+          this.trials[i].binCount = binCountLeft;
+          this.trials[i].binValue = hist[0].x0;
+        }
+
+        if (this.trials[i].trueEvidence > this.binRange[1]) {
+          binCountRight += 1;
+          this.trials[i].binCount = binCountRight;
+          this.trials[i].binValue = hist[hist.length - 1].x0;
+        }
+      } //  DATA-JOIN
+
+
+      const trialUpdate = histogramMerge.selectAll('.trial').data(this.trials, datum => {
+        return datum.trial;
+      }); //  ENTER
+
+      const trialEnter = trialUpdate.enter().append('rect').attr('stroke-width', strokeWidth).attr('data-new-trial-ease-time', 0) // use 'data-trial-enter'
+      .attr('stroke', this.getComputedStyleValue('---color-acc')).attr('fill', this.getComputedStyleValue('---color-acc-light')); //  MERGE
+
+      const trialMerge = trialEnter.merge(trialUpdate).attr('class', datum => {
+        return `trial ${datum.outcome}`;
+      }).attr('width', binWidth - strokeWidth).attr('height', binWidth - strokeWidth); //  MERGE - Active New Trials
+
+      const trialMergeNewActive = trialMerge.filter(datum => {
+        return datum.new && !datum.paused;
+      });
+
+      if (!trialMergeNewActive.empty()) {
+        const easeTime = trialMergeNewActive.attr('data-new-trial-ease-time');
+
+        const scaleIn = time => {
+          return linear().domain([0, 1]).range([easeTime, 1])(time);
+        };
+
+        const scaleOutGenerator = easeFunction => {
+          return time => {
+            return linear().domain([easeFunction(easeTime), 1]).range([0, 1])(easeFunction(time));
+          };
+        };
+
+        trialMergeNewActive.transition('new').duration(datum => {
+          return Math.floor((datum.duration * 0.75 + datum.wait * 0.25) * (1 - easeTime));
+        }).ease(scaleIn).attr('data-new-trial-ease-time', 1).attrTween('stroke', (datum, index, elements) => {
+          const element = elements[index];
+          const interpolator = interpolateRgb(element.getAttribute('stroke'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr') : this.getComputedStyleValue('---color-far') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}`) : this.getComputedStyleValue('---color-acc'));
+          return time => {
+            return interpolator(scaleOutGenerator(cubicIn)(time));
+          };
+        }).attrTween('fill', (datum, index, elements) => {
+          const element = elements[index];
+          const interpolator = interpolateRgb(element.getAttribute('fill'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr-light') : this.getComputedStyleValue('---color-far-light') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}-light`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}-light`) : this.getComputedStyleValue('---color-acc-light'));
+          return time => {
+            return interpolator(scaleOutGenerator(cubicIn)(time));
+          };
+        }).attrTween('x', (datum, index, elements) => {
+          const element = elements[index];
+          const interpolator = interpolate$1(element.getAttribute('x'), xScale(datum.binValue) + strokeWidth / 2);
+          return time => {
+            return interpolator(scaleOutGenerator(cubicOut)(time));
+          };
+        }).attrTween('y', (datum, index, elements) => {
+          const element = elements[index];
+          const interpolator = interpolate$1(element.getAttribute('y'), yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth);
+          return time => {
+            return interpolator(scaleOutGenerator(cubicIn)(time));
+          };
+        }).on('end', (datum, index, elements) => {
+          const element = elements[index];
+          element.removeAttribute('data-new-trial-ease-time');
+          datum.new = false;
+          this.alignTrial(datum);
+          this.dispatchEvent(new CustomEvent('detectable-response', {
+            detail: {
+              stimulus: datum.signal,
+              response: datum.response,
+              outcome: datum.outcome,
+              h: this.h,
+              m: this.m,
+              fa: this.fa,
+              cr: this.cr,
+              nr: 0
+            },
+            bubbles: true
+          }));
+        });
+      } // MERGE - Paused New Trials
+
+
+      const trialMergeNewPaused = trialMerge.filter(datum => {
+        return datum.new && datum.paused;
+      });
+
+      if (!trialMergeNewPaused.empty()) {
+        const easeTime = trialMergeNewPaused.attr('data-new-trial-ease-time');
+        trialMergeNewPaused.transition().duration(transitionDuration).ease(cubicOut).attr('x', datum => {
+          const interpolator = interpolate$1(0, xScale(datum.binValue) + strokeWidth / 2);
+          return interpolator(cubicOut(easeTime));
+        }).attr('y', datum => {
+          const interpolator = interpolate$1(0, yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth);
+          return interpolator(cubicIn(easeTime));
+        }).attr('stroke', datum => {
+          const interpolator = interpolateRgb(this.getComputedStyleValue('---color-acc'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr') : this.getComputedStyleValue('---color-far') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}`) : this.getComputedStyleValue('---color-acc'));
+          return interpolator(cubicIn(easeTime));
+        }).attr('fill', datum => {
+          const interpolator = interpolateRgb(this.getComputedStyleValue('---color-acc-light'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr-light') : this.getComputedStyleValue('---color-far-light') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}-light`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}-light`) : this.getComputedStyleValue('---color-acc-light'));
+          return interpolator(cubicIn(easeTime));
+        });
+      } //  MERGE - Old Trials
+
+
+      trialMerge.filter(datum => {
+        return !datum.new;
+      }).transition().duration(transitionDuration).ease(cubicOut).attr('x', datum => {
+        return xScale(datum.binValue) + strokeWidth / 2;
+      }).attr('y', datum => {
+        return yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth;
+      }).attr('stroke', datum => {
+        return this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr') : this.getComputedStyleValue('---color-far') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}`) : this.getComputedStyleValue('---color-acc');
+      }).attr('fill', datum => {
+        return this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr-light') : this.getComputedStyleValue('---color-far-light') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}-light`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}-light`) : this.getComputedStyleValue('---color-acc-light');
+      }); //  EXIT
+
+      trialUpdate.exit().transition().duration(transitionDuration).ease(linear$1).attrTween('stroke', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolator = interpolateRgb(element.getAttribute('stroke'), this.getComputedStyleValue('---color-acc'));
+        return time => {
+          return interpolator(cubicIn(time));
+        };
+      }).attrTween('fill', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolator = interpolateRgb(element.getAttribute('fill'), this.getComputedStyleValue('---color-acc-light'));
+        return time => {
+          return interpolator(cubicIn(time));
+        };
+      }).attrTween('x', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolator = interpolate$1(element.getAttribute('x'), 0);
+        return time => {
+          return interpolator(cubicIn(time));
+        };
+      }).attrTween('y', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolator = interpolate$1(element.getAttribute('y'), 0);
+        return time => {
+          return interpolator(cubicOut(time));
+        };
+      }).remove();
+    } // Overlayer
+    //  ENTER
+
+
+    const overlayerEnter = plotEnter.append('g').classed('overlayer', true); // MERGE
+
+    const overlayerMerge = plotMerge.select('.overlayer'); // Background
+    //  ENTER
+
+    overlayerEnter.append('rect').classed('background', true); //  MERGE
+
+    overlayerMerge.select('.background').attr('height', height).attr('width', width);
+    this.drag = false;
+    this.firstUpdate = false;
+  } // Called to pause trial animations!
+
+
+  pauseTrial() {
+    const trialNew = select(this.renderRoot).select('.trial[data-new-trial-ease-time]');
+    trialNew.interrupt('new');
+    trialNew.datum(datum => {
+      datum.paused = true;
+      return datum;
+    });
+  } // Called to resume trial animations!
+
+
+  resumeTrial() {
+    const trialNew = select(this.renderRoot).select('.trial[data-new-trial-ease-time]');
+    trialNew.datum(datum => {
+      datum.paused = false;
+      return datum;
+    });
+    this.requestUpdate();
+  }
+
+}
 customElements.define('sdt-model', SDTModel);
 
-var _templateObject$a, _templateObject2$9, _templateObject3$8, _templateObject4$8, _templateObject5$8, _templateObject6$8, _templateObject7$8, _templateObject8$6, _templateObject9$6, _templateObject10$6, _templateObject11$6, _templateObject12$1, _templateObject13$1, _templateObject14$1, _templateObject15$1, _templateObject16$1, _templateObject17$1, _templateObject18$1, _templateObject19$1, _templateObject20$1;
+let _$a = t => t,
+    _t$a,
+    _t2$9,
+    _t3$8,
+    _t4$8,
+    _t5$8,
+    _t6$8,
+    _t7$8,
+    _t8$6,
+    _t9$6,
+    _t10$6,
+    _t11$6,
+    _t12$1,
+    _t13$1,
+    _t14$1,
+    _t15$1,
+    _t16$1,
+    _t17$1,
+    _t18$1,
+    _t19$1,
+    _t20$1;
 /*
   DetectableResponse element
   <detectable-response>
@@ -16012,279 +15864,443 @@ var _templateObject$a, _templateObject2$9, _templateObject3$8, _templateObject4$
 
 */
 
-var DetectableResponse = /*#__PURE__*/function (_DetectableElement) {
-  _inherits(DetectableResponse, _DetectableElement);
-
-  var _super = _createSuper(DetectableResponse);
-
-  function DetectableResponse() {
-    var _this;
-
-    _classCallCheck(this, DetectableResponse);
-
-    _this = _super.call(this); // Attributes
-
-    _this.feedbacks = ['none', 'accuracy', 'outcome']; // Possible values for 'feedback'
-
-    _this.feedback = 'outcome'; // What feedback to display
-
-    _this.trial = false; // Show trial count?
-
-    _this.payoffs = ['none', 'trial', 'total']; // Possible types of 'payoff' info
-
-    _this.payoff = 'none'; // What payoff info to display
-
-    _this.hPayoff = 0; // Hit payoff
-
-    _this.mPayoff = 0; // Miss payoff
-
-    _this.crPayoff = 0; // Correct Rejection payoff
-
-    _this.faPayoff = 0; // False Alarm payoff
-
-    _this.nrPayoff = 0; // No Response payoff
-    // Properties
-
-    _this.states = ['off', 'waiting', 'feedback']; // Possible states
-
-    _this.state = 'off'; // Current state
-
-    _this.trialCount = 0; // Current trial
-
-    _this.trialTotal = 0; // Total trials
-    // Private
-
-    _this.signals = ['present', 'absent']; // Possible values of 'signal'
-
-    _this.signal = undefined; // Signal for current trial
-
-    _this.responses = ['present', 'absent']; // Possible values of 'response'
-
-    _this.response = undefined; // Response for current trial
-
-    _this.outcomes = ['h', 'm', 'fa', 'cr', 'nr']; // Possible values of 'outcome'
-
-    _this.outcome = undefined; // Outcome for current trial
-
-    _this.accuracies = ['c', 'e', 'nr']; // Possible values of 'accuracy'
-
-    _this.accuracy = undefined; // Accuracy for current trial
-
-    _this.h = 0; // Count of Hits
-
-    _this.m = 0; // Count of Misses
-
-    _this.cr = 0; // Count of Correct Rejections
-
-    _this.fa = 0; // Count of False Alarms
-
-    _this.c = 0; // Count of Correct trials
-
-    _this.e = 0; // Count of Error trials
-
-    _this.nr = 0; // Count of No Response trials
-
-    return _this;
+class DetectableResponse extends DetectableElement {
+  static get properties() {
+    return {
+      feedback: {
+        attribute: 'feedback',
+        type: String,
+        reflect: true
+      },
+      trial: {
+        attribute: 'trial',
+        type: Boolean,
+        reflect: true
+      },
+      payoff: {
+        attribute: 'payoff',
+        type: String,
+        reflect: true
+      },
+      hPayoff: {
+        attribute: 'hit-payoff',
+        type: Number,
+        reflect: true
+      },
+      mPayoff: {
+        attribute: 'miss-payoff',
+        type: Number,
+        reflect: true
+      },
+      faPayoff: {
+        attribute: 'false-alarm-payoff',
+        type: Number,
+        reflect: true
+      },
+      crPayoff: {
+        attribute: 'correct-rejection-payoff',
+        type: Number,
+        reflect: true
+      },
+      nrPayoff: {
+        attribute: 'no-response-payoff',
+        type: Number,
+        reflect: true
+      },
+      state: {
+        attribute: false,
+        type: String,
+        reflect: false
+      },
+      trialCount: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      trialTotal: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(DetectableResponse, [{
-    key: "trialPayoff",
-    get: function get() {
-      switch (this.outcome) {
-        case 'h':
-          return this.hPayoff;
+  constructor() {
+    super(); // Attributes
 
-        case 'm':
-          return this.mPayoff;
+    this.feedbacks = ['none', 'accuracy', 'outcome']; // Possible values for 'feedback'
 
-        case 'fa':
-          return this.faPayoff;
+    this.feedback = 'outcome'; // What feedback to display
 
-        case 'cr':
-          return this.crPayoff;
+    this.trial = false; // Show trial count?
 
-        case 'nr':
-          return this.nrPayoff;
+    this.payoffs = ['none', 'trial', 'total']; // Possible types of 'payoff' info
 
-        default:
-          return undefined;
-      }
-    }
-  }, {
-    key: "totalPayoff",
-    get: function get() {
-      return this.h * this.hPayoff + this.m * this.mPayoff + this.cr * this.crPayoff + this.fa * this.faPayoff + this.nr * this.nrPayoff;
-    }
-  }, {
-    key: "start",
-    value: function start(signal, trial) {
-      this.trialCount = trial;
-      this.state = 'waiting';
-      this.signal = signal;
-      this.response = undefined;
-      this.outcome = undefined;
-    }
-  }, {
-    key: "stop",
-    value: function stop() {
-      this.state = 'feedback';
+    this.payoff = 'none'; // What payoff info to display
 
-      if (this.response === undefined) {
-        this.outcome = 'nr';
-        this.nr += 1;
-        this.accuracy = 'nr';
-      }
-    }
-  }, {
-    key: "present",
-    value: function present() {
-      this.responded('present');
-    }
-  }, {
-    key: "absent",
-    value: function absent() {
-      this.responded('absent');
-    }
-  }, {
-    key: "responded",
-    value: function responded(response) {
-      this.state = 'feedback';
-      this.response = response;
+    this.hPayoff = 0; // Hit payoff
 
-      if (this.signal === 'present' && this.response === 'present') {
-        this.outcome = 'h';
-        this.h += 1;
-        this.accuracy = 'c';
-        this.c += 1;
-      } else if (this.signal === 'present' && this.response === 'absent') {
-        this.outcome = 'm';
-        this.m += 1;
-        this.accuracy = 'e';
-        this.e += 1;
-      } else if (this.signal === 'absent' && this.response === 'present') {
-        this.outcome = 'fa';
-        this.fa += 1;
-        this.accuracy = 'e';
-        this.e += 1;
-      } else if (this.signal === 'absent' && this.response === 'absent') {
-        this.outcome = 'cr';
-        this.cr += 1;
-        this.accuracy = 'c';
-        this.c += 1;
-      }
+    this.mPayoff = 0; // Miss payoff
 
-      this.dispatchEvent(new CustomEvent('detectable-response', {
-        detail: {
-          trial: this.trialCount,
-          signal: this.signal,
-          response: this.response,
-          outcome: this.outcome,
-          payoff: this.trialPayoff,
-          h: this.h,
-          m: this.m,
-          fa: this.fa,
-          cr: this.cr,
-          nr: this.nr,
-          totalPayoff: this.totalPayoff
-        },
-        bubbles: true
-      }));
+    this.crPayoff = 0; // Correct Rejection payoff
+
+    this.faPayoff = 0; // False Alarm payoff
+
+    this.nrPayoff = 0; // No Response payoff
+    // Properties
+
+    this.states = ['off', 'waiting', 'feedback']; // Possible states
+
+    this.state = 'off'; // Current state
+
+    this.trialCount = 0; // Current trial
+
+    this.trialTotal = 0; // Total trials
+    // Private
+
+    this.signals = ['present', 'absent']; // Possible values of 'signal'
+
+    this.signal = undefined; // Signal for current trial
+
+    this.responses = ['present', 'absent']; // Possible values of 'response'
+
+    this.response = undefined; // Response for current trial
+
+    this.outcomes = ['h', 'm', 'fa', 'cr', 'nr']; // Possible values of 'outcome'
+
+    this.outcome = undefined; // Outcome for current trial
+
+    this.accuracies = ['c', 'e', 'nr']; // Possible values of 'accuracy'
+
+    this.accuracy = undefined; // Accuracy for current trial
+
+    this.h = 0; // Count of Hits
+
+    this.m = 0; // Count of Misses
+
+    this.cr = 0; // Count of Correct Rejections
+
+    this.fa = 0; // Count of False Alarms
+
+    this.c = 0; // Count of Correct trials
+
+    this.e = 0; // Count of Error trials
+
+    this.nr = 0; // Count of No Response trials
+  }
+
+  get trialPayoff() {
+    switch (this.outcome) {
+      case 'h':
+        return this.hPayoff;
+
+      case 'm':
+        return this.mPayoff;
+
+      case 'fa':
+        return this.faPayoff;
+
+      case 'cr':
+        return this.crPayoff;
+
+      case 'nr':
+        return this.nrPayoff;
+
+      default:
+        return undefined;
     }
-  }, {
-    key: "reset",
-    value: function reset() {
-      this.state = 'off';
-      this.trialCount = 0;
-      this.signal = undefined;
-      this.response = undefined;
-      this.outcome = undefined;
-      this.accuracy = undefined;
-      this.h = 0;
-      this.m = 0;
-      this.cr = 0;
-      this.fa = 0;
-      this.nr = 0;
-      this.c = 0;
-      this.e = 0;
+  }
+
+  get totalPayoff() {
+    return this.h * this.hPayoff + this.m * this.mPayoff + this.cr * this.crPayoff + this.fa * this.faPayoff + this.nr * this.nrPayoff;
+  }
+
+  start(signal, trial) {
+    this.trialCount = trial;
+    this.state = 'waiting';
+    this.signal = signal;
+    this.response = undefined;
+    this.outcome = undefined;
+  }
+
+  stop() {
+    this.state = 'feedback';
+
+    if (this.response === undefined) {
+      this.outcome = 'nr';
+      this.nr += 1;
+      this.accuracy = 'nr';
     }
-  }, {
-    key: "render",
-    value: function render() {
-      return $(_templateObject$a || (_templateObject$a = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <div class=\"responses\">\n          <decidables-button name=\"present\" class=", " ?disabled=", " @click=", ">Present</decidables-button>\n          <decidables-button name=\"absent\" class=", " ?disabled=", " @click=", ">Absent</decidables-button>\n        </div>\n        ", "\n      </div>"])), this.state === 'feedback' && this.response === 'present' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.present.bind(this), this.state === 'feedback' && this.response === 'absent' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.absent.bind(this), this.trial || this.feedback !== 'none' || this.payoff === 'total' ? $(_templateObject2$9 || (_templateObject2$9 = _taggedTemplateLiteral(["\n            <div class=\"feedbacks\">\n              ", "\n              ", "\n              ", "\n            </div>"])), this.trial ? $(_templateObject3$8 || (_templateObject3$8 = _taggedTemplateLiteral(["\n                  <div class=\"trial\">\n                    <span class=\"label\">Trial: </span><span class=\"count\">", "</span><span class=\"of\"> of </span><span class=\"total\">", "</span>\n                  </div>"])), this.trialCount, this.trialTotal) : $(_templateObject4$8 || (_templateObject4$8 = _taggedTemplateLiteral([""]))), this.feedback !== 'none' ? $(_templateObject5$8 || (_templateObject5$8 = _taggedTemplateLiteral(["\n                  <div class=", ">\n                    ", "\n                    ", "\n                  </div>"])), "feedback ".concat(this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''), this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? $(_templateObject6$8 || (_templateObject6$8 = _taggedTemplateLiteral(["<span class=\"outcome\">Hit</span>"]))) : this.outcome === 'm' ? $(_templateObject7$8 || (_templateObject7$8 = _taggedTemplateLiteral(["<span class=\"outcome\">Miss</span>"]))) : this.outcome === 'fa' ? $(_templateObject8$6 || (_templateObject8$6 = _taggedTemplateLiteral(["<span class=\"outcome\">False<br>Alarm</span>"]))) : this.outcome === 'cr' ? $(_templateObject9$6 || (_templateObject9$6 = _taggedTemplateLiteral(["<span class=\"outcome\">Correct<br>Rejection</span>"]))) : $(_templateObject10$6 || (_templateObject10$6 = _taggedTemplateLiteral(["<span class=\"outcome\">No<br>Response</span>"]))) : this.accuracy === 'c' ? $(_templateObject11$6 || (_templateObject11$6 = _taggedTemplateLiteral(["<span class=\"outcome\">Correct</span>"]))) : this.accuracy === 'e' ? $(_templateObject12$1 || (_templateObject12$1 = _taggedTemplateLiteral(["<span class=\"outcome\">Error</span>"]))) : $(_templateObject13$1 || (_templateObject13$1 = _taggedTemplateLiteral(["<span class=\"outcome\">No<br>Response</span>"]))) : '', this.payoff === 'trial' || this.payoff === 'total' ? $(_templateObject14$1 || (_templateObject14$1 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), this.trialPayoff) : $(_templateObject15$1 || (_templateObject15$1 = _taggedTemplateLiteral([""])))) : $(_templateObject16$1 || (_templateObject16$1 = _taggedTemplateLiteral([""]))), this.payoff === 'total' ? $(_templateObject17$1 || (_templateObject17$1 = _taggedTemplateLiteral(["\n                  <div class=\"payoff\">\n                    <span class=\"label\">Total: </span><span class=\"value\">", "</span>\n                  </div>"])), this.totalPayoff) : $(_templateObject18$1 || (_templateObject18$1 = _taggedTemplateLiteral([""])))) : $(_templateObject19$1 || (_templateObject19$1 = _taggedTemplateLiteral([""]))));
+  }
+
+  present() {
+    this.responded('present');
+  }
+
+  absent() {
+    this.responded('absent');
+  }
+
+  responded(response) {
+    this.state = 'feedback';
+    this.response = response;
+
+    if (this.signal === 'present' && this.response === 'present') {
+      this.outcome = 'h';
+      this.h += 1;
+      this.accuracy = 'c';
+      this.c += 1;
+    } else if (this.signal === 'present' && this.response === 'absent') {
+      this.outcome = 'm';
+      this.m += 1;
+      this.accuracy = 'e';
+      this.e += 1;
+    } else if (this.signal === 'absent' && this.response === 'present') {
+      this.outcome = 'fa';
+      this.fa += 1;
+      this.accuracy = 'e';
+      this.e += 1;
+    } else if (this.signal === 'absent' && this.response === 'absent') {
+      this.outcome = 'cr';
+      this.cr += 1;
+      this.accuracy = 'c';
+      this.c += 1;
     }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        feedback: {
-          attribute: 'feedback',
-          type: String,
-          reflect: true
-        },
-        trial: {
-          attribute: 'trial',
-          type: Boolean,
-          reflect: true
-        },
-        payoff: {
-          attribute: 'payoff',
-          type: String,
-          reflect: true
-        },
-        hPayoff: {
-          attribute: 'hit-payoff',
-          type: Number,
-          reflect: true
-        },
-        mPayoff: {
-          attribute: 'miss-payoff',
-          type: Number,
-          reflect: true
-        },
-        faPayoff: {
-          attribute: 'false-alarm-payoff',
-          type: Number,
-          reflect: true
-        },
-        crPayoff: {
-          attribute: 'correct-rejection-payoff',
-          type: Number,
-          reflect: true
-        },
-        nrPayoff: {
-          attribute: 'no-response-payoff',
-          type: Number,
-          reflect: true
-        },
-        state: {
-          attribute: false,
-          type: String,
-          reflect: false
-        },
-        trialCount: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        trialTotal: {
-          attribute: false,
-          type: Number,
-          reflect: false
+
+    this.dispatchEvent(new CustomEvent('detectable-response', {
+      detail: {
+        trial: this.trialCount,
+        signal: this.signal,
+        response: this.response,
+        outcome: this.outcome,
+        payoff: this.trialPayoff,
+        h: this.h,
+        m: this.m,
+        fa: this.fa,
+        cr: this.cr,
+        nr: this.nr,
+        totalPayoff: this.totalPayoff
+      },
+      bubbles: true
+    }));
+  }
+
+  reset() {
+    this.state = 'off';
+    this.trialCount = 0;
+    this.signal = undefined;
+    this.response = undefined;
+    this.outcome = undefined;
+    this.accuracy = undefined;
+    this.h = 0;
+    this.m = 0;
+    this.cr = 0;
+    this.fa = 0;
+    this.nr = 0;
+    this.c = 0;
+    this.e = 0;
+  }
+
+  static get styles() {
+    return [super.styles, r$2(_t$a || (_t$a = _$a`
+        :host {
+          display: inline-block;
         }
-      };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(DetectableResponse), "styles", this), r$2(_templateObject20$1 || (_templateObject20$1 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall container */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n        }\n\n        /* Response buttons */\n        .responses {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .waiting[disabled] {\n          --decidables-button-background-color: var(---color-element-enabled);\n        }\n\n        .selected[disabled][name=\"present\"] {\n          --decidables-button-background-color: var(---color-present);\n        }\n\n        .selected[disabled][name=\"absent\"] {\n          --decidables-button-background-color: var(---color-absent);\n        }\n\n        /* Feedback messages */\n        .feedbacks {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        /* Trial feedback */\n        .trial {\n          text-align: center;\n        }\n\n        .trial .label {\n          font-weight: 600;\n        }\n\n        /* Outcome feedback */\n        .feedback {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          width: 6rem;\n          height: 3.5rem;\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          text-align: center;\n\n          background-color: var(---color-element-background);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .feedback.h {\n          background-color: var(---color-h-light);\n        }\n\n        .feedback.m {\n          background-color: var(---color-m-light);\n        }\n\n        .feedback.fa {\n          background-color: var(---color-fa-light);\n        }\n\n        .feedback.cr {\n          background-color: var(---color-cr-light);\n        }\n\n        .feedback.nr {\n          background-color: var(---color-nr-light);\n        }\n\n        .feedback.c {\n          background-color: var(---color-correct-light);\n        }\n\n        .feedback.e {\n          color: var(---color-text-inverse);\n\n          background-color: var(---color-error-light);\n        }\n\n        .feedback .outcome {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n\n        :host([payoff=\"trial\"]) .feedback,\n        :host([payoff=\"total\"]) .feedback {\n          height: 4rem;\n        }\n\n        /* Payoff feedback */\n        .payoff {\n          text-align: center;\n        }\n\n        .payoff .label {\n          font-weight: 600;\n        }\n      "])))];
-    }
-  }]);
 
-  return DetectableResponse;
-}(DetectableElement);
+        /* Overall container */
+        .holder {
+          display: flex;
+
+          flex-direction: row;
+        }
+
+        /* Response buttons */
+        .responses {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: stretch;
+          justify-content: center;
+        }
+
+        .waiting[disabled] {
+          --decidables-button-background-color: var(---color-element-enabled);
+        }
+
+        .selected[disabled][name="present"] {
+          --decidables-button-background-color: var(---color-present);
+        }
+
+        .selected[disabled][name="absent"] {
+          --decidables-button-background-color: var(---color-absent);
+        }
+
+        /* Feedback messages */
+        .feedbacks {
+          display: flex;
+
+          flex-direction: column;
+
+          justify-content: center;
+        }
+
+        /* Trial feedback */
+        .trial {
+          text-align: center;
+        }
+
+        .trial .label {
+          font-weight: 600;
+        }
+
+        /* Outcome feedback */
+        .feedback {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: center;
+          justify-content: center;
+
+          width: 6rem;
+          height: 3.5rem;
+          padding: 0.375rem 0.75rem;
+          margin: 0.25rem;
+
+          text-align: center;
+
+          background-color: var(---color-element-background);
+          border: 1px solid var(---color-element-border);
+        }
+
+        .feedback.h {
+          background-color: var(---color-h-light);
+        }
+
+        .feedback.m {
+          background-color: var(---color-m-light);
+        }
+
+        .feedback.fa {
+          background-color: var(---color-fa-light);
+        }
+
+        .feedback.cr {
+          background-color: var(---color-cr-light);
+        }
+
+        .feedback.nr {
+          background-color: var(---color-nr-light);
+        }
+
+        .feedback.c {
+          background-color: var(---color-correct-light);
+        }
+
+        .feedback.e {
+          color: var(---color-text-inverse);
+
+          background-color: var(---color-error-light);
+        }
+
+        .feedback .outcome {
+          font-weight: 600;
+          line-height: 1.15;
+        }
+
+        :host([payoff="trial"]) .feedback,
+        :host([payoff="total"]) .feedback {
+          height: 4rem;
+        }
+
+        /* Payoff feedback */
+        .payoff {
+          text-align: center;
+        }
+
+        .payoff .label {
+          font-weight: 600;
+        }
+      `))];
+  }
+
+  render() {
+    return $(_t2$9 || (_t2$9 = _$a`
+      <div class="holder">
+        <div class="responses">
+          <decidables-button name="present" class=${0} ?disabled=${0} @click=${0}>Present</decidables-button>
+          <decidables-button name="absent" class=${0} ?disabled=${0} @click=${0}>Absent</decidables-button>
+        </div>
+        ${0}
+      </div>`), this.state === 'feedback' && this.response === 'present' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.present.bind(this), this.state === 'feedback' && this.response === 'absent' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.absent.bind(this), this.trial || this.feedback !== 'none' || this.payoff === 'total' ? $(_t3$8 || (_t3$8 = _$a`
+            <div class="feedbacks">
+              ${0}
+              ${0}
+              ${0}
+            </div>`), this.trial ? $(_t4$8 || (_t4$8 = _$a`
+                  <div class="trial">
+                    <span class="label">Trial: </span><span class="count">${0}</span><span class="of"> of </span><span class="total">${0}</span>
+                  </div>`), this.trialCount, this.trialTotal) : $(_t5$8 || (_t5$8 = _$a``)), this.feedback !== 'none' ? $(_t6$8 || (_t6$8 = _$a`
+                  <div class=${0}>
+                    ${0}
+                    ${0}
+                  </div>`), `feedback ${this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''}`, this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? $(_t7$8 || (_t7$8 = _$a`<span class="outcome">Hit</span>`)) : this.outcome === 'm' ? $(_t8$6 || (_t8$6 = _$a`<span class="outcome">Miss</span>`)) : this.outcome === 'fa' ? $(_t9$6 || (_t9$6 = _$a`<span class="outcome">False<br>Alarm</span>`)) : this.outcome === 'cr' ? $(_t10$6 || (_t10$6 = _$a`<span class="outcome">Correct<br>Rejection</span>`)) : $(_t11$6 || (_t11$6 = _$a`<span class="outcome">No<br>Response</span>`)) : this.accuracy === 'c' ? $(_t12$1 || (_t12$1 = _$a`<span class="outcome">Correct</span>`)) : this.accuracy === 'e' ? $(_t13$1 || (_t13$1 = _$a`<span class="outcome">Error</span>`)) : $(_t14$1 || (_t14$1 = _$a`<span class="outcome">No<br>Response</span>`)) : '', this.payoff === 'trial' || this.payoff === 'total' ? $(_t15$1 || (_t15$1 = _$a`<span class="payoff">${0}</span>`), this.trialPayoff) : $(_t16$1 || (_t16$1 = _$a``))) : $(_t17$1 || (_t17$1 = _$a``)), this.payoff === 'total' ? $(_t18$1 || (_t18$1 = _$a`
+                  <div class="payoff">
+                    <span class="label">Total: </span><span class="value">${0}</span>
+                  </div>`), this.totalPayoff) : $(_t19$1 || (_t19$1 = _$a``))) : $(_t20$1 || (_t20$1 = _$a``)));
+  }
+
+}
 customElements.define('detectable-response', DetectableResponse);
 
-var _templateObject$9, _templateObject2$8, _templateObject3$7, _templateObject4$7, _templateObject5$7, _templateObject6$7, _templateObject7$7, _templateObject8$5, _templateObject9$5, _templateObject10$5, _templateObject11$5, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16, _templateObject17, _templateObject18, _templateObject19, _templateObject20, _templateObject21, _templateObject22, _templateObject23, _templateObject24, _templateObject25, _templateObject26, _templateObject27, _templateObject28, _templateObject29, _templateObject30, _templateObject31, _templateObject32, _templateObject33, _templateObject34, _templateObject35, _templateObject36, _templateObject37, _templateObject38, _templateObject39, _templateObject40, _templateObject41, _templateObject42, _templateObject43, _templateObject44, _templateObject45, _templateObject46;
+let _$9 = t => t,
+    _t$9,
+    _t2$8,
+    _t3$7,
+    _t4$7,
+    _t5$7,
+    _t6$7,
+    _t7$7,
+    _t8$5,
+    _t9$5,
+    _t10$5,
+    _t11$5,
+    _t12,
+    _t13,
+    _t14,
+    _t15,
+    _t16,
+    _t17,
+    _t18,
+    _t19,
+    _t20,
+    _t21,
+    _t22,
+    _t23,
+    _t24,
+    _t25,
+    _t26,
+    _t27,
+    _t28,
+    _t29,
+    _t30,
+    _t31,
+    _t32,
+    _t33,
+    _t34,
+    _t35,
+    _t36,
+    _t37,
+    _t38,
+    _t39,
+    _t40,
+    _t41,
+    _t42,
+    _t43,
+    _t44,
+    _t45,
+    _t46;
 /*
   DetectableTable element
   <detectable-table>
@@ -16293,366 +16309,731 @@ var _templateObject$9, _templateObject2$8, _templateObject3$7, _templateObject4$
   Hit; Miss; FalseAlarm; CorrectRejection;
 */
 
-var DetectableTable = /*#__PURE__*/function (_DetectableElement) {
-  _inherits(DetectableTable, _DetectableElement);
-
-  var _super = _createSuper(DetectableTable);
-
-  function DetectableTable() {
-    var _this;
-
-    _classCallCheck(this, DetectableTable);
-
-    _this = _super.call(this);
-    _this.numeric = false;
-    _this.summaries = ['stimulusRates', 'responseRates', 'accuracy'];
-    _this.summary = new Set();
-    _this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
-    _this.color = 'outcome';
-    _this.h = 40;
-    _this.m = 60;
-    _this.fa = 75;
-    _this.cr = 25;
-
-    _this.alignState();
-
-    _this.payoff = false;
-    _this.hPayoff = undefined; // Hit payoff
-
-    _this.mPayoff = undefined; // Miss payoff
-
-    _this.crPayoff = undefined; // Correct Rejection payoff
-
-    _this.faPayoff = undefined; // False Alarm payoff
-
-    return _this;
+class DetectableTable extends DetectableElement {
+  static get properties() {
+    return {
+      numeric: {
+        attribute: 'numeric',
+        type: Boolean,
+        reflect: true
+      },
+      summary: {
+        attribute: 'summary',
+        converter: DecidablesConverterSet,
+        reflect: true
+      },
+      color: {
+        attribute: 'color',
+        type: String,
+        reflect: true
+      },
+      h: {
+        attribute: 'hits',
+        type: Number,
+        reflect: true
+      },
+      m: {
+        attribute: 'misses',
+        type: Number,
+        reflect: true
+      },
+      fa: {
+        attribute: 'false-alarms',
+        type: Number,
+        reflect: true
+      },
+      cr: {
+        attribute: 'correct-rejections',
+        type: Number,
+        reflect: true
+      },
+      payoff: {
+        attribute: 'payoff',
+        type: Boolean,
+        reflect: true
+      },
+      hPayoff: {
+        attribute: 'hit-payoff',
+        type: Number,
+        reflect: true
+      },
+      mPayoff: {
+        attribute: 'miss-payoff',
+        type: Number,
+        reflect: true
+      },
+      faPayoff: {
+        attribute: 'false-alarm-payoff',
+        type: Number,
+        reflect: true
+      },
+      crPayoff: {
+        attribute: 'correct-rejection-payoff',
+        type: Number,
+        reflect: true
+      },
+      far: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      hr: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      acc: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      // positive predictive value (https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
+      ppv: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      // false omission rate (https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
+      // Using "fomr" to avoid keyword "for"
+      fomr: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(DetectableTable, [{
-    key: "alignState",
-    value: function alignState() {
-      this.hr = SDTMath.hM2Hr(this.h, this.m);
-      this.far = SDTMath.faCr2Far(this.fa, this.cr);
-      this.acc = SDTMath.hMFaCr2Acc(this.h, this.m, this.fa, this.cr);
-      this.ppv = SDTMath.hFa2Ppv(this.h, this.fa);
-      this.fomr = SDTMath.mCr2Fomr(this.m, this.cr);
-    }
-  }, {
-    key: "sendEvent",
-    value: function sendEvent() {
-      this.dispatchEvent(new CustomEvent('detectable-table-change', {
-        detail: {
-          h: this.h,
-          m: this.m,
-          hr: this.hr,
-          fa: this.fa,
-          cr: this.cr,
-          far: this.far,
-          acc: this.acc,
-          ppv: this.ppv,
-          fomr: this.fomr
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "hInput",
-    value: function hInput(e) {
-      this.h = parseInt(e.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "mInput",
-    value: function mInput(e) {
-      this.m = parseInt(e.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "faInput",
-    value: function faInput(e) {
-      this.fa = parseInt(e.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "crInput",
-    value: function crInput(e) {
-      this.cr = parseInt(e.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "hrInput",
-    value: function hrInput(e) {
-      var newhr = parseFloat(e.target.value);
-      var present = this.h + this.m;
-      this.h = Math.round(newhr * present);
-      this.m = present - this.h;
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "farInput",
-    value: function farInput(e) {
-      var newfar = parseFloat(e.target.value);
-      var absent = this.fa + this.cr;
-      this.fa = Math.round(newfar * absent);
-      this.cr = absent - this.fa;
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "accInput",
-    value: function accInput(e) {
-      var newacc = parseFloat(e.target.value);
-      var present = this.h + this.m;
-      var absent = this.fa + this.cr;
-      var x = (this.hr + this.far - 1) / 2; // Rotate into ACC
+  constructor() {
+    super();
+    this.numeric = false;
+    this.summaries = ['stimulusRates', 'responseRates', 'accuracy'];
+    this.summary = new Set();
+    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
+    this.color = 'outcome';
+    this.h = 40;
+    this.m = 60;
+    this.fa = 75;
+    this.cr = 25;
+    this.alignState();
+    this.payoff = false;
+    this.hPayoff = undefined; // Hit payoff
 
-      var newhr = x + newacc;
-      var newfar = 1 + x - newacc;
+    this.mPayoff = undefined; // Miss payoff
 
-      if (newfar > 1) {
-        newfar = 1;
-        newhr = newfar + 2 * newacc - 1;
-      }
+    this.crPayoff = undefined; // Correct Rejection payoff
 
-      if (newfar < 0) {
-        newfar = 0;
-        newhr = newfar + 2 * newacc - 1;
-      }
+    this.faPayoff = undefined; // False Alarm payoff
+  }
 
-      if (newhr > 1) {
-        newhr = 1;
-        newfar = newhr - 2 * newacc + 1;
-      }
+  alignState() {
+    this.hr = SDTMath.hM2Hr(this.h, this.m);
+    this.far = SDTMath.faCr2Far(this.fa, this.cr);
+    this.acc = SDTMath.hMFaCr2Acc(this.h, this.m, this.fa, this.cr);
+    this.ppv = SDTMath.hFa2Ppv(this.h, this.fa);
+    this.fomr = SDTMath.mCr2Fomr(this.m, this.cr);
+  }
 
-      if (newhr < 0) {
-        newhr = 0;
-        newfar = newhr - 2 * newacc + 1;
-      }
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('detectable-table-change', {
+      detail: {
+        h: this.h,
+        m: this.m,
+        hr: this.hr,
+        fa: this.fa,
+        cr: this.cr,
+        far: this.far,
+        acc: this.acc,
+        ppv: this.ppv,
+        fomr: this.fomr
+      },
+      bubbles: true
+    }));
+  }
 
-      this.h = Math.round(newhr * present);
-      this.m = present - this.h;
-      this.fa = Math.round(newfar * absent);
-      this.cr = absent - this.fa;
-      this.alignState();
-      this.sendEvent();
+  hInput(e) {
+    this.h = parseInt(e.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  mInput(e) {
+    this.m = parseInt(e.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  faInput(e) {
+    this.fa = parseInt(e.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  crInput(e) {
+    this.cr = parseInt(e.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  hrInput(e) {
+    const newhr = parseFloat(e.target.value);
+    const present = this.h + this.m;
+    this.h = Math.round(newhr * present);
+    this.m = present - this.h;
+    this.alignState();
+    this.sendEvent();
+  }
+
+  farInput(e) {
+    const newfar = parseFloat(e.target.value);
+    const absent = this.fa + this.cr;
+    this.fa = Math.round(newfar * absent);
+    this.cr = absent - this.fa;
+    this.alignState();
+    this.sendEvent();
+  }
+
+  accInput(e) {
+    const newacc = parseFloat(e.target.value);
+    const present = this.h + this.m;
+    const absent = this.fa + this.cr;
+    const x = (this.hr + this.far - 1) / 2; // Rotate into ACC
+
+    let newhr = x + newacc;
+    let newfar = 1 + x - newacc;
+
+    if (newfar > 1) {
+      newfar = 1;
+      newhr = newfar + 2 * newacc - 1;
     }
-  }, {
-    key: "ppvInput",
-    value: function ppvInput(e) {
-      var newppv = parseFloat(e.target.value);
-      var present = this.h + this.fa;
-      this.h = Math.round(newppv * present);
-      this.fa = present - this.h;
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "fomrInput",
-    value: function fomrInput(e) {
-      var newfomr = parseFloat(e.target.value);
-      var present = this.m + this.cr;
-      this.m = Math.round(newfomr * present);
-      this.cr = present - this.m;
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var payoffFormatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-      });
-      this.alignState();
-      var h;
-      var m;
-      var fa;
-      var cr;
-      var hr;
-      var far;
-      var acc;
-      var ppv;
-      var fomr;
 
-      if (this.numeric) {
-        h = $(_templateObject$9 || (_templateObject$9 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Hits</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? $(_templateObject2$8 || (_templateObject2$8 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.hPayoff)) : $(_templateObject3$7 || (_templateObject3$7 = _taggedTemplateLiteral([""]))));
-        m = $(_templateObject4$7 || (_templateObject4$7 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Misses</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? $(_templateObject5$7 || (_templateObject5$7 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.mPayoff)) : $(_templateObject6$7 || (_templateObject6$7 = _taggedTemplateLiteral([""]))));
-        fa = $(_templateObject7$7 || (_templateObject7$7 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>False Alarms</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? $(_templateObject8$5 || (_templateObject8$5 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.faPayoff)) : $(_templateObject9$5 || (_templateObject9$5 = _taggedTemplateLiteral([""]))));
-        cr = $(_templateObject10$5 || (_templateObject10$5 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Correct Rejections</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? $(_templateObject11$5 || (_templateObject11$5 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.crPayoff)) : $(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral([""]))));
-        hr = $(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Hit Rate</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
-        far = $(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Alarm Rate</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
-        acc = $(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Accuracy</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
-        ppv = $(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Positive Predictive Value</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.ppv.toFixed(3), this.ppvInput.bind(this));
-        fomr = $(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Omission Rate</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.fomr.toFixed(3), this.fomrInput.bind(this));
-      } else {
-        h = $(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["<span>Hits</span>\n        ", ""])), this.payoff ? $(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.hPayoff)) : $(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral([""]))));
-        m = $(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral(["<span>Misses</span>\n        ", ""])), this.payoff ? $(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.mPayoff)) : $(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral([""]))));
-        fa = $(_templateObject24 || (_templateObject24 = _taggedTemplateLiteral(["<span>False Alarms</span>\n        ", ""])), this.payoff ? $(_templateObject25 || (_templateObject25 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.faPayoff)) : $(_templateObject26 || (_templateObject26 = _taggedTemplateLiteral([""]))));
-        cr = $(_templateObject27 || (_templateObject27 = _taggedTemplateLiteral(["<span>Correct Rejections</span>\n        ", ""])), this.payoff ? $(_templateObject28 || (_templateObject28 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.crPayoff)) : $(_templateObject29 || (_templateObject29 = _taggedTemplateLiteral([""]))));
-        hr = $(_templateObject30 || (_templateObject30 = _taggedTemplateLiteral(["<span>Hit Rate</span>"])));
-        far = $(_templateObject31 || (_templateObject31 = _taggedTemplateLiteral(["<span>False Alarm Rate</span>"])));
-        acc = $(_templateObject32 || (_templateObject32 = _taggedTemplateLiteral(["<span>Accuracy</span>"])));
-        ppv = $(_templateObject33 || (_templateObject33 = _taggedTemplateLiteral(["<span>Positive Predictive Value</span>"])));
-        fomr = $(_templateObject34 || (_templateObject34 = _taggedTemplateLiteral(["<span>False Omission Rate</span>"])));
-      }
-
-      return $(_templateObject35 || (_templateObject35 = _taggedTemplateLiteral(["\n      <table class=", ">\n        <thead>\n          <tr>\n            <th colspan=\"2\" rowspan=\"2\"></th>\n            <th class=\"th th-main\" colspan=\"2\" scope=\"col\">\n              Response\n            </th>\n          </tr>\n          <tr>\n            <th class=\"th th-sub\" scope=\"col\">\n              \"Present\"\n            </th>\n            <th class=\"th th-sub\" scope=\"col\">\n              \"Absent\"\n            </th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr>\n            <th class=\"th th-main\" rowspan=\"2\" scope=\"row\">\n              Signal\n            </th>\n            <th class=\"th th-sub th-left\" scope=\"row\">\n              Present\n            </th>\n            <td class=\"td td-data h\">\n              ", "\n            </td>\n            <td class=\"td td-data m\">\n              ", "\n            </td>\n            ", "\n          </tr>\n          <tr>\n            <th class=\"th th-sub th-left\" scope=\"row\">\n              Absent\n            </th>\n            <td class=\"td td-data fa\">\n              ", "\n            </td>\n            <td class=\"td td-data cr\">\n              ", "\n            </td>\n            ", "\n          </tr>\n          ", "\n        </tbody>\n      </table>"])), this.numeric ? 'numeric' : '', h, m, this.summary.has('stimulusRates') ? $(_templateObject36 || (_templateObject36 = _taggedTemplateLiteral(["\n                <td class=\"td td-summary hr\">\n                  ", "\n                </td>"])), hr) : $(_templateObject37 || (_templateObject37 = _taggedTemplateLiteral([""]))), fa, cr, this.summary.has('stimulusRates') ? $(_templateObject38 || (_templateObject38 = _taggedTemplateLiteral(["\n                <td class=\"td td-summary far\">\n                  ", "\n                </td>"])), far) : $(_templateObject39 || (_templateObject39 = _taggedTemplateLiteral([""]))), this.summary.has('responseRates') || this.summary.has('accuracy') ? $(_templateObject40 || (_templateObject40 = _taggedTemplateLiteral(["\n              <tr>\n                <td colspan=\"2\"></td>\n                ", "\n                ", "\n              </tr>"])), this.summary.has('responseRates') ? $(_templateObject41 || (_templateObject41 = _taggedTemplateLiteral(["\n                    <td class=\"td td-summary ppv\">\n                      ", "\n                    </td>\n                    <td class=\"td td-summary fomr\">\n                      ", "\n                    </td>"])), ppv, fomr) : $(_templateObject42 || (_templateObject42 = _taggedTemplateLiteral(["\n                    <td colspan=\"2\"></td>"]))), this.summary.has('accuracy') ? $(_templateObject43 || (_templateObject43 = _taggedTemplateLiteral(["\n                    <td class=\"td td-summary acc\" rowspan=\"2\">\n                      ", "\n                    </td>"])), acc) : $(_templateObject44 || (_templateObject44 = _taggedTemplateLiteral([""])))) : $(_templateObject45 || (_templateObject45 = _taggedTemplateLiteral([""]))));
+    if (newfar < 0) {
+      newfar = 0;
+      newhr = newfar + 2 * newacc - 1;
     }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        numeric: {
-          attribute: 'numeric',
-          type: Boolean,
-          reflect: true
-        },
-        summary: {
-          attribute: 'summary',
-          converter: DecidablesConverterSet,
-          reflect: true
-        },
-        color: {
-          attribute: 'color',
-          type: String,
-          reflect: true
-        },
-        h: {
-          attribute: 'hits',
-          type: Number,
-          reflect: true
-        },
-        m: {
-          attribute: 'misses',
-          type: Number,
-          reflect: true
-        },
-        fa: {
-          attribute: 'false-alarms',
-          type: Number,
-          reflect: true
-        },
-        cr: {
-          attribute: 'correct-rejections',
-          type: Number,
-          reflect: true
-        },
-        payoff: {
-          attribute: 'payoff',
-          type: Boolean,
-          reflect: true
-        },
-        hPayoff: {
-          attribute: 'hit-payoff',
-          type: Number,
-          reflect: true
-        },
-        mPayoff: {
-          attribute: 'miss-payoff',
-          type: Number,
-          reflect: true
-        },
-        faPayoff: {
-          attribute: 'false-alarm-payoff',
-          type: Number,
-          reflect: true
-        },
-        crPayoff: {
-          attribute: 'correct-rejection-payoff',
-          type: Number,
-          reflect: true
-        },
-        far: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        hr: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        acc: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        // positive predictive value (https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
-        ppv: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        },
-        // false omission rate (https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
-        // Using "fomr" to avoid keyword "for"
-        fomr: {
-          attribute: false,
-          type: Number,
-          reflect: false
+
+    if (newhr > 1) {
+      newhr = 1;
+      newfar = newhr - 2 * newacc + 1;
+    }
+
+    if (newhr < 0) {
+      newhr = 0;
+      newfar = newhr - 2 * newacc + 1;
+    }
+
+    this.h = Math.round(newhr * present);
+    this.m = present - this.h;
+    this.fa = Math.round(newfar * absent);
+    this.cr = absent - this.fa;
+    this.alignState();
+    this.sendEvent();
+  }
+
+  ppvInput(e) {
+    const newppv = parseFloat(e.target.value);
+    const present = this.h + this.fa;
+    this.h = Math.round(newppv * present);
+    this.fa = present - this.h;
+    this.alignState();
+    this.sendEvent();
+  }
+
+  fomrInput(e) {
+    const newfomr = parseFloat(e.target.value);
+    const present = this.m + this.cr;
+    this.m = Math.round(newfomr * present);
+    this.cr = present - this.m;
+    this.alignState();
+    this.sendEvent();
+  }
+
+  static get styles() {
+    return [super.styles, r$2(_t$9 || (_t$9 = _$9`
+        :host {
+          display: inline-block;
         }
-      };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(DetectableTable), "styles", this), r$2(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n\n          transition: all var(---transition-duration) ease;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        .td-data decidables-spinner {\n          --decidables-spinner-input-width: 3.5rem;\n        }\n\n        .td-summary decidables-spinner {\n          --decidables-spinner-input-width: 4.5rem;\n        }\n\n        /* Color schemes & Table emphasis */\n\n        /* (Default) Outcome color scheme */\n        .h {\n          background: var(---color-h-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .ppv {\n          background: var(---color-present-light);\n        }\n\n        .fomr {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .cr {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .fa {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .fomr {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .fa {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .h {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .m {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .h {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .acc {\n          background: var(---color-element-background);\n        }\n      "])))];
-    }
-  }]);
 
-  return DetectableTable;
-}(DetectableElement);
+        /* Overall element */
+        table {
+          text-align: center;
+
+          border-collapse: collapse;
+
+          border: 0;
+        }
+
+        /* Headers */
+        .th-main {
+          padding: 0;
+
+          font-weight: bold;
+        }
+
+        .th-sub {
+          padding: 0 0.25rem;
+
+          font-weight: 600;
+        }
+
+        .th-left {
+          padding-left: 0;
+
+          text-align: right;
+        }
+
+        /* Cells */
+        .td {
+          width: 10rem;
+
+          padding: 0.25rem 0.25rem 0.375rem;
+
+          transition: all var(---transition-duration) ease;
+        }
+
+        .numeric .td {
+          width: 7rem;
+        }
+
+        /* Labels */
+        .payoff {
+          font-weight: 600;
+          line-height: 0.75rem;
+        }
+
+        /* User interaction <input> */
+        .td-data decidables-spinner {
+          --decidables-spinner-input-width: 3.5rem;
+        }
+
+        .td-summary decidables-spinner {
+          --decidables-spinner-input-width: 4.5rem;
+        }
+
+        /* Color schemes & Table emphasis */
+
+        /* (Default) Outcome color scheme */
+        .h {
+          background: var(---color-h-light);
+          border-top: 2px solid var(---color-element-emphasis);
+          border-left: 2px solid var(---color-element-emphasis);
+        }
+
+        .m {
+          background: var(---color-m-light);
+          border-top: 2px solid var(---color-element-emphasis);
+          border-right: 2px solid var(---color-element-emphasis);
+        }
+
+        .fa {
+          background: var(---color-fa-light);
+          border-bottom: 2px solid var(---color-element-emphasis);
+          border-left: 2px solid var(---color-element-emphasis);
+        }
+
+        .cr {
+          background: var(---color-cr-light);
+          border-right: 2px solid var(---color-element-emphasis);
+          border-bottom: 2px solid var(---color-element-emphasis);
+        }
+
+        .hr {
+          background: var(---color-hr-light);
+        }
+
+        .far {
+          background: var(---color-far-light);
+        }
+
+        .acc {
+          background: var(---color-acc-light);
+        }
+
+        .ppv {
+          background: var(---color-present-light);
+        }
+
+        .fomr {
+          background: var(---color-absent-light);
+        }
+
+        /* Accuracy color scheme */
+        :host([color="accuracy"]) .h,
+        :host([color="accuracy"]) .cr {
+          background: var(---color-correct-light);
+        }
+
+        :host([color="accuracy"]) .m,
+        :host([color="accuracy"]) .fa {
+          color: var(---color-text-inverse);
+
+          background: var(---color-error-light);
+        }
+
+        :host([color="accuracy"]) .hr,
+        :host([color="accuracy"]) .far,
+        :host([color="accuracy"]) .ppv,
+        :host([color="accuracy"]) .fomr {
+          background: var(---color-element-background);
+        }
+
+        /* Stimulus color scheme */
+        :host([color="stimulus"]) .cr,
+        :host([color="stimulus"]) .fa {
+          background: var(---color-far-light);
+        }
+
+        :host([color="stimulus"]) .m,
+        :host([color="stimulus"]) .h {
+          background: var(---color-hr-light);
+        }
+
+        :host([color="stimulus"]) .ppv,
+        :host([color="stimulus"]) .fomr,
+        :host([color="stimulus"]) .acc {
+          background: var(---color-element-background);
+        }
+
+        /* Response color scheme */
+        :host([color="response"]) .cr,
+        :host([color="response"]) .m {
+          background: var(---color-absent-light);
+        }
+
+        :host([color="response"]) .fa,
+        :host([color="response"]) .h {
+          background: var(---color-present-light);
+        }
+
+        :host([color="response"]) .hr,
+        :host([color="response"]) .far,
+        :host([color="response"]) .acc {
+          background: var(---color-element-background);
+        }
+
+        /* No color scheme */
+        :host([color="none"]) .cr,
+        :host([color="none"]) .fa,
+        :host([color="none"]) .m,
+        :host([color="none"]) .h,
+        :host([color="none"]) .hr,
+        :host([color="none"]) .far,
+        :host([color="none"]) .ppv,
+        :host([color="none"]) .fomr,
+        :host([color="none"]) .acc {
+          background: var(---color-element-background);
+        }
+      `))];
+  }
+
+  render() {
+    const payoffFormatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
+    this.alignState();
+    let h;
+    let m;
+    let fa;
+    let cr;
+    let hr;
+    let far;
+    let acc;
+    let ppv;
+    let fomr;
+
+    if (this.numeric) {
+      h = $(_t2$8 || (_t2$8 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <span>Hits</span>
+          ${0}
+        </decidables-spinner>
+      `), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? $(_t3$7 || (_t3$7 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.hPayoff)) : $(_t4$7 || (_t4$7 = _$9``)));
+      m = $(_t5$7 || (_t5$7 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <span>Misses</span>
+          ${0}
+        </decidables-spinner>
+      `), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? $(_t6$7 || (_t6$7 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.mPayoff)) : $(_t7$7 || (_t7$7 = _$9``)));
+      fa = $(_t8$5 || (_t8$5 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <span>False Alarms</span>
+          ${0}
+        </decidables-spinner>
+      `), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? $(_t9$5 || (_t9$5 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.faPayoff)) : $(_t10$5 || (_t10$5 = _$9``)));
+      cr = $(_t11$5 || (_t11$5 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <span>Correct Rejections</span>
+          ${0}
+        </decidables-spinner>
+      `), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? $(_t12 || (_t12 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.crPayoff)) : $(_t13 || (_t13 = _$9``)));
+      hr = $(_t14 || (_t14 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <span>Hit Rate</span>
+        </decidables-spinner>
+      `), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
+      far = $(_t15 || (_t15 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <span>False Alarm Rate</span>
+        </decidables-spinner>
+      `), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
+      acc = $(_t16 || (_t16 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <span>Accuracy</span>
+        </decidables-spinner>
+      `), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
+      ppv = $(_t17 || (_t17 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <span>Positive Predictive Value</span>
+        </decidables-spinner>
+      `), !this.interactive, +this.ppv.toFixed(3), this.ppvInput.bind(this));
+      fomr = $(_t18 || (_t18 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <span>False Omission Rate</span>
+        </decidables-spinner>
+      `), !this.interactive, +this.fomr.toFixed(3), this.fomrInput.bind(this));
+    } else {
+      h = $(_t19 || (_t19 = _$9`<span>Hits</span>
+        ${0}`), this.payoff ? $(_t20 || (_t20 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.hPayoff)) : $(_t21 || (_t21 = _$9``)));
+      m = $(_t22 || (_t22 = _$9`<span>Misses</span>
+        ${0}`), this.payoff ? $(_t23 || (_t23 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.mPayoff)) : $(_t24 || (_t24 = _$9``)));
+      fa = $(_t25 || (_t25 = _$9`<span>False Alarms</span>
+        ${0}`), this.payoff ? $(_t26 || (_t26 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.faPayoff)) : $(_t27 || (_t27 = _$9``)));
+      cr = $(_t28 || (_t28 = _$9`<span>Correct Rejections</span>
+        ${0}`), this.payoff ? $(_t29 || (_t29 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.crPayoff)) : $(_t30 || (_t30 = _$9``)));
+      hr = $(_t31 || (_t31 = _$9`<span>Hit Rate</span>`));
+      far = $(_t32 || (_t32 = _$9`<span>False Alarm Rate</span>`));
+      acc = $(_t33 || (_t33 = _$9`<span>Accuracy</span>`));
+      ppv = $(_t34 || (_t34 = _$9`<span>Positive Predictive Value</span>`));
+      fomr = $(_t35 || (_t35 = _$9`<span>False Omission Rate</span>`));
+    }
+
+    return $(_t36 || (_t36 = _$9`
+      <table class=${0}>
+        <thead>
+          <tr>
+            <th colspan="2" rowspan="2"></th>
+            <th class="th th-main" colspan="2" scope="col">
+              Response
+            </th>
+          </tr>
+          <tr>
+            <th class="th th-sub" scope="col">
+              "Present"
+            </th>
+            <th class="th th-sub" scope="col">
+              "Absent"
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="th th-main" rowspan="2" scope="row">
+              Signal
+            </th>
+            <th class="th th-sub th-left" scope="row">
+              Present
+            </th>
+            <td class="td td-data h">
+              ${0}
+            </td>
+            <td class="td td-data m">
+              ${0}
+            </td>
+            ${0}
+          </tr>
+          <tr>
+            <th class="th th-sub th-left" scope="row">
+              Absent
+            </th>
+            <td class="td td-data fa">
+              ${0}
+            </td>
+            <td class="td td-data cr">
+              ${0}
+            </td>
+            ${0}
+          </tr>
+          ${0}
+        </tbody>
+      </table>`), this.numeric ? 'numeric' : '', h, m, this.summary.has('stimulusRates') ? $(_t37 || (_t37 = _$9`
+                <td class="td td-summary hr">
+                  ${0}
+                </td>`), hr) : $(_t38 || (_t38 = _$9``)), fa, cr, this.summary.has('stimulusRates') ? $(_t39 || (_t39 = _$9`
+                <td class="td td-summary far">
+                  ${0}
+                </td>`), far) : $(_t40 || (_t40 = _$9``)), this.summary.has('responseRates') || this.summary.has('accuracy') ? $(_t41 || (_t41 = _$9`
+              <tr>
+                <td colspan="2"></td>
+                ${0}
+                ${0}
+              </tr>`), this.summary.has('responseRates') ? $(_t42 || (_t42 = _$9`
+                    <td class="td td-summary ppv">
+                      ${0}
+                    </td>
+                    <td class="td td-summary fomr">
+                      ${0}
+                    </td>`), ppv, fomr) : $(_t43 || (_t43 = _$9`
+                    <td colspan="2"></td>`)), this.summary.has('accuracy') ? $(_t44 || (_t44 = _$9`
+                    <td class="td td-summary acc" rowspan="2">
+                      ${0}
+                    </td>`), acc) : $(_t45 || (_t45 = _$9``))) : $(_t46 || (_t46 = _$9``)));
+  }
+
+}
 customElements.define('detectable-table', DetectableTable);
 
-var _templateObject$8;
+let _$8 = t => t,
+    _t$8;
 /*
   SDTEquation Base Class - Not intended for instantiation!
   <sdt-equation>
 */
 
-var SDTEquation = /*#__PURE__*/function (_DetectableElement) {
-  _inherits(SDTEquation, _DetectableElement);
-
-  var _super = _createSuper(SDTEquation);
-
-  function SDTEquation() {
-    var _this;
-
-    _classCallCheck(this, SDTEquation);
-
-    _this = _super.call(this);
-    _this.numeric = false;
-    return _this;
+class SDTEquation extends DetectableElement {
+  static get properties() {
+    return {
+      numeric: {
+        attribute: 'numeric',
+        type: Boolean,
+        reflect: true
+      }
+    };
   }
 
-  _createClass(SDTEquation, null, [{
-    key: "properties",
-    get: function get() {
-      return {
-        numeric: {
-          attribute: 'numeric',
-          type: Boolean,
-          reflect: true
+  constructor() {
+    super();
+    this.numeric = false;
+  }
+
+  static get styles() {
+    return [super.styles, r$2(_t$8 || (_t$8 = _$8`
+        :host {
+          display: block;
+
+          margin: 1rem;
         }
-      };
-    }
-  }, {
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(SDTEquation), "styles", this), r$2(_templateObject$8 || (_templateObject$8 = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n\n          margin: 1rem;\n        }\n\n        /* Containing <div> */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          justify-content: left;\n        }\n\n        /* Overall <table> */\n        .equation {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Modifies <td> */\n        .underline {\n          border-bottom: 1px solid var(---color-text);\n        }\n\n        /* Basic <span> and <var> w/modifiers */\n        span,\n        var {\n          padding: 0 0.25rem;\n\n          font-style: normal;\n        }\n\n        .tight {\n          padding: 0;\n        }\n\n        .paren {\n          font-size: 150%;\n        }\n\n        .bracket {\n          font-size: 175%;\n        }\n\n        .exp {\n          font-size: 0.75rem;\n        }\n\n        /* Input wrapping <label> */\n        decidables-spinner {\n          --decidables-spinner-input-width: 4rem;\n\n          display: inline-block;\n\n          padding: 0.125rem 0.375rem 0.375rem;\n\n          vertical-align: middle;\n        }\n\n        .bottom {\n          vertical-align: bottom;\n        }\n\n        /* Color scheme */\n        .h {\n          background: var(---color-h-light);\n        }\n\n        .m {\n          background: var(---color-m-light);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .d {\n          background: var(---color-d-light);\n        }\n\n        .c {\n          background: var(---color-c-light);\n        }\n\n        .s {\n          background: var(---color-s-light);\n        }\n      "])))];
-    }
-  }]);
 
-  return SDTEquation;
-}(DetectableElement);
+        /* Containing <div> */
+        .holder {
+          display: flex;
 
-var _templateObject$7, _templateObject2$7, _templateObject3$6, _templateObject4$6, _templateObject5$6, _templateObject6$6, _templateObject7$6, _templateObject8$4, _templateObject9$4, _templateObject10$4, _templateObject11$4;
+          flex-direction: row;
+
+          justify-content: left;
+        }
+
+        /* Overall <table> */
+        .equation {
+          text-align: center;
+
+          border-collapse: collapse;
+
+          border: 0;
+        }
+
+        /* Modifies <td> */
+        .underline {
+          border-bottom: 1px solid var(---color-text);
+        }
+
+        /* Basic <span> and <var> w/modifiers */
+        span,
+        var {
+          padding: 0 0.25rem;
+
+          font-style: normal;
+        }
+
+        .tight {
+          padding: 0;
+        }
+
+        .paren {
+          font-size: 150%;
+        }
+
+        .bracket {
+          font-size: 175%;
+        }
+
+        .exp {
+          font-size: 0.75rem;
+        }
+
+        /* Input wrapping <label> */
+        decidables-spinner {
+          --decidables-spinner-input-width: 4rem;
+
+          display: inline-block;
+
+          padding: 0.125rem 0.375rem 0.375rem;
+
+          vertical-align: middle;
+        }
+
+        .bottom {
+          vertical-align: bottom;
+        }
+
+        /* Color scheme */
+        .h {
+          background: var(---color-h-light);
+        }
+
+        .m {
+          background: var(---color-m-light);
+        }
+
+        .hr {
+          background: var(---color-hr-light);
+        }
+
+        .fa {
+          background: var(---color-fa-light);
+        }
+
+        .acc {
+          background: var(---color-acc-light);
+        }
+
+        .cr {
+          background: var(---color-cr-light);
+        }
+
+        .far {
+          background: var(---color-far-light);
+        }
+
+        .d {
+          background: var(---color-d-light);
+        }
+
+        .c {
+          background: var(---color-c-light);
+        }
+
+        .s {
+          background: var(---color-s-light);
+        }
+      `))];
+  }
+
+}
+
+let _$7 = t => t,
+    _t$7,
+    _t2$7,
+    _t3$6,
+    _t4$6,
+    _t5$6,
+    _t6$6,
+    _t7$6,
+    _t8$4,
+    _t9$4,
+    _t10$4,
+    _t11$4;
 /*
   SDTEquationDC2Far element
   <sdt-equation-dc2far>
@@ -16661,135 +17042,189 @@ var _templateObject$7, _templateObject2$7, _templateObject3$6, _templateObject4$
   d'; c; False Alarm Rate;
 */
 
-var SDTEquationDC2Far = /*#__PURE__*/function (_SDTEquation) {
-  _inherits(SDTEquationDC2Far, _SDTEquation);
-
-  var _super = _createSuper(SDTEquationDC2Far);
-
-  function SDTEquationDC2Far() {
-    var _this;
-
-    _classCallCheck(this, SDTEquationDC2Far);
-
-    _this = _super.call(this);
-    _this.unequal = false;
-    _this.d = 0;
-    _this.c = 0;
-    _this.s = 1;
-
-    _this.alignState();
-
-    return _this;
+class SDTEquationDC2Far extends SDTEquation {
+  static get properties() {
+    return {
+      unequal: {
+        attribute: 'unequal',
+        type: Boolean,
+        reflect: true
+      },
+      d: {
+        attribute: 'd',
+        type: Number,
+        reflect: true
+      },
+      c: {
+        attribute: 'c',
+        type: Number,
+        reflect: true
+      },
+      s: {
+        attribute: 's',
+        type: Number,
+        reflect: true
+      },
+      far: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(SDTEquationDC2Far, [{
-    key: "alignState",
-    value: function alignState() {
-      this.far = SDTMath.dC2Far(this.d, this.c, this.s);
-    }
-  }, {
-    key: "sendEvent",
-    value: function sendEvent() {
-      this.dispatchEvent(new CustomEvent('sdt-equation-dc2far-change', {
-        detail: {
-          d: this.d,
-          c: this.c,
-          s: this.s,
-          far: this.far
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "dInput",
-    value: function dInput(event) {
-      this.d = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "cInput",
-    value: function cInput(event) {
-      this.c = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "sInput",
-    value: function sInput(event) {
-      this.s = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      this.alignState();
-      var d;
-      var c;
-      var s;
-      var far;
+  constructor() {
+    super();
+    this.unequal = false;
+    this.d = 0;
+    this.c = 0;
+    this.s = 1;
+    this.alignState();
+  }
 
-      if (this.numeric) {
-        d = $(_templateObject$7 || (_templateObject$7 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"d bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">d\u2032</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.d, this.dInput.bind(this));
-        c = $(_templateObject2$7 || (_templateObject2$7 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"c bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">c</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.c, this.cInput.bind(this));
-        s = $(_templateObject3$6 || (_templateObject3$6 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.s, this.sInput.bind(this));
-        far = $(_templateObject4$6 || (_templateObject4$6 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"far bottom\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>False Alarm Rate</var>\n        </decidables-spinner>\n      "])), +this.far.toFixed(3));
-      } else {
-        d = $(_templateObject5$6 || (_templateObject5$6 = _taggedTemplateLiteral(["<var class=\"math-var d\">d\u2032</var>"])));
-        c = $(_templateObject6$6 || (_templateObject6$6 = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"])));
-        s = $(_templateObject7$6 || (_templateObject7$6 = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"])));
-        far = $(_templateObject8$4 || (_templateObject8$4 = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"])));
-      }
+  alignState() {
+    this.far = SDTMath.dC2Far(this.d, this.c, this.s);
+  }
 
-      var equation;
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('sdt-equation-dc2far-change', {
+      detail: {
+        d: this.d,
+        c: this.c,
+        s: this.s,
+        far: this.far
+      },
+      bubbles: true
+    }));
+  }
 
-      if (this.unequal) {
-        equation = $(_templateObject9$4 || (_templateObject9$4 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">\u03A6</var><span class=\"paren tight\">(</span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">+</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">]<sup class=\"exp\">\xBD</sup></span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline\">\n            <span class=\"minus tight\">\u2212</span>", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">\u2212</span>", "<span class=\"bracket tight\">]</span><span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n          <td>\n            <span><span>1</span><span class=\"plus\">+</span>", "</span>\n          </td>\n        </tr>"])), far, s, d, c, s);
-      } else {
-        equation = $(_templateObject10$4 || (_templateObject10$4 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">\u03A6</var><span class=\"paren tight\">(</span><span class=\"minus tight\">\u2212</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">\u2212</span>", "<span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"])), far, d, c);
-      }
+  dInput(event) {
+    this.d = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
 
-      return $(_templateObject11$4 || (_templateObject11$4 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"])), equation);
+  cInput(event) {
+    this.c = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  sInput(event) {
+    this.s = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  render() {
+    this.alignState();
+    let d;
+    let c;
+    let s;
+    let far;
+
+    if (this.numeric) {
+      d = $(_t$7 || (_t$7 = _$7`
+        <decidables-spinner class="d bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">d′</var>
+        </decidables-spinner>
+      `), !this.interactive, this.d, this.dInput.bind(this));
+      c = $(_t2$7 || (_t2$7 = _$7`
+        <decidables-spinner class="c bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">c</var>
+        </decidables-spinner>
+      `), !this.interactive, this.c, this.cInput.bind(this));
+      s = $(_t3$6 || (_t3$6 = _$7`
+        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">σ</var>
+        </decidables-spinner>
+      `), !this.interactive, this.s, this.sInput.bind(this));
+      far = $(_t4$6 || (_t4$6 = _$7`
+        <decidables-spinner class="far bottom" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>False Alarm Rate</var>
+        </decidables-spinner>
+      `), +this.far.toFixed(3));
+    } else {
+      d = $(_t5$6 || (_t5$6 = _$7`<var class="math-var d">d′</var>`));
+      c = $(_t6$6 || (_t6$6 = _$7`<var class="math-var c">c</var>`));
+      s = $(_t7$6 || (_t7$6 = _$7`<var class="math-var s">σ</var>`));
+      far = $(_t8$4 || (_t8$4 = _$7`<var class="far">False Alarm Rate</var>`));
     }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        unequal: {
-          attribute: 'unequal',
-          type: Boolean,
-          reflect: true
-        },
-        d: {
-          attribute: 'd',
-          type: Number,
-          reflect: true
-        },
-        c: {
-          attribute: 'c',
-          type: Number,
-          reflect: true
-        },
-        s: {
-          attribute: 's',
-          type: Number,
-          reflect: true
-        },
-        far: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        }
-      };
-    }
-  }]);
 
-  return SDTEquationDC2Far;
-}(SDTEquation);
+    let equation;
+
+    if (this.unequal) {
+      equation = $(_t9$4 || (_t9$4 = _$7`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
+          </td>
+          <td class="underline bottom">
+            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">]<sup class="exp">½</sup></span><span class="bracket tight">[</span>
+          </td>
+          <td class="underline">
+            <span class="minus tight">−</span>${0}
+          </td>
+          <td rowspan="2">
+            <span class="minus">−</span>${0}<span class="bracket tight">]</span><span class="paren tight">)</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+          <td>
+            <span><span>1</span><span class="plus">+</span>${0}</span>
+          </td>
+        </tr>`), far, s, d, c, s);
+    } else {
+      equation = $(_t10$4 || (_t10$4 = _$7`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="minus tight">−</span>
+          </td>
+          <td class="underline">
+            ${0}
+          </td>
+          <td rowspan="2">
+            <span class="minus">−</span>${0}<span class="paren tight">)</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+        </tr>`), far, d, c);
+    }
+
+    return $(_t11$4 || (_t11$4 = _$7`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            ${0}
+          </tbody>
+        </table>
+      </div>`), equation);
+  }
+
+}
 customElements.define('sdt-equation-dc2far', SDTEquationDC2Far);
 
-var _templateObject$6, _templateObject2$6, _templateObject3$5, _templateObject4$5, _templateObject5$5, _templateObject6$5, _templateObject7$5, _templateObject8$3, _templateObject9$3, _templateObject10$3, _templateObject11$3;
+let _$6 = t => t,
+    _t$6,
+    _t2$6,
+    _t3$5,
+    _t4$5,
+    _t5$5,
+    _t6$5,
+    _t7$5,
+    _t8$3,
+    _t9$3,
+    _t10$3,
+    _t11$3;
 /*
   SDTEquationDC2Hr element
   <sdt-equation-dc2hr>
@@ -16798,135 +17233,194 @@ var _templateObject$6, _templateObject2$6, _templateObject3$5, _templateObject4$
   d'; c; Hit Rate;
 */
 
-var SDTEquationDC2Hr = /*#__PURE__*/function (_SDTEquation) {
-  _inherits(SDTEquationDC2Hr, _SDTEquation);
-
-  var _super = _createSuper(SDTEquationDC2Hr);
-
-  function SDTEquationDC2Hr() {
-    var _this;
-
-    _classCallCheck(this, SDTEquationDC2Hr);
-
-    _this = _super.call(this);
-    _this.unequal = false;
-    _this.d = 0;
-    _this.c = 0;
-    _this.s = 1;
-
-    _this.alignState();
-
-    return _this;
+class SDTEquationDC2Hr extends SDTEquation {
+  static get properties() {
+    return {
+      unequal: {
+        attribute: 'unequal',
+        type: Boolean,
+        reflect: true
+      },
+      d: {
+        attribute: 'd',
+        type: Number,
+        reflect: true
+      },
+      c: {
+        attribute: 'c',
+        type: Number,
+        reflect: true
+      },
+      s: {
+        attribute: 's',
+        type: Number,
+        reflect: true
+      },
+      hr: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(SDTEquationDC2Hr, [{
-    key: "alignState",
-    value: function alignState() {
-      this.hr = SDTMath.dC2Hr(this.d, this.c, this.s);
-    }
-  }, {
-    key: "sendEvent",
-    value: function sendEvent() {
-      this.dispatchEvent(new CustomEvent('sdt-equation-dc2hr-change', {
-        detail: {
-          d: this.d,
-          c: this.c,
-          s: this.s,
-          hr: this.hr
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "dInput",
-    value: function dInput(event) {
-      this.d = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "cInput",
-    value: function cInput(event) {
-      this.c = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "sInput",
-    value: function sInput(event) {
-      this.s = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      this.alignState();
-      var d;
-      var c;
-      var s;
-      var hr;
+  constructor() {
+    super();
+    this.unequal = false;
+    this.d = 0;
+    this.c = 0;
+    this.s = 1;
+    this.alignState();
+  }
 
-      if (this.numeric) {
-        d = $(_templateObject$6 || (_templateObject$6 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"d bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">d\u2032</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.d, this.dInput.bind(this));
-        c = $(_templateObject2$6 || (_templateObject2$6 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"c bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">c</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.c, this.cInput.bind(this));
-        s = $(_templateObject3$5 || (_templateObject3$5 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.s, this.sInput.bind(this));
-        hr = $(_templateObject4$5 || (_templateObject4$5 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"hr bottom\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>Hit Rate</var>\n        </decidables-spinner>\n      "])), +this.hr.toFixed(3));
-      } else {
-        d = $(_templateObject5$5 || (_templateObject5$5 = _taggedTemplateLiteral(["<var class=\"math-var d\">d\u2032</var>"])));
-        c = $(_templateObject6$5 || (_templateObject6$5 = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"])));
-        s = $(_templateObject7$5 || (_templateObject7$5 = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"])));
-        hr = $(_templateObject8$3 || (_templateObject8$3 = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"])));
-      }
+  alignState() {
+    this.hr = SDTMath.dC2Hr(this.d, this.c, this.s);
+  }
 
-      var equation;
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('sdt-equation-dc2hr-change', {
+      detail: {
+        d: this.d,
+        c: this.c,
+        s: this.s,
+        hr: this.hr
+      },
+      bubbles: true
+    }));
+  }
 
-      if (this.unequal) {
-        equation = $(_templateObject9$3 || (_templateObject9$3 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">\u03A6</var><span class=\"paren tight\">(</span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">+</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">]<sup class=\"exp\">\xBD</sup></span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">\u2212</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">]</span><span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n          <td>\n            <span><span>1</span><span class=\"plus\">+</span>", "</span>\n          </td>\n          <td>\n            ", "\n          </td>\n        </tr>"])), hr, s, d, c, s, s);
-      } else {
-        equation = $(_templateObject10$3 || (_templateObject10$3 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">\u03A6</var><span class=\"paren tight\">(</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">\u2212</span>", "<span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"])), hr, d, c);
-      }
+  dInput(event) {
+    this.d = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
 
-      return $(_templateObject11$3 || (_templateObject11$3 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"])), equation);
+  cInput(event) {
+    this.c = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  sInput(event) {
+    this.s = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  render() {
+    this.alignState();
+    let d;
+    let c;
+    let s;
+    let hr;
+
+    if (this.numeric) {
+      d = $(_t$6 || (_t$6 = _$6`
+        <decidables-spinner class="d bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">d′</var>
+        </decidables-spinner>
+      `), !this.interactive, this.d, this.dInput.bind(this));
+      c = $(_t2$6 || (_t2$6 = _$6`
+        <decidables-spinner class="c bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">c</var>
+        </decidables-spinner>
+      `), !this.interactive, this.c, this.cInput.bind(this));
+      s = $(_t3$5 || (_t3$5 = _$6`
+        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">σ</var>
+        </decidables-spinner>
+      `), !this.interactive, this.s, this.sInput.bind(this));
+      hr = $(_t4$5 || (_t4$5 = _$6`
+        <decidables-spinner class="hr bottom" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>Hit Rate</var>
+        </decidables-spinner>
+      `), +this.hr.toFixed(3));
+    } else {
+      d = $(_t5$5 || (_t5$5 = _$6`<var class="math-var d">d′</var>`));
+      c = $(_t6$5 || (_t6$5 = _$6`<var class="math-var c">c</var>`));
+      s = $(_t7$5 || (_t7$5 = _$6`<var class="math-var s">σ</var>`));
+      hr = $(_t8$3 || (_t8$3 = _$6`<var class="hr">Hit Rate</var>`));
     }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        unequal: {
-          attribute: 'unequal',
-          type: Boolean,
-          reflect: true
-        },
-        d: {
-          attribute: 'd',
-          type: Number,
-          reflect: true
-        },
-        c: {
-          attribute: 'c',
-          type: Number,
-          reflect: true
-        },
-        s: {
-          attribute: 's',
-          type: Number,
-          reflect: true
-        },
-        hr: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        }
-      };
-    }
-  }]);
 
-  return SDTEquationDC2Hr;
-}(SDTEquation);
+    let equation;
+
+    if (this.unequal) {
+      equation = $(_t9$3 || (_t9$3 = _$6`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
+          </td>
+          <td class="underline bottom">
+            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">]<sup class="exp">½</sup></span><span class="bracket tight">[</span>
+          </td>
+          <td class="underline">
+            ${0}
+          </td>
+          <td rowspan="2">
+            <span class="minus">−</span>
+          </td>
+          <td class="underline">
+            ${0}
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">]</span><span class="paren tight">)</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+          <td>
+            <span><span>1</span><span class="plus">+</span>${0}</span>
+          </td>
+          <td>
+            ${0}
+          </td>
+        </tr>`), hr, s, d, c, s, s);
+    } else {
+      equation = $(_t10$3 || (_t10$3 = _$6`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span>
+          </td>
+          <td class="underline">
+            ${0}
+          </td>
+          <td rowspan="2">
+            <span class="minus">−</span>${0}<span class="paren tight">)</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+        </tr>`), hr, d, c);
+    }
+
+    return $(_t11$3 || (_t11$3 = _$6`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            ${0}
+          </tbody>
+        </table>
+      </div>`), equation);
+  }
+
+}
 customElements.define('sdt-equation-dc2hr', SDTEquationDC2Hr);
 
-var _templateObject$5, _templateObject2$5, _templateObject3$4, _templateObject4$4, _templateObject5$4, _templateObject6$4, _templateObject7$4;
+let _$5 = t => t,
+    _t$5,
+    _t2$5,
+    _t3$4,
+    _t4$4,
+    _t5$4,
+    _t6$4,
+    _t7$4;
 /*
   SDTEquationFaCr2Far element
   <sdt-equation-facr2far>
@@ -16935,104 +17429,122 @@ var _templateObject$5, _templateObject2$5, _templateObject3$4, _templateObject4$
   False Alarms; Correct Rejections; False Alarm Rate;
 */
 
-var SDTEquationFaCr2Far = /*#__PURE__*/function (_SDTEquation) {
-  _inherits(SDTEquationFaCr2Far, _SDTEquation);
-
-  var _super = _createSuper(SDTEquationFaCr2Far);
-
-  function SDTEquationFaCr2Far() {
-    var _this;
-
-    _classCallCheck(this, SDTEquationFaCr2Far);
-
-    _this = _super.call(this);
-    _this.fa = 0;
-    _this.cr = 0;
-
-    _this.alignState();
-
-    return _this;
+class SDTEquationFaCr2Far extends SDTEquation {
+  static get properties() {
+    return {
+      fa: {
+        attribute: 'false-alarms',
+        type: Number,
+        reflect: true
+      },
+      cr: {
+        attribute: 'correct-rejections',
+        type: Number,
+        reflect: true
+      },
+      far: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(SDTEquationFaCr2Far, [{
-    key: "alignState",
-    value: function alignState() {
-      this.far = SDTMath.faCr2Far(this.fa, this.cr);
-    }
-  }, {
-    key: "sendEvent",
-    value: function sendEvent() {
-      this.dispatchEvent(new CustomEvent('sdt-equation-facr2far-change', {
-        detail: {
-          fa: this.fa,
-          cr: this.cr,
-          far: this.far
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "faInput",
-    value: function faInput(event) {
-      this.fa = parseInt(event.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "crInput",
-    value: function crInput(event) {
-      this.cr = parseInt(event.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      this.alignState();
-      var fa;
-      var cr;
-      var far;
+  constructor() {
+    super();
+    this.fa = 0;
+    this.cr = 0;
+    this.alignState();
+  }
 
-      if (this.numeric) {
-        fa = $(_templateObject$5 || (_templateObject$5 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"fa\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>False Alarms</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.fa, this.faInput.bind(this));
-        cr = $(_templateObject2$5 || (_templateObject2$5 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"cr\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Correct Rejections</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.cr, this.crInput.bind(this));
-        far = $(_templateObject3$4 || (_templateObject3$4 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"far\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>False Alarm Rate</var>\n        </decidables-spinner>\n      "])), +this.far.toFixed(3));
-      } else {
-        fa = $(_templateObject4$4 || (_templateObject4$4 = _taggedTemplateLiteral(["<var class=\"fa\">False Alarms</var>"])));
-        cr = $(_templateObject5$4 || (_templateObject5$4 = _taggedTemplateLiteral(["<var class=\"cr\">Correct Rejections</var>"])));
-        far = $(_templateObject6$4 || (_templateObject6$4 = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"])));
-      }
+  alignState() {
+    this.far = SDTMath.faCr2Far(this.fa, this.cr);
+  }
 
-      return $(_templateObject7$4 || (_templateObject7$4 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"])), far, fa, fa, cr);
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        fa: {
-          attribute: 'false-alarms',
-          type: Number,
-          reflect: true
-        },
-        cr: {
-          attribute: 'correct-rejections',
-          type: Number,
-          reflect: true
-        },
-        far: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        }
-      };
-    }
-  }]);
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('sdt-equation-facr2far-change', {
+      detail: {
+        fa: this.fa,
+        cr: this.cr,
+        far: this.far
+      },
+      bubbles: true
+    }));
+  }
 
-  return SDTEquationFaCr2Far;
-}(SDTEquation);
+  faInput(event) {
+    this.fa = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  crInput(event) {
+    this.cr = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  render() {
+    this.alignState();
+    let fa;
+    let cr;
+    let far;
+
+    if (this.numeric) {
+      fa = $(_t$5 || (_t$5 = _$5`
+        <decidables-spinner class="fa" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>False Alarms</var>
+        </decidables-spinner>
+      `), !this.interactive, this.fa, this.faInput.bind(this));
+      cr = $(_t2$5 || (_t2$5 = _$5`
+        <decidables-spinner class="cr" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Correct Rejections</var>
+        </decidables-spinner>
+      `), !this.interactive, this.cr, this.crInput.bind(this));
+      far = $(_t3$4 || (_t3$4 = _$5`
+        <decidables-spinner class="far" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>False Alarm Rate</var>
+        </decidables-spinner>
+      `), +this.far.toFixed(3));
+    } else {
+      fa = $(_t4$4 || (_t4$4 = _$5`<var class="fa">False Alarms</var>`));
+      cr = $(_t5$4 || (_t5$4 = _$5`<var class="cr">Correct Rejections</var>`));
+      far = $(_t6$4 || (_t6$4 = _$5`<var class="far">False Alarm Rate</var>`));
+    }
+
+    return $(_t7$4 || (_t7$4 = _$5`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            <tr>
+              <td rowspan="2">
+                ${0}<span class="equals">=</span>
+              </td>
+              <td class="underline">
+                ${0}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ${0}<span class="plus">+</span>${0}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`), far, fa, fa, cr);
+  }
+
+}
 customElements.define('sdt-equation-facr2far', SDTEquationFaCr2Far);
 
-var _templateObject$4, _templateObject2$4, _templateObject3$3, _templateObject4$3, _templateObject5$3, _templateObject6$3, _templateObject7$3;
+let _$4 = t => t,
+    _t$4,
+    _t2$4,
+    _t3$3,
+    _t4$3,
+    _t5$3,
+    _t6$3,
+    _t7$3;
 /*
   SDTEquationHM2Hr element
   <sdt-equation-hm2hr>
@@ -17041,104 +17553,127 @@ var _templateObject$4, _templateObject2$4, _templateObject3$3, _templateObject4$
   Hits; Misses; Hit Rate;
 */
 
-var SDTEquationHM2Hr = /*#__PURE__*/function (_SDTEquation) {
-  _inherits(SDTEquationHM2Hr, _SDTEquation);
-
-  var _super = _createSuper(SDTEquationHM2Hr);
-
-  function SDTEquationHM2Hr() {
-    var _this;
-
-    _classCallCheck(this, SDTEquationHM2Hr);
-
-    _this = _super.call(this);
-    _this.h = 0;
-    _this.m = 0;
-
-    _this.alignState();
-
-    return _this;
+class SDTEquationHM2Hr extends SDTEquation {
+  static get properties() {
+    return {
+      h: {
+        attribute: 'hits',
+        type: Number,
+        reflect: true
+      },
+      m: {
+        attribute: 'misses',
+        type: Number,
+        reflect: true
+      },
+      hr: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(SDTEquationHM2Hr, [{
-    key: "alignState",
-    value: function alignState() {
-      this.hr = SDTMath.hM2Hr(this.h, this.m);
-    }
-  }, {
-    key: "sendEvent",
-    value: function sendEvent() {
-      this.dispatchEvent(new CustomEvent('sdt-equation-hm2hr-change', {
-        detail: {
-          h: this.h,
-          m: this.m,
-          hr: this.hr
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "hInput",
-    value: function hInput(event) {
-      this.h = parseInt(event.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "mInput",
-    value: function mInput(event) {
-      this.m = parseInt(event.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      this.alignState();
-      var h;
-      var m;
-      var hr;
+  constructor() {
+    super();
+    this.h = 0;
+    this.m = 0;
+    this.alignState();
+  }
 
-      if (this.numeric) {
-        h = $(_templateObject$4 || (_templateObject$4 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"h\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Hits</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.h, this.hInput.bind(this));
-        m = $(_templateObject2$4 || (_templateObject2$4 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"m\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Misses</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.m, this.mInput.bind(this));
-        hr = $(_templateObject3$3 || (_templateObject3$3 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"hr\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>Hit Rate</var>\n        </decidables-spinner>\n      "])), +this.hr.toFixed(3));
-      } else {
-        h = $(_templateObject4$3 || (_templateObject4$3 = _taggedTemplateLiteral(["<var class=\"h\">Hits</var>"])));
-        m = $(_templateObject5$3 || (_templateObject5$3 = _taggedTemplateLiteral(["<var class=\"m\">Misses</var>"])));
-        hr = $(_templateObject6$3 || (_templateObject6$3 = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"])));
-      }
+  alignState() {
+    this.hr = SDTMath.hM2Hr(this.h, this.m);
+  }
 
-      return $(_templateObject7$3 || (_templateObject7$3 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>\n    "])), hr, h, h, m);
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        h: {
-          attribute: 'hits',
-          type: Number,
-          reflect: true
-        },
-        m: {
-          attribute: 'misses',
-          type: Number,
-          reflect: true
-        },
-        hr: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        }
-      };
-    }
-  }]);
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('sdt-equation-hm2hr-change', {
+      detail: {
+        h: this.h,
+        m: this.m,
+        hr: this.hr
+      },
+      bubbles: true
+    }));
+  }
 
-  return SDTEquationHM2Hr;
-}(SDTEquation);
+  hInput(event) {
+    this.h = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  mInput(event) {
+    this.m = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  render() {
+    this.alignState();
+    let h;
+    let m;
+    let hr;
+
+    if (this.numeric) {
+      h = $(_t$4 || (_t$4 = _$4`
+        <decidables-spinner class="h" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Hits</var>
+        </decidables-spinner>
+      `), !this.interactive, this.h, this.hInput.bind(this));
+      m = $(_t2$4 || (_t2$4 = _$4`
+        <decidables-spinner class="m" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Misses</var>
+        </decidables-spinner>
+      `), !this.interactive, this.m, this.mInput.bind(this));
+      hr = $(_t3$3 || (_t3$3 = _$4`
+        <decidables-spinner class="hr" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>Hit Rate</var>
+        </decidables-spinner>
+      `), +this.hr.toFixed(3));
+    } else {
+      h = $(_t4$3 || (_t4$3 = _$4`<var class="h">Hits</var>`));
+      m = $(_t5$3 || (_t5$3 = _$4`<var class="m">Misses</var>`));
+      hr = $(_t6$3 || (_t6$3 = _$4`<var class="hr">Hit Rate</var>`));
+    }
+
+    return $(_t7$3 || (_t7$3 = _$4`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            <tr>
+              <td rowspan="2">
+                ${0}<span class="equals">=</span>
+              </td>
+              <td class="underline">
+                ${0}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ${0}<span class="plus">+</span>${0}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `), hr, h, h, m);
+  }
+
+}
 customElements.define('sdt-equation-hm2hr', SDTEquationHM2Hr);
 
-var _templateObject$3, _templateObject2$3, _templateObject3$2, _templateObject4$2, _templateObject5$2, _templateObject6$2, _templateObject7$2, _templateObject8$2, _templateObject9$2, _templateObject10$2, _templateObject11$2;
+let _$3 = t => t,
+    _t$3,
+    _t2$3,
+    _t3$2,
+    _t4$2,
+    _t5$2,
+    _t6$2,
+    _t7$2,
+    _t8$2,
+    _t9$2,
+    _t10$2,
+    _t11$2;
 /*
   SDTEquationHMFaCr2Acc element
   <sdt-equation-hmfacr2acc>
@@ -17147,138 +17682,166 @@ var _templateObject$3, _templateObject2$3, _templateObject3$2, _templateObject4$
   Hits; Misses; False Alarms; Correct Rejections; Accuracy;
 */
 
-var SDTEquationHMFaCr2Acc = /*#__PURE__*/function (_SDTEquation) {
-  _inherits(SDTEquationHMFaCr2Acc, _SDTEquation);
-
-  var _super = _createSuper(SDTEquationHMFaCr2Acc);
-
-  function SDTEquationHMFaCr2Acc() {
-    var _this;
-
-    _classCallCheck(this, SDTEquationHMFaCr2Acc);
-
-    _this = _super.call(this);
-    _this.h = 0;
-    _this.m = 0;
-    _this.fa = 0;
-    _this.cr = 0;
-
-    _this.alignState();
-
-    return _this;
+class SDTEquationHMFaCr2Acc extends SDTEquation {
+  static get properties() {
+    return {
+      h: {
+        attribute: 'hits',
+        type: Number,
+        reflect: true
+      },
+      m: {
+        attribute: 'misses',
+        type: Number,
+        reflect: true
+      },
+      fa: {
+        attribute: 'false-alarms',
+        type: Number,
+        reflect: true
+      },
+      cr: {
+        attribute: 'correct-rejections',
+        type: Number,
+        reflect: true
+      },
+      acc: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(SDTEquationHMFaCr2Acc, [{
-    key: "alignState",
-    value: function alignState() {
-      this.acc = SDTMath.hMFaCr2Acc(this.h, this.m, this.fa, this.cr);
-    }
-  }, {
-    key: "sendEvent",
-    value: function sendEvent() {
-      this.dispatchEvent(new CustomEvent('sdt-equation-hmfacr2acc-change', {
-        detail: {
-          h: this.h,
-          m: this.m,
-          fa: this.fa,
-          cr: this.cr,
-          acc: this.acc
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "hInput",
-    value: function hInput(event) {
-      this.h = parseInt(event.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "mInput",
-    value: function mInput(event) {
-      this.m = parseInt(event.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "faInput",
-    value: function faInput(event) {
-      this.fa = parseInt(event.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "crInput",
-    value: function crInput(event) {
-      this.cr = parseInt(event.target.value, 10);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      this.alignState();
-      var h;
-      var m;
-      var fa;
-      var cr;
-      var acc;
+  constructor() {
+    super();
+    this.h = 0;
+    this.m = 0;
+    this.fa = 0;
+    this.cr = 0;
+    this.alignState();
+  }
 
-      if (this.numeric) {
-        h = $(_templateObject$3 || (_templateObject$3 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"h\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Hits</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.h, this.hInput.bind(this));
-        m = $(_templateObject2$3 || (_templateObject2$3 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"m\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Misses</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.m, this.mInput.bind(this));
-        fa = $(_templateObject3$2 || (_templateObject3$2 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"fa\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>False Alarms</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.fa, this.faInput.bind(this));
-        cr = $(_templateObject4$2 || (_templateObject4$2 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"cr\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Correct Rejections</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.cr, this.crInput.bind(this));
-        acc = $(_templateObject5$2 || (_templateObject5$2 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"acc\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>Accuracy</var>\n        </decidables-spinner>\n      "])), +this.acc.toFixed(3));
-      } else {
-        h = $(_templateObject6$2 || (_templateObject6$2 = _taggedTemplateLiteral(["<var class=\"h\">Hits</var>"])));
-        m = $(_templateObject7$2 || (_templateObject7$2 = _taggedTemplateLiteral(["<var class=\"m\">Misses</var>"])));
-        fa = $(_templateObject8$2 || (_templateObject8$2 = _taggedTemplateLiteral(["<var class=\"fa\">False Alarms</var>"])));
-        cr = $(_templateObject9$2 || (_templateObject9$2 = _taggedTemplateLiteral(["<var class=\"cr\">Correct Rejections</var>"])));
-        acc = $(_templateObject10$2 || (_templateObject10$2 = _taggedTemplateLiteral(["<var class=\"acc\">Accuracy</var>"])));
-      }
+  alignState() {
+    this.acc = SDTMath.hMFaCr2Acc(this.h, this.m, this.fa, this.cr);
+  }
 
-      return $(_templateObject11$2 || (_templateObject11$2 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "<span class=\"plus\">+</span>", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"])), acc, h, cr, h, m, fa, cr);
-    }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        h: {
-          attribute: 'hits',
-          type: Number,
-          reflect: true
-        },
-        m: {
-          attribute: 'misses',
-          type: Number,
-          reflect: true
-        },
-        fa: {
-          attribute: 'false-alarms',
-          type: Number,
-          reflect: true
-        },
-        cr: {
-          attribute: 'correct-rejections',
-          type: Number,
-          reflect: true
-        },
-        acc: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        }
-      };
-    }
-  }]);
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('sdt-equation-hmfacr2acc-change', {
+      detail: {
+        h: this.h,
+        m: this.m,
+        fa: this.fa,
+        cr: this.cr,
+        acc: this.acc
+      },
+      bubbles: true
+    }));
+  }
 
-  return SDTEquationHMFaCr2Acc;
-}(SDTEquation);
+  hInput(event) {
+    this.h = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  mInput(event) {
+    this.m = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  faInput(event) {
+    this.fa = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  crInput(event) {
+    this.cr = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  render() {
+    this.alignState();
+    let h;
+    let m;
+    let fa;
+    let cr;
+    let acc;
+
+    if (this.numeric) {
+      h = $(_t$3 || (_t$3 = _$3`
+        <decidables-spinner class="h" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Hits</var>
+        </decidables-spinner>
+      `), !this.interactive, this.h, this.hInput.bind(this));
+      m = $(_t2$3 || (_t2$3 = _$3`
+        <decidables-spinner class="m" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Misses</var>
+        </decidables-spinner>
+      `), !this.interactive, this.m, this.mInput.bind(this));
+      fa = $(_t3$2 || (_t3$2 = _$3`
+        <decidables-spinner class="fa" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>False Alarms</var>
+        </decidables-spinner>
+      `), !this.interactive, this.fa, this.faInput.bind(this));
+      cr = $(_t4$2 || (_t4$2 = _$3`
+        <decidables-spinner class="cr" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Correct Rejections</var>
+        </decidables-spinner>
+      `), !this.interactive, this.cr, this.crInput.bind(this));
+      acc = $(_t5$2 || (_t5$2 = _$3`
+        <decidables-spinner class="acc" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>Accuracy</var>
+        </decidables-spinner>
+      `), +this.acc.toFixed(3));
+    } else {
+      h = $(_t6$2 || (_t6$2 = _$3`<var class="h">Hits</var>`));
+      m = $(_t7$2 || (_t7$2 = _$3`<var class="m">Misses</var>`));
+      fa = $(_t8$2 || (_t8$2 = _$3`<var class="fa">False Alarms</var>`));
+      cr = $(_t9$2 || (_t9$2 = _$3`<var class="cr">Correct Rejections</var>`));
+      acc = $(_t10$2 || (_t10$2 = _$3`<var class="acc">Accuracy</var>`));
+    }
+
+    return $(_t11$2 || (_t11$2 = _$3`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            <tr>
+              <td rowspan="2">
+                ${0}<span class="equals">=</span>
+              </td>
+              <td class="underline">
+                ${0}<span class="plus">+</span>${0}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ${0}<span class="plus">+</span>${0}<span class="plus">+</span>${0}<span class="plus">+</span>${0}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`), acc, h, cr, h, m, fa, cr);
+  }
+
+}
 customElements.define('sdt-equation-hmfacr2acc', SDTEquationHMFaCr2Acc);
 
-var _templateObject$2, _templateObject2$2, _templateObject3$1, _templateObject4$1, _templateObject5$1, _templateObject6$1, _templateObject7$1, _templateObject8$1, _templateObject9$1, _templateObject10$1, _templateObject11$1;
+let _$2 = t => t,
+    _t$2,
+    _t2$2,
+    _t3$1,
+    _t4$1,
+    _t5$1,
+    _t6$1,
+    _t7$1,
+    _t8$1,
+    _t9$1,
+    _t10$1,
+    _t11$1;
 /*
   SDTEquationHrFar2C element
   <sdt-equation-hrfar2c>
@@ -17287,135 +17850,186 @@ var _templateObject$2, _templateObject2$2, _templateObject3$1, _templateObject4$
   Hit Rate; False Alarm Rate; d';
 */
 
-var SDTEquationHrFar2C = /*#__PURE__*/function (_SDTEquation) {
-  _inherits(SDTEquationHrFar2C, _SDTEquation);
-
-  var _super = _createSuper(SDTEquationHrFar2C);
-
-  function SDTEquationHrFar2C() {
-    var _this;
-
-    _classCallCheck(this, SDTEquationHrFar2C);
-
-    _this = _super.call(this);
-    _this.unequal = false;
-    _this.hr = 0;
-    _this.far = 0;
-    _this.s = 1;
-
-    _this.alignState();
-
-    return _this;
+class SDTEquationHrFar2C extends SDTEquation {
+  static get properties() {
+    return {
+      unequal: {
+        attribute: 'unequal',
+        type: Boolean,
+        reflect: true
+      },
+      hr: {
+        attribute: 'hit-rate',
+        type: Number,
+        reflect: true
+      },
+      far: {
+        attribute: 'false-alarm-rate',
+        type: Number,
+        reflect: true
+      },
+      s: {
+        attribute: 's',
+        type: Number,
+        reflect: true
+      },
+      c: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(SDTEquationHrFar2C, [{
-    key: "alignState",
-    value: function alignState() {
-      this.c = SDTMath.hrFar2C(this.hr, this.far, this.s);
-    }
-  }, {
-    key: "sendEvent",
-    value: function sendEvent() {
-      this.dispatchEvent(new CustomEvent('sdt-equation-hrfar2c-change', {
-        detail: {
-          hr: this.hr,
-          far: this.far,
-          s: this.s,
-          c: this.c
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "hrInput",
-    value: function hrInput(event) {
-      this.hr = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "farInput",
-    value: function farInput(event) {
-      this.far = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "sInput",
-    value: function sInput(event) {
-      this.s = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      this.alignState();
-      var hr;
-      var far;
-      var s;
-      var c;
+  constructor() {
+    super();
+    this.unequal = false;
+    this.hr = 0;
+    this.far = 0;
+    this.s = 1;
+    this.alignState();
+  }
 
-      if (this.numeric) {
-        hr = $(_templateObject$2 || (_templateObject$2 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"hr bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>Hit Rate</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.hr, this.hrInput.bind(this));
-        far = $(_templateObject2$2 || (_templateObject2$2 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"far bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>False Alarm Rate</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.far, this.farInput.bind(this));
-        s = $(_templateObject3$1 || (_templateObject3$1 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.s, this.sInput.bind(this));
-        c = $(_templateObject4$1 || (_templateObject4$1 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"c bottom\" disabled step=\".001\" .value=\"", "\">\n          <var class=\"math-var\">c</var>\n        </decidables-spinner>\n      "])), +this.c.toFixed(3));
-      } else {
-        hr = $(_templateObject5$1 || (_templateObject5$1 = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"])));
-        far = $(_templateObject6$1 || (_templateObject6$1 = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"])));
-        s = $(_templateObject7$1 || (_templateObject7$1 = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"])));
-        c = $(_templateObject8$1 || (_templateObject8$1 = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"])));
-      }
+  alignState() {
+    this.c = SDTMath.hrFar2C(this.hr, this.far, this.s);
+  }
 
-      var equation;
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('sdt-equation-hrfar2c-change', {
+      detail: {
+        hr: this.hr,
+        far: this.far,
+        s: this.s,
+        c: this.c
+      },
+      bubbles: true
+    }));
+  }
 
-      if (this.unequal) {
-        equation = $(_templateObject9$1 || (_templateObject9$1 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">+</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)<sup class=\"exp\">\u2212\xBD</sup></span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span class=\"minus tight\">\u2212</span>", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)</span><span class=\"bracket\">[</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"plus\">+</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"bracket\">]</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n          <td>\n            <span><span>1</span><span class=\"plus\">+</span>", "</span>\n          </td>\n        </tr>"])), c, s, s, hr, far, s);
-      } else {
-        equation = $(_templateObject10$1 || (_templateObject10$1 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span>\n          </td>\n          <td class=\"underline\">\n            <span class=\"minus tight\">\u2212</span><span class=\"bracket tight\">[</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"plus\">+</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"bracket tight\">]</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"])), c, hr, far);
-      }
+  hrInput(event) {
+    this.hr = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
 
-      return $(_templateObject11$1 || (_templateObject11$1 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"])), equation);
+  farInput(event) {
+    this.far = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  sInput(event) {
+    this.s = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  render() {
+    this.alignState();
+    let hr;
+    let far;
+    let s;
+    let c;
+
+    if (this.numeric) {
+      hr = $(_t$2 || (_t$2 = _$2`
+        <decidables-spinner class="hr bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <var>Hit Rate</var>
+        </decidables-spinner>
+      `), !this.interactive, this.hr, this.hrInput.bind(this));
+      far = $(_t2$2 || (_t2$2 = _$2`
+        <decidables-spinner class="far bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <var>False Alarm Rate</var>
+        </decidables-spinner>
+      `), !this.interactive, this.far, this.farInput.bind(this));
+      s = $(_t3$1 || (_t3$1 = _$2`
+        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">σ</var>
+        </decidables-spinner>
+      `), !this.interactive, this.s, this.sInput.bind(this));
+      c = $(_t4$1 || (_t4$1 = _$2`
+        <decidables-spinner class="c bottom" disabled step=".001" .value="${0}">
+          <var class="math-var">c</var>
+        </decidables-spinner>
+      `), +this.c.toFixed(3));
+    } else {
+      hr = $(_t5$1 || (_t5$1 = _$2`<var class="hr">Hit Rate</var>`));
+      far = $(_t6$1 || (_t6$1 = _$2`<var class="far">False Alarm Rate</var>`));
+      s = $(_t7$1 || (_t7$1 = _$2`<var class="math-var s">σ</var>`));
+      c = $(_t8$1 || (_t8$1 = _$2`<var class="math-var c">c</var>`));
     }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        unequal: {
-          attribute: 'unequal',
-          type: Boolean,
-          reflect: true
-        },
-        hr: {
-          attribute: 'hit-rate',
-          type: Number,
-          reflect: true
-        },
-        far: {
-          attribute: 'false-alarm-rate',
-          type: Number,
-          reflect: true
-        },
-        s: {
-          attribute: 's',
-          type: Number,
-          reflect: true
-        },
-        c: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        }
-      };
-    }
-  }]);
 
-  return SDTEquationHrFar2C;
-}(SDTEquation);
+    let equation;
+
+    if (this.unequal) {
+      equation = $(_t9$1 || (_t9$1 = _$2`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><span class="bracket tight">(</span>
+          </td>
+          <td class="underline bottom">
+            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">)<sup class="exp">−½</sup></span><span class="bracket tight">(</span>
+          </td>
+          <td class="underline bottom">
+            <span class="minus tight">−</span>${0}
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">)</span><span class="bracket">[</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="plus">+</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="bracket">]</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+          <td>
+            <span><span>1</span><span class="plus">+</span>${0}</span>
+          </td>
+        </tr>`), c, s, s, hr, far, s);
+    } else {
+      equation = $(_t10$1 || (_t10$1 = _$2`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span>
+          </td>
+          <td class="underline">
+            <span class="minus tight">−</span><span class="bracket tight">[</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="plus">+</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="bracket tight">]</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+        </tr>`), c, hr, far);
+    }
+
+    return $(_t11$1 || (_t11$1 = _$2`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            ${0}
+          </tbody>
+        </table>
+      </div>`), equation);
+  }
+
+}
 customElements.define('sdt-equation-hrfar2c', SDTEquationHrFar2C);
 
-var _templateObject$1, _templateObject2$1, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11;
+let _$1 = t => t,
+    _t$1,
+    _t2$1,
+    _t3,
+    _t4,
+    _t5,
+    _t6,
+    _t7,
+    _t8,
+    _t9,
+    _t10,
+    _t11;
 /*
   SDTEquationHrFar2D element
   <sdt-equation-hrfar2d>
@@ -17424,166 +18038,229 @@ var _templateObject$1, _templateObject2$1, _templateObject3, _templateObject4, _
   Hit Rate; False Alarm Rate; d';
 */
 
-var SDTEquationHrFar2D = /*#__PURE__*/function (_SDTEquation) {
-  _inherits(SDTEquationHrFar2D, _SDTEquation);
-
-  var _super = _createSuper(SDTEquationHrFar2D);
-
-  function SDTEquationHrFar2D() {
-    var _this;
-
-    _classCallCheck(this, SDTEquationHrFar2D);
-
-    _this = _super.call(this);
-    _this.unequal = false;
-    _this.hr = 0;
-    _this.far = 0;
-    _this.s = 1;
-
-    _this.alignState();
-
-    return _this;
+class SDTEquationHrFar2D extends SDTEquation {
+  static get properties() {
+    return {
+      unequal: {
+        attribute: 'unequal',
+        type: Boolean,
+        reflect: true
+      },
+      hr: {
+        attribute: 'hit-rate',
+        type: Number,
+        reflect: true
+      },
+      far: {
+        attribute: 'false-alarm-rate',
+        type: Number,
+        reflect: true
+      },
+      s: {
+        attribute: 's',
+        type: Number,
+        reflect: true
+      },
+      d: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
   }
 
-  _createClass(SDTEquationHrFar2D, [{
-    key: "alignState",
-    value: function alignState() {
-      this.d = SDTMath.hrFar2D(this.hr, this.far, this.s);
-    }
-  }, {
-    key: "sendEvent",
-    value: function sendEvent() {
-      this.dispatchEvent(new CustomEvent('sdt-equation-hrfar2d-change', {
-        detail: {
-          hr: this.hr,
-          far: this.far,
-          s: this.s,
-          d: this.d
-        },
-        bubbles: true
-      }));
-    }
-  }, {
-    key: "hrInput",
-    value: function hrInput(event) {
-      this.hr = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "farInput",
-    value: function farInput(event) {
-      this.far = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "sInput",
-    value: function sInput(event) {
-      this.s = parseFloat(event.target.value);
-      this.alignState();
-      this.sendEvent();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      this.alignState();
-      var hr;
-      var far;
-      var s;
-      var d;
+  constructor() {
+    super();
+    this.unequal = false;
+    this.hr = 0;
+    this.far = 0;
+    this.s = 1;
+    this.alignState();
+  }
 
-      if (this.numeric) {
-        hr = $(_templateObject$1 || (_templateObject$1 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"hr bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>Hit Rate</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.hr, this.hrInput.bind(this));
-        far = $(_templateObject2$1 || (_templateObject2$1 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"far bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>False Alarm Rate</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.far, this.farInput.bind(this));
-        s = $(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.s, this.sInput.bind(this));
-        d = $(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"d bottom\" disabled step=\".001\" .value=\"", "\">\n          <var class=\"math-var\">d\u2032</var>\n        </decidables-spinner>\n      "])), +this.d.toFixed(3));
-      } else {
-        hr = $(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"])));
-        far = $(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"])));
-        s = $(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"])));
-        d = $(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["<var class=\"math-var d\">d\u2032</var>"])));
-      }
+  alignState() {
+    this.d = SDTMath.hrFar2D(this.hr, this.far, this.s);
+  }
 
-      var equation;
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('sdt-equation-hrfar2d-change', {
+      detail: {
+        hr: this.hr,
+        far: this.far,
+        s: this.s,
+        d: this.d
+      },
+      bubbles: true
+    }));
+  }
 
-      if (this.unequal) {
-        equation = $(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">+</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)<sup class=\"exp\">\u2212\xBD</sup></span><span class=\"bracket\">[</span>", "<span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">\u2212</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"bracket\">]</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"])), d, s, s, hr, far);
-      } else {
-        equation = $(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n        <tr>\n          <td>\n              ", "<span class=\"equals\">=</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">\u2212</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span>\n          </td>\n        </tr>"])), d, hr, far);
-      }
+  hrInput(event) {
+    this.hr = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
 
-      return $(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"])), equation);
+  farInput(event) {
+    this.far = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  sInput(event) {
+    this.s = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  render() {
+    this.alignState();
+    let hr;
+    let far;
+    let s;
+    let d;
+
+    if (this.numeric) {
+      hr = $(_t$1 || (_t$1 = _$1`
+        <decidables-spinner class="hr bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <var>Hit Rate</var>
+        </decidables-spinner>
+      `), !this.interactive, this.hr, this.hrInput.bind(this));
+      far = $(_t2$1 || (_t2$1 = _$1`
+        <decidables-spinner class="far bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <var>False Alarm Rate</var>
+        </decidables-spinner>
+      `), !this.interactive, this.far, this.farInput.bind(this));
+      s = $(_t3 || (_t3 = _$1`
+        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">σ</var>
+        </decidables-spinner>
+      `), !this.interactive, this.s, this.sInput.bind(this));
+      d = $(_t4 || (_t4 = _$1`
+        <decidables-spinner class="d bottom" disabled step=".001" .value="${0}">
+          <var class="math-var">d′</var>
+        </decidables-spinner>
+      `), +this.d.toFixed(3));
+    } else {
+      hr = $(_t5 || (_t5 = _$1`<var class="hr">Hit Rate</var>`));
+      far = $(_t6 || (_t6 = _$1`<var class="far">False Alarm Rate</var>`));
+      s = $(_t7 || (_t7 = _$1`<var class="math-var s">σ</var>`));
+      d = $(_t8 || (_t8 = _$1`<var class="math-var d">d′</var>`));
     }
-  }], [{
-    key: "properties",
-    get: function get() {
-      return {
-        unequal: {
-          attribute: 'unequal',
-          type: Boolean,
-          reflect: true
-        },
-        hr: {
-          attribute: 'hit-rate',
-          type: Number,
-          reflect: true
-        },
-        far: {
-          attribute: 'false-alarm-rate',
-          type: Number,
-          reflect: true
-        },
-        s: {
-          attribute: 's',
-          type: Number,
-          reflect: true
-        },
-        d: {
-          attribute: false,
-          type: Number,
-          reflect: false
-        }
-      };
-    }
-  }]);
 
-  return SDTEquationHrFar2D;
-}(SDTEquation);
+    let equation;
+
+    if (this.unequal) {
+      equation = $(_t9 || (_t9 = _$1`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><span class="bracket tight">(</span>
+          </td>
+          <td class="underline bottom">
+            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">)<sup class="exp">−½</sup></span><span class="bracket">[</span>${0}<span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="bracket">]</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+        </tr>`), d, s, s, hr, far);
+    } else {
+      equation = $(_t10 || (_t10 = _$1`
+        <tr>
+          <td>
+              ${0}<span class="equals">=</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span>
+          </td>
+        </tr>`), d, hr, far);
+    }
+
+    return $(_t11 || (_t11 = _$1`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            ${0}
+          </tbody>
+        </table>
+      </div>`), equation);
+  }
+
+}
 customElements.define('sdt-equation-hrfar2d', SDTEquationHrFar2D);
 
-var _templateObject, _templateObject2;
+let _ = t => t,
+    _t,
+    _t2;
 /*
   SDTExample Base Class - Not intended for instantiation!
   <sdt-example>
 */
 
-var SDTExample = /*#__PURE__*/function (_DetectableElement) {
-  _inherits(SDTExample, _DetectableElement);
+class SDTExample extends DetectableElement {
+  static get styles() {
+    return [super.styles, r$2(_t || (_t = _`
+        :host {
+          ---border: var(--border, 1px solid var(---color-border));
+          display: inline-block;
 
-  var _super = _createSuper(SDTExample);
+          /* This makes IE11 happy */
+          width: 100%;
 
-  function SDTExample() {
-    _classCallCheck(this, SDTExample);
+          margin-bottom: 1rem;
+        }
 
-    return _super.apply(this, arguments);
+        .holder {
+          display: flex;
+        }
+
+        .body {
+          display: flex;
+
+          flex-wrap: wrap;
+
+          align-items: center;
+          justify-content: left;
+
+          padding: 0.625rem;
+
+          border: var(---border);
+          border-radius: 0.25rem;
+        }
+
+        .body ::slotted(*) {
+          margin: 0.625rem;
+        }
+
+        /* HACK: Sibling selectors not working with ::slotted */
+        /* .body > rdk-task + detectable-response,
+        ::slotted(rdk-task) + ::slotted(detectable-response) { */
+        .body ::slotted(detectable-response) {
+          margin-left: 0;
+        }
+
+        /* HACK: Sibling selectors not working with ::slotted */
+        /* .body > detectable-control + rdk-task,
+        ::slotted(detectable-control) + ::slotted(rdk-task) {
+          margin-left: 0;
+        } */
+        .body ::slotted(rdk-task) {
+          margin-left: 0;
+        }
+      `))];
   }
 
-  _createClass(SDTExample, [{
-    key: "render",
-    value: function render() {
-      // eslint-disable-line class-methods-use-this
-      return $(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <div class=\"body\">\n          <slot>Empty!</slot>\n        </div>\n      </div>"])));
-    }
-  }], [{
-    key: "styles",
-    get: function get() {
-      return [_get(_getPrototypeOf(SDTExample), "styles", this), r$2(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n        :host {\n          ---border: var(--border, 1px solid var(---color-border));\n          display: inline-block;\n\n          /* This makes IE11 happy */\n          width: 100%;\n\n          margin-bottom: 1rem;\n        }\n\n        .holder {\n          display: flex;\n        }\n\n        .body {\n          display: flex;\n\n          flex-wrap: wrap;\n\n          align-items: center;\n          justify-content: left;\n\n          padding: 0.625rem;\n\n          border: var(---border);\n          border-radius: 0.25rem;\n        }\n\n        .body ::slotted(*) {\n          margin: 0.625rem;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > rdk-task + detectable-response,\n        ::slotted(rdk-task) + ::slotted(detectable-response) { */\n        .body ::slotted(detectable-response) {\n          margin-left: 0;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > detectable-control + rdk-task,\n        ::slotted(detectable-control) + ::slotted(rdk-task) {\n          margin-left: 0;\n        } */\n        .body ::slotted(rdk-task) {\n          margin-left: 0;\n        }\n      "])))];
-    }
-  }]);
+  render() {
+    // eslint-disable-line class-methods-use-this
+    return $(_t2 || (_t2 = _`
+      <div class="holder">
+        <div class="body">
+          <slot>Empty!</slot>
+        </div>
+      </div>`));
+  }
 
-  return SDTExample;
-}(DetectableElement);
+}
 customElements.define('sdt-example', SDTExample);
 
 /*
@@ -17591,166 +18268,144 @@ customElements.define('sdt-example', SDTExample);
   <sdt-example-interactive>
 */
 
-var SDTExampleDoubleInteractive = /*#__PURE__*/function (_SDTExample) {
-  _inherits(SDTExampleDoubleInteractive, _SDTExample);
+class SDTExampleDoubleInteractive extends SDTExample {
+  firstUpdated() {
+    this.one = {};
+    this.one.h = 95;
+    this.one.m = 5;
+    this.one.fa = 35;
+    this.one.cr = 65;
+    this.one.hr = SDTMath.hM2Hr(this.one.h, this.one.m);
+    this.one.far = SDTMath.faCr2Far(this.one.fa, this.one.cr);
+    this.one.d = SDTMath.hrFar2D(this.one.hr, this.one.far);
+    this.one.c = SDTMath.hrFar2C(this.one.hr, this.one.far);
+    this.two = {};
+    this.two.h = 40;
+    this.two.m = 60;
+    this.two.fa = 20;
+    this.two.cr = 80;
+    this.two.hr = SDTMath.hM2Hr(this.two.h, this.two.m);
+    this.two.far = SDTMath.faCr2Far(this.two.fa, this.two.cr);
+    this.two.d = SDTMath.hrFar2D(this.two.hr, this.two.far);
+    this.two.c = SDTMath.hrFar2C(this.two.hr, this.two.far);
+    this.detectableTableOne = this.querySelector('detectable-table:nth-of-type(1)');
+    this.detectableTableTwo = this.querySelector('detectable-table:nth-of-type(2)');
+    this.rocSpace = this.querySelector('roc-space');
+    this.sdtModelOne = this.querySelector('sdt-model:nth-of-type(1)');
+    this.sdtModelTwo = this.querySelector('sdt-model:nth-of-type(2)');
 
-  var _super = _createSuper(SDTExampleDoubleInteractive);
+    if (this.detectableTableOne) {
+      this.detectableTableOne.h = this.one.h;
+      this.detectableTableOne.m = this.one.m;
+      this.detectableTableOne.fa = this.one.fa;
+      this.detectableTableOne.cr = this.one.cr;
+      this.detectableTableOne.addEventListener('detectable-table-change', event => {
+        if (this.rocSpace) {
+          this.rocSpace.set(event.detail.hr, event.detail.far, 'default', '↑');
+        }
 
-  function SDTExampleDoubleInteractive() {
-    _classCallCheck(this, SDTExampleDoubleInteractive);
+        if (this.sdtModelOne) {
+          this.sdtModelOne.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far);
+          this.sdtModelOne.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far);
+        }
+      });
+    }
 
-    return _super.apply(this, arguments);
+    if (this.detectableTableTwo) {
+      this.detectableTableTwo.h = this.two.h;
+      this.detectableTableTwo.m = this.two.m;
+      this.detectableTableTwo.fa = this.two.fa;
+      this.detectableTableTwo.cr = this.two.cr;
+      this.detectableTableTwo.addEventListener('detectable-table-change', event => {
+        if (this.rocSpace) {
+          this.rocSpace.set(event.detail.hr, event.detail.far, 'two', '↓');
+        }
+
+        if (this.sdtModelTwo) {
+          this.sdtModelTwo.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far);
+          this.sdtModelTwo.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far);
+        }
+      });
+    }
+
+    if (this.rocSpace) {
+      this.rocSpace.set(this.one.hr, this.one.far, 'default', '↑');
+      this.rocSpace.set(this.two.hr, this.two.far, 'two', '↓');
+      this.rocSpace.addEventListener('roc-point-change', event => {
+        if (event.detail.name === 'default' && this.sdtModelOne) {
+          this.sdtModelOne.d = event.detail.d;
+          this.sdtModelOne.c = event.detail.c;
+        } else if (event.detail.name === 'two' && this.sdtModelTwo) {
+          this.sdtModelTwo.d = event.detail.d;
+          this.sdtModelTwo.c = event.detail.c;
+        }
+
+        if (event.detail.name === 'default' && this.detectableTableOne) {
+          const newh = Math.round((this.detectableTableOne.h + this.detectableTableOne.m) * event.detail.hr);
+          const newm = this.detectableTableOne.h + this.detectableTableOne.m - newh;
+          const newfa = Math.round((this.detectableTableOne.fa + this.detectableTableOne.cr) * event.detail.far);
+          const newcr = this.detectableTableOne.fa + this.detectableTableOne.cr - newfa;
+          this.detectableTableOne.h = newh;
+          this.detectableTableOne.m = newm;
+          this.detectableTableOne.fa = newfa;
+          this.detectableTableOne.cr = newcr;
+        } else if (event.detail.name === 'two' && this.detectableTableTwo) {
+          const newh = Math.round((this.detectableTableTwo.h + this.detectableTableTwo.m) * event.detail.hr);
+          const newm = this.detectableTableTwo.h + this.detectableTableTwo.m - newh;
+          const newfa = Math.round((this.detectableTableTwo.fa + this.detectableTableTwo.cr) * event.detail.far);
+          const newcr = this.detectableTableTwo.fa + this.detectableTableTwo.cr - newfa;
+          this.detectableTableTwo.h = newh;
+          this.detectableTableTwo.m = newm;
+          this.detectableTableTwo.fa = newfa;
+          this.detectableTableTwo.cr = newcr;
+        }
+      });
+    }
+
+    if (this.sdtModelOne) {
+      this.sdtModelOne.d = this.one.d;
+      this.sdtModelOne.c = this.one.c;
+      this.sdtModelOne.addEventListener('sdt-model-change', event => {
+        if (this.rocSpace) {
+          this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', '↑');
+        }
+
+        if (this.detectableTableOne) {
+          const newh = Math.round((this.detectableTableOne.h + this.detectableTableOne.m) * event.detail.hr);
+          const newm = this.detectableTableOne.h + this.detectableTableOne.m - newh;
+          const newfa = Math.round((this.detectableTableOne.fa + this.detectableTableOne.cr) * event.detail.far);
+          const newcr = this.detectableTableOne.fa + this.detectableTableOne.cr - newfa;
+          this.detectableTableOne.h = newh;
+          this.detectableTableOne.m = newm;
+          this.detectableTableOne.fa = newfa;
+          this.detectableTableOne.cr = newcr;
+        }
+      });
+    }
+
+    if (this.sdtModelTwo) {
+      this.sdtModelTwo.d = this.two.d;
+      this.sdtModelTwo.c = this.two.c;
+      this.sdtModelTwo.addEventListener('sdt-model-change', event => {
+        if (this.rocSpace) {
+          this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'two', '↓');
+        }
+
+        if (this.detectableTableTwo) {
+          const newh = Math.round((this.detectableTableTwo.h + this.detectableTableTwo.m) * event.detail.hr);
+          const newm = this.detectableTableTwo.h + this.detectableTableTwo.m - newh;
+          const newfa = Math.round((this.detectableTableTwo.fa + this.detectableTableTwo.cr) * event.detail.far);
+          const newcr = this.detectableTableTwo.fa + this.detectableTableTwo.cr - newfa;
+          this.detectableTableTwo.h = newh;
+          this.detectableTableTwo.m = newm;
+          this.detectableTableTwo.fa = newfa;
+          this.detectableTableTwo.cr = newcr;
+        }
+      });
+    }
   }
 
-  _createClass(SDTExampleDoubleInteractive, [{
-    key: "firstUpdated",
-    value: function
-      /* changedProperties */
-    firstUpdated() {
-      var _this = this;
-
-      this.one = {};
-      this.one.h = 95;
-      this.one.m = 5;
-      this.one.fa = 35;
-      this.one.cr = 65;
-      this.one.hr = SDTMath.hM2Hr(this.one.h, this.one.m);
-      this.one.far = SDTMath.faCr2Far(this.one.fa, this.one.cr);
-      this.one.d = SDTMath.hrFar2D(this.one.hr, this.one.far);
-      this.one.c = SDTMath.hrFar2C(this.one.hr, this.one.far);
-      this.two = {};
-      this.two.h = 40;
-      this.two.m = 60;
-      this.two.fa = 20;
-      this.two.cr = 80;
-      this.two.hr = SDTMath.hM2Hr(this.two.h, this.two.m);
-      this.two.far = SDTMath.faCr2Far(this.two.fa, this.two.cr);
-      this.two.d = SDTMath.hrFar2D(this.two.hr, this.two.far);
-      this.two.c = SDTMath.hrFar2C(this.two.hr, this.two.far);
-      this.detectableTableOne = this.querySelector('detectable-table:nth-of-type(1)');
-      this.detectableTableTwo = this.querySelector('detectable-table:nth-of-type(2)');
-      this.rocSpace = this.querySelector('roc-space');
-      this.sdtModelOne = this.querySelector('sdt-model:nth-of-type(1)');
-      this.sdtModelTwo = this.querySelector('sdt-model:nth-of-type(2)');
-
-      if (this.detectableTableOne) {
-        this.detectableTableOne.h = this.one.h;
-        this.detectableTableOne.m = this.one.m;
-        this.detectableTableOne.fa = this.one.fa;
-        this.detectableTableOne.cr = this.one.cr;
-        this.detectableTableOne.addEventListener('detectable-table-change', function (event) {
-          if (_this.rocSpace) {
-            _this.rocSpace.set(event.detail.hr, event.detail.far, 'default', '↑');
-          }
-
-          if (_this.sdtModelOne) {
-            _this.sdtModelOne.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far);
-            _this.sdtModelOne.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far);
-          }
-        });
-      }
-
-      if (this.detectableTableTwo) {
-        this.detectableTableTwo.h = this.two.h;
-        this.detectableTableTwo.m = this.two.m;
-        this.detectableTableTwo.fa = this.two.fa;
-        this.detectableTableTwo.cr = this.two.cr;
-        this.detectableTableTwo.addEventListener('detectable-table-change', function (event) {
-          if (_this.rocSpace) {
-            _this.rocSpace.set(event.detail.hr, event.detail.far, 'two', '↓');
-          }
-
-          if (_this.sdtModelTwo) {
-            _this.sdtModelTwo.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far);
-            _this.sdtModelTwo.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far);
-          }
-        });
-      }
-
-      if (this.rocSpace) {
-        this.rocSpace.set(this.one.hr, this.one.far, 'default', '↑');
-        this.rocSpace.set(this.two.hr, this.two.far, 'two', '↓');
-        this.rocSpace.addEventListener('roc-point-change', function (event) {
-          if (event.detail.name === 'default' && _this.sdtModelOne) {
-            _this.sdtModelOne.d = event.detail.d;
-            _this.sdtModelOne.c = event.detail.c;
-          } else if (event.detail.name === 'two' && _this.sdtModelTwo) {
-            _this.sdtModelTwo.d = event.detail.d;
-            _this.sdtModelTwo.c = event.detail.c;
-          }
-
-          if (event.detail.name === 'default' && _this.detectableTableOne) {
-            var newh = Math.round((_this.detectableTableOne.h + _this.detectableTableOne.m) * event.detail.hr);
-            var newm = _this.detectableTableOne.h + _this.detectableTableOne.m - newh;
-            var newfa = Math.round((_this.detectableTableOne.fa + _this.detectableTableOne.cr) * event.detail.far);
-            var newcr = _this.detectableTableOne.fa + _this.detectableTableOne.cr - newfa;
-            _this.detectableTableOne.h = newh;
-            _this.detectableTableOne.m = newm;
-            _this.detectableTableOne.fa = newfa;
-            _this.detectableTableOne.cr = newcr;
-          } else if (event.detail.name === 'two' && _this.detectableTableTwo) {
-            var _newh = Math.round((_this.detectableTableTwo.h + _this.detectableTableTwo.m) * event.detail.hr);
-
-            var _newm = _this.detectableTableTwo.h + _this.detectableTableTwo.m - _newh;
-
-            var _newfa = Math.round((_this.detectableTableTwo.fa + _this.detectableTableTwo.cr) * event.detail.far);
-
-            var _newcr = _this.detectableTableTwo.fa + _this.detectableTableTwo.cr - _newfa;
-
-            _this.detectableTableTwo.h = _newh;
-            _this.detectableTableTwo.m = _newm;
-            _this.detectableTableTwo.fa = _newfa;
-            _this.detectableTableTwo.cr = _newcr;
-          }
-        });
-      }
-
-      if (this.sdtModelOne) {
-        this.sdtModelOne.d = this.one.d;
-        this.sdtModelOne.c = this.one.c;
-        this.sdtModelOne.addEventListener('sdt-model-change', function (event) {
-          if (_this.rocSpace) {
-            _this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', '↑');
-          }
-
-          if (_this.detectableTableOne) {
-            var newh = Math.round((_this.detectableTableOne.h + _this.detectableTableOne.m) * event.detail.hr);
-            var newm = _this.detectableTableOne.h + _this.detectableTableOne.m - newh;
-            var newfa = Math.round((_this.detectableTableOne.fa + _this.detectableTableOne.cr) * event.detail.far);
-            var newcr = _this.detectableTableOne.fa + _this.detectableTableOne.cr - newfa;
-            _this.detectableTableOne.h = newh;
-            _this.detectableTableOne.m = newm;
-            _this.detectableTableOne.fa = newfa;
-            _this.detectableTableOne.cr = newcr;
-          }
-        });
-      }
-
-      if (this.sdtModelTwo) {
-        this.sdtModelTwo.d = this.two.d;
-        this.sdtModelTwo.c = this.two.c;
-        this.sdtModelTwo.addEventListener('sdt-model-change', function (event) {
-          if (_this.rocSpace) {
-            _this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'two', '↓');
-          }
-
-          if (_this.detectableTableTwo) {
-            var newh = Math.round((_this.detectableTableTwo.h + _this.detectableTableTwo.m) * event.detail.hr);
-            var newm = _this.detectableTableTwo.h + _this.detectableTableTwo.m - newh;
-            var newfa = Math.round((_this.detectableTableTwo.fa + _this.detectableTableTwo.cr) * event.detail.far);
-            var newcr = _this.detectableTableTwo.fa + _this.detectableTableTwo.cr - newfa;
-            _this.detectableTableTwo.h = newh;
-            _this.detectableTableTwo.m = newm;
-            _this.detectableTableTwo.fa = newfa;
-            _this.detectableTableTwo.cr = newcr;
-          }
-        });
-      }
-    }
-  }]);
-
-  return SDTExampleDoubleInteractive;
-}(SDTExample);
+}
 customElements.define('sdt-example-double-interactive', SDTExampleDoubleInteractive);
 
 /*
@@ -17758,213 +18413,184 @@ customElements.define('sdt-example-double-interactive', SDTExampleDoubleInteract
   <sdt-example-human>
 */
 
-var SDTExampleHuman = /*#__PURE__*/function (_SDTExample) {
-  _inherits(SDTExampleHuman, _SDTExample);
+class SDTExampleHuman extends SDTExample {
+  firstUpdated() {
+    this.count = 1;
+    this.detectableControl = this.querySelector('detectable-control');
+    this.rdkTask = this.querySelector('rdk-task');
+    this.detectableResponse = this.querySelector('detectable-response');
+    this.detectableTable = this.querySelector('detectable-table');
+    this.rocSpace = this.querySelector('roc-space');
+    this.sdtModel = this.querySelector('sdt-model');
 
-  var _super = _createSuper(SDTExampleHuman);
-
-  function SDTExampleHuman() {
-    _classCallCheck(this, SDTExampleHuman);
-
-    return _super.apply(this, arguments);
-  }
-
-  _createClass(SDTExampleHuman, [{
-    key: "firstUpdated",
-    value: function
-      /* changedProperties */
-    firstUpdated() {
-      var _this = this;
-
-      this.count = 1;
-      this.detectableControl = this.querySelector('detectable-control');
-      this.rdkTask = this.querySelector('rdk-task');
-      this.detectableResponse = this.querySelector('detectable-response');
-      this.detectableTable = this.querySelector('detectable-table');
-      this.rocSpace = this.querySelector('roc-space');
-      this.sdtModel = this.querySelector('sdt-model');
-
-      if (this.rocSpace) {
-        if (this.rocSpace.hasAttribute('history')) {
-          this.rocSpace.set(0.5, 0.5, 'default', this.count);
-        }
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('trials')) {
-        this.detectableControl.addEventListener('detectable-control-trials', function (event) {
-          if (_this.rdkTask) {
-            _this.rdkTask.trials = event.detail.trials;
-          }
-
-          if (_this.detectableResponse) {
-            _this.detectableResponse.trialTotal = event.detail.trials;
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('duration')) {
-        this.detectableControl.addEventListener('detectable-control-duration', function (event) {
-          if (_this.rdkTask) {
-            _this.rdkTask.duration = event.detail.duration;
-            _this.rdkTask.wait = event.detail.duration;
-            _this.rdkTask.iti = event.detail.duration;
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('coherence')) {
-        this.detectableControl.addEventListener('detectable-control-coherence', function (event) {
-          if (_this.rdkTask) {
-            _this.rdkTask.coherence = event.detail.coherence;
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('payoff')) {
-        this.detectableControl.addEventListener('detectable-control-payoff', function (event) {
-          if (_this.detectableResponse) {
-            _this.detectableResponse.hPayoff = event.detail.payoff;
-            _this.detectableResponse.mPayoff = -event.detail.payoff + 0; // Get rid of -0
-
-            _this.detectableResponse.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
-
-            _this.detectableResponse.crPayoff = 100 - event.detail.payoff;
-          }
-
-          if (_this.detectableTable) {
-            _this.detectableTable.hPayoff = event.detail.payoff;
-            _this.detectableTable.mPayoff = -event.detail.payoff + 0; // Get rid of -0
-
-            _this.detectableTable.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
-
-            _this.detectableTable.crPayoff = 100 - event.detail.payoff;
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('run')) {
-        this.detectableControl.addEventListener('detectable-control-run', function
-          /* event */
-        () {
-          if (_this.rdkTask) {
-            _this.rdkTask.running = true;
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('pause')) {
-        this.detectableControl.addEventListener('detectable-control-pause', function
-          /* event */
-        () {
-          if (_this.rdkTask) {
-            _this.rdkTask.running = false;
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('reset')) {
-        this.detectableControl.addEventListener('detectable-control-reset', function
-          /* event */
-        () {
-          if (_this.rdkTask) {
-            _this.rdkTask.reset();
-          }
-
-          if (_this.detectableResponse) {
-            _this.detectableResponse.reset();
-          }
-
-          if (_this.detectableTable) {
-            _this.detectableTable.h = 0;
-            _this.detectableTable.m = 0;
-            _this.detectableTable.fa = 0;
-            _this.detectableTable.cr = 0;
-          }
-
-          if (_this.rocSpace) {
-            if (_this.rocSpace.hasAttribute('history')) {
-              _this.count += 1;
-
-              _this.rocSpace.set(0.5, 0.5, "point".concat(_this.count), _this.count);
-            } else {
-              _this.rocSpace.hr = 0.5;
-              _this.rocSpace.far = 0.5;
-            }
-          }
-
-          if (_this.sdtModel) {
-            _this.sdtModel.d = 0;
-            _this.sdtModel.c = 0;
-          }
-        });
-      }
-
-      if (this.rdkTask) {
-        if (this.detectableResponse) {
-          this.detectableResponse.trialTotal = this.rdkTask.trials;
-        }
-      }
-
-      if (this.rdkTask) {
-        this.rdkTask.addEventListener('rdk-trial-start', function (event) {
-          if (_this.detectableResponse) {
-            _this.detectableResponse.start(event.detail.signal, event.detail.trial);
-          }
-        });
-      }
-
-      if (this.rdkTask) {
-        this.rdkTask.addEventListener('rdk-trial-end', function
-          /* event */
-        () {
-          if (_this.detectableResponse) {
-            _this.detectableResponse.stop();
-          }
-        });
-      }
-
-      if (this.rdkTask) {
-        this.rdkTask.addEventListener('rdk-block-end', function
-          /* event */
-        () {
-          if (_this.detectableControl) {
-            _this.detectableControl.complete();
-          }
-        });
-      }
-
-      if (this.detectableResponse) {
-        this.detectableResponse.addEventListener('detectable-response', function (event) {
-          if (_this.detectableTable) {
-            _this.detectableTable.h = event.detail.h;
-            _this.detectableTable.m = event.detail.m;
-            _this.detectableTable.fa = event.detail.fa;
-            _this.detectableTable.cr = event.detail.cr;
-          }
-
-          var newhr = SDTMath.hM2Hr(event.detail.h + 1, event.detail.m + 1);
-          var newfar = SDTMath.faCr2Far(event.detail.fa + 1, event.detail.cr + 1);
-
-          if (_this.rocSpace) {
-            if (_this.rocSpace.hasAttribute('history')) {
-              _this.rocSpace.set(newhr, newfar, _this.count === 1 ? 'default' : "point".concat(_this.count), _this.count);
-            } else {
-              _this.rocSpace.hr = newhr;
-              _this.rocSpace.far = newfar;
-            }
-          }
-
-          if (_this.sdtModel) {
-            _this.sdtModel.d = SDTMath.hrFar2D(newhr, newfar);
-            _this.sdtModel.c = SDTMath.hrFar2C(newhr, newfar);
-          }
-        });
+    if (this.rocSpace) {
+      if (this.rocSpace.hasAttribute('history')) {
+        this.rocSpace.set(0.5, 0.5, 'default', this.count);
       }
     }
-  }]);
 
-  return SDTExampleHuman;
-}(SDTExample);
+    if (this.detectableControl && this.detectableControl.hasAttribute('trials')) {
+      this.detectableControl.addEventListener('detectable-control-trials', event => {
+        if (this.rdkTask) {
+          this.rdkTask.trials = event.detail.trials;
+        }
+
+        if (this.detectableResponse) {
+          this.detectableResponse.trialTotal = event.detail.trials;
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('duration')) {
+      this.detectableControl.addEventListener('detectable-control-duration', event => {
+        if (this.rdkTask) {
+          this.rdkTask.duration = event.detail.duration;
+          this.rdkTask.wait = event.detail.duration;
+          this.rdkTask.iti = event.detail.duration;
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('coherence')) {
+      this.detectableControl.addEventListener('detectable-control-coherence', event => {
+        if (this.rdkTask) {
+          this.rdkTask.coherence = event.detail.coherence;
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('payoff')) {
+      this.detectableControl.addEventListener('detectable-control-payoff', event => {
+        if (this.detectableResponse) {
+          this.detectableResponse.hPayoff = event.detail.payoff;
+          this.detectableResponse.mPayoff = -event.detail.payoff + 0; // Get rid of -0
+
+          this.detectableResponse.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
+
+          this.detectableResponse.crPayoff = 100 - event.detail.payoff;
+        }
+
+        if (this.detectableTable) {
+          this.detectableTable.hPayoff = event.detail.payoff;
+          this.detectableTable.mPayoff = -event.detail.payoff + 0; // Get rid of -0
+
+          this.detectableTable.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
+
+          this.detectableTable.crPayoff = 100 - event.detail.payoff;
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('run')) {
+      this.detectableControl.addEventListener('detectable-control-run', () => {
+        if (this.rdkTask) {
+          this.rdkTask.running = true;
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('pause')) {
+      this.detectableControl.addEventListener('detectable-control-pause', () => {
+        if (this.rdkTask) {
+          this.rdkTask.running = false;
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('reset')) {
+      this.detectableControl.addEventListener('detectable-control-reset', () => {
+        if (this.rdkTask) {
+          this.rdkTask.reset();
+        }
+
+        if (this.detectableResponse) {
+          this.detectableResponse.reset();
+        }
+
+        if (this.detectableTable) {
+          this.detectableTable.h = 0;
+          this.detectableTable.m = 0;
+          this.detectableTable.fa = 0;
+          this.detectableTable.cr = 0;
+        }
+
+        if (this.rocSpace) {
+          if (this.rocSpace.hasAttribute('history')) {
+            this.count += 1;
+            this.rocSpace.set(0.5, 0.5, `point${this.count}`, this.count);
+          } else {
+            this.rocSpace.hr = 0.5;
+            this.rocSpace.far = 0.5;
+          }
+        }
+
+        if (this.sdtModel) {
+          this.sdtModel.d = 0;
+          this.sdtModel.c = 0;
+        }
+      });
+    }
+
+    if (this.rdkTask) {
+      if (this.detectableResponse) {
+        this.detectableResponse.trialTotal = this.rdkTask.trials;
+      }
+    }
+
+    if (this.rdkTask) {
+      this.rdkTask.addEventListener('rdk-trial-start', event => {
+        if (this.detectableResponse) {
+          this.detectableResponse.start(event.detail.signal, event.detail.trial);
+        }
+      });
+    }
+
+    if (this.rdkTask) {
+      this.rdkTask.addEventListener('rdk-trial-end', () => {
+        if (this.detectableResponse) {
+          this.detectableResponse.stop();
+        }
+      });
+    }
+
+    if (this.rdkTask) {
+      this.rdkTask.addEventListener('rdk-block-end', () => {
+        if (this.detectableControl) {
+          this.detectableControl.complete();
+        }
+      });
+    }
+
+    if (this.detectableResponse) {
+      this.detectableResponse.addEventListener('detectable-response', event => {
+        if (this.detectableTable) {
+          this.detectableTable.h = event.detail.h;
+          this.detectableTable.m = event.detail.m;
+          this.detectableTable.fa = event.detail.fa;
+          this.detectableTable.cr = event.detail.cr;
+        }
+
+        const newhr = SDTMath.hM2Hr(event.detail.h + 1, event.detail.m + 1);
+        const newfar = SDTMath.faCr2Far(event.detail.fa + 1, event.detail.cr + 1);
+
+        if (this.rocSpace) {
+          if (this.rocSpace.hasAttribute('history')) {
+            this.rocSpace.set(newhr, newfar, this.count === 1 ? 'default' : `point${this.count}`, this.count);
+          } else {
+            this.rocSpace.hr = newhr;
+            this.rocSpace.far = newfar;
+          }
+        }
+
+        if (this.sdtModel) {
+          this.sdtModel.d = SDTMath.hrFar2D(newhr, newfar);
+          this.sdtModel.c = SDTMath.hrFar2C(newhr, newfar);
+        }
+      });
+    }
+  }
+
+}
 customElements.define('sdt-example-human', SDTExampleHuman);
 
 /*
@@ -17972,128 +18598,110 @@ customElements.define('sdt-example-human', SDTExampleHuman);
   <sdt-example-interactive>
 */
 
-var SDTExampleInteractive = /*#__PURE__*/function (_SDTExample) {
-  _inherits(SDTExampleInteractive, _SDTExample);
+class SDTExampleInteractive extends SDTExample {
+  firstUpdated() {
+    this.detectableControl = this.querySelector('detectable-control');
+    this.detectableTable = this.querySelector('detectable-table');
+    this.rocSpace = this.querySelector('roc-space');
+    this.sdtModel = this.querySelector('sdt-model');
+    this.rocSpaces = this.querySelectorAll('roc-space');
 
-  var _super = _createSuper(SDTExampleInteractive);
-
-  function SDTExampleInteractive() {
-    _classCallCheck(this, SDTExampleInteractive);
-
-    return _super.apply(this, arguments);
-  }
-
-  _createClass(SDTExampleInteractive, [{
-    key: "firstUpdated",
-    value: function
-      /* changedProperties */
-    firstUpdated() {
-      var _this = this;
-
-      this.detectableControl = this.querySelector('detectable-control');
-      this.detectableTable = this.querySelector('detectable-table');
-      this.rocSpace = this.querySelector('roc-space');
-      this.sdtModel = this.querySelector('sdt-model');
-      this.rocSpaces = this.querySelectorAll('roc-space');
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('color')) {
-        this.detectableControl.addEventListener('detectable-control-color', function (event) {
-          if (_this.sdtModel) {
-            _this.sdtModel.color = event.detail.color;
-          }
-
-          if (_this.detectableTable) {
-            _this.detectableTable.color = event.detail.color;
-          }
-        });
-      }
-
-      if (this.detectableControl) {
-        this.detectableControl.addEventListener('detectable-control-z-roc', function (event) {
-          if (_this.rocSpaces.length > 0) {
-            _this.rocSpaces.forEach(function (rocSpace) {
-              rocSpace.zRoc = event.detail.zRoc;
-            });
-          }
-        });
-      }
-
-      if (this.detectableTable) {
-        if (this.rocSpace) {
-          this.rocSpace.hr = SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m);
-          this.rocSpace.far = SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr);
-        }
-
+    if (this.detectableControl && this.detectableControl.hasAttribute('color')) {
+      this.detectableControl.addEventListener('detectable-control-color', event => {
         if (this.sdtModel) {
-          this.sdtModel.d = SDTMath.hrFar2D(SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m), SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr), this.sdtModel.s);
-          this.sdtModel.c = SDTMath.hrFar2C(SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m), SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr), this.sdtModel.s);
+          this.sdtModel.color = event.detail.color;
         }
 
-        this.detectableTable.addEventListener('detectable-table-change', function (event) {
-          if (_this.rocSpace) {
-            _this.rocSpace.far = event.detail.far;
-            _this.rocSpace.hr = event.detail.hr;
-          }
+        if (this.detectableTable) {
+          this.detectableTable.color = event.detail.color;
+        }
+      });
+    }
 
-          if (_this.sdtModel) {
-            _this.sdtModel.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far, _this.sdtModel.s);
-            _this.sdtModel.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far, _this.sdtModel.s);
-          }
-        });
-      }
+    if (this.detectableControl) {
+      this.detectableControl.addEventListener('detectable-control-z-roc', event => {
+        if (this.rocSpaces.length > 0) {
+          this.rocSpaces.forEach(rocSpace => {
+            rocSpace.zRoc = event.detail.zRoc;
+          });
+        }
+      });
+    }
 
+    if (this.detectableTable) {
       if (this.rocSpace) {
-        if (this.sdtModel && !this.detectableTable) {
-          this.sdtModel.d = SDTMath.hrFar2D(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
-          this.sdtModel.c = SDTMath.hrFar2C(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
-          this.sdtModel.s = this.rocSpace.s;
-        }
-
-        this.rocSpace.addEventListener('roc-point-change', function (event) {
-          if (_this.sdtModel) {
-            _this.sdtModel.d = event.detail.d;
-            _this.sdtModel.c = event.detail.c;
-            _this.sdtModel.s = event.detail.s;
-          }
-
-          if (_this.detectableTable) {
-            var newh = Math.round((_this.detectableTable.h + _this.detectableTable.m) * event.detail.hr);
-            var newm = _this.detectableTable.h + _this.detectableTable.m - newh;
-            var newfa = Math.round((_this.detectableTable.fa + _this.detectableTable.cr) * event.detail.far);
-            var newcr = _this.detectableTable.fa + _this.detectableTable.cr - newfa;
-            _this.detectableTable.h = newh;
-            _this.detectableTable.m = newm;
-            _this.detectableTable.fa = newfa;
-            _this.detectableTable.cr = newcr;
-          }
-        });
+        this.rocSpace.hr = SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m);
+        this.rocSpace.far = SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr);
       }
 
       if (this.sdtModel) {
-        this.sdtModel.addEventListener('sdt-model-change', function (event) {
-          if (_this.rocSpaces.length > 0) {
-            _this.rocSpaces.forEach(function (rocSpace) {
-              rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', '', event.detail.s);
-            });
-          }
-
-          if (_this.detectableTable) {
-            var newh = Math.round((_this.detectableTable.h + _this.detectableTable.m) * event.detail.hr);
-            var newm = _this.detectableTable.h + _this.detectableTable.m - newh;
-            var newfa = Math.round((_this.detectableTable.fa + _this.detectableTable.cr) * event.detail.far);
-            var newcr = _this.detectableTable.fa + _this.detectableTable.cr - newfa;
-            _this.detectableTable.h = newh;
-            _this.detectableTable.m = newm;
-            _this.detectableTable.fa = newfa;
-            _this.detectableTable.cr = newcr;
-          }
-        });
+        this.sdtModel.d = SDTMath.hrFar2D(SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m), SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr), this.sdtModel.s);
+        this.sdtModel.c = SDTMath.hrFar2C(SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m), SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr), this.sdtModel.s);
       }
-    }
-  }]);
 
-  return SDTExampleInteractive;
-}(SDTExample);
+      this.detectableTable.addEventListener('detectable-table-change', event => {
+        if (this.rocSpace) {
+          this.rocSpace.far = event.detail.far;
+          this.rocSpace.hr = event.detail.hr;
+        }
+
+        if (this.sdtModel) {
+          this.sdtModel.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far, this.sdtModel.s);
+          this.sdtModel.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far, this.sdtModel.s);
+        }
+      });
+    }
+
+    if (this.rocSpace) {
+      if (this.sdtModel && !this.detectableTable) {
+        this.sdtModel.d = SDTMath.hrFar2D(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
+        this.sdtModel.c = SDTMath.hrFar2C(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
+        this.sdtModel.s = this.rocSpace.s;
+      }
+
+      this.rocSpace.addEventListener('roc-point-change', event => {
+        if (this.sdtModel) {
+          this.sdtModel.d = event.detail.d;
+          this.sdtModel.c = event.detail.c;
+          this.sdtModel.s = event.detail.s;
+        }
+
+        if (this.detectableTable) {
+          const newh = Math.round((this.detectableTable.h + this.detectableTable.m) * event.detail.hr);
+          const newm = this.detectableTable.h + this.detectableTable.m - newh;
+          const newfa = Math.round((this.detectableTable.fa + this.detectableTable.cr) * event.detail.far);
+          const newcr = this.detectableTable.fa + this.detectableTable.cr - newfa;
+          this.detectableTable.h = newh;
+          this.detectableTable.m = newm;
+          this.detectableTable.fa = newfa;
+          this.detectableTable.cr = newcr;
+        }
+      });
+    }
+
+    if (this.sdtModel) {
+      this.sdtModel.addEventListener('sdt-model-change', event => {
+        if (this.rocSpaces.length > 0) {
+          this.rocSpaces.forEach(rocSpace => {
+            rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', '', event.detail.s);
+          });
+        }
+
+        if (this.detectableTable) {
+          const newh = Math.round((this.detectableTable.h + this.detectableTable.m) * event.detail.hr);
+          const newm = this.detectableTable.h + this.detectableTable.m - newh;
+          const newfa = Math.round((this.detectableTable.fa + this.detectableTable.cr) * event.detail.far);
+          const newcr = this.detectableTable.fa + this.detectableTable.cr - newfa;
+          this.detectableTable.h = newh;
+          this.detectableTable.m = newm;
+          this.detectableTable.fa = newfa;
+          this.detectableTable.cr = newcr;
+        }
+      });
+    }
+  }
+
+}
 customElements.define('sdt-example-interactive', SDTExampleInteractive);
 
 /*
@@ -18101,225 +18709,194 @@ customElements.define('sdt-example-interactive', SDTExampleInteractive);
   <sdt-example-model>
 */
 
-var SDTExampleModel = /*#__PURE__*/function (_SDTExample) {
-  _inherits(SDTExampleModel, _SDTExample);
+class SDTExampleModel extends SDTExample {
+  firstUpdated() {
+    this.count = 1;
+    this.detectableControl = this.querySelector('detectable-control');
+    this.rdkTask = this.querySelector('rdk-task');
+    this.sdtModel = this.querySelector('sdt-model');
+    this.detectableResponse = this.querySelector('detectable-response');
+    this.detectableTable = this.querySelector('detectable-table');
+    this.rocSpace = this.querySelector('roc-space');
 
-  var _super = _createSuper(SDTExampleModel);
-
-  function SDTExampleModel() {
-    _classCallCheck(this, SDTExampleModel);
-
-    return _super.apply(this, arguments);
-  }
-
-  _createClass(SDTExampleModel, [{
-    key: "firstUpdated",
-    value: function
-      /* changedProperties */
-    firstUpdated() {
-      var _this = this;
-
-      this.count = 1;
-      this.detectableControl = this.querySelector('detectable-control');
-      this.rdkTask = this.querySelector('rdk-task');
-      this.sdtModel = this.querySelector('sdt-model');
-      this.detectableResponse = this.querySelector('detectable-response');
-      this.detectableTable = this.querySelector('detectable-table');
-      this.rocSpace = this.querySelector('roc-space');
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('color')) {
-        this.detectableControl.addEventListener('detectable-control-color', function (event) {
-          if (_this.sdtModel) {
-            _this.sdtModel.color = event.detail.color;
-          }
-
-          if (_this.detectableTable) {
-            _this.detectableTable.color = event.detail.color;
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('duration')) {
-        this.detectableControl.addEventListener('detectable-control-duration', function (event) {
-          if (_this.rdkTask) {
-            _this.rdkTask.duration = event.detail.duration;
-            _this.rdkTask.wait = event.detail.duration;
-            _this.rdkTask.iti = event.detail.duration;
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('trials')) {
-        this.detectableControl.addEventListener('detectable-control-trials', function (event) {
-          if (_this.rdkTask) {
-            _this.rdkTask.trials = event.detail.trials;
-          }
-
-          if (_this.detectableResponse) {
-            _this.detectableResponse.trialTotal = event.detail.trials;
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('coherence')) {
-        this.detectableControl.addEventListener('detectable-control-coherence', function (event) {
-          if (_this.rdkTask) {
-            _this.rdkTask.coherence = event.detail.coherence;
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('run')) {
-        this.detectableControl.addEventListener('detectable-control-run', function
-          /* event */
-        () {
-          if (_this.rdkTask) {
-            _this.rdkTask.running = true;
-          }
-
-          if (_this.sdtModel) {
-            _this.sdtModel.resumeTrial();
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('pause')) {
-        this.detectableControl.addEventListener('detectable-control-pause', function
-          /* event */
-        () {
-          if (_this.rdkTask) {
-            _this.rdkTask.running = false;
-          }
-
-          if (_this.sdtModel) {
-            _this.sdtModel.pauseTrial();
-          }
-        });
-      }
-
-      if (this.detectableControl && this.detectableControl.hasAttribute('reset')) {
-        this.detectableControl.addEventListener('detectable-control-reset', function
-          /* event */
-        () {
-          if (_this.rdkTask) {
-            _this.rdkTask.reset();
-          }
-
-          if (_this.detectableResponse) {
-            _this.detectableResponse.reset();
-          }
-
-          if (_this.sdtModel) {
-            _this.sdtModel.reset();
-          }
-
-          if (_this.detectableTable) {
-            _this.detectableTable.h = 0;
-            _this.detectableTable.m = 0;
-            _this.detectableTable.fa = 0;
-            _this.detectableTable.cr = 0;
-          }
-
-          if (_this.rocSpace) {
-            if (_this.rocSpace.hasAttribute('history')) {
-              _this.count += 1;
-
-              _this.rocSpace.set(0.5, 0.5, "point".concat(_this.count), '', 1);
-            } else {
-              _this.rocSpace.hr = 0.5;
-              _this.rocSpace.far = 0.5;
-            }
-          }
-        });
-      }
-
-      if (this.rdkTask) {
-        if (this.detectableResponse) {
-          this.detectableResponse.trialTotal = this.rdkTask.trials;
+    if (this.detectableControl && this.detectableControl.hasAttribute('color')) {
+      this.detectableControl.addEventListener('detectable-control-color', event => {
+        if (this.sdtModel) {
+          this.sdtModel.color = event.detail.color;
         }
-      }
 
-      if (this.rdkTask) {
-        this.rdkTask.addEventListener('rdk-trial-start', function (event) {
-          if (_this.detectableResponse) {
-            _this.detectableResponse.start(event.detail.signal, event.detail.trial);
+        if (this.detectableTable) {
+          this.detectableTable.color = event.detail.color;
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('duration')) {
+      this.detectableControl.addEventListener('detectable-control-duration', event => {
+        if (this.rdkTask) {
+          this.rdkTask.duration = event.detail.duration;
+          this.rdkTask.wait = event.detail.duration;
+          this.rdkTask.iti = event.detail.duration;
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('trials')) {
+      this.detectableControl.addEventListener('detectable-control-trials', event => {
+        if (this.rdkTask) {
+          this.rdkTask.trials = event.detail.trials;
+        }
+
+        if (this.detectableResponse) {
+          this.detectableResponse.trialTotal = event.detail.trials;
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('coherence')) {
+      this.detectableControl.addEventListener('detectable-control-coherence', event => {
+        if (this.rdkTask) {
+          this.rdkTask.coherence = event.detail.coherence;
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('run')) {
+      this.detectableControl.addEventListener('detectable-control-run', () => {
+        if (this.rdkTask) {
+          this.rdkTask.running = true;
+        }
+
+        if (this.sdtModel) {
+          this.sdtModel.resumeTrial();
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('pause')) {
+      this.detectableControl.addEventListener('detectable-control-pause', () => {
+        if (this.rdkTask) {
+          this.rdkTask.running = false;
+        }
+
+        if (this.sdtModel) {
+          this.sdtModel.pauseTrial();
+        }
+      });
+    }
+
+    if (this.detectableControl && this.detectableControl.hasAttribute('reset')) {
+      this.detectableControl.addEventListener('detectable-control-reset', () => {
+        if (this.rdkTask) {
+          this.rdkTask.reset();
+        }
+
+        if (this.detectableResponse) {
+          this.detectableResponse.reset();
+        }
+
+        if (this.sdtModel) {
+          this.sdtModel.reset();
+        }
+
+        if (this.detectableTable) {
+          this.detectableTable.h = 0;
+          this.detectableTable.m = 0;
+          this.detectableTable.fa = 0;
+          this.detectableTable.cr = 0;
+        }
+
+        if (this.rocSpace) {
+          if (this.rocSpace.hasAttribute('history')) {
+            this.count += 1;
+            this.rocSpace.set(0.5, 0.5, `point${this.count}`, '', 1);
+          } else {
+            this.rocSpace.hr = 0.5;
+            this.rocSpace.far = 0.5;
           }
+        }
+      });
+    }
 
-          if (_this.sdtModel) {
-            _this.sdtModel.trial(event.detail.trial, event.detail.signal, event.detail.duration, event.detail.wait, event.detail.iti);
-          }
-        });
-      }
-
-      if (this.rdkTask) {
-        this.rdkTask.addEventListener('rdk-trial-middle', function
-          /* event */
-        () {// if (this.sdtModel) {
-          //   this.sdtModel.trial(event.detail.trial, event.detail.signal);
-          // }
-        });
-      }
-
-      if (this.rdkTask) {
-        this.rdkTask.addEventListener('rdk-trial-end', function
-          /* event */
-        () {
-          if (_this.detectableResponse) {
-            _this.detectableResponse.stop();
-          }
-        });
-      }
-
-      if (this.rdkTask) {
-        this.rdkTask.addEventListener('rdk-block-end', function
-          /* event */
-        () {
-          if (_this.detectableControl) {
-            _this.detectableControl.complete();
-          }
-        });
-      }
-
-      if (this.sdtModel) {
-        this.sdtModel.addEventListener('detectable-response', function (event) {
-          if (_this.detectableResponse) {
-            _this.detectableResponse.responded(event.detail.response);
-          }
-
-          if (_this.detectableTable) {
-            _this.detectableTable.h = event.detail.h;
-            _this.detectableTable.m = event.detail.m;
-            _this.detectableTable.fa = event.detail.fa;
-            _this.detectableTable.cr = event.detail.cr;
-          }
-
-          if (_this.rocSpace) {
-            _this.rocSpace.hr = SDTMath.hM2Hr(event.detail.h, event.detail.m);
-            _this.rocSpace.far = SDTMath.faCr2Far(event.detail.fa, event.detail.cr);
-          }
-        });
-      }
-
-      if (this.sdtModel) {
-        this.sdtModel.addEventListener('sdt-model-change', function (event) {
-          if (_this.detectableTable) {
-            _this.detectableTable.h = event.detail.h;
-            _this.detectableTable.m = event.detail.m;
-            _this.detectableTable.fa = event.detail.fa;
-            _this.detectableTable.cr = event.detail.cr;
-          }
-
-          if (_this.rocSpace) {
-            _this.rocSpace.hr = SDTMath.hM2Hr(event.detail.h, event.detail.m);
-            _this.rocSpace.far = SDTMath.faCr2Far(event.detail.fa, event.detail.cr);
-          }
-        });
+    if (this.rdkTask) {
+      if (this.detectableResponse) {
+        this.detectableResponse.trialTotal = this.rdkTask.trials;
       }
     }
-  }]);
 
-  return SDTExampleModel;
-}(SDTExample);
+    if (this.rdkTask) {
+      this.rdkTask.addEventListener('rdk-trial-start', event => {
+        if (this.detectableResponse) {
+          this.detectableResponse.start(event.detail.signal, event.detail.trial);
+        }
+
+        if (this.sdtModel) {
+          this.sdtModel.trial(event.detail.trial, event.detail.signal, event.detail.duration, event.detail.wait, event.detail.iti);
+        }
+      });
+    }
+
+    if (this.rdkTask) {
+      this.rdkTask.addEventListener('rdk-trial-middle', () => {// if (this.sdtModel) {
+        //   this.sdtModel.trial(event.detail.trial, event.detail.signal);
+        // }
+      });
+    }
+
+    if (this.rdkTask) {
+      this.rdkTask.addEventListener('rdk-trial-end', () => {
+        if (this.detectableResponse) {
+          this.detectableResponse.stop();
+        }
+      });
+    }
+
+    if (this.rdkTask) {
+      this.rdkTask.addEventListener('rdk-block-end', () => {
+        if (this.detectableControl) {
+          this.detectableControl.complete();
+        }
+      });
+    }
+
+    if (this.sdtModel) {
+      this.sdtModel.addEventListener('detectable-response', event => {
+        if (this.detectableResponse) {
+          this.detectableResponse.responded(event.detail.response);
+        }
+
+        if (this.detectableTable) {
+          this.detectableTable.h = event.detail.h;
+          this.detectableTable.m = event.detail.m;
+          this.detectableTable.fa = event.detail.fa;
+          this.detectableTable.cr = event.detail.cr;
+        }
+
+        if (this.rocSpace) {
+          this.rocSpace.hr = SDTMath.hM2Hr(event.detail.h, event.detail.m);
+          this.rocSpace.far = SDTMath.faCr2Far(event.detail.fa, event.detail.cr);
+        }
+      });
+    }
+
+    if (this.sdtModel) {
+      this.sdtModel.addEventListener('sdt-model-change', event => {
+        if (this.detectableTable) {
+          this.detectableTable.h = event.detail.h;
+          this.detectableTable.m = event.detail.m;
+          this.detectableTable.fa = event.detail.fa;
+          this.detectableTable.cr = event.detail.cr;
+        }
+
+        if (this.rocSpace) {
+          this.rocSpace.hr = SDTMath.hM2Hr(event.detail.h, event.detail.m);
+          this.rocSpace.far = SDTMath.faCr2Far(event.detail.fa, event.detail.cr);
+        }
+      });
+    }
+  }
+
+}
 customElements.define('sdt-example-model', SDTExampleModel);
 
 /*
@@ -18327,58 +18904,40 @@ customElements.define('sdt-example-model', SDTExampleModel);
   <sdt-example-unequal>
 */
 
-var SDTExampleUnequal = /*#__PURE__*/function (_SDTExample) {
-  _inherits(SDTExampleUnequal, _SDTExample);
+class SDTExampleUnequal extends SDTExample {
+  firstUpdated() {
+    this.detectableControl = this.querySelector('detectable-control');
+    this.rocSpace = this.querySelector('roc-space');
+    this.sdtModel = this.querySelector('sdt-model');
 
-  var _super = _createSuper(SDTExampleUnequal);
+    if (this.detectableControl) {
+      this.detectableControl.addEventListener('detectable-control-z-roc', event => {
+        this.rocSpace.zRoc = event.detail.zRoc;
+      });
+    }
 
-  function SDTExampleUnequal() {
-    _classCallCheck(this, SDTExampleUnequal);
+    if (this.rocSpace) {
+      this.rocSpace.setWithSDT(1, 0, 'default', '', 1); // Set 'default' to equal variance for contours
+    }
 
-    return _super.apply(this, arguments);
-  }
-
-  _createClass(SDTExampleUnequal, [{
-    key: "firstUpdated",
-    value: function
-      /* changedProperties */
-    firstUpdated() {
-      var _this = this;
-
-      this.detectableControl = this.querySelector('detectable-control');
-      this.rocSpace = this.querySelector('roc-space');
-      this.sdtModel = this.querySelector('sdt-model');
-
-      if (this.detectableControl) {
-        this.detectableControl.addEventListener('detectable-control-z-roc', function (event) {
-          _this.rocSpace.zRoc = event.detail.zRoc;
+    if (this.sdtModel) {
+      if (this.rocSpace) {
+        range(-1.5, 1.6, 0.5).forEach((c, index) => {
+          this.rocSpace.setWithSDT(this.sdtModel.d, c, `point${index}`, '', this.sdtModel.s);
         });
       }
 
-      if (this.rocSpace) {
-        this.rocSpace.setWithSDT(1, 0, 'default', '', 1); // Set 'default' to equal variance for contours
-      }
-
-      if (this.sdtModel) {
+      this.sdtModel.addEventListener('sdt-model-change', event => {
         if (this.rocSpace) {
-          range(-1.5, 1.6, 0.5).forEach(function (c, index) {
-            _this.rocSpace.setWithSDT(_this.sdtModel.d, c, "point".concat(index), '', _this.sdtModel.s);
+          range(-1.5, 1.6, 0.5).forEach((c, index) => {
+            this.rocSpace.setWithSDT(event.detail.d, c, `point${index}`, '', event.detail.s);
           });
         }
-
-        this.sdtModel.addEventListener('sdt-model-change', function (event) {
-          if (_this.rocSpace) {
-            range(-1.5, 1.6, 0.5).forEach(function (c, index) {
-              _this.rocSpace.setWithSDT(event.detail.d, c, "point".concat(index), '', event.detail.s);
-            });
-          }
-        });
-      }
+      });
     }
-  }]);
+  }
 
-  return SDTExampleUnequal;
-}(SDTExample);
+}
 customElements.define('sdt-example-unequal', SDTExampleUnequal);
 
 export { DetectableControl, DetectableElement, DetectableResponse, DetectableTable, RDKTask, ROCSpace, SDTEquationDC2Far, SDTEquationDC2Hr, SDTEquationFaCr2Far, SDTEquationHM2Hr, SDTEquationHMFaCr2Acc, SDTEquationHrFar2C, SDTEquationHrFar2D, SDTExampleDoubleInteractive, SDTExampleHuman, SDTExampleInteractive, SDTExampleModel, SDTExampleUnequal, SDTModel };
