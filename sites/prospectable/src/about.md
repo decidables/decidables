@@ -40,8 +40,7 @@ and [rollup](https://rollupjs.org/)
 [jStat](https://github.com/jstat/jstat),
 [Lit](https://lit.dev/),
 [Plotly.js](https://plotly.com/javascript/),
-[regenerator-runtime](http://facebook.github.io/regenerator/),
-and [webcomponents.js](https://github.com/WebComponents/webcomponentsjs)
+and [regenerator-runtime](http://facebook.github.io/regenerator/)
 
 **Decorated with:**<br>
 [APA 6th Edition](https://www.npmjs.com/package/style-apa) citation style

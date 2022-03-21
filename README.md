@@ -94,17 +94,18 @@ Dependencies updated 17/1/2022.
 
 ### Compatibility Goals
 
-- Desktop (Current & Current-1)
+In general, it should work with versions of any browsers using up-to-date WebKit/JavaScriptCore,
+Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
+
+- Desktop (last 2 versions)
   - Chrome
   - Edge
   - Firefox
   - Safari
-  - IE11
   - Opera
 - Mobile
   - Chrome on Android
   - Safari on iOS
-  - Other browser and/or other mobile OS?
 
 ### Style Guide
 
