@@ -1,30 +1,39 @@
 ---
 toc:
-  main:
-    - {file: index, name: 'Introduction'}
-    - {file: exploration, name: 'Model Exploration'}
-    - {file: fitting, name: 'Model Fitting'}
-    - {file: prediction, name: 'Model Predictions'}
-  extra:
-    - {file: references, name: 'References'}
-    - {file: about, name: 'About'}
+  - section: introduction
+    nav: true
+    pages:
+      - {file: index, name: 'Introduction'}
+  - section: model
+    nav: true
+    name: 'Model'
+    pages:
+      - {file: exploration, name: 'Model Exploration'}
+      - {file: fitting, name: 'Model Fitting'}
+      - {file: prediction, name: 'Model Predictions'}
+  - section: resources
+    name: 'Resources'
+    pages:
+      - {file: references, name: 'References'}
+      - {file: about, name: 'About'}
 ---
 <!doctype html>
 <html class="pro-html" lang="en">
   <head>
-    <% for (var i=0; i < toc.main.length; i++) {
-        if (toc.main[i].file == file) {
-          var source = 'main';
-          var index = i;
+    <%
+      let activeSection;
+      let activePage;
+      let windowTitle;
+      for (const [sectionIndex, section] of toc.entries()) {
+        for (const [pageIndex, page] of section.pages.entries()) {
+          if (page.file === file) {
+            activeSection = sectionIndex;
+            activePage = pageIndex;
+            windowTitle = page.name.replace(/<[^>]+>/g, '');
+          }
         }
       }
-      for (var i=0; i < toc.extra.length; i++) {
-        if (toc.extra[i].file == file) {
-          var source = 'extra';
-          var index = i;
-        }
-      }
-      var windowTitle = toc[source][index].name.replace(/<[^>]+>/g, ''); %>
+    %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="prospectable: <%= title %>">
@@ -47,48 +56,46 @@ toc:
               <a class="pro-nav-brand" href="index.html"><span class="prospectable">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span></a>
            </div>
             <nav class="pro-nav-collapse collapse" id="pro-nav">
-              <ul class="pro-toc pro-toc-main">
-                <% for (var i=0; i < toc.main.length; i++) { %>
-                  <% if ((source == 'main') && (index == i)) { %>
-                    <li class="pro-toc-item pro-toc-item-active">
-                  <% } else { %>
+              <ol class="pro-toc">
+                <% for (const [sectionIndex, section] of toc.entries()){ %>
+                  <li class="pro-toc-list">
+                    <ol class="pro-toc-section pro-toc-section-<%- section.section %>">
+                      <% if (section.name) { %>
+                      <span class="pro-toc-section-name"><%- section.name %></span>
+                      <% } %>
+                      <% for (const [pageIndex, page] of section.pages.entries()) { %>
+                        <% if ((activeSection === sectionIndex) && (activePage === pageIndex)) { %>
+                          <li class="pro-toc-item pro-toc-item-active">
+                        <% } else { %>
+                          <li class="pro-toc-item">
+                        <% } %>
+                            <a class="pro-toc-link" href="<%= page.file %>.html">
+                              <%- page.name %>
+                            </a>
+                          </li>
+                      <% } %>
+                    </ol>
+                  </li>
+                <% } %>
+                <li class="pro-toc-list">
+                  <ol class="pro-toc-section pro-toc-section-external">
+                    <span class="pro-toc-section-name"></span>
                     <li class="pro-toc-item">
-                  <% } %>
-                      <a class="pro-toc-link" href="<%= toc.main[i].file %>.html">
-                        <%- toc.main[i].name %>
+                      <span class="pro-toc-text">v<%- utilities.getPackageVersion() %></span>
+                    </li>
+                    <li class="pro-toc-item">
+                      <a class="pro-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                    </li>
+                    <li class="pro-toc-item">
+                      <a class="pro-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                    </li>
+                    <li class="pro-toc-item">
+                      <a class="pro-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/prospectable" target="_blank" rel="noopener">
+                        <%- include(resolvePkg('bootstrap-icons/icons/github.svg')) %>
                       </a>
                     </li>
-                <% } %>
-              </ul>
-              <ul class="pro-toc pro-toc-extra">
-                <% for (var i=0; i < toc.extra.length; i++) { %>
-                  <% if ((source == 'extra') && (index == i)) { %>
-                    <li class="pro-toc-item pro-toc-item-active">
-                  <% } else { %>
-                    <li class="pro-toc-item">
-                  <% } %>
-                      <a class="pro-toc-link" href="<%= toc.extra[i].file %>.html">
-                        <%- toc.extra[i].name %>
-                      </a>
-                    </li>
-                <% } %>
-              </ul>
-              <ul class="pro-toc pro-toc-external">
-                <li class="pro-toc-item">
-                  <span class="pro-toc-text">v<%- utilities.getPackageVersion() %></span>
+                  </ol>
                 </li>
-                <li class="pro-toc-item">
-                  <a class="pro-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
-                </li>
-                <li class="pro-toc-item">
-                  <a class="pro-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
-                </li>
-                <li class="pro-toc-item">
-                  <a class="pro-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/prospectable" target="_blank" rel="noopener">
-                    <%- include(resolvePkg('bootstrap-icons/icons/github.svg')) %>
-                  </a>
-                </li>
-              </ul>
             </nav>
           </div>
           <div class="pro-nav-bottom">
@@ -106,13 +113,25 @@ toc:
 
           <footer class="pro-footer">
             <div class="pro-footer-item pro-footer-item-left">
-              <% if ((source == 'main') && (index > 0)) { %>
-                <a class="pro-toc-link" href="<%= toc.main[index - 1].file %>.html">&lt; <%- toc.main[index - 1].name %></a>
+              <% if (toc[activeSection].nav && ((activePage > 0) || (activeSection > 0))) { %>
+                <% const previousPage = (activePage > 0)
+                    ? toc[activeSection].pages[activePage - 1]
+                    : toc[activeSection - 1].pages[toc[activeSection - 1].pages.length - 1]; %>
+                <a class="pro-toc-link" href="<%= previousPage.file %>.html">
+                  <%- include(resolvePkg('bootstrap-icons/icons/arrow-left-short.svg')) %>
+                  <%- previousPage.name %>
+                </a>
               <% } %>
             </div>
             <div class="pro-footer-item pro-footer-item-right">
-              <% if ((source == 'main') && (index < (toc.main.length - 1))) { %>
-                <a class="pro-toc-link" href="<%= toc.main[index + 1].file %>.html"><%- toc.main[index + 1].name %> &gt;</a>
+              <% if (toc[activeSection].nav && ((activePage < (toc[activeSection].pages.length - 1)) || ((activeSection < (toc.length - 1)) && toc[activeSection + 1].nav))) { %>
+                <% const nextPage = (activePage < (toc[activeSection].pages.length - 1))
+                    ? toc[activeSection].pages[activePage + 1]
+                    : toc[activeSection + 1].pages[0]; %>
+                <a class="pro-toc-link" href="<%= nextPage.file %>.html">
+                  <%- nextPage.name %>
+                  <%- include(resolvePkg('bootstrap-icons/icons/arrow-right-short.svg')) %>
+                </a>
               <% } %>
             </div>
           </footer>
