@@ -12,7 +12,7 @@ script: page
     <h2 class="det-index-subtitle">An Explorable Explanation of Signal Detection Theory</h2>
   </hgroup>
   <div class="det-index-demo">
-    <rdk-task running count="150" coherence="0.5" trials="1" probability="1" duration="Infinity" wait="0" iti="0"></rdk-task>
+    <rdk-task running count="120" coherence="0.25" trials="1" probability="1" duration="Infinity" wait="0" iti="0"></rdk-task>
   </div>
   <p class="det-index-lead">
     How do we decide if a stimulus is present or absent?<br>
