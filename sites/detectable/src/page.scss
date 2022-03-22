@@ -330,14 +330,22 @@ $transition-duration: 500ms;
   font-weight: bold;
 }
 
-.bi.bi-list {
-  width: 2rem;
-  height: 2rem;
+.bi.bi-arrow-left-short,
+.bi.bi-arrow-right-short {
+  width: 1.25rem;
+  height: 1.25rem;
+  
+  vertical-align: -0.3125rem;
 }
 
 .bi.bi-github {
   width: 1.125rem;
   height: 1.125rem;
+}
+
+.bi.bi-list {
+  width: 2rem;
+  height: 2rem;
 }
 
 // Top-level
@@ -526,7 +534,7 @@ $transition-duration: 500ms;
   padding-top: 0.75rem;
   padding-left: 1rem;
 
-  font-weight: bold;
+  font-weight: $font-weight-semibold;
   font-variant: small-caps;
   color: $color-link;
 }
@@ -536,7 +544,7 @@ $transition-duration: 500ms;
 
 .det-toc-text,
 .det-toc-link {
-  padding: 0.375rem 0.5rem;
+  padding: 0.25rem 0.5rem;
 
   font-size: 1rem;
   font-weight: 600;
@@ -576,6 +584,7 @@ $transition-duration: 500ms;
 .det-toc-item .det-toc-link {
   display: block;
 
+  padding: 0.375rem 0.5rem;
   margin: 0 0.5rem;
 }
 
