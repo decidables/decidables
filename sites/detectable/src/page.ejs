@@ -1,48 +1,69 @@
 ---
 toc:
-  main:
-    - {file: index, name: 'Introduction'}
-    - {file: signal, name: 'Signal &amp; Noise'}
-    - {file: task, name: 'Task'}
-    - {file: outcomes, name: 'Outcomes'}
-    - {file: rates, name: 'Tables &amp; Rates'}
-    - {file: roc, name: 'ROC Space'}
-    - {file: measurement, name: 'Measurement &amp; Sensitivity'}
-    - {file: threshold, name: 'Threshold &amp; Bias'}
-    - {file: sdt, name: 'SDT'}
-    - {file: sensitivity, name: 'Iso-Sensitivity Curves'}
-    - {file: bias, name: 'Iso-Bias Curves'}
-    - {file: exploration, name: 'Model Exploration'}
-    - {file: fitting, name: 'Model Fitting'}
-    - {file: prediction, name: 'Model Predictions'}
-    - {file: difficulty, name: 'Sensitivity &amp; Difficulty'}
-    - {file: incentive, name: 'Bias &amp; Incentive'}
-    - {file: zroc, name: '<span class="math-var">z</span>ROC Space'}
-    - {file: unequal, name: 'Unequal Variance'}
-    - {file: conclusion, name: 'Conclusions'}
-  extra:
-    - {file: legend, name: 'Legend'}
-    - {file: glossary, name: 'Glossary'}
-    - {file: equations, name: 'Equations'}
-    - {file: references, name: 'References'}
-    - {file: about, name: 'About'}
+  - section: introduction
+    nav: true
+    pages:
+      - {file: index, name: 'Introduction'}
+  - section: behavior
+    nav: true
+    name: 'Behavior'
+    pages:
+      - {file: signal, name: 'Signal &amp; Noise'}
+      - {file: task, name: 'Task'}
+      - {file: outcomes, name: 'Outcomes'}
+      - {file: rates, name: 'Tables &amp; Rates'}
+      - {file: roc, name: 'ROC Space'}
+  - section: theory
+    nav: true
+    name: 'Theory'
+    pages:
+      - {file: measurement, name: 'Measurement &amp; Sensitivity'}
+      - {file: threshold, name: 'Threshold &amp; Bias'}
+      - {file: sdt, name: 'SDT'}
+      - {file: sensitivity, name: 'Iso-Sensitivity Curves'}
+      - {file: bias, name: 'Iso-Bias Curves'}
+  - section: model
+    nav: true
+    name: 'Model'
+    pages:
+      - {file: exploration, name: 'Model Exploration'}
+      - {file: fitting, name: 'Model Fitting'}
+      - {file: prediction, name: 'Model Predictions'}
+  - section: advanced
+    nav: true
+    name: 'Advanced'
+    pages:
+      - {file: difficulty, name: 'Sensitivity &amp; Difficulty'}
+      - {file: incentive, name: 'Bias &amp; Incentive'}
+      - {file: zroc, name: '<span class="math-var">z</span>ROC Space'}
+      - {file: unequal, name: 'Unequal Variance'}
+      - {file: conclusion, name: 'Conclusions'}
+  - section: resources
+    name: 'Resources'
+    pages:
+      - {file: legend, name: 'Legend'}
+      - {file: glossary, name: 'Glossary'}
+      - {file: equations, name: 'Equations'}
+      - {file: references, name: 'References'}
+      - {file: about, name: 'About'}
 ---
 <!doctype html>
 <html class="det-html" lang="en">
   <head>
-    <% for (var i=0; i < toc.main.length; i++) {
-        if (toc.main[i].file == file) {
-          var source = 'main';
-          var index = i;
+    <%
+      let activeSection;
+      let activePage;
+      let windowTitle;
+      for (const [sectionIndex, section] of toc.entries()) {
+        for (const [pageIndex, page] of section.pages.entries()) {
+          if (page.file === file) {
+            activeSection = sectionIndex;
+            activePage = pageIndex;
+            windowTitle = page.name.replace(/<[^>]+>/g, '');
+          }
         }
       }
-      for (var i=0; i < toc.extra.length; i++) {
-        if (toc.extra[i].file == file) {
-          var source = 'extra';
-          var index = i;
-        }
-      }
-      var windowTitle = toc[source][index].name.replace(/<[^>]+>/g, ''); %>
+    %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="detectable: <%= title %>">
@@ -65,48 +86,47 @@ toc:
               <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
             </div>
             <nav class="det-nav-collapse collapse" id="det-nav">
-              <ul class="det-toc det-toc-main">
-                <% for (var i=0; i < toc.main.length; i++) { %>
-                  <% if ((source == 'main') && (index == i)) { %>
-                    <li class="det-toc-item det-toc-item-active">
-                  <% } else { %>
+              <ol class="det-toc">
+                <% for (const [sectionIndex, section] of toc.entries()){ %>
+                  <li class="det-toc-list">
+                    <ol class="det-toc-section det-toc-section-<%- section.section %>">
+                      <% if (section.name) { %>
+                      <span class="det-toc-section-name"><%- section.name %></span>
+                      <% } %>
+                      <% for (const [pageIndex, page] of section.pages.entries()) { %>
+                        <% if ((activeSection === sectionIndex) && (activePage === pageIndex)) { %>
+                          <li class="det-toc-item det-toc-item-active">
+                        <% } else { %>
+                          <li class="det-toc-item">
+                        <% } %>
+                            <a class="det-toc-link" href="<%= page.file %>.html">
+                              <%- page.name %>
+                            </a>
+                          </li>
+                      <% } %>
+                    </ol>
+                  </li>
+                <% } %>
+                <li class="det-toc-list">
+                  <ol class="det-toc det-toc-external">
+                    <span class="det-toc-section-name"></span>
                     <li class="det-toc-item">
-                  <% } %>
-                      <a class="det-toc-link" href="<%= toc.main[i].file %>.html">
-                        <%- toc.main[i].name %>
+                      <span class="det-toc-text">v<%- utilities.getPackageVersion() %></span>
+                    </li>
+                    <li class="det-toc-item">
+                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                    </li>
+                    <li class="det-toc-item">
+                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                    </li>
+                    <li class="det-toc-item">
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
+                        <%- include(resolvePkg('bootstrap-icons/icons/github.svg')) %>
                       </a>
                     </li>
-                <% } %>
-              </ul>
-              <ul class="det-toc det-toc-extra">
-                <% for (var i=0; i < toc.extra.length; i++) { %>
-                  <% if ((source == 'extra') && (index == i)) { %>
-                    <li class="det-toc-item det-toc-item-active">
-                  <% } else { %>
-                    <li class="det-toc-item">
-                  <% } %>
-                      <a class="det-toc-link" href="<%= toc.extra[i].file %>.html">
-                        <%- toc.extra[i].name %>
-                      </a>
-                    </li>
-                <% } %>
-              </ul>
-              <ul class="det-toc det-toc-external">
-                <li class="det-toc-item">
-                  <span class="det-toc-text">v<%- utilities.getPackageVersion() %></span>
+                  </ol>
                 </li>
-                <li class="det-toc-item">
-                  <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
-                </li>
-                <li class="det-toc-item">
-                  <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
-                </li>
-                <li class="det-toc-item">
-                  <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
-                    <%- include(resolvePkg('bootstrap-icons/icons/github.svg')) %>
-                  </a>
-                </li>
-              </ul>
+              </ol>
             </nav>
           </div>
           <div class="det-nav-bottom">
@@ -124,13 +144,19 @@ toc:
 
           <footer class="det-footer">
             <div class="det-footer-item det-footer-item-left">
-              <% if ((source == 'main') && (index > 0)) { %>
-                <a class="det-toc-link" href="<%= toc.main[index - 1].file %>.html">&lt; <%- toc.main[index - 1].name %></a>
+              <% if (toc[activeSection].nav && ((activePage > 0) || (activeSection > 0))) { %>
+                <% const previousPage = (activePage > 0)
+                    ? toc[activeSection].pages[activePage - 1]
+                    : toc[activeSection - 1].pages[toc[activeSection - 1].pages.length - 1]; %>
+                <a class="det-toc-link" href="<%= previousPage.file %>.html">&lt; <%- previousPage.name %></a>
               <% } %>
             </div>
             <div class="det-footer-item det-footer-item-right">
-              <% if ((source == 'main') && (index < (toc.main.length - 1))) { %>
-                <a class="det-toc-link" href="<%= toc.main[index + 1].file %>.html"><%- toc.main[index + 1].name %> &gt;</a>
+              <% if (toc[activeSection].nav && ((activePage < (toc[activeSection].pages.length - 1)) || ((activeSection < (toc.length - 1)) && toc[activeSection + 1].nav))) { %>
+                <% const nextPage = (activePage < (toc[activeSection].pages.length - 1))
+                    ? toc[activeSection].pages[activePage + 1]
+                    : toc[activeSection + 1].pages[0]; %>
+                <a class="det-toc-link" href="<%= nextPage.file %>.html"><%- nextPage.name %> &gt;</a>
               <% } %>
             </div>
           </footer>

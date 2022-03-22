@@ -513,16 +513,26 @@ $transition-duration: 500ms;
   }
 }
 
-.det-toc {
+.det-toc,
+.det-toc-section {
   @extend .nav;
 
   display: block;
 }
 
-.det-toc-extra,
-.det-toc-external {
-  padding-top: 1rem;
+.det-toc-section-name {
+  display: block;
+
+  padding-top: 0.75rem;
+  padding-left: 1rem;
+
+  font-weight: bold;
+  font-variant: small-caps;
+  color: $color-link;
 }
+
+// .det-toc-list {
+// }
 
 .det-toc-text,
 .det-toc-link {
