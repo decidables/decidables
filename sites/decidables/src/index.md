@@ -1,5 +1,5 @@
 ---
-title: 'decidables'
+title: 'Explorable Explanations of Decision Making'
 layout: page
 script: page
 ---
