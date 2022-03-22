@@ -333,14 +333,22 @@ $transition-duration: 500ms;
   font-weight: bold;
 }
 
-.bi.bi-list {
-  width: 2rem;
-  height: 2rem;
+.bi.bi-arrow-left-short,
+.bi.bi-arrow-right-short {
+  width: 1.25rem;
+  height: 1.25rem;
+  
+  vertical-align: -0.3125rem;
 }
 
 .bi.bi-github {
   width: 1.125rem;
   height: 1.125rem;
+}
+
+.bi.bi-list {
+  width: 2rem;
+  height: 2rem;
 }
 
 // Top-level
@@ -516,20 +524,30 @@ $transition-duration: 500ms;
   }
 }
 
-.pro-toc {
+.pro-toc,
+.pro-toc-section {
   @extend .nav;
 
   display: block;
 }
 
-.pro-toc-extra,
-.pro-toc-external {
-  padding-top: 1rem;
+.pro-toc-section-name {
+  display: block;
+
+  padding-top: 0.75rem;
+  padding-left: 1rem;
+
+  font-weight: $font-weight-semibold;
+  font-variant: small-caps;
+  color: $color-link;
 }
+
+// .pro-toc-list {
+// }
 
 .pro-toc-text,
 .pro-toc-link {
-  padding: 0.375rem 0.5rem;
+  padding: 0.25rem 0.5rem;
 
   font-size: 1rem;
   font-weight: 600;
@@ -569,6 +587,7 @@ $transition-duration: 500ms;
 .pro-toc-item .pro-toc-link {
   display: block;
 
+  padding: 0.375rem 0.5rem;
   margin: 0 0.5rem;
 }
 
