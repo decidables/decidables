@@ -653,11 +653,11 @@ $transition-duration: 500ms;
 
 // Index Page
 .det-index-header {
-  @extend .row, .g-4, .pt-4, .justify-content-center;
+  @extend .row, .g-4, .py-4, .justify-content-center;
 }
 
 .det-index-titles {
-  @extend .col-12;
+  @extend .col-11;
 }
 
 .det-index-title {
@@ -669,16 +669,16 @@ $transition-duration: 500ms;
 }
 
 .det-index-demo {
-  @extend .col-12, .text-center;
+  @extend .col-11, .text-center;
   
   rdk-task {
-    width: 20rem;
-    height: 20rem;
+    width: 18rem;
+    height: 18rem;
   }
 }
 
 .det-index-lead {
-  @extend .col-12, .col-md-10, .col-xxl-8, .mt-3, .fw-normal, .lead, .text-center;
+  @extend .col-11, .col-md-10, .col-xxl-8, .mt-4, .mb-0, .fw-normal, .lead, .text-center;
 }
 
 // Footer
