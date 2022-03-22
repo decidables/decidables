@@ -3,7 +3,8 @@ toc:
   - section: introduction
     nav: true
     pages:
-      - {file: index, name: 'Introduction'}
+      - {file: index, name: 'Home'}
+      - {file: introduction, name: 'Introduction'}
   - section: model
     nav: true
     name: 'Model'
@@ -36,10 +37,10 @@ toc:
     %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="prospectable: <%= title %>">
+    <meta name="description" content="prospectable: <%= title.replace(/<[^>]+>/g, '') %>">
     <meta name="author" content="Dr. Adam Krawitz">
 
-    <title>prospectable: <%- windowTitle %></title>
+    <title>prospectable<%- (file !== 'index') ? `: ${windowTitle}` : '' %></title>
 
     <link href="page.css" rel="stylesheet">
   </head>
@@ -104,9 +105,11 @@ toc:
         </div>
 
         <main class="pro-main">
-          <header>
-            <h1><%- title %></h1>
-          </header>
+          <% if (file !== 'index') { %>
+            <header>
+              <h1><%- title %></h1>
+            </header>
+          <% } %>
           <section class="pro-content">
             <%- contents %>
           </section>
