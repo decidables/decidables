@@ -1,5 +1,5 @@
 ---
-title: 'Conclusions: The Power of Simplicity'
+title: 'Conclusion: The Power of Simplicity'
 layout: page
 script: page
 ---
