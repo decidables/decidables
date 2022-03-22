@@ -152,7 +152,10 @@ toc:
                 <% const previousPage = (activePage > 0)
                     ? toc[activeSection].pages[activePage - 1]
                     : toc[activeSection - 1].pages[toc[activeSection - 1].pages.length - 1]; %>
-                <a class="det-toc-link" href="<%= previousPage.file %>.html">&lt; <%- previousPage.name %></a>
+                <a class="det-toc-link" href="<%= previousPage.file %>.html">
+                  <%- include(resolvePkg('bootstrap-icons/icons/arrow-left-short.svg')) %>
+                  <%- previousPage.name %>
+                </a>
               <% } %>
             </div>
             <div class="det-footer-item det-footer-item-right">
@@ -160,7 +163,10 @@ toc:
                 <% const nextPage = (activePage < (toc[activeSection].pages.length - 1))
                     ? toc[activeSection].pages[activePage + 1]
                     : toc[activeSection + 1].pages[0]; %>
-                <a class="det-toc-link" href="<%= nextPage.file %>.html"><%- nextPage.name %> &gt;</a>
+                <a class="det-toc-link" href="<%= nextPage.file %>.html">
+                  <%- nextPage.name %>
+                  <%- include(resolvePkg('bootstrap-icons/icons/arrow-right-short.svg')) %>
+                </a>
               <% } %>
             </div>
           </footer>
