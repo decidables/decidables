@@ -654,6 +654,36 @@ $transition-duration: 500ms;
   }
 }
 
+// Index Page
+.pro-index-header {
+  @extend .row, .g-4, .py-4, .justify-content-center;
+}
+
+.pro-index-titles {
+  @extend .col-11;
+}
+
+.pro-index-title {
+  @extend .display-1, .fw-bold, .text-center;
+}
+
+.pro-index-subtitle {
+  @extend .text-center, .fw-semibold, .font-serif;
+}
+
+.pro-index-demo {
+  @extend .col-11, .text-center;
+  
+  // decision-task {
+  //   width: ????;
+  //   height: ????;
+  // }
+}
+
+.pro-index-lead {
+  @extend .col-11, .col-md-10, .col-xxl-8, .mt-4, .mb-0, .fw-normal, .lead, .text-center;
+}
+
 // Footer
 .pro-footer {
   @include make-row();
