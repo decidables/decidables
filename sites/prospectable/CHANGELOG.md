@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.3.0...@decidables/prospectable@0.4.0) (2022-03-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **prospectable:** Home page is now a splash, then leads to intro
+* **prospectable:** TOC now has sections
+
+### Features
+
+* **prospectable:** add splash page ([f0f91f4](https://github.com/decidables/decidables/commit/f0f91f45c51882d28d965a2d32056d89a225b3e9))
+* **prospectable:** add TOC sections and nav arrow icons ([ab66f32](https://github.com/decidables/decidables/commit/ab66f3260dbc160d2aadbd36e1627209b550b31e))
+
+
+### Bug Fixes
+
+* **detectable,prospectable:** fix invalid HTML in template ([72ee83f](https://github.com/decidables/decidables/commit/72ee83ffb5657e95fd3e2c0c43862272bc5b09a9))
+* **detectable,prospectable:** fix markdown lint error ([2309e5f](https://github.com/decidables/decidables/commit/2309e5fe44be9b644acae4299b7e3b43b79c8f27))
+
+
+
 ## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.2.0...@decidables/prospectable@0.3.0) (2022-03-21)
 
 

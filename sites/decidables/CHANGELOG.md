@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.3.1](https://github.com/decidables/decidables/compare/@decidables/decidables@0.3.0...@decidables/decidables@0.3.1) (2022-03-23)
+
+
+### Bug Fixes
+
+* **decidables:** fix HTML meta description ([14e198b](https://github.com/decidables/decidables/commit/14e198b6733cc9a109d63f328879b735eae612af))
+
+
+
 ## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.2.2...@decidables/decidables@0.3.0) (2022-03-21)
 
 
