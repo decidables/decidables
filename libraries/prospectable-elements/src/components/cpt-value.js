@@ -427,7 +427,7 @@ export default class CPTValue extends CPTElement {
         .point .circle {
           fill: var(---color-element-emphasis);
 
-          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */
+          r: 6px;
         }
 
         .point .label {
@@ -1314,8 +1314,7 @@ export default class CPTValue extends CPTElement {
     const pointEnter = pointUpdate.enter().append('g')
       .classed('point', true);
     pointEnter.append('circle')
-      .classed('circle', true)
-      .attr('r', 6); /* HACK: Firefox does not support CSS SVG Geometry Properties */
+      .classed('circle', true);
     pointEnter.append('text')
       .classed('label', true);
     //  MERGE

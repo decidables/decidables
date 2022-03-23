@@ -164,7 +164,7 @@ export default class RDKTask extends DetectableElement {
         }
 
         .dot {
-          /* r: 2px; HACK: Firefox does not support CSS SVG Geometry Properties */
+          r: 2px;
         }
 
         .dots.coherent {
@@ -555,8 +555,7 @@ export default class RDKTask extends DetectableElement {
       .data((datum) => { return datum; });
     //  ENTER
     const dotEnter = dotUpdate.enter().append('circle')
-      .classed('dot', true)
-      .attr('r', 2); /* HACK: Firefox does not support CSS SVG Geometry Properties */
+      .classed('dot', true);
     //  MERGE
     dotEnter.merge(dotUpdate)
       .attr('cx', (datum) => { return datum.x; })
