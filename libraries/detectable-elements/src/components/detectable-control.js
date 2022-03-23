@@ -234,11 +234,11 @@ export default class DetectableControl extends DetectableElement {
           ? html`
             <decidables-toggle @change=${this.chooseColor.bind(this)}>
               <span slot="label">Emphasis</span>
-              <decidables-toggle-option name=${`${this.uniqueId}-color`} value="none" ?checked=${this.color === 'none'}>None</decidables-toggle-option>
-              <decidables-toggle-option name=${`${this.uniqueId}-color`} value="accuracy" ?checked=${this.color === 'accuracy'}>Accuracy</decidables-toggle-option>
-              <decidables-toggle-option name=${`${this.uniqueId}-color`} value="stimulus" ?checked=${this.color === 'stimulus'}>Stimulus</decidables-toggle-option>
-              <decidables-toggle-option name=${`${this.uniqueId}-color`} value="response" ?checked=${this.color === 'response'}>Response</decidables-toggle-option>
-              <decidables-toggle-option name=${`${this.uniqueId}-color`} value="outcome" ?checked=${this.color === 'outcome'}>Outcome</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="none" ?checked=${this.color === 'none'}>None</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="accuracy" ?checked=${this.color === 'accuracy'}>Accuracy</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="stimulus" ?checked=${this.color === 'stimulus'}>Stimulus</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="response" ?checked=${this.color === 'response'}>Response</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="outcome" ?checked=${this.color === 'outcome'}>Outcome</decidables-toggle-option>
             </decidables-toggle>
           `
           : html``}
