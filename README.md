@@ -60,6 +60,7 @@ Dependencies updated 17/1/2022.
 
 ### Features/Bugs/Notes
 
+- Accessibility testing/auditing
 - Can we use *@testing-library/dom* for interface testing?
 - Use APA v7 (https://github.com/citation-style-language/styles)
 - Use *eslint-plugin-lit*? (https://www.npmjs.com/package/eslint-plugin-lit)
