@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -12,8 +11,6 @@ import '../../src/components/detectable-control';
 describe('detectable-control', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<detectable-control></detectable-control>`);
-    // Give the component a chance to render!
-    await aTimeout();
     expect(el).shadowDom.to.equal(`
       <div class="holder">
       </div>
@@ -22,13 +19,11 @@ describe('detectable-control', () => {
 
   it('has an empty lightDom', async () => {
     const el = await fixture(html`<detectable-control></detectable-control>`);
-    await aTimeout();
     expect(el).lightDom.to.equal('');
   });
 
   it('can have a trials slider', async () => {
     const el = await fixture(html`<detectable-control trials="15"></detectable-control>`);
-    await aTimeout();
     // Check "before" state
     expect(el.trials).to.equal(15);
     expect(el.shadowRoot).to.have.descendant('decidables-slider');
@@ -43,7 +38,6 @@ describe('detectable-control', () => {
 
   it('can have a duration slider', async () => {
     const el = await fixture(html`<detectable-control duration="20"></detectable-control>`);
-    await aTimeout();
     // Check "before" state
     expect(el.duration).to.equal(20);
     expect(el.shadowRoot).to.have.descendant('decidables-slider');
@@ -58,7 +52,6 @@ describe('detectable-control', () => {
 
   it('can have a coherence slider', async () => {
     const el = await fixture(html`<detectable-control coherence="0.1"></detectable-control>`);
-    await aTimeout();
     // Check "before" state
     expect(el.coherence).to.equal(0.1);
     expect(el.shadowRoot).to.have.descendant('decidables-slider');
@@ -73,7 +66,6 @@ describe('detectable-control', () => {
 
   it('can have a payoff slider', async () => {
     const el = await fixture(html`<detectable-control payoff="5"></detectable-control>`);
-    await aTimeout();
     // Check "before" state
     expect(el.payoff).to.equal(5);
     expect(el.shadowRoot).to.have.descendant('decidables-slider');
@@ -87,9 +79,7 @@ describe('detectable-control', () => {
   });
 
   it('can have a color toggle', async () => {
-    // Get everything set
     const el = await fixture(html`<detectable-control color="none"></detectable-control>`);
-    await aTimeout();
     // Check "before" state
     expect(el.color).to.equal('none');
     expect(el.shadowRoot).to.have.descendant('decidables-toggle');
@@ -104,7 +94,6 @@ describe('detectable-control', () => {
 
   it('can have a zROC switch', async () => {
     const el = await fixture(html`<detectable-control z-roc></detectable-control>`);
-    await aTimeout();
     // Check "before" state
     expect(el.zRoc).to.equal(true);
     expect(el.shadowRoot).to.have.descendant('decidables-switch');
@@ -119,7 +108,6 @@ describe('detectable-control', () => {
 
   it('can have a run button', async () => {
     const el = await fixture(html`<detectable-control run></detectable-control>`);
-    await aTimeout();
     // Check "before" state
     expect(el.run).to.equal(true);
     expect(el.shadowRoot).to.have.descendant('decidables-button');
@@ -134,7 +122,6 @@ describe('detectable-control', () => {
 
   it('can have a pause button', async () => {
     const el = await fixture(html`<detectable-control pause></detectable-control>`);
-    await aTimeout();
     // Check "before" state
     expect(el.pause).to.equal(true);
     expect(el.shadowRoot).to.have.descendant('decidables-button');
@@ -149,7 +136,6 @@ describe('detectable-control', () => {
 
   it('can have a reset button', async () => {
     const el = await fixture(html`<detectable-control reset></detectable-control>`);
-    await aTimeout();
     // Check "before" state
     expect(el.reset).to.equal(true);
     expect(el.shadowRoot).to.have.descendant('decidables-button');

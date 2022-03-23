@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -13,19 +12,16 @@ describe('sdt-equation-dc2hr', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-equation-dc2hr></sdt-equation-dc2hr>`);
     // Give the component a chance to render!
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('.equation');
   });
 
   it('has an empty lightDom', async () => {
     const el = await fixture(html`<sdt-equation-dc2hr></sdt-equation-dc2hr>`);
-    await aTimeout();
     expect(el).lightDom.to.equal('');
   });
 
   it('can display only labels', async () => {
     const el = await fixture(html`<sdt-equation-dc2hr></sdt-equation-dc2hr>`);
-    await aTimeout();
     expect(el.shadowRoot).to.not.have.descendant('decidables-spinner');
     expect(el.shadowRoot).to.have.descendant('.d');
     expect(el.shadowRoot).to.have.descendant('.c');
@@ -34,7 +30,6 @@ describe('sdt-equation-dc2hr', () => {
 
   it('can display numbers', async () => {
     const el = await fixture(html`<sdt-equation-dc2hr numeric d="2" c="-1"></sdt-equation-dc2hr>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner[disabled]').with.length(3);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.d[disabled]').with.value(2);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.c[disabled]').with.value(-1);
@@ -43,7 +38,6 @@ describe('sdt-equation-dc2hr', () => {
 
   it('can display numbers with unequal variance', async () => {
     const el = await fixture(html`<sdt-equation-dc2hr numeric unequal d="2" c="-1" s="0.5"></sdt-equation-dc2hr>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner[disabled]').with.length(6);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.d[disabled]').with.value(2);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.c[disabled]').with.value(-1);
@@ -53,7 +47,6 @@ describe('sdt-equation-dc2hr', () => {
 
   it('can be interactive', async () => {
     const el = await fixture(html`<sdt-equation-dc2hr numeric interactive d="2" c="-1"></sdt-equation-dc2hr>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner[disabled]').with.length(1);
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(2);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.d:not([disabled])').with.value(2);
@@ -63,7 +56,6 @@ describe('sdt-equation-dc2hr', () => {
 
   it('can accept interactive sensitivity input', async () => {
     const el = await fixture(html`<sdt-equation-dc2hr numeric interactive d="2" c="-1"></sdt-equation-dc2hr>`);
-    await aTimeout();
     // Action
     const target = el.shadowRoot.querySelector('.d').shadowRoot.querySelector('input');
     target.focus();
@@ -80,7 +72,6 @@ describe('sdt-equation-dc2hr', () => {
 
   it('can accept interactive bias input', async () => {
     const el = await fixture(html`<sdt-equation-dc2hr numeric interactive d="2" c="-1"></sdt-equation-dc2hr>`);
-    await aTimeout();
     // Action
     const target = el.shadowRoot.querySelector('.c').shadowRoot.querySelector('input');
     target.focus();
@@ -97,7 +88,6 @@ describe('sdt-equation-dc2hr', () => {
 
   it('can accept interactive variance input', async () => {
     const el = await fixture(html`<sdt-equation-dc2hr numeric interactive unequal d="2" c="-1" s="0.5"></sdt-equation-dc2hr>`);
-    await aTimeout();
     // Action
     const target = el.shadowRoot.querySelector('.s').shadowRoot.querySelector('input');
     target.focus();

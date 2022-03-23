@@ -1,5 +1,6 @@
 import {
   aTimeout,
+  elementUpdated,
   expect,
   fixture,
   html,
@@ -13,58 +14,48 @@ import '../../src/components/sdt-model';
 describe('sdt-model', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-model></sdt-model>`);
-    // Give the component a chance to render!
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('svg');
   });
 
   it('has an empty lightDom', async () => {
     const el = await fixture(html`<sdt-model></sdt-model>`);
-    await aTimeout();
     expect(el).lightDom.to.equal('');
   });
 
   it('can display distributions', async () => {
     const el = await fixture(html`<sdt-model distributions></sdt-model>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('.noise');
     expect(el.shadowRoot).to.have.descendant('.signal');
   });
 
   it('can display a threshold', async () => {
     const el = await fixture(html`<sdt-model threshold></sdt-model>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('.threshold');
   });
 
   it('can display distributions with unequal variance', async () => {
     const el = await fixture(html`<sdt-model distributions unequal s="1.5"></sdt-model>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('.noise');
     expect(el.shadowRoot).to.have.descendant('.signal.unequal');
   });
 
   it('can display the sensitivity', async () => {
     const el = await fixture(html`<sdt-model distributions sensitivity></sdt-model>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('.measure-d');
   });
 
   it('can display the bias', async () => {
     const el = await fixture(html`<sdt-model distributions threshold bias></sdt-model>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('.measure-c');
   });
 
   it('can display the signal variance', async () => {
     const el = await fixture(html`<sdt-model distributions unequal s="1.5" variance></sdt-model>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('.measure-s');
   });
 
   it('has settable model parameters', async () => {
     const el = await fixture(html`<sdt-model d="2" c="1" s="1.5" variance></sdt-model>`);
-    await aTimeout();
     expect(el.d).to.equal(2);
     expect(el.c).to.equal(1);
     expect(el.s).to.equal(1.5);
@@ -72,7 +63,6 @@ describe('sdt-model', () => {
 
   it('can be interactive', async () => {
     const el = await fixture(html`<sdt-model interactive distributions threshold sensitivity bias></sdt-model>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('.signal').with.class('interactive');
     expect(el.shadowRoot).to.have.descendant('.noise').with.class('interactive');
     expect(el.shadowRoot).to.have.descendant('.threshold').with.class('interactive');
@@ -80,6 +70,7 @@ describe('sdt-model', () => {
 
   it('supports mouse manipulation of threshold', async () => {
     const el = await fixture(html`<sdt-model interactive threshold bias style="--transition-duration: 0;"></sdt-model>`);
+    // HACK: Why do I need this timeout?
     await aTimeout(200);
     // Get "before" state
     const {c} = el;
@@ -94,7 +85,6 @@ describe('sdt-model', () => {
 
   it('supports keyboard manipulation of threshold', async () => {
     const el = await fixture(html`<sdt-model interactive threshold bias style="--transition-duration: 0;"></sdt-model>`);
-    await aTimeout();
     // Get "before" state
     const {c} = el;
     // Action
@@ -109,6 +99,7 @@ describe('sdt-model', () => {
 
   it('supports mouse manipulation of signal distribution', async () => {
     const el = await fixture(html`<sdt-model interactive distributions unequal sensitivity variance style="--transition-duration: 0;"></sdt-model>`);
+    // HACK: Why do I need this timeout?
     await aTimeout(200);
     // Get "before" state
     const {d, s} = el;
@@ -125,7 +116,6 @@ describe('sdt-model', () => {
 
   it('supports keyboard manipulation of signal distribution', async () => {
     const el = await fixture(html`<sdt-model interactive distributions unequal sensitivity variance style="--transition-duration: 0;"></sdt-model>`);
-    await aTimeout();
     // Get "before" state
     const {d, s} = el;
     // Action
@@ -145,6 +135,7 @@ describe('sdt-model', () => {
 
   it('supports mouse manipulation of noise distribution', async () => {
     const el = await fixture(html`<sdt-model interactive distributions sensitivity style="--transition-duration: 0;"></sdt-model>`);
+    // HACK: Why do I need this timeout?
     await aTimeout(200);
     // Get "before" state
     const {d} = el;
@@ -159,7 +150,6 @@ describe('sdt-model', () => {
 
   it('supports keyboard manipulation of noise distribution', async () => {
     const el = await fixture(html`<sdt-model interactive distributions sensitivity style="--transition-duration: 0;"></sdt-model>`);
-    await aTimeout();
     // Get "before" state
     const {d} = el;
     // Action
@@ -174,19 +164,17 @@ describe('sdt-model', () => {
 
   it('can have a histogram', async () => {
     const el = await fixture(html`<sdt-model histogram style="--transition-duration: 0;"></sdt-model>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('.histogram');
   });
 
   it('can add trials and reset a histogram', async () => {
     const el = await fixture(html`<sdt-model histogram style="--transition-duration: 0;"></sdt-model>`);
-    await aTimeout();
     el.trial(1, 'present', 50, 50, 50);
-    await aTimeout();
+    await elementUpdated(el);
     expect(el.shadowRoot).to.have.descendants('.histogram .trial').with.length(1);
     expect(el.trials).to.have.length(1);
     el.trial(2, 'absent', 50, 50, 50);
-    await aTimeout();
+    await elementUpdated(el);
     expect(el.shadowRoot).to.have.descendants('.histogram .trial').with.length(2);
     expect(el.trials).to.have.length(2);
     el.reset();

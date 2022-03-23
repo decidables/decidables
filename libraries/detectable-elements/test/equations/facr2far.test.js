@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -13,19 +12,16 @@ describe('sdt-equation-facr2far', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-equation-facr2far></sdt-equation-facr2far>`);
     // Give the component a chance to render!
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('.equation');
   });
 
   it('has an empty lightDom', async () => {
     const el = await fixture(html`<sdt-equation-facr2far></sdt-equation-facr2far>`);
-    await aTimeout();
     expect(el).lightDom.to.equal('');
   });
 
   it('can display only labels', async () => {
     const el = await fixture(html`<sdt-equation-facr2far></sdt-equation-facr2far>`);
-    await aTimeout();
     expect(el.shadowRoot).to.not.have.descendant('decidables-spinner');
     expect(el.shadowRoot).to.have.descendant('.fa');
     expect(el.shadowRoot).to.have.descendant('.cr');
@@ -34,7 +30,6 @@ describe('sdt-equation-facr2far', () => {
 
   it('can display numbers', async () => {
     const el = await fixture(html`<sdt-equation-facr2far numeric false-alarms="20" correct-rejections="80"></sdt-equation-facr2far>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner[disabled]').with.length(4);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.fa[disabled]').with.value(20);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.cr[disabled]').with.value(80);
@@ -43,7 +38,6 @@ describe('sdt-equation-facr2far', () => {
 
   it('can be interactive', async () => {
     const el = await fixture(html`<sdt-equation-facr2far numeric interactive false-alarms="20" correct-rejections="80"></sdt-equation-facr2far>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner[disabled]').with.length(1);
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(3);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.fa:not([disabled])').with.value(20);
@@ -53,7 +47,6 @@ describe('sdt-equation-facr2far', () => {
 
   it('can accept interactive false alarm input', async () => {
     const el = await fixture(html`<sdt-equation-facr2far numeric interactive false-alarms="20" correct-rejections="80"></sdt-equation-facr2far>`);
-    await aTimeout();
     // Action
     const target = el.shadowRoot.querySelector('.fa').shadowRoot.querySelector('input');
     target.focus();
@@ -71,7 +64,6 @@ describe('sdt-equation-facr2far', () => {
 
   it('can accept interactive correct rejection input', async () => {
     const el = await fixture(html`<sdt-equation-facr2far numeric interactive false-alarms="20" correct-rejections="80"></sdt-equation-facr2far>`);
-    await aTimeout();
     // Action
     const target = el.shadowRoot.querySelector('.cr').shadowRoot.querySelector('input');
     target.focus();

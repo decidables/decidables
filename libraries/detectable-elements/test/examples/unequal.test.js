@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -20,7 +19,6 @@ describe('sdt-example-interactive', () => {
       </sdt-example-unequal>
     `);
     // Give the component a chance to render!
-    await aTimeout();
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="body">
@@ -40,7 +38,6 @@ describe('sdt-example-interactive', () => {
         <roc-space z-roc contour="sensitivity" point="rest" iso-d="rest" iso-c="rest"></roc-space>
       </sdt-example-unequal>
     `);
-    await aTimeout();
     expect(el).lightDom.to.equal(`
       <detectable-control class="keyboard" z-roc></detectable-control>
       <sdt-model class="keyboard" interactive unequal distributions sensitivity variance color="stimulus"></sdt-model>
@@ -56,7 +53,6 @@ describe('sdt-example-interactive', () => {
         <roc-space z-roc contour="sensitivity" point="rest" iso-d="rest" iso-c="rest"></roc-space>
       </sdt-example-unequal>
     `);
-    await aTimeout();
     // Get "before" state
     const {d, s} = el.sdtModel;
     const {hr, far} = el.rocSpace.locations[1];
