@@ -3,11 +3,6 @@ import {expect} from '../../../scripts/test';
 import DecidablesElement from '../src/decidables-element';
 
 describe('decidables-element', () => {
-  it('has a uniqueId', async () => {
-    const uniqueId = DecidablesElement.uniqueId; // eslint-disable-line prefer-destructuring
-    expect(uniqueId).to.equal(1);
-  });
-
   it('has greys', () => {
     const greys = DecidablesElement.greys; // eslint-disable-line prefer-destructuring
     expect(greys).to.have.all.keys(

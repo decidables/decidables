@@ -11,11 +11,11 @@ describe('decidables-switch', () => {
       </decidables-switch>
     `);
     expect(el).shadowDom.to.equal(`
-      <input type="checkbox" id="decidables-1-checkbox">
-      <label for="decidables-1-checkbox">
+      <input type="checkbox" id="switch">
+      <label for="switch">
         <slot name="off-label"></slot>
       </label>
-      <label for="decidables-1-checkbox">
+      <label for="switch">
         <slot></slot>
       </label>
     `);
