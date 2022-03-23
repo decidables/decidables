@@ -6,11 +6,11 @@ describe('decidables-slider', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<decidables-slider>Slide</decidables-slider>`);
     expect(el).shadowDom.to.equal(`
-      <label for="decidables-1-slider">
+      <label for="slider">
         <slot></slot>
       </label>
       <div class="range">
-        <input type="range" id="decidables-1-slider">
+        <input type="range" id="slider">
       </div>
       <decidables-spinner></decidables-spinner>
     `);

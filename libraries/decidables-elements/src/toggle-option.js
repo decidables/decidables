@@ -152,8 +152,8 @@ export default class DecidablesToggleOption extends DecidablesElement {
 
   render() {
     return html`
-      <input type="radio" id=${`${this.uniqueId}-radio`} name=${this.name} value=${this.value} .checked=${this.checked} @change=${this.changed.bind(this)}>
-      <label for=${`${this.uniqueId}-radio`}>
+      <input type="radio" id="toggle-option" name=${this.name} value=${this.value} .checked=${this.checked} @change=${this.changed.bind(this)}>
+      <label for="toggle-option">
         <slot></slot>
       </label>
     `;

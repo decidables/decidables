@@ -319,11 +319,11 @@ export default class DecidablesSlider extends DecidablesElement {
 
   render() {
     return html`
-      <label for=${`${this.uniqueId}-slider`}>
+      <label for="slider">
         <slot></slot>
       </label>
       <div class="range">
-        <input type="range" id=${`${this.uniqueId}-slider`} min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @change=${this.changed.bind(this)} @input=${this.inputted.bind(this)}>
+        <input type="range" id="slider" min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @change=${this.changed.bind(this)} @input=${this.inputted.bind(this)}>
       </div>
       <decidables-spinner min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}></decidables-spinner>
     `;

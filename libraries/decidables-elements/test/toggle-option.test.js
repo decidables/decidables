@@ -10,8 +10,8 @@ describe('decidables-toggle-option', () => {
       </decidables-toggle-option>
     `);
     expect(el).shadowDom.to.equal(`
-      <input type="radio" id="decidables-1-radio" name="test" value="possibly">
-      <label for="decidables-1-radio">
+      <input type="radio" id="toggle-option" name="test" value="possibly">
+      <label for="toggle-option">
         <slot></slot>
       </label>
     `);

@@ -165,11 +165,11 @@ export default class DecidablesSwitch extends DecidablesElement {
 
   render() {
     return html`
-      <input type="checkbox" id=${`${this.uniqueId}-checkbox`} ?checked=${this.checked} ?disabled=${this.disabled} @change=${this.changed.bind(this)}>
-      <label for=${`${this.uniqueId}-checkbox`}>
+      <input type="checkbox" id="switch" ?checked=${this.checked} ?disabled=${this.disabled} @change=${this.changed.bind(this)}>
+      <label for="switch">
         <slot name="off-label"></slot>
       </label>
-      <label for=${`${this.uniqueId}-checkbox`}>
+      <label for="switch">
         <slot></slot>
       </label>
     `;

@@ -12,26 +12,7 @@ import * as d3 from 'd3';
   <decidables-element>
 */
 export default class DecidablesElement extends LitElement {
-  // HACK: Create a unique ID for each DecidablesElement
-  // This is needed because Edge/IE11 don't have real Shadow DOM, so IDs leak
-  // out of elements and collide if there is more than one of an element on a
-  // page. Known issue for checkbox/switches and the id/for pattern on <input>
-  // and <label>
-  static get uniqueId() {
-    DecidablesElement.ID += 1;
-    return DecidablesElement.ID;
-  }
-
-  constructor() {
-    super();
-    this.uniqueId = `decidables-${DecidablesElement.uniqueId}`;
-  }
-
   getComputedStyleValue(property) {
-    // HACK: IE11 requires use of polyfill interface to get custom property value in Javascript
-    if (window.ShadyCSS) {
-      return window.ShadyCSS.getComputedStyleValue(this, property);
-    }
     return getComputedStyle(this).getPropertyValue(property);
   }
 
@@ -259,6 +240,3 @@ export default class DecidablesElement extends LitElement {
     `;
   }
 }
-
-// Static property of DecidablesElement!
-DecidablesElement.ID = 0;
