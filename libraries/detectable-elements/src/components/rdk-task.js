@@ -213,8 +213,7 @@ export default class RDKTask extends DetectableElement {
     super.firstUpdated(changedProperties);
 
     // Get the width and height after initial render/update has occurred
-    // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
-    window.setTimeout(this.getDimensions.bind(this), 0);
+    this.getDimensions();
   }
 
   update(changedProperties) {
