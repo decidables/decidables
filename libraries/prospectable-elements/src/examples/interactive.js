@@ -94,6 +94,8 @@ export default class CPTExampleInteractive extends CPTExample {
         this.g = event.detail.g;
         this.pw = event.detail.p;
       });
+
+      this.cptProbability.set(this.pw, this.g, 'default', '');
     }
 
     if (this.cptValue) {
@@ -106,6 +108,9 @@ export default class CPTExampleInteractive extends CPTExample {
           this.xw = event.detail.x;
         }
       });
+
+      this.cptValue.set(this.xs, this.a, this.l, 'default', 's');
+      this.cptValue.set(this.xw, this.a, this.l, 'gamble', 'g', 'default');
     }
 
     if (this.decisionChoice) {
@@ -151,7 +156,7 @@ export default class CPTExampleInteractive extends CPTExample {
 
     if (this.cptValue) {
       this.cptValue.set(this.xs, this.a, this.l, 'default', 's');
-      this.cptValue.set(this.xw, this.a, this.l, 'gamble', 'g');
+      this.cptValue.set(this.xw, this.a, this.l, 'gamble', 'g', 'default');
     }
 
     if (this.decisionChoice) {

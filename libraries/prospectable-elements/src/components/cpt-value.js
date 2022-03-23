@@ -272,7 +272,7 @@ export default class CPTValue extends CPTElement {
   }
 
   set(x, a, l, name = 'default', label = '', func = name) {
-    this.setFunction(a, l, name);
+    this.setFunction(a, l, func);
     this.setValue(x, name, label, func);
   }
 
