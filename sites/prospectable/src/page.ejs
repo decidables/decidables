@@ -60,10 +60,10 @@ toc:
               <ol class="pro-toc">
                 <% for (const [sectionIndex, section] of toc.entries()){ %>
                   <li class="pro-toc-list">
+                    <% if (section.name) { %>
+                    <span class="pro-toc-section-name"><%- section.name %></span>
+                    <% } %>
                     <ol class="pro-toc-section pro-toc-section-<%- section.section %>">
-                      <% if (section.name) { %>
-                      <span class="pro-toc-section-name"><%- section.name %></span>
-                      <% } %>
                       <% for (const [pageIndex, page] of section.pages.entries()) { %>
                         <% if ((activeSection === sectionIndex) && (activePage === pageIndex)) { %>
                           <li class="pro-toc-item pro-toc-item-active">
@@ -79,8 +79,8 @@ toc:
                   </li>
                 <% } %>
                 <li class="pro-toc-list">
+                  <span class="pro-toc-section-name"></span>
                   <ol class="pro-toc-section pro-toc-section-external">
-                    <span class="pro-toc-section-name"></span>
                     <li class="pro-toc-item">
                       <span class="pro-toc-text">v<%- utilities.getPackageVersion() %></span>
                     </li>
@@ -97,6 +97,7 @@ toc:
                     </li>
                   </ol>
                 </li>
+              </ol>
             </nav>
           </div>
           <div class="pro-nav-bottom">
