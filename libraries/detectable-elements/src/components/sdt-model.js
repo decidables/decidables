@@ -415,7 +415,7 @@ export default class SDTModel extends DetectableElement {
         .threshold .handle {
           fill: var(---color-element-emphasis);
 
-          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */
+          r: 6px;
         }
 
         /* Make a larger target for touch users */
@@ -1466,8 +1466,7 @@ export default class SDTModel extends DetectableElement {
     thresholdEnter.append('line')
       .classed('line', true);
     thresholdEnter.append('circle')
-      .classed('handle', true)
-      .attr('r', 6); /* HACK: Firefox does not support CSS SVG Geometry Properties */
+      .classed('handle', true);
     //  MERGE
     const thresholdMerge = thresholdEnter.merge(thresholdUpdate)
       .attr('tabindex', this.interactive ? 0 : null)
