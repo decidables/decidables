@@ -4,10 +4,10 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="detectable: Threshold &amp;amp; Bias: Drawing a Line in the Sand">
+    <meta name="description" content="detectable:  d′etectable: An Explorable Explanation of Signal Detection Theory">
     <meta name="author" content="Dr. Adam Krawitz">
 
-    <title>d′etectable: Threshold &amp; Bias</title>
+    <title>d′etectable: Introduction</title>
 
     <link href="page.css" rel="stylesheet">
   </head>
@@ -41,7 +41,7 @@
                           </li>
                       
                         
-                          <li class="det-toc-item">
+                          <li class="det-toc-item det-toc-item-active">
                         
                             <a class="det-toc-link" href="introduction.html">
                               Introduction
@@ -115,7 +115,7 @@
                           </li>
                       
                         
-                          <li class="det-toc-item det-toc-item-active">
+                          <li class="det-toc-item">
                         
                             <a class="det-toc-link" href="threshold.html">
                               Threshold &amp; Bias
@@ -321,112 +321,38 @@
         <main class="det-main">
           
             <header>
-              <h1>Threshold &amp; Bias: Drawing a Line in the Sand</h1>
+              <h1><span class="detectable"> <span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>: An Explorable Explanation of Signal Detection Theory</h1>
             </header>
           
           <section class="det-content">
-            <h2>Making a decision</h2>
-<p>On the previous page, we explored the first step in signal detection according to SDT: taking a
-measurement. Now it is time to consider the second step: making a <span class="term decision">decision</span>. Our model will
-take the <span class="key Evidence">Evidence</span> and use it to decide whether it is going to respond <span class="key Present">Present</span> or
-<span class="key Absent">Absent</span>.</p>
-<p>According to SDT, a <span class="term threshold">threshold</span> is set, such that on each trial, the <span class="key Evidence">Evidence</span> is either
-greater than or less than that threshold:</p>
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model histogram threshold color="none" d="2.5" c="0"></sdt-model>
-</sdt-example-model>
-<h2>Responding present or absent</h2>
-<p>A simple rule is then used to decide on a response: If the evidence is below the threshold, then
-this is a <span class="key RespondAbsent">Respond Absent</span> trial, and if the evidence is above the threshold, then this is a
-<span class="key RespondPresent">Respond Present</span> trial:</p>
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model histogram threshold color="response" d="2.5" c="0"></sdt-model>
-  <detectable-response feedback="none"></detectable-response>
-</sdt-example-model>
-<p>Here, it is the <em>model</em> that is responding to the stimulus on each trial, based on whether the
-<span class="key Evidence">Evidence</span> is above or below the threshold, instead of you our intrepid participant.</p>
-<h2>A higher or lower threshold</h2>
-<p>In the examples above, the threshold was set at the neutral point, where the evidence is equally
-suggestive of signal and noise. But SDT doesn't require this.</p>
-<p>The threshold can be set higher, so that stronger evidence must be measured for the model to
-<span class="key RespondPresent">Respond Present</span> (and thus <span class="key RespondAbsent">Respond Absent</span> for a wider range of values). In this case, we
-say that the model is biased towards responding <span class="key Absent">Absent</span>:</p>
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model histogram threshold color="response" d="2.5" c="2"></sdt-model>
-  <detectable-response feedback="none"></detectable-response>
-</sdt-example-model>
-<p>Or the threshold can be set lower, so that even with weak evidence, the model will <span class="key RespondPresent">Respond
-Present</span> (and thus the evidence must be lower to <span class="key RespondAbsent">Respond Absent</span>). In this case, we say that
-the model is biased towards responding <span class="key Present">Present</span>:</p>
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model histogram threshold color="response" d="2.5" c="-2"></sdt-model>
-  <detectable-response feedback="none"></detectable-response>
-</sdt-example-model>
-<h2>Parameterizing our threshold with bias, <span class="math-var">c</span></h2>
-<p>The location of our threshold determines the <span class="key Bias">Bias</span> (sometimes called the <span class="term responsebias">response bias</span>)
-of our model, which we will parameterize with <span class="key c">c</span>. It lies along a continuum from negative
-infinity to infinity. Zero indicates a neutral bias. Positive numbers indicate a <span class="term conservativebias">conservative
-bias</span>. The larger the positive bias, the more evidence necessary before a <span class="key Present">Present</span> response is
-given. Negative numbers indicate a <span class="term liberalbias">liberal bias</span>. The larger the negative bias, the less
-evidence necessary to respond <span class="key Present">Present</span>.</p>
-<p>In this example, the distance from the origin, or <em>neutral point</em>, to the threshold is explicitly
-labeled with <span class="key c">c</span>. You can drag the threshold line or its handle to adjust its position. If there
-are evidence measurements for individual trials, they will change between <span class="key RespondPresent">Respond Present</span> and
-<span class="key RespondAbsent">Respond Absent</span> trials based on the location of the threshold, allowing you to see how the
-<span class="key Bias">Bias</span> determines the tendency to make more <span class="key Present">Present</span> or <span class="key Absent">Absent</span> responses:</p>
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model interactive threshold bias histogram color="response" d="2.5" c="1"></sdt-model>
-  <detectable-response feedback="none"></detectable-response>
-</sdt-example-model>
-<p>If you are wondering why <span class="key Bias">Bias</span> is represented with the symbol <span class="key c">c</span>, perhaps it is because
-the threshold is often referred to as a <span class="math-var">c</span>riterion in the work on SDT.
-However, this reason was not explicitly stated in the original paper introducing <span class="key c">c</span>
-(<a class="csl-ref" href="references.html#Ingham1970">Ingham, 1970</a>).</p>
-<p>Note that when <span class="key c">c</span> is zero, the threshold is precisely where the <span class="key NoiseDistribution">Noise Distribution</span> and
-the <span class="key Signal+NoiseDistribution">Signal + Noise Distribution</span> intersect. In other words, the model will respond
-<span class="key Present">Present</span> whenever it is more likely that this is a <span class="key SignalPresent">Signal Present</span> trial, and it will
-respond <span class="key Absent">Absent</span> whenever it is more likely that this is a <span class="key SignalAbsent">Signal Absent</span> trial. This is
-not coincidental, and hints at the strong link between SDT and decision making based on maximum
-likelihood and the likelihood ratio (<a class="csl-ref" href="references.html#Creelman2015">Creelman, 2015</a>; <a class="csl-ref" href="references.html#Peterson1954">Peterson et al., 1954</a>). In fact, the early work on
-SDT usually expressed the bias, as <span class="math-var">β</span>, in terms of the likelihood ratio
-of signal and noise (<a class="csl-ref" href="references.html#Peterson1954">Peterson et al., 1954</a>; <a class="csl-ref" href="references.html#Tanner1954">Tanner &#38; Swets, 1954</a>). It was only later that <span class="key c">c</span> was introduced
-and suggested as a better measure of response bias for most purposes (<a class="csl-ref" href="references.html#Ingham1970">Ingham, 1970</a>; <a class="csl-ref" href="references.html#Macmillan1990">Macmillan &#38; Creelman, 1990</a>; <a class="csl-ref" href="references.html#Stanislaw1999">Stanislaw &#38; Todorov, 1999</a>).</p>
-<!--
-
-## Perspectives on the relationship between model and performance
-
-<sdt-example-interactive>
-  <detectable-control color="outcome"></detectable-control>
-  <detectable-table numeric interactive summary="stimulusRates responseRates accuracy"
-    hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
-  <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
-</sdt-example-interactive>
-
-## New syntax for bracketed spans and fenced divs
-
-:::{.outer}
-This is a [test]{}.
-This is a [real test]{.test}!
-
-  :::{.inner2}
-  This is a [bad test] {you know?}
-
-  Let's get [real]{b .potato .banana #ice-cream stuff=good llama=moo}.
-  :::
-
-:::
-
--->
+            <h2>Introduction</h2>
+<p>Welcome to <strong><span class="math-var">d′</span>ete<span class="math-var">c</span>table</strong>, an
+interactive introduction to Signal Detection Theory (SDT). This site uses manipulable diagrams,
+dynamic tables, and live equations to explain the motivation, conceptualization, and application of
+SDT.</p>
+<p>SDT was originally developed to understand the decisions of radar operators attempting to detect the
+faint traces of enemy aircraft, bogeys, among the spurious flashes on the radar screen
+(<a class="csl-ref" href="references.html#Marcum1947">Marcum, 1947</a>; <a class="csl-ref" href="references.html#Peterson1954">Peterson, Birdsall, &#38; Fox, 1954</a>; <a class="csl-ref" href="references.html#Tanner1954">Tanner &#38; Swets, 1954</a>). The fundamental question was: How does a person
+decide if they are seeing signal or noise?</p>
+<p>In answering this question, researchers attempted to decompose the underlying cognitive process into
+its constituent parts. Then they specified a theory describing these parts in a formal mathematical
+model. The result was Signal Detection Theory (<a class="csl-ref" href="references.html#Green1966">Green &#38; Swets, 1966</a>).</p>
+<p>SDT can be viewed as an early and classic example of computational cognitive neuroscience - the
+interdisciplinary study of mind, brain, and behavior through the melding of computational,
+psychological, and neuroscientific approaches. It does this by linking observed behavior to known
+neural mechanisms through a formal computational account of cognition (<a class="csl-ref" href="references.html#Gold2007">Gold &#38; Shadlen, 2007</a>).</p>
+<p>SDT simply and elegantly explains patterns found in actual perceptual decision-making data; it makes
+non-trivial predictions that can be tested; and it fits into a developing understanding of
+perceptual decision making as neural evidence accumulation (<a class="csl-ref" href="references.html#Gold2002">Gold &#38; Shadlen, 2002</a>). Thus the importance of
+SDT arises from its generality, specificity, and plausibility. As a result, it has been applied to a
+diverse set of problems, from memory retrieval (<a class="csl-ref" href="references.html#Banks1970">Banks, 1970</a>; <a class="csl-ref" href="references.html#Berry2008">Berry, Shanks, &#38; Henson, 2008</a>) to medical decision
+making (<a class="csl-ref" href="references.html#Lusted1971">Lusted, 1971</a>).</p>
+<p>This site approaches SDT from multiple complementary points of view. First, we use SDT to <em>fit</em>
+your empirical data from an example task, and consider how well the theory accounts for the data.
+Second, we use SDT to make <em>predictions</em> by running simulations with an SDT-based model performing
+the task and generating synthetic data. And third, we <em>explore</em> the space of possible results that
+can be generated by SDT, providing an existence proof for its capabilities.</p>
+<p>So let's get started!</p>
 
           </section>
 
@@ -434,19 +360,19 @@ This is a [real test]{.test}!
             <div class="det-footer-item det-footer-item-left">
               
                 
-                <a class="det-toc-link" href="measurement.html">
+                <a class="det-toc-link" href="index.html">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
 </svg>
-                  Measurement &amp; Sensitivity
+                  Home
                 </a>
               
             </div>
             <div class="det-footer-item det-footer-item-right">
               
                 
-                <a class="det-toc-link" href="sdt.html">
-                  SDT
+                <a class="det-toc-link" href="signal.html">
+                  Signal &amp; Noise
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
 </svg>
