@@ -16,9 +16,6 @@ export default class SDTExample extends DetectableElement {
           ---border: var(--border, 1px solid var(---color-border));
           display: inline-block;
 
-          /* This makes IE11 happy */
-          width: 100%;
-
           margin-bottom: 1rem;
         }
 
