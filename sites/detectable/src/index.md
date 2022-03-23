@@ -4,6 +4,8 @@ layout: page
 script: page
 ---
 
+<!--lint ignore first-heading-level-->
+
 <header class="det-index-header">
   <hgroup class="det-index-titles">
     <h1 class="det-index-title">

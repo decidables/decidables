@@ -4,6 +4,8 @@ layout: page
 script: page
 ---
 
+<!--lint ignore first-heading-level-->
+
 <header class="pro-index-header">
   <hgroup class="pro-index-titles">
     <h1 class="pro-index-title">
