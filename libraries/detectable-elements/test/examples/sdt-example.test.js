@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -21,7 +20,6 @@ describe('sdt-example', () => {
       </sdt-example>
     `);
     // Give the component a chance to render!
-    await aTimeout();
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="body">
@@ -39,7 +37,6 @@ describe('sdt-example', () => {
         <roc-space></roc-space>
       </sdt-example>
     `);
-    await aTimeout();
     expect(el).lightDom.to.equal('<roc-space class="keyboard" far="0.25" hr="0.75" iso-c="first" iso-d="first" point="all"></roc-space>');
   });
 });

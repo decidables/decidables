@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -22,7 +21,6 @@ describe('sdt-example-double-interactive', () => {
       </sdt-example-double-interactive>
     `);
     // Give the component a chance to render!
-    await aTimeout();
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="body">
@@ -44,7 +42,6 @@ describe('sdt-example-double-interactive', () => {
         <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
       </sdt-example-double-interactive>
     `);
-    await aTimeout();
     expect(el).lightDom.to.equal(`
       <sdt-model class="keyboard" interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
       <detectable-table class="keyboard" color="outcome" numeric interactive summary="stimulusRates accuracy" hits="95" misses="5" false-alarms="35" correct-rejections="65"></detectable-table>
@@ -64,7 +61,6 @@ describe('sdt-example-double-interactive', () => {
         <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
       </sdt-example-double-interactive>
     `);
-    await aTimeout();
     // Action
     const target = el.querySelector('detectable-table:nth-of-type(1)').shadowRoot.querySelector('.h decidables-spinner').shadowRoot.querySelector('input');
     target.focus();
@@ -95,7 +91,6 @@ describe('sdt-example-double-interactive', () => {
         <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
       </sdt-example-double-interactive>
     `);
-    await aTimeout();
     // Action
     const target = el.querySelector('detectable-table:nth-of-type(2)').shadowRoot.querySelector('.h decidables-spinner').shadowRoot.querySelector('input');
     target.focus();

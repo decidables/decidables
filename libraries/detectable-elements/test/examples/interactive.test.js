@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -20,7 +19,6 @@ describe('sdt-example-interactive', () => {
       </sdt-example-interactive>
     `);
     // Give the component a chance to render!
-    await aTimeout();
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="body">
@@ -40,7 +38,6 @@ describe('sdt-example-interactive', () => {
         <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
       </sdt-example-interactive>
     `);
-    await aTimeout();
     expect(el).lightDom.to.equal(`
       <detectable-table class="keyboard" color="outcome" numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
       <roc-space class="keyboard" interactive iso-c="all" iso-d="all" point="all"></roc-space>
@@ -56,7 +53,6 @@ describe('sdt-example-interactive', () => {
         <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
       </sdt-example-interactive>
     `);
-    await aTimeout();
     // Action
     const target = el.querySelector('detectable-table').shadowRoot.querySelector('.h decidables-spinner').shadowRoot.querySelector('input');
     target.focus();

@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -23,7 +22,6 @@ describe('sdt-example-model', () => {
       </sdt-example-model>
     `);
     // Give the component a chance to render!
-    await aTimeout();
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="body">
@@ -46,7 +44,6 @@ describe('sdt-example-model', () => {
         <roc-space hr="0.5" far="0.5" point="all" iso-d="all" iso-c="all"></roc-space>
       </sdt-example-model>
     `);
-    await aTimeout();
     expect(el).lightDom.to.equal(`
       <detectable-control class="keyboard" coherence="0.5" duration="500" pause reset run trials="10"></detectable-control>
       <rdk-task class="keyboard" coherence="0.5" count="100" duration="500" iti="500" probability="0.5" trials="10" wait="500"></rdk-task>
@@ -68,7 +65,6 @@ describe('sdt-example-model', () => {
         <roc-space hr="0.5" far="0.5" point="all" iso-d="all" iso-c="all"></roc-space>
       </sdt-example-model>
     `);
-    await aTimeout();
     // Action: start task
     const target = el.querySelector('detectable-control').shadowRoot.querySelector('decidables-button[name="run"]');
     setTimeout(() => { mouseClickElement(target); });

@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -11,14 +10,11 @@ import '../../src/components/rdk-task';
 describe('rdk-task', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<rdk-task></rdk-task>`);
-    // Give the component a chance to render!
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('svg');
   });
 
   it('has an empty lightDom', async () => {
     const el = await fixture(html`<rdk-task></rdk-task>`);
-    await aTimeout();
     expect(el).lightDom.to.equal('');
   });
 

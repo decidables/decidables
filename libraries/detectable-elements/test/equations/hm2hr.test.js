@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -13,19 +12,16 @@ describe('sdt-equation-hm2hr', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-equation-hm2hr></sdt-equation-hm2hr>`);
     // Give the component a chance to render!
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('.equation');
   });
 
   it('has an empty lightDom', async () => {
     const el = await fixture(html`<sdt-equation-hm2hr></sdt-equation-hm2hr>`);
-    await aTimeout();
     expect(el).lightDom.to.equal('');
   });
 
   it('can display only labels', async () => {
     const el = await fixture(html`<sdt-equation-hm2hr></sdt-equation-hm2hr>`);
-    await aTimeout();
     expect(el.shadowRoot).to.not.have.descendant('decidables-spinner');
     expect(el.shadowRoot).to.have.descendant('.h');
     expect(el.shadowRoot).to.have.descendant('.m');
@@ -34,7 +30,6 @@ describe('sdt-equation-hm2hr', () => {
 
   it('can display numbers', async () => {
     const el = await fixture(html`<sdt-equation-hm2hr numeric hits="80" misses="20"></sdt-equation-hm2hr>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner[disabled]').with.length(4);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.h[disabled]').with.value(80);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.m[disabled]').with.value(20);
@@ -43,7 +38,6 @@ describe('sdt-equation-hm2hr', () => {
 
   it('can be interactive', async () => {
     const el = await fixture(html`<sdt-equation-hm2hr numeric interactive hits="80" misses="20"></sdt-equation-hm2hr>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner[disabled]').with.length(1);
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(3);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.h:not([disabled])').with.value(80);
@@ -53,7 +47,6 @@ describe('sdt-equation-hm2hr', () => {
 
   it('can accept interactive hit input', async () => {
     const el = await fixture(html`<sdt-equation-hm2hr numeric interactive hits="80" misses="20"></sdt-equation-hm2hr>`);
-    await aTimeout();
     // Action
     const target = el.shadowRoot.querySelector('.h').shadowRoot.querySelector('input');
     target.focus();
@@ -71,7 +64,6 @@ describe('sdt-equation-hm2hr', () => {
 
   it('can accept interactive miss input', async () => {
     const el = await fixture(html`<sdt-equation-hm2hr numeric interactive hits="80" misses="20"></sdt-equation-hm2hr>`);
-    await aTimeout();
     // Action
     const target = el.shadowRoot.querySelector('.m').shadowRoot.querySelector('input');
     target.focus();

@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -23,7 +22,6 @@ describe('sdt-example-human', () => {
       </sdt-example-human>
     `);
     // Give the component a chance to render!
-    await aTimeout();
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="body">
@@ -46,7 +44,6 @@ describe('sdt-example-human', () => {
         <sdt-model threshold bias distributions sensitivity histogram color="outcome" d="0" c="0"></sdt-model>
       </sdt-example-human>
     `);
-    await aTimeout();
     expect(el).lightDom.to.equal(`
       <detectable-control class="keyboard" coherence="0.5" duration="1000" pause reset run trials="10"></detectable-control>
       <rdk-task class="keyboard" coherence="0.5" count="100" duration="1000" iti="1000" probability="0.5" trials="10" wait="1000"></rdk-task>
@@ -68,7 +65,6 @@ describe('sdt-example-human', () => {
         <sdt-model threshold bias distributions sensitivity histogram color="outcome" d="0" c="0"></sdt-model>
       </sdt-example-human>
     `);
-    await aTimeout();
     // Action: start task
     const target = el.querySelector('detectable-control').shadowRoot.querySelector('decidables-button[name="run"]');
     setTimeout(() => { mouseClickElement(target); });
@@ -89,8 +85,8 @@ describe('sdt-example-human', () => {
     } else {
       expect(el.detectableTable).to.include({h: 0, fa: 1});
       expect(el.rocSpace.hr).to.be.almost(0.5, 0.001);
-      expect(el.rocSpace.hr).to.be.almost(0.667, 0.001);
-      expect(el.sdtModel.c).to.be.almost(0.216, 0.001);
+      expect(el.rocSpace.far).to.be.almost(0.667, 0.001);
+      expect(el.sdtModel.c).to.be.almost(-0.216, 0.001);
     }
   });
 

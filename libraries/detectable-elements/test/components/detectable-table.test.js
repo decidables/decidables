@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
@@ -12,20 +11,16 @@ import '../../src/components/detectable-table';
 describe('detectable-response', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<detectable-table></detectable-table>`);
-    // Give the component a chance to render!
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendant('table');
   });
 
   it('has an empty lightDom', async () => {
     const el = await fixture(html`<detectable-table></detectable-table>`);
-    await aTimeout();
     expect(el).lightDom.to.equal('');
   });
 
   it('can display only labels', async () => {
     const el = await fixture(html`<detectable-table></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.not.have.descendant('decidables-spinner');
     expect(el.shadowRoot).to.have.descendant('.h');
     expect(el.shadowRoot).to.have.descendant('.m');
@@ -35,7 +30,6 @@ describe('detectable-response', () => {
 
   it('can display labels with payoffs', async () => {
     const el = await fixture(html`<detectable-table payoff hit-payoff="60" miss-payoff="-60" false-alarm-payoff="-40" correct-rejection-payoff="40"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('.payoff').with.length(4);
     expect(el.shadowRoot).to.have.descendant('.h .payoff').with.text('$60');
     expect(el.shadowRoot).to.have.descendant('.m .payoff').with.text('-$60');
@@ -45,7 +39,6 @@ describe('detectable-response', () => {
 
   it('can display numbers', async () => {
     const el = await fixture(html`<detectable-table numeric hits="60" misses="40" false-alarms="25" correct-rejections="75"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner[disabled]').with.length(4);
     expect(el.shadowRoot).to.have.descendant('.h decidables-spinner[disabled]').with.value(60);
     expect(el.shadowRoot).to.have.descendant('.m decidables-spinner[disabled]').with.value(40);
@@ -55,7 +48,6 @@ describe('detectable-response', () => {
 
   it('can display numbers with payoffs', async () => {
     const el = await fixture(html`<detectable-table numeric payoff hit-payoff="60" miss-payoff="-60" false-alarm-payoff="-40" correct-rejection-payoff="40"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner').with.length(4);
     expect(el.shadowRoot).to.have.descendants('.payoff').with.length(4);
     expect(el.shadowRoot).to.have.descendant('.h .payoff').with.text('$60');
@@ -66,7 +58,6 @@ describe('detectable-response', () => {
 
   it('can display stimulus marginals', async () => {
     const el = await fixture(html`<detectable-table numeric summary="stimulusRates"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner').with.length(6);
     expect(el.shadowRoot).to.have.descendant('.h');
     expect(el.shadowRoot).to.have.descendant('.m');
@@ -78,7 +69,6 @@ describe('detectable-response', () => {
 
   it('can display response marginals', async () => {
     const el = await fixture(html`<detectable-table numeric summary="responseRates"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner').with.length(6);
     expect(el.shadowRoot).to.have.descendant('.h');
     expect(el.shadowRoot).to.have.descendant('.m');
@@ -90,7 +80,6 @@ describe('detectable-response', () => {
 
   it('can display accuracy', async () => {
     const el = await fixture(html`<detectable-table numeric summary="accuracy"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner').with.length(5);
     expect(el.shadowRoot).to.have.descendant('.h');
     expect(el.shadowRoot).to.have.descendant('.m');
@@ -101,7 +90,6 @@ describe('detectable-response', () => {
 
   it('can display all marginals', async () => {
     const el = await fixture(html`<detectable-table numeric summary="stimulusRates responseRates accuracy"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner').with.length(9);
     expect(el.shadowRoot).to.have.descendant('.h');
     expect(el.shadowRoot).to.have.descendant('.m');
@@ -116,7 +104,6 @@ describe('detectable-response', () => {
 
   it('can be interactive', async () => {
     const el = await fixture(html`<detectable-table numeric interactive></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(4);
     expect(el.shadowRoot).to.have.descendant('.h decidables-spinner:not([disabled])').with.value(40);
     expect(el.shadowRoot).to.have.descendant('.m decidables-spinner:not([disabled])').with.value(60);
@@ -126,7 +113,6 @@ describe('detectable-response', () => {
 
   it('can accept interactive hit input', async () => {
     const el = await fixture(html`<detectable-table numeric interactive summary="stimulusRates responseRates accuracy" hits="100" misses="100" false-alarms="100" correct-rejections="100"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(9);
     expect(el.shadowRoot).to.have.descendant('.h decidables-spinner:not([disabled])').with.value(100);
     expect(el.shadowRoot).to.have.descendant('.hr decidables-spinner:not([disabled])').with.value(0.5);
@@ -150,7 +136,6 @@ describe('detectable-response', () => {
 
   it('can accept interactive miss input', async () => {
     const el = await fixture(html`<detectable-table numeric interactive summary="stimulusRates responseRates accuracy" hits="100" misses="100" false-alarms="100" correct-rejections="100"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(9);
     expect(el.shadowRoot).to.have.descendant('.m decidables-spinner:not([disabled])').with.value(100);
     expect(el.shadowRoot).to.have.descendant('.hr decidables-spinner:not([disabled])').with.value(0.5);
@@ -174,7 +159,6 @@ describe('detectable-response', () => {
 
   it('can accept interactive correct rejection input', async () => {
     const el = await fixture(html`<detectable-table numeric interactive summary="stimulusRates responseRates accuracy" hits="100" misses="100" false-alarms="100" correct-rejections="100"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(9);
     expect(el.shadowRoot).to.have.descendant('.cr decidables-spinner:not([disabled])').with.value(100);
     expect(el.shadowRoot).to.have.descendant('.far decidables-spinner:not([disabled])').with.value(0.5);
@@ -198,7 +182,6 @@ describe('detectable-response', () => {
 
   it('can accept interactive false alarm input', async () => {
     const el = await fixture(html`<detectable-table numeric interactive summary="stimulusRates responseRates accuracy" hits="100" misses="100" false-alarms="100" correct-rejections="100"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(9);
     expect(el.shadowRoot).to.have.descendant('.fa decidables-spinner:not([disabled])').with.value(100);
     expect(el.shadowRoot).to.have.descendant('.far decidables-spinner:not([disabled])').with.value(0.5);
@@ -222,7 +205,6 @@ describe('detectable-response', () => {
 
   it('can accept interactive hit rate input', async () => {
     const el = await fixture(html`<detectable-table numeric interactive summary="stimulusRates responseRates accuracy" hits="100" misses="100" false-alarms="100" correct-rejections="100"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(9);
     expect(el.shadowRoot).to.have.descendant('.h decidables-spinner:not([disabled])').with.value(100);
     expect(el.shadowRoot).to.have.descendant('.m decidables-spinner:not([disabled])').with.value(100);
@@ -253,7 +235,6 @@ describe('detectable-response', () => {
 
   it('can accept interactive false alarm rate input', async () => {
     const el = await fixture(html`<detectable-table numeric interactive summary="stimulusRates responseRates accuracy" hits="100" misses="100" false-alarms="100" correct-rejections="100"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(9);
     expect(el.shadowRoot).to.have.descendant('.fa decidables-spinner:not([disabled])').with.value(100);
     expect(el.shadowRoot).to.have.descendant('.cr decidables-spinner:not([disabled])').with.value(100);
@@ -284,7 +265,6 @@ describe('detectable-response', () => {
 
   it('can accept interactive positive predictive value input', async () => {
     const el = await fixture(html`<detectable-table numeric interactive summary="stimulusRates responseRates accuracy" hits="100" misses="100" false-alarms="100" correct-rejections="100"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(9);
     expect(el.shadowRoot).to.have.descendant('.h decidables-spinner:not([disabled])').with.value(100);
     expect(el.shadowRoot).to.have.descendant('.fa decidables-spinner:not([disabled])').with.value(100);
@@ -314,7 +294,6 @@ describe('detectable-response', () => {
 
   it('can accept interactive false omission rate input', async () => {
     const el = await fixture(html`<detectable-table numeric interactive summary="stimulusRates responseRates accuracy" hits="100" misses="100" false-alarms="100" correct-rejections="100"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(9);
     expect(el.shadowRoot).to.have.descendant('.m decidables-spinner:not([disabled])').with.value(100);
     expect(el.shadowRoot).to.have.descendant('.cr decidables-spinner:not([disabled])').with.value(100);
@@ -345,7 +324,6 @@ describe('detectable-response', () => {
 
   it('can accept interactive accuracy input', async () => {
     const el = await fixture(html`<detectable-table numeric interactive summary="stimulusRates responseRates accuracy" hits="100" misses="100" false-alarms="100" correct-rejections="100"></detectable-table>`);
-    await aTimeout();
     expect(el.shadowRoot).to.have.descendants('decidables-spinner:not([disabled])').with.length(9);
     expect(el.shadowRoot).to.have.descendant('.h decidables-spinner:not([disabled])').with.value(100);
     expect(el.shadowRoot).to.have.descendant('.m decidables-spinner:not([disabled])').with.value(100);
