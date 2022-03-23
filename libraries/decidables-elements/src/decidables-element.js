@@ -126,7 +126,6 @@ export default class DecidablesElement extends LitElement {
 
   static get svgFilters() {
     const shadows = DecidablesElement.shadows; // eslint-disable-line prefer-destructuring
-    const erodeRadius = 1;
 
     const filters = shadows.elevations.map((z) => {
       return svg`
@@ -158,8 +157,7 @@ export default class DecidablesElement extends LitElement {
           <feComposite in="opU" in2="blurU" result="shU" operator="in" />
           <feComposite in="opP" in2="blurP" result="shP" operator="in" />
           <feComposite in="opA" in2="blurA" result="shA" operator="in" />
-          <!-- HACK Edge: Using a dynamic value for erode radius stops Edge from corrupting the "radius" value! -->
-          <feMorphology in="solid" result="smaller" operator="erode" radius=${erodeRadius} />
+          <feMorphology in="solid" result="smaller" operator="erode" radius="1" />
           <feComposite in="shU" in2="smaller" result="finalU" operator="out" />
           <feComposite in="shP" in2="smaller" result="finalP" operator="out" />
           <feComposite in="shA" in2="smaller" result="finalA" operator="out" />
