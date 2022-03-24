@@ -80,6 +80,7 @@ const pluginWebWorkerLoader = rollupPluginWebWorkerLoader({
 });
 const pluginBabel = rollupPluginBabel.babel({
   presets: [['@babel/preset-env', {
+    bugfixes: true,
     useBuiltIns: 'entry',
     corejs: '3.21',
   }]],
