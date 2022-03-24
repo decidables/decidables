@@ -13,7 +13,7 @@ import * as d3 from 'd3';
 */
 export default class DecidablesElement extends LitElement {
   getComputedStyleValue(property) {
-    return getComputedStyle(this).getPropertyValue(property);
+    return getComputedStyle(this).getPropertyValue(property).trim();
   }
 
   firstUpdated(changedProperties) {
