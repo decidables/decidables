@@ -481,7 +481,7 @@ $transition-duration: 500ms;
   font-size: 1.5rem;
   color: $color-text;
 
-  border-radius: 0.25rem;
+  border-radius: $border-radius;
   outline: none;
 
   &:hover {
@@ -550,11 +550,11 @@ $transition-duration: 500ms;
   padding: 0.25rem 0.5rem;
 
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   line-height: 1;
   color: $color-link;
 
-  border-radius: 0.25rem;
+  border-radius: $border-radius;
 }
 
 .pro-toc-link {
@@ -591,7 +591,7 @@ $transition-duration: 500ms;
 
 .pro-toc-item-active .pro-toc-link,
 .pro-toc-item-active:hover .pro-toc-link {
-  font-weight: 700;
+  font-weight: $font-weight-bold;
   color: $color-text;
 }
 
@@ -616,7 +616,6 @@ $transition-duration: 500ms;
   margin: 0;
 
   font-size: 1.25rem;
-  font-weight: 600;
   color: $color-text-inverse;
 
   &:hover {
@@ -701,7 +700,7 @@ $transition-duration: 500ms;
   padding: 0 0.5rem;
 
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   line-height: 1;
 
   &.pro-footer-item-left {
@@ -730,7 +729,7 @@ $transition-duration: 500ms;
 
   // Terms
   .term {
-    font-weight: 700;
+    font-weight: $font-weight-bold;
   }
 
   // Keys and UIs
@@ -741,11 +740,11 @@ $transition-duration: 500ms;
     font-family: $font-family-monospace;
     font-size: 1rem;
     font-style: normal;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     white-space: nowrap;
 
     background-color: $color-element-background;
-    border-radius: 0.25rem;
+    border-radius: $border-radius;
   }
   
   .csl-entry {
@@ -763,7 +762,7 @@ $transition-duration: 500ms;
     width: 12rem;
     padding: 0.25rem 0.675rem;
 
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
   }
 
   dd {
@@ -861,7 +860,7 @@ $transition-duration: 500ms;
 
     margin-left: -2rem;
 
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
   }
 
   dt::after {
