@@ -113,16 +113,15 @@ $utilities: (
 
 ////////////////////////////////
 // COLOR
-$color-grey-base: #999999; // baseline grey
 $color-white: #ffffff; // 100% lightness #ffffff
-$color-grey-light75: color.mix(#ffffff, $color-grey-base, 75%); // 90% lightness #e6e6e6
-$color-grey-light50: color.mix(#ffffff, $color-grey-base, 50%); // 80% lightness #cccccc
-$color-grey-light25: color.mix(#ffffff, $color-grey-base, 25%); // 70% lightness #b3b3b3
-$color-grey: $color-grey-base; // 60% lightness #999999
-$color-grey-dark25: color.mix(#000000, $color-grey-base, 25%); // 45% lightness #737373
-$color-grey-dark50: color.mix(#000000, $color-grey-base, 50%); // 30% lightness #4d4d4d
-$color-grey-dark75: color.mix(#000000, $color-grey-base, 75%); // 15% lightness #262626
+$color-grey: #999999; // 60% lightness #999999
 $color-black: #000000;  // 0% lightness #000000
+$color-grey-light75: color.mix($color-white, $color-grey, 75%); // 90% lightness #e6e6e6
+$color-grey-light50: color.mix($color-white, $color-grey, 50%); // 80% lightness #cccccc
+$color-grey-light25: color.mix($color-white, $color-grey, 25%); // 70% lightness #b3b3b3
+$color-grey-dark25: color.mix($color-black, $color-grey, 25%); // 45% lightness #737373
+$color-grey-dark50: color.mix($color-black, $color-grey, 50%); // 30% lightness #4d4d4d
+$color-grey-dark75: color.mix($color-black, $color-grey, 75%); // 15% lightness #262626
 
 // Bootstrap SASS variables
 $body-bg: $color-white;
