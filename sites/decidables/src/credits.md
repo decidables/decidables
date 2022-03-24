@@ -15,18 +15,19 @@ and [JavaScript](https://262.ecma-international.org/5.1/)
 
 **Compiled from:**<br>
 [YAML](https://yaml.org/)
-with [front-matter](https://github.com/jxson/front-matter),
+by [front-matter](https://github.com/jxson/front-matter),
 [Markdown](https://spec.commonmark.org/)
-with [remark](https://remark.js.org/),
+by [remark](https://remark.js.org/)
+with [plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md),
 [BibTeX](http://www.bibtex.org/)
-with [citeproc-js](https://citeproc-js.readthedocs.io/)
+by [citeproc-js](https://citeproc-js.readthedocs.io/)
 and [Citation.js](https://citation.js.org/),
 [Embedded JavaScript](https://github.com/mde/ejs/blob/master/docs/syntax.md)
-with [EJS](https://ejs.co/),
+by [EJS](https://ejs.co/),
 [SCSS](https://sass-lang.com/)
-with [Dart Sass](https://sass-lang.com/dart-sass),
+by [Dart Sass](https://sass-lang.com/dart-sass),
 and [ES.NEXT](https://tc39.es/ecma262/)
-with [Babel](https://babeljs.io/)
+by [Babel](https://babeljs.io/)
 and [rollup](https://rollupjs.org/)
 
 **Depending on:**<br>
