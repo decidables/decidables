@@ -90844,8 +90844,9 @@ class CPTSpace extends CPTElement {
 
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
+    // this.getDimensions();
 
-    this.getDimensions();
+    window.setTimeout(this.getDimensions.bind(this), 0);
   }
 
   update(changedProperties) {
@@ -93491,8 +93492,9 @@ class DecisionSpace extends CPTElement {
 
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
+    // this.getDimensions();
 
-    this.getDimensions();
+    window.setTimeout(this.getDimensions.bind(this), 0);
   }
 
   update(changedProperties) {
