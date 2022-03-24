@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.2](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.1.1...@decidables/detectable-elements@0.1.2) (2022-03-24)
+
+
+### Bug Fixes
+
+* **detectable-elements,prospectable-elements:** remove IE 11 CSS hack ([dd920ac](https://github.com/decidables/decidables/commit/dd920ac9934cc74a4303a9753771818273aecf71))
+* **detectable-elements:** remove dependence on DecidablesElement.uniqueId ([938e286](https://github.com/decidables/decidables/commit/938e286521cac27302716c63fdcb3fec2d078031))
+
+
+
 ### [0.1.1](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.1.0...@decidables/detectable-elements@0.1.1) (2022-03-21)
 
 **Note:** Version bump only for package @decidables/detectable-elements
