@@ -6874,7 +6874,7 @@ var eventHandler = createCommonjsModule(function (module, exports) {
      */
 
     function getUidEvent(element, uid) {
-      return uid && "".concat(uid, "::").concat(uidEvent++) || element.uidEvent || uidEvent++;
+      return uid && `${uid}::${uidEvent++}` || element.uidEvent || uidEvent++;
     }
 
     function getEvent(element) {
@@ -6921,8 +6921,7 @@ var eventHandler = createCommonjsModule(function (module, exports) {
       };
     }
 
-    function findHandler(events, handler) {
-      let delegationSelector = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    function findHandler(events, handler, delegationSelector = null) {
       const uidEventList = Object.keys(events);
 
       for (let i = 0, len = uidEventList.length; i < len; i++) {
@@ -7169,7 +7168,7 @@ var data = createCommonjsModule(function (module, exports) {
 
         if (!instanceMap.has(key) && instanceMap.size !== 0) {
           // eslint-disable-next-line no-console
-          console.error("Bootstrap doesn't allow more than one instance per element. Bound instance: ".concat(Array.from(instanceMap.keys())[0], "."));
+          console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
           return;
         }
 
@@ -7288,9 +7287,7 @@ var baseComponent = createCommonjsModule(function (module, exports) {
       }
     };
 
-    const executeAfterTransition = function (callback, transitionElement) {
-      let waitForTransition = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
+    const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
       if (!waitForTransition) {
         execute(callback);
         return;
@@ -7300,11 +7297,9 @@ var baseComponent = createCommonjsModule(function (module, exports) {
       const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
       let called = false;
 
-      const handler = _ref => {
-        let {
-          target
-        } = _ref;
-
+      const handler = ({
+        target
+      }) => {
         if (target !== transitionElement) {
           return;
         }
@@ -7357,8 +7352,7 @@ var baseComponent = createCommonjsModule(function (module, exports) {
         });
       }
 
-      _queueCallback(callback, element) {
-        let isAnimated = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      _queueCallback(callback, element, isAnimated = true) {
         executeAfterTransition(callback, element, isAnimated);
       }
       /** Static */
@@ -7368,8 +7362,7 @@ var baseComponent = createCommonjsModule(function (module, exports) {
         return Data__default.default.get(getElement(element), this.DATA_KEY);
       }
 
-      static getOrCreateInstance(element) {
-        let config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      static getOrCreateInstance(element, config = {}) {
         return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
       }
 
@@ -7382,11 +7375,11 @@ var baseComponent = createCommonjsModule(function (module, exports) {
       }
 
       static get DATA_KEY() {
-        return "bs.".concat(this.NAME);
+        return `bs.${this.NAME}`;
       }
 
       static get EVENT_KEY() {
-        return ".".concat(this.DATA_KEY);
+        return `.${this.DATA_KEY}`;
       }
 
     }
@@ -7483,11 +7476,11 @@ createCommonjsModule(function (module, exports) {
 
     const NAME = 'button';
     const DATA_KEY = 'bs.button';
-    const EVENT_KEY = ".".concat(DATA_KEY);
+    const EVENT_KEY = `.${DATA_KEY}`;
     const DATA_API_KEY = '.data-api';
     const CLASS_NAME_ACTIVE = 'active';
     const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="button"]';
-    const EVENT_CLICK_DATA_API = "click".concat(EVENT_KEY).concat(DATA_API_KEY);
+    const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
     /**
      * ------------------------------------------------------------------------
      * Class Definition
@@ -7580,16 +7573,16 @@ var manipulator = createCommonjsModule(function (module, exports) {
     }
 
     function normalizeDataKey(key) {
-      return key.replace(/[A-Z]/g, chr => "-".concat(chr.toLowerCase()));
+      return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
     }
 
     const Manipulator = {
       setDataAttribute(element, key, value) {
-        element.setAttribute("data-bs-".concat(normalizeDataKey(key)), value);
+        element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
       },
 
       removeDataAttribute(element, key) {
-        element.removeAttribute("data-bs-".concat(normalizeDataKey(key)));
+        element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
       },
 
       getDataAttributes(element) {
@@ -7607,7 +7600,7 @@ var manipulator = createCommonjsModule(function (module, exports) {
       },
 
       getDataAttribute(element, key) {
-        return normalizeData(element.getAttribute("data-bs-".concat(normalizeDataKey(key))));
+        return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
       },
 
       offset(element) {
@@ -7691,13 +7684,11 @@ var selectorEngine = createCommonjsModule(function (module, exports) {
 
     const NODE_TEXT = 3;
     const SelectorEngine = {
-      find(selector) {
-        let element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.documentElement;
+      find(selector, element = document.documentElement) {
         return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
       },
 
-      findOne(selector) {
-        let element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.documentElement;
+      findOne(selector, element = document.documentElement) {
         return Element.prototype.querySelector.call(element, selector);
       },
 
@@ -7749,7 +7740,7 @@ var selectorEngine = createCommonjsModule(function (module, exports) {
       },
 
       focusableChildren(element) {
-        const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => "".concat(selector, ":not([tabindex^=\"-\"])")).join(', ');
+        const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(', ');
         return this.find(focusables, element).filter(el => !isDisabled(el) && isVisible(el));
       }
 
@@ -7791,7 +7782,7 @@ createCommonjsModule(function (module, exports) {
 
     const toType = obj => {
       if (obj === null || obj === undefined) {
-        return "".concat(obj);
+        return `${obj}`;
       }
 
       return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
@@ -7812,7 +7803,7 @@ createCommonjsModule(function (module, exports) {
 
 
         if (hrefAttr.includes('#') && !hrefAttr.startsWith('#')) {
-          hrefAttr = "#".concat(hrefAttr.split('#')[1]);
+          hrefAttr = `#${hrefAttr.split('#')[1]}`;
         }
 
         selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : null;
@@ -7868,7 +7859,7 @@ createCommonjsModule(function (module, exports) {
         const valueType = value && isElement(value) ? 'element' : toType(value);
 
         if (!new RegExp(expectedTypes).test(valueType)) {
-          throw new TypeError("".concat(componentName.toUpperCase(), ": Option \"").concat(property, "\" provided type \"").concat(valueType, "\" but expected type \"").concat(expectedTypes, "\"."));
+          throw new TypeError(`${componentName.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
         }
       });
     };
@@ -7950,7 +7941,7 @@ createCommonjsModule(function (module, exports) {
 
     const NAME = 'collapse';
     const DATA_KEY = 'bs.collapse';
-    const EVENT_KEY = ".".concat(DATA_KEY);
+    const EVENT_KEY = `.${DATA_KEY}`;
     const DATA_API_KEY = '.data-api';
     const Default = {
       toggle: true,
@@ -7960,16 +7951,16 @@ createCommonjsModule(function (module, exports) {
       toggle: 'boolean',
       parent: '(null|element)'
     };
-    const EVENT_SHOW = "show".concat(EVENT_KEY);
-    const EVENT_SHOWN = "shown".concat(EVENT_KEY);
-    const EVENT_HIDE = "hide".concat(EVENT_KEY);
-    const EVENT_HIDDEN = "hidden".concat(EVENT_KEY);
-    const EVENT_CLICK_DATA_API = "click".concat(EVENT_KEY).concat(DATA_API_KEY);
+    const EVENT_SHOW = `show${EVENT_KEY}`;
+    const EVENT_SHOWN = `shown${EVENT_KEY}`;
+    const EVENT_HIDE = `hide${EVENT_KEY}`;
+    const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
+    const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
     const CLASS_NAME_SHOW = 'show';
     const CLASS_NAME_COLLAPSE = 'collapse';
     const CLASS_NAME_COLLAPSING = 'collapsing';
     const CLASS_NAME_COLLAPSED = 'collapsed';
-    const CLASS_NAME_DEEPER_CHILDREN = ":scope .".concat(CLASS_NAME_COLLAPSE, " .").concat(CLASS_NAME_COLLAPSE);
+    const CLASS_NAME_DEEPER_CHILDREN = `:scope .${CLASS_NAME_COLLAPSE} .${CLASS_NAME_COLLAPSE}`;
     const CLASS_NAME_HORIZONTAL = 'collapse-horizontal';
     const WIDTH = 'width';
     const HEIGHT = 'height';
@@ -8096,11 +8087,11 @@ createCommonjsModule(function (module, exports) {
         };
 
         const capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
-        const scrollSize = "scroll".concat(capitalizedDimension);
+        const scrollSize = `scroll${capitalizedDimension}`;
 
         this._queueCallback(complete, this._element, true);
 
-        this._element.style[dimension] = "".concat(this._element[scrollSize], "px");
+        this._element.style[dimension] = `${this._element[scrollSize]}px`;
       }
 
       hide() {
@@ -8116,7 +8107,7 @@ createCommonjsModule(function (module, exports) {
 
         const dimension = this._getDimension();
 
-        this._element.style[dimension] = "".concat(this._element.getBoundingClientRect()[dimension], "px");
+        this._element.style[dimension] = `${this._element.getBoundingClientRect()[dimension]}px`;
         reflow(this._element);
 
         this._element.classList.add(CLASS_NAME_COLLAPSING);
@@ -8151,8 +8142,7 @@ createCommonjsModule(function (module, exports) {
         this._queueCallback(complete, this._element, true);
       }
 
-      _isShown() {
-        let element = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._element;
+      _isShown(element = this._element) {
         return element.classList.contains(CLASS_NAME_SHOW);
       } // Private
 
@@ -8217,7 +8207,7 @@ createCommonjsModule(function (module, exports) {
 
           if (typeof config === 'string') {
             if (typeof data[config] === 'undefined') {
-              throw new TypeError("No method named \"".concat(config, "\""));
+              throw new TypeError(`No method named "${config}"`);
             }
 
             data[config]();
@@ -8259,18 +8249,6 @@ createCommonjsModule(function (module, exports) {
   });
 });
 
-function _taggedTemplateLiteral(strings, raw) {
-  if (!raw) {
-    raw = strings.slice(0);
-  }
-
-  return Object.freeze(Object.defineProperties(strings, {
-    raw: {
-      value: Object.freeze(raw)
-    }
-  }));
-}
-
 /**
  * @license
  * Copyright 2019 Google LLC
@@ -8298,11 +8276,7 @@ class s$3 {
 }
 
 const o$3 = t => new s$3("string" == typeof t ? t : t + "", e$2),
-      r$2 = function (t) {
-  for (var _len = arguments.length, n = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    n[_key - 1] = arguments[_key];
-  }
-
+      r$2 = (t, ...n) => {
   const o = 1 === t.length ? t[0] : n.reduce((e, n, s) => e + (t => {
     if (!0 === t._$cssResult$) return t.cssText;
     if ("number" == typeof t) return t;
@@ -8406,9 +8380,7 @@ class a$1 extends HTMLElement {
     }), t;
   }
 
-  static createProperty(t) {
-    let i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : l$3;
-
+  static createProperty(t, i = l$3) {
     if (i.state && (i.attribute = !1), this.finalize(), this.elementProperties.set(t, i), !i.noAccessor && !this.prototype.hasOwnProperty(t)) {
       const s = "symbol" == typeof t ? Symbol() : "__" + t,
             e = this.getPropertyDescriptor(t, s, i);
@@ -8517,8 +8489,7 @@ class a$1 extends HTMLElement {
     this._$AK(t, s);
   }
 
-  _$ES(t, i) {
-    let s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : l$3;
+  _$ES(t, i, s = l$3) {
     var e, r;
 
     const h = this.constructor._$Eh(t, s);
@@ -8637,14 +8608,11 @@ const i = globalThis.trustedTypes,
       s$1 = i ? i.createPolicy("lit-html", {
   createHTML: t => t
 }) : void 0,
-      e = "lit$".concat((Math.random() + "").slice(9), "$"),
+      e = `lit$${(Math.random() + "").slice(9)}$`,
       o$1 = "?" + e,
-      n$1 = "<".concat(o$1, ">"),
+      n$1 = `<${o$1}>`,
       l$2 = document,
-      h = function () {
-  let t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-  return l$2.createComment(t);
-},
+      h = (t = "") => l$2.createComment(t),
       r = t => null === t || "object" != typeof t && "function" != typeof t,
       d = Array.isArray,
       u = t => {
@@ -8655,20 +8623,14 @@ const i = globalThis.trustedTypes,
       v = /-->/g,
       a = />/g,
       f = />|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g,
-      _ = /'/g,
+      _$n = /'/g,
       m = /"/g,
       g = /^(?:script|style|textarea|title)$/i,
-      p = t => function (i) {
-  for (var _len = arguments.length, s = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    s[_key - 1] = arguments[_key];
-  }
-
-  return {
-    _$litType$: t,
-    strings: i,
-    values: s
-  };
-},
+      p = t => (i, ...s) => ({
+  _$litType$: t,
+  strings: i,
+  values: s
+}),
       $ = p(1),
       y$1 = p(2),
       b = Symbol.for("lit-noChange"),
@@ -8701,7 +8663,7 @@ const i = globalThis.trustedTypes,
         p = -1,
         $ = 0;
 
-    for (; $ < s.length && (d.lastIndex = $, u = d.exec(s), null !== u);) $ = d.lastIndex, d === c ? "!--" === u[1] ? d = v : void 0 !== u[1] ? d = a : void 0 !== u[2] ? (g.test(u[2]) && (h = RegExp("</" + u[2], "g")), d = f) : void 0 !== u[3] && (d = f) : d === f ? ">" === u[0] ? (d = null != h ? h : c, p = -1) : void 0 === u[1] ? p = -2 : (p = d.lastIndex - u[2].length, o = u[1], d = void 0 === u[3] ? f : '"' === u[3] ? m : _) : d === m || d === _ ? d = f : d === v || d === a ? d = c : (d = f, h = void 0);
+    for (; $ < s.length && (d.lastIndex = $, u = d.exec(s), null !== u);) $ = d.lastIndex, d === c ? "!--" === u[1] ? d = v : void 0 !== u[1] ? d = a : void 0 !== u[2] ? (g.test(u[2]) && (h = RegExp("</" + u[2], "g")), d = f) : void 0 !== u[3] && (d = f) : d === f ? ">" === u[0] ? (d = null != h ? h : c, p = -1) : void 0 === u[1] ? p = -2 : (p = d.lastIndex - u[2].length, o = u[1], d = void 0 === u[3] ? f : '"' === u[3] ? m : _$n) : d === m || d === _$n ? d = f : d === v || d === a ? d = c : (d = f, h = void 0);
 
     const y = d === f && t[i + 1].startsWith("/>") ? " " : "";
     r += d === c ? s + n$1 : p >= 0 ? (l.push(o), s.slice(0, p) + "$lit$" + s.slice(p) + e + y) : s + e + (-2 === p ? (l.push(void 0), i) : y);
@@ -8713,11 +8675,10 @@ const i = globalThis.trustedTypes,
 };
 
 class E {
-  constructor(_ref, n) {
-    let {
-      strings: t,
-      _$litType$: s
-    } = _ref;
+  constructor({
+    strings: t,
+    _$litType$: s
+  }, n) {
     let l;
     this.parts = [];
     let r = 0,
@@ -8797,9 +8758,7 @@ class E {
 
 }
 
-function P(t, i) {
-  let s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : t;
-  let e = arguments.length > 3 ? arguments[3] : undefined;
+function P(t, i, s = t, e) {
   var o, n, l, h;
   if (i === b) return i;
   let d = void 0 !== e ? null === (o = s._$Cl) || void 0 === o ? void 0 : o[e] : s._$Cu;
@@ -8880,13 +8839,11 @@ class N {
     return this._$AB;
   }
 
-  _$AI(t) {
-    let i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+  _$AI(t, i = this) {
     t = P(this, t, i), r(t) ? t === w || null == t || "" === t ? (this._$AH !== w && this._$AR(), this._$AH = w) : t !== this._$AH && t !== b && this.$(t) : void 0 !== t._$litType$ ? this.T(t) : void 0 !== t.nodeType ? this.k(t) : u(t) ? this.S(t) : this.$(t);
   }
 
-  A(t) {
-    let i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this._$AB;
+  A(t, i = this._$AB) {
     return this._$AA.parentNode.insertBefore(t, i);
   }
 
@@ -8928,9 +8885,7 @@ class N {
     e < i.length && (this._$AR(s && s._$AB.nextSibling, e), i.length = e);
   }
 
-  _$AR() {
-    let t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._$AA.nextSibling;
-    let i = arguments.length > 1 ? arguments[1] : undefined;
+  _$AR(t = this._$AA.nextSibling, i) {
     var s;
 
     for (null === (s = this._$AP) || void 0 === s || s.call(this, !1, !0, i); t && t !== this._$AB;) {
@@ -8959,10 +8914,7 @@ class S {
     return this._$AM._$AU;
   }
 
-  _$AI(t) {
-    let i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-    let s = arguments.length > 2 ? arguments[2] : undefined;
-    let e = arguments.length > 3 ? arguments[3] : undefined;
+  _$AI(t, i = this, s, e) {
     const o = this.strings;
     let n = !1;
     if (void 0 === o) t = P(this, t, i, 0), n = !r(t) || t !== this._$AH && t !== b, n && (this._$AH = t);else {
@@ -9009,8 +8961,7 @@ class I extends S {
     super(t, i, s, e, o), this.type = 5;
   }
 
-  _$AI(t) {
-    let i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+  _$AI(t, i = this) {
     var s;
     if ((t = null !== (s = P(this, t, i, 0)) && void 0 !== s ? s : w) === b) return;
     const e = this._$AH,
@@ -9112,10 +9063,7 @@ function bisector(f) {
     compare2 = (d, x) => ascending$2(f(d), x);
   }
 
-  function left(a, x) {
-    let lo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-    let hi = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : a.length;
-
+  function left(a, x, lo = 0, hi = a.length) {
     if (lo < hi) {
       if (compare1(x, x) !== 0) return hi;
 
@@ -9128,10 +9076,7 @@ function bisector(f) {
     return lo;
   }
 
-  function right(a, x) {
-    let lo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-    let hi = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : a.length;
-
+  function right(a, x, lo = 0, hi = a.length) {
     if (lo < hi) {
       if (compare1(x, x) !== 0) return hi;
 
@@ -9144,9 +9089,7 @@ function bisector(f) {
     return lo;
   }
 
-  function center(a, x) {
-    let lo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-    let hi = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : a.length;
+  function center(a, x, lo = 0, hi = a.length) {
     const i = left(a, x, lo, hi - 1);
     return i > lo && delta(a[i - 1], x) > -delta(a[i], x) ? i - 1 : i;
   }
@@ -10720,19 +10663,18 @@ function yesdrag(view, noclick) {
 
 var constant$3 = (x => () => x);
 
-function DragEvent(type, _ref) {
-  let {
-    sourceEvent,
-    subject,
-    target,
-    identifier,
-    active,
-    x,
-    y,
-    dx,
-    dy,
-    dispatch
-  } = _ref;
+function DragEvent(type, {
+  sourceEvent,
+  subject,
+  target,
+  identifier,
+  active,
+  x,
+  y,
+  dx,
+  dy,
+  dispatch
+}) {
   Object.defineProperties(this, {
     type: {
       value: type,
@@ -12641,7 +12583,7 @@ function inherit(node, id) {
 
   while (!(timing = node.__transition) || !(timing = timing[id])) {
     if (!(node = node.parentNode)) {
-      throw new Error("transition ".concat(id, " not found"));
+      throw new Error(`transition ${id} not found`);
     }
   }
 
@@ -14771,35 +14713,24 @@ function line (x$1, y$1) {
   return line;
 }
 
-var _templateObject$m, _templateObject2$k, _templateObject3$a, _templateObject4$a, _templateObject5$a, _templateObject6$a, _templateObject7$a, _templateObject8$8, _templateObject9$8;
+let _$m = t => t,
+    _t$m,
+    _t2$k,
+    _t3$a,
+    _t4$a,
+    _t5$a,
+    _t6$a,
+    _t7$a,
+    _t8$8,
+    _t9$8;
 /*
   DecidablesElement Base Class - Not intended for instantiation!
   <decidables-element>
 */
 
 class DecidablesElement extends s {
-  // HACK: Create a unique ID for each DecidablesElement
-  // This is needed because Edge/IE11 don't have real Shadow DOM, so IDs leak
-  // out of elements and collide if there is more than one of an element on a
-  // page. Known issue for checkbox/switches and the id/for pattern on <input>
-  // and <label>
-  static get uniqueId() {
-    DecidablesElement.ID += 1;
-    return DecidablesElement.ID;
-  }
-
-  constructor() {
-    super();
-    this.uniqueId = "decidables-".concat(DecidablesElement.uniqueId);
-  }
-
   getComputedStyleValue(property) {
-    // HACK: IE11 requires use of polyfill interface to get custom property value in Javascript
-    if (window.ShadyCSS) {
-      return window.ShadyCSS.getComputedStyleValue(this, property);
-    }
-
-    return getComputedStyle(this).getPropertyValue(property);
+    return getComputedStyle(this).getPropertyValue(property).trim();
   }
 
   firstUpdated(changedProperties) {
@@ -14952,43 +14883,131 @@ class DecidablesElement extends s {
     /* eslint-enable key-spacing, object-curly-newline */
   }
 
-  static cssBoxShadow(elevation) {
-    let rotate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-    let inverse = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  static cssBoxShadow(elevation, rotate = false, inverse = false) {
     const umbraO = this.shadows.opacityUmbra + this.shadows.opacityBoost;
     const penumbraO = this.shadows.opacityPenumbra + this.shadows.opacityBoost;
     const ambientO = this.shadows.opacityAmbient + this.shadows.opacityBoost;
-    const umbraC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(umbraO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(umbraO, ")");
-    const penumbraC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(penumbraO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(penumbraO, ")");
-    const ambientC = inverse ? "rgba(".concat(this.shadows.inverseBaselineColorString, ", ").concat(ambientO, ")") : "rgba(".concat(this.shadows.baselineColorString, ", ").concat(ambientO, ")");
+    const umbraC = inverse ? `rgba(${this.shadows.inverseBaselineColorString}, ${umbraO})` : `rgba(${this.shadows.baselineColorString}, ${umbraO})`;
+    const penumbraC = inverse ? `rgba(${this.shadows.inverseBaselineColorString}, ${penumbraO})` : `rgba(${this.shadows.baselineColorString}, ${penumbraO})`;
+    const ambientC = inverse ? `rgba(${this.shadows.inverseBaselineColorString}, ${ambientO})` : `rgba(${this.shadows.baselineColorString}, ${ambientO})`;
     const umbraM = this.shadows.mapUmbra[elevation];
     const penumbraM = this.shadows.mapPenumbra[elevation];
     const ambientM = this.shadows.mapAmbient[elevation];
-    const umbraS = rotate ? "".concat(-umbraM.y, "px ").concat(umbraM.y / 2, "px ").concat(umbraM.b, "px ").concat(umbraM.s, "px") : "".concat(umbraM.y / 2, "px ").concat(umbraM.y, "px ").concat(umbraM.b, "px ").concat(umbraM.s, "px");
-    const penumbraS = rotate ? "".concat(-penumbraM.y, "px ").concat(penumbraM.y / 2, "px ").concat(penumbraM.b, "px ").concat(penumbraM.s, "px") : "".concat(penumbraM.y / 2, "px ").concat(penumbraM.y, "px ").concat(penumbraM.b, "px ").concat(penumbraM.s, "px");
-    const ambientS = rotate ? "".concat(-ambientM.y, "px ").concat(ambientM.y / 2, "px ").concat(ambientM.b, "px ").concat(ambientM.s, "px") : "".concat(ambientM.y / 2, "px ").concat(ambientM.y, "px ").concat(ambientM.b, "px ").concat(ambientM.s, "px");
-    return "".concat(umbraS, " ").concat(umbraC, ", ").concat(penumbraS, " ").concat(penumbraC, ", ").concat(ambientS, " ").concat(ambientC);
+    const umbraS = rotate ? `${-umbraM.y}px ${umbraM.y / 2}px ${umbraM.b}px ${umbraM.s}px` : `${umbraM.y / 2}px ${umbraM.y}px ${umbraM.b}px ${umbraM.s}px`;
+    const penumbraS = rotate ? `${-penumbraM.y}px ${penumbraM.y / 2}px ${penumbraM.b}px ${penumbraM.s}px` : `${penumbraM.y / 2}px ${penumbraM.y}px ${penumbraM.b}px ${penumbraM.s}px`;
+    const ambientS = rotate ? `${-ambientM.y}px ${ambientM.y / 2}px ${ambientM.b}px ${ambientM.s}px` : `${ambientM.y / 2}px ${ambientM.y}px ${ambientM.b}px ${ambientM.s}px`;
+    return `${umbraS} ${umbraC}, ${penumbraS} ${penumbraC}, ${ambientS} ${ambientC}`;
   }
 
   static get svgFilters() {
     const shadows = DecidablesElement.shadows; // eslint-disable-line prefer-destructuring
 
-    const erodeRadius = 1;
     const filters = shadows.elevations.map(z => {
-      return y$1(_templateObject$m || (_templateObject$m = _taggedTemplateLiteral(["\n        <filter id=", " x=\"-250%\" y=\"-250%\" width=\"600%\" height=\"600%\">\n          <feComponentTransfer in=\"SourceAlpha\" result=\"solid\">\n            <feFuncA  type=\"table\" tableValues=\"0 1 1\"/>\n          </feComponentTransfer>\n          <feOffset in=\"solid\" result=\"offU\" dx=", " dy=", " />\n          <feOffset in=\"solid\" result=\"offP\" dx=", " dy=", " />\n          <feOffset in=\"solid\" result=\"offA\" dx=", " dy=", " />\n          ", "\n          ", "\n          ", "\n          <feGaussianBlur in=", " result=\"blurU\" stdDeviation=", " />\n          <feGaussianBlur in=", " result=\"blurP\" stdDeviation=", " />\n          <feGaussianBlur in=", " result=\"blurA\" stdDeviation=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opU\" flood-color=", " flood-opacity=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opP\" flood-color=", " flood-opacity=", " />\n          <feFlood in=\"SourceGraphic\" result=\"opA\" flood-color=", " flood-opacity=", " />\n          <feComposite in=\"opU\" in2=\"blurU\" result=\"shU\" operator=\"in\" />\n          <feComposite in=\"opP\" in2=\"blurP\" result=\"shP\" operator=\"in\" />\n          <feComposite in=\"opA\" in2=\"blurA\" result=\"shA\" operator=\"in\" />\n          <!-- HACK Edge: Using a dynamic value for erode radius stops Edge from corrupting the \"radius\" value! -->\n          <feMorphology in=\"solid\" result=\"smaller\" operator=\"erode\" radius=", " />\n          <feComposite in=\"shU\" in2=\"smaller\" result=\"finalU\" operator=\"out\" />\n          <feComposite in=\"shP\" in2=\"smaller\" result=\"finalP\" operator=\"out\" />\n          <feComposite in=\"shA\" in2=\"smaller\" result=\"finalA\" operator=\"out\" />\n          <feMerge>\n            <feMergeNode in=\"finalU\" />\n            <feMergeNode in=\"finalP\" />\n            <feMergeNode in=\"finalA\" />\n            <feMergeNode in=\"SourceGraphic\" />\n          </feMerge>\n        </filter>"])), "shadow-".concat(z), shadows.mapUmbra[z].y / 2, shadows.mapUmbra[z].y, shadows.mapPenumbra[z].y / 2, shadows.mapPenumbra[z].y, shadows.mapAmbient[z].y / 2, shadows.mapAmbient[z].y, shadows.mapUmbra[z].s === 0 ? y$1(_templateObject2$k || (_templateObject2$k = _taggedTemplateLiteral([""]))) : y$1(_templateObject3$a || (_templateObject3$a = _taggedTemplateLiteral(["<feMorphology in=\"offU\" result=\"spreadU\" operator=", " radius=", " />"])), shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapUmbra[z].s)), shadows.mapPenumbra[z].s === 0 ? y$1(_templateObject4$a || (_templateObject4$a = _taggedTemplateLiteral([""]))) : y$1(_templateObject5$a || (_templateObject5$a = _taggedTemplateLiteral(["<feMorphology in=\"offP\" result=\"spreadP\" operator=", " radius=", " />"])), shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapPenumbra[z].s)), shadows.mapAmbient[z].s === 0 ? y$1(_templateObject6$a || (_templateObject6$a = _taggedTemplateLiteral([""]))) : y$1(_templateObject7$a || (_templateObject7$a = _taggedTemplateLiteral(["<feMorphology in=\"offA\" result=\"spreadA\" operator=", " radius=", " />"])), shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapAmbient[z].s)), shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU', shadows.mapUmbra[z].b / 2, shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP', shadows.mapPenumbra[z].b / 2, shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA', shadows.mapAmbient[z].b / 2, shadows.baselineColor, shadows.opacityUmbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityPenumbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityAmbient + shadows.opacityBoost, erodeRadius);
+      return y$1(_t$m || (_t$m = _$m`
+        <filter id=${0} x="-250%" y="-250%" width="600%" height="600%">
+          <feComponentTransfer in="SourceAlpha" result="solid">
+            <feFuncA  type="table" tableValues="0 1 1"/>
+          </feComponentTransfer>
+          <feOffset in="solid" result="offU" dx=${0} dy=${0} />
+          <feOffset in="solid" result="offP" dx=${0} dy=${0} />
+          <feOffset in="solid" result="offA" dx=${0} dy=${0} />
+          ${0}
+          ${0}
+          ${0}
+          <feGaussianBlur in=${0} result="blurU" stdDeviation=${0} />
+          <feGaussianBlur in=${0} result="blurP" stdDeviation=${0} />
+          <feGaussianBlur in=${0} result="blurA" stdDeviation=${0} />
+          <feFlood in="SourceGraphic" result="opU" flood-color=${0} flood-opacity=${0} />
+          <feFlood in="SourceGraphic" result="opP" flood-color=${0} flood-opacity=${0} />
+          <feFlood in="SourceGraphic" result="opA" flood-color=${0} flood-opacity=${0} />
+          <feComposite in="opU" in2="blurU" result="shU" operator="in" />
+          <feComposite in="opP" in2="blurP" result="shP" operator="in" />
+          <feComposite in="opA" in2="blurA" result="shA" operator="in" />
+          <feMorphology in="solid" result="smaller" operator="erode" radius="1" />
+          <feComposite in="shU" in2="smaller" result="finalU" operator="out" />
+          <feComposite in="shP" in2="smaller" result="finalP" operator="out" />
+          <feComposite in="shA" in2="smaller" result="finalA" operator="out" />
+          <feMerge>
+            <feMergeNode in="finalU" />
+            <feMergeNode in="finalP" />
+            <feMergeNode in="finalA" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>`), `shadow-${z}`, shadows.mapUmbra[z].y / 2, shadows.mapUmbra[z].y, shadows.mapPenumbra[z].y / 2, shadows.mapPenumbra[z].y, shadows.mapAmbient[z].y / 2, shadows.mapAmbient[z].y, shadows.mapUmbra[z].s === 0 ? y$1(_t2$k || (_t2$k = _$m``)) : y$1(_t3$a || (_t3$a = _$m`<feMorphology in="offU" result="spreadU" operator=${0} radius=${0} />`), shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapUmbra[z].s)), shadows.mapPenumbra[z].s === 0 ? y$1(_t4$a || (_t4$a = _$m``)) : y$1(_t5$a || (_t5$a = _$m`<feMorphology in="offP" result="spreadP" operator=${0} radius=${0} />`), shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapPenumbra[z].s)), shadows.mapAmbient[z].s === 0 ? y$1(_t6$a || (_t6$a = _$m``)) : y$1(_t7$a || (_t7$a = _$m`<feMorphology in="offA" result="spreadA" operator=${0} radius=${0} />`), shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapAmbient[z].s)), shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU', shadows.mapUmbra[z].b / 2, shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP', shadows.mapPenumbra[z].b / 2, shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA', shadows.mapAmbient[z].b / 2, shadows.baselineColor, shadows.opacityUmbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityPenumbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityAmbient + shadows.opacityBoost);
     });
-    return y$1(_templateObject8$8 || (_templateObject8$8 = _taggedTemplateLiteral(["\n      <svg class=\"defs\">\n        <defs>\n          ", "\n        </defs>\n      </svg>\n    "])), filters);
+    return y$1(_t8$8 || (_t8$8 = _$m`
+      <svg class="defs">
+        <defs>
+          ${0}
+        </defs>
+      </svg>
+    `), filters);
   }
 
   static get styles() {
-    return r$2(_templateObject9$8 || (_templateObject9$8 = _taggedTemplateLiteral(["\n      :host {\n        ---shadow-0: var(--shadow-0, ", ");\n        ---shadow-2: var(--shadow-2, ", ");\n        ---shadow-4: var(--shadow-4, ", ");\n        ---shadow-8: var(--shadow-8, ", ");\n\n        ---color-background: var(--color-background, ", ");\n        ---color-border: var(--color-border, ", ");\n        ---color-text: var(--color-text, ", ");\n        ---color-text-inverse: var(--color-text-inverse, ", ");\n        ---color-link: var(--color-link, ", ");\n        ---color-element-background: var(--color-element-background, ", ");\n        ---color-element-disabled: var(--color-element-disabled, ", ");\n        ---color-element-enabled: var(--color-element-enabled, ", ");\n        ---color-element-selected: var(--color-element-selected, ", ");\n        ---color-element-border: var(--color-element-border, ", ");\n        ---color-element-emphasis: var(--color-element-emphasis, ", ");\n\n        ---font-family-base: var(--font-family-base, \"Source Sans\", sans-serif);\n        ---font-family-math: var(--font-family-math, \"Source Serif\", serif);\n\n        ---transition-duration: var(--transition-duration, 500ms);\n\n        font-family: var(---font-family-base);\n      }\n\n      :host,\n      :host *,\n      :host *::before,\n      :host *::after {\n        box-sizing: border-box;\n      }\n\n      .math-greek {\n        font-family: var(---font-family-math);\n        font-style: normal;\n      }\n\n      .math-num {\n        font-family: var(---font-family-base);\n        font-style: normal;\n      }\n\n      .math-var {\n        font-family: var(---font-family-math);\n        font-style: italic;\n      }\n\n      .defs {\n        display: block;\n\n        width: 0;\n        height: 0;\n      }\n    "])), o$3(this.cssBoxShadow(0)), o$3(this.cssBoxShadow(2)), o$3(this.cssBoxShadow(4)), o$3(this.cssBoxShadow(8)), o$3(this.greys.white), o$3(this.greys.light75), o$3(this.greys.dark75), o$3(this.greys.white), o$3(this.greys.dark25), o$3(this.greys.light75), o$3(this.greys.light50), o$3(this.greys.grey), o$3(this.greys.dark25), o$3(this.greys.dark50), o$3(this.greys.dark75));
+    return r$2(_t9$8 || (_t9$8 = _$m`
+      :host {
+        ---shadow-0: var(--shadow-0, ${0});
+        ---shadow-2: var(--shadow-2, ${0});
+        ---shadow-4: var(--shadow-4, ${0});
+        ---shadow-8: var(--shadow-8, ${0});
+
+        ---color-background: var(--color-background, ${0});
+        ---color-border: var(--color-border, ${0});
+        ---color-text: var(--color-text, ${0});
+        ---color-text-inverse: var(--color-text-inverse, ${0});
+        ---color-link: var(--color-link, ${0});
+        ---color-element-background: var(--color-element-background, ${0});
+        ---color-element-disabled: var(--color-element-disabled, ${0});
+        ---color-element-enabled: var(--color-element-enabled, ${0});
+        ---color-element-selected: var(--color-element-selected, ${0});
+        ---color-element-border: var(--color-element-border, ${0});
+        ---color-element-emphasis: var(--color-element-emphasis, ${0});
+
+        ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
+        ---font-family-math: var(--font-family-math, "Source Serif", serif);
+
+        ---transition-duration: var(--transition-duration, 500ms);
+
+        font-family: var(---font-family-base);
+      }
+
+      :host,
+      :host *,
+      :host *::before,
+      :host *::after {
+        box-sizing: border-box;
+      }
+
+      .math-greek {
+        font-family: var(---font-family-math);
+        font-style: normal;
+      }
+
+      .math-num {
+        font-family: var(---font-family-base);
+        font-style: normal;
+      }
+
+      .math-var {
+        font-family: var(---font-family-math);
+        font-style: italic;
+      }
+
+      .defs {
+        display: block;
+
+        width: 0;
+        height: 0;
+      }
+    `), o$3(this.cssBoxShadow(0)), o$3(this.cssBoxShadow(2)), o$3(this.cssBoxShadow(4)), o$3(this.cssBoxShadow(8)), o$3(this.greys.white), o$3(this.greys.light75), o$3(this.greys.dark75), o$3(this.greys.white), o$3(this.greys.dark25), o$3(this.greys.light75), o$3(this.greys.light50), o$3(this.greys.grey), o$3(this.greys.dark25), o$3(this.greys.dark50), o$3(this.greys.dark75));
   }
 
-} // Static property of DecidablesElement!
+}
 
-DecidablesElement.ID = 0;
-
-var _templateObject$l, _templateObject2$j;
+let _$l = t => t,
+    _t$l,
+    _t2$j;
 class DecidablesButton extends DecidablesElement {
   static get properties() {
     return {
@@ -15007,11 +15026,68 @@ class DecidablesButton extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$l || (_templateObject$l = _taggedTemplateLiteral(["\n        :host {\n          margin: 0.25rem;\n        }\n\n        button {\n          width: 100%;\n          height: 100%;\n          padding: 0.375rem 0.75rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-text-inverse);\n\n          border: 0;\n          border-radius: 0.25rem;\n          outline: none;\n        }\n\n        button:disabled {\n          background-color: var(--decidables-button-background-color, var(---color-element-disabled));\n          outline: none;\n          box-shadow: none;\n        }\n\n        button:enabled {\n          cursor: pointer;\n\n          background-color: var(--decidables-button-background-color, var(---color-element-enabled));\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        button:enabled:hover {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        button:enabled:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(.keyboard) button:enabled:focus {\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) button:enabled:focus:active {\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
+    return [super.styles, r$2(_t$l || (_t$l = _$l`
+        :host {
+          margin: 0.25rem;
+        }
+
+        button {
+          width: 100%;
+          height: 100%;
+          padding: 0.375rem 0.75rem;
+
+          font-family: var(---font-family-base);
+          font-size: 1.125rem;
+          line-height: 1.5;
+          color: var(---color-text-inverse);
+
+          border: 0;
+          border-radius: 0.25rem;
+          outline: none;
+        }
+
+        button:disabled {
+          background-color: var(--decidables-button-background-color, var(---color-element-disabled));
+          outline: none;
+          box-shadow: none;
+        }
+
+        button:enabled {
+          cursor: pointer;
+
+          background-color: var(--decidables-button-background-color, var(---color-element-enabled));
+          outline: none;
+          box-shadow: var(---shadow-2);
+        }
+
+        button:enabled:hover {
+          outline: none;
+          box-shadow: var(---shadow-4);
+        }
+
+        button:enabled:active {
+          outline: none;
+          box-shadow: var(---shadow-8);
+        }
+
+        :host(.keyboard) button:enabled:focus {
+          outline: none;
+          box-shadow: var(---shadow-4);
+        }
+
+        :host(.keyboard) button:enabled:focus:active {
+          outline: none;
+          box-shadow: var(---shadow-8);
+        }
+      `))];
   }
 
   render() {
-    return $(_templateObject2$j || (_templateObject2$j = _taggedTemplateLiteral(["\n      <button ?disabled=", ">\n        <slot></slot>\n      </button>\n    "])), this.disabled);
+    return $(_t2$j || (_t2$j = _$l`
+      <button ?disabled=${0}>
+        <slot></slot>
+      </button>
+    `), this.disabled);
   }
 
 }
@@ -15025,7 +15101,9 @@ customElements.define('decidables-button', DecidablesButton);
 
 const l = l => null != l ? l : w;
 
-var _templateObject$k, _templateObject2$i;
+let _$k = t => t,
+    _t$k,
+    _t2$i;
 class DecidablesSlider extends DecidablesElement {
   static get properties() {
     return {
@@ -15082,17 +15160,277 @@ class DecidablesSlider extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$k || (_templateObject$k = _taggedTemplateLiteral(["\n        :host {\n          ---shadow-2-rotate: var(--shadow-2-rotate, ", ");\n          ---shadow-4-rotate: var(--shadow-4-rotate, ", ");\n          ---shadow-8-rotate: var(--shadow-8-rotate, ", ");\n\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        label {\n          margin: 0.25rem 0.25rem 0;\n        }\n\n        .range {\n          display: inline-block;\n\n          width: 3.5rem;\n          height: 4.75rem;\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        decidables-spinner {\n          --decidables-spinner-input-width: 3.5rem;\n\n          margin: 0 0.25rem 0.25rem;\n        }\n\n        /* Adapted from http://danielstern.ca/range.css/#/ */\n        /* Overall */\n        input[type=range] {\n          width: 4.75rem;\n          height: 3.5rem;\n          padding: 0;\n          margin: 0;\n\n          background-color: unset;\n\n          transform: rotate(-90deg);\n          transform-origin: 2.375rem 2.375rem;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:enabled {\n          cursor: ns-resize;\n        }\n\n        input[type=range]:focus {\n          outline: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-tooltip {\n          display: none;\n        }\n\n        /* Track */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-runnable-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        input[type=range]:focus::-webkit-slider-runnable-track {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-track {\n          width: 100%;\n          height: 4px;\n\n          background: var(---color-element-disabled);\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-track {\n          width: 100%;\n          height: 4px;\n\n          color: transparent;\n\n          background: transparent;\n          border-color: transparent;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-lower {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-fill-upper {\n          background: #cccccc;\n          /* background: var(---color-element-disabled); */\n          border: 0;\n          border-radius: 2px;\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-lower {\n          background: var(---color-element-disabled);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:focus::-ms-fill-upper {\n          background: var(---color-element-disabled);\n        }\n\n        /* Thumb */\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-webkit-slider-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: -8px;\n\n          border: 0;\n          border-radius: 4px;\n\n          /* stylelint-disable-next-line property-no-vendor-prefix */\n          -webkit-appearance: none;\n        }\n\n        input[type=range]:disabled::-webkit-slider-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=range]:enabled::-webkit-slider-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        input[type=range]:enabled:hover::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        input[type=range]:enabled:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-moz-range-thumb {\n          width: 10px;\n          height: 20px;\n\n          border: 0;\n          border-radius: 4px;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-moz-range-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-moz-range-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]::-ms-thumb {\n          width: 10px;\n          height: 20px;\n          margin-top: 0;\n\n          background: #999999;\n          /* background: var(---color-element-enabled); */\n          border: 0;\n          border-radius: 4px;\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:disabled::-ms-thumb {\n          background: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled::-ms-thumb {\n          background: var(---color-element-enabled);\n          box-shadow: var(---shadow-2-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:hover::-ms-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        input[type=range]:enabled:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n\n        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */\n        :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {\n          box-shadow: var(---shadow-4-rotate);\n        }\n\n        :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {\n          box-shadow: var(---shadow-8-rotate);\n        }\n      "])), o$3(this.cssBoxShadow(2, true, false)), o$3(this.cssBoxShadow(4, true, false)), o$3(this.cssBoxShadow(8, true, false)))];
+    return [super.styles, r$2(_t$k || (_t$k = _$k`
+        :host {
+          ---shadow-2-rotate: var(--shadow-2-rotate, ${0});
+          ---shadow-4-rotate: var(--shadow-4-rotate, ${0});
+          ---shadow-8-rotate: var(--shadow-8-rotate, ${0});
+
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: center;
+          justify-content: center;
+        }
+
+        label {
+          margin: 0.25rem 0.25rem 0;
+        }
+
+        .range {
+          display: inline-block;
+
+          width: 3.5rem;
+          height: 4.75rem;
+          margin: 0 0.25rem 0.25rem;
+        }
+
+        decidables-spinner {
+          --decidables-spinner-input-width: 3.5rem;
+
+          margin: 0 0.25rem 0.25rem;
+        }
+
+        /* Adapted from http://danielstern.ca/range.css/#/ */
+        /* Overall */
+        input[type=range] {
+          width: 4.75rem;
+          height: 3.5rem;
+          padding: 0;
+          margin: 0;
+
+          background-color: unset;
+
+          transform: rotate(-90deg);
+          transform-origin: 2.375rem 2.375rem;
+
+          /* stylelint-disable-next-line property-no-vendor-prefix */
+          -webkit-appearance: none;
+        }
+
+        input[type=range]:enabled {
+          cursor: ns-resize;
+        }
+
+        input[type=range]:focus {
+          outline: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-ms-tooltip {
+          display: none;
+        }
+
+        /* Track */
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 4px;
+
+          background: var(---color-element-disabled);
+          border: 0;
+          border-radius: 2px;
+          box-shadow: none;
+        }
+
+        input[type=range]:focus::-webkit-slider-runnable-track {
+          background: var(---color-element-disabled);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-moz-range-track {
+          width: 100%;
+          height: 4px;
+
+          background: var(---color-element-disabled);
+          border: 0;
+          border-radius: 2px;
+          box-shadow: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-ms-track {
+          width: 100%;
+          height: 4px;
+
+          color: transparent;
+
+          background: transparent;
+          border-color: transparent;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-ms-fill-lower {
+          background: #cccccc;
+          /* background: var(---color-element-disabled); */
+          border: 0;
+          border-radius: 2px;
+          box-shadow: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-ms-fill-upper {
+          background: #cccccc;
+          /* background: var(---color-element-disabled); */
+          border: 0;
+          border-radius: 2px;
+          box-shadow: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:focus::-ms-fill-lower {
+          background: var(---color-element-disabled);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:focus::-ms-fill-upper {
+          background: var(---color-element-disabled);
+        }
+
+        /* Thumb */
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-webkit-slider-thumb {
+          width: 10px;
+          height: 20px;
+          margin-top: -8px;
+
+          border: 0;
+          border-radius: 4px;
+
+          /* stylelint-disable-next-line property-no-vendor-prefix */
+          -webkit-appearance: none;
+        }
+
+        input[type=range]:disabled::-webkit-slider-thumb {
+          background: var(---color-element-disabled);
+          box-shadow: none;
+        }
+
+        input[type=range]:enabled::-webkit-slider-thumb {
+          background: var(---color-element-enabled);
+          box-shadow: var(---shadow-2-rotate);
+        }
+
+        input[type=range]:enabled:hover::-webkit-slider-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        input[type=range]:enabled:active::-webkit-slider-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+
+        :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-moz-range-thumb {
+          width: 10px;
+          height: 20px;
+
+          border: 0;
+          border-radius: 4px;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:disabled::-moz-range-thumb {
+          background: var(---color-element-disabled);
+          box-shadow: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled::-moz-range-thumb {
+          background: var(---color-element-enabled);
+          box-shadow: var(---shadow-2-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled:hover::-moz-range-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled:active::-moz-range-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+
+        :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]::-ms-thumb {
+          width: 10px;
+          height: 20px;
+          margin-top: 0;
+
+          background: #999999;
+          /* background: var(---color-element-enabled); */
+          border: 0;
+          border-radius: 4px;
+          box-shadow: var(---shadow-2-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:disabled::-ms-thumb {
+          background: var(---color-element-disabled);
+          box-shadow: none;
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled::-ms-thumb {
+          background: var(---color-element-enabled);
+          box-shadow: var(---shadow-2-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled:hover::-ms-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        input[type=range]:enabled:active::-ms-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+
+        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
+        :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {
+          box-shadow: var(---shadow-4-rotate);
+        }
+
+        :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {
+          box-shadow: var(---shadow-8-rotate);
+        }
+      `), o$3(this.cssBoxShadow(2, true, false)), o$3(this.cssBoxShadow(4, true, false)), o$3(this.cssBoxShadow(8, true, false)))];
   }
 
   render() {
-    return $(_templateObject2$i || (_templateObject2$i = _taggedTemplateLiteral(["\n      <label for=", ">\n        <slot></slot>\n      </label>\n      <div class=\"range\">\n        <input type=\"range\" id=", " min=", " max=", " step=", " .value=", " @change=", " @input=", ">\n      </div>\n      <decidables-spinner min=", " max=", " step=", " .value=", " @input=", "></decidables-spinner>\n    "])), "".concat(this.uniqueId, "-slider"), "".concat(this.uniqueId, "-slider"), l(this.min), l(this.max), l(this.step), this.value, this.changed.bind(this), this.inputted.bind(this), l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
+    return $(_t2$i || (_t2$i = _$k`
+      <label for="slider">
+        <slot></slot>
+      </label>
+      <div class="range">
+        <input type="range" id="slider" min=${0} max=${0} step=${0} .value=${0} @change=${0} @input=${0}>
+      </div>
+      <decidables-spinner min=${0} max=${0} step=${0} .value=${0} @input=${0}></decidables-spinner>
+    `), l(this.min), l(this.max), l(this.step), this.value, this.changed.bind(this), this.inputted.bind(this), l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
   }
 
 }
 customElements.define('decidables-slider', DecidablesSlider);
 
-var _templateObject$j, _templateObject2$h;
+let _$j = t => t,
+    _t$j,
+    _t2$h;
 class DecidablesSpinner extends DecidablesElement {
   static get properties() {
     return {
@@ -15139,17 +15477,103 @@ class DecidablesSpinner extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$j || (_templateObject$j = _taggedTemplateLiteral(["\n        :host {\n          ---decidables-spinner-font-size: var(--decidables-spinner-font-size, 1.125rem);\n          ---decidables-spinner-input-width: var(--decidables-spinner-input-width, 4rem);\n          ---decidables-spinner-prefix: var(--decidables-spinner-prefix, \"\");\n\n          display: block;\n        }\n\n        label {\n          position: relative;\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n\n          margin: 0;\n\n          font-size: 0.75rem;\n        }\n\n        label::before {\n          position: absolute;\n          bottom: 1px;\n          left: calc(50% - var(---decidables-spinner-input-width) / 2 + 0.25rem);\n\n          font-size: var(---decidables-spinner-font-size);\n          line-height: normal;\n\n          content: var(---decidables-spinner-prefix);\n        }\n\n        input[type=number] {\n          width: var(---decidables-spinner-input-width);\n\n          font-family: var(---font-family-base);\n          font-size: var(---decidables-spinner-font-size);\n          color: inherit;\n          text-align: right;\n\n          background: none;\n          border: 0;\n          border-radius: 0;\n          outline: none;\n          box-shadow: var(---shadow-2);\n\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n\n        input[type=number]:hover {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=number]:focus,\n        input[type=number]:active {\n          box-shadow: var(---shadow-8);\n        }\n\n        input[type=number]:disabled {\n          color: var(---color-text);\n\n          border: 0;\n          box-shadow: none;\n\n          /* HACK: Use correct text color in Safari */\n          -webkit-opacity: 1;\n          /* HACK: Hide spinners in disabled input for Firefox and Safari */\n          -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */\n          /* HACK: Use correct text color in Safari */\n          -webkit-text-fill-color: var(---color-text);\n        }\n\n        /* HACK: Hide spinners in disabled input for Firefox and Safari */\n        input[type=number]:disabled::-webkit-outer-spin-button,\n        input[type=number]:disabled::-webkit-inner-spin-button {\n          margin: 0;\n          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */\n        }\n      "])))];
+    return [super.styles, r$2(_t$j || (_t$j = _$j`
+        :host {
+          ---decidables-spinner-font-size: var(--decidables-spinner-font-size, 1.125rem);
+          ---decidables-spinner-input-width: var(--decidables-spinner-input-width, 4rem);
+          ---decidables-spinner-prefix: var(--decidables-spinner-prefix, "");
+
+          display: block;
+        }
+
+        label {
+          position: relative;
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: center;
+
+          margin: 0;
+
+          font-size: 0.75rem;
+        }
+
+        label::before {
+          position: absolute;
+          bottom: 1px;
+          left: calc(50% - var(---decidables-spinner-input-width) / 2 + 0.25rem);
+
+          font-size: var(---decidables-spinner-font-size);
+          line-height: normal;
+
+          content: var(---decidables-spinner-prefix);
+        }
+
+        input[type=number] {
+          width: var(---decidables-spinner-input-width);
+
+          font-family: var(---font-family-base);
+          font-size: var(---decidables-spinner-font-size);
+          color: inherit;
+          text-align: right;
+
+          background: none;
+          border: 0;
+          border-radius: 0;
+          outline: none;
+          box-shadow: var(---shadow-2);
+
+          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+        }
+
+        input[type=number]:hover {
+          box-shadow: var(---shadow-4);
+        }
+
+        input[type=number]:focus,
+        input[type=number]:active {
+          box-shadow: var(---shadow-8);
+        }
+
+        input[type=number]:disabled {
+          color: var(---color-text);
+
+          border: 0;
+          box-shadow: none;
+
+          /* HACK: Use correct text color in Safari */
+          -webkit-opacity: 1;
+          /* HACK: Hide spinners in disabled input for Firefox and Safari */
+          -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */
+          /* HACK: Use correct text color in Safari */
+          -webkit-text-fill-color: var(---color-text);
+        }
+
+        /* HACK: Hide spinners in disabled input for Firefox and Safari */
+        input[type=number]:disabled::-webkit-outer-spin-button,
+        input[type=number]:disabled::-webkit-inner-spin-button {
+          margin: 0;
+          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+        }
+      `))];
   }
 
   render() {
-    return $(_templateObject2$h || (_templateObject2$h = _taggedTemplateLiteral(["\n      <label>\n        <slot></slot>\n        <input ?disabled=", " type=\"number\" min=", " max=", " step=", " .value=", " @input=", ">\n      </label>\n    "])), this.disabled, l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
+    return $(_t2$h || (_t2$h = _$j`
+      <label>
+        <slot></slot>
+        <input ?disabled=${0} type="number" min=${0} max=${0} step=${0} .value=${0} @input=${0}>
+      </label>
+    `), this.disabled, l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
   }
 
 }
 customElements.define('decidables-spinner', DecidablesSpinner);
 
-var _templateObject$i, _templateObject2$g;
+let _$i = t => t,
+    _t$i,
+    _t2$g;
 class DecidablesSwitch extends DecidablesElement {
   static get properties() {
     return {
@@ -15184,17 +15608,146 @@ class DecidablesSwitch extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$i || (_templateObject$i = _taggedTemplateLiteral(["\n        :host {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n        }\n\n        /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */\n        input[type=checkbox] {\n          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n          position: absolute;\n\n          width: 1px;\n          height: 1px;\n          padding: 0;\n          margin: -1px;\n          overflow: hidden;\n          clip: rect(0 0 0 0);\n\n          white-space: nowrap;\n\n          border: 0;\n          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n        }\n\n        input[type=checkbox] + label {\n          order: 1;\n\n          margin: 0 0.25rem 0.25rem;\n\n          font-weight: 400;\n        }\n\n        input[type=checkbox] + label + label {\n          position: relative;\n\n          min-width: 24px;\n          padding: 0 0 36px;\n          margin: 0.25rem 0.25rem 0;\n\n          font-weight: 400;\n\n          outline: none;\n        }\n\n        input[type=checkbox] + label + label::before,\n        input[type=checkbox] + label + label::after {\n          position: absolute;\n\n          left: 50%;\n\n          margin: 0;\n\n          content: \"\";\n\n          outline: 0;\n\n          transition: all var(---transition-duration) ease;\n          transform: translate(-50%, 0);\n        }\n\n        input[type=checkbox] + label + label::before {\n          bottom: 1px;\n\n          width: 8px;\n          height: 34px;\n\n          background-color: var(---color-element-disabled);\n          border-radius: 4px;\n        }\n\n        input[type=checkbox] + label + label::after {\n          bottom: 0;\n\n          width: 18px;\n          height: 18px;\n\n          background-color: var(---color-element-enabled);\n          border-radius: 50%;\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=checkbox]:checked + label + label::after {\n          transform: translate(-50%, -100%);\n        }\n\n        input[type=checkbox]:disabled + label + label::after {\n          background-color: var(---color-element-disabled);\n          box-shadow: none;\n        }\n\n        input[type=checkbox]:enabled + label,\n        input[type=checkbox]:enabled + label + label {\n          cursor: pointer;\n        }\n\n        input[type=checkbox]:enabled + label:hover + label::after,\n        input[type=checkbox]:enabled + label + label:hover::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=checkbox]:enabled + label:active + label::after,\n        input[type=checkbox]:enabled + label + label:active::after {\n          box-shadow: var(---shadow-8);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {\n          box-shadow: var(---shadow-4);\n        }\n\n        /* stylelint-disable-next-line selector-max-compound-selectors */\n        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,\n        :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
+    return [super.styles, r$2(_t$i || (_t$i = _$i`
+        :host {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* Adapted from https://codepen.io/guuslieben/pen/YyPRVP */
+        input[type=checkbox] {
+          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */
+          position: absolute;
+
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+
+          white-space: nowrap;
+
+          border: 0;
+          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */
+        }
+
+        input[type=checkbox] + label {
+          order: 1;
+
+          margin: 0 0.25rem 0.25rem;
+
+          font-weight: 400;
+        }
+
+        input[type=checkbox] + label + label {
+          position: relative;
+
+          min-width: 24px;
+          padding: 0 0 36px;
+          margin: 0.25rem 0.25rem 0;
+
+          font-weight: 400;
+
+          outline: none;
+        }
+
+        input[type=checkbox] + label + label::before,
+        input[type=checkbox] + label + label::after {
+          position: absolute;
+
+          left: 50%;
+
+          margin: 0;
+
+          content: "";
+
+          outline: 0;
+
+          transition: all var(---transition-duration) ease;
+          transform: translate(-50%, 0);
+        }
+
+        input[type=checkbox] + label + label::before {
+          bottom: 1px;
+
+          width: 8px;
+          height: 34px;
+
+          background-color: var(---color-element-disabled);
+          border-radius: 4px;
+        }
+
+        input[type=checkbox] + label + label::after {
+          bottom: 0;
+
+          width: 18px;
+          height: 18px;
+
+          background-color: var(---color-element-enabled);
+          border-radius: 50%;
+          box-shadow: var(---shadow-2);
+        }
+
+        input[type=checkbox]:checked + label + label::after {
+          transform: translate(-50%, -100%);
+        }
+
+        input[type=checkbox]:disabled + label + label::after {
+          background-color: var(---color-element-disabled);
+          box-shadow: none;
+        }
+
+        input[type=checkbox]:enabled + label,
+        input[type=checkbox]:enabled + label + label {
+          cursor: pointer;
+        }
+
+        input[type=checkbox]:enabled + label:hover + label::after,
+        input[type=checkbox]:enabled + label + label:hover::after {
+          box-shadow: var(---shadow-4);
+        }
+
+        input[type=checkbox]:enabled + label:active + label::after,
+        input[type=checkbox]:enabled + label + label:active::after {
+          box-shadow: var(---shadow-8);
+        }
+
+        /* stylelint-disable-next-line selector-max-compound-selectors */
+        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {
+          box-shadow: var(---shadow-4);
+        }
+
+        /* stylelint-disable-next-line selector-max-compound-selectors */
+        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,
+        :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {
+          box-shadow: var(---shadow-8);
+        }
+      `))];
   }
 
   render() {
-    return $(_templateObject2$g || (_templateObject2$g = _taggedTemplateLiteral(["\n      <input type=\"checkbox\" id=", " ?checked=", " ?disabled=", " @change=", ">\n      <label for=", ">\n        <slot name=\"off-label\"></slot>\n      </label>\n      <label for=", ">\n        <slot></slot>\n      </label>\n    "])), "".concat(this.uniqueId, "-checkbox"), this.checked, this.disabled, this.changed.bind(this), "".concat(this.uniqueId, "-checkbox"), "".concat(this.uniqueId, "-checkbox"));
+    return $(_t2$g || (_t2$g = _$i`
+      <input type="checkbox" id="switch" ?checked=${0} ?disabled=${0} @change=${0}>
+      <label for="switch">
+        <slot name="off-label"></slot>
+      </label>
+      <label for="switch">
+        <slot></slot>
+      </label>
+    `), this.checked, this.disabled, this.changed.bind(this));
   }
 
 }
 customElements.define('decidables-switch', DecidablesSwitch);
 
-var _templateObject$h, _templateObject2$f;
+let _$h = t => t,
+    _t$h,
+    _t2$f;
 class DecidablesToggle extends DecidablesElement {
   static get properties() {
     return {
@@ -15213,17 +15766,41 @@ class DecidablesToggle extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$h || (_templateObject$h = _taggedTemplateLiteral(["\n        fieldset {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n\n          margin: 0.25rem;\n\n          border: 0;\n        }\n\n        legend {\n          text-align: center;\n        }\n      "])))];
+    return [super.styles, r$2(_t$h || (_t$h = _$h`
+        fieldset {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: stretch;
+          justify-content: center;
+
+          margin: 0.25rem;
+
+          border: 0;
+        }
+
+        legend {
+          text-align: center;
+        }
+      `))];
   }
 
   render() {
-    return $(_templateObject2$f || (_templateObject2$f = _taggedTemplateLiteral(["\n      <fieldset ?disabled=", ">\n        <legend><slot name=\"label\"></slot></legend>\n        <slot></slot>\n      </fieldset>\n    "])), this.disabled);
+    return $(_t2$f || (_t2$f = _$h`
+      <fieldset ?disabled=${0}>
+        <legend><slot name="label"></slot></legend>
+        <slot></slot>
+      </fieldset>
+    `), this.disabled);
   }
 
 }
 customElements.define('decidables-toggle', DecidablesToggle);
 
-var _templateObject$g, _templateObject2$e;
+let _$g = t => t,
+    _t$g,
+    _t2$e;
 class DecidablesToggleOption extends DecidablesElement {
   static get properties() {
     return {
@@ -15271,11 +15848,109 @@ class DecidablesToggleOption extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$g || (_templateObject$g = _taggedTemplateLiteral(["\n        :host {\n          display: flex;\n        }\n\n        input[type=radio] {\n          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */\n          position: absolute;\n\n          width: 1px;\n          height: 1px;\n          padding: 0;\n          margin: -1px;\n          overflow: hidden;\n          clip: rect(0 0 0 0);\n\n          white-space: nowrap;\n\n          border: 0;\n          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */\n        }\n\n        input[type=radio] + label {\n          width: 100%;\n          padding: 0.375rem 0.75rem;\n\n          font-family: var(---font-family-base);\n          font-size: 1.125rem;\n          line-height: 1.5;\n          color: var(---color-text-inverse);\n          text-align: center;\n\n          cursor: pointer;\n\n          background-color: var(---color-element-enabled);\n          border: 0;\n          border-radius: 0;\n          outline: none;\n\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=radio]:checked + label {\n          background-color: var(---color-element-selected);\n          outline: none;\n          box-shadow: var(---shadow-2);\n        }\n\n        input[type=radio] + label:hover {\n          z-index: 1;\n\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        input[type=radio] + label:active {\n          z-index: 2;\n\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n\n        :host(:first-of-type) input[type=radio] + label {\n          border-top-left-radius: 0.25rem;\n          border-top-right-radius: 0.25rem;\n        }\n\n        :host(:last-of-type) input[type=radio] + label {\n          border-bottom-right-radius: 0.25rem;\n          border-bottom-left-radius: 0.25rem;\n        }\n\n        :host(.keyboard) input[type=radio]:focus + label {\n          z-index: 1;\n\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) input[type=radio]:focus:checked + label {\n          z-index: 1;\n\n          background-color: var(---color-element-selected);\n          outline: none;\n          box-shadow: var(---shadow-4);\n        }\n\n        :host(.keyboard) input[type=radio]:focus + label:active {\n          z-index: 2;\n\n          outline: none;\n          box-shadow: var(---shadow-8);\n        }\n      "])))];
+    return [super.styles, r$2(_t$g || (_t$g = _$g`
+        :host {
+          display: flex;
+        }
+
+        input[type=radio] {
+          /* visuallyhidden: https://github.com/h5bp/html5-boilerplate/blob/master/dist/doc/css.md */
+          position: absolute;
+
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+
+          white-space: nowrap;
+
+          border: 0;
+          clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */
+        }
+
+        input[type=radio] + label {
+          width: 100%;
+          padding: 0.375rem 0.75rem;
+
+          font-family: var(---font-family-base);
+          font-size: 1.125rem;
+          line-height: 1.5;
+          color: var(---color-text-inverse);
+          text-align: center;
+
+          cursor: pointer;
+
+          background-color: var(---color-element-enabled);
+          border: 0;
+          border-radius: 0;
+          outline: none;
+
+          box-shadow: var(---shadow-2);
+        }
+
+        input[type=radio]:checked + label {
+          background-color: var(---color-element-selected);
+          outline: none;
+          box-shadow: var(---shadow-2);
+        }
+
+        input[type=radio] + label:hover {
+          z-index: 1;
+
+          outline: none;
+          box-shadow: var(---shadow-4);
+        }
+
+        input[type=radio] + label:active {
+          z-index: 2;
+
+          outline: none;
+          box-shadow: var(---shadow-8);
+        }
+
+        :host(:first-of-type) input[type=radio] + label {
+          border-top-left-radius: 0.25rem;
+          border-top-right-radius: 0.25rem;
+        }
+
+        :host(:last-of-type) input[type=radio] + label {
+          border-bottom-right-radius: 0.25rem;
+          border-bottom-left-radius: 0.25rem;
+        }
+
+        :host(.keyboard) input[type=radio]:focus + label {
+          z-index: 1;
+
+          outline: none;
+          box-shadow: var(---shadow-4);
+        }
+
+        :host(.keyboard) input[type=radio]:focus:checked + label {
+          z-index: 1;
+
+          background-color: var(---color-element-selected);
+          outline: none;
+          box-shadow: var(---shadow-4);
+        }
+
+        :host(.keyboard) input[type=radio]:focus + label:active {
+          z-index: 2;
+
+          outline: none;
+          box-shadow: var(---shadow-8);
+        }
+      `))];
   }
 
   render() {
-    return $(_templateObject2$e || (_templateObject2$e = _taggedTemplateLiteral(["\n      <input type=\"radio\" id=", " name=", " value=", " .checked=", " @change=", ">\n      <label for=", ">\n        <slot></slot>\n      </label>\n    "])), "".concat(this.uniqueId, "-radio"), this.name, this.value, this.checked, this.changed.bind(this), "".concat(this.uniqueId, "-radio"));
+    return $(_t2$e || (_t2$e = _$g`
+      <input type="radio" id="toggle-option" name=${0} value=${0} .checked=${0} @change=${0}>
+      <label for="toggle-option">
+        <slot></slot>
+      </label>
+    `), this.name, this.value, this.checked, this.changed.bind(this));
   }
 
 }
@@ -15294,7 +15969,8 @@ const DecidablesConverterSet = {
   }
 };
 
-var _templateObject$f;
+let _$f = t => t,
+    _t$f;
 /*
   DetectableElement Base Class - Not intended for instantiation!
   <detectable-element>
@@ -15351,12 +16027,64 @@ class DetectableElement extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$f || (_templateObject$f = _taggedTemplateLiteral(["\n        :host {\n          ---color-h: var(--color-h, ", ");\n          ---color-m: var(--color-m, ", ");\n          ---color-fa: var(--color-fa, ", ");\n          ---color-cr: var(--color-cr, ", ");\n          ---color-hr: var(--color-hr, ", ");\n          ---color-far: var(--color-far, ", ");\n          ---color-acc: var(--color-acc, ", ");\n          ---color-d: var(--color-d, ", ");\n          ---color-c: var(--color-c, ", ");\n          ---color-s: var(--color-s, ", ");\n          ---color-present: var(--color-present, ", ");\n          ---color-absent: var(--color-absent, ", ");\n          ---color-correct: var(--color-correct, ", ");\n          ---color-error: var(--color-error, ", ");\n          ---color-nr: var(--color-nr, ", ");\n\n          ---color-h-light: var(--color-h-light, ", ");\n          ---color-m-light: var(--color-m-light, ", ");\n          ---color-fa-light: var(--color-fa-light, ", ");\n          ---color-cr-light: var(--color-cr-light, ", ");\n          ---color-hr-light: var(--color-hr-light, ", ");\n          ---color-far-light: var(--color-far-light, ", ");\n          ---color-acc-light: var(--color-acc-light, ", ");\n          ---color-d-light: var(--color-d-light, ", ");\n          ---color-c-light: var(--color-c-light, ", ");\n          ---color-s-light: var(--color-s-light, ", ");\n          ---color-present-light: var(--color-present-light, ", ");\n          ---color-absent-light: var(--color-absent-light, ", ");\n          ---color-correct-light: var(--color-correct-light, ", ");\n          ---color-error-light: var(--color-error-light, ", ");\n          ---color-nr-light: var(--color-nr-light, ", ");\n\n          ---color-h-dark: var(--color-h-dark, ", ");\n          ---color-m-dark: var(--color-m-dark, ", ");\n          ---color-fa-dark: var(--color-fa-dark, ", ");\n          ---color-cr-dark: var(--color-cr-dark, ", ");\n          ---color-hr-dark: var(--color-hr-dark, ", ");\n          ---color-far-dark: var(--color-far-dark, ", ");\n          ---color-acc-dark: var(--color-acc-dark, ", ");\n          ---color-d-dark: var(--color-d-dark, ", ");\n          ---color-c-dark: var(--color-c-dark, ", ");\n          ---color-s-dark: var(--color-s-dark, ", ");\n          ---color-present-dark: var(--color-present-dark, ", ");\n          ---color-absent-dark: var(--color-absent-dark, ", ");\n          ---color-correct-dark: var(--color-correct-dark, ", ");\n          ---color-error-dark: var(--color-error-dark, ", ");\n          ---color-nr-dark: var(--color-nr-dark, ", ");\n        }\n      "])), o$3(this.colors.h), o$3(this.colors.m), o$3(this.colors.fa), o$3(this.colors.cr), o$3(this.colors.hr), o$3(this.colors.far), o$3(this.colors.acc), o$3(this.colors.d), o$3(this.colors.c), o$3(this.colors.s), o$3(this.colors.present), o$3(this.colors.absent), o$3(this.colors.correct), o$3(this.colors.error), o$3(this.colors.nr), o$3(this.lights.h), o$3(this.lights.m), o$3(this.lights.fa), o$3(this.lights.cr), o$3(this.lights.hr), o$3(this.lights.far), o$3(this.lights.acc), o$3(this.lights.d), o$3(this.lights.c), o$3(this.lights.s), o$3(this.lights.present), o$3(this.lights.absent), o$3(this.lights.correct), o$3(this.lights.error), o$3(this.lights.nr), o$3(this.darks.h), o$3(this.darks.m), o$3(this.darks.fa), o$3(this.darks.cr), o$3(this.darks.hr), o$3(this.darks.far), o$3(this.darks.acc), o$3(this.darks.d), o$3(this.darks.c), o$3(this.darks.s), o$3(this.darks.present), o$3(this.darks.absent), o$3(this.darks.correct), o$3(this.darks.error), o$3(this.darks.nr))];
+    return [super.styles, r$2(_t$f || (_t$f = _$f`
+        :host {
+          ---color-h: var(--color-h, ${0});
+          ---color-m: var(--color-m, ${0});
+          ---color-fa: var(--color-fa, ${0});
+          ---color-cr: var(--color-cr, ${0});
+          ---color-hr: var(--color-hr, ${0});
+          ---color-far: var(--color-far, ${0});
+          ---color-acc: var(--color-acc, ${0});
+          ---color-d: var(--color-d, ${0});
+          ---color-c: var(--color-c, ${0});
+          ---color-s: var(--color-s, ${0});
+          ---color-present: var(--color-present, ${0});
+          ---color-absent: var(--color-absent, ${0});
+          ---color-correct: var(--color-correct, ${0});
+          ---color-error: var(--color-error, ${0});
+          ---color-nr: var(--color-nr, ${0});
+
+          ---color-h-light: var(--color-h-light, ${0});
+          ---color-m-light: var(--color-m-light, ${0});
+          ---color-fa-light: var(--color-fa-light, ${0});
+          ---color-cr-light: var(--color-cr-light, ${0});
+          ---color-hr-light: var(--color-hr-light, ${0});
+          ---color-far-light: var(--color-far-light, ${0});
+          ---color-acc-light: var(--color-acc-light, ${0});
+          ---color-d-light: var(--color-d-light, ${0});
+          ---color-c-light: var(--color-c-light, ${0});
+          ---color-s-light: var(--color-s-light, ${0});
+          ---color-present-light: var(--color-present-light, ${0});
+          ---color-absent-light: var(--color-absent-light, ${0});
+          ---color-correct-light: var(--color-correct-light, ${0});
+          ---color-error-light: var(--color-error-light, ${0});
+          ---color-nr-light: var(--color-nr-light, ${0});
+
+          ---color-h-dark: var(--color-h-dark, ${0});
+          ---color-m-dark: var(--color-m-dark, ${0});
+          ---color-fa-dark: var(--color-fa-dark, ${0});
+          ---color-cr-dark: var(--color-cr-dark, ${0});
+          ---color-hr-dark: var(--color-hr-dark, ${0});
+          ---color-far-dark: var(--color-far-dark, ${0});
+          ---color-acc-dark: var(--color-acc-dark, ${0});
+          ---color-d-dark: var(--color-d-dark, ${0});
+          ---color-c-dark: var(--color-c-dark, ${0});
+          ---color-s-dark: var(--color-s-dark, ${0});
+          ---color-present-dark: var(--color-present-dark, ${0});
+          ---color-absent-dark: var(--color-absent-dark, ${0});
+          ---color-correct-dark: var(--color-correct-dark, ${0});
+          ---color-error-dark: var(--color-error-dark, ${0});
+          ---color-nr-dark: var(--color-nr-dark, ${0});
+        }
+      `), o$3(this.colors.h), o$3(this.colors.m), o$3(this.colors.fa), o$3(this.colors.cr), o$3(this.colors.hr), o$3(this.colors.far), o$3(this.colors.acc), o$3(this.colors.d), o$3(this.colors.c), o$3(this.colors.s), o$3(this.colors.present), o$3(this.colors.absent), o$3(this.colors.correct), o$3(this.colors.error), o$3(this.colors.nr), o$3(this.lights.h), o$3(this.lights.m), o$3(this.lights.fa), o$3(this.lights.cr), o$3(this.lights.hr), o$3(this.lights.far), o$3(this.lights.acc), o$3(this.lights.d), o$3(this.lights.c), o$3(this.lights.s), o$3(this.lights.present), o$3(this.lights.absent), o$3(this.lights.correct), o$3(this.lights.error), o$3(this.lights.nr), o$3(this.darks.h), o$3(this.darks.m), o$3(this.darks.fa), o$3(this.darks.cr), o$3(this.darks.hr), o$3(this.darks.far), o$3(this.darks.acc), o$3(this.darks.d), o$3(this.darks.c), o$3(this.darks.s), o$3(this.darks.present), o$3(this.darks.absent), o$3(this.darks.correct), o$3(this.darks.error), o$3(this.darks.nr))];
   }
 
 }
 
-var _templateObject$e, _templateObject2$d;
+let _$e = t => t,
+    _t$e,
+    _t2$d;
 /*
   RDKTask element
   <rdk-task>
@@ -15510,12 +16238,57 @@ class RDKTask extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$e || (_templateObject$e = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n\n          width: 10rem;\n          height: 10rem;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        .background {\n          fill: var(---color-element-disabled);\n          stroke: none;\n        }\n\n        .outline {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2px;\n        }\n\n        .dot {\n          /* r: 2px; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        .dots.coherent {\n          fill: var(---color-background);\n        }\n\n        .dots.random {\n          fill: var(---color-background);\n        }\n\n        .fixation {\n          stroke: var(---color-text);\n          stroke-width: 2px;\n        }\n\n        .query {\n          font-size: 1.75rem;\n          font-weight: 600;\n        }\n      "])))];
+    return [super.styles, r$2(_t$e || (_t$e = _$e`
+        :host {
+          display: inline-block;
+
+          width: 10rem;
+          height: 10rem;
+        }
+
+        .main {
+          width: 100%;
+          height: 100%;
+        }
+
+        .background {
+          fill: var(---color-element-disabled);
+          stroke: none;
+        }
+
+        .outline {
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2px;
+        }
+
+        .dot {
+          r: 2px;
+        }
+
+        .dots.coherent {
+          fill: var(---color-background);
+        }
+
+        .dots.random {
+          fill: var(---color-background);
+        }
+
+        .fixation {
+          stroke: var(---color-text);
+          stroke-width: 2px;
+        }
+
+        .query {
+          font-size: 1.75rem;
+          font-weight: 600;
+        }
+      `))];
   }
 
   render() {
     // eslint-disable-line class-methods-use-this
-    return $(_templateObject2$d || (_templateObject2$d = _taggedTemplateLiteral([""])));
+    return $(_t2$d || (_t2$d = _$e``));
   }
 
   getDimensions() {
@@ -15536,9 +16309,8 @@ class RDKTask extends DetectableElement {
 
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
-    // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
 
-    window.setTimeout(this.getDimensions.bind(this), 0);
+    this.getDimensions();
   }
 
   update(changedProperties) {
@@ -15573,7 +16345,7 @@ class RDKTask extends DetectableElement {
 
     const svgEnter = svgUpdate.enter().append('svg').classed('main', true); //  MERGE
 
-    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', "0 0 ".concat(elementSize, " ").concat(elementSize)); // Clippath
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementSize} ${elementSize}`); // Clippath
     //  ENTER
 
     svgEnter.append('clipPath').attr('id', 'clip-rdk-task').append('circle'); //  MERGE
@@ -15583,7 +16355,7 @@ class RDKTask extends DetectableElement {
 
     const plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
 
-    const plotMerge = svgMerge.select('.plot').attr('transform', "translate(".concat(margin.left, ", ").concat(margin.top, ")")); // Underlayer
+    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`); // Underlayer
     //  ENTER
 
     const underlayerEnter = plotEnter.append('g').classed('underlayer', true); // MERGE
@@ -15826,9 +16598,7 @@ class RDKTask extends DetectableElement {
       return datum;
     }); //  ENTER
 
-    const dotEnter = dotUpdate.enter().append('circle').classed('dot', true).attr('r', 2);
-    /* HACK: Firefox does not support CSS SVG Geometry Properties */
-    //  MERGE
+    const dotEnter = dotUpdate.enter().append('circle').classed('dot', true); //  MERGE
 
     dotEnter.merge(dotUpdate).attr('cx', datum => {
       return datum.x;
@@ -20613,80 +21383,67 @@ class SDTMath {
     return m / (m + cr);
   }
 
-  static hrFar2D(hr, far) {
-    let s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+  static hrFar2D(hr, far, s = 1) {
     if (s === 1) return jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1);
     return Math.sqrt(2 / (s * s + 1)) * (s * jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1));
   }
 
-  static hrFar2C(hr, far) {
-    let s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+  static hrFar2C(hr, far, s = 1) {
     if (s === 1) return -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1)) / 2;
     return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1));
   }
 
-  static dC2Hr(d, c) {
-    let s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+  static dC2Hr(d, c, s = 1) {
     if (s === 1) return jstat.normal.cdf(d / 2 - c, 0, 1);
     return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
   }
 
-  static dC2Far(d, c) {
-    let s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+  static dC2Far(d, c, s = 1) {
     if (s === 1) return jstat.normal.cdf(-(d / 2 + c), 0, 1);
     return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
   }
 
-  static dFar2Hr(d, far) {
-    let s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+  static dFar2Hr(d, far, s = 1) {
     if (s === 1) return jstat.normal.cdf(d + jstat.normal.inv(far, 0, 1), 0, 1);
     return jstat.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jstat.normal.inv(far, 0, 1)) / s, 0, 1);
   }
 
-  static cFar2Hr(c, far) {
-    let s = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+  static cFar2Hr(c, far, s = 1) {
     if (s === 1) return jstat.normal.cdf(-(2 * c) - jstat.normal.inv(far, 0, 1), 0, 1);
     return jstat.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jstat.normal.inv(far, 0, 1), 0, 1);
   }
 
-  static d2MuN(d) {
-    let s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  static d2MuN(d, s = 1) {
     if (s === 1) return -d / 2;
     return -Math.sqrt((s * s + 1) / 2) * (1 / (s + 1)) * d;
   }
 
-  static muN2D(muN) {
-    let s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  static muN2D(muN, s = 1) {
     if (s === 1) return -2 * muN;
     return -Math.sqrt(2 / (s * s + 1)) * (s + 1) * muN;
   }
 
-  static d2MuS(d) {
-    let s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  static d2MuS(d, s = 1) {
     if (s === 1) return d / 2;
     return Math.sqrt((s * s + 1) / 2) * (s / (s + 1)) * d;
   }
 
-  static muS2D(muS) {
-    let s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  static muS2D(muS, s = 1) {
     if (s === 1) return 2 * muS;
     return Math.sqrt(2 / (s * s + 1)) * ((s + 1) / s) * muS;
   }
 
-  static c2L(c) {
-    let s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  static c2L(c, s = 1) {
     if (s === 1) return c;
     return Math.sqrt((s * s + 1) / 2) * c;
   }
 
-  static l2C(l) {
-    let s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  static l2C(l, s = 1) {
     if (s === 1) return l;
     return Math.sqrt(2 / (s * s + 1)) * l;
   }
 
-  static s2H() {
-    let s = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+  static s2H(s = 1) {
     return 1 / (s * Math.sqrt(2 * Math.PI));
   }
 
@@ -20712,7 +21469,9 @@ class SDTMath {
 
 }
 
-var _templateObject$d, _templateObject2$c;
+let _$d = t => t,
+    _t$d,
+    _t2$c;
 /*
   ROCSpace element
   <roc-space>
@@ -20870,11 +21629,7 @@ class ROCSpace extends DetectableElement {
     });
   }
 
-  set(hr, far) {
-    let name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'default';
-    let label = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
-    let s = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
-
+  set(hr, far, name = 'default', label = '', s = 1) {
     if (name === 'default') {
       this.hr = hr;
       this.far = far;
@@ -20904,11 +21659,7 @@ class ROCSpace extends DetectableElement {
     this.requestUpdate();
   }
 
-  setWithSDT(d, c) {
-    let name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'default';
-    let label = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
-    let s = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
-
+  setWithSDT(d, c, name = 'default', label = '', s = 1) {
     if (name === 'default') {
       this.hr = SDTMath.dC2Hr(d, c, s);
       this.far = SDTMath.dC2Far(d, c, s);
@@ -20940,12 +21691,146 @@ class ROCSpace extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$d || (_templateObject$d = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n\n          width: 20rem;\n          height: 20rem;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        .plot-contour,\n        .legend-contour .contour {\n          stroke: var(---color-background);\n          stroke-width: 0.5;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .point.interactive {\n          cursor: move;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */\n          stroke: #000000;\n          stroke-opacity: 0;\n          stroke-width: 0;\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .point.interactive .circle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .point.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          stroke: #ff0000;\n        }\n\n        .point.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          stroke: #00ff00;\n        }\n\n        :host(.keyboard) .point.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          stroke: #0000ff;\n        }\n\n        .background {\n          fill: var(---color-element-background);\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-contour {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line {\n          stroke: var(---color-element-border);\n        }\n\n        .axis-contour .domain {\n          stroke: none;\n        }\n\n        .diagonal {\n          stroke: var(---color-element-border);\n          stroke-dasharray: 4;\n          stroke-width: 1;\n        }\n\n        .curve-iso-d {\n          fill: none;\n          stroke: var(---color-d);\n          stroke-width: 2;\n        }\n\n        .curve-iso-c {\n          fill: none;\n          stroke: var(---color-c);\n          stroke-width: 2;\n        }\n\n        .point .circle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        .point .label {\n          font-size: 0.75rem;\n\n          dominant-baseline: middle;\n          text-anchor: middle;\n\n          fill: var(---color-text-inverse);\n        }\n      "])))];
+    return [super.styles, r$2(_t$d || (_t$d = _$d`
+        :host {
+          display: inline-block;
+
+          width: 20rem;
+          height: 20rem;
+        }
+
+        .main {
+          width: 100%;
+          height: 100%;
+        }
+
+        .plot-contour,
+        .legend-contour .contour {
+          stroke: var(---color-background);
+          stroke-width: 0.5;
+        }
+
+        text {
+          /* stylelint-disable property-no-vendor-prefix */
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        .point.interactive {
+          cursor: move;
+
+          filter: url("#shadow-2");
+          outline: none;
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
+          stroke: #000000;
+          stroke-opacity: 0;
+          stroke-width: 0;
+        }
+
+        /* Make a larger target for touch users */
+        @media (pointer: coarse) {
+          .point.interactive .circle {
+            stroke: #000000;
+            stroke-opacity: 0;
+            stroke-width: 12px;
+          }
+        }
+
+        .point.interactive:hover {
+          filter: url("#shadow-4");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          stroke: #ff0000;
+        }
+
+        .point.interactive:active {
+          filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          stroke: #00ff00;
+        }
+
+        :host(.keyboard) .point.interactive:focus {
+          filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          stroke: #0000ff;
+        }
+
+        .background {
+          fill: var(---color-element-background);
+          stroke: var(---color-element-border);
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+
+        .title-x,
+        .title-y,
+        .title-contour {
+          font-weight: 600;
+
+          fill: currentColor;
+        }
+
+        .tick {
+          font-size: 0.75rem;
+        }
+
+        .axis-x path,
+        .axis-x line,
+        .axis-y path,
+        .axis-y line {
+          stroke: var(---color-element-border);
+        }
+
+        .axis-contour .domain {
+          stroke: none;
+        }
+
+        .diagonal {
+          stroke: var(---color-element-border);
+          stroke-dasharray: 4;
+          stroke-width: 1;
+        }
+
+        .curve-iso-d {
+          fill: none;
+          stroke: var(---color-d);
+          stroke-width: 2;
+        }
+
+        .curve-iso-c {
+          fill: none;
+          stroke: var(---color-c);
+          stroke-width: 2;
+        }
+
+        .point .circle {
+          fill: var(---color-element-emphasis);
+
+          r: 6px;
+        }
+
+        .point .label {
+          font-size: 0.75rem;
+
+          dominant-baseline: middle;
+          text-anchor: middle;
+
+          fill: var(---color-text-inverse);
+        }
+      `))];
   }
 
   render() {
     // eslint-disable-line class-methods-use-this
-    return $(_templateObject2$c || (_templateObject2$c = _taggedTemplateLiteral(["\n      ", "\n    "])), DetectableElement.svgFilters);
+    return $(_t2$c || (_t2$c = _$d`
+      ${0}
+    `), DetectableElement.svgFilters);
   }
 
   getDimensions() {
@@ -20966,9 +21851,8 @@ class ROCSpace extends DetectableElement {
 
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
-    // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
 
-    window.setTimeout(this.getDimensions.bind(this), 0);
+    this.getDimensions();
   }
 
   update(changedProperties) {
@@ -21055,12 +21939,12 @@ class ROCSpace extends DetectableElement {
 
     const svgEnter = svgUpdate.enter().append('svg').classed('main', true); //  MERGE
 
-    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', "0 0 ".concat(elementSize, " ").concat(elementSize)); // Plot
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementSize} ${elementSize}`); // Plot
     //  ENTER
 
     const plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
 
-    const plotMerge = svgMerge.select('.plot').attr('transform', "translate(".concat(margin.left, ", ").concat(margin.top, ")")); // Clippath
+    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`); // Clippath
     //  ENTER
 
     plotEnter.append('clipPath').attr('id', 'clip-roc-space').append('rect'); //  MERGE
@@ -21125,7 +22009,7 @@ class ROCSpace extends DetectableElement {
 
         const contourTitleEnter = contourTitleUpdate.enter().append('text').classed('title-contour', true).attr('text-anchor', 'middle'); //  MERGE
 
-        contourTitleEnter.merge(contourTitleUpdate).classed('math-var', this.contour === 'bias' || this.contour === 'sensitivity').attr('transform', this.contour === 'bias' ? "translate(".concat(width + 1.25 * this.rem, ", ").concat(this.rem, ")") : this.contour === 'sensitivity' ? "translate(".concat(width + 1.25 * this.rem, ", ").concat(this.rem, ")") : this.contour === 'accuracy' ? "translate(".concat(width + 1.125 * this.rem, ", ").concat(this.rem, ")") : null).text(this.contour === 'bias' ? 'c' : this.contour === 'sensitivity' ? 'd′' : this.contour === 'accuracy' ? 'Acc' : null); // Contour Legend
+        contourTitleEnter.merge(contourTitleUpdate).classed('math-var', this.contour === 'bias' || this.contour === 'sensitivity').attr('transform', this.contour === 'bias' ? `translate(${width + 1.25 * this.rem}, ${this.rem})` : this.contour === 'sensitivity' ? `translate(${width + 1.25 * this.rem}, ${this.rem})` : this.contour === 'accuracy' ? `translate(${width + 1.125 * this.rem}, ${this.rem})` : null).text(this.contour === 'bias' ? 'c' : this.contour === 'sensitivity' ? 'd′' : this.contour === 'accuracy' ? 'Acc' : null); // Contour Legend
 
         const l = 100;
         const contourLegendValues = []; // new Array(4 * l);
@@ -21144,7 +22028,7 @@ class ROCSpace extends DetectableElement {
 
         const contourLegendEnter = contourLegendUpdate.enter().append('g').classed('legend-contour', true); //  MERGE
 
-        const contourLegendMerge = contourLegendEnter.merge(contourLegendUpdate).attr('transform', this.contour === 'bias' ? "translate(".concat(width + 1.25 * this.rem, ", ").concat(1.5 * this.rem, ")") : this.contour === 'sensitivity' ? "translate(".concat(width + 1.25 * this.rem, ", ").concat(1.5 * this.rem, ")") : this.contour === 'accuracy' ? "translate(".concat(width + 1.5 * this.rem, ", ").concat(1.5 * this.rem, ")") : null); //  EXIT
+        const contourLegendMerge = contourLegendEnter.merge(contourLegendUpdate).attr('transform', this.contour === 'bias' ? `translate(${width + 1.25 * this.rem}, ${1.5 * this.rem})` : this.contour === 'sensitivity' ? `translate(${width + 1.25 * this.rem}, ${1.5 * this.rem})` : this.contour === 'accuracy' ? `translate(${width + 1.5 * this.rem}, ${1.5 * this.rem})` : null); //  EXIT
 
         contourLegendUpdate.exit().remove(); // Contour Legend Axis
         //  ENTER
@@ -21187,7 +22071,7 @@ class ROCSpace extends DetectableElement {
 
     underlayerEnter.append('g').classed('axis-x', true); //  MERGE
 
-    const axisXMerge = underlayerMerge.select('.axis-x').attr('transform', "translate(0, ".concat(height, ")"));
+    const axisXMerge = underlayerMerge.select('.axis-x').attr('transform', `translate(0, ${height})`);
     const axisXTransition = axisXMerge.transition().duration(transitionDuration * 2) // Extra long transition!
     .ease(cubicOut).call(axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
     axisXTransition.selectAll('line, path').attr('stroke', null); // X Axis Title
@@ -21197,7 +22081,7 @@ class ROCSpace extends DetectableElement {
     titleXEnter.append('tspan').classed('z math-var', true);
     titleXEnter.append('tspan').classed('name', true); //  MERGE
 
-    const titleXMerge = underlayerMerge.select('.title-x').attr('transform', "translate(".concat(width / 2, ", ").concat(height + 2.25 * this.rem, ")"));
+    const titleXMerge = underlayerMerge.select('.title-x').attr('transform', `translate(${width / 2}, ${height + 2.25 * this.rem})`);
     titleXMerge.select('tspan.z').text(this.zRoc ? 'z' : '');
     titleXMerge.select('tspan.name').text(this.zRoc ? '(False Alarm Rate)' : 'False Alarm Rate'); // Y Axis
     //  ENTER
@@ -21213,7 +22097,7 @@ class ROCSpace extends DetectableElement {
     titleYEnter.append('tspan').classed('z math-var', true);
     titleYEnter.append('tspan').classed('name', true); //  MERGE
 
-    const titleYMerge = underlayerMerge.select('.title-y').attr('transform', "translate(".concat(-2 * this.rem, ", ").concat(height / 2, ")rotate(-90)"));
+    const titleYMerge = underlayerMerge.select('.title-y').attr('transform', `translate(${-2 * this.rem}, ${height / 2})rotate(-90)`);
     titleYMerge.select('tspan.z').text(this.zRoc ? 'z' : '');
     titleYMerge.select('tspan.name').text(this.zRoc ? '(Hit Rate)' : 'Hit Rate'); // No-Information Line
     //  ENTER
@@ -21359,9 +22243,7 @@ class ROCSpace extends DetectableElement {
     }); //  ENTER
 
     const pointEnter = pointUpdate.enter().append('g').classed('point', true);
-    pointEnter.append('circle').classed('circle', true).attr('r', 6);
-    /* HACK: Firefox does not support CSS SVG Geometry Properties */
-
+    pointEnter.append('circle').classed('circle', true);
     pointEnter.append('text').classed('label', true); //  MERGE
 
     const pointMerge = pointEnter.merge(pointUpdate);
@@ -21441,7 +22323,10 @@ class ROCSpace extends DetectableElement {
         element.d = undefined;
         element.c = undefined;
         element.s = undefined;
-        return "translate(\n            ".concat(xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far), ",\n            ").concat(yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr), "\n          )");
+        return `translate(
+            ${xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far)},
+            ${yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr)}
+          )`;
       });
     } else if (this.sdt) {
       pointMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('transform', (datum, index, elements) => {
@@ -21453,7 +22338,10 @@ class ROCSpace extends DetectableElement {
           element.d = interpolateD(time);
           element.c = interpolateC(time);
           element.s = interpolateS(time);
-          return "translate(\n              ".concat(xScale(this.zRoc ? SDTMath.far2Zfar(SDTMath.dC2Far(element.d, element.c, element.s)) : SDTMath.dC2Far(element.d, element.c, element.s)), ",\n              ").concat(yScale(this.zRoc ? SDTMath.hr2Zhr(SDTMath.dC2Hr(element.d, element.c, element.s)) : SDTMath.dC2Hr(element.d, element.c, element.s)), "\n            )");
+          return `translate(
+              ${xScale(this.zRoc ? SDTMath.far2Zfar(SDTMath.dC2Far(element.d, element.c, element.s)) : SDTMath.dC2Far(element.d, element.c, element.s))},
+              ${yScale(this.zRoc ? SDTMath.hr2Zhr(SDTMath.dC2Hr(element.d, element.c, element.s)) : SDTMath.dC2Hr(element.d, element.c, element.s))}
+            )`;
         };
       });
     } else {
@@ -21462,7 +22350,10 @@ class ROCSpace extends DetectableElement {
         element.d = undefined;
         element.c = undefined;
         element.s = undefined;
-        return "translate(\n            ".concat(xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far), ",\n            ").concat(yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr), "\n          )");
+        return `translate(
+            ${xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far)},
+            ${yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr)}
+          )`;
       });
     } //  EXIT
     // NOTE: Could add a transition here
@@ -21477,7 +22368,29 @@ class ROCSpace extends DetectableElement {
 }
 customElements.define('roc-space', ROCSpace);
 
-var _templateObject$c, _templateObject2$b, _templateObject3$9, _templateObject4$9, _templateObject5$9, _templateObject6$9, _templateObject7$9, _templateObject8$7, _templateObject9$7, _templateObject10$7, _templateObject11$7, _templateObject12$2, _templateObject13$2, _templateObject14$2, _templateObject15$2, _templateObject16$2, _templateObject17$2, _templateObject18$2, _templateObject19$2, _templateObject20$2, _templateObject21$1, _templateObject22$1;
+let _$c = t => t,
+    _t$c,
+    _t2$b,
+    _t3$9,
+    _t4$9,
+    _t5$9,
+    _t6$9,
+    _t7$9,
+    _t8$7,
+    _t9$7,
+    _t10$7,
+    _t11$7,
+    _t12$2,
+    _t13$2,
+    _t14$2,
+    _t15$2,
+    _t16$2,
+    _t17$2,
+    _t18$2,
+    _t19$2,
+    _t20$2,
+    _t21$1,
+    _t22$1;
 /*
   DetectableControl element
   <detectable-control>
@@ -21649,17 +22562,75 @@ class DetectableControl extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$c || (_templateObject$c = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .buttons {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        /* Payoff  Slider */\n        .payoff {\n          --decidables-spinner-prefix: \"$\";\n        }\n      "])))];
+    return [super.styles, r$2(_t$c || (_t$c = _$c`
+        :host {
+          display: inline-block;
+        }
+
+        .holder {
+          display: flex;
+
+          flex-direction: row;
+
+          align-items: stretch;
+          justify-content: center;
+        }
+
+        .buttons {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: stretch;
+          justify-content: center;
+        }
+
+        /* Payoff  Slider */
+        .payoff {
+          --decidables-spinner-prefix: "$";
+        }
+      `))];
   }
 
   render() {
-    return $(_templateObject2$b || (_templateObject2$b = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n        ", "\n      </div>"])), this.trials ? $(_templateObject3$9 || (_templateObject3$9 = _taggedTemplateLiteral(["<decidables-slider min=\"1\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Trials</decidables-slider>"])), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : $(_templateObject4$9 || (_templateObject4$9 = _taggedTemplateLiteral([""]))), this.duration ? $(_templateObject5$9 || (_templateObject5$9 = _taggedTemplateLiteral(["<decidables-slider min=\"10\" max=\"2000\" step=\"10\" .value=", " @change=", " @input=", ">Duration</decidables-slider>"])), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : $(_templateObject6$9 || (_templateObject6$9 = _taggedTemplateLiteral([""]))), this.coherence ? $(_templateObject7$9 || (_templateObject7$9 = _taggedTemplateLiteral(["<decidables-slider min=\"0\" max=\"1\" step=\".01\" .value=", " @change=", " @input=", ">Coherence</decidables-slider>"])), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : $(_templateObject8$7 || (_templateObject8$7 = _taggedTemplateLiteral([""]))), this.payoff ? $(_templateObject9$7 || (_templateObject9$7 = _taggedTemplateLiteral(["<decidables-slider class=\"payoff\" min=\"0\" max=\"100\" step=\"1\" .value=", " @change=", " @input=", ">Payoff</decidables-slider>"])), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : $(_templateObject10$7 || (_templateObject10$7 = _taggedTemplateLiteral([""]))), this.color !== undefined ? $(_templateObject11$7 || (_templateObject11$7 = _taggedTemplateLiteral(["\n            <decidables-toggle @change=", ">\n              <span slot=\"label\">Emphasis</span>\n              <decidables-toggle-option name=", " value=\"none\" ?checked=", ">None</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"accuracy\" ?checked=", ">Accuracy</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"stimulus\" ?checked=", ">Stimulus</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"response\" ?checked=", ">Response</decidables-toggle-option>\n              <decidables-toggle-option name=", " value=\"outcome\" ?checked=", ">Outcome</decidables-toggle-option>\n            </decidables-toggle>\n          "])), this.chooseColor.bind(this), "".concat(this.uniqueId, "-color"), this.color === 'none', "".concat(this.uniqueId, "-color"), this.color === 'accuracy', "".concat(this.uniqueId, "-color"), this.color === 'stimulus', "".concat(this.uniqueId, "-color"), this.color === 'response', "".concat(this.uniqueId, "-color"), this.color === 'outcome') : $(_templateObject12$2 || (_templateObject12$2 = _taggedTemplateLiteral([""]))), this.zRoc !== undefined ? $(_templateObject13$2 || (_templateObject13$2 = _taggedTemplateLiteral(["\n            <decidables-switch ?checked=", " @change=", ">\n              <span class=\"math-var\">z</span>ROC\n              <span slot=\"off-label\">ROC</span>\n            </decidables-switch>\n          "])), this.zRoc, this.flipZRoc.bind(this)) : $(_templateObject14$2 || (_templateObject14$2 = _taggedTemplateLiteral([""]))), this.run || this.pause || this.reset ? $(_templateObject15$2 || (_templateObject15$2 = _taggedTemplateLiteral(["\n            <div class=\"buttons\">\n              ", "\n              ", "\n              ", "\n            </div>\n          "])), this.run ? $(_templateObject16$2 || (_templateObject16$2 = _taggedTemplateLiteral(["<decidables-button name=\"run\" ?disabled=", " @click=", ">Run</decidables-button>"])), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : $(_templateObject17$2 || (_templateObject17$2 = _taggedTemplateLiteral([""]))), this.pause ? $(_templateObject18$2 || (_templateObject18$2 = _taggedTemplateLiteral(["<decidables-button name=\"pause\" ?disabled=", " @click=", ">Pause</decidables-button>"])), this.state !== 'running', this.doPause.bind(this)) : $(_templateObject19$2 || (_templateObject19$2 = _taggedTemplateLiteral([""]))), this.reset ? $(_templateObject20$2 || (_templateObject20$2 = _taggedTemplateLiteral(["<decidables-button name=\"reset\" ?disabled=", " @click=", ">Reset</decidables-button>"])), this.state === 'resetted', this.doReset.bind(this)) : $(_templateObject21$1 || (_templateObject21$1 = _taggedTemplateLiteral([""])))) : $(_templateObject22$1 || (_templateObject22$1 = _taggedTemplateLiteral([""]))));
+    return $(_t2$b || (_t2$b = _$c`
+      <div class="holder">
+        ${0}
+        ${0}
+        ${0}
+        ${0}
+        ${0}
+        ${0}
+        ${0}
+      </div>`), this.trials ? $(_t3$9 || (_t3$9 = _$c`<decidables-slider min="1" max="100" step="1" .value=${0} @change=${0} @input=${0}>Trials</decidables-slider>`), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : $(_t4$9 || (_t4$9 = _$c``)), this.duration ? $(_t5$9 || (_t5$9 = _$c`<decidables-slider min="10" max="2000" step="10" .value=${0} @change=${0} @input=${0}>Duration</decidables-slider>`), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : $(_t6$9 || (_t6$9 = _$c``)), this.coherence ? $(_t7$9 || (_t7$9 = _$c`<decidables-slider min="0" max="1" step=".01" .value=${0} @change=${0} @input=${0}>Coherence</decidables-slider>`), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : $(_t8$7 || (_t8$7 = _$c``)), this.payoff ? $(_t9$7 || (_t9$7 = _$c`<decidables-slider class="payoff" min="0" max="100" step="1" .value=${0} @change=${0} @input=${0}>Payoff</decidables-slider>`), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : $(_t10$7 || (_t10$7 = _$c``)), this.color !== undefined ? $(_t11$7 || (_t11$7 = _$c`
+            <decidables-toggle @change=${0}>
+              <span slot="label">Emphasis</span>
+              <decidables-toggle-option name="toggle" value="none" ?checked=${0}>None</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="accuracy" ?checked=${0}>Accuracy</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="stimulus" ?checked=${0}>Stimulus</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="response" ?checked=${0}>Response</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="outcome" ?checked=${0}>Outcome</decidables-toggle-option>
+            </decidables-toggle>
+          `), this.chooseColor.bind(this), this.color === 'none', this.color === 'accuracy', this.color === 'stimulus', this.color === 'response', this.color === 'outcome') : $(_t12$2 || (_t12$2 = _$c``)), this.zRoc !== undefined ? $(_t13$2 || (_t13$2 = _$c`
+            <decidables-switch ?checked=${0} @change=${0}>
+              <span class="math-var">z</span>ROC
+              <span slot="off-label">ROC</span>
+            </decidables-switch>
+          `), this.zRoc, this.flipZRoc.bind(this)) : $(_t14$2 || (_t14$2 = _$c``)), this.run || this.pause || this.reset ? $(_t15$2 || (_t15$2 = _$c`
+            <div class="buttons">
+              ${0}
+              ${0}
+              ${0}
+            </div>
+          `), this.run ? $(_t16$2 || (_t16$2 = _$c`<decidables-button name="run" ?disabled=${0} @click=${0}>Run</decidables-button>`), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : $(_t17$2 || (_t17$2 = _$c``)), this.pause ? $(_t18$2 || (_t18$2 = _$c`<decidables-button name="pause" ?disabled=${0} @click=${0}>Pause</decidables-button>`), this.state !== 'running', this.doPause.bind(this)) : $(_t19$2 || (_t19$2 = _$c``)), this.reset ? $(_t20$2 || (_t20$2 = _$c`<decidables-button name="reset" ?disabled=${0} @click=${0}>Reset</decidables-button>`), this.state === 'resetted', this.doReset.bind(this)) : $(_t21$1 || (_t21$1 = _$c``))) : $(_t22$1 || (_t22$1 = _$c``)));
   }
 
 }
 customElements.define('detectable-control', DetectableControl);
 
-var _templateObject$b, _templateObject2$a;
+let _$b = t => t,
+    _t$b,
+    _t2$a;
 /*
   SDTModel element
   <sdt-model>
@@ -21896,12 +22867,256 @@ class SDTModel extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$b || (_templateObject$b = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n\n          width: 27rem;\n          height: 15rem;\n        }\n\n        .main {\n          width: 100%;\n          height: 100%;\n        }\n\n        text {\n          /* stylelint-disable property-no-vendor-prefix */\n          -webkit-user-select: none;\n          -moz-user-select: none;\n          -ms-user-select: none;\n          user-select: none;\n        }\n\n        .tick {\n          font-size: 0.75rem;\n        }\n\n        .axis-x path,\n        .axis-x line,\n        .axis-y path,\n        .axis-y line,\n        .axis-y2 path,\n        .axis-y2 line {\n          stroke: var(---color-element-border);\n        }\n\n        .noise.interactive,\n        .signal.interactive,\n        .threshold.interactive {\n          cursor: ew-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.unequal {\n          cursor: ns-resize;\n\n          filter: url(\"#shadow-2\");\n          outline: none;\n        }\n\n        .signal.interactive.unequal {\n          cursor: move;\n        }\n\n        .noise.interactive:hover,\n        .signal.interactive:hover,\n        .signal.unequal:hover,\n        .threshold.interactive:hover {\n          filter: url(\"#shadow-4\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateX(0);\n        }\n\n        .noise.interactive:active,\n        .signal.interactive:active,\n        .signal.unequal:active,\n        .threshold.interactive:active {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateY(0);\n        }\n\n        :host(.keyboard) .noise.interactive:focus,\n        :host(.keyboard) .signal.interactive:focus,\n        :host(.keyboard) .signal.unequal:focus,\n        :host(.keyboard) .threshold.interactive:focus {\n          filter: url(\"#shadow-8\");\n\n          /* HACK: This gets Safari to correctly apply the filter! */\n          transform: translateZ(0);\n        }\n\n        .underlayer .background {\n          fill: var(---color-element-background);\n          stroke: none;\n        }\n\n        .overlayer .background {\n          fill: none;\n          stroke: var(---color-element-border);\n          stroke-width: 1;\n          shape-rendering: crispEdges;\n        }\n\n        .title-x,\n        .title-y,\n        .title-y2 {\n          font-weight: 600;\n\n          fill: currentColor;\n        }\n\n        .curve-cr,\n        .curve-fa,\n        .curve-m,\n        .curve-h {\n          fill-opacity: 0.5;\n          stroke: none;\n\n          transition: fill var(---transition-duration) ease;\n        }\n\n        .curve-cr {\n          fill: var(---color-cr);\n        }\n\n        .curve-fa {\n          fill: var(---color-fa);\n        }\n\n        .curve-m {\n          fill: var(---color-m);\n        }\n\n        .curve-h {\n          fill: var(---color-h);\n        }\n\n        :host([color=\"accuracy\"]) .curve-h,\n        :host([color=\"accuracy\"]) .curve-cr {\n          fill: var(---color-correct);\n        }\n\n        :host([color=\"accuracy\"]) .curve-m,\n        :host([color=\"accuracy\"]) .curve-fa {\n          fill: var(---color-error);\n        }\n\n        :host([color=\"stimulus\"]) .curve-cr,\n        :host([color=\"stimulus\"]) .curve-fa {\n          fill: var(---color-far);\n        }\n\n        :host([color=\"stimulus\"]) .curve-m,\n        :host([color=\"stimulus\"]) .curve-h {\n          fill: var(---color-hr);\n        }\n\n        :host([color=\"response\"]) .curve-cr,\n        :host([color=\"response\"]) .curve-m {\n          fill: var(---color-absent);\n        }\n\n        :host([color=\"response\"]) .curve-fa,\n        :host([color=\"response\"]) .curve-h {\n          fill: var(---color-present);\n        }\n\n        :host([color=\"none\"]) .curve-cr,\n        :host([color=\"none\"]) .curve-fa,\n        :host([color=\"none\"]) .curve-m,\n        :host([color=\"none\"]) .curve-h {\n          fill: var(---color-element-enabled);\n        }\n\n        .curve-noise,\n        .curve-signal {\n          fill: none;\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .measure-d,\n        .measure-c,\n        .measure-s {\n          pointer-events: none;\n        }\n\n        .threshold .line {\n          stroke: var(---color-element-emphasis);\n          stroke-width: 2;\n        }\n\n        .threshold .handle {\n          fill: var(---color-element-emphasis);\n\n          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */\n        }\n\n        /* Make a larger target for touch users */\n        @media (pointer: coarse) {\n          .threshold.interactive .handle {\n            stroke: #000000;\n            stroke-opacity: 0;\n            stroke-width: 12px;\n          }\n        }\n\n        .measure-d .line,\n        .measure-d .cap-left,\n        .measure-d .cap-right {\n          stroke: var(---color-d);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-d .label {\n          font-size: 0.75rem;\n\n          text-anchor: start;\n          fill: currentColor;\n        }\n\n        .measure-c .line,\n        .measure-c .cap-zero {\n          stroke: var(---color-c);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-c .label {\n          font-size: 0.75rem;\n\n          fill: currentColor;\n        }\n\n        .measure-s .line,\n        .measure-s .cap-left,\n        .measure-s .cap-right {\n          stroke: var(---color-s);\n          stroke-width: 2;\n          shape-rendering: crispEdges;\n        }\n\n        .measure-s .label {\n          font-size: 0.75rem;\n\n          text-anchor: middle;\n          fill: currentColor;\n        }\n      "])))];
+    return [super.styles, r$2(_t$b || (_t$b = _$b`
+        :host {
+          display: inline-block;
+
+          width: 27rem;
+          height: 15rem;
+        }
+
+        .main {
+          width: 100%;
+          height: 100%;
+        }
+
+        text {
+          /* stylelint-disable property-no-vendor-prefix */
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        .tick {
+          font-size: 0.75rem;
+        }
+
+        .axis-x path,
+        .axis-x line,
+        .axis-y path,
+        .axis-y line,
+        .axis-y2 path,
+        .axis-y2 line {
+          stroke: var(---color-element-border);
+        }
+
+        .noise.interactive,
+        .signal.interactive,
+        .threshold.interactive {
+          cursor: ew-resize;
+
+          filter: url("#shadow-2");
+          outline: none;
+        }
+
+        .signal.unequal {
+          cursor: ns-resize;
+
+          filter: url("#shadow-2");
+          outline: none;
+        }
+
+        .signal.interactive.unequal {
+          cursor: move;
+        }
+
+        .noise.interactive:hover,
+        .signal.interactive:hover,
+        .signal.unequal:hover,
+        .threshold.interactive:hover {
+          filter: url("#shadow-4");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateX(0);
+        }
+
+        .noise.interactive:active,
+        .signal.interactive:active,
+        .signal.unequal:active,
+        .threshold.interactive:active {
+          filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateY(0);
+        }
+
+        :host(.keyboard) .noise.interactive:focus,
+        :host(.keyboard) .signal.interactive:focus,
+        :host(.keyboard) .signal.unequal:focus,
+        :host(.keyboard) .threshold.interactive:focus {
+          filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateZ(0);
+        }
+
+        .underlayer .background {
+          fill: var(---color-element-background);
+          stroke: none;
+        }
+
+        .overlayer .background {
+          fill: none;
+          stroke: var(---color-element-border);
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+
+        .title-x,
+        .title-y,
+        .title-y2 {
+          font-weight: 600;
+
+          fill: currentColor;
+        }
+
+        .curve-cr,
+        .curve-fa,
+        .curve-m,
+        .curve-h {
+          fill-opacity: 0.5;
+          stroke: none;
+
+          transition: fill var(---transition-duration) ease;
+        }
+
+        .curve-cr {
+          fill: var(---color-cr);
+        }
+
+        .curve-fa {
+          fill: var(---color-fa);
+        }
+
+        .curve-m {
+          fill: var(---color-m);
+        }
+
+        .curve-h {
+          fill: var(---color-h);
+        }
+
+        :host([color="accuracy"]) .curve-h,
+        :host([color="accuracy"]) .curve-cr {
+          fill: var(---color-correct);
+        }
+
+        :host([color="accuracy"]) .curve-m,
+        :host([color="accuracy"]) .curve-fa {
+          fill: var(---color-error);
+        }
+
+        :host([color="stimulus"]) .curve-cr,
+        :host([color="stimulus"]) .curve-fa {
+          fill: var(---color-far);
+        }
+
+        :host([color="stimulus"]) .curve-m,
+        :host([color="stimulus"]) .curve-h {
+          fill: var(---color-hr);
+        }
+
+        :host([color="response"]) .curve-cr,
+        :host([color="response"]) .curve-m {
+          fill: var(---color-absent);
+        }
+
+        :host([color="response"]) .curve-fa,
+        :host([color="response"]) .curve-h {
+          fill: var(---color-present);
+        }
+
+        :host([color="none"]) .curve-cr,
+        :host([color="none"]) .curve-fa,
+        :host([color="none"]) .curve-m,
+        :host([color="none"]) .curve-h {
+          fill: var(---color-element-enabled);
+        }
+
+        .curve-noise,
+        .curve-signal {
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2;
+        }
+
+        .measure-d,
+        .measure-c,
+        .measure-s {
+          pointer-events: none;
+        }
+
+        .threshold .line {
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2;
+        }
+
+        .threshold .handle {
+          fill: var(---color-element-emphasis);
+
+          r: 6px;
+        }
+
+        /* Make a larger target for touch users */
+        @media (pointer: coarse) {
+          .threshold.interactive .handle {
+            stroke: #000000;
+            stroke-opacity: 0;
+            stroke-width: 12px;
+          }
+        }
+
+        .measure-d .line,
+        .measure-d .cap-left,
+        .measure-d .cap-right {
+          stroke: var(---color-d);
+          stroke-width: 2;
+          shape-rendering: crispEdges;
+        }
+
+        .measure-d .label {
+          font-size: 0.75rem;
+
+          text-anchor: start;
+          fill: currentColor;
+        }
+
+        .measure-c .line,
+        .measure-c .cap-zero {
+          stroke: var(---color-c);
+          stroke-width: 2;
+          shape-rendering: crispEdges;
+        }
+
+        .measure-c .label {
+          font-size: 0.75rem;
+
+          fill: currentColor;
+        }
+
+        .measure-s .line,
+        .measure-s .cap-left,
+        .measure-s .cap-right {
+          stroke: var(---color-s);
+          stroke-width: 2;
+          shape-rendering: crispEdges;
+        }
+
+        .measure-s .label {
+          font-size: 0.75rem;
+
+          text-anchor: middle;
+          fill: currentColor;
+        }
+      `))];
   }
 
   render() {
     // eslint-disable-line class-methods-use-this
-    return $(_templateObject2$a || (_templateObject2$a = _taggedTemplateLiteral(["\n      ", "\n    "])), DetectableElement.svgFilters);
+    return $(_t2$a || (_t2$a = _$b`
+      ${0}
+    `), DetectableElement.svgFilters);
   }
 
   sendEvent() {
@@ -21939,9 +23154,8 @@ class SDTModel extends DetectableElement {
 
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
-    // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
 
-    window.setTimeout(this.getDimensions.bind(this), 0);
+    this.getDimensions();
   }
 
   update(changedProperties) {
@@ -22100,12 +23314,12 @@ class SDTModel extends DetectableElement {
 
     const svgEnter = svgUpdate.enter().append('svg').classed('main', true); // MERGE
 
-    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', "0 0 ".concat(elementWidth, " ").concat(elementHeight)); // Plot
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`); // Plot
     //  ENTER
 
     const plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
 
-    const plotMerge = svgMerge.select('.plot').attr('transform', "translate(".concat(margin.left, ", ").concat(margin.top, ")")); // Underlayer
+    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`); // Underlayer
     //  ENTER
 
     const underlayerEnter = plotEnter.append('g').classed('underlayer', true); // MERGE
@@ -22120,13 +23334,13 @@ class SDTModel extends DetectableElement {
 
     underlayerEnter.append('g').classed('axis-x', true); //  MERGE
 
-    const axisXMerge = underlayerMerge.select('.axis-x').attr('transform', "translate(0, ".concat(height, ")")).call(axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
+    const axisXMerge = underlayerMerge.select('.axis-x').attr('transform', `translate(0, ${height})`).call(axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
     axisXMerge.selectAll('line, path').attr('stroke', null); // X Axis Title
     //  ENTER
 
     underlayerEnter.append('text').classed('title-x', true).attr('text-anchor', 'middle').text('Evidence'); //  MERGE
 
-    underlayerMerge.select('.title-x').attr('transform', "translate(".concat(width / 2, ", ").concat(height + 2.25 * this.rem, ")")); // Y Axis
+    underlayerMerge.select('.title-x').attr('transform', `translate(${width / 2}, ${height + 2.25 * this.rem})`); // Y Axis
     //  DATA-JOIN
 
     const axisYUpdate = underlayerMerge.selectAll('.axis-y').data(this.distributions ? [{}] : []); //  ENTER
@@ -22143,7 +23357,7 @@ class SDTModel extends DetectableElement {
 
     const titleYEnter = titleYUpdate.enter().append('text').classed('title-y', true).attr('text-anchor', 'middle').text('Probability'); //  MERGE
 
-    titleYEnter.merge(titleYUpdate).attr('transform', "translate(".concat(-2 * this.rem, ", ").concat(height / 2, ")rotate(-90)")); //  EXIT
+    titleYEnter.merge(titleYUpdate).attr('transform', `translate(${-2 * this.rem}, ${height / 2})rotate(-90)`); //  EXIT
 
     titleYUpdate.exit().remove(); // 2nd Y Axis
     //  DATA-JOIN
@@ -22152,7 +23366,7 @@ class SDTModel extends DetectableElement {
 
     const axisY2Enter = axisY2Update.enter().append('g').classed('axis-y2', true); //  MERGE
 
-    const axisY2Merge = axisY2Enter.merge(axisY2Update).attr('transform', this.distributions ? "translate(".concat(width, ", 0)") : '').call(this.distributions ? axisRight(y2Scale).ticks(10) : axisLeft(y2Scale).ticks(10)).attr('font-size', null).attr('font-family', null);
+    const axisY2Merge = axisY2Enter.merge(axisY2Update).attr('transform', this.distributions ? `translate(${width}, 0)` : '').call(this.distributions ? axisRight(y2Scale).ticks(10) : axisLeft(y2Scale).ticks(10)).attr('font-size', null).attr('font-family', null);
     axisY2Merge.selectAll('line, path').attr('stroke', null); //  EXIT
 
     axisY2Update.exit().remove(); // 2nd Y Axis Title
@@ -22162,7 +23376,7 @@ class SDTModel extends DetectableElement {
 
     const titleY2Enter = titleY2Update.enter().append('text').classed('title-y2', true).attr('text-anchor', 'middle').text('Count'); //  MERGE
 
-    titleY2Enter.merge(titleY2Update).attr('transform', this.distributions ? "translate(".concat(width + 1.5 * this.rem, ", ").concat(height / 2, ")rotate(90)") : "translate(".concat(-1.5 * this.rem, ", ").concat(height / 2, ")rotate(-90)")); //  EXIT
+    titleY2Enter.merge(titleY2Update).attr('transform', this.distributions ? `translate(${width + 1.5 * this.rem}, ${height / 2})rotate(90)` : `translate(${-1.5 * this.rem}, ${height / 2})rotate(-90)`); //  EXIT
 
     titleY2Update.exit().remove(); // Plot Content
 
@@ -22574,9 +23788,7 @@ class SDTModel extends DetectableElement {
 
     const thresholdEnter = thresholdUpdate.enter().append('g').classed('threshold', true);
     thresholdEnter.append('line').classed('line', true);
-    thresholdEnter.append('circle').classed('handle', true).attr('r', 6);
-    /* HACK: Firefox does not support CSS SVG Geometry Properties */
-    //  MERGE
+    thresholdEnter.append('circle').classed('handle', true); //  MERGE
 
     const thresholdMerge = thresholdEnter.merge(thresholdUpdate).attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive);
 
@@ -22668,7 +23880,7 @@ class SDTModel extends DetectableElement {
       .attr('stroke', this.getComputedStyleValue('---color-acc')).attr('fill', this.getComputedStyleValue('---color-acc-light')); //  MERGE
 
       const trialMerge = trialEnter.merge(trialUpdate).attr('class', datum => {
-        return "trial ".concat(datum.outcome);
+        return `trial ${datum.outcome}`;
       }).attr('width', binWidth - strokeWidth).attr('height', binWidth - strokeWidth); //  MERGE - Active New Trials
 
       const trialMergeNewActive = trialMerge.filter(datum => {
@@ -22692,13 +23904,13 @@ class SDTModel extends DetectableElement {
           return Math.floor((datum.duration * 0.75 + datum.wait * 0.25) * (1 - easeTime));
         }).ease(scaleIn).attr('data-new-trial-ease-time', 1).attrTween('stroke', (datum, index, elements) => {
           const element = elements[index];
-          const interpolator = interpolateRgb(element.getAttribute('stroke'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr') : this.getComputedStyleValue('---color-far') : this.color === 'response' ? this.getComputedStyleValue("---color-".concat(datum.response)) : this.color === 'outcome' ? this.getComputedStyleValue("---color-".concat(datum.outcome)) : this.getComputedStyleValue('---color-acc'));
+          const interpolator = interpolateRgb(element.getAttribute('stroke'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr') : this.getComputedStyleValue('---color-far') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}`) : this.getComputedStyleValue('---color-acc'));
           return time => {
             return interpolator(scaleOutGenerator(cubicIn)(time));
           };
         }).attrTween('fill', (datum, index, elements) => {
           const element = elements[index];
-          const interpolator = interpolateRgb(element.getAttribute('fill'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr-light') : this.getComputedStyleValue('---color-far-light') : this.color === 'response' ? this.getComputedStyleValue("---color-".concat(datum.response, "-light")) : this.color === 'outcome' ? this.getComputedStyleValue("---color-".concat(datum.outcome, "-light")) : this.getComputedStyleValue('---color-acc-light'));
+          const interpolator = interpolateRgb(element.getAttribute('fill'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr-light') : this.getComputedStyleValue('---color-far-light') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}-light`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}-light`) : this.getComputedStyleValue('---color-acc-light'));
           return time => {
             return interpolator(scaleOutGenerator(cubicIn)(time));
           };
@@ -22749,10 +23961,10 @@ class SDTModel extends DetectableElement {
           const interpolator = interpolate$1(0, yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth);
           return interpolator(cubicIn(easeTime));
         }).attr('stroke', datum => {
-          const interpolator = interpolateRgb(this.getComputedStyleValue('---color-acc'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr') : this.getComputedStyleValue('---color-far') : this.color === 'response' ? this.getComputedStyleValue("---color-".concat(datum.response)) : this.color === 'outcome' ? this.getComputedStyleValue("---color-".concat(datum.outcome)) : this.getComputedStyleValue('---color-acc'));
+          const interpolator = interpolateRgb(this.getComputedStyleValue('---color-acc'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr') : this.getComputedStyleValue('---color-far') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}`) : this.getComputedStyleValue('---color-acc'));
           return interpolator(cubicIn(easeTime));
         }).attr('fill', datum => {
-          const interpolator = interpolateRgb(this.getComputedStyleValue('---color-acc-light'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr-light') : this.getComputedStyleValue('---color-far-light') : this.color === 'response' ? this.getComputedStyleValue("---color-".concat(datum.response, "-light")) : this.color === 'outcome' ? this.getComputedStyleValue("---color-".concat(datum.outcome, "-light")) : this.getComputedStyleValue('---color-acc-light'));
+          const interpolator = interpolateRgb(this.getComputedStyleValue('---color-acc-light'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr-light') : this.getComputedStyleValue('---color-far-light') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}-light`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}-light`) : this.getComputedStyleValue('---color-acc-light'));
           return interpolator(cubicIn(easeTime));
         });
       } //  MERGE - Old Trials
@@ -22765,9 +23977,9 @@ class SDTModel extends DetectableElement {
       }).attr('y', datum => {
         return yScale(0) + strokeWidth / 2 - (datum.binCount + 1) * binWidth;
       }).attr('stroke', datum => {
-        return this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr') : this.getComputedStyleValue('---color-far') : this.color === 'response' ? this.getComputedStyleValue("---color-".concat(datum.response)) : this.color === 'outcome' ? this.getComputedStyleValue("---color-".concat(datum.outcome)) : this.getComputedStyleValue('---color-acc');
+        return this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr') : this.getComputedStyleValue('---color-far') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}`) : this.getComputedStyleValue('---color-acc');
       }).attr('fill', datum => {
-        return this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr-light') : this.getComputedStyleValue('---color-far-light') : this.color === 'response' ? this.getComputedStyleValue("---color-".concat(datum.response, "-light")) : this.color === 'outcome' ? this.getComputedStyleValue("---color-".concat(datum.outcome, "-light")) : this.getComputedStyleValue('---color-acc-light');
+        return this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr-light') : this.getComputedStyleValue('---color-far-light') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}-light`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}-light`) : this.getComputedStyleValue('---color-acc-light');
       }); //  EXIT
 
       trialUpdate.exit().transition().duration(transitionDuration).ease(linear$1).attrTween('stroke', (datum, index, elements) => {
@@ -22834,7 +24046,27 @@ class SDTModel extends DetectableElement {
 }
 customElements.define('sdt-model', SDTModel);
 
-var _templateObject$a, _templateObject2$9, _templateObject3$8, _templateObject4$8, _templateObject5$8, _templateObject6$8, _templateObject7$8, _templateObject8$6, _templateObject9$6, _templateObject10$6, _templateObject11$6, _templateObject12$1, _templateObject13$1, _templateObject14$1, _templateObject15$1, _templateObject16$1, _templateObject17$1, _templateObject18$1, _templateObject19$1, _templateObject20$1;
+let _$a = t => t,
+    _t$a,
+    _t2$9,
+    _t3$8,
+    _t4$8,
+    _t5$8,
+    _t6$8,
+    _t7$8,
+    _t8$6,
+    _t9$6,
+    _t10$6,
+    _t11$6,
+    _t12$1,
+    _t13$1,
+    _t14$1,
+    _t15$1,
+    _t16$1,
+    _t17$1,
+    _t18$1,
+    _t19$1,
+    _t20$1;
 /*
   DetectableResponse element
   <detectable-response>
@@ -23081,17 +24313,205 @@ class DetectableResponse extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$a || (_templateObject$a = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall container */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n        }\n\n        /* Response buttons */\n        .responses {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: stretch;\n          justify-content: center;\n        }\n\n        .waiting[disabled] {\n          --decidables-button-background-color: var(---color-element-enabled);\n        }\n\n        .selected[disabled][name=\"present\"] {\n          --decidables-button-background-color: var(---color-present);\n        }\n\n        .selected[disabled][name=\"absent\"] {\n          --decidables-button-background-color: var(---color-absent);\n        }\n\n        /* Feedback messages */\n        .feedbacks {\n          display: flex;\n\n          flex-direction: column;\n\n          justify-content: center;\n        }\n\n        /* Trial feedback */\n        .trial {\n          text-align: center;\n        }\n\n        .trial .label {\n          font-weight: 600;\n        }\n\n        /* Outcome feedback */\n        .feedback {\n          display: flex;\n\n          flex-direction: column;\n\n          align-items: center;\n          justify-content: center;\n\n          width: 6rem;\n          height: 3.5rem;\n          padding: 0.375rem 0.75rem;\n          margin: 0.25rem;\n\n          text-align: center;\n\n          background-color: var(---color-element-background);\n          border: 1px solid var(---color-element-border);\n        }\n\n        .feedback.h {\n          background-color: var(---color-h-light);\n        }\n\n        .feedback.m {\n          background-color: var(---color-m-light);\n        }\n\n        .feedback.fa {\n          background-color: var(---color-fa-light);\n        }\n\n        .feedback.cr {\n          background-color: var(---color-cr-light);\n        }\n\n        .feedback.nr {\n          background-color: var(---color-nr-light);\n        }\n\n        .feedback.c {\n          background-color: var(---color-correct-light);\n        }\n\n        .feedback.e {\n          color: var(---color-text-inverse);\n\n          background-color: var(---color-error-light);\n        }\n\n        .feedback .outcome {\n          font-weight: 600;\n          line-height: 1.15;\n        }\n\n        :host([payoff=\"trial\"]) .feedback,\n        :host([payoff=\"total\"]) .feedback {\n          height: 4rem;\n        }\n\n        /* Payoff feedback */\n        .payoff {\n          text-align: center;\n        }\n\n        .payoff .label {\n          font-weight: 600;\n        }\n      "])))];
+    return [super.styles, r$2(_t$a || (_t$a = _$a`
+        :host {
+          display: inline-block;
+        }
+
+        /* Overall container */
+        .holder {
+          display: flex;
+
+          flex-direction: row;
+        }
+
+        /* Response buttons */
+        .responses {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: stretch;
+          justify-content: center;
+        }
+
+        .waiting[disabled] {
+          --decidables-button-background-color: var(---color-element-enabled);
+        }
+
+        .selected[disabled][name="present"] {
+          --decidables-button-background-color: var(---color-present);
+        }
+
+        .selected[disabled][name="absent"] {
+          --decidables-button-background-color: var(---color-absent);
+        }
+
+        /* Feedback messages */
+        .feedbacks {
+          display: flex;
+
+          flex-direction: column;
+
+          justify-content: center;
+        }
+
+        /* Trial feedback */
+        .trial {
+          text-align: center;
+        }
+
+        .trial .label {
+          font-weight: 600;
+        }
+
+        /* Outcome feedback */
+        .feedback {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: center;
+          justify-content: center;
+
+          width: 6rem;
+          height: 3.5rem;
+          padding: 0.375rem 0.75rem;
+          margin: 0.25rem;
+
+          text-align: center;
+
+          background-color: var(---color-element-background);
+          border: 1px solid var(---color-element-border);
+        }
+
+        .feedback.h {
+          background-color: var(---color-h-light);
+        }
+
+        .feedback.m {
+          background-color: var(---color-m-light);
+        }
+
+        .feedback.fa {
+          background-color: var(---color-fa-light);
+        }
+
+        .feedback.cr {
+          background-color: var(---color-cr-light);
+        }
+
+        .feedback.nr {
+          background-color: var(---color-nr-light);
+        }
+
+        .feedback.c {
+          background-color: var(---color-correct-light);
+        }
+
+        .feedback.e {
+          color: var(---color-text-inverse);
+
+          background-color: var(---color-error-light);
+        }
+
+        .feedback .outcome {
+          font-weight: 600;
+          line-height: 1.15;
+        }
+
+        :host([payoff="trial"]) .feedback,
+        :host([payoff="total"]) .feedback {
+          height: 4rem;
+        }
+
+        /* Payoff feedback */
+        .payoff {
+          text-align: center;
+        }
+
+        .payoff .label {
+          font-weight: 600;
+        }
+      `))];
   }
 
   render() {
-    return $(_templateObject2$9 || (_templateObject2$9 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <div class=\"responses\">\n          <decidables-button name=\"present\" class=", " ?disabled=", " @click=", ">Present</decidables-button>\n          <decidables-button name=\"absent\" class=", " ?disabled=", " @click=", ">Absent</decidables-button>\n        </div>\n        ", "\n      </div>"])), this.state === 'feedback' && this.response === 'present' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.present.bind(this), this.state === 'feedback' && this.response === 'absent' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.absent.bind(this), this.trial || this.feedback !== 'none' || this.payoff === 'total' ? $(_templateObject3$8 || (_templateObject3$8 = _taggedTemplateLiteral(["\n            <div class=\"feedbacks\">\n              ", "\n              ", "\n              ", "\n            </div>"])), this.trial ? $(_templateObject4$8 || (_templateObject4$8 = _taggedTemplateLiteral(["\n                  <div class=\"trial\">\n                    <span class=\"label\">Trial: </span><span class=\"count\">", "</span><span class=\"of\"> of </span><span class=\"total\">", "</span>\n                  </div>"])), this.trialCount, this.trialTotal) : $(_templateObject5$8 || (_templateObject5$8 = _taggedTemplateLiteral([""]))), this.feedback !== 'none' ? $(_templateObject6$8 || (_templateObject6$8 = _taggedTemplateLiteral(["\n                  <div class=", ">\n                    ", "\n                    ", "\n                  </div>"])), "feedback ".concat(this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''), this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? $(_templateObject7$8 || (_templateObject7$8 = _taggedTemplateLiteral(["<span class=\"outcome\">Hit</span>"]))) : this.outcome === 'm' ? $(_templateObject8$6 || (_templateObject8$6 = _taggedTemplateLiteral(["<span class=\"outcome\">Miss</span>"]))) : this.outcome === 'fa' ? $(_templateObject9$6 || (_templateObject9$6 = _taggedTemplateLiteral(["<span class=\"outcome\">False<br>Alarm</span>"]))) : this.outcome === 'cr' ? $(_templateObject10$6 || (_templateObject10$6 = _taggedTemplateLiteral(["<span class=\"outcome\">Correct<br>Rejection</span>"]))) : $(_templateObject11$6 || (_templateObject11$6 = _taggedTemplateLiteral(["<span class=\"outcome\">No<br>Response</span>"]))) : this.accuracy === 'c' ? $(_templateObject12$1 || (_templateObject12$1 = _taggedTemplateLiteral(["<span class=\"outcome\">Correct</span>"]))) : this.accuracy === 'e' ? $(_templateObject13$1 || (_templateObject13$1 = _taggedTemplateLiteral(["<span class=\"outcome\">Error</span>"]))) : $(_templateObject14$1 || (_templateObject14$1 = _taggedTemplateLiteral(["<span class=\"outcome\">No<br>Response</span>"]))) : '', this.payoff === 'trial' || this.payoff === 'total' ? $(_templateObject15$1 || (_templateObject15$1 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), this.trialPayoff) : $(_templateObject16$1 || (_templateObject16$1 = _taggedTemplateLiteral([""])))) : $(_templateObject17$1 || (_templateObject17$1 = _taggedTemplateLiteral([""]))), this.payoff === 'total' ? $(_templateObject18$1 || (_templateObject18$1 = _taggedTemplateLiteral(["\n                  <div class=\"payoff\">\n                    <span class=\"label\">Total: </span><span class=\"value\">", "</span>\n                  </div>"])), this.totalPayoff) : $(_templateObject19$1 || (_templateObject19$1 = _taggedTemplateLiteral([""])))) : $(_templateObject20$1 || (_templateObject20$1 = _taggedTemplateLiteral([""]))));
+    return $(_t2$9 || (_t2$9 = _$a`
+      <div class="holder">
+        <div class="responses">
+          <decidables-button name="present" class=${0} ?disabled=${0} @click=${0}>Present</decidables-button>
+          <decidables-button name="absent" class=${0} ?disabled=${0} @click=${0}>Absent</decidables-button>
+        </div>
+        ${0}
+      </div>`), this.state === 'feedback' && this.response === 'present' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.present.bind(this), this.state === 'feedback' && this.response === 'absent' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.absent.bind(this), this.trial || this.feedback !== 'none' || this.payoff === 'total' ? $(_t3$8 || (_t3$8 = _$a`
+            <div class="feedbacks">
+              ${0}
+              ${0}
+              ${0}
+            </div>`), this.trial ? $(_t4$8 || (_t4$8 = _$a`
+                  <div class="trial">
+                    <span class="label">Trial: </span><span class="count">${0}</span><span class="of"> of </span><span class="total">${0}</span>
+                  </div>`), this.trialCount, this.trialTotal) : $(_t5$8 || (_t5$8 = _$a``)), this.feedback !== 'none' ? $(_t6$8 || (_t6$8 = _$a`
+                  <div class=${0}>
+                    ${0}
+                    ${0}
+                  </div>`), `feedback ${this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''}`, this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? $(_t7$8 || (_t7$8 = _$a`<span class="outcome">Hit</span>`)) : this.outcome === 'm' ? $(_t8$6 || (_t8$6 = _$a`<span class="outcome">Miss</span>`)) : this.outcome === 'fa' ? $(_t9$6 || (_t9$6 = _$a`<span class="outcome">False<br>Alarm</span>`)) : this.outcome === 'cr' ? $(_t10$6 || (_t10$6 = _$a`<span class="outcome">Correct<br>Rejection</span>`)) : $(_t11$6 || (_t11$6 = _$a`<span class="outcome">No<br>Response</span>`)) : this.accuracy === 'c' ? $(_t12$1 || (_t12$1 = _$a`<span class="outcome">Correct</span>`)) : this.accuracy === 'e' ? $(_t13$1 || (_t13$1 = _$a`<span class="outcome">Error</span>`)) : $(_t14$1 || (_t14$1 = _$a`<span class="outcome">No<br>Response</span>`)) : '', this.payoff === 'trial' || this.payoff === 'total' ? $(_t15$1 || (_t15$1 = _$a`<span class="payoff">${0}</span>`), this.trialPayoff) : $(_t16$1 || (_t16$1 = _$a``))) : $(_t17$1 || (_t17$1 = _$a``)), this.payoff === 'total' ? $(_t18$1 || (_t18$1 = _$a`
+                  <div class="payoff">
+                    <span class="label">Total: </span><span class="value">${0}</span>
+                  </div>`), this.totalPayoff) : $(_t19$1 || (_t19$1 = _$a``))) : $(_t20$1 || (_t20$1 = _$a``)));
   }
 
 }
 customElements.define('detectable-response', DetectableResponse);
 
-var _templateObject$9, _templateObject2$8, _templateObject3$7, _templateObject4$7, _templateObject5$7, _templateObject6$7, _templateObject7$7, _templateObject8$5, _templateObject9$5, _templateObject10$5, _templateObject11$5, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16, _templateObject17, _templateObject18, _templateObject19, _templateObject20, _templateObject21, _templateObject22, _templateObject23, _templateObject24, _templateObject25, _templateObject26, _templateObject27, _templateObject28, _templateObject29, _templateObject30, _templateObject31, _templateObject32, _templateObject33, _templateObject34, _templateObject35, _templateObject36, _templateObject37, _templateObject38, _templateObject39, _templateObject40, _templateObject41, _templateObject42, _templateObject43, _templateObject44, _templateObject45, _templateObject46;
+let _$9 = t => t,
+    _t$9,
+    _t2$8,
+    _t3$7,
+    _t4$7,
+    _t5$7,
+    _t6$7,
+    _t7$7,
+    _t8$5,
+    _t9$5,
+    _t10$5,
+    _t11$5,
+    _t12,
+    _t13,
+    _t14,
+    _t15,
+    _t16,
+    _t17,
+    _t18,
+    _t19,
+    _t20,
+    _t21,
+    _t22,
+    _t23,
+    _t24,
+    _t25,
+    _t26,
+    _t27,
+    _t28,
+    _t29,
+    _t30,
+    _t31,
+    _t32,
+    _t33,
+    _t34,
+    _t35,
+    _t36,
+    _t37,
+    _t38,
+    _t39,
+    _t40,
+    _t41,
+    _t42,
+    _t43,
+    _t44,
+    _t45,
+    _t46;
 /*
   DetectableTable element
   <detectable-table>
@@ -23339,7 +24759,181 @@ class DetectableTable extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$9 || (_templateObject$9 = _taggedTemplateLiteral(["\n        :host {\n          display: inline-block;\n        }\n\n        /* Overall element */\n        table {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Headers */\n        .th-main {\n          padding: 0;\n\n          font-weight: bold;\n        }\n\n        .th-sub {\n          padding: 0 0.25rem;\n\n          font-weight: 600;\n        }\n\n        .th-left {\n          padding-left: 0;\n\n          text-align: right;\n        }\n\n        /* Cells */\n        .td {\n          width: 10rem;\n\n          padding: 0.25rem 0.25rem 0.375rem;\n\n          transition: all var(---transition-duration) ease;\n        }\n\n        .numeric .td {\n          width: 7rem;\n        }\n\n        /* Labels */\n        .payoff {\n          font-weight: 600;\n          line-height: 0.75rem;\n        }\n\n        /* User interaction <input> */\n        .td-data decidables-spinner {\n          --decidables-spinner-input-width: 3.5rem;\n        }\n\n        .td-summary decidables-spinner {\n          --decidables-spinner-input-width: 4.5rem;\n        }\n\n        /* Color schemes & Table emphasis */\n\n        /* (Default) Outcome color scheme */\n        .h {\n          background: var(---color-h-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .m {\n          background: var(---color-m-light);\n          border-top: 2px solid var(---color-element-emphasis);\n          border-right: 2px solid var(---color-element-emphasis);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n          border-bottom: 2px solid var(---color-element-emphasis);\n          border-left: 2px solid var(---color-element-emphasis);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n          border-right: 2px solid var(---color-element-emphasis);\n          border-bottom: 2px solid var(---color-element-emphasis);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .ppv {\n          background: var(---color-present-light);\n        }\n\n        .fomr {\n          background: var(---color-absent-light);\n        }\n\n        /* Accuracy color scheme */\n        :host([color=\"accuracy\"]) .h,\n        :host([color=\"accuracy\"]) .cr {\n          background: var(---color-correct-light);\n        }\n\n        :host([color=\"accuracy\"]) .m,\n        :host([color=\"accuracy\"]) .fa {\n          color: var(---color-text-inverse);\n\n          background: var(---color-error-light);\n        }\n\n        :host([color=\"accuracy\"]) .hr,\n        :host([color=\"accuracy\"]) .far,\n        :host([color=\"accuracy\"]) .ppv,\n        :host([color=\"accuracy\"]) .fomr {\n          background: var(---color-element-background);\n        }\n\n        /* Stimulus color scheme */\n        :host([color=\"stimulus\"]) .cr,\n        :host([color=\"stimulus\"]) .fa {\n          background: var(---color-far-light);\n        }\n\n        :host([color=\"stimulus\"]) .m,\n        :host([color=\"stimulus\"]) .h {\n          background: var(---color-hr-light);\n        }\n\n        :host([color=\"stimulus\"]) .ppv,\n        :host([color=\"stimulus\"]) .fomr,\n        :host([color=\"stimulus\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* Response color scheme */\n        :host([color=\"response\"]) .cr,\n        :host([color=\"response\"]) .m {\n          background: var(---color-absent-light);\n        }\n\n        :host([color=\"response\"]) .fa,\n        :host([color=\"response\"]) .h {\n          background: var(---color-present-light);\n        }\n\n        :host([color=\"response\"]) .hr,\n        :host([color=\"response\"]) .far,\n        :host([color=\"response\"]) .acc {\n          background: var(---color-element-background);\n        }\n\n        /* No color scheme */\n        :host([color=\"none\"]) .cr,\n        :host([color=\"none\"]) .fa,\n        :host([color=\"none\"]) .m,\n        :host([color=\"none\"]) .h,\n        :host([color=\"none\"]) .hr,\n        :host([color=\"none\"]) .far,\n        :host([color=\"none\"]) .ppv,\n        :host([color=\"none\"]) .fomr,\n        :host([color=\"none\"]) .acc {\n          background: var(---color-element-background);\n        }\n      "])))];
+    return [super.styles, r$2(_t$9 || (_t$9 = _$9`
+        :host {
+          display: inline-block;
+        }
+
+        /* Overall element */
+        table {
+          text-align: center;
+
+          border-collapse: collapse;
+
+          border: 0;
+        }
+
+        /* Headers */
+        .th-main {
+          padding: 0;
+
+          font-weight: bold;
+        }
+
+        .th-sub {
+          padding: 0 0.25rem;
+
+          font-weight: 600;
+        }
+
+        .th-left {
+          padding-left: 0;
+
+          text-align: right;
+        }
+
+        /* Cells */
+        .td {
+          width: 10rem;
+
+          padding: 0.25rem 0.25rem 0.375rem;
+
+          transition: all var(---transition-duration) ease;
+        }
+
+        .numeric .td {
+          width: 7rem;
+        }
+
+        /* Labels */
+        .payoff {
+          font-weight: 600;
+          line-height: 0.75rem;
+        }
+
+        /* User interaction <input> */
+        .td-data decidables-spinner {
+          --decidables-spinner-input-width: 3.5rem;
+        }
+
+        .td-summary decidables-spinner {
+          --decidables-spinner-input-width: 4.5rem;
+        }
+
+        /* Color schemes & Table emphasis */
+
+        /* (Default) Outcome color scheme */
+        .h {
+          background: var(---color-h-light);
+          border-top: 2px solid var(---color-element-emphasis);
+          border-left: 2px solid var(---color-element-emphasis);
+        }
+
+        .m {
+          background: var(---color-m-light);
+          border-top: 2px solid var(---color-element-emphasis);
+          border-right: 2px solid var(---color-element-emphasis);
+        }
+
+        .fa {
+          background: var(---color-fa-light);
+          border-bottom: 2px solid var(---color-element-emphasis);
+          border-left: 2px solid var(---color-element-emphasis);
+        }
+
+        .cr {
+          background: var(---color-cr-light);
+          border-right: 2px solid var(---color-element-emphasis);
+          border-bottom: 2px solid var(---color-element-emphasis);
+        }
+
+        .hr {
+          background: var(---color-hr-light);
+        }
+
+        .far {
+          background: var(---color-far-light);
+        }
+
+        .acc {
+          background: var(---color-acc-light);
+        }
+
+        .ppv {
+          background: var(---color-present-light);
+        }
+
+        .fomr {
+          background: var(---color-absent-light);
+        }
+
+        /* Accuracy color scheme */
+        :host([color="accuracy"]) .h,
+        :host([color="accuracy"]) .cr {
+          background: var(---color-correct-light);
+        }
+
+        :host([color="accuracy"]) .m,
+        :host([color="accuracy"]) .fa {
+          color: var(---color-text-inverse);
+
+          background: var(---color-error-light);
+        }
+
+        :host([color="accuracy"]) .hr,
+        :host([color="accuracy"]) .far,
+        :host([color="accuracy"]) .ppv,
+        :host([color="accuracy"]) .fomr {
+          background: var(---color-element-background);
+        }
+
+        /* Stimulus color scheme */
+        :host([color="stimulus"]) .cr,
+        :host([color="stimulus"]) .fa {
+          background: var(---color-far-light);
+        }
+
+        :host([color="stimulus"]) .m,
+        :host([color="stimulus"]) .h {
+          background: var(---color-hr-light);
+        }
+
+        :host([color="stimulus"]) .ppv,
+        :host([color="stimulus"]) .fomr,
+        :host([color="stimulus"]) .acc {
+          background: var(---color-element-background);
+        }
+
+        /* Response color scheme */
+        :host([color="response"]) .cr,
+        :host([color="response"]) .m {
+          background: var(---color-absent-light);
+        }
+
+        :host([color="response"]) .fa,
+        :host([color="response"]) .h {
+          background: var(---color-present-light);
+        }
+
+        :host([color="response"]) .hr,
+        :host([color="response"]) .far,
+        :host([color="response"]) .acc {
+          background: var(---color-element-background);
+        }
+
+        /* No color scheme */
+        :host([color="none"]) .cr,
+        :host([color="none"]) .fa,
+        :host([color="none"]) .m,
+        :host([color="none"]) .h,
+        :host([color="none"]) .hr,
+        :host([color="none"]) .far,
+        :host([color="none"]) .ppv,
+        :host([color="none"]) .fomr,
+        :host([color="none"]) .acc {
+          background: var(---color-element-background);
+        }
+      `))];
   }
 
   render() {
@@ -23361,34 +24955,148 @@ class DetectableTable extends DetectableElement {
     let fomr;
 
     if (this.numeric) {
-      h = $(_templateObject2$8 || (_templateObject2$8 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Hits</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? $(_templateObject3$7 || (_templateObject3$7 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.hPayoff)) : $(_templateObject4$7 || (_templateObject4$7 = _taggedTemplateLiteral([""]))));
-      m = $(_templateObject5$7 || (_templateObject5$7 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Misses</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? $(_templateObject6$7 || (_templateObject6$7 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.mPayoff)) : $(_templateObject7$7 || (_templateObject7$7 = _taggedTemplateLiteral([""]))));
-      fa = $(_templateObject8$5 || (_templateObject8$5 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>False Alarms</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? $(_templateObject9$5 || (_templateObject9$5 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.faPayoff)) : $(_templateObject10$5 || (_templateObject10$5 = _taggedTemplateLiteral([""]))));
-      cr = $(_templateObject11$5 || (_templateObject11$5 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <span>Correct Rejections</span>\n          ", "\n        </decidables-spinner>\n      "])), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? $(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.crPayoff)) : $(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral([""]))));
-      hr = $(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Hit Rate</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
-      far = $(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Alarm Rate</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
-      acc = $(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Accuracy</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
-      ppv = $(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>Positive Predictive Value</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.ppv.toFixed(3), this.ppvInput.bind(this));
-      fomr = $(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["\n        <decidables-spinner ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <span>False Omission Rate</span>\n        </decidables-spinner>\n      "])), !this.interactive, +this.fomr.toFixed(3), this.fomrInput.bind(this));
+      h = $(_t2$8 || (_t2$8 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <span>Hits</span>
+          ${0}
+        </decidables-spinner>
+      `), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? $(_t3$7 || (_t3$7 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.hPayoff)) : $(_t4$7 || (_t4$7 = _$9``)));
+      m = $(_t5$7 || (_t5$7 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <span>Misses</span>
+          ${0}
+        </decidables-spinner>
+      `), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? $(_t6$7 || (_t6$7 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.mPayoff)) : $(_t7$7 || (_t7$7 = _$9``)));
+      fa = $(_t8$5 || (_t8$5 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <span>False Alarms</span>
+          ${0}
+        </decidables-spinner>
+      `), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? $(_t9$5 || (_t9$5 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.faPayoff)) : $(_t10$5 || (_t10$5 = _$9``)));
+      cr = $(_t11$5 || (_t11$5 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <span>Correct Rejections</span>
+          ${0}
+        </decidables-spinner>
+      `), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? $(_t12 || (_t12 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.crPayoff)) : $(_t13 || (_t13 = _$9``)));
+      hr = $(_t14 || (_t14 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <span>Hit Rate</span>
+        </decidables-spinner>
+      `), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
+      far = $(_t15 || (_t15 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <span>False Alarm Rate</span>
+        </decidables-spinner>
+      `), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
+      acc = $(_t16 || (_t16 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <span>Accuracy</span>
+        </decidables-spinner>
+      `), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
+      ppv = $(_t17 || (_t17 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <span>Positive Predictive Value</span>
+        </decidables-spinner>
+      `), !this.interactive, +this.ppv.toFixed(3), this.ppvInput.bind(this));
+      fomr = $(_t18 || (_t18 = _$9`
+        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <span>False Omission Rate</span>
+        </decidables-spinner>
+      `), !this.interactive, +this.fomr.toFixed(3), this.fomrInput.bind(this));
     } else {
-      h = $(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["<span>Hits</span>\n        ", ""])), this.payoff ? $(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.hPayoff)) : $(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral([""]))));
-      m = $(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["<span>Misses</span>\n        ", ""])), this.payoff ? $(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.mPayoff)) : $(_templateObject24 || (_templateObject24 = _taggedTemplateLiteral([""]))));
-      fa = $(_templateObject25 || (_templateObject25 = _taggedTemplateLiteral(["<span>False Alarms</span>\n        ", ""])), this.payoff ? $(_templateObject26 || (_templateObject26 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.faPayoff)) : $(_templateObject27 || (_templateObject27 = _taggedTemplateLiteral([""]))));
-      cr = $(_templateObject28 || (_templateObject28 = _taggedTemplateLiteral(["<span>Correct Rejections</span>\n        ", ""])), this.payoff ? $(_templateObject29 || (_templateObject29 = _taggedTemplateLiteral(["<span class=\"payoff\">", "</span>"])), payoffFormatter.format(this.crPayoff)) : $(_templateObject30 || (_templateObject30 = _taggedTemplateLiteral([""]))));
-      hr = $(_templateObject31 || (_templateObject31 = _taggedTemplateLiteral(["<span>Hit Rate</span>"])));
-      far = $(_templateObject32 || (_templateObject32 = _taggedTemplateLiteral(["<span>False Alarm Rate</span>"])));
-      acc = $(_templateObject33 || (_templateObject33 = _taggedTemplateLiteral(["<span>Accuracy</span>"])));
-      ppv = $(_templateObject34 || (_templateObject34 = _taggedTemplateLiteral(["<span>Positive Predictive Value</span>"])));
-      fomr = $(_templateObject35 || (_templateObject35 = _taggedTemplateLiteral(["<span>False Omission Rate</span>"])));
+      h = $(_t19 || (_t19 = _$9`<span>Hits</span>
+        ${0}`), this.payoff ? $(_t20 || (_t20 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.hPayoff)) : $(_t21 || (_t21 = _$9``)));
+      m = $(_t22 || (_t22 = _$9`<span>Misses</span>
+        ${0}`), this.payoff ? $(_t23 || (_t23 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.mPayoff)) : $(_t24 || (_t24 = _$9``)));
+      fa = $(_t25 || (_t25 = _$9`<span>False Alarms</span>
+        ${0}`), this.payoff ? $(_t26 || (_t26 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.faPayoff)) : $(_t27 || (_t27 = _$9``)));
+      cr = $(_t28 || (_t28 = _$9`<span>Correct Rejections</span>
+        ${0}`), this.payoff ? $(_t29 || (_t29 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.crPayoff)) : $(_t30 || (_t30 = _$9``)));
+      hr = $(_t31 || (_t31 = _$9`<span>Hit Rate</span>`));
+      far = $(_t32 || (_t32 = _$9`<span>False Alarm Rate</span>`));
+      acc = $(_t33 || (_t33 = _$9`<span>Accuracy</span>`));
+      ppv = $(_t34 || (_t34 = _$9`<span>Positive Predictive Value</span>`));
+      fomr = $(_t35 || (_t35 = _$9`<span>False Omission Rate</span>`));
     }
 
-    return $(_templateObject36 || (_templateObject36 = _taggedTemplateLiteral(["\n      <table class=", ">\n        <thead>\n          <tr>\n            <th colspan=\"2\" rowspan=\"2\"></th>\n            <th class=\"th th-main\" colspan=\"2\" scope=\"col\">\n              Response\n            </th>\n          </tr>\n          <tr>\n            <th class=\"th th-sub\" scope=\"col\">\n              \"Present\"\n            </th>\n            <th class=\"th th-sub\" scope=\"col\">\n              \"Absent\"\n            </th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr>\n            <th class=\"th th-main\" rowspan=\"2\" scope=\"row\">\n              Signal\n            </th>\n            <th class=\"th th-sub th-left\" scope=\"row\">\n              Present\n            </th>\n            <td class=\"td td-data h\">\n              ", "\n            </td>\n            <td class=\"td td-data m\">\n              ", "\n            </td>\n            ", "\n          </tr>\n          <tr>\n            <th class=\"th th-sub th-left\" scope=\"row\">\n              Absent\n            </th>\n            <td class=\"td td-data fa\">\n              ", "\n            </td>\n            <td class=\"td td-data cr\">\n              ", "\n            </td>\n            ", "\n          </tr>\n          ", "\n        </tbody>\n      </table>"])), this.numeric ? 'numeric' : '', h, m, this.summary.has('stimulusRates') ? $(_templateObject37 || (_templateObject37 = _taggedTemplateLiteral(["\n                <td class=\"td td-summary hr\">\n                  ", "\n                </td>"])), hr) : $(_templateObject38 || (_templateObject38 = _taggedTemplateLiteral([""]))), fa, cr, this.summary.has('stimulusRates') ? $(_templateObject39 || (_templateObject39 = _taggedTemplateLiteral(["\n                <td class=\"td td-summary far\">\n                  ", "\n                </td>"])), far) : $(_templateObject40 || (_templateObject40 = _taggedTemplateLiteral([""]))), this.summary.has('responseRates') || this.summary.has('accuracy') ? $(_templateObject41 || (_templateObject41 = _taggedTemplateLiteral(["\n              <tr>\n                <td colspan=\"2\"></td>\n                ", "\n                ", "\n              </tr>"])), this.summary.has('responseRates') ? $(_templateObject42 || (_templateObject42 = _taggedTemplateLiteral(["\n                    <td class=\"td td-summary ppv\">\n                      ", "\n                    </td>\n                    <td class=\"td td-summary fomr\">\n                      ", "\n                    </td>"])), ppv, fomr) : $(_templateObject43 || (_templateObject43 = _taggedTemplateLiteral(["\n                    <td colspan=\"2\"></td>"]))), this.summary.has('accuracy') ? $(_templateObject44 || (_templateObject44 = _taggedTemplateLiteral(["\n                    <td class=\"td td-summary acc\" rowspan=\"2\">\n                      ", "\n                    </td>"])), acc) : $(_templateObject45 || (_templateObject45 = _taggedTemplateLiteral([""])))) : $(_templateObject46 || (_templateObject46 = _taggedTemplateLiteral([""]))));
+    return $(_t36 || (_t36 = _$9`
+      <table class=${0}>
+        <thead>
+          <tr>
+            <th colspan="2" rowspan="2"></th>
+            <th class="th th-main" colspan="2" scope="col">
+              Response
+            </th>
+          </tr>
+          <tr>
+            <th class="th th-sub" scope="col">
+              "Present"
+            </th>
+            <th class="th th-sub" scope="col">
+              "Absent"
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="th th-main" rowspan="2" scope="row">
+              Signal
+            </th>
+            <th class="th th-sub th-left" scope="row">
+              Present
+            </th>
+            <td class="td td-data h">
+              ${0}
+            </td>
+            <td class="td td-data m">
+              ${0}
+            </td>
+            ${0}
+          </tr>
+          <tr>
+            <th class="th th-sub th-left" scope="row">
+              Absent
+            </th>
+            <td class="td td-data fa">
+              ${0}
+            </td>
+            <td class="td td-data cr">
+              ${0}
+            </td>
+            ${0}
+          </tr>
+          ${0}
+        </tbody>
+      </table>`), this.numeric ? 'numeric' : '', h, m, this.summary.has('stimulusRates') ? $(_t37 || (_t37 = _$9`
+                <td class="td td-summary hr">
+                  ${0}
+                </td>`), hr) : $(_t38 || (_t38 = _$9``)), fa, cr, this.summary.has('stimulusRates') ? $(_t39 || (_t39 = _$9`
+                <td class="td td-summary far">
+                  ${0}
+                </td>`), far) : $(_t40 || (_t40 = _$9``)), this.summary.has('responseRates') || this.summary.has('accuracy') ? $(_t41 || (_t41 = _$9`
+              <tr>
+                <td colspan="2"></td>
+                ${0}
+                ${0}
+              </tr>`), this.summary.has('responseRates') ? $(_t42 || (_t42 = _$9`
+                    <td class="td td-summary ppv">
+                      ${0}
+                    </td>
+                    <td class="td td-summary fomr">
+                      ${0}
+                    </td>`), ppv, fomr) : $(_t43 || (_t43 = _$9`
+                    <td colspan="2"></td>`)), this.summary.has('accuracy') ? $(_t44 || (_t44 = _$9`
+                    <td class="td td-summary acc" rowspan="2">
+                      ${0}
+                    </td>`), acc) : $(_t45 || (_t45 = _$9``))) : $(_t46 || (_t46 = _$9``)));
   }
 
 }
 customElements.define('detectable-table', DetectableTable);
 
-var _templateObject$8;
+let _$8 = t => t,
+    _t$8;
 /*
   SDTEquation Base Class - Not intended for instantiation!
   <sdt-equation>
@@ -23411,12 +25119,132 @@ class SDTEquation extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_templateObject$8 || (_templateObject$8 = _taggedTemplateLiteral(["\n        :host {\n          display: block;\n\n          margin: 1rem;\n        }\n\n        /* Containing <div> */\n        .holder {\n          display: flex;\n\n          flex-direction: row;\n\n          justify-content: left;\n        }\n\n        /* Overall <table> */\n        .equation {\n          text-align: center;\n\n          border-collapse: collapse;\n\n          border: 0;\n        }\n\n        /* Modifies <td> */\n        .underline {\n          border-bottom: 1px solid var(---color-text);\n        }\n\n        /* Basic <span> and <var> w/modifiers */\n        span,\n        var {\n          padding: 0 0.25rem;\n\n          font-style: normal;\n        }\n\n        .tight {\n          padding: 0;\n        }\n\n        .paren {\n          font-size: 150%;\n        }\n\n        .bracket {\n          font-size: 175%;\n        }\n\n        .exp {\n          font-size: 0.75rem;\n        }\n\n        /* Input wrapping <label> */\n        decidables-spinner {\n          --decidables-spinner-input-width: 4rem;\n\n          display: inline-block;\n\n          padding: 0.125rem 0.375rem 0.375rem;\n\n          vertical-align: middle;\n        }\n\n        .bottom {\n          vertical-align: bottom;\n        }\n\n        /* Color scheme */\n        .h {\n          background: var(---color-h-light);\n        }\n\n        .m {\n          background: var(---color-m-light);\n        }\n\n        .hr {\n          background: var(---color-hr-light);\n        }\n\n        .fa {\n          background: var(---color-fa-light);\n        }\n\n        .acc {\n          background: var(---color-acc-light);\n        }\n\n        .cr {\n          background: var(---color-cr-light);\n        }\n\n        .far {\n          background: var(---color-far-light);\n        }\n\n        .d {\n          background: var(---color-d-light);\n        }\n\n        .c {\n          background: var(---color-c-light);\n        }\n\n        .s {\n          background: var(---color-s-light);\n        }\n      "])))];
+    return [super.styles, r$2(_t$8 || (_t$8 = _$8`
+        :host {
+          display: block;
+
+          margin: 1rem;
+        }
+
+        /* Containing <div> */
+        .holder {
+          display: flex;
+
+          flex-direction: row;
+
+          justify-content: left;
+        }
+
+        /* Overall <table> */
+        .equation {
+          text-align: center;
+
+          border-collapse: collapse;
+
+          border: 0;
+        }
+
+        /* Modifies <td> */
+        .underline {
+          border-bottom: 1px solid var(---color-text);
+        }
+
+        /* Basic <span> and <var> w/modifiers */
+        span,
+        var {
+          padding: 0 0.25rem;
+
+          font-style: normal;
+        }
+
+        .tight {
+          padding: 0;
+        }
+
+        .paren {
+          font-size: 150%;
+        }
+
+        .bracket {
+          font-size: 175%;
+        }
+
+        .exp {
+          font-size: 0.75rem;
+        }
+
+        /* Input wrapping <label> */
+        decidables-spinner {
+          --decidables-spinner-input-width: 4rem;
+
+          display: inline-block;
+
+          padding: 0.125rem 0.375rem 0.375rem;
+
+          vertical-align: middle;
+        }
+
+        .bottom {
+          vertical-align: bottom;
+        }
+
+        /* Color scheme */
+        .h {
+          background: var(---color-h-light);
+        }
+
+        .m {
+          background: var(---color-m-light);
+        }
+
+        .hr {
+          background: var(---color-hr-light);
+        }
+
+        .fa {
+          background: var(---color-fa-light);
+        }
+
+        .acc {
+          background: var(---color-acc-light);
+        }
+
+        .cr {
+          background: var(---color-cr-light);
+        }
+
+        .far {
+          background: var(---color-far-light);
+        }
+
+        .d {
+          background: var(---color-d-light);
+        }
+
+        .c {
+          background: var(---color-c-light);
+        }
+
+        .s {
+          background: var(---color-s-light);
+        }
+      `))];
   }
 
 }
 
-var _templateObject$7, _templateObject2$7, _templateObject3$6, _templateObject4$6, _templateObject5$6, _templateObject6$6, _templateObject7$6, _templateObject8$4, _templateObject9$4, _templateObject10$4, _templateObject11$4;
+let _$7 = t => t,
+    _t$7,
+    _t2$7,
+    _t3$6,
+    _t4$6,
+    _t5$6,
+    _t6$6,
+    _t7$6,
+    _t8$4,
+    _t9$4,
+    _t10$4,
+    _t11$4;
 /*
   SDTEquationDC2Far element
   <sdt-equation-dc2far>
@@ -23507,32 +25335,107 @@ class SDTEquationDC2Far extends SDTEquation {
     let far;
 
     if (this.numeric) {
-      d = $(_templateObject$7 || (_templateObject$7 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"d bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">d\u2032</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.d, this.dInput.bind(this));
-      c = $(_templateObject2$7 || (_templateObject2$7 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"c bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">c</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.c, this.cInput.bind(this));
-      s = $(_templateObject3$6 || (_templateObject3$6 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.s, this.sInput.bind(this));
-      far = $(_templateObject4$6 || (_templateObject4$6 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"far bottom\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>False Alarm Rate</var>\n        </decidables-spinner>\n      "])), +this.far.toFixed(3));
+      d = $(_t$7 || (_t$7 = _$7`
+        <decidables-spinner class="d bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">d′</var>
+        </decidables-spinner>
+      `), !this.interactive, this.d, this.dInput.bind(this));
+      c = $(_t2$7 || (_t2$7 = _$7`
+        <decidables-spinner class="c bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">c</var>
+        </decidables-spinner>
+      `), !this.interactive, this.c, this.cInput.bind(this));
+      s = $(_t3$6 || (_t3$6 = _$7`
+        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">σ</var>
+        </decidables-spinner>
+      `), !this.interactive, this.s, this.sInput.bind(this));
+      far = $(_t4$6 || (_t4$6 = _$7`
+        <decidables-spinner class="far bottom" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>False Alarm Rate</var>
+        </decidables-spinner>
+      `), +this.far.toFixed(3));
     } else {
-      d = $(_templateObject5$6 || (_templateObject5$6 = _taggedTemplateLiteral(["<var class=\"math-var d\">d\u2032</var>"])));
-      c = $(_templateObject6$6 || (_templateObject6$6 = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"])));
-      s = $(_templateObject7$6 || (_templateObject7$6 = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"])));
-      far = $(_templateObject8$4 || (_templateObject8$4 = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"])));
+      d = $(_t5$6 || (_t5$6 = _$7`<var class="math-var d">d′</var>`));
+      c = $(_t6$6 || (_t6$6 = _$7`<var class="math-var c">c</var>`));
+      s = $(_t7$6 || (_t7$6 = _$7`<var class="math-var s">σ</var>`));
+      far = $(_t8$4 || (_t8$4 = _$7`<var class="far">False Alarm Rate</var>`));
     }
 
     let equation;
 
     if (this.unequal) {
-      equation = $(_templateObject9$4 || (_templateObject9$4 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">\u03A6</var><span class=\"paren tight\">(</span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">+</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">]<sup class=\"exp\">\xBD</sup></span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline\">\n            <span class=\"minus tight\">\u2212</span>", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">\u2212</span>", "<span class=\"bracket tight\">]</span><span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n          <td>\n            <span><span>1</span><span class=\"plus\">+</span>", "</span>\n          </td>\n        </tr>"])), far, s, d, c, s);
+      equation = $(_t9$4 || (_t9$4 = _$7`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
+          </td>
+          <td class="underline bottom">
+            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">]<sup class="exp">½</sup></span><span class="bracket tight">[</span>
+          </td>
+          <td class="underline">
+            <span class="minus tight">−</span>${0}
+          </td>
+          <td rowspan="2">
+            <span class="minus">−</span>${0}<span class="bracket tight">]</span><span class="paren tight">)</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+          <td>
+            <span><span>1</span><span class="plus">+</span>${0}</span>
+          </td>
+        </tr>`), far, s, d, c, s);
     } else {
-      equation = $(_templateObject10$4 || (_templateObject10$4 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">\u03A6</var><span class=\"paren tight\">(</span><span class=\"minus tight\">\u2212</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">\u2212</span>", "<span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"])), far, d, c);
+      equation = $(_t10$4 || (_t10$4 = _$7`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="minus tight">−</span>
+          </td>
+          <td class="underline">
+            ${0}
+          </td>
+          <td rowspan="2">
+            <span class="minus">−</span>${0}<span class="paren tight">)</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+        </tr>`), far, d, c);
     }
 
-    return $(_templateObject11$4 || (_templateObject11$4 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"])), equation);
+    return $(_t11$4 || (_t11$4 = _$7`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            ${0}
+          </tbody>
+        </table>
+      </div>`), equation);
   }
 
 }
 customElements.define('sdt-equation-dc2far', SDTEquationDC2Far);
 
-var _templateObject$6, _templateObject2$6, _templateObject3$5, _templateObject4$5, _templateObject5$5, _templateObject6$5, _templateObject7$5, _templateObject8$3, _templateObject9$3, _templateObject10$3, _templateObject11$3;
+let _$6 = t => t,
+    _t$6,
+    _t2$6,
+    _t3$5,
+    _t4$5,
+    _t5$5,
+    _t6$5,
+    _t7$5,
+    _t8$3,
+    _t9$3,
+    _t10$3,
+    _t11$3;
 /*
   SDTEquationDC2Hr element
   <sdt-equation-dc2hr>
@@ -23623,32 +25526,112 @@ class SDTEquationDC2Hr extends SDTEquation {
     let hr;
 
     if (this.numeric) {
-      d = $(_templateObject$6 || (_templateObject$6 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"d bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">d\u2032</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.d, this.dInput.bind(this));
-      c = $(_templateObject2$6 || (_templateObject2$6 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"c bottom\" ?disabled=", " step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">c</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.c, this.cInput.bind(this));
-      s = $(_templateObject3$5 || (_templateObject3$5 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.s, this.sInput.bind(this));
-      hr = $(_templateObject4$5 || (_templateObject4$5 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"hr bottom\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>Hit Rate</var>\n        </decidables-spinner>\n      "])), +this.hr.toFixed(3));
+      d = $(_t$6 || (_t$6 = _$6`
+        <decidables-spinner class="d bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">d′</var>
+        </decidables-spinner>
+      `), !this.interactive, this.d, this.dInput.bind(this));
+      c = $(_t2$6 || (_t2$6 = _$6`
+        <decidables-spinner class="c bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">c</var>
+        </decidables-spinner>
+      `), !this.interactive, this.c, this.cInput.bind(this));
+      s = $(_t3$5 || (_t3$5 = _$6`
+        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">σ</var>
+        </decidables-spinner>
+      `), !this.interactive, this.s, this.sInput.bind(this));
+      hr = $(_t4$5 || (_t4$5 = _$6`
+        <decidables-spinner class="hr bottom" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>Hit Rate</var>
+        </decidables-spinner>
+      `), +this.hr.toFixed(3));
     } else {
-      d = $(_templateObject5$5 || (_templateObject5$5 = _taggedTemplateLiteral(["<var class=\"math-var d\">d\u2032</var>"])));
-      c = $(_templateObject6$5 || (_templateObject6$5 = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"])));
-      s = $(_templateObject7$5 || (_templateObject7$5 = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"])));
-      hr = $(_templateObject8$3 || (_templateObject8$3 = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"])));
+      d = $(_t5$5 || (_t5$5 = _$6`<var class="math-var d">d′</var>`));
+      c = $(_t6$5 || (_t6$5 = _$6`<var class="math-var c">c</var>`));
+      s = $(_t7$5 || (_t7$5 = _$6`<var class="math-var s">σ</var>`));
+      hr = $(_t8$3 || (_t8$3 = _$6`<var class="hr">Hit Rate</var>`));
     }
 
     let equation;
 
     if (this.unequal) {
-      equation = $(_templateObject9$3 || (_templateObject9$3 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">\u03A6</var><span class=\"paren tight\">(</span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">+</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">]<sup class=\"exp\">\xBD</sup></span><span class=\"bracket tight\">[</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">\u2212</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">]</span><span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n          <td>\n            <span><span>1</span><span class=\"plus\">+</span>", "</span>\n          </td>\n          <td>\n            ", "\n          </td>\n        </tr>"])), hr, s, d, c, s, s);
+      equation = $(_t9$3 || (_t9$3 = _$6`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
+          </td>
+          <td class="underline bottom">
+            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">]<sup class="exp">½</sup></span><span class="bracket tight">[</span>
+          </td>
+          <td class="underline">
+            ${0}
+          </td>
+          <td rowspan="2">
+            <span class="minus">−</span>
+          </td>
+          <td class="underline">
+            ${0}
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">]</span><span class="paren tight">)</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+          <td>
+            <span><span>1</span><span class="plus">+</span>${0}</span>
+          </td>
+          <td>
+            ${0}
+          </td>
+        </tr>`), hr, s, d, c, s, s);
     } else {
-      equation = $(_templateObject10$3 || (_templateObject10$3 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><var class=\"math-greek phi tight\">\u03A6</var><span class=\"paren tight\">(</span>\n          </td>\n          <td class=\"underline\">\n            ", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"minus\">\u2212</span>", "<span class=\"paren tight\">)</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"])), hr, d, c);
+      equation = $(_t10$3 || (_t10$3 = _$6`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span>
+          </td>
+          <td class="underline">
+            ${0}
+          </td>
+          <td rowspan="2">
+            <span class="minus">−</span>${0}<span class="paren tight">)</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+        </tr>`), hr, d, c);
     }
 
-    return $(_templateObject11$3 || (_templateObject11$3 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"])), equation);
+    return $(_t11$3 || (_t11$3 = _$6`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            ${0}
+          </tbody>
+        </table>
+      </div>`), equation);
   }
 
 }
 customElements.define('sdt-equation-dc2hr', SDTEquationDC2Hr);
 
-var _templateObject$5, _templateObject2$5, _templateObject3$4, _templateObject4$4, _templateObject5$4, _templateObject6$4, _templateObject7$4;
+let _$5 = t => t,
+    _t$5,
+    _t2$5,
+    _t3$4,
+    _t4$4,
+    _t5$4,
+    _t6$4,
+    _t7$4;
 /*
   SDTEquationFaCr2Far element
   <sdt-equation-facr2far>
@@ -23719,22 +25702,60 @@ class SDTEquationFaCr2Far extends SDTEquation {
     let far;
 
     if (this.numeric) {
-      fa = $(_templateObject$5 || (_templateObject$5 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"fa\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>False Alarms</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.fa, this.faInput.bind(this));
-      cr = $(_templateObject2$5 || (_templateObject2$5 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"cr\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Correct Rejections</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.cr, this.crInput.bind(this));
-      far = $(_templateObject3$4 || (_templateObject3$4 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"far\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>False Alarm Rate</var>\n        </decidables-spinner>\n      "])), +this.far.toFixed(3));
+      fa = $(_t$5 || (_t$5 = _$5`
+        <decidables-spinner class="fa" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>False Alarms</var>
+        </decidables-spinner>
+      `), !this.interactive, this.fa, this.faInput.bind(this));
+      cr = $(_t2$5 || (_t2$5 = _$5`
+        <decidables-spinner class="cr" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Correct Rejections</var>
+        </decidables-spinner>
+      `), !this.interactive, this.cr, this.crInput.bind(this));
+      far = $(_t3$4 || (_t3$4 = _$5`
+        <decidables-spinner class="far" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>False Alarm Rate</var>
+        </decidables-spinner>
+      `), +this.far.toFixed(3));
     } else {
-      fa = $(_templateObject4$4 || (_templateObject4$4 = _taggedTemplateLiteral(["<var class=\"fa\">False Alarms</var>"])));
-      cr = $(_templateObject5$4 || (_templateObject5$4 = _taggedTemplateLiteral(["<var class=\"cr\">Correct Rejections</var>"])));
-      far = $(_templateObject6$4 || (_templateObject6$4 = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"])));
+      fa = $(_t4$4 || (_t4$4 = _$5`<var class="fa">False Alarms</var>`));
+      cr = $(_t5$4 || (_t5$4 = _$5`<var class="cr">Correct Rejections</var>`));
+      far = $(_t6$4 || (_t6$4 = _$5`<var class="far">False Alarm Rate</var>`));
     }
 
-    return $(_templateObject7$4 || (_templateObject7$4 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"])), far, fa, fa, cr);
+    return $(_t7$4 || (_t7$4 = _$5`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            <tr>
+              <td rowspan="2">
+                ${0}<span class="equals">=</span>
+              </td>
+              <td class="underline">
+                ${0}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ${0}<span class="plus">+</span>${0}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`), far, fa, fa, cr);
   }
 
 }
 customElements.define('sdt-equation-facr2far', SDTEquationFaCr2Far);
 
-var _templateObject$4, _templateObject2$4, _templateObject3$3, _templateObject4$3, _templateObject5$3, _templateObject6$3, _templateObject7$3;
+let _$4 = t => t,
+    _t$4,
+    _t2$4,
+    _t3$3,
+    _t4$3,
+    _t5$3,
+    _t6$3,
+    _t7$3;
 /*
   SDTEquationHM2Hr element
   <sdt-equation-hm2hr>
@@ -23805,22 +25826,65 @@ class SDTEquationHM2Hr extends SDTEquation {
     let hr;
 
     if (this.numeric) {
-      h = $(_templateObject$4 || (_templateObject$4 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"h\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Hits</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.h, this.hInput.bind(this));
-      m = $(_templateObject2$4 || (_templateObject2$4 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"m\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Misses</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.m, this.mInput.bind(this));
-      hr = $(_templateObject3$3 || (_templateObject3$3 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"hr\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>Hit Rate</var>\n        </decidables-spinner>\n      "])), +this.hr.toFixed(3));
+      h = $(_t$4 || (_t$4 = _$4`
+        <decidables-spinner class="h" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Hits</var>
+        </decidables-spinner>
+      `), !this.interactive, this.h, this.hInput.bind(this));
+      m = $(_t2$4 || (_t2$4 = _$4`
+        <decidables-spinner class="m" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Misses</var>
+        </decidables-spinner>
+      `), !this.interactive, this.m, this.mInput.bind(this));
+      hr = $(_t3$3 || (_t3$3 = _$4`
+        <decidables-spinner class="hr" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>Hit Rate</var>
+        </decidables-spinner>
+      `), +this.hr.toFixed(3));
     } else {
-      h = $(_templateObject4$3 || (_templateObject4$3 = _taggedTemplateLiteral(["<var class=\"h\">Hits</var>"])));
-      m = $(_templateObject5$3 || (_templateObject5$3 = _taggedTemplateLiteral(["<var class=\"m\">Misses</var>"])));
-      hr = $(_templateObject6$3 || (_templateObject6$3 = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"])));
+      h = $(_t4$3 || (_t4$3 = _$4`<var class="h">Hits</var>`));
+      m = $(_t5$3 || (_t5$3 = _$4`<var class="m">Misses</var>`));
+      hr = $(_t6$3 || (_t6$3 = _$4`<var class="hr">Hit Rate</var>`));
     }
 
-    return $(_templateObject7$3 || (_templateObject7$3 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>\n    "])), hr, h, h, m);
+    return $(_t7$3 || (_t7$3 = _$4`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            <tr>
+              <td rowspan="2">
+                ${0}<span class="equals">=</span>
+              </td>
+              <td class="underline">
+                ${0}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ${0}<span class="plus">+</span>${0}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `), hr, h, h, m);
   }
 
 }
 customElements.define('sdt-equation-hm2hr', SDTEquationHM2Hr);
 
-var _templateObject$3, _templateObject2$3, _templateObject3$2, _templateObject4$2, _templateObject5$2, _templateObject6$2, _templateObject7$2, _templateObject8$2, _templateObject9$2, _templateObject10$2, _templateObject11$2;
+let _$3 = t => t,
+    _t$3,
+    _t2$3,
+    _t3$2,
+    _t4$2,
+    _t5$2,
+    _t6$2,
+    _t7$2,
+    _t8$2,
+    _t9$2,
+    _t10$2,
+    _t11$2;
 /*
   SDTEquationHMFaCr2Acc element
   <sdt-equation-hmfacr2acc>
@@ -23919,26 +25983,76 @@ class SDTEquationHMFaCr2Acc extends SDTEquation {
     let acc;
 
     if (this.numeric) {
-      h = $(_templateObject$3 || (_templateObject$3 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"h\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Hits</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.h, this.hInput.bind(this));
-      m = $(_templateObject2$3 || (_templateObject2$3 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"m\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Misses</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.m, this.mInput.bind(this));
-      fa = $(_templateObject3$2 || (_templateObject3$2 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"fa\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>False Alarms</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.fa, this.faInput.bind(this));
-      cr = $(_templateObject4$2 || (_templateObject4$2 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"cr\" ?disabled=", " min=\"0\" .value=\"", "\" @input=", ">\n          <var>Correct Rejections</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.cr, this.crInput.bind(this));
-      acc = $(_templateObject5$2 || (_templateObject5$2 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"acc\" disabled min=\"0\" max=\"1\" step=\".001\" .value=\"", "\">\n          <var>Accuracy</var>\n        </decidables-spinner>\n      "])), +this.acc.toFixed(3));
+      h = $(_t$3 || (_t$3 = _$3`
+        <decidables-spinner class="h" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Hits</var>
+        </decidables-spinner>
+      `), !this.interactive, this.h, this.hInput.bind(this));
+      m = $(_t2$3 || (_t2$3 = _$3`
+        <decidables-spinner class="m" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Misses</var>
+        </decidables-spinner>
+      `), !this.interactive, this.m, this.mInput.bind(this));
+      fa = $(_t3$2 || (_t3$2 = _$3`
+        <decidables-spinner class="fa" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>False Alarms</var>
+        </decidables-spinner>
+      `), !this.interactive, this.fa, this.faInput.bind(this));
+      cr = $(_t4$2 || (_t4$2 = _$3`
+        <decidables-spinner class="cr" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Correct Rejections</var>
+        </decidables-spinner>
+      `), !this.interactive, this.cr, this.crInput.bind(this));
+      acc = $(_t5$2 || (_t5$2 = _$3`
+        <decidables-spinner class="acc" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>Accuracy</var>
+        </decidables-spinner>
+      `), +this.acc.toFixed(3));
     } else {
-      h = $(_templateObject6$2 || (_templateObject6$2 = _taggedTemplateLiteral(["<var class=\"h\">Hits</var>"])));
-      m = $(_templateObject7$2 || (_templateObject7$2 = _taggedTemplateLiteral(["<var class=\"m\">Misses</var>"])));
-      fa = $(_templateObject8$2 || (_templateObject8$2 = _taggedTemplateLiteral(["<var class=\"fa\">False Alarms</var>"])));
-      cr = $(_templateObject9$2 || (_templateObject9$2 = _taggedTemplateLiteral(["<var class=\"cr\">Correct Rejections</var>"])));
-      acc = $(_templateObject10$2 || (_templateObject10$2 = _taggedTemplateLiteral(["<var class=\"acc\">Accuracy</var>"])));
+      h = $(_t6$2 || (_t6$2 = _$3`<var class="h">Hits</var>`));
+      m = $(_t7$2 || (_t7$2 = _$3`<var class="m">Misses</var>`));
+      fa = $(_t8$2 || (_t8$2 = _$3`<var class="fa">False Alarms</var>`));
+      cr = $(_t9$2 || (_t9$2 = _$3`<var class="cr">Correct Rejections</var>`));
+      acc = $(_t10$2 || (_t10$2 = _$3`<var class="acc">Accuracy</var>`));
     }
 
-    return $(_templateObject11$2 || (_templateObject11$2 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            <tr>\n              <td rowspan=\"2\">\n                ", "<span class=\"equals\">=</span>\n              </td>\n              <td class=\"underline\">\n                ", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n            <tr>\n              <td>\n                ", "<span class=\"plus\">+</span>", "<span class=\"plus\">+</span>", "<span class=\"plus\">+</span>", "\n              </td>\n            </tr>\n          </tbody>\n        </table>\n      </div>"])), acc, h, cr, h, m, fa, cr);
+    return $(_t11$2 || (_t11$2 = _$3`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            <tr>
+              <td rowspan="2">
+                ${0}<span class="equals">=</span>
+              </td>
+              <td class="underline">
+                ${0}<span class="plus">+</span>${0}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ${0}<span class="plus">+</span>${0}<span class="plus">+</span>${0}<span class="plus">+</span>${0}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`), acc, h, cr, h, m, fa, cr);
   }
 
 }
 customElements.define('sdt-equation-hmfacr2acc', SDTEquationHMFaCr2Acc);
 
-var _templateObject$2, _templateObject2$2, _templateObject3$1, _templateObject4$1, _templateObject5$1, _templateObject6$1, _templateObject7$1, _templateObject8$1, _templateObject9$1, _templateObject10$1, _templateObject11$1;
+let _$2 = t => t,
+    _t$2,
+    _t2$2,
+    _t3$1,
+    _t4$1,
+    _t5$1,
+    _t6$1,
+    _t7$1,
+    _t8$1,
+    _t9$1,
+    _t10$1,
+    _t11$1;
 /*
   SDTEquationHrFar2C element
   <sdt-equation-hrfar2c>
@@ -24029,32 +26143,104 @@ class SDTEquationHrFar2C extends SDTEquation {
     let c;
 
     if (this.numeric) {
-      hr = $(_templateObject$2 || (_templateObject$2 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"hr bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>Hit Rate</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.hr, this.hrInput.bind(this));
-      far = $(_templateObject2$2 || (_templateObject2$2 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"far bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>False Alarm Rate</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.far, this.farInput.bind(this));
-      s = $(_templateObject3$1 || (_templateObject3$1 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.s, this.sInput.bind(this));
-      c = $(_templateObject4$1 || (_templateObject4$1 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"c bottom\" disabled step=\".001\" .value=\"", "\">\n          <var class=\"math-var\">c</var>\n        </decidables-spinner>\n      "])), +this.c.toFixed(3));
+      hr = $(_t$2 || (_t$2 = _$2`
+        <decidables-spinner class="hr bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <var>Hit Rate</var>
+        </decidables-spinner>
+      `), !this.interactive, this.hr, this.hrInput.bind(this));
+      far = $(_t2$2 || (_t2$2 = _$2`
+        <decidables-spinner class="far bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <var>False Alarm Rate</var>
+        </decidables-spinner>
+      `), !this.interactive, this.far, this.farInput.bind(this));
+      s = $(_t3$1 || (_t3$1 = _$2`
+        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">σ</var>
+        </decidables-spinner>
+      `), !this.interactive, this.s, this.sInput.bind(this));
+      c = $(_t4$1 || (_t4$1 = _$2`
+        <decidables-spinner class="c bottom" disabled step=".001" .value="${0}">
+          <var class="math-var">c</var>
+        </decidables-spinner>
+      `), +this.c.toFixed(3));
     } else {
-      hr = $(_templateObject5$1 || (_templateObject5$1 = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"])));
-      far = $(_templateObject6$1 || (_templateObject6$1 = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"])));
-      s = $(_templateObject7$1 || (_templateObject7$1 = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"])));
-      c = $(_templateObject8$1 || (_templateObject8$1 = _taggedTemplateLiteral(["<var class=\"math-var c\">c</var>"])));
+      hr = $(_t5$1 || (_t5$1 = _$2`<var class="hr">Hit Rate</var>`));
+      far = $(_t6$1 || (_t6$1 = _$2`<var class="far">False Alarm Rate</var>`));
+      s = $(_t7$1 || (_t7$1 = _$2`<var class="math-var s">σ</var>`));
+      c = $(_t8$1 || (_t8$1 = _$2`<var class="math-var c">c</var>`));
     }
 
     let equation;
 
     if (this.unequal) {
-      equation = $(_templateObject9$1 || (_templateObject9$1 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">+</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)<sup class=\"exp\">\u2212\xBD</sup></span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span class=\"minus tight\">\u2212</span>", "\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)</span><span class=\"bracket\">[</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"plus\">+</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"bracket\">]</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n          <td>\n            <span><span>1</span><span class=\"plus\">+</span>", "</span>\n          </td>\n        </tr>"])), c, s, s, hr, far, s);
+      equation = $(_t9$1 || (_t9$1 = _$2`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><span class="bracket tight">(</span>
+          </td>
+          <td class="underline bottom">
+            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">)<sup class="exp">−½</sup></span><span class="bracket tight">(</span>
+          </td>
+          <td class="underline bottom">
+            <span class="minus tight">−</span>${0}
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">)</span><span class="bracket">[</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="plus">+</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="bracket">]</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+          <td>
+            <span><span>1</span><span class="plus">+</span>${0}</span>
+          </td>
+        </tr>`), c, s, s, hr, far, s);
     } else {
-      equation = $(_templateObject10$1 || (_templateObject10$1 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span>\n          </td>\n          <td class=\"underline\">\n            <span class=\"minus tight\">\u2212</span><span class=\"bracket tight\">[</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"plus\">+</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"bracket tight\">]</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"])), c, hr, far);
+      equation = $(_t10$1 || (_t10$1 = _$2`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span>
+          </td>
+          <td class="underline">
+            <span class="minus tight">−</span><span class="bracket tight">[</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="plus">+</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="bracket tight">]</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+        </tr>`), c, hr, far);
     }
 
-    return $(_templateObject11$1 || (_templateObject11$1 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"])), equation);
+    return $(_t11$1 || (_t11$1 = _$2`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            ${0}
+          </tbody>
+        </table>
+      </div>`), equation);
   }
 
 }
 customElements.define('sdt-equation-hrfar2c', SDTEquationHrFar2C);
 
-var _templateObject$1, _templateObject2$1, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11;
+let _$1 = t => t,
+    _t$1,
+    _t2$1,
+    _t3,
+    _t4,
+    _t5,
+    _t6,
+    _t7,
+    _t8,
+    _t9,
+    _t10,
+    _t11;
 /*
   SDTEquationHrFar2D element
   <sdt-equation-hrfar2d>
@@ -24145,32 +26331,78 @@ class SDTEquationHrFar2D extends SDTEquation {
     let d;
 
     if (this.numeric) {
-      hr = $(_templateObject$1 || (_templateObject$1 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"hr bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>Hit Rate</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.hr, this.hrInput.bind(this));
-      far = $(_templateObject2$1 || (_templateObject2$1 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"far bottom\" ?disabled=", " min=\"0\" max=\"1\" step=\".001\" .value=\"", "\" @input=", ">\n          <var>False Alarm Rate</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.far, this.farInput.bind(this));
-      s = $(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"s bottom\" ?disabled=", " min=\"0\" step=\".001\" .value=\"", "\" @input=", ">\n          <var class=\"math-var\">\u03C3</var>\n        </decidables-spinner>\n      "])), !this.interactive, this.s, this.sInput.bind(this));
-      d = $(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n        <decidables-spinner class=\"d bottom\" disabled step=\".001\" .value=\"", "\">\n          <var class=\"math-var\">d\u2032</var>\n        </decidables-spinner>\n      "])), +this.d.toFixed(3));
+      hr = $(_t$1 || (_t$1 = _$1`
+        <decidables-spinner class="hr bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <var>Hit Rate</var>
+        </decidables-spinner>
+      `), !this.interactive, this.hr, this.hrInput.bind(this));
+      far = $(_t2$1 || (_t2$1 = _$1`
+        <decidables-spinner class="far bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+          <var>False Alarm Rate</var>
+        </decidables-spinner>
+      `), !this.interactive, this.far, this.farInput.bind(this));
+      s = $(_t3 || (_t3 = _$1`
+        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+          <var class="math-var">σ</var>
+        </decidables-spinner>
+      `), !this.interactive, this.s, this.sInput.bind(this));
+      d = $(_t4 || (_t4 = _$1`
+        <decidables-spinner class="d bottom" disabled step=".001" .value="${0}">
+          <var class="math-var">d′</var>
+        </decidables-spinner>
+      `), +this.d.toFixed(3));
     } else {
-      hr = $(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["<var class=\"hr\">Hit Rate</var>"])));
-      far = $(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["<var class=\"far\">False Alarm Rate</var>"])));
-      s = $(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["<var class=\"math-var s\">\u03C3</var>"])));
-      d = $(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["<var class=\"math-var d\">d\u2032</var>"])));
+      hr = $(_t5 || (_t5 = _$1`<var class="hr">Hit Rate</var>`));
+      far = $(_t6 || (_t6 = _$1`<var class="far">False Alarm Rate</var>`));
+      s = $(_t7 || (_t7 = _$1`<var class="math-var s">σ</var>`));
+      d = $(_t8 || (_t8 = _$1`<var class="math-var d">d′</var>`));
     }
 
     let equation;
 
     if (this.unequal) {
-      equation = $(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n        <tr>\n          <td rowspan=\"2\">\n            ", "<span class=\"equals\">=</span><span class=\"bracket tight\">(</span>\n          </td>\n          <td class=\"underline bottom\">\n            <span>1</span><span class=\"plus tight\">+</span><span>", "<sup class=\"exp\">2</sup></span>\n          </td>\n          <td rowspan=\"2\">\n            <span class=\"bracket tight\">)<sup class=\"exp\">\u2212\xBD</sup></span><span class=\"bracket\">[</span>", "<span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">\u2212</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"bracket\">]</span>\n          </td>\n        </tr>\n        <tr>\n          <td>\n            <span>2</span>\n          </td>\n        </tr>"])), d, s, s, hr, far);
+      equation = $(_t9 || (_t9 = _$1`
+        <tr>
+          <td rowspan="2">
+            ${0}<span class="equals">=</span><span class="bracket tight">(</span>
+          </td>
+          <td class="underline bottom">
+            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+          </td>
+          <td rowspan="2">
+            <span class="bracket tight">)<sup class="exp">−½</sup></span><span class="bracket">[</span>${0}<span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="bracket">]</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span>2</span>
+          </td>
+        </tr>`), d, s, s, hr, far);
     } else {
-      equation = $(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n        <tr>\n          <td>\n              ", "<span class=\"equals\">=</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span><span class=\"minus\">\u2212</span><span class=\"tight\"><var class=\"math-greek phi tight\">\u03A6</var><sup class=\"exp\">\u22121</sup></span><span class=\"paren tight\">(</span>", "<span class=\"paren tight\">)</span>\n          </td>\n        </tr>"])), d, hr, far);
+      equation = $(_t10 || (_t10 = _$1`
+        <tr>
+          <td>
+              ${0}<span class="equals">=</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span>
+          </td>
+        </tr>`), d, hr, far);
     }
 
-    return $(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <table class=\"equation\">\n          <tbody>\n            ", "\n          </tbody>\n        </table>\n      </div>"])), equation);
+    return $(_t11 || (_t11 = _$1`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            ${0}
+          </tbody>
+        </table>
+      </div>`), equation);
   }
 
 }
 customElements.define('sdt-equation-hrfar2d', SDTEquationHrFar2D);
 
-var _templateObject, _templateObject2;
+let _ = t => t,
+    _t,
+    _t2;
 /*
   SDTExample Base Class - Not intended for instantiation!
   <sdt-example>
@@ -24178,12 +26410,62 @@ var _templateObject, _templateObject2;
 
 class SDTExample extends DetectableElement {
   static get styles() {
-    return [super.styles, r$2(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n        :host {\n          ---border: var(--border, 1px solid var(---color-border));\n          display: inline-block;\n\n          /* This makes IE11 happy */\n          width: 100%;\n\n          margin-bottom: 1rem;\n        }\n\n        .holder {\n          display: flex;\n        }\n\n        .body {\n          display: flex;\n\n          flex-wrap: wrap;\n\n          align-items: center;\n          justify-content: left;\n\n          padding: 0.625rem;\n\n          border: var(---border);\n          border-radius: 0.25rem;\n        }\n\n        .body ::slotted(*) {\n          margin: 0.625rem;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > rdk-task + detectable-response,\n        ::slotted(rdk-task) + ::slotted(detectable-response) { */\n        .body ::slotted(detectable-response) {\n          margin-left: 0;\n        }\n\n        /* HACK: Sibling selectors not working with ::slotted */\n        /* .body > detectable-control + rdk-task,\n        ::slotted(detectable-control) + ::slotted(rdk-task) {\n          margin-left: 0;\n        } */\n        .body ::slotted(rdk-task) {\n          margin-left: 0;\n        }\n      "])))];
+    return [super.styles, r$2(_t || (_t = _`
+        :host {
+          ---border: var(--border, 1px solid var(---color-border));
+          display: inline-block;
+
+          margin-bottom: 1rem;
+        }
+
+        .holder {
+          display: flex;
+        }
+
+        .body {
+          display: flex;
+
+          flex-wrap: wrap;
+
+          align-items: center;
+          justify-content: left;
+
+          padding: 0.625rem;
+
+          border: var(---border);
+          border-radius: 0.25rem;
+        }
+
+        .body ::slotted(*) {
+          margin: 0.625rem;
+        }
+
+        /* HACK: Sibling selectors not working with ::slotted */
+        /* .body > rdk-task + detectable-response,
+        ::slotted(rdk-task) + ::slotted(detectable-response) { */
+        .body ::slotted(detectable-response) {
+          margin-left: 0;
+        }
+
+        /* HACK: Sibling selectors not working with ::slotted */
+        /* .body > detectable-control + rdk-task,
+        ::slotted(detectable-control) + ::slotted(rdk-task) {
+          margin-left: 0;
+        } */
+        .body ::slotted(rdk-task) {
+          margin-left: 0;
+        }
+      `))];
   }
 
   render() {
     // eslint-disable-line class-methods-use-this
-    return $(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n      <div class=\"holder\">\n        <div class=\"body\">\n          <slot>Empty!</slot>\n        </div>\n      </div>"])));
+    return $(_t2 || (_t2 = _`
+      <div class="holder">
+        <div class="body">
+          <slot>Empty!</slot>
+        </div>
+      </div>`));
   }
 
 }
@@ -24443,7 +26725,7 @@ class SDTExampleHuman extends SDTExample {
         if (this.rocSpace) {
           if (this.rocSpace.hasAttribute('history')) {
             this.count += 1;
-            this.rocSpace.set(0.5, 0.5, "point".concat(this.count), this.count);
+            this.rocSpace.set(0.5, 0.5, `point${this.count}`, this.count);
           } else {
             this.rocSpace.hr = 0.5;
             this.rocSpace.far = 0.5;
@@ -24501,7 +26783,7 @@ class SDTExampleHuman extends SDTExample {
 
         if (this.rocSpace) {
           if (this.rocSpace.hasAttribute('history')) {
-            this.rocSpace.set(newhr, newfar, this.count === 1 ? 'default' : "point".concat(this.count), this.count);
+            this.rocSpace.set(newhr, newfar, this.count === 1 ? 'default' : `point${this.count}`, this.count);
           } else {
             this.rocSpace.hr = newhr;
             this.rocSpace.far = newfar;
@@ -24735,7 +27017,7 @@ class SDTExampleModel extends SDTExample {
         if (this.rocSpace) {
           if (this.rocSpace.hasAttribute('history')) {
             this.count += 1;
-            this.rocSpace.set(0.5, 0.5, "point".concat(this.count), '', 1);
+            this.rocSpace.set(0.5, 0.5, `point${this.count}`, '', 1);
           } else {
             this.rocSpace.hr = 0.5;
             this.rocSpace.far = 0.5;
@@ -24849,14 +27131,14 @@ class SDTExampleUnequal extends SDTExample {
     if (this.sdtModel) {
       if (this.rocSpace) {
         range(-1.5, 1.6, 0.5).forEach((c, index) => {
-          this.rocSpace.setWithSDT(this.sdtModel.d, c, "point".concat(index), '', this.sdtModel.s);
+          this.rocSpace.setWithSDT(this.sdtModel.d, c, `point${index}`, '', this.sdtModel.s);
         });
       }
 
       this.sdtModel.addEventListener('sdt-model-change', event => {
         if (this.rocSpace) {
           range(-1.5, 1.6, 0.5).forEach((c, index) => {
-            this.rocSpace.setWithSDT(event.detail.d, c, "point".concat(index), '', event.detail.s);
+            this.rocSpace.setWithSDT(event.detail.d, c, `point${index}`, '', event.detail.s);
           });
         }
       });

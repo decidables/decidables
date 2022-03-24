@@ -6478,28 +6478,8 @@ let _$m = t => t,
 */
 
 class DecidablesElement extends s {
-  // HACK: Create a unique ID for each DecidablesElement
-  // This is needed because Edge/IE11 don't have real Shadow DOM, so IDs leak
-  // out of elements and collide if there is more than one of an element on a
-  // page. Known issue for checkbox/switches and the id/for pattern on <input>
-  // and <label>
-  static get uniqueId() {
-    DecidablesElement.ID += 1;
-    return DecidablesElement.ID;
-  }
-
-  constructor() {
-    super();
-    this.uniqueId = `decidables-${DecidablesElement.uniqueId}`;
-  }
-
   getComputedStyleValue(property) {
-    // HACK: IE11 requires use of polyfill interface to get custom property value in Javascript
-    if (window.ShadyCSS) {
-      return window.ShadyCSS.getComputedStyleValue(this, property);
-    }
-
-    return getComputedStyle(this).getPropertyValue(property);
+    return getComputedStyle(this).getPropertyValue(property).trim();
   }
 
   firstUpdated(changedProperties) {
@@ -6671,7 +6651,6 @@ class DecidablesElement extends s {
   static get svgFilters() {
     const shadows = DecidablesElement.shadows; // eslint-disable-line prefer-destructuring
 
-    const erodeRadius = 1;
     const filters = shadows.elevations.map(z => {
       return y$1(_t$m || (_t$m = _$m`
         <filter id=${0} x="-250%" y="-250%" width="600%" height="600%">
@@ -6693,8 +6672,7 @@ class DecidablesElement extends s {
           <feComposite in="opU" in2="blurU" result="shU" operator="in" />
           <feComposite in="opP" in2="blurP" result="shP" operator="in" />
           <feComposite in="opA" in2="blurA" result="shA" operator="in" />
-          <!-- HACK Edge: Using a dynamic value for erode radius stops Edge from corrupting the "radius" value! -->
-          <feMorphology in="solid" result="smaller" operator="erode" radius=${0} />
+          <feMorphology in="solid" result="smaller" operator="erode" radius="1" />
           <feComposite in="shU" in2="smaller" result="finalU" operator="out" />
           <feComposite in="shP" in2="smaller" result="finalP" operator="out" />
           <feComposite in="shA" in2="smaller" result="finalA" operator="out" />
@@ -6704,7 +6682,7 @@ class DecidablesElement extends s {
             <feMergeNode in="finalA" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
-        </filter>`), `shadow-${z}`, shadows.mapUmbra[z].y / 2, shadows.mapUmbra[z].y, shadows.mapPenumbra[z].y / 2, shadows.mapPenumbra[z].y, shadows.mapAmbient[z].y / 2, shadows.mapAmbient[z].y, shadows.mapUmbra[z].s === 0 ? y$1(_t2$k || (_t2$k = _$m``)) : y$1(_t3$a || (_t3$a = _$m`<feMorphology in="offU" result="spreadU" operator=${0} radius=${0} />`), shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapUmbra[z].s)), shadows.mapPenumbra[z].s === 0 ? y$1(_t4$a || (_t4$a = _$m``)) : y$1(_t5$a || (_t5$a = _$m`<feMorphology in="offP" result="spreadP" operator=${0} radius=${0} />`), shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapPenumbra[z].s)), shadows.mapAmbient[z].s === 0 ? y$1(_t6$a || (_t6$a = _$m``)) : y$1(_t7$a || (_t7$a = _$m`<feMorphology in="offA" result="spreadA" operator=${0} radius=${0} />`), shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapAmbient[z].s)), shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU', shadows.mapUmbra[z].b / 2, shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP', shadows.mapPenumbra[z].b / 2, shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA', shadows.mapAmbient[z].b / 2, shadows.baselineColor, shadows.opacityUmbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityPenumbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityAmbient + shadows.opacityBoost, erodeRadius);
+        </filter>`), `shadow-${z}`, shadows.mapUmbra[z].y / 2, shadows.mapUmbra[z].y, shadows.mapPenumbra[z].y / 2, shadows.mapPenumbra[z].y, shadows.mapAmbient[z].y / 2, shadows.mapAmbient[z].y, shadows.mapUmbra[z].s === 0 ? y$1(_t2$k || (_t2$k = _$m``)) : y$1(_t3$a || (_t3$a = _$m`<feMorphology in="offU" result="spreadU" operator=${0} radius=${0} />`), shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapUmbra[z].s)), shadows.mapPenumbra[z].s === 0 ? y$1(_t4$a || (_t4$a = _$m``)) : y$1(_t5$a || (_t5$a = _$m`<feMorphology in="offP" result="spreadP" operator=${0} radius=${0} />`), shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapPenumbra[z].s)), shadows.mapAmbient[z].s === 0 ? y$1(_t6$a || (_t6$a = _$m``)) : y$1(_t7$a || (_t7$a = _$m`<feMorphology in="offA" result="spreadA" operator=${0} radius=${0} />`), shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapAmbient[z].s)), shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU', shadows.mapUmbra[z].b / 2, shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP', shadows.mapPenumbra[z].b / 2, shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA', shadows.mapAmbient[z].b / 2, shadows.baselineColor, shadows.opacityUmbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityPenumbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityAmbient + shadows.opacityBoost);
     });
     return y$1(_t8$8 || (_t8$8 = _$m`
       <svg class="defs">
@@ -6774,9 +6752,7 @@ class DecidablesElement extends s {
     `), o$3(this.cssBoxShadow(0)), o$3(this.cssBoxShadow(2)), o$3(this.cssBoxShadow(4)), o$3(this.cssBoxShadow(8)), o$3(this.greys.white), o$3(this.greys.light75), o$3(this.greys.dark75), o$3(this.greys.white), o$3(this.greys.dark25), o$3(this.greys.light75), o$3(this.greys.light50), o$3(this.greys.grey), o$3(this.greys.dark25), o$3(this.greys.dark50), o$3(this.greys.dark75));
   }
 
-} // Static property of DecidablesElement!
-
-DecidablesElement.ID = 0;
+}
 
 let _$l = t => t,
     _t$l,
@@ -7188,14 +7164,14 @@ class DecidablesSlider extends DecidablesElement {
 
   render() {
     return $(_t2$i || (_t2$i = _$k`
-      <label for=${0}>
+      <label for="slider">
         <slot></slot>
       </label>
       <div class="range">
-        <input type="range" id=${0} min=${0} max=${0} step=${0} .value=${0} @change=${0} @input=${0}>
+        <input type="range" id="slider" min=${0} max=${0} step=${0} .value=${0} @change=${0} @input=${0}>
       </div>
       <decidables-spinner min=${0} max=${0} step=${0} .value=${0} @input=${0}></decidables-spinner>
-    `), `${this.uniqueId}-slider`, `${this.uniqueId}-slider`, l(this.min), l(this.max), l(this.step), this.value, this.changed.bind(this), this.inputted.bind(this), l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
+    `), l(this.min), l(this.max), l(this.step), this.value, this.changed.bind(this), this.inputted.bind(this), l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
   }
 
 }
@@ -7505,14 +7481,14 @@ class DecidablesSwitch extends DecidablesElement {
 
   render() {
     return $(_t2$g || (_t2$g = _$i`
-      <input type="checkbox" id=${0} ?checked=${0} ?disabled=${0} @change=${0}>
-      <label for=${0}>
+      <input type="checkbox" id="switch" ?checked=${0} ?disabled=${0} @change=${0}>
+      <label for="switch">
         <slot name="off-label"></slot>
       </label>
-      <label for=${0}>
+      <label for="switch">
         <slot></slot>
       </label>
-    `), `${this.uniqueId}-checkbox`, this.checked, this.disabled, this.changed.bind(this), `${this.uniqueId}-checkbox`, `${this.uniqueId}-checkbox`);
+    `), this.checked, this.disabled, this.changed.bind(this));
   }
 
 }
@@ -7719,11 +7695,11 @@ class DecidablesToggleOption extends DecidablesElement {
 
   render() {
     return $(_t2$e || (_t2$e = _$g`
-      <input type="radio" id=${0} name=${0} value=${0} .checked=${0} @change=${0}>
-      <label for=${0}>
+      <input type="radio" id="toggle-option" name=${0} value=${0} .checked=${0} @change=${0}>
+      <label for="toggle-option">
         <slot></slot>
       </label>
-    `), `${this.uniqueId}-radio`, this.name, this.value, this.checked, this.changed.bind(this), `${this.uniqueId}-radio`);
+    `), this.name, this.value, this.checked, this.changed.bind(this));
   }
 
 }
@@ -8036,7 +8012,7 @@ class RDKTask extends DetectableElement {
         }
 
         .dot {
-          /* r: 2px; HACK: Firefox does not support CSS SVG Geometry Properties */
+          r: 2px;
         }
 
         .dots.coherent {
@@ -8082,9 +8058,8 @@ class RDKTask extends DetectableElement {
 
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
-    // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
 
-    window.setTimeout(this.getDimensions.bind(this), 0);
+    this.getDimensions();
   }
 
   update(changedProperties) {
@@ -8372,9 +8347,7 @@ class RDKTask extends DetectableElement {
       return datum;
     }); //  ENTER
 
-    const dotEnter = dotUpdate.enter().append('circle').classed('dot', true).attr('r', 2);
-    /* HACK: Firefox does not support CSS SVG Geometry Properties */
-    //  MERGE
+    const dotEnter = dotUpdate.enter().append('circle').classed('dot', true); //  MERGE
 
     dotEnter.merge(dotUpdate).attr('cx', datum => {
       return datum.x;
@@ -13595,7 +13568,7 @@ class ROCSpace extends DetectableElement {
         .point .circle {
           fill: var(---color-element-emphasis);
 
-          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */
+          r: 6px;
         }
 
         .point .label {
@@ -13634,9 +13607,8 @@ class ROCSpace extends DetectableElement {
 
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
-    // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
 
-    window.setTimeout(this.getDimensions.bind(this), 0);
+    this.getDimensions();
   }
 
   update(changedProperties) {
@@ -14027,9 +13999,7 @@ class ROCSpace extends DetectableElement {
     }); //  ENTER
 
     const pointEnter = pointUpdate.enter().append('g').classed('point', true);
-    pointEnter.append('circle').classed('circle', true).attr('r', 6);
-    /* HACK: Firefox does not support CSS SVG Geometry Properties */
-
+    pointEnter.append('circle').classed('circle', true);
     pointEnter.append('text').classed('label', true); //  MERGE
 
     const pointMerge = pointEnter.merge(pointUpdate);
@@ -14391,13 +14361,13 @@ class DetectableControl extends DetectableElement {
       </div>`), this.trials ? $(_t3$9 || (_t3$9 = _$c`<decidables-slider min="1" max="100" step="1" .value=${0} @change=${0} @input=${0}>Trials</decidables-slider>`), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : $(_t4$9 || (_t4$9 = _$c``)), this.duration ? $(_t5$9 || (_t5$9 = _$c`<decidables-slider min="10" max="2000" step="10" .value=${0} @change=${0} @input=${0}>Duration</decidables-slider>`), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : $(_t6$9 || (_t6$9 = _$c``)), this.coherence ? $(_t7$9 || (_t7$9 = _$c`<decidables-slider min="0" max="1" step=".01" .value=${0} @change=${0} @input=${0}>Coherence</decidables-slider>`), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : $(_t8$7 || (_t8$7 = _$c``)), this.payoff ? $(_t9$7 || (_t9$7 = _$c`<decidables-slider class="payoff" min="0" max="100" step="1" .value=${0} @change=${0} @input=${0}>Payoff</decidables-slider>`), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : $(_t10$7 || (_t10$7 = _$c``)), this.color !== undefined ? $(_t11$7 || (_t11$7 = _$c`
             <decidables-toggle @change=${0}>
               <span slot="label">Emphasis</span>
-              <decidables-toggle-option name=${0} value="none" ?checked=${0}>None</decidables-toggle-option>
-              <decidables-toggle-option name=${0} value="accuracy" ?checked=${0}>Accuracy</decidables-toggle-option>
-              <decidables-toggle-option name=${0} value="stimulus" ?checked=${0}>Stimulus</decidables-toggle-option>
-              <decidables-toggle-option name=${0} value="response" ?checked=${0}>Response</decidables-toggle-option>
-              <decidables-toggle-option name=${0} value="outcome" ?checked=${0}>Outcome</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="none" ?checked=${0}>None</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="accuracy" ?checked=${0}>Accuracy</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="stimulus" ?checked=${0}>Stimulus</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="response" ?checked=${0}>Response</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="outcome" ?checked=${0}>Outcome</decidables-toggle-option>
             </decidables-toggle>
-          `), this.chooseColor.bind(this), `${this.uniqueId}-color`, this.color === 'none', `${this.uniqueId}-color`, this.color === 'accuracy', `${this.uniqueId}-color`, this.color === 'stimulus', `${this.uniqueId}-color`, this.color === 'response', `${this.uniqueId}-color`, this.color === 'outcome') : $(_t12$2 || (_t12$2 = _$c``)), this.zRoc !== undefined ? $(_t13$2 || (_t13$2 = _$c`
+          `), this.chooseColor.bind(this), this.color === 'none', this.color === 'accuracy', this.color === 'stimulus', this.color === 'response', this.color === 'outcome') : $(_t12$2 || (_t12$2 = _$c``)), this.zRoc !== undefined ? $(_t13$2 || (_t13$2 = _$c`
             <decidables-switch ?checked=${0} @change=${0}>
               <span class="math-var">z</span>ROC
               <span slot="off-label">ROC</span>
@@ -14841,7 +14811,7 @@ class SDTModel extends DetectableElement {
         .threshold .handle {
           fill: var(---color-element-emphasis);
 
-          /* r: 6; HACK: Firefox does not support CSS SVG Geometry Properties */
+          r: 6px;
         }
 
         /* Make a larger target for touch users */
@@ -14940,9 +14910,8 @@ class SDTModel extends DetectableElement {
 
   firstUpdated(changedProperties) {
     super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
-    // HACK Edge: Edge doesn't have width/height until after a 0ms timeout
 
-    window.setTimeout(this.getDimensions.bind(this), 0);
+    this.getDimensions();
   }
 
   update(changedProperties) {
@@ -15575,9 +15544,7 @@ class SDTModel extends DetectableElement {
 
     const thresholdEnter = thresholdUpdate.enter().append('g').classed('threshold', true);
     thresholdEnter.append('line').classed('line', true);
-    thresholdEnter.append('circle').classed('handle', true).attr('r', 6);
-    /* HACK: Firefox does not support CSS SVG Geometry Properties */
-    //  MERGE
+    thresholdEnter.append('circle').classed('handle', true); //  MERGE
 
     const thresholdMerge = thresholdEnter.merge(thresholdUpdate).attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive);
 
@@ -18203,9 +18170,6 @@ class SDTExample extends DetectableElement {
         :host {
           ---border: var(--border, 1px solid var(---color-border));
           display: inline-block;
-
-          /* This makes IE11 happy */
-          width: 100%;
 
           margin-bottom: 1rem;
         }
