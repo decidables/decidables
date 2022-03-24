@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.5.2](https://github.com/decidables/decidables/compare/@decidables/detectable@0.5.1...@decidables/detectable@0.5.2) (2022-03-24)
+
+
+### Bug Fixes
+
+* **detectable,prospectable:** fix footer height ([179090e](https://github.com/decidables/decidables/commit/179090eafd37163c6d0288b86e7ac2bce9269750))
+
+
+
 ### [0.5.1](https://github.com/decidables/decidables/compare/@decidables/detectable@0.5.0...@decidables/detectable@0.5.1) (2022-03-24)
 
 **Note:** Version bump only for package @decidables/detectable

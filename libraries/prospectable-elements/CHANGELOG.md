@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.3](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.1.2...@decidables/prospectable-elements@0.1.3) (2022-03-24)
+
+
+### Bug Fixes
+
+* **prospectable-elements:** avoid blocking examples with 3d plots ([20d74d2](https://github.com/decidables/decidables/commit/20d74d27f0b37c52de6b9fc2cb0772d688a81ccc))
+
+
+
 ### [0.1.2](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.1.1...@decidables/prospectable-elements@0.1.2) (2022-03-24)
 
 
