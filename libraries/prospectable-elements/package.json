@@ -1,6 +1,6 @@
 {
   "name": "@decidables/prospectable-elements",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "prospectable-elements: Web Components for visualizing Cumulative Prospect Theory",
   "type": "module",
   "main": "./lib/prospectableElements.umd.min.js",

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.4.2](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.4.1...@decidables/prospectable@0.4.2) (2022-03-24)
+
+
+### Bug Fixes
+
+* **detectable,prospectable:** fix footer height ([179090e](https://github.com/decidables/decidables/commit/179090eafd37163c6d0288b86e7ac2bce9269750))
+* **prospectable:** improve splash demo timing ([e02275f](https://github.com/decidables/decidables/commit/e02275f561a1c2efa059d0257d9f35336ee59790))
+
+
+
 ### [0.4.1](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.4.0...@decidables/prospectable@0.4.1) (2022-03-24)
 
 **Note:** Version bump only for package @decidables/prospectable
