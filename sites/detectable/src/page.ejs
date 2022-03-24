@@ -95,7 +95,7 @@ toc:
                 <% for (const [sectionIndex, section] of toc.entries()){ %>
                   <li class="det-toc-list">
                     <% if (section.name) { %>
-                    <span class="det-toc-section-name"><%- section.name %></span>
+                    <div class="det-toc-section-name"><%- section.name %></div>
                     <% } %>
                     <ol class="det-toc-section det-toc-section-<%- section.section %>">
                       <% for (const [pageIndex, page] of section.pages.entries()) { %>
@@ -113,7 +113,7 @@ toc:
                   </li>
                 <% } %>
                 <li class="det-toc-list">
-                  <span class="det-toc-section-name"></span>
+                  <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
                       <span class="det-toc-text">v<%- utilities.getPackageVersion() %></span>
