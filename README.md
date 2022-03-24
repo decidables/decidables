@@ -61,6 +61,7 @@ Dependencies updated 17/1/2022.
 
 ### Features/Bugs/Notes
 
+- Link terminology to glossary entries?
 - Accessibility testing/auditing
 - Can we use *@testing-library/dom* for interface testing?
 - Use APA v7 (https://github.com/citation-style-language/styles)
@@ -85,12 +86,6 @@ Dependencies updated 17/1/2022.
 - Get *remark-lint* working in editor
 - Linting and transpiling in tagged template literals?
 - Clean way for inter-page references?
-- Add "ui" blocks for explaining UI stuff that isn't "real" content?
-  ```markdown
-  :::ui
-  Content about UI
-  :::
-  ```
 - Add "question" blocks for thoughts for readers to try - maybe with foldout answers?
   ```markdown
   :::question[Question?]
@@ -123,6 +118,7 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
     - `:key[]` keywords
     - `:ui[]` user interface components
     - `:term[]` terminology
+    - `:::ui :::` user interface notes
 
 ### Global Tools
 

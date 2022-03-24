@@ -724,6 +724,20 @@ $transition-duration: 500ms;
     border-radius: $border-radius;
   }
 
+  // UI Notes
+  .ui-note {
+    padding: 0.625rem;
+    margin-bottom: 1rem;
+
+    background-color: color.mix($color-white, $color-grey, 82.5%);
+    border: $color-border solid 1px;
+    border-radius: $border-radius;
+
+    p:last-child { /* stylelint-disable-line max-nesting-depth */
+      margin-bottom: 0;
+    }
+  }
+
   // Terms
   .term {
     font-weight: $font-weight-bold;

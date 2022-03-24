@@ -24,6 +24,7 @@ import styleApa from 'style-apa';
 
 // Local Dependencies
 import remarkCiteproc from './remark-citeproc.js';
+import remarkNotes from './remark-notes.js';
 import remarkTerminology from './remark-terminology.js';
 import * as utilities from './utility.js';
 
@@ -51,6 +52,7 @@ export function compileMarkdown() {
       .use(remarkSmartypants, {dashes: 'oldschool'})
       .use(remarkDirective)
       .use(remarkCiteproc)
+      .use(remarkNotes)
       .use(remarkTerminology)
       .use(remarkHtml, {sanitize: false}))
     .on('data', (file) => {
