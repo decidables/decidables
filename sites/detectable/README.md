@@ -22,10 +22,8 @@ interactive visualization and
 - Resolve ambiguity between different uses of same color
   - For example, "Respond Present" as a trial type versus "Present" as a response versus
     "?Present?" as part of a distribution
-- Switch to subsections for better overall organization/structure?
-  - With auto linking of subsections?
-- Add snazzy cover page?
 - Add TOC page w/descriptions?
+- Add header links?
 - Add page before SDT, connecting sensitivity and bias, and showing different views of model
   - Or build threshold on top of distributions, so they are naturally combined!
 - Split Tables & Rates to discuss Accuracy & base rate
