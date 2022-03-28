@@ -92,6 +92,11 @@ export async function buildLibrary() {
   });
 }
 
+export function buildFavicons() {
+  return gulp.src('local/*.{ico,png,svg,webmanifest}')
+    .pipe(gulp.dest('dist'));
+}
+
 export function buildFonts() {
   return gulp.src('local/fonts/*.{woff,woff2}')
     .pipe(gulp.dest('dist/fonts'));

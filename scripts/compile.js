@@ -4,11 +4,15 @@ import glob from 'glob';
 import gulp from 'gulp';
 import gulpDartSass from 'gulp-dart-sass';
 import gulpEjs from 'gulp-ejs';
+import favicons from 'favicons';
 import gulpFrontMatter from 'gulp-front-matter';
+import gulpIf from 'gulp-if';
 import gulpNotify from 'gulp-notify';
 import {remark as gulpRemark} from 'gulp-remark';
 import gulpRename from 'gulp-rename';
+import gulpSvgmin from 'gulp-svgmin';
 import localeEnUs from 'locale-en-us';
+import mergeStream from 'merge-stream';
 import nodeNotifier from 'node-notifier';
 import nodeSassPackageImporter from 'node-sass-package-importer';
 import remarkDirective from 'remark-directive';
@@ -29,6 +33,60 @@ import remarkTerminology from './remark-terminology.js';
 import * as utilities from './utility.js';
 
 // Tasks
+export function compileFaviconsTask(configuration) {
+  return function compileFavicons() {
+    favicons.config.files.android['manifest.json'].icons.splice(0, 5);
+    favicons.config.files.android['manifest.json'].icons.splice(1, 2);
+    return mergeStream(
+      gulp.src('src/favicon.svg')
+        .pipe(favicons.stream({
+          path: '/',
+          // appName: '<application name>',
+          // appShortName: '<application>',
+          // appDescription: '<description>',
+          // developerName: 'Adam Krawitz',
+          // developerURL: 'https://web.uvic.ca/psyc/krawitz/',
+          // dir: 'auto',
+          // lang: 'en-US',
+          // background: '<color>',
+          // theme_color: '<color>',
+          // appleStatusBarStyle: 'default',
+          display: 'browser',
+          orientation: 'any',
+          scope: './',
+          start_url: './',
+          // version: '1.0',
+          // logging: false,
+          // pixel_art: false,
+          // loadManifestWithCredentials: false,
+          // manifestRelativePaths: false,
+          icons: {
+            android: [
+              'android-chrome-192x192.png',
+              'android-chrome-512x512.png',
+            ],
+            appleIcon: [
+              'apple-touch-icon.png',
+            ],
+            appleStartup: false,
+            coast: false,
+            favicons: [
+              'favicon.ico',
+            ],
+            firefox: false,
+            windows: false,
+            yandex: false,
+          },
+          ...configuration,
+        }))
+        .pipe(gulpIf('**/manifest.json', gulpRename({extname: '.webmanifest'}))),
+      gulp.src('src/favicon.svg')
+        .pipe(gulpSvgmin()),
+    )
+      .pipe(gulp.dest('local'));
+  };
+}
+
 export function compileFontsTask(fonts) {
   return function compileFonts() {
     return gulp.src(fonts.flatMap((font) => {
