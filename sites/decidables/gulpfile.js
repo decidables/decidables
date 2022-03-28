@@ -30,6 +30,14 @@ export const lint = gulp.parallel(
   lints.lintStyles,
 );
 
+export const compileFavicons = compiles.compileFaviconsTask({
+  appName: 'decidables',
+  appShortName: 'decidables',
+  appDescription: 'Explorable Explanations of Decision Making',
+  background: '#e6e6e6',
+  theme_color: '#e6e6e6',
+});
+
 export const compileFonts = compiles.compileFontsTask([
   'source-code-pro/WOFF{,2}/OTF/SourceCodePro-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
   'source-sans/WOFF{,2}/OTF/SourceSans3-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
@@ -42,6 +50,7 @@ export const compileFonts = compiles.compileFontsTask([
 export const compile = gulp.series(
   cleans.cleanLocal,
   gulp.parallel(
+    compileFavicons,
     compileFonts,
     compiles.compileMarkdown,
     compiles.compileScripts,
@@ -67,6 +76,7 @@ export const watch = gulp.parallel(
 export const build = gulp.series(
   cleans.cleanDist,
   gulp.parallel(
+    builds.buildFavicons,
     builds.buildFonts,
     builds.buildMarkup,
     builds.buildScripts,
