@@ -170,7 +170,8 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 - `yarn workspace @decidables/<site> compile`
   - Compiles a single site from `src/` to `local/`
 - `yarn workspace @decidables/<site> gulp compile<type>`
-  - Compiles `Fonts`, `Markdown`, `Scripts`, or `Styles` in a single site from `src/` to `local/`
+  - Compiles `Favicons`, `Fonts`, `Markdown`, `Scripts`, or `Styles` in a single site from `src/` to
+    `local/`
 
 #### Watch
 
@@ -192,7 +193,8 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
   - Builds a single site to browser-compatible optimized scripts from `local/` to `dist/`
 - `yarn workspace @decidables/<library|site> gulp build<type>`
   - Builds `Scripts` in a single library from `src/` to `lib/`
-  - Builds `Fonts`, `Markup`, `Scripts`, or `Styles` in a single site from `local/` to `dist/`
+  - Builds `Favicons`, `Fonts`, `Markup`, `Scripts`, or `Styles` in a single site from `local/` to
+    `dist/`
 
 #### Version
 
