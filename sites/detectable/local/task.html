@@ -7,6 +7,11 @@
     <meta name="description" content="detectable: Task: Detecting a Signal in a Random Dot Kinematogram">
     <meta name="author" content="Dr. Adam Krawitz">
 
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
     <title>d′etectable: Task</title>
 
     <link href="page.css" rel="stylesheet">
@@ -293,7 +298,7 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.5.2</span>
+                      <span class="det-toc-text">v0.6.0</span>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
@@ -327,7 +332,7 @@
           <section class="det-content">
             <h2>A response</h2>
 <p>We have been introduced to signal and noise, so now we can consider the signal detection problem: Am
-I looking at signal or noise? Is that sound my friend's voice or another party-goer? Is that form on
+I looking at signal or noise? Is that sound my friend’s voice or another party-goer? Is that form on
 the horizon a distant boat or a denser patch of fog? Is that smell a truffle or another earthy
 scent?</p>
 <p>We will define any amount of coherent dot motion as our signal, and purely random dot motion as
@@ -337,19 +342,19 @@ kinematogram (RDK) to create a <span class="term task">task</span>. As is typica
 experiments, our task will consist of one or more <span class="term trials">trials</span>. Each trial will start with a
 <span class="term fixation">fixation</span> cross, <span class="ui +">+</span>, in the middle of the display, then the RDK stimulus will appear for a
 short period of time, followed by a question mark, <span class="ui ?">?</span>. Your mission, should you choose to accept
-it, is to decide whether the signal (coherent dot motion!) is <span class="key Present">Present</span> or <span class="key Absent">Absent</span> and push
-the appropriate button to indicate your choice - this is your <span class="term response">response</span>. You can make your
-selection at any time once the stimulus has begun (you will notice that the response buttons become
-active at that time). However, do not take too long, because once the question mark goes away, it is
-too late.</p>
-<p>Go ahead and give it a go! (<span class="ui Run">Run</span> to start the trial; <span class="ui Pause">Pause</span> to temporarily freeze the trial,
-<span class="ui Reset">Reset</span> to reinitialize the experiment, so you can run it again.)</p>
+it, is to decide whether the signal (coherent dot motion!) is <span class="key Present">Present</span> or <span class="key Absent">Absent</span> and
+make the appropriate <span class="term response">response</span>. You can respond at any time once the stimulus has begun.
+However, do not take too long, because once the question mark goes away, it is too late.</p>
+<p>Go ahead and give it a go!</p>
 <sdt-example-human>
   <detectable-control run pause reset coherence=".5"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="1" probability=".5" duration="2000"
     wait="2000" iti="2000"></rdk-task>
   <detectable-response interactive feedback="none"></detectable-response>
 </sdt-example-human>
+<div class="ui-note"><p>Press <span class="ui Run">Run</span> to start the trial, <span class="ui Pause">Pause</span> to temporarily freeze the trial, or
+<span class="ui Reset">Reset</span> to reinitialize the experiment, so you can run it again.</p><p>To respond, press the <span class="key Present">Present</span> or <span class="key Absent">Absent</span> button. They will become active once the trial
+has begun.</p></div>
 <p>Having fun yet?</p>
 <p>In case you were wondering, the fixation lasts for two seconds, followed by the
 stimulus for two seconds, and then the question mark for one second.</p>
@@ -366,22 +371,25 @@ a bit boring, so lets try something a bit more manageable, say, a <span class="t
   <detectable-response interactive feedback="none"></detectable-response>
 </sdt-example-human>
 <p>OK, now are you having fun? It can take a bit of practice to get the hang of the timing of the
-trials, the positioning of the response buttons, etc... If you keep at it, sooner or later you may
+trials, the positioning of the response buttons, etc… If you keep at it, sooner or later you may
 notice that the actual signal detection part of this task is too easy. Well, yes, in this example,
 the signal is 100% coherent, so you are unlikely to confuse it for noise! What was that? You want a
-challenge? All right then...</p>
+challenge? All right then…</p>
 <h2>A customizable block of trials!</h2>
-<p>In this example, you can choose how many trials there will be in a block using the <span class="ui Trials">Trials</span>
-slider, the proportion of coherence for the signal using the <span class="ui Coherence">Coherence</span> slider, and the duration
-the stimulus is available using the <span class="ui Duration">Duration</span> slider. Now lookie here - we have ourselves
-something approaching a legitimate signal detection task!</p>
+<p>In this example, you can choose how many trials there will be in a block, the proportion of
+coherence for the signal, and the duration the stimulus is available. The power is in your hands.</p>
 <sdt-example-human>
   <detectable-control run pause reset coherence=".5" trials="5" duration="2000"></detectable-control>
   <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
     wait="2000" iti="2000"></rdk-task>
   <detectable-response  interactive feedback="none"></detectable-response>
 </sdt-example-human>
-<p>However, you may be feeling a bit dissatisfied, because you don't know how you are doing. Well, go
+<div class="ui-note"><p>Choose the number of trials in the block with the <span class="ui Trials">Trials</span> slider. Select the length in
+milliseconds of the stimulus, response period, and inter-trial interval using the <span class="ui Duration">Duration</span>
+slider. Adjust how hard the task is by selecting the proportion of coherence for the signal with the
+<span class="ui Coherence">Coherence</span> slider.</p></div>
+<p>Now lookie here — we have ourselves something approaching a legitimate signal detection task!
+However, you may be feeling a bit dissatisfied, because you don’t know how you are doing. Well, go
 to the next page then, so we can start talking about outcomes and feedback!</p>
 
           </section>

@@ -7,6 +7,11 @@
     <meta name="description" content="detectable: Tables &amp;amp; Rates: Tabulating and Summarizing Task Performance">
     <meta name="author" content="Dr. Adam Krawitz">
 
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
     <title>d′etectable: Tables &amp; Rates</title>
 
     <link href="page.css" rel="stylesheet">
@@ -293,7 +298,7 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.5.2</span>
+                      <span class="det-toc-text">v0.6.0</span>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
@@ -337,14 +342,14 @@ occurred:</p>
 <p>By collecting our outcomes across all of the trials in the block we now have our first aggregate
 measures of performance. We can describe our performance on the task by reporting these four counts,
 but the counts are dependent not only our level of performance, but also on the number of trials,
-which often isn't that interesting to us.</p>
+which often isn’t that interesting to us.</p>
 <h2>Hit Rate (HR)</h2>
 <p>We can further summarize our performance by describing how we did, on average, when the signal was
 present, with a <span class="key HitRate">Hit Rate</span> (HR), also called a <span class="term truepositiverate">true positive rate</span> or <span class="term typeIerrorrate">type I error
 rate</span>:</p>
 <p><sdt-equation-hm2hr></sdt-equation-hm2hr></p>
 <p>The <span class="key HitRate">Hit Rate</span> tells us the proportion of trials when the signal was <em>present</em> that we correctly
-responded <em>"present"</em>.</p>
+responded <em>“present”</em>.</p>
 <p><sdt-equation-hm2hr numeric interactive hits="5" misses="5"></sdt-equation-hm2hr></p>
 <p>(This is a <em>live</em> equation. You can edit the number of <span class="key Hits">Hits</span> or <span class="key Misses">Misses</span> and the <span class="key HitRate">Hit
 Rate</span> will immediately update.)</p>
@@ -353,7 +358,7 @@ Rate</span> will immediately update.)</p>
 (FAR), also called a <span class="term falsepositiverate">false positive rate</span> or <span class="term typeIIerrorrate">type II error rate</span>:</p>
 <p><sdt-equation-facr2far></sdt-equation-facr2far></p>
 <p>The <span class="key FalseAlarmRate">False Alarm Rate</span> tells us the proportion of trials when the signal was <em>absent</em> that we
-erroneously responded <em>"present"</em>.</p>
+erroneously responded <em>“present”</em>.</p>
 <sdt-equation-facr2far numeric interactive false-alarms="5" correct-rejections="5">
   </sdt-equation-facr2far>
 <p>(Another <em>live</em> equation!)</p>
@@ -412,7 +417,7 @@ had one hundred <span class="key Hits">Hits</span> and zero <span class="key Mis
 the exact opposite. On the other hand, the first participant had one hundred <span class="key FalseAlarms">False Alarms</span> and
 zero <span class="key CorrectRejections">Correct Rejections</span>, whereas again the second participant had the exact opposite. Indeed,
 if we look down the columns of the tables, we can observe that the first participant always
-responded <em>"Present"</em>, whereas the second participant always responded <em>"Absent"</em>. And yet, despite
+responded <em>“Present”</em>, whereas the second participant always responded <em>“Absent”</em>. And yet, despite
 completely different performance, and completely different patterns of outcomes, they both resulted
 in the same <span class="key Accuracy">Accuracy</span>. It turns out that in the context of signal detection, <span class="key Accuracy">Accuracy</span> is
 a surprisingly poor indicator of performance.</p>
@@ -422,7 +427,7 @@ participant performed when the signal was <em>present</em> and when the signal w
 combination of HR and FAR give us a more complete summary picture of performance.</p>
 <p>Now, you may be mumbling to yourself that something else peculiar is going on in this example,
 namely that neither participant seems to be paying any attention to the stimuli at all. (Always
-responding either "present" or "absent" can be done without regard to the stimulus.) You, my astute
+responding either “present” or “absent” can be done without regard to the stimulus.) You, my astute
 reader, are on to something important, which the next few pages will bring into focus.</p>
 <h2>Marginals</h2>
 <sdt-example-interactive>

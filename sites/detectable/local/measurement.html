@@ -7,6 +7,11 @@
     <meta name="description" content="detectable: Measurement &amp;amnp; Sensitivity: Towards a Theory of Performance">
     <meta name="author" content="Dr. Adam Krawitz">
 
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
     <title>d′etectable: Measurement &amp; Sensitivity</title>
 
     <link href="page.css" rel="stylesheet">
@@ -293,7 +298,7 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.5.2</span>
+                      <span class="det-toc-text">v0.6.0</span>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
@@ -334,9 +339,9 @@ between models and theories, but we will leave that for another day, or maybe an
 explanation?).</p>
 <p>According to SDT, the first step that must be performed in signal detection is to take a
 <span class="term measurement">measurement</span>. To continue our earlier examples, this might be a measurement of how much what
-we hear sounds like our friend's voice, or how much what we see looks like a distant boat on the
+we hear sounds like our friend’s voice, or how much what we see looks like a distant boat on the
 sea, or how much what we smell has the aroma of a truffle. In human signal detection, this
-measurement is being carried out by the sensory and perceptual mechanisms of the participant's mind
+measurement is being carried out by the sensory and perceptual mechanisms of the participant’s mind
 and brain. The result of this measurement is the <span class="term evidence">evidence</span> that a signal is present,
 represented as a single scalar value between negative infinity and infinity, with the <span class="term neutralpoint">neutral
 point</span>, where the evidence is equally suggestive of signal and noise, at the origin.</p>
@@ -368,7 +373,7 @@ signal or noise trial. So we can color the measurement from each trial based on 
 <p>After we run the model for 20 trials, we can observe where the <span class="key SignalPresent">Signal Present</span> or <span class="key SignalAbsent">Signal
 Absent</span> measurements are falling on our evidence scale. Unless you were particularly unlucky, you
 can probably see that the signal trials are clustering on the upper end of the scale, while the
-noise trials are clustering toward the lower end of the scale...</p>
+noise trials are clustering toward the lower end of the scale…</p>
 <h2>Distributions!</h2>
 <p>This leads us to a key fact about the measurements our model is making. In SDT, the evidence on
 noise trials is drawn from one <span class="term distribution">distribution</span>, the <span class="key NoiseDistribution">Noise Distribution</span>, while on signal
@@ -408,7 +413,7 @@ different means, we tend to make distinct measurements of evidence on <span clas
 <p>On these trials, we are much more sensitive to the different between signal and noise. (Note that
 evidence measurements that would be off the horizontal scale of the graph are stacked in the bin at
 the corresponding end of the scale.)</p>
-<h2>Parameterizing distributions with sensitivity, <span class="math-var">d'</span></h2>
+<h2>Parameterizing distributions with sensitivity, <span class="math-var">d’</span></h2>
 <p>The distance between the <span class="key NoiseDistribution">Noise Distribution</span> and the <span class="key Signal+NoiseDistribution">Signal + Noise Distribution</span> is the
 <span class="key Sensitivity">Sensitivity</span> or <span class="key d′">d′</span>. It lies along a continuum, from negative infinity to infinity. Zero
 indicates identical means, and no sensitivity. Positive numbers indicate stronger evidence
@@ -437,8 +442,8 @@ was used that was equal to the square of the difference between the means of the
 it represented <span class="math-var">d</span>etectability. As SDT was developed, it became clear
 that the square root of <span class="math-var">d</span> was a more useful form, since it expressed
 <span class="math-var">d</span>etectability directly in the units of the probability distributions
-for signal and noise. Since "square root of <span class="math-var">d</span>" was a mouthful, it was
-replaced with the symbol <span class="key d′">d′</span>, pronounced 'dee-prime' (<a class="csl-ref" href="references.html#Creelman2015">Creelman, 2015</a>; <a class="csl-ref" href="references.html#Tanner1954">Tanner &#38; Swets, 1954</a>).</p>
+for signal and noise. Since “square root of <span class="math-var">d</span>” was a mouthful, it was
+replaced with the symbol <span class="key d′">d′</span>, pronounced ‘dee-prime’ (<a class="csl-ref" href="references.html#Creelman2015">Creelman, 2015</a>; <a class="csl-ref" href="references.html#Tanner1954">Tanner &#38; Swets, 1954</a>).</p>
 
           </section>
 

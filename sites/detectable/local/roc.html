@@ -7,6 +7,11 @@
     <meta name="description" content="detectable: The Receiver Operating Characteristic (ROC): Visualizing performance">
     <meta name="author" content="Dr. Adam Krawitz">
 
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
     <title>d′etectable: ROC Space</title>
 
     <link href="page.css" rel="stylesheet">
@@ -293,7 +298,7 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.5.2</span>
+                      <span class="det-toc-text">v0.6.0</span>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
@@ -330,7 +335,7 @@
 then visualize performance as a point in a space, with the <em>x</em>-coordinate defined by FAR, and the
 <em>y</em>-coordinate defined by HR. This space is called <span class="term receiveroperatingcharacteristic(ROC)space">receiver operating characteristic (ROC)
 space</span> or alternatively <span class="term relativeoperatingcharacteristicspace">relative operating characteristic space</span> (<a class="csl-ref" href="references.html#Swets1996">Swets, 1996</a>). (The term
-"receiver" dates back to the original development of this approach in the context of separating
+“receiver” dates back to the original development of this approach in the context of separating
 signal and noise in the output of radar receivers used to detect enemy planes during World War II.)</p>
 <p>A point in ROC space uniquely defines a combination of HR and FAR:</p>
 <sdt-example-interactive>
@@ -347,7 +352,7 @@ just another way of saying the same thing we said already on the previous page, 
 <span class="key Accuracy">Accuracy</span> alone does not uniquely describe signal detection performance.</p>
 <h2>Iso-accuracy contours</h2>
 <p>We might then wonder what points in ROC space share the same <span class="key Accuracy">Accuracy</span>. We can visual this by
-coloring each point in ROC space according to it's corresponding <span class="key Accuracy">Accuracy</span>, and drawing a
+coloring each point in ROC space according to it’s corresponding <span class="key Accuracy">Accuracy</span>, and drawing a
 contour through the space for every 10% increase in accuracy from 0% up to 100%. The resulting
 iso-accuracy contours help us see how accuracy varies across the ROC space, in the same way that
 contour lines on a topographic map help us understand how elevation changes across the landscape.</p>
@@ -359,12 +364,12 @@ result in the same accuracy. Hopefully this helps us further appreciate that kno
 performance generally tells us next to nothing about either the hit rate or the false alarm rate!</p>
 <h2>Comparing patterns of outcomes</h2>
 <p>We can explore ROC space further by comparing a pair of points.</p>
-<p>For example, let's imagine we have one point with a <span class="key HitRate">Hit Rate</span> of 0.9 and an <span class="key Accuracy">Accuracy</span> of
+<p>For example, let’s imagine we have one point with a <span class="key HitRate">Hit Rate</span> of 0.9 and an <span class="key Accuracy">Accuracy</span> of
 0.75, and a second point with a <span class="key FalseAlarmRate">False Alarm Rate</span> of 0.1 and an <span class="key Accuracy">Accuracy</span> of 0.75. Is this
 possible? Where are the two points in ROC space? Is there any sort of symmetry apparent in their
 placement? Try to move the two points in the ROC space below to meet this description. The point
-with the up arrow, '↑', is described in the table above the ROC space; the point with the down
-arrow, '↓', is described in the table below the ROC space.</p>
+with the up arrow, ’↑’, is described in the table above the ROC space; the point with the down
+arrow, ’↓’, is described in the table below the ROC space.</p>
 <sdt-example-double-interactive>
   <detectable-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></detectable-table>
@@ -372,7 +377,7 @@ arrow, '↓', is described in the table below the ROC space.</p>
   <detectable-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></detectable-table>
 </sdt-example-double-interactive>
-<p>Try some other positions... What about two points that are symmetric about the dotted diagonal from
+<p>Try some other positions… What about two points that are symmetric about the dotted diagonal from
 lower left to upper right? What about points along the <em>imaginary</em> diagonal from upper left to lower
 right?</p>
 <h2>Comparing performance</h2>
@@ -390,7 +395,7 @@ just reload the page.)</p>
     </detectable-table>
   <roc-space point="all" iso-d="none" iso-c="none" history far=".5" hr=".5"></roc-space>
 </sdt-example-human>
-<p>After you've completed a few blocks of trials, do you see any trends revealed in the pattern of
+<p>After you’ve completed a few blocks of trials, do you see any trends revealed in the pattern of
 points within ROC space?</p>
 <p>We can now describe performance in terms of <span class="key Hits">Hits</span>, <span class="key Misses">Misses</span>, <span class="key CorrectRejections">Correct Rejections</span>,
 <span class="key FalseAlarms">False Alarms</span>, <span class="key HitRate">Hit Rate</span>, <span class="key FalseAlarmRate">False Alarm Rate</span>, and ROC space. It is time that we think

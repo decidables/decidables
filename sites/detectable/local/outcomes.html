@@ -7,6 +7,11 @@
     <meta name="description" content="detectable: Outcomes: Going Beyond Accuracy">
     <meta name="author" content="Dr. Adam Krawitz">
 
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
     <title>d′etectable: Outcomes</title>
 
     <link href="page.css" rel="stylesheet">
@@ -293,7 +298,7 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.5.2</span>
+                      <span class="det-toc-text">v0.6.0</span>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
@@ -345,16 +350,16 @@ time).</p>
 two ways we can be in error:</p>
 <ul>
 <li><span class="key Hits">Hits</span>, also called <span class="term truepositives">true positives</span>, are when the signal is actually <em>present</em>, and we
-correctly respond <em>"present"</em></li>
+correctly respond <em>“present”</em></li>
 <li><span class="key Misses">Misses</span>, also called <span class="term falsepositives">false positives</span> or <span class="term typeIerrors">type I errors</span>, are when the signal is
-actually <em>present</em>, and we erroneously respond <em>"absent"</em></li>
+actually <em>present</em>, and we erroneously respond <em>“absent”</em></li>
 <li><span class="key FalseAlarms">False Alarms</span>, also called <span class="term falsenegatives">false negatives</span> or <span class="term typeIIerrors">type II errors</span>, are when the
-signal is actually <em>absent</em>, and we erroneously respond <em>"present"</em></li>
+signal is actually <em>absent</em>, and we erroneously respond <em>“present”</em></li>
 <li><span class="key CorrectRejections">Correct Rejections</span>, also called <span class="term truenegatives">true negatives</span>, are when the signal is actually
-<em>absent</em>, and we correctly respond <em>"absent"</em><br></li>
+<em>absent</em>, and we correctly respond <em>“absent”</em><br></li>
 </ul>
 <p>We have two possible states of the world (signal present or absent) and two
-possible responses ("present" or "absent"), leading to a nice two by two table of possible outcomes
+possible responses (“present” or “absent”), leading to a nice two by two table of possible outcomes
 (brightly colored by yours truly):</p>
 <sdt-example-interactive>
   <detectable-table></detectable-table>
@@ -368,7 +373,7 @@ possible outcomes occurred:</p>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
 </sdt-example-human>
 <p>Now that we know how to classify the outcome of individual trials, we might wonder how we can
-aggregate and summarize these results...</p>
+aggregate and summarize these results…</p>
 
           </section>
 

@@ -8620,6 +8620,17 @@ progress {
   background-color: #e6e6e6;
   border-radius: 0.25rem;
 }
+.det-content .ui-note {
+  padding: 0.625rem;
+  margin-bottom: 1rem;
+  background-color: #ededed;
+  border: #e6e6e6 solid 1px;
+  border-radius: 0.25rem;
+}
+.det-content .ui-note p:last-child {
+  /* stylelint-disable-line max-nesting-depth */
+  margin-bottom: 0;
+}
 .det-content .term {
   font-weight: 700;
 }

@@ -7,6 +7,11 @@
     <meta name="description" content="detectable: Signal Detection Theory (SDT): Putting it Together">
     <meta name="author" content="Dr. Adam Krawitz">
 
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
     <title>d′etectable: SDT</title>
 
     <link href="page.css" rel="stylesheet">
@@ -293,7 +298,7 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.5.2</span>
+                      <span class="det-toc-text">v0.6.0</span>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
@@ -325,7 +330,7 @@
             </header>
           
           <section class="det-content">
-            <h2>Bias, <span class="math-var">c</span>, and sensitivity, <span class="math-var">d'</span>, together</h2>
+            <h2>Bias, <span class="math-var">c</span>, and sensitivity, <span class="math-var">d’</span>, together</h2>
 <p>We have now seen how, depending on whether this is a noise or signal trial, a measurement of
 <span class="key Evidence">Evidence</span> is made from the <span class="key NoiseDistribution">Noise Distribution</span> or the <span class="key Signal+NoiseDistribution">Signal + Noise Distribution</span>.
 And we have seen how the value of this measurement relative to a threshold is used to determine if
@@ -347,10 +352,10 @@ determine which signal and noise trials that will evoke <span class="key Present
 as a <span class="key SignalPresent">Signal Present</span> or <span class="key SignalAbsent">Signal Absent</span> trial, and also as a <span class="key RespondPresent">Respond Present</span> or
 <span class="key RespondAbsent">Respond Absent</span> trial, we can therefore determine the outcome of each trial as a <span class="key Hit">Hit</span>,
 <span class="key Miss">Miss</span>, <span class="key CorrectRejection">Correct Rejection</span>, or <span class="key FalseAlarm">False Alarm</span>.</p>
-<p>In this example, the model's measurement for each trial is color-coded based on the trial outcome:
+<p>In this example, the model’s measurement for each trial is color-coded based on the trial outcome:
 <span class="key Hit">Hit</span>, <span class="key Miss">Miss</span>, <span class="key CorrectRejection">Correct Rejection</span>, or <span class="key FalseAlarm">False Alarm</span>. The distributions are also
 colored accordingly to indicate the outcome that will result from sampling from each part of each
-distribution. The model's response and the resulting outcome and feedback will depend on the current
+distribution. The model’s response and the resulting outcome and feedback will depend on the current
 values of <span class="key d′">d′</span> and <span class="key c">c</span>. The measurements and resulting outcomes for each trial in the
 histogram will update as you drag the distributions or the threshold to adjust the parameter values.</p>
 <sdt-example-model>
@@ -378,7 +383,7 @@ space, just as we did for human performance previously:</p>
     </detectable-table>
   <roc-space hr=".5" far=".5" point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-model>
-<p>Now we can see how the parameters <span class="key d′">d′</span> and <span class="key c">c</span> jointly determine the model's performance in
+<p>Now we can see how the parameters <span class="key d′">d′</span> and <span class="key c">c</span> jointly determine the model’s performance in
 terms of <span class="key HitRate">Hit Rate</span> and <span class="key FalseAlarmRate">False Alarm Rate</span>. Indeed, any pattern of performance can be
 accounted for with the model by selecting the appropriate parameter values!</p>
 <h2>Calculating hit and false alarm rates from sensitivity and bias</h2>

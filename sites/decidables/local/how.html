@@ -6,6 +6,11 @@
     <meta name="description" content="decidables: How was decidables made?">
     <meta name="author" content="Dr. Adam Krawitz">
 
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
     <title>decidables: How</title>
 
     <link href="page.css" rel="stylesheet">
@@ -111,7 +116,7 @@ page.</p>
 JavaScript</a> templating language with
 <a href="https://yaml.org/">YAML</a> front matter. By combining HTML and JavaScript, this makes it easy to
 specify the organization of the pages a single time, and have it reused for every page on the site.
-Elements like "next" links are generated programmatically, since their target is different on each
+Elements like “next” links are generated programmatically, since their target is different on each
 page. <a href="https://ejs.co/"><span class="tool EJS">EJS</span></a> is used to combine the templates with the content output from
 <a href="https://remark.js.org/"><span class="tool remark">remark</span></a> to generate the resulting HTML pages.</p>
 <h3>Styling</h3>
@@ -160,7 +165,7 @@ packages to <a href="https://www.npmjs.com/"><span class="tool npm">npm</span></
 associated theory (for example, the subjective value function for cumulative prospect theory); and
 an <em>elements</em> library containing all of the associated web components. Those web components fall
 into three categories: <em>components</em>, which are individual interactive graphs, tasks, controls,
-etc...; <em>equations</em>, which are live visualizations of key equations; and <em>examples</em>, which combine
+etc…; <em>equations</em>, which are live visualizations of key equations; and <em>examples</em>, which combine
 components (and equations?) to form interconnected demonstrations. For example, <a href="detectable/"><strong><span
 class="detectable"><span class="math-var d">d′</span>ete<span class="math-var
 c">c</span>table</span></strong></a> has its own
@@ -183,7 +188,7 @@ also compiled to <a href="https://262.ecma-international.org/5.1/">ES5</a> and b
 language features supported by <a href="https://github.com/zloirock/core-js">core-js</a> and
 <a href="http://facebook.github.io/regenerator/">regenerator-runtime</a>.</p>
 <p><strong>Note:</strong> The issue of which library formats to provide seems to be both complicated and fraught
-these days. I've opted to provide multiple options: untranspiled source exposed by <code>exports</code>, a
+these days. I’ve opted to provide multiple options: untranspiled source exposed by <code>exports</code>, a
 transpiled UMD bundle exposed by <code>main</code>, and a transpiled ESM bundle exposed by <code>module</code>. There are
 both minified and unminified versions of the bundles available.</p>
 <h3>Web components</h3>
@@ -236,7 +241,7 @@ class="fw-semibold">@decidables/detectable-elements</code></a>.</p>
 tooling and the project itself are both running in the same language using the same infrastructure.
 This ecosystem works seamlessly across operating systems, and has an astounding variety of packages
 for web development. Indeed, I might go so far as to suggest that the Node/npm/GitHub ecosystem is
-one of mankind's greatest works of collective engineering.</p>
+one of mankind’s greatest works of collective engineering.</p>
 <h3>Linting</h3>
 <p>Web development requires the use of multiple languages, each with its own requirements and quirks.
 Layered on top of that, they can be used and formatted in a wide variety of ways. We use linting
@@ -264,8 +269,8 @@ installing and updating dependencies, and does an excellent job of seamlessly ha
 organization, where all of the sites and libraries are housed within a single overarching <a href="https://github.com/decidables/decidables/"><span
 class="decidables">decidables</span> package/repository</a>.</p>
 <p><strong>Note:</strong> We are not making use of <a href="https://yarnpkg.com/features/pnp"><span class="tool YarnPNP">Yarn PNP</span></a>. There are
-two main reasons for this. First, when experimenting with it, we've hit multiple inscrutable errors
-coming from the depths of our build, and it wasn't obvious how to resolve those issues. Second, it
+two main reasons for this. First, when experimenting with it, we’ve hit multiple inscrutable errors
+coming from the depths of our build, and it wasn’t obvious how to resolve those issues. Second, it
 seems to obfuscate file-system access to our dependencies. It is often helpful to browse the code in
 a package to understand exactly what it is doing. PNP makes this harder by removing
 <a href="https://docs.npmjs.com/cli/v7/configuring-npm/folders">node_modules</a> and storing packages in cached
@@ -281,7 +286,7 @@ to consistently use <a href="https://www.conventionalcommits.org/">conventional 
 format for <code>git commit</code> messages makes it easier to understand what is changing, and facilitates
 adherence to the principles of <a href="https://semver.org/">semantic versioning</a>.</p>
 <h3>File editing</h3>
-<p>The text editor is a coder's nearest and dearest tool. This project has mostly been
+<p>The text editor is a coder’s nearest and dearest tool. This project has mostly been
 developed using first <a href="https://atom.io/"><span class="tool Atom">Atom</span></a> with its supporting
 <a href="https://atom.io/packages">packages</a> and now <a href="https://code.visualstudio.com/"><span class="tool VSCode">VSCode</span></a> with
 its supporting <a href="https://marketplace.visualstudio.com/VSCode">extensions</a>. Both of these editors are
@@ -305,7 +310,7 @@ the project.</p>
             <a class="dec-nav-brand" href="./">decidables</a>
           </li>
           <li class="dec-nav-item">
-            <span class="dec-nav-text">v0.3.3</span>
+            <span class="dec-nav-text">v0.4.0</span>
           </li>
           
             <li class="dec-nav-item">
