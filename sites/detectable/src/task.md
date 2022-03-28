@@ -19,14 +19,11 @@ kinematogram (RDK) to create a :term[task]. As is typical of tasks in cognitive 
 experiments, our task will consist of one or more :term[trials]. Each trial will start with a
 :term[fixation] cross, :ui[+], in the middle of the display, then the RDK stimulus will appear for a
 short period of time, followed by a question mark, :ui[?]. Your mission, should you choose to accept
-it, is to decide whether the signal (coherent dot motion!) is :key[Present] or :key[Absent] and push
-the appropriate button to indicate your choice - this is your :term[response]. You can make your
-selection at any time once the stimulus has begun (you will notice that the response buttons become
-active at that time). However, do not take too long, because once the question mark goes away, it is
-too late.
+it, is to decide whether the signal (coherent dot motion!) is :key[Present] or :key[Absent] and
+make the appropriate :term[response]. You can respond at any time once the stimulus has begun.
+However, do not take too long, because once the question mark goes away, it is too late.
 
-Go ahead and give it a go! (:ui[Run] to start the trial; :ui[Pause] to temporarily freeze the trial,
-:ui[Reset] to reinitialize the experiment, so you can run it again.)
+Go ahead and give it a go!
 
 <sdt-example-human>
   <detectable-control run pause reset coherence=".5"></detectable-control>
@@ -34,6 +31,16 @@ Go ahead and give it a go! (:ui[Run] to start the trial; :ui[Pause] to temporari
     wait="2000" iti="2000"></rdk-task>
   <detectable-response interactive feedback="none"></detectable-response>
 </sdt-example-human>
+
+:::ui
+
+Press :ui[Run] to start the trial, :ui[Pause] to temporarily freeze the trial, or
+:ui[Reset] to reinitialize the experiment, so you can run it again.
+
+To respond, press the :key[Present] or :key[Absent] button. They will become active once the trial
+has begun.
+
+:::
 
 Having fun yet?
 
@@ -63,10 +70,8 @@ challenge? All right then...
 
 ## A customizable block of trials!
 
-In this example, you can choose how many trials there will be in a block using the :ui[Trials]
-slider, the proportion of coherence for the signal using the :ui[Coherence] slider, and the duration
-the stimulus is available using the :ui[Duration] slider. Now lookie here - we have ourselves
-something approaching a legitimate signal detection task!
+In this example, you can choose how many trials there will be in a block, the proportion of
+coherence for the signal, and the duration the stimulus is available. The power is in your hands.
 
 <sdt-example-human>
   <detectable-control run pause reset coherence=".5" trials="5" duration="2000"></detectable-control>
@@ -75,5 +80,15 @@ something approaching a legitimate signal detection task!
   <detectable-response  interactive feedback="none"></detectable-response>
 </sdt-example-human>
 
+:::ui
+
+Choose the number of trials in the block with the :ui[Trials] slider. Select the length in
+milliseconds of the stimulus, response period, and inter-trial interval using the :ui[Duration]
+slider. Adjust how hard the task is by selecting the proportion of coherence for the signal with the
+:ui[Coherence] slider.
+
+:::
+
+Now lookie here --- we have ourselves something approaching a legitimate signal detection task!
 However, you may be feeling a bit dissatisfied, because you don't know how you are doing. Well, go
 to the next page then, so we can start talking about outcomes and feedback!
