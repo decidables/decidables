@@ -1,0 +1,25 @@
+{
+  "name": "prospectαbλe",
+  "short_name": "prospectαbλe",
+  "description": "An Explorable Explanation of Cumulative Prospect Theory",
+  "dir": "auto",
+  "lang": "en-US",
+  "display": "browser",
+  "orientation": "any",
+  "scope": "./",
+  "start_url": "./",
+  "background_color": "#e6e6e6",
+  "theme_color": "#e6e6e6",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
