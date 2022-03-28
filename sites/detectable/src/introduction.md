@@ -22,7 +22,7 @@ In answering this question, researchers attempted to decompose the underlying co
 its constituent parts. Then they specified a theory describing these parts in a formal mathematical
 model. The result was Signal Detection Theory :cite[@Green1966].
 
-SDT can be viewed as an early and classic example of computational cognitive neuroscience - the
+SDT can be viewed as an early and classic example of computational cognitive neuroscience --- the
 interdisciplinary study of mind, brain, and behavior through the melding of computational,
 psychological, and neuroscientific approaches. It does this by linking observed behavior to known
 neural mechanisms through a formal computational account of cognition :cite[@Gold2007].
