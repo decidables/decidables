@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.4.2...@decidables/prospectable@0.5.0) (2022-03-28)
+
+
+### Features
+
+* **prospectable:** add favicon ([90d102b](https://github.com/decidables/decidables/commit/90d102b7b6d4644bc3db0e8947ac54eb2da489a9))
+* **sites:** acknowledge use of remark plugins ([e86e058](https://github.com/decidables/decidables/commit/e86e0587b6ac9413b274629ac9f4937f03a6137d))
+* **sites:** added UI notes blocks to markdown ([0814149](https://github.com/decidables/decidables/commit/0814149f6d4b364f0d7730ff9ea56e52175e25dc))
+
+
+### Bug Fixes
+
+* **sites:** add use of favicons to About/Credits ([3eafa14](https://github.com/decidables/decidables/commit/3eafa144d643845acceab9557cde73aaf8ba0fdd))
+
+
+
 ### [0.4.2](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.4.1...@decidables/prospectable@0.4.2) (2022-03-24)
 
 

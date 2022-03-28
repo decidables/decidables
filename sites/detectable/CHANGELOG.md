@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.5.2...@decidables/detectable@0.6.0) (2022-03-28)
+
+
+### Features
+
+* **detectable:** add favicon ([4af428c](https://github.com/decidables/decidables/commit/4af428c05d8c3ccbcfddc7a5b84d9cddf5b46ca3))
+* **detectable:** start using UI Note blocks ([63ed745](https://github.com/decidables/decidables/commit/63ed745b67f810458072deef54bc375362fbf20f))
+* **sites:** acknowledge use of remark plugins ([e86e058](https://github.com/decidables/decidables/commit/e86e0587b6ac9413b274629ac9f4937f03a6137d))
+* **sites:** added UI notes blocks to markdown ([0814149](https://github.com/decidables/decidables/commit/0814149f6d4b364f0d7730ff9ea56e52175e25dc))
+
+
+### Bug Fixes
+
+* **sites:** add use of favicons to About/Credits ([3eafa14](https://github.com/decidables/decidables/commit/3eafa144d643845acceab9557cde73aaf8ba0fdd))
+
+
+
 ### [0.5.2](https://github.com/decidables/decidables/compare/@decidables/detectable@0.5.1...@decidables/detectable@0.5.2) (2022-03-24)
 
 

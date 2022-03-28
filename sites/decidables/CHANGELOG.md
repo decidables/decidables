@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.3.3...@decidables/decidables@0.4.0) (2022-03-28)
+
+
+### Features
+
+* **decidables:** add favicon ([2d0ba65](https://github.com/decidables/decidables/commit/2d0ba658759885b314d0af94820e21aa4b54d17e))
+* **sites:** acknowledge use of remark plugins ([e86e058](https://github.com/decidables/decidables/commit/e86e0587b6ac9413b274629ac9f4937f03a6137d))
+
+
+### Bug Fixes
+
+* **sites:** add use of favicons to About/Credits ([3eafa14](https://github.com/decidables/decidables/commit/3eafa144d643845acceab9557cde73aaf8ba0fdd))
+
+
+
 ### [0.3.3](https://github.com/decidables/decidables/compare/@decidables/decidables@0.3.2...@decidables/decidables@0.3.3) (2022-03-24)
 
 **Note:** Version bump only for package @decidables/decidables
