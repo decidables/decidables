@@ -48,6 +48,7 @@ and [regenerator-runtime](http://facebook.github.io/regenerator/)
 from the [Citation Style Language](https://citationstyles.org/) project,
 [colors](https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9)
 from [ColorBrewer](https://colorbrewer2.org/),
+favicons built with [Favicons](https://github.com/itgalaxy/favicons),
 [icons](https://icons.getbootstrap.com/#icons)
 from [Bootstrap Icons](https://icons.getbootstrap.com/),
 and [Source Code Pro](https://fonts.adobe.com/fonts/source-code-pro),
