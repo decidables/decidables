@@ -739,6 +739,11 @@ $transition-duration: 500ms;
     font-weight: $font-weight-bold;
   }
 
+  // Pages
+  .page {
+    font-weight: $font-weight-semibold;
+  }
+
   // Keys
   .key {
     padding: 0 0.25rem;
