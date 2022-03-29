@@ -527,10 +527,10 @@ export default class DetectableTable extends DetectableElement {
           </tr>
           <tr>
             <th class="th th-sub" scope="col">
-              "Present"
+              ‘Present’
             </th>
             <th class="th th-sub" scope="col">
-              "Absent"
+              ‘Absent’
             </th>
           </tr>
         </thead>
