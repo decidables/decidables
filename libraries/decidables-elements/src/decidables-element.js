@@ -194,8 +194,8 @@ export default class DecidablesElement extends LitElement {
         ---color-link: var(--color-link, ${unsafeCSS(this.greys.dark25)});
         ---color-element-background: var(--color-element-background, ${unsafeCSS(this.greys.light75)});
         ---color-element-disabled: var(--color-element-disabled, ${unsafeCSS(this.greys.light50)});
-        ---color-element-enabled: var(--color-element-enabled, ${unsafeCSS(this.greys.grey)});
-        ---color-element-selected: var(--color-element-selected, ${unsafeCSS(this.greys.dark25)});
+        ---color-element-enabled: var(--color-element-enabled, ${unsafeCSS(this.greys.dark25)});
+        ---color-element-selected: var(--color-element-selected, ${unsafeCSS(this.greys.grey)});
         ---color-element-border: var(--color-element-border, ${unsafeCSS(this.greys.dark50)});
         ---color-element-emphasis: var(--color-element-emphasis, ${unsafeCSS(this.greys.dark75)});
 
