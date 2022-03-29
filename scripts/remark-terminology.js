@@ -24,7 +24,7 @@ export default function remarkTerminology() {
       // Add our desired classes
       const classes = data.hProperties.className || (data.hProperties.className = []);
       classes.push(node.name);
-      classes.push(node.children[0].value.replace(/\s/g, ''));
+      classes.push(node.children[0].value.replace(/\s/g, '').toLowerCase());
 
       // console.log(node);
     });
