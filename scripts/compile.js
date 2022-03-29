@@ -107,11 +107,11 @@ export function compileMarkdown() {
   return gulp.src(['src/!(references).md', 'src/references.md']) // Insure that reference list includes references from all other files
     .pipe(gulpFrontMatter({property: 'data'}))
     .pipe(gulpRemark({detectConfig: false, quiet: true})
-      .use(remarkSmartypants, {dashes: 'oldschool'})
       .use(remarkDirective)
       .use(remarkCiteproc)
       .use(remarkNotes)
       .use(remarkTerminology)
+      .use(remarkSmartypants, {dashes: 'oldschool'})
       .use(remarkHtml, {sanitize: false}))
     .on('data', (file) => {
       return gulp.src(`src/${file.data.layout}.ejs`)
