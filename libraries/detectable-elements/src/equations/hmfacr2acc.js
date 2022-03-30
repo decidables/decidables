@@ -149,7 +149,7 @@ export default class SDTEquationHMFaCr2Acc extends SDTEquation {
             </tr>
             <tr>
               <td>
-                ${h}<span class="plus">+</span>${m}<span class="plus">+</span>${fa}<span class="plus">+</span>${cr}
+                ${h}<span class="plus">+</span>${cr}<span class="plus">+</span>${m}<span class="plus">+</span>${fa}
               </td>
             </tr>
           </tbody>
