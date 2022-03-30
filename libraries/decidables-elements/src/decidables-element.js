@@ -202,6 +202,8 @@ export default class DecidablesElement extends LitElement {
         ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
         ---font-family-math: var(--font-family-math, "Source Serif", serif);
 
+        ---border: var(--border, 1px solid var(---color-border));
+        ---border-radius: var(--border-radius, 0.25rem);
         ---transition-duration: var(--transition-duration, 500ms);
 
         font-family: var(---font-family-base);
