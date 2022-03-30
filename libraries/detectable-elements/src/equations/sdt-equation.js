@@ -64,6 +64,10 @@ export default class SDTEquation extends DetectableElement {
           font-style: normal;
         }
 
+        var {
+          border-radius: var(---border-radius);
+        }
+
         .tight {
           padding: 0;
         }
@@ -89,6 +93,8 @@ export default class SDTEquation extends DetectableElement {
           padding: 0.125rem 0.375rem 0.375rem;
 
           vertical-align: middle;
+
+          border-radius: var(---border-radius);
         }
 
         .bottom {
