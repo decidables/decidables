@@ -1,18 +1,19 @@
 ---
-title: 'Signal and Noise: Staring at Random Dot Kinematograms'
+title: 'Stimuli: Signal and Noise'
 layout: page
 script: page
 ---
 
 ## Signal
 
-Before we can develop an understanding of Signal Detection Theory, we need a signal to detect!
+Before we can develop an understanding of Signal Detection Theory, we need a :term[signal] to
+detect!
 
 What's a signal? Well, it could be your friend's voice at a party, or a distant boat on the sea, or
-the smell of truffles under the earth. Any stimulus that you are trying to perceive can be
+the smell of truffles under the earth. Any :term[stimulus] that you are trying to perceive can be
 thought of as a signal.
 
-Our :term[signal] will be :term[coherent] dot motion in a :term[random-dot kinematogram (RDK)]. Go
+Our :key[signal] will be :term[coherent] dot motion in a :term[random-dot kinematogram (RDK)]. Go
 ahead and see what it looks like:
 
 <sdt-example-human>
@@ -28,16 +29,27 @@ display. Or push the :ui[Reset] button to reinitialize the demo with a new direc
 
 :::
 
-This is coherent motion because the dots are moving together in the *same* direction. 
+This is coherent motion because the dots are moving together in the *same* direction. Another way to
+describe this is to say that the signal is :key[present].
+
+:::ui
+
+Perhaps you are beginning to wonder why certain words are *highlighted* with color. Throughout this
+site, color is used to represent key concepts. We've just met our first: yellow used to represent
+the concept of a signal being present. As you move on through the site, you'll see yellow recurring
+in various contexts that relate to a signal being present. Other colors will follow. Head to the
+[:page[Legend]](legend.html) to see a listing of how color is used.
+
+:::
 
 ## Noise
 
 Now, when there is *only* signal, detecting it is not much of a challenge, but we typically also
-have noise. Noise is the music and other voices at the party, the swirling clouds of fog on the sea,
-the mélange of other smells wafting up from the soil. All of the other stimuli you are not
+have :term[noise]. Noise is the music and other voices at the party, the swirling clouds of fog on
+the sea, the mélange of other smells wafting up from the soil. All of the other stimuli you are not
 interested in, but that are interfering with your ability to detect the signal.
 
-Our :term[noise] will be :term[random] dot motion. Give it a try:
+Our :key[noise] will be :term[random] dot motion. Give it a try:
 
 <sdt-example-human>
   <detectable-control run pause reset></detectable-control>
@@ -45,7 +57,8 @@ Our :term[noise] will be :term[random] dot motion. Give it a try:
     wait="0" iti="0"></rdk-task>
 </sdt-example-human>
 
-Noise is incoherent or random motion. Every dot is moving in a *different* direction.
+Noise is incoherent or random motion. Every dot is moving in a *different* direction. When there is
+only noise, and no signal, we say that the signal is :key[absent].
 
 ## Signal and noise
 
@@ -54,7 +67,7 @@ the music and other voices at the party, the distant boat among the clouds of fo
 smell of truffles among the other smells of soil. The stimulus you are trying to detect, the signal,
 is buried amongst many other stimuli, the noise.
 
-Our signal, coherent dot motion, is mixed with random dot motion:
+Our signal, coherent dot motion, is mixed with noise, random dot motion:
 
 <sdt-example-human>
   <detectable-control run pause reset></detectable-control>
@@ -88,4 +101,4 @@ Move the :ui[Coherence] slider up and down or edit the number to adjust the prop
 
 Random-dot kinematograms, also called random-dot motion displays, are widely used to study
 motion perception :cite[e.g. @Britten1992] and there are many variations on the basic concept
-:cite[@Pilly2009]. For us, they provide a nice parametrically variable :term[stimulus]!
+:cite[@Pilly2009]. For us, they provide a nice parametrically variable stimulus!

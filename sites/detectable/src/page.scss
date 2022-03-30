@@ -746,7 +746,7 @@ $transition-duration: 500ms;
 
   // Keys
   .key {
-    padding: 0 0.25rem;
+    padding: 0.0625rem 0.25rem;
 
     font-family: $font-family-monospace;
     font-size: 1rem;
@@ -820,19 +820,23 @@ $transition-duration: 500ms;
   }
   
   // Rates
-  .key[class~="hitrate"] {
+  .key[class~="hitrate"],
+  .key[class~="hr"] {
     background-color: sdt-color-light(hr);
   }
 
-  .key[class~="falsealarmrate"] {
+  .key[class~="falsealarmrate"],
+  .key[class~="far"] {
     background-color: sdt-color-light(far);
   }
 
-  .key[class~="positivepredictivevalue"] {
+  .key[class~="positivepredictivevalue"],
+  .key[class~="ppv"] {
     background-color: sdt-color-light(present);
   }
 
-  .key[class~="falseomissionrate"] {
+  .key[class~="falseomissionrate"],
+  .key[class~="for"] {
     background-color: sdt-color-light(absent);
   }
 
@@ -844,6 +848,7 @@ $transition-duration: 500ms;
   .key[class~="c"],
   .key[class~="d′"],
   .key[class~="σ"] {
+    font-family: $font-family-math;
     font-style: italic;
   }
 
@@ -879,13 +884,15 @@ $transition-duration: 500ms;
   // Trials: Evidence, Signals, Responses, Outcomes
   .ui[class~="evidence"],
   .ui[class~="signalpresent"],
-  .ui[class~="aignalabsent"],
-  .ui[class~="presentresponse"],
-  .ui[class~="absentresponse"],
+  .ui[class~="signalabsent"],
+  .ui[class~="'present'response"],
+  .ui[class~="'absent'response"],
   .ui[class~="hitoutcome"],
   .ui[class~="missoutcome"],
   .ui[class~="correctrejectionoutcome"],
   .ui[class~="falsealarmoutcome"] {
+    padding: 0 0.25rem;
+
     border: 3px solid;
     border-radius: 0;
   }
@@ -905,12 +912,12 @@ $transition-duration: 500ms;
     border-color: sdt-color(far);
   }
 
-  .ui[class~="presentresponse"] {
+  .ui[class~="'present'response"] {
     background-color: sdt-color-light(present);
     border-color: sdt-color(present);
   }
 
-  .ui[class~="absentresponse"] {
+  .ui[class~="'absent'response"] {
     background-color: sdt-color-light(absent);
     border-color: sdt-color(absent);
   }
@@ -937,8 +944,9 @@ $transition-duration: 500ms;
 
   // Iso-curves
   .ui[class~="iso-biascurve"],
-  .ui[class~="iso-sensitivitycurve"],
-  .ui[class~="iso-accuracycurve"] {
+  .ui[class~="iso-sensitivitycurve"] {
+    padding: 0 0.25rem;
+
     border: 2px solid;
   }
 
@@ -950,13 +958,11 @@ $transition-duration: 500ms;
     border-color: sdt-color(d);
   }
 
-  .ui[class~="iso-accuracycurve"] {
-    border-color: sdt-color(acc);
-  }
-
   // Distributions
   .ui[class~="signal+noisedistribution"],
   .ui[class~="noisedistribution"] {
+    padding: 0 0.25rem;
+
     border: 2px solid $color-element-emphasis;
   }
 
@@ -1017,23 +1023,12 @@ $transition-duration: 500ms;
   // Buttons
   .ui[class~="pause"],
   .ui[class~="reset"],
-  .ui[class~="run"] {
-    color: $color-text-inverse;
-
-    background-color: $color-element-enabled;
-  }
-
+  .ui[class~="run"],
   .ui[class~="present"],
   .ui[class~="absent"] {
     color: $color-text-inverse;
-  }
 
-  .ui[class~="present"] {
-    background-color: sdt-color(present);
-  }
-
-  .ui[class~="absent"] {
-    background-color: sdt-color(absent);
+    background-color: $color-element-enabled;
   }
 
   // Fixation/Cue
@@ -1062,6 +1057,9 @@ $transition-duration: 500ms;
     padding: 0.25rem 0.675rem;
 
     font-weight: $font-weight-semibold;
+
+    border-left-style: solid;
+    border-left-width: 1rem;
   }
 
   dd {
@@ -1072,62 +1070,62 @@ $transition-duration: 500ms;
 
   .h {
     background: sdt-color-light(h);
-    border-left: 1rem solid sdt-color(h);
+    border-left-color: sdt-color(h);
   }
 
   .m {
     background: sdt-color-light(m);
-    border-left: 1rem solid sdt-color(m);
+    border-left-color: sdt-color(m);
   }
 
   .fa {
     background: sdt-color-light(fa);
-    border-left: 1rem solid sdt-color(fa);
+    border-left-color: sdt-color(fa);
   }
 
   .cr {
     background: sdt-color-light(cr);
-    border-left: 1rem solid sdt-color(cr);
+    border-left-color: sdt-color(cr);
   }
 
   .hr {
     background: sdt-color-light(hr);
-    border-left: 1rem solid sdt-color(hr);
+    border-left-color: sdt-color(hr);
   }
 
   .far {
     background: sdt-color-light(far);
-    border-left: 1rem solid sdt-color(far);
+    border-left-color: sdt-color(far);
   }
 
   .acc {
     background: sdt-color-light(acc);
-    border-left: 1rem solid sdt-color(acc);
+    border-left-color: sdt-color(acc);
   }
 
   .d {
     background: sdt-color-light(d);
-    border-left: 1rem solid sdt-color(d);
+    border-left-color: sdt-color(d);
   }
 
   .c {
     background: sdt-color-light(c);
-    border-left: 1rem solid sdt-color(c);
+    border-left-color: sdt-color(c);
   }
 
   .s {
     background: sdt-color-light(s);
-    border-left: 1rem solid sdt-color(s);
+    border-left-color: sdt-color(s);
   }
 
   .present {
     background: sdt-color-light(present);
-    border-left: 1rem solid sdt-color(present);
+    border-left-color: sdt-color(present);
   }
 
   .absent {
     background: sdt-color-light(absent);
-    border-left: 1rem solid sdt-color(absent);
+    border-left-color: sdt-color(absent);
   }
 
   .correct {
@@ -1141,12 +1139,12 @@ $transition-duration: 500ms;
     color: $color-text-inverse;
 
     background: sdt-color-light(error);
-    border-left: 1rem solid sdt-color(error);
+    border-left-color: sdt-color(error);
   }
 
   .nr {
     background: sdt-color-light(nr);
-    border-left: 1rem solid sdt-color(nr);
+    border-left-color: sdt-color(nr);
   }
 }
 
