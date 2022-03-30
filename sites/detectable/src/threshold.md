@@ -8,23 +8,15 @@ script: page
 
 On the previous page, we explored the first step in signal detection according to SDT: taking a
 measurement. Now it is time to consider the second step: making a :term[decision]. Our model will
-take the :key[Evidence] and use it to decide whether it is going to respond :key[Present] or
-:key[Absent].
+use the evidence to decide whether it is going to respond :key['present'] or :key['absent'].
 
-According to SDT, a :term[threshold] is set, such that on each trial, the :key[Evidence] is either
-greater than or less than that threshold:
+According to SDT, a :term[threshold] is set, such that on each trial, the evidence is either greater
+than or less than that threshold. A simple rule is then used to decide on a response: if the
+evidence is below the threshold respond :key['absent'], and if the evidence is
+above the threshold respond :key['present'].
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model histogram threshold color="none" d="2.5" c="0"></sdt-model>
-</sdt-example-model>
-
-## Responding present or absent
-
-A simple rule is then used to decide on a response: If the evidence is below the threshold, then
-this is a :key[Respond Absent] trial, and if the evidence is above the threshold, then this is a
-:key[Respond Present] trial:
+Here, it is the *model* that is responding to the stimulus on each trial based on the evidence and
+the threshold, instead of you, our intrepid participant.
 
 <sdt-example-model>
   <detectable-control run pause reset trials="10" duration="500"></detectable-control>
@@ -33,17 +25,21 @@ this is a :key[Respond Absent] trial, and if the evidence is above the threshold
   <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
-Here, it is the *model* that is responding to the stimulus on each trial, based on whether the
-:key[Evidence] is above or below the threshold, instead of you our intrepid participant.
+:::ui
+
+The box representing the measurement for each trial indicates whether it was a :ui['Present' Response]
+or :ui['Absent' Response] trial. The vertical bar represents the threshold.
+
+:::
 
 ## A higher or lower threshold
 
-In the examples above, the threshold was set at the neutral point, where the evidence is equally
-suggestive of signal and noise. But SDT doesn't require this.
+In the example above, the threshold was set at the neutral point, where the evidence is equally
+suggestive of :key[signal] and :key[noise]. But SDT doesn't require this.
 
-The threshold can be set higher, so that stronger evidence must be measured for the model to
-:key[Respond Present] (and thus :key[Respond Absent] for a wider range of values). In this case, we
-say that the model is biased towards responding :key[Absent]:
+The threshold can be set *higher*, so that stronger evidence must be measured for the model to
+respond :key['present']. In this case, the model will respond :key['absent'] for a wider range of
+values, and we say that the model is biased towards responding :key['absent']:
 
 <sdt-example-model>
   <detectable-control run pause reset trials="10" duration="500"></detectable-control>
@@ -52,9 +48,9 @@ say that the model is biased towards responding :key[Absent]:
   <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
-Or the threshold can be set lower, so that even with weak evidence, the model will :key[Respond
-Present] (and thus the evidence must be lower to :key[Respond Absent]). In this case, we say that
-the model is biased towards responding :key[Present]:
+Or the threshold can be set *lower*, so that even with weak evidence the model will respond
+:key['present']. In this case, the model will respond :key['absent'] for a narrower range of values,
+and we say that the model is biased towards responding :key['present']:
 
 <sdt-example-model>
   <detectable-control run pause reset trials="10" duration="500"></detectable-control>
@@ -65,18 +61,15 @@ the model is biased towards responding :key[Present]:
 
 ## Parameterizing our threshold with bias, <span class="math-var">c</span>
 
-The location of our threshold determines the :key[Bias] (sometimes called the :term[response bias])
-of our model, which we will parameterize with :key[c]. It lies along a continuum from negative
-infinity to infinity. Zero indicates a neutral bias. Positive numbers indicate a :term[conservative
-bias]. The larger the positive bias, the more evidence necessary before a :key[Present] response is
-given. Negative numbers indicate a :term[liberal bias]. The larger the negative bias, the less
-evidence necessary to respond :key[Present].
+The location of our threshold determines the :key[bias], :key[c], also called the :term[response
+bias], of our model. It lies along a continuum from negative infinity to infinity. Zero indicates a
+neutral bias. Positive numbers indicate a :term[conservative bias]. The larger the positive bias,
+the *more* evidence necessary before a :key['present'] response is given. Negative numbers indicate a
+:term[liberal bias]. The larger the negative bias, the *less* evidence necessary to respond
+:key['present'].
 
-In this example, the distance from the origin, or *neutral point*, to the threshold is explicitly
-labeled with :key[c]. You can drag the threshold line or its handle to adjust its position. If there
-are evidence measurements for individual trials, they will change between :key[Respond Present] and
-:key[Respond Absent] trials based on the location of the threshold, allowing you to see how the
-:key[Bias] determines the tendency to make more :key[Present] or :key[Absent] responses:
+Explore how the :key[bias] determines how little or how much evidence is necessary to respond
+:key['present'] versus :key['absent']:
 
 <sdt-example-model>
   <detectable-control run pause reset trials="10" duration="500"></detectable-control>
@@ -85,45 +78,28 @@ are evidence measurements for individual trials, they will change between :key[R
   <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
-If you are wondering why :key[Bias] is represented with the symbol :key[c], perhaps it is because
+:::ui
+
+The distance from the origin, or neutral point, to the threshold is explicitly labeled with :key[c].
+This is a *live* graph, so you can drag the threshold line or its handle to adjust its position. If
+there are evidence measurements for individual trials, they will change between :ui['Present'
+Response] and :ui['Absent' Response] trials based on the location of the threshold, allowing you to
+see how the :key[Bias] determines the tendency to make more :key['present'] or :key['absent']
+responses.
+
+:::
+
+If you are wondering why :key[bias] is represented with the symbol :key[c], perhaps it is because
 the threshold is often referred to as a <span class="math-var">c</span>riterion in the work on SDT.
 However, this reason was not explicitly stated in the original paper introducing :key[c]
 :cite[@Ingham1970].
 
-Note that when :key[c] is zero, the threshold is precisely where the :key[Noise Distribution] and
-the :key[Signal + Noise Distribution] intersect. In other words, the model will respond
-:key[Present] whenever it is more likely that this is a :key[Signal Present] trial, and it will
-respond :key[Absent] whenever it is more likely that this is a :key[Signal Absent] trial. This is
-not coincidental, and hints at the strong link between SDT and decision making based on maximum
-likelihood and the likelihood ratio :cite[@Creelman2015; @Peterson1954]. In fact, the early work on
-SDT usually expressed the bias, as <span class="math-var">β</span>, in terms of the likelihood ratio
-of signal and noise :cite[@Peterson1954; @Tanner1954]. It was only later that :key[c] was introduced
-and suggested as a better measure of response bias for most purposes :cite[@Ingham1970;
-@Macmillan1990; @Stanislaw1999].
-
-<!--
-
-## Perspectives on the relationship between model and performance
-
-<sdt-example-interactive>
-  <detectable-control color="outcome"></detectable-control>
-  <detectable-table numeric interactive summary="stimulusRates responseRates accuracy"
-    hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
-  <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
-</sdt-example-interactive>
-
-## New syntax for bracketed spans and fenced divs
-
-:::{.outer}
-This is a [test]{}.
-This is a [real test]{.test}!
-
-  :::{.inner2}
-  This is a [bad test] {you know?}
-
-  Let's get [real]{b .potato .banana #ice-cream stuff=good llama=moo}.
-  :::
-
-:::
-
--->
+Note that when :key[c] is zero, the threshold is precisely where the two distributions intersect. In
+other words, the model will respond :key['present'] whenever it is more likely that the signal is
+indeed :key[present], and it will respond :key['absent'] whenever it is more likely that the signal
+is indeed :key['absent']. This is not coincidental, and hints at the strong link between SDT and
+decision making based on maximum likelihood and the likelihood ratio :cite[@Creelman2015;
+@Peterson1954]. In fact, the early work on SDT usually expressed the bias as <span
+class="math-var">β</span>, in terms of the likelihood ratio of signal and noise :cite[@Peterson1954;
+@Tanner1954]. It was only later that :key[c] was introduced and suggested as a better measure of
+response bias for most purposes :cite[@Ingham1970; @Macmillan1990; @Stanislaw1999].

@@ -61,6 +61,7 @@ Dependencies updated 17/1/2022.
 
 ### Features/Bugs/Notes
 
+- Should decidables-elements have base classes for equations and examples?
 - Link terminology to glossary entries?
 - Accessibility testing/auditing
 - Can we use *@testing-library/dom* for interface testing?
@@ -115,6 +116,7 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
   - *Italics* used for emphasis
   - Using *remark-directive*:
     - `:cite[]` citations
+    - `:page[]` link to another page
     - `:key[]` keywords
     - `:ui[]` user interface components
     - `:term[]` terminology

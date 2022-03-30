@@ -17,7 +17,7 @@ the task.
 
 Each trial will begin with a fixation, :ui[+], then a stimulus, and finally a question mark, :ui[?].
 Decide whether you think this is a :key[Signal Present] or :key[Signal Absent] trial, and during the
-stimulus or question mark, respond by clicking :key[Present] or :key[Absent].
+stimulus or question mark, respond by clicking :ui[Present] or :ui[Absent].
 
 Based on the stimulus and your response (or lack there of), you will then receive feedback
 indicating whether this trial resulted in a :key[Hit], :key[Miss], :key[False Alarm], :key[Correct
