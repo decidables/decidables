@@ -367,7 +367,7 @@ export default class ROCSpace extends DetectableElement {
         .point .label {
           font-size: 0.75rem;
 
-          dominant-baseline: middle;
+          dominant-baseline: central;
           text-anchor: middle;
 
           fill: var(---color-text-inverse);
