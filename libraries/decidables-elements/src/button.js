@@ -40,7 +40,7 @@ export default class DecidablesButton extends DecidablesElement {
           color: var(---color-text-inverse);
 
           border: 0;
-          border-radius: 0.25rem;
+          border-radius: var(---border-radius);
           outline: none;
         }
 
