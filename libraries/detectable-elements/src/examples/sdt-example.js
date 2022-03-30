@@ -13,7 +13,6 @@ export default class SDTExample extends DetectableElement {
       super.styles,
       css`
         :host {
-          ---border: var(--border, 1px solid var(---color-border));
           display: inline-block;
 
           margin-bottom: 1rem;
@@ -34,7 +33,7 @@ export default class SDTExample extends DetectableElement {
           padding: 0.625rem;
 
           border: var(---border);
-          border-radius: 0.25rem;
+          border-radius: var(---border-radius);
         }
 
         .body ::slotted(*) {
