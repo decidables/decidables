@@ -74,7 +74,7 @@
                           <li class="det-toc-item">
                         
                             <a class="det-toc-link" href="task.html">
-                              Task
+                              Responses
                             </a>
                           </li>
                       
@@ -192,6 +192,14 @@
                     <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
+                      
+                        
+                          <li class="det-toc-item">
+                        
+                            <a class="det-toc-link" href="marginals.html">
+                              Marginals
+                            </a>
+                          </li>
                       
                         
                           <li class="det-toc-item">
@@ -331,67 +339,53 @@
           
           <section class="det-content">
             <h2>Tabulating outcomes</h2>
-<p>When we perform a block of trials, we can count how many times each of our four types of outcomes
-occurred:</p>
+<p>When we perform a block of trials, we can count up the occurrences of each of our four outcomes:</p>
 <sdt-example-human>
   <detectable-control coherence=".5" trials="10" run pause reset duration="1000"></detectable-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
   <detectable-table numeric hits="0" misses="0" false-alarms="0" correct-rejections="0"></detectable-table>
 </sdt-example-human>
-<p>By collecting our outcomes across all of the trials in the block we now have our first aggregate
-measures of performance. We can describe our performance on the task by reporting these four counts,
-but the counts are dependent not only our level of performance, but also on the number of trials,
-which often isn’t that interesting to us.</p>
-<h2>Hit Rate (HR)</h2>
-<p>We can further summarize our performance by describing how we did, on average, when the signal was
-present, with a <span class="key HitRate">Hit Rate</span> (HR), also called a <span class="term truepositiverate">true positive rate</span> or <span class="term typeIerrorrate">type I error
-rate</span>:</p>
-<p><sdt-equation-hm2hr></sdt-equation-hm2hr></p>
-<p>The <span class="key HitRate">Hit Rate</span> tells us the proportion of trials when the signal was <em>present</em> that we correctly
-responded <em>“present”</em>.</p>
-<p><sdt-equation-hm2hr numeric interactive hits="5" misses="5"></sdt-equation-hm2hr></p>
-<p>(This is a <em>live</em> equation. You can edit the number of <span class="key Hits">Hits</span> or <span class="key Misses">Misses</span> and the <span class="key HitRate">Hit
-Rate</span> will immediately update.)</p>
-<h2>False Alarm Rate (FAR)</h2>
-<p>Likewise, we can summarize our performance when the signal was absent with a <span class="key FalseAlarmRate">False Alarm Rate</span>
-(FAR), also called a <span class="term falsepositiverate">false positive rate</span> or <span class="term typeIIerrorrate">type II error rate</span>:</p>
-<p><sdt-equation-facr2far></sdt-equation-facr2far></p>
-<p>The <span class="key FalseAlarmRate">False Alarm Rate</span> tells us the proportion of trials when the signal was <em>absent</em> that we
-erroneously responded <em>“present”</em>.</p>
-<sdt-equation-facr2far numeric interactive false-alarms="5" correct-rejections="5">
-  </sdt-equation-facr2far>
-<p>(Another <em>live</em> equation!)</p>
-<h2>A table of outcomes and rates</h2>
-<p>Since the <span class="key HitRate">Hit Rate</span> summarizes performance when the signal was <em>present</em> and the <span class="key FalseAlarmRate">False
-Alarm Rate</span> summarizes performance when the signal was <em>absent</em>, we can add them to the
-corresponding rows of our table of outcomes:</p>
-<sdt-example-interactive>
-  <detectable-table interactive numeric summary="stimulusRates"></detectable-table>
-</sdt-example-interactive>
-<p>This is a <em>live</em> table, so you can change the count of any type of outcome and observe the effect on
-the corresponding rate. Or, you can change a rate, and observe the effect on the corresponding
-counts of outcomes. Note that since the counts are necessarily whole numbers, whereas the rates are
-real numbers, small changes in a rate may not be reflected in the counts due to rounding.</p>
+<p>By counting our outcomes across all of the trials in the block we now have our first aggregate
+measures of performance. However, the counts are dependent not only our level of performance, but
+also on the total number of trials, which often isn’t that interesting to us. We can account for
+that by calculating <em>rates</em> of performance.</p>
 <h2>Accuracy</h2>
-<p>If we want to summarize our overall performance with a single number, then we can use
-<span class="key Accuracy">Accuracy</span>, which aggregates across all trials. <span class="key Accuracy">Accuracy</span> tells us, on average, how we did
-across both signal present and signal absent trials:</p>
+<p>Perhaps the most familiar rate is <span class="term accuracy">accuracy</span>, which summarizes our <em>overall</em> performance with a
+single number, by aggregating across all trials. <span class="key accuracy">Accuracy</span> tells us, on average, how often
+we were <span class="key correct">correct</span> versus how often we made an <span class="key error">error</span>:</p>
 <p><sdt-equation-hmfacr2acc></sdt-equation-hmfacr2acc></p>
-<p>We can see that <span class="key Hits">Hits</span> and <span class="key CorrectRejections">Correct Rejections</span> are combined together since they are both
-types of <em>correct</em> responses.</p>
-<p><sdt-equation-hmfacr2acc numeric interactive hits="5" misses="5"
-false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
-<p>We can add <span class="key Accuracy">Accuracy</span> as an overall summary measure to out table of outcomes:</p>
-<sdt-example-interactive>
-  <detectable-table interactive numeric summary="stimulusRates accuracy"></detectable-table>
-</sdt-example-interactive>
-<p>If you change the <span class="key Accuracy">Accuracy</span> then the other values will change as well, to keep the whole table
-consistent. If you play around a bit, you may notice that, even if you keep the total number of
-trials constant, you can come up with more than one set of values that has the same <span class="key Accuracy">Accuracy</span>.</p>
-<h2>Tabulating outcomes, rates, &#x26; accuracy</h2>
-<p>Now that we have a variety of summary measures, we can run a block of trials, and see how the table
-of outcomes and rates provides a running summary of performance:</p>
+<p><span class="key hits">Hits</span> and <span class="key correctrejections">correct rejections</span> are combined together since they are both correct responses,
+while <span class="key falsealarms">false alarms</span> and <span class="key misses">misses</span> are combined since they are both errors.</p>
+<p><sdt-equation-hmfacr2acc numeric interactive hits="5" misses="5" false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
+<div class="ui-note"><p>This is a <em>live</em> equation. You can edit the number of <span class="key hits">Hits</span>, <span class="key misses">Misses</span>, <span class="key falsealarms">False Alarms</span>,
+or <span class="key correctrejections">Correct Rejections</span> and the <span class="key accuracy">Accuracy</span> will update immediately!</p></div>
+<h2>Hit rate (HR)</h2>
+<p>It turns out (as we will discuss in more detail below) that accuracy often isn’t a great measure to
+use. We can learn more by focusing a bit more…</p>
+<p>If we only focus on trials when the signal was actually <span class="key present">present</span>, and calculate our average
+performance, we get a <span class="term hitrate">hit rate</span> (<span class="term hr">HR</span>), also called a <span class="term truepositiverate">true positive rate</span> or
+<span class="term typeierrorrate">type I error rate</span>:</p>
+<p><sdt-equation-hm2hr></sdt-equation-hm2hr></p>
+<p>The <span class="key hitrate">hit rate</span> tells us the proportion of trials when the signal was <span class="key present">present</span> that we
+<em>correctly</em> responded <span class="key &#x27;present&#x27;">‘present’</span>.</p>
+<p><sdt-equation-hm2hr numeric interactive hits="5" misses="5"></sdt-equation-hm2hr></p>
+<div class="ui-note"><p>Another <em>live</em> equation! Edit <span class="key hits">Hits</span> or <span class="key misses">Misses</span> and the <span class="key hitrate">Hit Rate</span> updates immediately.</p></div>
+<h2>False alarm rate (FAR)</h2>
+<p>Likewise, if we only focus on trials when the signal was actually <span class="key absent">absent</span>, and calculate our
+average performance, we get a <span class="term falsealarmrate">false alarm rate</span> (<span class="term far">FAR</span>), also called a <span class="term falsepositiverate">false
+positive rate</span> or <span class="term typeiierrorrate">type II error rate</span>:</p>
+<p><sdt-equation-facr2far></sdt-equation-facr2far></p>
+<p>The <span class="key falsealarmrate">false alarm rate</span> tells us the proportion of trials when the signal was <span class="key absent">absent</span> that
+we <em>erroneously</em> responded <span class="key &#x27;present&#x27;">‘present’</span>.</p>
+<p><sdt-equation-facr2far numeric interactive false-alarms="5" correct-rejections="5"></sdt-equation-facr2far></p>
+<h2>Tabulating outcomes and rates</h2>
+<p>Now that we have a few rates to work with, we can add them to our table. Since the <span class="key hitrate">hit rate</span>
+summarizes performance when the signal was <span class="key present">present</span> and the <span class="key falsealarmrate">false alarm rate</span> summarizes
+performance when the signal was <span class="key absent">absent</span>, we can add them to the corresponding rows. And since
+<span class="key accuracy">accuracy</span> is an overall summary, we’ll stick it in the bottom right corner.</p>
+<p>Run a block of trials, and see how the table of outcomes and rates provides a running overview of
+performance:</p>
 <sdt-example-human>
   <detectable-control coherence=".5" trials="10" run pause reset duration="1000"></detectable-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
@@ -399,10 +393,22 @@ of outcomes and rates provides a running summary of performance:</p>
   <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
     </detectable-table>
 </sdt-example-human>
-<h2>Accuracy the great deceiver</h2>
-<p>At first glance, <span class="key Accuracy">Accuracy</span> seems like a very convenient way to summarize overall performance in
-a single number. But as students of Signal Detection Theory, we must be very wary of <span class="key Accuracy">Accuracy</span>.
-Indeed <span class="key Accuracy">Accuracy</span> is the great deceiver! Let us see why:</p>
+<h2>Exploring outcomes and rates</h2>
+<p>Let’s learn a little more about the relationships between our rates and measures by playing around
+with hypothetical values:</p>
+<sdt-example-interactive>
+  <detectable-table interactive numeric summary="stimulusRates accuracy"></detectable-table>
+</sdt-example-interactive>
+<div class="ui-note"><p>This is a <em>live</em> table. Change any count or rate and observe the effect on other values. Note that
+since the counts are necessarily whole numbers, whereas the rates are real numbers, small changes in
+a rate may not be reflected in the counts due to rounding.</p></div>
+<p>If you play around a bit, you may notice that, even if you keep the total number of trials constant,
+you can come up with more than one set of values that has the same <span class="key accuracy">accuracy</span>. Hmmm,
+interesting…</p>
+<h2>Accuracy, the great deceiver</h2>
+<p>At first glance, <span class="key accuracy">accuracy</span> seems like a very convenient way to summarize overall performance in
+a single number. But as students of Signal Detection Theory, we must be very wary of it. Indeed
+it is the great deceiver! Let us see why:</p>
 <p>Consider this table of outcomes:</p>
 <sdt-example-interactive>
   <detectable-table numeric summary="stimulusRates accuracy" hits="100" misses="0" false-alarms="100" correct-rejections="0"></detectable-table>
@@ -411,29 +417,25 @@ Indeed <span class="key Accuracy">Accuracy</span> is the great deceiver! Let us 
 <sdt-example-interactive>
   <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></detectable-table>
 </sdt-example-interactive>
-<p>First, note that the <span class="key Accuracy">Accuracy</span> is <em>identical</em> in the two tables at 50%. But now note that the
+<p>First, note that the <span class="key accuracy">accuracy</span> is <em>identical</em> in the two tables at 50%. But now note that the
 actual patterns of performance are <em>completely different</em>! In the first instance, the participant
-had one hundred <span class="key Hits">Hits</span> and zero <span class="key Misses">Misses</span>, whereas in the second instance the participant had
-the exact opposite. On the other hand, the first participant had one hundred <span class="key FalseAlarms">False Alarms</span> and
-zero <span class="key CorrectRejections">Correct Rejections</span>, whereas again the second participant had the exact opposite. Indeed,
+had one hundred <span class="key hits">hits</span> and zero <span class="key misses">misses</span>, whereas in the second instance the participant had
+the exact opposite. On the other hand, the first participant had one hundred <span class="key falsealarms">false alarms</span> and
+zero <span class="key correctrejections">correct rejections</span>, whereas again the second participant had the exact opposite. Indeed,
 if we look down the columns of the tables, we can observe that the first participant always
-responded <em>“Present”</em>, whereas the second participant always responded <em>“Absent”</em>. And yet, despite
-completely different performance, and completely different patterns of outcomes, they both resulted
-in the same <span class="key Accuracy">Accuracy</span>. It turns out that in the context of signal detection, <span class="key Accuracy">Accuracy</span> is
-a surprisingly poor indicator of performance.</p>
-<p>On the other hand, the <span class="key HitRate">Hit Rate</span> and <span class="key FalseAlarmRate">False Alarm Rate</span> are completely different for our
+responded <span class="key &#x27;present&#x27;">‘present’</span>, whereas the second participant always responded <span class="key &#x27;absent&#x27;">‘absent’</span>. And yet,
+despite completely different performance, and completely different patterns of outcomes, they both
+resulted in the same <span class="key accuracy">accuracy</span>. It turns out that in the context of signal detection,
+<span class="key accuracy">accuracy</span> is a surprisingly poor indicator of performance.</p>
+<p>On the other hand, the <span class="key hitrate">hit rate</span> and <span class="key falsealarmrate">false alarm rate</span> are completely different for our
 two participants, clearly communicating the vast differences in performance. By telling us how the
-participant performed when the signal was <em>present</em> and when the signal was <em>absent</em>, the
-combination of HR and FAR give us a more complete summary picture of performance.</p>
+participant performed when the signal was <span class="key present">present</span> and when the signal was <span class="key absent">absent</span>, the
+combination of <span class="key hr">HR</span> and <span class="key far">FAR</span> give us a more complete summary picture of performance.</p>
 <p>Now, you may be mumbling to yourself that something else peculiar is going on in this example,
-namely that neither participant seems to be paying any attention to the stimuli at all. (Always
-responding either “present” or “absent” can be done without regard to the stimulus.) You, my astute
-reader, are on to something important, which the next few pages will bring into focus.</p>
-<h2>Marginals</h2>
-<sdt-example-interactive>
-  <detectable-control color="outcome"></detectable-control>
-  <detectable-table interactive numeric summary="stimulusRates responseRates accuracy"></detectable-table>
-</sdt-example-interactive>
+namely that <em>neither</em> participant seems to be paying any attention to the stimuli at all. (Always
+responding either <span class="key &#x27;present&#x27;">‘present’</span> or <span class="key &#x27;absent&#x27;">‘absent’</span> can be done without regard to the stimulus.)
+You, my astute reader, are on to something important, which the next few pages will bring into
+focus.</p>
 
           </section>
 

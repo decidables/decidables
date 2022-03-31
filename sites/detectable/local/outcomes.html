@@ -4,7 +4,7 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="detectable: Outcomes: Going Beyond Accuracy">
+    <meta name="description" content="detectable: Outcomes: Comparing Stimulus and Response">
     <meta name="author" content="Dr. Adam Krawitz">
 
     <link rel="icon" href="favicon.ico" sizes="any">
@@ -74,7 +74,7 @@
                           <li class="det-toc-item">
                         
                             <a class="det-toc-link" href="task.html">
-                              Task
+                              Responses
                             </a>
                           </li>
                       
@@ -192,6 +192,14 @@
                     <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
+                      
+                        
+                          <li class="det-toc-item">
+                        
+                            <a class="det-toc-link" href="marginals.html">
+                              Marginals
+                            </a>
+                          </li>
                       
                         
                           <li class="det-toc-item">
@@ -326,15 +334,15 @@
         <main class="det-main">
           
             <header>
-              <h1>Outcomes: Going Beyond Accuracy</h1>
+              <h1>Outcomes: Comparing Stimulus and Response</h1>
             </header>
           
           <section class="det-content">
-            <h2>Accuracy</h2>
+            <h2>Was I right or wrong?</h2>
 <p>On each trial, when we make a response, we might wonder about the relationship between our response
-and the actual state of affairs. We can talk about this in terms of the <span class="term accuracy">accuracy</span> of our
-response. And sometimes that may be all that really matters - was my answer <span class="key Correct">Correct</span> or was it
-an <span class="key Error">Error</span>?</p>
+and the actual state of affairs. If the stimulus and response match, we are <span class="term correct">correct</span>. If the
+stimulus and response don’t match, we are in <span class="term error">error</span>. And sometimes that may be all that really
+matters - was my answer <span class="key correct">correct</span> or was it an <span class="key error">error</span>?</p>
 <p>Try a few trials of the task:</p>
 <sdt-example-human>
   <detectable-control trials="5" run pause reset duration="1000" coherence=".5"></detectable-control>
@@ -342,24 +350,25 @@ an <span class="key Error">Error</span>?</p>
     duration="1000" wait="1000" iti="1000"></rdk-task>
   <detectable-response interactive trial feedback="accuracy"></detectable-response>
 </sdt-example-human>
-<p>As you have no doubt noticed, if you have given it a try, you receive feedback. For the moment, that
-feedback is either <span class="key Correct">Correct</span> or <span class="key Error">Error</span> (or <span class="key NoResponse">No Response</span> if you do not respond in
-time).</p>
-<h2>Outcomes</h2>
+<p>As you have no doubt noticed, if you have given it a try, you receive feedback.</p>
+<div class="ui-note"><p>The feedback is presented to the right of the response buttons. At the top, you are shown the
+current trial and the total trials. Below that, for the moment, the feedback is either
+<span class="key correct">Correct</span>, <span class="key error">Error</span>, or if you don’t respond in time, <span class="key noresponse">No Response</span>.</p></div>
+<h2>How was I right or wrong?</h2>
 <p>If we think about it a bit more, we realize that there are actually two ways we can be correct, and
 two ways we can be in error:</p>
 <ul>
-<li><span class="key Hits">Hits</span>, also called <span class="term truepositives">true positives</span>, are when the signal is actually <em>present</em>, and we
-correctly respond <em>“present”</em></li>
-<li><span class="key Misses">Misses</span>, also called <span class="term falsepositives">false positives</span> or <span class="term typeIerrors">type I errors</span>, are when the signal is
-actually <em>present</em>, and we erroneously respond <em>“absent”</em></li>
-<li><span class="key FalseAlarms">False Alarms</span>, also called <span class="term falsenegatives">false negatives</span> or <span class="term typeIIerrors">type II errors</span>, are when the
-signal is actually <em>absent</em>, and we erroneously respond <em>“present”</em></li>
-<li><span class="key CorrectRejections">Correct Rejections</span>, also called <span class="term truenegatives">true negatives</span>, are when the signal is actually
-<em>absent</em>, and we correctly respond <em>“absent”</em><br></li>
+<li><span class="key hits">Hits</span>, also called <span class="term truepositives">true positives</span>, are when the signal is actually present, and we
+<em>correctly</em> respond ‘present’</li>
+<li><span class="key misses">Misses</span>, also called <span class="term falsepositives">false positives</span> or <span class="term typeierrors">type I errors</span>, are when the signal is
+actually present, and we <em>erroneously</em> respond ‘absent’</li>
+<li><span class="key falsealarms">False alarms</span>, also called <span class="term falsenegatives">false negatives</span> or <span class="term typeiierrors">type II errors</span>, are when the
+signal is actually absent, and we <em>erroneously</em> respond ‘present’</li>
+<li><span class="key correctrejections">Correct rejections</span>, also called <span class="term truenegatives">true negatives</span>, are when the signal is actually
+absent, and we <em>correctly</em> respond ‘absent’</li>
 </ul>
 <p>We have two possible states of the world (signal present or absent) and two
-possible responses (“present” or “absent”), leading to a nice two by two table of possible outcomes
+possible responses (‘present’ or ‘absent’), leading to a nice two by two table of possible outcomes
 (brightly colored by yours truly):</p>
 <sdt-example-interactive>
   <detectable-table></detectable-table>
@@ -372,6 +381,8 @@ possible outcomes occurred:</p>
     duration="1000" wait="1000" iti="1000"></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
 </sdt-example-human>
+<div class="ui-note"><p>Now our feedback is <span class="key hit">Hit</span>, <span class="key miss">Miss</span>, <span class="key falsealarm">False Alarm</span>, <span class="key correctrejection">Correct Rejection</span> or if you
+don’t respond in time, <span class="key noresponse">No Response</span>.</p></div>
 <p>Now that we know how to classify the outcome of individual trials, we might wonder how we can
 aggregate and summarize these results…</p>
 
@@ -385,7 +396,7 @@ aggregate and summarize these results…</p>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
 </svg>
-                  Task
+                  Responses
                 </a>
               
             </div>

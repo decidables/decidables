@@ -3647,6 +3647,8 @@
         ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
         ---font-family-math: var(--font-family-math, "Source Serif", serif);
 
+        ---border: var(--border, 1px solid var(---color-border));
+        ---border-radius: var(--border-radius, 0.25rem);
         ---transition-duration: var(--transition-duration, 500ms);
 
         font-family: var(---font-family-base);
@@ -3680,7 +3682,7 @@
         width: 0;
         height: 0;
       }
-    `), o$3(this.cssBoxShadow(0)), o$3(this.cssBoxShadow(2)), o$3(this.cssBoxShadow(4)), o$3(this.cssBoxShadow(8)), o$3(this.greys.white), o$3(this.greys.light75), o$3(this.greys.dark75), o$3(this.greys.white), o$3(this.greys.dark25), o$3(this.greys.light75), o$3(this.greys.light50), o$3(this.greys.grey), o$3(this.greys.dark25), o$3(this.greys.dark50), o$3(this.greys.dark75));
+    `), o$3(this.cssBoxShadow(0)), o$3(this.cssBoxShadow(2)), o$3(this.cssBoxShadow(4)), o$3(this.cssBoxShadow(8)), o$3(this.greys.white), o$3(this.greys.light75), o$3(this.greys.dark75), o$3(this.greys.white), o$3(this.greys.dark25), o$3(this.greys.light75), o$3(this.greys.light50), o$3(this.greys.dark25), o$3(this.greys.grey), o$3(this.greys.dark50), o$3(this.greys.dark75));
     }
 
   }
@@ -3722,7 +3724,7 @@
           color: var(---color-text-inverse);
 
           border: 0;
-          border-radius: 0.25rem;
+          border-radius: var(---border-radius);
           outline: none;
         }
 

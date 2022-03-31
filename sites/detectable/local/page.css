@@ -232,8 +232,8 @@
   --color-link: #737373;
   --color-element-background: #e6e6e6;
   --color-element-disabled: #cccccc;
-  --color-element-enabled: #999999;
-  --color-element-selected: #737373;
+  --color-element-enabled: #737373;
+  --color-element-selected: #999999;
   --color-element-border: #4d4d4d;
   --color-element-emphasis: #262626;
 }
@@ -8634,7 +8634,101 @@ progress {
 .det-content .term {
   font-weight: 700;
 }
-.det-content .key,
+.det-content .page {
+  font-weight: 600;
+}
+.det-content .key {
+  padding: 0.0625rem 0.25rem;
+  font-family: "Source Code Variable", "Source Code", monospace;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 0.25rem;
+}
+.det-content .key[class~=signal],
+.det-content .key[class~=present] {
+  background-color: #ffff99;
+}
+.det-content .key[class~=noise],
+.det-content .key[class~=absent] {
+  background-color: #cca7d1;
+}
+.det-content .key[class~="'present'"] {
+  background-color: #f899f3;
+}
+.det-content .key[class~="'absent'"] {
+  background-color: #88ede4;
+}
+.det-content .key[class~=hit],
+.det-content .key[class~=hits] {
+  background-color: #a6d7a5;
+}
+.det-content .key[class~=miss],
+.det-content .key[class~=misses] {
+  background-color: #ffbf80;
+}
+.det-content .key[class~=correctrejection],
+.det-content .key[class~=correctrejections] {
+  background-color: #f28d8e;
+}
+.det-content .key[class~=falsealarm],
+.det-content .key[class~=falsealarms] {
+  background-color: #9bbfdc;
+  border-color: #377eb8;
+}
+.det-content .key[class~=correct],
+.det-content .key[class~=error],
+.det-content .key[class~=noresponse] {
+  border: 1px solid #262626;
+}
+.det-content .key[class~=correct] {
+  background-color: white;
+}
+.det-content .key[class~=error] {
+  color: #ffffff;
+  background-color: gray;
+}
+.det-content .key[class~=noresponse] {
+  background-color: #e6e6e6;
+}
+.det-content .key[class~=hitrate],
+.det-content .key[class~=hr] {
+  background-color: #ffff99;
+}
+.det-content .key[class~=falsealarmrate],
+.det-content .key[class~=far] {
+  background-color: #cca7d1;
+}
+.det-content .key[class~=positivepredictivevalue],
+.det-content .key[class~=ppv] {
+  background-color: #f899f3;
+}
+.det-content .key[class~=falseomissionrate],
+.det-content .key[class~=for] {
+  background-color: #88ede4;
+}
+.det-content .key[class~=accuracy] {
+  background-color: #cccccc;
+}
+.det-content .key[class~=c],
+.det-content .key[class~=d′],
+.det-content .key[class~=σ] {
+  font-family: "Source Serif Variable", "Source Serif", serif;
+  font-style: italic;
+}
+.det-content .key[class~=bias],
+.det-content .key[class~=c] {
+  background-color: #d3ab94;
+}
+.det-content .key[class~=sensitivity],
+.det-content .key[class~=d′] {
+  background-color: #fbc0df;
+}
+.det-content .key[class~=variance],
+.det-content .key[class~=σ] {
+  background-color: #a2a2e8;
+}
 .det-content .ui {
   padding: 0.0625rem 0.25rem;
   font-family: "Source Code Variable", "Source Code", monospace;
@@ -8645,186 +8739,116 @@ progress {
   background-color: #e6e6e6;
   border-radius: 0.25rem;
 }
-.det-content .key[class~=c],
-.det-content .key[class~=d′],
-.det-content .key[class~=σ] {
-  font-family: "Source Code Variable", "Source Code", monospace;
-  font-style: italic;
-}
-.det-content .key[class~=Bias],
-.det-content .key[class~=c] {
-  background-color: #d3ab94;
-}
-.det-content .key[class~=Sensitivity],
-.det-content .key[class~=d′] {
-  background-color: #fbc0df;
-}
-.det-content .key[class~=Variance],
-.det-content .key[class~=σ] {
-  background-color: #a2a2e8;
-}
-.det-content .key[class~=Iso-BiasCurve],
-.det-content .key[class~=Iso-SensitivityCurve] {
-  border: 2px solid;
-}
-.det-content .key[class~=Iso-BiasCurve] {
-  border-color: #a65628;
-}
-.det-content .key[class~=Iso-SensitivityCurve] {
-  border-color: #f781bf;
-}
-.det-content .key[class~=Evidence],
-.det-content .key[class~=RespondPresent],
-.det-content .key[class~=RespondAbsent],
-.det-content .key[class~=SignalPresent],
-.det-content .key[class~=SignalAbsent],
-.det-content .key[class~=OutcomeHit],
-.det-content .key[class~=OutcomeMiss],
-.det-content .key[class~=OutcomeCorrectRejection],
-.det-content .key[class~=OutcomeFalseAlarm] {
+.det-content .ui[class~=evidence],
+.det-content .ui[class~=signalpresent],
+.det-content .ui[class~=signalabsent],
+.det-content .ui[class~="'present'response"],
+.det-content .ui[class~="'absent'response"],
+.det-content .ui[class~=hitoutcome],
+.det-content .ui[class~=missoutcome],
+.det-content .ui[class~=correctrejectionoutcome],
+.det-content .ui[class~=falsealarmoutcome] {
+  padding: 0 0.25rem;
   border: 3px solid;
   border-radius: 0;
 }
-.det-content .key[class~=Evidence] {
+.det-content .ui[class~=evidence] {
   background-color: #cccccc;
   border-color: #999999;
 }
-.det-content .key[class~=RespondPresent] {
-  background-color: #f899f3;
-  border-color: #f032e6;
-}
-.det-content .key[class~=RespondAbsent] {
-  background-color: #88ede4;
-  border-color: #10dbc9;
-}
-.det-content .key[class~=SignalPresent] {
+.det-content .ui[class~=signalpresent] {
   background-color: #ffff99;
   border-color: #ffff33;
 }
-.det-content .key[class~=SignalAbsent] {
+.det-content .ui[class~=signalabsent] {
   background-color: #cca7d1;
   border-color: #984ea3;
 }
-.det-content .key[class~=OutcomeHit] {
+.det-content .ui[class~="'present'response"] {
+  background-color: #f899f3;
+  border-color: #f032e6;
+}
+.det-content .ui[class~="'absent'response"] {
+  background-color: #88ede4;
+  border-color: #10dbc9;
+}
+.det-content .ui[class~=hitoutcome] {
   background-color: #a6d7a5;
   border-color: #4daf4a;
 }
-.det-content .key[class~=OutcomeMiss] {
+.det-content .ui[class~=missoutcome] {
   background-color: #ffbf80;
   border-color: #ff7f00;
 }
-.det-content .key[class~=OutcomeCorrectRejection] {
+.det-content .ui[class~=correctrejectionoutcome] {
   background-color: #f28d8e;
   border-color: #e41a1c;
 }
-.det-content .key[class~=OutcomeFalseAlarm] {
+.det-content .ui[class~=falsealarmoutcome] {
   background-color: #9bbfdc;
   border-color: #377eb8;
 }
-.det-content .key[class~="Signal+NoiseDistribution"],
-.det-content .key[class~=NoiseDistribution] {
+.det-content .ui[class~=iso-biascurve],
+.det-content .ui[class~=iso-sensitivitycurve] {
+  padding: 0 0.25rem;
+  border: 2px solid;
+}
+.det-content .ui[class~=iso-biascurve] {
+  border-color: #a65628;
+}
+.det-content .ui[class~=iso-sensitivitycurve] {
+  border-color: #f781bf;
+}
+.det-content .ui[class~="signal+noisedistribution"],
+.det-content .ui[class~=noisedistribution] {
+  padding: 0 0.25rem;
   border: 2px solid #262626;
 }
-.det-content .key[class~="Signal+NoiseDistribution"] {
+.det-content .ui[class~="signal+noisedistribution"] {
   background-color: #ffff99;
 }
-.det-content .key[class~=NoiseDistribution] {
+.det-content .ui[class~=noisedistribution] {
   background-color: #cca7d1;
 }
-.det-content .key[class~=Hit],
-.det-content .key[class~=Hits] {
-  background-color: #a6d7a5;
-}
-.det-content .key[class~=Miss],
-.det-content .key[class~=Misses] {
-  background-color: #ffbf80;
-}
-.det-content .key[class~=CorrectRejection],
-.det-content .key[class~=CorrectRejections] {
-  background-color: #f28d8e;
-}
-.det-content .key[class~=FalseAlarm],
-.det-content .key[class~=FalseAlarms] {
-  background-color: #9bbfdc;
-}
-.det-content .key[class~=HitRate] {
-  background-color: #ffff99;
-}
-.det-content .key[class~=FalseAlarmRate] {
-  background-color: #cca7d1;
-}
-.det-content .key[class~=PositivePredictiveValue] {
-  background-color: #f899f3;
-}
-.det-content .key[class~=FalseOmissionRate] {
-  background-color: #88ede4;
-}
-.det-content .key[class~=Accuracy] {
-  background-color: #cccccc;
-}
-.det-content .key[class~=Present],
-.det-content .key[class~=Absent] {
-  color: #ffffff;
-}
-.det-content .key[class~=Present] {
-  background-color: #f032e6;
-}
-.det-content .key[class~=Absent] {
-  background-color: #10dbc9;
-}
-.det-content .key[class~=Correct],
-.det-content .key[class~=Error],
-.det-content .key[class~=NoResponse] {
-  border: 1px solid #262626;
-  border-radius: 0;
-}
-.det-content .key[class~=Correct] {
-  background-color: white;
-}
-.det-content .key[class~=Error] {
-  color: #ffffff;
-  background-color: gray;
-}
-.det-content .key[class~=NoResponse] {
-  background-color: #e6e6e6;
-}
-.det-content .ui[class~=Coherence],
-.det-content .ui[class~=Duration],
-.det-content .ui[class~=Trials] {
+.det-content .ui[class~=coherence],
+.det-content .ui[class~=duration],
+.det-content .ui[class~=trials] {
   position: relative;
   padding-right: 1.5rem;
-  background-color: #e6e6e6;
+  background-color: #cccccc;
 }
-.det-content .ui[class~=Coherence]::before,
-.det-content .ui[class~=Duration]::before,
-.det-content .ui[class~=Trials]::before {
+.det-content .ui[class~=coherence]::before,
+.det-content .ui[class~=duration]::before,
+.det-content .ui[class~=trials]::before {
   position: absolute;
   top: 0;
   right: 0.625rem;
   width: 0.25rem;
   height: 1.375rem;
   content: "";
-  background-color: #cccccc;
+  background-color: #b3b3b3;
   border-width: 0.125rem;
 }
-.det-content .ui[class~=Coherence]::after,
-.det-content .ui[class~=Duration]::after,
-.det-content .ui[class~=Trials]::after {
+.det-content .ui[class~=coherence]::after,
+.det-content .ui[class~=duration]::after,
+.det-content .ui[class~=trials]::after {
   position: absolute;
   top: 0.4rem;
   right: 0.125rem;
   width: 1.25rem;
   height: 0.625rem;
   content: "";
-  background-color: #999999;
+  background-color: #737373;
   border-width: 0.25rem;
   border-radius: 0.25rem;
 }
-.det-content .ui[class~=Pause],
-.det-content .ui[class~=Reset],
-.det-content .ui[class~=Run] {
+.det-content .ui[class~=pause],
+.det-content .ui[class~=reset],
+.det-content .ui[class~=run],
+.det-content .ui[class~=present],
+.det-content .ui[class~=absent] {
   color: #ffffff;
-  background-color: #999999;
+  background-color: #737373;
 }
 .det-content .ui[class~="+"],
 .det-content .ui[class~="?"] {
@@ -8842,6 +8866,8 @@ progress {
   width: 12rem;
   padding: 0.25rem 0.675rem;
   font-weight: 600;
+  border-left-style: solid;
+  border-left-width: 1rem;
 }
 .det-legend dd {
   margin-top: 0.25rem;
@@ -8850,51 +8876,51 @@ progress {
 }
 .det-legend .h {
   background: #a6d7a5;
-  border-left: 1rem solid #4daf4a;
+  border-left-color: #4daf4a;
 }
 .det-legend .m {
   background: #ffbf80;
-  border-left: 1rem solid #ff7f00;
+  border-left-color: #ff7f00;
 }
 .det-legend .fa {
   background: #9bbfdc;
-  border-left: 1rem solid #377eb8;
+  border-left-color: #377eb8;
 }
 .det-legend .cr {
   background: #f28d8e;
-  border-left: 1rem solid #e41a1c;
+  border-left-color: #e41a1c;
 }
 .det-legend .hr {
   background: #ffff99;
-  border-left: 1rem solid #ffff33;
+  border-left-color: #ffff33;
 }
 .det-legend .far {
   background: #cca7d1;
-  border-left: 1rem solid #984ea3;
+  border-left-color: #984ea3;
 }
 .det-legend .acc {
   background: #cccccc;
-  border-left: 1rem solid #999999;
+  border-left-color: #999999;
 }
 .det-legend .d {
   background: #fbc0df;
-  border-left: 1rem solid #f781bf;
+  border-left-color: #f781bf;
 }
 .det-legend .c {
   background: #d3ab94;
-  border-left: 1rem solid #a65628;
+  border-left-color: #a65628;
 }
 .det-legend .s {
   background: #a2a2e8;
-  border-left: 1rem solid #4545d0;
+  border-left-color: #4545d0;
 }
 .det-legend .present {
   background: #f899f3;
-  border-left: 1rem solid #f032e6;
+  border-left-color: #f032e6;
 }
 .det-legend .absent {
   background: #88ede4;
-  border-left: 1rem solid #10dbc9;
+  border-left-color: #10dbc9;
 }
 .det-legend .correct {
   padding-left: calc(1.675rem - 1px);
@@ -8904,11 +8930,11 @@ progress {
 .det-legend .error {
   color: #ffffff;
   background: gray;
-  border-left: 1rem solid #000000;
+  border-left-color: #000000;
 }
 .det-legend .nr {
   background: #e6e6e6;
-  border-left: 1rem solid #cccccc;
+  border-left-color: #cccccc;
 }
 
 .det-glossary {

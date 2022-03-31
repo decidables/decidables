@@ -232,8 +232,8 @@
   --color-link: #737373;
   --color-element-background: #e6e6e6;
   --color-element-disabled: #cccccc;
-  --color-element-enabled: #999999;
-  --color-element-selected: #737373;
+  --color-element-enabled: #737373;
+  --color-element-selected: #999999;
   --color-element-border: #4d4d4d;
   --color-element-emphasis: #262626;
 }

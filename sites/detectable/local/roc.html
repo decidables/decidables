@@ -4,7 +4,7 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="detectable: The Receiver Operating Characteristic (ROC): Visualizing performance">
+    <meta name="description" content="detectable: The Receiver Operating Characteristic (ROC): Visualizing Performance">
     <meta name="author" content="Dr. Adam Krawitz">
 
     <link rel="icon" href="favicon.ico" sizes="any">
@@ -74,7 +74,7 @@
                           <li class="det-toc-item">
                         
                             <a class="det-toc-link" href="task.html">
-                              Task
+                              Responses
                             </a>
                           </li>
                       
@@ -192,6 +192,14 @@
                     <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
+                      
+                        
+                          <li class="det-toc-item">
+                        
+                            <a class="det-toc-link" href="marginals.html">
+                              Marginals
+                            </a>
+                          </li>
                       
                         
                           <li class="det-toc-item">
@@ -326,50 +334,51 @@
         <main class="det-main">
           
             <header>
-              <h1>The Receiver Operating Characteristic (ROC): Visualizing performance</h1>
+              <h1>The Receiver Operating Characteristic (ROC): Visualizing Performance</h1>
             </header>
           
           <section class="det-content">
             <h2>ROC space</h2>
-<p><span class="key HitRate">Hit Rate</span> and <span class="key FalseAlarmRate">False Alarm Rate</span> allow us to summarize performance with two values. We can
-then visualize performance as a point in a space, with the <em>x</em>-coordinate defined by FAR, and the
-<em>y</em>-coordinate defined by HR. This space is called <span class="term receiveroperatingcharacteristic(ROC)space">receiver operating characteristic (ROC)
-space</span> or alternatively <span class="term relativeoperatingcharacteristicspace">relative operating characteristic space</span> (<a class="csl-ref" href="references.html#Swets1996">Swets, 1996</a>). (The term
-“receiver” dates back to the original development of this approach in the context of separating
-signal and noise in the output of radar receivers used to detect enemy planes during World War II.)</p>
-<p>A point in ROC space uniquely defines a combination of HR and FAR:</p>
+<p>The <span class="key hitrate">hit rate</span> and <span class="key falsealarmrate">false alarm rate</span> allow us to summarize performance with two values. We
+can use these values to visualize performance as a point in a space, with the <em>x</em>-coordinate defined
+by <span class="key far">FAR</span>, and the <em>y</em>-coordinate defined by <span class="key hr">HR</span>. This space is called <span class="term receiveroperatingcharacteristic(roc)space">receiver
+operating characteristic (ROC) space</span> or alternatively <span class="term relativeoperatingcharacteristicspace">relative operating characteristic
+space</span> (<a class="csl-ref" href="references.html#Swets1996">Swets, 1996</a>). (The term “receiver” dates back to the original development of this
+approach in the context of separating signal and noise in the output of radar receivers used to
+detect enemy planes during World War II.)</p>
+<p>A point in ROC space uniquely defines a combination of <span class="key hr">HR</span> and <span class="key far">FAR</span>:</p>
 <sdt-example-interactive>
   <detectable-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20"
     false-alarms="10" correct-rejections="90"></detectable-table>
   <roc-space interactive point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
-<p>If you change the values in the table, the location of the ROC will change in response. Likewise, as
-you drag the point around in ROC space, the table will update accordingly, while keeping the total
-number of trials constant.</p>
-<p>If you drag the point around a bit, you will observe that while each point defines a unique
-combination of HR and FAR, you can find multiple points that have the same <span class="key Accuracy">Accuracy</span>. This is
-just another way of saying the same thing we said already on the previous page, namely that
-<span class="key Accuracy">Accuracy</span> alone does not uniquely describe signal detection performance.</p>
+<div class="ui-note"><p>The graph of ROC space is <em>live</em>, so you can drag the point on the graph to move it, thereby
+changing the <span class="key hr">HR</span> and <span class="key far">FAR</span>. Furthermore, the graph and the <em>live</em> table are linked, so when
+you drag the point, the table will update as well, and vice versa.</p></div>
+<p>Move the point in ROC space around and observe that while each point defines a unique combination of
+<span class="key hr">HR</span> and <span class="key far">FAR</span>, you can find multiple points that have the same <span class="key accuracy">accuracy</span>. This is
+another way of observing the same thing we discussed on the previous page, namely that
+<span class="key accuracy">accuracy</span> alone does not uniquely describe signal detection performance.</p>
 <h2>Iso-accuracy contours</h2>
-<p>We might then wonder what points in ROC space share the same <span class="key Accuracy">Accuracy</span>. We can visual this by
-coloring each point in ROC space according to it’s corresponding <span class="key Accuracy">Accuracy</span>, and drawing a
-contour through the space for every 10% increase in accuracy from 0% up to 100%. The resulting
-iso-accuracy contours help us see how accuracy varies across the ROC space, in the same way that
-contour lines on a topographic map help us understand how elevation changes across the landscape.</p>
+<p>We might then wonder which points in ROC space share the same <span class="key accuracy">accuracy</span>. We can visual this by
+coloring each point in ROC space according to it’s <span class="key accuracy">accuracy</span>, and drawing a <em>contour</em> through
+the space for every 5% increase in accuracy from 0% up to 100%. The resulting iso-accuracy
+contours help us see how accuracy varies across the ROC space, in the same way that contour lines
+on a topographic map help us understand how elevation changes across the landscape.</p>
 <sdt-example-interactive>
   <roc-space contour="accuracy" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
 <p>We can now immediately see that all of the points in ROC space along each line with a slope of one
 result in the same accuracy. Hopefully this helps us further appreciate that knowing the accuracy of
-performance generally tells us next to nothing about either the hit rate or the false alarm rate!</p>
+performance generally tells us very little about either the <span class="key hitrate">hit rate</span> or the <span class="key falsealarmrate">false alarm
+rate</span>!</p>
 <h2>Comparing patterns of outcomes</h2>
 <p>We can explore ROC space further by comparing a pair of points.</p>
-<p>For example, let’s imagine we have one point with a <span class="key HitRate">Hit Rate</span> of 0.9 and an <span class="key Accuracy">Accuracy</span> of
-0.75, and a second point with a <span class="key FalseAlarmRate">False Alarm Rate</span> of 0.1 and an <span class="key Accuracy">Accuracy</span> of 0.75. Is this
-possible? Where are the two points in ROC space? Is there any sort of symmetry apparent in their
-placement? Try to move the two points in the ROC space below to meet this description. The point
-with the up arrow, ’↑’, is described in the table above the ROC space; the point with the down
-arrow, ’↓’, is described in the table below the ROC space.</p>
+<p>For example, we might wonder if we can have one point with a <span class="key hitrate">hit rate</span> of 0.9 and an
+<span class="key accuracy">accuracy</span> of 0.75, and a second point with a <span class="key falsealarmrate">false alarm rate</span> of 0.1 and the same
+<span class="key accuracy">accuracy</span> of 0.75. Is this possible? Where are the two points in ROC space? Is there any sort
+of symmetry apparent in their placement? Try to move the two points in the ROC space below to meet
+this description.</p>
 <sdt-example-double-interactive>
   <detectable-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></detectable-table>
@@ -377,16 +386,18 @@ arrow, ’↓’, is described in the table below the ROC space.</p>
   <detectable-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></detectable-table>
 </sdt-example-double-interactive>
+<div class="ui-note"><p>The point with the up arrow, ↑, is described in the <em>live</em> table before the ROC space, while
+the point with the down arrow, ↓, is described in the table after the ROC space. The ROC space is
+<em>live</em>, so the points can be dragged to move them.</p></div>
 <p>Try some other positions… What about two points that are symmetric about the dotted diagonal from
-lower left to upper right? What about points along the <em>imaginary</em> diagonal from upper left to lower
+lower left to upper right? What about points along an <em>imaginary</em> diagonal from upper left to lower
 right?</p>
 <h2>Comparing performance</h2>
 <p>In the study of human performance, ROC space is typically used to visual performance across multiple
 blocks of trials. You can try that below. The current point will update throughout a block of
-trials, but when you <span class="ui Reset">Reset</span>, the point will be left behind, and a new point will follow the next
-block of trials. Complete a few blocks of trials with the coherence set to different levels,
-including some levels that make the task a real challenge. (If you want to remove all of the points,
-just reload the page.)</p>
+trials, but when you reset and start a new block, the point will be left behind, and a new point
+will follow the next block of trials. Complete a few blocks of trials with the coherence set to
+different levels, including some levels that make the task a real challenge.</p>
 <sdt-example-human>
   <detectable-control duration="1000" coherence=".5" trials="10" run pause reset></detectable-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
@@ -395,11 +406,14 @@ just reload the page.)</p>
     </detectable-table>
   <roc-space point="all" iso-d="none" iso-c="none" history far=".5" hr=".5"></roc-space>
 </sdt-example-human>
-<p>After you’ve completed a few blocks of trials, do you see any trends revealed in the pattern of
-points within ROC space?</p>
-<p>We can now describe performance in terms of <span class="key Hits">Hits</span>, <span class="key Misses">Misses</span>, <span class="key CorrectRejections">Correct Rejections</span>,
-<span class="key FalseAlarms">False Alarms</span>, <span class="key HitRate">Hit Rate</span>, <span class="key FalseAlarmRate">False Alarm Rate</span>, and ROC space. It is time that we think
-about the processes that lead to this performance.</p>
+<div class="ui-note"><p>Use the <span class="ui trials">Trials</span>, <span class="ui duration">Duration</span>, and <span class="ui coherence">Coherence</span> sliders to configure a block of trials.</p><p>Then use <span class="ui run">Run</span> to start the block, use <span class="ui pause">Pause</span> if you need a break, and after the block is
+over use <span class="ui reset">Reset</span> to move to the next block.</p><p>Each block will have an associated point in ROC space, numbered in order. If you want to remove
+all of the points, just reload the page.</p></div>
+<p>After you’ve completed a few blocks of trials with different settings for coherence, do you see any
+trends revealed in the pattern of points within ROC space?</p>
+<p>We now have a task, and we can now describe performance in terms of <span class="key hits">hits</span>, <span class="key misses">misses</span>,
+<span class="key correctrejections">correct rejections</span>, <span class="key falsealarms">false alarms</span>, <span class="key hitrate">hit rate</span>, <span class="key falsealarmrate">false alarm rate</span>, and as a point
+in ROC space. It is time that we think about the processes that lead to this performance.</p>
 
           </section>
 

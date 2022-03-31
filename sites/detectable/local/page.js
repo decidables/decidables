@@ -14967,6 +14967,8 @@ class DecidablesElement extends s {
         ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
         ---font-family-math: var(--font-family-math, "Source Serif", serif);
 
+        ---border: var(--border, 1px solid var(---color-border));
+        ---border-radius: var(--border-radius, 0.25rem);
         ---transition-duration: var(--transition-duration, 500ms);
 
         font-family: var(---font-family-base);
@@ -15000,7 +15002,7 @@ class DecidablesElement extends s {
         width: 0;
         height: 0;
       }
-    `), o$3(this.cssBoxShadow(0)), o$3(this.cssBoxShadow(2)), o$3(this.cssBoxShadow(4)), o$3(this.cssBoxShadow(8)), o$3(this.greys.white), o$3(this.greys.light75), o$3(this.greys.dark75), o$3(this.greys.white), o$3(this.greys.dark25), o$3(this.greys.light75), o$3(this.greys.light50), o$3(this.greys.grey), o$3(this.greys.dark25), o$3(this.greys.dark50), o$3(this.greys.dark75));
+    `), o$3(this.cssBoxShadow(0)), o$3(this.cssBoxShadow(2)), o$3(this.cssBoxShadow(4)), o$3(this.cssBoxShadow(8)), o$3(this.greys.white), o$3(this.greys.light75), o$3(this.greys.dark75), o$3(this.greys.white), o$3(this.greys.dark25), o$3(this.greys.light75), o$3(this.greys.light50), o$3(this.greys.dark25), o$3(this.greys.grey), o$3(this.greys.dark50), o$3(this.greys.dark75));
   }
 
 }
@@ -15042,7 +15044,7 @@ class DecidablesButton extends DecidablesElement {
           color: var(---color-text-inverse);
 
           border: 0;
-          border-radius: 0.25rem;
+          border-radius: var(---border-radius);
           outline: none;
         }
 
@@ -21818,7 +21820,7 @@ class ROCSpace extends DetectableElement {
         .point .label {
           font-size: 0.75rem;
 
-          dominant-baseline: middle;
+          dominant-baseline: central;
           text-anchor: middle;
 
           fill: var(---color-text-inverse);
@@ -25031,10 +25033,10 @@ class DetectableTable extends DetectableElement {
           </tr>
           <tr>
             <th class="th th-sub" scope="col">
-              "Present"
+              ‘Present’
             </th>
             <th class="th th-sub" scope="col">
-              "Absent"
+              ‘Absent’
             </th>
           </tr>
         </thead>
@@ -25157,6 +25159,10 @@ class SDTEquation extends DetectableElement {
           font-style: normal;
         }
 
+        var {
+          border-radius: var(---border-radius);
+        }
+
         .tight {
           padding: 0;
         }
@@ -25182,6 +25188,8 @@ class SDTEquation extends DetectableElement {
           padding: 0.125rem 0.375rem 0.375rem;
 
           vertical-align: middle;
+
+          border-radius: var(---border-radius);
         }
 
         .bottom {
@@ -26035,7 +26043,7 @@ class SDTEquationHMFaCr2Acc extends SDTEquation {
             </tr>
           </tbody>
         </table>
-      </div>`), acc, h, cr, h, m, fa, cr);
+      </div>`), acc, h, cr, h, cr, m, fa);
   }
 
 }
@@ -26412,7 +26420,6 @@ class SDTExample extends DetectableElement {
   static get styles() {
     return [super.styles, r$2(_t || (_t = _`
         :host {
-          ---border: var(--border, 1px solid var(---color-border));
           display: inline-block;
 
           margin-bottom: 1rem;
@@ -26433,7 +26440,7 @@ class SDTExample extends DetectableElement {
           padding: 0.625rem;
 
           border: var(---border);
-          border-radius: 0.25rem;
+          border-radius: var(---border-radius);
         }
 
         .body ::slotted(*) {
