@@ -770,10 +770,12 @@ $transition-duration: 500ms;
 
   // Responses
   .key[class~="'present'"] {
+    /* purgecss ignore current */
     background-color: sdt-color-light(present);
   }
 
   .key[class~="'absent'"] {
+    /* purgecss ignore current */
     background-color: sdt-color-light(absent);
   }
 
@@ -848,6 +850,7 @@ $transition-duration: 500ms;
   .key[class~="c"],
   .key[class~="d′"],
   .key[class~="σ"] {
+    /* purgecss ignore current */
     font-family: $font-family-math;
     font-style: italic;
   }
@@ -859,11 +862,13 @@ $transition-duration: 500ms;
 
   .key[class~="sensitivity"],
   .key[class~="d′"] {
+    /* purgecss ignore current */
     background-color: sdt-color-light(d);
   }
 
   .key[class~="variance"],
   .key[class~="σ"] {
+    /* purgecss ignore current */
     background-color: sdt-color-light(s);
   }
 
@@ -891,6 +896,7 @@ $transition-duration: 500ms;
   .ui[class~="missoutcome"],
   .ui[class~="correctrejectionoutcome"],
   .ui[class~="falsealarmoutcome"] {
+    /* purgecss ignore current */
     padding: 0 0.25rem;
 
     border: 3px solid;
@@ -913,11 +919,13 @@ $transition-duration: 500ms;
   }
 
   .ui[class~="'present'response"] {
+    /* purgecss ignore current */
     background-color: sdt-color-light(present);
     border-color: sdt-color(present);
   }
 
   .ui[class~="'absent'response"] {
+    /* purgecss ignore current */
     background-color: sdt-color-light(absent);
     border-color: sdt-color(absent);
   }
@@ -961,12 +969,14 @@ $transition-duration: 500ms;
   // Distributions
   .ui[class~="signal+noisedistribution"],
   .ui[class~="noisedistribution"] {
+    /* purgecss ignore current */
     padding: 0 0.25rem;
 
     border: 2px solid $color-element-emphasis;
   }
 
   .ui[class~="signal+noisedistribution"] {
+    /* purgecss ignore current */
     background-color: sdt-color-light(hr);
   }
 
@@ -1034,6 +1044,7 @@ $transition-duration: 500ms;
   // Fixation/Cue
   .ui[class~="+"],
   .ui[class~="?"] {
+    /* purgecss ignore current */
     background-color: $color-element-disabled;
 
     border: 2px solid $color-element-emphasis;
