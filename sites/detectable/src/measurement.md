@@ -92,7 +92,8 @@ formed by the trial-by-trial data would match the underlying probability distrib
 :::ui
 
 The box representing the measurement for each trial indicates whether it was a :ui[Signal Present]
-or :ui[Signal Absent] trial. The curves represent the :ui[Signal+Noise Distribution] and the :ui[Noise Distribution].
+or :ui[Signal Absent] trial. The curves represent the :ui[Signal+Noise Distribution] and the
+:ui[Noise Distribution].
 
 Note that the y-axis scale for the probability distributions is on the left side of the graph, while
 the y-axis scale for the histogram is on the right.

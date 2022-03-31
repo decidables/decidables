@@ -27,8 +27,8 @@ the threshold, instead of you, our intrepid participant.
 
 :::ui
 
-The box representing the measurement for each trial indicates whether it was a :ui['Present' Response]
-or :ui['Absent' Response] trial. The vertical bar represents the threshold.
+The box representing the measurement for each trial indicates whether it was a :ui['Present'
+Response] or :ui['Absent' Response] trial. The vertical bar represents the threshold.
 
 :::
 
@@ -64,8 +64,8 @@ and we say that the model is biased towards responding :key['present']:
 The location of our threshold determines the :key[bias], :key[c], also called the :term[response
 bias], of our model. It lies along a continuum from negative infinity to infinity. Zero indicates a
 neutral bias. Positive numbers indicate a :term[conservative bias]. The larger the positive bias,
-the *more* evidence necessary before a :key['present'] response is given. Negative numbers indicate a
-:term[liberal bias]. The larger the negative bias, the *less* evidence necessary to respond
+the *more* evidence necessary before a :key['present'] response is given. Negative numbers indicate
+a :term[liberal bias]. The larger the negative bias, the *less* evidence necessary to respond
 :key['present'].
 
 Explore how the :key[bias] determines how little or how much evidence is necessary to respond
