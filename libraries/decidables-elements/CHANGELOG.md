@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.2.0...@decidables/decidables-elements@0.3.0) (2022-03-31)
+
+
+### Features
+
+* **decidables-elements:** add border and border-radius as core styling variables ([a719f5a](https://github.com/decidables/decidables/commit/a719f5ad191dc9bd3e3ec7f41bc1156c8902f933))
+
+
+### Bug Fixes
+
+* **all:** improve contrast for UI controls ([4a97725](https://github.com/decidables/decidables/commit/4a9772558c569bf18c92c36731c6b05f9630ac2c))
+
+
+
 ## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.1.1...@decidables/decidables-elements@0.2.0) (2022-03-24)
 
 

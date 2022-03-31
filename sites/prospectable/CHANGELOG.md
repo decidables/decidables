@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.5.1](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.5.0...@decidables/prospectable@0.5.1) (2022-03-31)
+
+
+### Bug Fixes
+
+* **all:** improve contrast for UI controls ([4a97725](https://github.com/decidables/decidables/commit/4a9772558c569bf18c92c36731c6b05f9630ac2c))
+
+
+
 ## [0.5.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.4.2...@decidables/prospectable@0.5.0) (2022-03-28)
 
 

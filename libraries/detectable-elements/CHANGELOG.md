@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.3](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.1.2...@decidables/detectable-elements@0.1.3) (2022-03-31)
+
+
+### Bug Fixes
+
+* **detectable-elements:** better label alignment in ROC space points ([5c3a8c0](https://github.com/decidables/decidables/commit/5c3a8c0657160e4f1a4bf31c88f939f6ab9829c9))
+* **detectable-elements:** fix quotes around 'present' and 'absent' in table ([b1467a8](https://github.com/decidables/decidables/commit/b1467a8e58bdd8f6c3fef2cfaca43b241e3efc59))
+* **detectable-elements:** make use of new border-radius styling variable ([4453e4a](https://github.com/decidables/decidables/commit/4453e4a1a135906808f8e74cbb14396a31d31b8a))
+* **detectable-elements:** reorder accuracy equation to make structure clearer ([9c0926a](https://github.com/decidables/decidables/commit/9c0926ae73af94005e18b0dab3459632209b6331))
+
+
+
 ### [0.1.2](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.1.1...@decidables/detectable-elements@0.1.2) (2022-03-24)
 
 
