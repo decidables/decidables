@@ -45,6 +45,7 @@ export default class SDTEquation extends DetectableElement {
         /* Overall <table> */
         .equation {
           text-align: center;
+          white-space: nowrap;
 
           border-collapse: collapse;
 
