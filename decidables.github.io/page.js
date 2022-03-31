@@ -119,6 +119,8 @@ var l$1,o;null==z||z(E,N),(null!==(t=globalThis.litHtmlVersions)&&void 0!==t?t:g
         ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
         ---font-family-math: var(--font-family-math, "Source Serif", serif);
 
+        ---border: var(--border, 1px solid var(---color-border));
+        ---border-radius: var(--border-radius, 0.25rem);
         ---transition-duration: var(--transition-duration, 500ms);
 
         font-family: var(---font-family-base);
@@ -152,7 +154,7 @@ var l$1,o;null==z||z(E,N),(null!==(t=globalThis.litHtmlVersions)&&void 0!==t?t:g
         width: 0;
         height: 0;
       }
-    `),o$3(this.cssBoxShadow(0)),o$3(this.cssBoxShadow(2)),o$3(this.cssBoxShadow(4)),o$3(this.cssBoxShadow(8)),o$3(this.greys.white),o$3(this.greys.light75),o$3(this.greys.dark75),o$3(this.greys.white),o$3(this.greys.dark25),o$3(this.greys.light75),o$3(this.greys.light50),o$3(this.greys.grey),o$3(this.greys.dark25),o$3(this.greys.dark50),o$3(this.greys.dark75))}}let _t$h,_t2$f,_$h=t=>t;class DecidablesButton extends DecidablesElement{static get properties(){return{disabled:{attribute:"disabled",type:Boolean,reflect:!0}}}constructor(){super(),this.disabled=!1}static get styles(){return[super.styles,r$2(_t$h||(_t$h=_$h`
+    `),o$3(this.cssBoxShadow(0)),o$3(this.cssBoxShadow(2)),o$3(this.cssBoxShadow(4)),o$3(this.cssBoxShadow(8)),o$3(this.greys.white),o$3(this.greys.light75),o$3(this.greys.dark75),o$3(this.greys.white),o$3(this.greys.dark25),o$3(this.greys.light75),o$3(this.greys.light50),o$3(this.greys.dark25),o$3(this.greys.grey),o$3(this.greys.dark50),o$3(this.greys.dark75))}}let _t$h,_t2$f,_$h=t=>t;class DecidablesButton extends DecidablesElement{static get properties(){return{disabled:{attribute:"disabled",type:Boolean,reflect:!0}}}constructor(){super(),this.disabled=!1}static get styles(){return[super.styles,r$2(_t$h||(_t$h=_$h`
         :host {
           margin: 0.25rem;
         }
@@ -168,7 +170,7 @@ var l$1,o;null==z||z(E,N),(null!==(t=globalThis.litHtmlVersions)&&void 0!==t?t:g
           color: var(---color-text-inverse);
 
           border: 0;
-          border-radius: 0.25rem;
+          border-radius: var(---border-radius);
           outline: none;
         }
 
@@ -1026,7 +1028,7 @@ const l=t=>null!=t?t:w;let _t$g,_t2$e,_$g=t=>t;class DecidablesSlider extends De
         .point .label {
           font-size: 0.75rem;
 
-          dominant-baseline: middle;
+          dominant-baseline: central;
           text-anchor: middle;
 
           fill: var(---color-text-inverse);
@@ -1506,10 +1508,10 @@ const l=t=>null!=t?t:w;let _t$g,_t2$e,_$g=t=>t;class DecidablesSlider extends De
           </tr>
           <tr>
             <th class="th th-sub" scope="col">
-              "Present"
+              ‘Present’
             </th>
             <th class="th th-sub" scope="col">
-              "Absent"
+              ‘Absent’
             </th>
           </tr>
         </thead>

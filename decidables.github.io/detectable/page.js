@@ -113,6 +113,8 @@ var l$1,o;null==z||z(E,N),(null!==(t=globalThis.litHtmlVersions)&&void 0!==t?t:g
         ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
         ---font-family-math: var(--font-family-math, "Source Serif", serif);
 
+        ---border: var(--border, 1px solid var(---color-border));
+        ---border-radius: var(--border-radius, 0.25rem);
         ---transition-duration: var(--transition-duration, 500ms);
 
         font-family: var(---font-family-base);
@@ -146,7 +148,7 @@ var l$1,o;null==z||z(E,N),(null!==(t=globalThis.litHtmlVersions)&&void 0!==t?t:g
         width: 0;
         height: 0;
       }
-    `),o$3(this.cssBoxShadow(0)),o$3(this.cssBoxShadow(2)),o$3(this.cssBoxShadow(4)),o$3(this.cssBoxShadow(8)),o$3(this.greys.white),o$3(this.greys.light75),o$3(this.greys.dark75),o$3(this.greys.white),o$3(this.greys.dark25),o$3(this.greys.light75),o$3(this.greys.light50),o$3(this.greys.grey),o$3(this.greys.dark25),o$3(this.greys.dark50),o$3(this.greys.dark75))}}let _t$l,_t2$j,_$l=t=>t;class DecidablesButton extends DecidablesElement{static get properties(){return{disabled:{attribute:"disabled",type:Boolean,reflect:!0}}}constructor(){super(),this.disabled=!1}static get styles(){return[super.styles,r$2(_t$l||(_t$l=_$l`
+    `),o$3(this.cssBoxShadow(0)),o$3(this.cssBoxShadow(2)),o$3(this.cssBoxShadow(4)),o$3(this.cssBoxShadow(8)),o$3(this.greys.white),o$3(this.greys.light75),o$3(this.greys.dark75),o$3(this.greys.white),o$3(this.greys.dark25),o$3(this.greys.light75),o$3(this.greys.light50),o$3(this.greys.dark25),o$3(this.greys.grey),o$3(this.greys.dark50),o$3(this.greys.dark75))}}let _t$l,_t2$j,_$l=t=>t;class DecidablesButton extends DecidablesElement{static get properties(){return{disabled:{attribute:"disabled",type:Boolean,reflect:!0}}}constructor(){super(),this.disabled=!1}static get styles(){return[super.styles,r$2(_t$l||(_t$l=_$l`
         :host {
           margin: 0.25rem;
         }
@@ -162,7 +164,7 @@ var l$1,o;null==z||z(E,N),(null!==(t=globalThis.litHtmlVersions)&&void 0!==t?t:g
           color: var(---color-text-inverse);
 
           border: 0;
-          border-radius: 0.25rem;
+          border-radius: var(---border-radius);
           outline: none;
         }
 
@@ -1020,7 +1022,7 @@ const l=t=>null!=t?t:w;let _t$k,_t2$i,_$k=t=>t;class DecidablesSlider extends De
         .point .label {
           font-size: 0.75rem;
 
-          dominant-baseline: middle;
+          dominant-baseline: central;
           text-anchor: middle;
 
           fill: var(---color-text-inverse);
@@ -1698,10 +1700,10 @@ const l=t=>null!=t?t:w;let _t$k,_t2$i,_$k=t=>t;class DecidablesSlider extends De
           </tr>
           <tr>
             <th class="th th-sub" scope="col">
-              "Present"
+              ‘Present’
             </th>
             <th class="th th-sub" scope="col">
-              "Absent"
+              ‘Absent’
             </th>
           </tr>
         </thead>
@@ -1794,6 +1796,10 @@ const l=t=>null!=t?t:w;let _t$k,_t2$i,_$k=t=>t;class DecidablesSlider extends De
           font-style: normal;
         }
 
+        var {
+          border-radius: var(---border-radius);
+        }
+
         .tight {
           padding: 0;
         }
@@ -1819,6 +1825,8 @@ const l=t=>null!=t?t:w;let _t$k,_t2$i,_$k=t=>t;class DecidablesSlider extends De
           padding: 0.125rem 0.375rem 0.375rem;
 
           vertical-align: middle;
+
+          border-radius: var(---border-radius);
         }
 
         .bottom {
@@ -2104,7 +2112,7 @@ const l=t=>null!=t?t:w;let _t$k,_t2$i,_$k=t=>t;class DecidablesSlider extends De
             </tr>
           </tbody>
         </table>
-      </div>`),a,t,n,t,e,r,n)}}customElements.define("sdt-equation-hmfacr2acc",SDTEquationHMFaCr2Acc);let _t$2,_t2$2,_t3$1,_t4$1,_t5$1,_t6$1,_t7$1,_t8$1,_t9$1,_t10$1,_t11$1,_$2=t=>t;class SDTEquationHrFar2C extends SDTEquation{static get properties(){return{unequal:{attribute:"unequal",type:Boolean,reflect:!0},hr:{attribute:"hit-rate",type:Number,reflect:!0},far:{attribute:"false-alarm-rate",type:Number,reflect:!0},s:{attribute:"s",type:Number,reflect:!0},c:{attribute:!1,type:Number,reflect:!1}}}constructor(){super(),this.unequal=!1,this.hr=0,this.far=0,this.s=1,this.alignState()}alignState(){this.c=SDTMath.hrFar2C(this.hr,this.far,this.s)}sendEvent(){this.dispatchEvent(new CustomEvent("sdt-equation-hrfar2c-change",{detail:{hr:this.hr,far:this.far,s:this.s,c:this.c},bubbles:!0}))}hrInput(t){this.hr=parseFloat(t.target.value),this.alignState(),this.sendEvent()}farInput(t){this.far=parseFloat(t.target.value),this.alignState(),this.sendEvent()}sInput(t){this.s=parseFloat(t.target.value),this.alignState(),this.sendEvent()}render(){let t,e,r,n,a;return this.alignState(),this.numeric?(t=$(_t$2||(_t$2=_$2`
+      </div>`),a,t,n,t,n,e,r)}}customElements.define("sdt-equation-hmfacr2acc",SDTEquationHMFaCr2Acc);let _t$2,_t2$2,_t3$1,_t4$1,_t5$1,_t6$1,_t7$1,_t8$1,_t9$1,_t10$1,_t11$1,_$2=t=>t;class SDTEquationHrFar2C extends SDTEquation{static get properties(){return{unequal:{attribute:"unequal",type:Boolean,reflect:!0},hr:{attribute:"hit-rate",type:Number,reflect:!0},far:{attribute:"false-alarm-rate",type:Number,reflect:!0},s:{attribute:"s",type:Number,reflect:!0},c:{attribute:!1,type:Number,reflect:!1}}}constructor(){super(),this.unequal=!1,this.hr=0,this.far=0,this.s=1,this.alignState()}alignState(){this.c=SDTMath.hrFar2C(this.hr,this.far,this.s)}sendEvent(){this.dispatchEvent(new CustomEvent("sdt-equation-hrfar2c-change",{detail:{hr:this.hr,far:this.far,s:this.s,c:this.c},bubbles:!0}))}hrInput(t){this.hr=parseFloat(t.target.value),this.alignState(),this.sendEvent()}farInput(t){this.far=parseFloat(t.target.value),this.alignState(),this.sendEvent()}sInput(t){this.s=parseFloat(t.target.value),this.alignState(),this.sendEvent()}render(){let t,e,r,n,a;return this.alignState(),this.numeric?(t=$(_t$2||(_t$2=_$2`
         <decidables-spinner class="hr bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
           <var>Hit Rate</var>
         </decidables-spinner>
@@ -2211,7 +2219,6 @@ const l=t=>null!=t?t:w;let _t$k,_t2$i,_$k=t=>t;class DecidablesSlider extends De
         </table>
       </div>`),a)}}customElements.define("sdt-equation-hrfar2d",SDTEquationHrFar2D);let _t,_t2,_=t=>t;class SDTExample extends DetectableElement{static get styles(){return[super.styles,r$2(_t||(_t=_`
         :host {
-          ---border: var(--border, 1px solid var(---color-border));
           display: inline-block;
 
           margin-bottom: 1rem;
@@ -2232,7 +2239,7 @@ const l=t=>null!=t?t:w;let _t$k,_t2$i,_$k=t=>t;class DecidablesSlider extends De
           padding: 0.625rem;
 
           border: var(---border);
-          border-radius: 0.25rem;
+          border-radius: var(---border-radius);
         }
 
         .body ::slotted(*) {
