@@ -70,8 +70,8 @@ positive rate] or :term[type II error rate]:
 
 <sdt-equation-facr2far></sdt-equation-facr2far>
 
-The :key[false alarm rate] tells us the proportion of trials when the signal was :key[absent] that we
-*erroneously* responded :key['present'].
+The :key[false alarm rate] tells us the proportion of trials when the signal was :key[absent] that
+we *erroneously* responded :key['present'].
 
 <sdt-equation-facr2far numeric interactive false-alarms="5" correct-rejections="5"></sdt-equation-facr2far>
 

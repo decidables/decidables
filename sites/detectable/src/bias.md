@@ -44,9 +44,9 @@ alarm rate], and vice versa.
 
 ## Visualizing the relationship between <span class="math-var">c</span>, HR, and FAR
 
-Similar to what we did :key[sensitivity], we can plot a single :term[iso-bias curve] through our data
-point. This curve shows all of the combinations of :key[hit rate] and :key[false alarm rate] that
-have the same :key[bias] as our actual data.
+Similar to what we did :key[sensitivity], we can plot a single :term[iso-bias curve] through our
+data point. This curve shows all of the combinations of :key[hit rate] and :key[false alarm rate]
+that have the same :key[bias] as our actual data.
 
 You can change the performance data by altering values in the outcome table, adjusting the locations
 of the distributions or threshold in the model, or by directly moving the data point in ROC space.

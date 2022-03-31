@@ -68,7 +68,8 @@ waiting period.
 
 Having fun yet?
 
-In case you were wondering, in this example, the ITI, the stimulus, and the waiting period each last for two seconds.
+In case you were wondering, in this example, the ITI, the stimulus, and the waiting period each last
+for two seconds.
 
 ## A block of trials
 

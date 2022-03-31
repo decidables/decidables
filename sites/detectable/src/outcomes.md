@@ -25,8 +25,8 @@ As you have no doubt noticed, if you have given it a try, you receive feedback.
 :::ui
 
 The feedback is presented to the right of the response buttons. At the top, you are shown the
-current trial and the total trials. Below that, for the moment, the feedback is either :key[Correct],
-:key[Error], or if you don't respond in time, :key[No Response].
+current trial and the total trials. Below that, for the moment, the feedback is either
+:key[Correct], :key[Error], or if you don't respond in time, :key[No Response].
 
 :::
 
@@ -64,7 +64,8 @@ possible outcomes occurred:
 
 :::ui
 
-Now our feedback is :key[Hit], :key[Miss], :key[False Alarm], :key[Correct Rejection] or if you don't respond in time, :key[No Response].
+Now our feedback is :key[Hit], :key[Miss], :key[False Alarm], :key[Correct Rejection] or if you
+don't respond in time, :key[No Response].
 
 :::
 
