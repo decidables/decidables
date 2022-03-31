@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.6.0...@decidables/detectable@0.7.0) (2022-03-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sites:** Class names are now all lowercase
+which may break existing stylesheets
+
+### Features
+
+* **detectable:** better use of :ui vs :key ([29756bb](https://github.com/decidables/decidables/commit/29756bb3b75633d7a437dea1dd69c5b3351acf2e))
+* **detectable:** update Behavior and Theory pages ([9336a83](https://github.com/decidables/decidables/commit/9336a835de79939f8960f1169d170d292c82b01d))
+* **sites:** add :page for linking to other pages on site ([b2803d6](https://github.com/decidables/decidables/commit/b2803d6ad379d3828b98734c2132a75c8a5578dd))
+
+
+### Bug Fixes
+
+* **all:** improve contrast for UI controls ([4a97725](https://github.com/decidables/decidables/commit/4a9772558c569bf18c92c36731c6b05f9630ac2c))
+* **detectable:** fix lint errors ([e9a1e70](https://github.com/decidables/decidables/commit/e9a1e70be4c9fb7e032f0bd72e7a68fb15b2db4a))
+* **sites:** convert markdown terminology to lowercase classnames ([075c509](https://github.com/decidables/decidables/commit/075c50919686e10f5ce5568fc4aa4066d6125e80))
+
+
+
 ## [0.6.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.5.2...@decidables/detectable@0.6.0) (2022-03-28)
 
 

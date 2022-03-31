@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.4.1](https://github.com/decidables/decidables/compare/@decidables/decidables@0.4.0...@decidables/decidables@0.4.1) (2022-03-31)
+
+
+### Bug Fixes
+
+* **all:** improve contrast for UI controls ([4a97725](https://github.com/decidables/decidables/commit/4a9772558c569bf18c92c36731c6b05f9630ac2c))
+* **decidables:** fix SVG conversion and improve icon ([eed94e0](https://github.com/decidables/decidables/commit/eed94e0f1f7b576237cedab49ff330834904d0be))
+
+
+
 ## [0.4.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.3.3...@decidables/decidables@0.4.0) (2022-03-28)
 
 
