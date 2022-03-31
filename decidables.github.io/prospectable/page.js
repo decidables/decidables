@@ -113,6 +113,8 @@ var l$3,o$2;null==z$1||z$1(E$1,N$1),(null!==(t$2=globalThis.litHtmlVersions)&&vo
         ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
         ---font-family-math: var(--font-family-math, "Source Serif", serif);
 
+        ---border: var(--border, 1px solid var(---color-border));
+        ---border-radius: var(--border-radius, 0.25rem);
         ---transition-duration: var(--transition-duration, 500ms);
 
         font-family: var(---font-family-base);
@@ -146,7 +148,7 @@ var l$3,o$2;null==z$1||z$1(E$1,N$1),(null!==(t$2=globalThis.litHtmlVersions)&&vo
         width: 0;
         height: 0;
       }
-    `),o$5(this.cssBoxShadow(0)),o$5(this.cssBoxShadow(2)),o$5(this.cssBoxShadow(4)),o$5(this.cssBoxShadow(8)),o$5(this.greys.white),o$5(this.greys.light75),o$5(this.greys.dark75),o$5(this.greys.white),o$5(this.greys.dark25),o$5(this.greys.light75),o$5(this.greys.light50),o$5(this.greys.grey),o$5(this.greys.dark25),o$5(this.greys.dark50),o$5(this.greys.dark75))}}let _t$o,_t2$l,_$o=t=>t;class DecidablesButton extends DecidablesElement{static get properties(){return{disabled:{attribute:"disabled",type:Boolean,reflect:!0}}}constructor(){super(),this.disabled=!1}static get styles(){return[super.styles,r$6(_t$o||(_t$o=_$o`
+    `),o$5(this.cssBoxShadow(0)),o$5(this.cssBoxShadow(2)),o$5(this.cssBoxShadow(4)),o$5(this.cssBoxShadow(8)),o$5(this.greys.white),o$5(this.greys.light75),o$5(this.greys.dark75),o$5(this.greys.white),o$5(this.greys.dark25),o$5(this.greys.light75),o$5(this.greys.light50),o$5(this.greys.dark25),o$5(this.greys.grey),o$5(this.greys.dark50),o$5(this.greys.dark75))}}let _t$o,_t2$l,_$o=t=>t;class DecidablesButton extends DecidablesElement{static get properties(){return{disabled:{attribute:"disabled",type:Boolean,reflect:!0}}}constructor(){super(),this.disabled=!1}static get styles(){return[super.styles,r$6(_t$o||(_t$o=_$o`
         :host {
           margin: 0.25rem;
         }
@@ -162,7 +164,7 @@ var l$3,o$2;null==z$1||z$1(E$1,N$1),(null!==(t$2=globalThis.litHtmlVersions)&&vo
           color: var(---color-text-inverse);
 
           border: 0;
-          border-radius: 0.25rem;
+          border-radius: var(---border-radius);
           outline: none;
         }
 
