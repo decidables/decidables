@@ -10,11 +10,8 @@ We have been introduced to signal and noise, so now we can consider the signal d
 I looking at a signal or not? Is that sound my friend's voice or the other party-goers? Is that form
 on the horizon a distant boat or just more fog? Is that smell a truffle or some other earthy scent?
 
-Using our random dot kinematogram (RDK), we define any amount of coherent dot motion as signal
-:key[present], and purely random dot motion as signal :key[absent].
-
-Your mission, should you choose to accept it, is to decide whether or not you think the signal is
-there and make the appropriate :term[response]. If you do think it is there, respond
+Your mission, should you choose to accept it, is to decide whether the signal is :key[present] or
+:key[absent] and make the appropriate :term[response]. If you do think it is there, respond
 :key['present'], and if you don't, respond :key['absent']. 
 
 Go ahead and give it a go!

@@ -22,10 +22,10 @@ relative to a threshold is used to determine if the model will respond :key['pre
 
 :::ui
 
-You can adjust :key[d′] by moving the distributions and :key[c] by moving the threshold. The
-distributions are colored according to the resulting response. If there are evidence measurements
-for individual trials, they will change between :ui['Present' Response] and :ui['Absent' Response]
-trials based on the locations of the distributions and threshold.
+You can adjust :key[d′] by moving the distributions and :key[c] by moving the threshold. In this
+example, the distributions are colored according to the resulting response. If there are evidence
+measurements for individual trials, they will change between :key['Present'] and :key['Absent']
+responses based on the locations of the distributions and threshold.
 
 :::
 
@@ -54,9 +54,9 @@ Explore the model and how :key[sensitivity] and :key[bias] determine outcomes:
 :::ui
 
 In the *live* graph of the model, the box representing the model's measurement for each trial
-represents whether the trial will have a :ui[Hit Outcome], :ui[Miss Outcome], :ui[Correct Rejection
-Outcome], or :ui[False Alarm Outcome]. The distributions are also colored accordingly to indicate
-the outcome that will result from sampling from each part of each distribution.
+represents whether the trial outcome will be a :key[Hit], :key[Miss], :key[Correct Rejection], or
+:key[False Alarm]. The distributions are also colored accordingly to indicate the outcome that will
+result from sampling from each part of each distribution.
 
 The measurements and resulting outcomes for each trial in the histogram will update as you drag the
 distributions or the threshold to adjust the parameter values. The table and ROC space will also
@@ -74,23 +74,23 @@ accounted for with the model by selecting the appropriate parameter values!
 ## Calculating hit and false alarm rates from sensitivity and bias
 
 According to SDT, the measurement of evidence on each trial is stochastically sampled from the
-distributions. In the examples above, we simulated a small number of trials by pseudo-random
-sampling and calculated a :key[hit rate] and :key[false alarm rate] from the results, just as we did
-when you were the participant. The results are fairly noisy, since we have a small sample. However,
-since SDT specifies the distributions and we have specified the model parameters, we can calculate
-the *exact* rates predicted by the theory if we were collecting data from an *infinite* number of
-trials.
+:key[noise distribution] or the :key[signal-plus-noise distribution]. In the examples above, we
+simulated a small number of trials by pseudo-random sampling and calculated a :key[hit rate] and
+:key[false alarm rate] from the results, just as we did when you were the participant. The results
+are fairly unreliable, since we have a small sample. However, since SDT specifies the distributions
+and we have specified the model parameters, we can calculate the *exact* rates predicted by the
+theory if we were collecting data from an *infinite* number of trials.
 
 As suggested by the way the distributions are color-coded based on outcomes in the graph above, the
-:key[hit rate] is the proportion of the signal-plus-noise distribution above the threshold. Using
-the cumulative distribution function of the normal distribution, <span class="math-greek">Φ</span>,
-we can calculate it from :key[d′] and :key[c]:
+:key[hit rate] is the proportion of the :key[signal-plus-noise distribution] above the threshold.
+Using the cumulative distribution function of the normal distribution, <span
+class="math-greek">Φ</span>, we can calculate it from :key[d′] and :key[c]:
 
 <sdt-equation-dc2hr></sdt-equation-dc2hr>
 
 <sdt-equation-dc2hr numeric interactive d="0" c="0"></sdt-equation-dc2hr>
 
-Similarly, the :key[false alarm rate] is the proportion of the noise distribution above the
+Similarly, the :key[false alarm rate] is the proportion of the :key[noise distribution] above the
 threshold. It can also be calculated from :key[d′] and :key[c]:
 
 <sdt-equation-dc2far></sdt-equation-dc2far>

@@ -7,15 +7,15 @@ script: page
 ## Calculating bias from hit rate and false alarm rate
 
 On the previous page, we explored how :key[sensitivity] (:key[d′]) can be determined from :key[hit
-rate] and :key[false alarm rate]. Now we will consider how to do the same for :key[Bias] (:key[c]).
+rate] and :key[false alarm rate]. Now we will consider how to do the same for :key[bias] (:key[c]).
 
 <sdt-example-interactive order="trm">
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
 
 Try moving the threshold around, and observe what effect this has on the proportion of :key[hits]
-for the signal-plus-noise distribution and the proportion of :key[false alarms] for the
-noise distribution. In general, as the threshold moves to the left, and a more liberal bias,
+for the key[signal-plus-noise distribution] and the proportion of :key[false alarms] for the
+:key[noise distribution]. In general, as the threshold moves to the left, and a more liberal bias,
 we increase the :key[hits] and :key[false alarms]. As the threshold moves to the right, and a more
 conservative bias, we decrease both :key[hits] and :key[false alarms]. This helps develop our
 intuition that :key[c] is related to the sum of the :key[hit rate] and the :key[false alarm rate],
@@ -48,9 +48,10 @@ Similar to what we did :key[sensitivity], we can plot a single :term[iso-bias cu
 data point. This curve shows all of the combinations of :key[hit rate] and :key[false alarm rate]
 that have the same :key[bias] as our actual data.
 
-You can change the performance data by altering values in the outcome table, adjusting the locations
-of the distributions or threshold in the model, or by directly moving the data point in ROC space.
-All of the other representations of performance change simultaneously:
+You can change the performance by altering values in the outcome table, adjusting the locations of
+the distributions or threshold in the model, or by directly moving the data point in ROC space. All
+of the other representations of performance change simultaneously. Observe how the :key[iso-bias
+curve] responds:
 
 <sdt-example-interactive>
   <detectable-table interactive numeric summary="stimulusRates accuracy"
@@ -63,18 +64,18 @@ All of the other representations of performance change simultaneously:
 
 The values are linked between the *live* table, ROC space, and model. As the :key[Hit Rate] or
 :key[False Alarm Rate] are changed, :key[d′] and :key[c] will also change, and thus the
-:ui[Iso-Bias Curve] will adjust as well.
+:key[Iso-Bias Curve] will adjust as well.
 
 :::
 
-The resulting similarities and differences with :key[sensitivity] are instructive. The iso-bias
-curve always spans from the top left to the bottom right corner of ROC space. As a result, neither
+The resulting similarities and differences with :key[sensitivity] are instructive. The :key[iso-bias
+curve] always spans from the top left to the bottom right corner of ROC space. As a result, neither
 :key[hit rate] alone nor :key[false alarm rate] alone tells you anything about :key[bias] --- you
 need both! Furthermore, altering either the :key[hit rate] or the :key[false alarm rate] necessarily
 changes the :key[bias].
 
 However, there is one way to manipulate the performance in just such a way that the results change
 while keeping :key[bias] constant. This happens when we manipulate :key[sensitivity], which is
-independent from :key[bias]. Adjust the value of :key[d′] by moving the distributions in our
-model and observe that our data point shifts smoothly along the iso-bias curve in ROC space, but the
+independent from :key[bias]. Adjust the value of :key[d′] by moving the distributions in our model
+and observe that our data point shifts smoothly along the :key[iso-bias curve] in ROC space, but the
 curve itself remains stationary.
