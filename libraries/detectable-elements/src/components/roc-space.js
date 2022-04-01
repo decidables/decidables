@@ -376,7 +376,7 @@ export default class ROCSpace extends DetectableElement {
     ];
   }
 
-  render() { // eslint-disable-line class-methods-use-this
+  render() { /* eslint-disable-line class-methods-use-this */
     return html`
       ${DetectableElement.svgFilters}
     `;

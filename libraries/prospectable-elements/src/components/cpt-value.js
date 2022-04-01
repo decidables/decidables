@@ -442,7 +442,7 @@ export default class CPTValue extends CPTElement {
     ];
   }
 
-  render() { // eslint-disable-line class-methods-use-this
+  render() { /* eslint-disable-line class-methods-use-this */
     return html`
       ${CPTElement.svgFilters}
     `;
@@ -1127,7 +1127,7 @@ export default class CPTValue extends CPTElement {
           .call(curvePDrag)
           .on('keydown', (event, datum) => {
             if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-              let a = datum.a; // eslint-disable-line prefer-destructuring
+              let a = datum.a; /* eslint-disable-line prefer-destructuring */
               switch (event.key) {
                 case 'ArrowUp':
                 case 'ArrowLeft':
@@ -1224,7 +1224,7 @@ export default class CPTValue extends CPTElement {
           .call(curveNDrag)
           .on('keydown', (event, datum) => {
             if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-              let l = datum.l; // eslint-disable-line prefer-destructuring
+              let l = datum.l; /* eslint-disable-line prefer-destructuring */
               switch (event.key) {
                 case 'ArrowUp':
                 case 'ArrowLeft':
@@ -1328,7 +1328,7 @@ export default class CPTValue extends CPTElement {
       .call(pointDrag)
       .on('keydown', (event, datum) => {
         if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-          let x = datum.x; // eslint-disable-line prefer-destructuring
+          let x = datum.x; /* eslint-disable-line prefer-destructuring */
           switch (event.key) {
             case 'ArrowUp':
             case 'ArrowRight':

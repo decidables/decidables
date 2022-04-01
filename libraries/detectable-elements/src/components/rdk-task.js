@@ -188,7 +188,7 @@ export default class RDKTask extends DetectableElement {
     ];
   }
 
-  render() { // eslint-disable-line class-methods-use-this
+  render() { /* eslint-disable-line class-methods-use-this */
     return html``;
   }
 

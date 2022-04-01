@@ -60,7 +60,7 @@ export default class CPTExample extends CPTElement {
     ];
   }
 
-  render() { // eslint-disable-line class-methods-use-this
+  render() { /* eslint-disable-line class-methods-use-this */
     return html`
       <div class="holder">
         <div class="body">
