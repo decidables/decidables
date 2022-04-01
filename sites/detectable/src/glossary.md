@@ -6,132 +6,134 @@ script: page
 
 ## Terminology
 
-<dl class="sdt-glossary">
-  <dt>accuracy</dt>
-  <dd></dd>
+:::glossary
 
-  <dt>bias</dt>
-  <dd></dd>
+accuracy
+: ?
 
-  <dt>block</dt>
-  <dd></dd>
+bias
+: ?
 
-  <dt><span class="math-var">c</span></dt>
-  <dd></dd>
+block
+: ?
 
-  <dt>coherent</dt>
-  <dd></dd>
+<span class="math-var">c</span>
+: ?
 
-  <dt>conservative bias</dt>
-  <dd></dd>
+coherent
+: ?
 
-  <dt>correct</dt>
-  <dd></dd>
+conservative bias
+: ?
 
-  <dt>correct rejection (true negative)</dt>
-  <dd></dd>
+correct
+: ?
 
-  <dt><span class="math-var">d′</span></dt>
-  <dd></dd>
+correct rejection (true negative)
+: ?
 
-  <dt><span class="math-var">d′</span>ete<span class="math-var">c</span>table</dt>
-  <dd></dd>
+<span class="math-var">d′</span>
+: ?
 
-  <dt>decision</dt>
-  <dd></dd>
+<span class="math-var">d′</span>ete<span class="math-var">c</span>table
+: ?
 
-  <dt>distribution</dt>
-  <dd></dd>
+decision
+: ?
 
-  <dt>error</dt>
-  <dd></dd>
+distribution
+: ?
 
-  <dt>evidence</dt>
-  <dd></dd>
+error
+: ?
 
-  <dt>false alarm (false negative, type II error)</dt>
-  <dd></dd>
+evidence
+: ?
 
-  <dt>false alarm rate (FAR)</dt>
-  <dd></dd>
+false alarm (false negative, type II error)
+: ?
 
-  <dt>false omission rate (FOR)</dt>
-  <dd></dd>
+false alarm rate (FAR)
+: ?
 
-  <dt>fixation</dt>
-  <dd></dd>
+false omission rate (FOR)
+: ?
 
-  <dt>hit (true positive)</dt>
-  <dd>testing...</dd>
+fixation
+: ?
 
-  <dt>hit rate (HR)</dt>
-  <dd></dd>
+hit (true positive)
+: testing...
 
-  <dt>iso-bias curve</dt>
-  <dd></dd>
+hit rate (HR)
+: ?
 
-  <dt>iso-sensitivity curve</dt>
-  <dd></dd>
+iso-bias curve
+: ?
 
-  <dt>liberal bias</dt>
-  <dd></dd>
+iso-sensitivity curve
+: ?
 
-  <dt>measurement</dt>
-  <dd></dd>
+liberal bias
+: ?
 
-  <dt>miss (false positive, type I error)</dt>
-  <dd></dd>
+measurement
+: ?
 
-  <dt>model</dt>
-  <dd></dd>
+miss (false positive, type I error)
+: ?
 
-  <dt>neutral point</dt>
-  <dd></dd>
+model
+: ?
 
-  <dt>noise</dt>
-  <dd>Stimuli other than the stimulus of interest (i.e. the signal). This can refer to random, unstructured stimulation, but it can also mean any stimulation that is not the stimulus of interest, even if it is structured and/or meaningful.</dd>
+neutral point
+: ?
 
-  <dt>outcome</dt>
-  <dd></dd>
+noise
+: Stimuli other than the stimulus of interest (i.e. the signal). This can refer to random, unstructured stimulation, but it can also mean any stimulation that is not the stimulus of interest, even if it is structured and/or meaningful.
 
-  <dt>positive predictive value (PPV)</dt>
-  <dd></dd>
+outcome
+: ?
 
-  <dt>random</dt>
-  <dd></dd>
+positive predictive value (PPV)
+: ?
 
-  <dt>random-dot kinematograms (RDKs)</dt>
-  <dd></dd>
+random
+: ?
 
-  <dt>receiver/relative operating characteristic (ROC) space</dt>
-  <dd></dd>
+random-dot kinematograms (RDKs)
+: ?
 
-  <dt>response</dt>
-  <dd></dd>
+receiver/relative operating characteristic (ROC) space
+: ?
 
-  <dt>sensitivity</dt>
-  <dd></dd>
+response
+: ?
 
-  <dt>signal</dt>
-  <dd>The stimulus of interest that one is trying to detect.</dd>
+sensitivity
+: ?
 
-  <dt>signal detection theory (SDT)</dt>
-  <dd></dd>
+signal
+: The stimulus of interest that one is trying to detect.
 
-  <dt>stimulus</dt>
-  <dd>In general, anything that causes a sensory and/or perceptual response. In the context of a
+signal detection theory (SDT)
+: ?
+
+stimulus
+: In general, anything that causes a sensory and/or perceptual response. In the context of a
   signal detection experiment, the combination of signal and/or noise presented to the participant
-  on each trial.</dd>
+  on each trial.
 
-  <dt>task</dt>
-  <dd></dd>
+task
+: ?
 
-  <dt>theory</dt>
-  <dd></dd>
+theory
+: ?
 
-  <dt>threshold</dt>
-  <dd></dd>
+threshold
+: ?
 
-  <dt>trial</dt>
-  <dd></dd>
-</dl>
+trial
+: ?
+
+:::
