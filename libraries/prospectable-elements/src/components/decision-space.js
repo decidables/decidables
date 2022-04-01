@@ -321,7 +321,7 @@ export default class DecisionSpace extends CPTElement {
     ];
   }
 
-  render() { // eslint-disable-line class-methods-use-this
+  render() { /* eslint-disable-line class-methods-use-this */
     return html`
       <div class="plotly"></div>
     `;

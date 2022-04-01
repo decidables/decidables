@@ -125,7 +125,7 @@ export default class DecidablesElement extends LitElement {
   }
 
   static get svgFilters() {
-    const shadows = DecidablesElement.shadows; // eslint-disable-line prefer-destructuring
+    const shadows = DecidablesElement.shadows; /* eslint-disable-line prefer-destructuring */
 
     const filters = shadows.elevations.map((z) => {
       return svg`

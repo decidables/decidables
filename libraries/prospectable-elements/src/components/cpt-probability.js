@@ -423,7 +423,7 @@ export default class CPTProbability extends CPTElement {
     ];
   }
 
-  render() { // eslint-disable-line class-methods-use-this
+  render() { /* eslint-disable-line class-methods-use-this */
     return html`
       ${CPTElement.svgFilters}
     `;
@@ -1034,7 +1034,7 @@ export default class CPTProbability extends CPTElement {
           .call(curveDrag)
           .on('keydown', (event, datum) => {
             if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-              let g = datum.g; // eslint-disable-line prefer-destructuring
+              let g = datum.g; /* eslint-disable-line prefer-destructuring */
               switch (event.key) {
                 case 'ArrowUp':
                 case 'ArrowLeft':
@@ -1132,7 +1132,7 @@ export default class CPTProbability extends CPTElement {
       .call(pointDrag)
       .on('keydown', (event, datum) => {
         if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-          let p = datum.p; // eslint-disable-line prefer-destructuring
+          let p = datum.p; /* eslint-disable-line prefer-destructuring */
           switch (event.key) {
             case 'ArrowUp':
             case 'ArrowRight':

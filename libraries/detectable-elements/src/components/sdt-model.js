@@ -473,7 +473,7 @@ export default class SDTModel extends DetectableElement {
     ];
   }
 
-  render() { // eslint-disable-line class-methods-use-this
+  render() { /* eslint-disable-line class-methods-use-this */
     return html`
       ${DetectableElement.svgFilters}
     `;
@@ -643,7 +643,7 @@ export default class SDTModel extends DetectableElement {
       })
       .on('drag', (event, datum) => {
         this.drag = true;
-        let muS = this.muS; // eslint-disable-line prefer-destructuring
+        let muS = this.muS; /* eslint-disable-line prefer-destructuring */
         if (this.interactive) {
           muS = xScale.invert(event.x);
           // Clamp Signal Curve to stay visible
@@ -653,7 +653,7 @@ export default class SDTModel extends DetectableElement {
               ? xScale.domain()[1]
               : muS;
         }
-        let hS = this.hS; // eslint-disable-line prefer-destructuring
+        let hS = this.hS; /* eslint-disable-line prefer-destructuring */
         if (this.unequal) {
           hS = yScale.invert(event.y);
           // Clamp Signal Curve to stay visible
@@ -849,7 +849,7 @@ export default class SDTModel extends DetectableElement {
       .on('keydown', this.interactive
         ? (event) => {
           if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-            let muN = this.muN; // eslint-disable-line prefer-destructuring
+            let muN = this.muN; /* eslint-disable-line prefer-destructuring */
             switch (event.key) {
               case 'ArrowRight':
                 muN += event.shiftKey ? 0.01 : 0.1;
@@ -1044,7 +1044,7 @@ export default class SDTModel extends DetectableElement {
       .on('keydown.sensitivity', this.interactive
         ? (event) => {
           if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-            let muS = this.muS; // eslint-disable-line prefer-destructuring
+            let muS = this.muS; /* eslint-disable-line prefer-destructuring */
             switch (event.key) {
               case 'ArrowRight':
                 muS += event.shiftKey ? 0.01 : 0.1;
@@ -1072,7 +1072,7 @@ export default class SDTModel extends DetectableElement {
       .on('keydown.variance', this.unequal
         ? (event) => {
           if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-            let hS = this.hS; // eslint-disable-line prefer-destructuring
+            let hS = this.hS; /* eslint-disable-line prefer-destructuring */
             switch (event.key) {
               case 'ArrowUp':
                 hS += event.shiftKey ? 0.002 : 0.02;
@@ -1480,7 +1480,7 @@ export default class SDTModel extends DetectableElement {
           .call(dragThreshold)
           .on('keydown', (event) => {
             if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-              let l = this.l; // eslint-disable-line prefer-destructuring
+              let l = this.l; /* eslint-disable-line prefer-destructuring */
               switch (event.key) {
                 case 'ArrowRight':
                   l += event.shiftKey ? 0.01 : 0.1;

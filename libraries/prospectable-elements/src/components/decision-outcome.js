@@ -50,7 +50,7 @@ export default class DecisionOutcome extends CPTElement {
     ];
   }
 
-  render() { // eslint-disable-line class-methods-use-this
+  render() { /* eslint-disable-line class-methods-use-this */
     return html``;
   }
 }
