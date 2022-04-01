@@ -769,7 +769,7 @@ $transition-duration: 500ms;
     border-radius: $border-radius;
   }
 
-  // Stimuli
+  // Keys: Stimuli
   .key[class~="signal"],
   .key[class~="present"] {
     background-color: sdt-color-light(hr);
@@ -780,7 +780,7 @@ $transition-duration: 500ms;
     background-color: sdt-color-light(far);
   }
 
-  // Responses
+  // Keys: Responses
   .key[class~="'present'"] {
     /* purgecss ignore current */
     background-color: sdt-color-light(present);
@@ -791,7 +791,7 @@ $transition-duration: 500ms;
     background-color: sdt-color-light(absent);
   }
 
-  // Outcomes
+  // Keys: Outcomes
   .key[class~="hit"],
   .key[class~="hits"] {
     background-color: sdt-color-light(h);
@@ -833,7 +833,7 @@ $transition-duration: 500ms;
     background-color: sdt-color-light(nr);
   }
   
-  // Rates
+  // Keys: Rates
   .key[class~="hitrate"],
   .key[class~="hr"] {
     background-color: sdt-color-light(hr);
@@ -858,7 +858,27 @@ $transition-duration: 500ms;
     background-color: sdt-color-light(acc);
   }
 
-  // Parameters
+  // Keys: Distributions
+  .key[class~="signal-plus-noisedistribution"],
+  .key[class~="signal+noisedistribution"],
+  .key[class~="noisedistribution"] {
+    /* purgecss ignore current */
+    padding: 0 0.25rem;
+
+    border: 2px solid $color-element-emphasis;
+  }
+
+  .key[class~="signal-plus-noisedistribution"],
+  .key[class~="signal+noisedistribution"] {
+    /* purgecss ignore current */
+    background-color: sdt-color-light(hr);
+  }
+
+  .key[class~="noisedistribution"] {
+    background-color: sdt-color-light(far);
+  }
+
+  // Keys: Parameters
   .key[class~="c"],
   .key[class~="d′"],
   .key[class~="σ"] {
@@ -884,97 +904,19 @@ $transition-duration: 500ms;
     background-color: sdt-color-light(s);
   }
 
-  // UIs
-  .ui {
-    padding: 0.0625rem 0.25rem;
-
-    font-family: $font-family-monospace;
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: $font-weight-semibold;
-    white-space: nowrap;
-
-    background-color: $color-element-background;
-    border-radius: $border-radius;
-  }
-
-  // Trials: Evidence, Signals, Responses, Outcomes
-  .ui[class~="evidence"],
-  .ui[class~="signalpresent"],
-  .ui[class~="signalabsent"],
-  .ui[class~="'present'response"],
-  .ui[class~="'absent'response"],
-  .ui[class~="hitoutcome"],
-  .ui[class~="missoutcome"],
-  .ui[class~="correctrejectionoutcome"],
-  .ui[class~="falsealarmoutcome"] {
-    /* purgecss ignore current */
-    padding: 0 0.25rem;
-
-    border: 3px solid;
-    border-radius: 0;
-  }
-
-  .ui[class~="evidence"] {
-    background-color: sdt-color-light(acc);
-    border-color: sdt-color(acc);
-  }
-
-  .ui[class~="signalpresent"] {
-    background-color: sdt-color-light(hr);
-    border-color: sdt-color(hr);
-  }
-
-  .ui[class~="signalabsent"] {
-    background-color: sdt-color-light(far);
-    border-color: sdt-color(far);
-  }
-
-  .ui[class~="'present'response"] {
-    /* purgecss ignore current */
-    background-color: sdt-color-light(present);
-    border-color: sdt-color(present);
-  }
-
-  .ui[class~="'absent'response"] {
-    /* purgecss ignore current */
-    background-color: sdt-color-light(absent);
-    border-color: sdt-color(absent);
-  }
-
-  .ui[class~="hitoutcome"] {
-    background-color: sdt-color-light(h);
-    border-color: sdt-color(h);
-  }
-
-  .ui[class~="missoutcome"] {
-    background-color: sdt-color-light(m);
-    border-color: sdt-color(m);
-  }
-
-  .ui[class~="correctrejectionoutcome"] {
-    background-color: sdt-color-light(cr);
-    border-color: sdt-color(cr);
-  }
-
-  .ui[class~="falsealarmoutcome"] {
-    background-color: sdt-color-light(fa);
-    border-color: sdt-color(fa);
-  }
-
-  // Iso-curves
-  .ui[class~="iso-biascurve"],
-  .ui[class~="iso-sensitivitycurve"] {
+  // Keys: Iso-curves
+  .key[class~="iso-biascurve"],
+  .key[class~="iso-sensitivitycurve"] {
     padding: 0 0.25rem;
 
     border: 2px solid;
   }
 
-  .ui[class~="iso-biascurve"] {
+  .key[class~="iso-biascurve"] {
     border-color: sdt-color(c);
   }
 
-  .ui[class~="iso-sensitivitycurve"] {
+  .key[class~="iso-sensitivitycurve"] {
     border-color: sdt-color(d);
   }
 
@@ -1069,101 +1011,114 @@ $transition-duration: 500ms;
 
 // Legend
 .det-legend {
-  dt {
+  padding-left: 0;
+  
+  list-style: none;
+
+  li {
+    margin-bottom: 1rem;
+    margin-left: 2.5rem;
+  }
+
+  li::before {
     display: inline-block;
 
-    width: 12rem;
-    padding: 0.25rem 0.675rem;
+    width: 1.6875rem;
+    margin-right: 0.75rem;
+    margin-left: -2.5rem;
 
-    font-weight: $font-weight-semibold;
+    content: "\a0";
 
     border-left-style: solid;
-    border-left-width: 1rem;
+    border-left-width: 0.5625rem;
+    border-radius: $border-radius;
   }
 
-  dd {
-    margin-top: 0.25rem;
-    margin-bottom: 1.5rem;
-    margin-left: 2rem;
-  }
-
-  .h {
+  .h::before {
     background: sdt-color-light(h);
     border-left-color: sdt-color(h);
   }
 
-  .m {
+  .m::before {
     background: sdt-color-light(m);
     border-left-color: sdt-color(m);
   }
 
-  .fa {
+  .fa::before {
     background: sdt-color-light(fa);
     border-left-color: sdt-color(fa);
   }
 
-  .cr {
+  .cr::before {
     background: sdt-color-light(cr);
     border-left-color: sdt-color(cr);
   }
 
-  .hr {
+  .hr::before {
     background: sdt-color-light(hr);
     border-left-color: sdt-color(hr);
   }
 
-  .far {
+  .far::before {
     background: sdt-color-light(far);
     border-left-color: sdt-color(far);
   }
 
-  .acc {
+  .acc::before {
     background: sdt-color-light(acc);
     border-left-color: sdt-color(acc);
   }
 
-  .d {
+  .d::before {
     background: sdt-color-light(d);
     border-left-color: sdt-color(d);
   }
 
-  .c {
+  .c::before {
     background: sdt-color-light(c);
     border-left-color: sdt-color(c);
   }
 
-  .s {
+  .s::before {
     background: sdt-color-light(s);
     border-left-color: sdt-color(s);
   }
 
-  .present {
+  .present::before {
     background: sdt-color-light(present);
     border-left-color: sdt-color(present);
   }
 
-  .absent {
+  .absent::before {
     background: sdt-color-light(absent);
     border-left-color: sdt-color(absent);
   }
 
-  .correct {
-    padding-left: calc(1.675rem - 1px);
+  .correct::before {
+    padding-left: calc(1.5rem - 2px);
 
     background: sdt-color(correct);
     border: 1px solid $color-element-border;
   }
 
-  .error {
+  .error::before {
     color: $color-text-inverse;
 
     background: sdt-color-light(error);
     border-left-color: sdt-color(error);
   }
 
-  .nr {
+  .nr::before {
     background: sdt-color-light(nr);
     border-left-color: sdt-color(nr);
+  }
+
+  .related::before {
+    margin-left: 0.25rem;
+
+    font-weight: $font-weight-semibold;
+
+    content: "See related:";
   }
 }
 

@@ -20,11 +20,11 @@ measures. Here we will focus on :key[sensitivity], and then on the next page we 
 </sdt-example-interactive>
 
 If you experiment with the model above, you will discover that in order for the proportions of
-:key[hits] and :key[false alarms] to be equal, the distributions must be in the same location. If
+:key[hits] and :key[false alarms] to be equal, the distributions must be in the *same* location. If
 you then move the signal distribution to the right and :key[sensitivity] increases, there will be
 more :key[hits] and fewer :key[false alarms]. Indeed, using the inverse cumulative distribution
 function of the normal distribution, <span class="math-greek">Φ</span><sup class="exp">−1</sup>,
-:key[d′] can be determined from the difference in :key[hit rate] and :key[false alarm rate]:
+:key[d′] can be determined from the difference between :key[hit rate] and :key[false alarm rate]:
 
 <sdt-equation-hrfar2d></sdt-equation-hrfar2d>
 
@@ -55,7 +55,8 @@ alarm rate] that have the same :key[sensitivity] as our actual data.
 
 Try manipulating performance by changing values in the outcome table, adjusting the locations of the
 distributions or threshold in the model, or by directly moving the data point in ROC space. All of
-the other representations of performance change simultaneously:
+the other representations of performance will change simultaneously. Observe how the
+:key[iso-sensitivity curve] responds:
 
 <sdt-example-interactive order="trm">
   <detectable-table interactive numeric summary="stimulusRates accuracy" hits="80" misses="20"
@@ -68,17 +69,17 @@ the other representations of performance change simultaneously:
 
 The values are linked between the *live* table, ROC space, and model. As the :key[Hit Rate] or
 :key[False Alarm Rate] are changed, :key[d′] and :key[c] will also change, and thus the
-:ui[Iso-Sensitivity Curve] will adjust as well.
+:key[Iso-Sensitivity Curve] will adjust as well.
 
 :::
 
-Note that the iso-sensitivity curve always spans from the bottom left to the upper right corner of
-ROC space. As a result, neither :key[hit rate] alone nor :key[false alarm rate] alone tells you
-anything about :key[sensitivity] --- you need both! Furthermore, altering either the :key[hit rate]
-or the :key[false alarm rate] necessarily changes the :key[sensitivity].
+Note that the :key[iso-sensitivity curve] always spans from the bottom left to the upper right
+corner of ROC space. As a result, neither :key[hit rate] alone nor :key[false alarm rate] alone
+tells you anything about :key[sensitivity] --- you need both! Furthermore, altering either the
+:key[hit rate] or the :key[false alarm rate] necessarily changes the :key[sensitivity].
 
 However, there is one way to manipulate the performance in just such a way that the results change
 while keeping :key[sensitivity] constant. This happens when we manipulate :key[bias], which is
 independent from :key[sensitivity]. Adjust the value of :key[c] by changing the threshold in our
-model and observe that our data point shifts smoothly along the iso-sensitivity curve in ROC space,
-but the curve itself remains stationary.
+model and observe that our data point shifts smoothly along the :key[iso-sensitivity curve] in ROC
+space, but the curve itself remains stationary.

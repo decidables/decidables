@@ -4,20 +4,20 @@ layout: page
 script: page
 ---
 
-## Visualizing the relationship between performance and model
+## Visualizing the relationship between model and performance
 
 We are now ready to put everything we have learned about Signal Detection Theory together into an
-integrated and explorable view of performance and theory.
+integrated and explorable view of theory and performance.
 
-The table of outcomes lists the count of each trial outcome: :key[Hits], :key[Misses], :key[False
-Alarms], and :key[Correct Rejections]. These counts are further summarized with :key[Hit Rate],
-:key[False Alarm Rate], and overall :key[Accuracy]. You can modify any value, and any dependent
+The table of outcomes lists the count of each trial outcome: :key[hits], :key[misses], :key[false
+alarms], and :key[correct rejections]. These counts are further summarized with :key[hit rate],
+:key[false alarm rate], and overall :key[accuracy]. You can modify any value, and any dependent
 values will update to maintain consistency.
 
-In ROC space, performance is plotted as :key[Hit Rate] versus :key[False Alarm Rate]. All of the
-points with the same :key[Sensitivity] (:key[d′]) are illustrated with an :key[Iso-Sensitivity
-Curve]. All of the points with the same :key[Bias] (:key[c]) are illustrated with an :key[Iso-Bias
-Curve]. Moving the data point will cause the isocontours to update as well.
+In ROC space, performance is plotted as :key[hit rate] versus :key[false alarm rate]. All of the
+points with the same :key[sensitivity] (:key[d′]) are illustrated with an :ui[iso-sensitivity
+curve]. All of the points with the same :key[bias] (:key[c]) are illustrated with an :ui[iso-bias
+curve]. Moving the data point will cause the isocontours to update as well.
 
 The visual representation of the SDT model shows :key[Sensitivity] as the distance, :key[d′],
 between the noise and signal plus noise distributions. And it shows :key[Bias] as the location,

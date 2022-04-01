@@ -99,6 +99,9 @@ Move the :ui[Coherence] slider up and down or edit the number to adjust the prop
 
 :::
 
+Moving forward, we'll describe stimuli with *any* :key[signal] at all as having signal
+:key[present], and stimuli with *only* :key[noise] as having signal :key[absent].
+
 Random-dot kinematograms, also called random-dot motion displays, are widely used to study
 motion perception :cite[e.g. @Britten1992] and there are many variations on the basic concept
 :cite[@Pilly2009]. For us, they provide a nice parametrically variable stimulus!
