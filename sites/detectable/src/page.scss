@@ -720,8 +720,20 @@ $transition-duration: 500ms;
     border-radius: $border-radius;
   }
 
+  dt {
+    font-weight: $font-weight-semibold;
+  }
+
+  dt::after {
+    content: ":";
+  }
+
+  dd {
+    margin-bottom: 1rem;
+  }
+
   // UI Notes
-  .ui-note {
+  div.ui { /* stylelint-disable-line selector-no-qualifying-type */
     padding: 0.625rem;
     margin-bottom: 1rem;
 
@@ -966,22 +978,18 @@ $transition-duration: 500ms;
     border-color: sdt-color(d);
   }
 
-  // Distributions
-  .ui[class~="signal+noisedistribution"],
-  .ui[class~="noisedistribution"] {
-    /* purgecss ignore current */
-    padding: 0 0.25rem;
+  // UIs
+  span.ui { /* stylelint-disable-line selector-no-qualifying-type */
+    padding: 0.0625rem 0.25rem;
 
-    border: 2px solid $color-element-emphasis;
-  }
+    font-family: $font-family-monospace;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: $font-weight-semibold;
+    white-space: nowrap;
 
-  .ui[class~="signal+noisedistribution"] {
-    /* purgecss ignore current */
-    background-color: sdt-color-light(hr);
-  }
-
-  .ui[class~="noisedistribution"] {
-    background-color: sdt-color-light(far);
+    background-color: $color-element-background;
+    border-radius: $border-radius;
   }
 
   // Sliders
@@ -1160,28 +1168,20 @@ $transition-duration: 500ms;
 }
 
 // Glossary
-.det-glossary {
+.glossary {
   margin-left: 2rem;
 
   dt {
-    display: inline;
-
     margin-left: -2rem;
 
     font-weight: $font-weight-semibold;
   }
 
   dt::after {
-    content: ":";
+    content: "";
   }
 
   dd {
-    display: inline;
-  }
-
-  dd::after {
-    display: block;
-
-    content: "";
+    margin-bottom: 0.25rem;
   }
 }
