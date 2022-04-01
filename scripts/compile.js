@@ -15,6 +15,7 @@ import localeEnUs from 'locale-en-us';
 import mergeStream from 'merge-stream';
 import nodeNotifier from 'node-notifier';
 import nodeSassPackageImporter from 'node-sass-package-importer';
+import remarkDeflist from 'remark-deflist'; /* eslint-disable-line import/no-unresolved */
 import remarkDirective from 'remark-directive';
 import remarkHtml from 'remark-html';
 import remarkSmartypants from 'remark-smartypants';
@@ -107,6 +108,7 @@ export function compileMarkdown() {
   return gulp.src(['src/!(references).md', 'src/references.md']) // Insure that reference list includes references from all other files
     .pipe(gulpFrontMatter({property: 'data'}))
     .pipe(gulpRemark({detectConfig: false, quiet: true})
+      .use(remarkDeflist)
       .use(remarkDirective)
       .use(remarkCiteproc)
       .use(remarkDiv, {keywords: ['glossary', 'ui']})
