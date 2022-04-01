@@ -3,12 +3,12 @@
 import {h as hastscript} from 'hastscript';
 import {visit as unistUtilVisit} from 'unist-util-visit';
 
-export default function remarkTerminology() {
+export default function remarkSpan({keywords = ['span']} = {}) {
   return (tree) => {
-    // Walk markdown parsed into MDAST finding and processing all citations
+    // Walk markdown parsed into MDAST finding and processing text directives into spans
     unistUtilVisit(tree, 'textDirective', (node) => {
       // Only looking for specified nodes
-      if (!['key', 'term', 'tool', 'ui', 'page'].includes(node.name)) return;
+      if (!keywords.includes(node.name)) return;
 
       // There must be exactly one 'text' child node containing something
       if (node.children.length !== 1 || node.children[0].type !== 'text' || node.children[0].value.length === 0) return;

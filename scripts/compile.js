@@ -28,8 +28,8 @@ import styleApa from 'style-apa';
 
 // Local Dependencies
 import remarkCiteproc from './remark-citeproc.js';
-import remarkNotes from './remark-notes.js';
-import remarkTerminology from './remark-terminology.js';
+import remarkDiv from './remark-div.js';
+import remarkSpan from './remark-span.js';
 import * as utilities from './utility.js';
 
 // Tasks
@@ -109,8 +109,8 @@ export function compileMarkdown() {
     .pipe(gulpRemark({detectConfig: false, quiet: true})
       .use(remarkDirective)
       .use(remarkCiteproc)
-      .use(remarkNotes)
-      .use(remarkTerminology)
+      .use(remarkDiv, {keywords: ['glossary', 'ui']})
+      .use(remarkSpan, {keywords: ['key', 'page', 'term', 'tool', 'ui']})
       .use(remarkSmartypants, {dashes: 'oldschool'})
       .use(remarkHtml, {sanitize: false}))
     .on('data', (file) => {
