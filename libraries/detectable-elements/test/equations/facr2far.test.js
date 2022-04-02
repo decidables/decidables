@@ -11,7 +11,6 @@ import '../../src/equations/facr2far';
 describe('sdt-equation-facr2far', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-equation-facr2far></sdt-equation-facr2far>`);
-    // Give the component a chance to render!
     expect(el.shadowRoot).to.have.descendant('.equation');
   });
 
