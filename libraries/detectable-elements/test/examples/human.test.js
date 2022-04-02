@@ -48,7 +48,7 @@ describe('sdt-example-human', () => {
       <detectable-control class="keyboard" coherence="0.5" duration="1000" pause reset run trials="10"></detectable-control>
       <rdk-task class="keyboard" coherence="0.5" count="100" duration="1000" iti="1000" probability="0.5" trials="10" wait="1000"></rdk-task>
       <detectable-response class="keyboard" correct-rejection-payoff="0" false-alarm-payoff="0" feedback="outcome" hit-payoff="0" interactive miss-payoff="0" no-response-payoff="0" payoff="none" trial></detectable-response>
-      <detectable-table class="keyboard" color="outcome" correct-rejections="0" false-alarms="0" hits="0" misses="0" numeric summary="stimulusRates accuracy"></detectable-table>
+      <detectable-table class="keyboard" color="all" correct-rejections="0" false-alarms="0" hits="0" misses="0" numeric summary="stimulusRates accuracy"></detectable-table>
       <roc-space class="keyboard" far="0.5" hr="0.5" iso-c="all" iso-d="all" point="all"></roc-space>
       <sdt-model bias c="0" class="keyboard" color="outcome" d="0" distributions histogram s="1" sensitivity threshold></sdt-model>
     `);
