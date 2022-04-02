@@ -674,6 +674,15 @@ $transition-duration: 500ms;
   @extend .col-11, .col-md-10, .col-xxl-8, .mt-4, .mb-0, .fw-normal, .lead, .text-center;
 }
 
+// Header
+// .det-header {
+// }
+
+.det-title {
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
 // Footer
 .det-footer {
   @include make-row();
