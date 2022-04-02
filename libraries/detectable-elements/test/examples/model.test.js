@@ -49,7 +49,7 @@ describe('sdt-example-model', () => {
       <rdk-task class="keyboard" coherence="0.5" count="100" duration="500" iti="500" probability="0.5" trials="10" wait="500"></rdk-task>
       <sdt-model interactive bias c="0.5" class="keyboard" color="outcome" d="1" distributions histogram s="1" sensitivity threshold></sdt-model>
       <detectable-response class="keyboard" correct-rejection-payoff="0" false-alarm-payoff="0" feedback="outcome" hit-payoff="0" miss-payoff="0" no-response-payoff="0" payoff="none" trial></detectable-response>
-      <detectable-table class="keyboard" color="outcome" correct-rejections="0" false-alarms="0" hits="0" misses="0" numeric summary="stimulusRates accuracy"></detectable-table>
+      <detectable-table class="keyboard" color="all" correct-rejections="0" false-alarms="0" hits="0" misses="0" numeric summary="stimulusRates accuracy"></detectable-table>
       <roc-space class="keyboard" far="0.5" hr="0.5" iso-c="all" iso-d="all" point="all"></roc-space>
     `);
   });

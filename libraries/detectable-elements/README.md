@@ -268,7 +268,9 @@ block of trials.
     - `'response'`
       - Color based on *'signal'* or *'noise'* response
     - `'outcome'`
-      - Color based on outcome of hit, miss, false alarm or correct rejection 
+      - Color based on outcome of *hit*, *miss*, *false alarm* or *correct rejection*
+    - `'all'`
+      - Color based on stimulus, response, and outcome
 - `zRoc: boolean = undefined`
   - Show a switch to set whether to use z-transformed ROC coordinates (`true`) or ROC coordinates
     (`false`)
@@ -592,13 +594,15 @@ overall results are optionally marginalized with accuracy.
     - `'none'`
       - No colors
     - `'accuracy'`
-      - Color based on accuracy, i.e. correct or error
+      - Color based on accuracy, i.e. *correct* or *error*
     - `'stimulus'`
-      - Color based on stimulus present or absent
+      - Color based on stimulus *present* or *absent*
     - `'response'`
-      - Color based on response 'present' or 'absent'
+      - Color based on response *'present'* or *'absent'*
     - `'outcome'`
-      - Full coloration based on hits, misses, false alarms and correct rejections
+      - Color based on *hits*, *misses*, *false alarms* and *correct rejections*
+    - `'all'`
+      - Color based on stimulus, response, and outcome
 - `hits: number = 40`
   - Number of hits
 - `misses: number = 60`

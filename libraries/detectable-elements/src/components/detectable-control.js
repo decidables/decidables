@@ -81,7 +81,7 @@ export default class DetectableControl extends DetectableElement {
     this.duration = undefined;
     this.coherence = undefined;
     this.payoff = undefined;
-    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
+    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome', 'all'];
     this.color = undefined;
     this.zRoc = undefined;
     this.run = false;
@@ -239,6 +239,7 @@ export default class DetectableControl extends DetectableElement {
               <decidables-toggle-option name="toggle" value="stimulus" ?checked=${this.color === 'stimulus'}>Stimulus</decidables-toggle-option>
               <decidables-toggle-option name="toggle" value="response" ?checked=${this.color === 'response'}>Response</decidables-toggle-option>
               <decidables-toggle-option name="toggle" value="outcome" ?checked=${this.color === 'outcome'}>Outcome</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="all" ?checked=${this.color === 'all'}>All</decidables-toggle-option>
             </decidables-toggle>
           `
           : html``}

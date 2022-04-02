@@ -39,7 +39,7 @@ describe('sdt-example-interactive', () => {
       </sdt-example-interactive>
     `);
     expect(el).lightDom.to.equal(`
-      <detectable-table class="keyboard" color="outcome" numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
+      <detectable-table class="keyboard" color="all" numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
       <roc-space class="keyboard" interactive iso-c="all" iso-d="all" point="all"></roc-space>
       <sdt-model class="keyboard" interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
     `, {ignoreAttributes: ['hr', 'far', 'c', 'd', 's']});

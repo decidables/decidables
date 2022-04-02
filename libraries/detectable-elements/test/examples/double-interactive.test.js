@@ -44,9 +44,9 @@ describe('sdt-example-double-interactive', () => {
     `);
     expect(el).lightDom.to.equal(`
       <sdt-model class="keyboard" interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
-      <detectable-table class="keyboard" color="outcome" numeric interactive summary="stimulusRates accuracy" hits="95" misses="5" false-alarms="35" correct-rejections="65"></detectable-table>
+      <detectable-table class="keyboard" color="all" numeric interactive summary="stimulusRates accuracy" hits="95" misses="5" false-alarms="35" correct-rejections="65"></detectable-table>
       <roc-space class="keyboard" contour="accuracy" interactive iso-c="none" iso-d="none" point="all"></roc-space>
-      <detectable-table class="keyboard" color="outcome" numeric interactive summary="stimulusRates accuracy" hits="40" misses="60" false-alarms="20" correct-rejections="80"></detectable-table>
+      <detectable-table class="keyboard" color="all" numeric interactive summary="stimulusRates accuracy" hits="40" misses="60" false-alarms="20" correct-rejections="80"></detectable-table>
       <sdt-model class="keyboard" interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
     `, {ignoreAttributes: ['hr', 'far', 'c', 'd', 's']});
   });

@@ -118,8 +118,8 @@ export default class DetectableTable extends DetectableElement {
     this.summaries = ['stimulusRates', 'responseRates', 'accuracy'];
     this.summary = new Set();
 
-    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
-    this.color = 'outcome';
+    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome', 'all'];
+    this.color = 'all';
 
     this.h = 40;
     this.m = 60;
@@ -318,7 +318,7 @@ export default class DetectableTable extends DetectableElement {
 
         /* Color schemes & Table emphasis */
 
-        /* (Default) Outcome color scheme */
+        /* (Default) All color scheme */
         .h {
           background: var(---color-h-light);
           border-top: 2px solid var(---color-element-emphasis);
@@ -414,6 +414,15 @@ export default class DetectableTable extends DetectableElement {
         :host([color="response"]) .hr,
         :host([color="response"]) .far,
         :host([color="response"]) .acc {
+          background: var(---color-element-background);
+        }
+
+        /* Outcome color scheme */
+        :host([color="outcome"]) .hr,
+        :host([color="outcome"]) .far,
+        :host([color="outcome"]) .ppv,
+        :host([color="outcome"]) .fomr,
+        :host([color="outcome"]) .acc {
           background: var(---color-element-background);
         }
 
