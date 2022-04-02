@@ -790,6 +790,44 @@ False alarm rate from false alarms and correct rejections
 <sdt-equation-facr2far numeric interactive false-alarms="25" correct-rejections="75"></sdt-equation-facr2far>
 ```
 
+#### `SDTEquationHFa2Ppv` / `<sdt-equation-hfa2ppv>`
+
+Positive predictive value rate from hits and false alarms
+
+##### Attributes
+
+- `numeric: boolean = false`
+  - Show values instead of just the names of variables
+- `interactive: boolean = false`
+  - Allow editing of numeric values in the equation
+- `hits: number = 0`
+  - Hits
+- `false-alarms: number = 0`
+  - False alarms
+
+##### Properties
+
+- `ppv: number`
+  - Positive predictive value
+
+##### Custom Events
+
+- `sdt-equation-hfa2ppv-change`
+  - Indicates that the values in the equation have changed
+  - `detail`
+    - `h: number`
+      - New value of hits
+    - `fa: number`
+      - New value of false alarms
+    - `hr: number`
+      - New value of positive predictive value
+
+##### Example
+
+```html
+<sdt-equation-hfa2ppv numeric interactive hits="75" false-alarms="25"></sdt-equation-hfa2ppv>
+```
+
 #### `SDTEquationHM2Hr` / `<sdt-equation-hm2hr>`
 
 Hit rate from hits and misses
@@ -956,6 +994,44 @@ Sensitivity from hit rate and false alarm rate
 
 ```html
 <sdt-equation-hrfar2d numeric interactive unequal hit-rate="0.75" false-alarm-rate="0.25" s="1.5"></sdt-equation-hrfar2d>
+```
+
+#### `SDTEquationMCr2Fomr` / `<sdt-equation-mcr2fomr>`
+
+Positive predictive value rate from hits and false alarms
+
+##### Attributes
+
+- `numeric: boolean = false`
+  - Show values instead of just the names of variables
+- `interactive: boolean = false`
+  - Allow editing of numeric values in the equation
+- `misses: number = 0`
+  - Misses
+- `correct-rejections: number = 0`
+  - Correct rejections
+
+##### Properties
+
+- `fomr: number`
+  - False omission rate
+
+##### Custom Events
+
+- `sdt-equation-mcr2fomr-change`
+  - Indicates that the values in the equation have changed
+  - `detail`
+    - `m: number`
+      - New value of misses
+    - `cr: number`
+      - New value of correct rejections
+    - `fomr: number`
+      - New value of false omission rate
+
+##### Example
+
+```html
+<sdt-equation-mcr2fomr numeric interactive misses="75" correct-rejections="25"></sdt-equation-mcr2fomr>
 ```
 
 #### `SDTEquation`

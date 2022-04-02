@@ -119,6 +119,14 @@ export default class SDTEquation extends DetectableElement {
           background: var(---color-fa-light);
         }
 
+        .ppv {
+          background: var(---color-present-light);
+        }
+
+        .fomr {
+          background: var(---color-absent-light);
+        }
+
         .acc {
           background: var(---color-acc-light);
         }
