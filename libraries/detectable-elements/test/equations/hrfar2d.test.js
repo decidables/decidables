@@ -11,7 +11,6 @@ import '../../src/equations/hrfar2d';
 describe('sdt-equation-hrfar2d', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-equation-hrfar2d></sdt-equation-hrfar2d>`);
-    // Give the component a chance to render!
     expect(el.shadowRoot).to.have.descendant('.equation');
   });
 

@@ -11,7 +11,6 @@ import '../../src/equations/hm2hr';
 describe('sdt-equation-hm2hr', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-equation-hm2hr></sdt-equation-hm2hr>`);
-    // Give the component a chance to render!
     expect(el.shadowRoot).to.have.descendant('.equation');
   });
 
