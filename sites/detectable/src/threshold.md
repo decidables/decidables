@@ -65,12 +65,12 @@ Note that the use of *conservative* and *liberal* here refer to their non-politi
 
 ## Parameterizing our threshold with bias, <span class="math-var">c</span>
 
-The location of our threshold determines the :key[bias], :key[c], also called the :term[response
-bias], of our model. It lies along a continuum from negative infinity to infinity. Zero indicates a
-neutral bias. Positive numbers indicate a conservative bias. The larger the positive bias,
-the *more* evidence necessary before a :key['present'] response is given. Negative numbers indicate
-a liberal bias. The larger the negative bias, the *less* evidence necessary to respond
-:key['present'].
+The location of our threshold determines the :term[response bias] of our model, defined as
+:term[<span class="math-var">c</span>]. The :key[bias], :key[<span class="math-var">c</span>], lies
+along a continuum from negative infinity to infinity. Zero indicates a neutral bias. Positive
+numbers indicate a conservative bias. The larger the positive bias, the *more* evidence necessary
+before a :key['present'] response is given. Negative numbers indicate a liberal bias. The larger the
+negative bias, the *less* evidence necessary to respond :key['present'].
 
 Explore how the :key[bias] determines how little or how much evidence is necessary to respond
 :key['present'] versus :key['absent']:
@@ -84,25 +84,26 @@ Explore how the :key[bias] determines how little or how much evidence is necessa
 
 :::ui
 
-The distance from the origin, or neutral point, to the threshold is explicitly labeled with :key[c].
-This is a *live* graph, so you can drag the threshold line or its handle to adjust its position. If
-there are evidence measurements for individual trials, they will change between :key['Present']
-responses and :key['Absent'] responses based on the location of the threshold, allowing you to
-see the effect of :key[Bias] on behavior.
+The distance from the origin, or neutral point, to the threshold is explicitly labeled with
+:key[<span class="math-var">c</span>]. This is a *live* graph, so you can drag the threshold line or
+its handle to adjust its position. If there are evidence measurements for individual trials, they
+will change between :key['Present'] responses and :key['Absent'] responses based on the location of
+the threshold, allowing you to see the effect of :key[Bias] on behavior.
 
 :::
 
-If you are wondering why :key[bias] is represented with the symbol :key[c], perhaps it is because
-the threshold is often referred to as a <span class="math-var">c</span>riterion in the work on SDT.
-However, this reason was not explicitly stated in the original paper introducing :key[c]
-:cite[@Ingham1970].
+If you are wondering why :key[bias] is represented with the symbol :key[<span
+class="math-var">c</span>], perhaps it is because the threshold is often referred to as a <span
+class="math-var">c</span>riterion in the work on SDT. However, this reason was not explicitly stated
+in the original paper introducing :key[<span class="math-var">c</span>] :cite[@Ingham1970].
 
-Note that when :key[c] is zero, the threshold is precisely where the two distributions intersect. In
-other words, the model will respond :key['present'] whenever it is more likely that the signal is
-indeed :key[present], and it will respond :key['absent'] whenever it is more likely that the signal
-is indeed :key[absent]. This is not coincidental, and hints at the strong link between SDT and
-decision making based on maximum likelihood and the likelihood ratio :cite[@Creelman2015;
-@Peterson1954]. In fact, the early work on SDT usually expressed the bias as <span
-class="math-var">β</span>, in terms of the likelihood ratio of signal and noise :cite[@Peterson1954;
-@Tanner1954]. It was only later that :key[c] was introduced and suggested as a better measure of
-response bias for most purposes :cite[@Ingham1970; @Macmillan1990; @Stanislaw1999].
+Note that when :key[<span class="math-var">c</span>] is zero, the threshold is precisely where the
+two distributions intersect. In other words, the model will respond :key['present'] whenever it is
+more likely that the signal is indeed :key[present], and it will respond :key['absent'] whenever it
+is more likely that the signal is indeed :key[absent]. This is not coincidental, and hints at the
+strong link between SDT and decision making based on maximum likelihood and the likelihood ratio
+:cite[@Creelman2015; @Peterson1954]. In fact, the early work on SDT usually expressed the bias as
+<span class="math-var">β</span>, in terms of the likelihood ratio of signal and noise
+:cite[@Peterson1954; @Tanner1954]. It was only later that :key[<span class="math-var">c</span>] was
+introduced and suggested as a better measure of response bias for most purposes :cite[@Ingham1970;
+@Macmillan1990; @Stanislaw1999].

@@ -13,8 +13,8 @@ What's a signal? Well, it could be your friend's voice at a party, or a distant 
 the smell of truffles under the earth. Any :term[stimulus] that you are trying to perceive can be
 thought of as a signal.
 
-Our :key[signal] will be :term[coherent] dot motion in a :term[random-dot kinematogram (RDK)]. Go
-ahead and see what it looks like:
+Our :key[signal] will be :term[coherent] dot motion in a :term[random-dot kinematogram]
+(:term[RDK]). Go ahead and see what it looks like:
 
 <sdt-example-human>
   <detectable-control run pause reset></detectable-control>

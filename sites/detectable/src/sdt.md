@@ -10,7 +10,8 @@ We have seen how, depending on whether the signal is :key[present] or :key[absen
 made from the corresponding distribution. And we have seen how the value of this measurement
 relative to a threshold is used to determine if the model will respond :key['present'] or
 :key['absent']. Now we can put the distributions and the threshold together, so we can see how
-:key[sensitivity] (:key[d′]) and :key[bias] (:key[c]) determine our response:
+:key[sensitivity] (:key[<span class="math-var">d′</span>]) and :key[bias] (:key[<span
+class="math-var">c</span>]) determine our response:
 
 <sdt-example-model>
   <detectable-control run pause reset trials="10" duration="500"></detectable-control>
@@ -22,10 +23,11 @@ relative to a threshold is used to determine if the model will respond :key['pre
 
 :::ui
 
-You can adjust :key[d′] by moving the distributions and :key[c] by moving the threshold. In this
-example, the distributions are colored according to the resulting response. If there are evidence
-measurements for individual trials, they will change between :key['Present'] and :key['Absent']
-responses based on the locations of the distributions and threshold.
+You can adjust :key[<span class="math-var">d′</span>] by moving the distributions and :key[<span
+class="math-var">c</span>] by moving the threshold. In this example, the distributions are colored
+according to the resulting response. If there are evidence measurements for individual trials, they
+will change between :key['Present'] and :key['Absent'] responses based on the locations of the
+distributions and threshold.
 
 :::
 
@@ -60,16 +62,18 @@ result from sampling from each part of each distribution.
 
 The measurements and resulting outcomes for each trial in the histogram will update as you drag the
 distributions or the threshold to adjust the parameter values. The table and ROC space will also
-update. This will help you to see how the values of :key[d′] and :key[c] in the model
-determine performance in terms of :key[hits], :key[misses], :key[correct rejections], and :key[false
-alarms], as well as :key[hit rate], :key[false alarm rate], and :key[accuracy].
+update. This will help you to see how the values of :key[<span class="math-var">d′</span>] and
+:key[<span class="math-var">c</span>] in the model determine performance in terms of :key[hits],
+:key[misses], :key[correct rejections], and :key[false alarms], as well as :key[hit rate],
+:key[false alarm rate], and :key[accuracy].
 
 :::
 
 Run a bunch of trials and watch them accumulate in the histogram, the table, and in ROC space.
 Adjust the distributions and threshold to get a sense of how the values of the model parameters
-:key[d′] and :key[c] jointly determine performance. Indeed, any pattern of performance can be
-accounted for with the model by selecting the appropriate parameter values!
+:key[<span class="math-var">d′</span>] and :key[<span class="math-var">c</span>] jointly determine
+performance. Indeed, any pattern of performance can be accounted for with the model by selecting the
+appropriate parameter values!
 
 ## Calculating hit and false alarm rates from sensitivity and bias
 
@@ -84,14 +88,16 @@ theory if we were collecting data from an *infinite* number of trials.
 As suggested by the way the distributions are color-coded based on outcomes in the graph above, the
 :key[hit rate] is the proportion of the :key[signal-plus-noise distribution] above the threshold.
 Using the cumulative distribution function of the normal distribution, <span
-class="math-greek">Φ</span>, we can calculate it from :key[d′] and :key[c]:
+class="math-greek">Φ</span>, we can calculate it from :key[<span class="math-var">d′</span>] and
+:key[<span class="math-var">c</span>]:
 
 <sdt-equation-dc2hr></sdt-equation-dc2hr>
 
 <sdt-equation-dc2hr numeric interactive d="0" c="0"></sdt-equation-dc2hr>
 
 Similarly, the :key[false alarm rate] is the proportion of the :key[noise distribution] above the
-threshold. It can also be calculated from :key[d′] and :key[c]:
+threshold. It can also be calculated from :key[<span class="math-var">d′</span>] and :key[<span
+class="math-var">c</span>]:
 
 <sdt-equation-dc2far></sdt-equation-dc2far>
 

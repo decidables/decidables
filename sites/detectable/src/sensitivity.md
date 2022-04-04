@@ -10,10 +10,10 @@ It is helpful to think further about the relationship between our behavioral mea
 parameters. Each point in ROC space describes a particular pattern of performance in terms of
 :key[hit rate] and :key[false alarm rate], and that particular pattern of performance can be
 accounted for by SDT using a certain combination of :key[sensitivity] and :key[bias]. We've already
-seen how to calculate the :key[hit rate] and :key[false alarm rate] from :key[d′] and :key[c], but
-we can go the other direction as well, calculating the model parameters from the performance
-measures. Here we will focus on :key[sensitivity], and then on the next page we will focus on
-:key[bias].
+seen how to calculate the :key[hit rate] and :key[false alarm rate] from :key[<span
+class="math-var">d′</span>] and :key[<span class="math-var">c</span>], but we can go the other
+direction as well, calculating the model parameters from the performance measures. Here we will
+focus on :key[sensitivity], and then on the next page we will focus on :key[bias].
 
 <sdt-example-interactive order="trm">
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
@@ -24,7 +24,8 @@ If you experiment with the model above, you will discover that in order for the 
 you then move the signal distribution to the right and :key[sensitivity] increases, there will be
 more :key[hits] and fewer :key[false alarms]. Indeed, using the inverse cumulative distribution
 function of the normal distribution, <span class="math-greek">Φ</span><sup class="exp">−1</sup>,
-:key[d′] can be determined from the difference between :key[hit rate] and :key[false alarm rate]:
+:key[<span class="math-var">d′</span>] can be determined from the difference between :key[hit rate]
+and :key[false alarm rate]:
 
 <sdt-equation-hrfar2d></sdt-equation-hrfar2d>
 
@@ -34,17 +35,18 @@ function of the normal distribution, <span class="math-greek">Φ</span><sup clas
 ## Iso-sensitivity contours
 
 Using the equation above, we can now determine the :key[sensitivity] for each point in ROC space. In
-the graph below, intensity of color (saturation) is used to represent :key[d′] along a continuum. In
-order to help us see the resulting pattern, iso-sensitivity contours have been added to show sets of
-points with the same values of :key[d′]:
+the graph below, intensity of color (saturation) is used to represent :key[<span
+class="math-var">d′</span>] along a continuum. In order to help us see the resulting pattern,
+iso-sensitivity contours have been added to show sets of points with the same values of :key[<span
+class="math-var">d′</span>]:
 
 <sdt-example-interactive>
   <roc-space contour="sensitivity" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
 
 What is immediately clear is that :key[sensitivity] has a non-linear relationship with :key[hit
-rate] and :key[false alarm rate]. Furthermore, any :key[d′] can occur at any :key[hit rate] and any
-:key[false alarm rate], and vice versa.
+rate] and :key[false alarm rate]. Furthermore, any :key[<span class="math-var">d′</span>] can occur
+at any :key[hit rate] and any :key[false alarm rate], and vice versa.
 
 ## Visualizing the relationship between <span class="math-var">d′</span>, HR, and FAR
 
@@ -68,8 +70,9 @@ the other representations of performance will change simultaneously. Observe how
 :::ui
 
 The values are linked between the *live* table, ROC space, and model. As the :key[Hit Rate] or
-:key[False Alarm Rate] are changed, :key[d′] and :key[c] will also change, and thus the
-:key[Iso-Sensitivity Curve] will adjust as well.
+:key[False Alarm Rate] are changed, :key[<span class="math-var">d′</span>] and :key[<span
+class="math-var">c</span>] will also change, and thus the :key[Iso-Sensitivity Curve] will adjust as
+well.
 
 :::
 
@@ -80,6 +83,6 @@ tells you anything about :key[sensitivity] --- you need both! Furthermore, alter
 
 However, there is one way to manipulate the performance in just such a way that the results change
 while keeping :key[sensitivity] constant. This happens when we manipulate :key[bias], which is
-independent from :key[sensitivity]. Adjust the value of :key[c] by changing the threshold in our
-model and observe that our data point shifts smoothly along the :key[iso-sensitivity curve] in ROC
-space, but the curve itself remains stationary.
+independent from :key[sensitivity]. Adjust the value of :key[<span class="math-var">c</span>] by
+changing the threshold in our model and observe that our data point shifts smoothly along the
+:key[iso-sensitivity curve] in ROC space, but the curve itself remains stationary.

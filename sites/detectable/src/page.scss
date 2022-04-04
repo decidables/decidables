@@ -758,6 +758,18 @@ $transition-duration: 500ms;
   // Terms
   .term {
     font-weight: $font-weight-bold;
+    color: $color-text;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: underline dashed 1px $color-text;
+    }
+  }
+
+  // Glossary Entries
+  .entry {
+    font-weight: $font-weight-semibold;
   }
 
   // Pages
@@ -888,14 +900,6 @@ $transition-duration: 500ms;
   }
 
   // Keys: Parameters
-  .key[class~="c"],
-  .key[class~="d′"],
-  .key[class~="σ"] {
-    /* purgecss ignore current */
-    font-family: $font-family-math;
-    font-style: italic;
-  }
-
   .key[class~="bias"],
   .key[class~="c"] {
     background-color: sdt-color-light(c);
@@ -1184,7 +1188,7 @@ $transition-duration: 500ms;
   dt {
     margin-left: -2rem;
 
-    font-weight: $font-weight-semibold;
+    font-weight: $font-weight-normal;
   }
 
   dt::after {

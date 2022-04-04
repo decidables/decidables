@@ -46,8 +46,7 @@ It turns out (as we will discuss in more detail below) that accuracy often isn't
 use. We can learn more by focusing a bit more...
 
 If we only focus on trials when the signal was actually :key[present], and calculate our average
-performance, we get a :term[hit rate] (:term[HR]), also called a :term[true positive rate] or
-:term[type I error rate]:
+performance, we get a :term[hit rate] (:term[HR]), also called a :term[true positive rate]:
 
 <sdt-equation-hm2hr></sdt-equation-hm2hr>
 
@@ -66,7 +65,7 @@ Another *live* equation! Edit :key[Hits] or :key[Misses] and the :key[Hit Rate] 
 
 Likewise, if we only focus on trials when the signal was actually :key[absent], and calculate our
 average performance, we get a :term[false alarm rate] (:term[FAR]), also called a :term[false
-positive rate] or :term[type II error rate]:
+positive rate]:
 
 <sdt-equation-facr2far></sdt-equation-facr2far>
 

@@ -48,14 +48,15 @@ The table of outcomes summarizes your :key[Hits], :key[Misses], :key[False Alarm
 Rejections], along with your :key[Hit Rate], :key[False Alarm Rate], and overall :key[Accuracy].
 
 In ROC space, your performance is plotted as :key[Hit Rate] versus :key[False Alarm Rate]. All of
-the points with the same :key[Sensitivity] (:key[d′]) are illustrated with an :key[Iso-Sensitivity
-Curve]. All of the points with the same :key[Bias] (:key[c]) are illustrated with an :key[Iso-Bias
-Curve].
+the points with the same :key[Sensitivity] (:key[<span class="math-var">d′</span>]) are illustrated
+with an :key[Iso-Sensitivity Curve]. All of the points with the same :key[Bias] (:key[<span
+class="math-var">c</span>]) are illustrated with an :key[Iso-Bias Curve].
 
 The visual representation of the SDT model shows your calculated :key[Sensitivity] as the distance,
-:key[d′], between the distributions. And it shows your calculated :key[Bias] as the location,
-:key[c], of the threshold. The threshold divides the :key[Signal + Noise Distribution] into regions
-of :key[Hits] and :key[Misses] and divides the :key[Noise Distribution] into regions of :key[Correct
-Rejections] and :key[False Alarms].
+:key[<span class="math-var">d′</span>], between the distributions. And it shows your calculated
+:key[Bias] as the location, :key[<span class="math-var">c</span>], of the threshold. The threshold
+divides the :key[Signal + Noise Distribution] into regions of :key[Hits] and :key[Misses] and
+divides the :key[Noise Distribution] into regions of :key[Correct Rejections] and :key[False
+Alarms].
 
 :::
