@@ -19,6 +19,18 @@
     ],
     "color-hex-length": "long",
     "declaration-empty-line-before": null,
+    "max-nesting-depth": [
+      1,
+      {
+        "ignore": ["pseudo-classes"],
+        "ignoreAtRules": [
+          "each",
+          "media",
+          "supports",
+          "include"
+        ]
+      }
+    ],
     "no-missing-end-of-source-newline": null,
     "order/properties-alphabetical-order": null,
     "order/properties-order": [
