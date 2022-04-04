@@ -8,10 +8,10 @@ script: page
 
 ## Introduction
 
-Welcome to **<span class="math-var">d′</span>ete<span class="math-var">c</span>table**, an
-interactive introduction to Signal Detection Theory (SDT). This site uses manipulable diagrams,
-dynamic tables, and live equations to explain the motivation, conceptualization, and application of
-SDT.
+Welcome to :term[<span class="detectable"><span class="math-var">d′</span>ete<span
+class="math-var">c</span>table</span>], an interactive introduction to :term[Signal Detection
+Theory] (:term[SDT]). This site uses manipulable diagrams, dynamic tables, and live equations to
+explain the motivation, conceptualization, and application of SDT.
 
 SDT was originally developed to understand the decisions of radar operators attempting to detect the
 faint traces of enemy aircraft, bogeys, among the spurious flashes on the radar screen

@@ -8,132 +8,155 @@ script: page
 
 :::glossary
 
-accuracy
+:entry[accuracy]
 : ?
 
-bias
+:entry[base rate] (or :entry[prevalence])
 : ?
 
-block
+:entry[bias] (or :entry[response bias])
 : ?
 
-<span class="math-var">c</span>
+:entry[block]
 : ?
 
-coherent
+:entry[<span class="math-var">c</span>]
 : ?
 
-conservative bias
+:entry[coherent]
 : ?
 
-correct
+:entry[conservative bias]
 : ?
 
-correct rejection (true negative)
+:entry[correct]
 : ?
 
-<span class="math-var">d′</span>
+:entry[correct rejection] (or :entry[true negative])
 : ?
 
-<span class="math-var">d′</span>ete<span class="math-var">c</span>table
+:entry[<span class="math-var">d′</span>]
 : ?
 
-decision
+:entry[<span class="math-var">d′</span>ete<span class="math-var">c</span>table]
 : ?
 
-distribution
+:entry[decision]
 : ?
 
-error
+:entry[distribution]
 : ?
 
-evidence
+:entry[error]
 : ?
 
-false alarm (false negative, type II error)
+:entry[evidence]
 : ?
 
-false alarm rate (FAR)
+:entry[false alarm] (:entry[false positive], or :entry[type I error])
 : ?
 
-false omission rate (FOR)
+:entry[false alarm rate] (:entry[FAR] or :entry[false positive rate])
 : ?
 
-fixation
+:entry[false omission rate] (:entry[FOR])
 : ?
 
-hit (true positive)
+:entry[fixation]
+: ?
+
+:entry[histogram]
+: ?
+
+:entry[hit] (or :entry[true positive])
 : testing...
 
-hit rate (HR)
+:entry[hit rate] (:entry[HR] or :entry[true positive rate])
 : ?
 
-iso-bias curve
+:entry[inter-trial interval] (:entry[ITI])
 : ?
 
-iso-sensitivity curve
+:entry[iso-bias curve]
 : ?
 
-liberal bias
+:entry[iso-sensitivity curve]
 : ?
 
-measurement
+:entry[liberal bias]
 : ?
 
-miss (false positive, type I error)
+:entry[marginal measure] (or :entry[marginal])
 : ?
 
-model
+:entry[measurement]
 : ?
 
-neutral point
+:entry[miss] (or :entry[false negative], or :entry[type II error])
 : ?
 
-noise
-: Stimuli other than the stimulus of interest (i.e. the signal). This can refer to random, unstructured stimulation, but it can also mean any stimulation that is not the stimulus of interest, even if it is structured and/or meaningful.
-
-outcome
+:entry[model]
 : ?
 
-positive predictive value (PPV)
+:entry[neutral point]
 : ?
 
-random
+:entry[noise]
+: Stimuli other than the stimulus of interest (i.e. the signal). This can refer to random,
+unstructured stimulation, but it can also mean any stimulation that is not the stimulus of interest,
+even if it is structured and/or meaningful.
+
+:entry[noise distribution]
 : ?
 
-random-dot kinematograms (RDKs)
+:entry[normal] (or :entry[Gaussian])
 : ?
 
-receiver/relative operating characteristic (ROC) space
+:entry[outcome]
 : ?
 
-response
+:entry[positive predictive value] (:entry[PPV] or :entry[precision])
 : ?
 
-sensitivity
+:entry[random]
 : ?
 
-signal
+:entry[random-dot kinematogram] (:entry[RDK])
+: ?
+
+:entry[receiver/relative operating characteristic space] (:entry[ROC space])
+: ?
+
+:entry[response]
+: ?
+
+:entry[sensitivity]
+: ?
+
+:entry[signal]
 : The stimulus of interest that one is trying to detect.
 
-signal detection theory (SDT)
+:entry[signal-plus-noise distribution]
 : ?
 
-stimulus
+:entry[signal detection theory] (:entry[SDT])
+: ?
+
+:entry[stimulus]
 : In general, anything that causes a sensory and/or perceptual response. In the context of a
   signal detection experiment, the combination of signal and/or noise presented to the participant
   on each trial.
 
-task
+:entry[task]
 : ?
 
-theory
+:entry[theory]
 : ?
 
-threshold
+:entry[threshold]
 : ?
 
-trial
+:entry[trial]
 : ?
 
 :::

@@ -7,9 +7,9 @@ script: page
 ## Marginals
 
 We've discussed how to summarize performance across trials using :key[hit rate], :key[false alarm
-rate], and :key[accuracy]. These are sometimes referred to as :term[marginal] measures (or just
-:term[marginals] for short), because they aggregate performance across a row or column of our data
-table, and are typically presented, quite literally, on the table's *margins*.
+rate], and :key[accuracy]. Each of these is sometimes referred to as :term[marginal measure] (or
+just :term[marginal] for short), because they aggregate performance across a row or column of our
+data table, and are typically presented, quite literally, on the table's *margins*.
 
 The :key[hit rate] and :key[false alarm rate] aggregate across the *rows* of our table. In other
 words, they tell us about how well we performed when the signal was *actually* :key[present] or
@@ -21,9 +21,9 @@ when we *responded* :key['present'] or :key['absent'].
 
 ## Positive Predictive Value
 
-The marginal for trials were we responded :key['present'] is the :term[positive predictive
-value], also called the :term[precision]. The :key[positive predictive value] (:key[PPV]) tells us
-how accurate we were on the trials where we responded :key['present'].
+The marginal for trials were we responded :key['present'] is the :term[positive predictive value]
+(:term[PPV]), also called the :term[precision]. The :key[positive predictive value] tells us how
+accurate we were on the trials where we responded :key['present'].
 
 <sdt-equation-hfa2ppv></sdt-equation-hfa2ppv>
 
@@ -31,9 +31,9 @@ how accurate we were on the trials where we responded :key['present'].
 
 ## False Omission Rate
 
-The marginal for trials were we responded :key['absent'] is the :term[false omission rate].
-The :key[false omission rate] (:key[FOR]) tells us how accurate we were on the trials where we responded
-:key['absent'].
+The marginal for trials were we responded :key['absent'] is the :term[false omission rate]
+(:term[FOR]). The :key[false omission rate] tells us how accurate we were on the trials where we
+responded :key['absent'].
 
 <sdt-equation-mcr2fomr></sdt-equation-mcr2fomr>
 

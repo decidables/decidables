@@ -35,7 +35,7 @@ To respond, press the :ui[Present] or :ui[Absent] button.
 ## A trial
 
 Now that we have a stimulus and a response, we can create a :term[task]. As is typical of tasks in
-cognitive psychology experiments, our task will consist of one or more :term[trials]. Each trial
+cognitive psychology experiments, the building block of our task will be a :term[trial]. Each trial
 will start with an :term[inter-trial interval] (:term[ITI]) showing a :term[fixation] cross in the
 middle of the display --- this gives you a chance to get ready. Then the RDK stimulus will appear
 for a short period of time, followed by a question mark --- this allows us to control the amount of

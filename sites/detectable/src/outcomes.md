@@ -7,9 +7,10 @@ script: page
 ## Was I right or wrong?
 
 On each trial, when we make a response, we might wonder about the relationship between our response
-and the actual state of affairs. If the stimulus and response match, we are :term[correct]. If the
-stimulus and response don't match, we are in :term[error]. And sometimes that may be all that really
-matters - was my answer :key[correct] or was it an :key[error]?
+and the actual state of affairs --- in other words, we are interested in the :term[outcome]. If the
+stimulus and response match, we are :term[correct]. If the stimulus and response don't match, we are
+in :term[error]. And sometimes that may be all that really matters - was my answer :key[correct] or
+was it an :key[error]?
 
 Try a few trials of the task:
 
@@ -33,20 +34,21 @@ current trial and the total trials. Below that, for the moment, the feedback is 
 ## How was I right or wrong?
 
 If we think about it a bit more, we realize that there are actually two ways we can be correct, and
-two ways we can be in error:
+two ways we can be in error, leading to four possible outcomes: :term[hit], :term[miss],
+:term[correct rejection], or :term[false alarm].
 
-- :key[Hits], also called :term[true positives], are when the signal is actually present, and we
+- A :key[hit], also called a :term[true positive], is when the signal is actually present, and we
   *correctly* respond 'present'
-- :key[Misses], also called :term[false positives] or :term[type I errors], are when the signal is
+- A :key[miss], also called a :term[false negative] or :term[type II error], is when the signal is
   actually present, and we *erroneously* respond 'absent'
-- :key[False alarms], also called :term[false negatives] or :term[type II errors], are when the
+- A :key[false alarm], also called a :term[false positive] or :term[type I error], is when the
   signal is actually absent, and we *erroneously* respond 'present'
-- :key[Correct rejections], also called :term[true negatives], are when the signal is actually
+- A :key[correct rejection], also called a :term[true negative], is when the signal is actually
   absent, and we *correctly* respond 'absent'
 
-We have two possible states of the world (signal present or absent) and two
-possible responses ('present' or 'absent'), leading to a nice two by two table of possible outcomes
-(brightly colored by yours truly):
+We have two possible states of the world (signal :key[present] or :key[absent]) and two possible
+responses (:key['present'] or :key['absent']), leading to a nice two by two table of possible
+outcomes:
 
 <sdt-example-interactive>
   <detectable-table></detectable-table>

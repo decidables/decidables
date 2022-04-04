@@ -40,15 +40,18 @@ Alarms], and :key[Correct Rejections]. These counts are further summarized with 
 values will update too.
 
 In ROC space, performance is plotted as :key[Hit Rate] versus :key[False Alarm Rate]. All of the
-points with the same :key[Sensitivity] (:key[d′]) are illustrated with an :key[Iso-Sensitivity
-Curve]. All of the points with the same :key[Bias] (:key[c]) are illustrated with an :key[Iso-Bias
-Curve]. Moving the data point will cause the iso-curves to update as well.
+points with the same :key[Sensitivity] (:key[<span class="math-var">d′</span>]) are illustrated with
+an :key[Iso-Sensitivity Curve]. All of the points with the same :key[Bias] (:key[<span
+class="math-var">c</span>]) are illustrated with an :key[Iso-Bias Curve]. Moving the data point will
+cause the iso-curves to update as well.
 
-The visual representation of the SDT model shows :key[Sensitivity] as the distance, :key[d′],
-between the distributions. And it shows :key[Bias] as the location, :key[c], of the threshold. The
-threshold divides the :key[Signal + Noise Distribution] into :key[Hit] and :key[Miss] areas and
-divides the :key[Noise Distribution] into :key[Correct Rejection] and :key[False Alarm] areas.
-Moving the distributions or the threshold adjusts :key[d′] or :key[c], respectively.
+The visual representation of the SDT model shows :key[Sensitivity] as the distance, :key[<span
+class="math-var">d′</span>], between the distributions. And it shows :key[Bias] as the location,
+:key[<span class="math-var">c</span>], of the threshold. The threshold divides the :key[Signal +
+Noise Distribution] into :key[Hit] and :key[Miss] areas and divides the :key[Noise Distribution]
+into :key[Correct Rejection] and :key[False Alarm] areas. Moving the distributions or the threshold
+adjusts :key[<span class="math-var">d′</span>] or :key[<span class="math-var">c</span>],
+respectively.
 
 Across all three figures, the table of outcomes, ROC space, and the SDT model, adjustments to the
 performance or the model will be reflected immediately in the other figures as well.

@@ -8,11 +8,10 @@ script: page
 
 The :key[hit rate] and :key[false alarm rate] allow us to summarize performance with two values. We
 can use these values to visualize performance as a point in a space, with the *x*-coordinate defined
-by :key[FAR], and the *y*-coordinate defined by :key[HR]. This space is called :term[receiver
-operating characteristic (ROC) space] or alternatively :term[relative operating characteristic
-space] :cite[@Swets1996]. (The term "receiver" dates back to the original development of this
-approach in the context of separating signal and noise in the output of radar receivers used to
-detect enemy planes during World War II.)
+by :key[FAR], and the *y*-coordinate defined by :key[HR]. This space is called
+:term[receiver/relative operating characteristic space] (:term[ROC space]) :cite[@Swets1996]. (The
+term "receiver" dates back to the original development of this approach in the context of separating
+signal and noise in the output of radar receivers used to detect enemy planes during World War II.)
 
 A point in ROC space uniquely defines a combination of :key[HR] and :key[FAR]:
 

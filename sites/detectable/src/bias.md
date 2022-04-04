@@ -6,8 +6,9 @@ script: page
 
 ## Calculating bias from hit rate and false alarm rate
 
-On the previous page, we explored how :key[sensitivity] (:key[d′]) can be determined from :key[hit
-rate] and :key[false alarm rate]. Now we will consider how to do the same for :key[bias] (:key[c]).
+On the previous page, we explored how :key[sensitivity] (:key[<span class="math-var">d′</span>]) can
+be determined from :key[hit rate] and :key[false alarm rate]. Now we will consider how to do the
+same for :key[bias] (:key[<span class="math-var">c</span>]).
 
 <sdt-example-interactive order="trm">
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
@@ -18,9 +19,9 @@ for the key[signal-plus-noise distribution] and the proportion of :key[false ala
 :key[noise distribution]. In general, as the threshold moves to the left, and a more liberal bias,
 we increase the :key[hits] and :key[false alarms]. As the threshold moves to the right, and a more
 conservative bias, we decrease both :key[hits] and :key[false alarms]. This helps develop our
-intuition that :key[c] is related to the sum of the :key[hit rate] and the :key[false alarm rate],
-using the inverse cumulative distribution function of the normal distribution, <span
-class="math-greek">Φ</span><sup class="exp">−1</sup>:
+intuition that :key[<span class="math-var">c</span>] is related to the sum of the :key[hit rate] and
+the :key[false alarm rate], using the inverse cumulative distribution function of the normal
+distribution, <span class="math-greek">Φ</span><sup class="exp">−1</sup>:
 
 <sdt-equation-hrfar2c></sdt-equation-hrfar2c>
 
@@ -31,16 +32,17 @@ class="math-greek">Φ</span><sup class="exp">−1</sup>:
 
 As we did for :key[sensitivity], using the equation above we can now determine the :key[bias] for
 each point in ROC space. In the graph below, intensity of color (saturation) is used to represent
-:key[c] along a continuum. In order to help us see the resulting pattern, iso-bias contours have
-been added to show sets of points with the same values of :key[c]:
+:key[<span class="math-var">c</span>] along a continuum. In order to help us see the resulting
+pattern, iso-bias contours have been added to show sets of points with the same values of :key[<span
+class="math-var">c</span>]:
 
 <sdt-example-interactive>
   <roc-space contour="bias" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
 
 As with :key[sensitivity], :key[bias] has a non-linear relationship with :key[hit rate] and
-:key[false alarm rate]. Furthermore, any :key[c] can occur at any :key[hit rate] and any :key[false
-alarm rate], and vice versa.
+:key[false alarm rate]. Furthermore, any :key[<span class="math-var">c</span>] can occur at any
+:key[hit rate] and any :key[false alarm rate], and vice versa.
 
 ## Visualizing the relationship between <span class="math-var">c</span>, HR, and FAR
 
@@ -63,8 +65,8 @@ curve] responds:
 :::ui
 
 The values are linked between the *live* table, ROC space, and model. As the :key[Hit Rate] or
-:key[False Alarm Rate] are changed, :key[d′] and :key[c] will also change, and thus the
-:key[Iso-Bias Curve] will adjust as well.
+:key[False Alarm Rate] are changed, :key[<span class="math-var">d′</span>] and :key[<span
+class="math-var">c</span>] will also change, and thus the :key[Iso-Bias Curve] will adjust as well.
 
 :::
 
@@ -76,6 +78,6 @@ changes the :key[bias].
 
 However, there is one way to manipulate the performance in just such a way that the results change
 while keeping :key[bias] constant. This happens when we manipulate :key[sensitivity], which is
-independent from :key[bias]. Adjust the value of :key[d′] by moving the distributions in our model
-and observe that our data point shifts smoothly along the :key[iso-bias curve] in ROC space, but the
-curve itself remains stationary.
+independent from :key[bias]. Adjust the value of :key[<span class="math-var">d′</span>] by moving
+the distributions in our model and observe that our data point shifts smoothly along the
+:key[iso-bias curve] in ROC space, but the curve itself remains stationary.
