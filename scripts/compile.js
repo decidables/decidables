@@ -1,5 +1,6 @@
 
 // devDependencies
+import fancyLog from 'fancy-log';
 import glob from 'glob';
 import gulp from 'gulp';
 import gulpDartSass from 'gulp-dart-sass';
@@ -15,7 +16,7 @@ import localeEnUs from 'locale-en-us';
 import mergeStream from 'merge-stream';
 import nodeNotifier from 'node-notifier';
 import nodeSassPackageImporter from 'node-sass-package-importer';
-import remarkDeflist from 'remark-deflist'; /* eslint-disable-line import/no-unresolved */
+import {remarkDefinitionList, defListHastHandlers} from 'remark-definition-list';
 import remarkDirective from 'remark-directive';
 import remarkHtml from 'remark-html';
 import remarkSmartypants from 'remark-smartypants';
@@ -30,6 +31,7 @@ import styleApa from 'style-apa';
 // Local Dependencies
 import remarkCiteproc from './remark-citeproc.js';
 import remarkDiv from './remark-div.js';
+import {remarkGlossary, extraEntries, extraTerms} from './remark-glossary.js';
 import remarkSpan from './remark-span.js';
 import * as utilities from './utility.js';
 
@@ -108,13 +110,17 @@ export function compileMarkdown() {
   return gulp.src(['src/!(references).md', 'src/references.md']) // Insure that reference list includes references from all other files
     .pipe(gulpFrontMatter({property: 'data'}))
     .pipe(gulpRemark({detectConfig: false, quiet: true})
-      .use(remarkDeflist)
+      .use(remarkDefinitionList)
       .use(remarkDirective)
       .use(remarkCiteproc)
-      .use(remarkDiv, {keywords: ['glossary', 'ui']})
-      .use(remarkSpan, {keywords: ['key', 'page', 'term', 'tool', 'ui']})
+      .use(remarkGlossary, {location: 'glossary.html'})
+      .use(remarkDiv, {keywords: ['ui']})
+      .use(remarkSpan, {keywords: ['key', 'page', 'tool', 'ui']})
       .use(remarkSmartypants, {dashes: 'oldschool'})
-      .use(remarkHtml, {sanitize: false}))
+      .use(remarkHtml, {
+        sanitize: false,
+        handlers: {...defListHastHandlers},
+      }))
     .on('data', (file) => {
       return gulp.src(`src/${file.data.layout}.ejs`)
         .pipe(gulpFrontMatter({property: 'data'}))
@@ -130,7 +136,23 @@ export function compileMarkdown() {
         }))
         .pipe(gulp.dest('local'));
     })
-    .pipe(gulpNotify({title: 'Gulp: compileMarkdown done!', message: ' ', onLast: true}));
+    .pipe(gulpNotify({title: 'Gulp: compileMarkdown done!', message: ' ', onLast: true}))
+    .on('finish', () => {
+      const entries = extraEntries();
+      const terms = extraTerms();
+      if (entries.size) {
+        fancyLog.warn('remarkGlossary: Entries missing from terms:');
+        fancyLog.warn(extraEntries());
+      } else {
+        fancyLog.info('remarkGlossary: No entries missing from terms');
+      }
+      if (terms.size) {
+        fancyLog.warn('remarkGlossary: Terms missing from entries:');
+        fancyLog.warn(terms);
+      } else {
+        fancyLog.info('remarkGlossary: No terms missing from entries');
+      }
+    });
 }
 
 let rollupCache;
