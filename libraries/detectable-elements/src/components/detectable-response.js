@@ -394,15 +394,15 @@ export default class DetectableResponse extends DetectableElement {
                             ? html`<span class="outcome">Error</span>`
                             : html`<span class="outcome">No<br>Response</span>`
                       : ''}
-                    ${(this.payoff === 'trial' || this.payoff === 'total')
-                      ? html`<span class="payoff">${this.trialPayoff}</span>`
+                    ${((this.state === 'feedback') && (this.payoff === 'trial' || this.payoff === 'total'))
+                      ? html`<span class="payoff">$${this.trialPayoff}</span>`
                       : html``}
                   </div>`
                 : html``}
               ${(this.payoff === 'total')
                 ? html`
                   <div class="payoff">
-                    <span class="label">Total: </span><span class="value">${this.totalPayoff}</span>
+                    <span class="label">Total: </span><span class="value">$${this.totalPayoff}</span>
                   </div>`
                 : html``}
             </div>`
