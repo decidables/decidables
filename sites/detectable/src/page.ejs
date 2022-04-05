@@ -94,14 +94,16 @@ toc:
               <button class="det-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#det-nav" aria-controls="det-nav" aria-expanded="false" aria-label="Toggle table of contents">
                 <%- include(resolvePkg('bootstrap-icons/icons/list.svg')) %>
               </button>
-              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+              <a class="det-nav-brand" href="index.html">
+                <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+              </a>
             </div>
             <nav class="det-nav-collapse collapse" id="det-nav">
               <ol class="det-toc">
                 <% for (const [sectionIndex, section] of toc.entries()){ %>
                   <li class="det-toc-list">
                     <% if (section.name) { %>
-                    <div class="det-toc-section-name"><%- section.name %></div>
+                      <div class="det-toc-section-name"><%- section.name %></div>
                     <% } %>
                     <ol class="det-toc-section det-toc-section-<%- section.section %>">
                       <% for (const [pageIndex, page] of section.pages.entries()) { %>
@@ -122,13 +124,19 @@ toc:
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v<%- utilities.getPackageVersion() %></span>
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%40<%- utilities.getPackageVersion() %>" target="_blank" rel="noopener">
+                        v<%- utilities.getPackageVersion() %>
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
