@@ -9,7 +9,7 @@ import {
 import '../../src/examples/unequal';
 import '../../src/components';
 
-describe('sdt-example-interactive', () => {
+describe('sdt-example-unequal', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <sdt-example-unequal>
@@ -18,7 +18,6 @@ describe('sdt-example-interactive', () => {
         <roc-space z-roc contour="sensitivity" point="rest" iso-d="rest" iso-c="rest"></roc-space>
       </sdt-example-unequal>
     `);
-    // Give the component a chance to render!
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="body">

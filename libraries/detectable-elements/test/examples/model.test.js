@@ -21,7 +21,6 @@ describe('sdt-example-model', () => {
         <roc-space hr="0.5" far="0.5" point="all" iso-d="all" iso-c="all"></roc-space>
       </sdt-example-model>
     `);
-    // Give the component a chance to render!
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="body">
