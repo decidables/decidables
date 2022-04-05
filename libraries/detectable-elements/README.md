@@ -1198,6 +1198,49 @@ because their values are received from the model's task performance.
 </detectable-example-model>
 ```
 
+#### `DetectableExampleMultiple` / `<detectable-example-multiple>`
+
+Multiple value example
+
+Used to build specialized examples with multiple values for one variable (sensitivity or bias) and a
+single value for the other variable. Can include controls, ROC space, and a visual rendering of
+signal detection theory. The SDT model can be interactive.
+
+##### Attributes
+
+- `variable: string = 'd'`
+  - Choose which variable to have multiple values
+  - Options
+    - `'d'`
+      - Sensitivity
+    - `'c'`
+      - Bias
+- `values: Array = [0, 1]`
+  - Which marginals to display
+  - Expressed in HTML as a space-separated list of numbers
+
+##### Slots
+
+- *unnamed*
+  - Place relevant `detectable-elements` components here
+  - Wired elements
+    - `<detectable-control>`
+      - Allows user to adjust parameters
+    - `<sdt-model>`
+      - Display and change a visual rendering of sensitivity and bias
+    - `<roc-space>`
+      - Displays the hit rate and false alarm rate in ROC space
+
+##### Example
+
+```html
+<sdt-example-multiple variable="d" values="0 1 2 3 4">
+  <detectable-control z-roc></detectable-control>
+  <sdt-model interactive threshold bias></sdt-model>
+  <roc-space z-roc point="rest" iso-d="rest" iso-c="first"></roc-space>
+</sdt-example-multiple>
+```
+
 #### `DetectableExampleUnequal` / `<detectable-example-unequal>`
 
 Unequal variance example
