@@ -20,7 +20,6 @@ describe('sdt-example-double-interactive', () => {
         <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
       </sdt-example-double-interactive>
     `);
-    // Give the component a chance to render!
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="body">

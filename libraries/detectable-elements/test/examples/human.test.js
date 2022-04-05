@@ -21,7 +21,6 @@ describe('sdt-example-human', () => {
         <sdt-model threshold bias distributions sensitivity histogram color="outcome" d="0" c="0"></sdt-model>
       </sdt-example-human>
     `);
-    // Give the component a chance to render!
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="body">
