@@ -947,9 +947,51 @@ $transition-duration: 500ms;
     border-radius: $border-radius;
   }
 
+  // Switches
+  .ui[class~="zroc-roc"] {
+    position: relative;
+
+    padding-right: 1rem;
+
+    background-color: $color-grey-light50;
+  }
+
+  .ui[class~="zroc-roc"]::before {
+    position: absolute;
+
+    top: 0.125rem;
+    right: 0.375rem;
+
+    width: 0.25rem;
+    height: 1.125rem;
+
+    content: "";
+
+    background-color: $color-grey-light25;
+    border-width: 0.125rem;
+    border-radius: 0.25rem;
+  }
+
+  .ui[class~="zroc-roc"]::after {
+    position: absolute;
+
+    top: 0.125rem;
+    right: 0.1875rem;
+
+    width: 0.625rem;
+    height: 0.625rem;
+
+    content: "";
+
+    background-color: $color-element-enabled;
+    border-width: 0.25rem;
+    border-radius: 0.5rem;
+  }
+
   // Sliders
   .ui[class~="coherence"],
   .ui[class~="duration"],
+  .ui[class~="payoff"],
   .ui[class~="trials"] {
     position: relative;
 
@@ -960,6 +1002,7 @@ $transition-duration: 500ms;
 
   .ui[class~="coherence"]::before,
   .ui[class~="duration"]::before,
+  .ui[class~="payoff"]::before,
   .ui[class~="trials"]::before {
     position: absolute;
 
@@ -977,6 +1020,7 @@ $transition-duration: 500ms;
 
   .ui[class~="coherence"]::after,
   .ui[class~="duration"]::after,
+  .ui[class~="payoff"]::after,
   .ui[class~="trials"]::after {
     position: absolute;
 
