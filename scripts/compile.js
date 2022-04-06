@@ -115,7 +115,12 @@ export function compileMarkdown() {
       .use(remarkCiteproc)
       .use(remarkGlossary, {location: 'glossary.html'})
       .use(remarkDiv, {keywords: ['ui']})
-      .use(remarkSpan, {keywords: ['key', 'page', 'tool', 'ui']})
+      .use(remarkSpan, {
+        keywords: [
+          'key', 'page', 'tool',
+          'button', 'prompt', 'slider', 'switch', 'toggle',
+        ],
+      })
       .use(remarkSmartypants, {dashes: 'oldschool'})
       .use(remarkHtml, {
         sanitize: false,
@@ -143,14 +148,10 @@ export function compileMarkdown() {
       if (entries.size) {
         fancyLog.warn('remarkGlossary: Entries missing from terms:');
         fancyLog.warn(extraEntries());
-      } else {
-        fancyLog.info('remarkGlossary: No entries missing from terms');
       }
       if (terms.size) {
         fancyLog.warn('remarkGlossary: Terms missing from entries:');
         fancyLog.warn(terms);
-      } else {
-        fancyLog.info('remarkGlossary: No terms missing from entries');
       }
     });
 }
