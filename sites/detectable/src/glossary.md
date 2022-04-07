@@ -44,6 +44,9 @@ script: page
 :entry[decision]
 : ?
 
+:entry[difficulty]
+: ?
+
 :entry[distribution]
 : ?
 
@@ -75,6 +78,9 @@ script: page
 : ?
 
 :entry[inter-trial interval] (:entry[ITI])
+: ?
+
+:entry[incentive]
 : ?
 
 :entry[iso-bias curve]
@@ -130,6 +136,9 @@ even if it is structured and/or meaningful.
 :entry[response]
 : ?
 
+:entry[<span class="math-var">σ</span>]
+: ?
+
 :entry[sensitivity]
 : ?
 
@@ -157,6 +166,15 @@ even if it is structured and/or meaningful.
 : ?
 
 :entry[trial]
+: ?
+
+:entry[variance]
+: ?
+
+:entry[<span class="math-var">z</span>-transformation]
+: ?
+
+:entry[<span class="math-var">z</span>ROC space]
 : ?
 
 :::
