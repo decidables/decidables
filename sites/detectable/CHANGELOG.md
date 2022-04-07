@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.7.0...@decidables/detectable@0.8.0) (2022-04-07)
+
+
+### Features
+
+* **detectable:** add :ui styling for switches ([a614205](https://github.com/decidables/decidables/commit/a61420581fcd3cc1a9f4190c112972a5a147cf03))
+* **detectable:** add styles for UI Toggles ([2e76d23](https://github.com/decidables/decidables/commit/2e76d2370ad9a52fb5f0799af63e5a83ee999591))
+* **detectable:** advanced page on marginals complete ([a2dc279](https://github.com/decidables/decidables/commit/a2dc279db83c9f4c56fda0dd98c1c158545ab591))
+* **detectable:** complete the Model pages ([2e11322](https://github.com/decidables/decidables/commit/2e113223d105b65bbd70046014836349b6bbcd03))
+* **detectable:** define new UI component styles ([4d46153](https://github.com/decidables/decidables/commit/4d46153a074c51bfcb9f804aa787b501bcc5e91a))
+* **detectable:** initial completion of advanced pages ([5b8fd5d](https://github.com/decidables/decidables/commit/5b8fd5d3ac915885ef7b79180e7eeb330c163633))
+* **detectable:** pages on behavior and theory updated ([850a3b7](https://github.com/decidables/decidables/commit/850a3b79abd06dd0e80ca550b368550c386b25bf))
+* **detectable:** update About and Glossary to use MD description lists ([cf05fcf](https://github.com/decidables/decidables/commit/cf05fcf69bfa1d2d5f0bbeb5592ffc7b69e0ece1))
+* **detectable:** use new remark-glossary ([2e9afab](https://github.com/decidables/decidables/commit/2e9afab64e6119cd47fb025752b783c4165d6ff6))
+* **detectable:** version number links to release ([bbcca7c](https://github.com/decidables/decidables/commit/bbcca7c1fdf20f3029264afbab0ead8b2b3d962a))
+
+
+### Bug Fixes
+
+* **detectable:** fix bibliography spacing at bottom of page ([8bd3452](https://github.com/decidables/decidables/commit/8bd3452f36e7037b1f7e4092a8971104ac9d497b))
+* **detectable:** improve H1 spacing ([ea5ce84](https://github.com/decidables/decidables/commit/ea5ce8488d28fa275adce102b82366c5ae538eac))
+* **detectable:** rationalize page titles ([01c36f0](https://github.com/decidables/decidables/commit/01c36f0c3aae854fb789906fd5a99fb21764f37f))
+* **detectable:** stop PurgeCSS from stripping class names ([fbfa5ec](https://github.com/decidables/decidables/commit/fbfa5ec980eb0bca707091157fb17cfa802b67fe))
+* **detectable:** update Equations page to be current and better organized ([f3e2cb7](https://github.com/decidables/decidables/commit/f3e2cb748cd8338a308fd2c16ac17577888a83c4))
+* **detectable:** update pages to use new UI component keywords ([db943fa](https://github.com/decidables/decidables/commit/db943fac799dd5df5d43cbd67e52014a7c45d0a1))
+
+
+
 ## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.6.0...@decidables/detectable@0.7.0) (2022-03-31)
 
 
