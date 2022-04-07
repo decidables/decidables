@@ -4,7 +4,7 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="detectable: Tables &amp;amp; Rates: Tabulating and Summarizing Task Performance">
+    <meta name="description" content="detectable: Tables and Rates: Summarizing Task Performance">
     <meta name="author" content="Dr. Adam Krawitz">
 
     <link rel="icon" href="favicon.ico" sizes="any">
@@ -28,7 +28,9 @@
   <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 </svg>
               </button>
-              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+              <a class="det-nav-brand" href="index.html">
+                <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+              </a>
             </div>
             <nav class="det-nav-collapse collapse" id="det-nav">
               <ol class="det-toc">
@@ -58,7 +60,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Behavior</div>
+                      <div class="det-toc-section-name">Behavior</div>
                     
                     <ol class="det-toc-section det-toc-section-behavior">
                       
@@ -107,7 +109,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Theory</div>
+                      <div class="det-toc-section-name">Theory</div>
                     
                     <ol class="det-toc-section det-toc-section-theory">
                       
@@ -156,7 +158,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Model</div>
+                      <div class="det-toc-section-name">Model</div>
                     
                     <ol class="det-toc-section det-toc-section-model">
                       
@@ -189,7 +191,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Advanced</div>
+                      <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
                       
@@ -238,7 +240,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name"> </div>
+                      <div class="det-toc-section-name"> </div>
                     
                     <ol class="det-toc-section det-toc-section-conclusion">
                       
@@ -255,7 +257,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Resources</div>
+                      <div class="det-toc-section-name">Resources</div>
                     
                     <ol class="det-toc-section det-toc-section-resources">
                       
@@ -306,13 +308,19 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.7.0</span>
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%400.7.0" target="_blank" rel="noopener">
+                        v0.7.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
@@ -333,8 +341,8 @@
 
         <main class="det-main">
           
-            <header>
-              <h1>Tables &amp; Rates: Tabulating and Summarizing Task Performance</h1>
+            <header class="det-header">
+              <h1 class="det-title">Tables and Rates: Summarizing Task Performance</h1>
             </header>
           
           <section class="det-content">
@@ -351,30 +359,29 @@ measures of performance. However, the counts are dependent not only our level of
 also on the total number of trials, which often isn’t that interesting to us. We can account for
 that by calculating <em>rates</em> of performance.</p>
 <h2>Accuracy</h2>
-<p>Perhaps the most familiar rate is <span class="term accuracy">accuracy</span>, which summarizes our <em>overall</em> performance with a
+<p>Perhaps the most familiar rate is <a href="glossary.html#accuracy" class="term">accuracy</a>, which summarizes our <em>overall</em> performance with a
 single number, by aggregating across all trials. <span class="key accuracy">Accuracy</span> tells us, on average, how often
 we were <span class="key correct">correct</span> versus how often we made an <span class="key error">error</span>:</p>
 <p><sdt-equation-hmfacr2acc></sdt-equation-hmfacr2acc></p>
 <p><span class="key hits">Hits</span> and <span class="key correctrejections">correct rejections</span> are combined together since they are both correct responses,
 while <span class="key falsealarms">false alarms</span> and <span class="key misses">misses</span> are combined since they are both errors.</p>
 <p><sdt-equation-hmfacr2acc numeric interactive hits="5" misses="5" false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
-<div class="ui-note"><p>This is a <em>live</em> equation. You can edit the number of <span class="key hits">Hits</span>, <span class="key misses">Misses</span>, <span class="key falsealarms">False Alarms</span>,
+<div class="ui"><p>This is a <em>live</em> equation. You can edit the number of <span class="key hits">Hits</span>, <span class="key misses">Misses</span>, <span class="key falsealarms">False Alarms</span>,
 or <span class="key correctrejections">Correct Rejections</span> and the <span class="key accuracy">Accuracy</span> will update immediately!</p></div>
 <h2>Hit rate (HR)</h2>
 <p>It turns out (as we will discuss in more detail below) that accuracy often isn’t a great measure to
 use. We can learn more by focusing a bit more…</p>
 <p>If we only focus on trials when the signal was actually <span class="key present">present</span>, and calculate our average
-performance, we get a <span class="term hitrate">hit rate</span> (<span class="term hr">HR</span>), also called a <span class="term truepositiverate">true positive rate</span> or
-<span class="term typeierrorrate">type I error rate</span>:</p>
+performance, we get a <a href="glossary.html#hitrate" class="term">hit rate</a> (<a href="glossary.html#hr" class="term">HR</a>), also called a <a href="glossary.html#truepositiverate" class="term">true positive rate</a>:</p>
 <p><sdt-equation-hm2hr></sdt-equation-hm2hr></p>
 <p>The <span class="key hitrate">hit rate</span> tells us the proportion of trials when the signal was <span class="key present">present</span> that we
 <em>correctly</em> responded <span class="key &#x27;present&#x27;">‘present’</span>.</p>
 <p><sdt-equation-hm2hr numeric interactive hits="5" misses="5"></sdt-equation-hm2hr></p>
-<div class="ui-note"><p>Another <em>live</em> equation! Edit <span class="key hits">Hits</span> or <span class="key misses">Misses</span> and the <span class="key hitrate">Hit Rate</span> updates immediately.</p></div>
+<div class="ui"><p>Another <em>live</em> equation! Edit <span class="key hits">Hits</span> or <span class="key misses">Misses</span> and the <span class="key hitrate">Hit Rate</span> updates immediately.</p></div>
 <h2>False alarm rate (FAR)</h2>
 <p>Likewise, if we only focus on trials when the signal was actually <span class="key absent">absent</span>, and calculate our
-average performance, we get a <span class="term falsealarmrate">false alarm rate</span> (<span class="term far">FAR</span>), also called a <span class="term falsepositiverate">false
-positive rate</span> or <span class="term typeiierrorrate">type II error rate</span>:</p>
+average performance, we get a <a href="glossary.html#falsealarmrate" class="term">false alarm rate</a> (<a href="glossary.html#far" class="term">FAR</a>), also called a <a href="glossary.html#falsepositiverate" class="term">false
+positive rate</a>:</p>
 <p><sdt-equation-facr2far></sdt-equation-facr2far></p>
 <p>The <span class="key falsealarmrate">false alarm rate</span> tells us the proportion of trials when the signal was <span class="key absent">absent</span> that
 we <em>erroneously</em> responded <span class="key &#x27;present&#x27;">‘present’</span>.</p>
@@ -399,7 +406,7 @@ with hypothetical values:</p>
 <sdt-example-interactive>
   <detectable-table interactive numeric summary="stimulusRates accuracy"></detectable-table>
 </sdt-example-interactive>
-<div class="ui-note"><p>This is a <em>live</em> table. Change any count or rate and observe the effect on other values. Note that
+<div class="ui"><p>This is a <em>live</em> table. Change any count or rate and observe the effect on other values. Note that
 since the counts are necessarily whole numbers, whereas the rates are real numbers, small changes in
 a rate may not be reflected in the counts due to rounding.</p></div>
 <p>If you play around a bit, you may notice that, even if you keep the total number of trials constant,

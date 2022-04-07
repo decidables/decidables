@@ -28,7 +28,9 @@
   <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 </svg>
               </button>
-              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+              <a class="det-nav-brand" href="index.html">
+                <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+              </a>
             </div>
             <nav class="det-nav-collapse collapse" id="det-nav">
               <ol class="det-toc">
@@ -58,7 +60,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Behavior</div>
+                      <div class="det-toc-section-name">Behavior</div>
                     
                     <ol class="det-toc-section det-toc-section-behavior">
                       
@@ -107,7 +109,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Theory</div>
+                      <div class="det-toc-section-name">Theory</div>
                     
                     <ol class="det-toc-section det-toc-section-theory">
                       
@@ -156,7 +158,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Model</div>
+                      <div class="det-toc-section-name">Model</div>
                     
                     <ol class="det-toc-section det-toc-section-model">
                       
@@ -189,7 +191,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Advanced</div>
+                      <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
                       
@@ -238,7 +240,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name"> </div>
+                      <div class="det-toc-section-name"> </div>
                     
                     <ol class="det-toc-section det-toc-section-conclusion">
                       
@@ -255,7 +257,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Resources</div>
+                      <div class="det-toc-section-name">Resources</div>
                     
                     <ol class="det-toc-section det-toc-section-resources">
                       
@@ -306,13 +308,19 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.7.0</span>
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%400.7.0" target="_blank" rel="noopener">
+                        v0.7.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
@@ -333,23 +341,29 @@
 
         <main class="det-main">
           
-            <header>
-              <h1>Equations</h1>
+            <header class="det-header">
+              <h1 class="det-title">Equations</h1>
             </header>
           
           <section class="det-content">
             <h2>Summarizing outcomes</h2>
-<h3>Hit Rate</h3>
-<p><sdt-equation-hm2hr></sdt-equation-hm2hr></p>
-<p><sdt-equation-hm2hr numeric interactive hits="5" misses="5"></sdt-equation-hm2hr></p>
-<h3>False Alarm Rate</h3>
-<p><sdt-equation-facr2far></sdt-equation-facr2far></p>
-<sdt-equation-facr2far numeric interactive false-alarms="5" correct-rejections="5">
-  </sdt-equation-facr2far>
 <h3>Accuracy</h3>
 <p><sdt-equation-hmfacr2acc></sdt-equation-hmfacr2acc></p>
 <p><sdt-equation-hmfacr2acc numeric interactive hits="5" misses="5"
 false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
+<h3>Hit rate</h3>
+<p><sdt-equation-hm2hr></sdt-equation-hm2hr></p>
+<p><sdt-equation-hm2hr numeric interactive hits="5" misses="5"></sdt-equation-hm2hr></p>
+<h3>False alarm rate</h3>
+<p><sdt-equation-facr2far></sdt-equation-facr2far></p>
+<sdt-equation-facr2far numeric interactive false-alarms="5" correct-rejections="5">
+  </sdt-equation-facr2far>
+<h3>Positive predictive value</h3>
+<p><sdt-equation-hfa2ppv></sdt-equation-hfa2ppv></p>
+<p><sdt-equation-hfa2ppv numeric interactive hits="50" false-alarms="50"></sdt-equation-hfa2ppv></p>
+<h3>False omission rate</h3>
+<p><sdt-equation-mcr2fomr></sdt-equation-mcr2fomr></p>
+<p><sdt-equation-mcr2fomr numeric misses="50" correct-rejections="50"></sdt-equation-mcr2fomr></p>
 <h2>Equal variance SDT</h2>
 <h3>Sensitivity</h3>
 <p><sdt-equation-hrfar2d></sdt-equation-hrfar2d></p>
@@ -359,9 +373,10 @@ false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
 <p><sdt-equation-hrfar2c></sdt-equation-hrfar2c></p>
 <sdt-equation-hrfar2c numeric interactive hit-rate=".5" false-alarm-rate=".5">
   </sdt-equation-hrfar2c>
-<h3>Predicted outcomes</h3>
+<h3>Predicted hit rate</h3>
 <p><sdt-equation-dc2hr></sdt-equation-dc2hr></p>
 <p><sdt-equation-dc2hr numeric interactive d="1" c="1"></sdt-equation-dc2hr></p>
+<h3>Predicted false alarm rate</h3>
 <p><sdt-equation-dc2far></sdt-equation-dc2far></p>
 <p><sdt-equation-dc2far numeric interactive d="1" c="1"></sdt-equation-dc2far></p>
 <h2>Unequal variance SDT</h2>
@@ -373,9 +388,10 @@ false-alarms="5" correct-rejections="5"></sdt-equation-hmfacr2acc></p>
 <p><sdt-equation-hrfar2c unequal></sdt-equation-hrfar2c></p>
 <sdt-equation-hrfar2c unequal numeric interactive hit-rate=".5" false-alarm-rate=".5">
   </sdt-equation-hrfar2c>
-<h3>Predicted outcomes</h3>
+<h3>Predicted hit rate</h3>
 <p><sdt-equation-dc2hr unequal></sdt-equation-dc2hr></p>
 <p><sdt-equation-dc2hr unequal numeric interactive d="1" c="1"></sdt-equation-dc2hr></p>
+<h3>Predicted false alarm rate</h3>
 <p><sdt-equation-dc2far unequal></sdt-equation-dc2far></p>
 <p><sdt-equation-dc2far unequal numeric interactive d="1" c="1"></sdt-equation-dc2far></p>
 

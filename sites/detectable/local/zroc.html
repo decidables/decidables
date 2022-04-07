@@ -28,7 +28,9 @@
   <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 </svg>
               </button>
-              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+              <a class="det-nav-brand" href="index.html">
+                <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+              </a>
             </div>
             <nav class="det-nav-collapse collapse" id="det-nav">
               <ol class="det-toc">
@@ -58,7 +60,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Behavior</div>
+                      <div class="det-toc-section-name">Behavior</div>
                     
                     <ol class="det-toc-section det-toc-section-behavior">
                       
@@ -107,7 +109,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Theory</div>
+                      <div class="det-toc-section-name">Theory</div>
                     
                     <ol class="det-toc-section det-toc-section-theory">
                       
@@ -156,7 +158,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Model</div>
+                      <div class="det-toc-section-name">Model</div>
                     
                     <ol class="det-toc-section det-toc-section-model">
                       
@@ -189,7 +191,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Advanced</div>
+                      <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
                       
@@ -238,7 +240,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name"> </div>
+                      <div class="det-toc-section-name"> </div>
                     
                     <ol class="det-toc-section det-toc-section-conclusion">
                       
@@ -255,7 +257,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Resources</div>
+                      <div class="det-toc-section-name">Resources</div>
                     
                     <ol class="det-toc-section det-toc-section-resources">
                       
@@ -306,13 +308,19 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.7.0</span>
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%400.7.0" target="_blank" rel="noopener">
+                        v0.7.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
@@ -333,12 +341,33 @@
 
         <main class="det-main">
           
-            <header>
-              <h1><span class="math-var">z</span>ROC Space: Transforming ROC space</h1>
+            <header class="det-header">
+              <h1 class="det-title"><span class="math-var">z</span>ROC Space: Transforming ROC space</h1>
             </header>
           
           <section class="det-content">
             <h2>A <span class="math-var">z</span>-transformed ROC space</h2>
+<p>In each of our graphs of ROC space up till now, <span class="key hitrate">hit rate</span> and <span class="key falsealarmrate">false alarm rate</span> lie on a
+nice, evenly spaced grid, while our <span class="key iso-sensitivitycurve">iso-sensitivity curve</span> and <span class="key iso-biascurve">iso-bias curve</span> have been,
+well, beautifully curvaceous. This is great for working with the rates, but it makes things messy
+and non-linear when working with the curves. What if there was a simple way to reverse this
+situation?</p>
+<p>Well, it turns out there is! The key is to work in the native units of <span class="key d′"><span
+class="math-var">d′</span></span> and <span class="key c"><span class="math-var">c</span></span>, instead of in units of
+<span class="key hitrate">hit rate</span> and <span class="key falsealarmrate">false alarm rate</span>. And the key to <em>that</em> is revealed by a quick look at our
+SDT model to remind ourselves that the proportions of outcomes are determined by the areas under the
+distributions defined by the model parameters. Which brings us to the <a href="glossary.html#z-transformation" class="term"><span
+class="math-var">z</span>-transformation</a> (i.e. the inverse cumulative distribution function of the
+normal distribution, <span class="math-greek">Φ</span><sup class="exp">−1</sup>).</p>
+<p>Another path to the same conclusion is to note that while <span class="key d′"><span class="math-var">d′</span></span> and
+<span class="key c"><span class="math-var">c</span></span> have a complex non-linear relationship with <span class="key hitrate">hit rate</span> and
+<span class="key falsealarmrate">false alarm rate</span>, they have simple additive relationships with their <span
+class="math-var">z</span>-transformations:</p>
+<p><sdt-equation-hrfar2d></sdt-equation-hrfar2d></p>
+<p><sdt-equation-hrfar2c></sdt-equation-hrfar2c></p>
+<p>As a result, if we use <span class="math-var">z</span>-transformed <span class="key hitrate">hit rate</span> and <span class="key falsealarmrate">false
+alarm rate</span>, our <span class="key iso-sensitivitycurve">iso-sensitivity curve</span> and <span class="key iso-biascurve">iso-bias curve</span> are straight lines in what is
+called <a href="glossary.html#zrocspace" class="term"><span class="math-var">z</span>ROC space</a>:</p>
 <sdt-example-interactive>
   <detectable-control z-roc></detectable-control>
   <roc-space interactive z-roc point="all" iso-d="all" iso-c="all"></roc-space>
@@ -346,13 +375,25 @@
     false-alarms="10" correct-rejections="90"></detectable-table>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
-<h2>Isocontours in <span class="math-var">z</span>ROC space</h2>
+<div class="ui"><p>This example is set up for model exploration. You can flip back and forth between ROC space and
+<span class="math-var">z</span>ROC space with the <span class="switch zroc-roc"><span class="math-var">z</span>ROC-ROC</span>
+switch.</p></div>
+<p>Play with it for a little while and see that changing the values of <span class="key d′"><span
+class="math-var">d′</span></span> and <span class="key c"><span class="math-var">c</span></span> move the <span class="key iso-sensitivitycurve">iso-sensitivity
+curve</span> and <span class="key iso-biascurve">iso-bias curve</span> around (i.e. their <span class="math-var">y</span>-intercept
+changes), but their slope remains the same (at one and negative one respectively).</p>
+<h2>Iso-contours in <span class="math-var">z</span>ROC space</h2>
+<p>Another way to visualize the effect of the transformation is to look at the iso-bias,
+iso-sensitivity, and iso-accuracy contours in <span class="math-var">z</span>ROC space as compared
+to ROC space:</p>
 <sdt-example-interactive>
   <detectable-control z-roc></detectable-control>
   <roc-space z-roc contour="sensitivity" point="none" iso-d="none" iso-c="none"></roc-space>
   <roc-space z-roc contour="bias" point="none" iso-d="none" iso-c="none"></roc-space>
   <roc-space z-roc contour="accuracy" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
+<p>The utility of <span class="math-var">z</span>ROC space will be become clearer on the next page when
+we discuss distributions with unequal variance. So let us proceed.</p>
 
           </section>
 

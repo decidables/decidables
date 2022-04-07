@@ -4,7 +4,7 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="detectable: The Receiver Operating Characteristic (ROC): Visualizing Performance">
+    <meta name="description" content="detectable: Receiver Operating Characteristic Space: Visualizing Performance">
     <meta name="author" content="Dr. Adam Krawitz">
 
     <link rel="icon" href="favicon.ico" sizes="any">
@@ -28,7 +28,9 @@
   <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 </svg>
               </button>
-              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+              <a class="det-nav-brand" href="index.html">
+                <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+              </a>
             </div>
             <nav class="det-nav-collapse collapse" id="det-nav">
               <ol class="det-toc">
@@ -58,7 +60,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Behavior</div>
+                      <div class="det-toc-section-name">Behavior</div>
                     
                     <ol class="det-toc-section det-toc-section-behavior">
                       
@@ -107,7 +109,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Theory</div>
+                      <div class="det-toc-section-name">Theory</div>
                     
                     <ol class="det-toc-section det-toc-section-theory">
                       
@@ -156,7 +158,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Model</div>
+                      <div class="det-toc-section-name">Model</div>
                     
                     <ol class="det-toc-section det-toc-section-model">
                       
@@ -189,7 +191,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Advanced</div>
+                      <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
                       
@@ -238,7 +240,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name"> </div>
+                      <div class="det-toc-section-name"> </div>
                     
                     <ol class="det-toc-section det-toc-section-conclusion">
                       
@@ -255,7 +257,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Resources</div>
+                      <div class="det-toc-section-name">Resources</div>
                     
                     <ol class="det-toc-section det-toc-section-resources">
                       
@@ -306,13 +308,19 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.7.0</span>
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%400.7.0" target="_blank" rel="noopener">
+                        v0.7.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
@@ -333,26 +341,25 @@
 
         <main class="det-main">
           
-            <header>
-              <h1>The Receiver Operating Characteristic (ROC): Visualizing Performance</h1>
+            <header class="det-header">
+              <h1 class="det-title">Receiver Operating Characteristic Space: Visualizing Performance</h1>
             </header>
           
           <section class="det-content">
             <h2>ROC space</h2>
 <p>The <span class="key hitrate">hit rate</span> and <span class="key falsealarmrate">false alarm rate</span> allow us to summarize performance with two values. We
 can use these values to visualize performance as a point in a space, with the <em>x</em>-coordinate defined
-by <span class="key far">FAR</span>, and the <em>y</em>-coordinate defined by <span class="key hr">HR</span>. This space is called <span class="term receiveroperatingcharacteristic(roc)space">receiver
-operating characteristic (ROC) space</span> or alternatively <span class="term relativeoperatingcharacteristicspace">relative operating characteristic
-space</span> (<a class="csl-ref" href="references.html#Swets1996">Swets, 1996</a>). (The term “receiver” dates back to the original development of this
-approach in the context of separating signal and noise in the output of radar receivers used to
-detect enemy planes during World War II.)</p>
+by <span class="key far">FAR</span>, and the <em>y</em>-coordinate defined by <span class="key hr">HR</span>. This space is called
+<a href="glossary.html#receiver/relativeoperatingcharacteristicspace" class="term">receiver/relative operating characteristic space</a> (<a href="glossary.html#rocspace" class="term">ROC space</a>) (<a class="csl-ref" href="references.html#Swets1996">Swets, 1996</a>). (The
+term “receiver” dates back to the original development of this approach in the context of separating
+signal and noise in the output of radar receivers used to detect enemy planes during World War II.)</p>
 <p>A point in ROC space uniquely defines a combination of <span class="key hr">HR</span> and <span class="key far">FAR</span>:</p>
 <sdt-example-interactive>
   <detectable-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20"
     false-alarms="10" correct-rejections="90"></detectable-table>
   <roc-space interactive point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
-<div class="ui-note"><p>The graph of ROC space is <em>live</em>, so you can drag the point on the graph to move it, thereby
+<div class="ui"><p>The graph of ROC space is <em>live</em>, so you can drag the point on the graph to move it, thereby
 changing the <span class="key hr">HR</span> and <span class="key far">FAR</span>. Furthermore, the graph and the <em>live</em> table are linked, so when
 you drag the point, the table will update as well, and vice versa.</p></div>
 <p>Move the point in ROC space around and observe that while each point defines a unique combination of
@@ -386,7 +393,7 @@ this description.</p>
   <detectable-table numeric interactive summary="stimulusRates accuracy" hits="0" misses="0"
     false-alarms="0" correct-rejections="0"></detectable-table>
 </sdt-example-double-interactive>
-<div class="ui-note"><p>The point with the up arrow, ↑, is described in the <em>live</em> table before the ROC space, while
+<div class="ui"><p>The point with the up arrow, ↑, is described in the <em>live</em> table before the ROC space, while
 the point with the down arrow, ↓, is described in the table after the ROC space. The ROC space is
 <em>live</em>, so the points can be dragged to move them.</p></div>
 <p>Try some other positions… What about two points that are symmetric about the dotted diagonal from
@@ -406,8 +413,9 @@ different levels, including some levels that make the task a real challenge.</p>
     </detectable-table>
   <roc-space point="all" iso-d="none" iso-c="none" history far=".5" hr=".5"></roc-space>
 </sdt-example-human>
-<div class="ui-note"><p>Use the <span class="ui trials">Trials</span>, <span class="ui duration">Duration</span>, and <span class="ui coherence">Coherence</span> sliders to configure a block of trials.</p><p>Then use <span class="ui run">Run</span> to start the block, use <span class="ui pause">Pause</span> if you need a break, and after the block is
-over use <span class="ui reset">Reset</span> to move to the next block.</p><p>Each block will have an associated point in ROC space, numbered in order. If you want to remove
+<div class="ui"><p>Use the <span class="slider trials">Trials</span>, <span class="slider duration">Duration</span>, and <span class="slider coherence">Coherence</span> sliders to configure a block of
+trials.</p><p>Then use <span class="button run">Run</span> to start the block, use <span class="button pause">Pause</span> if you need a break, and after the
+block is over use <span class="button reset">Reset</span> to move to the next block.</p><p>Each block will have an associated point in ROC space, numbered in order. If you want to remove
 all of the points, just reload the page.</p></div>
 <p>After you’ve completed a few blocks of trials with different settings for coherence, do you see any
 trends revealed in the pattern of points within ROC space?</p>

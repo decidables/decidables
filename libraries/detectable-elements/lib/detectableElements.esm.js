@@ -372,7 +372,7 @@ const i = globalThis.trustedTypes,
       v = /-->/g,
       a = />/g,
       f = />|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g,
-      _$n = /'/g,
+      _$p = /'/g,
       m = /"/g,
       g = /^(?:script|style|textarea|title)$/i,
       p = t => (i, ...s) => ({
@@ -412,7 +412,7 @@ const i = globalThis.trustedTypes,
         p = -1,
         $ = 0;
 
-    for (; $ < s.length && (d.lastIndex = $, u = d.exec(s), null !== u);) $ = d.lastIndex, d === c ? "!--" === u[1] ? d = v : void 0 !== u[1] ? d = a : void 0 !== u[2] ? (g.test(u[2]) && (h = RegExp("</" + u[2], "g")), d = f) : void 0 !== u[3] && (d = f) : d === f ? ">" === u[0] ? (d = null != h ? h : c, p = -1) : void 0 === u[1] ? p = -2 : (p = d.lastIndex - u[2].length, o = u[1], d = void 0 === u[3] ? f : '"' === u[3] ? m : _$n) : d === m || d === _$n ? d = f : d === v || d === a ? d = c : (d = f, h = void 0);
+    for (; $ < s.length && (d.lastIndex = $, u = d.exec(s), null !== u);) $ = d.lastIndex, d === c ? "!--" === u[1] ? d = v : void 0 !== u[1] ? d = a : void 0 !== u[2] ? (g.test(u[2]) && (h = RegExp("</" + u[2], "g")), d = f) : void 0 !== u[3] && (d = f) : d === f ? ">" === u[0] ? (d = null != h ? h : c, p = -1) : void 0 === u[1] ? p = -2 : (p = d.lastIndex - u[2].length, o = u[1], d = void 0 === u[3] ? f : '"' === u[3] ? m : _$p) : d === m || d === _$p ? d = f : d === v || d === a ? d = c : (d = f, h = void 0);
 
     const y = d === f && t[i + 1].startsWith("/>") ? " " : "";
     r += d === c ? s + n$1 : p >= 0 ? (l.push(o), s.slice(0, p) + "$lit$" + s.slice(p) + e + y) : s + e + (-2 === p ? (l.push(void 0), i) : y);
@@ -6462,14 +6462,14 @@ function line (x$1, y$1) {
   return line;
 }
 
-let _$m = t => t,
-    _t$m,
-    _t2$k,
-    _t3$a,
-    _t4$a,
-    _t5$a,
-    _t6$a,
-    _t7$a,
+let _$o = t => t,
+    _t$o,
+    _t2$m,
+    _t3$c,
+    _t4$c,
+    _t5$c,
+    _t6$c,
+    _t7$c,
     _t8$8,
     _t9$8;
 /*
@@ -6649,10 +6649,11 @@ class DecidablesElement extends s {
   }
 
   static get svgFilters() {
-    const shadows = DecidablesElement.shadows; // eslint-disable-line prefer-destructuring
+    const shadows = DecidablesElement.shadows;
+    /* eslint-disable-line prefer-destructuring */
 
     const filters = shadows.elevations.map(z => {
-      return y$1(_t$m || (_t$m = _$m`
+      return y$1(_t$o || (_t$o = _$o`
         <filter id=${0} x="-250%" y="-250%" width="600%" height="600%">
           <feComponentTransfer in="SourceAlpha" result="solid">
             <feFuncA  type="table" tableValues="0 1 1"/>
@@ -6682,9 +6683,9 @@ class DecidablesElement extends s {
             <feMergeNode in="finalA" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
-        </filter>`), `shadow-${z}`, shadows.mapUmbra[z].y / 2, shadows.mapUmbra[z].y, shadows.mapPenumbra[z].y / 2, shadows.mapPenumbra[z].y, shadows.mapAmbient[z].y / 2, shadows.mapAmbient[z].y, shadows.mapUmbra[z].s === 0 ? y$1(_t2$k || (_t2$k = _$m``)) : y$1(_t3$a || (_t3$a = _$m`<feMorphology in="offU" result="spreadU" operator=${0} radius=${0} />`), shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapUmbra[z].s)), shadows.mapPenumbra[z].s === 0 ? y$1(_t4$a || (_t4$a = _$m``)) : y$1(_t5$a || (_t5$a = _$m`<feMorphology in="offP" result="spreadP" operator=${0} radius=${0} />`), shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapPenumbra[z].s)), shadows.mapAmbient[z].s === 0 ? y$1(_t6$a || (_t6$a = _$m``)) : y$1(_t7$a || (_t7$a = _$m`<feMorphology in="offA" result="spreadA" operator=${0} radius=${0} />`), shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapAmbient[z].s)), shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU', shadows.mapUmbra[z].b / 2, shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP', shadows.mapPenumbra[z].b / 2, shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA', shadows.mapAmbient[z].b / 2, shadows.baselineColor, shadows.opacityUmbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityPenumbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityAmbient + shadows.opacityBoost);
+        </filter>`), `shadow-${z}`, shadows.mapUmbra[z].y / 2, shadows.mapUmbra[z].y, shadows.mapPenumbra[z].y / 2, shadows.mapPenumbra[z].y, shadows.mapAmbient[z].y / 2, shadows.mapAmbient[z].y, shadows.mapUmbra[z].s === 0 ? y$1(_t2$m || (_t2$m = _$o``)) : y$1(_t3$c || (_t3$c = _$o`<feMorphology in="offU" result="spreadU" operator=${0} radius=${0} />`), shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapUmbra[z].s)), shadows.mapPenumbra[z].s === 0 ? y$1(_t4$c || (_t4$c = _$o``)) : y$1(_t5$c || (_t5$c = _$o`<feMorphology in="offP" result="spreadP" operator=${0} radius=${0} />`), shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapPenumbra[z].s)), shadows.mapAmbient[z].s === 0 ? y$1(_t6$c || (_t6$c = _$o``)) : y$1(_t7$c || (_t7$c = _$o`<feMorphology in="offA" result="spreadA" operator=${0} radius=${0} />`), shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapAmbient[z].s)), shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU', shadows.mapUmbra[z].b / 2, shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP', shadows.mapPenumbra[z].b / 2, shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA', shadows.mapAmbient[z].b / 2, shadows.baselineColor, shadows.opacityUmbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityPenumbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityAmbient + shadows.opacityBoost);
     });
-    return y$1(_t8$8 || (_t8$8 = _$m`
+    return y$1(_t8$8 || (_t8$8 = _$o`
       <svg class="defs">
         <defs>
           ${0}
@@ -6694,7 +6695,7 @@ class DecidablesElement extends s {
   }
 
   static get styles() {
-    return r$2(_t9$8 || (_t9$8 = _$m`
+    return r$2(_t9$8 || (_t9$8 = _$o`
       :host {
         ---shadow-0: var(--shadow-0, ${0});
         ---shadow-2: var(--shadow-2, ${0});
@@ -6756,9 +6757,9 @@ class DecidablesElement extends s {
 
 }
 
-let _$l = t => t,
-    _t$l,
-    _t2$j;
+let _$n = t => t,
+    _t$n,
+    _t2$l;
 class DecidablesButton extends DecidablesElement {
   static get properties() {
     return {
@@ -6777,7 +6778,7 @@ class DecidablesButton extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$l || (_t$l = _$l`
+    return [super.styles, r$2(_t$n || (_t$n = _$n`
         :host {
           margin: 0.25rem;
         }
@@ -6834,7 +6835,7 @@ class DecidablesButton extends DecidablesElement {
   }
 
   render() {
-    return $(_t2$j || (_t2$j = _$l`
+    return $(_t2$l || (_t2$l = _$n`
       <button ?disabled=${0}>
         <slot></slot>
       </button>
@@ -6852,9 +6853,9 @@ customElements.define('decidables-button', DecidablesButton);
 
 const l = l => null != l ? l : w;
 
-let _$k = t => t,
-    _t$k,
-    _t2$i;
+let _$m = t => t,
+    _t$m,
+    _t2$k;
 class DecidablesSlider extends DecidablesElement {
   static get properties() {
     return {
@@ -6911,7 +6912,7 @@ class DecidablesSlider extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$k || (_t$k = _$k`
+    return [super.styles, r$2(_t$m || (_t$m = _$m`
         :host {
           ---shadow-2-rotate: var(--shadow-2-rotate, ${0});
           ---shadow-4-rotate: var(--shadow-4-rotate, ${0});
@@ -7165,7 +7166,7 @@ class DecidablesSlider extends DecidablesElement {
   }
 
   render() {
-    return $(_t2$i || (_t2$i = _$k`
+    return $(_t2$k || (_t2$k = _$m`
       <label for="slider">
         <slot></slot>
       </label>
@@ -7179,9 +7180,9 @@ class DecidablesSlider extends DecidablesElement {
 }
 customElements.define('decidables-slider', DecidablesSlider);
 
-let _$j = t => t,
-    _t$j,
-    _t2$h;
+let _$l = t => t,
+    _t$l,
+    _t2$j;
 class DecidablesSpinner extends DecidablesElement {
   static get properties() {
     return {
@@ -7228,7 +7229,7 @@ class DecidablesSpinner extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$j || (_t$j = _$j`
+    return [super.styles, r$2(_t$l || (_t$l = _$l`
         :host {
           ---decidables-spinner-font-size: var(--decidables-spinner-font-size, 1.125rem);
           ---decidables-spinner-input-width: var(--decidables-spinner-input-width, 4rem);
@@ -7311,7 +7312,7 @@ class DecidablesSpinner extends DecidablesElement {
   }
 
   render() {
-    return $(_t2$h || (_t2$h = _$j`
+    return $(_t2$j || (_t2$j = _$l`
       <label>
         <slot></slot>
         <input ?disabled=${0} type="number" min=${0} max=${0} step=${0} .value=${0} @input=${0}>
@@ -7322,9 +7323,9 @@ class DecidablesSpinner extends DecidablesElement {
 }
 customElements.define('decidables-spinner', DecidablesSpinner);
 
-let _$i = t => t,
-    _t$i,
-    _t2$g;
+let _$k = t => t,
+    _t$k,
+    _t2$i;
 class DecidablesSwitch extends DecidablesElement {
   static get properties() {
     return {
@@ -7359,7 +7360,7 @@ class DecidablesSwitch extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$i || (_t$i = _$i`
+    return [super.styles, r$2(_t$k || (_t$k = _$k`
         :host {
           display: flex;
 
@@ -7482,7 +7483,7 @@ class DecidablesSwitch extends DecidablesElement {
   }
 
   render() {
-    return $(_t2$g || (_t2$g = _$i`
+    return $(_t2$i || (_t2$i = _$k`
       <input type="checkbox" id="switch" ?checked=${0} ?disabled=${0} @change=${0}>
       <label for="switch">
         <slot name="off-label"></slot>
@@ -7496,9 +7497,9 @@ class DecidablesSwitch extends DecidablesElement {
 }
 customElements.define('decidables-switch', DecidablesSwitch);
 
-let _$h = t => t,
-    _t$h,
-    _t2$f;
+let _$j = t => t,
+    _t$j,
+    _t2$h;
 class DecidablesToggle extends DecidablesElement {
   static get properties() {
     return {
@@ -7517,7 +7518,7 @@ class DecidablesToggle extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$h || (_t$h = _$h`
+    return [super.styles, r$2(_t$j || (_t$j = _$j`
         fieldset {
           display: flex;
 
@@ -7538,7 +7539,7 @@ class DecidablesToggle extends DecidablesElement {
   }
 
   render() {
-    return $(_t2$f || (_t2$f = _$h`
+    return $(_t2$h || (_t2$h = _$j`
       <fieldset ?disabled=${0}>
         <legend><slot name="label"></slot></legend>
         <slot></slot>
@@ -7549,9 +7550,9 @@ class DecidablesToggle extends DecidablesElement {
 }
 customElements.define('decidables-toggle', DecidablesToggle);
 
-let _$g = t => t,
-    _t$g,
-    _t2$e;
+let _$i = t => t,
+    _t$i,
+    _t2$g;
 class DecidablesToggleOption extends DecidablesElement {
   static get properties() {
     return {
@@ -7599,7 +7600,7 @@ class DecidablesToggleOption extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$g || (_t$g = _$g`
+    return [super.styles, r$2(_t$i || (_t$i = _$i`
         :host {
           display: flex;
         }
@@ -7696,7 +7697,7 @@ class DecidablesToggleOption extends DecidablesElement {
   }
 
   render() {
-    return $(_t2$e || (_t2$e = _$g`
+    return $(_t2$g || (_t2$g = _$i`
       <input type="radio" id="toggle-option" name=${0} value=${0} .checked=${0} @change=${0}>
       <label for="toggle-option">
         <slot></slot>
@@ -7706,6 +7707,23 @@ class DecidablesToggleOption extends DecidablesElement {
 
 }
 customElements.define('decidables-toggle-option', DecidablesToggleOption);
+
+/*
+  Attribute: Space-separated sequence of numbers
+  Property: Array of numbers
+*/
+const DecidablesConverterArray = {
+  fromAttribute: value => {
+    return value.split(/\s+/).map(item => {
+      return Number.parseFloat(item);
+    });
+  },
+  toAttribute: value => {
+    return value.length ? value.map(item => {
+      return item.toFixed(3);
+    }).join(' ') : null;
+  }
+};
 
 /*
   Attribute: Space-separated sequence of strings
@@ -7720,8 +7738,8 @@ const DecidablesConverterSet = {
   }
 };
 
-let _$f = t => t,
-    _t$f;
+let _$h = t => t,
+    _t$h;
 /*
   DetectableElement Base Class - Not intended for instantiation!
   <detectable-element>
@@ -7778,7 +7796,7 @@ class DetectableElement extends DecidablesElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$f || (_t$f = _$f`
+    return [super.styles, r$2(_t$h || (_t$h = _$h`
         :host {
           ---color-h: var(--color-h, ${0});
           ---color-m: var(--color-m, ${0});
@@ -7833,9 +7851,9 @@ class DetectableElement extends DecidablesElement {
 
 }
 
-let _$e = t => t,
-    _t$e,
-    _t2$d;
+let _$g = t => t,
+    _t$g,
+    _t2$f;
 /*
   RDKTask element
   <rdk-task>
@@ -7989,7 +8007,7 @@ class RDKTask extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$e || (_t$e = _$e`
+    return [super.styles, r$2(_t$g || (_t$g = _$g`
         :host {
           display: inline-block;
 
@@ -8038,8 +8056,8 @@ class RDKTask extends DetectableElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
-    return $(_t2$d || (_t2$d = _$e``));
+    /* eslint-disable-line class-methods-use-this */
+    return $(_t2$f || (_t2$f = _$g``));
   }
 
   getDimensions() {
@@ -13227,9 +13245,9 @@ class SDTMath {
 
 }
 
-let _$d = t => t,
-    _t$d,
-    _t2$c;
+let _$f = t => t,
+    _t$f,
+    _t2$e;
 /*
   ROCSpace element
   <roc-space>
@@ -13449,7 +13467,7 @@ class ROCSpace extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$d || (_t$d = _$d`
+    return [super.styles, r$2(_t$f || (_t$f = _$f`
         :host {
           display: inline-block;
 
@@ -13585,8 +13603,8 @@ class ROCSpace extends DetectableElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
-    return $(_t2$c || (_t2$c = _$d`
+    /* eslint-disable-line class-methods-use-this */
+    return $(_t2$e || (_t2$e = _$f`
       ${0}
     `), DetectableElement.svgFilters);
   }
@@ -14126,14 +14144,14 @@ class ROCSpace extends DetectableElement {
 }
 customElements.define('roc-space', ROCSpace);
 
-let _$c = t => t,
-    _t$c,
-    _t2$b,
-    _t3$9,
-    _t4$9,
-    _t5$9,
-    _t6$9,
-    _t7$9,
+let _$e = t => t,
+    _t$e,
+    _t2$d,
+    _t3$b,
+    _t4$b,
+    _t5$b,
+    _t6$b,
+    _t7$b,
     _t8$7,
     _t9$7,
     _t10$7,
@@ -14220,7 +14238,7 @@ class DetectableControl extends DetectableElement {
     this.duration = undefined;
     this.coherence = undefined;
     this.payoff = undefined;
-    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
+    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome', 'all'];
     this.color = undefined;
     this.zRoc = undefined;
     this.run = false;
@@ -14320,7 +14338,7 @@ class DetectableControl extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$c || (_t$c = _$c`
+    return [super.styles, r$2(_t$e || (_t$e = _$e`
         :host {
           display: inline-block;
         }
@@ -14351,7 +14369,7 @@ class DetectableControl extends DetectableElement {
   }
 
   render() {
-    return $(_t2$b || (_t2$b = _$c`
+    return $(_t2$d || (_t2$d = _$e`
       <div class="holder">
         ${0}
         ${0}
@@ -14360,7 +14378,7 @@ class DetectableControl extends DetectableElement {
         ${0}
         ${0}
         ${0}
-      </div>`), this.trials ? $(_t3$9 || (_t3$9 = _$c`<decidables-slider min="1" max="100" step="1" .value=${0} @change=${0} @input=${0}>Trials</decidables-slider>`), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : $(_t4$9 || (_t4$9 = _$c``)), this.duration ? $(_t5$9 || (_t5$9 = _$c`<decidables-slider min="10" max="2000" step="10" .value=${0} @change=${0} @input=${0}>Duration</decidables-slider>`), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : $(_t6$9 || (_t6$9 = _$c``)), this.coherence ? $(_t7$9 || (_t7$9 = _$c`<decidables-slider min="0" max="1" step=".01" .value=${0} @change=${0} @input=${0}>Coherence</decidables-slider>`), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : $(_t8$7 || (_t8$7 = _$c``)), this.payoff ? $(_t9$7 || (_t9$7 = _$c`<decidables-slider class="payoff" min="0" max="100" step="1" .value=${0} @change=${0} @input=${0}>Payoff</decidables-slider>`), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : $(_t10$7 || (_t10$7 = _$c``)), this.color !== undefined ? $(_t11$7 || (_t11$7 = _$c`
+      </div>`), this.trials ? $(_t3$b || (_t3$b = _$e`<decidables-slider min="1" max="100" step="1" .value=${0} @change=${0} @input=${0}>Trials</decidables-slider>`), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : $(_t4$b || (_t4$b = _$e``)), this.duration ? $(_t5$b || (_t5$b = _$e`<decidables-slider min="10" max="2000" step="10" .value=${0} @change=${0} @input=${0}>Duration</decidables-slider>`), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : $(_t6$b || (_t6$b = _$e``)), this.coherence ? $(_t7$b || (_t7$b = _$e`<decidables-slider min="0" max="1" step=".01" .value=${0} @change=${0} @input=${0}>Coherence</decidables-slider>`), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : $(_t8$7 || (_t8$7 = _$e``)), this.payoff ? $(_t9$7 || (_t9$7 = _$e`<decidables-slider class="payoff" min="0" max="100" step="1" .value=${0} @change=${0} @input=${0}>Payoff</decidables-slider>`), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : $(_t10$7 || (_t10$7 = _$e``)), this.color !== undefined ? $(_t11$7 || (_t11$7 = _$e`
             <decidables-toggle @change=${0}>
               <span slot="label">Emphasis</span>
               <decidables-toggle-option name="toggle" value="none" ?checked=${0}>None</decidables-toggle-option>
@@ -14368,27 +14386,28 @@ class DetectableControl extends DetectableElement {
               <decidables-toggle-option name="toggle" value="stimulus" ?checked=${0}>Stimulus</decidables-toggle-option>
               <decidables-toggle-option name="toggle" value="response" ?checked=${0}>Response</decidables-toggle-option>
               <decidables-toggle-option name="toggle" value="outcome" ?checked=${0}>Outcome</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="all" ?checked=${0}>All</decidables-toggle-option>
             </decidables-toggle>
-          `), this.chooseColor.bind(this), this.color === 'none', this.color === 'accuracy', this.color === 'stimulus', this.color === 'response', this.color === 'outcome') : $(_t12$2 || (_t12$2 = _$c``)), this.zRoc !== undefined ? $(_t13$2 || (_t13$2 = _$c`
+          `), this.chooseColor.bind(this), this.color === 'none', this.color === 'accuracy', this.color === 'stimulus', this.color === 'response', this.color === 'outcome', this.color === 'all') : $(_t12$2 || (_t12$2 = _$e``)), this.zRoc !== undefined ? $(_t13$2 || (_t13$2 = _$e`
             <decidables-switch ?checked=${0} @change=${0}>
               <span class="math-var">z</span>ROC
               <span slot="off-label">ROC</span>
             </decidables-switch>
-          `), this.zRoc, this.flipZRoc.bind(this)) : $(_t14$2 || (_t14$2 = _$c``)), this.run || this.pause || this.reset ? $(_t15$2 || (_t15$2 = _$c`
+          `), this.zRoc, this.flipZRoc.bind(this)) : $(_t14$2 || (_t14$2 = _$e``)), this.run || this.pause || this.reset ? $(_t15$2 || (_t15$2 = _$e`
             <div class="buttons">
               ${0}
               ${0}
               ${0}
             </div>
-          `), this.run ? $(_t16$2 || (_t16$2 = _$c`<decidables-button name="run" ?disabled=${0} @click=${0}>Run</decidables-button>`), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : $(_t17$2 || (_t17$2 = _$c``)), this.pause ? $(_t18$2 || (_t18$2 = _$c`<decidables-button name="pause" ?disabled=${0} @click=${0}>Pause</decidables-button>`), this.state !== 'running', this.doPause.bind(this)) : $(_t19$2 || (_t19$2 = _$c``)), this.reset ? $(_t20$2 || (_t20$2 = _$c`<decidables-button name="reset" ?disabled=${0} @click=${0}>Reset</decidables-button>`), this.state === 'resetted', this.doReset.bind(this)) : $(_t21$1 || (_t21$1 = _$c``))) : $(_t22$1 || (_t22$1 = _$c``)));
+          `), this.run ? $(_t16$2 || (_t16$2 = _$e`<decidables-button name="run" ?disabled=${0} @click=${0}>Run</decidables-button>`), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : $(_t17$2 || (_t17$2 = _$e``)), this.pause ? $(_t18$2 || (_t18$2 = _$e`<decidables-button name="pause" ?disabled=${0} @click=${0}>Pause</decidables-button>`), this.state !== 'running', this.doPause.bind(this)) : $(_t19$2 || (_t19$2 = _$e``)), this.reset ? $(_t20$2 || (_t20$2 = _$e`<decidables-button name="reset" ?disabled=${0} @click=${0}>Reset</decidables-button>`), this.state === 'resetted', this.doReset.bind(this)) : $(_t21$1 || (_t21$1 = _$e``))) : $(_t22$1 || (_t22$1 = _$e``)));
   }
 
 }
 customElements.define('detectable-control', DetectableControl);
 
-let _$b = t => t,
-    _t$b,
-    _t2$a;
+let _$d = t => t,
+    _t$d,
+    _t2$c;
 /*
   SDTModel element
   <sdt-model>
@@ -14625,7 +14644,7 @@ class SDTModel extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$b || (_t$b = _$b`
+    return [super.styles, r$2(_t$d || (_t$d = _$d`
         :host {
           display: inline-block;
 
@@ -14871,8 +14890,8 @@ class SDTModel extends DetectableElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
-    return $(_t2$a || (_t2$a = _$b`
+    /* eslint-disable-line class-methods-use-this */
+    return $(_t2$c || (_t2$c = _$d`
       ${0}
     `), DetectableElement.svgFilters);
   }
@@ -15017,7 +15036,8 @@ class SDTModel extends DetectableElement {
       datum.startMuS = this.muS;
     }).on('drag', (event, datum) => {
       this.drag = true;
-      let muS = this.muS; // eslint-disable-line prefer-destructuring
+      let muS = this.muS;
+      /* eslint-disable-line prefer-destructuring */
 
       if (this.interactive) {
         muS = xScale.invert(event.x); // Clamp Signal Curve to stay visible
@@ -15025,7 +15045,8 @@ class SDTModel extends DetectableElement {
         muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
       }
 
-      let hS = this.hS; // eslint-disable-line prefer-destructuring
+      let hS = this.hS;
+      /* eslint-disable-line prefer-destructuring */
 
       if (this.unequal) {
         hS = yScale.invert(event.y); // Clamp Signal Curve to stay visible
@@ -15156,7 +15177,8 @@ class SDTModel extends DetectableElement {
 
     const noiseMerge = signalNoiseMerge.selectAll('.noise').attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive).on('keydown', this.interactive ? event => {
       if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-        let muN = this.muN; // eslint-disable-line prefer-destructuring
+        let muN = this.muN;
+        /* eslint-disable-line prefer-destructuring */
 
         switch (event.key) {
           case 'ArrowRight':
@@ -15287,7 +15309,8 @@ class SDTModel extends DetectableElement {
 
     const signalMerge = signalNoiseMerge.selectAll('.signal').attr('tabindex', this.interactive || this.unequal ? 0 : null).classed('interactive', this.interactive).classed('unequal', this.unequal).on('keydown.sensitivity', this.interactive ? event => {
       if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-        let muS = this.muS; // eslint-disable-line prefer-destructuring
+        let muS = this.muS;
+        /* eslint-disable-line prefer-destructuring */
 
         switch (event.key) {
           case 'ArrowRight':
@@ -15312,7 +15335,8 @@ class SDTModel extends DetectableElement {
       }
     } : null).on('keydown.variance', this.unequal ? event => {
       if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-        let hS = this.hS; // eslint-disable-line prefer-destructuring
+        let hS = this.hS;
+        /* eslint-disable-line prefer-destructuring */
 
         switch (event.key) {
           case 'ArrowUp':
@@ -15469,7 +15493,7 @@ class SDTModel extends DetectableElement {
       const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
       return time => {
         element.d = interpolateD(time);
-        select(element).text(+element.d.toFixed(3));
+        select(element).text(format('.3')(element.d));
       };
     }); //  EXIT
 
@@ -15500,7 +15524,7 @@ class SDTModel extends DetectableElement {
       const interpolateC = interpolate$1(element.c !== undefined ? element.c : this.c, this.c);
       return time => {
         element.c = interpolateC(time);
-        select(element).text(+element.c.toFixed(3));
+        select(element).text(format('.3')(element.c));
       };
     }); //  EXIT
 
@@ -15535,7 +15559,7 @@ class SDTModel extends DetectableElement {
       const interpolateS = interpolate$1(element.s !== undefined ? element.s : this.s, this.s);
       return time => {
         element.s = interpolateS(time);
-        select(element).text(+element.s.toFixed(3));
+        select(element).text(format('.3')(element.s));
       };
     }); //  EXIT
 
@@ -15554,7 +15578,8 @@ class SDTModel extends DetectableElement {
       if (this.interactive) {
         thresholdMerge.call(dragThreshold).on('keydown', event => {
           if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-            let l = this.l; // eslint-disable-line prefer-destructuring
+            let l = this.l;
+            /* eslint-disable-line prefer-destructuring */
 
             switch (event.key) {
               case 'ArrowRight':
@@ -15804,14 +15829,14 @@ class SDTModel extends DetectableElement {
 }
 customElements.define('sdt-model', SDTModel);
 
-let _$a = t => t,
-    _t$a,
-    _t2$9,
-    _t3$8,
-    _t4$8,
-    _t5$8,
-    _t6$8,
-    _t7$8,
+let _$c = t => t,
+    _t$c,
+    _t2$b,
+    _t3$a,
+    _t4$a,
+    _t5$a,
+    _t6$a,
+    _t7$a,
     _t8$6,
     _t9$6,
     _t10$6,
@@ -16071,7 +16096,7 @@ class DetectableResponse extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$a || (_t$a = _$a`
+    return [super.styles, r$2(_t$c || (_t$c = _$c`
         :host {
           display: inline-block;
         }
@@ -16143,6 +16168,11 @@ class DetectableResponse extends DetectableElement {
           border: 1px solid var(---color-element-border);
         }
 
+        :host([payoff="trial"]) .feedback,
+        :host([payoff="total"]) .feedback {
+          height: 5rem;
+        }
+
         .feedback.h {
           background-color: var(---color-h-light);
         }
@@ -16178,59 +16208,76 @@ class DetectableResponse extends DetectableElement {
           line-height: 1.15;
         }
 
-        :host([payoff="trial"]) .feedback,
-        :host([payoff="total"]) .feedback {
-          height: 4rem;
-        }
-
         /* Payoff feedback */
-        .payoff {
+        .total {
           text-align: center;
         }
 
-        .payoff .label {
+        .total .label {
           font-weight: 600;
         }
       `))];
   }
 
   render() {
-    return $(_t2$9 || (_t2$9 = _$a`
+    const payoffFormatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
+
+    const payoffFormat = number => {
+      return payoffFormatter.formatToParts(number).map(({
+        type,
+        value
+      }) => {
+        if (type === 'minusSign') {
+          return '−';
+        }
+
+        return value;
+      }).reduce((string, part) => {
+        return string + part;
+      });
+    };
+
+    return $(_t2$b || (_t2$b = _$c`
       <div class="holder">
         <div class="responses">
           <decidables-button name="present" class=${0} ?disabled=${0} @click=${0}>Present</decidables-button>
           <decidables-button name="absent" class=${0} ?disabled=${0} @click=${0}>Absent</decidables-button>
         </div>
         ${0}
-      </div>`), this.state === 'feedback' && this.response === 'present' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.present.bind(this), this.state === 'feedback' && this.response === 'absent' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.absent.bind(this), this.trial || this.feedback !== 'none' || this.payoff === 'total' ? $(_t3$8 || (_t3$8 = _$a`
+      </div>`), this.state === 'feedback' && this.response === 'present' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.present.bind(this), this.state === 'feedback' && this.response === 'absent' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.absent.bind(this), this.trial || this.feedback !== 'none' || this.payoff === 'total' ? $(_t3$a || (_t3$a = _$c`
             <div class="feedbacks">
               ${0}
               ${0}
               ${0}
-            </div>`), this.trial ? $(_t4$8 || (_t4$8 = _$a`
+            </div>`), this.trial ? $(_t4$a || (_t4$a = _$c`
                   <div class="trial">
                     <span class="label">Trial: </span><span class="count">${0}</span><span class="of"> of </span><span class="total">${0}</span>
-                  </div>`), this.trialCount, this.trialTotal) : $(_t5$8 || (_t5$8 = _$a``)), this.feedback !== 'none' ? $(_t6$8 || (_t6$8 = _$a`
+                  </div>`), this.trialCount, this.trialTotal) : $(_t5$a || (_t5$a = _$c``)), this.feedback !== 'none' ? $(_t6$a || (_t6$a = _$c`
                   <div class=${0}>
                     ${0}
                     ${0}
-                  </div>`), `feedback ${this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''}`, this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? $(_t7$8 || (_t7$8 = _$a`<span class="outcome">Hit</span>`)) : this.outcome === 'm' ? $(_t8$6 || (_t8$6 = _$a`<span class="outcome">Miss</span>`)) : this.outcome === 'fa' ? $(_t9$6 || (_t9$6 = _$a`<span class="outcome">False<br>Alarm</span>`)) : this.outcome === 'cr' ? $(_t10$6 || (_t10$6 = _$a`<span class="outcome">Correct<br>Rejection</span>`)) : $(_t11$6 || (_t11$6 = _$a`<span class="outcome">No<br>Response</span>`)) : this.accuracy === 'c' ? $(_t12$1 || (_t12$1 = _$a`<span class="outcome">Correct</span>`)) : this.accuracy === 'e' ? $(_t13$1 || (_t13$1 = _$a`<span class="outcome">Error</span>`)) : $(_t14$1 || (_t14$1 = _$a`<span class="outcome">No<br>Response</span>`)) : '', this.payoff === 'trial' || this.payoff === 'total' ? $(_t15$1 || (_t15$1 = _$a`<span class="payoff">${0}</span>`), this.trialPayoff) : $(_t16$1 || (_t16$1 = _$a``))) : $(_t17$1 || (_t17$1 = _$a``)), this.payoff === 'total' ? $(_t18$1 || (_t18$1 = _$a`
-                  <div class="payoff">
+                  </div>`), `feedback ${this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''}`, this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? $(_t7$a || (_t7$a = _$c`<span class="outcome">Hit</span>`)) : this.outcome === 'm' ? $(_t8$6 || (_t8$6 = _$c`<span class="outcome">Miss</span>`)) : this.outcome === 'fa' ? $(_t9$6 || (_t9$6 = _$c`<span class="outcome">False<br>Alarm</span>`)) : this.outcome === 'cr' ? $(_t10$6 || (_t10$6 = _$c`<span class="outcome">Correct<br>Rejection</span>`)) : $(_t11$6 || (_t11$6 = _$c`<span class="outcome">No<br>Response</span>`)) : this.accuracy === 'c' ? $(_t12$1 || (_t12$1 = _$c`<span class="outcome">Correct</span>`)) : this.accuracy === 'e' ? $(_t13$1 || (_t13$1 = _$c`<span class="outcome">Error</span>`)) : $(_t14$1 || (_t14$1 = _$c`<span class="outcome">No<br>Response</span>`)) : '', this.state === 'feedback' && (this.payoff === 'trial' || this.payoff === 'total') ? $(_t15$1 || (_t15$1 = _$c`<span class="payoff">${0}</span>`), payoffFormat(this.trialPayoff)) : $(_t16$1 || (_t16$1 = _$c``))) : $(_t17$1 || (_t17$1 = _$c``)), this.payoff === 'total' ? $(_t18$1 || (_t18$1 = _$c`
+                  <div class="total">
                     <span class="label">Total: </span><span class="value">${0}</span>
-                  </div>`), this.totalPayoff) : $(_t19$1 || (_t19$1 = _$a``))) : $(_t20$1 || (_t20$1 = _$a``)));
+                  </div>`), payoffFormat(this.totalPayoff)) : $(_t19$1 || (_t19$1 = _$c``))) : $(_t20$1 || (_t20$1 = _$c``)));
   }
 
 }
 customElements.define('detectable-response', DetectableResponse);
 
-let _$9 = t => t,
-    _t$9,
-    _t2$8,
-    _t3$7,
-    _t4$7,
-    _t5$7,
-    _t6$7,
-    _t7$7,
+let _$b = t => t,
+    _t$b,
+    _t2$a,
+    _t3$9,
+    _t4$9,
+    _t5$9,
+    _t6$9,
+    _t7$9,
     _t8$5,
     _t9$5,
     _t10$5,
@@ -16377,8 +16424,8 @@ class DetectableTable extends DetectableElement {
     this.numeric = false;
     this.summaries = ['stimulusRates', 'responseRates', 'accuracy'];
     this.summary = new Set();
-    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
-    this.color = 'outcome';
+    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome', 'all'];
+    this.color = 'all';
     this.h = 40;
     this.m = 60;
     this.fa = 75;
@@ -16517,7 +16564,7 @@ class DetectableTable extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$9 || (_t$9 = _$9`
+    return [super.styles, r$2(_t$b || (_t$b = _$b`
         :host {
           display: inline-block;
         }
@@ -16580,7 +16627,7 @@ class DetectableTable extends DetectableElement {
 
         /* Color schemes & Table emphasis */
 
-        /* (Default) Outcome color scheme */
+        /* (Default) All color scheme */
         .h {
           background: var(---color-h-light);
           border-top: 2px solid var(---color-element-emphasis);
@@ -16679,6 +16726,15 @@ class DetectableTable extends DetectableElement {
           background: var(---color-element-background);
         }
 
+        /* Outcome color scheme */
+        :host([color="outcome"]) .hr,
+        :host([color="outcome"]) .far,
+        :host([color="outcome"]) .ppv,
+        :host([color="outcome"]) .fomr,
+        :host([color="outcome"]) .acc {
+          background: var(---color-element-background);
+        }
+
         /* No color scheme */
         :host([color="none"]) .cr,
         :host([color="none"]) .fa,
@@ -16701,6 +16757,22 @@ class DetectableTable extends DetectableElement {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     });
+
+    const payoffFormat = number => {
+      return payoffFormatter.formatToParts(number).map(({
+        type,
+        value
+      }) => {
+        if (type === 'minusSign') {
+          return '−';
+        }
+
+        return value;
+      }).reduce((string, part) => {
+        return string + part;
+      });
+    };
+
     this.alignState();
     let h;
     let m;
@@ -16713,72 +16785,72 @@ class DetectableTable extends DetectableElement {
     let fomr;
 
     if (this.numeric) {
-      h = $(_t2$8 || (_t2$8 = _$9`
+      h = $(_t2$a || (_t2$a = _$b`
         <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <span>Hits</span>
           ${0}
         </decidables-spinner>
-      `), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? $(_t3$7 || (_t3$7 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.hPayoff)) : $(_t4$7 || (_t4$7 = _$9``)));
-      m = $(_t5$7 || (_t5$7 = _$9`
+      `), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? $(_t3$9 || (_t3$9 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.hPayoff)) : $(_t4$9 || (_t4$9 = _$b``)));
+      m = $(_t5$9 || (_t5$9 = _$b`
         <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <span>Misses</span>
           ${0}
         </decidables-spinner>
-      `), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? $(_t6$7 || (_t6$7 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.mPayoff)) : $(_t7$7 || (_t7$7 = _$9``)));
-      fa = $(_t8$5 || (_t8$5 = _$9`
+      `), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? $(_t6$9 || (_t6$9 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.mPayoff)) : $(_t7$9 || (_t7$9 = _$b``)));
+      fa = $(_t8$5 || (_t8$5 = _$b`
         <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <span>False Alarms</span>
           ${0}
         </decidables-spinner>
-      `), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? $(_t9$5 || (_t9$5 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.faPayoff)) : $(_t10$5 || (_t10$5 = _$9``)));
-      cr = $(_t11$5 || (_t11$5 = _$9`
+      `), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? $(_t9$5 || (_t9$5 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.faPayoff)) : $(_t10$5 || (_t10$5 = _$b``)));
+      cr = $(_t11$5 || (_t11$5 = _$b`
         <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <span>Correct Rejections</span>
           ${0}
         </decidables-spinner>
-      `), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? $(_t12 || (_t12 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.crPayoff)) : $(_t13 || (_t13 = _$9``)));
-      hr = $(_t14 || (_t14 = _$9`
+      `), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? $(_t12 || (_t12 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.crPayoff)) : $(_t13 || (_t13 = _$b``)));
+      hr = $(_t14 || (_t14 = _$b`
         <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
           <span>Hit Rate</span>
         </decidables-spinner>
       `), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
-      far = $(_t15 || (_t15 = _$9`
+      far = $(_t15 || (_t15 = _$b`
         <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
           <span>False Alarm Rate</span>
         </decidables-spinner>
       `), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
-      acc = $(_t16 || (_t16 = _$9`
+      acc = $(_t16 || (_t16 = _$b`
         <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
           <span>Accuracy</span>
         </decidables-spinner>
       `), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
-      ppv = $(_t17 || (_t17 = _$9`
+      ppv = $(_t17 || (_t17 = _$b`
         <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
           <span>Positive Predictive Value</span>
         </decidables-spinner>
       `), !this.interactive, +this.ppv.toFixed(3), this.ppvInput.bind(this));
-      fomr = $(_t18 || (_t18 = _$9`
+      fomr = $(_t18 || (_t18 = _$b`
         <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
           <span>False Omission Rate</span>
         </decidables-spinner>
       `), !this.interactive, +this.fomr.toFixed(3), this.fomrInput.bind(this));
     } else {
-      h = $(_t19 || (_t19 = _$9`<span>Hits</span>
-        ${0}`), this.payoff ? $(_t20 || (_t20 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.hPayoff)) : $(_t21 || (_t21 = _$9``)));
-      m = $(_t22 || (_t22 = _$9`<span>Misses</span>
-        ${0}`), this.payoff ? $(_t23 || (_t23 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.mPayoff)) : $(_t24 || (_t24 = _$9``)));
-      fa = $(_t25 || (_t25 = _$9`<span>False Alarms</span>
-        ${0}`), this.payoff ? $(_t26 || (_t26 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.faPayoff)) : $(_t27 || (_t27 = _$9``)));
-      cr = $(_t28 || (_t28 = _$9`<span>Correct Rejections</span>
-        ${0}`), this.payoff ? $(_t29 || (_t29 = _$9`<span class="payoff">${0}</span>`), payoffFormatter.format(this.crPayoff)) : $(_t30 || (_t30 = _$9``)));
-      hr = $(_t31 || (_t31 = _$9`<span>Hit Rate</span>`));
-      far = $(_t32 || (_t32 = _$9`<span>False Alarm Rate</span>`));
-      acc = $(_t33 || (_t33 = _$9`<span>Accuracy</span>`));
-      ppv = $(_t34 || (_t34 = _$9`<span>Positive Predictive Value</span>`));
-      fomr = $(_t35 || (_t35 = _$9`<span>False Omission Rate</span>`));
+      h = $(_t19 || (_t19 = _$b`<span>Hits</span>
+        ${0}`), this.payoff ? $(_t20 || (_t20 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.hPayoff)) : $(_t21 || (_t21 = _$b``)));
+      m = $(_t22 || (_t22 = _$b`<span>Misses</span>
+        ${0}`), this.payoff ? $(_t23 || (_t23 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.mPayoff)) : $(_t24 || (_t24 = _$b``)));
+      fa = $(_t25 || (_t25 = _$b`<span>False Alarms</span>
+        ${0}`), this.payoff ? $(_t26 || (_t26 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.faPayoff)) : $(_t27 || (_t27 = _$b``)));
+      cr = $(_t28 || (_t28 = _$b`<span>Correct Rejections</span>
+        ${0}`), this.payoff ? $(_t29 || (_t29 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.crPayoff)) : $(_t30 || (_t30 = _$b``)));
+      hr = $(_t31 || (_t31 = _$b`<span>Hit Rate</span>`));
+      far = $(_t32 || (_t32 = _$b`<span>False Alarm Rate</span>`));
+      acc = $(_t33 || (_t33 = _$b`<span>Accuracy</span>`));
+      ppv = $(_t34 || (_t34 = _$b`<span>Positive Predictive Value</span>`));
+      fomr = $(_t35 || (_t35 = _$b`<span>False Omission Rate</span>`));
     }
 
-    return $(_t36 || (_t36 = _$9`
+    return $(_t36 || (_t36 = _$b`
       <table class=${0}>
         <thead>
           <tr>
@@ -16826,35 +16898,35 @@ class DetectableTable extends DetectableElement {
           </tr>
           ${0}
         </tbody>
-      </table>`), this.numeric ? 'numeric' : '', h, m, this.summary.has('stimulusRates') ? $(_t37 || (_t37 = _$9`
+      </table>`), this.numeric ? 'numeric' : '', h, m, this.summary.has('stimulusRates') ? $(_t37 || (_t37 = _$b`
                 <td class="td td-summary hr">
                   ${0}
-                </td>`), hr) : $(_t38 || (_t38 = _$9``)), fa, cr, this.summary.has('stimulusRates') ? $(_t39 || (_t39 = _$9`
+                </td>`), hr) : $(_t38 || (_t38 = _$b``)), fa, cr, this.summary.has('stimulusRates') ? $(_t39 || (_t39 = _$b`
                 <td class="td td-summary far">
                   ${0}
-                </td>`), far) : $(_t40 || (_t40 = _$9``)), this.summary.has('responseRates') || this.summary.has('accuracy') ? $(_t41 || (_t41 = _$9`
+                </td>`), far) : $(_t40 || (_t40 = _$b``)), this.summary.has('responseRates') || this.summary.has('accuracy') ? $(_t41 || (_t41 = _$b`
               <tr>
                 <td colspan="2"></td>
                 ${0}
                 ${0}
-              </tr>`), this.summary.has('responseRates') ? $(_t42 || (_t42 = _$9`
+              </tr>`), this.summary.has('responseRates') ? $(_t42 || (_t42 = _$b`
                     <td class="td td-summary ppv">
                       ${0}
                     </td>
                     <td class="td td-summary fomr">
                       ${0}
-                    </td>`), ppv, fomr) : $(_t43 || (_t43 = _$9`
-                    <td colspan="2"></td>`)), this.summary.has('accuracy') ? $(_t44 || (_t44 = _$9`
+                    </td>`), ppv, fomr) : $(_t43 || (_t43 = _$b`
+                    <td colspan="2"></td>`)), this.summary.has('accuracy') ? $(_t44 || (_t44 = _$b`
                     <td class="td td-summary acc" rowspan="2">
                       ${0}
-                    </td>`), acc) : $(_t45 || (_t45 = _$9``))) : $(_t46 || (_t46 = _$9``)));
+                    </td>`), acc) : $(_t45 || (_t45 = _$b``))) : $(_t46 || (_t46 = _$b``)));
   }
 
 }
 customElements.define('detectable-table', DetectableTable);
 
-let _$8 = t => t,
-    _t$8;
+let _$a = t => t,
+    _t$a;
 /*
   SDTEquation Base Class - Not intended for instantiation!
   <sdt-equation>
@@ -16877,7 +16949,7 @@ class SDTEquation extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$8 || (_t$8 = _$8`
+    return [super.styles, r$2(_t$a || (_t$a = _$a`
         :host {
           display: block;
 
@@ -16896,6 +16968,7 @@ class SDTEquation extends DetectableElement {
         /* Overall <table> */
         .equation {
           text-align: center;
+          white-space: nowrap;
 
           border-collapse: collapse;
 
@@ -16969,6 +17042,14 @@ class SDTEquation extends DetectableElement {
           background: var(---color-fa-light);
         }
 
+        .ppv {
+          background: var(---color-present-light);
+        }
+
+        .fomr {
+          background: var(---color-absent-light);
+        }
+
         .acc {
           background: var(---color-acc-light);
         }
@@ -16997,14 +17078,14 @@ class SDTEquation extends DetectableElement {
 
 }
 
-let _$7 = t => t,
-    _t$7,
-    _t2$7,
-    _t3$6,
-    _t4$6,
-    _t5$6,
-    _t6$6,
-    _t7$6,
+let _$9 = t => t,
+    _t$9,
+    _t2$9,
+    _t3$8,
+    _t4$8,
+    _t5$8,
+    _t6$8,
+    _t7$8,
     _t8$4,
     _t9$4,
     _t10$4,
@@ -17099,37 +17180,37 @@ class SDTEquationDC2Far extends SDTEquation {
     let far;
 
     if (this.numeric) {
-      d = $(_t$7 || (_t$7 = _$7`
+      d = $(_t$9 || (_t$9 = _$9`
         <decidables-spinner class="d bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
           <var class="math-var">d′</var>
         </decidables-spinner>
       `), !this.interactive, this.d, this.dInput.bind(this));
-      c = $(_t2$7 || (_t2$7 = _$7`
+      c = $(_t2$9 || (_t2$9 = _$9`
         <decidables-spinner class="c bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
           <var class="math-var">c</var>
         </decidables-spinner>
       `), !this.interactive, this.c, this.cInput.bind(this));
-      s = $(_t3$6 || (_t3$6 = _$7`
+      s = $(_t3$8 || (_t3$8 = _$9`
         <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
           <var class="math-var">σ</var>
         </decidables-spinner>
       `), !this.interactive, this.s, this.sInput.bind(this));
-      far = $(_t4$6 || (_t4$6 = _$7`
+      far = $(_t4$8 || (_t4$8 = _$9`
         <decidables-spinner class="far bottom" disabled min="0" max="1" step=".001" .value="${0}">
           <var>False Alarm Rate</var>
         </decidables-spinner>
       `), +this.far.toFixed(3));
     } else {
-      d = $(_t5$6 || (_t5$6 = _$7`<var class="math-var d">d′</var>`));
-      c = $(_t6$6 || (_t6$6 = _$7`<var class="math-var c">c</var>`));
-      s = $(_t7$6 || (_t7$6 = _$7`<var class="math-var s">σ</var>`));
-      far = $(_t8$4 || (_t8$4 = _$7`<var class="far">False Alarm Rate</var>`));
+      d = $(_t5$8 || (_t5$8 = _$9`<var class="math-var d">d′</var>`));
+      c = $(_t6$8 || (_t6$8 = _$9`<var class="math-var c">c</var>`));
+      s = $(_t7$8 || (_t7$8 = _$9`<var class="math-var s">σ</var>`));
+      far = $(_t8$4 || (_t8$4 = _$9`<var class="far">False Alarm Rate</var>`));
     }
 
     let equation;
 
     if (this.unequal) {
-      equation = $(_t9$4 || (_t9$4 = _$7`
+      equation = $(_t9$4 || (_t9$4 = _$9`
         <tr>
           <td rowspan="2">
             ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
@@ -17156,7 +17237,7 @@ class SDTEquationDC2Far extends SDTEquation {
           </td>
         </tr>`), far, s, d, c, s);
     } else {
-      equation = $(_t10$4 || (_t10$4 = _$7`
+      equation = $(_t10$4 || (_t10$4 = _$9`
         <tr>
           <td rowspan="2">
             ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="minus tight">−</span>
@@ -17175,7 +17256,7 @@ class SDTEquationDC2Far extends SDTEquation {
         </tr>`), far, d, c);
     }
 
-    return $(_t11$4 || (_t11$4 = _$7`
+    return $(_t11$4 || (_t11$4 = _$9`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -17188,14 +17269,14 @@ class SDTEquationDC2Far extends SDTEquation {
 }
 customElements.define('sdt-equation-dc2far', SDTEquationDC2Far);
 
-let _$6 = t => t,
-    _t$6,
-    _t2$6,
-    _t3$5,
-    _t4$5,
-    _t5$5,
-    _t6$5,
-    _t7$5,
+let _$8 = t => t,
+    _t$8,
+    _t2$8,
+    _t3$7,
+    _t4$7,
+    _t5$7,
+    _t6$7,
+    _t7$7,
     _t8$3,
     _t9$3,
     _t10$3,
@@ -17290,37 +17371,37 @@ class SDTEquationDC2Hr extends SDTEquation {
     let hr;
 
     if (this.numeric) {
-      d = $(_t$6 || (_t$6 = _$6`
+      d = $(_t$8 || (_t$8 = _$8`
         <decidables-spinner class="d bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
           <var class="math-var">d′</var>
         </decidables-spinner>
       `), !this.interactive, this.d, this.dInput.bind(this));
-      c = $(_t2$6 || (_t2$6 = _$6`
+      c = $(_t2$8 || (_t2$8 = _$8`
         <decidables-spinner class="c bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
           <var class="math-var">c</var>
         </decidables-spinner>
       `), !this.interactive, this.c, this.cInput.bind(this));
-      s = $(_t3$5 || (_t3$5 = _$6`
+      s = $(_t3$7 || (_t3$7 = _$8`
         <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
           <var class="math-var">σ</var>
         </decidables-spinner>
       `), !this.interactive, this.s, this.sInput.bind(this));
-      hr = $(_t4$5 || (_t4$5 = _$6`
+      hr = $(_t4$7 || (_t4$7 = _$8`
         <decidables-spinner class="hr bottom" disabled min="0" max="1" step=".001" .value="${0}">
           <var>Hit Rate</var>
         </decidables-spinner>
       `), +this.hr.toFixed(3));
     } else {
-      d = $(_t5$5 || (_t5$5 = _$6`<var class="math-var d">d′</var>`));
-      c = $(_t6$5 || (_t6$5 = _$6`<var class="math-var c">c</var>`));
-      s = $(_t7$5 || (_t7$5 = _$6`<var class="math-var s">σ</var>`));
-      hr = $(_t8$3 || (_t8$3 = _$6`<var class="hr">Hit Rate</var>`));
+      d = $(_t5$7 || (_t5$7 = _$8`<var class="math-var d">d′</var>`));
+      c = $(_t6$7 || (_t6$7 = _$8`<var class="math-var c">c</var>`));
+      s = $(_t7$7 || (_t7$7 = _$8`<var class="math-var s">σ</var>`));
+      hr = $(_t8$3 || (_t8$3 = _$8`<var class="hr">Hit Rate</var>`));
     }
 
     let equation;
 
     if (this.unequal) {
-      equation = $(_t9$3 || (_t9$3 = _$6`
+      equation = $(_t9$3 || (_t9$3 = _$8`
         <tr>
           <td rowspan="2">
             ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
@@ -17356,7 +17437,7 @@ class SDTEquationDC2Hr extends SDTEquation {
           </td>
         </tr>`), hr, s, d, c, s, s);
     } else {
-      equation = $(_t10$3 || (_t10$3 = _$6`
+      equation = $(_t10$3 || (_t10$3 = _$8`
         <tr>
           <td rowspan="2">
             ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span>
@@ -17375,7 +17456,7 @@ class SDTEquationDC2Hr extends SDTEquation {
         </tr>`), hr, d, c);
     }
 
-    return $(_t11$3 || (_t11$3 = _$6`
+    return $(_t11$3 || (_t11$3 = _$8`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -17388,14 +17469,14 @@ class SDTEquationDC2Hr extends SDTEquation {
 }
 customElements.define('sdt-equation-dc2hr', SDTEquationDC2Hr);
 
-let _$5 = t => t,
-    _t$5,
-    _t2$5,
-    _t3$4,
-    _t4$4,
-    _t5$4,
-    _t6$4,
-    _t7$4;
+let _$7 = t => t,
+    _t$7,
+    _t2$7,
+    _t3$6,
+    _t4$6,
+    _t5$6,
+    _t6$6,
+    _t7$6;
 /*
   SDTEquationFaCr2Far element
   <sdt-equation-facr2far>
@@ -17466,28 +17547,28 @@ class SDTEquationFaCr2Far extends SDTEquation {
     let far;
 
     if (this.numeric) {
-      fa = $(_t$5 || (_t$5 = _$5`
+      fa = $(_t$7 || (_t$7 = _$7`
         <decidables-spinner class="fa" ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <var>False Alarms</var>
         </decidables-spinner>
       `), !this.interactive, this.fa, this.faInput.bind(this));
-      cr = $(_t2$5 || (_t2$5 = _$5`
+      cr = $(_t2$7 || (_t2$7 = _$7`
         <decidables-spinner class="cr" ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <var>Correct Rejections</var>
         </decidables-spinner>
       `), !this.interactive, this.cr, this.crInput.bind(this));
-      far = $(_t3$4 || (_t3$4 = _$5`
+      far = $(_t3$6 || (_t3$6 = _$7`
         <decidables-spinner class="far" disabled min="0" max="1" step=".001" .value="${0}">
           <var>False Alarm Rate</var>
         </decidables-spinner>
       `), +this.far.toFixed(3));
     } else {
-      fa = $(_t4$4 || (_t4$4 = _$5`<var class="fa">False Alarms</var>`));
-      cr = $(_t5$4 || (_t5$4 = _$5`<var class="cr">Correct Rejections</var>`));
-      far = $(_t6$4 || (_t6$4 = _$5`<var class="far">False Alarm Rate</var>`));
+      fa = $(_t4$6 || (_t4$6 = _$7`<var class="fa">False Alarms</var>`));
+      cr = $(_t5$6 || (_t5$6 = _$7`<var class="cr">Correct Rejections</var>`));
+      far = $(_t6$6 || (_t6$6 = _$7`<var class="far">False Alarm Rate</var>`));
     }
 
-    return $(_t7$4 || (_t7$4 = _$5`
+    return $(_t7$6 || (_t7$6 = _$7`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -17512,14 +17593,139 @@ class SDTEquationFaCr2Far extends SDTEquation {
 }
 customElements.define('sdt-equation-facr2far', SDTEquationFaCr2Far);
 
-let _$4 = t => t,
-    _t$4,
-    _t2$4,
-    _t3$3,
-    _t4$3,
-    _t5$3,
-    _t6$3,
-    _t7$3;
+let _$6 = t => t,
+    _t$6,
+    _t2$6,
+    _t3$5,
+    _t4$5,
+    _t5$5,
+    _t6$5,
+    _t7$5;
+/*
+  SDTEquationHFa2Ppv element
+  <sdt-equation-hm2hr>
+
+  Attributes:
+  Hits; Misses; Hit Rate;
+*/
+
+class SDTEquationHFa2Ppv extends SDTEquation {
+  static get properties() {
+    return {
+      h: {
+        attribute: 'hits',
+        type: Number,
+        reflect: true
+      },
+      fa: {
+        attribute: 'false-alarms',
+        type: Number,
+        reflect: true
+      },
+      ppv: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
+  }
+
+  constructor() {
+    super();
+    this.h = 0;
+    this.fa = 0;
+    this.alignState();
+  }
+
+  alignState() {
+    this.ppv = SDTMath.hFa2Ppv(this.h, this.fa);
+  }
+
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('sdt-equation-hfa2ppv-change', {
+      detail: {
+        h: this.h,
+        fa: this.fa,
+        ppv: this.ppv
+      },
+      bubbles: true
+    }));
+  }
+
+  hInput(event) {
+    this.h = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  faInput(event) {
+    this.fa = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  render() {
+    this.alignState();
+    let h;
+    let fa;
+    let ppv;
+
+    if (this.numeric) {
+      h = $(_t$6 || (_t$6 = _$6`
+        <decidables-spinner class="h" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Hits</var>
+        </decidables-spinner>
+      `), !this.interactive, this.h, this.hInput.bind(this));
+      fa = $(_t2$6 || (_t2$6 = _$6`
+        <decidables-spinner class="fa" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>False Alarms</var>
+        </decidables-spinner>
+      `), !this.interactive, this.fa, this.faInput.bind(this));
+      ppv = $(_t3$5 || (_t3$5 = _$6`
+        <decidables-spinner class="ppv" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>Positive Predictive Value</var>
+        </decidables-spinner>
+      `), +this.ppv.toFixed(3));
+    } else {
+      h = $(_t4$5 || (_t4$5 = _$6`<var class="h">Hits</var>`));
+      fa = $(_t5$5 || (_t5$5 = _$6`<var class="fa">False Alarms</var>`));
+      ppv = $(_t6$5 || (_t6$5 = _$6`<var class="ppv">Positive Predictive Value</var>`));
+    }
+
+    return $(_t7$5 || (_t7$5 = _$6`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            <tr>
+              <td rowspan="2">
+                ${0}<span class="equals">=</span>
+              </td>
+              <td class="underline">
+                ${0}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ${0}<span class="plus">+</span>${0}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `), ppv, h, h, fa);
+  }
+
+}
+customElements.define('sdt-equation-hfa2ppv', SDTEquationHFa2Ppv);
+
+let _$5 = t => t,
+    _t$5,
+    _t2$5,
+    _t3$4,
+    _t4$4,
+    _t5$4,
+    _t6$4,
+    _t7$4;
 /*
   SDTEquationHM2Hr element
   <sdt-equation-hm2hr>
@@ -17590,28 +17796,28 @@ class SDTEquationHM2Hr extends SDTEquation {
     let hr;
 
     if (this.numeric) {
-      h = $(_t$4 || (_t$4 = _$4`
+      h = $(_t$5 || (_t$5 = _$5`
         <decidables-spinner class="h" ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <var>Hits</var>
         </decidables-spinner>
       `), !this.interactive, this.h, this.hInput.bind(this));
-      m = $(_t2$4 || (_t2$4 = _$4`
+      m = $(_t2$5 || (_t2$5 = _$5`
         <decidables-spinner class="m" ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <var>Misses</var>
         </decidables-spinner>
       `), !this.interactive, this.m, this.mInput.bind(this));
-      hr = $(_t3$3 || (_t3$3 = _$4`
+      hr = $(_t3$4 || (_t3$4 = _$5`
         <decidables-spinner class="hr" disabled min="0" max="1" step=".001" .value="${0}">
           <var>Hit Rate</var>
         </decidables-spinner>
       `), +this.hr.toFixed(3));
     } else {
-      h = $(_t4$3 || (_t4$3 = _$4`<var class="h">Hits</var>`));
-      m = $(_t5$3 || (_t5$3 = _$4`<var class="m">Misses</var>`));
-      hr = $(_t6$3 || (_t6$3 = _$4`<var class="hr">Hit Rate</var>`));
+      h = $(_t4$4 || (_t4$4 = _$5`<var class="h">Hits</var>`));
+      m = $(_t5$4 || (_t5$4 = _$5`<var class="m">Misses</var>`));
+      hr = $(_t6$4 || (_t6$4 = _$5`<var class="hr">Hit Rate</var>`));
     }
 
-    return $(_t7$3 || (_t7$3 = _$4`
+    return $(_t7$4 || (_t7$4 = _$5`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -17637,14 +17843,14 @@ class SDTEquationHM2Hr extends SDTEquation {
 }
 customElements.define('sdt-equation-hm2hr', SDTEquationHM2Hr);
 
-let _$3 = t => t,
-    _t$3,
-    _t2$3,
-    _t3$2,
-    _t4$2,
-    _t5$2,
-    _t6$2,
-    _t7$2,
+let _$4 = t => t,
+    _t$4,
+    _t2$4,
+    _t3$3,
+    _t4$3,
+    _t5$3,
+    _t6$3,
+    _t7$3,
     _t8$2,
     _t9$2,
     _t10$2,
@@ -17747,40 +17953,40 @@ class SDTEquationHMFaCr2Acc extends SDTEquation {
     let acc;
 
     if (this.numeric) {
-      h = $(_t$3 || (_t$3 = _$3`
+      h = $(_t$4 || (_t$4 = _$4`
         <decidables-spinner class="h" ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <var>Hits</var>
         </decidables-spinner>
       `), !this.interactive, this.h, this.hInput.bind(this));
-      m = $(_t2$3 || (_t2$3 = _$3`
+      m = $(_t2$4 || (_t2$4 = _$4`
         <decidables-spinner class="m" ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <var>Misses</var>
         </decidables-spinner>
       `), !this.interactive, this.m, this.mInput.bind(this));
-      fa = $(_t3$2 || (_t3$2 = _$3`
+      fa = $(_t3$3 || (_t3$3 = _$4`
         <decidables-spinner class="fa" ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <var>False Alarms</var>
         </decidables-spinner>
       `), !this.interactive, this.fa, this.faInput.bind(this));
-      cr = $(_t4$2 || (_t4$2 = _$3`
+      cr = $(_t4$3 || (_t4$3 = _$4`
         <decidables-spinner class="cr" ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <var>Correct Rejections</var>
         </decidables-spinner>
       `), !this.interactive, this.cr, this.crInput.bind(this));
-      acc = $(_t5$2 || (_t5$2 = _$3`
+      acc = $(_t5$3 || (_t5$3 = _$4`
         <decidables-spinner class="acc" disabled min="0" max="1" step=".001" .value="${0}">
           <var>Accuracy</var>
         </decidables-spinner>
       `), +this.acc.toFixed(3));
     } else {
-      h = $(_t6$2 || (_t6$2 = _$3`<var class="h">Hits</var>`));
-      m = $(_t7$2 || (_t7$2 = _$3`<var class="m">Misses</var>`));
-      fa = $(_t8$2 || (_t8$2 = _$3`<var class="fa">False Alarms</var>`));
-      cr = $(_t9$2 || (_t9$2 = _$3`<var class="cr">Correct Rejections</var>`));
-      acc = $(_t10$2 || (_t10$2 = _$3`<var class="acc">Accuracy</var>`));
+      h = $(_t6$3 || (_t6$3 = _$4`<var class="h">Hits</var>`));
+      m = $(_t7$3 || (_t7$3 = _$4`<var class="m">Misses</var>`));
+      fa = $(_t8$2 || (_t8$2 = _$4`<var class="fa">False Alarms</var>`));
+      cr = $(_t9$2 || (_t9$2 = _$4`<var class="cr">Correct Rejections</var>`));
+      acc = $(_t10$2 || (_t10$2 = _$4`<var class="acc">Accuracy</var>`));
     }
 
-    return $(_t11$2 || (_t11$2 = _$3`
+    return $(_t11$2 || (_t11$2 = _$4`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -17805,14 +18011,14 @@ class SDTEquationHMFaCr2Acc extends SDTEquation {
 }
 customElements.define('sdt-equation-hmfacr2acc', SDTEquationHMFaCr2Acc);
 
-let _$2 = t => t,
-    _t$2,
-    _t2$2,
-    _t3$1,
-    _t4$1,
-    _t5$1,
-    _t6$1,
-    _t7$1,
+let _$3 = t => t,
+    _t$3,
+    _t2$3,
+    _t3$2,
+    _t4$2,
+    _t5$2,
+    _t6$2,
+    _t7$2,
     _t8$1,
     _t9$1,
     _t10$1,
@@ -17907,37 +18113,37 @@ class SDTEquationHrFar2C extends SDTEquation {
     let c;
 
     if (this.numeric) {
-      hr = $(_t$2 || (_t$2 = _$2`
+      hr = $(_t$3 || (_t$3 = _$3`
         <decidables-spinner class="hr bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
           <var>Hit Rate</var>
         </decidables-spinner>
       `), !this.interactive, this.hr, this.hrInput.bind(this));
-      far = $(_t2$2 || (_t2$2 = _$2`
+      far = $(_t2$3 || (_t2$3 = _$3`
         <decidables-spinner class="far bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
           <var>False Alarm Rate</var>
         </decidables-spinner>
       `), !this.interactive, this.far, this.farInput.bind(this));
-      s = $(_t3$1 || (_t3$1 = _$2`
+      s = $(_t3$2 || (_t3$2 = _$3`
         <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
           <var class="math-var">σ</var>
         </decidables-spinner>
       `), !this.interactive, this.s, this.sInput.bind(this));
-      c = $(_t4$1 || (_t4$1 = _$2`
+      c = $(_t4$2 || (_t4$2 = _$3`
         <decidables-spinner class="c bottom" disabled step=".001" .value="${0}">
           <var class="math-var">c</var>
         </decidables-spinner>
       `), +this.c.toFixed(3));
     } else {
-      hr = $(_t5$1 || (_t5$1 = _$2`<var class="hr">Hit Rate</var>`));
-      far = $(_t6$1 || (_t6$1 = _$2`<var class="far">False Alarm Rate</var>`));
-      s = $(_t7$1 || (_t7$1 = _$2`<var class="math-var s">σ</var>`));
-      c = $(_t8$1 || (_t8$1 = _$2`<var class="math-var c">c</var>`));
+      hr = $(_t5$2 || (_t5$2 = _$3`<var class="hr">Hit Rate</var>`));
+      far = $(_t6$2 || (_t6$2 = _$3`<var class="far">False Alarm Rate</var>`));
+      s = $(_t7$2 || (_t7$2 = _$3`<var class="math-var s">σ</var>`));
+      c = $(_t8$1 || (_t8$1 = _$3`<var class="math-var c">c</var>`));
     }
 
     let equation;
 
     if (this.unequal) {
-      equation = $(_t9$1 || (_t9$1 = _$2`
+      equation = $(_t9$1 || (_t9$1 = _$3`
         <tr>
           <td rowspan="2">
             ${0}<span class="equals">=</span><span class="bracket tight">(</span>
@@ -17964,7 +18170,7 @@ class SDTEquationHrFar2C extends SDTEquation {
           </td>
         </tr>`), c, s, s, hr, far, s);
     } else {
-      equation = $(_t10$1 || (_t10$1 = _$2`
+      equation = $(_t10$1 || (_t10$1 = _$3`
         <tr>
           <td rowspan="2">
             ${0}<span class="equals">=</span>
@@ -17980,7 +18186,7 @@ class SDTEquationHrFar2C extends SDTEquation {
         </tr>`), c, hr, far);
     }
 
-    return $(_t11$1 || (_t11$1 = _$2`
+    return $(_t11$1 || (_t11$1 = _$3`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -17993,14 +18199,14 @@ class SDTEquationHrFar2C extends SDTEquation {
 }
 customElements.define('sdt-equation-hrfar2c', SDTEquationHrFar2C);
 
-let _$1 = t => t,
-    _t$1,
-    _t2$1,
-    _t3,
-    _t4,
-    _t5,
-    _t6,
-    _t7,
+let _$2 = t => t,
+    _t$2,
+    _t2$2,
+    _t3$1,
+    _t4$1,
+    _t5$1,
+    _t6$1,
+    _t7$1,
     _t8,
     _t9,
     _t10,
@@ -18095,37 +18301,37 @@ class SDTEquationHrFar2D extends SDTEquation {
     let d;
 
     if (this.numeric) {
-      hr = $(_t$1 || (_t$1 = _$1`
+      hr = $(_t$2 || (_t$2 = _$2`
         <decidables-spinner class="hr bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
           <var>Hit Rate</var>
         </decidables-spinner>
       `), !this.interactive, this.hr, this.hrInput.bind(this));
-      far = $(_t2$1 || (_t2$1 = _$1`
+      far = $(_t2$2 || (_t2$2 = _$2`
         <decidables-spinner class="far bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
           <var>False Alarm Rate</var>
         </decidables-spinner>
       `), !this.interactive, this.far, this.farInput.bind(this));
-      s = $(_t3 || (_t3 = _$1`
+      s = $(_t3$1 || (_t3$1 = _$2`
         <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
           <var class="math-var">σ</var>
         </decidables-spinner>
       `), !this.interactive, this.s, this.sInput.bind(this));
-      d = $(_t4 || (_t4 = _$1`
+      d = $(_t4$1 || (_t4$1 = _$2`
         <decidables-spinner class="d bottom" disabled step=".001" .value="${0}">
           <var class="math-var">d′</var>
         </decidables-spinner>
       `), +this.d.toFixed(3));
     } else {
-      hr = $(_t5 || (_t5 = _$1`<var class="hr">Hit Rate</var>`));
-      far = $(_t6 || (_t6 = _$1`<var class="far">False Alarm Rate</var>`));
-      s = $(_t7 || (_t7 = _$1`<var class="math-var s">σ</var>`));
-      d = $(_t8 || (_t8 = _$1`<var class="math-var d">d′</var>`));
+      hr = $(_t5$1 || (_t5$1 = _$2`<var class="hr">Hit Rate</var>`));
+      far = $(_t6$1 || (_t6$1 = _$2`<var class="far">False Alarm Rate</var>`));
+      s = $(_t7$1 || (_t7$1 = _$2`<var class="math-var s">σ</var>`));
+      d = $(_t8 || (_t8 = _$2`<var class="math-var d">d′</var>`));
     }
 
     let equation;
 
     if (this.unequal) {
-      equation = $(_t9 || (_t9 = _$1`
+      equation = $(_t9 || (_t9 = _$2`
         <tr>
           <td rowspan="2">
             ${0}<span class="equals">=</span><span class="bracket tight">(</span>
@@ -18143,7 +18349,7 @@ class SDTEquationHrFar2D extends SDTEquation {
           </td>
         </tr>`), d, s, s, hr, far);
     } else {
-      equation = $(_t10 || (_t10 = _$1`
+      equation = $(_t10 || (_t10 = _$2`
         <tr>
           <td>
               ${0}<span class="equals">=</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span>
@@ -18151,7 +18357,7 @@ class SDTEquationHrFar2D extends SDTEquation {
         </tr>`), d, hr, far);
     }
 
-    return $(_t11 || (_t11 = _$1`
+    return $(_t11 || (_t11 = _$2`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -18163,6 +18369,131 @@ class SDTEquationHrFar2D extends SDTEquation {
 
 }
 customElements.define('sdt-equation-hrfar2d', SDTEquationHrFar2D);
+
+let _$1 = t => t,
+    _t$1,
+    _t2$1,
+    _t3,
+    _t4,
+    _t5,
+    _t6,
+    _t7;
+/*
+  SDTEquationMCr2Fomr element
+  <sdt-equation-mcr2fomr>
+
+  Attributes:
+  Hits; Misses; Hit Rate;
+*/
+
+class SDTEquationMCr2Fomr extends SDTEquation {
+  static get properties() {
+    return {
+      m: {
+        attribute: 'misses',
+        type: Number,
+        reflect: true
+      },
+      cr: {
+        attribute: 'correct-rejections',
+        type: Number,
+        reflect: true
+      },
+      fomr: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
+  }
+
+  constructor() {
+    super();
+    this.m = 0;
+    this.cr = 0;
+    this.alignState();
+  }
+
+  alignState() {
+    this.fomr = SDTMath.mCr2Fomr(this.m, this.cr);
+  }
+
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('sdt-equation-mcr2fomr-change', {
+      detail: {
+        m: this.m,
+        cr: this.cr,
+        fomr: this.fomr
+      },
+      bubbles: true
+    }));
+  }
+
+  mInput(event) {
+    this.m = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  crInput(event) {
+    this.cr = parseInt(event.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  render() {
+    this.alignState();
+    let m;
+    let cr;
+    let fomr;
+
+    if (this.numeric) {
+      m = $(_t$1 || (_t$1 = _$1`
+        <decidables-spinner class="m" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Misses</var>
+        </decidables-spinner>
+      `), !this.interactive, this.m, this.mInput.bind(this));
+      cr = $(_t2$1 || (_t2$1 = _$1`
+        <decidables-spinner class="cr" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+          <var>Correct Rejections</var>
+        </decidables-spinner>
+      `), !this.interactive, this.cr, this.crInput.bind(this));
+      fomr = $(_t3 || (_t3 = _$1`
+        <decidables-spinner class="fomr" disabled min="0" max="1" step=".001" .value="${0}">
+          <var>False Omission Rate</var>
+        </decidables-spinner>
+      `), +this.fomr.toFixed(3));
+    } else {
+      m = $(_t4 || (_t4 = _$1`<var class="m">Misses</var>`));
+      cr = $(_t5 || (_t5 = _$1`<var class="cr">Correct Rejections</var>`));
+      fomr = $(_t6 || (_t6 = _$1`<var class="fomr">False Omission Rate</var>`));
+    }
+
+    return $(_t7 || (_t7 = _$1`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            <tr>
+              <td rowspan="2">
+                ${0}<span class="equals">=</span>
+              </td>
+              <td class="underline">
+                ${0}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ${0}<span class="plus">+</span>${0}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `), fomr, m, m, cr);
+  }
+
+}
+customElements.define('sdt-equation-mcr2fomr', SDTEquationMCr2Fomr);
 
 let _ = t => t,
     _t,
@@ -18222,7 +18553,7 @@ class SDTExample extends DetectableElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $(_t2 || (_t2 = _`
       <div class="holder">
         <div class="body">
@@ -18871,6 +19202,81 @@ class SDTExampleModel extends SDTExample {
 customElements.define('sdt-example-model', SDTExampleModel);
 
 /*
+  SDTExampleMulti element
+  <sdt-example-multi>
+*/
+
+class SDTExampleMultiple extends SDTExample {
+  static get properties() {
+    return {
+      variable: {
+        attribute: 'variable',
+        type: String,
+        reflect: true
+      },
+      values: {
+        attribute: 'values',
+        converter: DecidablesConverterArray,
+        reflect: true
+      }
+    };
+  }
+
+  constructor() {
+    super();
+    this.variables = ['d', 'c'];
+    this.variable = 'd';
+    this.values = [0, 1];
+  }
+
+  firstUpdated() {
+    this.detectableControl = this.querySelector('detectable-control');
+    this.rocSpace = this.querySelector('roc-space');
+    this.sdtModel = this.querySelector('sdt-model');
+
+    if (this.detectableControl) {
+      this.detectableControl.addEventListener('detectable-control-z-roc', event => {
+        this.rocSpace.zRoc = event.detail.zRoc;
+      });
+    }
+
+    if (this.rocSpace) {
+      this.rocSpace.setWithSDT(1, 0, 'default', '', 1);
+
+      if (this.variable === 'd') {
+        this.values.forEach((d, index) => {
+          this.rocSpace.setWithSDT(d, this.sdtModel.c, `point${index}`, index + 1, this.sdtModel.s);
+        });
+      } else if (this.variable === 'c') {
+        this.values.forEach((c, index) => {
+          this.rocSpace.setWithSDT(this.sdtModel.d, c, `point${index}`, index + 1, this.sdtModel.s);
+        });
+      }
+    }
+
+    if (this.sdtModel) {
+      this.sdtModel.addEventListener('sdt-model-change', event => {
+        if (this.rocSpace) {
+          this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', '', event.detail.s);
+
+          if (this.variable === 'd') {
+            this.values.forEach((d, index) => {
+              this.rocSpace.setWithSDT(d, event.detail.c, `point${index}`, index + 1, event.detail.s);
+            });
+          } else if (this.variable === 'c') {
+            this.values.forEach((c, index) => {
+              this.rocSpace.setWithSDT(event.detail.d, c, `point${index}`, index + 1, event.detail.s);
+            });
+          }
+        }
+      });
+    }
+  }
+
+}
+customElements.define('sdt-example-multiple', SDTExampleMultiple);
+
+/*
   SDTExampleUnequal element
   <sdt-example-unequal>
 */
@@ -18889,15 +19295,13 @@ class SDTExampleUnequal extends SDTExample {
 
     if (this.rocSpace) {
       this.rocSpace.setWithSDT(1, 0, 'default', '', 1); // Set 'default' to equal variance for contours
+
+      range(-1.5, 1.6, 0.5).forEach((c, index) => {
+        this.rocSpace.setWithSDT(this.sdtModel.d, c, `point${index}`, '', this.sdtModel.s);
+      });
     }
 
     if (this.sdtModel) {
-      if (this.rocSpace) {
-        range(-1.5, 1.6, 0.5).forEach((c, index) => {
-          this.rocSpace.setWithSDT(this.sdtModel.d, c, `point${index}`, '', this.sdtModel.s);
-        });
-      }
-
       this.sdtModel.addEventListener('sdt-model-change', event => {
         if (this.rocSpace) {
           range(-1.5, 1.6, 0.5).forEach((c, index) => {
@@ -18911,5 +19315,5 @@ class SDTExampleUnequal extends SDTExample {
 }
 customElements.define('sdt-example-unequal', SDTExampleUnequal);
 
-export { DetectableControl, DetectableElement, DetectableResponse, DetectableTable, RDKTask, ROCSpace, SDTEquationDC2Far, SDTEquationDC2Hr, SDTEquationFaCr2Far, SDTEquationHM2Hr, SDTEquationHMFaCr2Acc, SDTEquationHrFar2C, SDTEquationHrFar2D, SDTExampleDoubleInteractive, SDTExampleHuman, SDTExampleInteractive, SDTExampleModel, SDTExampleUnequal, SDTModel };
+export { DetectableControl, DetectableElement, DetectableResponse, DetectableTable, RDKTask, ROCSpace, SDTEquationDC2Far, SDTEquationDC2Hr, SDTEquationFaCr2Far, SDTEquationHFa2Ppv, SDTEquationHM2Hr, SDTEquationHMFaCr2Acc, SDTEquationHrFar2C, SDTEquationHrFar2D, SDTEquationMCr2Fomr, SDTExampleDoubleInteractive, SDTExampleHuman, SDTExampleInteractive, SDTExampleModel, SDTExampleMultiple, SDTExampleUnequal, SDTModel };
 //# sourceMappingURL=detectableElements.esm.js.map

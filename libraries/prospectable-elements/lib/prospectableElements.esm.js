@@ -5428,7 +5428,8 @@ class DecidablesElement extends s$1 {
   }
 
   static get svgFilters() {
-    const shadows = DecidablesElement.shadows; // eslint-disable-line prefer-destructuring
+    const shadows = DecidablesElement.shadows;
+    /* eslint-disable-line prefer-destructuring */
 
     const filters = shadows.elevations.map(z => {
       return y$1(_t$p || (_t$p = _$p`
@@ -82397,7 +82398,7 @@ class CPTProbability extends CPTElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $$1(_t2$d || (_t2$d = _$c`
       ${0}
     `), CPTElement.svgFilters);
@@ -82784,7 +82785,8 @@ class CPTProbability extends CPTElement {
       if (this.interactive) {
         curveMerge.attr('tabindex', 0).classed('interactive', true).call(curveDrag).on('keydown', (event, datum) => {
           if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-            let g = datum.g; // eslint-disable-line prefer-destructuring
+            let g = datum.g;
+            /* eslint-disable-line prefer-destructuring */
 
             switch (event.key) {
               case 'ArrowUp':
@@ -82863,7 +82865,8 @@ class CPTProbability extends CPTElement {
       return (this.firstUpdate || changedProperties.has('interactive')) && this.interactive && !datum.trial;
     }).attr('tabindex', 0).classed('interactive', true).call(pointDrag).on('keydown', (event, datum) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-        let p = datum.p; // eslint-disable-line prefer-destructuring
+        let p = datum.p;
+        /* eslint-disable-line prefer-destructuring */
 
         switch (event.key) {
           case 'ArrowUp':
@@ -90822,7 +90825,7 @@ class CPTSpace extends CPTElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $$1(_t2$c || (_t2$c = _$b`
       <div class="plotly"></div>
     `)); // ${CPTElement.svgFilters}
@@ -91481,7 +91484,7 @@ class CPTValue extends CPTElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $$1(_t2$b || (_t2$b = _$a`
       ${0}
     `), CPTElement.svgFilters);
@@ -91912,7 +91915,8 @@ class CPTValue extends CPTElement {
       if (this.interactive) {
         curvePMerge.attr('tabindex', 0).classed('interactive', true).call(curvePDrag).on('keydown', (event, datum) => {
           if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-            let a = datum.a; // eslint-disable-line prefer-destructuring
+            let a = datum.a;
+            /* eslint-disable-line prefer-destructuring */
 
             switch (event.key) {
               case 'ArrowUp':
@@ -91986,7 +91990,8 @@ class CPTValue extends CPTElement {
       if (this.interactive) {
         curveNMerge.attr('tabindex', 0).classed('interactive', true).call(curveNDrag).on('keydown', (event, datum) => {
           if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-            let l = datum.l; // eslint-disable-line prefer-destructuring
+            let l = datum.l;
+            /* eslint-disable-line prefer-destructuring */
 
             switch (event.key) {
               case 'ArrowUp':
@@ -92067,7 +92072,8 @@ class CPTValue extends CPTElement {
       return (this.firstUpdate || changedProperties.has('interactive')) && this.interactive && !datum.trial;
     }).attr('tabindex', 0).classed('interactive', true).call(pointDrag).on('keydown', (event, datum) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-        let x = datum.x; // eslint-disable-line prefer-destructuring
+        let x = datum.x;
+        /* eslint-disable-line prefer-destructuring */
 
         switch (event.key) {
           case 'ArrowUp':
@@ -92278,7 +92284,7 @@ class DecisionOption extends CPTElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $$1(_t2$a || (_t2$a = _$9`
       ${0}
       <slot></slot>
@@ -92549,7 +92555,7 @@ class DecisionOutcome extends CPTElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $$1(_t2$9 || (_t2$9 = _$8``));
   }
 
@@ -93470,7 +93476,7 @@ class DecisionSpace extends CPTElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $$1(_t2$5 || (_t2$5 = _$4`
       <div class="plotly"></div>
     `)); // ${CPTElement.svgFilters}
@@ -94470,7 +94476,7 @@ class CPTExample extends CPTElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $$1(_t2 || (_t2 = _`
       <div class="holder">
         <div class="body">

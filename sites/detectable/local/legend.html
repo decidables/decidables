@@ -28,7 +28,9 @@
   <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 </svg>
               </button>
-              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+              <a class="det-nav-brand" href="index.html">
+                <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+              </a>
             </div>
             <nav class="det-nav-collapse collapse" id="det-nav">
               <ol class="det-toc">
@@ -58,7 +60,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Behavior</div>
+                      <div class="det-toc-section-name">Behavior</div>
                     
                     <ol class="det-toc-section det-toc-section-behavior">
                       
@@ -107,7 +109,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Theory</div>
+                      <div class="det-toc-section-name">Theory</div>
                     
                     <ol class="det-toc-section det-toc-section-theory">
                       
@@ -156,7 +158,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Model</div>
+                      <div class="det-toc-section-name">Model</div>
                     
                     <ol class="det-toc-section det-toc-section-model">
                       
@@ -189,7 +191,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Advanced</div>
+                      <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
                       
@@ -238,7 +240,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name"> </div>
+                      <div class="det-toc-section-name"> </div>
                     
                     <ol class="det-toc-section det-toc-section-conclusion">
                       
@@ -255,7 +257,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Resources</div>
+                      <div class="det-toc-section-name">Resources</div>
                     
                     <ol class="det-toc-section det-toc-section-resources">
                       
@@ -306,13 +308,19 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.7.0</span>
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%400.7.0" target="_blank" rel="noopener">
+                        v0.7.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
@@ -333,114 +341,175 @@
 
         <main class="det-main">
           
-            <header>
-              <h1>Legend</h1>
+            <header class="det-header">
+              <h1 class="det-title">Legend</h1>
             </header>
           
           <section class="det-content">
             <h2>Use of color</h2>
 <h3>Stimuli</h3>
-<dl class="det-legend">
-  <dt class="hr">Signal</dt>
-  <dd>
-    <span class="key signal">Signal</span> stimulus
-    (i.e. signal <span class="key present">Present</span>),
-    <span class="ui signalpresent">Signal Present</span> trial,
-    <span class="key hitrate">Hit Rate</span>
-    (<span class="key hitrate"><var class="math-var">HR</var></span>),
-    <span class="ui signal+noisedistribution">Signal + Noise Distribution</span>
-  </dd>
-  <dt class="far">Noise</dt>
-  <dd>
-    <span class="key noise">Noise</span> stimulus
-    (i.e. signal <span class="key absent">Absent</span>),
-    <span class="ui signalabsent">Signal Absent</span> trial,
-    <span class="key falsealarmrate">False Alarm Rate</span>
-    (<span class="key falsealarmrate"><var class="math-var">FAR</var></span>),
-    <span class="ui noisedistribution">Noise Distribution</span>
-  </dd>
-</dl>
+<ul class="det-legend">
+  <li class="hr">
+    <span class="key signal">Signal</span>
+    (Signal <span class="key present">Present</span>)
+    <div class="related">
+      <span class="key hitrate">Hit Rate</span>
+      (<span class="key hitrate"><var class="math-var">HR</var></span>),
+      <span class="key signal+noisedistribution">Signal + Noise Distribution</span>
+    </div>
+  </li>
+  <li class="far">
+    <span class="key noise">Noise</span>
+    (Signal <span class="key absent">Absent</span>)
+    <div class="related">
+      <span class="key falsealarmrate">False Alarm Rate</span>
+      (<span class="key falsealarmrate"><var class="math-var">FAR</var></span>),
+      <span class="key noisedistribution">Noise Distribution</span>
+    </div>
+  </li>
+</ul>
 <h3>Responses</h3>
-<dl class="det-legend">
-  <dt class="present">'Present'</dt>
-  <dd>
-    <span class="key 'present'">'Present'</span> response,
-    <span class="key positivepredictivevalue">Positive Predictive Value</span>
-    (<span class="key positivepredictivevalue"><var class="math-var">PPV</var></span>),
-    <span class="ui presentresponse">Present Response</span> trial
-  </dd>
-  <dt class="absent">'Absent'</dt>
-  <dd>
-    <span class="key 'absent'">'Absent'</span> response,
-    <span class="key falseomissionrate">False Omission Rate</span>
-    (<span class="key falseomissionrate"><var class="math-var">FOV</var></span>),
-    <span class="ui absentresponse">Absent Response</span> trial
-  </dd>
-</dl>
+<ul class="det-legend">
+  <li class="present">
+    <span class="key 'present'">'Present'</span>
+    <div class="related">
+      <span class="key positivepredictivevalue">Positive Predictive Value</span>
+      (<span class="key positivepredictivevalue"><var class="math-var">PPV</var></span>)
+    </div>
+  </li>
+  <li class="absent">
+    <span class="key 'absent'">'Absent'</span>
+    <div class="related">
+      <span class="key falseomissionrate">False Omission Rate</span>
+      (<span class="key falseomissionrate"><var class="math-var">FOR</var></span>)
+    </div>
+  </li>
+</ul>
 <h3>Outcomes</h3>
-<dl class="det-legend">
-  <dt class="correct">Correct</dt>
-  <dd>
-    <span class="key correct">Correct</span> outcome
-  </dd>
-  <dt class="error">Error</dt>
-  <dd>
-    <span class="key error">Error</span> outcome
-  </dd>
-  <dt class="nr">No Response</dt>
-  <dd>
-    <span class="key noresponse">No Response</span> outcome
-  </dd>
-  <dt class="acc">Accuracy</dt>
-  <dd>
-    <span class="key accuracy">Accuracy</span>,
-    <span class="ui evidence">Evidence</span> on a trial
-  </dd>
-  <dt class="h">Hits</dt>
-  <dd>
+<ul class="det-legend">
+  <li class="correct">
+    <span class="key correct">Correct</span>
+  </li>
+  <li class="error">
+    <span class="key error">Error</span>
+  </li>
+  <li class="nr">
+    <span class="key noresponse">No Response</span>
+  </li>
+  <li class="h">
     <span class="key hit">Hit</span>
-    (<span class="key hit"><var class="math-var">H</var></span>) outcome,
-    <span class="ui hitoutcome">Hit Outcome</span> trial
-  </dd>
-  <dt class="m">Misses</dt>
-  <dd>
+    (<span class="key hit"><var class="math-var">H</var></span>)
+  </li>
+  <li class="m">
     <span class="key miss">Miss</span>
-    (<span class="key miss"><var class="math-var">M</var></span>) outcome,
-    <span class="ui missoutcome">Miss Outcome</span> trial
-  </dd>
-  <dt class="fa">False Alarms</dt>
-  <dd>
+    (<span class="key miss"><var class="math-var">M</var></span>)
+  </li>
+  <li class="fa">
     <span class="key falsealarm">False Alarm</span>
-    (<span class="key falsealarm"><var class="math-var">FA</var></span>) outcome,
-    <span class="ui falsealarmoutcome">False Alarm Outcome</span> trial
-  </dd>
-  <dt class="cr">Correct Rejections</dt>
-  <dd>
+    (<span class="key falsealarm"><var class="math-var">FA</var></span>)
+  </li>
+  <li class="cr">
     <span class="key correctrejection">Correct Rejection</span>
-    (<span class="key correctrejection"><var class="math-var">CR</var></span>) outcome,
-    <span class="ui correctrejectionoutcome">Correct Rejection Outcome</span> trial
-  </dd>
-</dl>
+    (<span class="key correctrejection"><var class="math-var">CR</var></span>)
+  </li>
+</ul>
+<h3>Rates</h3>
+<ul class="det-legend">
+  <li class="acc">
+    <span class="key accuracy">Accuracy</span>
+  </li>
+  <li class="hr">
+    <span class="key hitrate">Hit Rate</span>
+    (<span class="key hitrate"><var class="math-var">HR</var></span>)
+    <div class="related">
+      <span class="key signal">Signal</span>
+      (Signal <span class="key present">Present</span>),
+      <span class="key signal+noisedistribution">Signal + Noise Distribution</span>
+    </div>
+  </li>
+  <li class="far">
+    <span class="key falsealarmrate">False Alarm Rate</span>
+    (<span class="key falsealarmrate"><var class="math-var">FAR</var></span>)
+    <div class="related">
+      <span class="key noise">Noise</span>
+      (Signal <span class="key absent">Absent</span>),
+      <span class="key noisedistribution">Noise Distribution</span>
+    </div>
+  </li>
+  <li class="present">
+    <span class="key positivepredictivevalue">Positive Predictive Value</span>
+    (<span class="key positivepredictivevalue"><var class="math-var">PPV</var></span>)
+    <div class="related">
+      <span class="key 'present'">'Present'</span>
+    </div>
+  </li>
+  <li class="absent">
+    <span class="key falseomissionrate">False Omission Rate</span>
+    (<span class="key falseomissionrate"><var class="math-var">FOR</var></span>)
+    <div class="related">
+      <span class="key 'absent'">'Absent'</span>
+    </div>
+  </li>
+</ul>
+<h3>Distributions</h3>
+<ul class="det-legend">
+  <li class="hr">
+    <span class="key signal+noisedistribution">Signal + Noise Distribution</span>
+    <div class="related">
+      <span class="key signal">Signal</span>
+      (Signal <span class="key present">Present</span>),
+      <span class="key hitrate">Hit Rate</span>
+      (<span class="key hitrate"><var class="math-var">HR</var></span>)
+    </div>
+  </li>
+  <li class="far">
+    <span class="key noisedistribution">Noise Distribution</span>
+    <div class="related">
+      <span class="key noise">Noise</span>
+      (Signal <span class="key absent">Absent</span>),
+      <span class="key falsealarmrate">False Alarm Rate</span>
+      (<span class="key falsealarmrate"><var class="math-var">FAR</var></span>)
+    </div>
+  </li>
+</ul>
 <h3>Parameters</h3>
-<dl class="det-legend">
-  <dt class="d">Sensitivity</dt>
-  <dd>
+<ul class="det-legend">
+  <li class="d">
     <span class="key sensitivity">Sensitivity</span>
-    (<span class="key sensitivity"><var class="math-var">d′</var></span>),
-    <span class="ui iso-sensitivitycurve">Iso-Sensitivity Curve</span>
-  </dd>
-  <dt class="c">Bias</dt>
-  <dd>
+    (<span class="key sensitivity"><var class="math-var">d′</var></span>)
+    <div class="related">
+      <span class="key iso-sensitivitycurve">Iso-Sensitivity Curve</span>
+    </div>
+  </li>
+  <li class="c">
     <span class="key bias">Bias</span>
-    (<span class="key bias"><var class="math-var">c</var></span>),
-    <span class="ui iso-biascurve">Iso-Bias Curve</span>
-  </dd>
-  <dt class="s">Variance</dt>
-  <dd>
+    (<span class="key bias"><var class="math-var">c</var></span>)
+    <div class="related">
+      <span class="key iso-biascurve">Iso-Bias Curve</span>
+    </div>
+  </li>
+  <li class="s">
     <span class="key variance">Variance</span>
     (<span class="key variance"><var class="math-var">σ</var></span>)
-  </dd>
-</dl>
+  </li>
+</ul>
+<h3>Iso-Curves</h3>
+<ul class="det-legend">
+  <li class="d">
+    <span class="key iso-sensitivitycurve">Iso-Sensitivity Curve</span>
+    <div class="related">
+      <span class="key sensitivity">Sensitivity</span>
+      (<span class="key sensitivity"><var class="math-var">d′</var></span>)
+    </div>
+  </li>
+  <li class="c">
+    <span class="key iso-biascurve">Iso-Bias Curve</span>
+    <div class="related">
+      <span class="key bias">Bias</span>
+      (<span class="key bias"><var class="math-var">c</var></span>)
+    </div>
+  </li>
+</ul>
 
           </section>
 

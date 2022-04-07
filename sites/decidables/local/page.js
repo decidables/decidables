@@ -15979,7 +15979,8 @@ class DecidablesElement extends s {
   }
 
   static get svgFilters() {
-    const shadows = DecidablesElement.shadows; // eslint-disable-line prefer-destructuring
+    const shadows = DecidablesElement.shadows;
+    /* eslint-disable-line prefer-destructuring */
 
     const filters = shadows.elevations.map(z => {
       return y$1(_t$i || (_t$i = _$i`
@@ -17368,7 +17369,7 @@ class RDKTask extends DetectableElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $(_t2$9 || (_t2$9 = _$a``));
   }
 
@@ -22908,7 +22909,7 @@ class ROCSpace extends DetectableElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $(_t2$8 || (_t2$8 = _$9`
       ${0}
     `), DetectableElement.svgFilters);
@@ -23934,7 +23935,7 @@ class SDTModel extends DetectableElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $(_t2$7 || (_t2$7 = _$8`
       ${0}
     `), DetectableElement.svgFilters);
@@ -24080,7 +24081,8 @@ class SDTModel extends DetectableElement {
       datum.startMuS = this.muS;
     }).on('drag', (event, datum) => {
       this.drag = true;
-      let muS = this.muS; // eslint-disable-line prefer-destructuring
+      let muS = this.muS;
+      /* eslint-disable-line prefer-destructuring */
 
       if (this.interactive) {
         muS = xScale.invert(event.x); // Clamp Signal Curve to stay visible
@@ -24088,7 +24090,8 @@ class SDTModel extends DetectableElement {
         muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
       }
 
-      let hS = this.hS; // eslint-disable-line prefer-destructuring
+      let hS = this.hS;
+      /* eslint-disable-line prefer-destructuring */
 
       if (this.unequal) {
         hS = yScale.invert(event.y); // Clamp Signal Curve to stay visible
@@ -24219,7 +24222,8 @@ class SDTModel extends DetectableElement {
 
     const noiseMerge = signalNoiseMerge.selectAll('.noise').attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive).on('keydown', this.interactive ? event => {
       if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-        let muN = this.muN; // eslint-disable-line prefer-destructuring
+        let muN = this.muN;
+        /* eslint-disable-line prefer-destructuring */
 
         switch (event.key) {
           case 'ArrowRight':
@@ -24350,7 +24354,8 @@ class SDTModel extends DetectableElement {
 
     const signalMerge = signalNoiseMerge.selectAll('.signal').attr('tabindex', this.interactive || this.unequal ? 0 : null).classed('interactive', this.interactive).classed('unequal', this.unequal).on('keydown.sensitivity', this.interactive ? event => {
       if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-        let muS = this.muS; // eslint-disable-line prefer-destructuring
+        let muS = this.muS;
+        /* eslint-disable-line prefer-destructuring */
 
         switch (event.key) {
           case 'ArrowRight':
@@ -24375,7 +24380,8 @@ class SDTModel extends DetectableElement {
       }
     } : null).on('keydown.variance', this.unequal ? event => {
       if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-        let hS = this.hS; // eslint-disable-line prefer-destructuring
+        let hS = this.hS;
+        /* eslint-disable-line prefer-destructuring */
 
         switch (event.key) {
           case 'ArrowUp':
@@ -24532,7 +24538,7 @@ class SDTModel extends DetectableElement {
       const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
       return time => {
         element.d = interpolateD(time);
-        select(element).text(+element.d.toFixed(3));
+        select(element).text(format('.3')(element.d));
       };
     }); //  EXIT
 
@@ -24563,7 +24569,7 @@ class SDTModel extends DetectableElement {
       const interpolateC = interpolate$1(element.c !== undefined ? element.c : this.c, this.c);
       return time => {
         element.c = interpolateC(time);
-        select(element).text(+element.c.toFixed(3));
+        select(element).text(format('.3')(element.c));
       };
     }); //  EXIT
 
@@ -24598,7 +24604,7 @@ class SDTModel extends DetectableElement {
       const interpolateS = interpolate$1(element.s !== undefined ? element.s : this.s, this.s);
       return time => {
         element.s = interpolateS(time);
-        select(element).text(+element.s.toFixed(3));
+        select(element).text(format('.3')(element.s));
       };
     }); //  EXIT
 
@@ -24617,7 +24623,8 @@ class SDTModel extends DetectableElement {
       if (this.interactive) {
         thresholdMerge.call(dragThreshold).on('keydown', event => {
           if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-            let l = this.l; // eslint-disable-line prefer-destructuring
+            let l = this.l;
+            /* eslint-disable-line prefer-destructuring */
 
             switch (event.key) {
               case 'ArrowRight':
@@ -25021,8 +25028,8 @@ class DetectableTable extends DetectableElement {
     this.numeric = false;
     this.summaries = ['stimulusRates', 'responseRates', 'accuracy'];
     this.summary = new Set();
-    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome'];
-    this.color = 'outcome';
+    this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome', 'all'];
+    this.color = 'all';
     this.h = 40;
     this.m = 60;
     this.fa = 75;
@@ -25224,7 +25231,7 @@ class DetectableTable extends DetectableElement {
 
         /* Color schemes & Table emphasis */
 
-        /* (Default) Outcome color scheme */
+        /* (Default) All color scheme */
         .h {
           background: var(---color-h-light);
           border-top: 2px solid var(---color-element-emphasis);
@@ -25323,6 +25330,15 @@ class DetectableTable extends DetectableElement {
           background: var(---color-element-background);
         }
 
+        /* Outcome color scheme */
+        :host([color="outcome"]) .hr,
+        :host([color="outcome"]) .far,
+        :host([color="outcome"]) .ppv,
+        :host([color="outcome"]) .fomr,
+        :host([color="outcome"]) .acc {
+          background: var(---color-element-background);
+        }
+
         /* No color scheme */
         :host([color="none"]) .cr,
         :host([color="none"]) .fa,
@@ -25345,6 +25361,22 @@ class DetectableTable extends DetectableElement {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     });
+
+    const payoffFormat = number => {
+      return payoffFormatter.formatToParts(number).map(({
+        type,
+        value
+      }) => {
+        if (type === 'minusSign') {
+          return '−';
+        }
+
+        return value;
+      }).reduce((string, part) => {
+        return string + part;
+      });
+    };
+
     this.alignState();
     let h;
     let m;
@@ -25362,25 +25394,25 @@ class DetectableTable extends DetectableElement {
           <span>Hits</span>
           ${0}
         </decidables-spinner>
-      `), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? $(_t3$1 || (_t3$1 = _$7`<span class="payoff">${0}</span>`), payoffFormatter.format(this.hPayoff)) : $(_t4$1 || (_t4$1 = _$7``)));
+      `), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? $(_t3$1 || (_t3$1 = _$7`<span class="payoff">${0}</span>`), payoffFormat(this.hPayoff)) : $(_t4$1 || (_t4$1 = _$7``)));
       m = $(_t5$1 || (_t5$1 = _$7`
         <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <span>Misses</span>
           ${0}
         </decidables-spinner>
-      `), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? $(_t6 || (_t6 = _$7`<span class="payoff">${0}</span>`), payoffFormatter.format(this.mPayoff)) : $(_t7 || (_t7 = _$7``)));
+      `), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? $(_t6 || (_t6 = _$7`<span class="payoff">${0}</span>`), payoffFormat(this.mPayoff)) : $(_t7 || (_t7 = _$7``)));
       fa = $(_t8 || (_t8 = _$7`
         <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <span>False Alarms</span>
           ${0}
         </decidables-spinner>
-      `), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? $(_t9 || (_t9 = _$7`<span class="payoff">${0}</span>`), payoffFormatter.format(this.faPayoff)) : $(_t10 || (_t10 = _$7``)));
+      `), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? $(_t9 || (_t9 = _$7`<span class="payoff">${0}</span>`), payoffFormat(this.faPayoff)) : $(_t10 || (_t10 = _$7``)));
       cr = $(_t11 || (_t11 = _$7`
         <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
           <span>Correct Rejections</span>
           ${0}
         </decidables-spinner>
-      `), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? $(_t12 || (_t12 = _$7`<span class="payoff">${0}</span>`), payoffFormatter.format(this.crPayoff)) : $(_t13 || (_t13 = _$7``)));
+      `), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? $(_t12 || (_t12 = _$7`<span class="payoff">${0}</span>`), payoffFormat(this.crPayoff)) : $(_t13 || (_t13 = _$7``)));
       hr = $(_t14 || (_t14 = _$7`
         <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
           <span>Hit Rate</span>
@@ -25408,13 +25440,13 @@ class DetectableTable extends DetectableElement {
       `), !this.interactive, +this.fomr.toFixed(3), this.fomrInput.bind(this));
     } else {
       h = $(_t19 || (_t19 = _$7`<span>Hits</span>
-        ${0}`), this.payoff ? $(_t20 || (_t20 = _$7`<span class="payoff">${0}</span>`), payoffFormatter.format(this.hPayoff)) : $(_t21 || (_t21 = _$7``)));
+        ${0}`), this.payoff ? $(_t20 || (_t20 = _$7`<span class="payoff">${0}</span>`), payoffFormat(this.hPayoff)) : $(_t21 || (_t21 = _$7``)));
       m = $(_t22 || (_t22 = _$7`<span>Misses</span>
-        ${0}`), this.payoff ? $(_t23 || (_t23 = _$7`<span class="payoff">${0}</span>`), payoffFormatter.format(this.mPayoff)) : $(_t24 || (_t24 = _$7``)));
+        ${0}`), this.payoff ? $(_t23 || (_t23 = _$7`<span class="payoff">${0}</span>`), payoffFormat(this.mPayoff)) : $(_t24 || (_t24 = _$7``)));
       fa = $(_t25 || (_t25 = _$7`<span>False Alarms</span>
-        ${0}`), this.payoff ? $(_t26 || (_t26 = _$7`<span class="payoff">${0}</span>`), payoffFormatter.format(this.faPayoff)) : $(_t27 || (_t27 = _$7``)));
+        ${0}`), this.payoff ? $(_t26 || (_t26 = _$7`<span class="payoff">${0}</span>`), payoffFormat(this.faPayoff)) : $(_t27 || (_t27 = _$7``)));
       cr = $(_t28 || (_t28 = _$7`<span>Correct Rejections</span>
-        ${0}`), this.payoff ? $(_t29 || (_t29 = _$7`<span class="payoff">${0}</span>`), payoffFormatter.format(this.crPayoff)) : $(_t30 || (_t30 = _$7``)));
+        ${0}`), this.payoff ? $(_t29 || (_t29 = _$7`<span class="payoff">${0}</span>`), payoffFormat(this.crPayoff)) : $(_t30 || (_t30 = _$7``)));
       hr = $(_t31 || (_t31 = _$7`<span>Hit Rate</span>`));
       far = $(_t32 || (_t32 = _$7`<span>False Alarm Rate</span>`));
       acc = $(_t33 || (_t33 = _$7`<span>Accuracy</span>`));
@@ -26066,7 +26098,7 @@ class CPTProbability extends CPTElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $(_t2$5 || (_t2$5 = _$5`
       ${0}
     `), CPTElement.svgFilters);
@@ -26453,7 +26485,8 @@ class CPTProbability extends CPTElement {
       if (this.interactive) {
         curveMerge.attr('tabindex', 0).classed('interactive', true).call(curveDrag).on('keydown', (event, datum) => {
           if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-            let g = datum.g; // eslint-disable-line prefer-destructuring
+            let g = datum.g;
+            /* eslint-disable-line prefer-destructuring */
 
             switch (event.key) {
               case 'ArrowUp':
@@ -26532,7 +26565,8 @@ class CPTProbability extends CPTElement {
       return (this.firstUpdate || changedProperties.has('interactive')) && this.interactive && !datum.trial;
     }).attr('tabindex', 0).classed('interactive', true).call(pointDrag).on('keydown', (event, datum) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-        let p = datum.p; // eslint-disable-line prefer-destructuring
+        let p = datum.p;
+        /* eslint-disable-line prefer-destructuring */
 
         switch (event.key) {
           case 'ArrowUp':
@@ -27024,7 +27058,7 @@ class CPTValue extends CPTElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $(_t2$4 || (_t2$4 = _$4`
       ${0}
     `), CPTElement.svgFilters);
@@ -27455,7 +27489,8 @@ class CPTValue extends CPTElement {
       if (this.interactive) {
         curvePMerge.attr('tabindex', 0).classed('interactive', true).call(curvePDrag).on('keydown', (event, datum) => {
           if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-            let a = datum.a; // eslint-disable-line prefer-destructuring
+            let a = datum.a;
+            /* eslint-disable-line prefer-destructuring */
 
             switch (event.key) {
               case 'ArrowUp':
@@ -27529,7 +27564,8 @@ class CPTValue extends CPTElement {
       if (this.interactive) {
         curveNMerge.attr('tabindex', 0).classed('interactive', true).call(curveNDrag).on('keydown', (event, datum) => {
           if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-            let l = datum.l; // eslint-disable-line prefer-destructuring
+            let l = datum.l;
+            /* eslint-disable-line prefer-destructuring */
 
             switch (event.key) {
               case 'ArrowUp':
@@ -27610,7 +27646,8 @@ class CPTValue extends CPTElement {
       return (this.firstUpdate || changedProperties.has('interactive')) && this.interactive && !datum.trial;
     }).attr('tabindex', 0).classed('interactive', true).call(pointDrag).on('keydown', (event, datum) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-        let x = datum.x; // eslint-disable-line prefer-destructuring
+        let x = datum.x;
+        /* eslint-disable-line prefer-destructuring */
 
         switch (event.key) {
           case 'ArrowUp':
@@ -27821,7 +27858,7 @@ class DecisionOption extends CPTElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $(_t2$3 || (_t2$3 = _$3`
       ${0}
       <slot></slot>
@@ -28092,7 +28129,7 @@ class DecisionOutcome extends CPTElement {
   }
 
   render() {
-    // eslint-disable-line class-methods-use-this
+    /* eslint-disable-line class-methods-use-this */
     return $(_t2$2 || (_t2$2 = _$2``));
   }
 

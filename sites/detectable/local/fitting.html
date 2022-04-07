@@ -28,7 +28,9 @@
   <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 </svg>
               </button>
-              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+              <a class="det-nav-brand" href="index.html">
+                <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+              </a>
             </div>
             <nav class="det-nav-collapse collapse" id="det-nav">
               <ol class="det-toc">
@@ -58,7 +60,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Behavior</div>
+                      <div class="det-toc-section-name">Behavior</div>
                     
                     <ol class="det-toc-section det-toc-section-behavior">
                       
@@ -107,7 +109,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Theory</div>
+                      <div class="det-toc-section-name">Theory</div>
                     
                     <ol class="det-toc-section det-toc-section-theory">
                       
@@ -156,7 +158,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Model</div>
+                      <div class="det-toc-section-name">Model</div>
                     
                     <ol class="det-toc-section det-toc-section-model">
                       
@@ -189,7 +191,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Advanced</div>
+                      <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
                       
@@ -238,7 +240,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name"> </div>
+                      <div class="det-toc-section-name"> </div>
                     
                     <ol class="det-toc-section det-toc-section-conclusion">
                       
@@ -255,7 +257,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Resources</div>
+                      <div class="det-toc-section-name">Resources</div>
                     
                     <ol class="det-toc-section det-toc-section-resources">
                       
@@ -306,13 +308,19 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.7.0</span>
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%400.7.0" target="_blank" rel="noopener">
+                        v0.7.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
@@ -333,38 +341,21 @@
 
         <main class="det-main">
           
-            <header>
-              <h1>Model Fitting: Fitting Human Performance to Signal Detection Theory</h1>
+            <header class="det-header">
+              <h1 class="det-title">Model Fitting: Fitting Human Performance to Signal Detection Theory</h1>
             </header>
           
           <section class="det-content">
             <h2>From human performance to model parameters</h2>
-<p>On the exploration page, you were able to explore SDT through the relationship between data and
-model, but what if we observe human performance and we want to <em>fit</em> the model to this actual human
-data? This moves us from model exploration to model fitting, which you can do below.</p>
-<p>You can select how many <span class="ui trials">Trials</span> to perform, the <span class="ui duration">Duration</span> of the stimulus on each trial, and
-the percentage of dots that exhibit <span class="ui coherence">Coherence</span> when the signal is present. When you are ready,
-you can <span class="ui run">Run</span> the task. At any time, you can temporarily <span class="ui pause">Pause</span>, or permanently <span class="ui reset">Reset</span>
-the task.</p>
-<p>Each trial will begin with a fixation, <span class="ui +">+</span>, then a stimulus, and finally a question mark, <span class="ui ?">?</span>.
-Decide whether you think this is a <span class="key signalpresent">Signal Present</span> or <span class="key signalabsent">Signal Absent</span> trial, and during the
-stimulus or question mark, respond by clicking <span class="ui present">Present</span> or <span class="ui absent">Absent</span>.</p>
-<p>Based on the stimulus and your response (or lack there of), you will then receive feedback
-indicating whether this trial resulted in a <span class="key hit">Hit</span>, <span class="key miss">Miss</span>, <span class="key falsealarm">False Alarm</span>, <span class="key correctrejection">Correct
-Rejection</span>, or <span class="key noresponse">No Response</span>.</p>
-<p>The table of outcomes summarizes your <span class="key hits">Hits</span>, <span class="key misses">Misses</span>, <span class="key falsealarms">False Alarms</span>, and <span class="key correctrejections">Correct
-Rejections</span>, along with your <span class="key hitrate">Hit Rate</span>, <span class="key falsealarmrate">False Alarm Rate</span>, and overall <span class="key accuracy">Accuracy</span>.</p>
-<p>In ROC space, your performance is plotted as <span class="key hitrate">Hit Rate</span> versus <span class="key falsealarmrate">False Alarm Rate</span>. All of
-the points with the same <span class="key sensitivity">Sensitivity</span> (<span class="key d′">d′</span>) are illustrated with an <span class="key iso-sensitivitycurve">Iso-Sensitivity
-Curve</span>. All of the points with the same <span class="key bias">Bias</span> (<span class="key c">c</span>) are illustrated with an <span class="key iso-biascurve">Iso-Bias
-Curve</span>.</p>
-<p>The visual representation of the SDT model shows your calculated <span class="key sensitivity">Sensitivity</span> as the distance,
-<span class="key d′">d′</span>, between the noise and signal plus noise distributions. And it shows your calculated
-<span class="key bias">Bias</span> as the location, <span class="key c">c</span>, of the threshold. The threshold divides the signal plus noise
-distribution into <span class="key hit">Hit</span> and <span class="key miss">Miss</span> areas and divides the noise distribution into
-<span class="key correctrejection">Correct Rejection</span> and <span class="key falsealarm">False Alarm</span> areas.</p>
-<p>As you perform trials of the task, the table of outcomes, ROC space, and the SDT model will change
-to reflect your current aggregate performance up until that point in the task.</p>
+<p>On the previous page, you were able to explore SDT through the relationship between data and
+model, but what if we observe human performance and we want to fit the model to this actual human
+data? This moves us from model <em>exploration</em> to model <em>fitting</em>, which you can do below.</p>
+<p>The table of outcomes summarizes performance. ROC space shows the relationship between behavior and
+theory. And the model diagram illustrates an explanation of that performance in terms of SDT. As you
+perform trials of the task, the table of outcomes, ROC space, and the SDT model will change to
+reflect your current aggregate performance up until that point in the task. By observing how these
+different representations present and interpret your data, you can gain a deeper appreciation for
+the relationship between performance, data and theory.</p>
 <sdt-example-human>
   <detectable-control coherence=".5" trials="10" duration="1000" run pause reset></detectable-control>
   <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
@@ -375,10 +366,24 @@ to reflect your current aggregate performance up until that point in the task.</
   <sdt-model threshold bias distributions sensitivity histogram color="outcome" d="0" c="0">
     </sdt-model>
 </sdt-example-human>
-<p>The table of outcomes summarizes performance. The model diagram illustrates an explanation of that
-performance in terms of SDT. And ROC space shows the relationship between behavior and theory. By
-observing how these different representations present and interpret your data, you can gain a deeper
-appreciation for the relationship between performance, data and theory.</p>
+<div class="ui"><p>You can select how many <span class="slider trials">Trials</span> to perform, the <span class="slider duration">Duration</span> of the stimulus on each
+trial, and the proportion of dots that exhibit <span class="slider coherence">Coherence</span> when the signal is present. When
+you are ready, you can <span class="button run">Run</span> the task. At any time, you can temporarily <span class="button pause">Pause</span>, or
+permanently <span class="button reset">Reset</span> the task.</p><p>Each trial will begin with a fixation, <span class="prompt +">+</span>, then a stimulus, and finally a question mark,
+<span class="prompt ?">?</span>. Decide whether you think the signal is <span class="key present">Present</span> or <span class="key absent">Absent</span>, and during the
+stimulus or question mark, respond by clicking <span class="button present">Present</span> to indicate a <span class="key &#x27;present&#x27;">‘Present’</span>
+response or <span class="button absent">Absent</span> to indicate an <span class="key &#x27;absent&#x27;">‘Absent’</span> response.</p><p>Based on the stimulus and your response (or lack there of), you will then receive feedback
+indicating whether this trial resulted in a <span class="key hit">Hit</span>, <span class="key miss">Miss</span>, <span class="key falsealarm">False Alarm</span>, <span class="key correctrejection">Correct
+Rejection</span>, or <span class="key noresponse">No Response</span>.</p><p>The table of outcomes summarizes your <span class="key hits">Hits</span>, <span class="key misses">Misses</span>, <span class="key falsealarms">False Alarms</span>, and <span class="key correctrejections">Correct
+Rejections</span>, along with your <span class="key hitrate">Hit Rate</span>, <span class="key falsealarmrate">False Alarm Rate</span>, and overall <span class="key accuracy">Accuracy</span>.</p><p>In ROC space, your performance is plotted as <span class="key hitrate">Hit Rate</span> versus <span class="key falsealarmrate">False Alarm Rate</span>. All of
+the points with the same <span class="key sensitivity">Sensitivity</span> (<span class="key d′"><span class="math-var">d′</span></span>) are illustrated
+with an <span class="key iso-sensitivitycurve">Iso-Sensitivity Curve</span>. All of the points with the same <span class="key bias">Bias</span> (<span class="key c"><span
+class="math-var">c</span></span>) are illustrated with an <span class="key iso-biascurve">Iso-Bias Curve</span>.</p><p>The visual representation of the SDT model shows your calculated <span class="key sensitivity">Sensitivity</span> as the distance,
+<span class="key d′"><span class="math-var">d′</span></span>, between the distributions. And it shows your calculated
+<span class="key bias">Bias</span> as the location, <span class="key c"><span class="math-var">c</span></span>, of the threshold. The threshold
+divides the <span class="key signal+noisedistribution">Signal + Noise Distribution</span> into regions of <span class="key hits">Hits</span> and <span class="key misses">Misses</span> and
+divides the <span class="key noisedistribution">Noise Distribution</span> into regions of <span class="key correctrejections">Correct Rejections</span> and <span class="key falsealarms">False
+Alarms</span>.</p></div>
 
           </section>
 

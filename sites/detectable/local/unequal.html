@@ -4,7 +4,7 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="detectable: Unequal Variance Signal Detection Theory: Assumptions Revisited">
+    <meta name="description" content="detectable: Unequal Variance: SDT Assumptions Revisited">
     <meta name="author" content="Dr. Adam Krawitz">
 
     <link rel="icon" href="favicon.ico" sizes="any">
@@ -28,7 +28,9 @@
   <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 </svg>
               </button>
-              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+              <a class="det-nav-brand" href="index.html">
+                <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+              </a>
             </div>
             <nav class="det-nav-collapse collapse" id="det-nav">
               <ol class="det-toc">
@@ -58,7 +60,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Behavior</div>
+                      <div class="det-toc-section-name">Behavior</div>
                     
                     <ol class="det-toc-section det-toc-section-behavior">
                       
@@ -107,7 +109,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Theory</div>
+                      <div class="det-toc-section-name">Theory</div>
                     
                     <ol class="det-toc-section det-toc-section-theory">
                       
@@ -156,7 +158,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Model</div>
+                      <div class="det-toc-section-name">Model</div>
                     
                     <ol class="det-toc-section det-toc-section-model">
                       
@@ -189,7 +191,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Advanced</div>
+                      <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
                       
@@ -238,7 +240,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name"> </div>
+                      <div class="det-toc-section-name"> </div>
                     
                     <ol class="det-toc-section det-toc-section-conclusion">
                       
@@ -255,7 +257,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Resources</div>
+                      <div class="det-toc-section-name">Resources</div>
                     
                     <ol class="det-toc-section det-toc-section-resources">
                       
@@ -306,13 +308,19 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.7.0</span>
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%400.7.0" target="_blank" rel="noopener">
+                        v0.7.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
@@ -333,12 +341,25 @@
 
         <main class="det-main">
           
-            <header>
-              <h1>Unequal Variance Signal Detection Theory: Assumptions Revisited</h1>
+            <header class="det-header">
+              <h1 class="det-title">Unequal Variance: SDT Assumptions Revisited</h1>
             </header>
           
           <section class="det-content">
             <h2>Relaxing the equal variance assumption</h2>
+<p>Back when we first discussed <a href="measurement.html"><span class="page measurement&#x26;sensitivity">Measurement &#x26; Sensitivity</span></a>, we mentioned
+that the <span class="key noisedistribution">noise distribution</span> and the <span class="key signal-plus-noisedistribution">signal-plus-noise distribution</span> are assumed to have
+equal variance. It turns out that this assumption is often violated in real world scenarios where we
+would like to apply SDT. For example, studies of recognition memory consistently find evidence of
+unequal variance (<a class="csl-ref" href="references.html#glanzer_slope_1999">Glanzer, Kim, Hilford, &#38; Adams, 1999</a>; <a class="csl-ref" href="references.html#ratcliff_testing_1992">Ratcliff, Sheu, &#38; Gronlund, 1992</a>). This is a problem for equal
+variance SDT because it can’t account for these observed patterns of performance.</p>
+<p>Fortunately, SDT can be generalized to account for distributions with unequal variance. First, we
+will quantify the relative <a href="glossary.html#variance" class="term">variance</a> for the <span class="key signal-plus-noisedistribution">signal-plus-noise distribution</span> as compared
+to the <span class="key noisedistribution">noise distribution</span> as <a href="glossary.html#σ" class="term"><span class="math-var">σ</span></a>. When the <span class="key variance">variance</span>,
+<span class="key σ"><span class="math-var">σ</span></span>, is equal to one then the distributions have equal variance.
+When it is smaller than one, the <span class="key signal-plus-noisedistribution">signal-plus-noise distribution</span> has a smaller variance, and
+when it is larger than one, the <span class="key signal-plus-noisedistribution">signal-plus-noise distribution</span> has a larger variance.</p>
+<p>You can explore this here:</p>
 <sdt-example-interactive>
   <detectable-control z-roc></detectable-control>
   <detectable-table numeric interactive summary="stimulusRates accuracy"
@@ -346,19 +367,76 @@
   <roc-space z-roc interactive point="all" iso-d="all" iso-c="all"></roc-space>
   <sdt-model interactive unequal threshold distributions bias sensitivity variance color="outcome"></sdt-model>
 </sdt-example-interactive>
-<h2>Isocontours with unequal variance</h2>
+<div class="ui"><p>Our new parameter <span class="key variance">Variance</span>, <span class="key σ"><span class="math-var">σ</span></span>, has been added to the model
+diagram to indicate it’s relationship to the width of the <span class="key signal-plus-noisedistribution">Signal-plus-Noise Distribution</span>. You
+can now drag that distribution up and down to adjust the <span class="key variance">Variance</span>. Note that when you pull it
+<em>up</em>, this makes the distribution taller but <em>thinner</em> and thus <span class="key σ"><span
+class="math-var">σ</span></span> is <em>smaller</em>, and when you drag it <em>down</em>, this makes the distribution
+shorter but <em>wider</em> and thus <span class="key σ"><span class="math-var">σ</span></span> is <em>larger</em>.</p><p>As in previous model explorations, the table of outcomes, ROC space, and the model diagram are
+linked so they all update simultaneously.</p></div>
+<p>You will notice that this example was set up to show <span class="math-var">z</span>ROC space by
+default. Observe what happens to the <span class="key iso-sensitivitycurve">iso-sensitivity curve</span> as you adjust the variance… It
+changes slope! Granted, you can still see that it changes, somehow, in non-transformed ROC space,
+but <span class="math-var">z</span>ROC space turns that complex shape-shift into a simple change in
+slope. Indeed, in the literature, unequal variance is usually determined by testing if the slope of
+an empirically derived <span class="math-var">z</span>ROC curve is not equal to one
+(<a class="csl-ref" href="references.html#glanzer_slope_1999">Glanzer et al., 1999</a>; <a class="csl-ref" href="references.html#ratcliff_testing_1992">Ratcliff et al., 1992</a>).</p>
+<h2>Calculating unequal variance <span class="math-var">d′</span> and <span class="math-var">c</span></h2>
+<p>As suggested by the diagram of the SDT model, we still have a formal mathematical relationship
+between performance and model parameters, it’s just a bit more complicated now, since it has to
+account for the inequality of variance.</p>
+<p>Here is the equation for <span class="key sensitivity">sensitivity</span>, taking <span class="key variance">variance</span> into account:</p>
+<p><sdt-equation-hrfar2d unequal></sdt-equation-hrfar2d></p>
+<sdt-equation-hrfar2d unequal numeric interactive hit-rate=".5" false-alarm-rate=".5" s="2">
+  </sdt-equation-hrfar2d>
+<p>And here is the equation for <span class="key bias">bias</span>, taking <span class="key variance">variance</span> into account:</p>
+<p><sdt-equation-hrfar2c unequal></sdt-equation-hrfar2c></p>
+<sdt-equation-hrfar2c unequal numeric interactive hit-rate=".5" false-alarm-rate=".5">
+  </sdt-equation-hrfar2c>
+<h2>Iso-contours with unequal variance</h2>
+<p>You can also get a sense of the effects of unequal variance on the relationship of <span class="key sensitivity">sensitivity</span>
+and <span class="key bias">bias</span> to <span class="key hitrate">hit rate</span> and <span class="key falsealarmrate">false alarm rate</span> by looking at how the iso-sensitivity
+and iso-bias contours change as the <span class="key variance">variance</span> is manipulated:</p>
 <sdt-example-interactive>
   <detectable-control z-roc></detectable-control>
   <sdt-model unequal threshold distributions variance color="outcome"></sdt-model>
   <roc-space z-roc contour="sensitivity" point="none" iso-d="none" iso-c="none"></roc-space>
   <roc-space z-roc contour="bias" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
+<div class="ui"><p>In this example, you can only change the <span class="key variance">Variance</span> in the SDT model, to make it easier to focus
+on its effects on the iso-contours.</p></div>
+<h2>Calculating hit rate and false alarm rate with unequal variance</h2>
+<p>To make model predictions with unequal variance SDT, we will need to calculate <span class="key hitrate">hit rate</span>,
+taking <span class="key variance">variance</span> into account:</p>
+<p><sdt-equation-dc2hr unequal></sdt-equation-dc2hr></p>
+<p><sdt-equation-dc2hr unequal numeric interactive d="1" c="1"></sdt-equation-dc2hr></p>
+<p>And we will need to calculate <span class="key falsealarmrate">false alarm rate</span>, taking <span class="key variance">variance</span> into account:</p>
+<p><sdt-equation-dc2far unequal></sdt-equation-dc2far></p>
+<p><sdt-equation-dc2far unequal numeric interactive d="1" c="1"></sdt-equation-dc2far></p>
 <h2>Spurious correlation when unequal variance data analyzed with equal variance model</h2>
+<p>As a final note, let’s observe what can happen if our data is produced by a mechanism that follows
+unequal variance SDT, but we erroneously analyze it using the equal variance model.</p>
+<p>Imagine we have a number of conditions and for each condition we calculate <span class="key sensitivity">sensitivity</span> and
+<span class="key bias">bias</span> using equal variance SDT. According to our calculations, <span class="key d′"><span
+class="math-var">d′</span></span> and <span class="key c"><span class="math-var">c</span></span> are both different for each
+condition, and curiously, as shown in the example below, they are correlated with each other. We
+might be tempted to consider what additional process may be acting in our participants to cause this
+linkage of <span class="key sensitivity">sensitivity</span> and <span class="key bias">bias</span>. But, in fact, this seeming relationship is spurious.
+When unequal variance is taken into account, all of the conditions have the same <span class="key sensitivity">sensitivity</span>
+and only the <span class="key bias">bias</span> is varying between conditions.</p>
 <sdt-example-unequal>
   <detectable-control z-roc></detectable-control>
-  <sdt-model interactive unequal distributions sensitivity variance color="stimulus"></sdt-model>
+  <sdt-model interactive unequal distributions sensitivity variance color="stimulus" s="1.5"></sdt-model>
   <roc-space z-roc contour="sensitivity" point="rest" iso-d="rest" iso-c="rest"></roc-space>
 </sdt-example-unequal>
+<div class="ui"><p>In ROC space, the single shared <span class="key iso-sensitivitycurve">iso-sensitivity curve</span> and each individual <span class="key iso-biascurve">iso-bias curve</span>
+show the “true” values based on the unequal variance model shown in the SDT model diagram. On the
+other hand, the <em>iso-sensitivity contours</em> are from the equal variance model. The spurious values
+for sensitivity from the equal variance model are different for each point, whereas the correct
+values all fall on the same curve.</p></div>
+<p>If nothing else, this last example demonstrates the importance of understanding and being aware of
+the assumptions of a model, so that you can keep your eye out for characteristic patterns suggestive
+of failures of those assumptions.</p>
 
           </section>
 

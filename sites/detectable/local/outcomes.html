@@ -28,7 +28,9 @@
   <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 </svg>
               </button>
-              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+              <a class="det-nav-brand" href="index.html">
+                <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+              </a>
             </div>
             <nav class="det-nav-collapse collapse" id="det-nav">
               <ol class="det-toc">
@@ -58,7 +60,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Behavior</div>
+                      <div class="det-toc-section-name">Behavior</div>
                     
                     <ol class="det-toc-section det-toc-section-behavior">
                       
@@ -107,7 +109,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Theory</div>
+                      <div class="det-toc-section-name">Theory</div>
                     
                     <ol class="det-toc-section det-toc-section-theory">
                       
@@ -156,7 +158,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Model</div>
+                      <div class="det-toc-section-name">Model</div>
                     
                     <ol class="det-toc-section det-toc-section-model">
                       
@@ -189,7 +191,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Advanced</div>
+                      <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
                       
@@ -238,7 +240,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name"> </div>
+                      <div class="det-toc-section-name"> </div>
                     
                     <ol class="det-toc-section det-toc-section-conclusion">
                       
@@ -255,7 +257,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Resources</div>
+                      <div class="det-toc-section-name">Resources</div>
                     
                     <ol class="det-toc-section det-toc-section-resources">
                       
@@ -306,13 +308,19 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.7.0</span>
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%400.7.0" target="_blank" rel="noopener">
+                        v0.7.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
@@ -333,16 +341,17 @@
 
         <main class="det-main">
           
-            <header>
-              <h1>Outcomes: Comparing Stimulus and Response</h1>
+            <header class="det-header">
+              <h1 class="det-title">Outcomes: Comparing Stimulus and Response</h1>
             </header>
           
           <section class="det-content">
             <h2>Was I right or wrong?</h2>
 <p>On each trial, when we make a response, we might wonder about the relationship between our response
-and the actual state of affairs. If the stimulus and response match, we are <span class="term correct">correct</span>. If the
-stimulus and response don’t match, we are in <span class="term error">error</span>. And sometimes that may be all that really
-matters - was my answer <span class="key correct">correct</span> or was it an <span class="key error">error</span>?</p>
+and the actual state of affairs — in other words, we are interested in the <a href="glossary.html#outcome" class="term">outcome</a>. If the
+stimulus and response match, we are <a href="glossary.html#correct" class="term">correct</a>. If the stimulus and response don’t match, we are
+in <a href="glossary.html#error" class="term">error</a>. And sometimes that may be all that really matters - was my answer <span class="key correct">correct</span> or
+was it an <span class="key error">error</span>?</p>
 <p>Try a few trials of the task:</p>
 <sdt-example-human>
   <detectable-control trials="5" run pause reset duration="1000" coherence=".5"></detectable-control>
@@ -351,25 +360,26 @@ matters - was my answer <span class="key correct">correct</span> or was it an <s
   <detectable-response interactive trial feedback="accuracy"></detectable-response>
 </sdt-example-human>
 <p>As you have no doubt noticed, if you have given it a try, you receive feedback.</p>
-<div class="ui-note"><p>The feedback is presented to the right of the response buttons. At the top, you are shown the
+<div class="ui"><p>The feedback is presented to the right of the response buttons. At the top, you are shown the
 current trial and the total trials. Below that, for the moment, the feedback is either
 <span class="key correct">Correct</span>, <span class="key error">Error</span>, or if you don’t respond in time, <span class="key noresponse">No Response</span>.</p></div>
 <h2>How was I right or wrong?</h2>
 <p>If we think about it a bit more, we realize that there are actually two ways we can be correct, and
-two ways we can be in error:</p>
+two ways we can be in error, leading to four possible outcomes: <a href="glossary.html#hit" class="term">hit</a>, <a href="glossary.html#miss" class="term">miss</a>,
+<a href="glossary.html#correctrejection" class="term">correct rejection</a>, or <a href="glossary.html#falsealarm" class="term">false alarm</a>.</p>
 <ul>
-<li><span class="key hits">Hits</span>, also called <span class="term truepositives">true positives</span>, are when the signal is actually present, and we
+<li>A <span class="key hit">hit</span>, also called a <a href="glossary.html#truepositive" class="term">true positive</a>, is when the signal is actually present, and we
 <em>correctly</em> respond ‘present’</li>
-<li><span class="key misses">Misses</span>, also called <span class="term falsepositives">false positives</span> or <span class="term typeierrors">type I errors</span>, are when the signal is
+<li>A <span class="key miss">miss</span>, also called a <a href="glossary.html#falsenegative" class="term">false negative</a> or <a href="glossary.html#typeiierror" class="term">type II error</a>, is when the signal is
 actually present, and we <em>erroneously</em> respond ‘absent’</li>
-<li><span class="key falsealarms">False alarms</span>, also called <span class="term falsenegatives">false negatives</span> or <span class="term typeiierrors">type II errors</span>, are when the
+<li>A <span class="key falsealarm">false alarm</span>, also called a <a href="glossary.html#falsepositive" class="term">false positive</a> or <a href="glossary.html#typeierror" class="term">type I error</a>, is when the
 signal is actually absent, and we <em>erroneously</em> respond ‘present’</li>
-<li><span class="key correctrejections">Correct rejections</span>, also called <span class="term truenegatives">true negatives</span>, are when the signal is actually
+<li>A <span class="key correctrejection">correct rejection</span>, also called a <a href="glossary.html#truenegative" class="term">true negative</a>, is when the signal is actually
 absent, and we <em>correctly</em> respond ‘absent’</li>
 </ul>
-<p>We have two possible states of the world (signal present or absent) and two
-possible responses (‘present’ or ‘absent’), leading to a nice two by two table of possible outcomes
-(brightly colored by yours truly):</p>
+<p>We have two possible states of the world (signal <span class="key present">present</span> or <span class="key absent">absent</span>) and two possible
+responses (<span class="key &#x27;present&#x27;">‘present’</span> or <span class="key &#x27;absent&#x27;">‘absent’</span>), leading to a nice two by two table of possible
+outcomes:</p>
 <sdt-example-interactive>
   <detectable-table></detectable-table>
 </sdt-example-interactive>
@@ -381,7 +391,7 @@ possible outcomes occurred:</p>
     duration="1000" wait="1000" iti="1000"></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
 </sdt-example-human>
-<div class="ui-note"><p>Now our feedback is <span class="key hit">Hit</span>, <span class="key miss">Miss</span>, <span class="key falsealarm">False Alarm</span>, <span class="key correctrejection">Correct Rejection</span> or if you
+<div class="ui"><p>Now our feedback is <span class="key hit">Hit</span>, <span class="key miss">Miss</span>, <span class="key falsealarm">False Alarm</span>, <span class="key correctrejection">Correct Rejection</span> or if you
 don’t respond in time, <span class="key noresponse">No Response</span>.</p></div>
 <p>Now that we know how to classify the outcome of individual trials, we might wonder how we can
 aggregate and summarize these results…</p>

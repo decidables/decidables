@@ -28,7 +28,9 @@
   <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 </svg>
               </button>
-              <a class="det-nav-brand" href="index.html"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+              <a class="det-nav-brand" href="index.html">
+                <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+              </a>
             </div>
             <nav class="det-nav-collapse collapse" id="det-nav">
               <ol class="det-toc">
@@ -58,7 +60,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Behavior</div>
+                      <div class="det-toc-section-name">Behavior</div>
                     
                     <ol class="det-toc-section det-toc-section-behavior">
                       
@@ -107,7 +109,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Theory</div>
+                      <div class="det-toc-section-name">Theory</div>
                     
                     <ol class="det-toc-section det-toc-section-theory">
                       
@@ -156,7 +158,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Model</div>
+                      <div class="det-toc-section-name">Model</div>
                     
                     <ol class="det-toc-section det-toc-section-model">
                       
@@ -189,7 +191,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Advanced</div>
+                      <div class="det-toc-section-name">Advanced</div>
                     
                     <ol class="det-toc-section det-toc-section-advanced">
                       
@@ -238,7 +240,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name"> </div>
+                      <div class="det-toc-section-name"> </div>
                     
                     <ol class="det-toc-section det-toc-section-conclusion">
                       
@@ -255,7 +257,7 @@
                 
                   <li class="det-toc-list">
                     
-                    <div class="det-toc-section-name">Resources</div>
+                      <div class="det-toc-section-name">Resources</div>
                     
                     <ol class="det-toc-section det-toc-section-resources">
                       
@@ -306,13 +308,19 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <span class="det-toc-text">v0.7.0</span>
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%400.7.0" target="_blank" rel="noopener">
+                        v0.7.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA-4.0</a>
+                      <a class="det-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
                     </li>
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0-or-later</a>
+                      <a class="det-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
                     </li>
                     <li class="det-toc-item">
                       <a class="det-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/detectable" target="_blank" rel="noopener">
@@ -333,43 +341,48 @@
 
         <main class="det-main">
           
-            <header>
-              <h1>Model Exploration: Sensitivity, Bias, Outcomes, and Rates</h1>
+            <header class="det-header">
+              <h1 class="det-title">Model Exploration: Sensitivity, Bias, Outcomes, and Rates</h1>
             </header>
           
           <section class="det-content">
-            <h2>Visualizing the relationship between performance and model</h2>
-<p>We are now ready to put everything we have learned about Signal Detection Theory together into an
-integrated and explorable view of performance and theory.</p>
-<p>The table of outcomes lists the count of each trial outcome: <span class="key hits">Hits</span>, <span class="key misses">Misses</span>, <span class="key falsealarms">False
-Alarms</span>, and <span class="key correctrejections">Correct Rejections</span>. These counts are further summarized with <span class="key hitrate">Hit Rate</span>,
-<span class="key falsealarmrate">False Alarm Rate</span>, and overall <span class="key accuracy">Accuracy</span>. You can modify any value, and any dependent
-values will update to maintain consistency.</p>
-<p>In ROC space, performance is plotted as <span class="key hitrate">Hit Rate</span> versus <span class="key falsealarmrate">False Alarm Rate</span>. All of the
-points with the same <span class="key sensitivity">Sensitivity</span> (<span class="key d′">d′</span>) are illustrated with an <span class="key iso-sensitivitycurve">Iso-Sensitivity
-Curve</span>. All of the points with the same <span class="key bias">Bias</span> (<span class="key c">c</span>) are illustrated with an <span class="key iso-biascurve">Iso-Bias
-Curve</span>. Moving the data point will cause the isocontours to update as well.</p>
-<p>The visual representation of the SDT model shows <span class="key sensitivity">Sensitivity</span> as the distance, <span class="key d′">d′</span>,
-between the noise and signal plus noise distributions. And it shows <span class="key bias">Bias</span> as the location,
-<span class="key c">c</span>, of the threshold. The threshold divides the signal plus noise distribution into <span class="key hit">Hit</span>
-and <span class="key miss">Miss</span> areas and divides the noise distribution into <span class="key correctrejection">Correct Rejection</span> and <span class="key falsealarm">False
-Alarm</span> areas. Moving the distributions or the threshold adjusts <span class="key d′">d′</span> or <span class="key c">c</span>, respectively.</p>
-<p>Across all three figures, the table of outcomes, ROC space, and the SDT model, adjustments to the
-performance or the model will be reflected immediately in the other figures as well.</p>
+            <h2>Exploring, fitting, &#x26; predicting</h2>
+<p>We are now ready to put together everything we have learned about Signal Detection Theory into
+integrated views of theory and performance.</p>
+<p>On this page, we will <em>explore</em> the relationship between model parameters and performance
+measures. On the next page, we will <em>fit</em> your performance to the model. And then, on the following
+page, we will <em>predict</em> performance from model parameters.</p>
+<h2>Visualizing the relationship between model and performance</h2>
+<p>This exploration incorporates three key visualizations. The table of outcomes summarizes
+performance. ROC space shows the relationship between behavior and theory. And the model diagram
+illustrates an explanation of that performance in terms of SDT. Note that every possible pattern of
+performance can be represented in ROC space in terms of the behavioral measures of <span class="key hitrate">hit rate</span>
+and <span class="key falsealarmrate">false alarm rate</span>, and can also be explained by a unique combination of the model
+parameters <span class="key sensitivity">sensitivity</span> and <span class="key bias">bias</span>. However the relationship between the behavioral
+measures and the model parameters is non-linear and surprisingly unintuitive, as illustrated by the
+<span class="key iso-sensitivitycurve">iso-sensitivity curve</span> and the <span class="key iso-biascurve">iso-bias curve</span>. Hopefully exploring their relationship
+through direct manipulation will help you gain a deeper understanding!</p>
 <sdt-example-interactive>
   <detectable-table numeric interactive summary="stimulusRates accuracy"
     hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
   <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
-<p>The table of outcomes summarizes performance. The model diagram illustrates an explanation of that
-performance in terms of SDT. And ROC space shows the relationship between behavior and theory. Note
-that every possible pattern of performance can be represented in ROC space in terms of the
-behavioral measures, <span class="key hitrate">Hit Rate</span> and <span class="key falsealarmrate">False Alarm Rate</span>, and can also be explained by a
-unique combination of model parameters, <span class="key sensitivity">Sensitivity</span> and <span class="key bias">Bias</span>. However the relationship
-between the behavioral measures and the model parameters is non-linear and surprisingly unintuitive,
-as illustrated by the <span class="key iso-sensitivitycurve">Iso-Sensitivity Curve</span> and the <span class="key iso-biascurve">Iso-Bias Curve</span>. Hopefully exploring
-their relationship through direct manipulation will help you gain a deeper understanding!</p>
+<div class="ui"><p>The table of outcomes lists the count of each trial outcome: <span class="key hits">Hits</span>, <span class="key misses">Misses</span>, <span class="key falsealarms">False
+Alarms</span>, and <span class="key correctrejections">Correct Rejections</span>. These counts are further summarized with <span class="key hitrate">Hit Rate</span>,
+<span class="key falsealarmrate">False Alarm rate</span>, and overall <span class="key accuracy">Accuracy</span>. You can modify any value, and any dependent
+values will update too.</p><p>In ROC space, performance is plotted as <span class="key hitrate">Hit Rate</span> versus <span class="key falsealarmrate">False Alarm Rate</span>. All of the
+points with the same <span class="key sensitivity">Sensitivity</span> (<span class="key d′"><span class="math-var">d′</span></span>) are illustrated with
+an <span class="key iso-sensitivitycurve">Iso-Sensitivity Curve</span>. All of the points with the same <span class="key bias">Bias</span> (<span class="key c"><span
+class="math-var">c</span></span>) are illustrated with an <span class="key iso-biascurve">Iso-Bias Curve</span>. Moving the data point will
+cause the iso-curves to update as well.</p><p>The visual representation of the SDT model shows <span class="key sensitivity">Sensitivity</span> as the distance, <span class="key d′"><span
+class="math-var">d′</span></span>, between the distributions. And it shows <span class="key bias">Bias</span> as the location,
+<span class="key c"><span class="math-var">c</span></span>, of the threshold. The threshold divides the <span class="key signal+noisedistribution">Signal +
+Noise Distribution</span> into <span class="key hit">Hit</span> and <span class="key miss">Miss</span> areas and divides the <span class="key noisedistribution">Noise Distribution</span>
+into <span class="key correctrejection">Correct Rejection</span> and <span class="key falsealarm">False Alarm</span> areas. Moving the distributions or the threshold
+adjusts <span class="key d′"><span class="math-var">d′</span></span> or <span class="key c"><span class="math-var">c</span></span>,
+respectively.</p><p>Across all three figures, the table of outcomes, ROC space, and the SDT model, adjustments to the
+performance or the model will be reflected immediately in the other figures as well.</p></div>
 
           </section>
 

@@ -8576,6 +8576,11 @@ progress {
   height: 18rem;
 }
 
+.det-title {
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
 .det-footer {
   --bs-gutter-x: 2rem;
   --bs-gutter-y: 0;
@@ -8620,19 +8625,35 @@ progress {
   background-color: #e6e6e6;
   border-radius: 0.25rem;
 }
-.det-content .ui-note {
+.det-content dt {
+  font-weight: 600;
+}
+.det-content dt::after {
+  content: ":";
+}
+.det-content dd {
+  margin-bottom: 1rem;
+}
+.det-content .ui {
   padding: 0.625rem;
   margin-bottom: 1rem;
   background-color: #ededed;
   border: #e6e6e6 solid 1px;
   border-radius: 0.25rem;
 }
-.det-content .ui-note p:last-child {
+.det-content .ui p:last-child {
   /* stylelint-disable-line max-nesting-depth */
   margin-bottom: 0;
 }
 .det-content .term {
   font-weight: 700;
+  color: #262626;
+}
+.det-content .term:hover, .det-content .term:focus, .det-content .term:active {
+  text-decoration: underline dashed 1px #262626;
+}
+.det-content .entry {
+  font-weight: 600;
 }
 .det-content .page {
   font-weight: 600;
@@ -8655,9 +8676,11 @@ progress {
   background-color: #cca7d1;
 }
 .det-content .key[class~="'present'"] {
+  /* purgecss ignore current */
   background-color: #f899f3;
 }
 .det-content .key[class~="'absent'"] {
+  /* purgecss ignore current */
   background-color: #88ede4;
 }
 .det-content .key[class~=hit],
@@ -8711,11 +8734,20 @@ progress {
 .det-content .key[class~=accuracy] {
   background-color: #cccccc;
 }
-.det-content .key[class~=c],
-.det-content .key[class~=d′],
-.det-content .key[class~=σ] {
-  font-family: "Source Serif Variable", "Source Serif", serif;
-  font-style: italic;
+.det-content .key[class~=signal-plus-noisedistribution],
+.det-content .key[class~="signal+noisedistribution"],
+.det-content .key[class~=noisedistribution] {
+  /* purgecss ignore current */
+  padding: 0 0.25rem;
+  border: 2px solid #262626;
+}
+.det-content .key[class~=signal-plus-noisedistribution],
+.det-content .key[class~="signal+noisedistribution"] {
+  /* purgecss ignore current */
+  background-color: #ffff99;
+}
+.det-content .key[class~=noisedistribution] {
+  background-color: #cca7d1;
 }
 .det-content .key[class~=bias],
 .det-content .key[class~=c] {
@@ -8723,13 +8755,30 @@ progress {
 }
 .det-content .key[class~=sensitivity],
 .det-content .key[class~=d′] {
+  /* purgecss ignore current */
   background-color: #fbc0df;
 }
 .det-content .key[class~=variance],
 .det-content .key[class~=σ] {
+  /* purgecss ignore current */
   background-color: #a2a2e8;
 }
-.det-content .ui {
+.det-content .key[class~=iso-biascurve],
+.det-content .key[class~=iso-sensitivitycurve] {
+  padding: 0 0.25rem;
+  border: 2px solid;
+}
+.det-content .key[class~=iso-biascurve] {
+  border-color: #a65628;
+}
+.det-content .key[class~=iso-sensitivitycurve] {
+  border-color: #f781bf;
+}
+.det-content .button,
+.det-content .prompt,
+.det-content .slider,
+.det-content .switch,
+.det-content .toggle {
   padding: 0.0625rem 0.25rem;
   font-family: "Source Code Variable", "Source Code", monospace;
   font-size: 1rem;
@@ -8739,87 +8788,21 @@ progress {
   background-color: #e6e6e6;
   border-radius: 0.25rem;
 }
-.det-content .ui[class~=evidence],
-.det-content .ui[class~=signalpresent],
-.det-content .ui[class~=signalabsent],
-.det-content .ui[class~="'present'response"],
-.det-content .ui[class~="'absent'response"],
-.det-content .ui[class~=hitoutcome],
-.det-content .ui[class~=missoutcome],
-.det-content .ui[class~=correctrejectionoutcome],
-.det-content .ui[class~=falsealarmoutcome] {
-  padding: 0 0.25rem;
-  border: 3px solid;
-  border-radius: 0;
+.det-content .button {
+  color: #ffffff;
+  background-color: #737373;
 }
-.det-content .ui[class~=evidence] {
+.det-content .prompt {
   background-color: #cccccc;
-  border-color: #999999;
-}
-.det-content .ui[class~=signalpresent] {
-  background-color: #ffff99;
-  border-color: #ffff33;
-}
-.det-content .ui[class~=signalabsent] {
-  background-color: #cca7d1;
-  border-color: #984ea3;
-}
-.det-content .ui[class~="'present'response"] {
-  background-color: #f899f3;
-  border-color: #f032e6;
-}
-.det-content .ui[class~="'absent'response"] {
-  background-color: #88ede4;
-  border-color: #10dbc9;
-}
-.det-content .ui[class~=hitoutcome] {
-  background-color: #a6d7a5;
-  border-color: #4daf4a;
-}
-.det-content .ui[class~=missoutcome] {
-  background-color: #ffbf80;
-  border-color: #ff7f00;
-}
-.det-content .ui[class~=correctrejectionoutcome] {
-  background-color: #f28d8e;
-  border-color: #e41a1c;
-}
-.det-content .ui[class~=falsealarmoutcome] {
-  background-color: #9bbfdc;
-  border-color: #377eb8;
-}
-.det-content .ui[class~=iso-biascurve],
-.det-content .ui[class~=iso-sensitivitycurve] {
-  padding: 0 0.25rem;
-  border: 2px solid;
-}
-.det-content .ui[class~=iso-biascurve] {
-  border-color: #a65628;
-}
-.det-content .ui[class~=iso-sensitivitycurve] {
-  border-color: #f781bf;
-}
-.det-content .ui[class~="signal+noisedistribution"],
-.det-content .ui[class~=noisedistribution] {
-  padding: 0 0.25rem;
   border: 2px solid #262626;
+  border-radius: 1rem;
 }
-.det-content .ui[class~="signal+noisedistribution"] {
-  background-color: #ffff99;
-}
-.det-content .ui[class~=noisedistribution] {
-  background-color: #cca7d1;
-}
-.det-content .ui[class~=coherence],
-.det-content .ui[class~=duration],
-.det-content .ui[class~=trials] {
+.det-content .slider {
   position: relative;
   padding-right: 1.5rem;
   background-color: #cccccc;
 }
-.det-content .ui[class~=coherence]::before,
-.det-content .ui[class~=duration]::before,
-.det-content .ui[class~=trials]::before {
+.det-content .slider::before {
   position: absolute;
   top: 0;
   right: 0.625rem;
@@ -8829,9 +8812,7 @@ progress {
   background-color: #b3b3b3;
   border-width: 0.125rem;
 }
-.det-content .ui[class~=coherence]::after,
-.det-content .ui[class~=duration]::after,
-.det-content .ui[class~=trials]::after {
+.det-content .slider::after {
   position: absolute;
   top: 0.4rem;
   right: 0.125rem;
@@ -8842,117 +8823,165 @@ progress {
   border-width: 0.25rem;
   border-radius: 0.25rem;
 }
-.det-content .ui[class~=pause],
-.det-content .ui[class~=reset],
-.det-content .ui[class~=run],
-.det-content .ui[class~=present],
-.det-content .ui[class~=absent] {
-  color: #ffffff;
-  background-color: #737373;
-}
-.det-content .ui[class~="+"],
-.det-content .ui[class~="?"] {
+.det-content .switch {
+  position: relative;
+  padding-right: 1rem;
   background-color: #cccccc;
-  border: 2px solid #262626;
-  border-radius: 1rem;
+}
+.det-content .switch::before {
+  position: absolute;
+  top: 0.125rem;
+  right: 0.375rem;
+  width: 0.25rem;
+  height: 1.125rem;
+  content: "";
+  background-color: #b3b3b3;
+  border-width: 0.125rem;
+  border-radius: 0.25rem;
+}
+.det-content .switch::after {
+  position: absolute;
+  top: 0.125rem;
+  right: 0.1875rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  content: "";
+  background-color: #737373;
+  border-width: 0.25rem;
+  border-radius: 0.5rem;
+}
+.det-content .toggle {
+  position: relative;
+  padding-right: 1.5rem;
+  background-color: #cccccc;
+}
+.det-content .toggle::before {
+  position: absolute;
+  top: 0.125rem;
+  right: 0.125rem;
+  width: 1.25rem;
+  height: 0.5625rem;
+  content: "";
+  background-color: #737373;
+  border-width: 0.125rem;
+  border-radius: 0.25rem 0.25rem 0 0;
+}
+.det-content .toggle::after {
+  position: absolute;
+  top: 0.6875rem;
+  right: 0.125rem;
+  width: 1.25rem;
+  height: 0.5625rem;
+  content: "";
+  background-color: #b3b3b3;
+  border-width: 0.25rem;
+  border-radius: 0 0 0.25rem 0.25rem;
 }
 .det-content .csl-entry {
   padding-left: 2rem;
   text-indent: -2rem;
 }
+.det-content .csl-entry:last-of-type {
+  margin-bottom: 1rem;
+}
 
-.det-legend dt {
+.det-legend {
+  padding-left: 0;
+  list-style: none;
+}
+.det-legend li {
+  margin-bottom: 1rem;
+  margin-left: 2.5rem;
+}
+.det-legend li::before {
   display: inline-block;
-  width: 12rem;
-  padding: 0.25rem 0.675rem;
-  font-weight: 600;
+  width: 1.6875rem;
+  margin-right: 0.75rem;
+  margin-left: -2.5rem;
+  content: " ";
   border-left-style: solid;
-  border-left-width: 1rem;
+  border-left-width: 0.5625rem;
+  border-radius: 0.25rem;
 }
-.det-legend dd {
-  margin-top: 0.25rem;
-  margin-bottom: 1.5rem;
-  margin-left: 2rem;
-}
-.det-legend .h {
+.det-legend .h::before {
   background: #a6d7a5;
   border-left-color: #4daf4a;
 }
-.det-legend .m {
+.det-legend .m::before {
   background: #ffbf80;
   border-left-color: #ff7f00;
 }
-.det-legend .fa {
+.det-legend .fa::before {
   background: #9bbfdc;
   border-left-color: #377eb8;
 }
-.det-legend .cr {
+.det-legend .cr::before {
   background: #f28d8e;
   border-left-color: #e41a1c;
 }
-.det-legend .hr {
+.det-legend .hr::before {
   background: #ffff99;
   border-left-color: #ffff33;
 }
-.det-legend .far {
+.det-legend .far::before {
   background: #cca7d1;
   border-left-color: #984ea3;
 }
-.det-legend .acc {
+.det-legend .acc::before {
   background: #cccccc;
   border-left-color: #999999;
 }
-.det-legend .d {
+.det-legend .d::before {
   background: #fbc0df;
   border-left-color: #f781bf;
 }
-.det-legend .c {
+.det-legend .c::before {
   background: #d3ab94;
   border-left-color: #a65628;
 }
-.det-legend .s {
+.det-legend .s::before {
   background: #a2a2e8;
   border-left-color: #4545d0;
 }
-.det-legend .present {
+.det-legend .present::before {
   background: #f899f3;
   border-left-color: #f032e6;
 }
-.det-legend .absent {
+.det-legend .absent::before {
   background: #88ede4;
   border-left-color: #10dbc9;
 }
-.det-legend .correct {
-  padding-left: calc(1.675rem - 1px);
+.det-legend .correct::before {
+  padding-left: calc(1.5rem - 2px);
   background: #ffffff;
   border: 1px solid #4d4d4d;
 }
-.det-legend .error {
+.det-legend .error::before {
   color: #ffffff;
   background: gray;
   border-left-color: #000000;
 }
-.det-legend .nr {
+.det-legend .nr::before {
   background: #e6e6e6;
   border-left-color: #cccccc;
 }
+.det-legend .related::before {
+  margin-left: 0.25rem;
+  font-weight: 600;
+  content: "See related:";
+}
 
-.det-glossary {
+.glossary {
   margin-left: 2rem;
 }
-.det-glossary dt {
-  display: inline;
+.glossary dt {
   margin-left: -2rem;
-  font-weight: 600;
+  font-weight: 400;
 }
-.det-glossary dt::after {
-  content: ":";
-}
-.det-glossary dd {
-  display: inline;
-}
-.det-glossary dd::after {
-  display: block;
+.glossary dt::after {
   content: "";
+}
+.glossary dd {
+  margin-bottom: 0.25rem;
 }
 /*# sourceMappingURL=page.css.map */

@@ -3580,7 +3580,8 @@
     }
 
     static get svgFilters() {
-      const shadows = DecidablesElement.shadows; // eslint-disable-line prefer-destructuring
+      const shadows = DecidablesElement.shadows;
+      /* eslint-disable-line prefer-destructuring */
 
       const filters = shadows.elevations.map(z => {
         return y(_t$6 || (_t$6 = _$6`
