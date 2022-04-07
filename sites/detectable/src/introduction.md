@@ -1,12 +1,10 @@
 ---
-title: '<span class="detectable">
-  <span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>:
-  An Explorable Explanation of Signal Detection Theory'
+title: 'Introduction'
 layout: page
 script: page
 ---
 
-## Introduction
+## An explorable explanation of Signal Detection Theory
 
 Welcome to :term[<span class="detectable"><span class="math-var">d′</span>ete<span
 class="math-var">c</span>table</span>], an interactive introduction to :term[Signal Detection

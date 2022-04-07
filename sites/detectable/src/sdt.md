@@ -1,5 +1,5 @@
 ---
-title: 'Signal Detection Theory (SDT): Putting it Together'
+title: 'Signal Detection Theory: Putting it Together'
 layout: page
 script: page
 ---
