@@ -14,20 +14,21 @@ quantitative approaches to human decision making.
 
 The sites are served from *GitHub Pages* at [**decidables.github.io**](https://decidables.github.io).
 
-- [<b>decidables</b>](https://decidables.github.io)<br>
+- [<b>decidables</b>](https://decidables.github.io)
+  [(source)](https://github.com/decidables/decidables/tree/main/sites/decidables)<br>
   Explorable Explanations of Decision Making<br>
   The root site with overall info and links to the individual explorables<br>
-  [(source)](https://github.com/decidables/decidables/tree/main/sites/decidables)
-- *Almost ready...*
-  [<b><i>d′</i>ete<i>c</i>table</b>](https://decidables.github.io/detectable)<br>
+- *Almost ready...*<br>
+  [<b><i>d′</i>ete<i>c</i>table</b>](https://decidables.github.io/detectable)
+  [(source)](https://github.com/decidables/decidables/tree/main/sites/detectable)<br>
   An Explorable Explanation of Signal Detection Theory<br>
-  [(source)](https://github.com/decidables/decidables/tree/main/sites/detectable)
-- *In progress...*
-  [<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable)<br>
+- *In progress...*<br>
+  [<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable)
+  [(source)](https://github.com/decidables/decidables/tree/main/sites/prospectable)<br>
   An Explorable Explanation of Cumulative Prospect Theory<br>
-  [(source)](https://github.com/decidables/decidables/tree/main/sites/prospectable)
-- *Coming soon...*
-  <b>dis<i>k</i>ountable</b><br>
+- *Coming soon...*<br>
+  <b>dis<i>k</i>ountable</b>
+  (source)<br>
   An Explorable Explanation of Hyperbolic Temporal Discounting
 
 ## Libraries
@@ -35,24 +36,30 @@ The sites are served from *GitHub Pages* at [**decidables.github.io**](https://d
 The libraries are published to *npm* in the
 [**`@decidables`**](https://www.npmjs.com/search?q=%40decidables) scope.
 
-- [**`decidables-elements`**](https://www.npmjs.com/package/@decidables/decidables-elements)<br>
-  Web components for UI elements used across all packages<br>
-  [(source)](https://github.com/decidables/decidables/tree/main/libraries/decidables-elements)
-- [**`detectable-math`**](https://www.npmjs.com/package/@decidables/detectable-math)<br>
-  Provides a class with equations for calculating Signal Detection Theory<br>
-  [(source)](https://github.com/decidables/decidables/tree/main/libraries/detectable-math)
-- [**`detectable-elements`**](https://www.npmjs.com/package/@decidables/detectable-elements)<br>
-  Web components for exploring Signal Detection Theory<br>
-  [(source)](https://github.com/decidables/decidables/tree/main/libraries/detectable-elements)
-- *In progress...* **`prospectable-math`**<br>
-  Provides a class with equations for calculating Cumulative Prospect Theory<br>
-  [(source)](https://github.com/decidables/decidables/tree/main/libraries/prospectable-math)
-- *In progress...* **`prospectable-elements`**<br>
-  Web components for exploring Cumulative Prospect Theory<br>
-  [(source)](https://github.com/decidables/decidables/tree/main/libraries/prospectable-elements)
-- *Coming soon...* **`discountable-math`**<br>
+- [**`decidables-elements`**](https://www.npmjs.com/package/@decidables/decidables-elements)
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/decidables-elements)<br>
+  Web components for UI elements used across all packages
+- [**`detectable-math`**](https://www.npmjs.com/package/@decidables/detectable-math)
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/detectable-math)<br>
+  Provides a class with equations for calculating Signal Detection Theory
+- [**`detectable-elements`**](https://www.npmjs.com/package/@decidables/detectable-elements)
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/detectable-elements)<br>
+  Web components for exploring Signal Detection Theory
+- *In progress...*<br>
+  **`prospectable-math`**
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/prospectable-math)<br>
+  Provides a class with equations for calculating Cumulative Prospect Theory
+- *In progress...*<br>
+  **`prospectable-elements`**
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/prospectable-elements)<br>
+  Web components for exploring Cumulative Prospect Theory
+- *Coming soon...*<br>
+  **`discountable-math`**
+  (source)<br>
   Provides a class with equations for calculating Hyperbolic Temporal Discounting
-- *Coming soon...* **`discountable-elements`**<br>
+- *Coming soon...*<br>
+  **`discountable-elements`**
+  (source)<br>
   Web components for exploring Hyperbolic Temporal Discounting
 
 ## Development
@@ -61,8 +68,11 @@ Dependencies updated 17/1/2022.
 
 ### Features/Bugs/Notes
 
+- Add targets/links to all headers
+  - *rehype-slug* (https://github.com/rehypejs/rehype-slug)
+  - *rehype-autolink-headings* (https://github.com/rehypejs/rehype-autolink-headings)
+- Format negative numbers with true minus sign character?
 - Should decidables-elements have base classes for equations and examples?
-- Link terminology to glossary entries?
 - Accessibility testing/auditing
 - Can we use *@testing-library/dom* for interface testing?
 - Use APA v7 (https://github.com/citation-style-language/styles)
