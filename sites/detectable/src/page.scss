@@ -742,7 +742,7 @@ $transition-duration: 500ms;
   }
 
   // UI Notes
-  div.ui { /* stylelint-disable-line selector-no-qualifying-type */
+  .ui {
     padding: 0.625rem;
     margin-bottom: 1rem;
 
@@ -933,8 +933,12 @@ $transition-duration: 500ms;
     border-color: sdt-color(d);
   }
 
-  // UIs
-  span.ui { /* stylelint-disable-line selector-no-qualifying-type */
+  // UI Components
+  .button,
+  .prompt,
+  .slider,
+  .switch,
+  .toggle {
     padding: 0.0625rem 0.25rem;
 
     font-family: $font-family-monospace;
@@ -947,52 +951,23 @@ $transition-duration: 500ms;
     border-radius: $border-radius;
   }
 
-  // Switches
-  .ui[class~="zroc-roc"] {
-    position: relative;
-
-    padding-right: 1rem;
-
-    background-color: $color-grey-light50;
-  }
-
-  .ui[class~="zroc-roc"]::before {
-    position: absolute;
-
-    top: 0.125rem;
-    right: 0.375rem;
-
-    width: 0.25rem;
-    height: 1.125rem;
-
-    content: "";
-
-    background-color: $color-grey-light25;
-    border-width: 0.125rem;
-    border-radius: 0.25rem;
-  }
-
-  .ui[class~="zroc-roc"]::after {
-    position: absolute;
-
-    top: 0.125rem;
-    right: 0.1875rem;
-
-    width: 0.625rem;
-    height: 0.625rem;
-
-    content: "";
+  // UI: Buttons
+  .button {
+    color: $color-text-inverse;
 
     background-color: $color-element-enabled;
-    border-width: 0.25rem;
-    border-radius: 0.5rem;
   }
 
-  // Sliders
-  .ui[class~="coherence"],
-  .ui[class~="duration"],
-  .ui[class~="payoff"],
-  .ui[class~="trials"] {
+  // UI: Prompts
+  .prompt {
+    background-color: $color-element-disabled;
+
+    border: 2px solid $color-element-emphasis;
+    border-radius: 1rem;
+  }
+
+  // UI: Sliders
+  .slider {
     position: relative;
 
     padding-right: 1.5rem;
@@ -1000,10 +975,7 @@ $transition-duration: 500ms;
     background-color: $color-grey-light50;
   }
 
-  .ui[class~="coherence"]::before,
-  .ui[class~="duration"]::before,
-  .ui[class~="payoff"]::before,
-  .ui[class~="trials"]::before {
+  .slider::before {
     position: absolute;
 
     top: 0;
@@ -1018,10 +990,7 @@ $transition-duration: 500ms;
     border-width: 0.125rem;
   }
 
-  .ui[class~="coherence"]::after,
-  .ui[class~="duration"]::after,
-  .ui[class~="payoff"]::after,
-  .ui[class~="trials"]::after {
+  .slider::after {
     position: absolute;
 
     top: 0.4rem;
@@ -1037,8 +1006,49 @@ $transition-duration: 500ms;
     border-radius: 0.25rem;
   }
 
-  // Toggles
-  .ui[class~="emphasis"] {
+  // UI: Switches
+  .switch {
+    position: relative;
+
+    padding-right: 1rem;
+
+    background-color: $color-grey-light50;
+  }
+
+  .switch::before {
+    position: absolute;
+
+    top: 0.125rem;
+    right: 0.375rem;
+
+    width: 0.25rem;
+    height: 1.125rem;
+
+    content: "";
+
+    background-color: $color-grey-light25;
+    border-width: 0.125rem;
+    border-radius: 0.25rem;
+  }
+
+  .switch::after {
+    position: absolute;
+
+    top: 0.125rem;
+    right: 0.1875rem;
+
+    width: 0.625rem;
+    height: 0.625rem;
+
+    content: "";
+
+    background-color: $color-element-enabled;
+    border-width: 0.25rem;
+    border-radius: 0.5rem;
+  }
+
+  // UI: Toggles
+  .toggle {
     position: relative;
 
     padding-right: 1.5rem;
@@ -1046,7 +1056,7 @@ $transition-duration: 500ms;
     background-color: $color-grey-light50;
   }
 
-  .ui[class~="emphasis"]::before {
+  .toggle::before {
     position: absolute;
 
     top: 0.125rem;
@@ -1062,7 +1072,7 @@ $transition-duration: 500ms;
     border-radius: 0.25rem 0.25rem 0 0;
   }
 
-  .ui[class~="emphasis"]::after {
+  .toggle::after {
     position: absolute;
 
     top: 0.6875rem;
@@ -1076,27 +1086,6 @@ $transition-duration: 500ms;
     background-color: $color-grey-light25;
     border-width: 0.25rem;
     border-radius: 0 0 0.25rem 0.25rem;
-  }
-
-  // Buttons
-  .ui[class~="pause"],
-  .ui[class~="reset"],
-  .ui[class~="run"],
-  .ui[class~="present"],
-  .ui[class~="absent"] {
-    color: $color-text-inverse;
-
-    background-color: $color-element-enabled;
-  }
-
-  // Fixation/Cue
-  .ui[class~="+"],
-  .ui[class~="?"] {
-    /* purgecss ignore current */
-    background-color: $color-element-disabled;
-
-    border: 2px solid $color-element-emphasis;
-    border-radius: 1rem;
   }
 
   // References
