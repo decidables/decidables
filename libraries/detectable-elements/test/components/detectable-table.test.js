@@ -8,7 +8,7 @@ import {
 
 import '../../src/components/detectable-table';
 
-describe('detectable-response', () => {
+describe('detectable-table', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<detectable-table></detectable-table>`);
     expect(el.shadowRoot).to.have.descendant('table');
@@ -32,8 +32,8 @@ describe('detectable-response', () => {
     const el = await fixture(html`<detectable-table payoff hit-payoff="60" miss-payoff="-60" false-alarm-payoff="-40" correct-rejection-payoff="40"></detectable-table>`);
     expect(el.shadowRoot).to.have.descendants('.payoff').with.length(4);
     expect(el.shadowRoot).to.have.descendant('.h .payoff').with.text('$60');
-    expect(el.shadowRoot).to.have.descendant('.m .payoff').with.text('-$60');
-    expect(el.shadowRoot).to.have.descendant('.fa .payoff').with.text('-$40');
+    expect(el.shadowRoot).to.have.descendant('.m .payoff').with.text('−$60');
+    expect(el.shadowRoot).to.have.descendant('.fa .payoff').with.text('−$40');
     expect(el.shadowRoot).to.have.descendant('.cr .payoff').with.text('$40');
   });
 
@@ -51,8 +51,8 @@ describe('detectable-response', () => {
     expect(el.shadowRoot).to.have.descendants('decidables-spinner').with.length(4);
     expect(el.shadowRoot).to.have.descendants('.payoff').with.length(4);
     expect(el.shadowRoot).to.have.descendant('.h .payoff').with.text('$60');
-    expect(el.shadowRoot).to.have.descendant('.m .payoff').with.text('-$60');
-    expect(el.shadowRoot).to.have.descendant('.fa .payoff').with.text('-$40');
+    expect(el.shadowRoot).to.have.descendant('.m .payoff').with.text('−$60');
+    expect(el.shadowRoot).to.have.descendant('.fa .payoff').with.text('−$40');
     expect(el.shadowRoot).to.have.descendant('.cr .payoff').with.text('$40');
   });
 

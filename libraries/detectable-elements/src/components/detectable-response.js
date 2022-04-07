@@ -302,6 +302,11 @@ export default class DetectableResponse extends DetectableElement {
           border: 1px solid var(---color-element-border);
         }
 
+        :host([payoff="trial"]) .feedback,
+        :host([payoff="total"]) .feedback {
+          height: 5rem;
+        }
+
         .feedback.h {
           background-color: var(---color-h-light);
         }
@@ -337,17 +342,12 @@ export default class DetectableResponse extends DetectableElement {
           line-height: 1.15;
         }
 
-        :host([payoff="trial"]) .feedback,
-        :host([payoff="total"]) .feedback {
-          height: 4rem;
-        }
-
         /* Payoff feedback */
-        .payoff {
+        .total {
           text-align: center;
         }
 
-        .payoff .label {
+        .total .label {
           font-weight: 600;
         }
       `,
@@ -355,6 +355,21 @@ export default class DetectableResponse extends DetectableElement {
   }
 
   render() {
+    const payoffFormatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
+    const payoffFormat = (number) => {
+      return payoffFormatter.formatToParts(number).map(({type, value}) => {
+        if (type === 'minusSign') {
+          return '−';
+        }
+        return value;
+      }).reduce((string, part) => { return string + part; });
+    };
+
     return html`
       <div class="holder">
         <div class="responses">
@@ -395,14 +410,14 @@ export default class DetectableResponse extends DetectableElement {
                             : html`<span class="outcome">No<br>Response</span>`
                       : ''}
                     ${((this.state === 'feedback') && (this.payoff === 'trial' || this.payoff === 'total'))
-                      ? html`<span class="payoff">$${this.trialPayoff}</span>`
+                      ? html`<span class="payoff">${payoffFormat(this.trialPayoff)}</span>`
                       : html``}
                   </div>`
                 : html``}
               ${(this.payoff === 'total')
                 ? html`
-                  <div class="payoff">
-                    <span class="label">Total: </span><span class="value">$${this.totalPayoff}</span>
+                  <div class="total">
+                    <span class="label">Total: </span><span class="value">${payoffFormat(this.totalPayoff)}</span>
                   </div>`
                 : html``}
             </div>`

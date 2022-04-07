@@ -1326,7 +1326,7 @@ export default class SDTModel extends DetectableElement {
         );
         return (time) => {
           element.d = interpolateD(time);
-          d3.select(element).text(+(element.d).toFixed(3));
+          d3.select(element).text(d3.format('.3')(element.d));
         };
       });
     //  EXIT
@@ -1384,7 +1384,7 @@ export default class SDTModel extends DetectableElement {
         );
         return (time) => {
           element.c = interpolateC(time);
-          d3.select(element).text(+(element.c).toFixed(3));
+          d3.select(element).text(d3.format('.3')(element.c));
         };
       });
     //  EXIT
@@ -1450,7 +1450,7 @@ export default class SDTModel extends DetectableElement {
         );
         return (time) => {
           element.s = interpolateS(time);
-          d3.select(element).text(+(element.s).toFixed(3));
+          d3.select(element).text(d3.format('.3')(element.s));
         };
       });
     //  EXIT

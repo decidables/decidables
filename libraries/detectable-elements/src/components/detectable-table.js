@@ -449,6 +449,14 @@ export default class DetectableTable extends DetectableElement {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     });
+    const payoffFormat = (number) => {
+      return payoffFormatter.formatToParts(number).map(({type, value}) => {
+        if (type === 'minusSign') {
+          return '−';
+        }
+        return value;
+      }).reduce((string, part) => { return string + part; });
+    };
 
     this.alignState();
     let h;
@@ -464,25 +472,25 @@ export default class DetectableTable extends DetectableElement {
       h = html`
         <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <span>Hits</span>
-          ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.hPayoff)}</span>` : html``}
+          ${this.payoff ? html`<span class="payoff">${payoffFormat(this.hPayoff)}</span>` : html``}
         </decidables-spinner>
       `;
       m = html`
         <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <span>Misses</span>
-          ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.mPayoff)}</span>` : html``}
+          ${this.payoff ? html`<span class="payoff">${payoffFormat(this.mPayoff)}</span>` : html``}
         </decidables-spinner>
       `;
       fa = html`
         <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <span>False Alarms</span>
-          ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.faPayoff)}</span>` : html``}
+          ${this.payoff ? html`<span class="payoff">${payoffFormat(this.faPayoff)}</span>` : html``}
         </decidables-spinner>
       `;
       cr = html`
         <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <span>Correct Rejections</span>
-          ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.crPayoff)}</span>` : html``}
+          ${this.payoff ? html`<span class="payoff">${payoffFormat(this.crPayoff)}</span>` : html``}
         </decidables-spinner>
       `;
       hr = html`
@@ -512,13 +520,13 @@ export default class DetectableTable extends DetectableElement {
       `;
     } else {
       h = html`<span>Hits</span>
-        ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.hPayoff)}</span>` : html``}`;
+        ${this.payoff ? html`<span class="payoff">${payoffFormat(this.hPayoff)}</span>` : html``}`;
       m = html`<span>Misses</span>
-        ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.mPayoff)}</span>` : html``}`;
+        ${this.payoff ? html`<span class="payoff">${payoffFormat(this.mPayoff)}</span>` : html``}`;
       fa = html`<span>False Alarms</span>
-        ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.faPayoff)}</span>` : html``}`;
+        ${this.payoff ? html`<span class="payoff">${payoffFormat(this.faPayoff)}</span>` : html``}`;
       cr = html`<span>Correct Rejections</span>
-        ${this.payoff ? html`<span class="payoff">${payoffFormatter.format(this.crPayoff)}</span>` : html``}`;
+        ${this.payoff ? html`<span class="payoff">${payoffFormat(this.crPayoff)}</span>` : html``}`;
       hr = html`<span>Hit Rate</span>`;
       far = html`<span>False Alarm Rate</span>`;
       acc = html`<span>Accuracy</span>`;
