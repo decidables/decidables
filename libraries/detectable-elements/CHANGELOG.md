@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.1.3...@decidables/detectable-elements@0.2.0) (2022-04-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **detectable-elements:** "outcome" option now only colors outcomes, and "all" option colors everything
+
+### Features
+
+* **detectable-elements:** add equations for PPV and FOR ([9c7841c](https://github.com/decidables/decidables/commit/9c7841ceede9c553a9bfa0b6cfe685d65b8bdc03))
+* **detectable-elements:** add multiple value example ([407694a](https://github.com/decidables/decidables/commit/407694a884ead989ffeb1b1fd3dfa4436705d653))
+* **detectable-elements:** add new color option for table ([c0ea8ef](https://github.com/decidables/decidables/commit/c0ea8ef619816eb2f5d6ebcc0e64aefa9e871df7))
+* **detectable-elements:** use proper minus signs in labels ([bb4ec8c](https://github.com/decidables/decidables/commit/bb4ec8cf28465fa1ce452e5a77d459a4a04fd976))
+
+
+### Bug Fixes
+
+* **detectable-elements:** fix labelling and appeareance of incentives in detectable-response ([4b0b5a9](https://github.com/decidables/decidables/commit/4b0b5a9fc294672fc0610d5489231dbc6e363850))
+* **detectable-elements:** improve equation layout at small screen size ([e078034](https://github.com/decidables/decidables/commit/e07803402880ece793947d0dd4c87747b6ff7f06))
+
+
+
 ### [0.1.3](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.1.2...@decidables/detectable-elements@0.1.3) (2022-03-31)
 
 

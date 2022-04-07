@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.5.2](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.5.1...@decidables/prospectable@0.5.2) (2022-04-07)
+
+**Note:** Version bump only for package @decidables/prospectable
+
+
+
+
+
 ### [0.5.1](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.5.0...@decidables/prospectable@0.5.1) (2022-03-31)
 
 
