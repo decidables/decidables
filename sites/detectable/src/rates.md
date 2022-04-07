@@ -1,5 +1,5 @@
 ---
-title: 'Tables &amp; Rates: Tabulating and Summarizing Task Performance'
+title: 'Tables and Rates: Summarizing Task Performance'
 layout: page
 script: page
 ---

@@ -1,5 +1,5 @@
 ---
-title: 'Stimuli: Signal and Noise'
+title: 'Signal and Noise: Stimuli'
 layout: page
 script: page
 ---
