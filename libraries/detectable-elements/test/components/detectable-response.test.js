@@ -39,7 +39,7 @@ describe('detectable-response', () => {
 
   it('can display payoffs', async () => {
     const el = await fixture(html`<detectable-response payoff="total"></detectable-response>`);
-    expect(el.shadowRoot).to.have.descendant('.payoff');
+    expect(el.shadowRoot).to.have.descendant('.total');
   });
 
   it('has settable payoff values', async () => {
@@ -60,7 +60,7 @@ describe('detectable-response', () => {
     expect(el.outcome).to.equal('nr');
     expect(el.nr).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('NoResponse');
-    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('-100');
+    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('−$100');
   });
 
   it('can record a hit', async () => {
@@ -72,7 +72,7 @@ describe('detectable-response', () => {
     expect(el.outcome).to.equal('h');
     expect(el.h).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Hit');
-    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('60');
+    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('$60');
   });
 
   it('can record a miss', async () => {
@@ -84,7 +84,7 @@ describe('detectable-response', () => {
     expect(el.outcome).to.equal('m');
     expect(el.m).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Miss');
-    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('-60');
+    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('−$60');
   });
 
   it('can record a correct rejection', async () => {
@@ -96,7 +96,7 @@ describe('detectable-response', () => {
     expect(el.outcome).to.equal('cr');
     expect(el.cr).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('CorrectRejection');
-    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('40');
+    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('$40');
   });
 
   it('can record a false alarm', async () => {
@@ -108,7 +108,7 @@ describe('detectable-response', () => {
     expect(el.outcome).to.equal('fa');
     expect(el.fa).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('FalseAlarm');
-    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('-40');
+    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('−$40');
   });
 
   it('can reset', async () => {
@@ -120,13 +120,13 @@ describe('detectable-response', () => {
     expect(el.outcome).to.equal('h');
     expect(el.h).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Hit');
-    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('60');
+    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('$60');
     el.reset();
     await elementUpdated(el);
     expect(el.outcome).to.equal(undefined);
     expect(el.h).to.equal(0);
     expect(el.shadowRoot).to.not.have.descendant('.outcome');
-    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('');
+    expect(el.shadowRoot).to.not.have.descendant('.payoff');
   });
 
   it('can accept a "present" button press', async () => {
@@ -154,7 +154,7 @@ describe('detectable-response', () => {
     expect(el.outcome).to.equal('h');
     expect(el.h).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Hit');
-    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('60');
+    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('$60');
   });
 
   it('can accept an "absent" button press', async () => {
@@ -182,6 +182,6 @@ describe('detectable-response', () => {
     expect(el.outcome).to.equal('m');
     expect(el.m).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Miss');
-    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('-60');
+    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('−$60');
   });
 });
