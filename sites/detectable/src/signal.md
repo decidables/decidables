@@ -24,8 +24,9 @@ Our :key[signal] will be :term[coherent] dot motion in a :term[random-dot kinema
 
 :::ui
 
-Push the :ui[Run] button to display the signal. Push the :ui[Pause] button to temporarily freeze the
-display. Or push the :ui[Reset] button to reinitialize the demo with a new direction of motion.
+Push the :button[Run] button to display the signal. Push the :button[Pause] button to temporarily
+freeze the display. Or push the :button[Reset] button to reinitialize the demo with a new direction
+of motion.
 
 :::
 
@@ -94,8 +95,8 @@ anywhere in between:
 
 :::ui
 
-Move the :ui[Coherence] slider up and down or edit the number to adjust the proportion of coherence
---- even while the dots are moving!
+Move the :slider[Coherence] slider up and down or edit the number to adjust the proportion of
+coherence --- even while the dots are moving!
 
 :::
 

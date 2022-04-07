@@ -37,11 +37,11 @@ y-axis, resulting in a :term[histogram] of evidence across trials.
 
 :::ui
 
-When you :ui[Run] the task, on each trial, our model will take a measurement of the stimulus, and
-this will arrive on the graph as a box representing the evidence on that trial.
+When you :button[Run] the task, on each trial, our model will take a measurement of the stimulus,
+and this will arrive on the graph as a box representing the evidence on that trial.
 
-Note that shortening the :ui[Duration] will speed up the simulation, but won't otherwise alter the
-results.
+Note that shortening the :slider[Duration] will speed up the simulation, but won't otherwise alter
+the results.
 
 :::
 

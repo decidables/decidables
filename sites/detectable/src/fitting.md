@@ -30,15 +30,15 @@ the relationship between performance, data and theory.
 
 :::ui
 
-You can select how many :ui[Trials] to perform, the :ui[Duration] of the stimulus on each trial, and
-the proportion of dots that exhibit :ui[Coherence] when the signal is present. When you are ready,
-you can :ui[Run] the task. At any time, you can temporarily :ui[Pause], or permanently :ui[Reset]
-the task.
+You can select how many :slider[Trials] to perform, the :slider[Duration] of the stimulus on each
+trial, and the proportion of dots that exhibit :slider[Coherence] when the signal is present. When
+you are ready, you can :button[Run] the task. At any time, you can temporarily :button[Pause], or
+permanently :button[Reset] the task.
 
-Each trial will begin with a fixation, :ui[+], then a stimulus, and finally a question mark, :ui[?].
-Decide whether you think the signal is :key[Present] or :key[Absent], and during the stimulus or
-question mark, respond by clicking :ui[Present] to indicate a :key['Present'] response or
-:ui[Absent] to indicate an :key['Absent'] response.
+Each trial will begin with a fixation, :prompt[+], then a stimulus, and finally a question mark,
+:prompt[?]. Decide whether you think the signal is :key[Present] or :key[Absent], and during the
+stimulus or question mark, respond by clicking :button[Present] to indicate a :key['Present']
+response or :button[Absent] to indicate an :key['Absent'] response.
 
 Based on the stimulus and your response (or lack there of), you will then receive feedback
 indicating whether this trial resulted in a :key[Hit], :key[Miss], :key[False Alarm], :key[Correct

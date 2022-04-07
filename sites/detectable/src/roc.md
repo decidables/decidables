@@ -100,10 +100,11 @@ different levels, including some levels that make the task a real challenge.
 
 :::ui
 
-Use the :ui[Trials], :ui[Duration], and :ui[Coherence] sliders to configure a block of trials.
+Use the :slider[Trials], :slider[Duration], and :slider[Coherence] sliders to configure a block of
+trials.
 
-Then use :ui[Run] to start the block, use :ui[Pause] if you need a break, and after the block is
-over use :ui[Reset] to move to the next block.
+Then use :button[Run] to start the block, use :button[Pause] if you need a break, and after the
+block is over use :button[Reset] to move to the next block.
 
 Each block will have an associated point in ROC space, numbered in order. If you want to remove
 all of the points, just reload the page.

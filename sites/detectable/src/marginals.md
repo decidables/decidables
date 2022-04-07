@@ -61,7 +61,7 @@ correct versus error), or the full diversity of our measures:
 
 :::ui
 
-You can toggle the :ui[Emphasis] to select whether the table cells are colored by: *accuracy* as
+You can toggle the :toggle[Emphasis] to select whether the table cells are colored by: *accuracy* as
 :key[Correct] versus :key[Error], *stimulus* as signal :key[Present] versus :key[Absent], *response*
 as :key['Present'] versus :key['Absent'], *outcome* as :key[Hit], :key[Miss], :key[Correct
 Rejection], or :key[False Alarm], or fully broken down by *all* categories.

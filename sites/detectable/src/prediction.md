@@ -31,22 +31,23 @@ how the model parameters predict performance.
 
 :::ui
 
-You can select how many :ui[Trials] the model will perform, the :ui[Duration] of the stimulus on
-each trial, and the proportion of dots that exhibit :ui[Coherence] when the signal is present. You
-can :ui[Run] the task, temporarily :ui[Pause] it, or totally :ui[Reset] it.
+You can select how many :slider[Trials] the model will perform, the :slider[Duration] of the
+stimulus on each trial, and the proportion of dots that exhibit :slider[Coherence] when the signal
+is present. You can :button[Run] the task, temporarily :button[Pause] it, or totally :button[Reset]
+it.
 
-Each trial will begin with a fixation, :ui[+], then a stimulus, and finally a question mark, :ui[?].
-The model will respond based on it's measurement of evidence, represented by a box moving across the
-model diagram. The model diagram shows the selected value for the model's :key[Sensitivity] as the
-distance, :key[<span class="math-var">d′</span>], between the distributions. And it shows the
-selected value for the model's :key[Bias] as the location, :key[<span class="math-var">c</span>], of
-the threshold. The threshold divides the :key[Signal + Noise Distribution] into regions of
-:key[Hits] and :key[Misses] and divides the :key[Noise Distribution] into regions of :key[Correct
-Rejections] and :key[False Alarms]. 
+Each trial will begin with a fixation, :prompt[+], then a stimulus, and finally a question mark,
+:prompt[?]. The model will respond based on it's measurement of evidence, represented by a box
+moving across the model diagram. The model diagram shows the selected value for the model's
+:key[Sensitivity] as the distance, :key[<span class="math-var">d′</span>], between the
+distributions. And it shows the selected value for the model's :key[Bias] as the location,
+:key[<span class="math-var">c</span>], of the threshold. The threshold divides the :key[Signal +
+Noise Distribution] into regions of :key[Hits] and :key[Misses] and divides the :key[Noise
+Distribution] into regions of :key[Correct Rejections] and :key[False Alarms]. 
 
 The model will decide whether the signal is :key[Present] or :key[Absent] based on the accumulation
-of evidence, and respond by clicking :ui[Present] to indicate a :key['Present'] response or
-:ui[Absent] to indicate an :key['Absent'] response.
+of evidence, and respond by clicking :button[Present] to indicate a :key['Present'] response or
+:button[Absent] to indicate an :key['Absent'] response.
 
 Based on the stimulus and the model's response, you will then see feedback indicating whether this
 trial resulted in a :key[Hit], :key[Miss], :key[False Alarm], :key[Correct Rejection], or :key[No
