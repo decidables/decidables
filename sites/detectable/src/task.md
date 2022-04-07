@@ -25,10 +25,10 @@ Go ahead and give it a go!
 
 :::ui
 
-Press :ui[Run] to show the stimulus, :ui[Pause] to temporarily freeze it, or
-:ui[Reset] to start over with a new stimulus.
+Press :button[Run] to show the stimulus, :button[Pause] to temporarily freeze it, or
+:button[Reset] to start over with a new stimulus.
 
-To respond, press the :ui[Present] or :ui[Absent] button.
+To respond, press the :button[Present] or :button[Absent] button.
 
 :::
 
@@ -52,14 +52,14 @@ question mark goes away, it is too late!
 
 :::ui
 
-Press :ui[Run] to start the trial, :ui[Pause] to temporarily freeze the trial, or
-:ui[Reset] to reinitialize it, so you can run it again.
+Press :button[Run] to start the trial, :button[Pause] to temporarily freeze the trial, or
+:button[Reset] to reinitialize it, so you can run it again.
 
-On each trial, you will see a fixation cross :ui[+] during the ITI, followed by the stimulus,
-followed by a question mark :ui[?] during the waiting period.
+On each trial, you will see a fixation cross :prompt[+] during the ITI, followed by the stimulus,
+followed by a question mark :prompt[?] during the waiting period.
 
-Press the :ui[Present] or :ui[Absent] buttons to respond while the stimulus is visible or during the
-waiting period.
+Press the :button[Present] or :button[Absent] buttons to respond while the stimulus is visible or
+during the waiting period.
 
 :::
 
@@ -103,10 +103,10 @@ is available, and the proportion of coherence for the signal. The power is in yo
 
 :::ui
 
-Choose the number of trials in the block with the :ui[Trials] slider. Select the length in
-milliseconds of the stimulus, response period, and inter-trial interval using the :ui[Duration]
+Choose the number of trials in the block with the :slider[Trials] slider. Select the length in
+milliseconds of the stimulus, response period, and inter-trial interval using the :slider[Duration]
 slider. Adjust how hard the task is by selecting the proportion of coherence for the signal with the
-:ui[Coherence] slider.
+:slider[Coherence] slider.
 
 :::
 
