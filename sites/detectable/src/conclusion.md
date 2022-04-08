@@ -100,4 +100,4 @@ class="decidables">decidables</span>](../).
 
 Alternatively, if you find yourself liking explorable explanations in general, then I strongly
 suggest you check out the center of the explorables universe, presented by Nicky Case, at
-[**explorabl.es**](https://explorabl.es/).
+[explorabl.es](https://explorabl.es/).

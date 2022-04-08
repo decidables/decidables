@@ -182,3 +182,22 @@ script: page
     </div>
   </li>
 </ul>
+
+## Use of styling
+
+### UI components
+
+- Buttons: :button[Pause]
+- Prompts: :prompt[?]
+- Sliders: :slider[Duration]
+- Switches :switch[<span class="math-var">z</span>ROC-ROC]
+- Toggles: :toggle[Emphasis]
+
+### Links
+
+- Code repositories and packages:
+  [**`decidables/decidables`**](https://github.com/decidables/decidables)
+- Glossary entries: :term[decision]
+- Other pages: [:page[Legend]](legend.html)
+- Outside links: [explorabl.es](https://explorabl.es/)
+- References: :cite[@Tanner1954]
