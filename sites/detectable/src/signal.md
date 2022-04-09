@@ -13,7 +13,7 @@ What's a signal? Well, it could be your friend's voice at a party, or a distant 
 the smell of truffles under the earth. Any :term[stimulus] that you are trying to perceive can be
 thought of as a signal.
 
-Our :key[signal] will be :term[coherent] dot motion in a :term[random-dot kinematogram]
+Our :key[signal] will be :term[coherent motion] in a :term[random-dot kinematogram]
 (:term[RDK]). Go ahead and see what it looks like:
 
 <sdt-example-human>
@@ -50,7 +50,7 @@ have :term[noise]. Noise is the music and other voices at the party, the swirlin
 the sea, the mélange of other smells wafting up from the soil. All of the other stimuli you are not
 interested in, but that are interfering with your ability to detect the signal.
 
-Our :key[noise] will be :term[random] dot motion. Give it a try:
+Our :key[noise] will be :term[random motion] of the dots. Give it a try:
 
 <sdt-example-human>
   <detectable-control run pause reset></detectable-control>

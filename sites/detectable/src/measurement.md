@@ -74,8 +74,8 @@ scale. Unless you are particularly unlucky, you will probably notice a differenc
 ## Distributions!
 
 This leads us to a key fact about the measurements our model is making. In SDT, the evidence on each
-trial is drawn from a :term[distribution] --- either the :term[noise distribution] or the
-:term[signal-plus-noise distribution]. On :key[noise] trials it is drawn from a :key[noise
+trial is drawn from a :term[probability distribution] --- either the :term[noise distribution] or
+the :term[signal-plus-noise distribution]. On :key[noise] trials it is drawn from a :key[noise
 distribution], and on :key[signal] trials it is drawn from a :key[signal-plus-noise distribution].
 The two distributions are both :term[normal] (:term[Gaussian]) with equal variance and with equal
 and opposite means around the neutral point. (We reconsider the equal variance assumption later in
