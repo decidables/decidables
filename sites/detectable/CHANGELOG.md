@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.8.0...@decidables/detectable@0.9.0) (2022-04-09)
+
+
+### Features
+
+* **detectable:** add use of styling to legend ([6d333de](https://github.com/decidables/decidables/commit/6d333de0a654e39b5ffed1eb16139517b09176f5))
+* **detectable:** completed glossary ([aeab4cf](https://github.com/decidables/decidables/commit/aeab4cfb5a084a0fb55847799cb12dce9bdb94cd))
+* **detectable:** conclusion page! ([a1d3408](https://github.com/decidables/decidables/commit/a1d340836577f804b4d43d545612ff3a53afb81f))
+
+
+
 ## [0.8.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.7.0...@decidables/detectable@0.8.0) (2022-04-07)
 
 
