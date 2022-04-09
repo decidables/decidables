@@ -4,7 +4,7 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="detectable: Conclusion: The Power of Simplicity">
+    <meta name="description" content="detectable: Conclusion">
     <meta name="author" content="Dr. Adam Krawitz">
 
     <link rel="icon" href="favicon.ico" sizes="any">
@@ -308,8 +308,8 @@
                   <div class="det-toc-section-name"></div>
                   <ol class="det-toc-section det-toc-section-external">
                     <li class="det-toc-item">
-                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%400.8.0" target="_blank" rel="noopener">
-                        v0.8.0
+                      <a class="det-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdetectable%400.9.0" target="_blank" rel="noopener">
+                        v0.9.0
                       </a>
                     </li>
                     <li class="det-toc-item">
@@ -342,47 +342,83 @@
         <main class="det-main">
           
             <header class="det-header">
-              <h1 class="det-title">Conclusion: The Power of Simplicity</h1>
+              <h1 class="det-title">Conclusion</h1>
             </header>
           
           <section class="det-content">
-            <h2>Further topics in SDT</h2>
-<ul>
-<li>Unequal variance
-<ul>
-<li>Better to use d’ and log beta</li>
-</ul>
-</li>
-<li>Confidence ratings to map out an iso-sensitivity curve</li>
-<li>High Threshold Theory, Low Threshold Theory, Choice Theory
-<ul>
-<li><a href="https://rstudio-pubs-static.s3.amazonaws.com/371840_5694e490af85424eb7e7f3ae721cd67d.html#chapter-4-threshold-models-and-choice-theory">https://rstudio-pubs-static.s3.amazonaws.com/371840_5694e490af85424eb7e7f3ae721cd67d.html#chapter-4-threshold-models-and-choice-theory</a></li>
-</ul>
-</li>
-<li>Alternative measures of sensitivity and bias
-<ul>
-<li>e.g. beta, etc…</li>
-</ul>
-</li>
-<li>Empirical measures of sensitivity and bias?</li>
-<li>Fitting a curve in ROC space</li>
-<li>Non-normal distributions</li>
-<li>Paradigms other than Yes/No
-<ul>
-<li>e.g. 2AFC</li>
-</ul>
-</li>
-</ul>
-<h2>Further topics in Decision Making</h2>
-<ul>
-<li>Neural implementation</li>
-<li>Incorporating reaction time</li>
-<li>Relationship to evidence accumulation models</li>
-<li>Relationship to Bayesian inference</li>
-<li>Add in Prospect Theory ideas about probability, value, and utility?</li>
-</ul>
-<h2>The end</h2>
-<p>For now.</p>
+            <h2>Wrapping up</h2>
+<p>You’ve reached the conclusion of <span class="detectable"><span class="math-var">d′</span>ete<span
+class="math-var">c</span>table</span>, an explorable explanation of signal detection theory. In the
+bigger picture, SDT is a very simple model of how people make decisions. This is both a strength and
+a weakness. It’s a strength, because it makes the theory understandable, usable, and general. It’s a
+weakness, because it glosses over subtlety and nuance, leads to less accurate predictions, and
+limits the extent to which the theory can be mapped to underlying brain mechanisms.</p>
+<h2>Further topics in signal detection</h2>
+<p>Where to from here? There are many pathways forward at the intersection of signal detection and
+decision making.</p>
+<h3>Other measures</h3>
+<p>In the advanced section on <a href="unequal.html"><span class="page unequalvariance">Unequal Variance</span></a>, we saw one way SDT can be
+modified, but there are others. For example, alternative measures of <span class="key sensitivity">sensitivity</span> and
+<span class="key bias">bias</span> can be used. For sensitivity, alternatives to <span class="key d′"><span class="math-var">d′</span></span>
+include <span class="math-var">A′</span>, <span class="math-var">A<sub>z</sub></span>, and <span
+class="math-var">S′</span> (<a class="csl-ref" href="references.html#balakrishnan_more_1998">Balakrishnan, 1998</a>; <a class="csl-ref" href="references.html#Stanislaw1999">Stanislaw &#38; Todorov, 1999</a>; <a class="csl-ref" href="references.html#verde_measures_2006">Verde, Macmillan, &#38; Rotello, 2006</a>). For
+bias, alternatives to <span class="key c"><span class="math-var">c</span></span> include <span class="math-var">β</span>,
+<span class="math-var">B′′</span>, and <span class="math-var">Ω</span> (<a class="csl-ref" href="references.html#balakrishnan_more_1998">Balakrishnan, 1998</a>; <a class="csl-ref" href="references.html#Stanislaw1999">Stanislaw &#38; Todorov, 1999</a>). Various arguments can be made for each of these measures on theoretical,
+statistical, or practical grounds. The use of <span class="key d′"><span class="math-var">d′</span></span> and <span class="key c"><span
+class="math-var">c</span></span> here was driven in no small part by their clear mapping onto the geometry
+of the SDT model diagram.</p>
+<h3>Alternative distributions</h3>
+<p>Even with the unequal variance model, we still assumed that the distributions were <em>normal</em>, but
+this too can be relaxed. We might use an alternative distribution such as the <em>logistic</em>, use a
+combination of distributions as in finite mixture models, or turn to non-parametric approaches that
+avoid committing to a particular distribution (<a class="csl-ref" href="references.html#decarlo_signal_2002">DeCarlo, 2002</a>; <a class="csl-ref" href="references.html#Macmillan1990">Macmillan &#38; Creelman, 1990</a>). Pastore
+and colleagues (<a class="csl-ref" href="references.html#pastore_nonparametric_2003">2003</a>) have argued that the normality assumption for SDT
+is a lot like that made for many standard tests in inferential statistics, in that it often holds
+well enough to be useful.</p>
+<h3>Threshold theories</h3>
+<p>We can go even further afield by considering other theories of signal detection. For example, there
+is a whole class of “threshold” theories, including low threshold theory, high threshold theory,
+double-high threshold theory, low-high threshold theory, and others (<a class="csl-ref" href="references.html#Green1966">Green &#38; Swets, 1966</a>; <a class="csl-ref" href="references.html#krantz_threshold_1969">Krantz, 1969</a>; <a class="csl-ref" href="references.html#Macmillan1990">Macmillan &#38; Creelman, 1990</a>). A common way to adjudicate between these theories is to look at
+the shape of the iso-bias and iso-sensitivity contours they predict in ROC space (e.g. <a class="csl-ref" href="references.html#Macmillan1990">Macmillan &#38; Creelman, 1990</a>). In many domains, SDT has been shown to outperform these other models, but that
+isn’t necessarily always the case, and it is always helpful to have an appreciation for other
+possibilities [@krantz_threshold_1969].</p>
+<h3>Empirical approaches</h3>
+<p>Or, we can step away from theories, and focus on analyzing empirical data in ROC space. If we have a
+number of experimental conditions where we have held sensitivity constant and varied response bias,
+we end up with a collection of points in ROC space that are said to define an ROC curve.
+Alternatively, we can use confidence ratings or reaction times to “simulate” multiple thresholds
+(<a class="csl-ref" href="references.html#weidemann_assessing_2016">Weidemann &#38; Kahana, 2016</a>). Either way, we can then calculate the (approximate) area under the
+curve (AUC) (<a class="csl-ref" href="references.html#wixted_evaluating_2015">Wixted &#38; Mickes, 2015</a>; <a class="csl-ref" href="references.html#wixted_roc_2017">Wixted, Mickes, Wetmore, Gronlund, &#38; Neuschatz, 2017</a>), and use that as a measure of
+sensitivity.</p>
+<h3>The role of value</h3>
+<p>Another way forward is to consider aspects of the decision process that SDT doesn’t fully account
+for. One example of this is the role of value and utility. We touched on this in the advanced
+section on <a href="incentive.html"><span class="page bias&#x26;incentive">Bias &#x26; Incentive</span></a>, but we only dealt with it qualitatively.
+Incentive was presented as a factor that could cause a change in response bias, due to the relative
+values of <span class="key misses">misses</span> versus <span class="key falsealarms">false alarms</span>. This approach can be taken further, by formally
+modelling the threshold required to maximize value or utility for a given set of incentives and base
+rates (<a class="csl-ref" href="references.html#lynn_utilizing_2014">Lynn &#38; Barrett, 2014</a>).</p>
+<h3>Evidence accumulation</h3>
+<p>We can expand our view further by noting that SDT treats the measurement of evidence as a single
+event, but that in fact, evidence is accumulated over time. This observation brings us to an
+entirely new class of models and theories — the sequential sampling models — that center on
+evidence accumulation processes that unfold over time, including both diffusion/random walk models
+and accumulator/race models (<a class="csl-ref" href="references.html#ratcliff_diffusion_2016">Ratcliff, Smith, Brown, &#38; McKoon, 2016</a>). Since these models incorporate time,
+they can be used to explore, fit, and predict reaction times as well as responses. Examples of these
+approaches include the diffusion decision model and the EZ-diffusion model (<a class="csl-ref" href="references.html#Ratcliff2008">Ratcliff &#38; McKoon, 2008</a>; <a class="csl-ref" href="references.html#wagenmakers_ez-diffusion_2007">Wagenmakers, Maas, &#38; Grasman, 2007</a>).</p>
+<h3>Neural basis</h3>
+<p>A particularly exciting path forward is to apply the concepts of SDT to understanding the neural
+basis of signal detection and decision making. This work brings together SDT along with many of the
+ideas discussed above, including the role of value and the process of evidence accumulation, to aid
+in the understanding of how individual neurons implement perceptual decision making (<a class="csl-ref" href="references.html#Gold2007">Gold &#38; Shadlen, 2007</a>; <a class="csl-ref" href="references.html#zhang_dynamics_1997">Zhang, Riehle, Requin, &#38; Kornblum, 1997</a>).</p>
+<h2>Onward</h2>
+<p>If you’ve enjoyed <span class="detectable"><span class="math-var">d′</span>ete<span
+class="math-var">c</span>table</span>, you may be interested in explorable explanations of other
+topics in decision making. Check out the homepage for the whole collection at <a href="../"><span
+class="decidables">decidables</span></a>.</p>
+<p>Alternatively, if you find yourself liking explorable explanations in general, then I strongly
+suggest you check out the center of the explorables universe, presented by Nicky Case, at
+<a href="https://explorabl.es/">explorabl.es</a>.</p>
 
           </section>
 
