@@ -99,7 +99,7 @@ markdown. For example, using
 plugin,
 <a href="https://github.com/decidables/decidables/blob/main/scripts/remark-terminology.js"><span class="tool remark-terminology">remark-terminology</span></a>,
 bespoke formatting is added for keywords (e.g. <code>:key[Accuracy]</code>), terminology (e.g.
-<code>:term[fixation]</code>), tools (e.g. <code>:tool[remark]</code>), and UI features (e.g. <code>ui:[Pause]</code>).</p>
+<code>:term[fixation]</code>), tools (e.g. <code>:tool[remark]</code>), and UI features (e.g. <code>button:[Pause]</code>).</p>
 <h3>Citations and references</h3>
 <p>Another custom <a href="https://remark.js.org/"><span class="tool remark">remark</span></a> plugin,
 <a href="https://github.com/decidables/decidables/blob/main/scripts/remark-citeproc.js"><span class="tool remark-citeproc">remark-citeproc</span></a>,
@@ -136,7 +136,7 @@ font</a> support).</p>
 of a diverse audience is a challenge. This project relies on
 <a href="https://colorbrewer2.org/"><span class="tool colorbrewer">ColorBrewer</span></a> for a set of distinct, saturated colors
 (<a href="https://colorbrewer2.org/#type=qualitative&#x26;scheme=Set1&#x26;n=9"><span class="tool 9-classset1">9-class Set 1</span></a>).</p>
-<p>For icons, the project depends on <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>.</p>
+<p>For icons, the project depends on <a href="https://icons.getbootstrap.com/"><span class="tool bootstrapicons">Bootstrap Icons</span></a>.</p>
 <h3>Script</h3>
 <p>The code for each site is written in modern JavaScript using <a href="https://nodejs.org/api/esm.html">ECMAScript
 modules</a> and <a href="https://tc39.es/ecma262/">ES.NEXT</a> features. This
@@ -145,8 +145,8 @@ order to support a wide range of browsers, <a href="https://babeljs.io/"><span c
 <a href="https://rollupjs.org/"><span class="tool rollup">rollup</span></a> are used to compile this code to
 <a href="https://262.ecma-international.org/5.1/">ES5</a> and an
 <a href="https://developer.mozilla.org/en-US/docs/Glossary/IIFE">IIFE</a> for execution in the browser, with
-more advanced language features supported by <a href="https://github.com/zloirock/core-js">core-js</a> and
-<a href="http://facebook.github.io/regenerator/">regenerator-runtime</a>.</p>
+more advanced language features supported by <a href="https://github.com/zloirock/core-js"><span class="tool core-js">core-js</span></a>
+and <a href="http://facebook.github.io/regenerator/"><span class="tool regenerator-runtime">regenerator-runtime</span></a>.</p>
 <h3>Publishing</h3>
 <p>All of the explorables are developed in the <a href="https://github.com/decidables/decidables/"><span class="decidables">decidables</span>
 monorepo</a> which is a <a href="https://git-scm.com/"><span class="tool git">Git</span></a>
@@ -185,8 +185,8 @@ imports</a>. For direct use in browsers, it is
 also compiled to <a href="https://262.ecma-international.org/5.1/">ES5</a> and bundled as both
 <a href="https://github.com/umdjs/umd">UMD</a> and <a href="https://nodejs.org/api/esm.html">ESM</a> using
 <a href="https://babeljs.io/"><span class="tool babel">Babel</span></a> and <a href="https://rollupjs.org/"><span class="tool rollup">rollup</span></a>, with advanced
-language features supported by <a href="https://github.com/zloirock/core-js">core-js</a> and
-<a href="http://facebook.github.io/regenerator/">regenerator-runtime</a>.</p>
+language features supported by <a href="https://github.com/zloirock/core-js"><span class="tool core-js">core-js</span></a> and
+<a href="http://facebook.github.io/regenerator/"><span class="tool regenerator-runtime">regenerator-runtime</span></a>.</p>
 <p><strong>Note:</strong> The issue of which library formats to provide seems to be both complicated and fraught
 these days. I’ve opted to provide multiple options: untranspiled source exposed by <code>exports</code>, a
 transpiled UMD bundle exposed by <code>main</code>, and a transpiled ESM bundle exposed by <code>module</code>. There are
@@ -202,9 +202,7 @@ interactive rendering of ROC space can be used as easily as:<br>
 <roc-space interactive hr="0.75" far="0.25"></roc-space></p>
 <p>Our web components are implemented using <a href="https://lit.dev/"><span class="tool lit">Lit</span></a>, which facilitates a
 declarative reactive approach based on <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template
-literals</a>. In
-order to support old browsers, the
-<a href="https://github.com/WebComponents/webcomponentsjs">webcomponents.js</a> shim is included.</p>
+literals</a>.</p>
 <h3>Graphics</h3>
 <p>Most of our graphical components are specified as <a href="https://www.w3.org/Graphics/SVG/">SVG</a>.
 Advantages of this format include high resolution at any scale, persistent objects via the
@@ -246,14 +244,17 @@ one of mankind’s greatest works of collective engineering.</p>
 <p>Web development requires the use of multiple languages, each with its own requirements and quirks.
 Layered on top of that, they can be used and formatted in a wide variety of ways. We use linting
 tools to statically analyze code in order to catch errors early and maintain consistency. We lint
-JavaScript with <a href="https://eslint.org/">eslint</a>, CSS with <a href="https://stylelint.io/">stylelint</a>, markdown
-with <a href="https://github.com/remarkjs/remark-lint">remark-lint</a>, and HTML with
-<a href="https://htmlhint.com/">HTMLHint</a> and <a href="https://validator.github.io/validator/">Nu Html Checker</a>.</p>
+JavaScript with <a href="https://eslint.org/"><span class="tool eslint">eslint</span></a>, CSS with
+<a href="https://stylelint.io/"><span class="tool stylelint">stylelint</span></a>, markdown with
+<a href="https://github.com/remarkjs/remark-lint"><span class="tool remark-lint">remark-lint</span></a>, and HTML with
+<a href="https://htmlhint.com/"><span class="tool htmlhint">HTMLHint</span></a> and <a href="https://validator.github.io/validator/"><span class="tool nuhtmlchecker">Nu Html
+Checker</span></a>.</p>
 <h3>Testing</h3>
 <p>Good software development practice includes automated testing. We are implementing testing of our
-web component libraries using <a href="https://modern-web.dev/docs/test-runner/overview/">Web Test Runner</a>
-and the <a href="https://open-wc.org/docs/testing/testing-package/">Open Web Components Testing Package</a>.
-Each component has a corresponding test file with appropriate tests.</p>
+web component libraries using <a href="https://modern-web.dev/docs/test-runner/overview/"><span class="tool webtestrunner">Web Test
+Runner</span></a> and the <a href="https://open-wc.org/docs/testing/testing-package/"><span class="tool openwebcomponentstestingpackage">Open Web Components
+Testing Package</span></a>. Each component has a
+corresponding test file with appropriate tests.</p>
 <h3>Task automation</h3>
 <p>Building libraries and sites with all of the tools described above involves a great deal of
 coordination and repetition. The streaming build system and task automation engine
@@ -281,10 +282,11 @@ A version control system/source code management tool facilitates and empowers th
 recording an accurate history of every step along the way. We use
 <a href="8https://git-scm.com/"><span class="tool git">Git</span></a> for this with a remote repository hosted on
 <a href="https://github.com/"><span class="tool github">GitHub</span></a>, which allows for highly distributed development.</p>
-<p>We are using <a href="https://typicode.github.io/husky/">husky</a> and <a href="https://commitlint.js.org/">commitlint</a>
-to consistently use <a href="https://www.conventionalcommits.org/">conventional commits</a>. Using a standard
-format for <code>git commit</code> messages makes it easier to understand what is changing, and facilitates
-adherence to the principles of <a href="https://semver.org/">semantic versioning</a>.</p>
+<p>We are using <a href="https://typicode.github.io/husky/"><span class="tool husky">husky</span></a> and
+<a href="https://commitlint.js.org/"><span class="tool commitlint">commitlint</span></a> to consistently use <a href="https://www.conventionalcommits.org/">conventional
+commits</a>. Using a standard format for <code>git commit</code> messages
+makes it easier to understand what is changing, and facilitates adherence to the principles of
+<a href="https://semver.org/">semantic versioning</a>.</p>
 <h3>File editing</h3>
 <p>The text editor is a coder’s nearest and dearest tool. This project has mostly been
 developed using first <a href="https://atom.io/"><span class="tool atom">Atom</span></a> with its supporting
@@ -310,7 +312,9 @@ the project.</p>
             <a class="dec-nav-brand" href="./">decidables</a>
           </li>
           <li class="dec-nav-item">
-            <span class="dec-nav-text">v0.4.2</span>
+            <a class="dec-nav-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdecidables%400.5.0" target="_blank" rel="noopener">
+              v0.5.0
+            </a>
           </li>
           
             <li class="dec-nav-item">
