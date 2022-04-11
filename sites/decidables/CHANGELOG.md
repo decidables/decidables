@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.4.2...@decidables/decidables@0.5.0) (2022-04-11)
+
+
+### Features
+
+* **decidables:** link version to release ([dd3a447](https://github.com/decidables/decidables/commit/dd3a447f6972b7a4d2fdb6456eeaf1479b70bbb2))
+
+
+### Bug Fixes
+
+* **decidables:** fix missing :tool markup on How page ([a6fe726](https://github.com/decidables/decidables/commit/a6fe7269674304e00eec4b2cfdf441ed92c00e57))
+* **decidables:** update Credits to use description lists ([7d884c3](https://github.com/decidables/decidables/commit/7d884c3f781044bd4cc39efb41d2ba3cfc39ef2a))
+
+
+
 ### [0.4.2](https://github.com/decidables/decidables/compare/@decidables/decidables@0.4.1...@decidables/decidables@0.4.2) (2022-04-07)
 
 **Note:** Version bump only for package @decidables/decidables
