@@ -474,6 +474,18 @@ $transition-duration: 500ms;
     border-radius: $border-radius;
   }
 
+  dt {
+    font-weight: $font-weight-semibold;
+  }
+
+  dt::after {
+    content: ":";
+  }
+
+  dd {
+    margin-bottom: 1rem;
+  }
+
   .tool {
     font-weight: $font-weight-semibold;
   }
