@@ -37,7 +37,7 @@
     - Bias & incentive
     - zROC space
     - Unequal variance
-  - Applications
+  - Applications?
     - Memory?
     - Medical diagnostics?
   - Conclusion

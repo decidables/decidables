@@ -124,13 +124,28 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 - Within a page:
   - Headings start at `H2`, only first letter is capitalized
   - *Italics* used for emphasis
-  - Using *remark-directive*:
+  - Using *remark-citeproc*:
     - `:cite[]` citations
+    - `::ref` *insert* reference list
+  - Using *remark-glossary*:
+    - `:term[]` terminology
+    - `:entry[]` glossary entry
+    - `:::glossary
+
+       :::` glossary
+  - Using *remark-div*:
+    - `:::ui
+    
+       :::` user interface notes
+  - Using *remark-span*:
     - `:page[]` link to another page
     - `:key[]` keywords
-    - `:ui[]` user interface components
-    - `:term[]` terminology
-    - `:::ui :::` user interface notes
+    - `:tool[]` development tool
+    - `:button` UI button
+    - `:prompt` UI prompt
+    - `:slider` UI slider
+    - `:switch` UI switch
+    - `:toggle` UI toggle
 
 ### Global Tools
 
