@@ -678,6 +678,15 @@ $transition-duration: 500ms;
   @extend .col-11, .col-md-10, .col-xxl-8, .mt-4, .mb-0, .fw-normal, .lead, .text-center;
 }
 
+// Header
+// .pro-header {
+// }
+
+.pro-title {
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
 // Footer
 .pro-footer {
   @include make-row();
@@ -724,6 +733,18 @@ $transition-duration: 500ms;
     border-radius: $border-radius;
   }
 
+  dt {
+    font-weight: $font-weight-semibold;
+  }
+
+  dt::after {
+    content: ":";
+  }
+
+  dd {
+    margin-bottom: 1rem;
+  }
+
   // UI Notes
   .ui-note {
     padding: 0.625rem;
@@ -741,11 +762,44 @@ $transition-duration: 500ms;
   // Terms
   .term {
     font-weight: $font-weight-bold;
+    color: $color-text;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: underline dashed 1px $color-text;
+    }
   }
 
-  // Keys and UIs
-  .key,
-  .ui {
+  // Glossary Entries
+  .entry {
+    font-weight: $font-weight-semibold;
+  }
+
+  // Pages
+  .page {
+    font-weight: $font-weight-semibold;
+  }
+
+  // Keys
+  .key {
+    padding: 0.0625rem 0.25rem;
+
+    font-family: $font-family-monospace;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: $font-weight-semibold;
+    white-space: nowrap;
+
+    border-radius: $border-radius;
+  }
+
+  // UI Components
+  .button,
+  .prompt,
+  .slider,
+  .switch,
+  .toggle {
     padding: 0.0625rem 0.25rem;
 
     font-family: $font-family-monospace;
@@ -757,134 +811,276 @@ $transition-duration: 500ms;
     background-color: $color-element-background;
     border-radius: $border-radius;
   }
-  
+
+  // UI: Buttons
+  .button {
+    color: $color-text-inverse;
+
+    background-color: $color-element-enabled;
+  }
+
+  // UI: Prompts
+  .prompt {
+    background-color: $color-element-disabled;
+
+    border: 2px solid $color-element-emphasis;
+    border-radius: 1rem;
+  }
+
+  // UI: Sliders
+  .slider {
+    position: relative;
+
+    padding-right: 1.5rem;
+
+    background-color: $color-grey-light50;
+  }
+
+  .slider::before {
+    position: absolute;
+
+    top: 0;
+    right: 0.625rem;
+
+    width: 0.25rem;
+    height: 1.375rem;
+
+    content: "";
+
+    background-color: $color-grey-light25;
+    border-width: 0.125rem;
+  }
+
+  .slider::after {
+    position: absolute;
+
+    top: 0.4rem;
+    right: 0.125rem;
+
+    width: 1.25rem;
+    height: 0.625rem;
+
+    content: "";
+
+    background-color: $color-element-enabled;
+    border-width: 0.25rem;
+    border-radius: 0.25rem;
+  }
+
+  // UI: Switches
+  .switch {
+    position: relative;
+
+    padding-right: 1rem;
+
+    background-color: $color-grey-light50;
+  }
+
+  .switch::before {
+    position: absolute;
+
+    top: 0.125rem;
+    right: 0.375rem;
+
+    width: 0.25rem;
+    height: 1.125rem;
+
+    content: "";
+
+    background-color: $color-grey-light25;
+    border-width: 0.125rem;
+    border-radius: 0.25rem;
+  }
+
+  .switch::after {
+    position: absolute;
+
+    top: 0.125rem;
+    right: 0.1875rem;
+
+    width: 0.625rem;
+    height: 0.625rem;
+
+    content: "";
+
+    background-color: $color-element-enabled;
+    border-width: 0.25rem;
+    border-radius: 0.5rem;
+  }
+
+  // UI: Toggles
+  .toggle {
+    position: relative;
+
+    padding-right: 1.5rem;
+
+    background-color: $color-grey-light50;
+  }
+
+  .toggle::before {
+    position: absolute;
+
+    top: 0.125rem;
+    right: 0.125rem;
+
+    width: 1.25rem;
+    height: 0.5625rem;
+
+    content: "";
+
+    background-color: $color-element-enabled;
+    border-width: 0.125rem;
+    border-radius: 0.25rem 0.25rem 0 0;
+  }
+
+  .toggle::after {
+    position: absolute;
+
+    top: 0.6875rem;
+    right: 0.125rem;
+
+    width: 1.25rem;
+    height: 0.5625rem;
+
+    content: "";
+
+    background-color: $color-grey-light25;
+    border-width: 0.25rem;
+    border-radius: 0 0 0.25rem 0.25rem;
+  }
+
+  // References
   .csl-entry {
     padding-left: 2rem;
 
     text-indent: -2rem;
   }
+
+  .csl-entry:last-of-type {
+    margin-bottom: 1rem;
+  }
 }
 
 // Legend
 .pro-legend {
-  dt {
+  padding-left: 0;
+  
+  list-style: none;
+
+  li {
+    margin-bottom: 1rem;
+    margin-left: 2.5rem;
+  }
+
+  li::before {
     display: inline-block;
 
-    width: 12rem;
-    padding: 0.25rem 0.675rem;
+    width: 1.6875rem;
+    margin-right: 0.75rem;
+    margin-left: -2.5rem;
 
-    font-weight: $font-weight-semibold;
+    content: "\a0";
+
+    border-left-style: solid;
+    border-left-width: 0.5625rem;
+    border-radius: $border-radius;
   }
 
-  dd {
-    margin-top: 0.25rem;
-    margin-bottom: 1.5rem;
-    margin-left: 2rem;
-  }
-
-  .x {
+  .x::before {
     background: cpt-color-light(x);
-    border-left: 1rem solid cpt-color(x);
+    border-left-color: cpt-color(x);
   }
 
-  .a {
+  .a::before {
     background: cpt-color-light(a);
-    border-left: 1rem solid cpt-color(a);
+    border-left-color: cpt-color(a);
   }
 
-  .l {
+  .l::before {
     background: cpt-color-light(l);
-    border-left: 1rem solid cpt-color(l);
+    border-left-color: cpt-color(l);
   }
 
-  .v {
+  .v::before {
     background: cpt-color-light(v);
-    border-left: 1rem solid cpt-color(v);
+    border-left-color: cpt-color(v);
   }
 
-  .p {
+  .p::before {
     background: cpt-color-light(p);
-    border-left: 1rem solid cpt-color(p);
+    border-left-color: cpt-color(p);
   }
 
-  .g {
+  .g::before {
     background: cpt-color-light(g);
-    border-left: 1rem solid cpt-color(g);
+    border-left-color: cpt-color(g);
   }
 
-  .w {
+  .w::before {
     background: cpt-color-light(w);
-    border-left: 1rem solid cpt-color(w);
+    border-left-color: cpt-color(w);
   }
 
-  .u {
+  .u::before {
     background: cpt-color-light(u);
-    border-left: 1rem solid cpt-color(u);
+    border-left-color: cpt-color(u);
   }
 
-  .chosen {
+  .chosen::before {
     background: cpt-color-light(chosen);
-    border-left: 1rem solid cpt-color(chosen);
+    border-left-color: cpt-color(chosen);
   }
 
-  .better {
+  .better::before {
     background: cpt-color-light(better);
-    border-left: 1rem solid cpt-color(better);
+    border-left-color: cpt-color(better);
   }
 
-  .worse {
+  .worse::before {
     background: cpt-color-light(worse);
-    border-left: 1rem solid cpt-color(worse);
+    border-left-color: cpt-color(worse);
   }
 
-  .even {
+  .even::before {
     background: cpt-color-light(even);
-    border-left: 1rem solid cpt-color(even);
+    border-left-color: cpt-color(even);
   }
 
-  .correct {
-    padding-left: calc(1.675rem - 1px);
+  .correct::before {
+    padding-left: calc(1.5rem - 2px);
 
-    background: cpt-color(correct);
+    background: sdt-color(correct);
     border: 1px solid $color-element-border;
   }
 
-  .error {
+  .error::before {
     color: $color-text-inverse;
 
     background: cpt-color-light(error);
-    border-left: 1rem solid cpt-color(error);
+    border-left-color: sdt-color(error);
   }
 
-  .nr {
+  .nr::before {
     background: sdt-color-light(nr);
-    border-left: 1rem solid sdt-color(nr);
+    border-left-color: sdt-color(nr);
   }
 }
 
 // Glossary
-.pro-glossary {
+.glossary {
   margin-left: 2rem;
 
   dt {
-    display: inline;
-
     margin-left: -2rem;
 
-    font-weight: $font-weight-semibold;
+    font-weight: $font-weight-normal;
   }
 
   dt::after {
-    content: ":";
+    content: "";
   }
 
   dd {
-    display: inline;
-  }
-
-  dd::after {
-    display: block;
-
-    content: "";
+    margin-bottom: 0.25rem;
   }
 }
