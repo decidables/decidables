@@ -40,7 +40,7 @@ markdown. For example, using
 plugin,
 [:tool[remark-terminology]](https://github.com/decidables/decidables/blob/main/scripts/remark-terminology.js),
 bespoke formatting is added for keywords (e.g. `:key[Accuracy]`), terminology (e.g.
-`:term[fixation]`), tools (e.g. `:tool[remark]`), and UI features (e.g. `ui:[Pause]`).
+`:term[fixation]`), tools (e.g. `:tool[remark]`), and UI features (e.g. `button:[Pause]`).
 
 ### Citations and references
 
@@ -86,7 +86,7 @@ of a diverse audience is a challenge. This project relies on
 [:tool[ColorBrewer]](https://colorbrewer2.org/) for a set of distinct, saturated colors
 ([:tool[9-class Set 1]](https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9)).
 
-For icons, the project depends on [Bootstrap Icons](https://icons.getbootstrap.com/).
+For icons, the project depends on [:tool[Bootstrap Icons]](https://icons.getbootstrap.com/).
 
 ### Script
 
@@ -97,8 +97,8 @@ order to support a wide range of browsers, [:tool[Babel]](https://babeljs.io/) a
 [:tool[rollup]](https://rollupjs.org/) are used to compile this code to
 [ES5](https://262.ecma-international.org/5.1/) and an
 [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) for execution in the browser, with
-more advanced language features supported by [core-js](https://github.com/zloirock/core-js) and
-[regenerator-runtime](http://facebook.github.io/regenerator/).
+more advanced language features supported by [:tool[core-js]](https://github.com/zloirock/core-js)
+and [:tool[regenerator-runtime]](http://facebook.github.io/regenerator/).
 
 ### Publishing
 
@@ -146,8 +146,8 @@ imports](https://nodejs.org/api/packages.html#subpath-exports). For direct use i
 also compiled to [ES5](https://262.ecma-international.org/5.1/) and bundled as both
 [UMD](https://github.com/umdjs/umd) and [ESM](https://nodejs.org/api/esm.html) using
 [:tool[Babel]](https://babeljs.io/) and [:tool[rollup]](https://rollupjs.org/), with advanced
-language features supported by [core-js](https://github.com/zloirock/core-js) and
-[regenerator-runtime](http://facebook.github.io/regenerator/).
+language features supported by [:tool[core-js]](https://github.com/zloirock/core-js) and
+[:tool[regenerator-runtime]](http://facebook.github.io/regenerator/).
 
 **Note:** The issue of which library formats to provide seems to be both complicated and fraught
 these days. I've opted to provide multiple options: untranspiled source exposed by `exports`, a
@@ -167,9 +167,7 @@ interactive rendering of ROC space can be used as easily as:<br>
 
 Our web components are implemented using [:tool[Lit]](https://lit.dev/), which facilitates a
 declarative reactive approach based on [tagged template
-literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals). In
-order to support old browsers, the
-[webcomponents.js](https://github.com/WebComponents/webcomponentsjs) shim is included.
+literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
 
 ### Graphics
 
@@ -222,16 +220,19 @@ one of mankind's greatest works of collective engineering.
 Web development requires the use of multiple languages, each with its own requirements and quirks.
 Layered on top of that, they can be used and formatted in a wide variety of ways. We use linting
 tools to statically analyze code in order to catch errors early and maintain consistency. We lint
-JavaScript with [eslint](https://eslint.org/), CSS with [stylelint](https://stylelint.io/), markdown
-with [remark-lint](https://github.com/remarkjs/remark-lint), and HTML with
-[HTMLHint](https://htmlhint.com/) and [Nu Html Checker](https://validator.github.io/validator/).
+JavaScript with [:tool[eslint]](https://eslint.org/), CSS with
+[:tool[stylelint]](https://stylelint.io/), markdown with
+[:tool[remark-lint]](https://github.com/remarkjs/remark-lint), and HTML with
+[:tool[HTMLHint]](https://htmlhint.com/) and [:tool[Nu Html
+Checker]](https://validator.github.io/validator/).
 
 ### Testing
 
 Good software development practice includes automated testing. We are implementing testing of our
-web component libraries using [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/)
-and the [Open Web Components Testing Package](https://open-wc.org/docs/testing/testing-package/).
-Each component has a corresponding test file with appropriate tests.
+web component libraries using [:tool[Web Test
+Runner]](https://modern-web.dev/docs/test-runner/overview/) and the [:tool[Open Web Components
+Testing Package]](https://open-wc.org/docs/testing/testing-package/). Each component has a
+corresponding test file with appropriate tests.
 
 ### Task automation
 
@@ -267,10 +268,11 @@ recording an accurate history of every step along the way. We use
 [:tool[Git]](8https://git-scm.com/) for this with a remote repository hosted on
 [:tool[GitHub]](https://github.com/), which allows for highly distributed development.
 
-We are using [husky](https://typicode.github.io/husky/) and [commitlint](https://commitlint.js.org/)
-to consistently use [conventional commits](https://www.conventionalcommits.org/). Using a standard
-format for `git commit` messages makes it easier to understand what is changing, and facilitates
-adherence to the principles of [semantic versioning](https://semver.org/).
+We are using [:tool[husky]](https://typicode.github.io/husky/) and
+[:tool[commitlint]](https://commitlint.js.org/) to consistently use [conventional
+commits](https://www.conventionalcommits.org/). Using a standard format for `git commit` messages
+makes it easier to understand what is changing, and facilitates adherence to the principles of
+[semantic versioning](https://semver.org/).
 
 ### File editing
 
