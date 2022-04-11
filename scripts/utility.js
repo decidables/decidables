@@ -1,25 +1,31 @@
+// Node native modules
+import fs from 'fs';
 
 // devDependencies
 import camelcase from 'camelcase';
 
+function readPackageJson() {
+  return JSON.parse(fs.readFileSync('./package.json'));
+}
+
 export function getPackageScopedName() {
-  return process.env.npm_package_name;
+  return readPackageJson().name;
 }
 
 export function getPackageScope() {
-  return process.env.npm_package_name.split('/')[0];
+  return readPackageJson().name.split('/')[0];
 }
 
 export function getPackageName() {
-  return process.env.npm_package_name.split('/')[1];
+  return readPackageJson().name.split('/')[1];
 }
 
 export function getPackageNameCamelCase() {
-  return camelcase(process.env.npm_package_name.split('/')[1]);
+  return camelcase(readPackageJson().name.split('/')[1]);
 }
 
 export function getPackageVersion() {
-  return process.env.npm_package_version;
+  return readPackageJson().version;
 }
 
 export function getCurrentDate() {
