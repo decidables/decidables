@@ -4,7 +4,7 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="detectable: Measurement and Sensitivity: Towards a Theory of Performance">
+    <meta name="description" content="detectable: Credits">
     <meta name="author" content="Dr. Adam Krawitz">
 
     <link rel="icon" href="favicon.ico" sizes="any">
@@ -12,7 +12,7 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="manifest.webmanifest">
 
-    <title>d′etectable: Measurement &amp; Sensitivity</title>
+    <title>d′etectable: Credits</title>
 
     <link href="page.css" rel="stylesheet">
   </head>
@@ -114,7 +114,7 @@
                     <ol class="det-toc-section det-toc-section-theory">
                       
                         
-                          <li class="det-toc-item det-toc-item-active">
+                          <li class="det-toc-item">
                         
                             <a class="det-toc-link" href="measurement.html">
                               Measurement &amp; Sensitivity
@@ -294,7 +294,7 @@
                           </li>
                       
                         
-                          <li class="det-toc-item">
+                          <li class="det-toc-item det-toc-item-active">
                         
                             <a class="det-toc-link" href="credits.html">
                               Credits
@@ -342,157 +342,120 @@
         <main class="det-main">
           
             <header class="det-header">
-              <h1 class="det-title">Measurement and Sensitivity: Towards a Theory of Performance</h1>
+              <h1 class="det-title">Credits</h1>
             </header>
           
           <section class="det-content">
-            <h2>Measuring stimuli</h2>
-<p>So far, we have focused on observing and summarizing human performance on a signal detection task.
-We are now going to shift our focus to understanding a <a href="glossary.html#theory" class="term">theory</a> of how people perform signal
-detection tasks. As we go, we will develop a <a href="glossary.html#model" class="term">model</a> that applies this theory to our particular
-random dot kinematogram task. (Much more could be said about the distinction, or lack thereof,
-between models and theories, but we will leave that for another day, or maybe another explorable
-explanation?).</p>
-<p>According to SDT, the first step that must be performed in signal detection is to take a
-<a href="glossary.html#measurement" class="term">measurement</a>. To continue our earlier examples, this might be a measurement of how much what
-we hear sounds like our friend’s voice, or how much what we see looks like a distant boat on the
-sea, or how much what we smell has the aroma of a truffle. In human signal detection, this
-measurement is being carried out by the sensory and perceptual mechanisms of the participant’s mind
-and brain. The result of this measurement is the <a href="glossary.html#evidence" class="term">evidence</a> that a signal is <span class="key present">present</span>,
-represented as a single scalar value between negative infinity and infinity, with the <a href="glossary.html#neutralpoint" class="term">neutral
-point</a>, where the evidence is equally suggestive of signal <span class="key present">present</span> and <span class="key absent">absent</span>, at the
-origin.</p>
-<p>To help us visualize this measurement process, we can run trials of our RDK experiment, and instead
-of having you, dear reader, perform the measurement, we can construct a model that will simulate the
-measurement instead. Each trial will be displayed on the graph below, with the strength of evidence
-plotted in <em>bins</em> along the horizontal x-axis and the count of trials stacked on the vertical
-y-axis, resulting in a <a href="glossary.html#histogram" class="term">histogram</a> of evidence across trials.</p>
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="1000"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-model histogram color="none" d="0" c="0"></sdt-model>
-</sdt-example-model>
-<div class="ui"><p>When you <span class="button run">Run</span> the task, on each trial, our model will take a measurement of the stimulus,
-and this will arrive on the graph as a box representing the evidence on that trial.</p><p>Note that shortening the <span class="slider duration">Duration</span> will speed up the simulation, but won’t otherwise alter
-the results.</p></div>
-<h2>Presence or absence of signal</h2>
-<p>In the example above, the evidence is visually represented in the same neutral gray on every trial.
-This emphasizes the fact that our model does not know anything about the trial other than the value
-it has measured for the evidence!</p>
-<p>However, we, as the experimenters, are privy to more information. We know whether each trial was
-<em>actually</em> a <span class="key signal">signal</span> or <span class="key noise">noise</span> trial. So we can color each trial accordingly.</p>
-<sdt-example-model>
-  <detectable-control run pause reset trials="20" duration="750"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="750" wait="750" iti="750"></rdk-task>
-  <sdt-model histogram color="stimulus" d="2" c="0"></sdt-model>
-</sdt-example-model>
-<div class="ui"><p>The color of the box representing the measurement for each trial now indicates whether it was a
-signal <span class="key present">Present</span> or <span class="key absent">Absent</span> trial.</p></div>
-<p>Run the model for 20 or more trials and observe where the measurements are falling on our evidence
-scale. Unless you are particularly unlucky, you will probably notice a difference between
-<span class="key signal">signal</span> and <span class="key noise">noise</span> trials.</p>
-<h2>Distributions!</h2>
-<p>This leads us to a key fact about the measurements our model is making. In SDT, the evidence on each
-trial is drawn from a <a href="glossary.html#probabilitydistribution" class="term">probability distribution</a> — either the <a href="glossary.html#noisedistribution" class="term">noise distribution</a> or
-the <a href="glossary.html#signal-plus-noisedistribution" class="term">signal-plus-noise distribution</a>. On <span class="key noise">noise</span> trials it is drawn from a <span class="key noisedistribution">noise
-distribution</span>, and on <span class="key signal">signal</span> trials it is drawn from a <span class="key signal-plus-noisedistribution">signal-plus-noise distribution</span>.
-The two distributions are both <a href="glossary.html#normal" class="term">normal</a> (<a href="glossary.html#gaussian" class="term">Gaussian</a>) with equal variance and with equal
-and opposite means around the neutral point. (We reconsider the equal variance assumption later on
-the page about <a href="unequal.html"><span class="page unequalvariance">Unequal Variance</span></a>.)</p>
-<p>Why is it signal <em>plus noise</em> and not just <em>signal</em>? Because, there is always noise mixed in with
-the signal, whether explicitly, as in our stimuli when coherence is less than one, or implicitly due
-to background noise, noisy neurons, etc…</p>
-<p>Try running the example below. The evidence measured on each trial will appear on the graph, with
-the underlying distributions also shown. If we ran the simulation for enough trials, the histogram
-formed by the trial-by-trial data would match the underlying probability distributions.</p>
-<sdt-example-model>
-  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model distributions histogram color="stimulus" d="2" c="0"></sdt-model>
-</sdt-example-model>
-<div class="ui"><p>The box representing the measurement for each trial indicates whether the signal is <span class="key present">Present</span>
-or <span class="key absent">Absent</span>. The curves represent the <span class="key signal+noisedistribution">Signal + Noise Distribution</span> and the
-<span class="key noisedistribution">Noise Distribution</span>.</p><p>Note that the y-axis scale for the probability distributions is on the left side of the graph, while
-the y-axis scale for the histogram is on the right.</p></div>
-<h2>Distributions near or far</h2>
-<p>We can now get a sense of how the proximity of the two distributions determines how similar or
-different the observations on <span class="key signal">signal</span> and <span class="key noise">noise</span> trials are. When the distributions have
-similar means, we tend to make similar measurements of evidence whether the signal is <span class="key absent">absent</span>
-or <span class="key present">present</span>:</p>
-<sdt-example-model>
-  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model distributions histogram color="stimulus" d=".5" c="0"></sdt-model>
-</sdt-example-model>
-<p>On the other hand, when the distributions have very different means, we tend to make distinct
-measurements of evidence on <span class="key absent">absent</span> and <span class="key present">present</span> trials:</p>
-<sdt-example-model>
-  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model distributions histogram color="stimulus" d="5" c="0"></sdt-model>
-</sdt-example-model>
-<div class="ui"><p>Note that evidence measurements that would be off the horizontal scale of the graph are stacked in
-the bin at the corresponding end of the scale.</p></div>
-<h2>Parameterizing distributions with sensitivity, <span class="math-var">d′</span></h2>
-<p>The amount of overlap between the distributions determines our <a href="glossary.html#sensitivity" class="term">sensitivity</a>. This is
-formalized as the distance between the <span class="key noisedistribution">noise distribution</span> and the <span class="key signal-plus-noisedistribution">signal-plus-noise
-distribution</span>, defined as <a href="glossary.html#d′" class="term"><span class="math-var">d′</span></a>. The <span class="key sensitivity">sensitivity</span>, <span class="key d′"><span
-class="math-var">d′</span></span>, lies along a continuum, from negative infinity to infinity. Zero
-indicates identical means and no sensitivity. Positive numbers indicate stronger evidence
-measurements for <span class="key signal">signal</span> trials than for <span class="key noise">noise</span> trials. The larger the positive number,
-the more sensitive we are to the difference.</p>
-<p>On the other hand, negative numbers would indicate stronger evidence for <span class="key noise">noise</span> trials than
-<span class="key signal">signal</span> trials. Since we are talking about evidence in favor of a <span class="key signal">signal</span>, it would be
-unusual to have a measurement device that returns more evidence when the signal is <span class="key absent">absent</span>, but
-the theory allows for this possibility. Examples of situations where this could occur would be if
-the participant is confused about the task or if they are intentionally responding incorrectly.</p>
-<p>Explore how the <span class="key sensitivity">sensitivity</span> relates to the relative evidence on <span class="key signal">signal</span> versus
-<span class="key noise">noise</span> trials and the distance between the distributions:</p>
-<sdt-example-model>
-  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model interactive distributions sensitivity histogram color="stimulus" d="1.5" c="0"></sdt-model>
-</sdt-example-model>
-<div class="ui"><p>The distance between the <span class="key signal+noisedistribution">Signal+Noise Distribution</span> and the <span class="key noisedistribution">Noise Distribution</span> is
-explicitly labelled with <span class="key d′"><span class="math-var">d′</span></span>. This is a <em>live</em> graph, so you can
-drag either distribution left or right to change the distance between them. If there are evidence
-measurements for individual trials, they will move along with the distributions they were drawn
-from, allowing you to see how the <span class="key sensitivity">Sensitivity</span> determines the degree of overlap between the
-distributions. (If you’ve never seen a dancing histogram before, you are in for a treat!)</p></div>
-<p>Perhaps you are wondering why <span class="key sensitivity">sensitivity</span> is represented with the symbol <span class="key d′"><span
-class="math-var">d′</span></span>. In the early work leading to SDT, for mathematical convenience, a
-parameter <span class="math-var">d</span> was used that was equal to the square of the difference
-between the means of the distributions (<a class="csl-ref" href="references.html#Peterson1954">Peterson et al., 1954</a>). This parameter was most likely named
-<span class="math-var">d</span> because it represented <span class="math-var">d</span>etectability.
-As SDT was developed, it became clear that the square root of <span class="math-var">d</span> was a
-more useful form, since it expressed <span class="math-var">d</span>etectability directly in the
-units of the probability distributions. Since “square root of <span class="math-var">d</span>” was a
-mouthful, it was replaced with the symbol <span class="key d′"><span class="math-var">d′</span></span>, pronounced
-‘dee-prime’ (<a class="csl-ref" href="references.html#Creelman2015">Creelman, 2015</a>; <a class="csl-ref" href="references.html#Tanner1954">Tanner &#38; Swets, 1954</a>).</p>
+            <h2>About <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></h2>
+<dl>
+<dt>Created by</dt>
+<dd><a href="https://web.uvic.ca/psyc/krawitz/">Adam Krawitz</a>
+</dd>
+<dt>Running in</dt>
+<dd><a href="https://html.spec.whatwg.org/">HTML</a>,
+<a href="https://www.w3.org/Graphics/SVG/">SVG</a>,
+<a href="https://www.w3.org/Style/CSS/">CSS</a>,
+and <a href="https://262.ecma-international.org/5.1/">JavaScript</a>
+</dd>
+<dt>Compiled from</dt>
+<dd><a href="https://yaml.org/">YAML</a>
+by <a href="https://github.com/jxson/front-matter">front-matter</a>,
+<a href="https://spec.commonmark.org/">Markdown</a>
+by <a href="https://remark.js.org/">remark</a>
+with <a href="https://github.com/remarkjs/remark/blob/main/doc/plugins.md">plugins</a>,
+<a href="http://www.bibtex.org/">BibTeX</a>
+by <a href="https://citeproc-js.readthedocs.io/">citeproc-js</a>
+and <a href="https://citation.js.org/">Citation.js</a>,
+<a href="https://github.com/mde/ejs/blob/master/docs/syntax.md">Embedded JavaScript</a>
+by <a href="https://ejs.co/">EJS</a>,
+<a href="https://sass-lang.com/">SCSS</a>
+by <a href="https://sass-lang.com/dart-sass">Dart Sass</a>,
+and <a href="https://tc39.es/ecma262/">ES.NEXT</a>
+by <a href="https://babeljs.io/">Babel</a>
+and <a href="https://rollupjs.org/">rollup</a>
+</dd>
+<dt>Depending on</dt>
+<dd><a href="https://getbootstrap.com/">Bootstrap</a>,
+<a href="https://github.com/zloirock/core-js">core-js</a>,
+<a href="https://d3js.org/">D3</a>,
+<a href="https://github.com/jstat/jstat">jStat</a>,
+<a href="https://lit.dev/">Lit</a>,
+and <a href="http://facebook.github.io/regenerator/">regenerator-runtime</a>
+</dd>
+<dt>Decorated with</dt>
+<dd><a href="https://www.npmjs.com/package/style-apa">APA 6th Edition</a> citation style
+from the <a href="https://citationstyles.org/">Citation Style Language</a> project,
+<a href="https://colorbrewer2.org/#type=qualitative&#x26;scheme=Set1&#x26;n=9">colors</a>
+from <a href="https://colorbrewer2.org/">ColorBrewer</a>,
+favicons built with <a href="https://github.com/itgalaxy/favicons">Favicons</a>,
+<a href="https://icons.getbootstrap.com/#icons">icons</a>
+from <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>,
+and <a href="https://fonts.adobe.com/fonts/source-code-pro">Source Code Pro</a>,
+<a href="https://fonts.adobe.com/fonts/source-sans">Source Sans</a>,
+and <a href="https://fonts.adobe.com/fonts/source-serif">Source Serif</a> fonts
+from <a href="https://fonts.adobe.com/foundries/adobe">Adobe Originals</a>
+</dd>
+<dt>Linted through</dt>
+<dd><a href="https://eslint.org/">eslint</a>,
+<a href="https://htmlhint.com/">HTMLHint</a>,
+<a href="https://validator.github.io/validator/">Nu Html Checker</a>,
+<a href="https://github.com/remarkjs/remark-lint">remark-lint</a>,
+and <a href="https://stylelint.io/">stylelint</a>
+</dd>
+<dt>Tested under</dt>
+<dd><a href="https://modern-web.dev/docs/test-runner/overview/">Web Test Runner</a>
+and <a href="https://open-wc.org/docs/testing/testing-package/">Open Web Components Testing Package</a>
+</dd>
+<dt>Minified via</dt>
+<dd><a href="https://cssnano.co/">cssnano</a>,
+<a href="https://htmlmin.readthedocs.io/">htmlmin</a>,
+<a href="https://purgecss.com/">PurgeCSS</a>,
+and <a href="https://terser.org/">terser</a>
+</dd>
+<dt>Built using</dt>
+<dd><a href="https://atom.io/">Atom</a>
+with <a href="https://atom.io/packages">packages</a>,
+<a href="https://code.visualstudio.com/">VSCode</a>
+with <a href="https://marketplace.visualstudio.com/VSCode">extensions</a>,
+<a href="https://git-scm.com/">Git</a>,
+<a href="https://nodejs.org/">Node.js</a>
+with <a href="https://www.npmjs.com/">npm packages</a>
+via <a href="https://yarnpkg.com/">Yarn</a>,
+and <a href="https://gulpjs.com/">gulp</a>
+with <a href="https://gulpjs.com/plugins/">plugins</a>
+</dd>
+<dt>Hosted at</dt>
+<dd><a href="https://github.com/">GitHub</a>
+in the <a href="https://github.com/decidables/decidables"><strong><code>decidables/decidables</code></strong></a> monorepo
+as <a href="https://github.com/decidables/decidables/tree/main/sites/detectable"><strong><code>sites/detectable</code></strong></a>
+</dd>
+<dt>Published to</dt>
+<dd><a href="https://pages.github.com/">GitHub Pages</a>
+with <a href="https://docs.github.com/en/actions">GitHub Actions</a>
+as <a href="https://decidables.github.io/detectable/"><span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span></a>
+and <a href="https://www.npmjs.com/">npm</a>
+with <a href="https://github.com/lerna/lerna">lerna</a>,
+<a href="https://typicode.github.io/husky/">husky</a>,
+and <a href="https://commitlint.js.org/">commitlint</a>
+as <a href="https://www.npmjs.com/package/@decidables/decidables-elements"><strong><code>@decidables/decidables-elements</code></strong></a>,
+<a href="https://www.npmjs.com/package/@decidables/detectable-math"><strong><code>@decidables/detectable-math</code></strong></a>,
+and <a href="https://www.npmjs.com/package/@decidables/detectable-elements"><strong><code>@decidables/detectable-elements</code></strong></a>
+</dd>
+<dt>Licensed as</dt>
+<dd><a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA-4.0)</a>
+for content and
+<a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License, Version 3 (GPL-3.0-or-later)</a>
+for code
+</dd>
+</dl>
 
           </section>
 
           <footer class="det-footer">
             <div class="det-footer-item det-footer-item-left">
               
-                
-                <a class="det-toc-link" href="roc.html">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
-</svg>
-                  ROC Space
-                </a>
-              
             </div>
             <div class="det-footer-item det-footer-item-right">
-              
-                
-                <a class="det-toc-link" href="threshold.html">
-                  Threshold &amp; Bias
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
-</svg>
-                </a>
               
             </div>
           </footer>
