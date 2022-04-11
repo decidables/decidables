@@ -63,7 +63,9 @@ toc:
             <a class="dec-nav-brand" href="./">decidables</a>
           </li>
           <li class="dec-nav-item">
-            <span class="dec-nav-text">v<%- utilities.getPackageVersion() %></span>
+            <a class="dec-nav-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdecidables%40<%- utilities.getPackageVersion() %>" target="_blank" rel="noopener">
+              v<%- utilities.getPackageVersion() %>
+            </a>
           </li>
           <% for (const page of toc.bottom) { %>
             <li class="dec-nav-item">
