@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.9.1](https://github.com/decidables/decidables/compare/@decidables/detectable@0.9.0...@decidables/detectable@0.9.1) (2022-04-11)
+
+
+### Bug Fixes
+
+* **detectable:** rename About page to Credits ([78067fc](https://github.com/decidables/decidables/commit/78067fc1adfe94a55aa5683c3fb270091c089b07))
+* **detectable:** rename Advanced section to Bonus - sounds friendlier ([8a3081e](https://github.com/decidables/decidables/commit/8a3081ebb92bab684e2f30ecb5695870d684da7f))
+* **detectable:** rename Responses page to Task ([5e73c8d](https://github.com/decidables/decidables/commit/5e73c8d1bccd2f239586ce5e6e41c3bccb079445))
+
+
+
 ## [0.9.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.8.0...@decidables/detectable@0.9.0) (2022-04-09)
 
 
