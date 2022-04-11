@@ -78,8 +78,8 @@ trial is drawn from a :term[probability distribution] --- either the :term[noise
 the :term[signal-plus-noise distribution]. On :key[noise] trials it is drawn from a :key[noise
 distribution], and on :key[signal] trials it is drawn from a :key[signal-plus-noise distribution].
 The two distributions are both :term[normal] (:term[Gaussian]) with equal variance and with equal
-and opposite means around the neutral point. (We reconsider the equal variance assumption later in
-the advanced topics page on [:page[Unequal Variance]](unequal.html).)
+and opposite means around the neutral point. (We reconsider the equal variance assumption later on
+the page about [:page[Unequal Variance]](unequal.html).)
 
 Why is it signal *plus noise* and not just *signal*? Because, there is always noise mixed in with
 the signal, whether explicitly, as in our stimuli when coherence is less than one, or implicitly due

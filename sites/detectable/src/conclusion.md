@@ -20,10 +20,10 @@ decision making.
 
 ### Other measures
 
-In the advanced section on [:page[Unequal Variance]](unequal.html), we saw one way SDT can be
-modified, but there are others. For example, alternative measures of :key[sensitivity] and
-:key[bias] can be used. For sensitivity, alternatives to :key[<span class="math-var">d′</span>]
-include <span class="math-var">A′</span>, <span class="math-var">A<sub>z</sub></span>, and <span
+On the page about [:page[Unequal Variance]](unequal.html), we saw one way SDT can be modified, but
+there are others. For example, alternative measures of :key[sensitivity] and :key[bias] can be used.
+For sensitivity, alternatives to :key[<span class="math-var">d′</span>] include <span
+class="math-var">A′</span>, <span class="math-var">A<sub>z</sub></span>, and <span
 class="math-var">S′</span> :cite[@Stanislaw1999; @balakrishnan_more_1998; @verde_measures_2006]. For
 bias, alternatives to :key[<span class="math-var">c</span>] include <span class="math-var">β</span>,
 <span class="math-var">B′′</span>, and <span class="math-var">Ω</span> :cite[@Stanislaw1999;
@@ -66,12 +66,12 @@ sensitivity.
 ### The role of value
 
 Another way forward is to consider aspects of the decision process that SDT doesn't fully account
-for. One example of this is the role of value and utility. We touched on this in the advanced
-section on [:page[Bias & Incentive]](incentive.html), but we only dealt with it qualitatively.
-Incentive was presented as a factor that could cause a change in response bias, due to the relative
-values of :key[misses] versus :key[false alarms]. This approach can be taken further, by formally
-modelling the threshold required to maximize value or utility for a given set of incentives and base
-rates :cite[@lynn_utilizing_2014].
+for. One example of this is the role of value and utility. We touched on this on the page about
+[:page[Bias & Incentive]](incentive.html), but we only dealt with it qualitatively. Incentive was
+presented as a factor that could cause a change in response bias, due to the relative values of
+:key[misses] versus :key[false alarms]. This approach can be taken further, by formally modelling
+the threshold required to maximize value or utility for a given set of incentives and base rates
+:cite[@lynn_utilizing_2014].
 
 ### Evidence accumulation
 
