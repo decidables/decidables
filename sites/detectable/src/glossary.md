@@ -289,7 +289,8 @@ script: page
 
 : What a participant does in a typical cognitive psychology experiment. It typically consists of one
   or more sessions, each consisting of one or more blocks, each consisting of many trials. On each
-  trial, there is typically a sequence of events, including one or more stimuli, and one or more responses.
+  trial, there is typically a sequence of events, including one or more stimuli, and one or more
+  responses.
 
 :entry[theory]
 

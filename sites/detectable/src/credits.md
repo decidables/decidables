@@ -4,7 +4,9 @@ layout: page
 script: page
 ---
 
-## About <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+<!--lint ignore maximum-heading-length-->
+
+## About <span class="detectable"><span class="math-var">d′</span>ete<span class="math-var">c</span>table</span>
 
 Created by
 : [Adam Krawitz](https://web.uvic.ca/psyc/krawitz/)

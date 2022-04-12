@@ -4,6 +4,8 @@ layout: page
 script: page
 ---
 
+<!--lint ignore maximum-heading-length-->
+
 ## About <span class="prospectable">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
 
 Created by
