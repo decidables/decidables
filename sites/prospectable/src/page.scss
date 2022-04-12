@@ -794,6 +794,84 @@ $transition-duration: 500ms;
     border-radius: $border-radius;
   }
 
+  // Keys: Objective
+  .key[class~="value"],
+  .key[class~="objectivevalue"] {
+    background-color: cpt-color-light(x);
+  }
+
+  .key[class~="probability"] {
+    background-color: cpt-color-light(p);
+  }
+
+  // Keys: Subjective
+  .key[class~="subjectivevalue"] {
+    background-color: cpt-color-light(v);
+  }
+
+  .key[class~="decisionweight"] {
+    background-color: cpt-color-light(w);
+  }
+
+  .key[class~="utility"],
+  .key[class~="subjectiveutility"] {
+    background-color: cpt-color-light(u);
+  }
+
+  // Keys: Response
+  .key[class~="chosen"] {
+    background-color: cpt-color-light(chosen);
+  }
+
+  // Keys: Parameters
+  .key[class~="α"] {
+    /* purgecss ignore current */
+    background-color: cpt-color-light(a);
+  }
+
+  .key[class~="λ"] {
+    /* purgecss ignore current */
+    background-color: cpt-color-light(l);
+  }
+
+  .key[class~="γ"] {
+    /* purgecss ignore current */
+    background-color: cpt-color-light(g);
+  }
+
+  // Keys: Outcomes
+  .key[class~="better"] {
+    background-color: cpt-color-light(better);
+  }
+
+  .key[class~="worse"] {
+    background-color: cpt-color-light(worse);
+  }
+
+  .key[class~="even"] {
+    background-color: cpt-color-light(even);
+  }
+
+  .key[class~="correct"],
+  .key[class~="error"],
+  .key[class~="noresponse"] {
+    border: 1px solid $color-element-emphasis;
+  }
+
+  .key[class~="correct"] {
+    background-color: cpt-color-light(correct);
+  }
+
+  .key[class~="error"] {
+    color: $color-text-inverse;
+
+    background-color: cpt-color-light(error);
+  }
+
+  .key[class~="noresponse"] {
+    background-color: cpt-color-light(nr);
+  }
+  
   // UI Components
   .button,
   .prompt,
@@ -1049,7 +1127,7 @@ $transition-duration: 500ms;
   .correct::before {
     padding-left: calc(1.5rem - 2px);
 
-    background: sdt-color(correct);
+    background: cpt-color(correct);
     border: 1px solid $color-element-border;
   }
 
@@ -1057,12 +1135,12 @@ $transition-duration: 500ms;
     color: $color-text-inverse;
 
     background: cpt-color-light(error);
-    border-left-color: sdt-color(error);
+    border-left-color: cpt-color(error);
   }
 
   .nr::before {
-    background: sdt-color-light(nr);
-    border-left-color: sdt-color(nr);
+    background: cpt-color-light(nr);
+    border-left-color: cpt-color(nr);
   }
 }
 
