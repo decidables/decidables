@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.5.2...@decidables/prospectable@0.6.0) (2022-04-12)
+
+
+### Features
+
+* **prospectable:** get all Resource pages created and initialized ([bf1c89c](https://github.com/decidables/decidables/commit/bf1c89c2b31eeee5df4a65d2c233c62909ca8dfc))
+
+
+### Bug Fixes
+
+* **prospectable:** rename About page to Credits ([c02825b](https://github.com/decidables/decidables/commit/c02825b177ab148890e7a79b3b40c4df9c7de22a))
+* **prospectable:** updates to page.ejs and page.scss ([f5e988e](https://github.com/decidables/decidables/commit/f5e988e846d20f46d9bcf65749e13e5db9a9d8f4))
+
+
+
 ### [0.5.2](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.5.1...@decidables/prospectable@0.5.2) (2022-04-07)
 
 **Note:** Version bump only for package @decidables/prospectable
