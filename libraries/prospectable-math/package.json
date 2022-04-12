@@ -34,7 +34,9 @@
   "homepage": "https://github.com/decidables/decidables/tree/main/libraries/prospectable-math",
   "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
   "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "package.json",
     "*.md",
