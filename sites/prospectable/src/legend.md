@@ -41,7 +41,6 @@ script: page
   </li>
 </ul>
 
-
 ### Outcomes
 
 <ul class="pro-legend">

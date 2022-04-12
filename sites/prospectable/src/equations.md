@@ -8,7 +8,7 @@ script: page
 
 ### Decision weight
 
-<cpt-equation-pg2w></sdt-equation-pg2w>
+<cpt-equation-pg2w></cpt-equation-pg2w>
 
 <cpt-equation-pg2w numeric interactive probability="0.5" gamma="0.5"></cpt-equation-pg2w>
 

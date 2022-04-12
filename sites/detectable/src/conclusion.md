@@ -81,7 +81,8 @@ entirely new class of models and theories --- the sequential sampling models ---
 evidence accumulation processes that unfold over time, including both diffusion/random walk models
 and accumulator/race models :cite[@ratcliff_diffusion_2016]. Since these models incorporate time,
 they can be used to explore, fit, and predict reaction times as well as responses. Examples of these
-approaches include the diffusion decision model and the EZ-diffusion model :cite[@Ratcliff2008; @wagenmakers_ez-diffusion_2007].
+approaches include the diffusion decision model and the EZ-diffusion model :cite[@Ratcliff2008;
+@wagenmakers_ez-diffusion_2007].
 
 ### Neural basis
 
