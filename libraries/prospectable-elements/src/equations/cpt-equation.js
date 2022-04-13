@@ -45,6 +45,7 @@ export default class CPTEquation extends CPTElement {
         /* Overall <table> */
         .equation {
           text-align: center;
+          white-space: nowrap;
 
           border-collapse: collapse;
 
@@ -62,6 +63,10 @@ export default class CPTEquation extends CPTElement {
           padding: 0 0.25rem;
 
           font-style: normal;
+        }
+
+        var {
+          border-radius: var(---border-radius);
         }
 
         .tight {
@@ -95,6 +100,8 @@ export default class CPTEquation extends CPTElement {
 
         .function {
           display: inline-block;
+
+          border-radius: var(---border-radius);
         }
 
         :host([numeric]) .function {
@@ -137,6 +144,8 @@ export default class CPTEquation extends CPTElement {
 
           line-height: 1.5;
           vertical-align: middle;
+
+          border-radius: var(---border-radius);
         }
 
         .n {

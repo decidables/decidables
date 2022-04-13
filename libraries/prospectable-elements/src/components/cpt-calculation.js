@@ -87,7 +87,7 @@ export default class CPTCalculation extends CPTEquation {
     this.wl = 1 - this.ww;
     this.vs = CPTMath.xal2v(this.xs, this.a, this.l);
     // Calculate subjective utility
-    this.ug = (this.vw * this.ww) + (this.vl * this.wl);
+    this.ug = CPTMath.vw2u([this.vw, this.vl], [this.ww, this.wl]);
     this.us = this.vs;
     // Calculate difference
     this.uDiff = this.ug - this.us;
@@ -152,6 +152,14 @@ export default class CPTCalculation extends CPTEquation {
         /* :host {
           display: inline-block;
         } */
+
+        var {
+          border-radius: var(---border-radius);
+        }
+
+        decidables-spinner {
+          border-radius: var(---border-radius);
+        }
       `,
     ];
   }
