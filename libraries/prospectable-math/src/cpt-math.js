@@ -4,10 +4,10 @@
 
   Variables:
     x = objective value
-    v = subjective value/utility
+    v = subjective value
     p = objective probability
     w = subjective probability/decision weight
-    u = expected value/utility
+    u = subjective utility
 
     a = alpha (curvature for value function)
     l = lambda (loss aversion for value function)
@@ -19,6 +19,8 @@
     l = if (x >= 0) 1; if (x < 0) -v / (-x)^a
 
     w = p^g / (p^g + (1 - p)^g)^(1 / g)
+
+    u = Sum_n(v_n * w_n)
 */
 export default class CPTMath {
   static xal2v(x, a, l) {
@@ -47,5 +49,22 @@ export default class CPTMath {
 
   static pg2w(p, g) {
     return (p ** g) / (((p ** g) + ((1 - p) ** g)) ** (1 / g));
+  }
+
+  static vw2u(v, w) {
+    // Numbers
+    if (typeof v === 'number' && typeof w === 'number') {
+      return v * w;
+    }
+    // Arrays
+    if (v instanceof Array && w instanceof Array && v.length > 0 && v.length === w.length) {
+      let u = 0;
+      for (let n = 0; n < v.length; n += 1) {
+        u += v[n] * w[n];
+      }
+      return u;
+    }
+    // Otherwise
+    return NaN;
   }
 }

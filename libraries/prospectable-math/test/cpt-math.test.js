@@ -26,4 +26,11 @@ describe('cpt-math', () => {
     expect(CPTMath.pg2w(0.25, 0.5)).to.be.almost(0.27, 0.01);
     expect(CPTMath.pg2w(0.5, 0.5)).to.be.almost(0.35, 0.01);
   });
+
+  it('calculates subjective utility from subjective value and decision weight', () => {
+    expect(CPTMath.vw2u(20, 0.5)).to.equal(10);
+    expect(CPTMath.vw2u([100, 0], [0.5, 0.5])).to.equal(50);
+    expect(CPTMath.vw2u([100, -50], [0.75, 0.25])).to.equal(62.5);
+    expect(CPTMath.vw2u([8, 50], [0.75])).to.be.NaN; /* eslint-disable-line no-unused-expressions */
+  });
 });

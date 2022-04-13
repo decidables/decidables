@@ -40,6 +40,7 @@ rate, `HR`
 - p = probability
 - v = subjective value
 - w = decision weight
+- u = subjective utility
 - a = α (alpha, diminishing marginal utility)
 - l = λ (lambda, loss aversion)
 - g = γ (gamma, probability distortion)
@@ -54,6 +55,9 @@ rate, `HR`
   - a = if (x >= 0) 1; if (x < 0) -v / (-x)^a
 - `pg2w(p, g)`
   - w = p^g / (p^g + (1 - p)^g)^(1 / g)
+- `vw2u(v, w)`
+  - u = Sum_n(v_n * w_n)
+  - Accepts numbers or equal-length arrays of numbers
 
 ## Development
 
