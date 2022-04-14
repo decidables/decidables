@@ -41,7 +41,7 @@ export default class CPTExampleModel extends CPTExample {
 
     this.cptCalculation = null;
     this.cptProbability = null;
-    this.cptSpace = null;
+    // this.cptSpace = null;
     this.cptValue = null;
     this.decisionControl = null;
     this.decisionResponse = null;
@@ -52,7 +52,7 @@ export default class CPTExampleModel extends CPTExample {
   firstUpdated(/* changedProperties */) {
     this.cptCalculation = this.querySelector('cpt-calculation');
     this.cptProbability = this.querySelector('cpt-probability');
-    this.cptSpace = this.querySelector('cpt-space');
+    // this.cptSpace = this.querySelector('cpt-space');
     this.cptValue = this.querySelector('cpt-value');
     this.decisionControl = this.querySelector('decision-control');
     this.decisionResponse = this.querySelector('decision-response');
@@ -279,11 +279,11 @@ export default class CPTExampleModel extends CPTExample {
       this.cptProbability.g = this.g;
     }
 
-    if (this.cptSpace) {
-      this.cptSpace.a = this.a;
-      this.cptSpace.l = this.l;
-      this.cptSpace.g = this.g;
-    }
+    // if (this.cptSpace) {
+    //   this.cptSpace.a = this.a;
+    //   this.cptSpace.l = this.l;
+    //   this.cptSpace.g = this.g;
+    // }
 
     if (this.cptValue) {
       this.cptValue.a = this.a;

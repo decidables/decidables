@@ -71,12 +71,12 @@ export default class DecisionSpace extends CPTElement {
         type: Number,
         reflect: true,
       },
+
       xl: {
         attribute: 'loss',
         type: Number,
         reflect: true,
       },
-
       xw: {
         attribute: 'win',
         type: Number,

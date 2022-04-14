@@ -77,7 +77,7 @@ export default class DecisionControl extends CPTElement {
 
   setDuration(e) {
     this.duration = e.target.value;
-    this.dispatchEvent(new CustomEvent('sdt-control-duration', {
+    this.dispatchEvent(new CustomEvent('decision-control-duration', {
       detail: {
         duration: this.duration,
       },

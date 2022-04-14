@@ -41,6 +41,11 @@ export default class CPTValue extends CPTElement {
         type: Number,
         reflect: true,
       },
+      label: {
+        attribute: 'label',
+        type: String,
+        reflect: true,
+      },
 
       v: {
         attribute: false,
