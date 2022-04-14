@@ -611,7 +611,7 @@ the gamble win and the sure thing and the probability of the gamble win can be e
 <decision-choice interactive probability="0.75" win="20" loss="0" sure="10" state="choice"></decision-choice>
 ```
 
-#### `DecisionControl` / `<decision-control>`
+#### `ProspectableControl` / `<prospectable-control>`
 
 Control panel for CPT demos
 
@@ -644,27 +644,27 @@ or resetting a block of trials.
 
 ##### Custom Events
 
-- `decision-control-trials`
+- `prospectable-control-trials`
   - Indicates the number of trials slider has been adjusted
   - `detail`
     - `trials: number`
       - The new number of trials
-- `decision-control-duration`
+- `prospectable-control-duration`
   - Indicates the duration of trials slider has been adjusted
   - `detail`
     - `duration: number`
       - The new duration
-- `decision-control-run`
+- `prospectable-control-run`
   - Indicates the run button has been pushed
-- `decision-control-pause`
+- `prospectable-control-pause`
   - Indicates the pause button has been pushed
-- `decision-control-reset`
+- `prospectable-control-reset`
   - Indicates the reset button has been pushed
 
 ##### Example
 
 ```html
-<decision-control trials="15" duration="1500" run pause reset></decision-control>
+<prospectable-control trials="15" duration="1500" run pause reset></prospectable-control>
 ```
 
 #### `DecisionOption` / `<decision-option>`
@@ -1177,7 +1177,7 @@ task performance.
       - Displays the probability function based on the current model parameters
     - `<cpt-value>`
       - Displays the value function based on the current model parameters
-    - `<decision-control>`
+    - `<prospectable-control>`
       - Allows user to adjust parameters and control the task
     - `<decision-response>`
       - Allows user to make responses and see feedback and payoffs
@@ -1193,7 +1193,7 @@ task performance.
   <cpt-fit></cpt-fit>
   <cpt-probability></cpt-probability>
   <cpt-value></cpt-value>
-  <decision-control trials="10" run pause reset></decision-control>
+  <prospectable-control trials="10" run pause reset></prospectable-control>
   <decision-response interactive trial feedback="outcome" payoff="both"></decision-response>
   <decision-space point="rest" alpha="1" lambda="1" gamma="1"></decision-space>
   <decision-task trials="10"></decision-task>
@@ -1298,7 +1298,7 @@ individual components, as they will be propagated and kept in sync.
       - Display and change the probability function
     - `<cpt-value>`
       - Display and change the value function
-    - `<decision-control>`
+    - `<prospectable-control>`
       - Allows user to adjust parameters and control the task
     - `<decision-response>`
       - Allows user to view model responses, feedback, and payoffs
@@ -1311,7 +1311,7 @@ individual components, as they will be propagated and kept in sync.
 
 ```html
 <cpt-example-model alpha="0.9" lambda="2" gamma="0.75">
-  <decision-control trials="10" run pause reset></decision-control>
+  <prospectable-control trials="10" run pause reset></prospectable-control>
   <decision-task trials="10"></decision-task>
   <cpt-probability interactive></cpt-probability>
   <cpt-value interactive></cpt-value>

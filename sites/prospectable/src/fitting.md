@@ -9,7 +9,7 @@ script: page
 Fitting the model to your performance.
 
 <cpt-example-human>
-  <decision-control trials="10" run pause reset></decision-control>
+  <prospectable-control trials="10" run pause reset></prospectable-control>
   <decision-task trials="10"></decision-task>
   <decision-response interactive trial feedback="outcome" payoff="both"></decision-response>
   <cpt-probability></cpt-probability>

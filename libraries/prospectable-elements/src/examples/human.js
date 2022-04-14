@@ -10,7 +10,7 @@ import CPTExample from './cpt-example';
 export default class CPTExampleHuman extends CPTExample {
   firstUpdated(/* changedProperties */) {
     this.cptFit = this.querySelector('cpt-fit');
-    this.decisionControl = this.querySelector('decision-control');
+    this.prospectableControl = this.querySelector('prospectable-control');
     this.decisionTask = this.querySelector('decision-task');
     this.decisionResponse = this.querySelector('decision-response');
     this.decisionSpace = this.querySelector('decision-space');
@@ -39,9 +39,9 @@ export default class CPTExampleHuman extends CPTExample {
       });
     }
 
-    if (this.decisionControl) {
-      if (this.decisionControl.hasAttribute('trials')) {
-        this.decisionControl.addEventListener('decision-control-trials', (event) => {
+    if (this.prospectableControl) {
+      if (this.prospectableControl.hasAttribute('trials')) {
+        this.prospectableControl.addEventListener('prospectable-control-trials', (event) => {
           if (this.decisionTask) {
             this.decisionTask.trials = event.detail.trials;
           }
@@ -52,8 +52,8 @@ export default class CPTExampleHuman extends CPTExample {
         });
       }
 
-      if (this.decisionControl.hasAttribute('duration')) {
-        this.decisionControl.addEventListener('decision-control-duration', (event) => {
+      if (this.prospectableControl.hasAttribute('duration')) {
+        this.prospectableControl.addEventListener('prospectable-control-duration', (event) => {
           if (this.decisionTask) {
             this.decisionTask.duration = event.detail.duration;
             this.decisionTask.iti = event.detail.duration;
@@ -61,24 +61,24 @@ export default class CPTExampleHuman extends CPTExample {
         });
       }
 
-      if (this.decisionControl.hasAttribute('run')) {
-        this.decisionControl.addEventListener('decision-control-run', (/* event */) => {
+      if (this.prospectableControl.hasAttribute('run')) {
+        this.prospectableControl.addEventListener('prospectable-control-run', (/* event */) => {
           if (this.decisionTask) {
             this.decisionTask.running = true;
           }
         });
       }
 
-      if (this.decisionControl.hasAttribute('pause')) {
-        this.decisionControl.addEventListener('decision-control-pause', (/* event */) => {
+      if (this.prospectableControl.hasAttribute('pause')) {
+        this.prospectableControl.addEventListener('prospectable-control-pause', (/* event */) => {
           if (this.decisionTask) {
             this.decisionTask.running = false;
           }
         });
       }
 
-      if (this.decisionControl.hasAttribute('reset')) {
-        this.decisionControl.addEventListener('decision-control-reset', (/* event */) => {
+      if (this.prospectableControl.hasAttribute('reset')) {
+        this.prospectableControl.addEventListener('prospectable-control-reset', (/* event */) => {
           if (this.decisionTask) {
             this.decisionTask.reset();
           }
@@ -125,8 +125,8 @@ export default class CPTExampleHuman extends CPTExample {
       });
 
       this.decisionTask.addEventListener('decision-block-end', (/* event */) => {
-        if (this.decisionControl) {
-          this.decisionControl.complete();
+        if (this.prospectableControl) {
+          this.prospectableControl.complete();
         }
       });
     }
