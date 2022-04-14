@@ -46,7 +46,7 @@ export default class CPTExampleModel extends CPTExample {
     this.prospectableControl = null;
     this.decisionResponse = null;
     this.decisionSpace = null;
-    this.decisionTask = null;
+    this.riskyTask = null;
   }
 
   firstUpdated(/* changedProperties */) {
@@ -57,7 +57,7 @@ export default class CPTExampleModel extends CPTExample {
     this.prospectableControl = this.querySelector('prospectable-control');
     this.decisionResponse = this.querySelector('decision-response');
     this.decisionSpace = this.querySelector('decision-space');
-    this.decisionTask = this.querySelector('decision-task');
+    this.riskyTask = this.querySelector('risky-task');
 
     if (this.cptProbability) {
       this.cptProbability.addEventListener('cpt-probability-change', (event) => {
@@ -111,8 +111,8 @@ export default class CPTExampleModel extends CPTExample {
     if (this.prospectableControl) {
       if (this.prospectableControl.hasAttribute('trials')) {
         this.prospectableControl.addEventListener('prospectable-control-trials', (event) => {
-          if (this.decisionTask) {
-            this.decisionTask.trials = event.detail.trials;
+          if (this.riskyTask) {
+            this.riskyTask.trials = event.detail.trials;
           }
 
           if (this.decisionResponse) {
@@ -123,9 +123,9 @@ export default class CPTExampleModel extends CPTExample {
 
       if (this.prospectableControl.hasAttribute('duration')) {
         this.prospectableControl.addEventListener('prospectable-control-duration', (event) => {
-          if (this.decisionTask) {
-            this.decisionTask.duration = event.detail.duration;
-            this.decisionTask.iti = event.detail.duration;
+          if (this.riskyTask) {
+            this.riskyTask.duration = event.detail.duration;
+            this.riskyTask.iti = event.detail.duration;
           }
         });
       }
@@ -140,8 +140,8 @@ export default class CPTExampleModel extends CPTExample {
             this.cptValue.resumeTrial();
           }
 
-          if (this.decisionTask) {
-            this.decisionTask.running = true;
+          if (this.riskyTask) {
+            this.riskyTask.running = true;
           }
         });
       }
@@ -156,8 +156,8 @@ export default class CPTExampleModel extends CPTExample {
             this.cptValue.pauseTrial();
           }
 
-          if (this.decisionTask) {
-            this.decisionTask.running = false;
+          if (this.riskyTask) {
+            this.riskyTask.running = false;
           }
         });
       }
@@ -172,8 +172,8 @@ export default class CPTExampleModel extends CPTExample {
             this.cptValue.clear();
           }
 
-          if (this.decisionTask) {
-            this.decisionTask.reset();
+          if (this.riskyTask) {
+            this.riskyTask.reset();
           }
 
           if (this.decisionResponse) {
@@ -187,12 +187,12 @@ export default class CPTExampleModel extends CPTExample {
       }
     }
 
-    if (this.decisionTask) {
+    if (this.riskyTask) {
       if (this.decisionResponse) {
-        this.decisionResponse.trialTotal = this.decisionTask.trials;
+        this.decisionResponse.trialTotal = this.riskyTask.trials;
       }
 
-      this.decisionTask.addEventListener('decision-trial-start', (event) => {
+      this.riskyTask.addEventListener('decision-trial-start', (event) => {
         if (this.decisionResponse) {
           this.decisionResponse.start(
             event.detail.xl,
@@ -250,13 +250,13 @@ export default class CPTExampleModel extends CPTExample {
         }
       });
 
-      this.decisionTask.addEventListener('decision-trial-end', (/* event */) => {
+      this.riskyTask.addEventListener('decision-trial-end', (/* event */) => {
         if (this.decisionResponse) {
           this.decisionResponse.stop();
         }
       });
 
-      this.decisionTask.addEventListener('decision-block-end', (/* event */) => {
+      this.riskyTask.addEventListener('decision-block-end', (/* event */) => {
         if (this.prospectableControl) {
           this.prospectableControl.complete();
         }

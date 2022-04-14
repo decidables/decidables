@@ -10,7 +10,7 @@ Fitting the model to your performance.
 
 <cpt-example-human>
   <prospectable-control trials="10" run pause reset></prospectable-control>
-  <decision-task trials="10"></decision-task>
+  <risky-task trials="10"></risky-task>
   <decision-response interactive trial feedback="outcome" payoff="both"></decision-response>
   <cpt-probability></cpt-probability>
   <cpt-value></cpt-value>

@@ -6,14 +6,14 @@ import './risky-choice';
 import ProspectableElement from '../prospectable-element';
 
 /*
-  DecisionTask element
-  <decision-task>
+  RiskyTask element
+  <risky-task>
 
   Attributes:
   Dots; Coherence;
   # Direction, Speed, Lifetime
 */
-export default class DecisionTask extends ProspectableElement {
+export default class RiskyTask extends ProspectableElement {
   static get properties() {
     return {
       duration: {
@@ -254,4 +254,4 @@ export default class DecisionTask extends ProspectableElement {
   }
 }
 
-customElements.define('decision-task', DecisionTask);
+customElements.define('risky-task', RiskyTask);

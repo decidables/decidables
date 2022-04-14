@@ -14,7 +14,7 @@ script: page
     <h2 class="pro-index-subtitle">An Explorable Explanation of Cumulative Prospect Theory</h2>
   </hgroup>
   <div class="pro-index-demo">
-    <decision-task running trials="Infinity" duration="3000" iti="500"></decision-task>
+    <risky-task running trials="Infinity" duration="3000" iti="500"></risky-task>
   </div>
   <p class="pro-index-lead">
     How do we decide between risky options?<br>
