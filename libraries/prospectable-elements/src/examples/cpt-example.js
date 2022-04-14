@@ -1,13 +1,13 @@
 
 import {html, css} from 'lit';
 
-import CPTElement from '../cpt-element';
+import ProspectableElement from '../cpt-element';
 
 /*
   CPTExample Base Class - Not intended for instantiation!
   <sdt-example>
 */
-export default class CPTExample extends CPTElement {
+export default class CPTExample extends ProspectableElement {
   static get styles() {
     return [
       super.styles,

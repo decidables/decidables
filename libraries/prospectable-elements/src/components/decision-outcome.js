@@ -1,7 +1,7 @@
 
 import {html, css} from 'lit';
 
-import CPTElement from '../cpt-element';
+import ProspectableElement from '../cpt-element';
 
 /*
   DecisionOutcome element
@@ -10,7 +10,7 @@ import CPTElement from '../cpt-element';
   Attributes:
   value, probability, name
 */
-export default class DecisionOutcome extends CPTElement {
+export default class DecisionOutcome extends ProspectableElement {
   static get properties() {
     return {
       x: {

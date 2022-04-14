@@ -3,7 +3,7 @@ import {html, css} from 'lit';
 import * as d3 from 'd3';
 
 import './decision-choice';
-import CPTElement from '../cpt-element';
+import ProspectableElement from '../cpt-element';
 
 /*
   DecisionTask element
@@ -13,7 +13,7 @@ import CPTElement from '../cpt-element';
   Dots; Coherence;
   # Direction, Speed, Lifetime
 */
-export default class DecisionTask extends CPTElement {
+export default class DecisionTask extends ProspectableElement {
   static get properties() {
     return {
       duration: {

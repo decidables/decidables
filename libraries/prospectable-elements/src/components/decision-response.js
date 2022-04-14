@@ -3,7 +3,7 @@ import {html, css} from 'lit';
 
 import '@decidables/decidables-elements/button';
 
-import CPTElement from '../cpt-element';
+import ProspectableElement from '../cpt-element';
 
 /*
   DecisionResponse element
@@ -12,7 +12,7 @@ import CPTElement from '../cpt-element';
   Attributes:
 
 */
-export default class DecisionResponse extends CPTElement {
+export default class DecisionResponse extends ProspectableElement {
   static get properties() {
     return {
       feedback: {

@@ -1332,23 +1332,23 @@ export default class CPTExampleSomething extends CPTExample {
 }
 ```
 
-`CPTExample` extends `CPTElement` extends `DecidablesElement` extends `LitElement`
+`CPTExample` extends `ProspectableElement` extends `DecidablesElement` extends `LitElement`
 
 ### Base class
 
-#### `CPTElement`
+#### `ProspectableElement`
 
 Base class for all *prospectable* web components
 
 To define a new element:
 
 ```javascript
-export default class CPTElementSomething extends CPTElement {
+export default class ProspectableElementSomething extends ProspectableElement {
   ...
 }
 ```
 
-`CPTElement` extends `DecidablesElement` extends `LitElement`
+`ProspectableElement` extends `DecidablesElement` extends `LitElement`
 
 ## Development
 

@@ -4,7 +4,7 @@ import {html, css} from 'lit';
 import '@decidables/decidables-elements/button';
 import '@decidables/decidables-elements/slider';
 
-import CPTElement from '../cpt-element';
+import ProspectableElement from '../cpt-element';
 
 /*
   ProspectableControl element
@@ -13,7 +13,7 @@ import CPTElement from '../cpt-element';
   Attributes:
 
 */
-export default class ProspectableControl extends CPTElement {
+export default class ProspectableControl extends ProspectableElement {
   static get properties() {
     return {
       trials: {

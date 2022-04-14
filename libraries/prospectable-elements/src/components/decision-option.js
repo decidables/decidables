@@ -2,7 +2,7 @@
 import {html, css} from 'lit';
 import * as d3 from 'd3';
 
-import CPTElement from '../cpt-element';
+import ProspectableElement from '../cpt-element';
 
 /*
   DecisionOption element
@@ -11,7 +11,7 @@ import CPTElement from '../cpt-element';
   Attributes:
   Win, Loss, Probability
 */
-export default class DecisionOption extends CPTElement {
+export default class DecisionOption extends ProspectableElement {
   static get properties() {
     return {
       width: {
@@ -140,7 +140,7 @@ export default class DecisionOption extends CPTElement {
 
   render() { /* eslint-disable-line class-methods-use-this */
     return html`
-      ${CPTElement.svgFilters}
+      ${ProspectableElement.svgFilters}
       <slot></slot>
     `;
   }

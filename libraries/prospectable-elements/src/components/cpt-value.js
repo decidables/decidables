@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 
 import CPTMath from '@decidables/prospectable-math';
 
-import CPTElement from '../cpt-element';
+import ProspectableElement from '../cpt-element';
 
 /*
   CPTValue element
@@ -23,7 +23,7 @@ import CPTElement from '../cpt-element';
   Styles:
     ??
 */
-export default class CPTValue extends CPTElement {
+export default class CPTValue extends ProspectableElement {
   static get properties() {
     return {
       x: {
@@ -449,7 +449,7 @@ export default class CPTValue extends CPTElement {
 
   render() { /* eslint-disable-line class-methods-use-this */
     return html`
-      ${CPTElement.svgFilters}
+      ${ProspectableElement.svgFilters}
     `;
   }
 

@@ -1,13 +1,13 @@
 
 import {css} from 'lit';
 
-import CPTElement from '../cpt-element';
+import ProspectableElement from '../cpt-element';
 
 /*
   CPTEquation Base Class - Not intended for instantiation!
   <cpt-equation>
 */
-export default class CPTEquation extends CPTElement {
+export default class CPTEquation extends ProspectableElement {
   static get properties() {
     return {
       numeric: {
