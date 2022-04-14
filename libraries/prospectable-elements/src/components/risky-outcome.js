@@ -4,13 +4,13 @@ import {html, css} from 'lit';
 import ProspectableElement from '../cpt-element';
 
 /*
-  DecisionOutcome element
-  <decision-outcome>
+  RiskyOutcome element
+  <risky-outcome>
 
   Attributes:
   value, probability, name
 */
-export default class DecisionOutcome extends ProspectableElement {
+export default class RiskyOutcome extends ProspectableElement {
   static get properties() {
     return {
       x: {
@@ -55,4 +55,4 @@ export default class DecisionOutcome extends ProspectableElement {
   }
 }
 
-customElements.define('decision-outcome', DecisionOutcome);
+customElements.define('risky-outcome', RiskyOutcome);

@@ -684,12 +684,12 @@ them can be edited.
 
 - *unnamed*
   - Place the constituent decision outcomes here
-  - `<decision-outcome>`
+  - `<risky-outcome>`
     - This is the only meaningful tag for this slot - the total probabilities should sum to 1
 
 ##### Custom Events
 
-- `decision-outcome-change`
+- `risky-outcome-change`
   - Indicates that an outcome has been changed
   - `detail`
     - `x: number`
@@ -703,12 +703,12 @@ them can be edited.
 
 ```html
 <decision-option interactive>
-  <decision-outcome interactive probability="0.25" value="0" name="loss"></decision-outcome>
-  <decision-outcome interactive probability="0.75" value="20" name="win"></decision-outcome>`
+  <risky-outcome interactive probability="0.25" value="0" name="loss"></risky-outcome>
+  <risky-outcome interactive probability="0.75" value="20" name="win"></risky-outcome>`
 </decision-option>
 ```
 
-#### `DecisionOutcome` / `<decision-outcome>`
+#### `RiskyOutcome` / `<risky-outcome>`
 
 A single outcome for a decision option (no display on its own)
 
@@ -729,7 +729,7 @@ a `<decision-option>`.
 ##### Example
 
 ```html
-<decision-outcome interactive value="20" probability="0.8" name="win"></decision-outcome>
+<risky-outcome interactive value="20" probability="0.8" name="win"></risky-outcome>
 ```
 
 #### `DecisionResponse` / `<decision-response>`

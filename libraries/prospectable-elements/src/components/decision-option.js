@@ -205,13 +205,13 @@ export default class DecisionOption extends ProspectableElement {
     const width = elementSize - (margin.left + margin.right);
 
     // Get outcomes from slots!
-    const decisionOutcomes = this.querySelectorAll('decision-outcome');
-    const pCorrection = decisionOutcomes.length ? -decisionOutcomes[0].p : 0;
+    const riskyOutcomes = this.querySelectorAll('risky-outcome');
+    const pCorrection = riskyOutcomes.length ? -riskyOutcomes[0].p : 0;
     const arcs = d3.pie()
       .startAngle((pCorrection * Math.PI) - Math.PI)
       .endAngle((pCorrection * Math.PI) + Math.PI)
       .sortValues(null) // Use inserted order!
-      .value((datum) => { return datum.p; })(decisionOutcomes);
+      .value((datum) => { return datum.p; })(riskyOutcomes);
     const arcsStatic = arcs.filter(
       (arc) => { return !arc.data.interactive; },
     );
@@ -233,7 +233,7 @@ export default class DecisionOption extends ProspectableElement {
       .subject((event, datum) => {
         const arcAngle = fixAngle((datum.endAngle + datum.startAngle) / 2);
         const dragAngle = fixAngle(Math.atan2(event.y, event.x) + (Math.PI / 2));
-        decisionOutcomes.forEach((item) => {
+        riskyOutcomes.forEach((item) => {
           item.startP = item.p;
         });
         return {
@@ -258,13 +258,13 @@ export default class DecisionOption extends ProspectableElement {
           : ((proposedP < 0.01)
             ? 0.01
             : proposedP);
-        decisionOutcomes.forEach((item) => {
+        riskyOutcomes.forEach((item) => {
           item.p = (item === datum.data)
             ? newP
             : (item.startP / (1 - datum.data.startP)) * (1 - newP);
         });
 
-        this.dispatchEvent(new CustomEvent('decision-outcome-change', {
+        this.dispatchEvent(new CustomEvent('risky-outcome-change', {
           detail: {
             x: datum.data.x,
             p: datum.data.p,
@@ -342,7 +342,7 @@ export default class DecisionOption extends ProspectableElement {
       .on('input', (event, datum) => {
         datum.data.x = parseFloat(event.target.value);
 
-        this.dispatchEvent(new CustomEvent('decision-outcome-change', {
+        this.dispatchEvent(new CustomEvent('risky-outcome-change', {
           detail: {
             x: datum.data.x,
             p: datum.data.p,

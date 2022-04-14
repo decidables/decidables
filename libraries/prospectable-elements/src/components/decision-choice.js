@@ -3,7 +3,7 @@ import {html, css} from 'lit';
 
 import ProspectableElement from '../cpt-element';
 import './decision-option';
-import './decision-outcome';
+import './risky-outcome';
 
 /*
   DecisionChoice element
@@ -112,18 +112,18 @@ export default class DecisionChoice extends ProspectableElement {
   render() {
     return html`
       <div class="holder">
-        <decision-option ?interactive=${this.interactive} @decision-outcome-change=${this.winChange.bind(this)}>
+        <decision-option ?interactive=${this.interactive} @risky-outcome-change=${this.winChange.bind(this)}>
           ${(this.state === 'choice')
             ? html`
-              <decision-outcome probability="${(1 - this.pw)}" value="${this.xl}" name="loss"></decision-outcome>
-              <decision-outcome ?interactive=${this.interactive} probability="${this.pw}" value="${this.xw}" name="win"></decision-outcome>`
+              <risky-outcome probability="${(1 - this.pw)}" value="${this.xl}" name="loss"></risky-outcome>
+              <risky-outcome ?interactive=${this.interactive} probability="${this.pw}" value="${this.xw}" name="win"></risky-outcome>`
             : ''}
         </decision-option><span class="query"
          >${(this.state === 'choice') ? '?' : (this.state === 'fixation') ? '+' : html`∙`}</span
-        ><decision-option ?interactive=${this.interactive} @decision-outcome-change=${this.sureChange.bind(this)}>
+        ><decision-option ?interactive=${this.interactive} @risky-outcome-change=${this.sureChange.bind(this)}>
           ${(this.state === 'choice')
             ? html`
-              <decision-outcome ?interactive=${this.interactive} probability="1" value="${this.xs}" name="sure"></decision-outcome>`
+              <risky-outcome ?interactive=${this.interactive} probability="1" value="${this.xs}" name="sure"></risky-outcome>`
             : ''}
         </decision-option>
       </div>`;
