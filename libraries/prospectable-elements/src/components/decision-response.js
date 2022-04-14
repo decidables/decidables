@@ -3,7 +3,7 @@ import {html, css} from 'lit';
 
 import '@decidables/decidables-elements/button';
 
-import ProspectableElement from '../cpt-element';
+import ProspectableElement from '../prospectable-element';
 
 /*
   DecisionResponse element

@@ -4,7 +4,7 @@ import {html, css} from 'lit';
 import '@decidables/decidables-elements/button';
 import '@decidables/decidables-elements/slider';
 
-import ProspectableElement from '../cpt-element';
+import ProspectableElement from '../prospectable-element';
 
 /*
   ProspectableControl element

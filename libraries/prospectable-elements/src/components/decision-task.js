@@ -3,7 +3,7 @@ import {html, css} from 'lit';
 import * as d3 from 'd3';
 
 import './decision-choice';
-import ProspectableElement from '../cpt-element';
+import ProspectableElement from '../prospectable-element';
 
 /*
   DecisionTask element
