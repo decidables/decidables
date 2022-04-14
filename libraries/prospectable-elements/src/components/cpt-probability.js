@@ -897,7 +897,7 @@ export default class CPTProbability extends ProspectableElement {
           element.removeAttribute('data-animating-ease-time-1');
           element.removeAttribute('data-animating-ease-time-2');
           datum.new = false;
-          this.dispatchEvent(new CustomEvent('decision-response', {
+          this.dispatchEvent(new CustomEvent('risky-response', {
             detail: {
               trial: this.trialCount,
               xl: this.xl,
