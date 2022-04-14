@@ -8,10 +8,10 @@ import * as d3 from 'd3';
 import {DecidablesElement} from '@decidables/decidables-elements';
 
 /*
-  CPTElement Base Class - Not intended for instantiation!
+  ProspectableElement Base Class - Not intended for instantiation!
   <sdt-element>
 */
-export default class CPTElement extends DecidablesElement {
+export default class ProspectableElement extends DecidablesElement {
   static get properties() {
     return {
       interactive: {
@@ -48,15 +48,15 @@ export default class CPTElement extends DecidablesElement {
   }
 
   static get lights() {
-    return Object.keys(CPTElement.colors).reduce((acc, cur) => {
-      acc[cur] = d3.interpolateRgb(CPTElement.colors[cur], '#ffffff')(0.5);
+    return Object.keys(ProspectableElement.colors).reduce((acc, cur) => {
+      acc[cur] = d3.interpolateRgb(ProspectableElement.colors[cur], '#ffffff')(0.5);
       return acc;
     }, {});
   }
 
   static get darks() {
-    return Object.keys(CPTElement.colors).reduce((acc, cur) => {
-      acc[cur] = d3.interpolateRgb(CPTElement.colors[cur], '#000000')(0.5);
+    return Object.keys(ProspectableElement.colors).reduce((acc, cur) => {
+      acc[cur] = d3.interpolateRgb(ProspectableElement.colors[cur], '#000000')(0.5);
       return acc;
     }, {});
   }

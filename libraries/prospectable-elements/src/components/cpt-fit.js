@@ -6,7 +6,7 @@ import * as PlotlyHistogram from 'plotly.js/lib/histogram';
 // Special Web Worker import for rollup-plugin-web-worker-loader
 import CPTFitWorker from 'web-worker:./cpt-fit-worker'; /* eslint-disable-line import/no-unresolved */
 
-import CPTElement from '../cpt-element';
+import ProspectableElement from '../cpt-element';
 import plotlyStyle from './plotly-style.auto';
 
 // Load in the needed trace types
@@ -20,7 +20,7 @@ Plotly.register([PlotlyHistogram]);
     interactive: true/false
 
 */
-export default class CPTFit extends CPTElement {
+export default class CPTFit extends ProspectableElement {
   static get properties() {
     return {
     };

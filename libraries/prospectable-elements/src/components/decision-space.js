@@ -8,7 +8,7 @@ import * as PlotlyScatter3d from 'plotly.js/lib/scatter3d';
 
 import CPTMath from '@decidables/prospectable-math';
 
-import CPTElement from '../cpt-element';
+import ProspectableElement from '../cpt-element';
 import plotlyStyle from './plotly-style.auto';
 
 // Load in the needed trace type
@@ -37,7 +37,7 @@ Plotly.register([PlotlyIsoSurface, PlotlyScatter3d]);
   Styles:
     ??
 */
-export default class DecisionSpace extends CPTElement {
+export default class DecisionSpace extends ProspectableElement {
   static get properties() {
     return {
       surface: {
@@ -325,7 +325,7 @@ export default class DecisionSpace extends CPTElement {
     return html`
       <div class="plotly"></div>
     `;
-    // ${CPTElement.svgFilters}
+    // ${ProspectableElement.svgFilters}
   }
 
   getDimensions() {

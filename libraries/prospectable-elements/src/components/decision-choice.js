@@ -1,7 +1,7 @@
 
 import {html, css} from 'lit';
 
-import CPTElement from '../cpt-element';
+import ProspectableElement from '../cpt-element';
 import './decision-option';
 import './decision-outcome';
 
@@ -11,7 +11,7 @@ import './decision-outcome';
 
   Attributes:
 */
-export default class DecisionChoice extends CPTElement {
+export default class DecisionChoice extends ProspectableElement {
   static get properties() {
     return {
       state: {
