@@ -68,6 +68,7 @@ Dependencies updated 17/1/2022.
 
 ### Features/Bugs/Notes
 
+- Cleanup headers and comments in all *.js files!
 - Add targets/links to all headers
   - *rehype-slug* (https://github.com/rehypejs/rehype-slug)
   - *rehype-autolink-headings* (https://github.com/rehypejs/rehype-autolink-headings)
