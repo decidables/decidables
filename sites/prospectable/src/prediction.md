@@ -12,7 +12,7 @@ In other words, we can have our model perform the task *as if* it were a partici
 
 <cpt-example-model alpha="0.9" lambda="2" gamma="0.75">
   <prospectable-control trials="10" run pause reset></prospectable-control>
-  <decision-task trials="10"></decision-task>
+  <risky-task trials="10"></risky-task>
   <cpt-probability interactive></cpt-probability>
   <cpt-value interactive></cpt-value>
   <decision-response trial feedback="outcome" payoff="both"></decision-response>

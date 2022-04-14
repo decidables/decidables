@@ -11,7 +11,7 @@ export default class CPTExampleHuman extends CPTExample {
   firstUpdated(/* changedProperties */) {
     this.cptFit = this.querySelector('cpt-fit');
     this.prospectableControl = this.querySelector('prospectable-control');
-    this.decisionTask = this.querySelector('decision-task');
+    this.riskyTask = this.querySelector('risky-task');
     this.decisionResponse = this.querySelector('decision-response');
     this.decisionSpace = this.querySelector('decision-space');
 
@@ -42,8 +42,8 @@ export default class CPTExampleHuman extends CPTExample {
     if (this.prospectableControl) {
       if (this.prospectableControl.hasAttribute('trials')) {
         this.prospectableControl.addEventListener('prospectable-control-trials', (event) => {
-          if (this.decisionTask) {
-            this.decisionTask.trials = event.detail.trials;
+          if (this.riskyTask) {
+            this.riskyTask.trials = event.detail.trials;
           }
 
           if (this.decisionResponse) {
@@ -54,33 +54,33 @@ export default class CPTExampleHuman extends CPTExample {
 
       if (this.prospectableControl.hasAttribute('duration')) {
         this.prospectableControl.addEventListener('prospectable-control-duration', (event) => {
-          if (this.decisionTask) {
-            this.decisionTask.duration = event.detail.duration;
-            this.decisionTask.iti = event.detail.duration;
+          if (this.riskyTask) {
+            this.riskyTask.duration = event.detail.duration;
+            this.riskyTask.iti = event.detail.duration;
           }
         });
       }
 
       if (this.prospectableControl.hasAttribute('run')) {
         this.prospectableControl.addEventListener('prospectable-control-run', (/* event */) => {
-          if (this.decisionTask) {
-            this.decisionTask.running = true;
+          if (this.riskyTask) {
+            this.riskyTask.running = true;
           }
         });
       }
 
       if (this.prospectableControl.hasAttribute('pause')) {
         this.prospectableControl.addEventListener('prospectable-control-pause', (/* event */) => {
-          if (this.decisionTask) {
-            this.decisionTask.running = false;
+          if (this.riskyTask) {
+            this.riskyTask.running = false;
           }
         });
       }
 
       if (this.prospectableControl.hasAttribute('reset')) {
         this.prospectableControl.addEventListener('prospectable-control-reset', (/* event */) => {
-          if (this.decisionTask) {
-            this.decisionTask.reset();
+          if (this.riskyTask) {
+            this.riskyTask.reset();
           }
 
           if (this.decisionResponse) {
@@ -98,12 +98,12 @@ export default class CPTExampleHuman extends CPTExample {
       }
     }
 
-    if (this.decisionTask) {
+    if (this.riskyTask) {
       if (this.decisionResponse) {
-        this.decisionResponse.trialTotal = this.decisionTask.trials;
+        this.decisionResponse.trialTotal = this.riskyTask.trials;
       }
 
-      this.decisionTask.addEventListener('decision-trial-start', (event) => {
+      this.riskyTask.addEventListener('decision-trial-start', (event) => {
         if (this.decisionResponse) {
           this.decisionResponse.start(
             event.detail.xl,
@@ -118,13 +118,13 @@ export default class CPTExampleHuman extends CPTExample {
         }
       });
 
-      this.decisionTask.addEventListener('decision-trial-end', (/* event */) => {
+      this.riskyTask.addEventListener('decision-trial-end', (/* event */) => {
         if (this.decisionResponse) {
           this.decisionResponse.stop();
         }
       });
 
-      this.decisionTask.addEventListener('decision-block-end', (/* event */) => {
+      this.riskyTask.addEventListener('decision-block-end', (/* event */) => {
         if (this.prospectableControl) {
           this.prospectableControl.complete();
         }

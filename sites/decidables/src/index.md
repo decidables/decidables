@@ -126,7 +126,7 @@ script: page
           </div>
           <div class="dec-carousel-item carousel-item">
             <figure class="dec-demo-figure">
-              <decision-task class="dec-demo" running trials="Infinity" duration="2500" iti="1500"></decision-task>
+              <risky-task class="dec-demo" running trials="Infinity" duration="2500" iti="1500"></risky-task>
               <figcaption class="dec-demo-caption">Risky decision task.</figcaption>
             </figure>
           </div>

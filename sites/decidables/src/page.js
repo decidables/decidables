@@ -15,4 +15,4 @@ import '@decidables/detectable-elements/components/detectable-table';
 
 import '@decidables/prospectable-elements/components/cpt-probability';
 import '@decidables/prospectable-elements/components/cpt-value';
-import '@decidables/prospectable-elements/components/decision-task';
+import '@decidables/prospectable-elements/components/risky-task';

@@ -10,4 +10,4 @@ export {default as RiskyOption} from './risky-option';
 export {default as RiskyOutcome} from './risky-outcome';
 export {default as DecisionResponse} from './decision-response';
 export {default as DecisionSpace} from './decision-space';
-export {default as DecisionTask} from './decision-task';
+export {default as RiskyTask} from './risky-task';

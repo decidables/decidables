@@ -926,7 +926,7 @@ megabytes of code, and are laggy to update, though direct interaction with the p
 <decision-space updateable surface="true" point="all" alpha="0.75" lambda="1.2" gamma="0.8" win="20" loss="0" probability="0.5" sure="10"></cpt-space>
 ```
 
-#### `DecisionTask` / `<decision-task>`
+#### `RiskyTask` / `<risky-task>`
 
 Displays stimuli for gambling decision task
 
@@ -998,7 +998,7 @@ resumed, and it can also be reset and run again.
 ##### Example
 
 ```html
-<decision-task duration="3000" iti="500" trials="10" running></decision-task>
+<risky-task duration="3000" iti="500" trials="10" running></risky-task>
 ```
 
 ### Equations
@@ -1183,7 +1183,7 @@ task performance.
       - Allows user to make responses and see feedback and payoffs
     - `<decision-space>`
       - Displays all completed trials in block in decision space with the model's decision surface
-    - `<decision-task>`
+    - `<risky-task>`
       - Displays the task
 
 ##### Example
@@ -1196,7 +1196,7 @@ task performance.
   <prospectable-control trials="10" run pause reset></prospectable-control>
   <decision-response interactive trial feedback="outcome" payoff="both"></decision-response>
   <decision-space point="rest" alpha="1" lambda="1" gamma="1"></decision-space>
-  <decision-task trials="10"></decision-task>
+  <risky-task trials="10"></risky-task>
 </cpt-example-human>
 ```
 
@@ -1304,7 +1304,7 @@ individual components, as they will be propagated and kept in sync.
       - Allows user to view model responses, feedback, and payoffs
     - `<decision-space>`
       - Displays all completed trials in block in decision space with the model's decision surface
-    - `<decision-task>`
+    - `<risky-task>`
       - Displays the task
 
 ##### Example
@@ -1312,7 +1312,7 @@ individual components, as they will be propagated and kept in sync.
 ```html
 <cpt-example-model alpha="0.9" lambda="2" gamma="0.75">
   <prospectable-control trials="10" run pause reset></prospectable-control>
-  <decision-task trials="10"></decision-task>
+  <risky-task trials="10"></risky-task>
   <cpt-probability interactive></cpt-probability>
   <cpt-value interactive></cpt-value>
   <decision-response trial feedback="outcome" payoff="both"></decision-response>
