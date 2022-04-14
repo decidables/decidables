@@ -1,7 +1,7 @@
 
 import {html, css} from 'lit';
 
-import ProspectableElement from '../cpt-element';
+import ProspectableElement from '../prospectable-element';
 import './risky-option';
 import './risky-outcome';
 

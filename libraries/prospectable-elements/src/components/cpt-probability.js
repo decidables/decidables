@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 
 import CPTMath from '@decidables/prospectable-math';
 
-import ProspectableElement from '../cpt-element';
+import ProspectableElement from '../prospectable-element';
 
 /*
   CPTProbability element

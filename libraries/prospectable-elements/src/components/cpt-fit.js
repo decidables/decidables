@@ -6,7 +6,7 @@ import * as PlotlyHistogram from 'plotly.js/lib/histogram';
 // Special Web Worker import for rollup-plugin-web-worker-loader
 import CPTFitWorker from 'web-worker:./cpt-fit-worker'; /* eslint-disable-line import/no-unresolved */
 
-import ProspectableElement from '../cpt-element';
+import ProspectableElement from '../prospectable-element';
 import plotlyStyle from './plotly-style.auto';
 
 // Load in the needed trace types
