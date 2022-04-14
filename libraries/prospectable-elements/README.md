@@ -561,7 +561,7 @@ functions can be directly manipulated.
 <cpt-value interactive value="20" alpha="0.8" lambda="1.2"></cpt-value>
 ```
 
-#### `DecisionChoice` / `<decision-choice>`
+#### `RiskyChoice` / `<risky-choice>`
 
 A choice between two options, one a gamble, and one a sure thing
 
@@ -593,7 +593,7 @@ the gamble win and the sure thing and the probability of the gamble win can be e
 
 ##### Custom Events
 
-- `decision-choice-change`
+- `risky-choice-change`
   - Indicates that one or more numbers in the choice have been changed
   - `detail`
     - `xl: number`
@@ -608,7 +608,7 @@ the gamble win and the sure thing and the probability of the gamble win can be e
 ##### Example
 
 ```html
-<decision-choice interactive probability="0.75" win="20" loss="0" sure="10" state="choice"></decision-choice>
+<risky-choice interactive probability="0.75" win="20" loss="0" sure="10" state="choice"></risky-choice>
 ```
 
 #### `ProspectableControl` / `<prospectable-control>`
@@ -1245,7 +1245,7 @@ components, as they will be propagated and kept in sync.
         current decision
     - `<cpt-value>`
       - Display and change the value function and subjective values of gamble win and sure thing
-    - `<decision-choice>`
+    - `<risky-choice>`
       - Display and change the choice between a gamble and a sure thing
     - `<decision-space>`
       - Display the space of possible decisions with the current decision and the decision surface
@@ -1254,7 +1254,7 @@ components, as they will be propagated and kept in sync.
 
 ```html
 <cpt-example-interactive probability="0.75" win="20" loss="0" sure="10" alpha="0.9" lambda="2" gamma="0.75">
-  <decision-choice interactive></decision-choice>
+  <risky-choice interactive></risky-choice>
   <cpt-probability interactive></cpt-probability>
   <cpt-value interactive></cpt-value>
   <cpt-calculation numeric interactive></cpt-calculation>

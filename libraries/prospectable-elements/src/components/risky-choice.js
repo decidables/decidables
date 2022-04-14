@@ -6,12 +6,12 @@ import './risky-option';
 import './risky-outcome';
 
 /*
-  DecisionChoice element
-  <decision-choice>
+  RiskyChoice element
+  <risky-choice>
 
   Attributes:
 */
-export default class DecisionChoice extends ProspectableElement {
+export default class RiskyChoice extends ProspectableElement {
   static get properties() {
     return {
       state: {
@@ -87,7 +87,7 @@ export default class DecisionChoice extends ProspectableElement {
   }
 
   sendEvent() {
-    this.dispatchEvent(new CustomEvent('decision-choice-change', {
+    this.dispatchEvent(new CustomEvent('risky-choice-change', {
       detail: {
         xl: this.xl,
         xw: this.xw,
@@ -130,4 +130,4 @@ export default class DecisionChoice extends ProspectableElement {
   }
 }
 
-customElements.define('decision-choice', DecisionChoice);
+customElements.define('risky-choice', RiskyChoice);

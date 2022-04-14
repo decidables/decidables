@@ -2,7 +2,7 @@
 import {html, css} from 'lit';
 import * as d3 from 'd3';
 
-import './decision-choice';
+import './risky-choice';
 import ProspectableElement from '../prospectable-element';
 
 /*
@@ -118,7 +118,7 @@ export default class DecisionTask extends ProspectableElement {
   render() {
     return html`
       <div class="holder">
-        <decision-choice state="${(this.state === 'stimulus') ? 'choice' : (this.state === 'iti') ? 'fixation' : 'blank'}" probability="${this.pw}" win="${this.xw}" loss="${this.xl}" sure="${this.xs}"></decision-choice>
+        <risky-choice state="${(this.state === 'stimulus') ? 'choice' : (this.state === 'iti') ? 'fixation' : 'blank'}" probability="${this.pw}" win="${this.xw}" loss="${this.xl}" sure="${this.xs}"></risky-choice>
       </div>`;
   }
 

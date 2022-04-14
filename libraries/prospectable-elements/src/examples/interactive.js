@@ -64,7 +64,7 @@ export default class CPTExampleInteractive extends CPTExample {
     this.cptProbability = null;
     this.cptSpace = null;
     this.cptValue = null;
-    this.decisionChoice = null;
+    this.riskyChoice = null;
     this.decisionSpace = null;
   }
 
@@ -73,7 +73,7 @@ export default class CPTExampleInteractive extends CPTExample {
     this.cptProbability = this.querySelector('cpt-probability');
     this.cptSpace = this.querySelector('cpt-space');
     this.cptValue = this.querySelector('cpt-value');
-    this.decisionChoice = this.querySelector('decision-choice');
+    this.riskyChoice = this.querySelector('risky-choice');
     this.decisionSpace = this.querySelector('decision-space');
 
     if (this.cptCalculation) {
@@ -113,8 +113,8 @@ export default class CPTExampleInteractive extends CPTExample {
       this.cptValue.set(this.xw, this.a, this.l, 'gamble', 'g', 'default');
     }
 
-    if (this.decisionChoice) {
-      this.decisionChoice.addEventListener('decision-choice-change', (event) => {
+    if (this.riskyChoice) {
+      this.riskyChoice.addEventListener('risky-choice-change', (event) => {
         this.xl = event.detail.xl;
         this.xw = event.detail.xw;
         this.pw = event.detail.pw;
@@ -159,11 +159,11 @@ export default class CPTExampleInteractive extends CPTExample {
       this.cptValue.set(this.xw, this.a, this.l, 'gamble', 'g', 'default');
     }
 
-    if (this.decisionChoice) {
-      this.decisionChoice.xl = this.xl;
-      this.decisionChoice.xw = this.xw;
-      this.decisionChoice.pw = this.pw;
-      this.decisionChoice.xs = this.xs;
+    if (this.riskyChoice) {
+      this.riskyChoice.xl = this.xl;
+      this.riskyChoice.xw = this.xw;
+      this.riskyChoice.pw = this.pw;
+      this.riskyChoice.xs = this.xs;
     }
 
     if (this.decisionSpace) {

@@ -4,7 +4,7 @@ export {default as CPTFit} from './cpt-fit';
 export {default as CPTProbability} from './cpt-probability';
 export {default as CPTSpace} from './cpt-space';
 export {default as CPTValue} from './cpt-value';
-export {default as DecisionChoice} from './decision-choice';
+export {default as RiskyChoice} from './risky-choice';
 export {default as ProspectableControl} from './prospectable-control';
 export {default as RiskyOption} from './risky-option';
 export {default as RiskyOutcome} from './risky-outcome';
