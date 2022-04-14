@@ -1046,7 +1046,7 @@ export default class SDTEquationSomething extends SDTEquation {
 }
 ```
 
-`SDTEquation` extends `DetectableElement` extends `DecidableElement` extends `LitElement`
+`SDTEquation` extends `DetectableElement` extends `DecidablesElement` extends `LitElement`
 
 ### Examples
 
@@ -1287,7 +1287,7 @@ export default class DetectableExampleSomething extends DetectableExample {
 }
 ```
 
-`DetectableExample` extends `DetectableElement` extends `DecidableElement` extends `LitElement`
+`DetectableExample` extends `DetectableElement` extends `DecidablesElement` extends `LitElement`
 
 ### Base class
 
@@ -1303,7 +1303,7 @@ export default class DetectableElementSomething extends DetectableElement {
 }
 ```
 
-`DetectableElement` extends `DecidableElement` extends `LitElement`
+`DetectableElement` extends `DecidablesElement` extends `LitElement`
 
 ## Development
 
