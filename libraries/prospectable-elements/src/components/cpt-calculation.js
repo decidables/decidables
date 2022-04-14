@@ -8,11 +8,8 @@ import CPTMath from '@decidables/prospectable-math';
 import CPTEquation from '../equations/cpt-equation';
 
 /*
-  SDTTable element
-  <sdt-table>
-
-  Attributes:
-  Hit; Miss; FalseAlarm; CorrectRejection;
+  CPTCalculation element
+  <cpt-calculation>
 */
 export default class CPTCalculation extends CPTEquation {
   static get properties() {

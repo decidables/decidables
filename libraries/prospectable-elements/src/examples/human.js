@@ -15,9 +15,9 @@ export default class CPTExampleHuman extends CPTExample {
     this.decisionResponse = this.querySelector('decision-response');
     this.decisionSpace = this.querySelector('decision-space');
 
-    this.cptCalculation = this.querySelector('cpt-calculation');
+    // this.cptCalculation = this.querySelector('cpt-calculation');
     this.cptProbability = this.querySelector('cpt-probability');
-    this.cptSpace = this.querySelector('cpt-space');
+    // this.cptSpace = this.querySelector('cpt-space');
     this.cptValue = this.querySelector('cpt-value');
 
     if (this.cptFit) {
