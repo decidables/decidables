@@ -11,7 +11,7 @@ considerations, we may want to simulate task performance in order to generate pr
 In other words, we can have our model perform the task *as if* it were a participant.
 
 <cpt-example-model alpha="0.9" lambda="2" gamma="0.75">
-  <decision-control trials="10" run pause reset></decision-control>
+  <prospectable-control trials="10" run pause reset></prospectable-control>
   <decision-task trials="10"></decision-task>
   <cpt-probability interactive></cpt-probability>
   <cpt-value interactive></cpt-value>

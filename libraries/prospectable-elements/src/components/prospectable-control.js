@@ -7,13 +7,13 @@ import '@decidables/decidables-elements/slider';
 import CPTElement from '../cpt-element';
 
 /*
-  DecisionControl element
-  <decision-control>
+  ProspectableControl element
+  <prospectable-control>
 
   Attributes:
 
 */
-export default class DecisionControl extends CPTElement {
+export default class ProspectableControl extends CPTElement {
   static get properties() {
     return {
       trials: {
@@ -67,7 +67,7 @@ export default class DecisionControl extends CPTElement {
 
   setTrials(e) {
     this.trials = e.target.value;
-    this.dispatchEvent(new CustomEvent('decision-control-trials', {
+    this.dispatchEvent(new CustomEvent('prospectable-control-trials', {
       detail: {
         trials: this.trials,
       },
@@ -77,7 +77,7 @@ export default class DecisionControl extends CPTElement {
 
   setDuration(e) {
     this.duration = e.target.value;
-    this.dispatchEvent(new CustomEvent('decision-control-duration', {
+    this.dispatchEvent(new CustomEvent('prospectable-control-duration', {
       detail: {
         duration: this.duration,
       },
@@ -87,7 +87,7 @@ export default class DecisionControl extends CPTElement {
 
   doRun() {
     this.state = 'running';
-    this.dispatchEvent(new CustomEvent('decision-control-run', {
+    this.dispatchEvent(new CustomEvent('prospectable-control-run', {
       detail: {},
       bubbles: true,
     }));
@@ -95,7 +95,7 @@ export default class DecisionControl extends CPTElement {
 
   doPause() {
     this.state = 'paused';
-    this.dispatchEvent(new CustomEvent('decision-control-pause', {
+    this.dispatchEvent(new CustomEvent('prospectable-control-pause', {
       detail: {},
       bubbles: true,
     }));
@@ -103,7 +103,7 @@ export default class DecisionControl extends CPTElement {
 
   doReset() {
     this.state = 'resetted';
-    this.dispatchEvent(new CustomEvent('decision-control-reset', {
+    this.dispatchEvent(new CustomEvent('prospectable-control-reset', {
       detail: {},
       bubbles: true,
     }));
@@ -166,4 +166,4 @@ export default class DecisionControl extends CPTElement {
   }
 }
 
-customElements.define('decision-control', DecisionControl);
+customElements.define('prospectable-control', ProspectableControl);
