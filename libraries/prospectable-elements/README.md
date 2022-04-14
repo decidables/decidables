@@ -667,7 +667,7 @@ or resetting a block of trials.
 <prospectable-control trials="15" duration="1500" run pause reset></prospectable-control>
 ```
 
-#### `DecisionOption` / `<decision-option>`
+#### `RiskyOption` / `<risky-option>`
 
 A single decision option consisting of one or more decision outcomes
 
@@ -702,10 +702,10 @@ them can be edited.
 ##### Example
 
 ```html
-<decision-option interactive>
+<risky-option interactive>
   <risky-outcome interactive probability="0.25" value="0" name="loss"></risky-outcome>
   <risky-outcome interactive probability="0.75" value="20" name="win"></risky-outcome>`
-</decision-option>
+</risky-option>
 ```
 
 #### `RiskyOutcome` / `<risky-outcome>`
@@ -713,7 +713,7 @@ them can be edited.
 A single outcome for a decision option (no display on its own)
 
 A place-holder to specify an outcome with a particular value and probability. Only useable inside of
-a `<decision-option>`.
+a `<risky-option>`.
 
 ##### Attributes
 

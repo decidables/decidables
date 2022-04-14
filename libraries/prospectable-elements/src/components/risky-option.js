@@ -5,13 +5,13 @@ import * as d3 from 'd3';
 import ProspectableElement from '../cpt-element';
 
 /*
-  DecisionOption element
-  <decision-option>
+  RiskyOption element
+  <risky-option>
 
   Attributes:
   Win, Loss, Probability
 */
-export default class DecisionOption extends ProspectableElement {
+export default class RiskyOption extends ProspectableElement {
   static get properties() {
     return {
       width: {
@@ -390,4 +390,4 @@ export default class DecisionOption extends ProspectableElement {
   }
 }
 
-customElements.define('decision-option', DecisionOption);
+customElements.define('risky-option', RiskyOption);
