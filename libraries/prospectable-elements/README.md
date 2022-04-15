@@ -118,7 +118,8 @@ the alpha, lambda, gamma, and luce parameters. The model consists of the followi
     - cg = 1 / (1 + e^(luce * (us - ug)))
 - Model
   - **ug_i**: subjective utility of the *i*th gamble
-    - ug_i = u([v(xw_i, alpha, lambda), v(xl_i, alpha, lambda)], [w(pw_i, gamma), 1 - w(pw_i, gamma)])
+    - ug_i = u([v(xw_i, alpha, lambda), v(xl_i, alpha, lambda)],
+      [w(pw_i, gamma), 1 - w(pw_i, gamma)])
   - **us_i**: subjective utility of the *i*th sure thing
     - us_i = v(xs_i, alpha, lambda)
   - **cg_i**: probability of choosing the *i*th gamble
