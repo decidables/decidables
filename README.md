@@ -132,12 +132,10 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
     - `:term[]` terminology
     - `:entry[]` glossary entry
     - `:::glossary
-
-       :::` glossary
+      :::` glossary
   - Using *remark-div*:
     - `:::ui
-    
-       :::` user interface notes
+      :::` user interface notes
   - Using *remark-span*:
     - `:page[]` link to another page
     - `:key[]` keywords
