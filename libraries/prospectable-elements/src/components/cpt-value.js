@@ -985,7 +985,7 @@ export default class CPTValue extends ProspectableElement {
           element.removeAttribute('data-animating-ease-time-1');
           element.removeAttribute('data-animating-ease-time-2');
           datum.new = false;
-          this.dispatchEvent(new CustomEvent('risky-response', {
+          this.dispatchEvent(new CustomEvent('prospectable-response', {
             detail: {
               trial: this.trialCount,
               xl: this.xl,
