@@ -108,13 +108,13 @@ the alpha, lambda, gamma, and luce parameters. The model consists of the followi
   - **xs_i**: sure value
   - **response_i**: 'gamble' or 'sure'
 - Functions
-  - Subjective value
+  - **v()**: subjective value
     - v = if (x >= 0) x^a; if (x < 0) -l * (-x)^a
-  - Decision weight
+  - **w()**: decision weight
     - w = p^g / (p^g + (1 - p)^g)^(1 / g)
-  - Utility
+  - **u()**: utility
     - u = Sum_n(v_n * w_n)
-  - Luce choice probability
+  - **choice()**: Luce choice probability
     - cg = 1 / (1 + e^(luce * (us - ug)))
 - Model
   - **ug_i**: subjective utility of the *i*th gamble
@@ -733,7 +733,7 @@ a `<risky-option>`.
 <risky-outcome interactive value="20" probability="0.8" name="win"></risky-outcome>
 ```
 
-#### `RiskyResponse` / `<risky-response>`
+#### `ProspectableResponse` / `<prospectable-response>`
 
 Response buttons, feedback, and payoffs for gambling decision tasks
 
@@ -801,7 +801,7 @@ of the trials, display feedback in comparative terms, and payoff outcome.
 
 ##### Custom Events
 
-- `risky-response`
+- `prospectable-response`
   - Indicates that a response has been made on this trial 
   - `detail`
     - `trial: number`
@@ -830,7 +830,7 @@ of the trials, display feedback in comparative terms, and payoff outcome.
 ##### Example
 
 ```html
-<risky-response interactive feedback="outcome" trial payoff="selection"></risky-response>
+<prospectable-response interactive feedback="outcome" trial payoff="selection"></prospectable-response>
 ```
 
 #### `DecisionSpace` / `<decision-space>`
@@ -1180,7 +1180,7 @@ task performance.
       - Displays the value function based on the current model parameters
     - `<prospectable-control>`
       - Allows user to adjust parameters and control the task
-    - `<risky-response>`
+    - `<prospectable-response>`
       - Allows user to make responses and see feedback and payoffs
     - `<decision-space>`
       - Displays all completed trials in block in decision space with the model's decision surface
@@ -1195,7 +1195,7 @@ task performance.
   <cpt-probability></cpt-probability>
   <cpt-value></cpt-value>
   <prospectable-control trials="10" run pause reset></prospectable-control>
-  <risky-response interactive trial feedback="outcome" payoff="both"></risky-response>
+  <prospectable-response interactive trial feedback="outcome" payoff="both"></prospectable-response>
   <decision-space point="rest" alpha="1" lambda="1" gamma="1"></decision-space>
   <risky-task trials="10"></risky-task>
 </cpt-example-human>
@@ -1301,7 +1301,7 @@ individual components, as they will be propagated and kept in sync.
       - Display and change the value function
     - `<prospectable-control>`
       - Allows user to adjust parameters and control the task
-    - `<risky-response>`
+    - `<prospectable-response>`
       - Allows user to view model responses, feedback, and payoffs
     - `<decision-space>`
       - Displays all completed trials in block in decision space with the model's decision surface
@@ -1316,7 +1316,7 @@ individual components, as they will be propagated and kept in sync.
   <risky-task trials="10"></risky-task>
   <cpt-probability interactive></cpt-probability>
   <cpt-value interactive></cpt-value>
-  <risky-response trial feedback="outcome" payoff="both"></risky-response>
+  <prospectable-response trial feedback="outcome" payoff="both"></prospectable-response>
   <decision-space updateable point="rest" alpha="1" lambda="1" gamma="1"></decision-space>
 </cpt-example-model>
 ```

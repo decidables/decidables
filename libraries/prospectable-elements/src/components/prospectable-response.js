@@ -6,13 +6,13 @@ import '@decidables/decidables-elements/button';
 import ProspectableElement from '../prospectable-element';
 
 /*
-  RiskyResponse element
-  <risky-response>
+  ProspectableResponse element
+  <prospectable-response>
 
   Attributes:
 
 */
-export default class RiskyResponse extends ProspectableElement {
+export default class ProspectableResponse extends ProspectableElement {
   static get properties() {
     return {
       feedback: {
@@ -135,7 +135,7 @@ export default class RiskyResponse extends ProspectableElement {
         ? 'better'
         : 'worse';
 
-    this.dispatchEvent(new CustomEvent('risky-response', {
+    this.dispatchEvent(new CustomEvent('prospectable-response', {
       detail: {
         trial: this.trialCount,
         better: this.better,
@@ -346,4 +346,4 @@ export default class RiskyResponse extends ProspectableElement {
   }
 }
 
-customElements.define('risky-response', RiskyResponse);
+customElements.define('prospectable-response', ProspectableResponse);

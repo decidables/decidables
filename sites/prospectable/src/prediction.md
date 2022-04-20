@@ -15,6 +15,6 @@ In other words, we can have our model perform the task *as if* it were a partici
   <risky-task trials="10"></risky-task>
   <cpt-probability interactive></cpt-probability>
   <cpt-value interactive></cpt-value>
-  <risky-response trial feedback="outcome" payoff="both"></risky-response>
+  <prospectable-response trial feedback="outcome" payoff="both"></prospectable-response>
   <decision-space updateable point="rest" alpha="1" lambda="1" gamma="1"></decision-space>
 </cpt-example-model>

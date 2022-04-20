@@ -12,7 +12,7 @@ export default class CPTExampleHuman extends CPTExample {
     this.cptFit = this.querySelector('cpt-fit');
     this.prospectableControl = this.querySelector('prospectable-control');
     this.riskyTask = this.querySelector('risky-task');
-    this.riskyResponse = this.querySelector('risky-response');
+    this.prospectableResponse = this.querySelector('prospectable-response');
     this.decisionSpace = this.querySelector('decision-space');
 
     // this.cptCalculation = this.querySelector('cpt-calculation');
@@ -46,8 +46,8 @@ export default class CPTExampleHuman extends CPTExample {
             this.riskyTask.trials = event.detail.trials;
           }
 
-          if (this.riskyResponse) {
-            this.riskyResponse.trialTotal = event.detail.trials;
+          if (this.prospectableResponse) {
+            this.prospectableResponse.trialTotal = event.detail.trials;
           }
         });
       }
@@ -83,8 +83,8 @@ export default class CPTExampleHuman extends CPTExample {
             this.riskyTask.reset();
           }
 
-          if (this.riskyResponse) {
-            this.riskyResponse.reset();
+          if (this.prospectableResponse) {
+            this.prospectableResponse.reset();
           }
 
           if (this.decisionSpace) {
@@ -99,13 +99,13 @@ export default class CPTExampleHuman extends CPTExample {
     }
 
     if (this.riskyTask) {
-      if (this.riskyResponse) {
-        this.riskyResponse.trialTotal = this.riskyTask.trials;
+      if (this.prospectableResponse) {
+        this.prospectableResponse.trialTotal = this.riskyTask.trials;
       }
 
       this.riskyTask.addEventListener('decision-trial-start', (event) => {
-        if (this.riskyResponse) {
-          this.riskyResponse.start(
+        if (this.prospectableResponse) {
+          this.prospectableResponse.start(
             event.detail.xl,
             event.detail.xw,
             event.detail.pw,
@@ -119,8 +119,8 @@ export default class CPTExampleHuman extends CPTExample {
       });
 
       this.riskyTask.addEventListener('decision-trial-end', (/* event */) => {
-        if (this.riskyResponse) {
-          this.riskyResponse.stop();
+        if (this.prospectableResponse) {
+          this.prospectableResponse.stop();
         }
       });
 
@@ -131,8 +131,8 @@ export default class CPTExampleHuman extends CPTExample {
       });
     }
 
-    if (this.riskyResponse) {
-      this.riskyResponse.addEventListener('risky-response', (event) => {
+    if (this.prospectableResponse) {
+      this.prospectableResponse.addEventListener('prospectable-response', (event) => {
         if (this.decisionSpace) {
           this.decisionSpace.set(
             event.detail.xw,
