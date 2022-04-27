@@ -244,11 +244,13 @@ export default class RiskyOption extends ProspectableElement {
           startAngle: fixAngle(dragAngle - arcAngle),
         };
       })
-      .on('start', (event) => {
+      .on('start', (event, datum) => {
+        if (!datum.data.interactive) return;
         const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
       })
       .on('drag', (event, datum) => {
+        if (!datum.data.interactive) return;
         const angle = fixAngle(Math.atan2(event.y, event.x) + (Math.PI / 2));
         const currentAngle = fixAngle(angle - event.subject.arcAngle);
         const changeAngle = fixAngle((event.subject.startAngle > 0)
@@ -278,7 +280,8 @@ export default class RiskyOption extends ProspectableElement {
         // console.log(`x: ${event.x}, y: ${event.y}`);
         // console.log(`change: ${changeAngle}, changeP: ${changeP}`);
       })
-      .on('end', (event) => {
+      .on('end', (event, datum) => {
+        if (!datum.data.interactive) return;
         const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
       });
