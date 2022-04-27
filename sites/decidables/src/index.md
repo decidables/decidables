@@ -25,7 +25,7 @@ script: page
   <!-- DETECTABLE -->
     <div class="dec-site-wrapper">
       <header class="dec-site-header">
-        <div class="dec-site-intro">Almost ready...</div>
+        <div class="dec-site-intro">Draft available:</div>
         <a class="dec-site-link" href="detectable/">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
