@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.5.1...@decidables/decidables@0.6.0) (2022-04-27)
+
+
+### Features
+
+* **decidables:** move "detectable" to draft status ([35304f7](https://github.com/decidables/decidables/commit/35304f7472bdfd8c2550768d5e8838a036b1508c))
+
+
+
 ### [0.5.1](https://github.com/decidables/decidables/compare/@decidables/decidables@0.5.0...@decidables/decidables@0.5.1) (2022-04-27)
 
 **Note:** Version bump only for package @decidables/decidables
