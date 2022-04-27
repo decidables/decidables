@@ -51,6 +51,9 @@ export default class RiskyOption extends ProspectableElement {
           --decidables-spinner-prefix: "$";
 
           display: inline-block;
+
+          width: 10rem;
+          height: 10rem;
         }
 
         .main {
