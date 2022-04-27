@@ -2,8 +2,8 @@
 import {html, css} from 'lit';
 import * as d3 from 'd3';
 
-import './risky-choice';
 import ProspectableElement from '../prospectable-element';
+import './risky-choice';
 
 /*
   RiskyTask element
@@ -172,7 +172,7 @@ export default class RiskyTask extends ProspectableElement {
       this.state = 'iti';
       this.baseTime = realTime;
       this.startTime = 0;
-      this.dispatchEvent(new CustomEvent('decision-block-start', {
+      this.dispatchEvent(new CustomEvent('risky-block-start', {
         detail: {
           trials: this.trials,
         },
@@ -196,7 +196,7 @@ export default class RiskyTask extends ProspectableElement {
         : (this.vDiff < 0)
           ? 'sure'
           : 'equal';
-      this.dispatchEvent(new CustomEvent('decision-trial-start', {
+      this.dispatchEvent(new CustomEvent('risky-trial-start', {
         detail: {
           trials: this.trials,
           duration: this.duration,
@@ -214,7 +214,7 @@ export default class RiskyTask extends ProspectableElement {
       }));
     } else if ((this.state === 'stimulus') && (elapsedTime >= this.duration)) {
       // Stimulus is over, end of trial
-      this.dispatchEvent(new CustomEvent('decision-trial-end', {
+      this.dispatchEvent(new CustomEvent('risky-trial-end', {
         detail: {
           trials: this.trials,
           duration: this.duration,
@@ -239,7 +239,7 @@ export default class RiskyTask extends ProspectableElement {
         this.pauseTime = 0;
         this.startTime = 0;
         this.lastTime = 0;
-        this.dispatchEvent(new CustomEvent('decision-block-end', {
+        this.dispatchEvent(new CustomEvent('risky-block-end', {
           detail: {
             trials: this.trial,
           },
