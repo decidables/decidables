@@ -8601,6 +8601,15 @@ progress {
   background-color: #e6e6e6;
   border-radius: 0.25rem;
 }
+.dec-page .dec-main dt {
+  font-weight: 600;
+}
+.dec-page .dec-main dt::after {
+  content: ":";
+}
+.dec-page .dec-main dd {
+  margin-bottom: 1rem;
+}
 .dec-page .dec-main .tool {
   font-weight: 600;
 }

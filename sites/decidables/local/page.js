@@ -25529,26 +25529,28 @@ class DetectableTable extends DetectableElement {
 }
 customElements.define('detectable-table', DetectableTable);
 
-// import * as jStat from 'jstat';
-
 /*
   CPTMath Static Class - Not intended for instantiation!
 
   Variables:
     x = objective value
-    v = subjective value/utility
+    v = subjective value
     p = objective probability
     w = subjective probability/decision weight
-    V = expected value/utility
+    u = subjective utility
 
     a = alpha (curvature for value function)
     l = lambda (loss aversion for value function)
     g = gamma (sensitivity for decision weighting function)
 
   Equations:
-    v = x^a, if x >= 0; -l * -x^a, if x < 0
+    v = if (x >= 0) x^a; if (x < 0) -l * (-x)^a
+    a = if (x >= 0) log(v) / log(x); if (x < 0) (log(-v) - log(l)) / log(-x)
+    l = if (x >= 0) 1; if (x < 0) -v / (-x)^a
+
     w = p^g / (p^g + (1 - p)^g)^(1 / g)
-    V = v * w
+
+    u = Sum_n(v_n * w_n)
 */
 class CPTMath {
   static xal2v(x, a, l) {
@@ -25571,7 +25573,7 @@ class CPTMath {
 
   static xav2l(x, a, v) {
     if (x >= 0) {
-      return 1;
+      return NaN;
     } // else (x < 0)
 
 
@@ -25582,16 +25584,37 @@ class CPTMath {
     return p ** g / (p ** g + (1 - p) ** g) ** (1 / g);
   }
 
+  static vw2u(v, w) {
+    // Numbers
+    if (typeof v === 'number' && typeof w === 'number') {
+      return v * w;
+    } // Arrays
+
+
+    if (v instanceof Array && w instanceof Array && v.length > 0 && v.length === w.length) {
+      let u = 0;
+
+      for (let n = 0; n < v.length; n += 1) {
+        u += v[n] * w[n];
+      }
+
+      return u;
+    } // Otherwise
+
+
+    return NaN;
+  }
+
 }
 
 let _$6 = t => t,
     _t$6;
 /*
-  CPTElement Base Class - Not intended for instantiation!
+  ProspectableElement Base Class - Not intended for instantiation!
   <sdt-element>
 */
 
-class CPTElement extends DecidablesElement {
+class ProspectableElement extends DecidablesElement {
   static get properties() {
     return {
       interactive: {
@@ -25628,15 +25651,15 @@ class CPTElement extends DecidablesElement {
   }
 
   static get lights() {
-    return Object.keys(CPTElement.colors).reduce((acc, cur) => {
-      acc[cur] = interpolateRgb(CPTElement.colors[cur], '#ffffff')(0.5);
+    return Object.keys(ProspectableElement.colors).reduce((acc, cur) => {
+      acc[cur] = interpolateRgb(ProspectableElement.colors[cur], '#ffffff')(0.5);
       return acc;
     }, {});
   }
 
   static get darks() {
-    return Object.keys(CPTElement.colors).reduce((acc, cur) => {
-      acc[cur] = interpolateRgb(CPTElement.colors[cur], '#000000')(0.5);
+    return Object.keys(ProspectableElement.colors).reduce((acc, cur) => {
+      acc[cur] = interpolateRgb(ProspectableElement.colors[cur], '#000000')(0.5);
       return acc;
     }, {});
   }
@@ -25717,7 +25740,7 @@ let _$5 = t => t,
     ??
 */
 
-class CPTProbability extends CPTElement {
+class CPTProbability extends ProspectableElement {
   static get properties() {
     return {
       p: {
@@ -25941,7 +25964,7 @@ class CPTProbability extends CPTElement {
   }
 
   set(p, g, name = 'default', label = '', func = name) {
-    this.setFunction(g, name);
+    this.setFunction(g, func);
     this.setProbability(p, name, label, func);
   }
 
@@ -26101,7 +26124,7 @@ class CPTProbability extends CPTElement {
     /* eslint-disable-line class-methods-use-this */
     return $(_t2$5 || (_t2$5 = _$5`
       ${0}
-    `), CPTElement.svgFilters);
+    `), ProspectableElement.svgFilters);
   }
 
   getDimensions() {
@@ -26407,7 +26430,7 @@ class CPTProbability extends CPTElement {
         element.removeAttribute('data-animating-ease-time-1');
         element.removeAttribute('data-animating-ease-time-2');
         datum.new = false;
-        this.dispatchEvent(new CustomEvent('decision-response', {
+        this.dispatchEvent(new CustomEvent('prospectable-response', {
           detail: {
             trial: this.trialCount,
             xl: this.xl,
@@ -26658,7 +26681,7 @@ let _$4 = t => t,
     ??
 */
 
-class CPTValue extends CPTElement {
+class CPTValue extends ProspectableElement {
   static get properties() {
     return {
       x: {
@@ -26674,6 +26697,11 @@ class CPTValue extends CPTElement {
       l: {
         attribute: 'lambda',
         type: Number,
+        reflect: true
+      },
+      label: {
+        attribute: 'label',
+        type: String,
         reflect: true
       },
       v: {
@@ -27061,7 +27089,7 @@ class CPTValue extends CPTElement {
     /* eslint-disable-line class-methods-use-this */
     return $(_t2$4 || (_t2$4 = _$4`
       ${0}
-    `), CPTElement.svgFilters);
+    `), ProspectableElement.svgFilters);
   }
 
   getDimensions() {
@@ -27407,7 +27435,7 @@ class CPTValue extends CPTElement {
         element.removeAttribute('data-animating-ease-time-1');
         element.removeAttribute('data-animating-ease-time-2');
         datum.new = false;
-        this.dispatchEvent(new CustomEvent('decision-response', {
+        this.dispatchEvent(new CustomEvent('prospectable-response', {
           detail: {
             trial: this.trialCount,
             xl: this.xl,
@@ -27725,14 +27753,14 @@ let _$3 = t => t,
     _t$3,
     _t2$3;
 /*
-  DecisionOption element
-  <decision-option>
+  RiskyOption element
+  <risky-option>
 
   Attributes:
   Win, Loss, Probability
 */
 
-class DecisionOption extends CPTElement {
+class RiskyOption extends ProspectableElement {
   static get properties() {
     return {
       width: {
@@ -27771,6 +27799,9 @@ class DecisionOption extends CPTElement {
           --decidables-spinner-prefix: "$";
 
           display: inline-block;
+
+          width: 10rem;
+          height: 10rem;
         }
 
         .main {
@@ -27862,7 +27893,7 @@ class DecisionOption extends CPTElement {
     return $(_t2$3 || (_t2$3 = _$3`
       ${0}
       <slot></slot>
-    `), CPTElement.svgFilters);
+    `), ProspectableElement.svgFilters);
   }
 
   getDimensions() {
@@ -27924,12 +27955,12 @@ class DecisionOption extends CPTElement {
     const height = elementSize - (margin.top + margin.bottom);
     const width = elementSize - (margin.left + margin.right); // Get outcomes from slots!
 
-    const decisionOutcomes = this.querySelectorAll('decision-outcome');
-    const pCorrection = decisionOutcomes.length ? -decisionOutcomes[0].p : 0;
+    const riskyOutcomes = this.querySelectorAll('risky-outcome');
+    const pCorrection = riskyOutcomes.length ? -riskyOutcomes[0].p : 0;
     const arcs = pie().startAngle(pCorrection * Math.PI - Math.PI).endAngle(pCorrection * Math.PI + Math.PI).sortValues(null) // Use inserted order!
     .value(datum => {
       return datum.p;
-    })(decisionOutcomes);
+    })(riskyOutcomes);
     const arcsStatic = arcs.filter(arc => {
       return !arc.data.interactive;
     });
@@ -27946,27 +27977,29 @@ class DecisionOption extends CPTElement {
     const arcDrag = drag().subject((event, datum) => {
       const arcAngle = fixAngle((datum.endAngle + datum.startAngle) / 2);
       const dragAngle = fixAngle(Math.atan2(event.y, event.x) + Math.PI / 2);
-      decisionOutcomes.forEach(item => {
+      riskyOutcomes.forEach(item => {
         item.startP = item.p;
       });
       return {
         arcAngle: arcAngle,
         startAngle: fixAngle(dragAngle - arcAngle)
       };
-    }).on('start', event => {
+    }).on('start', (event, datum) => {
+      if (!datum.data.interactive) return;
       const element = event.currentTarget;
       select(element).classed('dragging', true);
     }).on('drag', (event, datum) => {
+      if (!datum.data.interactive) return;
       const angle = fixAngle(Math.atan2(event.y, event.x) + Math.PI / 2);
       const currentAngle = fixAngle(angle - event.subject.arcAngle);
       const changeAngle = fixAngle(event.subject.startAngle > 0 ? currentAngle - event.subject.startAngle : event.subject.startAngle - currentAngle);
       const changeP = changeAngle / Math.PI;
       const proposedP = datum.data.startP + changeP;
       const newP = proposedP > 0.99 ? 0.99 : proposedP < 0.01 ? 0.01 : proposedP;
-      decisionOutcomes.forEach(item => {
+      riskyOutcomes.forEach(item => {
         item.p = item === datum.data ? newP : item.startP / (1 - datum.data.startP) * (1 - newP);
       });
-      this.dispatchEvent(new CustomEvent('decision-outcome-change', {
+      this.dispatchEvent(new CustomEvent('risky-outcome-change', {
         detail: {
           x: datum.data.x,
           p: datum.data.p,
@@ -27975,7 +28008,8 @@ class DecisionOption extends CPTElement {
         bubbles: true
       })); // console.log(`x: ${event.x}, y: ${event.y}`);
       // console.log(`change: ${changeAngle}, changeP: ${changeP}`);
-    }).on('end', event => {
+    }).on('end', (event, datum) => {
+      if (!datum.data.interactive) return;
       const element = event.currentTarget;
       select(element).classed('dragging', false);
     }); // Svg
@@ -28004,7 +28038,38 @@ class DecisionOption extends CPTElement {
 
     const arcUpdate = pieMerge.selectAll('.arc').data(arcs); //  ENTER
 
-    const arcEnter = arcUpdate.enter().append('path').call(arcDrag); //  MERGE
+    const arcEnter = arcUpdate.enter().append('path').call(arcDrag).on('keydown', (event, datum) => {
+      if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
+        const startP = datum.data.p;
+        let proposedP = datum.data.p;
+        /* eslint-disable-line prefer-destructuring */
+
+        switch (event.key) {
+          case 'ArrowUp':
+            proposedP -= event.shiftKey ? 0.01 : 0.05;
+            break;
+
+          case 'ArrowDown':
+            proposedP += event.shiftKey ? 0.01 : 0.05;
+            break;
+
+        }
+
+        const newP = proposedP > 0.99 ? 0.99 : proposedP < 0.01 ? 0.01 : proposedP;
+        riskyOutcomes.forEach(item => {
+          item.p = item === datum.data ? newP : item.p / (1 - startP) * (1 - newP);
+        });
+        this.dispatchEvent(new CustomEvent('risky-outcome-change', {
+          detail: {
+            x: datum.data.x,
+            p: datum.data.p,
+            name: datum.data.name
+          },
+          bubbles: true
+        }));
+        event.preventDefault();
+      }
+    }); //  MERGE
 
     arcEnter.merge(arcUpdate).attr('tabindex', datum => {
       return arcsInteractive.includes(datum) && arcs.length > 1 ? 0 : null;
@@ -28024,7 +28089,7 @@ class DecisionOption extends CPTElement {
     const labelInteractiveEnter = labelInteractiveUpdate.enter().append('foreignObject');
     labelInteractiveEnter.append('xhtml:decidables-spinner').on('input', (event, datum) => {
       datum.data.x = parseFloat(event.target.value);
-      this.dispatchEvent(new CustomEvent('decision-outcome-change', {
+      this.dispatchEvent(new CustomEvent('risky-outcome-change', {
         detail: {
           x: datum.data.x,
           p: datum.data.p,
@@ -28076,20 +28141,20 @@ class DecisionOption extends CPTElement {
   }
 
 }
-customElements.define('decision-option', DecisionOption);
+customElements.define('risky-option', RiskyOption);
 
 let _$2 = t => t,
     _t$2,
     _t2$2;
 /*
-  DecisionOutcome element
-  <decision-outcome>
+  RiskyOutcome element
+  <risky-outcome>
 
   Attributes:
   value, probability, name
 */
 
-class DecisionOutcome extends CPTElement {
+class RiskyOutcome extends ProspectableElement {
   static get properties() {
     return {
       x: {
@@ -28134,7 +28199,7 @@ class DecisionOutcome extends CPTElement {
   }
 
 }
-customElements.define('decision-outcome', DecisionOutcome);
+customElements.define('risky-outcome', RiskyOutcome);
 
 let _$1 = t => t,
     _t$1,
@@ -28143,13 +28208,13 @@ let _$1 = t => t,
     _t4,
     _t5;
 /*
-  DecisionChoice element
-  <decision-choice>
+  RiskyChoice element
+  <risky-choice>
 
   Attributes:
 */
 
-class DecisionChoice extends CPTElement {
+class RiskyChoice extends ProspectableElement {
   static get properties() {
     return {
       state: {
@@ -28213,7 +28278,7 @@ class DecisionChoice extends CPTElement {
           font-size: 1.75rem;
         }
 
-        decision-option {
+        risky-option {
           width: 10rem;
           height: 10rem;
         }
@@ -28221,7 +28286,7 @@ class DecisionChoice extends CPTElement {
   }
 
   sendEvent() {
-    this.dispatchEvent(new CustomEvent('decision-choice-change', {
+    this.dispatchEvent(new CustomEvent('risky-choice-change', {
       detail: {
         xl: this.xl,
         xw: this.xw,
@@ -28246,35 +28311,35 @@ class DecisionChoice extends CPTElement {
   render() {
     return $(_t2$1 || (_t2$1 = _$1`
       <div class="holder">
-        <decision-option ?interactive=${0} @decision-outcome-change=${0}>
+        <risky-option class="gamble" ?interactive=${0} @risky-outcome-change=${0}>
           ${0}
-        </decision-option><span class="query"
+        </risky-option><span class="query"
          >${0}</span
-        ><decision-option ?interactive=${0} @decision-outcome-change=${0}>
+        ><risky-option class="sure" ?interactive=${0} @risky-outcome-change=${0}>
           ${0}
-        </decision-option>
+        </risky-option>
       </div>`), this.interactive, this.winChange.bind(this), this.state === 'choice' ? $(_t3 || (_t3 = _$1`
-              <decision-outcome probability="${0}" value="${0}" name="loss"></decision-outcome>
-              <decision-outcome ?interactive=${0} probability="${0}" value="${0}" name="win"></decision-outcome>`), 1 - this.pw, this.xl, this.interactive, this.pw, this.xw) : '', this.state === 'choice' ? '?' : this.state === 'fixation' ? '+' : $(_t4 || (_t4 = _$1`∙`)), this.interactive, this.sureChange.bind(this), this.state === 'choice' ? $(_t5 || (_t5 = _$1`
-              <decision-outcome ?interactive=${0} probability="1" value="${0}" name="sure"></decision-outcome>`), this.interactive, this.xs) : '');
+              <risky-outcome probability="${0}" value="${0}" name="loss"></risky-outcome>
+              <risky-outcome ?interactive=${0} probability="${0}" value="${0}" name="win"></risky-outcome>`), 1 - this.pw, this.xl, this.interactive, this.pw, this.xw) : '', this.state === 'choice' ? '?' : this.state === 'fixation' ? '+' : $(_t4 || (_t4 = _$1`∙`)), this.interactive, this.sureChange.bind(this), this.state === 'choice' ? $(_t5 || (_t5 = _$1`
+              <risky-outcome ?interactive=${0} probability="1" value="${0}" name="sure"></risky-outcome>`), this.interactive, this.xs) : '');
   }
 
 }
-customElements.define('decision-choice', DecisionChoice);
+customElements.define('risky-choice', RiskyChoice);
 
 let _ = t => t,
     _t,
     _t2;
 /*
-  DecisionTask element
-  <decision-task>
+  RiskyTask element
+  <risky-task>
 
   Attributes:
   Dots; Coherence;
   # Direction, Speed, Lifetime
 */
 
-class DecisionTask extends CPTElement {
+class RiskyTask extends ProspectableElement {
   static get properties() {
     return {
       duration: {
@@ -28381,7 +28446,7 @@ class DecisionTask extends CPTElement {
   render() {
     return $(_t2 || (_t2 = _`
       <div class="holder">
-        <decision-choice state="${0}" probability="${0}" win="${0}" loss="${0}" sure="${0}"></decision-choice>
+        <risky-choice state="${0}" probability="${0}" win="${0}" loss="${0}" sure="${0}"></risky-choice>
       </div>`), this.state === 'stimulus' ? 'choice' : this.state === 'iti' ? 'fixation' : 'blank', this.pw, this.xw, this.xl, this.xs);
   }
 
@@ -28434,7 +28499,7 @@ class DecisionTask extends CPTElement {
       this.state = 'iti';
       this.baseTime = realTime;
       this.startTime = 0;
-      this.dispatchEvent(new CustomEvent('decision-block-start', {
+      this.dispatchEvent(new CustomEvent('risky-block-start', {
         detail: {
           trials: this.trials
         },
@@ -28454,7 +28519,7 @@ class DecisionTask extends CPTElement {
       this.gamblePayoff = Math.random() < this.pw ? this.xw : this.xl;
       this.surePayoff = this.xs;
       this.better = this.vDiff > 0 ? 'gamble' : this.vDiff < 0 ? 'sure' : 'equal';
-      this.dispatchEvent(new CustomEvent('decision-trial-start', {
+      this.dispatchEvent(new CustomEvent('risky-trial-start', {
         detail: {
           trials: this.trials,
           duration: this.duration,
@@ -28472,7 +28537,7 @@ class DecisionTask extends CPTElement {
       }));
     } else if (this.state === 'stimulus' && elapsedTime >= this.duration) {
       // Stimulus is over, end of trial
-      this.dispatchEvent(new CustomEvent('decision-trial-end', {
+      this.dispatchEvent(new CustomEvent('risky-trial-end', {
         detail: {
           trials: this.trials,
           duration: this.duration,
@@ -28498,7 +28563,7 @@ class DecisionTask extends CPTElement {
         this.pauseTime = 0;
         this.startTime = 0;
         this.lastTime = 0;
-        this.dispatchEvent(new CustomEvent('decision-block-end', {
+        this.dispatchEvent(new CustomEvent('risky-block-end', {
           detail: {
             trials: this.trial
           },
@@ -28513,5 +28578,5 @@ class DecisionTask extends CPTElement {
   }
 
 }
-customElements.define('decision-task', DecisionTask);
+customElements.define('risky-task', RiskyTask);
 //# sourceMappingURL=page.js.map
