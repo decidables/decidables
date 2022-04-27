@@ -124,23 +124,23 @@ export default class CPTCalculation extends CPTEquation {
     this.sendEvent();
   }
 
-  aInput(e) {
-    this.a = parseFloat(e.target.value);
-    this.alignState();
-    this.sendEvent();
-  }
+  // aInput(e) {
+  //   this.a = parseFloat(e.target.value);
+  //   this.alignState();
+  //   this.sendEvent();
+  // }
 
-  lInput(e) {
-    this.l = parseFloat(e.target.value);
-    this.alignState();
-    this.sendEvent();
-  }
+  // lInput(e) {
+  //   this.l = parseFloat(e.target.value);
+  //   this.alignState();
+  //   this.sendEvent();
+  // }
 
-  gInput(e) {
-    this.g = parseFloat(e.target.value);
-    this.alignState();
-    this.sendEvent();
-  }
+  // gInput(e) {
+  //   this.g = parseFloat(e.target.value);
+  //   this.alignState();
+  //   this.sendEvent();
+  // }
 
   static get styles() {
     return [
@@ -179,16 +179,16 @@ export default class CPTCalculation extends CPTEquation {
     let us;
     let uDiff;
     if (this.numeric) {
-      xw = html`<decidables-spinner class="x" ?disabled=${!this.interactive} .value="${this.xw}" @input=${this.xwInput.bind(this)}>
+      xw = html`<decidables-spinner class="x xw" ?disabled=${!this.interactive} .value="${this.xw}" @input=${this.xwInput.bind(this)}>
           <var class="math-var">x<sub class="subscript win">win</sub></var>
         </decidables-spinner>`;
-      xl = html`<decidables-spinner class="x" disabled .value="${this.xl}">
+      xl = html`<decidables-spinner class="x xl" disabled .value="${this.xl}">
           <var class="math-var">x<sub class="subscript loss">loss</sub></var>
         </decidables-spinner>`;
-      pw = html`<decidables-spinner class="p" ?disabled=${!this.interactive} min="0" max="1" step=".01" .value="${+this.pw.toFixed(2)}" @input=${this.pwInput.bind(this)}>
+      pw = html`<decidables-spinner class="p pw" ?disabled=${!this.interactive} min="0" max="1" step=".01" .value="${+this.pw.toFixed(2)}" @input=${this.pwInput.bind(this)}>
           <var class="math-var">p<sub class="subscript win">win</sub></var>
         </decidables-spinner>`;
-      xs = html`<decidables-spinner class="x" ?disabled=${!this.interactive} .value="${this.xs}" @input=${this.xsInput.bind(this)}>
+      xs = html`<decidables-spinner class="x xs" ?disabled=${!this.interactive} .value="${this.xs}" @input=${this.xsInput.bind(this)}>
           <var class="math-var">x<sub class="subscript sure">sure</sub></var>
         </decidables-spinner>`;
       // a = html`<decidables-spinner class="a" ?disabled=${!this.interactive} min="0" max="1"
@@ -203,25 +203,25 @@ export default class CPTCalculation extends CPTEquation {
       //            step=".001" .value="${+this.g.toFixed(3)}" @input=${this.gInput.bind(this)}>
       //     <var class="math-var">γ</var>
       //   </decidables-spinner>`;
-      vw = html`<decidables-spinner class="v" disabled .value="${+this.vw.toFixed(1)}">
+      vw = html`<decidables-spinner class="v vw" disabled .value="${+this.vw.toFixed(1)}">
           <var class="math-var">v<sub class="subscript win">win</sub></var>
         </decidables-spinner>`;
-      vl = html`<decidables-spinner class="v" disabled .value="${+this.vl.toFixed(1)}">
+      vl = html`<decidables-spinner class="v vl" disabled .value="${+this.vl.toFixed(1)}">
           <var class="math-var">v<sub class="subscript loss">loss</sub></var>
         </decidables-spinner>`;
-      ww = html`<decidables-spinner class="w" disabled .value="${+this.ww.toFixed(2)}">
+      ww = html`<decidables-spinner class="w ww" disabled .value="${+this.ww.toFixed(2)}">
           <var class="math-var">w<sub class="subscript win">win</sub></var>
         </decidables-spinner>`;
-      wl = html`<decidables-spinner class="w" disabled .value="${+this.wl.toFixed(2)}">
+      wl = html`<decidables-spinner class="w wl" disabled .value="${+this.wl.toFixed(2)}">
           <var class="math-var">w<sub class="subscript loss">loss</sub></var>
         </decidables-spinner>`;
-      vs = html`<decidables-spinner class="v" disabled .value="${+this.vs.toFixed(1)}">
+      vs = html`<decidables-spinner class="v vs" disabled .value="${+this.vs.toFixed(1)}">
           <var class="math-var">v<sub class="subscript sure">sure</sub></var>
         </decidables-spinner>`;
-      ug = html`<decidables-spinner class="u" disabled .value="${+this.ug.toFixed(1)}">
+      ug = html`<decidables-spinner class="u ug" disabled .value="${+this.ug.toFixed(1)}">
           <var class="math-var">U<sub class="subscript gamble">gamble</sub></var>
         </decidables-spinner>`;
-      us = html`<decidables-spinner class="u" disabled .value="${+this.us.toFixed(1)}">
+      us = html`<decidables-spinner class="u us" disabled .value="${+this.us.toFixed(1)}">
           <var class="math-var">U<sub class="subscript sure">sure</sub></var>
         </decidables-spinner>`;
       uDiff = html`${(this.uDiff > 0)
@@ -230,20 +230,20 @@ export default class CPTCalculation extends CPTEquation {
           ? html`<span class="comparison" ${animate({in: fadeIn})}>&lt;</span>`
           : html`<span class="comparison" ${animate({in: fadeIn})}>=</span>`}`;
     } else {
-      xw = html`<var class="math-var x">x<sub class="subscript win">win</sub></var>`;
-      xl = html`<var class="math-var x">x<sub class="subscript loss">loss</sub></var>`;
-      pw = html`<var class="math-var p">p<sub class="subscript win">win</sub></var>`;
-      xs = html`<var class="math-var x">x<sub class="subscript sure">sure</sub></var>`;
+      xw = html`<var class="math-var x xw">x<sub class="subscript win">win</sub></var>`;
+      xl = html`<var class="math-var x xl">x<sub class="subscript loss">loss</sub></var>`;
+      pw = html`<var class="math-var p pw">p<sub class="subscript win">win</sub></var>`;
+      xs = html`<var class="math-var x xs">x<sub class="subscript sure">sure</sub></var>`;
       // a = html`<var class="math-var a">α</var>`;
       // l = html`<var class="math-var l">λ</var>`;
       // g = html`<var class="math-var g">γ</var>`;
-      vw = html`<var class="math-var v">v<sub class="subscript win">win</sub></var>`;
-      vl = html`<var class="math-var v">v<sub class="subscript loss">loss</sub></var>`;
-      ww = html`<var class="math-var w">w<sub class="subscript win">win</sub></var>`;
-      wl = html`<var class="math-var w">w<sub class="subscript loss">loss</sub></var>`;
-      vs = html`<var class="math-var v">v<sub class="subscript sure">sure</sub></var>`;
-      ug = html`<var class="math-var u">U<sub class="subscript gamble">gamble</sub></var>`;
-      us = html`<var class="math-var u">U<sub class="subscript sure">sure</sub></var>`;
+      vw = html`<var class="math-var v vw">v<sub class="subscript win">win</sub></var>`;
+      vl = html`<var class="math-var v vl">v<sub class="subscript loss">loss</sub></var>`;
+      ww = html`<var class="math-var w ww">w<sub class="subscript win">win</sub></var>`;
+      wl = html`<var class="math-var w wl">w<sub class="subscript loss">loss</sub></var>`;
+      vs = html`<var class="math-var v vs">v<sub class="subscript sure">sure</sub></var>`;
+      ug = html`<var class="math-var u ug">U<sub class="subscript gamble">gamble</sub></var>`;
+      us = html`<var class="math-var u us">U<sub class="subscript sure">sure</sub></var>`;
       uDiff = html`<span class="comparison">≟</span>`;
     }
     const equation = html`
