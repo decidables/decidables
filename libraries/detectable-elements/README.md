@@ -33,199 +33,6 @@ for use in HTML.
 
 Building blocks for interactive visualizations of SDT
 
-#### `RDKTask` / `<rdt-task>`
-
-Displays stimuli for random dot kinematogram signal detection task
-
-When run, a block of trials is presented. Before each trial is an inter-trial interval (ITI). Each
-trial then consists of a stimulus followed by a period of waiting for a response. The stimulus
-consists of a circle with a collection of small dots moving about. Some trials are *signal* trials
-and others are *noise* trials. On *noise* trials, the directions of the dots is independent and
-random. On *signal* trials, a subset of the dots move coherently in the same direction. The task can
-be paused and then resumed, and it can also be reset and run again. 
-
-##### Attributes
-
-- `coherence: number = 0.5`
-  - Proportion of dots moving coherently
-- `count: number = 100`
-  - Number of dots
-- `probability: number = 0.5`
-  - Probability of signal (as opposed to noise)
-- `duration: number = 2000`
-  - Duration of stimulus in milliseconds
-- `wait: number = 2000`
-  - Duration of wait period for response in milliseconds
-- `iti: number = 2000`
-  - Duration of inter-trial interval in milliseconds
-- `trials: number = 5`
-  - Number of trials per block
-- `running: boolean = false`
-  - Currently executing block of trials
-
-##### Methods
-
-- `reset()`
-  - Stops a currently running or ended block of trials and resets everything to be ready to run
-    again
-
-##### Custom Events
-
-- `rdk-block-start`
-  - Indicates the beginning of a block of trials
-- `rdk-block-end`
-  - Indicates the completion of a block of trials
-  - `detail` for `rdk-block-start` and `rdk-block-end`
-    - `trials: number`
-      - Number of trials in the block
-- `rdk-trial-start`
-  - Indicates the beginning of a trial (iti is over and stimulus is about to start)
-- `rdk-trial-middle`
-  - Indicates the middle of a trial (stimulus is over and the wait is about to start)
-- `rdk-trial-end`
-  - Indicates the end of a trial (wait is over and iti is about to start)
-  - `detail` for `rdk-trial-start`, `rdk-trial-middle`, and `rdk-trial-end`
-    - `trials: number` 
-      - Number of trials in the block
-    - `duration: number`
-      - Duration of stimulus in milliseconds
-    - `wait: number`
-      - Duration of wait period in milliseconds
-    - `iti: number`
-      - Duration of inter-trial interval in milliseconds
-    - `trial: number`
-      - Count of trial in block (one-based)
-    - `signal: string`
-      - Whether the signal is `present` or `absent` in this trial
-
-##### Example
-
-```html
-<rdt-task coherence="0.1" count="50" probability="0.5" duration="1000" wait="1000" iti="500" trials="10" running></rdt-task>
-```
-
-#### `ROCSpace` / `<roc-space>`
-
-Interactive receiver operating characteristic (ROC) plot
-
-An ROC plot that can show one or more locations in ROC space or zROC space. Each location can be
-shown with a point, and/or with intersecting iso-sensitivity and iso-bias curves. In interactive
-mode, the points can be moved via direct manipulation with the mouse, touch, or keyboard arrows. The
-plot can also display the topography of the space with contour lines indicating iso-sensitivity,
-iso-bias, or iso-accuracy.
-
-##### Attributes
-
-- `interactive: boolean = false`
-  - Allow direct manipulation of points in the plot
-- `contour: string = undefined`
-  - Show contour lines on plot
-  - Options
-    - `undefined`
-      - Show no contours
-    - `'sensitivity'`
-      - Show iso-sensitivity contours
-    - `'bias'`
-      - Show iso-bias contours
-    - `'accuracy'`
-      - Show iso-accuracy contours
-- `point: string = 'all'`
-  - Show a point on the plot for each *location*
-  - Options:
-    - `'all'`
-      - Show points for all *locations*
-    - `'first'`
-      - Only show a point for the first (`'default'`) *location*
-    - `'rest'`
-      - Show points for all except the first (`'default'`) *location*
-    - `'none'`
-      - Show no points
-- `iso-d: string = 'first'`
-  - Show an iso-sensitivity line for each *location*
-  - Options:
-    - `'all'`
-      - Show contours for all *locations*
-    - `'first'`
-      - Only show a contour for the first (`'default'`) *location*
-    - `'rest'`
-      - Show contours for all except the first (`'default'`) *location*
-    - `'none'`
-      - Show no contours
-- `iso-c: string = 'first'`
-  - Show an iso-bias line for each *location*
-  - Options:
-    - `'all'`
-      - Show contours for all *locations*
-    - `'first'`
-      - Only show a contour for the first (`'default'`) *location*
-    - `'rest'`
-      - Show contours for all except the first (`'default'`) *location*
-    - `'none'`
-      - Show no contours
-- `z-roc: boolean = false`
-  - Plot in zROC space instead of ROC space
-- `far: number = 0.25`
-  - False alarm rate for the first (`'default'`) *location*
-- `hr: number = 0.75`
-  - Hit rate for the first (`'default'`) *location*
-
-##### Methods
-
-- `set(hr, far, name = 'default', label = '', s = 1)`
-  - Create or update the *location* identified by `name`
-  - The `name` `'default'` is reserved for the first location
-  - Parameters
-    - `hr: number`
-      - Hit rate
-    - `far: number`
-      - False alarm rate
-    - `name: string = 'default'`
-      - A unique name to identify the *location* being set
-    - `label: string = ''`
-      - A visual label to use in the plot for this location
-    - `s: number = 1`
-      - Unequal variance parameter (default of `1` is equal variance)
-- `setWidthSDT(d, c, name = 'default', label = '', s = 1)`
-  - Create or update the *location* identified by `name`
-  - The `name` `'default'` is reserved for the first location
-  - Parameters
-    - `d: number`
-      - Sensitivity
-    - `c: number`
-      - Bias
-    - `name: string = 'default'`
-      - A unique name to identify the *location* being set
-    - `label: string = ''`
-      - A visual label to use in the plot for this location
-    - `s: number = 1`
-      - Unequal variance parameter (default of `1` is equal variance)
-
-##### Custom Events
-
-- `roc-point-change`
-  - Indicates a location on the plot has been moved
-  - `detail`
-    - `name: string`
-      - A unique name to identify the *location*
-    - `far: number`
-      - False alarm rate
-    - `hr: number`
-      - Hit rate
-    - `d: number`
-      - Sensitivity
-    - `c: number`
-      - Bias
-    - `s: number`
-      - Variance
-    - `label: string`
-      - Display label
-
-##### Example
-
-```html
-<roc-space interactive contour="bias" point="all" isoD="first" isoC="first" z-roc far="0.2" hr="0.9"></roc-space>
-```
-
 #### `DetectableControl` / `<detectable-control>`
 
 Control panel for SDT demos
@@ -329,133 +136,6 @@ block of trials.
 
 ```html
 <detectable-control trials="15" duration="1500" coherence="0.2" payoff="75" color="outcome" z-roc run pause reset></detectable-control>
-```
-
-#### `SDTModel` / `<sdt-model>`
-
-Interactive visualization of SDT in terms of signal and noise distributions
-
-This widget provides a visualization of signal detection theory. It can show *signal* and *noise*
-distributions and a threshold. The distributions can have unequal variance. The sensitivity, bias,
-and *signal* variance can be set and optionally displayed. In interactive mode, the bias can be
-adjusted by directly moving the threshold horizontally with mouse, touch, or keyboard, the
-sensitivity can be adjusted by directly moving a distribution horizontally with mouse, touch, or
-keyboard, and the variance can be adjusted by directly moving the *signal* distribution vertically
-with mouse, touch, or keyboard.
-
-In addition, the observation of stimuli can be visualized as blocks arriving at particular evidence
-levels, and stacking with previous stimuli to form a histogram. In interactive mode, when the model
-is adjusted, the blocks in the histogram will rearrange accordingly.
-
-The thresholded distributions and the histogram blocks can be colored based on the stimuli, the
-responses, or the outcomes.
-
-##### Attributes
-
-- `interactive: boolean = false`
-  - Allow direct manipulation of threshold and distributions
-- `color: string = 'outcome'`
-  - Set how to color distributions and trials
-  - Options
-    - `'outcome'`
-      - Color based on outcome of the hit, miss, false alarm, or correct rejection
-    - `'response'`
-      - Color based on the `'present'` or `'absent'` response provided
-    - `'stimulus'`
-      - Color based on the `present` or `absent` stimulus displayed
-    - `'none'`
-      - No coloring
-- `distributions: boolean = false`
-  - Show distributions
-- `threshold: boolean = false`
-  - Show threshold
-- `unequal: boolean = false`
-  - Allow unequal variance
-- `sensitivity: boolean = false`
-  - Show the sensitivity as *d'* with a measurement bar
-- `bias: boolean = false`
-  - Show the bias as *c* with a measurement bar
-- `variance: boolean = false`
-  - Show the variance as *s* with a measurement bar
-- `histogram: boolean = false`
-  - Show a histogram with a block for each trial/stimulus
-- `d: number = 1`
-  - Set the sensitivity, *d`*
-- `c: number = 0`
-  - Set the bias, *c*
-- `s: number = 1`
-  - Set the variance of the *signal* distribution, *s*
-
-##### Methods
-
-- `reset()`
-  - Reset the histogram to have no trials
-- `trial(trialNumber, signal, duration, wait, iti)`
-  - Add a trial to the histogram
-  - Parameters
-    - `trialNumber: number`
-      - Numerical count of the trial in the block
-    - `signal: string`
-      - Whether this is a signal `'present'` or `'absent'` trial 
-    - `duration: number`
-      - The stimulus duration on this trial in milliseconds
-    - `wait: number`
-      - The wait duration on this trial in milliseconds
-    - `iti: number`
-      - The inter-trial interval duration after this trial in milliseconds
-- `pauseTrial()`
-  - Pause the animation of trials in the histogram
-- `resumeTrial()`
-  - Resume the animation of trials in the histogram
-
-##### Custom Events
-
-- `sdt-model-change`
-  - Indicates that one or more model parameters have been changed
-  - `detail`
-    - `d: number`
-      - Sensitivity
-    - `c: number`
-      - Bias
-    - `s: number`
-      - Variance
-    - `far: number`
-      - False alarm rate
-    - `hr: number`
-      - Hit rate
-    - `h: number`
-      - Hits
-    - `m: number`
-      - Misses
-    - `fa: number`
-      - False alarms
-    - `cr: number`
-      - Correct rejections
-- `detectable-response`
-  - Indicates that an animated histogram trial has generated a response 
-  - `detail`
-    - `stimulus: string`
-      - Whether the signal was actually `'present'` or `'absent'`
-    - `response: string`
-      - Whether the response was `'present'` or `'absent'`
-    - `outcome: string`
-      - The outcome of the trial as a hit (`'h'`), miss (`'m'`), correct rejection (`'cr'`), or
-        false alarm (`'fa'`)
-    - `h: number`
-      - Total hits in this block
-    - `m: number`
-      - Total misses in this block
-    - `fa: number`
-      - Total false alarms in this block
-    - `cr: number`
-      - Total correct rejections in this block
-    - `nr: number`
-      - Total no responses in this block
-
-##### Example
-
-```html
-<sdt-model interactive color="outcome" distributions threshold unequal sensitivity bias variance histogram d="2" c="1" s="1.5"></sdt-model>
 ```
 
 #### `DetectableResponse` / `<detectable-response>`
@@ -650,6 +330,326 @@ overall results are optionally marginalized with accuracy.
 
 ```html
 <detectable-table interactive numeric summary="stimulusRates responseRates accuracy" = color="outcome" hits="80" misses="20" false-alarms="35" correct-rejections="65" payoff hit-payoff="60" miss-payoff="-60" false-alarm-payoff="-40" correct-rejection-payoff="40"></detectable-table>
+```
+
+#### `RDKTask` / `<rdt-task>`
+
+Displays stimuli for random dot kinematogram signal detection task
+
+When run, a block of trials is presented. Before each trial is an inter-trial interval (ITI). Each
+trial then consists of a stimulus followed by a period of waiting for a response. The stimulus
+consists of a circle with a collection of small dots moving about. Some trials are *signal* trials
+and others are *noise* trials. On *noise* trials, the directions of the dots is independent and
+random. On *signal* trials, a subset of the dots move coherently in the same direction. The task can
+be paused and then resumed, and it can also be reset and run again. 
+
+##### Attributes
+
+- `coherence: number = 0.5`
+  - Proportion of dots moving coherently
+- `count: number = 100`
+  - Number of dots
+- `probability: number = 0.5`
+  - Probability of signal (as opposed to noise)
+- `duration: number = 2000`
+  - Duration of stimulus in milliseconds
+- `wait: number = 2000`
+  - Duration of wait period for response in milliseconds
+- `iti: number = 2000`
+  - Duration of inter-trial interval in milliseconds
+- `trials: number = 5`
+  - Number of trials per block
+- `running: boolean = false`
+  - Currently executing block of trials
+
+##### Methods
+
+- `reset()`
+  - Stops a currently running or ended block of trials and resets everything to be ready to run
+    again
+
+##### Custom Events
+
+- `rdk-block-start`
+  - Indicates the beginning of a block of trials
+- `rdk-block-end`
+  - Indicates the completion of a block of trials
+  - `detail` for `rdk-block-start` and `rdk-block-end`
+    - `trials: number`
+      - Number of trials in the block
+- `rdk-trial-start`
+  - Indicates the beginning of a trial (iti is over and stimulus is about to start)
+- `rdk-trial-middle`
+  - Indicates the middle of a trial (stimulus is over and the wait is about to start)
+- `rdk-trial-end`
+  - Indicates the end of a trial (wait is over and iti is about to start)
+  - `detail` for `rdk-trial-start`, `rdk-trial-middle`, and `rdk-trial-end`
+    - `trials: number` 
+      - Number of trials in the block
+    - `duration: number`
+      - Duration of stimulus in milliseconds
+    - `wait: number`
+      - Duration of wait period in milliseconds
+    - `iti: number`
+      - Duration of inter-trial interval in milliseconds
+    - `trial: number`
+      - Count of trial in block (one-based)
+    - `signal: string`
+      - Whether the signal is `present` or `absent` in this trial
+
+##### Example
+
+```html
+<rdt-task coherence="0.1" count="50" probability="0.5" duration="1000" wait="1000" iti="500" trials="10" running></rdt-task>
+```
+
+#### `ROCSpace` / `<roc-space>`
+
+Interactive receiver operating characteristic (ROC) plot
+
+An ROC plot that can show one or more locations in ROC space or zROC space. Each location can be
+shown with a point, and/or with intersecting iso-sensitivity and iso-bias curves. In interactive
+mode, the points can be moved via direct manipulation with the mouse, touch, or keyboard arrows. The
+plot can also display the topography of the space with contour lines indicating iso-sensitivity,
+iso-bias, or iso-accuracy.
+
+##### Attributes
+
+- `interactive: boolean = false`
+  - Allow direct manipulation of points in the plot
+- `contour: string = undefined`
+  - Show contour lines on plot
+  - Options
+    - `undefined`
+      - Show no contours
+    - `'sensitivity'`
+      - Show iso-sensitivity contours
+    - `'bias'`
+      - Show iso-bias contours
+    - `'accuracy'`
+      - Show iso-accuracy contours
+- `point: string = 'all'`
+  - Show a point on the plot for each *location*
+  - Options:
+    - `'all'`
+      - Show points for all *locations*
+    - `'first'`
+      - Only show a point for the first (`'default'`) *location*
+    - `'rest'`
+      - Show points for all except the first (`'default'`) *location*
+    - `'none'`
+      - Show no points
+- `iso-d: string = 'first'`
+  - Show an iso-sensitivity line for each *location*
+  - Options:
+    - `'all'`
+      - Show contours for all *locations*
+    - `'first'`
+      - Only show a contour for the first (`'default'`) *location*
+    - `'rest'`
+      - Show contours for all except the first (`'default'`) *location*
+    - `'none'`
+      - Show no contours
+- `iso-c: string = 'first'`
+  - Show an iso-bias line for each *location*
+  - Options:
+    - `'all'`
+      - Show contours for all *locations*
+    - `'first'`
+      - Only show a contour for the first (`'default'`) *location*
+    - `'rest'`
+      - Show contours for all except the first (`'default'`) *location*
+    - `'none'`
+      - Show no contours
+- `z-roc: boolean = false`
+  - Plot in zROC space instead of ROC space
+- `far: number = 0.25`
+  - False alarm rate for the first (`'default'`) *location*
+- `hr: number = 0.75`
+  - Hit rate for the first (`'default'`) *location*
+
+##### Methods
+
+- `set(hr, far, name = 'default', label = '', s = 1)`
+  - Create or update the *location* identified by `name`
+  - The `name` `'default'` is reserved for the first location
+  - Parameters
+    - `hr: number`
+      - Hit rate
+    - `far: number`
+      - False alarm rate
+    - `name: string = 'default'`
+      - A unique name to identify the *location* being set
+    - `label: string = ''`
+      - A visual label to use in the plot for this location
+    - `s: number = 1`
+      - Unequal variance parameter (default of `1` is equal variance)
+- `setWidthSDT(d, c, name = 'default', label = '', s = 1)`
+  - Create or update the *location* identified by `name`
+  - The `name` `'default'` is reserved for the first location
+  - Parameters
+    - `d: number`
+      - Sensitivity
+    - `c: number`
+      - Bias
+    - `name: string = 'default'`
+      - A unique name to identify the *location* being set
+    - `label: string = ''`
+      - A visual label to use in the plot for this location
+    - `s: number = 1`
+      - Unequal variance parameter (default of `1` is equal variance)
+
+##### Custom Events
+
+- `roc-point-change`
+  - Indicates a location on the plot has been moved
+  - `detail`
+    - `name: string`
+      - A unique name to identify the *location*
+    - `far: number`
+      - False alarm rate
+    - `hr: number`
+      - Hit rate
+    - `d: number`
+      - Sensitivity
+    - `c: number`
+      - Bias
+    - `s: number`
+      - Variance
+    - `label: string`
+      - Display label
+
+##### Example
+
+```html
+<roc-space interactive contour="bias" point="all" isoD="first" isoC="first" z-roc far="0.2" hr="0.9"></roc-space>
+```
+
+#### `SDTModel` / `<sdt-model>`
+
+Interactive visualization of SDT in terms of signal and noise distributions
+
+This widget provides a visualization of signal detection theory. It can show *signal* and *noise*
+distributions and a threshold. The distributions can have unequal variance. The sensitivity, bias,
+and *signal* variance can be set and optionally displayed. In interactive mode, the bias can be
+adjusted by directly moving the threshold horizontally with mouse, touch, or keyboard, the
+sensitivity can be adjusted by directly moving a distribution horizontally with mouse, touch, or
+keyboard, and the variance can be adjusted by directly moving the *signal* distribution vertically
+with mouse, touch, or keyboard.
+
+In addition, the observation of stimuli can be visualized as blocks arriving at particular evidence
+levels, and stacking with previous stimuli to form a histogram. In interactive mode, when the model
+is adjusted, the blocks in the histogram will rearrange accordingly.
+
+The thresholded distributions and the histogram blocks can be colored based on the stimuli, the
+responses, or the outcomes.
+
+##### Attributes
+
+- `interactive: boolean = false`
+  - Allow direct manipulation of threshold and distributions
+- `color: string = 'outcome'`
+  - Set how to color distributions and trials
+  - Options
+    - `'outcome'`
+      - Color based on outcome of the hit, miss, false alarm, or correct rejection
+    - `'response'`
+      - Color based on the `'present'` or `'absent'` response provided
+    - `'stimulus'`
+      - Color based on the `present` or `absent` stimulus displayed
+    - `'none'`
+      - No coloring
+- `distributions: boolean = false`
+  - Show distributions
+- `threshold: boolean = false`
+  - Show threshold
+- `unequal: boolean = false`
+  - Allow unequal variance
+- `sensitivity: boolean = false`
+  - Show the sensitivity as *d'* with a measurement bar
+- `bias: boolean = false`
+  - Show the bias as *c* with a measurement bar
+- `variance: boolean = false`
+  - Show the variance as *s* with a measurement bar
+- `histogram: boolean = false`
+  - Show a histogram with a block for each trial/stimulus
+- `d: number = 1`
+  - Set the sensitivity, *d`*
+- `c: number = 0`
+  - Set the bias, *c*
+- `s: number = 1`
+  - Set the variance of the *signal* distribution, *s*
+
+##### Methods
+
+- `reset()`
+  - Reset the histogram to have no trials
+- `trial(trialNumber, signal, duration, wait, iti)`
+  - Add a trial to the histogram
+  - Parameters
+    - `trialNumber: number`
+      - Numerical count of the trial in the block
+    - `signal: string`
+      - Whether this is a signal `'present'` or `'absent'` trial 
+    - `duration: number`
+      - The stimulus duration on this trial in milliseconds
+    - `wait: number`
+      - The wait duration on this trial in milliseconds
+    - `iti: number`
+      - The inter-trial interval duration after this trial in milliseconds
+- `pauseTrial()`
+  - Pause the animation of trials in the histogram
+- `resumeTrial()`
+  - Resume the animation of trials in the histogram
+
+##### Custom Events
+
+- `sdt-model-change`
+  - Indicates that one or more model parameters have been changed
+  - `detail`
+    - `d: number`
+      - Sensitivity
+    - `c: number`
+      - Bias
+    - `s: number`
+      - Variance
+    - `far: number`
+      - False alarm rate
+    - `hr: number`
+      - Hit rate
+    - `h: number`
+      - Hits
+    - `m: number`
+      - Misses
+    - `fa: number`
+      - False alarms
+    - `cr: number`
+      - Correct rejections
+- `detectable-response`
+  - Indicates that an animated histogram trial has generated a response 
+  - `detail`
+    - `stimulus: string`
+      - Whether the signal was actually `'present'` or `'absent'`
+    - `response: string`
+      - Whether the response was `'present'` or `'absent'`
+    - `outcome: string`
+      - The outcome of the trial as a hit (`'h'`), miss (`'m'`), correct rejection (`'cr'`), or
+        false alarm (`'fa'`)
+    - `h: number`
+      - Total hits in this block
+    - `m: number`
+      - Total misses in this block
+    - `fa: number`
+      - Total false alarms in this block
+    - `cr: number`
+      - Total correct rejections in this block
+    - `nr: number`
+      - Total no responses in this block
+
+##### Example
+
+```html
+<sdt-model interactive color="outcome" distributions threshold unequal sensitivity bias variance histogram d="2" c="1" s="1.5"></sdt-model>
 ```
 
 ### Equations
