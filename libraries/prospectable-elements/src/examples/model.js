@@ -192,7 +192,7 @@ export default class CPTExampleModel extends CPTExample {
         this.prospectableResponse.trialTotal = this.riskyTask.trials;
       }
 
-      this.riskyTask.addEventListener('decision-trial-start', (event) => {
+      this.riskyTask.addEventListener('risky-trial-start', (event) => {
         if (this.prospectableResponse) {
           this.prospectableResponse.start(
             event.detail.xl,
@@ -250,13 +250,13 @@ export default class CPTExampleModel extends CPTExample {
         }
       });
 
-      this.riskyTask.addEventListener('decision-trial-end', (/* event */) => {
+      this.riskyTask.addEventListener('risky-trial-end', (/* event */) => {
         if (this.prospectableResponse) {
           this.prospectableResponse.stop();
         }
       });
 
-      this.riskyTask.addEventListener('decision-block-end', (/* event */) => {
+      this.riskyTask.addEventListener('risky-block-end', (/* event */) => {
         if (this.prospectableControl) {
           this.prospectableControl.complete();
         }
