@@ -112,7 +112,7 @@ export default class RiskyChoice extends ProspectableElement {
   render() {
     return html`
       <div class="holder">
-        <risky-option ?interactive=${this.interactive} @risky-outcome-change=${this.winChange.bind(this)}>
+        <risky-option class="gamble" ?interactive=${this.interactive} @risky-outcome-change=${this.winChange.bind(this)}>
           ${(this.state === 'choice')
             ? html`
               <risky-outcome probability="${(1 - this.pw)}" value="${this.xl}" name="loss"></risky-outcome>
@@ -120,7 +120,7 @@ export default class RiskyChoice extends ProspectableElement {
             : ''}
         </risky-option><span class="query"
          >${(this.state === 'choice') ? '?' : (this.state === 'fixation') ? '+' : html`∙`}</span
-        ><risky-option ?interactive=${this.interactive} @risky-outcome-change=${this.sureChange.bind(this)}>
+        ><risky-option class="sure" ?interactive=${this.interactive} @risky-outcome-change=${this.sureChange.bind(this)}>
           ${(this.state === 'choice')
             ? html`
               <risky-outcome ?interactive=${this.interactive} probability="1" value="${this.xs}" name="sure"></risky-outcome>`
