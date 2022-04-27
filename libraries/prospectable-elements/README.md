@@ -1,6 +1,6 @@
 <!--lint ignore first-heading-level  maximum-heading-length-->
 
-# **`@decidables\prospectable-elements`**<br>Web Components for Visualizing Cumulative Prospect Theory in [<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable)
+# **`@decidables/prospectable-elements`**<br>Web Components for Visualizing Cumulative Prospect Theory in [<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable)
 
 [![npm version](https://img.shields.io/npm/v/@decidables/prospectable-elements?logo=npm)](https://www.npmjs.com/package/@decidables/prospectable-elements)
 [![license](https://img.shields.io/npm/l/@decidables/prospectable-elements?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
