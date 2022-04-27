@@ -317,7 +317,42 @@ export default class RiskyOption extends ProspectableElement {
       .data(arcs);
     //  ENTER
     const arcEnter = arcUpdate.enter().append('path')
-      .call(arcDrag);
+      .call(arcDrag)
+      .on('keydown', (event, datum) => {
+        if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
+          const startP = datum.data.p;
+          let proposedP = datum.data.p; /* eslint-disable-line prefer-destructuring */
+          switch (event.key) {
+            case 'ArrowUp':
+              proposedP -= event.shiftKey ? 0.01 : 0.05;
+              break;
+            case 'ArrowDown':
+              proposedP += event.shiftKey ? 0.01 : 0.05;
+              break;
+            default:
+              // no-op
+          }
+          const newP = (proposedP > 0.99)
+            ? 0.99
+            : ((proposedP < 0.01)
+              ? 0.01
+              : proposedP);
+          riskyOutcomes.forEach((item) => {
+            item.p = (item === datum.data)
+              ? newP
+              : (item.p / (1 - startP)) * (1 - newP);
+          });
+          this.dispatchEvent(new CustomEvent('risky-outcome-change', {
+            detail: {
+              x: datum.data.x,
+              p: datum.data.p,
+              name: datum.data.name,
+            },
+            bubbles: true,
+          }));
+          event.preventDefault();
+        }
+      });
     //  MERGE
     arcEnter.merge(arcUpdate)
       .attr('tabindex', (datum) => { return (arcsInteractive.includes(datum) && (arcs.length > 1)) ? 0 : null; })
