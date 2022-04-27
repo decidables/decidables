@@ -957,18 +957,18 @@ resumed, and it can also be reset and run again.
 
 ##### Custom Events
 
-- `decision-block-start`
+- `risky-block-start`
   - Indicates the beginning of a block of trials
-- `decision-block-end`
+- `risky-block-end`
   - Indicates the completion of a block of trials
-  - `detail` for `decision-block-start` and `decision-block-end`
+  - `detail` for `risky-block-start` and `risky-block-end`
     - `trials: number`
       - Number of trials in the block
-- `decision-trial-start`
+- `risky-trial-start`
   - Indicates the beginning of a trial (iti is over and stimulus is about to start)
-- `decision-trial-end`
+- `risky-trial-end`
   - Indicates the end of a trial (stimulus is over and iti is about to start)
-  - `detail` for `decision-trial-start` and `decision-trial-end`
+  - `detail` for `risky-trial-start` and `risky-trial-end`
     - `trials: number` 
       - Number of trials in the block
     - `duration: number`
