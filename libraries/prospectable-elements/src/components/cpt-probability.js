@@ -264,7 +264,7 @@ export default class CPTProbability extends ProspectableElement {
   }
 
   set(p, g, name = 'default', label = '', func = name) {
-    this.setFunction(g, name);
+    this.setFunction(g, func);
     this.setProbability(p, name, label, func);
   }
 
