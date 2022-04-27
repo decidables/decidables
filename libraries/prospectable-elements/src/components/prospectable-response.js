@@ -319,8 +319,8 @@ export default class ProspectableResponse extends ProspectableElement {
                         ? html`<span class="outcome">Even</span>`
                         : html`<span class="outcome">No<br>Response</span>`
                   : ''}
-                ${(((this.payoff === 'both') || (this.payoff === 'selection')) && (this.response === 'gamble'))
-                  ? html`<span class="payoff">${(this.response === 'gamble') ? 'Win:' : 'Miss:'} ${this.trialPayoff}</span>`
+                ${((this.payoff === 'both') || ((this.payoff === 'selection') && (this.response === 'gamble')))
+                  ? html`<span class="payoff">${(this.response === 'gamble') ? 'Win:' : 'Miss:'} $${this.gamblePayoff}</span>`
                   : html``}
               </div>
               <div class="feedback sure
@@ -336,8 +336,8 @@ export default class ProspectableResponse extends ProspectableElement {
                         ? html`<span class="outcome">Even</span>`
                         : html`<span class="outcome">No<br>Response</span>`
                   : ''}
-                ${(((this.payoff === 'both') || (this.payoff === 'selection')) && (this.response === 'sure'))
-                  ? html`<span class="payoff">${(this.response === 'sure') ? 'Win:' : 'Miss:'} ${this.trialPayoff}</span>`
+                ${((this.payoff === 'both') || ((this.payoff === 'selection') && (this.response === 'sure')))
+                  ? html`<span class="payoff">${(this.response === 'sure') ? 'Win:' : 'Miss:'} $${this.surePayoff}</span>`
                   : html``}
               </div>
             </div>`
