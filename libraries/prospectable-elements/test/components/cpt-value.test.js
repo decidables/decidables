@@ -122,7 +122,7 @@ describe('cpt-value', () => {
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
     // HACK: Why do I need this timeout?
-    await aTimeout();
+    await aTimeout(200);
 
     el.removeValue('anotherValue');
     await elementUpdated(el);
@@ -143,7 +143,7 @@ describe('cpt-value', () => {
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
     // HACK: Why do I need this timeout?
-    await aTimeout();
+    await aTimeout(200);
 
     el.remove('new');
     expect(el.functions).to.have.length(1);
@@ -163,7 +163,7 @@ describe('cpt-value', () => {
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
     // HACK: Why do I need this timeout?
-    await aTimeout();
+    await aTimeout(200);
 
     el.clearValues();
     await elementUpdated(el);
@@ -184,7 +184,7 @@ describe('cpt-value', () => {
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
     // HACK: Why do I need this timeout?
-    await aTimeout();
+    await aTimeout(200);
 
     el.clear();
     expect(el.functions).to.have.length(1);
