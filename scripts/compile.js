@@ -16,6 +16,7 @@ import localeEnUs from 'locale-en-us';
 import mergeStream from 'merge-stream';
 import nodeNotifier from 'node-notifier';
 import nodeSassPackageImporter from 'node-sass-package-importer';
+import normalizePath from 'normalize-path';
 import {remarkDefinitionList, defListHastHandlers} from 'remark-definition-list';
 import remarkDirective from 'remark-directive';
 import remarkHtml from 'remark-html';
@@ -93,7 +94,7 @@ export function compileFaviconsTask(configuration) {
 export function compileFontsTask(fonts) {
   return function compileFonts() {
     return gulp.src(fonts.flatMap((font) => {
-      return glob.sync(resolvePkg(font));
+      return glob.sync(normalizePath(resolvePkg(font)));
     }))
       .pipe(gulp.dest('local/fonts'));
   };
