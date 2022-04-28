@@ -114,7 +114,7 @@ describe('cpt-probability', () => {
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
     // HACK: Why do I need this timeout?
-    await aTimeout();
+    await aTimeout(200);
 
     el.removeProbability('anotherProbability');
     await elementUpdated(el);
@@ -134,7 +134,7 @@ describe('cpt-probability', () => {
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
     // HACK: Why do I need this timeout?
-    await aTimeout();
+    await aTimeout(200);
 
     el.remove('new');
     expect(el.functions).to.have.length(1);
@@ -153,7 +153,7 @@ describe('cpt-probability', () => {
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
     // HACK: Why do I need this timeout?
-    await aTimeout();
+    await aTimeout(200);
 
     el.clearProbabilities();
     await elementUpdated(el);
@@ -173,7 +173,7 @@ describe('cpt-probability', () => {
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
     // HACK: Why do I need this timeout?
-    await aTimeout();
+    await aTimeout(200);
 
     el.clear();
     expect(el.functions).to.have.length(1);
