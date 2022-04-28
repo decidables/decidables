@@ -14,7 +14,7 @@
   "scripts": {
     "postinstall": "husky install",
     "lint": "yarn gulp lint && yarn workspaces foreach -pitv -j 2 run lint",
-    "test": "yarn workspaces foreach -pitv -j 2 run test",
+    "test": "yarn workspaces foreach -pitv -j 1 run test",
     "compile": "yarn workspaces foreach -pitv -j 2 run compile",
     "watch": "yarn workspaces foreach -pitv -j 2 run watch",
     "build": "yarn workspaces foreach -pitv -j 2 run build",
