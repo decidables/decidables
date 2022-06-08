@@ -89,8 +89,8 @@ script: page
   <!-- PROSPECTABLE -->
     <div class="dec-site-wrapper">
       <header class="dec-site-header">
-        <div class="dec-site-intro">In progress...</div>
-        <a class="dec-site-link" href="prospectable/">
+        <div class="dec-site-intro dec-disabled">Coming soon...</div>
+        <a class="dec-site-link dec-disabled" href="prospectable/">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
               <span class="prospectable">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
@@ -98,7 +98,7 @@ script: page
             <h3 class="dec-site-subtitle">An Explorable Explanation of Cumulative Prospect Theory</h3>
           </hgroup>
         </a>
-        <p class="dec-site-lead">
+        <p class="dec-site-lead dec-disabled">
           How do we decide between risky options?<br>
           CPT describes mathematical transformations of objective probabilities and values
           into <em>decision weights</em> and <em>subjective values</em> which we combine on a
@@ -147,7 +147,7 @@ script: page
   <!-- DISCOUNTABLE -->
     <div class="dec-site-wrapper">
       <header class="dec-site-header">
-        <div class="dec-site-intro dec-disabled">Coming soon...</div>
+        <div class="dec-site-intro dec-disabled">Under development...</div>
         <a class="dec-site-link dec-disabled"> <!-- href="discountable/" -->
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
