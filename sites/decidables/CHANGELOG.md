@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.6.2](https://github.com/decidables/decidables/compare/@decidables/decidables@0.6.1...@decidables/decidables@0.6.2) (2022-06-08)
+
+
+### Bug Fixes
+
+* **decidables:** hide prospectable until it is ready ([f3ace2e](https://github.com/decidables/decidables/commit/f3ace2ee534aea341d588fca2358f0a518e7ad31))
+
+
+
 ### [0.6.1](https://github.com/decidables/decidables/compare/@decidables/decidables@0.6.0...@decidables/decidables@0.6.1) (2022-04-28)
 
 **Note:** Version bump only for package @decidables/decidables
