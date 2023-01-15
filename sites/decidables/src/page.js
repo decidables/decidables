@@ -3,9 +3,9 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 // External dependencies
-import 'bootstrap/js/dist/button';
-import 'bootstrap/js/dist/carousel';
-import 'bootstrap/js/dist/collapse';
+import 'bootstrap/js/src/button';
+import 'bootstrap/js/src/carousel';
+import 'bootstrap/js/src/collapse';
 
 // Internal dependencies
 import '@decidables/detectable-elements/components/rdk-task';

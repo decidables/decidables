@@ -9,6 +9,7 @@
 // Bootstrap 5 Configuration
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/maps";
 @import "~bootstrap/scss/mixins";
 
 ////////////////////////////////
@@ -251,7 +252,7 @@ $container-max-widths: (
   xl: 1140px,
   xxl: 1560px
 );
-$container-padding-x: 1rem;
+$container-padding-x: 2rem;
 $enable-rfs: false;
 $grid-breakpoints: (
   xs: 0,

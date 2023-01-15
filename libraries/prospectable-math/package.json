@@ -51,7 +51,7 @@
     "build": "gulp build"
   },
   "devDependencies": {
-    "@web/test-runner": "^0.13.27",
+    "@web/test-runner": "^0.15.0",
     "gulp": "^4.0.2"
   }
 }

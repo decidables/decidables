@@ -1,28 +1,28 @@
 
 // devDependencies
-import del from 'del';
+import {deleteAsync} from 'del';
 
 // Local Dependencies
 import * as utilities from './utility.js';
 
 // Tasks
 export function cleanLib() {
-  return del('lib');
+  return deleteAsync('lib');
 }
 
 export function cleanLocal() {
-  return del('local');
+  return deleteAsync('local');
 }
 
 export function cleanDist() {
-  return del('dist');
+  return deleteAsync('dist');
 }
 
 export function cleanDeploySite() {
   const packageName = utilities.getPackageName();
-  return del(`../../decidables.github.io/${packageName}`, {force: true});
+  return deleteAsync(`../../decidables.github.io/${packageName}`, {force: true});
 }
 
 export function cleanDeployRoot() {
-  return del('../../decidables.github.io/{*.*,.*,fonts}', {force: true});
+  return deleteAsync('../../decidables.github.io/{*.*,.*,fonts}', {force: true});
 }
