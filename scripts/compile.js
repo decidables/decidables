@@ -5,7 +5,6 @@ import glob from 'glob';
 import gulp from 'gulp';
 import gulpDartSass from 'gulp-dart-sass';
 import gulpEjs from 'gulp-ejs';
-import favicons from 'favicons';
 import gulpFrontMatter from 'gulp-front-matter';
 import gulpIf from 'gulp-if';
 import gulpNotify from 'gulp-notify';
@@ -30,6 +29,7 @@ import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
 import styleApa from 'style-apa';
 
 // Local Dependencies
+import gulpFavicons from './gulp-favicons.js';
 import remarkCiteproc from './remark-citeproc.js';
 import remarkDiv from './remark-div.js';
 import {remarkGlossary, extraEntries, extraTerms} from './remark-glossary.js';
@@ -39,11 +39,9 @@ import * as utilities from './utility.js';
 // Tasks
 export function compileFaviconsTask(configuration) {
   return function compileFavicons() {
-    favicons.config.files.android['manifest.json'].icons.splice(0, 5);
-    favicons.config.files.android['manifest.json'].icons.splice(1, 2);
     return mergeStream(
       gulp.src('src/favicon.svg')
-        .pipe(favicons.stream({
+        .pipe(gulpFavicons({
           path: '/',
           // appName: '<application name>',
           // appShortName: '<application>',
@@ -170,7 +168,7 @@ const pluginBabel = rollupPluginBabel.babel({
   presets: [['@babel/preset-env', {
     bugfixes: true,
     useBuiltIns: 'entry',
-    corejs: '3.22',
+    corejs: '3.27',
   }]],
   babelHelpers: 'bundled',
 });

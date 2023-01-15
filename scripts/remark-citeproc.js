@@ -3,7 +3,8 @@
 import fs from 'fs';
 
 // devDependencies
-import citationJs from 'citation-js';
+import citationJs from '@citation-js/core';
+import '@citation-js/plugin-bibtex';
 import citeproc from 'citeproc';
 import {visit as unistUtilVisit} from 'unist-util-visit';
 
@@ -30,7 +31,7 @@ function initialize(options) {
   // console.log(`bibtex:\n${bibtex}`);
 
   // Use citation.js to convert from bibtex to CSL-JSON (stripping citation.js "_graph" fields)
-  const referenceList = (new citationJs(bibtex)).format('data', {format: 'object'}).map((reference) => { /* eslint-disable-line new-cap */
+  const referenceList = (new citationJs.Cite(bibtex)).format('data', {format: 'object'}).map((reference) => {
     delete reference._graph; /* eslint-disable-line no-underscore-dangle */
     return reference;
   });

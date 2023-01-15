@@ -9,6 +9,7 @@
 // Bootstrap 5 Configuration
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/maps";
 @import "~bootstrap/scss/mixins";
 
 ////////////////////////////////
@@ -228,7 +229,7 @@ $grid-breakpoints: (
   xl: 1200px,
   xxl: 1590px
 );
-$grid-gutter-width: 1.5rem;
+$grid-gutter-width: 3rem;
 $link-decoration: none;
 $link-hover-decoration: underline;
 $navbar-brand-margin-end: 0;

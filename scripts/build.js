@@ -10,7 +10,7 @@ import * as rollup from 'rollup';
 import * as rollupPluginBabel from '@rollup/plugin-babel';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
-import {terser as rollupPluginTerser} from 'rollup-plugin-terser';
+import rollupPluginTerser from '@rollup/plugin-terser';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
 
 // Local Dependencies
@@ -30,7 +30,7 @@ const pluginBabel = rollupPluginBabel.babel({
   presets: [['@babel/preset-env', {
     bugfixes: true,
     useBuiltIns: 'entry',
-    corejs: '3.22',
+    corejs: '3.27',
   }]],
   babelHelpers: 'bundled',
 });

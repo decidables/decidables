@@ -1,8 +1,5 @@
 {
-  "packages": [
-    "libraries/*",
-    "sites/*"
-  ],
+  "useWorkspaces": true,
   "version": "independent",
   "command": {
     "version": {

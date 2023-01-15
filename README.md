@@ -150,15 +150,19 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 
 #### Install
 
-- Manually install *chocolatey* <https://chocolatey.org/install>
-- `choco install git`
-- `choco install nodejs`
+- Manually install *chocolatey* <https://chocolatey.org/install> (on Windows) 
+  or *HomeBrew* <https://brew.sh/> (on MacOS)
+- `choco install openjdk` or `brew install openjdk`
+- `choco install git` or `brew install git`
+- `choco install nodejs` or `brew install node`
 - `corepack enable`
   - This is currently needed to use yarn without a separate installation
 
-#### Update
+#### Upgrade
 
-- `choco upgrade all`
+- `choco outdated` or `brew outdated`
+- `choco upgrade all` or `brew update` then `brew upgrade`
+- `yarn set version latest`
 
 ### Package Scripts
 
@@ -222,6 +226,8 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 
 #### Version
 
+- `yarn changed`
+  - Lists which libraries and sites will receive version bumps when `yarn version` is run
 - `yarn version`
   - Bumps version numbers of all libraries and sites as needed based on conventional commits
   - Transitive dependencies updated in each `package.json`
@@ -252,9 +258,9 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 - `yarn workspace @decidables/<site> serve`
   - Serves `<site>/` (e.g. <http://localhost:8000/local/> or <http://localhost:8000/dist/>)
 
-#### Update
+#### Upgrade
 
-- `yarn outdated -a`
+- `yarn outdated`
   - Check for outdated dependencies
 - `yarn up`
   - Upgrade to latest dependencies, ignoring semver!

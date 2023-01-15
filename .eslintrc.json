@@ -58,7 +58,10 @@
         "node": true
       },
       "settings": {
-        "import/resolver": "node"
+        "import/resolver": [
+          "node",
+          "@tophat/eslint-import-resolver-require"
+        ]
       },
       "rules": {
         "import/extensions": ["error", "ignorePackages"],
