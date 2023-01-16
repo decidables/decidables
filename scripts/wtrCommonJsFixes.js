@@ -1,3 +1,4 @@
+// https://gist.github.com/lucaelin/ffa48cba2253e9ad662b71e38444a135
 import {fromRollup} from '@web/dev-server-rollup';
 
 // patch the modules load hook to clear the plugins resolveExclusions whenever a new build starts
