@@ -154,7 +154,7 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
   or *HomeBrew* <https://brew.sh/> (on MacOS)
 - `choco install openjdk` or `brew install openjdk`
 - `choco install git` or `brew install git`
-- `choco install nodejs` or `brew install node`
+- `choco install nodejs` or `brew install node` then `brew install corepack`
 - `corepack enable`
   - This is currently needed to use yarn without a separate installation
 
