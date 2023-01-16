@@ -4486,7 +4486,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web/dev-server-rollup@npm:^0.3.19":
+"@web/dev-server-rollup@npm:0.3.19":
   version: 0.3.19
   resolution: "@web/dev-server-rollup@npm:0.3.19"
   dependencies:
@@ -4497,6 +4497,20 @@ __metadata:
     rollup: ^2.67.0
     whatwg-url: ^11.0.0
   checksum: 480e4f976639a2014675c489c4c0c19d4e7e5f50a1a3cbde1eabf8823bc3189cc5aac7d7d0e1ee132ee2af93f12b5d723fff78ae0356f0d754f30d65f74fbb01
+  languageName: node
+  linkType: hard
+
+"@web/dev-server-rollup@patch:@web/dev-server-rollup@npm%3A0.3.19#./.yarn/patches/@web-dev-server-rollup-npm-0.3.19-a1d5e41d5f.patch::locator=decidables%40workspace%3A.":
+  version: 0.3.19
+  resolution: "@web/dev-server-rollup@patch:@web/dev-server-rollup@npm%3A0.3.19#./.yarn/patches/@web-dev-server-rollup-npm-0.3.19-a1d5e41d5f.patch::version=0.3.19&hash=c7d5af&locator=decidables%40workspace%3A."
+  dependencies:
+    "@rollup/plugin-node-resolve": ^13.0.4
+    "@web/dev-server-core": ^0.3.19
+    nanocolors: ^0.2.1
+    parse5: ^6.0.1
+    rollup: ^2.67.0
+    whatwg-url: ^11.0.0
+  checksum: ae4d5ba773f3191b1c79f207ee0812208894b700591b6e46aea146bedc85f3e80f1a4350e8a28b2620bd7337f3ee89d6770646f9eb1e03f8a7e1b0fd6e04312d
   languageName: node
   linkType: hard
 
