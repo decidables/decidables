@@ -25,55 +25,43 @@ class CPTMath {
   static xal2v(x, a, l) {
     if (x >= 0) {
       return x ** a;
-    } // else (x < 0)
-
-
+    }
+    // else (x < 0)
     return -l * (-x) ** a;
   }
-
   static xlv2a(x, l, v) {
     if (x >= 0) {
       return Math.log(v) / Math.log(x);
-    } // else (x < 0)
-
-
+    }
+    // else (x < 0)
     return (Math.log(-v) - Math.log(l)) / Math.log(-x);
   }
-
   static xav2l(x, a, v) {
     if (x >= 0) {
       return NaN;
-    } // else (x < 0)
-
-
+    }
+    // else (x < 0)
     return -v / (-x) ** a;
   }
-
   static pg2w(p, g) {
     return p ** g / (p ** g + (1 - p) ** g) ** (1 / g);
   }
-
   static vw2u(v, w) {
     // Numbers
     if (typeof v === 'number' && typeof w === 'number') {
       return v * w;
-    } // Arrays
-
-
+    }
+    // Arrays
     if (v instanceof Array && w instanceof Array && v.length > 0 && v.length === w.length) {
       let u = 0;
-
       for (let n = 0; n < v.length; n += 1) {
         u += v[n] * w[n];
       }
-
       return u;
-    } // Otherwise
-
-
+    }
+    // Otherwise
     return NaN;
   }
-
 }
 
 // Internal dependencies

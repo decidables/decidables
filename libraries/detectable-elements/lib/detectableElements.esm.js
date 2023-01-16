@@ -3,219 +3,761 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$1 = window.ShadowRoot && (void 0 === window.ShadyCSS || window.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
-      e$2 = Symbol(),
-      n$3 = new Map();
-
-class s$3 {
-  constructor(t, n) {
-    if (this._$cssResult$ = !0, n !== e$2) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
-    this.cssText = t;
+const t$3 = window,
+  e$5 = t$3.ShadowRoot && (void 0 === t$3.ShadyCSS || t$3.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
+  s$6 = Symbol(),
+  n$6 = new WeakMap();
+let o$6 = class o {
+  constructor(t, e, n) {
+    if (this._$cssResult$ = !0, n !== s$6) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+    this.cssText = t, this.t = e;
   }
-
   get styleSheet() {
-    let e = n$3.get(this.cssText);
-    return t$1 && void 0 === e && (n$3.set(this.cssText, e = new CSSStyleSheet()), e.replaceSync(this.cssText)), e;
+    let t = this.o;
+    const s = this.t;
+    if (e$5 && void 0 === t) {
+      const e = void 0 !== s && 1 === s.length;
+      e && (t = n$6.get(s)), void 0 === t && ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText), e && n$6.set(s, t));
+    }
+    return t;
   }
-
   toString() {
     return this.cssText;
   }
-
-}
-
-const o$3 = t => new s$3("string" == typeof t ? t : t + "", e$2),
-      r$2 = (t, ...n) => {
-  const o = 1 === t.length ? t[0] : n.reduce((e, n, s) => e + (t => {
-    if (!0 === t._$cssResult$) return t.cssText;
-    if ("number" == typeof t) return t;
-    throw Error("Value passed to 'css' function must be a 'css' function result: " + t + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
-  })(n) + t[s + 1], t[0]);
-  return new s$3(o, e$2);
-},
-      i$1 = (e, n) => {
-  t$1 ? e.adoptedStyleSheets = n.map(t => t instanceof CSSStyleSheet ? t : t.styleSheet) : n.forEach(t => {
-    const n = document.createElement("style"),
-          s = window.litNonce;
-    void 0 !== s && n.setAttribute("nonce", s), n.textContent = t.cssText, e.appendChild(n);
-  });
-},
-      S$1 = t$1 ? t => t : t => t instanceof CSSStyleSheet ? (t => {
-  let e = "";
-
-  for (const n of t.cssRules) e += n.cssText;
-
-  return o$3(e);
-})(t) : t;
+};
+const r$5 = t => new o$6("string" == typeof t ? t : t + "", void 0, s$6),
+  S$3 = (s, n) => {
+    e$5 ? s.adoptedStyleSheets = n.map(t => t instanceof CSSStyleSheet ? t : t.styleSheet) : n.forEach(e => {
+      const n = document.createElement("style"),
+        o = t$3.litNonce;
+      void 0 !== o && n.setAttribute("nonce", o), n.textContent = e.cssText, s.appendChild(n);
+    });
+  },
+  c$2 = e$5 ? t => t : t => t instanceof CSSStyleSheet ? (t => {
+    let e = "";
+    for (const s of t.cssRules) e += s.cssText;
+    return r$5(e);
+  })(t) : t;
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-
-var s$2;
-
-const e$1 = window.trustedTypes,
-      r$1 = e$1 ? e$1.emptyScript : "",
-      h$1 = window.reactiveElementPolyfillSupport,
-      o$2 = {
-  toAttribute(t, i) {
-    switch (i) {
-      case Boolean:
-        t = t ? r$1 : null;
-        break;
-
-      case Object:
-      case Array:
-        t = null == t ? t : JSON.stringify(t);
+var s$5;
+const e$4 = window,
+  r$4 = e$4.trustedTypes,
+  h$3 = r$4 ? r$4.emptyScript : "",
+  o$5 = e$4.reactiveElementPolyfillSupport,
+  n$5 = {
+    toAttribute(t, i) {
+      switch (i) {
+        case Boolean:
+          t = t ? h$3 : null;
+          break;
+        case Object:
+        case Array:
+          t = null == t ? t : JSON.stringify(t);
+      }
+      return t;
+    },
+    fromAttribute(t, i) {
+      let s = t;
+      switch (i) {
+        case Boolean:
+          s = null !== t;
+          break;
+        case Number:
+          s = null === t ? null : Number(t);
+          break;
+        case Object:
+        case Array:
+          try {
+            s = JSON.parse(t);
+          } catch (t) {
+            s = null;
+          }
+      }
+      return s;
     }
-
-    return t;
   },
-
-  fromAttribute(t, i) {
-    let s = t;
-
-    switch (i) {
-      case Boolean:
-        s = null !== t;
-        break;
-
-      case Number:
-        s = null === t ? null : Number(t);
-        break;
-
-      case Object:
-      case Array:
-        try {
-          s = JSON.parse(t);
-        } catch (t) {
-          s = null;
-        }
-
-    }
-
-    return s;
-  }
-
-},
-      n$2 = (t, i) => i !== t && (i == i || t == t),
-      l$3 = {
-  attribute: !0,
-  type: String,
-  converter: o$2,
-  reflect: !1,
-  hasChanged: n$2
-};
-
-class a$1 extends HTMLElement {
+  a$3 = (t, i) => i !== t && (i == i || t == t),
+  l$5 = {
+    attribute: !0,
+    type: String,
+    converter: n$5,
+    reflect: !1,
+    hasChanged: a$3
+  };
+let d$2 = class d extends HTMLElement {
   constructor() {
-    super(), this._$Et = new Map(), this.isUpdatePending = !1, this.hasUpdated = !1, this._$Ei = null, this.o();
+    super(), this._$Ei = new Map(), this.isUpdatePending = !1, this.hasUpdated = !1, this._$El = null, this.u();
   }
-
   static addInitializer(t) {
     var i;
-    null !== (i = this.l) && void 0 !== i || (this.l = []), this.l.push(t);
+    this.finalize(), (null !== (i = this.h) && void 0 !== i ? i : this.h = []).push(t);
   }
-
   static get observedAttributes() {
     this.finalize();
     const t = [];
     return this.elementProperties.forEach((i, s) => {
-      const e = this._$Eh(s, i);
-
-      void 0 !== e && (this._$Eu.set(e, s), t.push(e));
+      const e = this._$Ep(s, i);
+      void 0 !== e && (this._$Ev.set(e, s), t.push(e));
     }), t;
   }
-
-  static createProperty(t, i = l$3) {
+  static createProperty(t, i = l$5) {
     if (i.state && (i.attribute = !1), this.finalize(), this.elementProperties.set(t, i), !i.noAccessor && !this.prototype.hasOwnProperty(t)) {
       const s = "symbol" == typeof t ? Symbol() : "__" + t,
-            e = this.getPropertyDescriptor(t, s, i);
+        e = this.getPropertyDescriptor(t, s, i);
       void 0 !== e && Object.defineProperty(this.prototype, t, e);
     }
   }
-
   static getPropertyDescriptor(t, i, s) {
     return {
       get() {
         return this[i];
       },
-
       set(e) {
         const r = this[t];
         this[i] = e, this.requestUpdate(t, r, s);
       },
-
       configurable: !0,
       enumerable: !0
     };
   }
-
   static getPropertyOptions(t) {
-    return this.elementProperties.get(t) || l$3;
+    return this.elementProperties.get(t) || l$5;
   }
-
   static finalize() {
     if (this.hasOwnProperty("finalized")) return !1;
     this.finalized = !0;
     const t = Object.getPrototypeOf(this);
-
-    if (t.finalize(), this.elementProperties = new Map(t.elementProperties), this._$Eu = new Map(), this.hasOwnProperty("properties")) {
+    if (t.finalize(), void 0 !== t.h && (this.h = [...t.h]), this.elementProperties = new Map(t.elementProperties), this._$Ev = new Map(), this.hasOwnProperty("properties")) {
       const t = this.properties,
-            i = [...Object.getOwnPropertyNames(t), ...Object.getOwnPropertySymbols(t)];
-
+        i = [...Object.getOwnPropertyNames(t), ...Object.getOwnPropertySymbols(t)];
       for (const s of i) this.createProperty(s, t[s]);
     }
-
     return this.elementStyles = this.finalizeStyles(this.styles), !0;
   }
-
   static finalizeStyles(i) {
     const s = [];
-
     if (Array.isArray(i)) {
       const e = new Set(i.flat(1 / 0).reverse());
-
-      for (const i of e) s.unshift(S$1(i));
-    } else void 0 !== i && s.push(S$1(i));
-
+      for (const i of e) s.unshift(c$2(i));
+    } else void 0 !== i && s.push(c$2(i));
     return s;
   }
+  static _$Ep(t, i) {
+    const s = i.attribute;
+    return !1 === s ? void 0 : "string" == typeof s ? s : "string" == typeof t ? t.toLowerCase() : void 0;
+  }
+  u() {
+    var t;
+    this._$E_ = new Promise(t => this.enableUpdating = t), this._$AL = new Map(), this._$Eg(), this.requestUpdate(), null === (t = this.constructor.h) || void 0 === t || t.forEach(t => t(this));
+  }
+  addController(t) {
+    var i, s;
+    (null !== (i = this._$ES) && void 0 !== i ? i : this._$ES = []).push(t), void 0 !== this.renderRoot && this.isConnected && (null === (s = t.hostConnected) || void 0 === s || s.call(t));
+  }
+  removeController(t) {
+    var i;
+    null === (i = this._$ES) || void 0 === i || i.splice(this._$ES.indexOf(t) >>> 0, 1);
+  }
+  _$Eg() {
+    this.constructor.elementProperties.forEach((t, i) => {
+      this.hasOwnProperty(i) && (this._$Ei.set(i, this[i]), delete this[i]);
+    });
+  }
+  createRenderRoot() {
+    var t;
+    const s = null !== (t = this.shadowRoot) && void 0 !== t ? t : this.attachShadow(this.constructor.shadowRootOptions);
+    return S$3(s, this.constructor.elementStyles), s;
+  }
+  connectedCallback() {
+    var t;
+    void 0 === this.renderRoot && (this.renderRoot = this.createRenderRoot()), this.enableUpdating(!0), null === (t = this._$ES) || void 0 === t || t.forEach(t => {
+      var i;
+      return null === (i = t.hostConnected) || void 0 === i ? void 0 : i.call(t);
+    });
+  }
+  enableUpdating(t) {}
+  disconnectedCallback() {
+    var t;
+    null === (t = this._$ES) || void 0 === t || t.forEach(t => {
+      var i;
+      return null === (i = t.hostDisconnected) || void 0 === i ? void 0 : i.call(t);
+    });
+  }
+  attributeChangedCallback(t, i, s) {
+    this._$AK(t, s);
+  }
+  _$EO(t, i, s = l$5) {
+    var e;
+    const r = this.constructor._$Ep(t, s);
+    if (void 0 !== r && !0 === s.reflect) {
+      const h = (void 0 !== (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute) ? s.converter : n$5).toAttribute(i, s.type);
+      this._$El = t, null == h ? this.removeAttribute(r) : this.setAttribute(r, h), this._$El = null;
+    }
+  }
+  _$AK(t, i) {
+    var s;
+    const e = this.constructor,
+      r = e._$Ev.get(t);
+    if (void 0 !== r && this._$El !== r) {
+      const t = e.getPropertyOptions(r),
+        h = "function" == typeof t.converter ? {
+          fromAttribute: t.converter
+        } : void 0 !== (null === (s = t.converter) || void 0 === s ? void 0 : s.fromAttribute) ? t.converter : n$5;
+      this._$El = r, this[r] = h.fromAttribute(i, t.type), this._$El = null;
+    }
+  }
+  requestUpdate(t, i, s) {
+    let e = !0;
+    void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || a$3)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$El !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$E_ = this._$Ej());
+  }
+  async _$Ej() {
+    this.isUpdatePending = !0;
+    try {
+      await this._$E_;
+    } catch (t) {
+      Promise.reject(t);
+    }
+    const t = this.scheduleUpdate();
+    return null != t && (await t), !this.isUpdatePending;
+  }
+  scheduleUpdate() {
+    return this.performUpdate();
+  }
+  performUpdate() {
+    var t;
+    if (!this.isUpdatePending) return;
+    this.hasUpdated, this._$Ei && (this._$Ei.forEach((t, i) => this[i] = t), this._$Ei = void 0);
+    let i = !1;
+    const s = this._$AL;
+    try {
+      i = this.shouldUpdate(s), i ? (this.willUpdate(s), null === (t = this._$ES) || void 0 === t || t.forEach(t => {
+        var i;
+        return null === (i = t.hostUpdate) || void 0 === i ? void 0 : i.call(t);
+      }), this.update(s)) : this._$Ek();
+    } catch (t) {
+      throw i = !1, this._$Ek(), t;
+    }
+    i && this._$AE(s);
+  }
+  willUpdate(t) {}
+  _$AE(t) {
+    var i;
+    null === (i = this._$ES) || void 0 === i || i.forEach(t => {
+      var i;
+      return null === (i = t.hostUpdated) || void 0 === i ? void 0 : i.call(t);
+    }), this.hasUpdated || (this.hasUpdated = !0, this.firstUpdated(t)), this.updated(t);
+  }
+  _$Ek() {
+    this._$AL = new Map(), this.isUpdatePending = !1;
+  }
+  get updateComplete() {
+    return this.getUpdateComplete();
+  }
+  getUpdateComplete() {
+    return this._$E_;
+  }
+  shouldUpdate(t) {
+    return !0;
+  }
+  update(t) {
+    void 0 !== this._$EC && (this._$EC.forEach((t, i) => this._$EO(i, this[i], t)), this._$EC = void 0), this._$Ek();
+  }
+  updated(t) {}
+  firstUpdated(t) {}
+};
+d$2.finalized = !0, d$2.elementProperties = new Map(), d$2.elementStyles = [], d$2.shadowRootOptions = {
+  mode: "open"
+}, null == o$5 || o$5({
+  ReactiveElement: d$2
+}), (null !== (s$5 = e$4.reactiveElementVersions) && void 0 !== s$5 ? s$5 : e$4.reactiveElementVersions = []).push("1.5.0");
 
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+var t$2;
+const i$2 = window,
+  s$4 = i$2.trustedTypes,
+  e$3 = s$4 ? s$4.createPolicy("lit-html", {
+    createHTML: t => t
+  }) : void 0,
+  o$4 = `lit$${(Math.random() + "").slice(9)}$`,
+  n$4 = "?" + o$4,
+  l$4 = `<${n$4}>`,
+  h$2 = document,
+  r$3 = (t = "") => h$2.createComment(t),
+  d$1 = t => null === t || "object" != typeof t && "function" != typeof t,
+  u$1 = Array.isArray,
+  c$1 = t => u$1(t) || "function" == typeof (null == t ? void 0 : t[Symbol.iterator]),
+  v$1 = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
+  a$2 = /-->/g,
+  f$1 = />/g,
+  _$1 = RegExp(">|[ \t\n\f\r](?:([^\\s\"'>=/]+)([ \t\n\f\r]*=[ \t\n\f\r]*(?:[^ \t\n\f\r\"'`<>=]|(\"|')|))|$)", "g"),
+  m$1 = /'/g,
+  p$1 = /"/g,
+  $$1 = /^(?:script|style|textarea|title)$/i,
+  x$2 = Symbol.for("lit-noChange"),
+  b$1 = Symbol.for("lit-nothing"),
+  T$1 = new WeakMap(),
+  A$1 = h$2.createTreeWalker(h$2, 129, null, !1),
+  E$1 = (t, i) => {
+    const s = t.length - 1,
+      n = [];
+    let h,
+      r = 2 === i ? "<svg>" : "",
+      d = v$1;
+    for (let i = 0; i < s; i++) {
+      const s = t[i];
+      let e,
+        u,
+        c = -1,
+        g = 0;
+      for (; g < s.length && (d.lastIndex = g, u = d.exec(s), null !== u);) g = d.lastIndex, d === v$1 ? "!--" === u[1] ? d = a$2 : void 0 !== u[1] ? d = f$1 : void 0 !== u[2] ? ($$1.test(u[2]) && (h = RegExp("</" + u[2], "g")), d = _$1) : void 0 !== u[3] && (d = _$1) : d === _$1 ? ">" === u[0] ? (d = null != h ? h : v$1, c = -1) : void 0 === u[1] ? c = -2 : (c = d.lastIndex - u[2].length, e = u[1], d = void 0 === u[3] ? _$1 : '"' === u[3] ? p$1 : m$1) : d === p$1 || d === m$1 ? d = _$1 : d === a$2 || d === f$1 ? d = v$1 : (d = _$1, h = void 0);
+      const y = d === _$1 && t[i + 1].startsWith("/>") ? " " : "";
+      r += d === v$1 ? s + l$4 : c >= 0 ? (n.push(e), s.slice(0, c) + "$lit$" + s.slice(c) + o$4 + y) : s + o$4 + (-2 === c ? (n.push(void 0), i) : y);
+    }
+    const u = r + (t[s] || "<?>") + (2 === i ? "</svg>" : "");
+    if (!Array.isArray(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
+    return [void 0 !== e$3 ? e$3.createHTML(u) : u, n];
+  };
+let C$1 = class C {
+  constructor({
+    strings: t,
+    _$litType$: i
+  }, e) {
+    let l;
+    this.parts = [];
+    let h = 0,
+      d = 0;
+    const u = t.length - 1,
+      c = this.parts,
+      [v, a] = E$1(t, i);
+    if (this.el = C$1.createElement(v, e), A$1.currentNode = this.el.content, 2 === i) {
+      const t = this.el.content,
+        i = t.firstChild;
+      i.remove(), t.append(...i.childNodes);
+    }
+    for (; null !== (l = A$1.nextNode()) && c.length < u;) {
+      if (1 === l.nodeType) {
+        if (l.hasAttributes()) {
+          const t = [];
+          for (const i of l.getAttributeNames()) if (i.endsWith("$lit$") || i.startsWith(o$4)) {
+            const s = a[d++];
+            if (t.push(i), void 0 !== s) {
+              const t = l.getAttribute(s.toLowerCase() + "$lit$").split(o$4),
+                i = /([.?@])?(.*)/.exec(s);
+              c.push({
+                type: 1,
+                index: h,
+                name: i[2],
+                strings: t,
+                ctor: "." === i[1] ? M$1 : "?" === i[1] ? k$1 : "@" === i[1] ? H$1 : S$2
+              });
+            } else c.push({
+              type: 6,
+              index: h
+            });
+          }
+          for (const i of t) l.removeAttribute(i);
+        }
+        if ($$1.test(l.tagName)) {
+          const t = l.textContent.split(o$4),
+            i = t.length - 1;
+          if (i > 0) {
+            l.textContent = s$4 ? s$4.emptyScript : "";
+            for (let s = 0; s < i; s++) l.append(t[s], r$3()), A$1.nextNode(), c.push({
+              type: 2,
+              index: ++h
+            });
+            l.append(t[i], r$3());
+          }
+        }
+      } else if (8 === l.nodeType) if (l.data === n$4) c.push({
+        type: 2,
+        index: h
+      });else {
+        let t = -1;
+        for (; -1 !== (t = l.data.indexOf(o$4, t + 1));) c.push({
+          type: 7,
+          index: h
+        }), t += o$4.length - 1;
+      }
+      h++;
+    }
+  }
+  static createElement(t, i) {
+    const s = h$2.createElement("template");
+    return s.innerHTML = t, s;
+  }
+};
+function P$1(t, i, s = t, e) {
+  var o, n, l, h;
+  if (i === x$2) return i;
+  let r = void 0 !== e ? null === (o = s._$Co) || void 0 === o ? void 0 : o[e] : s._$Cl;
+  const u = d$1(i) ? void 0 : i._$litDirective$;
+  return (null == r ? void 0 : r.constructor) !== u && (null === (n = null == r ? void 0 : r._$AO) || void 0 === n || n.call(r, !1), void 0 === u ? r = void 0 : (r = new u(t), r._$AT(t, s, e)), void 0 !== e ? (null !== (l = (h = s)._$Co) && void 0 !== l ? l : h._$Co = [])[e] = r : s._$Cl = r), void 0 !== r && (i = P$1(t, r._$AS(t, i.values), r, e)), i;
+}
+let V$1 = class V {
+  constructor(t, i) {
+    this.u = [], this._$AN = void 0, this._$AD = t, this._$AM = i;
+  }
+  get parentNode() {
+    return this._$AM.parentNode;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  v(t) {
+    var i;
+    const {
+        el: {
+          content: s
+        },
+        parts: e
+      } = this._$AD,
+      o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i ? i : h$2).importNode(s, !0);
+    A$1.currentNode = o;
+    let n = A$1.nextNode(),
+      l = 0,
+      r = 0,
+      d = e[0];
+    for (; void 0 !== d;) {
+      if (l === d.index) {
+        let i;
+        2 === d.type ? i = new N$1(n, n.nextSibling, this, t) : 1 === d.type ? i = new d.ctor(n, d.name, d.strings, this, t) : 6 === d.type && (i = new I$1(n, this, t)), this.u.push(i), d = e[++r];
+      }
+      l !== (null == d ? void 0 : d.index) && (n = A$1.nextNode(), l++);
+    }
+    return o;
+  }
+  p(t) {
+    let i = 0;
+    for (const s of this.u) void 0 !== s && (void 0 !== s.strings ? (s._$AI(t, s, i), i += s.strings.length - 2) : s._$AI(t[i])), i++;
+  }
+};
+let N$1 = class N {
+  constructor(t, i, s, e) {
+    var o;
+    this.type = 2, this._$AH = b$1, this._$AN = void 0, this._$AA = t, this._$AB = i, this._$AM = s, this.options = e, this._$Cm = null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o;
+  }
+  get _$AU() {
+    var t, i;
+    return null !== (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) && void 0 !== i ? i : this._$Cm;
+  }
+  get parentNode() {
+    let t = this._$AA.parentNode;
+    const i = this._$AM;
+    return void 0 !== i && 11 === t.nodeType && (t = i.parentNode), t;
+  }
+  get startNode() {
+    return this._$AA;
+  }
+  get endNode() {
+    return this._$AB;
+  }
+  _$AI(t, i = this) {
+    t = P$1(this, t, i), d$1(t) ? t === b$1 || null == t || "" === t ? (this._$AH !== b$1 && this._$AR(), this._$AH = b$1) : t !== this._$AH && t !== x$2 && this.g(t) : void 0 !== t._$litType$ ? this.$(t) : void 0 !== t.nodeType ? this.T(t) : c$1(t) ? this.k(t) : this.g(t);
+  }
+  O(t, i = this._$AB) {
+    return this._$AA.parentNode.insertBefore(t, i);
+  }
+  T(t) {
+    this._$AH !== t && (this._$AR(), this._$AH = this.O(t));
+  }
+  g(t) {
+    this._$AH !== b$1 && d$1(this._$AH) ? this._$AA.nextSibling.data = t : this.T(h$2.createTextNode(t)), this._$AH = t;
+  }
+  $(t) {
+    var i;
+    const {
+        values: s,
+        _$litType$: e
+      } = t,
+      o = "number" == typeof e ? this._$AC(t) : (void 0 === e.el && (e.el = C$1.createElement(e.h, this.options)), e);
+    if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o) this._$AH.p(s);else {
+      const t = new V$1(o, this),
+        i = t.v(this.options);
+      t.p(s), this.T(i), this._$AH = t;
+    }
+  }
+  _$AC(t) {
+    let i = T$1.get(t.strings);
+    return void 0 === i && T$1.set(t.strings, i = new C$1(t)), i;
+  }
+  k(t) {
+    u$1(this._$AH) || (this._$AH = [], this._$AR());
+    const i = this._$AH;
+    let s,
+      e = 0;
+    for (const o of t) e === i.length ? i.push(s = new N$1(this.O(r$3()), this.O(r$3()), this, this.options)) : s = i[e], s._$AI(o), e++;
+    e < i.length && (this._$AR(s && s._$AB.nextSibling, e), i.length = e);
+  }
+  _$AR(t = this._$AA.nextSibling, i) {
+    var s;
+    for (null === (s = this._$AP) || void 0 === s || s.call(this, !1, !0, i); t && t !== this._$AB;) {
+      const i = t.nextSibling;
+      t.remove(), t = i;
+    }
+  }
+  setConnected(t) {
+    var i;
+    void 0 === this._$AM && (this._$Cm = t, null === (i = this._$AP) || void 0 === i || i.call(this, t));
+  }
+};
+let S$2 = class S {
+  constructor(t, i, s, e, o) {
+    this.type = 1, this._$AH = b$1, this._$AN = void 0, this.element = t, this.name = i, this._$AM = e, this.options = o, s.length > 2 || "" !== s[0] || "" !== s[1] ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = b$1;
+  }
+  get tagName() {
+    return this.element.tagName;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  _$AI(t, i = this, s, e) {
+    const o = this.strings;
+    let n = !1;
+    if (void 0 === o) t = P$1(this, t, i, 0), n = !d$1(t) || t !== this._$AH && t !== x$2, n && (this._$AH = t);else {
+      const e = t;
+      let l, h;
+      for (t = o[0], l = 0; l < o.length - 1; l++) h = P$1(this, e[s + l], i, l), h === x$2 && (h = this._$AH[l]), n || (n = !d$1(h) || h !== this._$AH[l]), h === b$1 ? t = b$1 : t !== b$1 && (t += (null != h ? h : "") + o[l + 1]), this._$AH[l] = h;
+    }
+    n && !e && this.j(t);
+  }
+  j(t) {
+    t === b$1 ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, null != t ? t : "");
+  }
+};
+let M$1 = class M extends S$2 {
+  constructor() {
+    super(...arguments), this.type = 3;
+  }
+  j(t) {
+    this.element[this.name] = t === b$1 ? void 0 : t;
+  }
+};
+const R = s$4 ? s$4.emptyScript : "";
+let k$1 = class k extends S$2 {
+  constructor() {
+    super(...arguments), this.type = 4;
+  }
+  j(t) {
+    t && t !== b$1 ? this.element.setAttribute(this.name, R) : this.element.removeAttribute(this.name);
+  }
+};
+let H$1 = class H extends S$2 {
+  constructor(t, i, s, e, o) {
+    super(t, i, s, e, o), this.type = 5;
+  }
+  _$AI(t, i = this) {
+    var s;
+    if ((t = null !== (s = P$1(this, t, i, 0)) && void 0 !== s ? s : b$1) === x$2) return;
+    const e = this._$AH,
+      o = t === b$1 && e !== b$1 || t.capture !== e.capture || t.once !== e.once || t.passive !== e.passive,
+      n = t !== b$1 && (e === b$1 || o);
+    o && this.element.removeEventListener(this.name, this, e), n && this.element.addEventListener(this.name, this, t), this._$AH = t;
+  }
+  handleEvent(t) {
+    var i, s;
+    "function" == typeof this._$AH ? this._$AH.call(null !== (s = null === (i = this.options) || void 0 === i ? void 0 : i.host) && void 0 !== s ? s : this.element, t) : this._$AH.handleEvent(t);
+  }
+};
+let I$1 = class I {
+  constructor(t, i, s) {
+    this.element = t, this.type = 6, this._$AN = void 0, this._$AM = i, this.options = s;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  _$AI(t) {
+    P$1(this, t);
+  }
+};
+const z$1 = i$2.litHtmlPolyfillSupport;
+null == z$1 || z$1(C$1, N$1), (null !== (t$2 = i$2.litHtmlVersions) && void 0 !== t$2 ? t$2 : i$2.litHtmlVersions = []).push("2.5.0");
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+const t$1 = window.ShadowRoot && (void 0 === window.ShadyCSS || window.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
+  e$2 = Symbol(),
+  n$3 = new Map();
+let s$3 = class s {
+  constructor(t, n) {
+    if (this._$cssResult$ = !0, n !== e$2) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+    this.cssText = t;
+  }
+  get styleSheet() {
+    let e = n$3.get(this.cssText);
+    return t$1 && void 0 === e && (n$3.set(this.cssText, e = new CSSStyleSheet()), e.replaceSync(this.cssText)), e;
+  }
+  toString() {
+    return this.cssText;
+  }
+};
+const o$3 = t => new s$3("string" == typeof t ? t : t + "", e$2),
+  r$2 = (t, ...n) => {
+    const o = 1 === t.length ? t[0] : n.reduce((e, n, s) => e + (t => {
+      if (!0 === t._$cssResult$) return t.cssText;
+      if ("number" == typeof t) return t;
+      throw Error("Value passed to 'css' function must be a 'css' function result: " + t + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
+    })(n) + t[s + 1], t[0]);
+    return new s$3(o, e$2);
+  },
+  i$1 = (e, n) => {
+    t$1 ? e.adoptedStyleSheets = n.map(t => t instanceof CSSStyleSheet ? t : t.styleSheet) : n.forEach(t => {
+      const n = document.createElement("style"),
+        s = window.litNonce;
+      void 0 !== s && n.setAttribute("nonce", s), n.textContent = t.cssText, e.appendChild(n);
+    });
+  },
+  S$1 = t$1 ? t => t : t => t instanceof CSSStyleSheet ? (t => {
+    let e = "";
+    for (const n of t.cssRules) e += n.cssText;
+    return o$3(e);
+  })(t) : t;
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+var s$2;
+const e$1 = window.trustedTypes,
+  r$1 = e$1 ? e$1.emptyScript : "",
+  h$1 = window.reactiveElementPolyfillSupport,
+  o$2 = {
+    toAttribute(t, i) {
+      switch (i) {
+        case Boolean:
+          t = t ? r$1 : null;
+          break;
+        case Object:
+        case Array:
+          t = null == t ? t : JSON.stringify(t);
+      }
+      return t;
+    },
+    fromAttribute(t, i) {
+      let s = t;
+      switch (i) {
+        case Boolean:
+          s = null !== t;
+          break;
+        case Number:
+          s = null === t ? null : Number(t);
+          break;
+        case Object:
+        case Array:
+          try {
+            s = JSON.parse(t);
+          } catch (t) {
+            s = null;
+          }
+      }
+      return s;
+    }
+  },
+  n$2 = (t, i) => i !== t && (i == i || t == t),
+  l$3 = {
+    attribute: !0,
+    type: String,
+    converter: o$2,
+    reflect: !1,
+    hasChanged: n$2
+  };
+let a$1 = class a extends HTMLElement {
+  constructor() {
+    super(), this._$Et = new Map(), this.isUpdatePending = !1, this.hasUpdated = !1, this._$Ei = null, this.o();
+  }
+  static addInitializer(t) {
+    var i;
+    null !== (i = this.l) && void 0 !== i || (this.l = []), this.l.push(t);
+  }
+  static get observedAttributes() {
+    this.finalize();
+    const t = [];
+    return this.elementProperties.forEach((i, s) => {
+      const e = this._$Eh(s, i);
+      void 0 !== e && (this._$Eu.set(e, s), t.push(e));
+    }), t;
+  }
+  static createProperty(t, i = l$3) {
+    if (i.state && (i.attribute = !1), this.finalize(), this.elementProperties.set(t, i), !i.noAccessor && !this.prototype.hasOwnProperty(t)) {
+      const s = "symbol" == typeof t ? Symbol() : "__" + t,
+        e = this.getPropertyDescriptor(t, s, i);
+      void 0 !== e && Object.defineProperty(this.prototype, t, e);
+    }
+  }
+  static getPropertyDescriptor(t, i, s) {
+    return {
+      get() {
+        return this[i];
+      },
+      set(e) {
+        const r = this[t];
+        this[i] = e, this.requestUpdate(t, r, s);
+      },
+      configurable: !0,
+      enumerable: !0
+    };
+  }
+  static getPropertyOptions(t) {
+    return this.elementProperties.get(t) || l$3;
+  }
+  static finalize() {
+    if (this.hasOwnProperty("finalized")) return !1;
+    this.finalized = !0;
+    const t = Object.getPrototypeOf(this);
+    if (t.finalize(), this.elementProperties = new Map(t.elementProperties), this._$Eu = new Map(), this.hasOwnProperty("properties")) {
+      const t = this.properties,
+        i = [...Object.getOwnPropertyNames(t), ...Object.getOwnPropertySymbols(t)];
+      for (const s of i) this.createProperty(s, t[s]);
+    }
+    return this.elementStyles = this.finalizeStyles(this.styles), !0;
+  }
+  static finalizeStyles(i) {
+    const s = [];
+    if (Array.isArray(i)) {
+      const e = new Set(i.flat(1 / 0).reverse());
+      for (const i of e) s.unshift(S$1(i));
+    } else void 0 !== i && s.push(S$1(i));
+    return s;
+  }
   static _$Eh(t, i) {
     const s = i.attribute;
     return !1 === s ? void 0 : "string" == typeof s ? s : "string" == typeof t ? t.toLowerCase() : void 0;
   }
-
   o() {
     var t;
     this._$Ep = new Promise(t => this.enableUpdating = t), this._$AL = new Map(), this._$Em(), this.requestUpdate(), null === (t = this.constructor.l) || void 0 === t || t.forEach(t => t(this));
   }
-
   addController(t) {
     var i, s;
     (null !== (i = this._$Eg) && void 0 !== i ? i : this._$Eg = []).push(t), void 0 !== this.renderRoot && this.isConnected && (null === (s = t.hostConnected) || void 0 === s || s.call(t));
   }
-
   removeController(t) {
     var i;
     null === (i = this._$Eg) || void 0 === i || i.splice(this._$Eg.indexOf(t) >>> 0, 1);
   }
-
   _$Em() {
     this.constructor.elementProperties.forEach((t, i) => {
       this.hasOwnProperty(i) && (this._$Et.set(i, this[i]), delete this[i]);
     });
   }
-
   createRenderRoot() {
     var t;
     const s = null !== (t = this.shadowRoot) && void 0 !== t ? t : this.attachShadow(this.constructor.shadowRootOptions);
     return i$1(s, this.constructor.elementStyles), s;
   }
-
   connectedCallback() {
     var t;
     void 0 === this.renderRoot && (this.renderRoot = this.createRenderRoot()), this.enableUpdating(!0), null === (t = this._$Eg) || void 0 === t || t.forEach(t => {
@@ -223,9 +765,7 @@ class a$1 extends HTMLElement {
       return null === (i = t.hostConnected) || void 0 === i ? void 0 : i.call(t);
     });
   }
-
   enableUpdating(t) {}
-
   disconnectedCallback() {
     var t;
     null === (t = this._$Eg) || void 0 === t || t.forEach(t => {
@@ -233,65 +773,51 @@ class a$1 extends HTMLElement {
       return null === (i = t.hostDisconnected) || void 0 === i ? void 0 : i.call(t);
     });
   }
-
   attributeChangedCallback(t, i, s) {
     this._$AK(t, s);
   }
-
   _$ES(t, i, s = l$3) {
     var e, r;
-
     const h = this.constructor._$Eh(t, s);
-
     if (void 0 !== h && !0 === s.reflect) {
       const n = (null !== (r = null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute) && void 0 !== r ? r : o$2.toAttribute)(i, s.type);
       this._$Ei = t, null == n ? this.removeAttribute(h) : this.setAttribute(h, n), this._$Ei = null;
     }
   }
-
   _$AK(t, i) {
     var s, e, r;
-
     const h = this.constructor,
-          n = h._$Eu.get(t);
-
+      n = h._$Eu.get(t);
     if (void 0 !== n && this._$Ei !== n) {
       const t = h.getPropertyOptions(n),
-            l = t.converter,
-            a = null !== (r = null !== (e = null === (s = l) || void 0 === s ? void 0 : s.fromAttribute) && void 0 !== e ? e : "function" == typeof l ? l : null) && void 0 !== r ? r : o$2.fromAttribute;
+        l = t.converter,
+        a = null !== (r = null !== (e = null === (s = l) || void 0 === s ? void 0 : s.fromAttribute) && void 0 !== e ? e : "function" == typeof l ? l : null) && void 0 !== r ? r : o$2.fromAttribute;
       this._$Ei = n, this[n] = a(i, t.type), this._$Ei = null;
     }
   }
-
   requestUpdate(t, i, s) {
     let e = !0;
     void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || n$2)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$Ei !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$Ep = this._$E_());
   }
-
   async _$E_() {
     this.isUpdatePending = !0;
-
     try {
       await this._$Ep;
     } catch (t) {
       Promise.reject(t);
     }
-
     const t = this.scheduleUpdate();
     return null != t && (await t), !this.isUpdatePending;
   }
-
   scheduleUpdate() {
     return this.performUpdate();
   }
-
   performUpdate() {
     var t;
     if (!this.isUpdatePending) return;
     this.hasUpdated, this._$Et && (this._$Et.forEach((t, i) => this[i] = t), this._$Et = void 0);
     let i = !1;
     const s = this._$AL;
-
     try {
       i = this.shouldUpdate(s), i ? (this.willUpdate(s), null === (t = this._$Eg) || void 0 === t || t.forEach(t => {
         var i;
@@ -300,12 +826,9 @@ class a$1 extends HTMLElement {
     } catch (t) {
       throw i = !1, this._$EU(), t;
     }
-
     i && this._$AE(s);
   }
-
   willUpdate(t) {}
-
   _$AE(t) {
     var i;
     null === (i = this._$Eg) || void 0 === i || i.forEach(t => {
@@ -313,33 +836,24 @@ class a$1 extends HTMLElement {
       return null === (i = t.hostUpdated) || void 0 === i ? void 0 : i.call(t);
     }), this.hasUpdated || (this.hasUpdated = !0, this.firstUpdated(t)), this.updated(t);
   }
-
   _$EU() {
     this._$AL = new Map(), this.isUpdatePending = !1;
   }
-
   get updateComplete() {
     return this.getUpdateComplete();
   }
-
   getUpdateComplete() {
     return this._$Ep;
   }
-
   shouldUpdate(t) {
     return !0;
   }
-
   update(t) {
     void 0 !== this._$EC && (this._$EC.forEach((t, i) => this._$ES(i, this[i], t)), this._$EC = void 0), this._$EU();
   }
-
   updated(t) {}
-
   firstUpdated(t) {}
-
-}
-
+};
 a$1.finalized = !0, a$1.elementProperties = new Map(), a$1.elementStyles = [], a$1.shadowRootOptions = {
   mode: "open"
 }, null == h$1 || h$1({
@@ -352,77 +866,69 @@ a$1.finalized = !0, a$1.elementProperties = new Map(), a$1.elementStyles = [], a
  * SPDX-License-Identifier: BSD-3-Clause
  */
 var t;
-
 const i = globalThis.trustedTypes,
-      s$1 = i ? i.createPolicy("lit-html", {
-  createHTML: t => t
-}) : void 0,
-      e = `lit$${(Math.random() + "").slice(9)}$`,
-      o$1 = "?" + e,
-      n$1 = `<${o$1}>`,
-      l$2 = document,
-      h = (t = "") => l$2.createComment(t),
-      r = t => null === t || "object" != typeof t && "function" != typeof t,
-      d = Array.isArray,
-      u = t => {
-  var i;
-  return d(t) || "function" == typeof (null === (i = t) || void 0 === i ? void 0 : i[Symbol.iterator]);
-},
-      c = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
-      v = /-->/g,
-      a = />/g,
-      f = />|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g,
-      _$p = /'/g,
-      m = /"/g,
-      g = /^(?:script|style|textarea|title)$/i,
-      p = t => (i, ...s) => ({
-  _$litType$: t,
-  strings: i,
-  values: s
-}),
-      $ = p(1),
-      y$1 = p(2),
-      b = Symbol.for("lit-noChange"),
-      w = Symbol.for("lit-nothing"),
-      T = new WeakMap(),
-      x$1 = (t, i, s) => {
-  var e, o;
-  const n = null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i;
-  let l = n._$litPart$;
-
-  if (void 0 === l) {
-    const t = null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o ? o : null;
-    n._$litPart$ = l = new N(i.insertBefore(h(), t), t, void 0, null != s ? s : {});
-  }
-
-  return l._$AI(t), l;
-},
-      A = l$2.createTreeWalker(l$2, 129, null, !1),
-      C = (t, i) => {
-  const o = t.length - 1,
-        l = [];
-  let h,
+  s$1 = i ? i.createPolicy("lit-html", {
+    createHTML: t => t
+  }) : void 0,
+  e = `lit$${(Math.random() + "").slice(9)}$`,
+  o$1 = "?" + e,
+  n$1 = `<${o$1}>`,
+  l$2 = document,
+  h = (t = "") => l$2.createComment(t),
+  r = t => null === t || "object" != typeof t && "function" != typeof t,
+  d = Array.isArray,
+  u = t => {
+    var i;
+    return d(t) || "function" == typeof (null === (i = t) || void 0 === i ? void 0 : i[Symbol.iterator]);
+  },
+  c = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
+  v = /-->/g,
+  a = />/g,
+  f = />|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g,
+  _ = /'/g,
+  m = /"/g,
+  g = /^(?:script|style|textarea|title)$/i,
+  p = t => (i, ...s) => ({
+    _$litType$: t,
+    strings: i,
+    values: s
+  }),
+  $ = p(1),
+  y$1 = p(2),
+  b = Symbol.for("lit-noChange"),
+  w = Symbol.for("lit-nothing"),
+  T = new WeakMap(),
+  x$1 = (t, i, s) => {
+    var e, o;
+    const n = null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i;
+    let l = n._$litPart$;
+    if (void 0 === l) {
+      const t = null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o ? o : null;
+      n._$litPart$ = l = new N(i.insertBefore(h(), t), t, void 0, null != s ? s : {});
+    }
+    return l._$AI(t), l;
+  },
+  A = l$2.createTreeWalker(l$2, 129, null, !1),
+  C = (t, i) => {
+    const o = t.length - 1,
+      l = [];
+    let h,
       r = 2 === i ? "<svg>" : "",
       d = c;
-
-  for (let i = 0; i < o; i++) {
-    const s = t[i];
-    let o,
+    for (let i = 0; i < o; i++) {
+      const s = t[i];
+      let o,
         u,
         p = -1,
         $ = 0;
-
-    for (; $ < s.length && (d.lastIndex = $, u = d.exec(s), null !== u);) $ = d.lastIndex, d === c ? "!--" === u[1] ? d = v : void 0 !== u[1] ? d = a : void 0 !== u[2] ? (g.test(u[2]) && (h = RegExp("</" + u[2], "g")), d = f) : void 0 !== u[3] && (d = f) : d === f ? ">" === u[0] ? (d = null != h ? h : c, p = -1) : void 0 === u[1] ? p = -2 : (p = d.lastIndex - u[2].length, o = u[1], d = void 0 === u[3] ? f : '"' === u[3] ? m : _$p) : d === m || d === _$p ? d = f : d === v || d === a ? d = c : (d = f, h = void 0);
-
-    const y = d === f && t[i + 1].startsWith("/>") ? " " : "";
-    r += d === c ? s + n$1 : p >= 0 ? (l.push(o), s.slice(0, p) + "$lit$" + s.slice(p) + e + y) : s + e + (-2 === p ? (l.push(void 0), i) : y);
-  }
-
-  const u = r + (t[o] || "<?>") + (2 === i ? "</svg>" : "");
-  if (!Array.isArray(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
-  return [void 0 !== s$1 ? s$1.createHTML(u) : u, l];
-};
-
+      for (; $ < s.length && (d.lastIndex = $, u = d.exec(s), null !== u);) $ = d.lastIndex, d === c ? "!--" === u[1] ? d = v : void 0 !== u[1] ? d = a : void 0 !== u[2] ? (g.test(u[2]) && (h = RegExp("</" + u[2], "g")), d = f) : void 0 !== u[3] && (d = f) : d === f ? ">" === u[0] ? (d = null != h ? h : c, p = -1) : void 0 === u[1] ? p = -2 : (p = d.lastIndex - u[2].length, o = u[1], d = void 0 === u[3] ? f : '"' === u[3] ? m : _) : d === m || d === _ ? d = f : d === v || d === a ? d = c : (d = f, h = void 0);
+      const y = d === f && t[i + 1].startsWith("/>") ? " " : "";
+      r += d === c ? s + n$1 : p >= 0 ? (l.push(o), s.slice(0, p) + "$lit$" + s.slice(p) + e + y) : s + e + (-2 === p ? (l.push(void 0), i) : y);
+    }
+    const u = r + (t[o] || "<?>") + (2 === i ? "</svg>" : "");
+    if (!Array.isArray(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
+    return [void 0 !== s$1 ? s$1.createHTML(u) : u, l];
+  };
 class E {
   constructor({
     strings: t,
@@ -431,28 +937,24 @@ class E {
     let l;
     this.parts = [];
     let r = 0,
-        d = 0;
+      d = 0;
     const u = t.length - 1,
-          c = this.parts,
-          [v, a] = C(t, s);
-
+      c = this.parts,
+      [v, a] = C(t, s);
     if (this.el = E.createElement(v, n), A.currentNode = this.el.content, 2 === s) {
       const t = this.el.content,
-            i = t.firstChild;
+        i = t.firstChild;
       i.remove(), t.append(...i.childNodes);
     }
-
     for (; null !== (l = A.nextNode()) && c.length < u;) {
       if (1 === l.nodeType) {
         if (l.hasAttributes()) {
           const t = [];
-
           for (const i of l.getAttributeNames()) if (i.endsWith("$lit$") || i.startsWith(e)) {
             const s = a[d++];
-
             if (t.push(i), void 0 !== s) {
               const t = l.getAttribute(s.toLowerCase() + "$lit$").split(e),
-                    i = /([.?@])?(.*)/.exec(s);
+                i = /([.?@])?(.*)/.exec(s);
               c.push({
                 type: 1,
                 index: r,
@@ -465,22 +967,17 @@ class E {
               index: r
             });
           }
-
           for (const i of t) l.removeAttribute(i);
         }
-
         if (g.test(l.tagName)) {
           const t = l.textContent.split(e),
-                s = t.length - 1;
-
+            s = t.length - 1;
           if (s > 0) {
             l.textContent = i ? i.emptyScript : "";
-
             for (let i = 0; i < s; i++) l.append(t[i], h()), A.nextNode(), c.push({
               type: 2,
               index: ++r
             });
-
             l.append(t[s], h());
           }
         }
@@ -489,24 +986,19 @@ class E {
         index: r
       });else {
         let t = -1;
-
         for (; -1 !== (t = l.data.indexOf(e, t + 1));) c.push({
           type: 7,
           index: r
         }), t += e.length - 1;
       }
-
       r++;
     }
   }
-
   static createElement(t, i) {
     const s = l$2.createElement("template");
     return s.innerHTML = t, s;
   }
-
 }
-
 function P(t, i, s = t, e) {
   var o, n, l, h;
   if (i === b) return i;
@@ -514,233 +1006,182 @@ function P(t, i, s = t, e) {
   const u = r(i) ? void 0 : i._$litDirective$;
   return (null == d ? void 0 : d.constructor) !== u && (null === (n = null == d ? void 0 : d._$AO) || void 0 === n || n.call(d, !1), void 0 === u ? d = void 0 : (d = new u(t), d._$AT(t, s, e)), void 0 !== e ? (null !== (l = (h = s)._$Cl) && void 0 !== l ? l : h._$Cl = [])[e] = d : s._$Cu = d), void 0 !== d && (i = P(t, d._$AS(t, i.values), d, e)), i;
 }
-
 class V {
   constructor(t, i) {
     this.v = [], this._$AN = void 0, this._$AD = t, this._$AM = i;
   }
-
   get parentNode() {
     return this._$AM.parentNode;
   }
-
   get _$AU() {
     return this._$AM._$AU;
   }
-
   p(t) {
     var i;
     const {
-      el: {
-        content: s
-      },
-      parts: e
-    } = this._$AD,
-          o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i ? i : l$2).importNode(s, !0);
+        el: {
+          content: s
+        },
+        parts: e
+      } = this._$AD,
+      o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i ? i : l$2).importNode(s, !0);
     A.currentNode = o;
     let n = A.nextNode(),
-        h = 0,
-        r = 0,
-        d = e[0];
-
+      h = 0,
+      r = 0,
+      d = e[0];
     for (; void 0 !== d;) {
       if (h === d.index) {
         let i;
         2 === d.type ? i = new N(n, n.nextSibling, this, t) : 1 === d.type ? i = new d.ctor(n, d.name, d.strings, this, t) : 6 === d.type && (i = new L(n, this, t)), this.v.push(i), d = e[++r];
       }
-
       h !== (null == d ? void 0 : d.index) && (n = A.nextNode(), h++);
     }
-
     return o;
   }
-
   m(t) {
     let i = 0;
-
     for (const s of this.v) void 0 !== s && (void 0 !== s.strings ? (s._$AI(t, s, i), i += s.strings.length - 2) : s._$AI(t[i])), i++;
   }
-
 }
-
 class N {
   constructor(t, i, s, e) {
     var o;
     this.type = 2, this._$AH = w, this._$AN = void 0, this._$AA = t, this._$AB = i, this._$AM = s, this.options = e, this._$Cg = null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o;
   }
-
   get _$AU() {
     var t, i;
     return null !== (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) && void 0 !== i ? i : this._$Cg;
   }
-
   get parentNode() {
     let t = this._$AA.parentNode;
     const i = this._$AM;
     return void 0 !== i && 11 === t.nodeType && (t = i.parentNode), t;
   }
-
   get startNode() {
     return this._$AA;
   }
-
   get endNode() {
     return this._$AB;
   }
-
   _$AI(t, i = this) {
     t = P(this, t, i), r(t) ? t === w || null == t || "" === t ? (this._$AH !== w && this._$AR(), this._$AH = w) : t !== this._$AH && t !== b && this.$(t) : void 0 !== t._$litType$ ? this.T(t) : void 0 !== t.nodeType ? this.k(t) : u(t) ? this.S(t) : this.$(t);
   }
-
   A(t, i = this._$AB) {
     return this._$AA.parentNode.insertBefore(t, i);
   }
-
   k(t) {
     this._$AH !== t && (this._$AR(), this._$AH = this.A(t));
   }
-
   $(t) {
     this._$AH !== w && r(this._$AH) ? this._$AA.nextSibling.data = t : this.k(l$2.createTextNode(t)), this._$AH = t;
   }
-
   T(t) {
     var i;
     const {
-      values: s,
-      _$litType$: e
-    } = t,
-          o = "number" == typeof e ? this._$AC(t) : (void 0 === e.el && (e.el = E.createElement(e.h, this.options)), e);
+        values: s,
+        _$litType$: e
+      } = t,
+      o = "number" == typeof e ? this._$AC(t) : (void 0 === e.el && (e.el = E.createElement(e.h, this.options)), e);
     if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o) this._$AH.m(s);else {
       const t = new V(o, this),
-            i = t.p(this.options);
+        i = t.p(this.options);
       t.m(s), this.k(i), this._$AH = t;
     }
   }
-
   _$AC(t) {
     let i = T.get(t.strings);
     return void 0 === i && T.set(t.strings, i = new E(t)), i;
   }
-
   S(t) {
     d(this._$AH) || (this._$AH = [], this._$AR());
     const i = this._$AH;
     let s,
-        e = 0;
-
+      e = 0;
     for (const o of t) e === i.length ? i.push(s = new N(this.A(h()), this.A(h()), this, this.options)) : s = i[e], s._$AI(o), e++;
-
     e < i.length && (this._$AR(s && s._$AB.nextSibling, e), i.length = e);
   }
-
   _$AR(t = this._$AA.nextSibling, i) {
     var s;
-
     for (null === (s = this._$AP) || void 0 === s || s.call(this, !1, !0, i); t && t !== this._$AB;) {
       const i = t.nextSibling;
       t.remove(), t = i;
     }
   }
-
   setConnected(t) {
     var i;
     void 0 === this._$AM && (this._$Cg = t, null === (i = this._$AP) || void 0 === i || i.call(this, t));
   }
-
 }
-
 class S {
   constructor(t, i, s, e, o) {
     this.type = 1, this._$AH = w, this._$AN = void 0, this.element = t, this.name = i, this._$AM = e, this.options = o, s.length > 2 || "" !== s[0] || "" !== s[1] ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = w;
   }
-
   get tagName() {
     return this.element.tagName;
   }
-
   get _$AU() {
     return this._$AM._$AU;
   }
-
   _$AI(t, i = this, s, e) {
     const o = this.strings;
     let n = !1;
     if (void 0 === o) t = P(this, t, i, 0), n = !r(t) || t !== this._$AH && t !== b, n && (this._$AH = t);else {
       const e = t;
       let l, h;
-
       for (t = o[0], l = 0; l < o.length - 1; l++) h = P(this, e[s + l], i, l), h === b && (h = this._$AH[l]), n || (n = !r(h) || h !== this._$AH[l]), h === w ? t = w : t !== w && (t += (null != h ? h : "") + o[l + 1]), this._$AH[l] = h;
     }
     n && !e && this.C(t);
   }
-
   C(t) {
     t === w ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, null != t ? t : "");
   }
-
 }
-
 class M extends S {
   constructor() {
     super(...arguments), this.type = 3;
   }
-
   C(t) {
     this.element[this.name] = t === w ? void 0 : t;
   }
-
 }
-
 const k = i ? i.emptyScript : "";
-
 class H extends S {
   constructor() {
     super(...arguments), this.type = 4;
   }
-
   C(t) {
     t && t !== w ? this.element.setAttribute(this.name, k) : this.element.removeAttribute(this.name);
   }
-
 }
-
 class I extends S {
   constructor(t, i, s, e, o) {
     super(t, i, s, e, o), this.type = 5;
   }
-
   _$AI(t, i = this) {
     var s;
     if ((t = null !== (s = P(this, t, i, 0)) && void 0 !== s ? s : w) === b) return;
     const e = this._$AH,
-          o = t === w && e !== w || t.capture !== e.capture || t.once !== e.once || t.passive !== e.passive,
-          n = t !== w && (e === w || o);
+      o = t === w && e !== w || t.capture !== e.capture || t.once !== e.once || t.passive !== e.passive,
+      n = t !== w && (e === w || o);
     o && this.element.removeEventListener(this.name, this, e), n && this.element.addEventListener(this.name, this, t), this._$AH = t;
   }
-
   handleEvent(t) {
     var i, s;
     "function" == typeof this._$AH ? this._$AH.call(null !== (s = null === (i = this.options) || void 0 === i ? void 0 : i.host) && void 0 !== s ? s : this.element, t) : this._$AH.handleEvent(t);
   }
-
 }
-
 class L {
   constructor(t, i, s) {
     this.element = t, this.type = 6, this._$AN = void 0, this._$AM = i, this.options = s;
   }
-
   get _$AU() {
     return this._$AM._$AU;
   }
-
   _$AI(t) {
     P(this, t);
   }
-
 }
-
 const z = window.litHtmlPolyfillSupport;
 null == z || z(E, N), (null !== (t = globalThis.litHtmlVersions) && void 0 !== t ? t : globalThis.litHtmlVersions = []).push("2.2.1");
 
@@ -749,43 +1190,34 @@ null == z || z(E, N), (null !== (t = globalThis.litHtmlVersions) && void 0 !== t
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-
 var l$1, o;
-
 class s extends a$1 {
   constructor() {
     super(...arguments), this.renderOptions = {
       host: this
     }, this._$Dt = void 0;
   }
-
   createRenderRoot() {
     var t, e;
     const i = super.createRenderRoot();
     return null !== (t = (e = this.renderOptions).renderBefore) && void 0 !== t || (e.renderBefore = i.firstChild), i;
   }
-
   update(t) {
     const i = this.render();
     this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Dt = x$1(i, this.renderRoot, this.renderOptions);
   }
-
   connectedCallback() {
     var t;
     super.connectedCallback(), null === (t = this._$Dt) || void 0 === t || t.setConnected(!0);
   }
-
   disconnectedCallback() {
     var t;
     super.disconnectedCallback(), null === (t = this._$Dt) || void 0 === t || t.setConnected(!1);
   }
-
   render() {
     return b;
   }
-
 }
-
 s.finalized = !0, s._$litElement$ = !0, null === (l$1 = globalThis.litElementHydrateSupport) || void 0 === l$1 || l$1.call(globalThis, {
   LitElement: s
 });
@@ -803,46 +1235,35 @@ function bisector(f) {
   let delta = f;
   let compare1 = f;
   let compare2 = f;
-
   if (f.length !== 2) {
     delta = (d, x) => f(d) - x;
-
     compare1 = ascending$2;
-
     compare2 = (d, x) => ascending$2(f(d), x);
   }
-
   function left(a, x, lo = 0, hi = a.length) {
     if (lo < hi) {
       if (compare1(x, x) !== 0) return hi;
-
       do {
         const mid = lo + hi >>> 1;
         if (compare2(a[mid], x) < 0) lo = mid + 1;else hi = mid;
       } while (lo < hi);
     }
-
     return lo;
   }
-
   function right(a, x, lo = 0, hi = a.length) {
     if (lo < hi) {
       if (compare1(x, x) !== 0) return hi;
-
       do {
         const mid = lo + hi >>> 1;
         if (compare2(a[mid], x) <= 0) lo = mid + 1;else hi = mid;
       } while (lo < hi);
     }
-
     return lo;
   }
-
   function center(a, x, lo = 0, hi = a.length) {
     const i = left(a, x, lo, hi - 1);
     return i > lo && delta(a[i - 1], x) > -delta(a[i], x) ? i - 1 : i;
   }
-
   return {
     left,
     center,
@@ -859,9 +1280,8 @@ const bisectRight = ascendingBisect.right;
 bisector(number$2).center;
 var bisect = bisectRight;
 
-function count(values, valueof) {
+function count$1(values, valueof) {
   let count = 0;
-
   if (valueof === undefined) {
     for (let value of values) {
       if (value != null && (value = +value) >= value) {
@@ -870,21 +1290,18 @@ function count(values, valueof) {
     }
   } else {
     let index = -1;
-
     for (let value of values) {
       if ((value = valueof(value, ++index, values)) != null && (value = +value) >= value) {
         ++count;
       }
     }
   }
-
   return count;
 }
 
-function extent(values, valueof) {
+function extent$1(values, valueof) {
   let min;
   let max;
-
   if (valueof === undefined) {
     for (const value of values) {
       if (value != null) {
@@ -898,7 +1315,6 @@ function extent(values, valueof) {
     }
   } else {
     let index = -1;
-
     for (let value of values) {
       if ((value = valueof(value, ++index, values)) != null) {
         if (min === undefined) {
@@ -910,7 +1326,6 @@ function extent(values, valueof) {
       }
     }
   }
-
   return [min, max];
 }
 
@@ -920,35 +1335,29 @@ class Adder {
     this._partials = new Float64Array(32);
     this._n = 0;
   }
-
   add(x) {
     const p = this._partials;
     let i = 0;
-
     for (let j = 0; j < this._n && j < 32; j++) {
       const y = p[j],
-            hi = x + y,
-            lo = Math.abs(x) < Math.abs(y) ? x - (hi - y) : y - (hi - x);
+        hi = x + y,
+        lo = Math.abs(x) < Math.abs(y) ? x - (hi - y) : y - (hi - x);
       if (lo) p[i++] = lo;
       x = hi;
     }
-
     p[i] = x;
     this._n = i + 1;
     return this;
   }
-
   valueOf() {
     const p = this._partials;
     let n = this._n,
-        x,
-        y,
-        lo,
-        hi = 0;
-
+      x,
+      y,
+      lo,
+      hi = 0;
     if (n > 0) {
       hi = p[--n];
-
       while (n > 0) {
         x = hi;
         y = p[--n];
@@ -956,17 +1365,14 @@ class Adder {
         lo = y - (hi - x);
         if (lo) break;
       }
-
       if (n > 0 && (lo < 0 && p[n - 1] < 0 || lo > 0 && p[n - 1] > 0)) {
         y = lo * 2;
         x = hi + y;
         if (y == x - hi) hi = x;
       }
     }
-
     return hi;
   }
-
 }
 
 function identity$6(x) {
@@ -980,62 +1386,56 @@ function constant$5(x) {
   return () => x;
 }
 
-var e10 = Math.sqrt(50),
-    e5 = Math.sqrt(10),
-    e2 = Math.sqrt(2);
-function ticks(start, stop, count) {
+var e10$1 = Math.sqrt(50),
+  e5$1 = Math.sqrt(10),
+  e2$1 = Math.sqrt(2);
+function ticks$1(start, stop, count) {
   var reverse,
-      i = -1,
-      n,
-      ticks,
-      step;
+    i = -1,
+    n,
+    ticks,
+    step;
   stop = +stop, start = +start, count = +count;
   if (start === stop && count > 0) return [start];
   if (reverse = stop < start) n = start, start = stop, stop = n;
-  if ((step = tickIncrement(start, stop, count)) === 0 || !isFinite(step)) return [];
-
+  if ((step = tickIncrement$1(start, stop, count)) === 0 || !isFinite(step)) return [];
   if (step > 0) {
     let r0 = Math.round(start / step),
-        r1 = Math.round(stop / step);
+      r1 = Math.round(stop / step);
     if (r0 * step < start) ++r0;
     if (r1 * step > stop) --r1;
     ticks = new Array(n = r1 - r0 + 1);
-
     while (++i < n) ticks[i] = (r0 + i) * step;
   } else {
     step = -step;
     let r0 = Math.round(start * step),
-        r1 = Math.round(stop * step);
+      r1 = Math.round(stop * step);
     if (r0 / step < start) ++r0;
     if (r1 / step > stop) --r1;
     ticks = new Array(n = r1 - r0 + 1);
-
     while (++i < n) ticks[i] = (r0 + i) / step;
   }
-
   if (reverse) ticks.reverse();
   return ticks;
 }
-function tickIncrement(start, stop, count) {
+function tickIncrement$1(start, stop, count) {
   var step = (stop - start) / Math.max(0, count),
-      power = Math.floor(Math.log(step) / Math.LN10),
-      error = step / Math.pow(10, power);
-  return power >= 0 ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
+    power = Math.floor(Math.log(step) / Math.LN10),
+    error = step / Math.pow(10, power);
+  return power >= 0 ? (error >= e10$1 ? 10 : error >= e5$1 ? 5 : error >= e2$1 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10$1 ? 10 : error >= e5$1 ? 5 : error >= e2$1 ? 2 : 1);
 }
-function tickStep(start, stop, count) {
+function tickStep$1(start, stop, count) {
   var step0 = Math.abs(stop - start) / Math.max(0, count),
-      step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)),
-      error = step0 / step1;
-  if (error >= e10) step1 *= 10;else if (error >= e5) step1 *= 5;else if (error >= e2) step1 *= 2;
+    step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)),
+    error = step0 / step1;
+  if (error >= e10$1) step1 *= 10;else if (error >= e5$1) step1 *= 5;else if (error >= e2$1) step1 *= 2;
   return stop < start ? -step1 : step1;
 }
 
 function nice(start, stop, count) {
   let prestep;
-
   while (true) {
-    const step = tickIncrement(start, stop, count);
-
+    const step = tickIncrement$1(start, stop, count);
     if (step === prestep || step === 0 || !isFinite(step)) {
       return [start, stop];
     } else if (step > 0) {
@@ -1045,53 +1445,50 @@ function nice(start, stop, count) {
       start = Math.ceil(start * step) / step;
       stop = Math.floor(stop * step) / step;
     }
-
     prestep = step;
   }
 }
 
-function thresholdSturges(values) {
-  return Math.ceil(Math.log(count(values)) / Math.LN2) + 1;
+function thresholdSturges$1(values) {
+  return Math.ceil(Math.log(count$1(values)) / Math.LN2) + 1;
 }
 
 function bin() {
   var value = identity$6,
-      domain = extent,
-      threshold = thresholdSturges;
-
+    domain = extent$1,
+    threshold = thresholdSturges$1;
   function histogram(data) {
     if (!Array.isArray(data)) data = Array.from(data);
     var i,
-        n = data.length,
-        x,
-        values = new Array(n);
-
+      n = data.length,
+      x,
+      values = new Array(n);
     for (i = 0; i < n; ++i) {
       values[i] = value(data[i], i, data);
     }
-
     var xz = domain(values),
-        x0 = xz[0],
-        x1 = xz[1],
-        tz = threshold(values, x0, x1); // Convert number of thresholds into uniform thresholds, and nice the
-    // default domain accordingly.
+      x0 = xz[0],
+      x1 = xz[1],
+      tz = threshold(values, x0, x1);
 
+    // Convert number of thresholds into uniform thresholds, and nice the
+    // default domain accordingly.
     if (!Array.isArray(tz)) {
       const max = x1,
-            tn = +tz;
-      if (domain === extent) [x0, x1] = nice(x0, x1, tn);
-      tz = ticks(x0, x1, tn); // If the last threshold is coincident with the domain’s upper bound, the
+        tn = +tz;
+      if (domain === extent$1) [x0, x1] = nice(x0, x1, tn);
+      tz = ticks$1(x0, x1, tn);
+
+      // If the last threshold is coincident with the domain’s upper bound, the
       // last bin will be zero-width. If the default domain is used, and this
       // last threshold is coincident with the maximum input value, we can
       // extend the niced upper bound by one tick to ensure uniform bin widths;
       // otherwise, we simply remove the last threshold. Note that we don’t
       // coerce values or the domain to numbers, and thus must be careful to
       // compare order (>=) rather than strict equality (===)!
-
       if (tz[tz.length - 1] >= x1) {
-        if (max >= x1 && domain === extent) {
-          const step = tickIncrement(x0, x1, tn);
-
+        if (max >= x1 && domain === extent$1) {
+          const step = tickIncrement$1(x0, x1, tn);
           if (isFinite(step)) {
             if (step > 0) {
               x1 = (Math.floor(x1 / step) + 1) * step;
@@ -1103,48 +1500,40 @@ function bin() {
           tz.pop();
         }
       }
-    } // Remove any thresholds outside the domain.
+    }
 
-
+    // Remove any thresholds outside the domain.
     var m = tz.length;
-
     while (tz[0] <= x0) tz.shift(), --m;
-
     while (tz[m - 1] > x1) tz.pop(), --m;
-
     var bins = new Array(m + 1),
-        bin; // Initialize bins.
+      bin;
 
+    // Initialize bins.
     for (i = 0; i <= m; ++i) {
       bin = bins[i] = [];
       bin.x0 = i > 0 ? tz[i - 1] : x0;
       bin.x1 = i < m ? tz[i] : x1;
-    } // Assign data to bins by value, ignoring any outside the domain.
+    }
 
-
+    // Assign data to bins by value, ignoring any outside the domain.
     for (i = 0; i < n; ++i) {
       x = values[i];
-
       if (x != null && x0 <= x && x <= x1) {
         bins[bisect(tz, x, 0, m)].push(data[i]);
       }
     }
-
     return bins;
   }
-
   histogram.value = function (_) {
     return arguments.length ? (value = typeof _ === "function" ? _ : constant$5(_), histogram) : value;
   };
-
   histogram.domain = function (_) {
     return arguments.length ? (domain = typeof _ === "function" ? _ : constant$5([_[0], _[1]]), histogram) : domain;
   };
-
   histogram.thresholds = function (_) {
     return arguments.length ? (threshold = typeof _ === "function" ? _ : Array.isArray(_) ? constant$5(slice$1.call(_)) : constant$5(_), histogram) : threshold;
   };
-
   return histogram;
 }
 
@@ -1153,7 +1542,6 @@ function* flatten(arrays) {
     yield* array;
   }
 }
-
 function merge(arrays) {
   return Array.from(flatten(arrays));
 }
@@ -1161,13 +1549,11 @@ function merge(arrays) {
 function range(start, stop, step) {
   start = +start, stop = +stop, step = (n = arguments.length) < 2 ? (stop = start, start = 0, 1) : n < 3 ? 1 : +step;
   var i = -1,
-      n = Math.max(0, Math.ceil((stop - start) / step)) | 0,
-      range = new Array(n);
-
+    n = Math.max(0, Math.ceil((stop - start) / step)) | 0,
+    range = new Array(n);
   while (++i < n) {
     range[i] = start + i * step;
   }
-
   return range;
 }
 
@@ -1176,65 +1562,57 @@ function identity$5 (x) {
 }
 
 var top = 1,
-    right = 2,
-    bottom = 3,
-    left = 4,
-    epsilon$2 = 1e-6;
-
+  right = 2,
+  bottom = 3,
+  left = 4,
+  epsilon$2 = 1e-6;
 function translateX(x) {
   return "translate(" + x + ",0)";
 }
-
 function translateY(y) {
   return "translate(0," + y + ")";
 }
-
 function number$1(scale) {
   return d => +scale(d);
 }
-
 function center(scale, offset) {
   offset = Math.max(0, scale.bandwidth() - offset * 2) / 2;
   if (scale.round()) offset = Math.round(offset);
   return d => +scale(d) + offset;
 }
-
 function entering() {
   return !this.__axis;
 }
-
 function axis(orient, scale) {
   var tickArguments = [],
-      tickValues = null,
-      tickFormat = null,
-      tickSizeInner = 6,
-      tickSizeOuter = 6,
-      tickPadding = 3,
-      offset = typeof window !== "undefined" && window.devicePixelRatio > 1 ? 0 : 0.5,
-      k = orient === top || orient === left ? -1 : 1,
-      x = orient === left || orient === right ? "x" : "y",
-      transform = orient === top || orient === bottom ? translateX : translateY;
-
+    tickValues = null,
+    tickFormat = null,
+    tickSizeInner = 6,
+    tickSizeOuter = 6,
+    tickPadding = 3,
+    offset = typeof window !== "undefined" && window.devicePixelRatio > 1 ? 0 : 0.5,
+    k = orient === top || orient === left ? -1 : 1,
+    x = orient === left || orient === right ? "x" : "y",
+    transform = orient === top || orient === bottom ? translateX : translateY;
   function axis(context) {
     var values = tickValues == null ? scale.ticks ? scale.ticks.apply(scale, tickArguments) : scale.domain() : tickValues,
-        format = tickFormat == null ? scale.tickFormat ? scale.tickFormat.apply(scale, tickArguments) : identity$5 : tickFormat,
-        spacing = Math.max(tickSizeInner, 0) + tickPadding,
-        range = scale.range(),
-        range0 = +range[0] + offset,
-        range1 = +range[range.length - 1] + offset,
-        position = (scale.bandwidth ? center : number$1)(scale.copy(), offset),
-        selection = context.selection ? context.selection() : context,
-        path = selection.selectAll(".domain").data([null]),
-        tick = selection.selectAll(".tick").data(values, scale).order(),
-        tickExit = tick.exit(),
-        tickEnter = tick.enter().append("g").attr("class", "tick"),
-        line = tick.select("line"),
-        text = tick.select("text");
+      format = tickFormat == null ? scale.tickFormat ? scale.tickFormat.apply(scale, tickArguments) : identity$5 : tickFormat,
+      spacing = Math.max(tickSizeInner, 0) + tickPadding,
+      range = scale.range(),
+      range0 = +range[0] + offset,
+      range1 = +range[range.length - 1] + offset,
+      position = (scale.bandwidth ? center : number$1)(scale.copy(), offset),
+      selection = context.selection ? context.selection() : context,
+      path = selection.selectAll(".domain").data([null]),
+      tick = selection.selectAll(".tick").data(values, scale).order(),
+      tickExit = tick.exit(),
+      tickEnter = tick.enter().append("g").attr("class", "tick"),
+      line = tick.select("line"),
+      text = tick.select("text");
     path = path.merge(path.enter().insert("path", ".tick").attr("class", "domain").attr("stroke", "currentColor"));
     tick = tick.merge(tickEnter);
     line = line.merge(tickEnter.append("line").attr("stroke", "currentColor").attr(x + "2", k * tickSizeInner));
     text = text.merge(tickEnter.append("text").attr("fill", "currentColor").attr(x, k * spacing).attr("dy", orient === top ? "0em" : orient === bottom ? "0.71em" : "0.32em"));
-
     if (context !== selection) {
       path = path.transition(context);
       tick = tick.transition(context);
@@ -1248,7 +1626,6 @@ function axis(orient, scale) {
         return transform((p && isFinite(p = p(d)) ? p : position(d)) + offset);
       });
     }
-
     tickExit.remove();
     path.attr("d", orient === left || orient === right ? tickSizeOuter ? "M" + k * tickSizeOuter + "," + range0 + "H" + offset + "V" + range1 + "H" + k * tickSizeOuter : "M" + offset + "," + range0 + "V" + range1 : tickSizeOuter ? "M" + range0 + "," + k * tickSizeOuter + "V" + offset + "H" + range1 + "V" + k * tickSizeOuter : "M" + range0 + "," + offset + "H" + range1);
     tick.attr("opacity", 1).attr("transform", function (d) {
@@ -1261,47 +1638,36 @@ function axis(orient, scale) {
       this.__axis = position;
     });
   }
-
   axis.scale = function (_) {
     return arguments.length ? (scale = _, axis) : scale;
   };
-
   axis.ticks = function () {
     return tickArguments = Array.from(arguments), axis;
   };
-
   axis.tickArguments = function (_) {
     return arguments.length ? (tickArguments = _ == null ? [] : Array.from(_), axis) : tickArguments.slice();
   };
-
   axis.tickValues = function (_) {
     return arguments.length ? (tickValues = _ == null ? null : Array.from(_), axis) : tickValues && tickValues.slice();
   };
-
   axis.tickFormat = function (_) {
     return arguments.length ? (tickFormat = _, axis) : tickFormat;
   };
-
   axis.tickSize = function (_) {
     return arguments.length ? (tickSizeInner = tickSizeOuter = +_, axis) : tickSizeInner;
   };
-
   axis.tickSizeInner = function (_) {
     return arguments.length ? (tickSizeInner = +_, axis) : tickSizeInner;
   };
-
   axis.tickSizeOuter = function (_) {
     return arguments.length ? (tickSizeOuter = +_, axis) : tickSizeOuter;
   };
-
   axis.tickPadding = function (_) {
     return arguments.length ? (tickPadding = +_, axis) : tickPadding;
   };
-
   axis.offset = function (_) {
     return arguments.length ? (offset = +_, axis) : offset;
   };
-
   return axis;
 }
 function axisRight(scale) {
@@ -1317,24 +1683,20 @@ function axisLeft(scale) {
 var noop$2 = {
   value: () => {}
 };
-
 function dispatch() {
   for (var i = 0, n = arguments.length, _ = {}, t; i < n; ++i) {
     if (!(t = arguments[i] + "") || t in _ || /[\s.]/.test(t)) throw new Error("illegal type: " + t);
     _[t] = [];
   }
-
   return new Dispatch(_);
 }
-
 function Dispatch(_) {
   this._ = _;
 }
-
 function parseTypenames$1(typenames, types) {
   return typenames.trim().split(/^|\s+/).map(function (t) {
     var name = "",
-        i = t.indexOf(".");
+      i = t.indexOf(".");
     if (i >= 0) name = t.slice(i + 1), t = t.slice(0, i);
     if (t && !types.hasOwnProperty(t)) throw new Error("unknown type: " + t);
     return {
@@ -1343,53 +1705,45 @@ function parseTypenames$1(typenames, types) {
     };
   });
 }
-
 Dispatch.prototype = dispatch.prototype = {
   constructor: Dispatch,
   on: function (typename, callback) {
     var _ = this._,
-        T = parseTypenames$1(typename + "", _),
-        t,
-        i = -1,
-        n = T.length; // If no callback was specified, return the callback of the given type and name.
+      T = parseTypenames$1(typename + "", _),
+      t,
+      i = -1,
+      n = T.length;
 
+    // If no callback was specified, return the callback of the given type and name.
     if (arguments.length < 2) {
       while (++i < n) if ((t = (typename = T[i]).type) && (t = get$1(_[t], typename.name))) return t;
-
       return;
-    } // If a type was specified, set the callback for the given type and name.
+    }
+
+    // If a type was specified, set the callback for the given type and name.
     // Otherwise, if a null callback was specified, remove callbacks of the given name.
-
-
     if (callback != null && typeof callback !== "function") throw new Error("invalid callback: " + callback);
-
     while (++i < n) {
       if (t = (typename = T[i]).type) _[t] = set$1(_[t], typename.name, callback);else if (callback == null) for (t in _) _[t] = set$1(_[t], typename.name, null);
     }
-
     return this;
   },
   copy: function () {
     var copy = {},
-        _ = this._;
-
+      _ = this._;
     for (var t in _) copy[t] = _[t].slice();
-
     return new Dispatch(copy);
   },
   call: function (type, that) {
     if ((n = arguments.length - 2) > 0) for (var args = new Array(n), i = 0, n, t; i < n; ++i) args[i] = arguments[i + 2];
     if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
-
     for (t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
   },
   apply: function (type, that, args) {
     if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
-
     for (var t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
   }
 };
-
 function get$1(type, name) {
   for (var i = 0, n = type.length, c; i < n; ++i) {
     if ((c = type[i]).name === name) {
@@ -1397,7 +1751,6 @@ function get$1(type, name) {
     }
   }
 }
-
 function set$1(type, name, callback) {
   for (var i = 0, n = type.length; i < n; ++i) {
     if (type[i].name === name) {
@@ -1405,7 +1758,6 @@ function set$1(type, name, callback) {
       break;
     }
   }
-
   if (callback != null) type.push({
     name: name,
     value: callback
@@ -1424,7 +1776,7 @@ var namespaces = {
 
 function namespace (name) {
   var prefix = name += "",
-      i = prefix.indexOf(":");
+    i = prefix.indexOf(":");
   if (i >= 0 && (prefix = name.slice(0, i)) !== "xmlns") name = name.slice(i + 1);
   return namespaces.hasOwnProperty(prefix) ? {
     space: namespaces[prefix],
@@ -1435,24 +1787,21 @@ function namespace (name) {
 function creatorInherit(name) {
   return function () {
     var document = this.ownerDocument,
-        uri = this.namespaceURI;
+      uri = this.namespaceURI;
     return uri === xhtml && document.documentElement.namespaceURI === xhtml ? document.createElement(name) : document.createElementNS(uri, name);
   };
 }
-
 function creatorFixed(fullname) {
   return function () {
     return this.ownerDocument.createElementNS(fullname.space, fullname.local);
   };
 }
-
 function creator (name) {
   var fullname = namespace(name);
   return (fullname.local ? creatorFixed : creatorInherit)(fullname);
 }
 
 function none() {}
-
 function selector (selector) {
   return selector == null ? none : function () {
     return this.querySelector(selector);
@@ -1461,7 +1810,6 @@ function selector (selector) {
 
 function selection_select (select) {
   if (typeof select !== "function") select = selector(select);
-
   for (var groups = this._groups, m = groups.length, subgroups = new Array(m), j = 0; j < m; ++j) {
     for (var group = groups[j], n = group.length, subgroup = subgroups[j] = new Array(n), node, subnode, i = 0; i < n; ++i) {
       if ((node = group[i]) && (subnode = select.call(node, node.__data__, i, group))) {
@@ -1470,7 +1818,6 @@ function selection_select (select) {
       }
     }
   }
-
   return new Selection$1(subgroups, this._parents);
 }
 
@@ -1487,7 +1834,6 @@ function array$2(x) {
 function empty() {
   return [];
 }
-
 function selectorAll (selector) {
   return selector == null ? empty : function () {
     return this.querySelectorAll(selector);
@@ -1499,10 +1845,8 @@ function arrayAll(select) {
     return array$2(select.apply(this, arguments));
   };
 }
-
 function selection_selectAll (select) {
   if (typeof select === "function") select = arrayAll(select);else select = selectorAll(select);
-
   for (var groups = this._groups, m = groups.length, subgroups = [], parents = [], j = 0; j < m; ++j) {
     for (var group = groups[j], n = group.length, node, i = 0; i < n; ++i) {
       if (node = group[i]) {
@@ -1511,7 +1855,6 @@ function selection_selectAll (select) {
       }
     }
   }
-
   return new Selection$1(subgroups, parents);
 }
 
@@ -1527,40 +1870,33 @@ function childMatcher(selector) {
 }
 
 var find = Array.prototype.find;
-
 function childFind(match) {
   return function () {
     return find.call(this.children, match);
   };
 }
-
 function childFirst() {
   return this.firstElementChild;
 }
-
 function selection_selectChild (match) {
   return this.select(match == null ? childFirst : childFind(typeof match === "function" ? match : childMatcher(match)));
 }
 
 var filter = Array.prototype.filter;
-
 function children() {
   return Array.from(this.children);
 }
-
 function childrenFilter(match) {
   return function () {
     return filter.call(this.children, match);
   };
 }
-
 function selection_selectChildren (match) {
   return this.selectAll(match == null ? children : childrenFilter(typeof match === "function" ? match : childMatcher(match)));
 }
 
 function selection_filter (match) {
   if (typeof match !== "function") match = matcher(match);
-
   for (var groups = this._groups, m = groups.length, subgroups = new Array(m), j = 0; j < m; ++j) {
     for (var group = groups[j], n = group.length, subgroup = subgroups[j] = [], node, i = 0; i < n; ++i) {
       if ((node = group[i]) && match.call(node, node.__data__, i, group)) {
@@ -1568,7 +1904,6 @@ function selection_filter (match) {
       }
     }
   }
-
   return new Selection$1(subgroups, this._parents);
 }
 
@@ -1610,12 +1945,13 @@ function constant$4 (x) {
 
 function bindIndex(parent, group, enter, update, exit, data) {
   var i = 0,
-      node,
-      groupLength = group.length,
-      dataLength = data.length; // Put any non-null nodes that fit into update.
+    node,
+    groupLength = group.length,
+    dataLength = data.length;
+
+  // Put any non-null nodes that fit into update.
   // Put any null nodes into enter.
   // Put any remaining data into enter.
-
   for (; i < dataLength; ++i) {
     if (node = group[i]) {
       node.__data__ = data[i];
@@ -1623,44 +1959,42 @@ function bindIndex(parent, group, enter, update, exit, data) {
     } else {
       enter[i] = new EnterNode(parent, data[i]);
     }
-  } // Put any non-null nodes that don’t fit into exit.
+  }
 
-
+  // Put any non-null nodes that don’t fit into exit.
   for (; i < groupLength; ++i) {
     if (node = group[i]) {
       exit[i] = node;
     }
   }
 }
-
 function bindKey(parent, group, enter, update, exit, data, key) {
   var i,
-      node,
-      nodeByKeyValue = new Map(),
-      groupLength = group.length,
-      dataLength = data.length,
-      keyValues = new Array(groupLength),
-      keyValue; // Compute the key for each node.
-  // If multiple nodes have the same key, the duplicates are added to exit.
+    node,
+    nodeByKeyValue = new Map(),
+    groupLength = group.length,
+    dataLength = data.length,
+    keyValues = new Array(groupLength),
+    keyValue;
 
+  // Compute the key for each node.
+  // If multiple nodes have the same key, the duplicates are added to exit.
   for (i = 0; i < groupLength; ++i) {
     if (node = group[i]) {
       keyValues[i] = keyValue = key.call(node, node.__data__, i, group) + "";
-
       if (nodeByKeyValue.has(keyValue)) {
         exit[i] = node;
       } else {
         nodeByKeyValue.set(keyValue, node);
       }
     }
-  } // Compute the key for each datum.
+  }
+
+  // Compute the key for each datum.
   // If there a node associated with this key, join and add it to update.
   // If there is not (or the key is a duplicate), add it to enter.
-
-
   for (i = 0; i < dataLength; ++i) {
     keyValue = key.call(parent, data[i], i, data) + "";
-
     if (node = nodeByKeyValue.get(keyValue)) {
       update[i] = node;
       node.__data__ = data[i];
@@ -1668,62 +2002,58 @@ function bindKey(parent, group, enter, update, exit, data, key) {
     } else {
       enter[i] = new EnterNode(parent, data[i]);
     }
-  } // Add any remaining nodes that were not bound to data to exit.
+  }
 
-
+  // Add any remaining nodes that were not bound to data to exit.
   for (i = 0; i < groupLength; ++i) {
     if ((node = group[i]) && nodeByKeyValue.get(keyValues[i]) === node) {
       exit[i] = node;
     }
   }
 }
-
 function datum(node) {
   return node.__data__;
 }
-
 function selection_data (value, key) {
   if (!arguments.length) return Array.from(this, datum);
   var bind = key ? bindKey : bindIndex,
-      parents = this._parents,
-      groups = this._groups;
+    parents = this._parents,
+    groups = this._groups;
   if (typeof value !== "function") value = constant$4(value);
-
   for (var m = groups.length, update = new Array(m), enter = new Array(m), exit = new Array(m), j = 0; j < m; ++j) {
     var parent = parents[j],
-        group = groups[j],
-        groupLength = group.length,
-        data = arraylike(value.call(parent, parent && parent.__data__, j, parents)),
-        dataLength = data.length,
-        enterGroup = enter[j] = new Array(dataLength),
-        updateGroup = update[j] = new Array(dataLength),
-        exitGroup = exit[j] = new Array(groupLength);
-    bind(parent, group, enterGroup, updateGroup, exitGroup, data, key); // Now connect the enter nodes to their following update node, such that
+      group = groups[j],
+      groupLength = group.length,
+      data = arraylike(value.call(parent, parent && parent.__data__, j, parents)),
+      dataLength = data.length,
+      enterGroup = enter[j] = new Array(dataLength),
+      updateGroup = update[j] = new Array(dataLength),
+      exitGroup = exit[j] = new Array(groupLength);
+    bind(parent, group, enterGroup, updateGroup, exitGroup, data, key);
+
+    // Now connect the enter nodes to their following update node, such that
     // appendChild can insert the materialized enter node before this node,
     // rather than at the end of the parent node.
-
     for (var i0 = 0, i1 = 0, previous, next; i0 < dataLength; ++i0) {
       if (previous = enterGroup[i0]) {
         if (i0 >= i1) i1 = i0 + 1;
-
         while (!(next = updateGroup[i1]) && ++i1 < dataLength);
-
         previous._next = next || null;
       }
     }
   }
-
   update = new Selection$1(update, parents);
   update._enter = enter;
   update._exit = exit;
   return update;
-} // Given some data, this returns an array-like view of it: an object that
+}
+
+// Given some data, this returns an array-like view of it: an object that
 // exposes a length property and allows numeric indexing. Note that unlike
 // selectAll, this isn’t worried about “live” collections because the resulting
 // array will only be used briefly while data is being bound. (It is possible to
 // cause the data to change while iterating by using a key function, but please
 // don’t; we’d rather avoid a gratuitous copy.)
-
 function arraylike(data) {
   return typeof data === "object" && "length" in data ? data // Array, TypedArray, NodeList, array-like
   : Array.from(data); // Map, Set, iterable, string, or anything else
@@ -1735,28 +2065,24 @@ function selection_exit () {
 
 function selection_join (onenter, onupdate, onexit) {
   var enter = this.enter(),
-      update = this,
-      exit = this.exit();
-
+    update = this,
+    exit = this.exit();
   if (typeof onenter === "function") {
     enter = onenter(enter);
     if (enter) enter = enter.selection();
   } else {
     enter = enter.append(onenter + "");
   }
-
   if (onupdate != null) {
     update = onupdate(update);
     if (update) update = update.selection();
   }
-
   if (onexit == null) exit.remove();else onexit(exit);
   return enter && update ? enter.merge(update).order() : update;
 }
 
 function selection_merge (context) {
   var selection = context.selection ? context.selection() : context;
-
   for (var groups0 = this._groups, groups1 = selection._groups, m0 = groups0.length, m1 = groups1.length, m = Math.min(m0, m1), merges = new Array(m0), j = 0; j < m; ++j) {
     for (var group0 = groups0[j], group1 = groups1[j], n = group0.length, merge = merges[j] = new Array(n), node, i = 0; i < n; ++i) {
       if (node = group0[i] || group1[i]) {
@@ -1764,11 +2090,9 @@ function selection_merge (context) {
       }
     }
   }
-
   for (; j < m0; ++j) {
     merges[j] = groups0[j];
   }
-
   return new Selection$1(merges, this._parents);
 }
 
@@ -1781,30 +2105,24 @@ function selection_order () {
       }
     }
   }
-
   return this;
 }
 
 function selection_sort (compare) {
   if (!compare) compare = ascending$1;
-
   function compareNode(a, b) {
     return a && b ? compare(a.__data__, b.__data__) : !a - !b;
   }
-
   for (var groups = this._groups, m = groups.length, sortgroups = new Array(m), j = 0; j < m; ++j) {
     for (var group = groups[j], n = group.length, sortgroup = sortgroups[j] = new Array(n), node, i = 0; i < n; ++i) {
       if (node = group[i]) {
         sortgroup[i] = node;
       }
     }
-
     sortgroup.sort(compareNode);
   }
-
   return new Selection$1(sortgroups, this._parents).order();
 }
-
 function ascending$1(a, b) {
   return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
 }
@@ -1827,16 +2145,12 @@ function selection_node () {
       if (node) return node;
     }
   }
-
   return null;
 }
 
 function selection_size () {
   let size = 0;
-
   for (const node of this) ++size; // eslint-disable-line no-unused-vars
-
-
   return size;
 }
 
@@ -1850,7 +2164,6 @@ function selection_each (callback) {
       if (node = group[i]) callback.call(node, node.__data__, i, group);
     }
   }
-
   return this;
 }
 
@@ -1859,47 +2172,39 @@ function attrRemove$1(name) {
     this.removeAttribute(name);
   };
 }
-
 function attrRemoveNS$1(fullname) {
   return function () {
     this.removeAttributeNS(fullname.space, fullname.local);
   };
 }
-
 function attrConstant$1(name, value) {
   return function () {
     this.setAttribute(name, value);
   };
 }
-
 function attrConstantNS$1(fullname, value) {
   return function () {
     this.setAttributeNS(fullname.space, fullname.local, value);
   };
 }
-
 function attrFunction$1(name, value) {
   return function () {
     var v = value.apply(this, arguments);
     if (v == null) this.removeAttribute(name);else this.setAttribute(name, v);
   };
 }
-
 function attrFunctionNS$1(fullname, value) {
   return function () {
     var v = value.apply(this, arguments);
     if (v == null) this.removeAttributeNS(fullname.space, fullname.local);else this.setAttributeNS(fullname.space, fullname.local, v);
   };
 }
-
 function selection_attr (name, value) {
   var fullname = namespace(name);
-
   if (arguments.length < 2) {
     var node = this.node();
     return fullname.local ? node.getAttributeNS(fullname.space, fullname.local) : node.getAttribute(fullname);
   }
-
   return this.each((value == null ? fullname.local ? attrRemoveNS$1 : attrRemove$1 : typeof value === "function" ? fullname.local ? attrFunctionNS$1 : attrFunction$1 : fullname.local ? attrConstantNS$1 : attrConstant$1)(fullname, value));
 }
 
@@ -1914,20 +2219,17 @@ function styleRemove$1(name) {
     this.style.removeProperty(name);
   };
 }
-
 function styleConstant$1(name, value, priority) {
   return function () {
     this.style.setProperty(name, value, priority);
   };
 }
-
 function styleFunction$1(name, value, priority) {
   return function () {
     var v = value.apply(this, arguments);
     if (v == null) this.style.removeProperty(name);else this.style.setProperty(name, v, priority);
   };
 }
-
 function selection_style (name, value, priority) {
   return arguments.length > 1 ? this.each((value == null ? styleRemove$1 : typeof value === "function" ? styleFunction$1 : styleConstant$1)(name, value, priority == null ? "" : priority)) : styleValue(this.node(), name);
 }
@@ -1940,20 +2242,17 @@ function propertyRemove(name) {
     delete this[name];
   };
 }
-
 function propertyConstant(name, value) {
   return function () {
     this[name] = value;
   };
 }
-
 function propertyFunction(name, value) {
   return function () {
     var v = value.apply(this, arguments);
     if (v == null) delete this[name];else this[name] = v;
   };
 }
-
 function selection_property (name, value) {
   return arguments.length > 1 ? this.each((value == null ? propertyRemove : typeof value === "function" ? propertyFunction : propertyConstant)(name, value)) : this.node()[name];
 }
@@ -1961,32 +2260,25 @@ function selection_property (name, value) {
 function classArray(string) {
   return string.trim().split(/^|\s+/);
 }
-
 function classList(node) {
   return node.classList || new ClassList(node);
 }
-
 function ClassList(node) {
   this._node = node;
   this._names = classArray(node.getAttribute("class") || "");
 }
-
 ClassList.prototype = {
   add: function (name) {
     var i = this._names.indexOf(name);
-
     if (i < 0) {
       this._names.push(name);
-
       this._node.setAttribute("class", this._names.join(" "));
     }
   },
   remove: function (name) {
     var i = this._names.indexOf(name);
-
     if (i >= 0) {
       this._names.splice(i, 1);
-
       this._node.setAttribute("class", this._names.join(" "));
     }
   },
@@ -1994,74 +2286,59 @@ ClassList.prototype = {
     return this._names.indexOf(name) >= 0;
   }
 };
-
 function classedAdd(node, names) {
   var list = classList(node),
-      i = -1,
-      n = names.length;
-
+    i = -1,
+    n = names.length;
   while (++i < n) list.add(names[i]);
 }
-
 function classedRemove(node, names) {
   var list = classList(node),
-      i = -1,
-      n = names.length;
-
+    i = -1,
+    n = names.length;
   while (++i < n) list.remove(names[i]);
 }
-
 function classedTrue(names) {
   return function () {
     classedAdd(this, names);
   };
 }
-
 function classedFalse(names) {
   return function () {
     classedRemove(this, names);
   };
 }
-
 function classedFunction(names, value) {
   return function () {
     (value.apply(this, arguments) ? classedAdd : classedRemove)(this, names);
   };
 }
-
 function selection_classed (name, value) {
   var names = classArray(name + "");
-
   if (arguments.length < 2) {
     var list = classList(this.node()),
-        i = -1,
-        n = names.length;
-
+      i = -1,
+      n = names.length;
     while (++i < n) if (!list.contains(names[i])) return false;
-
     return true;
   }
-
   return this.each((typeof value === "function" ? classedFunction : value ? classedTrue : classedFalse)(names, value));
 }
 
 function textRemove() {
   this.textContent = "";
 }
-
 function textConstant$1(value) {
   return function () {
     this.textContent = value;
   };
 }
-
 function textFunction$1(value) {
   return function () {
     var v = value.apply(this, arguments);
     this.textContent = v == null ? "" : v;
   };
 }
-
 function selection_text (value) {
   return arguments.length ? this.each(value == null ? textRemove : (typeof value === "function" ? textFunction$1 : textConstant$1)(value)) : this.node().textContent;
 }
@@ -2069,20 +2346,17 @@ function selection_text (value) {
 function htmlRemove() {
   this.innerHTML = "";
 }
-
 function htmlConstant(value) {
   return function () {
     this.innerHTML = value;
   };
 }
-
 function htmlFunction(value) {
   return function () {
     var v = value.apply(this, arguments);
     this.innerHTML = v == null ? "" : v;
   };
 }
-
 function selection_html (value) {
   return arguments.length ? this.each(value == null ? htmlRemove : (typeof value === "function" ? htmlFunction : htmlConstant)(value)) : this.node().innerHTML;
 }
@@ -2090,7 +2364,6 @@ function selection_html (value) {
 function raise() {
   if (this.nextSibling) this.parentNode.appendChild(this);
 }
-
 function selection_raise () {
   return this.each(raise);
 }
@@ -2098,7 +2371,6 @@ function selection_raise () {
 function lower() {
   if (this.previousSibling) this.parentNode.insertBefore(this, this.parentNode.firstChild);
 }
-
 function selection_lower () {
   return this.each(lower);
 }
@@ -2113,10 +2385,9 @@ function selection_append (name) {
 function constantNull() {
   return null;
 }
-
 function selection_insert (name, before) {
   var create = typeof name === "function" ? name : creator(name),
-      select = before == null ? constantNull : typeof before === "function" ? before : selector(before);
+    select = before == null ? constantNull : typeof before === "function" ? before : selector(before);
   return this.select(function () {
     return this.insertBefore(create.apply(this, arguments), select.apply(this, arguments) || null);
   });
@@ -2126,23 +2397,20 @@ function remove() {
   var parent = this.parentNode;
   if (parent) parent.removeChild(this);
 }
-
 function selection_remove () {
   return this.each(remove);
 }
 
 function selection_cloneShallow() {
   var clone = this.cloneNode(false),
-      parent = this.parentNode;
+    parent = this.parentNode;
   return parent ? parent.insertBefore(clone, this.nextSibling) : clone;
 }
-
 function selection_cloneDeep() {
   var clone = this.cloneNode(true),
-      parent = this.parentNode;
+    parent = this.parentNode;
   return parent ? parent.insertBefore(clone, this.nextSibling) : clone;
 }
-
 function selection_clone (deep) {
   return this.select(deep ? selection_cloneDeep : selection_cloneShallow);
 }
@@ -2156,11 +2424,10 @@ function contextListener(listener) {
     listener.call(this, event, this.__data__);
   };
 }
-
 function parseTypenames(typenames) {
   return typenames.trim().split(/^|\s+/).map(function (t) {
     var name = "",
-        i = t.indexOf(".");
+      i = t.indexOf(".");
     if (i >= 0) name = t.slice(i + 1), t = t.slice(0, i);
     return {
       type: t,
@@ -2168,12 +2435,10 @@ function parseTypenames(typenames) {
     };
   });
 }
-
 function onRemove(typename) {
   return function () {
     var on = this.__on;
     if (!on) return;
-
     for (var j = 0, i = -1, m = on.length, o; j < m; ++j) {
       if (o = on[j], (!typename.type || o.type === typename.type) && o.name === typename.name) {
         this.removeEventListener(o.type, o.listener, o.options);
@@ -2181,16 +2446,14 @@ function onRemove(typename) {
         on[++i] = o;
       }
     }
-
     if (++i) on.length = i;else delete this.__on;
   };
 }
-
 function onAdd(typename, value, options) {
   return function () {
     var on = this.__on,
-        o,
-        listener = contextListener(value);
+      o,
+      listener = contextListener(value);
     if (on) for (var j = 0, m = on.length; j < m; ++j) {
       if ((o = on[j]).type === typename.type && o.name === typename.name) {
         this.removeEventListener(o.type, o.listener, o.options);
@@ -2210,16 +2473,13 @@ function onAdd(typename, value, options) {
     if (!on) this.__on = [o];else on.push(o);
   };
 }
-
 function selection_on (typename, value, options) {
   var typenames = parseTypenames(typename + ""),
-      i,
-      n = typenames.length,
-      t;
-
+    i,
+    n = typenames.length,
+    t;
   if (arguments.length < 2) {
     var on = this.node().__on;
-
     if (on) for (var j = 0, m = on.length, o; j < m; ++j) {
       for (i = 0, o = on[j]; i < n; ++i) {
         if ((t = typenames[i]).type === o.type && t.name === o.name) {
@@ -2229,40 +2489,32 @@ function selection_on (typename, value, options) {
     }
     return;
   }
-
   on = value ? onAdd : onRemove;
-
   for (i = 0; i < n; ++i) this.each(on(typenames[i], value, options));
-
   return this;
 }
 
 function dispatchEvent(node, type, params) {
   var window = defaultView(node),
-      event = window.CustomEvent;
-
+    event = window.CustomEvent;
   if (typeof event === "function") {
     event = new event(type, params);
   } else {
     event = window.document.createEvent("Event");
     if (params) event.initEvent(type, params.bubbles, params.cancelable), event.detail = params.detail;else event.initEvent(type, false, false);
   }
-
   node.dispatchEvent(event);
 }
-
 function dispatchConstant(type, params) {
   return function () {
     return dispatchEvent(this, type, params);
   };
 }
-
 function dispatchFunction(type, params) {
   return function () {
     return dispatchEvent(this, type, params.apply(this, arguments));
   };
 }
-
 function selection_dispatch (type, params) {
   return this.each((typeof params === "function" ? dispatchFunction : dispatchConstant)(type, params));
 }
@@ -2280,15 +2532,12 @@ function Selection$1(groups, parents) {
   this._groups = groups;
   this._parents = parents;
 }
-
 function selection() {
   return new Selection$1([[document.documentElement]], root);
 }
-
 function selection_selection() {
   return this;
 }
-
 Selection$1.prototype = selection.prototype = {
   constructor: Selection$1,
   select: selection_select,
@@ -2334,32 +2583,26 @@ function select (selector) {
 
 function sourceEvent (event) {
   let sourceEvent;
-
   while (sourceEvent = event.sourceEvent) event = sourceEvent;
-
   return event;
 }
 
 function pointer (event, node) {
   event = sourceEvent(event);
   if (node === undefined) node = event.currentTarget;
-
   if (node) {
     var svg = node.ownerSVGElement || node;
-
     if (svg.createSVGPoint) {
       var point = svg.createSVGPoint();
       point.x = event.clientX, point.y = event.clientY;
       point = point.matrixTransform(node.getScreenCTM().inverse());
       return [point.x, point.y];
     }
-
     if (node.getBoundingClientRect) {
       var rect = node.getBoundingClientRect();
       return [event.clientX - rect.left - node.clientLeft, event.clientY - rect.top - node.clientTop];
     }
   }
-
   return [event.pageX, event.pageY];
 }
 
@@ -2382,8 +2625,7 @@ function noevent (event) {
 
 function dragDisable (view) {
   var root = view.document.documentElement,
-      selection = select(view).on("dragstart.drag", noevent, nonpassivecapture);
-
+    selection = select(view).on("dragstart.drag", noevent, nonpassivecapture);
   if ("onselectstart" in root) {
     selection.on("selectstart.drag", noevent, nonpassivecapture);
   } else {
@@ -2393,15 +2635,13 @@ function dragDisable (view) {
 }
 function yesdrag(view, noclick) {
   var root = view.document.documentElement,
-      selection = select(view).on("dragstart.drag", null);
-
+    selection = select(view).on("dragstart.drag", null);
   if (noclick) {
     selection.on("click.drag", noevent, nonpassivecapture);
     setTimeout(function () {
       selection.on("click.drag", null);
     }, 0);
   }
-
   if ("onselectstart" in root) {
     selection.on("selectstart.drag", null);
   } else {
@@ -2480,50 +2720,43 @@ function DragEvent(type, {
     }
   });
 }
-
 DragEvent.prototype.on = function () {
   var value = this._.on.apply(this._, arguments);
-
   return value === this._ ? this : value;
 };
 
+// Ignore right-click, since that should open the context menu.
 function defaultFilter(event) {
   return !event.ctrlKey && !event.button;
 }
-
 function defaultContainer() {
   return this.parentNode;
 }
-
 function defaultSubject(event, d) {
   return d == null ? {
     x: event.x,
     y: event.y
   } : d;
 }
-
 function defaultTouchable() {
   return navigator.maxTouchPoints || "ontouchstart" in this;
 }
-
 function drag () {
   var filter = defaultFilter,
-      container = defaultContainer,
-      subject = defaultSubject,
-      touchable = defaultTouchable,
-      gestures = {},
-      listeners = dispatch("start", "drag", "end"),
-      active = 0,
-      mousedownx,
-      mousedowny,
-      mousemoving,
-      touchending,
-      clickDistance2 = 0;
-
+    container = defaultContainer,
+    subject = defaultSubject,
+    touchable = defaultTouchable,
+    gestures = {},
+    listeners = dispatch("start", "drag", "end"),
+    active = 0,
+    mousedownx,
+    mousedowny,
+    mousemoving,
+    touchending,
+    clickDistance2 = 0;
   function drag(selection) {
     selection.on("mousedown.drag", mousedowned).filter(touchable).on("touchstart.drag", touchstarted).on("touchmove.drag", touchmoved, nonpassive).on("touchend.drag touchcancel.drag", touchended).style("touch-action", "none").style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
   }
-
   function mousedowned(event, d) {
     if (touchending || !filter.call(this, event, d)) return;
     var gesture = beforestart(this, container.call(this, event, d), event, d, "mouse");
@@ -2536,34 +2769,28 @@ function drag () {
     mousedowny = event.clientY;
     gesture("start", event);
   }
-
   function mousemoved(event) {
     noevent(event);
-
     if (!mousemoving) {
       var dx = event.clientX - mousedownx,
-          dy = event.clientY - mousedowny;
+        dy = event.clientY - mousedowny;
       mousemoving = dx * dx + dy * dy > clickDistance2;
     }
-
     gestures.mouse("drag", event);
   }
-
   function mouseupped(event) {
     select(event.view).on("mousemove.drag mouseup.drag", null);
     yesdrag(event.view, mousemoving);
     noevent(event);
     gestures.mouse("end", event);
   }
-
   function touchstarted(event, d) {
     if (!filter.call(this, event, d)) return;
     var touches = event.changedTouches,
-        c = container.call(this, event, d),
-        n = touches.length,
-        i,
-        gesture;
-
+      c = container.call(this, event, d),
+      n = touches.length,
+      i,
+      gesture;
     for (i = 0; i < n; ++i) {
       if (gesture = beforestart(this, c, event, d, touches[i].identifier, touches[i])) {
         nopropagation(event);
@@ -2571,13 +2798,11 @@ function drag () {
       }
     }
   }
-
   function touchmoved(event) {
     var touches = event.changedTouches,
-        n = touches.length,
-        i,
-        gesture;
-
+      n = touches.length,
+      i,
+      gesture;
     for (i = 0; i < n; ++i) {
       if (gesture = gestures[touches[i].identifier]) {
         noevent(event);
@@ -2585,17 +2810,15 @@ function drag () {
       }
     }
   }
-
   function touchended(event) {
     var touches = event.changedTouches,
-        n = touches.length,
-        i,
-        gesture;
+      n = touches.length,
+      i,
+      gesture;
     if (touchending) clearTimeout(touchending);
     touchending = setTimeout(function () {
       touchending = null;
     }, 500); // Ghost clicks are delayed!
-
     for (i = 0; i < n; ++i) {
       if (gesture = gestures[touches[i].identifier]) {
         nopropagation(event);
@@ -2603,13 +2826,12 @@ function drag () {
       }
     }
   }
-
   function beforestart(that, container, event, d, identifier, touch) {
     var dispatch = listeners.copy(),
-        p = pointer(touch || event, container),
-        dx,
-        dy,
-        s;
+      p = pointer(touch || event, container),
+      dx,
+      dy,
+      s;
     if ((s = subject.call(that, new DragEvent("beforestart", {
       sourceEvent: event,
       target: drag,
@@ -2625,22 +2847,18 @@ function drag () {
     dy = s.y - p[1] || 0;
     return function gesture(type, event, touch) {
       var p0 = p,
-          n;
-
+        n;
       switch (type) {
         case "start":
           gestures[identifier] = gesture, n = active++;
           break;
-
         case "end":
           delete gestures[identifier], --active;
         // falls through
-
         case "drag":
           p = pointer(touch || event, container), n = active;
           break;
       }
-
       dispatch.call(type, that, new DragEvent(type, {
         sourceEvent: event,
         subject: s,
@@ -2655,32 +2873,25 @@ function drag () {
       }), d);
     };
   }
-
   drag.filter = function (_) {
     return arguments.length ? (filter = typeof _ === "function" ? _ : constant$3(!!_), drag) : filter;
   };
-
   drag.container = function (_) {
     return arguments.length ? (container = typeof _ === "function" ? _ : constant$3(_), drag) : container;
   };
-
   drag.subject = function (_) {
     return arguments.length ? (subject = typeof _ === "function" ? _ : constant$3(_), drag) : subject;
   };
-
   drag.touchable = function (_) {
     return arguments.length ? (touchable = typeof _ === "function" ? _ : constant$3(!!_), drag) : touchable;
   };
-
   drag.on = function () {
     var value = listeners.on.apply(listeners, arguments);
     return value === listeners ? drag : value;
   };
-
   drag.clickDistance = function (_) {
     return arguments.length ? (clickDistance2 = (_ = +_) * _, drag) : Math.sqrt(clickDistance2);
   };
-
   return drag;
 }
 
@@ -2690,9 +2901,7 @@ function define (constructor, factory, prototype) {
 }
 function extend(parent, definition) {
   var prototype = Object.create(parent.prototype);
-
   for (var key in definition) prototype[key] = definition[key];
-
   return prototype;
 }
 
@@ -2700,15 +2909,15 @@ function Color() {}
 var darker = 0.7;
 var brighter = 1 / darker;
 var reI = "\\s*([+-]?\\d+)\\s*",
-    reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*",
-    reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*",
-    reHex = /^#([0-9a-f]{3,8})$/,
-    reRgbInteger = new RegExp("^rgb\\(" + [reI, reI, reI] + "\\)$"),
-    reRgbPercent = new RegExp("^rgb\\(" + [reP, reP, reP] + "\\)$"),
-    reRgbaInteger = new RegExp("^rgba\\(" + [reI, reI, reI, reN] + "\\)$"),
-    reRgbaPercent = new RegExp("^rgba\\(" + [reP, reP, reP, reN] + "\\)$"),
-    reHslPercent = new RegExp("^hsl\\(" + [reN, reP, reP] + "\\)$"),
-    reHslaPercent = new RegExp("^hsla\\(" + [reN, reP, reP, reN] + "\\)$");
+  reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*",
+  reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*",
+  reHex = /^#([0-9a-f]{3,8})$/,
+  reRgbInteger = new RegExp("^rgb\\(" + [reI, reI, reI] + "\\)$"),
+  reRgbPercent = new RegExp("^rgb\\(" + [reP, reP, reP] + "\\)$"),
+  reRgbaInteger = new RegExp("^rgba\\(" + [reI, reI, reI, reN] + "\\)$"),
+  reRgbaPercent = new RegExp("^rgba\\(" + [reP, reP, reP, reN] + "\\)$"),
+  reHslPercent = new RegExp("^hsl\\(" + [reN, reP, reP] + "\\)$"),
+  reHslaPercent = new RegExp("^hsla\\(" + [reN, reP, reP, reN] + "\\)$");
 var named = {
   aliceblue: 0xf0f8ff,
   antiquewhite: 0xfaebd7,
@@ -2873,19 +3082,15 @@ define(Color, color, {
   formatRgb: color_formatRgb,
   toString: color_formatRgb
 });
-
 function color_formatHex() {
   return this.rgb().formatHex();
 }
-
 function color_formatHsl() {
   return hslConvert(this).formatHsl();
 }
-
 function color_formatRgb() {
   return this.rgb().formatRgb();
 }
-
 function color(format) {
   var m, l;
   format = (format + "").trim().toLowerCase();
@@ -2903,16 +3108,13 @@ function color(format) {
   : named.hasOwnProperty(format) ? rgbn(named[format]) // eslint-disable-line no-prototype-builtins
   : format === "transparent" ? new Rgb(NaN, NaN, NaN, 0) : null;
 }
-
 function rgbn(n) {
   return new Rgb(n >> 16 & 0xff, n >> 8 & 0xff, n & 0xff, 1);
 }
-
 function rgba(r, g, b, a) {
   if (a <= 0) r = g = b = NaN;
   return new Rgb(r, g, b, a);
 }
-
 function rgbConvert(o) {
   if (!(o instanceof Color)) o = color(o);
   if (!o) return new Rgb();
@@ -2949,27 +3151,22 @@ define(Rgb, rgb, extend(Color, {
   formatRgb: rgb_formatRgb,
   toString: rgb_formatRgb
 }));
-
 function rgb_formatHex() {
   return "#" + hex(this.r) + hex(this.g) + hex(this.b);
 }
-
 function rgb_formatRgb() {
   var a = this.opacity;
   a = isNaN(a) ? 1 : Math.max(0, Math.min(1, a));
   return (a === 1 ? "rgb(" : "rgba(") + Math.max(0, Math.min(255, Math.round(this.r) || 0)) + ", " + Math.max(0, Math.min(255, Math.round(this.g) || 0)) + ", " + Math.max(0, Math.min(255, Math.round(this.b) || 0)) + (a === 1 ? ")" : ", " + a + ")");
 }
-
 function hex(value) {
   value = Math.max(0, Math.min(255, Math.round(value) || 0));
   return (value < 16 ? "0" : "") + value.toString(16);
 }
-
 function hsla(h, s, l, a) {
   if (a <= 0) h = s = l = NaN;else if (l <= 0 || l >= 1) h = s = NaN;else if (s <= 0) h = NaN;
   return new Hsl(h, s, l, a);
 }
-
 function hslConvert(o) {
   if (o instanceof Hsl) return new Hsl(o.h, o.s, o.l, o.opacity);
   if (!(o instanceof Color)) o = color(o);
@@ -2977,14 +3174,13 @@ function hslConvert(o) {
   if (o instanceof Hsl) return o;
   o = o.rgb();
   var r = o.r / 255,
-      g = o.g / 255,
-      b = o.b / 255,
-      min = Math.min(r, g, b),
-      max = Math.max(r, g, b),
-      h = NaN,
-      s = max - min,
-      l = (max + min) / 2;
-
+    g = o.g / 255,
+    b = o.b / 255,
+    min = Math.min(r, g, b),
+    max = Math.max(r, g, b),
+    h = NaN,
+    s = max - min,
+    l = (max + min) / 2;
   if (s) {
     if (r === max) h = (g - b) / s + (g < b) * 6;else if (g === max) h = (b - r) / s + 2;else h = (r - g) / s + 4;
     s /= l < 0.5 ? max + min : 2 - max - min;
@@ -2992,20 +3188,17 @@ function hslConvert(o) {
   } else {
     s = l > 0 && l < 1 ? 0 : h;
   }
-
   return new Hsl(h, s, l, o.opacity);
 }
 function hsl(h, s, l, opacity) {
   return arguments.length === 1 ? hslConvert(h) : new Hsl(h, s, l, opacity == null ? 1 : opacity);
 }
-
 function Hsl(h, s, l, opacity) {
   this.h = +h;
   this.s = +s;
   this.l = +l;
   this.opacity = +opacity;
 }
-
 define(Hsl, hsl, extend(Color, {
   brighter: function (k) {
     k = k == null ? brighter : Math.pow(brighter, k);
@@ -3017,10 +3210,10 @@ define(Hsl, hsl, extend(Color, {
   },
   rgb: function () {
     var h = this.h % 360 + (this.h < 0) * 360,
-        s = isNaN(h) || isNaN(this.s) ? 0 : this.s,
-        l = this.l,
-        m2 = l + (l < 0.5 ? l : 1 - l) * s,
-        m1 = 2 * l - m2;
+      s = isNaN(h) || isNaN(this.s) ? 0 : this.s,
+      l = this.l,
+      m2 = l + (l < 0.5 ? l : 1 - l) * s,
+      m1 = 2 * l - m2;
     return new Rgb(hsl2rgb(h >= 240 ? h - 240 : h + 120, m1, m2), hsl2rgb(h, m1, m2), hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2), this.opacity);
   },
   displayable: function () {
@@ -3032,8 +3225,8 @@ define(Hsl, hsl, extend(Color, {
     return (a === 1 ? "hsl(" : "hsla(") + (this.h || 0) + ", " + (this.s || 0) * 100 + "%, " + (this.l || 0) * 100 + "%" + (a === 1 ? ")" : ", " + a + ")");
   }
 }));
-/* From FvD 13.37, CSS Color Module Level 3 */
 
+/* From FvD 13.37, CSS Color Module Level 3 */
 function hsl2rgb(h, m1, m2) {
   return (h < 60 ? m1 + (m2 - m1) * h / 60 : h < 180 ? m2 : h < 240 ? m1 + (m2 - m1) * (240 - h) / 60 : m1) * 255;
 }
@@ -3045,7 +3238,6 @@ function linear$2(a, d) {
     return a + t * d;
   };
 }
-
 function exponential(a, b, y) {
   return a = Math.pow(a, y), b = Math.pow(b, y) - a, y = 1 / y, function (t) {
     return Math.pow(a + t * b, y);
@@ -3063,12 +3255,11 @@ function nogamma(a, b) {
 
 var interpolateRgb = (function rgbGamma(y) {
   var color = gamma(y);
-
   function rgb$1(start, end) {
     var r = color((start = rgb(start)).r, (end = rgb(end)).r),
-        g = color(start.g, end.g),
-        b = color(start.b, end.b),
-        opacity = nogamma(start.opacity, end.opacity);
+      g = color(start.g, end.g),
+      b = color(start.b, end.b),
+      opacity = nogamma(start.opacity, end.opacity);
     return function (t) {
       start.r = r(t);
       start.g = g(t);
@@ -3077,7 +3268,6 @@ var interpolateRgb = (function rgbGamma(y) {
       return start + "";
     };
   }
-
   rgb$1.gamma = rgbGamma;
   return rgb$1;
 })(1);
@@ -3085,11 +3275,10 @@ var interpolateRgb = (function rgbGamma(y) {
 function numberArray (a, b) {
   if (!b) b = [];
   var n = a ? Math.min(b.length, a.length) : 0,
-      c = b.slice(),
-      i;
+    c = b.slice(),
+    i;
   return function (t) {
     for (i = 0; i < n; ++i) c[i] = a[i] * (1 - t) + b[i] * t;
-
     return c;
   };
 }
@@ -3099,18 +3288,14 @@ function isNumberArray(x) {
 
 function genericArray(a, b) {
   var nb = b ? b.length : 0,
-      na = a ? Math.min(nb, a.length) : 0,
-      x = new Array(na),
-      c = new Array(nb),
-      i;
-
+    na = a ? Math.min(nb, a.length) : 0,
+    x = new Array(na),
+    c = new Array(nb),
+    i;
   for (i = 0; i < na; ++i) x[i] = interpolate$1(a[i], b[i]);
-
   for (; i < nb; ++i) c[i] = b[i];
-
   return function (t) {
     for (i = 0; i < na; ++i) c[i] = x[i](t);
-
     return c;
   };
 }
@@ -3130,11 +3315,10 @@ function interpolateNumber (a, b) {
 
 function object (a, b) {
   var i = {},
-      c = {},
-      k;
+    c = {},
+    k;
   if (a === null || typeof a !== "object") a = {};
   if (b === null || typeof b !== "object") b = {};
-
   for (k in b) {
     if (k in a) {
       i[k] = interpolate$1(a[k], b[k]);
@@ -3142,47 +3326,43 @@ function object (a, b) {
       c[k] = b[k];
     }
   }
-
   return function (t) {
     for (k in i) c[k] = i[k](t);
-
     return c;
   };
 }
 
 var reA = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g,
-    reB = new RegExp(reA.source, "g");
-
+  reB = new RegExp(reA.source, "g");
 function zero(b) {
   return function () {
     return b;
   };
 }
-
 function one(b) {
   return function (t) {
     return b(t) + "";
   };
 }
-
 function interpolateString (a, b) {
   var bi = reA.lastIndex = reB.lastIndex = 0,
-      // scan index for next number in b
-  am,
-      // current match in a
-  bm,
-      // current match in b
-  bs,
-      // string preceding current number in b, if any
-  i = -1,
-      // index in s
-  s = [],
-      // string constants and placeholders
-  q = []; // number interpolators
+    // scan index for next number in b
+    am,
+    // current match in a
+    bm,
+    // current match in b
+    bs,
+    // string preceding current number in b, if any
+    i = -1,
+    // index in s
+    s = [],
+    // string constants and placeholders
+    q = []; // number interpolators
+
   // Coerce inputs to strings.
+  a = a + "", b = b + "";
 
-  a = a + "", b = b + ""; // Interpolate pairs of numbers in a & b.
-
+  // Interpolate pairs of numbers in a & b.
   while ((am = reA.exec(a)) && (bm = reB.exec(b))) {
     if ((bs = bm.index) > bi) {
       // a string precedes the next number in b
@@ -3190,7 +3370,6 @@ function interpolateString (a, b) {
       if (s[i]) s[i] += bs; // coalesce with previous string
       else s[++i] = bs;
     }
-
     if ((am = am[0]) === (bm = bm[0])) {
       // numbers in a & b match
       if (s[i]) s[i] += bm; // coalesce with previous string
@@ -3203,29 +3382,27 @@ function interpolateString (a, b) {
         x: interpolateNumber(am, bm)
       });
     }
-
     bi = reB.lastIndex;
-  } // Add remains of b.
+  }
 
-
+  // Add remains of b.
   if (bi < b.length) {
     bs = b.slice(bi);
     if (s[i]) s[i] += bs; // coalesce with previous string
     else s[++i] = bs;
-  } // Special optimization for only a single match.
+  }
+
+  // Special optimization for only a single match.
   // Otherwise, interpolate each of the numbers and rejoin the string.
-
-
   return s.length < 2 ? q[0] ? one(q[0].x) : zero(b) : (b = q.length, function (t) {
     for (var i = 0, o; i < b; ++i) s[(o = q[i]).i] = o.x(t);
-
     return s.join("");
   });
 }
 
 function interpolate$1 (a, b) {
   var t = typeof b,
-      c;
+    c;
   return b == null || t === "boolean" ? constant$2(b) : (t === "number" ? interpolateNumber : t === "string" ? (c = color(b)) ? (b = c, interpolateRgb) : interpolateString : b instanceof color ? interpolateRgb : b instanceof Date ? date : isNumberArray(b) ? numberArray : Array.isArray(b) ? genericArray : typeof b.valueOf !== "function" && typeof b.toString !== "function" || isNaN(b) ? object : interpolateNumber)(a, b);
 }
 
@@ -3261,8 +3438,8 @@ function decompose (a, b, c, d, e, f) {
 }
 
 var svgNode;
-/* eslint-disable no-undef */
 
+/* eslint-disable no-undef */
 function parseCss(value) {
   const m = new (typeof DOMMatrix === "function" ? DOMMatrix : WebKitCSSMatrix)(value + "");
   return m.isIdentity ? identity$4 : decompose(m.a, m.b, m.c, m.d, m.e, m.f);
@@ -3280,7 +3457,6 @@ function interpolateTransform(parse, pxComma, pxParen, degParen) {
   function pop(s) {
     return s.length ? s.pop() + " " : "";
   }
-
   function translate(xa, ya, xb, yb, s, q) {
     if (xa !== xb || ya !== yb) {
       var i = s.push("translate(", null, pxComma, null, pxParen);
@@ -3295,11 +3471,9 @@ function interpolateTransform(parse, pxComma, pxParen, degParen) {
       s.push("translate(" + xb + pxComma + yb + pxParen);
     }
   }
-
   function rotate(a, b, s, q) {
     if (a !== b) {
       if (a - b > 180) b += 360;else if (b - a > 180) a += 360; // shortest path
-
       q.push({
         i: s.push(pop(s) + "rotate(", null, degParen) - 2,
         x: interpolateNumber(a, b)
@@ -3308,7 +3482,6 @@ function interpolateTransform(parse, pxComma, pxParen, degParen) {
       s.push(pop(s) + "rotate(" + b + degParen);
     }
   }
-
   function skewX(a, b, s, q) {
     if (a !== b) {
       q.push({
@@ -3319,7 +3492,6 @@ function interpolateTransform(parse, pxComma, pxParen, degParen) {
       s.push(pop(s) + "skewX(" + b + degParen);
     }
   }
-
   function scale(xa, ya, xb, yb, s, q) {
     if (xa !== xb || ya !== yb) {
       var i = s.push(pop(s) + "scale(", null, ",", null, ")");
@@ -3334,59 +3506,51 @@ function interpolateTransform(parse, pxComma, pxParen, degParen) {
       s.push(pop(s) + "scale(" + xb + "," + yb + ")");
     }
   }
-
   return function (a, b) {
     var s = [],
-        // string constants and placeholders
-    q = []; // number interpolators
-
+      // string constants and placeholders
+      q = []; // number interpolators
     a = parse(a), b = parse(b);
     translate(a.translateX, a.translateY, b.translateX, b.translateY, s, q);
     rotate(a.rotate, b.rotate, s, q);
     skewX(a.skewX, b.skewX, s, q);
     scale(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s, q);
     a = b = null; // gc
-
     return function (t) {
       var i = -1,
-          n = q.length,
-          o;
-
+        n = q.length,
+        o;
       while (++i < n) s[(o = q[i]).i] = o.x(t);
-
       return s.join("");
     };
   };
 }
-
 var interpolateTransformCss = interpolateTransform(parseCss, "px, ", "px)", "deg)");
 var interpolateTransformSvg = interpolateTransform(parseSvg, ", ", ")", ")");
 
 var frame = 0,
-    // is an animation frame pending?
-timeout$1 = 0,
-    // is a timeout pending?
-interval$1 = 0,
-    // are any timers active?
-pokeDelay = 1000,
-    // how frequently we check for clock skew
-taskHead,
-    taskTail,
-    clockLast = 0,
-    clockNow = 0,
-    clockSkew = 0,
-    clock = typeof performance === "object" && performance.now ? performance : Date,
-    setFrame = typeof window === "object" && window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (f) {
-  setTimeout(f, 17);
-};
+  // is an animation frame pending?
+  timeout$1 = 0,
+  // is a timeout pending?
+  interval$1 = 0,
+  // are any timers active?
+  pokeDelay = 1000,
+  // how frequently we check for clock skew
+  taskHead,
+  taskTail,
+  clockLast = 0,
+  clockNow = 0,
+  clockSkew = 0,
+  clock = typeof performance === "object" && performance.now ? performance : Date,
+  setFrame = typeof window === "object" && window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (f) {
+    setTimeout(f, 17);
+  };
 function now() {
   return clockNow || (setFrame(clearNow), clockNow = clock.now() + clockSkew);
 }
-
 function clearNow() {
   clockNow = 0;
 }
-
 function Timer() {
   this._call = this._time = this._next = null;
 }
@@ -3395,12 +3559,10 @@ Timer.prototype = timer.prototype = {
   restart: function (callback, delay, time) {
     if (typeof callback !== "function") throw new TypeError("callback is not a function");
     time = (time == null ? now() : +time) + (delay == null ? 0 : +delay);
-
     if (!this._next && taskTail !== this) {
       if (taskTail) taskTail._next = this;else taskHead = this;
       taskTail = this;
     }
-
     this._call = callback;
     this._time = time;
     sleep();
@@ -3420,24 +3582,18 @@ function timer(callback, delay, time) {
 }
 function timerFlush() {
   now(); // Get the current time, if not already set.
-
   ++frame; // Pretend we’ve set an alarm, if we haven’t already.
-
   var t = taskHead,
-      e;
-
+    e;
   while (t) {
     if ((e = clockNow - t._time) >= 0) t._call.call(undefined, e);
     t = t._next;
   }
-
   --frame;
 }
-
 function wake() {
   clockNow = (clockLast = clock.now()) + clockSkew;
   frame = timeout$1 = 0;
-
   try {
     timerFlush();
   } finally {
@@ -3446,19 +3602,16 @@ function wake() {
     clockNow = 0;
   }
 }
-
 function poke() {
   var now = clock.now(),
-      delay = now - clockLast;
+    delay = now - clockLast;
   if (delay > pokeDelay) clockSkew -= delay, clockLast = now;
 }
-
 function nap() {
   var t0,
-      t1 = taskHead,
-      t2,
-      time = Infinity;
-
+    t1 = taskHead,
+    t2,
+    time = Infinity;
   while (t1) {
     if (t1._call) {
       if (time > t1._time) time = t1._time;
@@ -3468,17 +3621,13 @@ function nap() {
       t1 = t0 ? t0._next = t2 : taskHead = t2;
     }
   }
-
   taskTail = t0;
   sleep(time);
 }
-
 function sleep(time) {
   if (frame) return; // Soonest alarm already set, or will be.
-
   if (timeout$1) timeout$1 = clearTimeout(timeout$1);
   var delay = time - clockNow; // Strictly less than if we recomputed clockNow.
-
   if (delay > 24) {
     if (time < Infinity) timeout$1 = setTimeout(wake, time - clock.now() - clockSkew);
     if (interval$1) interval$1 = clearInterval(interval$1);
@@ -3500,22 +3649,17 @@ function timeout (callback, delay, time) {
 
 function interval (callback, delay, time) {
   var t = new Timer(),
-      total = delay;
+    total = delay;
   if (delay == null) return t.restart(callback, delay, time), t;
   t._restart = t.restart;
-
   t.restart = function (callback, delay, time) {
     delay = +delay, time = time == null ? now() : +time;
-
     t._restart(function tick(elapsed) {
       elapsed += total;
-
       t._restart(tick, total += delay, time);
-
       callback(elapsed);
     }, delay, time);
   };
-
   t.restart(callback, delay, time);
   return t;
 }
@@ -3563,129 +3707,122 @@ function get(node, id) {
   if (!schedule || !(schedule = schedule[id])) throw new Error("transition not found");
   return schedule;
 }
-
 function create(node, id, self) {
   var schedules = node.__transition,
-      tween; // Initialize the self timer when the transition is created.
-  // Note the actual delay is not known until the first callback!
+    tween;
 
+  // Initialize the self timer when the transition is created.
+  // Note the actual delay is not known until the first callback!
   schedules[id] = self;
   self.timer = timer(schedule, 0, self.time);
-
   function schedule(elapsed) {
     self.state = SCHEDULED;
-    self.timer.restart(start, self.delay, self.time); // If the elapsed delay is less than our first sleep, start immediately.
+    self.timer.restart(start, self.delay, self.time);
 
+    // If the elapsed delay is less than our first sleep, start immediately.
     if (self.delay <= elapsed) start(elapsed - self.delay);
   }
-
   function start(elapsed) {
-    var i, j, n, o; // If the state is not SCHEDULED, then we previously errored on start.
+    var i, j, n, o;
 
+    // If the state is not SCHEDULED, then we previously errored on start.
     if (self.state !== SCHEDULED) return stop();
-
     for (i in schedules) {
       o = schedules[i];
-      if (o.name !== self.name) continue; // While this element already has a starting transition during this frame,
+      if (o.name !== self.name) continue;
+
+      // While this element already has a starting transition during this frame,
       // defer starting an interrupting transition until that transition has a
       // chance to tick (and possibly end); see d3/d3-transition#54!
+      if (o.state === STARTED) return timeout(start);
 
-      if (o.state === STARTED) return timeout(start); // Interrupt the active transition, if any.
-
+      // Interrupt the active transition, if any.
       if (o.state === RUNNING) {
         o.state = ENDED;
         o.timer.stop();
         o.on.call("interrupt", node, node.__data__, o.index, o.group);
         delete schedules[i];
-      } // Cancel any pre-empted transitions.
+      }
+
+      // Cancel any pre-empted transitions.
       else if (+i < id) {
         o.state = ENDED;
         o.timer.stop();
         o.on.call("cancel", node, node.__data__, o.index, o.group);
         delete schedules[i];
       }
-    } // Defer the first tick to end of the current frame; see d3/d3#1576.
+    }
+
+    // Defer the first tick to end of the current frame; see d3/d3#1576.
     // Note the transition may be canceled after start and before the first tick!
     // Note this must be scheduled before the start event; see d3/d3-transition#16!
     // Assuming this is successful, subsequent callbacks go straight to tick.
-
-
     timeout(function () {
       if (self.state === STARTED) {
         self.state = RUNNING;
         self.timer.restart(tick, self.delay, self.time);
         tick(elapsed);
       }
-    }); // Dispatch the start event.
-    // Note this must be done before the tween are initialized.
+    });
 
+    // Dispatch the start event.
+    // Note this must be done before the tween are initialized.
     self.state = STARTING;
     self.on.call("start", node, node.__data__, self.index, self.group);
     if (self.state !== STARTING) return; // interrupted
+    self.state = STARTED;
 
-    self.state = STARTED; // Initialize the tween, deleting null tween.
-
+    // Initialize the tween, deleting null tween.
     tween = new Array(n = self.tween.length);
-
     for (i = 0, j = -1; i < n; ++i) {
       if (o = self.tween[i].value.call(node, node.__data__, self.index, self.group)) {
         tween[++j] = o;
       }
     }
-
     tween.length = j + 1;
   }
-
   function tick(elapsed) {
     var t = elapsed < self.duration ? self.ease.call(null, elapsed / self.duration) : (self.timer.restart(stop), self.state = ENDING, 1),
-        i = -1,
-        n = tween.length;
-
+      i = -1,
+      n = tween.length;
     while (++i < n) {
       tween[i].call(node, t);
-    } // Dispatch the end event.
+    }
 
-
+    // Dispatch the end event.
     if (self.state === ENDING) {
       self.on.call("end", node, node.__data__, self.index, self.group);
       stop();
     }
   }
-
   function stop() {
     self.state = ENDED;
     self.timer.stop();
     delete schedules[id];
-
     for (var i in schedules) return; // eslint-disable-line no-unused-vars
-
-
     delete node.__transition;
   }
 }
 
 function interrupt (node, name) {
   var schedules = node.__transition,
-      schedule,
-      active,
-      empty = true,
-      i;
+    schedule,
+    active,
+    empty = true,
+    i;
   if (!schedules) return;
   name = name == null ? null : name + "";
-
   for (i in schedules) {
     if ((schedule = schedules[i]).name !== name) {
       empty = false;
       continue;
     }
-
     active = schedule.state > STARTING && schedule.state < ENDING;
     schedule.state = ENDED;
     schedule.timer.stop();
     schedule.on.call(active ? "interrupt" : "cancel", node, node.__data__, schedule.index, schedule.group);
     delete schedules[i];
   }
-
   if (empty) delete node.__transition;
 }
 
@@ -3699,13 +3836,13 @@ function tweenRemove(id, name) {
   var tween0, tween1;
   return function () {
     var schedule = set(this, id),
-        tween = schedule.tween; // If this node shared tween with the previous node,
+      tween = schedule.tween;
+
+    // If this node shared tween with the previous node,
     // just assign the updated shared tween and we’re done!
     // Otherwise, copy-on-write.
-
     if (tween !== tween0) {
       tween1 = tween0 = tween;
-
       for (var i = 0, n = tween1.length; i < n; ++i) {
         if (tween1[i].name === name) {
           tween1 = tween1.slice();
@@ -3714,56 +3851,47 @@ function tweenRemove(id, name) {
         }
       }
     }
-
     schedule.tween = tween1;
   };
 }
-
 function tweenFunction(id, name, value) {
   var tween0, tween1;
   if (typeof value !== "function") throw new Error();
   return function () {
     var schedule = set(this, id),
-        tween = schedule.tween; // If this node shared tween with the previous node,
+      tween = schedule.tween;
+
+    // If this node shared tween with the previous node,
     // just assign the updated shared tween and we’re done!
     // Otherwise, copy-on-write.
-
     if (tween !== tween0) {
       tween1 = (tween0 = tween).slice();
-
       for (var t = {
-        name: name,
-        value: value
-      }, i = 0, n = tween1.length; i < n; ++i) {
+          name: name,
+          value: value
+        }, i = 0, n = tween1.length; i < n; ++i) {
         if (tween1[i].name === name) {
           tween1[i] = t;
           break;
         }
       }
-
       if (i === n) tween1.push(t);
     }
-
     schedule.tween = tween1;
   };
 }
-
 function transition_tween (name, value) {
   var id = this._id;
   name += "";
-
   if (arguments.length < 2) {
     var tween = get(this.node(), id).tween;
-
     for (var i = 0, n = tween.length, t; i < n; ++i) {
       if ((t = tween[i]).name === name) {
         return t.value;
       }
     }
-
     return null;
   }
-
   return this.each((value == null ? tweenRemove : tweenFunction)(id, name, value));
 }
 function tweenValue(transition, name, value) {
@@ -3787,62 +3915,56 @@ function attrRemove(name) {
     this.removeAttribute(name);
   };
 }
-
 function attrRemoveNS(fullname) {
   return function () {
     this.removeAttributeNS(fullname.space, fullname.local);
   };
 }
-
 function attrConstant(name, interpolate, value1) {
   var string00,
-      string1 = value1 + "",
-      interpolate0;
+    string1 = value1 + "",
+    interpolate0;
   return function () {
     var string0 = this.getAttribute(name);
     return string0 === string1 ? null : string0 === string00 ? interpolate0 : interpolate0 = interpolate(string00 = string0, value1);
   };
 }
-
 function attrConstantNS(fullname, interpolate, value1) {
   var string00,
-      string1 = value1 + "",
-      interpolate0;
+    string1 = value1 + "",
+    interpolate0;
   return function () {
     var string0 = this.getAttributeNS(fullname.space, fullname.local);
     return string0 === string1 ? null : string0 === string00 ? interpolate0 : interpolate0 = interpolate(string00 = string0, value1);
   };
 }
-
 function attrFunction(name, interpolate, value) {
   var string00, string10, interpolate0;
   return function () {
     var string0,
-        value1 = value(this),
-        string1;
+      value1 = value(this),
+      string1;
     if (value1 == null) return void this.removeAttribute(name);
     string0 = this.getAttribute(name);
     string1 = value1 + "";
     return string0 === string1 ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
   };
 }
-
 function attrFunctionNS(fullname, interpolate, value) {
   var string00, string10, interpolate0;
   return function () {
     var string0,
-        value1 = value(this),
-        string1;
+      value1 = value(this),
+      string1;
     if (value1 == null) return void this.removeAttributeNS(fullname.space, fullname.local);
     string0 = this.getAttributeNS(fullname.space, fullname.local);
     string1 = value1 + "";
     return string0 === string1 ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
   };
 }
-
 function transition_attr (name, value) {
   var fullname = namespace(name),
-      i = fullname === "transform" ? interpolateTransformSvg : interpolate;
+    i = fullname === "transform" ? interpolateTransformSvg : interpolate;
   return this.attrTween(name, typeof value === "function" ? (fullname.local ? attrFunctionNS : attrFunction)(fullname, i, tweenValue(this, "attr." + name, value)) : value == null ? (fullname.local ? attrRemoveNS : attrRemove)(fullname) : (fullname.local ? attrConstantNS : attrConstant)(fullname, i, value));
 }
 
@@ -3851,39 +3973,31 @@ function attrInterpolate(name, i) {
     this.setAttribute(name, i.call(this, t));
   };
 }
-
 function attrInterpolateNS(fullname, i) {
   return function (t) {
     this.setAttributeNS(fullname.space, fullname.local, i.call(this, t));
   };
 }
-
 function attrTweenNS(fullname, value) {
   var t0, i0;
-
   function tween() {
     var i = value.apply(this, arguments);
     if (i !== i0) t0 = (i0 = i) && attrInterpolateNS(fullname, i);
     return t0;
   }
-
   tween._value = value;
   return tween;
 }
-
 function attrTween(name, value) {
   var t0, i0;
-
   function tween() {
     var i = value.apply(this, arguments);
     if (i !== i0) t0 = (i0 = i) && attrInterpolate(name, i);
     return t0;
   }
-
   tween._value = value;
   return tween;
 }
-
 function transition_attrTween (name, value) {
   var key = "attr." + name;
   if (arguments.length < 2) return (key = this.tween(key)) && key._value;
@@ -3898,13 +4012,11 @@ function delayFunction(id, value) {
     init(this, id).delay = +value.apply(this, arguments);
   };
 }
-
 function delayConstant(id, value) {
   return value = +value, function () {
     init(this, id).delay = value;
   };
 }
-
 function transition_delay (value) {
   var id = this._id;
   return arguments.length ? this.each((typeof value === "function" ? delayFunction : delayConstant)(id, value)) : get(this.node(), id).delay;
@@ -3915,13 +4027,11 @@ function durationFunction(id, value) {
     set(this, id).duration = +value.apply(this, arguments);
   };
 }
-
 function durationConstant(id, value) {
   return value = +value, function () {
     set(this, id).duration = value;
   };
 }
-
 function transition_duration (value) {
   var id = this._id;
   return arguments.length ? this.each((typeof value === "function" ? durationFunction : durationConstant)(id, value)) : get(this.node(), id).duration;
@@ -3933,7 +4043,6 @@ function easeConstant(id, value) {
     set(this, id).ease = value;
   };
 }
-
 function transition_ease (value) {
   var id = this._id;
   return arguments.length ? this.each(easeConstant(id, value)) : get(this.node(), id).ease;
@@ -3946,7 +4055,6 @@ function easeVarying(id, value) {
     set(this, id).ease = v;
   };
 }
-
 function transition_easeVarying (value) {
   if (typeof value !== "function") throw new Error();
   return this.each(easeVarying(this._id, value));
@@ -3954,7 +4062,6 @@ function transition_easeVarying (value) {
 
 function transition_filter (match) {
   if (typeof match !== "function") match = matcher(match);
-
   for (var groups = this._groups, m = groups.length, subgroups = new Array(m), j = 0; j < m; ++j) {
     for (var group = groups[j], n = group.length, subgroup = subgroups[j] = [], node, i = 0; i < n; ++i) {
       if ((node = group[i]) && match.call(node, node.__data__, i, group)) {
@@ -3962,13 +4069,11 @@ function transition_filter (match) {
       }
     }
   }
-
   return new Transition(subgroups, this._parents, this._name, this._id);
 }
 
 function transition_merge (transition) {
   if (transition._id !== this._id) throw new Error();
-
   for (var groups0 = this._groups, groups1 = transition._groups, m0 = groups0.length, m1 = groups1.length, m = Math.min(m0, m1), merges = new Array(m0), j = 0; j < m; ++j) {
     for (var group0 = groups0[j], group1 = groups1[j], n = group0.length, merge = merges[j] = new Array(n), node, i = 0; i < n; ++i) {
       if (node = group0[i] || group1[i]) {
@@ -3976,11 +4081,9 @@ function transition_merge (transition) {
       }
     }
   }
-
   for (; j < m0; ++j) {
     merges[j] = groups0[j];
   }
-
   return new Transition(merges, this._parents, this._name, this._id);
 }
 
@@ -3991,22 +4094,21 @@ function start(name) {
     return !t || t === "start";
   });
 }
-
 function onFunction(id, name, listener) {
   var on0,
-      on1,
-      sit = start(name) ? init : set;
+    on1,
+    sit = start(name) ? init : set;
   return function () {
     var schedule = sit(this, id),
-        on = schedule.on; // If this node shared a dispatch with the previous node,
+      on = schedule.on;
+
+    // If this node shared a dispatch with the previous node,
     // just assign the updated shared dispatch and we’re done!
     // Otherwise, copy-on-write.
-
     if (on !== on0) (on1 = (on0 = on).copy()).on(name, listener);
     schedule.on = on1;
   };
 }
-
 function transition_on (name, listener) {
   var id = this._id;
   return arguments.length < 2 ? get(this.node(), id).on.on(name) : this.each(onFunction(id, name, listener));
@@ -4015,22 +4117,18 @@ function transition_on (name, listener) {
 function removeFunction(id) {
   return function () {
     var parent = this.parentNode;
-
     for (var i in this.__transition) if (+i !== id) return;
-
     if (parent) parent.removeChild(this);
   };
 }
-
 function transition_remove () {
   return this.on("end.remove", removeFunction(this._id));
 }
 
 function transition_select (select) {
   var name = this._name,
-      id = this._id;
+    id = this._id;
   if (typeof select !== "function") select = selector(select);
-
   for (var groups = this._groups, m = groups.length, subgroups = new Array(m), j = 0; j < m; ++j) {
     for (var group = groups[j], n = group.length, subgroup = subgroups[j] = new Array(n), node, subnode, i = 0; i < n; ++i) {
       if ((node = group[i]) && (subnode = select.call(node, node.__data__, i, group))) {
@@ -4040,15 +4138,13 @@ function transition_select (select) {
       }
     }
   }
-
   return new Transition(subgroups, this._parents, name, id);
 }
 
 function transition_selectAll (select) {
   var name = this._name,
-      id = this._id;
+    id = this._id;
   if (typeof select !== "function") select = selectorAll(select);
-
   for (var groups = this._groups, m = groups.length, subgroups = [], parents = [], j = 0; j < m; ++j) {
     for (var group = groups[j], n = group.length, node, i = 0; i < n; ++i) {
       if (node = group[i]) {
@@ -4057,13 +4153,11 @@ function transition_selectAll (select) {
             schedule(child, name, id, k, children, inherit);
           }
         }
-
         subgroups.push(children);
         parents.push(node);
       }
     }
   }
-
   return new Transition(subgroups, parents, name, id);
 }
 
@@ -4076,57 +4170,53 @@ function styleNull(name, interpolate) {
   var string00, string10, interpolate0;
   return function () {
     var string0 = styleValue(this, name),
-        string1 = (this.style.removeProperty(name), styleValue(this, name));
+      string1 = (this.style.removeProperty(name), styleValue(this, name));
     return string0 === string1 ? null : string0 === string00 && string1 === string10 ? interpolate0 : interpolate0 = interpolate(string00 = string0, string10 = string1);
   };
 }
-
 function styleRemove(name) {
   return function () {
     this.style.removeProperty(name);
   };
 }
-
 function styleConstant(name, interpolate, value1) {
   var string00,
-      string1 = value1 + "",
-      interpolate0;
+    string1 = value1 + "",
+    interpolate0;
   return function () {
     var string0 = styleValue(this, name);
     return string0 === string1 ? null : string0 === string00 ? interpolate0 : interpolate0 = interpolate(string00 = string0, value1);
   };
 }
-
 function styleFunction(name, interpolate, value) {
   var string00, string10, interpolate0;
   return function () {
     var string0 = styleValue(this, name),
-        value1 = value(this),
-        string1 = value1 + "";
+      value1 = value(this),
+      string1 = value1 + "";
     if (value1 == null) string1 = value1 = (this.style.removeProperty(name), styleValue(this, name));
     return string0 === string1 ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
   };
 }
-
 function styleMaybeRemove(id, name) {
   var on0,
-      on1,
-      listener0,
-      key = "style." + name,
-      event = "end." + key,
-      remove;
+    on1,
+    listener0,
+    key = "style." + name,
+    event = "end." + key,
+    remove;
   return function () {
     var schedule = set(this, id),
-        on = schedule.on,
-        listener = schedule.value[key] == null ? remove || (remove = styleRemove(name)) : undefined; // If this node shared a dispatch with the previous node,
+      on = schedule.on,
+      listener = schedule.value[key] == null ? remove || (remove = styleRemove(name)) : undefined;
+
+    // If this node shared a dispatch with the previous node,
     // just assign the updated shared dispatch and we’re done!
     // Otherwise, copy-on-write.
-
     if (on !== on0 || listener0 !== listener) (on1 = (on0 = on).copy()).on(event, listener0 = listener);
     schedule.on = on1;
   };
 }
-
 function transition_style (name, value, priority) {
   var i = (name += "") === "transform" ? interpolateTransformCss : interpolate;
   return value == null ? this.styleTween(name, styleNull(name, i)).on("end.style." + name, styleRemove(name)) : typeof value === "function" ? this.styleTween(name, styleFunction(name, i, tweenValue(this, "style." + name, value))).each(styleMaybeRemove(this._id, name)) : this.styleTween(name, styleConstant(name, i, value), priority).on("end.style." + name, null);
@@ -4137,20 +4227,16 @@ function styleInterpolate(name, i, priority) {
     this.style.setProperty(name, i.call(this, t), priority);
   };
 }
-
 function styleTween(name, value, priority) {
   var t, i0;
-
   function tween() {
     var i = value.apply(this, arguments);
     if (i !== i0) t = (i0 = i) && styleInterpolate(name, i, priority);
     return t;
   }
-
   tween._value = value;
   return tween;
 }
-
 function transition_styleTween (name, value, priority) {
   var key = "style." + (name += "");
   if (arguments.length < 2) return (key = this.tween(key)) && key._value;
@@ -4164,14 +4250,12 @@ function textConstant(value) {
     this.textContent = value;
   };
 }
-
 function textFunction(value) {
   return function () {
     var value1 = value(this);
     this.textContent = value1 == null ? "" : value1;
   };
 }
-
 function transition_text (value) {
   return this.tween("text", typeof value === "function" ? textFunction(tweenValue(this, "text", value)) : textConstant(value == null ? "" : value + ""));
 }
@@ -4181,20 +4265,16 @@ function textInterpolate(i) {
     this.textContent = i.call(this, t);
   };
 }
-
 function textTween(value) {
   var t0, i0;
-
   function tween() {
     var i = value.apply(this, arguments);
     if (i !== i0) t0 = (i0 = i) && textInterpolate(i);
     return t0;
   }
-
   tween._value = value;
   return tween;
 }
-
 function transition_textTween (value) {
   var key = "text";
   if (arguments.length < 1) return (key = this.tween(key)) && key._value;
@@ -4205,9 +4285,8 @@ function transition_textTween (value) {
 
 function transition_transition () {
   var name = this._name,
-      id0 = this._id,
-      id1 = newId();
-
+    id0 = this._id,
+    id1 = newId();
   for (var groups = this._groups, m = groups.length, j = 0; j < m; ++j) {
     for (var group = groups[j], n = group.length, node, i = 0; i < n; ++i) {
       if (node = group[i]) {
@@ -4221,44 +4300,41 @@ function transition_transition () {
       }
     }
   }
-
   return new Transition(groups, this._parents, name, id1);
 }
 
 function transition_end () {
   var on0,
-      on1,
-      that = this,
-      id = that._id,
-      size = that.size();
+    on1,
+    that = this,
+    id = that._id,
+    size = that.size();
   return new Promise(function (resolve, reject) {
     var cancel = {
-      value: reject
-    },
-        end = {
-      value: function () {
-        if (--size === 0) resolve();
-      }
-    };
+        value: reject
+      },
+      end = {
+        value: function () {
+          if (--size === 0) resolve();
+        }
+      };
     that.each(function () {
       var schedule = set(this, id),
-          on = schedule.on; // If this node shared a dispatch with the previous node,
+        on = schedule.on;
+
+      // If this node shared a dispatch with the previous node,
       // just assign the updated shared dispatch and we’re done!
       // Otherwise, copy-on-write.
-
       if (on !== on0) {
         on1 = (on0 = on).copy();
-
         on1._.cancel.push(cancel);
-
         on1._.interrupt.push(cancel);
-
         on1._.end.push(end);
       }
-
       schedule.on = on1;
-    }); // The selection was empty, resolve end immediately
+    });
 
+    // The selection was empty, resolve end immediately
     if (size === 0) resolve();
   });
 }
@@ -4326,28 +4402,22 @@ var defaultTiming = {
   duration: 250,
   ease: cubicInOut
 };
-
 function inherit(node, id) {
   var timing;
-
   while (!(timing = node.__transition) || !(timing = timing[id])) {
     if (!(node = node.parentNode)) {
       throw new Error(`transition ${id} not found`);
     }
   }
-
   return timing;
 }
-
 function selection_transition (name) {
   var id, timing;
-
   if (name instanceof Transition) {
     id = name._id, name = name._name;
   } else {
     id = newId(), (timing = defaultTiming).time = now(), name = name == null ? null : name + "";
   }
-
   for (var groups = this._groups, m = groups.length, j = 0; j < m; ++j) {
     for (var group = groups[j], n = group.length, node, i = 0; i < n; ++i) {
       if (node = group[i]) {
@@ -4355,7 +4425,6 @@ function selection_transition (name) {
       }
     }
   }
-
   return new Transition(groups, this._parents, name, id);
 }
 
@@ -4363,21 +4432,18 @@ selection.prototype.interrupt = selection_interrupt;
 selection.prototype.transition = selection_transition;
 
 const pi$1 = Math.PI,
-      tau$1 = 2 * pi$1,
-      epsilon$1 = 1e-6,
-      tauEpsilon = tau$1 - epsilon$1;
-
+  tau$1 = 2 * pi$1,
+  epsilon$1 = 1e-6,
+  tauEpsilon = tau$1 - epsilon$1;
 function Path() {
-  this._x0 = this._y0 = // start of current subpath
+  this._x0 = this._y0 =
+  // start of current subpath
   this._x1 = this._y1 = null; // end of current subpath
-
   this._ = "";
 }
-
 function path() {
   return new Path();
 }
-
 Path.prototype = path.prototype = {
   constructor: Path,
   moveTo: function (x, y) {
@@ -4401,68 +4467,84 @@ Path.prototype = path.prototype = {
   arcTo: function (x1, y1, x2, y2, r) {
     x1 = +x1, y1 = +y1, x2 = +x2, y2 = +y2, r = +r;
     var x0 = this._x1,
-        y0 = this._y1,
-        x21 = x2 - x1,
-        y21 = y2 - y1,
-        x01 = x0 - x1,
-        y01 = y0 - y1,
-        l01_2 = x01 * x01 + y01 * y01; // Is the radius negative? Error.
+      y0 = this._y1,
+      x21 = x2 - x1,
+      y21 = y2 - y1,
+      x01 = x0 - x1,
+      y01 = y0 - y1,
+      l01_2 = x01 * x01 + y01 * y01;
 
-    if (r < 0) throw new Error("negative radius: " + r); // Is this path empty? Move to (x1,y1).
+    // Is the radius negative? Error.
+    if (r < 0) throw new Error("negative radius: " + r);
 
+    // Is this path empty? Move to (x1,y1).
     if (this._x1 === null) {
       this._ += "M" + (this._x1 = x1) + "," + (this._y1 = y1);
-    } // Or, is (x1,y1) coincident with (x0,y0)? Do nothing.
-    else if (!(l01_2 > epsilon$1)) ; // Or, are (x0,y0), (x1,y1) and (x2,y2) collinear?
+    }
+
+    // Or, is (x1,y1) coincident with (x0,y0)? Do nothing.
+    else if (!(l01_2 > epsilon$1)) ;
+
+    // Or, are (x0,y0), (x1,y1) and (x2,y2) collinear?
     // Equivalently, is (x1,y1) coincident with (x2,y2)?
     // Or, is the radius zero? Line to (x1,y1).
     else if (!(Math.abs(y01 * x21 - y21 * x01) > epsilon$1) || !r) {
       this._ += "L" + (this._x1 = x1) + "," + (this._y1 = y1);
-    } // Otherwise, draw an arc!
+    }
+
+    // Otherwise, draw an arc!
     else {
       var x20 = x2 - x0,
-          y20 = y2 - y0,
-          l21_2 = x21 * x21 + y21 * y21,
-          l20_2 = x20 * x20 + y20 * y20,
-          l21 = Math.sqrt(l21_2),
-          l01 = Math.sqrt(l01_2),
-          l = r * Math.tan((pi$1 - Math.acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2),
-          t01 = l / l01,
-          t21 = l / l21; // If the start tangent is not coincident with (x0,y0), line to.
+        y20 = y2 - y0,
+        l21_2 = x21 * x21 + y21 * y21,
+        l20_2 = x20 * x20 + y20 * y20,
+        l21 = Math.sqrt(l21_2),
+        l01 = Math.sqrt(l01_2),
+        l = r * Math.tan((pi$1 - Math.acos((l21_2 + l01_2 - l20_2) / (2 * l21 * l01))) / 2),
+        t01 = l / l01,
+        t21 = l / l21;
 
+      // If the start tangent is not coincident with (x0,y0), line to.
       if (Math.abs(t01 - 1) > epsilon$1) {
         this._ += "L" + (x1 + t01 * x01) + "," + (y1 + t01 * y01);
       }
-
       this._ += "A" + r + "," + r + ",0,0," + +(y01 * x20 > x01 * y20) + "," + (this._x1 = x1 + t21 * x21) + "," + (this._y1 = y1 + t21 * y21);
     }
   },
   arc: function (x, y, r, a0, a1, ccw) {
     x = +x, y = +y, r = +r, ccw = !!ccw;
     var dx = r * Math.cos(a0),
-        dy = r * Math.sin(a0),
-        x0 = x + dx,
-        y0 = y + dy,
-        cw = 1 ^ ccw,
-        da = ccw ? a0 - a1 : a1 - a0; // Is the radius negative? Error.
+      dy = r * Math.sin(a0),
+      x0 = x + dx,
+      y0 = y + dy,
+      cw = 1 ^ ccw,
+      da = ccw ? a0 - a1 : a1 - a0;
 
-    if (r < 0) throw new Error("negative radius: " + r); // Is this path empty? Move to (x0,y0).
+    // Is the radius negative? Error.
+    if (r < 0) throw new Error("negative radius: " + r);
 
+    // Is this path empty? Move to (x0,y0).
     if (this._x1 === null) {
       this._ += "M" + x0 + "," + y0;
-    } // Or, is (x0,y0) not coincident with the previous point? Line to (x0,y0).
+    }
+
+    // Or, is (x0,y0) not coincident with the previous point? Line to (x0,y0).
     else if (Math.abs(this._x1 - x0) > epsilon$1 || Math.abs(this._y1 - y0) > epsilon$1) {
       this._ += "L" + x0 + "," + y0;
-    } // Is this arc empty? We’re done.
+    }
 
+    // Is this arc empty? We’re done.
+    if (!r) return;
 
-    if (!r) return; // Does the angle go the wrong way? Flip the direction.
+    // Does the angle go the wrong way? Flip the direction.
+    if (da < 0) da = da % tau$1 + tau$1;
 
-    if (da < 0) da = da % tau$1 + tau$1; // Is this a complete circle? Draw two arcs to complete the circle.
-
+    // Is this a complete circle? Draw two arcs to complete the circle.
     if (da > tauEpsilon) {
       this._ += "A" + r + "," + r + ",0,1," + cw + "," + (x - dx) + "," + (y - dy) + "A" + r + "," + r + ",0,1," + cw + "," + (this._x1 = x0) + "," + (this._y1 = y0);
-    } // Is this arc non-empty? Draw an arc!
+    }
+
+    // Is this arc non-empty? Draw an arc!
     else if (da > epsilon$1) {
       this._ += "A" + r + "," + r + ",0," + +(da >= pi$1) + "," + cw + "," + (this._x1 = x + r * Math.cos(a1)) + "," + (this._y1 = y + r * Math.sin(a1));
     }
@@ -4475,6 +4557,105 @@ Path.prototype = path.prototype = {
   }
 };
 
+function count(values, valueof) {
+  let count = 0;
+  if (valueof === undefined) {
+    for (let value of values) {
+      if (value != null && (value = +value) >= value) {
+        ++count;
+      }
+    }
+  } else {
+    let index = -1;
+    for (let value of values) {
+      if ((value = valueof(value, ++index, values)) != null && (value = +value) >= value) {
+        ++count;
+      }
+    }
+  }
+  return count;
+}
+
+function extent(values, valueof) {
+  let min;
+  let max;
+  if (valueof === undefined) {
+    for (const value of values) {
+      if (value != null) {
+        if (min === undefined) {
+          if (value >= value) min = max = value;
+        } else {
+          if (min > value) min = value;
+          if (max < value) max = value;
+        }
+      }
+    }
+  } else {
+    let index = -1;
+    for (let value of values) {
+      if ((value = valueof(value, ++index, values)) != null) {
+        if (min === undefined) {
+          if (value >= value) min = max = value;
+        } else {
+          if (min > value) min = value;
+          if (max < value) max = value;
+        }
+      }
+    }
+  }
+  return [min, max];
+}
+
+var e10 = Math.sqrt(50),
+  e5 = Math.sqrt(10),
+  e2 = Math.sqrt(2);
+function ticks(start, stop, count) {
+  var reverse,
+    i = -1,
+    n,
+    ticks,
+    step;
+  stop = +stop, start = +start, count = +count;
+  if (start === stop && count > 0) return [start];
+  if (reverse = stop < start) n = start, start = stop, stop = n;
+  if ((step = tickIncrement(start, stop, count)) === 0 || !isFinite(step)) return [];
+  if (step > 0) {
+    let r0 = Math.round(start / step),
+      r1 = Math.round(stop / step);
+    if (r0 * step < start) ++r0;
+    if (r1 * step > stop) --r1;
+    ticks = new Array(n = r1 - r0 + 1);
+    while (++i < n) ticks[i] = (r0 + i) * step;
+  } else {
+    step = -step;
+    let r0 = Math.round(start * step),
+      r1 = Math.round(stop * step);
+    if (r0 / step < start) ++r0;
+    if (r1 / step > stop) --r1;
+    ticks = new Array(n = r1 - r0 + 1);
+    while (++i < n) ticks[i] = (r0 + i) / step;
+  }
+  if (reverse) ticks.reverse();
+  return ticks;
+}
+function tickIncrement(start, stop, count) {
+  var step = (stop - start) / Math.max(0, count),
+    power = Math.floor(Math.log(step) / Math.LN10),
+    error = step / Math.pow(10, power);
+  return power >= 0 ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
+}
+function tickStep(start, stop, count) {
+  var step0 = Math.abs(stop - start) / Math.max(0, count),
+    step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)),
+    error = step0 / step1;
+  if (error >= e10) step1 *= 10;else if (error >= e5) step1 *= 5;else if (error >= e2) step1 *= 2;
+  return stop < start ? -step1 : step1;
+}
+
+function thresholdSturges(values) {
+  return Math.ceil(Math.log(count(values)) / Math.LN2) + 1;
+}
+
 var array$1 = Array.prototype;
 var slice = array$1.slice;
 
@@ -4484,11 +4665,9 @@ function ascending (a, b) {
 
 function area (ring) {
   var i = 0,
-      n = ring.length,
-      area = ring[n - 1][1] * ring[0][0] - ring[n - 1][0] * ring[0][1];
-
+    n = ring.length,
+    area = ring[n - 1][1] * ring[0][0] - ring[n - 1][0] * ring[0][1];
   while (++i < n) area += ring[i - 1][1] * ring[i][0] - ring[i - 1][0] * ring[i][1];
-
   return area;
 }
 
@@ -4496,42 +4675,34 @@ var constant$1 = (x => () => x);
 
 function contains (ring, hole) {
   var i = -1,
-      n = hole.length,
-      c;
-
+    n = hole.length,
+    c;
   while (++i < n) if (c = ringContains(ring, hole[i])) return c;
-
   return 0;
 }
-
 function ringContains(ring, point) {
   var x = point[0],
-      y = point[1],
-      contains = -1;
-
+    y = point[1],
+    contains = -1;
   for (var i = 0, n = ring.length, j = n - 1; i < n; j = i++) {
     var pi = ring[i],
-        xi = pi[0],
-        yi = pi[1],
-        pj = ring[j],
-        xj = pj[0],
-        yj = pj[1];
+      xi = pi[0],
+      yi = pi[1],
+      pj = ring[j],
+      xj = pj[0],
+      yj = pj[1];
     if (segmentContains(pi, pj, point)) return 0;
     if (yi > y !== yj > y && x < (xj - xi) * (y - yi) / (yj - yi) + xi) contains = -contains;
   }
-
   return contains;
 }
-
 function segmentContains(a, b, c) {
   var i;
   return collinear(a, b, c) && within(a[i = +(a[0] === b[0])], c[i], b[i]);
 }
-
 function collinear(a, b, c) {
   return (b[0] - a[0]) * (c[1] - a[1]) === (c[0] - a[0]) * (b[1] - a[1]);
 }
-
 function within(p, q, r) {
   return p <= q && q <= r || r <= q && q <= p;
 }
@@ -4539,31 +4710,30 @@ function within(p, q, r) {
 function noop$1 () {}
 
 var cases = [[], [[[1.0, 1.5], [0.5, 1.0]]], [[[1.5, 1.0], [1.0, 1.5]]], [[[1.5, 1.0], [0.5, 1.0]]], [[[1.0, 0.5], [1.5, 1.0]]], [[[1.0, 1.5], [0.5, 1.0]], [[1.0, 0.5], [1.5, 1.0]]], [[[1.0, 0.5], [1.0, 1.5]]], [[[1.0, 0.5], [0.5, 1.0]]], [[[0.5, 1.0], [1.0, 0.5]]], [[[1.0, 1.5], [1.0, 0.5]]], [[[0.5, 1.0], [1.0, 0.5]], [[1.5, 1.0], [1.0, 1.5]]], [[[1.5, 1.0], [1.0, 0.5]]], [[[0.5, 1.0], [1.5, 1.0]]], [[[1.0, 1.5], [1.5, 1.0]]], [[[0.5, 1.0], [1.0, 1.5]]], []];
-function contours () {
+function Contours () {
   var dx = 1,
-      dy = 1,
-      threshold = thresholdSturges,
-      smooth = smoothLinear;
-
+    dy = 1,
+    threshold = thresholdSturges,
+    smooth = smoothLinear;
   function contours(values) {
-    var tz = threshold(values); // Convert number of thresholds into uniform thresholds.
+    var tz = threshold(values);
 
+    // Convert number of thresholds into uniform thresholds.
     if (!Array.isArray(tz)) {
       const e = extent(values),
-            ts = tickStep(e[0], e[1], tz);
+        ts = tickStep(e[0], e[1], tz);
       tz = ticks(Math.floor(e[0] / ts) * ts, Math.floor(e[1] / ts - 1) * ts, tz);
     } else {
       tz = tz.slice().sort(ascending);
     }
-
     return tz.map(value => contour(values, value));
-  } // Accumulate, smooth contour rings, assign holes to exterior rings.
+  }
+
+  // Accumulate, smooth contour rings, assign holes to exterior rings.
   // Based on https://github.com/mbostock/shapefile/blob/v0.6.2/shp/polygon.js
-
-
   function contour(values, value) {
     var polygons = [],
-        holes = [];
+      holes = [];
     isorings(values, value, function (ring) {
       smooth(ring, values, value);
       if (area(ring) > 0) polygons.push([ring]);else holes.push(ring);
@@ -4581,71 +4751,64 @@ function contours () {
       value: value,
       coordinates: polygons
     };
-  } // Marching squares with isolines stitched into rings.
+  }
+
+  // Marching squares with isolines stitched into rings.
   // Based on https://github.com/topojson/topojson-client/blob/v3.0.0/src/stitch.js
-
-
   function isorings(values, value, callback) {
     var fragmentByStart = new Array(),
-        fragmentByEnd = new Array(),
-        x,
-        y,
-        t0,
-        t1,
-        t2,
-        t3; // Special case for the first row (y = -1, t2 = t3 = 0).
+      fragmentByEnd = new Array(),
+      x,
+      y,
+      t0,
+      t1,
+      t2,
+      t3;
 
+    // Special case for the first row (y = -1, t2 = t3 = 0).
     x = y = -1;
     t1 = values[0] >= value;
     cases[t1 << 1].forEach(stitch);
-
     while (++x < dx - 1) {
       t0 = t1, t1 = values[x + 1] >= value;
       cases[t0 | t1 << 1].forEach(stitch);
     }
+    cases[t1 << 0].forEach(stitch);
 
-    cases[t1 << 0].forEach(stitch); // General case for the intermediate rows.
-
+    // General case for the intermediate rows.
     while (++y < dy - 1) {
       x = -1;
       t1 = values[y * dx + dx] >= value;
       t2 = values[y * dx] >= value;
       cases[t1 << 1 | t2 << 2].forEach(stitch);
-
       while (++x < dx - 1) {
         t0 = t1, t1 = values[y * dx + dx + x + 1] >= value;
         t3 = t2, t2 = values[y * dx + x + 1] >= value;
         cases[t0 | t1 << 1 | t2 << 2 | t3 << 3].forEach(stitch);
       }
-
       cases[t1 | t2 << 3].forEach(stitch);
-    } // Special case for the last row (y = dy - 1, t0 = t1 = 0).
+    }
 
-
+    // Special case for the last row (y = dy - 1, t0 = t1 = 0).
     x = -1;
     t2 = values[y * dx] >= value;
     cases[t2 << 2].forEach(stitch);
-
     while (++x < dx - 1) {
       t3 = t2, t2 = values[y * dx + x + 1] >= value;
       cases[t2 << 2 | t3 << 3].forEach(stitch);
     }
-
     cases[t2 << 3].forEach(stitch);
-
     function stitch(line) {
       var start = [line[0][0] + x, line[0][1] + y],
-          end = [line[1][0] + x, line[1][1] + y],
-          startIndex = index(start),
-          endIndex = index(end),
-          f,
-          g;
-
+        end = [line[1][0] + x, line[1][1] + y],
+        startIndex = index(start),
+        endIndex = index(end),
+        f,
+        g;
       if (f = fragmentByEnd[startIndex]) {
         if (g = fragmentByStart[endIndex]) {
           delete fragmentByEnd[f.end];
           delete fragmentByStart[g.start];
-
           if (f === g) {
             f.ring.push(end);
             callback(f.ring);
@@ -4665,7 +4828,6 @@ function contours () {
         if (g = fragmentByEnd[startIndex]) {
           delete fragmentByStart[f.start];
           delete fragmentByEnd[g.end];
-
           if (f === g) {
             f.ring.push(end);
             callback(f.ring);
@@ -4690,68 +4852,58 @@ function contours () {
       }
     }
   }
-
   function index(point) {
     return point[0] * 2 + point[1] * (dx + 1) * 4;
   }
-
   function smoothLinear(ring, values, value) {
     ring.forEach(function (point) {
       var x = point[0],
-          y = point[1],
-          xt = x | 0,
-          yt = y | 0,
-          v0,
-          v1 = values[yt * dx + xt];
-
+        y = point[1],
+        xt = x | 0,
+        yt = y | 0,
+        v0,
+        v1 = values[yt * dx + xt];
       if (x > 0 && x < dx && xt === x) {
         v0 = values[yt * dx + xt - 1];
         point[0] = x + (value - v0) / (v1 - v0) - 0.5;
       }
-
       if (y > 0 && y < dy && yt === y) {
         v0 = values[(yt - 1) * dx + xt];
         point[1] = y + (value - v0) / (v1 - v0) - 0.5;
       }
     });
   }
-
   contours.contour = contour;
-
   contours.size = function (_) {
     if (!arguments.length) return [dx, dy];
-
     var _0 = Math.floor(_[0]),
-        _1 = Math.floor(_[1]);
-
+      _1 = Math.floor(_[1]);
     if (!(_0 >= 0 && _1 >= 0)) throw new Error("invalid size");
     return dx = _0, dy = _1, contours;
   };
-
   contours.thresholds = function (_) {
     return arguments.length ? (threshold = typeof _ === "function" ? _ : Array.isArray(_) ? constant$1(slice.call(_)) : constant$1(_), contours) : threshold;
   };
-
   contours.smooth = function (_) {
     return arguments.length ? (smooth = _ ? smoothLinear : noop$1, contours) : smooth === smoothLinear;
   };
-
   return contours;
 }
 
 function formatDecimal (x) {
   return Math.abs(x = Math.round(x)) >= 1e21 ? x.toLocaleString("en").replace(/,/g, "") : x.toString(10);
-} // Computes the decimal coefficient and exponent of the specified number x with
+}
+
+// Computes the decimal coefficient and exponent of the specified number x with
 // significant digits p, where x is positive and p is in [1, 21] or undefined.
 // For example, formatDecimalParts(1.23) returns ["123", 0].
-
 function formatDecimalParts(x, p) {
   if ((i = (x = p ? x.toExponential(p - 1) : x.toExponential()).indexOf("e")) < 0) return null; // NaN, ±Infinity
-
   var i,
-      coefficient = x.slice(0, i); // The string returned by toExponential either has the form \d\.\d+e[-+]\d+
-  // (e.g., 1.2e+3) or the form \de[-+]\d+ (e.g., 1e+3).
+    coefficient = x.slice(0, i);
 
+  // The string returned by toExponential either has the form \d\.\d+e[-+]\d+
+  // (e.g., 1.2e+3) or the form \de[-+]\d+ (e.g., 1e+3).
   return [coefficient.length > 1 ? coefficient[0] + coefficient.slice(2) : coefficient, +x.slice(i + 1)];
 }
 
@@ -4762,18 +4914,16 @@ function exponent (x) {
 function formatGroup (grouping, thousands) {
   return function (value, width) {
     var i = value.length,
-        t = [],
-        j = 0,
-        g = grouping[0],
-        length = 0;
-
+      t = [],
+      j = 0,
+      g = grouping[0],
+      length = 0;
     while (i > 0 && g > 0) {
       if (length + g + 1 > width) g = Math.max(1, width - length);
       t.push(value.substring(i -= g, i + g));
       if ((length += g + 1) > width) break;
       g = grouping[j = (j + 1) % grouping.length];
     }
-
     return t.reverse().join(thousands);
   };
 }
@@ -4818,7 +4968,6 @@ function FormatSpecifier(specifier) {
   this.trim = !!specifier.trim;
   this.type = specifier.type === undefined ? "" : specifier.type + "";
 }
-
 FormatSpecifier.prototype.toString = function () {
   return this.fill + this.align + this.sign + this.symbol + (this.zero ? "0" : "") + (this.width === undefined ? "" : Math.max(1, this.width | 0)) + (this.comma ? "," : "") + (this.precision === undefined ? "" : "." + Math.max(0, this.precision | 0)) + (this.trim ? "~" : "") + this.type;
 };
@@ -4830,19 +4979,16 @@ function formatTrim (s) {
       case ".":
         i0 = i1 = i;
         break;
-
       case "0":
         if (i0 === 0) i0 = i;
         i1 = i;
         break;
-
       default:
         if (!+s[i]) break out;
         if (i0 > 0) i0 = 0;
         break;
     }
   }
-
   return i0 > 0 ? s.slice(0, i0) + s.slice(i1 + 1) : s;
 }
 
@@ -4851,9 +4997,9 @@ function formatPrefixAuto (x, p) {
   var d = formatDecimalParts(x, p);
   if (!d) return x + "";
   var coefficient = d[0],
-      exponent = d[1],
-      i = exponent - (prefixExponent = Math.max(-8, Math.min(8, Math.floor(exponent / 3))) * 3) + 1,
-      n = coefficient.length;
+    exponent = d[1],
+    i = exponent - (prefixExponent = Math.max(-8, Math.min(8, Math.floor(exponent / 3))) * 3) + 1,
+    n = coefficient.length;
   return i === n ? coefficient : i > n ? coefficient + new Array(i - n + 1).join("0") : i > 0 ? coefficient.slice(0, i) + "." + coefficient.slice(i) : "0." + new Array(1 - i).join("0") + formatDecimalParts(x, Math.max(0, p + i - 1))[0]; // less than 1y!
 }
 
@@ -4861,7 +5007,7 @@ function formatRounded (x, p) {
   var d = formatDecimalParts(x, p);
   if (!d) return x + "";
   var coefficient = d[0],
-      exponent = d[1];
+    exponent = d[1];
   return exponent < 0 ? "0." + new Array(-exponent).join("0") + coefficient : coefficient.length > exponent + 1 ? coefficient.slice(0, exponent + 1) + "." + coefficient.slice(exponent + 1) : coefficient + new Array(exponent - coefficient.length + 2).join("0");
 }
 
@@ -4886,77 +5032,86 @@ function identity$3 (x) {
 }
 
 var map = Array.prototype.map,
-    prefixes = ["y", "z", "a", "f", "p", "n", "µ", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y"];
+  prefixes = ["y", "z", "a", "f", "p", "n", "µ", "m", "", "k", "M", "G", "T", "P", "E", "Z", "Y"];
 function formatLocale (locale) {
   var group = locale.grouping === undefined || locale.thousands === undefined ? identity$3 : formatGroup(map.call(locale.grouping, Number), locale.thousands + ""),
-      currencyPrefix = locale.currency === undefined ? "" : locale.currency[0] + "",
-      currencySuffix = locale.currency === undefined ? "" : locale.currency[1] + "",
-      decimal = locale.decimal === undefined ? "." : locale.decimal + "",
-      numerals = locale.numerals === undefined ? identity$3 : formatNumerals(map.call(locale.numerals, String)),
-      percent = locale.percent === undefined ? "%" : locale.percent + "",
-      minus = locale.minus === undefined ? "−" : locale.minus + "",
-      nan = locale.nan === undefined ? "NaN" : locale.nan + "";
-
+    currencyPrefix = locale.currency === undefined ? "" : locale.currency[0] + "",
+    currencySuffix = locale.currency === undefined ? "" : locale.currency[1] + "",
+    decimal = locale.decimal === undefined ? "." : locale.decimal + "",
+    numerals = locale.numerals === undefined ? identity$3 : formatNumerals(map.call(locale.numerals, String)),
+    percent = locale.percent === undefined ? "%" : locale.percent + "",
+    minus = locale.minus === undefined ? "−" : locale.minus + "",
+    nan = locale.nan === undefined ? "NaN" : locale.nan + "";
   function newFormat(specifier) {
     specifier = formatSpecifier(specifier);
     var fill = specifier.fill,
-        align = specifier.align,
-        sign = specifier.sign,
-        symbol = specifier.symbol,
-        zero = specifier.zero,
-        width = specifier.width,
-        comma = specifier.comma,
-        precision = specifier.precision,
-        trim = specifier.trim,
-        type = specifier.type; // The "n" type is an alias for ",g".
+      align = specifier.align,
+      sign = specifier.sign,
+      symbol = specifier.symbol,
+      zero = specifier.zero,
+      width = specifier.width,
+      comma = specifier.comma,
+      precision = specifier.precision,
+      trim = specifier.trim,
+      type = specifier.type;
 
-    if (type === "n") comma = true, type = "g"; // The "" type, and any invalid type, is an alias for ".12~g".
-    else if (!formatTypes[type]) precision === undefined && (precision = 12), trim = true, type = "g"; // If zero fill is specified, padding goes after sign and before digits.
+    // The "n" type is an alias for ",g".
+    if (type === "n") comma = true, type = "g";
 
-    if (zero || fill === "0" && align === "=") zero = true, fill = "0", align = "="; // Compute the prefix and suffix.
+    // The "" type, and any invalid type, is an alias for ".12~g".
+    else if (!formatTypes[type]) precision === undefined && (precision = 12), trim = true, type = "g";
+
+    // If zero fill is specified, padding goes after sign and before digits.
+    if (zero || fill === "0" && align === "=") zero = true, fill = "0", align = "=";
+
+    // Compute the prefix and suffix.
     // For SI-prefix, the suffix is lazily computed.
-
     var prefix = symbol === "$" ? currencyPrefix : symbol === "#" && /[boxX]/.test(type) ? "0" + type.toLowerCase() : "",
-        suffix = symbol === "$" ? currencySuffix : /[%p]/.test(type) ? percent : ""; // What format function should we use?
+      suffix = symbol === "$" ? currencySuffix : /[%p]/.test(type) ? percent : "";
+
+    // What format function should we use?
     // Is this an integer type?
     // Can this type generate exponential notation?
-
     var formatType = formatTypes[type],
-        maybeSuffix = /[defgprs%]/.test(type); // Set the default precision if not specified,
+      maybeSuffix = /[defgprs%]/.test(type);
+
+    // Set the default precision if not specified,
     // or clamp the specified precision to the supported range.
     // For significant precision, it must be in [1, 21].
     // For fixed precision, it must be in [0, 20].
-
     precision = precision === undefined ? 6 : /[gprs]/.test(type) ? Math.max(1, Math.min(21, precision)) : Math.max(0, Math.min(20, precision));
-
     function format(value) {
       var valuePrefix = prefix,
-          valueSuffix = suffix,
-          i,
-          n,
-          c;
-
+        valueSuffix = suffix,
+        i,
+        n,
+        c;
       if (type === "c") {
         valueSuffix = formatType(value) + valueSuffix;
         value = "";
       } else {
-        value = +value; // Determine the sign. -0 is not less than 0, but 1 / -0 is!
+        value = +value;
 
-        var valueNegative = value < 0 || 1 / value < 0; // Perform the initial formatting.
+        // Determine the sign. -0 is not less than 0, but 1 / -0 is!
+        var valueNegative = value < 0 || 1 / value < 0;
 
-        value = isNaN(value) ? nan : formatType(Math.abs(value), precision); // Trim insignificant zeros.
+        // Perform the initial formatting.
+        value = isNaN(value) ? nan : formatType(Math.abs(value), precision);
 
-        if (trim) value = formatTrim(value); // If a negative value rounds to zero after formatting, and no explicit positive sign is requested, hide the sign.
+        // Trim insignificant zeros.
+        if (trim) value = formatTrim(value);
 
-        if (valueNegative && +value === 0 && sign !== "+") valueNegative = false; // Compute the prefix and suffix.
+        // If a negative value rounds to zero after formatting, and no explicit positive sign is requested, hide the sign.
+        if (valueNegative && +value === 0 && sign !== "+") valueNegative = false;
 
+        // Compute the prefix and suffix.
         valuePrefix = (valueNegative ? sign === "(" ? sign : minus : sign === "-" || sign === "(" ? "" : sign) + valuePrefix;
-        valueSuffix = (type === "s" ? prefixes[8 + prefixExponent / 3] : "") + valueSuffix + (valueNegative && sign === "(" ? ")" : ""); // Break the formatted value into the integer “value” part that can be
-        // grouped, and fractional or exponential “suffix” part that is not.
+        valueSuffix = (type === "s" ? prefixes[8 + prefixExponent / 3] : "") + valueSuffix + (valueNegative && sign === "(" ? ")" : "");
 
+        // Break the formatted value into the integer “value” part that can be
+        // grouped, and fractional or exponential “suffix” part that is not.
         if (maybeSuffix) {
           i = -1, n = value.length;
-
           while (++i < n) {
             if (c = value.charCodeAt(i), 48 > c || c > 57) {
               valueSuffix = (c === 46 ? decimal + value.slice(i + 1) : value.slice(i)) + valueSuffix;
@@ -4965,54 +5120,49 @@ function formatLocale (locale) {
             }
           }
         }
-      } // If the fill character is not "0", grouping is applied before padding.
+      }
 
+      // If the fill character is not "0", grouping is applied before padding.
+      if (comma && !zero) value = group(value, Infinity);
 
-      if (comma && !zero) value = group(value, Infinity); // Compute the padding.
-
+      // Compute the padding.
       var length = valuePrefix.length + value.length + valueSuffix.length,
-          padding = length < width ? new Array(width - length + 1).join(fill) : ""; // If the fill character is "0", grouping is applied after padding.
+        padding = length < width ? new Array(width - length + 1).join(fill) : "";
 
-      if (comma && zero) value = group(padding + value, padding.length ? width - valueSuffix.length : Infinity), padding = ""; // Reconstruct the final output based on the desired alignment.
+      // If the fill character is "0", grouping is applied after padding.
+      if (comma && zero) value = group(padding + value, padding.length ? width - valueSuffix.length : Infinity), padding = "";
 
+      // Reconstruct the final output based on the desired alignment.
       switch (align) {
         case "<":
           value = valuePrefix + value + valueSuffix + padding;
           break;
-
         case "=":
           value = valuePrefix + padding + value + valueSuffix;
           break;
-
         case "^":
           value = padding.slice(0, length = padding.length >> 1) + valuePrefix + value + valueSuffix + padding.slice(length);
           break;
-
         default:
           value = padding + valuePrefix + value + valueSuffix;
           break;
       }
-
       return numerals(value);
     }
-
     format.toString = function () {
       return specifier + "";
     };
-
     return format;
   }
-
   function formatPrefix(specifier, value) {
     var f = newFormat((specifier = formatSpecifier(specifier), specifier.type = "f", specifier)),
-        e = Math.max(-8, Math.min(8, Math.floor(exponent(value) / 3))) * 3,
-        k = Math.pow(10, -e),
-        prefix = prefixes[8 + e / 3];
+      e = Math.max(-8, Math.min(8, Math.floor(exponent(value) / 3))) * 3,
+      k = Math.pow(10, -e),
+      prefix = prefixes[8 + e / 3];
     return function (value) {
       return f(k * value) + prefix;
     };
   }
-
   return {
     format: newFormat,
     formatPrefix: formatPrefix
@@ -5064,16 +5214,14 @@ function streamGeometry(geometry, stream) {
     streamGeometryType[geometry.type](geometry, stream);
   }
 }
-
 var streamObjectType = {
   Feature: function (object, stream) {
     streamGeometry(object.geometry, stream);
   },
   FeatureCollection: function (object, stream) {
     var features = object.features,
-        i = -1,
-        n = features.length;
-
+      i = -1,
+      n = features.length;
     while (++i < n) streamGeometry(features[i].geometry, stream);
   }
 };
@@ -5087,9 +5235,8 @@ var streamGeometryType = {
   },
   MultiPoint: function (object, stream) {
     var coordinates = object.coordinates,
-        i = -1,
-        n = coordinates.length;
-
+      i = -1,
+      n = coordinates.length;
     while (++i < n) object = coordinates[i], stream.point(object[0], object[1], object[2]);
   },
   LineString: function (object, stream) {
@@ -5097,9 +5244,8 @@ var streamGeometryType = {
   },
   MultiLineString: function (object, stream) {
     var coordinates = object.coordinates,
-        i = -1,
-        n = coordinates.length;
-
+      i = -1,
+      n = coordinates.length;
     while (++i < n) streamLine(coordinates[i], stream, 0);
   },
   Polygon: function (object, stream) {
@@ -5107,41 +5253,32 @@ var streamGeometryType = {
   },
   MultiPolygon: function (object, stream) {
     var coordinates = object.coordinates,
-        i = -1,
-        n = coordinates.length;
-
+      i = -1,
+      n = coordinates.length;
     while (++i < n) streamPolygon(coordinates[i], stream);
   },
   GeometryCollection: function (object, stream) {
     var geometries = object.geometries,
-        i = -1,
-        n = geometries.length;
-
+      i = -1,
+      n = geometries.length;
     while (++i < n) streamGeometry(geometries[i], stream);
   }
 };
-
 function streamLine(coordinates, stream, closed) {
   var i = -1,
-      n = coordinates.length - closed,
-      coordinate;
+    n = coordinates.length - closed,
+    coordinate;
   stream.lineStart();
-
   while (++i < n) coordinate = coordinates[i], stream.point(coordinate[0], coordinate[1], coordinate[2]);
-
   stream.lineEnd();
 }
-
 function streamPolygon(coordinates, stream) {
   var i = -1,
-      n = coordinates.length;
+    n = coordinates.length;
   stream.polygonStart();
-
   while (++i < n) streamLine(coordinates[i], stream, 1);
-
   stream.polygonEnd();
 }
-
 function geoStream (object, stream) {
   if (object && streamObjectType.hasOwnProperty(object.type)) {
     streamObjectType[object.type](object, stream);
@@ -5152,7 +5289,7 @@ function geoStream (object, stream) {
 
 function clipBuffer () {
   var lines = [],
-      line;
+    line;
   return {
     point: function (x, y, m) {
       line.push([x, y, m]);
@@ -5181,43 +5318,35 @@ function Intersection(point, points, other, entry) {
   this.x = point;
   this.z = points;
   this.o = other; // another intersection
-
   this.e = entry; // is an entry?
-
   this.v = false; // visited
-
   this.n = this.p = null; // next & previous
-} // A generalized polygon clipping algorithm: given a polygon that has been cut
+}
+
+// A generalized polygon clipping algorithm: given a polygon that has been cut
 // into its visible line segments, and rejoins the segments by interpolating
 // along the clip edge.
-
-
 function clipRejoin (segments, compareIntersection, startInside, interpolate, stream) {
   var subject = [],
-      clip = [],
-      i,
-      n;
+    clip = [],
+    i,
+    n;
   segments.forEach(function (segment) {
     if ((n = segment.length - 1) <= 0) return;
     var n,
-        p0 = segment[0],
-        p1 = segment[n],
-        x;
-
+      p0 = segment[0],
+      p1 = segment[n],
+      x;
     if (pointEqual(p0, p1)) {
       if (!p0[2] && !p1[2]) {
         stream.lineStart();
-
         for (i = 0; i < n; ++i) stream.point((p0 = segment[i])[0], p0[1]);
-
         stream.lineEnd();
         return;
-      } // handle degenerate cases by moving the point
-
-
+      }
+      // handle degenerate cases by moving the point
       p1[0] += 2 * epsilon;
     }
-
     subject.push(x = new Intersection(p0, segment, null, true));
     clip.push(x.o = new Intersection(p0, null, x, false));
     subject.push(x = new Intersection(p1, segment, null, false));
@@ -5227,88 +5356,72 @@ function clipRejoin (segments, compareIntersection, startInside, interpolate, st
   clip.sort(compareIntersection);
   link(subject);
   link(clip);
-
   for (i = 0, n = clip.length; i < n; ++i) {
     clip[i].e = startInside = !startInside;
   }
-
   var start = subject[0],
-      points,
-      point;
-
+    points,
+    point;
   while (1) {
     // Find first unvisited intersection.
     var current = start,
-        isSubject = true;
-
+      isSubject = true;
     while (current.v) if ((current = current.n) === start) return;
-
     points = current.z;
     stream.lineStart();
-
     do {
       current.v = current.o.v = true;
-
       if (current.e) {
         if (isSubject) {
           for (i = 0, n = points.length; i < n; ++i) stream.point((point = points[i])[0], point[1]);
         } else {
           interpolate(current.x, current.n.x, 1, stream);
         }
-
         current = current.n;
       } else {
         if (isSubject) {
           points = current.p.z;
-
           for (i = points.length - 1; i >= 0; --i) stream.point((point = points[i])[0], point[1]);
         } else {
           interpolate(current.x, current.p.x, -1, stream);
         }
-
         current = current.p;
       }
-
       current = current.o;
       points = current.z;
       isSubject = !isSubject;
     } while (!current.v);
-
     stream.lineEnd();
   }
 }
-
 function link(array) {
   if (!(n = array.length)) return;
   var n,
-      i = 0,
-      a = array[0],
-      b;
-
+    i = 0,
+    a = array[0],
+    b;
   while (++i < n) {
     a.n = b = array[i];
     b.p = a;
     a = b;
   }
-
   a.n = b = array[0];
   b.p = a;
 }
 
 function clipLine (a, b, x0, y0, x1, y1) {
   var ax = a[0],
-      ay = a[1],
-      bx = b[0],
-      by = b[1],
-      t0 = 0,
-      t1 = 1,
-      dx = bx - ax,
-      dy = by - ay,
-      r;
+    ay = a[1],
+    bx = b[0],
+    by = b[1],
+    t0 = 0,
+    t1 = 1,
+    dx = bx - ax,
+    dy = by - ay,
+    r;
   r = x0 - ax;
   if (!dx && r > 0) return;
   r /= dx;
-
   if (dx < 0) {
     if (r < t0) return;
     if (r < t1) t1 = r;
@@ -5316,11 +5429,9 @@ function clipLine (a, b, x0, y0, x1, y1) {
     if (r > t1) return;
     if (r > t0) t0 = r;
   }
-
   r = x1 - ax;
   if (!dx && r < 0) return;
   r /= dx;
-
   if (dx < 0) {
     if (r > t1) return;
     if (r > t0) t0 = r;
@@ -5328,11 +5439,9 @@ function clipLine (a, b, x0, y0, x1, y1) {
     if (r < t0) return;
     if (r < t1) t1 = r;
   }
-
   r = y0 - ay;
   if (!dy && r > 0) return;
   r /= dy;
-
   if (dy < 0) {
     if (r < t0) return;
     if (r < t1) t1 = r;
@@ -5340,11 +5449,9 @@ function clipLine (a, b, x0, y0, x1, y1) {
     if (r > t1) return;
     if (r > t0) t0 = r;
   }
-
   r = y1 - ay;
   if (!dy && r < 0) return;
   r /= dy;
-
   if (dy < 0) {
     if (r > t1) return;
     if (r > t0) t0 = r;
@@ -5352,32 +5459,30 @@ function clipLine (a, b, x0, y0, x1, y1) {
     if (r < t0) return;
     if (r < t1) t1 = r;
   }
-
   if (t0 > 0) a[0] = ax + t0 * dx, a[1] = ay + t0 * dy;
   if (t1 < 1) b[0] = ax + t1 * dx, b[1] = ay + t1 * dy;
   return true;
 }
 
 var clipMax = 1e9,
-    clipMin = -clipMax; // TODO Use d3-polygon’s polygonContains here for the ring check?
+  clipMin = -clipMax;
+
+// TODO Use d3-polygon’s polygonContains here for the ring check?
 // TODO Eliminate duplicate buffering in clipBuffer and polygon.push?
 
 function clipRectangle(x0, y0, x1, y1) {
   function visible(x, y) {
     return x0 <= x && x <= x1 && y0 <= y && y <= y1;
   }
-
   function interpolate(from, to, direction, stream) {
     var a = 0,
-        a1 = 0;
-
+      a1 = 0;
     if (from == null || (a = corner(from, direction)) !== (a1 = corner(to, direction)) || comparePoint(from, to) < 0 ^ direction > 0) {
       do stream.point(a === 0 || a === 3 ? x0 : x1, a > 1 ? y1 : y0); while ((a = (a + direction + 4) % 4) !== a1);
     } else {
       stream.point(to[0], to[1]);
     }
   }
-
   function corner(p, direction) {
     return abs(p[0] - x0) < epsilon ? direction > 0 ? 0 : 3 : abs(p[0] - x1) < epsilon ? direction > 0 ? 2 : 1 : abs(p[1] - y0) < epsilon ? direction > 0 ? 1 : 0 : direction > 0 ? 3 : 2; // abs(p[1] - y1) < epsilon
   }
@@ -5385,29 +5490,27 @@ function clipRectangle(x0, y0, x1, y1) {
   function compareIntersection(a, b) {
     return comparePoint(a.x, b.x);
   }
-
   function comparePoint(a, b) {
     var ca = corner(a, 1),
-        cb = corner(b, 1);
+      cb = corner(b, 1);
     return ca !== cb ? ca - cb : ca === 0 ? b[1] - a[1] : ca === 1 ? a[0] - b[0] : ca === 2 ? a[1] - b[1] : b[0] - a[0];
   }
-
   return function (stream) {
     var activeStream = stream,
-        bufferStream = clipBuffer(),
-        segments,
-        polygon,
-        ring,
-        x__,
-        y__,
-        v__,
-        // first point
-    x_,
-        y_,
-        v_,
-        // previous point
-    first,
-        clean;
+      bufferStream = clipBuffer(),
+      segments,
+      polygon,
+      ring,
+      x__,
+      y__,
+      v__,
+      // first point
+      x_,
+      y_,
+      v_,
+      // previous point
+      first,
+      clean;
     var clipStream = {
       point: point,
       lineStart: lineStart,
@@ -5415,18 +5518,14 @@ function clipRectangle(x0, y0, x1, y1) {
       polygonStart: polygonStart,
       polygonEnd: polygonEnd
     };
-
     function point(x, y) {
       if (visible(x, y)) activeStream.point(x, y);
     }
-
     function polygonInside() {
       var winding = 0;
-
       for (var i = 0, n = polygon.length; i < n; ++i) {
         for (var ring = polygon[i], j = 1, m = ring.length, point = ring[0], a0, a1, b0 = point[0], b1 = point[1]; j < m; ++j) {
           a0 = b0, a1 = b1, point = ring[j], b0 = point[0], b1 = point[1];
-
           if (a1 <= y1) {
             if (b1 > y1 && (b0 - a0) * (y1 - a1) > (b1 - a1) * (x0 - a0)) ++winding;
           } else {
@@ -5434,69 +5533,57 @@ function clipRectangle(x0, y0, x1, y1) {
           }
         }
       }
-
       return winding;
-    } // Buffer geometry within a polygon and then clip it en masse.
+    }
 
-
+    // Buffer geometry within a polygon and then clip it en masse.
     function polygonStart() {
       activeStream = bufferStream, segments = [], polygon = [], clean = true;
     }
-
     function polygonEnd() {
       var startInside = polygonInside(),
-          cleanInside = clean && startInside,
-          visible = (segments = merge(segments)).length;
-
+        cleanInside = clean && startInside,
+        visible = (segments = merge(segments)).length;
       if (cleanInside || visible) {
         stream.polygonStart();
-
         if (cleanInside) {
           stream.lineStart();
           interpolate(null, null, 1, stream);
           stream.lineEnd();
         }
-
         if (visible) {
           clipRejoin(segments, compareIntersection, startInside, interpolate, stream);
         }
-
         stream.polygonEnd();
       }
-
       activeStream = stream, segments = polygon = ring = null;
     }
-
     function lineStart() {
       clipStream.point = linePoint;
       if (polygon) polygon.push(ring = []);
       first = true;
       v_ = false;
       x_ = y_ = NaN;
-    } // TODO rather than special-case polygons, simply handle them separately.
+    }
+
+    // TODO rather than special-case polygons, simply handle them separately.
     // Ideally, coincident intersection points should be jittered to avoid
     // clipping issues.
-
-
     function lineEnd() {
       if (segments) {
         linePoint(x__, y__);
         if (v__ && v_) bufferStream.rejoin();
         segments.push(bufferStream.result());
       }
-
       clipStream.point = point;
       if (v_) activeStream.lineEnd();
     }
-
     function linePoint(x, y) {
       var v = visible(x, y);
       if (polygon) ring.push([x, y]);
-
       if (first) {
         x__ = x, y__ = y, v__ = v;
         first = false;
-
         if (v) {
           activeStream.lineStart();
           activeStream.point(x, y);
@@ -5504,14 +5591,12 @@ function clipRectangle(x0, y0, x1, y1) {
       } else {
         if (v && v_) activeStream.point(x, y);else {
           var a = [x_ = Math.max(clipMin, Math.min(clipMax, x_)), y_ = Math.max(clipMin, Math.min(clipMax, y_))],
-              b = [x = Math.max(clipMin, Math.min(clipMax, x)), y = Math.max(clipMin, Math.min(clipMax, y))];
-
+            b = [x = Math.max(clipMin, Math.min(clipMax, x)), y = Math.max(clipMin, Math.min(clipMax, y))];
           if (clipLine(a, b, x0, y0, x1, y1)) {
             if (!v_) {
               activeStream.lineStart();
               activeStream.point(a[0], a[1]);
             }
-
             activeStream.point(b[0], b[1]);
             if (!v) activeStream.lineEnd();
             clean = false;
@@ -5522,10 +5607,8 @@ function clipRectangle(x0, y0, x1, y1) {
           }
         }
       }
-
       x_ = x, y_ = y, v_ = v;
     }
-
     return clipStream;
   };
 }
@@ -5533,11 +5616,11 @@ function clipRectangle(x0, y0, x1, y1) {
 var identity$2 = (x => x);
 
 var areaSum = new Adder(),
-    areaRingSum = new Adder(),
-    x00$2,
-    y00$2,
-    x0$3,
-    y0$3;
+  areaRingSum = new Adder(),
+  x00$2,
+  y00$2,
+  x0$3,
+  y0$3;
 var areaStream = {
   point: noop,
   lineStart: noop,
@@ -5557,31 +5640,26 @@ var areaStream = {
     return area;
   }
 };
-
 function areaRingStart() {
   areaStream.point = areaPointFirst;
 }
-
 function areaPointFirst(x, y) {
   areaStream.point = areaPoint;
   x00$2 = x0$3 = x, y00$2 = y0$3 = y;
 }
-
 function areaPoint(x, y) {
   areaRingSum.add(y0$3 * x - x0$3 * y);
   x0$3 = x, y0$3 = y;
 }
-
 function areaRingEnd() {
   areaPoint(x00$2, y00$2);
 }
-
 var pathArea = areaStream;
 
 var x0$2 = Infinity,
-    y0$2 = x0$2,
-    x1 = -x0$2,
-    y1 = x1;
+  y0$2 = x0$2,
+  x1 = -x0$2,
+  y1 = x1;
 var boundsStream = {
   point: boundsPoint,
   lineStart: noop,
@@ -5594,29 +5672,29 @@ var boundsStream = {
     return bounds;
   }
 };
-
 function boundsPoint(x, y) {
   if (x < x0$2) x0$2 = x;
   if (x > x1) x1 = x;
   if (y < y0$2) y0$2 = y;
   if (y > y1) y1 = y;
 }
-
 var boundsStream$1 = boundsStream;
 
+// TODO Enforce positive area for exterior, negative area for interior?
+
 var X0 = 0,
-    Y0 = 0,
-    Z0 = 0,
-    X1 = 0,
-    Y1 = 0,
-    Z1 = 0,
-    X2 = 0,
-    Y2 = 0,
-    Z2 = 0,
-    x00$1,
-    y00$1,
-    x0$1,
-    y0$1;
+  Y0 = 0,
+  Z0 = 0,
+  X1 = 0,
+  Y1 = 0,
+  Z1 = 0,
+  X2 = 0,
+  Y2 = 0,
+  Z2 = 0,
+  x00$1,
+  y00$1,
+  x0$1,
+  y0$1;
 var centroidStream = {
   point: centroidPoint,
   lineStart: centroidLineStart,
@@ -5636,53 +5714,44 @@ var centroidStream = {
     return centroid;
   }
 };
-
 function centroidPoint(x, y) {
   X0 += x;
   Y0 += y;
   ++Z0;
 }
-
 function centroidLineStart() {
   centroidStream.point = centroidPointFirstLine;
 }
-
 function centroidPointFirstLine(x, y) {
   centroidStream.point = centroidPointLine;
   centroidPoint(x0$1 = x, y0$1 = y);
 }
-
 function centroidPointLine(x, y) {
   var dx = x - x0$1,
-      dy = y - y0$1,
-      z = sqrt(dx * dx + dy * dy);
+    dy = y - y0$1,
+    z = sqrt(dx * dx + dy * dy);
   X1 += z * (x0$1 + x) / 2;
   Y1 += z * (y0$1 + y) / 2;
   Z1 += z;
   centroidPoint(x0$1 = x, y0$1 = y);
 }
-
 function centroidLineEnd() {
   centroidStream.point = centroidPoint;
 }
-
 function centroidRingStart() {
   centroidStream.point = centroidPointFirstRing;
 }
-
 function centroidRingEnd() {
   centroidPointRing(x00$1, y00$1);
 }
-
 function centroidPointFirstRing(x, y) {
   centroidStream.point = centroidPointRing;
   centroidPoint(x00$1 = x0$1 = x, y00$1 = y0$1 = y);
 }
-
 function centroidPointRing(x, y) {
   var dx = x - x0$1,
-      dy = y - y0$1,
-      z = sqrt(dx * dx + dy * dy);
+    dy = y - y0$1,
+    z = sqrt(dx * dx + dy * dy);
   X1 += z * (x0$1 + x) / 2;
   Y1 += z * (y0$1 + y) / 2;
   Z1 += z;
@@ -5692,7 +5761,6 @@ function centroidPointRing(x, y) {
   Z2 += z * 3;
   centroidPoint(x0$1 = x, y0$1 = y);
 }
-
 var pathCentroid = centroidStream;
 
 function PathContext(context) {
@@ -5721,24 +5789,18 @@ PathContext.prototype = {
       case 0:
         {
           this._context.moveTo(x, y);
-
           this._point = 1;
           break;
         }
-
       case 1:
         {
           this._context.lineTo(x, y);
-
           break;
         }
-
       default:
         {
           this._context.moveTo(x + this._radius, y);
-
           this._context.arc(x, y, this._radius, 0, tau);
-
           break;
         }
     }
@@ -5747,11 +5809,11 @@ PathContext.prototype = {
 };
 
 var lengthSum = new Adder(),
-    lengthRing,
-    x00,
-    y00,
-    x0,
-    y0;
+  lengthRing,
+  x00,
+  y00,
+  x0,
+  y0;
 var lengthStream = {
   point: noop,
   lineStart: function () {
@@ -5773,18 +5835,15 @@ var lengthStream = {
     return length;
   }
 };
-
 function lengthPointFirst(x, y) {
   lengthStream.point = lengthPoint;
   x00 = x0 = x, y00 = y0 = y;
 }
-
 function lengthPoint(x, y) {
   x0 -= x, y0 -= y;
   lengthSum.add(sqrt(x0 * x0 + y0 * y0));
   x0 = x, y0 = y;
 }
-
 var pathMeasure = lengthStream;
 
 function PathString() {
@@ -5815,24 +5874,18 @@ PathString.prototype = {
       case 0:
         {
           this._string.push("M", x, ",", y);
-
           this._point = 1;
           break;
         }
-
       case 1:
         {
           this._string.push("L", x, ",", y);
-
           break;
         }
-
       default:
         {
           if (this._circle == null) this._circle = circle(this._radius);
-
           this._string.push("M", x, ",", y, this._circle);
-
           break;
         }
     }
@@ -5840,7 +5893,6 @@ PathString.prototype = {
   result: function () {
     if (this._string.length) {
       var result = this._string.join("");
-
       this._string = [];
       return result;
     } else {
@@ -5848,78 +5900,63 @@ PathString.prototype = {
     }
   }
 };
-
 function circle(radius) {
   return "m0," + radius + "a" + radius + "," + radius + " 0 1,1 0," + -2 * radius + "a" + radius + "," + radius + " 0 1,1 0," + 2 * radius + "z";
 }
 
 function index (projection, context) {
   var pointRadius = 4.5,
-      projectionStream,
-      contextStream;
-
+    projectionStream,
+    contextStream;
   function path(object) {
     if (object) {
       if (typeof pointRadius === "function") contextStream.pointRadius(+pointRadius.apply(this, arguments));
       geoStream(object, projectionStream(contextStream));
     }
-
     return contextStream.result();
   }
-
   path.area = function (object) {
     geoStream(object, projectionStream(pathArea));
     return pathArea.result();
   };
-
   path.measure = function (object) {
     geoStream(object, projectionStream(pathMeasure));
     return pathMeasure.result();
   };
-
   path.bounds = function (object) {
     geoStream(object, projectionStream(boundsStream$1));
     return boundsStream$1.result();
   };
-
   path.centroid = function (object) {
     geoStream(object, projectionStream(pathCentroid));
     return pathCentroid.result();
   };
-
   path.projection = function (_) {
     return arguments.length ? (projectionStream = _ == null ? (projection = null, identity$2) : (projection = _).stream, path) : projection;
   };
-
   path.context = function (_) {
     if (!arguments.length) return context;
     contextStream = _ == null ? (context = null, new PathString()) : new PathContext(context = _);
     if (typeof pointRadius !== "function") contextStream.pointRadius(pointRadius);
     return path;
   };
-
   path.pointRadius = function (_) {
     if (!arguments.length) return pointRadius;
     pointRadius = typeof _ === "function" ? _ : (contextStream.pointRadius(+_), +_);
     return path;
   };
-
   return path.projection(projection).context(context);
 }
 
 function transformer$1(methods) {
   return function (stream) {
     var s = new TransformStream();
-
     for (var key in methods) s[key] = methods[key];
-
     s.stream = stream;
     return s;
   };
 }
-
 function TransformStream() {}
-
 TransformStream.prototype = {
   constructor: TransformStream,
   point: function (x, y) {
@@ -5951,14 +5988,13 @@ function fit(projection, fitBounds, object) {
   if (clip != null) projection.clipExtent(clip);
   return projection;
 }
-
 function fitExtent(projection, extent, object) {
   return fit(projection, function (b) {
     var w = extent[1][0] - extent[0][0],
-        h = extent[1][1] - extent[0][1],
-        k = Math.min(w / (b[1][0] - b[0][0]), h / (b[1][1] - b[0][1])),
-        x = +extent[0][0] + (w - k * (b[1][0] + b[0][0])) / 2,
-        y = +extent[0][1] + (h - k * (b[1][1] + b[0][1])) / 2;
+      h = extent[1][1] - extent[0][1],
+      k = Math.min(w / (b[1][0] - b[0][0]), h / (b[1][1] - b[0][1])),
+      x = +extent[0][0] + (w - k * (b[1][0] + b[0][0])) / 2,
+      y = +extent[0][1] + (h - k * (b[1][1] + b[0][1])) / 2;
     projection.scale(150 * k).translate([x, y]);
   }, object);
 }
@@ -5968,131 +6004,111 @@ function fitSize(projection, size, object) {
 function fitWidth(projection, width, object) {
   return fit(projection, function (b) {
     var w = +width,
-        k = w / (b[1][0] - b[0][0]),
-        x = (w - k * (b[1][0] + b[0][0])) / 2,
-        y = -k * b[0][1];
+      k = w / (b[1][0] - b[0][0]),
+      x = (w - k * (b[1][0] + b[0][0])) / 2,
+      y = -k * b[0][1];
     projection.scale(150 * k).translate([x, y]);
   }, object);
 }
 function fitHeight(projection, height, object) {
   return fit(projection, function (b) {
     var h = +height,
-        k = h / (b[1][1] - b[0][1]),
-        x = -k * b[0][0],
-        y = (h - k * (b[1][1] + b[0][1])) / 2;
+      k = h / (b[1][1] - b[0][1]),
+      x = -k * b[0][0],
+      y = (h - k * (b[1][1] + b[0][1])) / 2;
     projection.scale(150 * k).translate([x, y]);
   }, object);
 }
 
 function identity$1 () {
   var k = 1,
-      tx = 0,
-      ty = 0,
-      sx = 1,
-      sy = 1,
-      // scale, translate and reflect
-  alpha = 0,
-      ca,
-      sa,
-      // angle
-  x0 = null,
-      y0,
-      x1,
-      y1,
-      // clip extent
-  kx = 1,
-      ky = 1,
-      transform = transformer$1({
-    point: function (x, y) {
-      var p = projection([x, y]);
-      this.stream.point(p[0], p[1]);
-    }
-  }),
-      postclip = identity$2,
-      cache,
-      cacheStream;
-
+    tx = 0,
+    ty = 0,
+    sx = 1,
+    sy = 1,
+    // scale, translate and reflect
+    alpha = 0,
+    ca,
+    sa,
+    // angle
+    x0 = null,
+    y0,
+    x1,
+    y1,
+    // clip extent
+    kx = 1,
+    ky = 1,
+    transform = transformer$1({
+      point: function (x, y) {
+        var p = projection([x, y]);
+        this.stream.point(p[0], p[1]);
+      }
+    }),
+    postclip = identity$2,
+    cache,
+    cacheStream;
   function reset() {
     kx = k * sx;
     ky = k * sy;
     cache = cacheStream = null;
     return projection;
   }
-
   function projection(p) {
     var x = p[0] * kx,
-        y = p[1] * ky;
-
+      y = p[1] * ky;
     if (alpha) {
       var t = y * ca - x * sa;
       x = x * ca + y * sa;
       y = t;
     }
-
     return [x + tx, y + ty];
   }
-
   projection.invert = function (p) {
     var x = p[0] - tx,
-        y = p[1] - ty;
-
+      y = p[1] - ty;
     if (alpha) {
       var t = y * ca + x * sa;
       x = x * ca - y * sa;
       y = t;
     }
-
     return [x / kx, y / ky];
   };
-
   projection.stream = function (stream) {
     return cache && cacheStream === stream ? cache : cache = transform(postclip(cacheStream = stream));
   };
-
   projection.postclip = function (_) {
     return arguments.length ? (postclip = _, x0 = y0 = x1 = y1 = null, reset()) : postclip;
   };
-
   projection.clipExtent = function (_) {
     return arguments.length ? (postclip = _ == null ? (x0 = y0 = x1 = y1 = null, identity$2) : clipRectangle(x0 = +_[0][0], y0 = +_[0][1], x1 = +_[1][0], y1 = +_[1][1]), reset()) : x0 == null ? null : [[x0, y0], [x1, y1]];
   };
-
   projection.scale = function (_) {
     return arguments.length ? (k = +_, reset()) : k;
   };
-
   projection.translate = function (_) {
     return arguments.length ? (tx = +_[0], ty = +_[1], reset()) : [tx, ty];
   };
-
   projection.angle = function (_) {
     return arguments.length ? (alpha = _ % 360 * radians, sa = sin(alpha), ca = cos(alpha), reset()) : alpha * degrees;
   };
-
   projection.reflectX = function (_) {
     return arguments.length ? (sx = _ ? -1 : 1, reset()) : sx < 0;
   };
-
   projection.reflectY = function (_) {
     return arguments.length ? (sy = _ ? -1 : 1, reset()) : sy < 0;
   };
-
   projection.fitExtent = function (extent, object) {
     return fitExtent(projection, extent, object);
   };
-
   projection.fitSize = function (size, object) {
     return fitSize(projection, size, object);
   };
-
   projection.fitWidth = function (width, object) {
     return fitWidth(projection, width, object);
   };
-
   projection.fitHeight = function (height, object) {
     return fitHeight(projection, height, object);
   };
-
   return projection;
 }
 
@@ -6100,16 +6116,13 @@ function initRange(domain, range) {
   switch (arguments.length) {
     case 0:
       break;
-
     case 1:
       this.range(domain);
       break;
-
     default:
       this.range(range).domain(domain);
       break;
   }
-
   return this;
 }
 
@@ -6127,71 +6140,65 @@ var unit = [0, 1];
 function identity(x) {
   return x;
 }
-
 function normalize(a, b) {
   return (b -= a = +a) ? function (x) {
     return (x - a) / b;
   } : constants(isNaN(b) ? NaN : 0.5);
 }
-
 function clamper(a, b) {
   var t;
   if (a > b) t = a, a = b, b = t;
   return function (x) {
     return Math.max(a, Math.min(b, x));
   };
-} // normalize(a, b)(x) takes a domain value x in [a,b] and returns the corresponding parameter t in [0,1].
+}
+
+// normalize(a, b)(x) takes a domain value x in [a,b] and returns the corresponding parameter t in [0,1].
 // interpolate(a, b)(t) takes a parameter t in [0,1] and returns the corresponding range value x in [a,b].
-
-
 function bimap(domain, range, interpolate) {
   var d0 = domain[0],
-      d1 = domain[1],
-      r0 = range[0],
-      r1 = range[1];
+    d1 = domain[1],
+    r0 = range[0],
+    r1 = range[1];
   if (d1 < d0) d0 = normalize(d1, d0), r0 = interpolate(r1, r0);else d0 = normalize(d0, d1), r0 = interpolate(r0, r1);
   return function (x) {
     return r0(d0(x));
   };
 }
-
 function polymap(domain, range, interpolate) {
   var j = Math.min(domain.length, range.length) - 1,
-      d = new Array(j),
-      r = new Array(j),
-      i = -1; // Reverse descending domains.
+    d = new Array(j),
+    r = new Array(j),
+    i = -1;
 
+  // Reverse descending domains.
   if (domain[j] < domain[0]) {
     domain = domain.slice().reverse();
     range = range.slice().reverse();
   }
-
   while (++i < j) {
     d[i] = normalize(domain[i], domain[i + 1]);
     r[i] = interpolate(range[i], range[i + 1]);
   }
-
   return function (x) {
     var i = bisect(domain, x, 1, j) - 1;
     return r[i](d[i](x));
   };
 }
-
 function copy(source, target) {
   return target.domain(source.domain()).range(source.range()).interpolate(source.interpolate()).clamp(source.clamp()).unknown(source.unknown());
 }
 function transformer() {
   var domain = unit,
-      range = unit,
-      interpolate = interpolate$1,
-      transform,
-      untransform,
-      unknown,
-      clamp = identity,
-      piecewise,
-      output,
-      input;
-
+    range = unit,
+    interpolate = interpolate$1,
+    transform,
+    untransform,
+    unknown,
+    clamp = identity,
+    piecewise,
+    output,
+    input;
   function rescale() {
     var n = Math.min(domain.length, range.length);
     if (clamp !== identity) clamp = clamper(domain[0], domain[n - 1]);
@@ -6199,39 +6206,30 @@ function transformer() {
     output = input = null;
     return scale;
   }
-
   function scale(x) {
     return x == null || isNaN(x = +x) ? unknown : (output || (output = piecewise(domain.map(transform), range, interpolate)))(transform(clamp(x)));
   }
-
   scale.invert = function (y) {
     return clamp(untransform((input || (input = piecewise(range, domain.map(transform), interpolateNumber)))(y)));
   };
-
   scale.domain = function (_) {
     return arguments.length ? (domain = Array.from(_, number), rescale()) : domain.slice();
   };
-
   scale.range = function (_) {
     return arguments.length ? (range = Array.from(_), rescale()) : range.slice();
   };
-
   scale.rangeRound = function (_) {
     return range = Array.from(_), interpolate = interpolateRound, rescale();
   };
-
   scale.clamp = function (_) {
     return arguments.length ? (clamp = _ ? true : identity, rescale()) : clamp !== identity;
   };
-
   scale.interpolate = function (_) {
     return arguments.length ? (interpolate = _, rescale()) : interpolate;
   };
-
   scale.unknown = function (_) {
     return arguments.length ? (unknown = _, scale) : unknown;
   };
-
   return function (t, u) {
     transform = t, untransform = u;
     return rescale();
@@ -6242,10 +6240,9 @@ function continuous() {
 }
 
 function tickFormat(start, stop, count, specifier) {
-  var step = tickStep(start, stop, count),
-      precision;
+  var step = tickStep$1(start, stop, count),
+    precision;
   specifier = formatSpecifier(specifier == null ? ",f" : specifier);
-
   switch (specifier.type) {
     case "s":
       {
@@ -6253,7 +6250,6 @@ function tickFormat(start, stop, count, specifier) {
         if (specifier.precision == null && !isNaN(precision = precisionPrefix(step, value))) specifier.precision = precision;
         return formatPrefix(specifier, value);
       }
-
     case "":
     case "e":
     case "g":
@@ -6263,7 +6259,6 @@ function tickFormat(start, stop, count, specifier) {
         if (specifier.precision == null && !isNaN(precision = precisionRound(step, Math.max(Math.abs(start), Math.abs(stop))))) specifier.precision = precision - (specifier.type === "e");
         break;
       }
-
     case "f":
     case "%":
       {
@@ -6271,23 +6266,19 @@ function tickFormat(start, stop, count, specifier) {
         break;
       }
   }
-
   return format(specifier);
 }
 
 function linearish(scale) {
   var domain = scale.domain;
-
   scale.ticks = function (count) {
     var d = domain();
-    return ticks(d[0], d[d.length - 1], count == null ? 10 : count);
+    return ticks$1(d[0], d[d.length - 1], count == null ? 10 : count);
   };
-
   scale.tickFormat = function (count, specifier) {
     var d = domain();
     return tickFormat(d[0], d[d.length - 1], count == null ? 10 : count, specifier);
   };
-
   scale.nice = function (count) {
     if (count == null) count = 10;
     var d = domain();
@@ -6298,15 +6289,12 @@ function linearish(scale) {
     var prestep;
     var step;
     var maxIter = 10;
-
     if (stop < start) {
       step = start, start = stop, stop = step;
       step = i0, i0 = i1, i1 = step;
     }
-
     while (maxIter-- > 0) {
-      step = tickIncrement(start, stop, count);
-
+      step = tickIncrement$1(start, stop, count);
       if (step === prestep) {
         d[i0] = start;
         d[i1] = stop;
@@ -6320,33 +6308,26 @@ function linearish(scale) {
       } else {
         break;
       }
-
       prestep = step;
     }
-
     return scale;
   };
-
   return scale;
 }
 function linear() {
   var scale = continuous();
-
   scale.copy = function () {
     return copy(scale, linear());
   };
-
   initRange.apply(scale, arguments);
   return linearish(scale);
 }
 
 function colors (specifier) {
   var n = specifier.length / 6 | 0,
-      colors = new Array(n),
-      i = 0;
-
+    colors = new Array(n),
+    i = 0;
   while (i < n) colors[i] = "#" + specifier.slice(i * 6, ++i * 6);
-
   return colors;
 }
 
@@ -6366,7 +6347,6 @@ function array (x) {
 function Linear(context) {
   this._context = context;
 }
-
 Linear.prototype = {
   areaStart: function () {
     this._line = 0;
@@ -6383,20 +6363,16 @@ Linear.prototype = {
   },
   point: function (x, y) {
     x = +x, y = +y;
-
     switch (this._point) {
       case 0:
         this._point = 1;
         this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
         break;
-
       case 1:
         this._point = 2;
       // falls through
-
       default:
         this._context.lineTo(x, y);
-
         break;
     }
   }
@@ -6414,77 +6390,100 @@ function y(p) {
 
 function line (x$1, y$1) {
   var defined = constant(true),
-      context = null,
-      curve = curveLinear,
-      output = null;
+    context = null,
+    curve = curveLinear,
+    output = null;
   x$1 = typeof x$1 === "function" ? x$1 : x$1 === undefined ? x : constant(x$1);
   y$1 = typeof y$1 === "function" ? y$1 : y$1 === undefined ? y : constant(y$1);
-
   function line(data) {
     var i,
-        n = (data = array(data)).length,
-        d,
-        defined0 = false,
-        buffer;
+      n = (data = array(data)).length,
+      d,
+      defined0 = false,
+      buffer;
     if (context == null) output = curve(buffer = path());
-
     for (i = 0; i <= n; ++i) {
       if (!(i < n && defined(d = data[i], i, data)) === defined0) {
         if (defined0 = !defined0) output.lineStart();else output.lineEnd();
       }
-
       if (defined0) output.point(+x$1(d, i, data), +y$1(d, i, data));
     }
-
     if (buffer) return output = null, buffer + "" || null;
   }
-
   line.x = function (_) {
     return arguments.length ? (x$1 = typeof _ === "function" ? _ : constant(+_), line) : x$1;
   };
-
   line.y = function (_) {
     return arguments.length ? (y$1 = typeof _ === "function" ? _ : constant(+_), line) : y$1;
   };
-
   line.defined = function (_) {
     return arguments.length ? (defined = typeof _ === "function" ? _ : constant(!!_), line) : defined;
   };
-
   line.curve = function (_) {
     return arguments.length ? (curve = _, context != null && (output = curve(context)), line) : curve;
   };
-
   line.context = function (_) {
     return arguments.length ? (_ == null ? context = output = null : output = curve(context = _), line) : context;
   };
-
   return line;
 }
 
-let _$o = t => t,
-    _t$o,
-    _t2$m,
-    _t3$c,
-    _t4$c,
-    _t5$c,
-    _t6$c,
-    _t7$c,
-    _t8$8,
-    _t9$8;
+function Transform(k, x, y) {
+  this.k = k;
+  this.x = x;
+  this.y = y;
+}
+Transform.prototype = {
+  constructor: Transform,
+  scale: function (k) {
+    return k === 1 ? this : new Transform(this.k * k, this.x, this.y);
+  },
+  translate: function (x, y) {
+    return x === 0 & y === 0 ? this : new Transform(this.k, this.x + this.k * x, this.y + this.k * y);
+  },
+  apply: function (point) {
+    return [point[0] * this.k + this.x, point[1] * this.k + this.y];
+  },
+  applyX: function (x) {
+    return x * this.k + this.x;
+  },
+  applyY: function (y) {
+    return y * this.k + this.y;
+  },
+  invert: function (location) {
+    return [(location[0] - this.x) / this.k, (location[1] - this.y) / this.k];
+  },
+  invertX: function (x) {
+    return (x - this.x) / this.k;
+  },
+  invertY: function (y) {
+    return (y - this.y) / this.k;
+  },
+  rescaleX: function (x) {
+    return x.copy().domain(x.range().map(this.invertX, this).map(x.invert, x));
+  },
+  rescaleY: function (y) {
+    return y.copy().domain(y.range().map(this.invertY, this).map(y.invert, y));
+  },
+  toString: function () {
+    return "translate(" + this.x + "," + this.y + ") scale(" + this.k + ")";
+  }
+};
+new Transform(1, 0, 0);
+Transform.prototype;
+
 /*
   DecidablesElement Base Class - Not intended for instantiation!
   <decidables-element>
 */
-
 class DecidablesElement extends s {
   getComputedStyleValue(property) {
     return getComputedStyle(this).getPropertyValue(property).trim();
   }
-
   firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties); // Use focus highlighting if keyboard is used at all
+    super.firstUpdated(changedProperties);
 
+    // Use focus highlighting if keyboard is used at all
     select(this.renderRoot.host).classed('keyboard', true).on('mousemove.keyboard touchstart.keyboard', event => {
       const element = event.currentTarget;
       select(element.renderRoot.host).classed('keyboard', false).on('mousemove.keyboard touchstart.keyboard', null);
@@ -6493,7 +6492,6 @@ class DecidablesElement extends s {
       select(element.renderRoot.host).classed('keyboard', true).on('keydown.keyboard mousemove.keyboard touchstart.keyboard', null);
     });
   }
-
   static get greys() {
     const grey = '#999999';
     const greys = {};
@@ -6508,13 +6506,11 @@ class DecidablesElement extends s {
     greys.black = '#000000';
     return greys;
   }
-
   static get shadows() {
     // Material Design elevation styles
     // References:
     //   https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
     //   https://codepen.io/hanger/pen/yOGvQp
-
     /* eslint-disable key-spacing, object-curly-newline */
     return {
       elevations: [0, 2, 4, 8, 16],
@@ -6647,29 +6643,27 @@ class DecidablesElement extends s {
     const ambientS = rotate ? `${-ambientM.y}px ${ambientM.y / 2}px ${ambientM.b}px ${ambientM.s}px` : `${ambientM.y / 2}px ${ambientM.y}px ${ambientM.b}px ${ambientM.s}px`;
     return `${umbraS} ${umbraC}, ${penumbraS} ${penumbraC}, ${ambientS} ${ambientC}`;
   }
-
   static get svgFilters() {
-    const shadows = DecidablesElement.shadows;
-    /* eslint-disable-line prefer-destructuring */
+    const shadows = DecidablesElement.shadows; /* eslint-disable-line prefer-destructuring */
 
     const filters = shadows.elevations.map(z => {
-      return y$1(_t$o || (_t$o = _$o`
-        <filter id=${0} x="-250%" y="-250%" width="600%" height="600%">
+      return y$1`
+        <filter id=${`shadow-${z}`} x="-250%" y="-250%" width="600%" height="600%">
           <feComponentTransfer in="SourceAlpha" result="solid">
             <feFuncA  type="table" tableValues="0 1 1"/>
           </feComponentTransfer>
-          <feOffset in="solid" result="offU" dx=${0} dy=${0} />
-          <feOffset in="solid" result="offP" dx=${0} dy=${0} />
-          <feOffset in="solid" result="offA" dx=${0} dy=${0} />
-          ${0}
-          ${0}
-          ${0}
-          <feGaussianBlur in=${0} result="blurU" stdDeviation=${0} />
-          <feGaussianBlur in=${0} result="blurP" stdDeviation=${0} />
-          <feGaussianBlur in=${0} result="blurA" stdDeviation=${0} />
-          <feFlood in="SourceGraphic" result="opU" flood-color=${0} flood-opacity=${0} />
-          <feFlood in="SourceGraphic" result="opP" flood-color=${0} flood-opacity=${0} />
-          <feFlood in="SourceGraphic" result="opA" flood-color=${0} flood-opacity=${0} />
+          <feOffset in="solid" result="offU" dx=${shadows.mapUmbra[z].y / 2} dy=${shadows.mapUmbra[z].y} />
+          <feOffset in="solid" result="offP" dx=${shadows.mapPenumbra[z].y / 2} dy=${shadows.mapPenumbra[z].y} />
+          <feOffset in="solid" result="offA" dx=${shadows.mapAmbient[z].y / 2} dy=${shadows.mapAmbient[z].y} />
+          ${shadows.mapUmbra[z].s === 0 ? y$1`` : y$1`<feMorphology in="offU" result="spreadU" operator=${shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapUmbra[z].s)} />`}
+          ${shadows.mapPenumbra[z].s === 0 ? y$1`` : y$1`<feMorphology in="offP" result="spreadP" operator=${shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapPenumbra[z].s)} />`}
+          ${shadows.mapAmbient[z].s === 0 ? y$1`` : y$1`<feMorphology in="offA" result="spreadA" operator=${shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapAmbient[z].s)} />`}
+          <feGaussianBlur in=${shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU'} result="blurU" stdDeviation=${shadows.mapUmbra[z].b / 2} />
+          <feGaussianBlur in=${shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP'} result="blurP" stdDeviation=${shadows.mapPenumbra[z].b / 2} />
+          <feGaussianBlur in=${shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA'} result="blurA" stdDeviation=${shadows.mapAmbient[z].b / 2} />
+          <feFlood in="SourceGraphic" result="opU" flood-color=${shadows.baselineColor} flood-opacity=${shadows.opacityUmbra + shadows.opacityBoost} />
+          <feFlood in="SourceGraphic" result="opP" flood-color=${shadows.baselineColor} flood-opacity=${shadows.opacityPenumbra + shadows.opacityBoost} />
+          <feFlood in="SourceGraphic" result="opA" flood-color=${shadows.baselineColor} flood-opacity=${shadows.opacityAmbient + shadows.opacityBoost} />
           <feComposite in="opU" in2="blurU" result="shU" operator="in" />
           <feComposite in="opP" in2="blurP" result="shP" operator="in" />
           <feComposite in="opA" in2="blurA" result="shA" operator="in" />
@@ -6683,36 +6677,35 @@ class DecidablesElement extends s {
             <feMergeNode in="finalA" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
-        </filter>`), `shadow-${z}`, shadows.mapUmbra[z].y / 2, shadows.mapUmbra[z].y, shadows.mapPenumbra[z].y / 2, shadows.mapPenumbra[z].y, shadows.mapAmbient[z].y / 2, shadows.mapAmbient[z].y, shadows.mapUmbra[z].s === 0 ? y$1(_t2$m || (_t2$m = _$o``)) : y$1(_t3$c || (_t3$c = _$o`<feMorphology in="offU" result="spreadU" operator=${0} radius=${0} />`), shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapUmbra[z].s)), shadows.mapPenumbra[z].s === 0 ? y$1(_t4$c || (_t4$c = _$o``)) : y$1(_t5$c || (_t5$c = _$o`<feMorphology in="offP" result="spreadP" operator=${0} radius=${0} />`), shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapPenumbra[z].s)), shadows.mapAmbient[z].s === 0 ? y$1(_t6$c || (_t6$c = _$o``)) : y$1(_t7$c || (_t7$c = _$o`<feMorphology in="offA" result="spreadA" operator=${0} radius=${0} />`), shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode', Math.abs(shadows.mapAmbient[z].s)), shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU', shadows.mapUmbra[z].b / 2, shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP', shadows.mapPenumbra[z].b / 2, shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA', shadows.mapAmbient[z].b / 2, shadows.baselineColor, shadows.opacityUmbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityPenumbra + shadows.opacityBoost, shadows.baselineColor, shadows.opacityAmbient + shadows.opacityBoost);
+        </filter>`;
     });
-    return y$1(_t8$8 || (_t8$8 = _$o`
+    return y$1`
       <svg class="defs">
         <defs>
-          ${0}
+          ${filters}
         </defs>
       </svg>
-    `), filters);
+    `;
   }
-
   static get styles() {
-    return r$2(_t9$8 || (_t9$8 = _$o`
+    return r$2`
       :host {
-        ---shadow-0: var(--shadow-0, ${0});
-        ---shadow-2: var(--shadow-2, ${0});
-        ---shadow-4: var(--shadow-4, ${0});
-        ---shadow-8: var(--shadow-8, ${0});
+        ---shadow-0: var(--shadow-0, ${o$3(this.cssBoxShadow(0))});
+        ---shadow-2: var(--shadow-2, ${o$3(this.cssBoxShadow(2))});
+        ---shadow-4: var(--shadow-4, ${o$3(this.cssBoxShadow(4))});
+        ---shadow-8: var(--shadow-8, ${o$3(this.cssBoxShadow(8))});
 
-        ---color-background: var(--color-background, ${0});
-        ---color-border: var(--color-border, ${0});
-        ---color-text: var(--color-text, ${0});
-        ---color-text-inverse: var(--color-text-inverse, ${0});
-        ---color-link: var(--color-link, ${0});
-        ---color-element-background: var(--color-element-background, ${0});
-        ---color-element-disabled: var(--color-element-disabled, ${0});
-        ---color-element-enabled: var(--color-element-enabled, ${0});
-        ---color-element-selected: var(--color-element-selected, ${0});
-        ---color-element-border: var(--color-element-border, ${0});
-        ---color-element-emphasis: var(--color-element-emphasis, ${0});
+        ---color-background: var(--color-background, ${o$3(this.greys.white)});
+        ---color-border: var(--color-border, ${o$3(this.greys.light75)});
+        ---color-text: var(--color-text, ${o$3(this.greys.dark75)});
+        ---color-text-inverse: var(--color-text-inverse, ${o$3(this.greys.white)});
+        ---color-link: var(--color-link, ${o$3(this.greys.dark25)});
+        ---color-element-background: var(--color-element-background, ${o$3(this.greys.light75)});
+        ---color-element-disabled: var(--color-element-disabled, ${o$3(this.greys.light50)});
+        ---color-element-enabled: var(--color-element-enabled, ${o$3(this.greys.dark25)});
+        ---color-element-selected: var(--color-element-selected, ${o$3(this.greys.grey)});
+        ---color-element-border: var(--color-element-border, ${o$3(this.greys.dark50)});
+        ---color-element-emphasis: var(--color-element-emphasis, ${o$3(this.greys.dark75)});
 
         ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
         ---font-family-math: var(--font-family-math, "Source Serif", serif);
@@ -6752,14 +6745,10 @@ class DecidablesElement extends s {
         width: 0;
         height: 0;
       }
-    `), o$3(this.cssBoxShadow(0)), o$3(this.cssBoxShadow(2)), o$3(this.cssBoxShadow(4)), o$3(this.cssBoxShadow(8)), o$3(this.greys.white), o$3(this.greys.light75), o$3(this.greys.dark75), o$3(this.greys.white), o$3(this.greys.dark25), o$3(this.greys.light75), o$3(this.greys.light50), o$3(this.greys.dark25), o$3(this.greys.grey), o$3(this.greys.dark50), o$3(this.greys.dark75));
+    `;
   }
-
 }
 
-let _$n = t => t,
-    _t$n,
-    _t2$l;
 class DecidablesButton extends DecidablesElement {
   static get properties() {
     return {
@@ -6770,15 +6759,14 @@ class DecidablesButton extends DecidablesElement {
       }
     };
   }
-
   constructor() {
-    super(); // Attributes
+    super();
 
+    // Attributes
     this.disabled = false;
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$n || (_t$n = _$n`
+    return [super.styles, r$2`
         :host {
           margin: 0.25rem;
         }
@@ -6831,17 +6819,15 @@ class DecidablesButton extends DecidablesElement {
           outline: none;
           box-shadow: var(---shadow-8);
         }
-      `))];
+      `];
   }
-
   render() {
-    return $(_t2$l || (_t2$l = _$n`
-      <button ?disabled=${0}>
+    return $`
+      <button ?disabled=${this.disabled}>
         <slot></slot>
       </button>
-    `), this.disabled);
+    `;
   }
-
 }
 customElements.define('decidables-button', DecidablesButton);
 
@@ -6850,12 +6836,8 @@ customElements.define('decidables-button', DecidablesButton);
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
+const l = l => null != l ? l : b$1;
 
-const l = l => null != l ? l : w;
-
-let _$m = t => t,
-    _t$m,
-    _t2$k;
 class DecidablesSlider extends DecidablesElement {
   static get properties() {
     return {
@@ -6886,17 +6868,16 @@ class DecidablesSlider extends DecidablesElement {
       }
     };
   }
-
   constructor() {
-    super(); // Attributes
+    super();
 
+    // Attributes
     this.disabled = false;
     this.max = undefined;
     this.min = undefined;
     this.step = undefined;
     this.value = undefined;
   }
-
   changed(event) {
     this.value = event.target.value;
     this.dispatchEvent(new CustomEvent('change', {
@@ -6906,17 +6887,15 @@ class DecidablesSlider extends DecidablesElement {
       bubbles: true
     }));
   }
-
   inputted(event) {
     this.value = event.target.value;
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$m || (_t$m = _$m`
+    return [super.styles, r$2`
         :host {
-          ---shadow-2-rotate: var(--shadow-2-rotate, ${0});
-          ---shadow-4-rotate: var(--shadow-4-rotate, ${0});
-          ---shadow-8-rotate: var(--shadow-8-rotate, ${0});
+          ---shadow-2-rotate: var(--shadow-2-rotate, ${o$3(this.cssBoxShadow(2, true, false))});
+          ---shadow-4-rotate: var(--shadow-4-rotate, ${o$3(this.cssBoxShadow(4, true, false))});
+          ---shadow-8-rotate: var(--shadow-8-rotate, ${o$3(this.cssBoxShadow(8, true, false))});
 
           display: flex;
 
@@ -7162,27 +7141,22 @@ class DecidablesSlider extends DecidablesElement {
         :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {
           box-shadow: var(---shadow-8-rotate);
         }
-      `), o$3(this.cssBoxShadow(2, true, false)), o$3(this.cssBoxShadow(4, true, false)), o$3(this.cssBoxShadow(8, true, false)))];
+      `];
   }
-
   render() {
-    return $(_t2$k || (_t2$k = _$m`
+    return $`
       <label for="slider">
         <slot></slot>
       </label>
       <div class="range">
-        <input type="range" id="slider" min=${0} max=${0} step=${0} .value=${0} @change=${0} @input=${0}>
+        <input type="range" id="slider" min=${l(this.min)} max=${l(this.max)} step=${l(this.step)} .value=${this.value} @change=${this.changed.bind(this)} @input=${this.inputted.bind(this)}>
       </div>
-      <decidables-spinner min=${0} max=${0} step=${0} .value=${0} @input=${0}></decidables-spinner>
-    `), l(this.min), l(this.max), l(this.step), this.value, this.changed.bind(this), this.inputted.bind(this), l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
+      <decidables-spinner min=${l(this.min)} max=${l(this.max)} step=${l(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}></decidables-spinner>
+    `;
   }
-
 }
 customElements.define('decidables-slider', DecidablesSlider);
 
-let _$l = t => t,
-    _t$l,
-    _t2$j;
 class DecidablesSpinner extends DecidablesElement {
   static get properties() {
     return {
@@ -7213,23 +7187,21 @@ class DecidablesSpinner extends DecidablesElement {
       }
     };
   }
-
   constructor() {
-    super(); // Attributes
+    super();
 
+    // Attributes
     this.disabled = false;
     this.max = undefined;
     this.min = undefined;
     this.step = undefined;
     this.value = undefined;
   }
-
   inputted(event) {
     this.value = event.target.value;
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$l || (_t$l = _$l`
+    return [super.styles, r$2`
         :host {
           ---decidables-spinner-font-size: var(--decidables-spinner-font-size, 1.125rem);
           ---decidables-spinner-input-width: var(--decidables-spinner-input-width, 4rem);
@@ -7308,24 +7280,19 @@ class DecidablesSpinner extends DecidablesElement {
           margin: 0;
           -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
         }
-      `))];
+      `];
   }
-
   render() {
-    return $(_t2$j || (_t2$j = _$l`
+    return $`
       <label>
         <slot></slot>
-        <input ?disabled=${0} type="number" min=${0} max=${0} step=${0} .value=${0} @input=${0}>
+        <input ?disabled=${this.disabled} type="number" min=${l(this.min)} max=${l(this.max)} step=${l(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}>
       </label>
-    `), this.disabled, l(this.min), l(this.max), l(this.step), this.value, this.inputted.bind(this));
+    `;
   }
-
 }
 customElements.define('decidables-spinner', DecidablesSpinner);
 
-let _$k = t => t,
-    _t$k,
-    _t2$i;
 class DecidablesSwitch extends DecidablesElement {
   static get properties() {
     return {
@@ -7341,14 +7308,13 @@ class DecidablesSwitch extends DecidablesElement {
       }
     };
   }
-
   constructor() {
-    super(); // Attributes
+    super();
 
+    // Attributes
     this.checked = false;
     this.disabled = false;
   }
-
   changed(event) {
     this.checked = event.target.checked;
     this.dispatchEvent(new CustomEvent('change', {
@@ -7358,9 +7324,8 @@ class DecidablesSwitch extends DecidablesElement {
       bubbles: true
     }));
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$k || (_t$k = _$k`
+    return [super.styles, r$2`
         :host {
           display: flex;
 
@@ -7479,27 +7444,22 @@ class DecidablesSwitch extends DecidablesElement {
         :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {
           box-shadow: var(---shadow-8);
         }
-      `))];
+      `];
   }
-
   render() {
-    return $(_t2$i || (_t2$i = _$k`
-      <input type="checkbox" id="switch" ?checked=${0} ?disabled=${0} @change=${0}>
+    return $`
+      <input type="checkbox" id="switch" ?checked=${this.checked} ?disabled=${this.disabled} @change=${this.changed.bind(this)}>
       <label for="switch">
         <slot name="off-label"></slot>
       </label>
       <label for="switch">
         <slot></slot>
       </label>
-    `), this.checked, this.disabled, this.changed.bind(this));
+    `;
   }
-
 }
 customElements.define('decidables-switch', DecidablesSwitch);
 
-let _$j = t => t,
-    _t$j,
-    _t2$h;
 class DecidablesToggle extends DecidablesElement {
   static get properties() {
     return {
@@ -7510,15 +7470,14 @@ class DecidablesToggle extends DecidablesElement {
       }
     };
   }
-
   constructor() {
-    super(); // Attributes
+    super();
 
+    // Attributes
     this.disabled = false;
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$j || (_t$j = _$j`
+    return [super.styles, r$2`
         fieldset {
           display: flex;
 
@@ -7535,24 +7494,19 @@ class DecidablesToggle extends DecidablesElement {
         legend {
           text-align: center;
         }
-      `))];
+      `];
   }
-
   render() {
-    return $(_t2$h || (_t2$h = _$j`
-      <fieldset ?disabled=${0}>
+    return $`
+      <fieldset ?disabled=${this.disabled}>
         <legend><slot name="label"></slot></legend>
         <slot></slot>
       </fieldset>
-    `), this.disabled);
+    `;
   }
-
 }
 customElements.define('decidables-toggle', DecidablesToggle);
 
-let _$i = t => t,
-    _t$i,
-    _t2$g;
 class DecidablesToggleOption extends DecidablesElement {
   static get properties() {
     return {
@@ -7578,16 +7532,15 @@ class DecidablesToggleOption extends DecidablesElement {
       }
     };
   }
-
   constructor() {
-    super(); // Attributes
+    super();
 
+    // Attributes
     this.checked = false;
     this.disabled = false;
     this.name = undefined;
     this.value = undefined;
   }
-
   changed(event) {
     this.checked = event.target.checked;
     this.dispatchEvent(new CustomEvent('change', {
@@ -7598,9 +7551,8 @@ class DecidablesToggleOption extends DecidablesElement {
       bubbles: true
     }));
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$i || (_t$i = _$i`
+    return [super.styles, r$2`
         :host {
           display: flex;
         }
@@ -7693,18 +7645,16 @@ class DecidablesToggleOption extends DecidablesElement {
           outline: none;
           box-shadow: var(---shadow-8);
         }
-      `))];
+      `];
   }
-
   render() {
-    return $(_t2$g || (_t2$g = _$i`
-      <input type="radio" id="toggle-option" name=${0} value=${0} .checked=${0} @change=${0}>
+    return $`
+      <input type="radio" id="toggle-option" name=${this.name} value=${this.value} .checked=${this.checked} @change=${this.changed.bind(this)}>
       <label for="toggle-option">
         <slot></slot>
       </label>
-    `), this.name, this.value, this.checked, this.changed.bind(this));
+    `;
   }
-
 }
 customElements.define('decidables-toggle-option', DecidablesToggleOption);
 
@@ -7738,13 +7688,10 @@ const DecidablesConverterSet = {
   }
 };
 
-let _$h = t => t,
-    _t$h;
 /*
   DetectableElement Base Class - Not intended for instantiation!
   <detectable-element>
 */
-
 class DetectableElement extends DecidablesElement {
   static get properties() {
     return {
@@ -7755,12 +7702,10 @@ class DetectableElement extends DecidablesElement {
       }
     };
   }
-
   constructor() {
     super();
     this.interactive = false;
   }
-
   static get colors() {
     return {
       h: Set1[2],
@@ -7780,80 +7725,73 @@ class DetectableElement extends DecidablesElement {
       nr: '#cccccc'
     };
   }
-
   static get lights() {
     return Object.keys(DetectableElement.colors).reduce((acc, cur) => {
       acc[cur] = interpolateRgb(DetectableElement.colors[cur], '#ffffff')(0.5);
       return acc;
     }, {});
   }
-
   static get darks() {
     return Object.keys(DetectableElement.colors).reduce((acc, cur) => {
       acc[cur] = interpolateRgb(DetectableElement.colors[cur], '#000000')(0.5);
       return acc;
     }, {});
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$h || (_t$h = _$h`
+    return [super.styles, r$2`
         :host {
-          ---color-h: var(--color-h, ${0});
-          ---color-m: var(--color-m, ${0});
-          ---color-fa: var(--color-fa, ${0});
-          ---color-cr: var(--color-cr, ${0});
-          ---color-hr: var(--color-hr, ${0});
-          ---color-far: var(--color-far, ${0});
-          ---color-acc: var(--color-acc, ${0});
-          ---color-d: var(--color-d, ${0});
-          ---color-c: var(--color-c, ${0});
-          ---color-s: var(--color-s, ${0});
-          ---color-present: var(--color-present, ${0});
-          ---color-absent: var(--color-absent, ${0});
-          ---color-correct: var(--color-correct, ${0});
-          ---color-error: var(--color-error, ${0});
-          ---color-nr: var(--color-nr, ${0});
+          ---color-h: var(--color-h, ${o$3(this.colors.h)});
+          ---color-m: var(--color-m, ${o$3(this.colors.m)});
+          ---color-fa: var(--color-fa, ${o$3(this.colors.fa)});
+          ---color-cr: var(--color-cr, ${o$3(this.colors.cr)});
+          ---color-hr: var(--color-hr, ${o$3(this.colors.hr)});
+          ---color-far: var(--color-far, ${o$3(this.colors.far)});
+          ---color-acc: var(--color-acc, ${o$3(this.colors.acc)});
+          ---color-d: var(--color-d, ${o$3(this.colors.d)});
+          ---color-c: var(--color-c, ${o$3(this.colors.c)});
+          ---color-s: var(--color-s, ${o$3(this.colors.s)});
+          ---color-present: var(--color-present, ${o$3(this.colors.present)});
+          ---color-absent: var(--color-absent, ${o$3(this.colors.absent)});
+          ---color-correct: var(--color-correct, ${o$3(this.colors.correct)});
+          ---color-error: var(--color-error, ${o$3(this.colors.error)});
+          ---color-nr: var(--color-nr, ${o$3(this.colors.nr)});
 
-          ---color-h-light: var(--color-h-light, ${0});
-          ---color-m-light: var(--color-m-light, ${0});
-          ---color-fa-light: var(--color-fa-light, ${0});
-          ---color-cr-light: var(--color-cr-light, ${0});
-          ---color-hr-light: var(--color-hr-light, ${0});
-          ---color-far-light: var(--color-far-light, ${0});
-          ---color-acc-light: var(--color-acc-light, ${0});
-          ---color-d-light: var(--color-d-light, ${0});
-          ---color-c-light: var(--color-c-light, ${0});
-          ---color-s-light: var(--color-s-light, ${0});
-          ---color-present-light: var(--color-present-light, ${0});
-          ---color-absent-light: var(--color-absent-light, ${0});
-          ---color-correct-light: var(--color-correct-light, ${0});
-          ---color-error-light: var(--color-error-light, ${0});
-          ---color-nr-light: var(--color-nr-light, ${0});
+          ---color-h-light: var(--color-h-light, ${o$3(this.lights.h)});
+          ---color-m-light: var(--color-m-light, ${o$3(this.lights.m)});
+          ---color-fa-light: var(--color-fa-light, ${o$3(this.lights.fa)});
+          ---color-cr-light: var(--color-cr-light, ${o$3(this.lights.cr)});
+          ---color-hr-light: var(--color-hr-light, ${o$3(this.lights.hr)});
+          ---color-far-light: var(--color-far-light, ${o$3(this.lights.far)});
+          ---color-acc-light: var(--color-acc-light, ${o$3(this.lights.acc)});
+          ---color-d-light: var(--color-d-light, ${o$3(this.lights.d)});
+          ---color-c-light: var(--color-c-light, ${o$3(this.lights.c)});
+          ---color-s-light: var(--color-s-light, ${o$3(this.lights.s)});
+          ---color-present-light: var(--color-present-light, ${o$3(this.lights.present)});
+          ---color-absent-light: var(--color-absent-light, ${o$3(this.lights.absent)});
+          ---color-correct-light: var(--color-correct-light, ${o$3(this.lights.correct)});
+          ---color-error-light: var(--color-error-light, ${o$3(this.lights.error)});
+          ---color-nr-light: var(--color-nr-light, ${o$3(this.lights.nr)});
 
-          ---color-h-dark: var(--color-h-dark, ${0});
-          ---color-m-dark: var(--color-m-dark, ${0});
-          ---color-fa-dark: var(--color-fa-dark, ${0});
-          ---color-cr-dark: var(--color-cr-dark, ${0});
-          ---color-hr-dark: var(--color-hr-dark, ${0});
-          ---color-far-dark: var(--color-far-dark, ${0});
-          ---color-acc-dark: var(--color-acc-dark, ${0});
-          ---color-d-dark: var(--color-d-dark, ${0});
-          ---color-c-dark: var(--color-c-dark, ${0});
-          ---color-s-dark: var(--color-s-dark, ${0});
-          ---color-present-dark: var(--color-present-dark, ${0});
-          ---color-absent-dark: var(--color-absent-dark, ${0});
-          ---color-correct-dark: var(--color-correct-dark, ${0});
-          ---color-error-dark: var(--color-error-dark, ${0});
-          ---color-nr-dark: var(--color-nr-dark, ${0});
+          ---color-h-dark: var(--color-h-dark, ${o$3(this.darks.h)});
+          ---color-m-dark: var(--color-m-dark, ${o$3(this.darks.m)});
+          ---color-fa-dark: var(--color-fa-dark, ${o$3(this.darks.fa)});
+          ---color-cr-dark: var(--color-cr-dark, ${o$3(this.darks.cr)});
+          ---color-hr-dark: var(--color-hr-dark, ${o$3(this.darks.hr)});
+          ---color-far-dark: var(--color-far-dark, ${o$3(this.darks.far)});
+          ---color-acc-dark: var(--color-acc-dark, ${o$3(this.darks.acc)});
+          ---color-d-dark: var(--color-d-dark, ${o$3(this.darks.d)});
+          ---color-c-dark: var(--color-c-dark, ${o$3(this.darks.c)});
+          ---color-s-dark: var(--color-s-dark, ${o$3(this.darks.s)});
+          ---color-present-dark: var(--color-present-dark, ${o$3(this.darks.present)});
+          ---color-absent-dark: var(--color-absent-dark, ${o$3(this.darks.absent)});
+          ---color-correct-dark: var(--color-correct-dark, ${o$3(this.darks.correct)});
+          ---color-error-dark: var(--color-error-dark, ${o$3(this.darks.error)});
+          ---color-nr-dark: var(--color-nr-dark, ${o$3(this.darks.nr)});
         }
-      `), o$3(this.colors.h), o$3(this.colors.m), o$3(this.colors.fa), o$3(this.colors.cr), o$3(this.colors.hr), o$3(this.colors.far), o$3(this.colors.acc), o$3(this.colors.d), o$3(this.colors.c), o$3(this.colors.s), o$3(this.colors.present), o$3(this.colors.absent), o$3(this.colors.correct), o$3(this.colors.error), o$3(this.colors.nr), o$3(this.lights.h), o$3(this.lights.m), o$3(this.lights.fa), o$3(this.lights.cr), o$3(this.lights.hr), o$3(this.lights.far), o$3(this.lights.acc), o$3(this.lights.d), o$3(this.lights.c), o$3(this.lights.s), o$3(this.lights.present), o$3(this.lights.absent), o$3(this.lights.correct), o$3(this.lights.error), o$3(this.lights.nr), o$3(this.darks.h), o$3(this.darks.m), o$3(this.darks.fa), o$3(this.darks.cr), o$3(this.darks.hr), o$3(this.darks.far), o$3(this.darks.acc), o$3(this.darks.d), o$3(this.darks.c), o$3(this.darks.s), o$3(this.darks.present), o$3(this.darks.absent), o$3(this.darks.correct), o$3(this.darks.error), o$3(this.darks.nr))];
+      `];
   }
-
 }
 
-let _$g = t => t,
-    _t$g,
-    _t2$f;
 /*
   RDKTask element
   <rdk-task>
@@ -7862,7 +7800,6 @@ let _$g = t => t,
   Dots; Coherence;
   # Direction, Speed, Lifetime
 */
-
 class RDKTask extends DetectableElement {
   static get properties() {
     return {
@@ -7938,76 +7875,54 @@ class RDKTask extends DetectableElement {
       }
     };
   }
-
   constructor() {
-    super(); // Attributes
+    super();
 
+    // Attributes
     this.coherence = 0.5; // Proportion of dots moving coherently
-
     this.count = 100; // Number of dots
-
     this.probability = 0.5; // Probability of signal (as opposed to noise)
-
     this.duration = 2000; // Duration of stimulus in milliseconds
-
     this.wait = 2000; // Duration of wait period for response in milliseconds
-
     this.iti = 2000; // Duration of inter-trial interval in milliseconds
-
     this.trials = 5; // Number of trials per block
-
     this.running = false; // Currently executing block of trials
+
     // Properties
-
     this.direction = -1; // Direction of current trial in degrees
-
     this.lifetime = 400; // Lifetime of each dot in milliseconds
-
     this.speed = 50; // Rate of dot movement in pixels per second
 
     this.width = NaN; // Width of component in pixels
-
     this.height = NaN; // Height of component in pixels
-
     this.rem = NaN; // Pixels per rem for component
-    // Private
 
+    // Private
     this.firstUpdate = true;
     this.COHERENT = 0; // "Constant" for index to coherent dots
-
     this.RANDOM = 1; // "Constant" for index to random dots
-
     this.dots = [[], []]; // Array of array of dots
-
     this.trial = 0; // Count of current trial
 
     this.states = ['resetted', 'iti', 'stimulus', 'wait', 'ended']; // Possible states of task
-
     this.state = 'resetted'; // Current state of task
 
     this.baseTime = 0; // Real time, in milliseconds, that the current block started
-
     this.pauseTime = 0; // Real time, in milliseconds, that block was paused at
-
     this.startTime = 0; // Virtual time, in milliseconds, that current stage of trial started
-
     this.lastTime = 0; // Virtual time, in milliseconds, of the most recent frame
-
     this.currentDirection = undefined; // Direction in degrees for current trial
 
     this.signals = ['present', 'absent']; // Possible trial types
-
     this.signal = undefined; // Current trial type
 
     this.runner = undefined; // D3 Interval for frame timing
-
     this.xScale = undefined; // D3 Scale for x-axis
-
     this.yScale = undefined; // D3 Scale for y-axis
   }
 
   static get styles() {
-    return [super.styles, r$2(_t$g || (_t$g = _$g`
+    return [super.styles, r$2`
         :host {
           display: inline-block;
 
@@ -8052,43 +7967,40 @@ class RDKTask extends DetectableElement {
           font-size: 1.75rem;
           font-weight: 600;
         }
-      `))];
+      `];
   }
-
   render() {
     /* eslint-disable-line class-methods-use-this */
-    return $(_t2$f || (_t2$f = _$g``));
+    return $``;
   }
-
   getDimensions() {
     this.width = parseFloat(this.getComputedStyleValue('width'), 10);
     this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10); // console.log(`rdk-task: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
+    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
+    // console.log(`rdk-task: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
   }
 
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener('resize', this.getDimensions.bind(this));
   }
-
   disconnectedCallback() {
     window.removeEventListener('resize', this.getDimensions.bind(this));
     super.disconnectedCallback();
   }
-
   firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
+    super.firstUpdated(changedProperties);
 
+    // Get the width and height after initial render/update has occurred
     this.getDimensions();
   }
-
   update(changedProperties) {
-    super.update(changedProperties); // Bail out if we can't get the width/height/rem
+    super.update(changedProperties);
 
+    // Bail out if we can't get the width/height/rem
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
       return;
     }
-
     const elementWidth = this.width;
     const elementHeight = this.height;
     const elementSize = Math.min(elementWidth, elementHeight);
@@ -8099,67 +8011,79 @@ class RDKTask extends DetectableElement {
       right: 0.25 * this.rem
     };
     const height = elementSize - (margin.top + margin.bottom);
-    const width = elementSize - (margin.left + margin.right); // X Scale
+    const width = elementSize - (margin.left + margin.right);
 
-    this.xScale = linear().domain([-1, 1]).range([0, width]); // Y Scale
+    // X Scale
+    this.xScale = linear().domain([-1, 1]).range([0, width]);
 
-    this.yScale = linear().domain([1, -1]).range([0, height]); // Svg
+    // Y Scale
+    this.yScale = linear().domain([1, -1]).range([0, height]);
+
+    // Svg
     //  DATA-JOIN
-
     const svgUpdate = select(this.renderRoot).selectAll('.main').data([{
       width: this.width,
       height: this.height,
       rem: this.rem
-    }]); //  ENTER
-
-    const svgEnter = svgUpdate.enter().append('svg').classed('main', true); //  MERGE
-
-    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementSize} ${elementSize}`); // Clippath
+    }]);
     //  ENTER
+    const svgEnter = svgUpdate.enter().append('svg').classed('main', true);
+    //  MERGE
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementSize} ${elementSize}`);
 
-    svgEnter.append('clipPath').attr('id', 'clip-rdk-task').append('circle'); //  MERGE
-
-    svgMerge.select('clipPath circle').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.xScale(0)); // Plot
+    // Clippath
     //  ENTER
+    svgEnter.append('clipPath').attr('id', 'clip-rdk-task').append('circle');
+    //  MERGE
+    svgMerge.select('clipPath circle').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.xScale(0));
 
-    const plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
-
-    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`); // Underlayer
+    // Plot
     //  ENTER
+    const plotEnter = svgEnter.append('g').classed('plot', true);
+    //  MERGE
+    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-    const underlayerEnter = plotEnter.append('g').classed('underlayer', true); // MERGE
-
-    const underlayerMerge = plotMerge.select('.underlayer'); // Background
+    // Underlayer
     //  ENTER
+    const underlayerEnter = plotEnter.append('g').classed('underlayer', true);
+    // MERGE
+    const underlayerMerge = plotMerge.select('.underlayer');
 
-    underlayerEnter.append('circle').classed('background', true); //  MERGE
-
-    underlayerMerge.select('.background').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.xScale(0)); // Content
+    // Background
     //  ENTER
+    underlayerEnter.append('circle').classed('background', true);
+    //  MERGE
+    underlayerMerge.select('.background').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.xScale(0));
 
-    plotEnter.append('g').classed('content', true).attr('clip-path', 'url(#clip-rdk-task)'); //  MERGE
+    // Content
+    //  ENTER
+    plotEnter.append('g').classed('content', true).attr('clip-path', 'url(#clip-rdk-task)');
+    //  MERGE
+    const contentMerge = plotMerge.select('.content');
 
-    const contentMerge = plotMerge.select('.content'); // Dot Groups
+    // Dot Groups
     //  DATA-JOIN
-
-    const dotsUpdate = contentMerge.selectAll('.dots').data([[], []]); //  ENTER
-
+    const dotsUpdate = contentMerge.selectAll('.dots').data([[], []]);
+    //  ENTER
     dotsUpdate.enter().append('g').classed('dots', true).classed('coherent', (datum, index) => {
       return index === this.COHERENT;
     }).classed('random', (datum, index) => {
       return index === this.RANDOM;
-    }); // Overlayer
+    });
+
+    // Overlayer
     //  ENTER
+    const overlayerEnter = plotEnter.append('g').classed('overlayer', true);
+    // MERGE
+    const overlayerMerge = plotMerge.select('.overlayer');
 
-    const overlayerEnter = plotEnter.append('g').classed('overlayer', true); // MERGE
-
-    const overlayerMerge = plotMerge.select('.overlayer'); // Outline
+    // Outline
     //  ENTER
+    overlayerEnter.append('circle').classed('outline', true);
+    //  MERGE
+    overlayerMerge.select('.outline').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.yScale(0));
 
-    overlayerEnter.append('circle').classed('outline', true); //  MERGE
-
-    overlayerMerge.select('.outline').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.yScale(0)); // Start or stop trial block
-
+    // Start or stop trial block
     if (this.firstUpdate || changedProperties.has('running')) {
       if (this.running) {
         // (Re)Start
@@ -8168,7 +8092,6 @@ class RDKTask extends DetectableElement {
           this.baseTime += now() - this.pauseTime;
           this.pauseTime = 0;
         }
-
         this.runner = interval(this.run.bind(this), 20); // FIXME??
       } else if (this.runner !== undefined) {
         // Pause
@@ -8176,15 +8099,12 @@ class RDKTask extends DetectableElement {
         this.pauseTime = now();
       }
     }
-
     this.firstUpdate = false;
   }
-
   reset() {
     if (this.runner !== undefined) {
       this.runner.stop();
     }
-
     this.running = false;
     this.trial = 0;
     this.state = 'resetted';
@@ -8204,15 +8124,14 @@ class RDKTask extends DetectableElement {
     const queryUpdate = select(this.renderRoot).select('.content').selectAll('.query').data([]);
     queryUpdate.exit().remove();
   }
-
-  run() {
+  run( /* elapsed */
+  ) {
     const realTime = now();
     const currentTime = this.baseTime ? realTime - this.baseTime : 0;
     const elapsedTime = this.baseTime ? currentTime - this.startTime : 0;
     const frameTime = this.baseTime ? currentTime - this.lastTime : 0;
     this.lastTime = currentTime;
     let newTrial = false;
-
     if (this.state === 'resetted') {
       // Start block with an ITI
       this.state = 'iti';
@@ -8271,7 +8190,6 @@ class RDKTask extends DetectableElement {
         },
         bubbles: true
       }));
-
       if (this.trial >= this.trials) {
         // End of block
         this.runner.stop();
@@ -8294,23 +8212,19 @@ class RDKTask extends DetectableElement {
         this.state = 'iti';
         this.startTime = currentTime;
       }
-    } // Dots
+    }
 
-
+    // Dots
     if (this.state === 'stimulus') {
       this.dots[this.COHERENT].length = this.signal === 'present' ? Math.round(this.count * this.coherence) : 0;
       this.dots[this.RANDOM].length = this.signal === 'present' ? this.count - this.dots[this.COHERENT].length : this.count;
-
       for (let t = 0; t < this.dots.length; t += 1) {
         for (let i = 0; i < this.dots[t].length; i += 1) {
           const newDot = this.dots[t][i] === undefined;
-
           if (newDot) {
             this.dots[t][i] = {};
           }
-
           const dot = this.dots[t][i];
-
           if (newTrial || newDot) {
             dot.direction = t === this.RANDOM ? Math.random() * 360 : this.currentDirection;
             dot.birth = currentTime - Math.floor(Math.random() * this.lifetime);
@@ -8330,17 +8244,15 @@ class RDKTask extends DetectableElement {
             if (t === this.COHERENT) {
               dot.direction = this.currentDirection;
             }
-
             const directionR = dot.direction * (Math.PI / 180);
             dot.dx = this.speed * (frameTime / 1000) * Math.cos(directionR);
-            dot.dy = this.speed * (frameTime / 1000) * Math.sin(directionR); // Update position
-
+            dot.dy = this.speed * (frameTime / 1000) * Math.sin(directionR);
+            // Update position
             dot.x += dot.dx;
-            dot.y += dot.dy; // Calculate squared distance from center
-
+            dot.y += dot.dy;
+            // Calculate squared distance from center
             const distance2 = (dot.x - this.xScale(0)) ** 2 + (dot.y - this.yScale(0)) ** 2;
             const radius2 = (this.xScale(1) - this.xScale(0)) ** 2;
-
             if (distance2 > radius2) {
               // Dot has exited so move to other side
               dot.x = -(dot.x - this.xScale(0)) + this.xScale(0);
@@ -8349,54 +8261,56 @@ class RDKTask extends DetectableElement {
           }
         }
       }
-    } // Fixation
+    }
+
+    // Fixation
     //  DATA-JOIN
-
-
-    const fixationUpdate = select(this.renderRoot).select('.content').selectAll('.fixation').data(this.state === 'iti' ? [true] : []); //  ENTER
-
+    const fixationUpdate = select(this.renderRoot).select('.content').selectAll('.fixation').data(this.state === 'iti' ? [true] : []);
+    //  ENTER
     const fixationEnter = fixationUpdate.enter().append('g').classed('fixation', true);
     fixationEnter.append('line').attr('x1', this.xScale(-0.1)).attr('y1', this.xScale(0)).attr('x2', this.xScale(0.1)).attr('y2', this.xScale(0));
-    fixationEnter.append('line').attr('x1', this.xScale(0)).attr('y1', this.xScale(-0.1)).attr('x2', this.xScale(0)).attr('y2', this.xScale(0.1)); //  EXIT
+    fixationEnter.append('line').attr('x1', this.xScale(0)).attr('y1', this.xScale(-0.1)).attr('x2', this.xScale(0)).attr('y2', this.xScale(0.1));
+    //  EXIT
+    fixationUpdate.exit().remove();
 
-    fixationUpdate.exit().remove(); // Dots
+    // Dots
     //  DATA-JOIN
-
     const dotsUpdate = select(this.renderRoot).select('.content').selectAll('.dots').data(this.state === 'stimulus' ? this.dots : [[], []]);
     const dotUpdate = dotsUpdate.selectAll('.dot').data(datum => {
       return datum;
-    }); //  ENTER
-
-    const dotEnter = dotUpdate.enter().append('circle').classed('dot', true); //  MERGE
-
+    });
+    //  ENTER
+    const dotEnter = dotUpdate.enter().append('circle').classed('dot', true);
+    //  MERGE
     dotEnter.merge(dotUpdate).attr('cx', datum => {
       return datum.x;
     }).attr('cy', datum => {
       return datum.y;
-    }); //  EXIT
+    });
+    //  EXIT
+    dotUpdate.exit().remove();
 
-    dotUpdate.exit().remove(); // Query
+    // Query
     //  DATA-JOIN
-
-    const queryUpdate = select(this.renderRoot).select('.content').selectAll('.query').data(this.state === 'wait' ? [true] : []); //  ENTER
-
+    const queryUpdate = select(this.renderRoot).select('.content').selectAll('.query').data(this.state === 'wait' ? [true] : []);
+    //  ENTER
     const queryEnter = queryUpdate.enter().append('g').classed('query', true);
-    queryEnter.append('text').attr('x', this.xScale(0)).attr('y', this.xScale(0)).attr('text-anchor', 'middle').attr('alignment-baseline', 'middle').text('?'); //  EXIT
-
+    queryEnter.append('text').attr('x', this.xScale(0)).attr('y', this.xScale(0)).attr('text-anchor', 'middle').attr('alignment-baseline', 'middle').text('?');
+    //  EXIT
     queryUpdate.exit().remove();
   }
-
 }
 customElements.define('rdk-task', RDKTask);
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-function createCommonjsModule(fn) {
-  var module = { exports: {} };
-	return fn(module, module.exports), module.exports;
-}
+var jstatExports = {};
+var jstat = {
+  get exports(){ return jstatExports; },
+  set exports(v){ jstatExports = v; },
+};
 
-var jstat = createCommonjsModule(function (module, exports) {
+(function (module, exports) {
   (function (window, factory) {
     {
       module.exports = factory();
@@ -8406,76 +8320,80 @@ var jstat = createCommonjsModule(function (module, exports) {
       // For quick reference.
       var concat = Array.prototype.concat;
       var slice = Array.prototype.slice;
-      var toString = Object.prototype.toString; // Calculate correction for IEEE error
-      // TODO: This calculation can be improved.
+      var toString = Object.prototype.toString;
 
+      // Calculate correction for IEEE error
+      // TODO: This calculation can be improved.
       function calcRdx(n, m) {
         var val = n > m ? n : m;
         return Math.pow(10, 17 - ~~(Math.log(val > 0 ? val : -val) * Math.LOG10E));
       }
-
       var isArray = Array.isArray || function isArray(arg) {
         return toString.call(arg) === '[object Array]';
       };
-
       function isFunction(arg) {
         return toString.call(arg) === '[object Function]';
       }
-
       function isNumber(num) {
         return typeof num === 'number' ? num - num === 0 : false;
-      } // Converts the jStat matrix to vector.
+      }
 
-
+      // Converts the jStat matrix to vector.
       function toVector(arr) {
         return concat.apply([], arr);
-      } // The one and only jStat constructor.
+      }
 
-
+      // The one and only jStat constructor.
       function jStat() {
         return new jStat._init(arguments);
-      } // TODO: Remove after all references in src files have been removed.
+      }
 
+      // TODO: Remove after all references in src files have been removed.
+      jStat.fn = jStat.prototype;
 
-      jStat.fn = jStat.prototype; // By separating the initializer from the constructor it's easier to handle
+      // By separating the initializer from the constructor it's easier to handle
       // always returning a new instance whether "new" was used or not.
-
       jStat._init = function _init(args) {
         // If first argument is an array, must be vector or matrix.
         if (isArray(args[0])) {
           // Check if matrix.
           if (isArray(args[0][0])) {
             // See if a mapping function was also passed.
-            if (isFunction(args[1])) args[0] = jStat.map(args[0], args[1]); // Iterate over each is faster than this.push.apply(this, args[0].
-
+            if (isFunction(args[1])) args[0] = jStat.map(args[0], args[1]);
+            // Iterate over each is faster than this.push.apply(this, args[0].
             for (var i = 0; i < args[0].length; i++) this[i] = args[0][i];
+            this.length = args[0].length;
 
-            this.length = args[0].length; // Otherwise must be a vector.
+            // Otherwise must be a vector.
           } else {
             this[0] = isFunction(args[1]) ? jStat.map(args[0], args[1]) : args[0];
             this.length = 1;
-          } // If first argument is number, assume creation of sequence.
+          }
 
+          // If first argument is number, assume creation of sequence.
         } else if (isNumber(args[0])) {
           this[0] = jStat.seq.apply(null, args);
-          this.length = 1; // Handle case when jStat object is passed to jStat.
+          this.length = 1;
+
+          // Handle case when jStat object is passed to jStat.
         } else if (args[0] instanceof jStat) {
           // Duplicate the object and pass it back.
-          return jStat(args[0].toArray()); // Unexpected argument value, return empty jStat object.
+          return jStat(args[0].toArray());
+
+          // Unexpected argument value, return empty jStat object.
           // TODO: This is strange behavior. Shouldn't this throw or some such to let
           // the user know they had bad arguments?
         } else {
           this[0] = [];
           this.length = 1;
         }
-
         return this;
       };
-
       jStat._init.prototype = jStat.prototype;
-      jStat._init.constructor = jStat; // Utility functions.
-      // TODO: for internal use only?
+      jStat._init.constructor = jStat;
 
+      // Utility functions.
+      // TODO: for internal use only?
       jStat.utils = {
         calcRdx: calcRdx,
         isArray: isArray,
@@ -8484,67 +8402,61 @@ var jstat = createCommonjsModule(function (module, exports) {
         toVector: toVector
       };
       jStat._random_fn = Math.random;
-
       jStat.setRandom = function setRandom(fn) {
         if (typeof fn !== 'function') throw new TypeError('fn is not a function');
         jStat._random_fn = fn;
-      }; // Easily extend the jStat object.
+      };
+
+      // Easily extend the jStat object.
       // TODO: is this seriously necessary?
-
-
       jStat.extend = function extend(obj) {
         var i, j;
-
         if (arguments.length === 1) {
           for (j in obj) jStat[j] = obj[j];
-
           return this;
         }
-
         for (i = 1; i < arguments.length; i++) {
           for (j in arguments[i]) obj[j] = arguments[i][j];
         }
-
         return obj;
-      }; // Returns the number of rows in the matrix.
+      };
 
-
+      // Returns the number of rows in the matrix.
       jStat.rows = function rows(arr) {
         return arr.length || 1;
-      }; // Returns the number of columns in the matrix.
+      };
 
-
+      // Returns the number of columns in the matrix.
       jStat.cols = function cols(arr) {
         return arr[0].length || 1;
-      }; // Returns the dimensions of the object { rows: i, cols: j }
+      };
 
-
+      // Returns the dimensions of the object { rows: i, cols: j }
       jStat.dimensions = function dimensions(arr) {
         return {
           rows: jStat.rows(arr),
           cols: jStat.cols(arr)
         };
-      }; // Returns a specified row as a vector or return a sub matrix by pick some rows
+      };
 
-
+      // Returns a specified row as a vector or return a sub matrix by pick some rows
       jStat.row = function row(arr, index) {
         if (isArray(index)) {
           return index.map(function (i) {
             return jStat.row(arr, i);
           });
         }
-
         return arr[index];
-      }; // return row as array
+      };
+
+      // return row as array
       // rowa([[1,2],[3,4]],0) -> [1,2]
-
-
       jStat.rowa = function rowa(arr, i) {
         return jStat.row(arr, i);
-      }; // Returns the specified column as a vector or return a sub matrix by pick some
+      };
+
+      // Returns the specified column as a vector or return a sub matrix by pick some
       // columns
-
-
       jStat.col = function col(arr, index) {
         if (isArray(index)) {
           var submat = jStat.arange(arr.length).map(function () {
@@ -8557,221 +8469,192 @@ var jstat = createCommonjsModule(function (module, exports) {
           });
           return submat;
         }
-
         var column = new Array(arr.length);
-
         for (var i = 0; i < arr.length; i++) column[i] = [arr[i][index]];
-
         return column;
-      }; // return column as array
+      };
+
+      // return column as array
       // cola([[1,2],[3,4]],0) -> [1,3]
-
-
       jStat.cola = function cola(arr, i) {
         return jStat.col(arr, i).map(function (a) {
           return a[0];
         });
-      }; // Returns the diagonal of the matrix
+      };
 
-
+      // Returns the diagonal of the matrix
       jStat.diag = function diag(arr) {
         var nrow = jStat.rows(arr);
         var res = new Array(nrow);
-
         for (var row = 0; row < nrow; row++) res[row] = [arr[row][row]];
-
         return res;
-      }; // Returns the anti-diagonal of the matrix
+      };
 
-
+      // Returns the anti-diagonal of the matrix
       jStat.antidiag = function antidiag(arr) {
         var nrow = jStat.rows(arr) - 1;
         var res = new Array(nrow);
-
         for (var i = 0; nrow >= 0; nrow--, i++) res[i] = [arr[i][nrow]];
-
         return res;
-      }; // Transpose a matrix or array.
+      };
 
-
+      // Transpose a matrix or array.
       jStat.transpose = function transpose(arr) {
         var obj = [];
-        var objArr, rows, cols, j, i; // Make sure arr is in matrix format.
+        var objArr, rows, cols, j, i;
 
+        // Make sure arr is in matrix format.
         if (!isArray(arr[0])) arr = [arr];
         rows = arr.length;
         cols = arr[0].length;
-
         for (i = 0; i < cols; i++) {
           objArr = new Array(rows);
-
           for (j = 0; j < rows; j++) objArr[j] = arr[j][i];
-
           obj.push(objArr);
-        } // If obj is vector, return only single array.
+        }
 
-
+        // If obj is vector, return only single array.
         return obj.length === 1 ? obj[0] : obj;
-      }; // Map a function to an array or array of arrays.
+      };
+
+      // Map a function to an array or array of arrays.
       // "toAlter" is an internal variable.
-
-
       jStat.map = function map(arr, func, toAlter) {
         var row, nrow, ncol, res, col;
         if (!isArray(arr[0])) arr = [arr];
         nrow = arr.length;
         ncol = arr[0].length;
         res = toAlter ? arr : new Array(nrow);
-
         for (row = 0; row < nrow; row++) {
           // if the row doesn't exist, create it
           if (!res[row]) res[row] = new Array(ncol);
-
           for (col = 0; col < ncol; col++) res[row][col] = func(arr[row][col], row, col);
         }
-
         return res.length === 1 ? res[0] : res;
-      }; // Cumulatively combine the elements of an array or array of arrays using a function.
+      };
 
-
+      // Cumulatively combine the elements of an array or array of arrays using a function.
       jStat.cumreduce = function cumreduce(arr, func, toAlter) {
         var row, nrow, ncol, res, col;
         if (!isArray(arr[0])) arr = [arr];
         nrow = arr.length;
         ncol = arr[0].length;
         res = toAlter ? arr : new Array(nrow);
-
         for (row = 0; row < nrow; row++) {
           // if the row doesn't exist, create it
           if (!res[row]) res[row] = new Array(ncol);
           if (ncol > 0) res[row][0] = arr[row][0];
-
           for (col = 1; col < ncol; col++) res[row][col] = func(res[row][col - 1], arr[row][col]);
         }
-
         return res.length === 1 ? res[0] : res;
-      }; // Destructively alter an array.
+      };
 
-
+      // Destructively alter an array.
       jStat.alter = function alter(arr, func) {
         return jStat.map(arr, func, true);
-      }; // Generate a rows x cols matrix according to the supplied function.
+      };
 
-
+      // Generate a rows x cols matrix according to the supplied function.
       jStat.create = function create(rows, cols, func) {
         var res = new Array(rows);
         var i, j;
-
         if (isFunction(cols)) {
           func = cols;
           cols = rows;
         }
-
         for (i = 0; i < rows; i++) {
           res[i] = new Array(cols);
-
           for (j = 0; j < cols; j++) res[i][j] = func(i, j);
         }
-
         return res;
       };
-
       function retZero() {
         return 0;
-      } // Generate a rows x cols matrix of zeros.
+      }
 
-
+      // Generate a rows x cols matrix of zeros.
       jStat.zeros = function zeros(rows, cols) {
         if (!isNumber(cols)) cols = rows;
         return jStat.create(rows, cols, retZero);
       };
-
       function retOne() {
         return 1;
-      } // Generate a rows x cols matrix of ones.
+      }
 
-
+      // Generate a rows x cols matrix of ones.
       jStat.ones = function ones(rows, cols) {
         if (!isNumber(cols)) cols = rows;
         return jStat.create(rows, cols, retOne);
-      }; // Generate a rows x cols matrix of uniformly random numbers.
+      };
 
-
+      // Generate a rows x cols matrix of uniformly random numbers.
       jStat.rand = function rand(rows, cols) {
         if (!isNumber(cols)) cols = rows;
         return jStat.create(rows, cols, jStat._random_fn);
       };
-
       function retIdent(i, j) {
         return i === j ? 1 : 0;
-      } // Generate an identity matrix of size row x cols.
+      }
 
-
+      // Generate an identity matrix of size row x cols.
       jStat.identity = function identity(rows, cols) {
         if (!isNumber(cols)) cols = rows;
         return jStat.create(rows, cols, retIdent);
-      }; // Tests whether a matrix is symmetric
+      };
 
-
+      // Tests whether a matrix is symmetric
       jStat.symmetric = function symmetric(arr) {
         var size = arr.length;
         var row, col;
         if (arr.length !== arr[0].length) return false;
-
         for (row = 0; row < size; row++) {
           for (col = 0; col < size; col++) if (arr[col][row] !== arr[row][col]) return false;
         }
-
         return true;
-      }; // Set all values to zero.
+      };
 
-
+      // Set all values to zero.
       jStat.clear = function clear(arr) {
         return jStat.alter(arr, retZero);
-      }; // Generate sequence.
+      };
 
-
+      // Generate sequence.
       jStat.seq = function seq(min, max, length, func) {
         if (!isFunction(func)) func = false;
         var arr = [];
         var hival = calcRdx(min, max);
         var step = (max * hival - min * hival) / ((length - 1) * hival);
         var current = min;
-        var cnt; // Current is assigned using a technique to compensate for IEEE error.
-        // TODO: Needs better implementation.
+        var cnt;
 
+        // Current is assigned using a technique to compensate for IEEE error.
+        // TODO: Needs better implementation.
         for (cnt = 0; current <= max && cnt < length; cnt++, current = (min * hival + step * hival * cnt) / hival) {
           arr.push(func ? func(current, cnt) : current);
         }
-
         return arr;
-      }; // arange(5) -> [0,1,2,3,4]
+      };
+
+      // arange(5) -> [0,1,2,3,4]
       // arange(1,5) -> [1,2,3,4]
       // arange(5,1,-1) -> [5,4,3,2]
-
-
       jStat.arange = function arange(start, end, step) {
         var rl = [];
         var i;
         step = step || 1;
-
         if (end === undefined$1) {
           end = start;
           start = 0;
         }
-
         if (start === end || step === 0) {
           return [];
         }
-
         if (start < end && step < 0) {
           return [];
         }
-
         if (start > end && step > 0) {
           return [];
         }
-
         if (step > 0) {
           for (i = start; i < end; i += step) {
             rl.push(i);
@@ -8781,43 +8664,36 @@ var jstat = createCommonjsModule(function (module, exports) {
             rl.push(i);
           }
         }
-
         return rl;
-      }; // A=[[1,2,3],[4,5,6],[7,8,9]]
+      };
+
+      // A=[[1,2,3],[4,5,6],[7,8,9]]
       // slice(A,{row:{end:2},col:{start:1}}) -> [[2,3],[5,6]]
       // slice(A,1,{start:1}) -> [5,6]
       // as numpy code A[:2,1:]
-
-
       jStat.slice = function () {
         function _slice(list, start, end, step) {
           // note it's not equal to range.map mode it's a bug
           var i;
           var rl = [];
           var length = list.length;
-
           if (start === undefined$1 && end === undefined$1 && step === undefined$1) {
             return jStat.copy(list);
           }
-
           start = start || 0;
           end = end || list.length;
           start = start >= 0 ? start : length + start;
           end = end >= 0 ? end : length + end;
           step = step || 1;
-
           if (start === end || step === 0) {
             return [];
           }
-
           if (start < end && step < 0) {
             return [];
           }
-
           if (start > end && step > 0) {
             return [];
           }
-
           if (step > 0) {
             for (i = start; i < end; i += step) {
               rl.push(list[i]);
@@ -8827,46 +8703,37 @@ var jstat = createCommonjsModule(function (module, exports) {
               rl.push(list[i]);
             }
           }
-
           return rl;
         }
-
         function slice(list, rcSlice) {
           var colSlice, rowSlice;
           rcSlice = rcSlice || {};
-
           if (isNumber(rcSlice.row)) {
             if (isNumber(rcSlice.col)) return list[rcSlice.row][rcSlice.col];
             var row = jStat.rowa(list, rcSlice.row);
             colSlice = rcSlice.col || {};
             return _slice(row, colSlice.start, colSlice.end, colSlice.step);
           }
-
           if (isNumber(rcSlice.col)) {
             var col = jStat.cola(list, rcSlice.col);
             rowSlice = rcSlice.row || {};
             return _slice(col, rowSlice.start, rowSlice.end, rowSlice.step);
           }
-
           rowSlice = rcSlice.row || {};
           colSlice = rcSlice.col || {};
-
           var rows = _slice(list, rowSlice.start, rowSlice.end, rowSlice.step);
-
           return rows.map(function (row) {
             return _slice(row, colSlice.start, colSlice.end, colSlice.step);
           });
         }
-
         return slice;
-      }(); // A=[[1,2,3],[4,5,6],[7,8,9]]
+      }();
+
+      // A=[[1,2,3],[4,5,6],[7,8,9]]
       // sliceAssign(A,{row:{start:1},col:{start:1}},[[0,0],[0,0]])
       // A=[[1,2,3],[4,0,0],[7,0,0]]
-
-
       jStat.sliceAssign = function sliceAssign(A, rcSlice, B) {
         var nl, ml;
-
         if (isNumber(rcSlice.row)) {
           if (isNumber(rcSlice.col)) return A[rcSlice.row][rcSlice.col] = B;
           rcSlice.col = rcSlice.col || {};
@@ -8880,7 +8747,6 @@ var jstat = createCommonjsModule(function (module, exports) {
           });
           return A;
         }
-
         if (isNumber(rcSlice.col)) {
           rcSlice.row = rcSlice.row || {};
           rcSlice.row.start = rcSlice.row.start || 0;
@@ -8893,11 +8759,9 @@ var jstat = createCommonjsModule(function (module, exports) {
           });
           return A;
         }
-
         if (B[0].length === undefined$1) {
           B = [B];
         }
-
         rcSlice.row.start = rcSlice.row.start || 0;
         rcSlice.row.end = rcSlice.row.end || A.length;
         rcSlice.row.step = rcSlice.row.step || 1;
@@ -8912,19 +8776,19 @@ var jstat = createCommonjsModule(function (module, exports) {
           });
         });
         return A;
-      }; // [1,2,3] ->
+      };
+
+      // [1,2,3] ->
       // [[1,0,0],[0,2,0],[0,0,3]]
-
-
       jStat.diagonal = function diagonal(diagArray) {
         var mat = jStat.zeros(diagArray.length, diagArray.length);
         diagArray.forEach(function (t, i) {
           mat[i][i] = t;
         });
         return mat;
-      }; // return copy of A
+      };
 
-
+      // return copy of A
       jStat.copy = function copy(A) {
         return A.map(function (row) {
           if (isNumber(row)) return row;
@@ -8932,255 +8796,235 @@ var jstat = createCommonjsModule(function (module, exports) {
             return t;
           });
         });
-      }; // TODO: Go over this entire implementation. Seems a tragic waste of resources
+      };
+
+      // TODO: Go over this entire implementation. Seems a tragic waste of resources
       // doing all this work. Instead, and while ugly, use new Function() to generate
       // a custom function for each static method.
+
       // Quick reference.
+      var jProto = jStat.prototype;
 
+      // Default length.
+      jProto.length = 0;
 
-      var jProto = jStat.prototype; // Default length.
-
-      jProto.length = 0; // For internal use only.
+      // For internal use only.
       // TODO: Check if they're actually used, and if they are then rename them
       // to _*
-
       jProto.push = Array.prototype.push;
       jProto.sort = Array.prototype.sort;
       jProto.splice = Array.prototype.splice;
-      jProto.slice = Array.prototype.slice; // Return a clean array.
+      jProto.slice = Array.prototype.slice;
 
+      // Return a clean array.
       jProto.toArray = function toArray() {
         return this.length > 1 ? slice.call(this) : slice.call(this)[0];
-      }; // Map a function to a matrix or vector.
+      };
 
-
+      // Map a function to a matrix or vector.
       jProto.map = function map(func, toAlter) {
         return jStat(jStat.map(this, func, toAlter));
-      }; // Cumulatively combine the elements of a matrix or vector using a function.
+      };
 
-
+      // Cumulatively combine the elements of a matrix or vector using a function.
       jProto.cumreduce = function cumreduce(func, toAlter) {
         return jStat(jStat.cumreduce(this, func, toAlter));
-      }; // Destructively alter an array.
+      };
 
-
+      // Destructively alter an array.
       jProto.alter = function alter(func) {
         jStat.alter(this, func);
         return this;
-      }; // Extend prototype with methods that have no argument.
+      };
 
-
+      // Extend prototype with methods that have no argument.
       (function (funcs) {
         for (var i = 0; i < funcs.length; i++) (function (passfunc) {
           jProto[passfunc] = function (func) {
             var self = this,
-                results; // Check for callback.
-
+              results;
+            // Check for callback.
             if (func) {
               setTimeout(function () {
                 func.call(self, jProto[passfunc].call(self));
               });
               return this;
             }
-
             results = jStat[passfunc](this);
             return isArray(results) ? jStat(results) : results;
           };
         })(funcs[i]);
-      })('transpose clear symmetric rows cols dimensions diag antidiag'.split(' ')); // Extend prototype with methods that have one argument.
+      })('transpose clear symmetric rows cols dimensions diag antidiag'.split(' '));
 
-
+      // Extend prototype with methods that have one argument.
       (function (funcs) {
         for (var i = 0; i < funcs.length; i++) (function (passfunc) {
           jProto[passfunc] = function (index, func) {
-            var self = this; // check for callback
-
+            var self = this;
+            // check for callback
             if (func) {
               setTimeout(function () {
                 func.call(self, jProto[passfunc].call(self, index));
               });
               return this;
             }
-
             return jStat(jStat[passfunc](this, index));
           };
         })(funcs[i]);
-      })('row col'.split(' ')); // Extend prototype with simple shortcut methods.
+      })('row col'.split(' '));
 
-
+      // Extend prototype with simple shortcut methods.
       (function (funcs) {
         for (var i = 0; i < funcs.length; i++) (function (passfunc) {
           jProto[passfunc] = function () {
             return jStat(jStat[passfunc].apply(null, arguments));
           };
         })(funcs[i]);
-      })('create zeros ones rand identity'.split(' ')); // Exposing jStat.
+      })('create zeros ones rand identity'.split(' '));
 
-
+      // Exposing jStat.
       return jStat;
     }(Math);
-
     (function (jStat, Math) {
-      var isFunction = jStat.utils.isFunction; // Ascending functions for sort
+      var isFunction = jStat.utils.isFunction;
 
+      // Ascending functions for sort
       function ascNum(a, b) {
         return a - b;
       }
-
       function clip(arg, min, max) {
         return Math.max(min, Math.min(arg, max));
-      } // sum of an array
+      }
 
-
+      // sum of an array
       jStat.sum = function sum(arr) {
         var sum = 0;
         var i = arr.length;
-
         while (--i >= 0) sum += arr[i];
-
         return sum;
-      }; // sum squared
+      };
 
-
+      // sum squared
       jStat.sumsqrd = function sumsqrd(arr) {
         var sum = 0;
         var i = arr.length;
-
         while (--i >= 0) sum += arr[i] * arr[i];
-
         return sum;
-      }; // sum of squared errors of prediction (SSE)
+      };
 
-
+      // sum of squared errors of prediction (SSE)
       jStat.sumsqerr = function sumsqerr(arr) {
         var mean = jStat.mean(arr);
         var sum = 0;
         var i = arr.length;
         var tmp;
-
         while (--i >= 0) {
           tmp = arr[i] - mean;
           sum += tmp * tmp;
         }
-
         return sum;
-      }; // sum of an array in each row
+      };
 
-
+      // sum of an array in each row
       jStat.sumrow = function sumrow(arr) {
         var sum = 0;
         var i = arr.length;
-
         while (--i >= 0) sum += arr[i];
-
         return sum;
-      }; // product of an array
+      };
 
-
+      // product of an array
       jStat.product = function product(arr) {
         var prod = 1;
         var i = arr.length;
-
         while (--i >= 0) prod *= arr[i];
-
         return prod;
-      }; // minimum value of an array
+      };
 
-
+      // minimum value of an array
       jStat.min = function min(arr) {
         var low = arr[0];
         var i = 0;
-
         while (++i < arr.length) if (arr[i] < low) low = arr[i];
-
         return low;
-      }; // maximum value of an array
+      };
 
-
+      // maximum value of an array
       jStat.max = function max(arr) {
         var high = arr[0];
         var i = 0;
-
         while (++i < arr.length) if (arr[i] > high) high = arr[i];
-
         return high;
-      }; // unique values of an array
+      };
 
-
+      // unique values of an array
       jStat.unique = function unique(arr) {
         var hash = {},
-            _arr = [];
-
+          _arr = [];
         for (var i = 0; i < arr.length; i++) {
           if (!hash[arr[i]]) {
             hash[arr[i]] = true;
-
             _arr.push(arr[i]);
           }
         }
-
         return _arr;
-      }; // mean value of an array
+      };
 
-
+      // mean value of an array
       jStat.mean = function mean(arr) {
         return jStat.sum(arr) / arr.length;
-      }; // mean squared error (MSE)
+      };
 
-
+      // mean squared error (MSE)
       jStat.meansqerr = function meansqerr(arr) {
         return jStat.sumsqerr(arr) / arr.length;
-      }; // geometric mean of an array
+      };
 
-
+      // geometric mean of an array
       jStat.geomean = function geomean(arr) {
-        return Math.pow(jStat.product(arr), 1 / arr.length);
-      }; // median of an array
+        var logs = arr.map(Math.log);
+        var meanOfLogs = jStat.mean(logs);
+        return Math.exp(meanOfLogs);
+      };
 
-
+      // median of an array
       jStat.median = function median(arr) {
         var arrlen = arr.length;
-
-        var _arr = arr.slice().sort(ascNum); // check if array is even or odd, then return the appropriate
-
-
+        var _arr = arr.slice().sort(ascNum);
+        // check if array is even or odd, then return the appropriate
         return !(arrlen & 1) ? (_arr[arrlen / 2 - 1] + _arr[arrlen / 2]) / 2 : _arr[arrlen / 2 | 0];
-      }; // cumulative sum of an array
+      };
 
-
+      // cumulative sum of an array
       jStat.cumsum = function cumsum(arr) {
         return jStat.cumreduce(arr, function (a, b) {
           return a + b;
         });
-      }; // cumulative product of an array
+      };
 
-
+      // cumulative product of an array
       jStat.cumprod = function cumprod(arr) {
         return jStat.cumreduce(arr, function (a, b) {
           return a * b;
         });
-      }; // successive differences of a sequence
+      };
 
-
+      // successive differences of a sequence
       jStat.diff = function diff(arr) {
         var diffs = [];
         var arrLen = arr.length;
         var i;
-
         for (i = 1; i < arrLen; i++) diffs.push(arr[i] - arr[i - 1]);
-
         return diffs;
-      }; // ranks of an array
+      };
 
-
+      // ranks of an array
       jStat.rank = function (arr) {
         var i;
         var distinctNumbers = [];
         var numberCounts = {};
-
         for (i = 0; i < arr.length; i++) {
           var number = arr[i];
-
           if (numberCounts[number]) {
             numberCounts[number]++;
           } else {
@@ -9188,11 +9032,9 @@ var jstat = createCommonjsModule(function (module, exports) {
             distinctNumbers.push(number);
           }
         }
-
         var sortedDistinctNumbers = distinctNumbers.sort(ascNum);
         var numberRanks = {};
         var currentRank = 1;
-
         for (i = 0; i < sortedDistinctNumbers.length; i++) {
           var number = sortedDistinctNumbers[i];
           var count = numberCounts[number];
@@ -9202,26 +9044,22 @@ var jstat = createCommonjsModule(function (module, exports) {
           numberRanks[number] = rank;
           currentRank += count;
         }
-
         return arr.map(function (number) {
           return numberRanks[number];
         });
-      }; // mode of an array
+      };
+
+      // mode of an array
       // if there are multiple modes of an array, return all of them
       // is this the appropriate way of handling it?
-
-
       jStat.mode = function mode(arr) {
         var arrLen = arr.length;
-
         var _arr = arr.slice().sort(ascNum);
-
         var count = 1;
         var maxCount = 0;
         var numMaxCount = 0;
         var mode_arr = [];
         var i;
-
         for (i = 0; i < arrLen; i++) {
           if (_arr[i] === _arr[i + 1]) {
             count++;
@@ -9230,32 +9068,31 @@ var jstat = createCommonjsModule(function (module, exports) {
               mode_arr = [_arr[i]];
               maxCount = count;
               numMaxCount = 0;
-            } // are there multiple max counts
+            }
+            // are there multiple max counts
             else if (count === maxCount) {
               mode_arr.push(_arr[i]);
               numMaxCount++;
-            } // resetting count for new value in array
-
-
+            }
+            // resetting count for new value in array
             count = 1;
           }
         }
-
         return numMaxCount === 0 ? mode_arr[0] : mode_arr;
-      }; // range of an array
+      };
 
-
+      // range of an array
       jStat.range = function range(arr) {
         return jStat.max(arr) - jStat.min(arr);
-      }; // variance of an array
+      };
+
+      // variance of an array
       // flag = true indicates sample instead of population
-
-
       jStat.variance = function variance(arr, flag) {
         return jStat.sumsqerr(arr) / (arr.length - (flag ? 1 : 0));
-      }; // pooled variance of an array of arrays
+      };
 
-
+      // pooled variance of an array of arrays
       jStat.pooledvariance = function pooledvariance(arr) {
         var sumsqerr = arr.reduce(function (a, samples) {
           return a + jStat.sumsqerr(samples);
@@ -9264,72 +9101,64 @@ var jstat = createCommonjsModule(function (module, exports) {
           return a + samples.length;
         }, 0);
         return sumsqerr / (count - arr.length);
-      }; // deviation of an array
+      };
 
-
+      // deviation of an array
       jStat.deviation = function (arr) {
         var mean = jStat.mean(arr);
         var arrlen = arr.length;
         var dev = new Array(arrlen);
-
         for (var i = 0; i < arrlen; i++) {
           dev[i] = arr[i] - mean;
         }
-
         return dev;
-      }; // standard deviation of an array
+      };
+
+      // standard deviation of an array
       // flag = true indicates sample instead of population
-
-
       jStat.stdev = function stdev(arr, flag) {
         return Math.sqrt(jStat.variance(arr, flag));
-      }; // pooled standard deviation of an array of arrays
+      };
 
-
+      // pooled standard deviation of an array of arrays
       jStat.pooledstdev = function pooledstdev(arr) {
         return Math.sqrt(jStat.pooledvariance(arr));
-      }; // mean deviation (mean absolute deviation) of an array
+      };
 
-
+      // mean deviation (mean absolute deviation) of an array
       jStat.meandev = function meandev(arr) {
         var mean = jStat.mean(arr);
         var a = [];
-
         for (var i = arr.length - 1; i >= 0; i--) {
           a.push(Math.abs(arr[i] - mean));
         }
-
         return jStat.mean(a);
-      }; // median deviation (median absolute deviation) of an array
+      };
 
-
+      // median deviation (median absolute deviation) of an array
       jStat.meddev = function meddev(arr) {
         var median = jStat.median(arr);
         var a = [];
-
         for (var i = arr.length - 1; i >= 0; i--) {
           a.push(Math.abs(arr[i] - median));
         }
-
         return jStat.median(a);
-      }; // coefficient of variation
+      };
 
-
+      // coefficient of variation
       jStat.coeffvar = function coeffvar(arr) {
         return jStat.stdev(arr) / jStat.mean(arr);
-      }; // quartiles of an array
+      };
 
-
+      // quartiles of an array
       jStat.quartiles = function quartiles(arr) {
         var arrlen = arr.length;
-
         var _arr = arr.slice().sort(ascNum);
-
         return [_arr[Math.round(arrlen / 4) - 1], _arr[Math.round(arrlen / 2) - 1], _arr[Math.round(arrlen * 3 / 4) - 1]];
-      }; // Arbitary quantiles of an array. Direct port of the scipy.stats
+      };
+
+      // Arbitary quantiles of an array. Direct port of the scipy.stats
       // implementation by Pierre GF Gerard-Marchant.
-
-
       jStat.quantiles = function quantiles(arr, quantilesArray, alphap, betap) {
         var sortedArray = arr.slice().sort(ascNum);
         var quantileVals = [quantilesArray.length];
@@ -9337,7 +9166,6 @@ var jstat = createCommonjsModule(function (module, exports) {
         var i, p, m, aleph, k, gamma;
         if (typeof alphap === 'undefined') alphap = 3 / 8;
         if (typeof betap === 'undefined') betap = 3 / 8;
-
         for (i = 0; i < quantilesArray.length; i++) {
           p = quantilesArray[i];
           m = alphap + p * (1 - alphap - betap);
@@ -9346,48 +9174,42 @@ var jstat = createCommonjsModule(function (module, exports) {
           gamma = clip(aleph - k, 0, 1);
           quantileVals[i] = (1 - gamma) * sortedArray[k - 1] + gamma * sortedArray[k];
         }
-
         return quantileVals;
-      }; // Return the k-th percentile of values in a range, where k is in the range 0..1, inclusive.
+      };
+
+      // Return the k-th percentile of values in a range, where k is in the range 0..1, inclusive.
       // Passing true for the exclusive parameter excludes both endpoints of the range.
-
-
       jStat.percentile = function percentile(arr, k, exclusive) {
         var _arr = arr.slice().sort(ascNum);
-
         var realIndex = k * (_arr.length + (exclusive ? 1 : -1)) + (exclusive ? 0 : 1);
         var index = parseInt(realIndex);
         var frac = realIndex - index;
-
         if (index + 1 < _arr.length) {
           return _arr[index - 1] + frac * (_arr[index] - _arr[index - 1]);
         } else {
           return _arr[index - 1];
         }
-      }; // The percentile rank of score in a given array. Returns the percentage
+      };
+
+      // The percentile rank of score in a given array. Returns the percentage
       // of all values in the input array that are less than (kind='strict') or
       // less or equal than (kind='weak') score. Default is weak.
-
-
       jStat.percentileOfScore = function percentileOfScore(arr, score, kind) {
         var counter = 0;
         var len = arr.length;
         var strict = false;
         var value, i;
         if (kind === 'strict') strict = true;
-
         for (i = 0; i < len; i++) {
           value = arr[i];
-
           if (strict && value < score || !strict && value <= score) {
             counter++;
           }
         }
-
         return counter / len;
-      }; // Histogram (bin count) data
+      };
 
-
+      // Histogram (bin count) data
       jStat.histogram = function histogram(arr, binCnt) {
         binCnt = binCnt || 4;
         var first = jStat.min(arr);
@@ -9395,68 +9217,61 @@ var jstat = createCommonjsModule(function (module, exports) {
         var len = arr.length;
         var bins = [];
         var i;
-
         for (i = 0; i < binCnt; i++) bins[i] = 0;
-
         for (i = 0; i < len; i++) bins[Math.min(Math.floor((arr[i] - first) / binWidth), binCnt - 1)] += 1;
-
         return bins;
-      }; // covariance of two arrays
+      };
 
-
+      // covariance of two arrays
       jStat.covariance = function covariance(arr1, arr2) {
         var u = jStat.mean(arr1);
         var v = jStat.mean(arr2);
         var arr1Len = arr1.length;
         var sq_dev = new Array(arr1Len);
         var i;
-
         for (i = 0; i < arr1Len; i++) sq_dev[i] = (arr1[i] - u) * (arr2[i] - v);
-
         return jStat.sum(sq_dev) / (arr1Len - 1);
-      }; // (pearson's) population correlation coefficient, rho
+      };
 
-
+      // (pearson's) population correlation coefficient, rho
       jStat.corrcoeff = function corrcoeff(arr1, arr2) {
         return jStat.covariance(arr1, arr2) / jStat.stdev(arr1, 1) / jStat.stdev(arr2, 1);
-      }; // (spearman's) rank correlation coefficient, sp
+      };
 
-
+      // (spearman's) rank correlation coefficient, sp
       jStat.spearmancoeff = function (arr1, arr2) {
         arr1 = jStat.rank(arr1);
-        arr2 = jStat.rank(arr2); //return pearson's correlation of the ranks:
-
+        arr2 = jStat.rank(arr2);
+        //return pearson's correlation of the ranks:
         return jStat.corrcoeff(arr1, arr2);
-      }; // statistical standardized moments (general form of skew/kurt)
+      };
 
-
+      // statistical standardized moments (general form of skew/kurt)
       jStat.stanMoment = function stanMoment(arr, n) {
         var mu = jStat.mean(arr);
         var sigma = jStat.stdev(arr);
         var len = arr.length;
         var skewSum = 0;
-
         for (var i = 0; i < len; i++) skewSum += Math.pow((arr[i] - mu) / sigma, n);
-
         return skewSum / arr.length;
-      }; // (pearson's) moment coefficient of skewness
+      };
 
-
+      // (pearson's) moment coefficient of skewness
       jStat.skewness = function skewness(arr) {
         return jStat.stanMoment(arr, 3);
-      }; // (pearson's) (excess) kurtosis
+      };
 
-
+      // (pearson's) (excess) kurtosis
       jStat.kurtosis = function kurtosis(arr) {
         return jStat.stanMoment(arr, 4) - 3;
       };
+      var jProto = jStat.prototype;
 
-      var jProto = jStat.prototype; // Extend jProto with method for calculating cumulative sums and products.
+      // Extend jProto with method for calculating cumulative sums and products.
       // This differs from the similar extension below as cumsum and cumprod should
       // not be run again in the case fullbool === true.
       // If a matrix is passed, automatically assume operation should be done on the
       // columns.
-
       (function (funcs) {
         for (var i = 0; i < funcs.length; i++) (function (passfunc) {
           // If a matrix is passed, automatically assume operation should be done on
@@ -9464,37 +9279,32 @@ var jstat = createCommonjsModule(function (module, exports) {
           jProto[passfunc] = function (fullbool, func) {
             var arr = [];
             var i = 0;
-            var tmpthis = this; // Assignment reassignation depending on how parameters were passed in.
-
+            var tmpthis = this;
+            // Assignment reassignation depending on how parameters were passed in.
             if (isFunction(fullbool)) {
               func = fullbool;
               fullbool = false;
-            } // Check if a callback was passed with the function.
-
-
+            }
+            // Check if a callback was passed with the function.
             if (func) {
               setTimeout(function () {
                 func.call(tmpthis, jProto[passfunc].call(tmpthis, fullbool));
               });
               return this;
-            } // Check if matrix and run calculations.
-
-
+            }
+            // Check if matrix and run calculations.
             if (this.length > 1) {
               tmpthis = fullbool === true ? this : this.transpose();
-
               for (; i < tmpthis.length; i++) arr[i] = jStat[passfunc](tmpthis[i]);
-
               return arr;
-            } // Pass fullbool if only vector, not a matrix. for variance and stdev.
-
-
+            }
+            // Pass fullbool if only vector, not a matrix. for variance and stdev.
             return jStat[passfunc](this[0], fullbool);
           };
         })(funcs[i]);
-      })('cumsum cumprod'.split(' ')); // Extend jProto with methods which don't require arguments and work on columns.
+      })('cumsum cumprod'.split(' '));
 
-
+      // Extend jProto with methods which don't require arguments and work on columns.
       (function (funcs) {
         for (var i = 0; i < funcs.length; i++) (function (passfunc) {
           // If a matrix is passed, automatically assume operation should be done on
@@ -9502,38 +9312,33 @@ var jstat = createCommonjsModule(function (module, exports) {
           jProto[passfunc] = function (fullbool, func) {
             var arr = [];
             var i = 0;
-            var tmpthis = this; // Assignment reassignation depending on how parameters were passed in.
-
+            var tmpthis = this;
+            // Assignment reassignation depending on how parameters were passed in.
             if (isFunction(fullbool)) {
               func = fullbool;
               fullbool = false;
-            } // Check if a callback was passed with the function.
-
-
+            }
+            // Check if a callback was passed with the function.
             if (func) {
               setTimeout(function () {
                 func.call(tmpthis, jProto[passfunc].call(tmpthis, fullbool));
               });
               return this;
-            } // Check if matrix and run calculations.
-
-
+            }
+            // Check if matrix and run calculations.
             if (this.length > 1) {
               if (passfunc !== 'sumrow') tmpthis = fullbool === true ? this : this.transpose();
-
               for (; i < tmpthis.length; i++) arr[i] = jStat[passfunc](tmpthis[i]);
-
               return fullbool === true ? jStat[passfunc](jStat.utils.toVector(arr)) : arr;
-            } // Pass fullbool if only vector, not a matrix. for variance and stdev.
-
-
+            }
+            // Pass fullbool if only vector, not a matrix. for variance and stdev.
             return jStat[passfunc](this[0], fullbool);
           };
         })(funcs[i]);
-      })(('sum sumsqrd sumsqerr sumrow product min max unique mean meansqerr ' + 'geomean median diff rank mode range variance deviation stdev meandev ' + 'meddev coeffvar quartiles histogram skewness kurtosis').split(' ')); // Extend jProto with functions that take arguments. Operations on matrices are
+      })(('sum sumsqrd sumsqerr sumrow product min max unique mean meansqerr ' + 'geomean median diff rank mode range variance deviation stdev meandev ' + 'meddev coeffvar quartiles histogram skewness kurtosis').split(' '));
+
+      // Extend jProto with functions that take arguments. Operations on matrices are
       // done on columns.
-
-
       (function (funcs) {
         for (var i = 0; i < funcs.length; i++) (function (passfunc) {
           jProto[passfunc] = function () {
@@ -9541,41 +9346,40 @@ var jstat = createCommonjsModule(function (module, exports) {
             var i = 0;
             var tmpthis = this;
             var args = Array.prototype.slice.call(arguments);
-            var callbackFunction; // If the last argument is a function, we assume it's a callback; we
-            // strip the callback out and call the function again.
+            var callbackFunction;
 
+            // If the last argument is a function, we assume it's a callback; we
+            // strip the callback out and call the function again.
             if (isFunction(args[args.length - 1])) {
               callbackFunction = args[args.length - 1];
               var argsToPass = args.slice(0, args.length - 1);
               setTimeout(function () {
                 callbackFunction.call(tmpthis, jProto[passfunc].apply(tmpthis, argsToPass));
               });
-              return this; // Otherwise we curry the function args and call normally.
+              return this;
+
+              // Otherwise we curry the function args and call normally.
             } else {
               callbackFunction = undefined;
-
               var curriedFunction = function curriedFunction(vector) {
                 return jStat[passfunc].apply(tmpthis, [vector].concat(args));
               };
-            } // If this is a matrix, run column-by-column.
+            }
 
-
+            // If this is a matrix, run column-by-column.
             if (this.length > 1) {
               tmpthis = tmpthis.transpose();
-
               for (; i < tmpthis.length; i++) arr[i] = curriedFunction(tmpthis[i]);
-
               return arr;
-            } // Otherwise run on the vector.
+            }
 
-
+            // Otherwise run on the vector.
             return curriedFunction(this[0]);
           };
         })(funcs[i]);
       })('quantiles percentileOfScore'.split(' '));
-    })(jStat, Math); // Special functions //
-
-
+    })(jStat, Math);
+    // Special functions //
     (function (jStat, Math) {
       // Log-gamma function
       jStat.gammaln = function gammaln(x) {
@@ -9585,56 +9389,46 @@ var jstat = createCommonjsModule(function (module, exports) {
         var xx, y, tmp;
         tmp = (y = xx = x) + 5.5;
         tmp -= (xx + 0.5) * Math.log(tmp);
-
         for (; j < 6; j++) ser += cof[j] / ++y;
-
         return Math.log(2.5066282746310005 * ser / xx) - tmp;
       };
+
       /*
        * log-gamma function to support poisson distribution sampling. The
        * algorithm comes from SPECFUN by Shanjie Zhang and Jianming Jin and their
        * book "Computation of Special Functions", 1996, John Wiley & Sons, Inc.
        */
-
-
       jStat.loggam = function loggam(x) {
         var x0, x2, xp, gl, gl0;
         var k, n;
         var a = [8.333333333333333e-02, -2.777777777777778e-03, 7.936507936507937e-04, -5.952380952380952e-04, 8.417508417508418e-04, -1.917526917526918e-03, 6.410256410256410e-03, -2.955065359477124e-02, 1.796443723688307e-01, -1.39243221690590e+00];
         x0 = x;
         n = 0;
-
         if (x == 1.0 || x == 2.0) {
           return 0.0;
         }
-
         if (x <= 7.0) {
           n = Math.floor(7 - x);
           x0 = x + n;
         }
-
         x2 = 1.0 / (x0 * x0);
         xp = 2 * Math.PI;
         gl0 = a[9];
-
         for (k = 8; k >= 0; k--) {
           gl0 *= x2;
           gl0 += a[k];
         }
-
         gl = gl0 / x0 + 0.5 * Math.log(xp) + (x0 - 0.5) * Math.log(x0) - x0;
-
         if (x <= 7.0) {
           for (k = 1; k <= n; k++) {
             gl -= Math.log(x0 - 1.0);
             x0 -= 1.0;
           }
         }
-
         return gl;
-      }; // gamma of x
+      };
 
-
+      // gamma of x
       jStat.gammafn = function gammafn(x) {
         var p = [-1.716185138865495, 24.76565080557592, -379.80425647094563, 629.3311553128184, 866.9662027904133, -31451.272968848367, -36144.413418691176, 66456.14382024054];
         var q = [-30.8402300119739, 315.35062697960416, -1015.1563674902192, -3107.771671572311, 22538.118420980151, 4755.8462775278811, -134659.9598649693, -115132.2596755535];
@@ -9644,14 +9438,11 @@ var jstat = createCommonjsModule(function (module, exports) {
         var xnum = 0;
         var y = x;
         var i, z, yi, res;
-
         if (x > 171.6243769536076) {
           return Infinity;
         }
-
         if (y <= 0) {
           res = y % 1 + 3.6e-16;
-
           if (res) {
             fact = (!(y & 1) ? 1 : -1) * Math.PI / Math.sin(Math.PI * res);
             y = 1 - y;
@@ -9659,22 +9450,17 @@ var jstat = createCommonjsModule(function (module, exports) {
             return Infinity;
           }
         }
-
         yi = y;
-
         if (y < 1) {
           z = y++;
         } else {
           z = (y -= n = (y | 0) - 1) - 1;
         }
-
         for (i = 0; i < 8; ++i) {
           xnum = (xnum + p[i]) * z;
           xden = xden * z + q[i];
         }
-
         res = xnum / xden + 1;
-
         if (yi < y) {
           res /= yi;
         } else if (yi > y) {
@@ -9683,21 +9469,19 @@ var jstat = createCommonjsModule(function (module, exports) {
             y++;
           }
         }
-
         if (fact) {
           res = fact / res;
         }
-
         return res;
-      }; // lower incomplete gamma function, which is usually typeset with a
+      };
+
+      // lower incomplete gamma function, which is usually typeset with a
       // lower-case greek gamma as the function symbol
-
-
       jStat.gammap = function gammap(a, x) {
         return jStat.lowRegGamma(a, x) * jStat.gammafn(a);
-      }; // The lower regularized incomplete gamma function, usually written P(a,x)
+      };
 
-
+      // The lower regularized incomplete gamma function, usually written P(a,x)
       jStat.lowRegGamma = function lowRegGamma(a, x) {
         var aln = jStat.gammaln(a);
         var ap = a;
@@ -9707,21 +9491,18 @@ var jstat = createCommonjsModule(function (module, exports) {
         var c = 1 / 1.0e-30;
         var d = 1 / b;
         var h = d;
-        var i = 1; // calculate maximum number of itterations required for a
-
+        var i = 1;
+        // calculate maximum number of itterations required for a
         var ITMAX = -~(Math.log(a >= 1 ? a : 1 / a) * 8.5 + a * 0.4 + 17);
         var an;
-
         if (x < 0 || a <= 0) {
           return NaN;
         } else if (x < a + 1) {
           for (; i <= ITMAX; i++) {
             sum += del *= x / ++ap;
           }
-
           return sum * Math.exp(-x + a * Math.log(x) - aln);
         }
-
         for (; i <= ITMAX; i++) {
           an = -i * (i - a);
           b += 2;
@@ -9730,50 +9511,48 @@ var jstat = createCommonjsModule(function (module, exports) {
           d = 1 / d;
           h *= d * c;
         }
-
         return 1 - h * Math.exp(-x + a * Math.log(x) - aln);
-      }; // natural log factorial of n
+      };
 
-
+      // natural log factorial of n
       jStat.factorialln = function factorialln(n) {
         return n < 0 ? NaN : jStat.gammaln(n + 1);
-      }; // factorial of n
+      };
 
-
+      // factorial of n
       jStat.factorial = function factorial(n) {
         return n < 0 ? NaN : jStat.gammafn(n + 1);
-      }; // combinations of n, m
+      };
 
-
+      // combinations of n, m
       jStat.combination = function combination(n, m) {
         // make sure n or m don't exceed the upper limit of usable values
         return n > 170 || m > 170 ? Math.exp(jStat.combinationln(n, m)) : jStat.factorial(n) / jStat.factorial(m) / jStat.factorial(n - m);
       };
-
       jStat.combinationln = function combinationln(n, m) {
         return jStat.factorialln(n) - jStat.factorialln(m) - jStat.factorialln(n - m);
-      }; // permutations of n, m
+      };
 
-
+      // permutations of n, m
       jStat.permutation = function permutation(n, m) {
         return jStat.factorial(n) / jStat.factorial(n - m);
-      }; // beta function
+      };
 
-
+      // beta function
       jStat.betafn = function betafn(x, y) {
         // ensure arguments are positive
-        if (x <= 0 || y <= 0) return undefined; // make sure x + y doesn't exceed the upper limit of usable values
-
+        if (x <= 0 || y <= 0) return undefined;
+        // make sure x + y doesn't exceed the upper limit of usable values
         return x + y > 170 ? Math.exp(jStat.betaln(x, y)) : jStat.gammafn(x) * jStat.gammafn(y) / jStat.gammafn(x + y);
-      }; // natural logarithm of beta function
+      };
 
-
+      // natural logarithm of beta function
       jStat.betaln = function betaln(x, y) {
         return jStat.gammaln(x) + jStat.gammaln(y) - jStat.gammaln(x + y);
-      }; // Evaluates the continued fraction for incomplete beta function by modified
+      };
+
+      // Evaluates the continued fraction for incomplete beta function by modified
       // Lentz's method.
-
-
       jStat.betacf = function betacf(x, a, b) {
         var fpmin = 1e-30;
         var m = 1;
@@ -9782,24 +9561,24 @@ var jstat = createCommonjsModule(function (module, exports) {
         var qam = a - 1;
         var c = 1;
         var d = 1 - qab * x / qap;
-        var m2, aa, del, h; // These q's will be used in factors that occur in the coefficients
+        var m2, aa, del, h;
 
+        // These q's will be used in factors that occur in the coefficients
         if (Math.abs(d) < fpmin) d = fpmin;
         d = 1 / d;
         h = d;
-
         for (; m <= 100; m++) {
           m2 = 2 * m;
-          aa = m * (b - m) * x / ((qam + m2) * (a + m2)); // One step (the even one) of the recurrence
-
+          aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+          // One step (the even one) of the recurrence
           d = 1 + aa * d;
           if (Math.abs(d) < fpmin) d = fpmin;
           c = 1 + aa / c;
           if (Math.abs(c) < fpmin) c = fpmin;
           d = 1 / d;
           h *= d * c;
-          aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2)); // Next step of the recurrence (the odd one)
-
+          aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+          // Next step of the recurrence (the odd one)
           d = 1 + aa * d;
           if (Math.abs(d) < fpmin) d = fpmin;
           c = 1 + aa / c;
@@ -9809,11 +9588,10 @@ var jstat = createCommonjsModule(function (module, exports) {
           h *= del;
           if (Math.abs(del - 1.0) < 3e-7) break;
         }
-
         return h;
-      }; // Returns the inverse of the lower regularized inomplete gamma function
+      };
 
-
+      // Returns the inverse of the lower regularized inomplete gamma function
       jStat.gammapinv = function gammapinv(p, a) {
         var j = 0;
         var a1 = a - 1;
@@ -9822,7 +9600,6 @@ var jstat = createCommonjsModule(function (module, exports) {
         var x, err, t, u, pp, lna1, afac;
         if (p >= 1) return Math.max(100, a + 100 * Math.sqrt(a));
         if (p <= 0) return 0;
-
         if (a > 1) {
           lna1 = Math.log(a1);
           afac = Math.exp(a1 * (lna1 - 1) - gln);
@@ -9835,7 +9612,6 @@ var jstat = createCommonjsModule(function (module, exports) {
           t = 1 - a * (0.253 + a * 0.12);
           if (p < t) x = Math.pow(p / t, 1 / a);else x = 1 - Math.log(1 - (p - t) / (1 - t));
         }
-
         for (; j < 12; j++) {
           if (x <= 0) return 0;
           err = jStat.lowRegGamma(a, x) - p;
@@ -9845,11 +9621,10 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (x <= 0) x = 0.5 * (x + t);
           if (Math.abs(t) < EPS * x) break;
         }
-
         return x;
-      }; // Returns the error function erf(x)
+      };
 
-
+      // Returns the error function erf(x)
       jStat.erf = function erf(x) {
         var cof = [-1.3026537197817094, 6.4196979235649026e-1, 1.9476473204185836e-2, -9.561514786808631e-3, -9.46595344482036e-4, 3.66839497852761e-4, 4.2523324806907e-5, -2.0278578112534e-5, -1.624290004647e-6, 1.303655835580e-6, 1.5626441722e-8, -8.5238095915e-8, 6.529054439e-9, 5.059343495e-9, -9.91364156e-10, -2.27365122e-10, 9.6467911e-11, 2.394038e-12, -6.886027e-12, 8.94487e-13, 3.13092e-13, -1.12708e-13, 3.81e-16, 7.106e-15, -1.523e-15, -9.4e-17, 1.21e-16, -2.8e-17];
         var j = cof.length - 1;
@@ -9857,31 +9632,27 @@ var jstat = createCommonjsModule(function (module, exports) {
         var d = 0;
         var dd = 0;
         var t, ty, tmp, res;
-
         if (x < 0) {
           x = -x;
           isneg = true;
         }
-
         t = 2 / (2 + x);
         ty = 4 * t - 2;
-
         for (; j > 0; j--) {
           tmp = d;
           d = ty * d - dd + cof[j];
           dd = tmp;
         }
-
         res = t * Math.exp(-x * x + 0.5 * (cof[0] + ty * d) - dd);
         return isneg ? res - 1 : 1 - res;
-      }; // Returns the complmentary error function erfc(x)
+      };
 
-
+      // Returns the complmentary error function erfc(x)
       jStat.erfc = function erfc(x) {
         return 1 - jStat.erf(x);
-      }; // Returns the inverse of the complementary error function
+      };
 
-
+      // Returns the inverse of the complementary error function
       jStat.erfcinv = function erfcinv(p) {
         var j = 0;
         var x, err, t, pp;
@@ -9890,16 +9661,14 @@ var jstat = createCommonjsModule(function (module, exports) {
         pp = p < 1 ? p : 2 - p;
         t = Math.sqrt(-2 * Math.log(pp / 2));
         x = -0.70711 * ((2.30753 + t * 0.27061) / (1 + t * (0.99229 + t * 0.04481)) - t);
-
         for (; j < 2; j++) {
           err = jStat.erfc(x) - pp;
           x += err / (1.12837916709551257 * Math.exp(-x * x) - x * err);
         }
-
         return p < 1 ? x : -x;
-      }; // Returns the inverse of the incomplete beta function
+      };
 
-
+      // Returns the inverse of the incomplete beta function
       jStat.ibetainv = function ibetainv(p, a, b) {
         var EPS = 1e-8;
         var a1 = a - 1;
@@ -9908,7 +9677,6 @@ var jstat = createCommonjsModule(function (module, exports) {
         var lna, lnb, pp, t, u, err, x, al, h, w, afac;
         if (p <= 0) return 0;
         if (p >= 1) return 1;
-
         if (a >= 1 && b >= 1) {
           pp = p < 0.5 ? p : 1 - p;
           t = Math.sqrt(-2 * Math.log(pp));
@@ -9926,9 +9694,7 @@ var jstat = createCommonjsModule(function (module, exports) {
           w = t + u;
           if (p < t / w) x = Math.pow(a * w * p, 1 / a);else x = 1 - Math.pow(b * w * (1 - p), 1 / b);
         }
-
         afac = -jStat.gammaln(a) - jStat.gammaln(b) + jStat.gammaln(a + b);
-
         for (; j < 10; j++) {
           if (x === 0 || x === 1) return x;
           err = jStat.ibeta(x, a, b) - p;
@@ -9939,30 +9705,29 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (x >= 1) x = 0.5 * (x + t + 1);
           if (Math.abs(t) < EPS * x && j > 0) break;
         }
-
         return x;
-      }; // Returns the incomplete beta function I_x(a,b)
+      };
 
-
+      // Returns the incomplete beta function I_x(a,b)
       jStat.ibeta = function ibeta(x, a, b) {
         // Factors in front of the continued fraction.
         var bt = x === 0 || x === 1 ? 0 : Math.exp(jStat.gammaln(a + b) - jStat.gammaln(a) - jStat.gammaln(b) + a * Math.log(x) + b * Math.log(1 - x));
         if (x < 0 || x > 1) return false;
-        if (x < (a + 1) / (a + b + 2)) // Use continued fraction directly.
-          return bt * jStat.betacf(x, a, b) / a; // else use continued fraction after making the symmetry transformation.
-
+        if (x < (a + 1) / (a + b + 2))
+          // Use continued fraction directly.
+          return bt * jStat.betacf(x, a, b) / a;
+        // else use continued fraction after making the symmetry transformation.
         return 1 - bt * jStat.betacf(1 - x, b, a) / b;
-      }; // Returns a normal deviate (mu=0, sigma=1).
+      };
+
+      // Returns a normal deviate (mu=0, sigma=1).
       // If n and m are specified it returns a object of normal deviates.
-
-
       jStat.randn = function randn(n, m) {
         var u, v, x, y, q;
         if (!m) m = n;
         if (n) return jStat.create(n, m, function () {
           return jStat.randn();
         });
-
         do {
           u = jStat._random_fn();
           v = 1.7156 * (jStat._random_fn() - 0.5);
@@ -9970,17 +9735,15 @@ var jstat = createCommonjsModule(function (module, exports) {
           y = Math.abs(v) + 0.386595;
           q = x * x + y * (0.19600 * y - 0.25472 * x);
         } while (q > 0.27597 && (q > 0.27846 || v * v > -4 * Math.log(u) * u * u));
-
         return v / u;
-      }; // Returns a gamma deviate by the method of Marsaglia and Tsang.
+      };
 
-
+      // Returns a gamma deviate by the method of Marsaglia and Tsang.
       jStat.randg = function randg(shape, n, m) {
         var oalph = shape;
         var a1, a2, u, v, x, mat;
         if (!m) m = n;
         if (!shape) shape = 1;
-
         if (n) {
           mat = jStat.zeros(n, m);
           mat.alter(function () {
@@ -9988,32 +9751,27 @@ var jstat = createCommonjsModule(function (module, exports) {
           });
           return mat;
         }
-
         if (shape < 1) shape += 1;
         a1 = shape - 1 / 3;
         a2 = 1 / Math.sqrt(9 * a1);
-
         do {
           do {
             x = jStat.randn();
             v = 1 + a2 * x;
           } while (v <= 0);
-
           v = v * v * v;
           u = jStat._random_fn();
-        } while (u > 1 - 0.331 * Math.pow(x, 4) && Math.log(u) > 0.5 * x * x + a1 * (1 - v + Math.log(v))); // alpha > 1
-
-
-        if (shape == oalph) return a1 * v; // alpha < 1
-
+        } while (u > 1 - 0.331 * Math.pow(x, 4) && Math.log(u) > 0.5 * x * x + a1 * (1 - v + Math.log(v)));
+        // alpha > 1
+        if (shape == oalph) return a1 * v;
+        // alpha < 1
         do {
           u = jStat._random_fn();
         } while (u === 0);
-
         return Math.pow(u, 1 / oalph) * a1 * v;
-      }; // making use of static methods on the instance
+      };
 
-
+      // making use of static methods on the instance
       (function (funcs) {
         for (var i = 0; i < funcs.length; i++) (function (passfunc) {
           jStat.fn[passfunc] = function () {
@@ -10023,7 +9781,6 @@ var jstat = createCommonjsModule(function (module, exports) {
           };
         })(funcs[i]);
       })('gammaln gammafn factorial factorialln'.split(' '));
-
       (function (funcs) {
         for (var i = 0; i < funcs.length; i++) (function (passfunc) {
           jStat.fn[passfunc] = function () {
@@ -10032,7 +9789,6 @@ var jstat = createCommonjsModule(function (module, exports) {
         })(funcs[i]);
       })('randn'.split(' '));
     })(jStat, Math);
-
     (function (jStat, Math) {
       // generate all distribution instance methods
       (function (list) {
@@ -10044,16 +9800,14 @@ var jstat = createCommonjsModule(function (module, exports) {
             this._b = b;
             this._c = c;
             return this;
-          }; // distribution method to be used on a jStat instance
-
-
+          };
+          // distribution method to be used on a jStat instance
           jStat.fn[func] = function (a, b, c) {
             var newthis = jStat[func](a, b, c);
             newthis.data = this;
             return newthis;
-          }; // sample instance method
-
-
+          };
+          // sample instance method
           jStat[func].prototype.sample = function (arr) {
             var a = this._a;
             var b = this._b;
@@ -10061,9 +9815,8 @@ var jstat = createCommonjsModule(function (module, exports) {
             if (arr) return jStat.alter(arr, function () {
               return jStat[func].sample(a, b, c);
             });else return jStat[func].sample(a, b, c);
-          }; // generate the pdf, cdf and inv instance methods
-
-
+          };
+          // generate the pdf, cdf and inv instance methods
           (function (vals) {
             for (var i = 0; i < vals.length; i++) (function (fnfunc) {
               jStat[func].prototype[fnfunc] = function (x) {
@@ -10071,19 +9824,16 @@ var jstat = createCommonjsModule(function (module, exports) {
                 var b = this._b;
                 var c = this._c;
                 if (!x && x !== 0) x = this.data;
-
                 if (typeof x !== 'number') {
                   return jStat.fn.map.call(x, function (x) {
                     return jStat[func][fnfunc](x, a, b, c);
                   });
                 }
-
                 return jStat[func][fnfunc](x, a, b, c);
               };
             })(vals[i]);
-          })('pdf cdf inv'.split(' ')); // generate the mean, median, mode and variance instance methods
-
-
+          })('pdf cdf inv'.split(' '));
+          // generate the mean, median, mode and variance instance methods
           (function (vals) {
             for (var i = 0; i < vals.length; i++) (function (fnfunc) {
               jStat[func].prototype[fnfunc] = function () {
@@ -10092,16 +9842,15 @@ var jstat = createCommonjsModule(function (module, exports) {
             })(vals[i]);
           })('mean median mode variance'.split(' '));
         })(list[i]);
-      })(('beta centralF cauchy chisquare exponential gamma invgamma kumaraswamy ' + 'laplace lognormal noncentralt normal pareto studentt weibull uniform ' + 'binomial negbin hypgeom poisson triangular tukey arcsine').split(' ')); // extend beta function with static methods
+      })(('beta centralF cauchy chisquare exponential gamma invgamma kumaraswamy ' + 'laplace lognormal noncentralt normal pareto studentt weibull uniform ' + 'binomial negbin hypgeom poisson triangular tukey arcsine').split(' '));
 
-
+      // extend beta function with static methods
       jStat.extend(jStat.beta, {
         pdf: function pdf(x, alpha, beta) {
           // PDF is zero outside the support
-          if (x > 1 || x < 0) return 0; // PDF is one for the uniform case
-
+          if (x > 1 || x < 0) return 0;
+          // PDF is one for the uniform case
           if (alpha == 1 && beta == 1) return 1;
-
           if (alpha < 512 && beta < 512) {
             return Math.pow(x, alpha - 1) * Math.pow(1 - x, beta - 1) / jStat.betafn(alpha, beta);
           } else {
@@ -10131,8 +9880,9 @@ var jstat = createCommonjsModule(function (module, exports) {
         variance: function variance(alpha, beta) {
           return alpha * beta / (Math.pow(alpha + beta, 2) * (alpha + beta + 1));
         }
-      }); // extend F function with static methods
+      });
 
+      // extend F function with static methods
       jStat.extend(jStat.centralF, {
         // This implementation of the pdf function avoids float overflow
         // See the way that R calculates this value:
@@ -10140,19 +9890,15 @@ var jstat = createCommonjsModule(function (module, exports) {
         pdf: function pdf(x, df1, df2) {
           var p, q, f;
           if (x < 0) return 0;
-
           if (df1 <= 2) {
             if (x === 0 && df1 < 2) {
               return Infinity;
             }
-
             if (x === 0 && df1 === 2) {
               return 1;
             }
-
             return 1 / jStat.betafn(df1 / 2, df2 / 2) * Math.pow(df1 / df2, df1 / 2) * Math.pow(x, df1 / 2 - 1) * Math.pow(1 + df1 / df2 * x, -(df1 + df2) / 2);
           }
-
           p = df1 * x / (df2 + x * df1);
           q = df2 / (df2 + x * df1);
           f = df1 * q / 2.0;
@@ -10181,14 +9927,14 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (df2 <= 4) return undefined;
           return 2 * df2 * df2 * (df1 + df2 - 2) / (df1 * (df2 - 2) * (df2 - 2) * (df2 - 4));
         }
-      }); // extend cauchy function with static methods
+      });
 
+      // extend cauchy function with static methods
       jStat.extend(jStat.cauchy, {
         pdf: function pdf(x, local, scale) {
           if (scale < 0) {
             return 0;
           }
-
           return scale / (Math.pow(x - local, 2) + Math.pow(scale, 2)) / Math.PI;
         },
         cdf: function cdf(x, local, scale) {
@@ -10197,21 +9943,18 @@ var jstat = createCommonjsModule(function (module, exports) {
         inv: function (p, local, scale) {
           return local + scale * Math.tan(Math.PI * (p - 0.5));
         },
-        median: function median(local
-        /*, scale*/
-        ) {
+        median: function median(local /*, scale*/) {
           return local;
         },
-        mode: function mode(local
-        /*, scale*/
-        ) {
+        mode: function mode(local /*, scale*/) {
           return local;
         },
         sample: function sample(local, scale) {
           return jStat.randn() * Math.sqrt(1 / (2 * jStat.randg(0.5))) * scale + local;
         }
-      }); // extend chisquare function with static methods
+      });
 
+      // extend chisquare function with static methods
       jStat.extend(jStat.chisquare, {
         pdf: function pdf(x, dof) {
           if (x < 0) return 0;
@@ -10240,8 +9983,9 @@ var jstat = createCommonjsModule(function (module, exports) {
         variance: function variance(dof) {
           return 2 * dof;
         }
-      }); // extend exponential function with static methods
+      });
 
+      // extend exponential function with static methods
       jStat.extend(jStat.exponential, {
         pdf: function pdf(x, rate) {
           return x < 0 ? 0 : rate * Math.exp(-rate * x);
@@ -10258,9 +10002,8 @@ var jstat = createCommonjsModule(function (module, exports) {
         median: function (rate) {
           return 1 / rate * Math.log(2);
         },
-        mode: function
-          /*rate*/
-        mode() {
+        mode: function mode( /*rate*/
+        ) {
           return 0;
         },
         sample: function sample(rate) {
@@ -10269,8 +10012,9 @@ var jstat = createCommonjsModule(function (module, exports) {
         variance: function (rate) {
           return Math.pow(rate, -2);
         }
-      }); // extend gamma function with static methods
+      });
 
+      // extend gamma function with static methods
       jStat.extend(jStat.gamma, {
         pdf: function pdf(x, shape, scale) {
           if (x < 0) return 0;
@@ -10296,8 +10040,9 @@ var jstat = createCommonjsModule(function (module, exports) {
         variance: function variance(shape, scale) {
           return shape * scale * scale;
         }
-      }); // extend inverse gamma function with static methods
+      });
 
+      // extend inverse gamma function with static methods
       jStat.extend(jStat.invgamma, {
         pdf: function pdf(x, shape, scale) {
           if (x <= 0) return 0;
@@ -10323,8 +10068,9 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (shape <= 2) return undefined;
           return scale * scale / ((shape - 1) * (shape - 1) * (shape - 2));
         }
-      }); // extend kumaraswamy function with static methods
+      });
 
+      // extend kumaraswamy function with static methods
       jStat.extend(jStat.kumaraswamy, {
         pdf: function pdf(x, alpha, beta) {
           if (x === 0 && alpha === 1) return beta;else if (x === 1 && beta === 1) return alpha;
@@ -10347,13 +10093,14 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (!(alpha >= 1 && beta >= 1 && alpha !== 1 && beta !== 1)) return undefined;
           return Math.pow((alpha - 1) / (alpha * beta - 1), 1 / alpha);
         },
-        variance: function
-          /*alpha, beta*/
-        variance() {
-          throw new Error('variance not yet implemented'); // TODO: complete this
+        variance: function variance( /*alpha, beta*/
+        ) {
+          throw new Error('variance not yet implemented');
+          // TODO: complete this
         }
-      }); // extend lognormal function with static methods
+      });
 
+      // extend lognormal function with static methods
       jStat.extend(jStat.lognormal, {
         pdf: function pdf(x, mu, sigma) {
           if (x <= 0) return 0;
@@ -10369,9 +10116,7 @@ var jstat = createCommonjsModule(function (module, exports) {
         mean: function mean(mu, sigma) {
           return Math.exp(mu + sigma * sigma / 2);
         },
-        median: function median(mu
-        /*, sigma*/
-        ) {
+        median: function median(mu /*, sigma*/) {
           return Math.exp(mu);
         },
         mode: function mode(mu, sigma) {
@@ -10383,61 +10128,59 @@ var jstat = createCommonjsModule(function (module, exports) {
         variance: function variance(mu, sigma) {
           return (Math.exp(sigma * sigma) - 1) * Math.exp(2 * mu + sigma * sigma);
         }
-      }); // extend noncentralt function with static methods
+      });
 
+      // extend noncentralt function with static methods
       jStat.extend(jStat.noncentralt, {
         pdf: function pdf(x, dof, ncp) {
           var tol = 1e-14;
-          if (Math.abs(ncp) < tol) // ncp approx 0; use student-t
+          if (Math.abs(ncp) < tol)
+            // ncp approx 0; use student-t
             return jStat.studentt.pdf(x, dof);
-
           if (Math.abs(x) < tol) {
             // different formula for x == 0
             return Math.exp(jStat.gammaln((dof + 1) / 2) - ncp * ncp / 2 - 0.5 * Math.log(Math.PI * dof) - jStat.gammaln(dof / 2));
-          } // formula for x != 0
+          }
 
-
+          // formula for x != 0
           return dof / x * (jStat.noncentralt.cdf(x * Math.sqrt(1 + 2 / dof), dof + 2, ncp) - jStat.noncentralt.cdf(x, dof, ncp));
         },
         cdf: function cdf(x, dof, ncp) {
           var tol = 1e-14;
           var min_iterations = 200;
-          if (Math.abs(ncp) < tol) // ncp approx 0; use student-t
-            return jStat.studentt.cdf(x, dof); // turn negative x into positive and flip result afterwards
+          if (Math.abs(ncp) < tol)
+            // ncp approx 0; use student-t
+            return jStat.studentt.cdf(x, dof);
 
+          // turn negative x into positive and flip result afterwards
           var flip = false;
-
           if (x < 0) {
             flip = true;
             ncp = -ncp;
           }
-
           var prob = jStat.normal.cdf(-ncp, 0, 1);
-          var value = tol + 1; // use value at last two steps to determine convergence
-
+          var value = tol + 1;
+          // use value at last two steps to determine convergence
           var lastvalue = value;
           var y = x * x / (x * x + dof);
           var j = 0;
           var p = Math.exp(-ncp * ncp / 2);
           var q = Math.exp(-ncp * ncp / 2 - 0.5 * Math.log(2) - jStat.gammaln(3 / 2)) * ncp;
-
           while (j < min_iterations || lastvalue > tol || value > tol) {
             lastvalue = value;
-
             if (j > 0) {
               p *= ncp * ncp / (2 * j);
               q *= ncp * ncp / (2 * (j + 1 / 2));
             }
-
             value = p * jStat.beta.cdf(y, j + 0.5, dof / 2) + q * jStat.beta.cdf(y, j + 1, dof / 2);
             prob += 0.5 * value;
             j++;
           }
-
           return flip ? 1 - prob : prob;
         }
-      }); // extend normal function with static methods
+      });
 
+      // extend normal function with static methods
       jStat.extend(jStat.normal, {
         pdf: function pdf(x, mean, std) {
           return Math.exp(-0.5 * Math.log(2 * Math.PI) - Math.log(std) - Math.pow(x - mean, 2) / (2 * std * std));
@@ -10448,19 +10191,13 @@ var jstat = createCommonjsModule(function (module, exports) {
         inv: function (p, mean, std) {
           return -1.41421356237309505 * std * jStat.erfcinv(2 * p) + mean;
         },
-        mean: function (mean
-        /*, std*/
-        ) {
+        mean: function (mean /*, std*/) {
           return mean;
         },
-        median: function median(mean
-        /*, std*/
-        ) {
+        median: function median(mean /*, std*/) {
           return mean;
         },
-        mode: function (mean
-        /*, std*/
-        ) {
+        mode: function (mean /*, std*/) {
           return mean;
         },
         sample: function sample(mean, std) {
@@ -10469,8 +10206,9 @@ var jstat = createCommonjsModule(function (module, exports) {
         variance: function (mean, std) {
           return std * std;
         }
-      }); // extend pareto function with static methods
+      });
 
+      // extend pareto function with static methods
       jStat.extend(jStat.pareto, {
         pdf: function pdf(x, scale, shape) {
           if (x < scale) return 0;
@@ -10490,17 +10228,16 @@ var jstat = createCommonjsModule(function (module, exports) {
         median: function median(scale, shape) {
           return scale * (shape * Math.SQRT2);
         },
-        mode: function mode(scale
-        /*, shape*/
-        ) {
+        mode: function mode(scale /*, shape*/) {
           return scale;
         },
         variance: function (scale, shape) {
           if (shape <= 2) return undefined;
           return scale * scale * shape / (Math.pow(shape - 1, 2) * (shape - 2));
         }
-      }); // extend studentt function with static methods
+      });
 
+      // extend studentt function with static methods
       jStat.extend(jStat.studentt, {
         pdf: function pdf(x, dof) {
           dof = dof > 1e100 ? 1e100 : dof;
@@ -10518,14 +10255,12 @@ var jstat = createCommonjsModule(function (module, exports) {
         mean: function mean(dof) {
           return dof > 1 ? 0 : undefined;
         },
-        median: function
-          /*dof*/
-        median() {
+        median: function median( /*dof*/
+        ) {
           return 0;
         },
-        mode: function
-          /*dof*/
-        mode() {
+        mode: function mode( /*dof*/
+        ) {
           return 0;
         },
         sample: function sample(dof) {
@@ -10534,8 +10269,9 @@ var jstat = createCommonjsModule(function (module, exports) {
         variance: function variance(dof) {
           return dof > 2 ? dof / (dof - 2) : dof > 1 ? Infinity : undefined;
         }
-      }); // extend weibull function with static methods
+      });
 
+      // extend weibull function with static methods
       jStat.extend(jStat.weibull, {
         pdf: function pdf(x, scale, shape) {
           if (x < 0 || scale < 0 || shape < 0) return 0;
@@ -10563,8 +10299,9 @@ var jstat = createCommonjsModule(function (module, exports) {
         variance: function variance(scale, shape) {
           return scale * scale * jStat.gammafn(1 + 2 / shape) - Math.pow(jStat.weibull.mean(scale, shape), 2);
         }
-      }); // extend uniform function with static methods
+      });
 
+      // extend uniform function with static methods
       jStat.extend(jStat.uniform, {
         pdf: function pdf(x, a, b) {
           return x < a || x > b ? 0 : 1 / (b - a);
@@ -10582,9 +10319,8 @@ var jstat = createCommonjsModule(function (module, exports) {
         median: function median(a, b) {
           return jStat.mean(a, b);
         },
-        mode: function
-          /*a, b*/
-        mode() {
+        mode: function mode( /*a, b*/
+        ) {
           throw new Error('mode is not yet implemented');
         },
         sample: function sample(a, b) {
@@ -10593,8 +10329,9 @@ var jstat = createCommonjsModule(function (module, exports) {
         variance: function variance(a, b) {
           return Math.pow(b - a, 2) / 12;
         }
-      }); // Got this from http://www.math.ucla.edu/~tom/distributions/binomial.html
+      });
 
+      // Got this from http://www.math.ucla.edu/~tom/distributions/binomial.html
       function betinc(x, a, b, eps) {
         var a0 = 0;
         var b0 = 1;
@@ -10603,7 +10340,6 @@ var jstat = createCommonjsModule(function (module, exports) {
         var m9 = 0;
         var a2 = 0;
         var c9;
-
         while (Math.abs((a1 - a2) / a1) > eps) {
           a2 = a1;
           c9 = -(a + m9) * (a + b + m9) * x / (a + 2 * m9) / (a + 2 * m9 + 1);
@@ -10618,11 +10354,10 @@ var jstat = createCommonjsModule(function (module, exports) {
           a1 = a1 / b1;
           b1 = 1;
         }
-
         return a1 / a;
-      } // extend uniform function with static methods
+      }
 
-
+      // extend uniform function with static methods
       jStat.extend(jStat.binomial, {
         pdf: function pdf(k, n, p) {
           return p === 0 || p === 1 ? n * p === k ? 1 : 0 : jStat.combination(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
@@ -10642,8 +10377,9 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (z < (a + 1) / (s + 2)) betacdf = bt * betinc(z, a, b, eps);else betacdf = 1 - bt * betinc(1 - z, b, a, eps);
           return Math.round((1 - betacdf) * (1 / eps)) / (1 / eps);
         }
-      }); // extend uniform function with static methods
+      });
 
+      // extend uniform function with static methods
       jStat.extend(jStat.negbin, {
         pdf: function pdf(k, r, p) {
           if (k !== k >>> 0) return false;
@@ -10652,25 +10388,27 @@ var jstat = createCommonjsModule(function (module, exports) {
         },
         cdf: function cdf(x, r, p) {
           var sum = 0,
-              k = 0;
+            k = 0;
           if (x < 0) return 0;
-
           for (; k <= x; k++) {
             sum += jStat.negbin.pdf(k, r, p);
           }
-
           return sum;
         }
-      }); // extend uniform function with static methods
+      });
 
+      // extend uniform function with static methods
       jStat.extend(jStat.hypgeom, {
         pdf: function pdf(k, N, m, n) {
           // Hypergeometric PDF.
+
           // A simplification of the CDF algorithm below.
+
           // k = number of successes drawn
           // N = population size
           // m = number of successes in population
           // n = number of items drawn from population
+
           if (k !== k | 0) {
             return false;
           } else if (k < 0 || k < m - (N - n)) {
@@ -10681,15 +10419,19 @@ var jstat = createCommonjsModule(function (module, exports) {
             return 0;
           } else if (m * 2 > N) {
             // More than half the population is successes.
+
             if (n * 2 > N) {
               // More than half the population is sampled.
+
               return jStat.hypgeom.pdf(N - m - n + k, N, N - m, N - n);
             } else {
               // Half or less of the population is sampled.
+
               return jStat.hypgeom.pdf(n - k, N, N - m, n);
             }
           } else if (n * 2 > N) {
             // Half or less is successes.
+
             return jStat.hypgeom.pdf(m - k, N, m, N - n);
           } else if (m < n) {
             // We want to have the number of things sampled to be less than the
@@ -10700,48 +10442,55 @@ var jstat = createCommonjsModule(function (module, exports) {
             // less of it was successes, and we had fewer sampled things than
             // successes. Now we can do this complicated iterative algorithm in an
             // efficient way.
+
             // The basic premise of the algorithm is that we partially normalize our
             // intermediate product to keep it in a numerically good region, and then
             // finish the normalization at the end.
+
             // This variable holds the scaled probability of the current number of
             // successes.
-            var scaledPDF = 1; // This keeps track of how much we have normalized.
+            var scaledPDF = 1;
 
+            // This keeps track of how much we have normalized.
             var samplesDone = 0;
-
             for (var i = 0; i < k; i++) {
               // For every possible number of successes up to that observed...
+
               while (scaledPDF > 1 && samplesDone < n) {
                 // Intermediate result is growing too big. Apply some of the
                 // normalization to shrink everything.
-                scaledPDF *= 1 - m / (N - samplesDone); // Say we've normalized by this sample already.
 
+                scaledPDF *= 1 - m / (N - samplesDone);
+
+                // Say we've normalized by this sample already.
                 samplesDone++;
-              } // Work out the partially-normalized hypergeometric PDF for the next
+              }
+
+              // Work out the partially-normalized hypergeometric PDF for the next
               // number of successes
-
-
               scaledPDF *= (n - i) * (m - i) / ((i + 1) * (N - m - n + i + 1));
             }
-
             for (; samplesDone < n; samplesDone++) {
               // Apply all the rest of the normalization
               scaledPDF *= 1 - m / (N - samplesDone);
-            } // Bound answer sanely before returning.
+            }
 
-
+            // Bound answer sanely before returning.
             return Math.min(1, Math.max(0, scaledPDF));
           }
         },
         cdf: function cdf(x, N, m, n) {
           // Hypergeometric CDF.
+
           // This algorithm is due to Prof. Thomas S. Ferguson, <tom@math.ucla.edu>,
           // and comes from his hypergeometric test calculator at
           // <http://www.math.ucla.edu/~tom/distributions/Hypergeometric.html>.
+
           // x = number of successes drawn
           // N = population size
           // m = number of successes in population
           // n = number of items drawn from population
+
           if (x < 0 || x < m - (N - n)) {
             // It's impossible to have this few successes drawn or fewer.
             return 0;
@@ -10750,15 +10499,19 @@ var jstat = createCommonjsModule(function (module, exports) {
             return 1;
           } else if (m * 2 > N) {
             // More than half the population is successes.
+
             if (n * 2 > N) {
               // More than half the population is sampled.
+
               return jStat.hypgeom.cdf(N - m - n + x, N, N - m, N - n);
             } else {
               // Half or less of the population is sampled.
+
               return 1 - jStat.hypgeom.cdf(n - x - 1, N, N - m, n);
             }
           } else if (n * 2 > N) {
             // Half or less is successes.
+
             return 1 - jStat.hypgeom.cdf(m - x - 1, N, m, N - n);
           } else if (m < n) {
             // We want to have the number of things sampled to be less than the
@@ -10769,64 +10522,68 @@ var jstat = createCommonjsModule(function (module, exports) {
             // less of it was successes, and we had fewer sampled things than
             // successes. Now we can do this complicated iterative algorithm in an
             // efficient way.
+
             // The basic premise of the algorithm is that we partially normalize our
             // intermediate sum to keep it in a numerically good region, and then
             // finish the normalization at the end.
+
             // Holds the intermediate, scaled total CDF.
-            var scaledCDF = 1; // This variable holds the scaled probability of the current number of
+            var scaledCDF = 1;
+
+            // This variable holds the scaled probability of the current number of
             // successes.
+            var scaledPDF = 1;
 
-            var scaledPDF = 1; // This keeps track of how much we have normalized.
-
+            // This keeps track of how much we have normalized.
             var samplesDone = 0;
-
             for (var i = 0; i < x; i++) {
               // For every possible number of successes up to that observed...
+
               while (scaledCDF > 1 && samplesDone < n) {
                 // Intermediate result is growing too big. Apply some of the
                 // normalization to shrink everything.
+
                 var factor = 1 - m / (N - samplesDone);
                 scaledPDF *= factor;
-                scaledCDF *= factor; // Say we've normalized by this sample already.
+                scaledCDF *= factor;
 
+                // Say we've normalized by this sample already.
                 samplesDone++;
-              } // Work out the partially-normalized hypergeometric PDF for the next
+              }
+
+              // Work out the partially-normalized hypergeometric PDF for the next
               // number of successes
+              scaledPDF *= (n - i) * (m - i) / ((i + 1) * (N - m - n + i + 1));
 
-
-              scaledPDF *= (n - i) * (m - i) / ((i + 1) * (N - m - n + i + 1)); // Add to the CDF answer.
-
+              // Add to the CDF answer.
               scaledCDF += scaledPDF;
             }
-
             for (; samplesDone < n; samplesDone++) {
               // Apply all the rest of the normalization
               scaledCDF *= 1 - m / (N - samplesDone);
-            } // Bound answer sanely before returning.
+            }
 
-
+            // Bound answer sanely before returning.
             return Math.min(1, Math.max(0, scaledCDF));
           }
         }
-      }); // extend uniform function with static methods
+      });
 
+      // extend uniform function with static methods
       jStat.extend(jStat.poisson, {
         pdf: function pdf(k, l) {
           if (l < 0 || k % 1 !== 0 || k < 0) {
             return 0;
           }
-
           return Math.pow(l, k) * Math.exp(-l) / jStat.factorial(k);
         },
         cdf: function cdf(x, l) {
           var sumarr = [],
-              k = 0;
+            k = 0;
           if (x < 0) return 0;
-
           for (; k <= x; k++) {
             sumarr.push(jStat.poisson.pdf(k, l));
           }
-
           return jStat.sum(sumarr);
         },
         mean: function (l) {
@@ -10837,14 +10594,12 @@ var jstat = createCommonjsModule(function (module, exports) {
         },
         sampleSmall: function sampleSmall(l) {
           var p = 1,
-              k = 0,
-              L = Math.exp(-l);
-
+            k = 0,
+            L = Math.exp(-l);
           do {
             k++;
             p *= jStat._random_fn();
           } while (p > L);
-
           return k - 1;
         },
         sampleLarge: function sampleLarge(l) {
@@ -10857,25 +10612,19 @@ var jstat = createCommonjsModule(function (module, exports) {
           a = -0.059 + 0.02483 * b;
           invalpha = 1.1239 + 1.1328 / (b - 3.4);
           vr = 0.9277 - 3.6224 / (b - 2);
-
           while (1) {
             U = Math.random() - 0.5;
             V = Math.random();
             us = 0.5 - Math.abs(U);
             k = Math.floor((2 * a / us + b) * U + lam + 0.43);
-
             if (us >= 0.07 && V <= vr) {
               return k;
             }
-
             if (k < 0 || us < 0.013 && V > us) {
               continue;
             }
             /* log(V) == log(0.0) ok here */
-
             /* if U==0.0 so that us==0.0, log is ok since always returns */
-
-
             if (Math.log(V) + Math.log(invalpha) - Math.log(a / (us * us) + b) <= -lam + k * loglam - jStat.loggam(k + 1)) {
               return k;
             }
@@ -10884,8 +10633,9 @@ var jstat = createCommonjsModule(function (module, exports) {
         sample: function sample(l) {
           if (l < 10) return this.sampleSmall(l);else return this.sampleLarge(l);
         }
-      }); // extend triangular function with static methods
+      });
 
+      // extend triangular function with static methods
       jStat.extend(jStat.triangular, {
         pdf: function pdf(x, a, b, c) {
           if (b <= a || c < a || c > b) {
@@ -10906,7 +10656,8 @@ var jstat = createCommonjsModule(function (module, exports) {
         cdf: function cdf(x, a, b, c) {
           if (b <= a || c < a || c > b) return NaN;
           if (x <= a) return 0;else if (x >= b) return 1;
-          if (x <= c) return Math.pow(x - a, 2) / ((b - a) * (c - a));else // x > c
+          if (x <= c) return Math.pow(x - a, 2) / ((b - a) * (c - a));else
+            // x > c
             return 1 - Math.pow(b - x, 2) / ((b - a) * (b - c));
         },
         inv: function inv(p, a, b, c) {
@@ -10936,15 +10687,15 @@ var jstat = createCommonjsModule(function (module, exports) {
         },
         sample: function sample(a, b, c) {
           var u = jStat._random_fn();
-
           if (u < (c - a) / (b - a)) return a + Math.sqrt(u * (b - a) * (c - a));
           return b - Math.sqrt((1 - u) * (b - a) * (b - c));
         },
         variance: function variance(a, b, c) {
           return (a * a + b * b + c * c - a * b - a * c - b * c) / 18;
         }
-      }); // extend arcsine function with static methods
+      });
 
+      // extend arcsine function with static methods
       jStat.extend(jStat.arcsine, {
         pdf: function pdf(x, a, b) {
           if (b <= a) return NaN;
@@ -10965,9 +10716,8 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (b <= a) return NaN;
           return (a + b) / 2;
         },
-        mode: function
-          /*a, b*/
-        mode() {
+        mode: function mode( /*a, b*/
+        ) {
           throw new Error('mode is not yet implemented');
         },
         sample: function sample(a, b) {
@@ -10978,11 +10728,9 @@ var jstat = createCommonjsModule(function (module, exports) {
           return Math.pow(b - a, 2) / 8;
         }
       });
-
       function laplaceSign(x) {
         return x / Math.abs(x);
       }
-
       jStat.extend(jStat.laplace, {
         pdf: function pdf(x, mu, b) {
           return b <= 0 ? 0 : Math.exp(-Math.abs(x - mu) / b) / (2 * b);
@@ -10991,26 +10739,19 @@ var jstat = createCommonjsModule(function (module, exports) {
           if (b <= 0) {
             return 0;
           }
-
           if (x < mu) {
             return 0.5 * Math.exp((x - mu) / b);
           } else {
             return 1 - 0.5 * Math.exp(-(x - mu) / b);
           }
         },
-        mean: function (mu
-        /*, b*/
-        ) {
+        mean: function (mu /*, b*/) {
           return mu;
         },
-        median: function (mu
-        /*, b*/
-        ) {
+        median: function (mu /*, b*/) {
           return mu;
         },
-        mode: function (mu
-        /*, b*/
-        ) {
+        mode: function (mu /*, b*/) {
           return mu;
         },
         variance: function (mu, b) {
@@ -11021,7 +10762,6 @@ var jstat = createCommonjsModule(function (module, exports) {
           return mu - b * laplaceSign(u) * Math.log(1 - 2 * Math.abs(u));
         }
       });
-
       function tukeyWprob(w, rr, cc) {
         var nleg = 12;
         var ihalf = 6;
@@ -11034,42 +10774,51 @@ var jstat = createCommonjsModule(function (module, exports) {
         var wincr2 = 3;
         var xleg = [0.981560634246719250690549090149, 0.904117256370474856678465866119, 0.769902674194304687036893833213, 0.587317954286617447296702418941, 0.367831498998180193752691536644, 0.125233408511468915472441369464];
         var aleg = [0.047175336386511827194615961485, 0.106939325995318430960254718194, 0.160078328543346226334652529543, 0.203167426723065921749064455810, 0.233492536538354808760849898925, 0.249147045813402785000562436043];
-        var qsqz = w * 0.5; // if w >= 16 then the integral lower bound (occurs for c=20)
+        var qsqz = w * 0.5;
+
+        // if w >= 16 then the integral lower bound (occurs for c=20)
         // is 0.99999999999995 so return a value of 1.
 
-        if (qsqz >= bb) return 1.0; // find (f(w/2) - 1) ^ cc
+        if (qsqz >= bb) return 1.0;
+
+        // find (f(w/2) - 1) ^ cc
         // (first term in integral of hartley's form).
 
         var pr_w = 2 * jStat.normal.cdf(qsqz, 0, 1, 1, 0) - 1; // erf(qsqz / M_SQRT2)
         // if pr_w ^ cc < 2e-22 then set pr_w = 0
+        if (pr_w >= Math.exp(C2 / cc)) pr_w = Math.pow(pr_w, cc);else pr_w = 0.0;
 
-        if (pr_w >= Math.exp(C2 / cc)) pr_w = Math.pow(pr_w, cc);else pr_w = 0.0; // if w is large then the second component of the
+        // if w is large then the second component of the
         // integral is small, so fewer intervals are needed.
 
         var wincr;
-        if (w > wlar) wincr = wincr1;else wincr = wincr2; // find the integral of second term of hartley's form
+        if (w > wlar) wincr = wincr1;else wincr = wincr2;
+
+        // find the integral of second term of hartley's form
         // for the integral of the range for equal-length
         // intervals using legendre quadrature.  limits of
         // integration are from (w/2, 8).  two or three
         // equal-length intervals are used.
+
         // blb and bub are lower and upper limits of integration.
 
         var blb = qsqz;
         var binc = (bb - qsqz) / wincr;
         var bub = blb + binc;
-        var einsum = 0.0; // integrate over each interval
+        var einsum = 0.0;
+
+        // integrate over each interval
 
         var cc1 = cc - 1.0;
-
         for (var wi = 1; wi <= wincr; wi++) {
           var elsum = 0.0;
-          var a = 0.5 * (bub + blb); // legendre quadrature with order = nleg
+          var a = 0.5 * (bub + blb);
+
+          // legendre quadrature with order = nleg
 
           var b = 0.5 * (bub - blb);
-
           for (var jj = 1; jj <= nleg; jj++) {
             var j, xx;
-
             if (ihalf < jj) {
               j = nleg - jj + 1;
               xx = xleg[j - 1];
@@ -11077,40 +10826,41 @@ var jstat = createCommonjsModule(function (module, exports) {
               j = jj;
               xx = -xleg[j - 1];
             }
-
             var c = b * xx;
-            var ac = a + c; // if exp(-qexpo/2) < 9e-14,
+            var ac = a + c;
+
+            // if exp(-qexpo/2) < 9e-14,
             // then doesn't contribute to integral
 
             var qexpo = ac * ac;
             if (qexpo > C3) break;
             var pplus = 2 * jStat.normal.cdf(ac, 0, 1, 1, 0);
-            var pminus = 2 * jStat.normal.cdf(ac, w, 1, 1, 0); // if rinsum ^ (cc-1) < 9e-14,
+            var pminus = 2 * jStat.normal.cdf(ac, w, 1, 1, 0);
+
+            // if rinsum ^ (cc-1) < 9e-14,
             // then doesn't contribute to integral
 
             var rinsum = pplus * 0.5 - pminus * 0.5;
-
             if (rinsum >= Math.exp(C1 / cc1)) {
               rinsum = aleg[j - 1] * Math.exp(-(0.5 * qexpo)) * Math.pow(rinsum, cc1);
               elsum += rinsum;
             }
           }
-
           elsum *= 2.0 * b * cc / Math.sqrt(2 * Math.PI);
           einsum += elsum;
           blb = bub;
           bub += binc;
-        } // if pr_w ^ rr < 9e-14, then return 0
+        }
 
-
+        // if pr_w ^ rr < 9e-14, then return 0
         pr_w += einsum;
         if (pr_w <= Math.exp(C1 / rr)) return 0;
         pr_w = Math.pow(pr_w, rr);
-        if (pr_w >= 1) // 1 was iMax was eps
+        if (pr_w >= 1)
+          // 1 was iMax was eps
           return 1;
         return pr_w;
       }
-
       function tukeyQinv(p, c, v) {
         var p0 = 0.322232421088;
         var q0 = 0.993484626060e-01;
@@ -11136,7 +10886,6 @@ var jstat = createCommonjsModule(function (module, exports) {
         if (v < vmax) q += -c3 / v + c4 * t / v;
         return t * (q * Math.log(c - 1.0) + c5);
       }
-
       jStat.extend(jStat.tukey, {
         cdf: function cdf(q, nmeans, df) {
           // Identical implementation as the R ptukey() function as of commit 68947
@@ -11156,76 +10905,83 @@ var jstat = createCommonjsModule(function (module, exports) {
           var ulen4 = 0.125;
           var xlegq = [0.989400934991649932596154173450, 0.944575023073232576077988415535, 0.865631202387831743880467897712, 0.755404408355003033895101194847, 0.617876244402643748446671764049, 0.458016777657227386342419442984, 0.281603550779258913230460501460, 0.950125098376374401853193354250e-1];
           var alegq = [0.271524594117540948517805724560e-1, 0.622535239386478928628438369944e-1, 0.951585116824927848099251076022e-1, 0.124628971255533872052476282192, 0.149595988816576732081501730547, 0.169156519395002538189312079030, 0.182603415044923588866763667969, 0.189450610455068496285396723208];
-          if (q <= 0) return 0; // df must be > 1
+          if (q <= 0) return 0;
+
+          // df must be > 1
           // there must be at least two values
 
           if (df < 2 || rr < 1 || cc < 2) return NaN;
           if (!Number.isFinite(q)) return 1;
-          if (df > dlarg) return tukeyWprob(q, rr, cc); // calculate leading constant
+          if (df > dlarg) return tukeyWprob(q, rr, cc);
+
+          // calculate leading constant
 
           var f2 = df * 0.5;
           var f2lf = f2 * Math.log(df) - df * Math.log(2) - jStat.gammaln(f2);
-          var f21 = f2 - 1.0; // integral is divided into unit, half-unit, quarter-unit, or
+          var f21 = f2 - 1.0;
+
+          // integral is divided into unit, half-unit, quarter-unit, or
           // eighth-unit length intervals depending on the value of the
           // degrees of freedom.
 
           var ff4 = df * 0.25;
           var ulen;
           if (df <= dhaf) ulen = ulen1;else if (df <= dquar) ulen = ulen2;else if (df <= deigh) ulen = ulen3;else ulen = ulen4;
-          f2lf += Math.log(ulen); // integrate over each subinterval
+          f2lf += Math.log(ulen);
+
+          // integrate over each subinterval
 
           var ans = 0.0;
-
           for (var i = 1; i <= 50; i++) {
-            var otsum = 0.0; // legendre quadrature with order = nlegq
+            var otsum = 0.0;
+
+            // legendre quadrature with order = nlegq
             // nodes (stored in xlegq) are symmetric around zero.
 
             var twa1 = (2 * i - 1) * ulen;
-
             for (var jj = 1; jj <= nlegq; jj++) {
               var j, t1;
-
               if (ihalfq < jj) {
                 j = jj - ihalfq - 1;
                 t1 = f2lf + f21 * Math.log(twa1 + xlegq[j] * ulen) - (xlegq[j] * ulen + twa1) * ff4;
               } else {
                 j = jj - 1;
                 t1 = f2lf + f21 * Math.log(twa1 - xlegq[j] * ulen) + (xlegq[j] * ulen - twa1) * ff4;
-              } // if exp(t1) < 9e-14, then doesn't contribute to integral
+              }
 
-
+              // if exp(t1) < 9e-14, then doesn't contribute to integral
               var qsqz;
-
               if (t1 >= eps1) {
                 if (ihalfq < jj) {
                   qsqz = q * Math.sqrt((xlegq[j] * ulen + twa1) * 0.5);
                 } else {
                   qsqz = q * Math.sqrt((-(xlegq[j] * ulen) + twa1) * 0.5);
-                } // call wprob to find integral of range portion
+                }
 
+                // call wprob to find integral of range portion
 
                 var wprb = tukeyWprob(qsqz, rr, cc);
                 var rotsum = wprb * alegq[j] * Math.exp(t1);
                 otsum += rotsum;
-              } // end legendre integral for interval i
+              }
+              // end legendre integral for interval i
               // L200:
+            }
 
-            } // if integral for interval i < 1e-14, then stop.
+            // if integral for interval i < 1e-14, then stop.
             // However, in order to avoid small area under left tail,
             // at least  1 / ulen  intervals are calculated.
+            if (i * ulen >= 1.0 && otsum <= eps2) break;
 
-
-            if (i * ulen >= 1.0 && otsum <= eps2) break; // end of interval i
+            // end of interval i
             // L330:
 
             ans += otsum;
           }
-
           if (otsum > eps2) {
             // not converged
             throw new Error('tukey.cdf failed to converge');
           }
-
           if (ans > 1) ans = 1;
           return ans;
         },
@@ -11234,46 +10990,56 @@ var jstat = createCommonjsModule(function (module, exports) {
           var rr = 1;
           var cc = nmeans;
           var eps = 0.0001;
-          var maxiter = 50; // df must be > 1 ; there must be at least two values
+          var maxiter = 50;
 
+          // df must be > 1 ; there must be at least two values
           if (df < 2 || rr < 1 || cc < 2) return NaN;
           if (p < 0 || p > 1) return NaN;
           if (p === 0) return 0;
-          if (p === 1) return Infinity; // Initial value
+          if (p === 1) return Infinity;
 
-          var x0 = tukeyQinv(p, cc, df); // Find prob(value < x0)
+          // Initial value
 
-          var valx0 = jStat.tukey.cdf(x0, nmeans, df) - p; // Find the second iterate and prob(value < x1).
+          var x0 = tukeyQinv(p, cc, df);
+
+          // Find prob(value < x0)
+
+          var valx0 = jStat.tukey.cdf(x0, nmeans, df) - p;
+
+          // Find the second iterate and prob(value < x1).
           // If the first iterate has probability value
           // exceeding p then second iterate is 1 less than
           // first iterate; otherwise it is 1 greater.
 
           var x1;
           if (valx0 > 0.0) x1 = Math.max(0.0, x0 - 1.0);else x1 = x0 + 1.0;
-          var valx1 = jStat.tukey.cdf(x1, nmeans, df) - p; // Find new iterate
+          var valx1 = jStat.tukey.cdf(x1, nmeans, df) - p;
+
+          // Find new iterate
 
           var ans;
-
           for (var iter = 1; iter < maxiter; iter++) {
             ans = x1 - valx1 * (x1 - x0) / (valx1 - valx0);
-            valx0 = valx1; // New iterate must be >= 0
+            valx0 = valx1;
+
+            // New iterate must be >= 0
 
             x0 = x1;
-
             if (ans < 0.0) {
               ans = 0.0;
               valx1 = -p;
-            } // Find prob(value < new iterate)
-
+            }
+            // Find prob(value < new iterate)
 
             valx1 = jStat.tukey.cdf(ans, nmeans, df) - p;
-            x1 = ans; // If the difference between two successive
+            x1 = ans;
+
+            // If the difference between two successive
             // iterates is less than eps, stop
 
             var xabs = Math.abs(x1 - x0);
             if (xabs < eps) return ans;
           }
-
           throw new Error('tukey.inv failed to converge');
         }
       });
@@ -11281,15 +11047,12 @@ var jstat = createCommonjsModule(function (module, exports) {
     /* Provides functions for the solution of linear system of equations, integration, extrapolation,
      * interpolation, eigenvalue problems, differential equations and PCA analysis. */
 
-
     (function (jStat, Math) {
       var push = Array.prototype.push;
       var isArray = jStat.utils.isArray;
-
       function isUsable(arg) {
         return isArray(arg) || arg instanceof jStat;
       }
-
       jStat.extend({
         // add a vector/matrix to a vector/matrix or scalar
         add: function add(arr, arg) {
@@ -11300,7 +11063,6 @@ var jstat = createCommonjsModule(function (module, exports) {
               return value + arg[row][col];
             });
           }
-
           return jStat.map(arr, function (value) {
             return value + arg;
           });
@@ -11314,7 +11076,6 @@ var jstat = createCommonjsModule(function (module, exports) {
               return value - arg[row][col] || 0;
             });
           }
-
           return jStat.map(arr, function (value) {
             return value - arg;
           });
@@ -11325,35 +11086,28 @@ var jstat = createCommonjsModule(function (module, exports) {
             if (!isUsable(arg[0])) arg = [arg];
             return jStat.multiply(arr, jStat.inv(arg));
           }
-
           return jStat.map(arr, function (value) {
             return value / arg;
           });
         },
         // matrix multiplication
         multiply: function multiply(arr, arg) {
-          var row, col, nrescols, sum, nrow, ncol, res, rescols; // eg: arr = 2 arg = 3 -> 6 for res[0][0] statement closure
-
+          var row, col, nrescols, sum, nrow, ncol, res, rescols;
+          // eg: arr = 2 arg = 3 -> 6 for res[0][0] statement closure
           if (arr.length === undefined && arg.length === undefined) {
             return arr * arg;
           }
-
           nrow = arr.length, ncol = arr[0].length, res = jStat.zeros(nrow, nrescols = isUsable(arg) ? arg[0].length : ncol), rescols = 0;
-
           if (isUsable(arg)) {
             for (; rescols < nrescols; rescols++) {
               for (row = 0; row < nrow; row++) {
                 sum = 0;
-
                 for (col = 0; col < ncol; col++) sum += arr[row][col] * arg[col][rescols];
-
                 res[row][rescols] = sum;
               }
             }
-
             return nrow === 1 && rescols === 1 ? res[0][0] : res;
           }
-
           return jStat.map(arr, function (value) {
             return value * arg;
           });
@@ -11371,26 +11125,22 @@ var jstat = createCommonjsModule(function (module, exports) {
         // Returns the dot product of two matricies
         dot: function dot(arr, arg) {
           if (!isUsable(arr[0])) arr = [arr];
-          if (!isUsable(arg[0])) arg = [arg]; // convert column to row vector
-
+          if (!isUsable(arg[0])) arg = [arg];
+          // convert column to row vector
           var left = arr[0].length === 1 && arr.length !== 1 ? jStat.transpose(arr) : arr,
-              right = arg[0].length === 1 && arg.length !== 1 ? jStat.transpose(arg) : arg,
-              res = [],
-              row = 0,
-              nrow = left.length,
-              ncol = left[0].length,
-              sum,
-              col;
-
+            right = arg[0].length === 1 && arg.length !== 1 ? jStat.transpose(arg) : arg,
+            res = [],
+            row = 0,
+            nrow = left.length,
+            ncol = left[0].length,
+            sum,
+            col;
           for (; row < nrow; row++) {
             res[row] = [];
             sum = 0;
-
             for (col = 0; col < ncol; col++) sum += left[row][col] * right[row][col];
-
             res[row] = sum;
           }
-
           return res.length === 1 ? res[0] : res;
         },
         // raise every element by a scalar
@@ -11421,16 +11171,15 @@ var jstat = createCommonjsModule(function (module, exports) {
         // In the case that a matrix is passed, uses the first row as the vector
         norm: function norm(arr, p) {
           var nnorm = 0,
-              i = 0; // check the p-value of the norm, and set for most common case
-
-          if (isNaN(p)) p = 2; // check if multi-dimensional array, and make vector correction
-
-          if (isUsable(arr[0])) arr = arr[0]; // vector norm
-
+            i = 0;
+          // check the p-value of the norm, and set for most common case
+          if (isNaN(p)) p = 2;
+          // check if multi-dimensional array, and make vector correction
+          if (isUsable(arr[0])) arr = arr[0];
+          // vector norm
           for (; i < arr.length; i++) {
             nnorm += Math.pow(Math.abs(arr[i]), p);
           }
-
           return Math.pow(nnorm, 1 / p);
         },
         // computes the angle between two vectors in rads
@@ -11443,15 +11192,12 @@ var jstat = createCommonjsModule(function (module, exports) {
         aug: function aug(a, b) {
           var newarr = [];
           var i;
-
           for (i = 0; i < a.length; i++) {
             newarr.push(a[i].slice());
           }
-
           for (i = 0; i < newarr.length; i++) {
             push.apply(newarr[i], b[i]);
           }
-
           return newarr;
         },
         // The inv() function calculates the inverse of a matrix
@@ -11464,85 +11210,64 @@ var jstat = createCommonjsModule(function (module, exports) {
           var c = jStat.gauss_jordan(a, b);
           var result = [];
           var i = 0;
-          var j; //We need to copy the inverse portion to a new matrix to rid G-J artifacts
+          var j;
 
+          //We need to copy the inverse portion to a new matrix to rid G-J artifacts
           for (; i < rows; i++) {
             result[i] = [];
-
             for (j = cols; j < c[0].length; j++) result[i][j - cols] = c[i][j];
           }
-
           return result;
         },
         // calculate the determinant of a matrix
         det: function det(a) {
-          var alen = a.length,
-              alend = alen * 2,
-              vals = new Array(alend),
-              rowshift = alen - 1,
-              colshift = alend - 1,
-              mrow = rowshift - alen + 1,
-              mcol = colshift,
-              i = 0,
-              result = 0,
-              j; // check for special 2x2 case
-
-          if (alen === 2) {
+          if (a.length === 2) {
             return a[0][0] * a[1][1] - a[0][1] * a[1][0];
           }
-
-          for (; i < alend; i++) {
-            vals[i] = 1;
-          }
-
-          for (i = 0; i < alen; i++) {
-            for (j = 0; j < alen; j++) {
-              vals[mrow < 0 ? mrow + alen : mrow] *= a[i][j];
-              vals[mcol < alen ? mcol + alen : mcol] *= a[i][j];
-              mrow++;
-              mcol--;
+          var determinant = 0;
+          for (var i = 0; i < a.length; i++) {
+            // build a sub matrix without column `i`
+            var submatrix = [];
+            for (var row = 1; row < a.length; row++) {
+              submatrix[row - 1] = [];
+              for (var col = 0; col < a.length; col++) {
+                if (col < i) {
+                  submatrix[row - 1][col] = a[row][col];
+                } else if (col > i) {
+                  submatrix[row - 1][col - 1] = a[row][col];
+                }
+              }
             }
 
-            mrow = --rowshift - alen + 1;
-            mcol = --colshift;
+            // alternate between + and - between determinants
+            var sign = i % 2 ? -1 : 1;
+            determinant += det(submatrix) * a[0][i] * sign;
           }
-
-          for (i = 0; i < alen; i++) {
-            result += vals[i];
-          }
-
-          for (; i < alend; i++) {
-            result -= vals[i];
-          }
-
-          return result;
+          return determinant;
         },
         gauss_elimination: function gauss_elimination(a, b) {
           var i = 0,
-              j = 0,
-              n = a.length,
-              m = a[0].length,
-              factor = 1,
-              sum = 0,
-              x = [],
-              maug,
-              pivot,
-              temp,
-              k;
+            j = 0,
+            n = a.length,
+            m = a[0].length,
+            factor = 1,
+            sum = 0,
+            x = [],
+            maug,
+            pivot,
+            temp,
+            k;
           a = jStat.aug(a, b);
           maug = a[0].length;
-
           for (i = 0; i < n; i++) {
             pivot = a[i][i];
             j = i;
-
             for (k = i + 1; k < m; k++) {
               if (pivot < Math.abs(a[k][i])) {
                 pivot = a[k][i];
                 j = k;
               }
             }
-
             if (j != i) {
               for (k = 0; k < maug; k++) {
                 temp = a[i][k];
@@ -11550,26 +11275,20 @@ var jstat = createCommonjsModule(function (module, exports) {
                 a[j][k] = temp;
               }
             }
-
             for (j = i + 1; j < n; j++) {
               factor = a[j][i] / a[i][i];
-
               for (k = i; k < maug; k++) {
                 a[j][k] = a[j][k] - factor * a[i][k];
               }
             }
           }
-
           for (i = n - 1; i >= 0; i--) {
             sum = 0;
-
             for (j = i + 1; j <= n - 1; j++) {
               sum = sum + x[j] * a[i][j];
             }
-
             x[i] = (a[i][maug - 1] - sum) / a[i][i];
           }
-
           return x;
         },
         gauss_jordan: function gauss_jordan(a, b) {
@@ -11577,45 +11296,36 @@ var jstat = createCommonjsModule(function (module, exports) {
           var h = m.length;
           var w = m[0].length;
           var c = 0;
-          var x, y, y2; // find max pivot
-
+          var x, y, y2;
+          // find max pivot
           for (y = 0; y < h; y++) {
             var maxrow = y;
-
             for (y2 = y + 1; y2 < h; y2++) {
               if (Math.abs(m[y2][y]) > Math.abs(m[maxrow][y])) maxrow = y2;
             }
-
             var tmp = m[y];
             m[y] = m[maxrow];
             m[maxrow] = tmp;
-
             for (y2 = y + 1; y2 < h; y2++) {
               c = m[y2][y] / m[y][y];
-
               for (x = y; x < w; x++) {
                 m[y2][x] -= m[y][x] * c;
               }
             }
-          } // backsubstitute
-
-
+          }
+          // backsubstitute
           for (y = h - 1; y >= 0; y--) {
             c = m[y][y];
-
             for (y2 = 0; y2 < y; y2++) {
               for (x = w - 1; x > y - 1; x--) {
                 m[y2][x] -= m[y][x] * m[y2][y] / c;
               }
             }
-
             m[y][y] /= c;
-
             for (x = h; x < w; x++) {
               m[y][x] /= c;
             }
           }
-
           return m;
         },
         // solve equation
@@ -11633,14 +11343,12 @@ var jstat = createCommonjsModule(function (module, exports) {
           var x = jStat.zeros(1, size)[0];
           var parts;
           var matrix_mode = false;
-
           if (b[0].length != undefined) {
             b = b.map(function (i) {
               return i[0];
             });
             matrix_mode = true;
           }
-
           jStat.arange(size - 1, -1, -1).forEach(function (i) {
             parts = jStat.arange(i + 1, size).map(function (j) {
               return x[j] * A[i][j];
@@ -11658,14 +11366,12 @@ var jstat = createCommonjsModule(function (module, exports) {
           var x = jStat.zeros(1, size)[0];
           var parts;
           var matrix_mode = false;
-
           if (b[0].length != undefined) {
             b = b.map(function (i) {
               return i[0];
             });
             matrix_mode = true;
           }
-
           jStat.arange(size).forEach(function (i) {
             parts = jStat.arange(i).map(function (j) {
               return A[i][j] * x[j];
@@ -11682,8 +11388,8 @@ var jstat = createCommonjsModule(function (module, exports) {
         // L is lower triangular matrix
         // U is upper triangular matrix
         lu: function lu(A) {
-          var size = A.length; //var L=jStat.diagonal(jStat.ones(1,size)[0]);
-
+          var size = A.length;
+          //var L=jStat.diagonal(jStat.ones(1,size)[0]);
           var L = jStat.identity(size);
           var R = jStat.zeros(A.length, A[0].length);
           var parts;
@@ -11735,12 +11441,10 @@ var jstat = createCommonjsModule(function (module, exports) {
           var u = [];
           var d = [];
           var xv, c, h, xk;
-
           for (; i < n; i++) {
             l[i] = [];
             u[i] = [];
             d[i] = [];
-
             for (j = 0; j < n; j++) {
               if (i > j) {
                 l[i][j] = a[i][j];
@@ -11754,19 +11458,16 @@ var jstat = createCommonjsModule(function (module, exports) {
               }
             }
           }
-
           h = jStat.multiply(jStat.multiply(jStat.inv(d), jStat.add(l, u)), -1);
           c = jStat.multiply(jStat.inv(d), b);
           xv = x;
           xk = jStat.add(jStat.multiply(h, x), c);
           i = 2;
-
           while (Math.abs(jStat.norm(jStat.subtract(xk, xv))) > r) {
             xv = xk;
             xk = jStat.add(jStat.multiply(h, xv), c);
             i++;
           }
-
           return xk;
         },
         gauss_seidel: function gauss_seidel(a, b, x, r) {
@@ -11776,12 +11477,10 @@ var jstat = createCommonjsModule(function (module, exports) {
           var u = [];
           var d = [];
           var j, xv, c, h, xk;
-
           for (; i < n; i++) {
             l[i] = [];
             u[i] = [];
             d[i] = [];
-
             for (j = 0; j < n; j++) {
               if (i > j) {
                 l[i][j] = a[i][j];
@@ -11795,19 +11494,16 @@ var jstat = createCommonjsModule(function (module, exports) {
               }
             }
           }
-
           h = jStat.multiply(jStat.multiply(jStat.inv(jStat.add(d, l)), u), -1);
           c = jStat.multiply(jStat.inv(jStat.add(d, l)), b);
           xv = x;
           xk = jStat.add(jStat.multiply(h, x), c);
           i = 2;
-
           while (Math.abs(jStat.norm(jStat.subtract(xk, xv))) > r) {
             xv = xk;
             xk = jStat.add(jStat.multiply(h, xv), c);
             i = i + 1;
           }
-
           return xk;
         },
         SOR: function SOR(a, b, x, r, w) {
@@ -11817,12 +11513,10 @@ var jstat = createCommonjsModule(function (module, exports) {
           var u = [];
           var d = [];
           var j, xv, c, h, xk;
-
           for (; i < n; i++) {
             l[i] = [];
             u[i] = [];
             d[i] = [];
-
             for (j = 0; j < n; j++) {
               if (i > j) {
                 l[i][j] = a[i][j];
@@ -11836,19 +11530,16 @@ var jstat = createCommonjsModule(function (module, exports) {
               }
             }
           }
-
           h = jStat.multiply(jStat.inv(jStat.add(d, jStat.multiply(l, w))), jStat.subtract(jStat.multiply(d, 1 - w), jStat.multiply(u, w)));
           c = jStat.multiply(jStat.multiply(jStat.inv(jStat.add(d, jStat.multiply(l, w))), b), w);
           xv = x;
           xk = jStat.add(jStat.multiply(h, x), c);
           i = 2;
-
           while (Math.abs(jStat.norm(jStat.subtract(xk, xv))) > r) {
             xv = xk;
             xk = jStat.add(jStat.multiply(h, xv), c);
             i++;
           }
-
           return xk;
         },
         householder: function householder(a) {
@@ -11858,24 +11549,18 @@ var jstat = createCommonjsModule(function (module, exports) {
           var w = [];
           var p = [];
           var alpha, r, k, j, factor;
-
           for (; i < m - 1; i++) {
             alpha = 0;
-
             for (j = i + 1; j < n; j++) alpha += a[j][i] * a[j][i];
-
             factor = a[i + 1][i] > 0 ? -1 : 1;
             alpha = factor * Math.sqrt(alpha);
             r = Math.sqrt((alpha * alpha - a[i + 1][i] * alpha) / 2);
             w = jStat.zeros(m, 1);
             w[i + 1][0] = (a[i + 1][i] - alpha) / (2 * r);
-
             for (k = i + 2; k < m; k++) w[k][0] = a[k][i] / (2 * r);
-
             p = jStat.subtract(jStat.identity(m, n), jStat.multiply(jStat.multiply(w, jStat.transpose(w)), 2));
             a = jStat.multiply(p, jStat.multiply(a, p));
           }
-
           return a;
         },
         // A -> [Q,R]
@@ -11886,42 +11571,37 @@ var jstat = createCommonjsModule(function (module, exports) {
           // find a orthogonal matrix Q st.
           // Qx=y
           // y is [||x||,0,0,...]
+
           // quick ref
           var sum = jStat.sum;
           var range = jStat.arange;
-
           function qr2(x) {
             // quick impletation
             // https://www.stat.wisc.edu/~larget/math496/qr.html
+
             var n = x.length;
             var p = x[0].length;
             var r = jStat.zeros(p, p);
             x = jStat.copy(x);
             var i, j, k;
-
             for (j = 0; j < p; j++) {
               r[j][j] = Math.sqrt(sum(range(n).map(function (i) {
                 return x[i][j] * x[i][j];
               })));
-
               for (i = 0; i < n; i++) {
                 x[i][j] = x[i][j] / r[j][j];
               }
-
               for (k = j + 1; k < p; k++) {
                 r[j][k] = sum(range(n).map(function (i) {
                   return x[i][j] * x[i][k];
                 }));
-
                 for (i = 0; i < n; i++) {
                   x[i][k] = x[i][k] - x[i][j] * r[j][k];
                 }
               }
             }
-
             return [x, r];
           }
-
           return qr2;
         }(),
         lstsq: function () {
@@ -11967,10 +11647,8 @@ var jstat = createCommonjsModule(function (module, exports) {
             });
             return I;
           }
-
           function qr_solve(A, b) {
             var array_mode = false;
-
             if (b[0].length === undefined) {
               // [c1,c2,c3] mode
               b = b.map(function (x) {
@@ -11978,7 +11656,6 @@ var jstat = createCommonjsModule(function (module, exports) {
               });
               array_mode = true;
             }
-
             var QR = jStat.QR(A);
             var Q = QR[0];
             var R = QR[1];
@@ -11995,13 +11672,11 @@ var jstat = createCommonjsModule(function (module, exports) {
             });
             var RI = R_I(R1);
             var Q2 = jStat.transpose(Q1);
-
             if (Q2[0].length === undefined) {
               Q2 = [Q2]; // The confusing jStat.multifly implementation threat nature process again.
             }
 
             var x = jStat.multiply(jStat.multiply(RI, Q2), b);
-
             if (x.length === undefined) {
               x = [[x]]; // The confusing jStat.multifly implementation threat nature process again.
             }
@@ -12011,7 +11686,6 @@ var jstat = createCommonjsModule(function (module, exports) {
             });
             return x;
           }
-
           return qr_solve;
         }(),
         jacobi: function jacobi(a) {
@@ -12019,13 +11693,12 @@ var jstat = createCommonjsModule(function (module, exports) {
           var n = a.length;
           var e = jStat.identity(n, n);
           var ev = [];
-          var b, i, j, p, q, maxim, theta, s; // condition === 1 only if tolerance is not reached
-
+          var b, i, j, p, q, maxim, theta, s;
+          // condition === 1 only if tolerance is not reached
           while (condition === 1) {
             maxim = a[0][1];
             p = 0;
             q = 1;
-
             for (i = 0; i < n; i++) {
               for (j = 0; j < n; j++) {
                 if (i != j) {
@@ -12037,19 +11710,17 @@ var jstat = createCommonjsModule(function (module, exports) {
                 }
               }
             }
-
             if (a[p][p] === a[q][q]) theta = a[p][q] > 0 ? Math.PI / 4 : -Math.PI / 4;else theta = Math.atan(2 * a[p][q] / (a[p][p] - a[q][q])) / 2;
             s = jStat.identity(n, n);
             s[p][p] = Math.cos(theta);
             s[p][q] = -Math.sin(theta);
             s[q][p] = Math.sin(theta);
-            s[q][q] = Math.cos(theta); // eigen vector matrix
-
+            s[q][q] = Math.cos(theta);
+            // eigen vector matrix
             e = jStat.multiply(e, s);
             b = jStat.multiply(jStat.multiply(jStat.inv(s), a), s);
             a = b;
             condition = 0;
-
             for (i = 1; i < n; i++) {
               for (j = 1; j < n; j++) {
                 if (i != j && Math.abs(a[i][j]) > 0.001) {
@@ -12058,15 +11729,12 @@ var jstat = createCommonjsModule(function (module, exports) {
               }
             }
           }
-
-          for (i = 0; i < n; i++) ev.push(a[i][i]); //returns both the eigenvalue and eigenmatrix
-
-
+          for (i = 0; i < n; i++) ev.push(a[i][i]);
+          //returns both the eigenvalue and eigenmatrix
           return [e, ev];
         },
         rungekutta: function rungekutta(f, h, p, t_j, u_j, order) {
           var k1, k2, u_j1, k3, k4;
-
           if (order === 2) {
             while (t_j <= p) {
               k1 = h * f(t_j, u_j);
@@ -12076,7 +11744,6 @@ var jstat = createCommonjsModule(function (module, exports) {
               t_j = t_j + h;
             }
           }
-
           if (order === 4) {
             while (t_j <= p) {
               k1 = h * f(t_j, u_j);
@@ -12088,7 +11755,6 @@ var jstat = createCommonjsModule(function (module, exports) {
               t_j = t_j + h;
             }
           }
-
           return u_j;
         },
         romberg: function romberg(f, a, b, order) {
@@ -12098,36 +11764,27 @@ var jstat = createCommonjsModule(function (module, exports) {
           var h1 = [];
           var g = [];
           var m, a1, j, k, I;
-
           while (i < order / 2) {
             I = f(a);
-
             for (j = a, k = 0; j <= b; j = j + h, k++) x[k] = j;
-
             m = x.length;
-
             for (j = 1; j < m - 1; j++) {
               I += (j % 2 !== 0 ? 4 : 2) * f(x[j]);
             }
-
             I = h / 3 * (I + f(b));
             g[i] = I;
             h /= 2;
             i++;
           }
-
           a1 = g.length;
           m = 1;
-
           while (a1 !== 1) {
             for (j = 0; j < a1 - 1; j++) h1[j] = (Math.pow(4, m) * g[j + 1] - g[j]) / (Math.pow(4, m) - 1);
-
             a1 = h1.length;
             g = h1;
             h1 = [];
             m++;
           }
-
           return g;
         },
         richardson: function richardson(X, f, x, h) {
@@ -12135,18 +11792,14 @@ var jstat = createCommonjsModule(function (module, exports) {
             var i = 0;
             var n = X.length;
             var p;
-
             for (; i < n; i++) if (X[i] === x) p = i;
-
             return p;
           }
-
           var h_min = Math.abs(x - X[pos(X, x) + 1]);
           var i = 0;
           var g = [];
           var h1 = [];
           var y1, y2, m, a, j;
-
           while (h >= h_min) {
             y1 = pos(X, x + h);
             y2 = pos(X, x);
@@ -12154,19 +11807,15 @@ var jstat = createCommonjsModule(function (module, exports) {
             h /= 2;
             i++;
           }
-
           a = g.length;
           m = 1;
-
           while (a != 1) {
             for (j = 0; j < a - 1; j++) h1[j] = (Math.pow(4, m) * g[j + 1] - g[j]) / (Math.pow(4, m) - 1);
-
             a = h1.length;
             g = h1;
             h1 = [];
             m++;
           }
-
           return g;
         },
         simpson: function simpson(f, a, b, n) {
@@ -12177,15 +11826,11 @@ var jstat = createCommonjsModule(function (module, exports) {
           var k = 0;
           var i = 1;
           var m;
-
           for (; j <= b; j = j + h, k++) x[k] = j;
-
           m = x.length;
-
           for (; i < m - 1; i++) {
             I += (i % 2 !== 0 ? 4 : 2) * f(x[i]);
           }
-
           return h / 3 * (I + f(b));
         },
         hermite: function hermite(X, F, dF, value) {
@@ -12197,25 +11842,19 @@ var jstat = createCommonjsModule(function (module, exports) {
           var A = [];
           var B = [];
           var j;
-
           for (; i < n; i++) {
             l[i] = 1;
-
             for (j = 0; j < n; j++) {
               if (i != j) l[i] *= (value - X[j]) / (X[i] - X[j]);
             }
-
             dl[i] = 0;
-
             for (j = 0; j < n; j++) {
               if (i != j) dl[i] += 1 / (X[i] - X[j]);
             }
-
             A[i] = (1 - 2 * (value - X[i]) * dl[i]) * (l[i] * l[i]);
             B[i] = (value - X[i]) * (l[i] * l[i]);
             p += A[i] * F[i] + B[i] * dF[i];
           }
-
           return p;
         },
         lagrange: function lagrange(X, F, value) {
@@ -12223,25 +11862,21 @@ var jstat = createCommonjsModule(function (module, exports) {
           var i = 0;
           var j, l;
           var n = X.length;
-
           for (; i < n; i++) {
             l = F[i];
-
             for (j = 0; j < n; j++) {
               // calculating the lagrange polynomial L_i
               if (i != j) l *= (value - X[j]) / (X[i] - X[j]);
-            } // adding the lagrange polynomials found above
-
-
+            }
+            // adding the lagrange polynomials found above
             p += l;
           }
-
           return p;
         },
         cubic_spline: function cubic_spline(X, F, value) {
           var n = X.length;
           var i = 0,
-              j;
+            j;
           var A = [];
           var B = [];
           var alpha = [];
@@ -12249,15 +11884,11 @@ var jstat = createCommonjsModule(function (module, exports) {
           var h = [];
           var b = [];
           var d = [];
-
           for (; i < n - 1; i++) h[i] = X[i + 1] - X[i];
-
           alpha[0] = 0;
-
           for (i = 1; i < n - 1; i++) {
             alpha[i] = 3 / h[i] * (F[i + 1] - F[i]) - 3 / h[i - 1] * (F[i] - F[i - 1]);
           }
-
           for (i = 1; i < n - 1; i++) {
             A[i] = [];
             B[i] = [];
@@ -12266,18 +11897,14 @@ var jstat = createCommonjsModule(function (module, exports) {
             A[i][i + 1] = h[i];
             B[i][0] = alpha[i];
           }
-
           c = jStat.multiply(jStat.inv(A), B);
-
           for (j = 0; j < n - 1; j++) {
             b[j] = (F[j + 1] - F[j]) / h[j] - h[j] * (c[j + 1][0] + 2 * c[j][0]) / 3;
             d[j] = (c[j + 1][0] - c[j][0]) / (3 * h[j]);
           }
-
           for (j = 0; j < n; j++) {
             if (X[j] > value) break;
           }
-
           j -= 1;
           return F[j] + (value - X[j]) * b[j] + jStat.sq(value - X[j]) * c[j] + (value - X[j]) * jStat.sq(value - X[j]) * d[j];
         },
@@ -12299,34 +11926,26 @@ var jstat = createCommonjsModule(function (module, exports) {
           var C = [];
           var V = [];
           var Vt = [];
-
           for (i = 0; i < m; i++) {
             u[i] = jStat.sum(X[i]) / n;
           }
-
           for (i = 0; i < n; i++) {
             B[i] = [];
-
             for (j = 0; j < m; j++) {
               B[i][j] = X[j][i] - u[j];
             }
           }
-
           B = jStat.transpose(B);
-
           for (i = 0; i < m; i++) {
             C[i] = [];
-
             for (j = 0; j < m; j++) {
               C[i][j] = jStat.dot([B[i]], [B[j]]) / (n - 1);
             }
           }
-
           result = jStat.jacobi(C);
           V = result[0];
           D = result[1];
           Vt = jStat.transpose(V);
-
           for (i = 0; i < D.length; i++) {
             for (j = i; j < D.length; j++) {
               if (D[i] < D[j]) {
@@ -12339,56 +11958,50 @@ var jstat = createCommonjsModule(function (module, exports) {
               }
             }
           }
-
           Bt = jStat.transpose(B);
-
           for (i = 0; i < m; i++) {
             Y[i] = [];
-
             for (j = 0; j < Bt.length; j++) {
               Y[i][j] = jStat.dot([Vt[i]], [Bt[j]]);
             }
           }
-
           return [X, D, Vt, Y];
         }
-      }); // extend jStat.fn with methods that require one argument
+      });
 
+      // extend jStat.fn with methods that require one argument
       (function (funcs) {
         for (var i = 0; i < funcs.length; i++) (function (passfunc) {
           jStat.fn[passfunc] = function (arg, func) {
-            var tmpthis = this; // check for callback
-
+            var tmpthis = this;
+            // check for callback
             if (func) {
               setTimeout(function () {
                 func.call(tmpthis, jStat.fn[passfunc].call(tmpthis, arg));
               }, 15);
               return this;
             }
-
             if (typeof jStat[passfunc](this, arg) === 'number') return jStat[passfunc](this, arg);else return jStat(jStat[passfunc](this, arg));
           };
         })(funcs[i]);
       })('add divide multiply subtract dot pow exp log abs norm angle'.split(' '));
     })(jStat, Math);
-
     (function (jStat, Math) {
       var slice = [].slice;
       var isNumber = jStat.utils.isNumber;
-      var isArray = jStat.utils.isArray; // flag==true denotes use of sample standard deviation
-      // Z Statistics
+      var isArray = jStat.utils.isArray;
 
+      // flag==true denotes use of sample standard deviation
+      // Z Statistics
       jStat.extend({
         // 2 different parameter lists:
         // (value, mean, sd)
         // (value, array, flag)
         zscore: function zscore() {
           var args = slice.call(arguments);
-
           if (isNumber(args[1])) {
             return (args[0] - args[1]) / args[2];
           }
-
           return (args[0] - jStat.mean(args[1])) / jStat.stdev(args[1], args[2]);
         },
         // 3 different paramter lists:
@@ -12398,7 +12011,6 @@ var jstat = createCommonjsModule(function (module, exports) {
         ztest: function ztest() {
           var args = slice.call(arguments);
           var z;
-
           if (isArray(args[1])) {
             // (value, array, sides, flag)
             z = jStat.zscore(args[0], args[1], args[3]);
@@ -12424,8 +12036,9 @@ var jstat = createCommonjsModule(function (module, exports) {
           var zscore = Math.abs(this.zscore(value, flag));
           return sides === 1 ? jStat.normal.cdf(-zscore, 0, 1) : jStat.normal.cdf(-zscore, 0, 1) * 2;
         }
-      }); // T Statistics
+      });
 
+      // T Statistics
       jStat.extend({
         // 2 parameter lists
         // (value, mean, sd, n)
@@ -12441,17 +12054,14 @@ var jstat = createCommonjsModule(function (module, exports) {
         ttest: function ttest() {
           var args = slice.call(arguments);
           var tscore;
-
           if (args.length === 5) {
             tscore = Math.abs(jStat.tscore(args[0], args[1], args[2], args[3]));
             return args[4] === 1 ? jStat.studentt.cdf(-tscore, args[3] - 1) : jStat.studentt.cdf(-tscore, args[3] - 1) * 2;
           }
-
           if (isNumber(args[1])) {
             tscore = Math.abs(args[0]);
             return args[2] == 1 ? jStat.studentt.cdf(-tscore, args[1] - 1) : jStat.studentt.cdf(-tscore, args[1] - 1) * 2;
           }
-
           tscore = Math.abs(jStat.tscore(args[0], args[1]));
           return args[2] == 1 ? jStat.studentt.cdf(-tscore, args[1].length - 1) : jStat.studentt.cdf(-tscore, args[1].length - 1) * 2;
         }
@@ -12463,8 +12073,9 @@ var jstat = createCommonjsModule(function (module, exports) {
         ttest: function ttest(value, sides) {
           return sides === 1 ? 1 - jStat.studentt.cdf(Math.abs(this.tscore(value)), this.cols() - 1) : jStat.studentt.cdf(-Math.abs(this.tscore(value)), this.cols() - 1) * 2;
         }
-      }); // F Statistics
+      });
 
+      // F Statistics
       jStat.extend({
         // Paramter list is as follows:
         // (array1, array2, array3, ...)
@@ -12472,52 +12083,41 @@ var jstat = createCommonjsModule(function (module, exports) {
         // array of arrays conversion
         anovafscore: function anovafscore() {
           var args = slice.call(arguments),
-              expVar,
-              sample,
-              sampMean,
-              sampSampMean,
-              tmpargs,
-              unexpVar,
-              i,
-              j;
-
+            expVar,
+            sample,
+            sampMean,
+            sampSampMean,
+            tmpargs,
+            unexpVar,
+            i,
+            j;
           if (args.length === 1) {
             tmpargs = new Array(args[0].length);
-
             for (i = 0; i < args[0].length; i++) {
               tmpargs[i] = args[0][i];
             }
-
             args = tmpargs;
-          } // Builds sample array
-
-
+          }
+          // Builds sample array
           sample = new Array();
-
           for (i = 0; i < args.length; i++) {
             sample = sample.concat(args[i]);
           }
-
-          sampMean = jStat.mean(sample); // Computes the explained variance
-
+          sampMean = jStat.mean(sample);
+          // Computes the explained variance
           expVar = 0;
-
           for (i = 0; i < args.length; i++) {
             expVar = expVar + args[i].length * Math.pow(jStat.mean(args[i]) - sampMean, 2);
           }
-
-          expVar /= args.length - 1; // Computes unexplained variance
-
+          expVar /= args.length - 1;
+          // Computes unexplained variance
           unexpVar = 0;
-
           for (i = 0; i < args.length; i++) {
             sampSampMean = jStat.mean(args[i]);
-
             for (j = 0; j < args[i].length; j++) {
               unexpVar += Math.pow(args[i][j] - sampSampMean, 2);
             }
           }
-
           unexpVar /= sample.length - args.length;
           return expVar / unexpVar;
         },
@@ -12526,23 +12126,19 @@ var jstat = createCommonjsModule(function (module, exports) {
         // (anovafscore, df1, df2)
         anovaftest: function anovaftest() {
           var args = slice.call(arguments),
-              df1,
-              df2,
-              n,
-              i;
-
+            df1,
+            df2,
+            n,
+            i;
           if (isNumber(args[0])) {
             return 1 - jStat.centralF.cdf(args[0], args[1], args[2]);
           }
-
           var anovafscore = jStat.anovafscore(args);
           df1 = args.length - 1;
           n = 0;
-
           for (i = 0; i < args.length; i++) {
             n = n + args[i].length;
           }
-
           df2 = n - df1 - 1;
           return 1 - jStat.centralF.cdf(anovafscore, df1, df2);
         },
@@ -12557,15 +12153,14 @@ var jstat = createCommonjsModule(function (module, exports) {
         anovaftes: function anovaftes() {
           var n = 0;
           var i;
-
           for (i = 0; i < this.length; i++) {
             n = n + this[i].length;
           }
-
           return jStat.ftest(this.anovafscore(), this.length - 1, n - this.length);
         }
-      }); // Tukey's range test
+      });
 
+      // Tukey's range test
       jStat.extend({
         // 2 parameter lists
         // (mean1, mean2, n1, n2, sd)
@@ -12573,7 +12168,6 @@ var jstat = createCommonjsModule(function (module, exports) {
         qscore: function qscore() {
           var args = slice.call(arguments);
           var mean1, mean2, n1, n2, sd;
-
           if (isNumber(args[0])) {
             mean1 = args[0];
             mean2 = args[1];
@@ -12587,7 +12181,6 @@ var jstat = createCommonjsModule(function (module, exports) {
             n2 = args[1].length;
             sd = args[2];
           }
-
           return Math.abs(mean1 - mean2) / (sd * Math.sqrt((1 / n1 + 1 / n2) / 2));
         },
         // 3 different parameter lists:
@@ -12597,7 +12190,6 @@ var jstat = createCommonjsModule(function (module, exports) {
         qtest: function qtest() {
           var args = slice.call(arguments);
           var qscore;
-
           if (args.length === 3) {
             qscore = args[0];
             args = args.slice(1);
@@ -12608,7 +12200,6 @@ var jstat = createCommonjsModule(function (module, exports) {
             qscore = jStat.qscore(args[0], args[1], args[2]);
             args = args.slice(3);
           }
-
           var n = args[0];
           var k = args[1];
           return 1 - jStat.tukey.cdf(qscore, k, n - k);
@@ -12622,33 +12213,30 @@ var jstat = createCommonjsModule(function (module, exports) {
             return n + arr.length;
           }, 0);
           var results = [];
-
           for (var i = 0; i < arrays.length; ++i) {
             for (var j = i + 1; j < arrays.length; ++j) {
               var p = jStat.qtest(means[i], means[j], arrays[i].length, arrays[j].length, sd, n, arrays.length);
               results.push([[i, j], p]);
             }
           }
-
           return results;
         }
-      }); // Error Bounds
+      });
 
+      // Error Bounds
       jStat.extend({
         // 2 different parameter setups
         // (value, alpha, sd, n)
         // (value, alpha, array)
         normalci: function normalci() {
           var args = slice.call(arguments),
-              ans = new Array(2),
-              change;
-
+            ans = new Array(2),
+            change;
           if (args.length === 4) {
             change = Math.abs(jStat.normal.inv(args[1] / 2, 0, 1) * args[2] / Math.sqrt(args[3]));
           } else {
             change = Math.abs(jStat.normal.inv(args[1] / 2, 0, 1) * jStat.stdev(args[2]) / Math.sqrt(args[2].length));
           }
-
           ans[0] = args[0] - change;
           ans[1] = args[0] + change;
           return ans;
@@ -12658,15 +12246,13 @@ var jstat = createCommonjsModule(function (module, exports) {
         // (value, alpha, array)
         tci: function tci() {
           var args = slice.call(arguments),
-              ans = new Array(2),
-              change;
-
+            ans = new Array(2),
+            change;
           if (args.length === 4) {
             change = Math.abs(jStat.studentt.inv(args[1] / 2, args[3] - 1) * args[2] / Math.sqrt(args[3]));
           } else {
             change = Math.abs(jStat.studentt.inv(args[1] / 2, args[2].length - 1) * jStat.stdev(args[2], true) / Math.sqrt(args[2].length));
           }
-
           ans[0] = args[0] - change;
           ans[1] = args[0] + change;
           return ans;
@@ -12682,19 +12268,19 @@ var jstat = createCommonjsModule(function (module, exports) {
         tci: function tci(value, alpha) {
           return jStat.tci(value, alpha, this.toArray());
         }
-      }); // internal method for calculating the z-score for a difference of proportions test
+      });
 
+      // internal method for calculating the z-score for a difference of proportions test
       function differenceOfProportions(p1, n1, p2, n2) {
         if (p1 > 1 || p2 > 1 || p1 <= 0 || p2 <= 0) {
           throw new Error("Proportions should be greater than 0 and less than 1");
         }
-
         var pooled = (p1 * n1 + p2 * n2) / (n1 + n2);
         var se = Math.sqrt(pooled * (1 - pooled) * (1 / n1 + 1 / n2));
         return (p1 - p2) / se;
-      } // Difference of Proportions
+      }
 
-
+      // Difference of Proportions
       jStat.extend(jStat.fn, {
         oneSidedDifferenceOfProportions: function oneSidedDifferenceOfProportions(p1, n1, p2, n2) {
           var z = differenceOfProportions(p1, n1, p2, n2);
@@ -12706,7 +12292,6 @@ var jstat = createCommonjsModule(function (module, exports) {
         }
       });
     })(jStat, Math);
-
     jStat.models = function () {
       function sub_regress(exog) {
         var var_count = exog[0].length;
@@ -12719,12 +12304,12 @@ var jstat = createCommonjsModule(function (module, exports) {
           }), jStat.col(exog, exog_index));
         });
         return modelList;
-      } // do OLS model regress
+      }
+
+      // do OLS model regress
       // exog have include const columns ,it will not generate it .In fact, exog is
       // "design matrix" look at
       //https://en.wikipedia.org/wiki/Design_matrix
-
-
       function ols(endog, exog) {
         var nobs = endog.length;
         var df_model = exog[0].length - 1;
@@ -12736,11 +12321,11 @@ var jstat = createCommonjsModule(function (module, exports) {
           return p[0];
         });
         var resid = jStat.subtract(endog, predict);
-        var ybar = jStat.mean(endog); // constant cause problem
+        var ybar = jStat.mean(endog);
+        // constant cause problem
         // var SST = jStat.sum(endog.map(function(y) {
         //   return Math.pow(y-ybar,2);
         // }));
-
         var SSE = jStat.sum(predict.map(function (f) {
           return Math.pow(f - ybar, 2);
         }));
@@ -12764,13 +12349,13 @@ var jstat = createCommonjsModule(function (module, exports) {
           SSR: SSR,
           R2: R2
         };
-      } // H0: b_I=0
+      }
+
+      // H0: b_I=0
       // H1: b_I!=0
-
-
       function t_test(model) {
-        var subModelList = sub_regress(model.exog); //var sigmaHat=jStat.stdev(model.resid);
-
+        var subModelList = sub_regress(model.exog);
+        //var sigmaHat=jStat.stdev(model.resid);
         var sigmaHat = Math.sqrt(model.SSR / model.df_resid);
         var seBetaHat = subModelList.map(function (mod) {
           var SST = mod.SST;
@@ -12797,45 +12382,41 @@ var jstat = createCommonjsModule(function (module, exports) {
           interval95: interval95
         };
       }
-
       function F_test(model) {
         var F_statistic = model.R2 / model.df_model / ((1 - model.R2) / model.df_resid);
-
         var fcdf = function (x, n1, n2) {
           return jStat.beta.cdf(x / (n2 / n1 + x), n1 / 2, n2 / 2);
         };
-
         var pvalue = 1 - fcdf(F_statistic, model.df_model, model.df_resid);
         return {
           F_statistic: F_statistic,
           pvalue: pvalue
         };
       }
-
       function ols_wrap(endog, exog) {
         var model = ols(endog, exog);
         var ttest = t_test(model);
-        var ftest = F_test(model); // Provide the Wherry / Ezekiel / McNemar / Cohen Adjusted R^2
+        var ftest = F_test(model);
+        // Provide the Wherry / Ezekiel / McNemar / Cohen Adjusted R^2
         // Which matches the 'adjusted R^2' provided by R's lm package
-
         var adjust_R2 = 1 - (1 - model.R2) * ((model.nobs - 1) / model.df_resid);
         model.t = ttest;
         model.f = ftest;
         model.adjust_R2 = adjust_R2;
         return model;
       }
-
       return {
         ols: ols_wrap
       };
-    }(); //To regress, simply build X matrix
+    }();
+    //To regress, simply build X matrix
     //(append column of 1's) using
     //buildxmatrix and build the Y
     //matrix using buildymatrix
     //(simply the transpose)
     //and run regress.
-    //Regressions
 
+    //Regressions
 
     jStat.extend({
       buildxmatrix: function buildxmatrix() {
@@ -12844,34 +12425,28 @@ var jstat = createCommonjsModule(function (module, exports) {
         //as (x1,x2,x3,...)
         //needs to be (1,x1,x2,x3,...)
         var matrixRows = new Array(arguments.length);
-
         for (var i = 0; i < arguments.length; i++) {
           var array = [1];
           matrixRows[i] = array.concat(arguments[i]);
         }
-
         return jStat(matrixRows);
       },
       builddxmatrix: function builddxmatrix() {
         //Paramters will be passed in as such
         //([array1,array2,...]
         var matrixRows = new Array(arguments[0].length);
-
         for (var i = 0; i < arguments[0].length; i++) {
           var array = [1];
           matrixRows[i] = array.concat(arguments[0][i]);
         }
-
         return jStat(matrixRows);
       },
       buildjxmatrix: function buildjxmatrix(jMat) {
         //Builds from jStat Matrix
         var pass = new Array(jMat.length);
-
         for (var i = 0; i < jMat.length; i++) {
           pass[i] = jMat[i];
         }
-
         return jStat.builddxmatrix(pass);
       },
       buildymatrix: function buildymatrix(array) {
@@ -12882,53 +12457,42 @@ var jstat = createCommonjsModule(function (module, exports) {
       },
       matrixmult: function matrixmult(A, B) {
         var i, j, k, result, sum;
-
         if (A.cols() == B.rows()) {
           if (B.rows() > 1) {
             result = [];
-
             for (i = 0; i < A.rows(); i++) {
               result[i] = [];
-
               for (j = 0; j < B.cols(); j++) {
                 sum = 0;
-
                 for (k = 0; k < A.cols(); k++) {
                   sum += A.toArray()[i][k] * B.toArray()[k][j];
                 }
-
                 result[i][j] = sum;
               }
             }
-
             return jStat(result);
           }
-
           result = [];
-
           for (i = 0; i < A.rows(); i++) {
             result[i] = [];
-
             for (j = 0; j < B.cols(); j++) {
               sum = 0;
-
               for (k = 0; k < A.cols(); k++) {
                 sum += A.toArray()[i][k] * B.toArray()[j];
               }
-
               result[i][j] = sum;
             }
           }
-
           return jStat(result);
         }
       },
       //regress and regresst to be fixed
+
       regress: function regress(jMatX, jMatY) {
         //print("regressin!");
         //print(jMatX.toArray());
-        var innerinv = jStat.xtranspxinv(jMatX); //print(innerinv);
-
+        var innerinv = jStat.xtranspxinv(jMatX);
+        //print(innerinv);
         var xtransp = jMatX.transpose();
         var next = jStat.matrixmult(jStat(innerinv), xtransp);
         return jStat.matrixmult(next, jMatY);
@@ -12957,14 +12521,12 @@ var jstat = createCommonjsModule(function (module, exports) {
         compile.stats = new Array(jMatX[0].length);
         var covar = jStat.xtranspxinv(jMatX);
         var sds, ts, ps;
-
         for (var i = 0; i < beta.length; i++) {
           sds = Math.sqrt(compile.anova.mse * Math.abs(covar[i][i]));
           ts = Math.abs(beta[i] / sds);
           ps = jStat.ttest(ts, jMatY.length - jMatX[0].length - 1, sides);
           compile.stats[i] = [beta[i], sds, ts, ps];
         }
-
         compile.regress = beta;
         return compile;
       },
@@ -12985,50 +12547,41 @@ var jstat = createCommonjsModule(function (module, exports) {
       },
       ssr: function ssr(jMatYBar, yAverage) {
         var ssr = 0;
-
         for (var i = 0; i < jMatYBar.length; i++) {
           ssr += Math.pow(jMatYBar[i] - yAverage, 2);
         }
-
         return ssr;
       },
       sse: function sse(jMatY, jMatYBar) {
         var sse = 0;
-
         for (var i = 0; i < jMatY.length; i++) {
           sse += Math.pow(jMatY[i] - jMatYBar[i], 2);
         }
-
         return sse;
       },
       sst: function sst(jMatY, yAverage) {
         var sst = 0;
-
         for (var i = 0; i < jMatY.length; i++) {
           sst += Math.pow(jMatY[i] - yAverage, 2);
         }
-
         return sst;
       },
       matrixsubtract: function matrixsubtract(A, B) {
         var ans = new Array(A.length);
-
         for (var i = 0; i < A.length; i++) {
           ans[i] = new Array(A[i].length);
-
           for (var j = 0; j < A[i].length; j++) {
             ans[i][j] = A[i][j] - B[i][j];
           }
         }
-
         return jStat(ans);
       }
-    }); // Make it compatible with previous version.
-
+    });
+    // Make it compatible with previous version.
     jStat.jStat = jStat;
     return jStat;
   });
-});
+})(jstat);
 
 /*
   SDTMath Static Class - Not intended for instantiation!
@@ -13113,141 +12666,108 @@ var jstat = createCommonjsModule(function (module, exports) {
     FAR = Z^-1(zFAR)
 
 */
-
 class SDTMath {
   static hM2Hr(h, m) {
     if (h === 0 && m === 0) {
       return 0;
     }
-
     return h / (h + m);
   }
-
   static faCr2Far(fa, cr) {
     if (fa === 0 && cr === 0) {
       return 0;
     }
-
     return fa / (fa + cr);
   }
-
   static hMFaCr2Acc(h, m, fa, cr) {
     if (h === 0 && m === 0 && fa === 0 && cr === 0) {
       return 0;
     }
-
     return (h + cr) / (h + m + fa + cr);
   }
-
   static hrFar2Acc(hr, far) {
     return (hr + (1 - far)) / 2;
   }
-
   static hFa2Ppv(h, fa) {
     if (h === 0 && fa === 0) {
       return 0;
     }
-
     return h / (h + fa);
   }
-
   static mCr2Fomr(m, cr) {
     if (m === 0 && cr === 0) {
       return 0;
     }
-
     return m / (m + cr);
   }
-
   static hrFar2D(hr, far, s = 1) {
-    if (s === 1) return jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1);
-    return Math.sqrt(2 / (s * s + 1)) * (s * jstat.normal.inv(hr, 0, 1) - jstat.normal.inv(far, 0, 1));
+    if (s === 1) return jstatExports.normal.inv(hr, 0, 1) - jstatExports.normal.inv(far, 0, 1);
+    return Math.sqrt(2 / (s * s + 1)) * (s * jstatExports.normal.inv(hr, 0, 1) - jstatExports.normal.inv(far, 0, 1));
   }
-
   static hrFar2C(hr, far, s = 1) {
-    if (s === 1) return -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1)) / 2;
-    return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jstat.normal.inv(hr, 0, 1) + jstat.normal.inv(far, 0, 1));
+    if (s === 1) return -(jstatExports.normal.inv(hr, 0, 1) + jstatExports.normal.inv(far, 0, 1)) / 2;
+    return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jstatExports.normal.inv(hr, 0, 1) + jstatExports.normal.inv(far, 0, 1));
   }
-
   static dC2Hr(d, c, s = 1) {
-    if (s === 1) return jstat.normal.cdf(d / 2 - c, 0, 1);
-    return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
+    if (s === 1) return jstatExports.normal.cdf(d / 2 - c, 0, 1);
+    return jstatExports.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
   }
-
   static dC2Far(d, c, s = 1) {
-    if (s === 1) return jstat.normal.cdf(-(d / 2 + c), 0, 1);
-    return jstat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
+    if (s === 1) return jstatExports.normal.cdf(-(d / 2 + c), 0, 1);
+    return jstatExports.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
   }
-
   static dFar2Hr(d, far, s = 1) {
-    if (s === 1) return jstat.normal.cdf(d + jstat.normal.inv(far, 0, 1), 0, 1);
-    return jstat.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jstat.normal.inv(far, 0, 1)) / s, 0, 1);
+    if (s === 1) return jstatExports.normal.cdf(d + jstatExports.normal.inv(far, 0, 1), 0, 1);
+    return jstatExports.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jstatExports.normal.inv(far, 0, 1)) / s, 0, 1);
   }
-
   static cFar2Hr(c, far, s = 1) {
-    if (s === 1) return jstat.normal.cdf(-(2 * c) - jstat.normal.inv(far, 0, 1), 0, 1);
-    return jstat.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jstat.normal.inv(far, 0, 1), 0, 1);
+    if (s === 1) return jstatExports.normal.cdf(-(2 * c) - jstatExports.normal.inv(far, 0, 1), 0, 1);
+    return jstatExports.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jstatExports.normal.inv(far, 0, 1), 0, 1);
   }
-
   static d2MuN(d, s = 1) {
     if (s === 1) return -d / 2;
     return -Math.sqrt((s * s + 1) / 2) * (1 / (s + 1)) * d;
   }
-
   static muN2D(muN, s = 1) {
     if (s === 1) return -2 * muN;
     return -Math.sqrt(2 / (s * s + 1)) * (s + 1) * muN;
   }
-
   static d2MuS(d, s = 1) {
     if (s === 1) return d / 2;
     return Math.sqrt((s * s + 1) / 2) * (s / (s + 1)) * d;
   }
-
   static muS2D(muS, s = 1) {
     if (s === 1) return 2 * muS;
     return Math.sqrt(2 / (s * s + 1)) * ((s + 1) / s) * muS;
   }
-
   static c2L(c, s = 1) {
     if (s === 1) return c;
     return Math.sqrt((s * s + 1) / 2) * c;
   }
-
   static l2C(l, s = 1) {
     if (s === 1) return l;
     return Math.sqrt(2 / (s * s + 1)) * l;
   }
-
   static s2H(s = 1) {
     return 1 / (s * Math.sqrt(2 * Math.PI));
   }
-
   static h2S(h) {
     return 1 / (h * Math.sqrt(2 * Math.PI));
   }
-
   static hr2Zhr(hr) {
-    return jstat.normal.inv(hr, 0, 1);
+    return jstatExports.normal.inv(hr, 0, 1);
   }
-
   static far2Zfar(far) {
-    return jstat.normal.inv(far, 0, 1);
+    return jstatExports.normal.inv(far, 0, 1);
   }
-
   static zhr2Hr(zhr) {
-    return jstat.normal.cdf(zhr, 0, 1);
+    return jstatExports.normal.cdf(zhr, 0, 1);
   }
-
   static zfar2Far(zfar) {
-    return jstat.normal.cdf(zfar, 0, 1);
+    return jstatExports.normal.cdf(zfar, 0, 1);
   }
-
 }
 
-let _$f = t => t,
-    _t$f,
-    _t2$e;
 /*
   ROCSpace element
   <roc-space>
@@ -13265,7 +12785,6 @@ let _$f = t => t,
   Styles:
     ??
 */
-
 class ROCSpace extends DetectableElement {
   static get properties() {
     return {
@@ -13336,7 +12855,6 @@ class ROCSpace extends DetectableElement {
       }
     };
   }
-
   constructor() {
     super();
     this.firstUpdate = true;
@@ -13370,7 +12888,6 @@ class ROCSpace extends DetectableElement {
     this.rem = NaN;
     this.alignState();
   }
-
   alignState() {
     this.locations[0].hr = this.hr;
     this.locations[0].far = this.far;
@@ -13384,19 +12901,16 @@ class ROCSpace extends DetectableElement {
     this.locations.forEach((item, index) => {
       item.d = SDTMath.hrFar2D(item.hr, item.far, item.s);
       item.c = SDTMath.hrFar2C(item.hr, item.far, item.s);
-
       if (index === 0 && (this.point === 'first' || this.point === 'all')) {
         this.pointArray.push(item);
       } else if (index > 0 && (this.point === 'rest' || this.point === 'all')) {
         this.pointArray.push(item);
       }
-
       if (index === 0 && (this.isoD === 'first' || this.isoD === 'all')) {
         this.isoDArray.push(item);
       } else if (index > 0 && (this.isoD === 'rest' || this.isoD === 'all')) {
         this.isoDArray.push(item);
       }
-
       if (index === 0 && (this.isoC === 'first' || this.isoC === 'all')) {
         this.isoCArray.push(item);
       } else if (index > 0 && (this.isoC === 'rest' || this.isoC === 'all')) {
@@ -13404,7 +12918,6 @@ class ROCSpace extends DetectableElement {
       }
     });
   }
-
   set(hr, far, name = 'default', label = '', s = 1) {
     if (name === 'default') {
       this.hr = hr;
@@ -13412,11 +12925,9 @@ class ROCSpace extends DetectableElement {
       this.s = s;
       this.label = label;
     }
-
     const location = this.locations.find(item => {
       return item.name === name;
     });
-
     if (location === undefined) {
       this.locations.push({
         name: name,
@@ -13431,10 +12942,8 @@ class ROCSpace extends DetectableElement {
       location.s = s;
       location.label = label;
     }
-
     this.requestUpdate();
   }
-
   setWithSDT(d, c, name = 'default', label = '', s = 1) {
     if (name === 'default') {
       this.hr = SDTMath.dC2Hr(d, c, s);
@@ -13442,11 +12951,9 @@ class ROCSpace extends DetectableElement {
       this.s = s;
       this.label = label;
     }
-
     const location = this.locations.find(item => {
       return item.name === name;
     });
-
     if (location === undefined) {
       this.locations.push({
         name: name,
@@ -13461,13 +12968,11 @@ class ROCSpace extends DetectableElement {
       location.s = s;
       location.label = label;
     }
-
     this.sdt = true;
     this.requestUpdate();
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$f || (_t$f = _$f`
+    return [super.styles, r$2`
         :host {
           display: inline-block;
 
@@ -13599,46 +13104,43 @@ class ROCSpace extends DetectableElement {
 
           fill: var(---color-text-inverse);
         }
-      `))];
+      `];
   }
-
   render() {
     /* eslint-disable-line class-methods-use-this */
-    return $(_t2$e || (_t2$e = _$f`
-      ${0}
-    `), DetectableElement.svgFilters);
+    return $`
+      ${DetectableElement.svgFilters}
+    `;
   }
-
   getDimensions() {
     this.width = parseFloat(this.getComputedStyleValue('width'), 10);
     this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10); // console.log(`roc-space: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
+    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
+    // console.log(`roc-space: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
   }
 
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener('resize', this.getDimensions.bind(this));
   }
-
   disconnectedCallback() {
     window.removeEventListener('resize', this.getDimensions.bind(this));
     super.disconnectedCallback();
   }
-
   firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
+    super.firstUpdated(changedProperties);
 
+    // Get the width and height after initial render/update has occurred
     this.getDimensions();
   }
-
   update(changedProperties) {
     super.update(changedProperties);
-    this.alignState(); // Bail out if we can't get the width/height/rem
+    this.alignState();
 
+    // Bail out if we can't get the width/height/rem
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
       return;
     }
-
     const elementWidth = this.width;
     const elementHeight = this.height;
     const elementSize = Math.min(elementWidth, elementHeight);
@@ -13650,16 +13152,19 @@ class ROCSpace extends DetectableElement {
     };
     const height = elementSize - (margin.top + margin.bottom);
     const width = elementSize - (margin.left + margin.right);
-    const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10); // X Scale
+    const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10);
 
+    // X Scale
     const xScale = linear().domain(this.zRoc ? [-3, 3] : [0, 1]) // zFAR or FAR
     .range([0, width]);
-    this.xScale = xScale; // Y Scale
+    this.xScale = xScale;
 
+    // Y Scale
     const yScale = linear().domain(this.zRoc ? [3, -3] : [1, 0]) // zHR or HR
     .range([0, height]);
-    this.yScale = yScale; // Drag behavior
+    this.yScale = yScale;
 
+    // Drag behavior
     const drag$1 = drag().subject((event, datum) => {
       return {
         x: this.xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far),
@@ -13671,16 +13176,15 @@ class ROCSpace extends DetectableElement {
     }).on('drag', (event, datum) => {
       this.drag = true;
       const far = this.zRoc ? SDTMath.zfar2Far(this.xScale.invert(event.x)) : this.xScale.invert(event.x);
-      const hr = this.zRoc ? SDTMath.zhr2Hr(this.yScale.invert(event.y)) : this.yScale.invert(event.y); // Clamp FAR and HR to ROC Space
-
+      const hr = this.zRoc ? SDTMath.zhr2Hr(this.yScale.invert(event.y)) : this.yScale.invert(event.y);
+      // Clamp FAR and HR to ROC Space
       datum.far = far < 0.001 ? 0.001 : far > 0.999 ? 0.999 : far;
-      datum.hr = hr <= 0.001 ? 0.001 : hr >= 0.999 ? 0.999 : hr; // console.log(`roc-space.drag: far = ${datum.far}, hr = ${datum.hr}`);
-
+      datum.hr = hr <= 0.001 ? 0.001 : hr >= 0.999 ? 0.999 : hr;
+      // console.log(`roc-space.drag: far = ${datum.far}, hr = ${datum.hr}`);
       if (datum.name === 'default') {
         this.far = datum.far;
         this.hr = datum.hr;
       }
-
       this.alignState();
       this.requestUpdate();
       this.dispatchEvent(new CustomEvent('roc-point-change', {
@@ -13698,53 +13202,58 @@ class ROCSpace extends DetectableElement {
     }).on('end', event => {
       const element = event.currentTarget;
       select(element).classed('dragging', false);
-    }); // Line for FAR/HR Space
+    });
 
+    // Line for FAR/HR Space
     const line$1 = line().x(datum => {
       return xScale(this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far);
     }).y(datum => {
       return yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr);
-    }); // Svg
-    //  DATA-JOIN
+    });
 
+    // Svg
+    //  DATA-JOIN
     const svgUpdate = select(this.renderRoot).selectAll('.main').data([{
       width: this.width,
       height: this.height,
       rem: this.rem
-    }]); //  ENTER
-
-    const svgEnter = svgUpdate.enter().append('svg').classed('main', true); //  MERGE
-
-    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementSize} ${elementSize}`); // Plot
+    }]);
     //  ENTER
+    const svgEnter = svgUpdate.enter().append('svg').classed('main', true);
+    //  MERGE
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementSize} ${elementSize}`);
 
-    const plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
-
-    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`); // Clippath
+    // Plot
     //  ENTER
+    const plotEnter = svgEnter.append('g').classed('plot', true);
+    //  MERGE
+    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-    plotEnter.append('clipPath').attr('id', 'clip-roc-space').append('rect'); //  MERGE
-
-    plotMerge.select('clipPath rect').attr('height', height + 1).attr('width', width + 1); // Underlayer
+    // Clippath
     //  ENTER
+    plotEnter.append('clipPath').attr('id', 'clip-roc-space').append('rect');
+    //  MERGE
+    plotMerge.select('clipPath rect').attr('height', height + 1).attr('width', width + 1);
 
-    const underlayerEnter = plotEnter.append('g').classed('underlayer', true); // MERGE
-
-    const underlayerMerge = plotMerge.select('.underlayer'); // Background
+    // Underlayer
     //  ENTER
+    const underlayerEnter = plotEnter.append('g').classed('underlayer', true);
+    // MERGE
+    const underlayerMerge = plotMerge.select('.underlayer');
 
-    underlayerEnter.append('rect').classed('background', true); //  MERGE
+    // Background
+    //  ENTER
+    underlayerEnter.append('rect').classed('background', true);
+    //  MERGE
+    underlayerMerge.select('.background').attr('height', height).attr('width', width);
 
-    underlayerMerge.select('.background').attr('height', height).attr('width', width); // Contour Plotting
+    // Contour Plotting
     //  Handles: Bias, Sensitivity, & Accuracy
-
     if (this.firstUpdate || changedProperties.has('contour') || changedProperties.has('zRoc') || changedProperties.has('width') || changedProperties.has('height') || changedProperties.has('rem') || changedProperties.has('s')) {
       if (this.contour !== undefined) {
         // Contour Plot
         const n = 100; // Resolution
-
         const contourValues = [];
-
         for (let j = 0.5, k = 0; j < n; j += 1) {
           for (let i = 0.5; i < n; i += 1, k += 1) {
             const hr = this.zRoc ? SDTMath.zhr2Hr(i / n * 6 - 3) : i / n;
@@ -13752,150 +13261,159 @@ class ROCSpace extends DetectableElement {
             contourValues[k] = this.contour === 'bias' ? SDTMath.hrFar2C(hr, far, this.s) : this.contour === 'sensitivity' ? SDTMath.hrFar2D(hr, far, this.s) : this.contour === 'accuracy' ? SDTMath.hrFar2Acc(hr, far) : null;
           }
         }
-
         const contourThresholds = this.contour === 'bias' ? range(-3, 3, 0.25) : this.contour === 'sensitivity' ? range(-6, 6, 0.5) : this.contour === 'accuracy' ? range(0, 1, 0.05) : null;
-        const contours$1 = contours().size([n, n]).thresholds(contourThresholds);
+        const contours = Contours().size([n, n]).thresholds(contourThresholds);
         const contourColorStart = this.getComputedStyleValue(this.contour === 'bias' ? '---color-element-background' : this.contour === 'sensitivity' ? '---color-d' : this.contour === 'accuracy' ? '---color-acc-dark' : null);
         const contourColorEnd = this.getComputedStyleValue(this.contour === 'bias' ? '---color-c' : this.contour === 'sensitivity' ? '---color-element-background' : this.contour === 'accuracy' ? '---color-element-background' : null);
-        const contourColor = linear().domain(extent(contourThresholds)).interpolate(() => {
+        const contourColor = linear().domain(extent$1(contourThresholds)).interpolate(() => {
           return interpolateRgb(contourColorStart, contourColorEnd);
-        }); //  DATA-JOIN
-
-        const contourPlotUpdate = underlayerMerge.selectAll('.plot-contour').data([this.contour]); //  ENTER
-
-        const contourPlotEnter = contourPlotUpdate.enter().append('g').classed('plot-contour', true); //  MERGE
-
-        const contourPlotMerge = contourPlotEnter.merge(contourPlotUpdate); // Contour Plot Contours
+        });
         //  DATA-JOIN
+        const contourPlotUpdate = underlayerMerge.selectAll('.plot-contour').data([this.contour]);
+        //  ENTER
+        const contourPlotEnter = contourPlotUpdate.enter().append('g').classed('plot-contour', true);
+        //  MERGE
+        const contourPlotMerge = contourPlotEnter.merge(contourPlotUpdate);
 
-        const contoursUpdate = contourPlotMerge.selectAll('.contour').data(contours$1(contourValues)); //  ENTER
-
-        const contoursEnter = contoursUpdate.enter().append('path').classed('contour', true); //  MERGE
-
+        // Contour Plot Contours
+        //  DATA-JOIN
+        const contoursUpdate = contourPlotMerge.selectAll('.contour').data(contours(contourValues));
+        //  ENTER
+        const contoursEnter = contoursUpdate.enter().append('path').classed('contour', true);
+        //  MERGE
         contoursEnter.merge(contoursUpdate).transition().duration(transitionDuration * 2) // Extra long transition!
         .ease(cubicOut).attr('d', index(identity$1().scale(width / n))) // ????
         .attr('fill', datum => {
           return contourColor(datum.value);
-        }); //  EXIT
+        });
+        //  EXIT
+        contoursUpdate.exit().remove();
 
-        contoursUpdate.exit().remove(); // Contour Title
+        // Contour Title
         //  DATA-JOIN
+        const contourTitleUpdate = underlayerMerge.selectAll('.title-contour').data([this.contour]);
+        //  ENTER
+        const contourTitleEnter = contourTitleUpdate.enter().append('text').classed('title-contour', true).attr('text-anchor', 'middle');
+        //  MERGE
+        contourTitleEnter.merge(contourTitleUpdate).classed('math-var', this.contour === 'bias' || this.contour === 'sensitivity').attr('transform', this.contour === 'bias' ? `translate(${width + 1.25 * this.rem}, ${this.rem})` : this.contour === 'sensitivity' ? `translate(${width + 1.25 * this.rem}, ${this.rem})` : this.contour === 'accuracy' ? `translate(${width + 1.125 * this.rem}, ${this.rem})` : null).text(this.contour === 'bias' ? 'c' : this.contour === 'sensitivity' ? 'd′' : this.contour === 'accuracy' ? 'Acc' : null);
 
-        const contourTitleUpdate = underlayerMerge.selectAll('.title-contour').data([this.contour]); //  ENTER
-
-        const contourTitleEnter = contourTitleUpdate.enter().append('text').classed('title-contour', true).attr('text-anchor', 'middle'); //  MERGE
-
-        contourTitleEnter.merge(contourTitleUpdate).classed('math-var', this.contour === 'bias' || this.contour === 'sensitivity').attr('transform', this.contour === 'bias' ? `translate(${width + 1.25 * this.rem}, ${this.rem})` : this.contour === 'sensitivity' ? `translate(${width + 1.25 * this.rem}, ${this.rem})` : this.contour === 'accuracy' ? `translate(${width + 1.125 * this.rem}, ${this.rem})` : null).text(this.contour === 'bias' ? 'c' : this.contour === 'sensitivity' ? 'd′' : this.contour === 'accuracy' ? 'Acc' : null); // Contour Legend
-
+        // Contour Legend
         const l = 100;
         const contourLegendValues = []; // new Array(4 * l);
-
         for (let i = 0.5, k = 0; i < l; i += 1, k += 4) {
           contourLegendValues[k] = this.contour === 'bias' ? -(i / n * 6 - 3) : this.contour === 'sensitivity' ? i / n * 12 - 6 : this.contour === 'accuracy' ? i / n : null;
           contourLegendValues[k + 1] = contourLegendValues[k];
           contourLegendValues[k + 2] = contourLegendValues[k];
           contourLegendValues[k + 3] = contourLegendValues[k];
         }
-
-        const legendContours = contours().size([4, l]).thresholds(contourThresholds);
-        const legendScale = linear().domain(this.contour === 'bias' ? [3, -3] : this.contour === 'sensitivity' ? [6, -6] : this.contour === 'accuracy' ? [1, 0] : null).range([0, 10 * this.rem]); //  DATA-JOIN
-
-        const contourLegendUpdate = underlayerMerge.selectAll('.legend-contour').data([this.contour]); //  ENTER
-
-        const contourLegendEnter = contourLegendUpdate.enter().append('g').classed('legend-contour', true); //  MERGE
-
-        const contourLegendMerge = contourLegendEnter.merge(contourLegendUpdate).attr('transform', this.contour === 'bias' ? `translate(${width + 1.25 * this.rem}, ${1.5 * this.rem})` : this.contour === 'sensitivity' ? `translate(${width + 1.25 * this.rem}, ${1.5 * this.rem})` : this.contour === 'accuracy' ? `translate(${width + 1.5 * this.rem}, ${1.5 * this.rem})` : null); //  EXIT
-
-        contourLegendUpdate.exit().remove(); // Contour Legend Axis
-        //  ENTER
-
-        contourLegendEnter.append('g').classed('axis-contour', true); //  MERGE
-
-        contourLegendMerge.select('.axis-contour').call(axisLeft(legendScale).ticks(7).tickSize(0)).attr('font-size', null).attr('font-family', null); // Contour Legend Contours
+        const legendContours = Contours().size([4, l]).thresholds(contourThresholds);
+        const legendScale = linear().domain(this.contour === 'bias' ? [3, -3] : this.contour === 'sensitivity' ? [6, -6] : this.contour === 'accuracy' ? [1, 0] : null).range([0, 10 * this.rem]);
         //  DATA-JOIN
+        const contourLegendUpdate = underlayerMerge.selectAll('.legend-contour').data([this.contour]);
+        //  ENTER
+        const contourLegendEnter = contourLegendUpdate.enter().append('g').classed('legend-contour', true);
+        //  MERGE
+        const contourLegendMerge = contourLegendEnter.merge(contourLegendUpdate).attr('transform', this.contour === 'bias' ? `translate(${width + 1.25 * this.rem}, ${1.5 * this.rem})` : this.contour === 'sensitivity' ? `translate(${width + 1.25 * this.rem}, ${1.5 * this.rem})` : this.contour === 'accuracy' ? `translate(${width + 1.5 * this.rem}, ${1.5 * this.rem})` : null);
+        //  EXIT
+        contourLegendUpdate.exit().remove();
 
-        const legendContoursUpdate = contourLegendMerge.selectAll('.contour').data(legendContours(contourLegendValues)); //  ENTER
+        // Contour Legend Axis
+        //  ENTER
+        contourLegendEnter.append('g').classed('axis-contour', true);
+        //  MERGE
+        contourLegendMerge.select('.axis-contour').call(axisLeft(legendScale).ticks(7).tickSize(0)).attr('font-size', null).attr('font-family', null);
 
-        const legendContoursEnter = legendContoursUpdate.enter().append('path').classed('contour', true); //  MERGE
-
+        // Contour Legend Contours
+        //  DATA-JOIN
+        const legendContoursUpdate = contourLegendMerge.selectAll('.contour').data(legendContours(contourLegendValues));
+        //  ENTER
+        const legendContoursEnter = legendContoursUpdate.enter().append('path').classed('contour', true);
+        //  MERGE
         legendContoursEnter.merge(legendContoursUpdate).attr('d', index(identity$1().scale(10 * this.rem / l))) // ????
         .attr('fill', datum => {
           return contourColor(datum.value);
-        }); //  EXIT
-
+        });
+        //  EXIT
         legendContoursUpdate.exit().remove();
       } else {
         // Contour Plot
         //  DATA-JOIN
-        const contourPlotUpdate = underlayerMerge.selectAll('.plot-contour').data([]); //  EXIT
+        const contourPlotUpdate = underlayerMerge.selectAll('.plot-contour').data([]);
+        //  EXIT
+        contourPlotUpdate.exit().remove();
 
-        contourPlotUpdate.exit().remove(); // Contour Title
+        // Contour Title
         //  DATA-JOIN
+        const contourTitleUpdate = underlayerMerge.selectAll('.title-contour').data([]);
+        //  EXIT
+        contourTitleUpdate.exit().remove();
 
-        const contourTitleUpdate = underlayerMerge.selectAll('.title-contour').data([]); //  EXIT
-
-        contourTitleUpdate.exit().remove(); // Contour Legend
+        // Contour Legend
         //  DATA-JOIN
-
-        const contourLegendUpdate = underlayerMerge.selectAll('.legend-contour').data([]); //  EXIT
-
+        const contourLegendUpdate = underlayerMerge.selectAll('.legend-contour').data([]);
+        //  EXIT
         contourLegendUpdate.exit().remove();
       }
-    } // X Axis
+    }
+
+    // X Axis
     //  ENTER
-
-
-    underlayerEnter.append('g').classed('axis-x', true); //  MERGE
-
+    underlayerEnter.append('g').classed('axis-x', true);
+    //  MERGE
     const axisXMerge = underlayerMerge.select('.axis-x').attr('transform', `translate(0, ${height})`);
     const axisXTransition = axisXMerge.transition().duration(transitionDuration * 2) // Extra long transition!
     .ease(cubicOut).call(axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
-    axisXTransition.selectAll('line, path').attr('stroke', null); // X Axis Title
-    //  ENTER
+    axisXTransition.selectAll('line, path').attr('stroke', null);
 
+    // X Axis Title
+    //  ENTER
     const titleXEnter = underlayerEnter.append('text').classed('title-x', true).attr('text-anchor', 'middle');
     titleXEnter.append('tspan').classed('z math-var', true);
-    titleXEnter.append('tspan').classed('name', true); //  MERGE
-
+    titleXEnter.append('tspan').classed('name', true);
+    //  MERGE
     const titleXMerge = underlayerMerge.select('.title-x').attr('transform', `translate(${width / 2}, ${height + 2.25 * this.rem})`);
     titleXMerge.select('tspan.z').text(this.zRoc ? 'z' : '');
-    titleXMerge.select('tspan.name').text(this.zRoc ? '(False Alarm Rate)' : 'False Alarm Rate'); // Y Axis
+    titleXMerge.select('tspan.name').text(this.zRoc ? '(False Alarm Rate)' : 'False Alarm Rate');
+
+    // Y Axis
     //  ENTER
-
-    underlayerEnter.append('g').classed('axis-y', true); // MERGE
-
+    underlayerEnter.append('g').classed('axis-y', true);
+    // MERGE
     const axisYTransition = underlayerMerge.select('.axis-y').transition().duration(transitionDuration * 2) // Extra long transition!
     .ease(cubicOut).call(axisLeft(yScale)).attr('font-size', null).attr('font-family', null);
-    axisYTransition.selectAll('line, path').attr('stroke', null); // Y Axis Title
-    //  ENTER
+    axisYTransition.selectAll('line, path').attr('stroke', null);
 
+    // Y Axis Title
+    //  ENTER
     const titleYEnter = underlayerEnter.append('text').classed('title-y', true).attr('text-anchor', 'middle');
     titleYEnter.append('tspan').classed('z math-var', true);
-    titleYEnter.append('tspan').classed('name', true); //  MERGE
-
+    titleYEnter.append('tspan').classed('name', true);
+    //  MERGE
     const titleYMerge = underlayerMerge.select('.title-y').attr('transform', `translate(${-2 * this.rem}, ${height / 2})rotate(-90)`);
     titleYMerge.select('tspan.z').text(this.zRoc ? 'z' : '');
-    titleYMerge.select('tspan.name').text(this.zRoc ? '(Hit Rate)' : 'Hit Rate'); // No-Information Line
+    titleYMerge.select('tspan.name').text(this.zRoc ? '(Hit Rate)' : 'Hit Rate');
+
+    // No-Information Line
     //  ENTER
+    underlayerEnter.append('line').classed('diagonal', true);
+    //  MERGE
+    underlayerMerge.select('.diagonal').attr('x1', this.zRoc ? xScale(-3) : xScale(0)).attr('y1', this.zRoc ? yScale(-3) : yScale(0)).attr('x2', this.zRoc ? xScale(3) : xScale(1)).attr('y2', this.zRoc ? yScale(3) : yScale(1));
 
-    underlayerEnter.append('line').classed('diagonal', true); //  MERGE
-
-    underlayerMerge.select('.diagonal').attr('x1', this.zRoc ? xScale(-3) : xScale(0)).attr('y1', this.zRoc ? yScale(-3) : yScale(0)).attr('x2', this.zRoc ? xScale(3) : xScale(1)).attr('y2', this.zRoc ? yScale(3) : yScale(1)); // Content
+    // Content
     //  ENTER
+    plotEnter.append('g').classed('content', true);
+    //  MERGE
+    const contentMerge = plotMerge.select('.content');
 
-    plotEnter.append('g').classed('content', true); //  MERGE
-
-    const contentMerge = plotMerge.select('.content'); // Iso-sensitivity Curve
+    // Iso-sensitivity Curve
     //  DATA-JOIN
-
     const isoDUpdate = contentMerge.selectAll('.curve-iso-d').data(this.isoDArray, datum => {
       return datum.name;
-    }); //  ENTER
-
-    const isoDEnter = isoDUpdate.enter().append('path').classed('curve-iso-d', true).attr('clip-path', 'url(#clip-roc-space)'); //  MERGE
-
+    });
+    //  ENTER
+    const isoDEnter = isoDUpdate.enter().append('path').classed('curve-iso-d', true).attr('clip-path', 'url(#clip-roc-space)');
+    //  MERGE
     const isoDMerge = isoDEnter.merge(isoDUpdate);
-
     if (this.firstUpdate || changedProperties.has('zRoc')) {
       isoDMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
       .ease(cubicOut).attr('d', datum => {
@@ -13944,21 +13462,20 @@ class ROCSpace extends DetectableElement {
           return line$1(isoD);
         };
       });
-    } //  EXIT
+    }
+    //  EXIT
     // NOTE: Could add a transition here
+    isoDUpdate.exit().remove();
 
-
-    isoDUpdate.exit().remove(); // Iso-bias Curve
+    // Iso-bias Curve
     //  DATA-JOIN
-
     const isoCUpdate = contentMerge.selectAll('.curve-iso-c').data(this.isoCArray, datum => {
       return datum.name;
-    }); //  ENTER
-
-    const isoCEnter = isoCUpdate.enter().append('path').classed('curve-iso-c', true).attr('clip-path', 'url(#clip-roc-space)'); //  MERGE
-
+    });
+    //  ENTER
+    const isoCEnter = isoCUpdate.enter().append('path').classed('curve-iso-c', true).attr('clip-path', 'url(#clip-roc-space)');
+    //  MERGE
     const isoCMerge = isoCEnter.merge(isoCUpdate);
-
     if (this.firstUpdate || changedProperties.has('zRoc')) {
       isoCMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
       .ease(cubicOut).attr('d', datum => {
@@ -14007,67 +13524,59 @@ class ROCSpace extends DetectableElement {
           return line$1(isoC);
         };
       });
-    } //  EXIT
+    }
+    //  EXIT
     // NOTE: Could add a transition here
+    isoCUpdate.exit().remove();
 
-
-    isoCUpdate.exit().remove(); // Point
+    // Point
     //  DATA-JOIN
-
     const pointUpdate = contentMerge.selectAll('.point').data(this.pointArray, datum => {
       return datum.name;
-    }); //  ENTER
-
+    });
+    //  ENTER
     const pointEnter = pointUpdate.enter().append('g').classed('point', true);
     pointEnter.append('circle').classed('circle', true);
-    pointEnter.append('text').classed('label', true); //  MERGE
-
+    pointEnter.append('text').classed('label', true);
+    //  MERGE
     const pointMerge = pointEnter.merge(pointUpdate);
     pointMerge.select('text').text(datum => {
       return datum.label;
     });
-
     if (this.firstUpdate || changedProperties.has('interactive')) {
       if (this.interactive) {
         pointMerge.attr('tabindex', 0).classed('interactive', true).call(drag$1).on('keydown', (event, datum) => {
           if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
             let hr = this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr;
             let far = this.zRoc ? SDTMath.far2Zfar(datum.far) : datum.far;
-
             switch (event.key) {
               case 'ArrowUp':
                 hr += this.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
                 break;
-
               case 'ArrowDown':
                 hr -= this.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
                 break;
-
               case 'ArrowRight':
                 far += this.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
                 break;
-
               case 'ArrowLeft':
                 far -= this.zRoc ? event.shiftKey ? 0.05 : 0.25 : event.shiftKey ? 0.01 : 0.05;
                 break;
-
+              // no-op
             }
 
             hr = this.zRoc ? SDTMath.zhr2Hr(hr) : hr;
-            far = this.zRoc ? SDTMath.zfar2Far(far) : far; // Clamp FAR and HR to ROC Space
-
+            far = this.zRoc ? SDTMath.zfar2Far(far) : far;
+            // Clamp FAR and HR to ROC Space
             hr = hr < 0.001 ? 0.001 : hr > 0.999 ? 0.999 : hr;
             far = far < 0.001 ? 0.001 : far > 0.999 ? 0.999 : far;
-
             if (hr !== datum.hr || far !== datum.far) {
               datum.hr = hr;
               datum.far = far;
-
               if (datum.name === 'default') {
                 this.hr = datum.hr;
                 this.far = datum.far;
               }
-
               this.alignState();
               this.requestUpdate();
               this.dispatchEvent(new CustomEvent('roc-point-change', {
@@ -14083,7 +13592,6 @@ class ROCSpace extends DetectableElement {
                 bubbles: true
               }));
             }
-
             event.preventDefault();
           }
         });
@@ -14091,7 +13599,6 @@ class ROCSpace extends DetectableElement {
         pointMerge.attr('tabindex', null).classed('interactive', false).on('drag', null).on('keydown', null);
       }
     }
-
     if (this.firstUpdate || changedProperties.has('zRoc')) {
       pointMerge.transition().duration(this.drag ? 0 : transitionDuration * 2) // Extra long transition!
       .ease(cubicOut).attr('transform', (datum, index, elements) => {
@@ -14131,42 +13638,17 @@ class ROCSpace extends DetectableElement {
             ${yScale(this.zRoc ? SDTMath.hr2Zhr(datum.hr) : datum.hr)}
           )`;
       });
-    } //  EXIT
+    }
+    //  EXIT
     // NOTE: Could add a transition here
-
-
     pointUpdate.exit().remove();
     this.drag = false;
     this.sdt = false;
     this.firstUpdate = false;
   }
-
 }
 customElements.define('roc-space', ROCSpace);
 
-let _$e = t => t,
-    _t$e,
-    _t2$d,
-    _t3$b,
-    _t4$b,
-    _t5$b,
-    _t6$b,
-    _t7$b,
-    _t8$7,
-    _t9$7,
-    _t10$7,
-    _t11$7,
-    _t12$2,
-    _t13$2,
-    _t14$2,
-    _t15$2,
-    _t16$2,
-    _t17$2,
-    _t18$2,
-    _t19$2,
-    _t20$2,
-    _t21$1,
-    _t22$1;
 /*
   DetectableControl element
   <detectable-control>
@@ -14174,7 +13656,6 @@ let _$e = t => t,
   Attributes:
 
 */
-
 class DetectableControl extends DetectableElement {
   static get properties() {
     return {
@@ -14230,10 +13711,10 @@ class DetectableControl extends DetectableElement {
       }
     };
   }
-
   constructor() {
-    super(); // Attributes
+    super();
 
+    // Attributes
     this.trials = undefined;
     this.duration = undefined;
     this.coherence = undefined;
@@ -14243,12 +13724,12 @@ class DetectableControl extends DetectableElement {
     this.zRoc = undefined;
     this.run = false;
     this.pause = false;
-    this.reset = false; // Properties
+    this.reset = false;
 
+    // Properties
     this.states = ['resetted', 'running', 'paused', 'ended'];
     this.state = 'resetted';
   }
-
   setTrials(e) {
     this.trials = e.target.value;
     this.dispatchEvent(new CustomEvent('detectable-control-trials', {
@@ -14258,7 +13739,6 @@ class DetectableControl extends DetectableElement {
       bubbles: true
     }));
   }
-
   setDuration(e) {
     this.duration = e.target.value;
     this.dispatchEvent(new CustomEvent('detectable-control-duration', {
@@ -14268,7 +13748,6 @@ class DetectableControl extends DetectableElement {
       bubbles: true
     }));
   }
-
   setCoherence(e) {
     this.coherence = e.target.value;
     this.dispatchEvent(new CustomEvent('detectable-control-coherence', {
@@ -14278,7 +13757,6 @@ class DetectableControl extends DetectableElement {
       bubbles: true
     }));
   }
-
   setPayoff(e) {
     this.payoff = e.target.value;
     this.dispatchEvent(new CustomEvent('detectable-control-payoff', {
@@ -14288,7 +13766,6 @@ class DetectableControl extends DetectableElement {
       bubbles: true
     }));
   }
-
   chooseColor(e) {
     this.color = e.target.value;
     this.dispatchEvent(new CustomEvent('detectable-control-color', {
@@ -14298,7 +13775,6 @@ class DetectableControl extends DetectableElement {
       bubbles: true
     }));
   }
-
   flipZRoc(e) {
     this.zRoc = e.target.checked;
     this.dispatchEvent(new CustomEvent('detectable-control-z-roc', {
@@ -14308,7 +13784,6 @@ class DetectableControl extends DetectableElement {
       bubbles: true
     }));
   }
-
   doRun() {
     this.state = 'running';
     this.dispatchEvent(new CustomEvent('detectable-control-run', {
@@ -14316,7 +13791,6 @@ class DetectableControl extends DetectableElement {
       bubbles: true
     }));
   }
-
   doPause() {
     this.state = 'paused';
     this.dispatchEvent(new CustomEvent('detectable-control-pause', {
@@ -14324,7 +13798,6 @@ class DetectableControl extends DetectableElement {
       bubbles: true
     }));
   }
-
   doReset() {
     this.state = 'resetted';
     this.dispatchEvent(new CustomEvent('detectable-control-reset', {
@@ -14332,13 +13805,11 @@ class DetectableControl extends DetectableElement {
       bubbles: true
     }));
   }
-
   complete() {
     this.state = 'ended';
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$e || (_t$e = _$e`
+    return [super.styles, r$2`
         :host {
           display: inline-block;
         }
@@ -14365,49 +13836,44 @@ class DetectableControl extends DetectableElement {
         .payoff {
           --decidables-spinner-prefix: "$";
         }
-      `))];
+      `];
   }
-
   render() {
-    return $(_t2$d || (_t2$d = _$e`
+    return $`
       <div class="holder">
-        ${0}
-        ${0}
-        ${0}
-        ${0}
-        ${0}
-        ${0}
-        ${0}
-      </div>`), this.trials ? $(_t3$b || (_t3$b = _$e`<decidables-slider min="1" max="100" step="1" .value=${0} @change=${0} @input=${0}>Trials</decidables-slider>`), this.trials, this.setTrials.bind(this), this.setTrials.bind(this)) : $(_t4$b || (_t4$b = _$e``)), this.duration ? $(_t5$b || (_t5$b = _$e`<decidables-slider min="10" max="2000" step="10" .value=${0} @change=${0} @input=${0}>Duration</decidables-slider>`), this.duration, this.setDuration.bind(this), this.setDuration.bind(this)) : $(_t6$b || (_t6$b = _$e``)), this.coherence ? $(_t7$b || (_t7$b = _$e`<decidables-slider min="0" max="1" step=".01" .value=${0} @change=${0} @input=${0}>Coherence</decidables-slider>`), this.coherence, this.setCoherence.bind(this), this.setCoherence.bind(this)) : $(_t8$7 || (_t8$7 = _$e``)), this.payoff ? $(_t9$7 || (_t9$7 = _$e`<decidables-slider class="payoff" min="0" max="100" step="1" .value=${0} @change=${0} @input=${0}>Payoff</decidables-slider>`), this.payoff, this.setPayoff.bind(this), this.setPayoff.bind(this)) : $(_t10$7 || (_t10$7 = _$e``)), this.color !== undefined ? $(_t11$7 || (_t11$7 = _$e`
-            <decidables-toggle @change=${0}>
+        ${this.trials ? $`<decidables-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>` : $``}
+        ${this.duration ? $`<decidables-slider min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>` : $``}
+        ${this.coherence ? $`<decidables-slider min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidables-slider>` : $``}
+        ${this.payoff ? $`<decidables-slider class="payoff" min="0" max="100" step="1" .value=${this.payoff} @change=${this.setPayoff.bind(this)} @input=${this.setPayoff.bind(this)}>Payoff</decidables-slider>` : $``}
+        ${this.color !== undefined ? $`
+            <decidables-toggle @change=${this.chooseColor.bind(this)}>
               <span slot="label">Emphasis</span>
-              <decidables-toggle-option name="toggle" value="none" ?checked=${0}>None</decidables-toggle-option>
-              <decidables-toggle-option name="toggle" value="accuracy" ?checked=${0}>Accuracy</decidables-toggle-option>
-              <decidables-toggle-option name="toggle" value="stimulus" ?checked=${0}>Stimulus</decidables-toggle-option>
-              <decidables-toggle-option name="toggle" value="response" ?checked=${0}>Response</decidables-toggle-option>
-              <decidables-toggle-option name="toggle" value="outcome" ?checked=${0}>Outcome</decidables-toggle-option>
-              <decidables-toggle-option name="toggle" value="all" ?checked=${0}>All</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="none" ?checked=${this.color === 'none'}>None</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="accuracy" ?checked=${this.color === 'accuracy'}>Accuracy</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="stimulus" ?checked=${this.color === 'stimulus'}>Stimulus</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="response" ?checked=${this.color === 'response'}>Response</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="outcome" ?checked=${this.color === 'outcome'}>Outcome</decidables-toggle-option>
+              <decidables-toggle-option name="toggle" value="all" ?checked=${this.color === 'all'}>All</decidables-toggle-option>
             </decidables-toggle>
-          `), this.chooseColor.bind(this), this.color === 'none', this.color === 'accuracy', this.color === 'stimulus', this.color === 'response', this.color === 'outcome', this.color === 'all') : $(_t12$2 || (_t12$2 = _$e``)), this.zRoc !== undefined ? $(_t13$2 || (_t13$2 = _$e`
-            <decidables-switch ?checked=${0} @change=${0}>
+          ` : $``}
+        ${this.zRoc !== undefined ? $`
+            <decidables-switch ?checked=${this.zRoc} @change=${this.flipZRoc.bind(this)}>
               <span class="math-var">z</span>ROC
               <span slot="off-label">ROC</span>
             </decidables-switch>
-          `), this.zRoc, this.flipZRoc.bind(this)) : $(_t14$2 || (_t14$2 = _$e``)), this.run || this.pause || this.reset ? $(_t15$2 || (_t15$2 = _$e`
+          ` : $``}
+        ${this.run || this.pause || this.reset ? $`
             <div class="buttons">
-              ${0}
-              ${0}
-              ${0}
+              ${this.run ? $`<decidables-button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</decidables-button>` : $``}
+              ${this.pause ? $`<decidables-button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</decidables-button>` : $``}
+              ${this.reset ? $`<decidables-button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</decidables-button>` : $``}
             </div>
-          `), this.run ? $(_t16$2 || (_t16$2 = _$e`<decidables-button name="run" ?disabled=${0} @click=${0}>Run</decidables-button>`), this.state === 'running' || this.state === 'ended', this.doRun.bind(this)) : $(_t17$2 || (_t17$2 = _$e``)), this.pause ? $(_t18$2 || (_t18$2 = _$e`<decidables-button name="pause" ?disabled=${0} @click=${0}>Pause</decidables-button>`), this.state !== 'running', this.doPause.bind(this)) : $(_t19$2 || (_t19$2 = _$e``)), this.reset ? $(_t20$2 || (_t20$2 = _$e`<decidables-button name="reset" ?disabled=${0} @click=${0}>Reset</decidables-button>`), this.state === 'resetted', this.doReset.bind(this)) : $(_t21$1 || (_t21$1 = _$e``))) : $(_t22$1 || (_t22$1 = _$e``)));
+          ` : $``}
+      </div>`;
   }
-
 }
 customElements.define('detectable-control', DetectableControl);
 
-let _$d = t => t,
-    _t$d,
-    _t2$c;
 /*
   SDTModel element
   <sdt-model>
@@ -14422,7 +13888,6 @@ let _$d = t => t,
     Styles:
       ??
 */
-
 class SDTModel extends DetectableElement {
   static get properties() {
     return {
@@ -14518,75 +13983,51 @@ class SDTModel extends DetectableElement {
       }
     };
   }
-
   constructor() {
-    super(); // Attributes
+    super();
 
+    // Attributes
     this.colors = ['outcome', 'response', 'stimulus', 'none']; // Allowable values of 'color'
-
     this.color = 'outcome'; // How to color distributions and trials
-
     this.distributions = false; // Show distributions?
-
     this.threshold = false; // Show threshold?
-
     this.unequal = false; // Allow unequal variance?
-
     this.sensitivity = false; // Show d'?
-
     this.bias = false; // Show c?
-
     this.variance = false; // Show variance?
-
     this.histogram = false; // Show histogram?
 
     this.d = 1; // Sensitivity
-
     this.c = 0; // Bias
-
     this.s = 1; // Variance
+
     // Properties
-
     this.binWidth = 0.25; // Histogram bin width in units of evidence
-
     this.signals = ['present', 'absent']; // Allowable values of trial.signal
-
     this.responses = ['present', 'absent']; // Allowable values of trial.response
-
     this.trials = []; // Array of simulated trials
 
     this.width = NaN; // Width of component in pixels
-
     this.height = NaN; // Height of component in pixels
-
     this.rem = NaN; // Pixels per rem for component
+
     // Private
-
     this.muN = NaN; // Mean of noise distribution
-
     this.muS = NaN; // Mean of signal distribution
-
     this.l = NaN; // lambda (threshold location)
-
     this.hS = NaN; // Height of signal distribution
 
     this.binRange = [-3.0, 3.0]; // Range of histogram
-
     this.h = 0; // Hits
-
     this.m = 0; // Misses
-
     this.fa = 0; // False alarms
-
     this.cr = 0; // Correct rejections
 
     this.firstUpdate = true; // Are we waiting for the first update?
-
     this.drag = false; // Are we currently dragging?
 
     this.alignState();
   }
-
   reset() {
     this.trials = [];
     this.h = 0;
@@ -14594,7 +14035,6 @@ class SDTModel extends DetectableElement {
     this.fa = 0;
     this.cr = 0;
   }
-
   trial(trialNumber, signal, duration, wait, iti) {
     const trial = {};
     trial.new = true;
@@ -14604,12 +14044,11 @@ class SDTModel extends DetectableElement {
     trial.duration = duration;
     trial.wait = wait;
     trial.iti = iti;
-    trial.evidence = jstat.normal.sample(0, 1);
+    trial.evidence = jstatExports.normal.sample(0, 1);
     this.alignTrial(trial);
     this.trials.push(trial);
     this.requestUpdate();
   }
-
   alignTrial(trial) {
     if (trial.signal === 'present') {
       trial.trueEvidence = trial.evidence * this.s + this.muS;
@@ -14621,11 +14060,9 @@ class SDTModel extends DetectableElement {
       trial.response = trial.trueEvidence > this.l ? 'present' : 'absent';
       trial.outcome = trial.response === 'present' ? 'fa' : 'cr';
     }
-
     if (!trial.new) this[trial.outcome] += 1;
     return trial;
   }
-
   alignState() {
     this.far = SDTMath.dC2Far(this.d, this.c, this.s);
     this.hr = SDTMath.dC2Hr(this.d, this.c, this.s);
@@ -14637,14 +14074,12 @@ class SDTModel extends DetectableElement {
     this.m = 0;
     this.fa = 0;
     this.cr = 0;
-
     for (let i = 0; i < this.trials.length; i += 1) {
       this.alignTrial(this.trials[i]);
     }
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$d || (_t$d = _$d`
+    return [super.styles, r$2`
         :host {
           display: inline-block;
 
@@ -14886,16 +14321,14 @@ class SDTModel extends DetectableElement {
           text-anchor: middle;
           fill: currentColor;
         }
-      `))];
+      `];
   }
-
   render() {
     /* eslint-disable-line class-methods-use-this */
-    return $(_t2$c || (_t2$c = _$d`
-      ${0}
-    `), DetectableElement.svgFilters);
+    return $`
+      ${DetectableElement.svgFilters}
+    `;
   }
-
   sendEvent() {
     this.dispatchEvent(new CustomEvent('sdt-model-change', {
       detail: {
@@ -14912,44 +14345,41 @@ class SDTModel extends DetectableElement {
       bubbles: true
     }));
   }
-
   getDimensions() {
     this.width = parseFloat(this.getComputedStyleValue('width'), 10);
     this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10); // console.log(`sdt-model: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
+    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
+    // console.log(`sdt-model: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
   }
 
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener('resize', this.getDimensions.bind(this));
   }
-
   disconnectedCallback() {
     window.removeEventListener('resize', this.getDimensions.bind(this));
     super.disconnectedCallback();
   }
-
   firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties); // Get the width and height after initial render/update has occurred
+    super.firstUpdated(changedProperties);
 
+    // Get the width and height after initial render/update has occurred
     this.getDimensions();
   }
-
   update(changedProperties) {
     super.update(changedProperties);
-    this.alignState(); // Bail out if we can't get the width/height
+    this.alignState();
 
+    // Bail out if we can't get the width/height
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
       return;
     }
-
     const hostWidth = this.width;
     const hostHeight = this.height;
     const hostAspectRatio = hostWidth / hostHeight;
     const elementAspectRatio = 1.8;
     let elementWidth;
     let elementHeight;
-
     if (hostAspectRatio > elementAspectRatio) {
       elementHeight = hostHeight;
       elementWidth = elementHeight * elementAspectRatio;
@@ -14957,7 +14387,6 @@ class SDTModel extends DetectableElement {
       elementWidth = hostWidth;
       elementHeight = elementWidth / elementAspectRatio;
     }
-
     const margin = {
       top: 2 * this.rem,
       bottom: 3 * this.rem,
@@ -14966,20 +14395,23 @@ class SDTModel extends DetectableElement {
     };
     const height = elementHeight - (margin.top + margin.bottom);
     const width = elementWidth - (margin.left + margin.right);
-    const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10); // X Scale
+    const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10);
 
+    // X Scale
     const xScale = linear().domain([-3, 3]) // Evidence // FIX - no hardcoding
-    .range([0, width]); // Y Scale
+    .range([0, width]);
 
+    // Y Scale
     const yScale = linear().domain([0.5, 0]) // Probability // FIX - no hardcoding
-    .range([0, height]); // 2nd Y Scale
+    .range([0, height]);
 
+    // 2nd Y Scale
     const strokeWidth = 3; // FIX - no hardcoding
-
     const binWidth = xScale(this.binWidth) - xScale(0);
     const y2Scale = linear().domain([height / binWidth, 0]) // Number of Stimuli
-    .range([0, height]); // Threshold Drag behavior
+    .range([0, height]);
 
+    // Threshold Drag behavior
     const dragThreshold = drag().subject(() => {
       return {
         x: xScale(this.l),
@@ -14990,8 +14422,8 @@ class SDTModel extends DetectableElement {
       select(element).classed('dragging', true);
     }).on('drag', event => {
       this.drag = true;
-      let l = xScale.invert(event.x); // Clamp lambda to stay visible
-
+      let l = xScale.invert(event.x);
+      // Clamp lambda to stay visible
       l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
       this.c = SDTMath.l2C(l, this.s);
       this.alignState();
@@ -14999,8 +14431,9 @@ class SDTModel extends DetectableElement {
     }).on('end', event => {
       const element = event.currentTarget;
       select(element).classed('dragging', false);
-    }); // Noise Curve Drag behavior
+    });
 
+    // Noise Curve Drag behavior
     const dragNoise = drag().subject(() => {
       return {
         x: xScale(this.muN),
@@ -15011,8 +14444,8 @@ class SDTModel extends DetectableElement {
       select(element).classed('dragging', true);
     }).on('drag', event => {
       this.drag = true;
-      let muN = xScale.invert(event.x); // Clamp Noise Curve to stay visible
-
+      let muN = xScale.invert(event.x);
+      // Clamp Noise Curve to stay visible
       muN = muN < xScale.domain()[0] ? xScale.domain()[0] : muN > xScale.domain()[1] ? xScale.domain()[1] : muN;
       this.d = SDTMath.muN2D(muN, this.s);
       this.alignState();
@@ -15020,8 +14453,9 @@ class SDTModel extends DetectableElement {
     }).on('end', event => {
       const element = event.currentTarget;
       select(element).classed('dragging', false);
-    }); // Signal+Noise Curve Drag behavior
+    });
 
+    // Signal+Noise Curve Drag behavior
     const dragSignal = drag().subject(() => {
       return {
         x: xScale(this.muS),
@@ -15036,24 +14470,18 @@ class SDTModel extends DetectableElement {
       datum.startMuS = this.muS;
     }).on('drag', (event, datum) => {
       this.drag = true;
-      let muS = this.muS;
-      /* eslint-disable-line prefer-destructuring */
-
+      let muS = this.muS; /* eslint-disable-line prefer-destructuring */
       if (this.interactive) {
-        muS = xScale.invert(event.x); // Clamp Signal Curve to stay visible
-
+        muS = xScale.invert(event.x);
+        // Clamp Signal Curve to stay visible
         muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
       }
-
-      let hS = this.hS;
-      /* eslint-disable-line prefer-destructuring */
-
+      let hS = this.hS; /* eslint-disable-line prefer-destructuring */
       if (this.unequal) {
-        hS = yScale.invert(event.y); // Clamp Signal Curve to stay visible
-
+        hS = yScale.invert(event.y);
+        // Clamp Signal Curve to stay visible
         hS = hS < 0.01 ? 0.01 : hS > yScale.domain()[0] ? yScale.domain()[0] : hS;
       }
-
       if (this.interactive && this.unequal) {
         // Use shift key as modifier for single dimension
         if (event.sourceEvent.shiftKey) {
@@ -15064,157 +14492,162 @@ class SDTModel extends DetectableElement {
           }
         }
       }
-
       if (this.unequal) {
         this.s = SDTMath.h2S(hS);
         this.c = SDTMath.l2C(this.l, this.s);
       }
-
       this.d = SDTMath.muS2D(muS, this.s);
       this.alignState();
       this.sendEvent();
     }).on('end', event => {
       const element = event.currentTarget;
       select(element).classed('dragging', false);
-    }); // Line for Evidence/Probability Space
+    });
 
+    // Line for Evidence/Probability Space
     const line$1 = line().x(datum => {
       return xScale(datum.e);
     }).y(datum => {
       return yScale(datum.p);
-    }); // Svg
-    //  DATA-JOIN
+    });
 
+    // Svg
+    //  DATA-JOIN
     const svgUpdate = select(this.renderRoot).selectAll('.main').data([{
       width: this.width,
       height: this.height,
       rem: this.rem
-    }]); // ENTER
+    }]);
+    // ENTER
+    const svgEnter = svgUpdate.enter().append('svg').classed('main', true);
+    // MERGE
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`);
 
-    const svgEnter = svgUpdate.enter().append('svg').classed('main', true); // MERGE
-
-    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`); // Plot
+    // Plot
     //  ENTER
+    const plotEnter = svgEnter.append('g').classed('plot', true);
+    //  MERGE
+    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-    const plotEnter = svgEnter.append('g').classed('plot', true); //  MERGE
-
-    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`); // Underlayer
+    // Underlayer
     //  ENTER
+    const underlayerEnter = plotEnter.append('g').classed('underlayer', true);
+    // MERGE
+    const underlayerMerge = plotMerge.select('.underlayer');
 
-    const underlayerEnter = plotEnter.append('g').classed('underlayer', true); // MERGE
-
-    const underlayerMerge = plotMerge.select('.underlayer'); // Background
+    // Background
     //  ENTER
+    underlayerEnter.append('rect').classed('background', true);
+    //  MERGE
+    underlayerMerge.select('.background').attr('height', height).attr('width', width);
 
-    underlayerEnter.append('rect').classed('background', true); //  MERGE
-
-    underlayerMerge.select('.background').attr('height', height).attr('width', width); // X Axis
+    // X Axis
     //  ENTER
-
-    underlayerEnter.append('g').classed('axis-x', true); //  MERGE
-
+    underlayerEnter.append('g').classed('axis-x', true);
+    //  MERGE
     const axisXMerge = underlayerMerge.select('.axis-x').attr('transform', `translate(0, ${height})`).call(axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
-    axisXMerge.selectAll('line, path').attr('stroke', null); // X Axis Title
+    axisXMerge.selectAll('line, path').attr('stroke', null);
+
+    // X Axis Title
     //  ENTER
+    underlayerEnter.append('text').classed('title-x', true).attr('text-anchor', 'middle').text('Evidence');
+    //  MERGE
+    underlayerMerge.select('.title-x').attr('transform', `translate(${width / 2}, ${height + 2.25 * this.rem})`);
 
-    underlayerEnter.append('text').classed('title-x', true).attr('text-anchor', 'middle').text('Evidence'); //  MERGE
-
-    underlayerMerge.select('.title-x').attr('transform', `translate(${width / 2}, ${height + 2.25 * this.rem})`); // Y Axis
+    // Y Axis
     //  DATA-JOIN
-
-    const axisYUpdate = underlayerMerge.selectAll('.axis-y').data(this.distributions ? [{}] : []); //  ENTER
-
-    const axisYEnter = axisYUpdate.enter().append('g').classed('axis-y', true); //  MERGE
-
+    const axisYUpdate = underlayerMerge.selectAll('.axis-y').data(this.distributions ? [{}] : []);
+    //  ENTER
+    const axisYEnter = axisYUpdate.enter().append('g').classed('axis-y', true);
+    //  MERGE
     const axisYMerge = axisYEnter.merge(axisYUpdate).call(axisLeft(yScale).ticks(5)).attr('font-size', null).attr('font-family', null);
-    axisYMerge.selectAll('line, path').attr('stroke', null); //  EXIT
+    axisYMerge.selectAll('line, path').attr('stroke', null);
+    //  EXIT
+    axisYUpdate.exit().remove();
 
-    axisYUpdate.exit().remove(); // Y Axis Title
+    // Y Axis Title
     //  DATA-JOIN
-
-    const titleYUpdate = underlayerMerge.selectAll('.title-y').data(this.distributions ? [{}] : []); //  ENTER
-
-    const titleYEnter = titleYUpdate.enter().append('text').classed('title-y', true).attr('text-anchor', 'middle').text('Probability'); //  MERGE
-
-    titleYEnter.merge(titleYUpdate).attr('transform', `translate(${-2 * this.rem}, ${height / 2})rotate(-90)`); //  EXIT
-
-    titleYUpdate.exit().remove(); // 2nd Y Axis
-    //  DATA-JOIN
-
-    const axisY2Update = underlayerMerge.selectAll('.axis-y2').data(this.histogram ? [{}] : []); //  ENTER
-
-    const axisY2Enter = axisY2Update.enter().append('g').classed('axis-y2', true); //  MERGE
-
-    const axisY2Merge = axisY2Enter.merge(axisY2Update).attr('transform', this.distributions ? `translate(${width}, 0)` : '').call(this.distributions ? axisRight(y2Scale).ticks(10) : axisLeft(y2Scale).ticks(10)).attr('font-size', null).attr('font-family', null);
-    axisY2Merge.selectAll('line, path').attr('stroke', null); //  EXIT
-
-    axisY2Update.exit().remove(); // 2nd Y Axis Title
-    //  DATA-JOIN
-
-    const titleY2Update = underlayerMerge.selectAll('.title-y2').data(this.histogram ? [{}] : []); //  ENTER
-
-    const titleY2Enter = titleY2Update.enter().append('text').classed('title-y2', true).attr('text-anchor', 'middle').text('Count'); //  MERGE
-
-    titleY2Enter.merge(titleY2Update).attr('transform', this.distributions ? `translate(${width + 1.5 * this.rem}, ${height / 2})rotate(90)` : `translate(${-1.5 * this.rem}, ${height / 2})rotate(-90)`); //  EXIT
-
-    titleY2Update.exit().remove(); // Plot Content
-
-    plotEnter.append('g').classed('content', true); //  MERGE
-
-    const contentMerge = plotMerge.select('.content'); // Noise & Signal + Noise Distributions
-    //  DATA-JOIN
-
-    const signalNoiseUpdate = contentMerge.selectAll('.signal-noise').data(this.distributions ? [{}] : []); //  ENTER
-
-    const signalNoiseEnter = signalNoiseUpdate.enter().append('g').classed('signal-noise', true); //  MERGE
-
-    const signalNoiseMerge = signalNoiseEnter.merge(signalNoiseUpdate); //  EXIT
-
-    signalNoiseUpdate.exit().remove(); // Noise Distribution
+    const titleYUpdate = underlayerMerge.selectAll('.title-y').data(this.distributions ? [{}] : []);
     //  ENTER
+    const titleYEnter = titleYUpdate.enter().append('text').classed('title-y', true).attr('text-anchor', 'middle').text('Probability');
+    //  MERGE
+    titleYEnter.merge(titleYUpdate).attr('transform', `translate(${-2 * this.rem}, ${height / 2})rotate(-90)`);
+    //  EXIT
+    titleYUpdate.exit().remove();
 
-    const noiseEnter = signalNoiseEnter.append('g').classed('noise', true); //  MERGE
+    // 2nd Y Axis
+    //  DATA-JOIN
+    const axisY2Update = underlayerMerge.selectAll('.axis-y2').data(this.histogram ? [{}] : []);
+    //  ENTER
+    const axisY2Enter = axisY2Update.enter().append('g').classed('axis-y2', true);
+    //  MERGE
+    const axisY2Merge = axisY2Enter.merge(axisY2Update).attr('transform', this.distributions ? `translate(${width}, 0)` : '').call(this.distributions ? axisRight(y2Scale).ticks(10) : axisLeft(y2Scale).ticks(10)).attr('font-size', null).attr('font-family', null);
+    axisY2Merge.selectAll('line, path').attr('stroke', null);
+    //  EXIT
+    axisY2Update.exit().remove();
 
+    // 2nd Y Axis Title
+    //  DATA-JOIN
+    const titleY2Update = underlayerMerge.selectAll('.title-y2').data(this.histogram ? [{}] : []);
+    //  ENTER
+    const titleY2Enter = titleY2Update.enter().append('text').classed('title-y2', true).attr('text-anchor', 'middle').text('Count');
+    //  MERGE
+    titleY2Enter.merge(titleY2Update).attr('transform', this.distributions ? `translate(${width + 1.5 * this.rem}, ${height / 2})rotate(90)` : `translate(${-1.5 * this.rem}, ${height / 2})rotate(-90)`);
+    //  EXIT
+    titleY2Update.exit().remove();
+
+    // Plot Content
+    plotEnter.append('g').classed('content', true);
+    //  MERGE
+    const contentMerge = plotMerge.select('.content');
+
+    // Noise & Signal + Noise Distributions
+    //  DATA-JOIN
+    const signalNoiseUpdate = contentMerge.selectAll('.signal-noise').data(this.distributions ? [{}] : []);
+    //  ENTER
+    const signalNoiseEnter = signalNoiseUpdate.enter().append('g').classed('signal-noise', true);
+    //  MERGE
+    const signalNoiseMerge = signalNoiseEnter.merge(signalNoiseUpdate);
+    //  EXIT
+    signalNoiseUpdate.exit().remove();
+
+    // Noise Distribution
+    //  ENTER
+    const noiseEnter = signalNoiseEnter.append('g').classed('noise', true);
+    //  MERGE
     const noiseMerge = signalNoiseMerge.selectAll('.noise').attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive).on('keydown', this.interactive ? event => {
       if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-        let muN = this.muN;
-        /* eslint-disable-line prefer-destructuring */
-
+        let muN = this.muN; /* eslint-disable-line prefer-destructuring */
         switch (event.key) {
           case 'ArrowRight':
             muN += event.shiftKey ? 0.01 : 0.1;
             break;
-
           case 'ArrowLeft':
             muN -= event.shiftKey ? 0.01 : 0.1;
             break;
-        } // Clamp C to visible extent
-
-
+        }
+        // Clamp C to visible extent
         muN = muN < xScale.domain()[0] ? xScale.domain()[0] : muN > xScale.domain()[1] ? xScale.domain()[1] : muN;
-
         if (muN !== this.muN) {
           this.d = SDTMath.muN2D(muN, this.s);
           this.alignState();
           this.sendEvent();
         }
-
         event.preventDefault();
       }
     } : null);
-
     if (this.firstUpdate || changedProperties.has('interactive')) {
       if (this.interactive) {
         noiseMerge.call(dragNoise);
       } else {
         noiseMerge.on('.drag', null);
       }
-    } // CR Curve
+    }
+
+    // CR Curve
     //  ENTER
-
-
-    noiseEnter.append('path').classed('curve-cr', true); //  MERGE
-
+    noiseEnter.append('path').classed('curve-cr', true);
+    //  MERGE
     noiseMerge.select('.curve-cr').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
       const element = elements[index];
       const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
@@ -15227,12 +14660,12 @@ class SDTModel extends DetectableElement {
         const correctRejections = range(xScale.domain()[0], SDTMath.c2L(element.c, element.s), 0.05).map(e => {
           return {
             e: e,
-            p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
+            p: jstatExports.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
           };
         });
         correctRejections.push({
           e: SDTMath.c2L(element.c, element.s),
-          p: jstat.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuN(element.d, element.s), 1)
+          p: jstatExports.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuN(element.d, element.s), 1)
         });
         correctRejections.push({
           e: SDTMath.c2L(element.c, element.s),
@@ -15244,11 +14677,12 @@ class SDTModel extends DetectableElement {
         });
         return line$1(correctRejections);
       };
-    }); // FA Curve
+    });
+
+    // FA Curve
     //  ENTER
-
-    noiseEnter.append('path').classed('curve-fa', true); //  MERGE
-
+    noiseEnter.append('path').classed('curve-fa', true);
+    //  MERGE
     noiseMerge.select('.curve-fa').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
       const element = elements[index];
       const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
@@ -15261,12 +14695,12 @@ class SDTModel extends DetectableElement {
         const falseAlarms = range(SDTMath.c2L(element.c, element.s), xScale.domain()[1], 0.05).map(e => {
           return {
             e: e,
-            p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
+            p: jstatExports.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
           };
         });
         falseAlarms.push({
           e: xScale.domain()[1],
-          p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
+          p: jstatExports.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
         });
         falseAlarms.push({
           e: xScale.domain()[1],
@@ -15278,11 +14712,12 @@ class SDTModel extends DetectableElement {
         });
         return line$1(falseAlarms);
       };
-    }); // Noise Curve
+    });
+
+    // Noise Curve
     //  ENTER
-
-    noiseEnter.append('path').classed('curve-noise', true); //  MERGE
-
+    noiseEnter.append('path').classed('curve-noise', true);
+    //  MERGE
     noiseMerge.select('.curve-noise').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
       const element = elements[index];
       const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
@@ -15293,64 +14728,54 @@ class SDTModel extends DetectableElement {
         const noise = range(xScale.domain()[0], xScale.domain()[1], 0.05).map(e => {
           return {
             e: e,
-            p: jstat.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
+            p: jstatExports.normal.pdf(e, SDTMath.d2MuN(element.d, element.s), 1)
           };
         });
         noise.push({
           e: xScale.domain()[1],
-          p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
+          p: jstatExports.normal.pdf(xScale.domain()[1], SDTMath.d2MuN(element.d, element.s), 1)
         });
         return line$1(noise);
       };
-    }); // Signal + Noise Distribution
+    });
+
+    // Signal + Noise Distribution
     //  ENTER
-
-    const signalEnter = signalNoiseEnter.append('g').classed('signal', true); //  MERGE
-
+    const signalEnter = signalNoiseEnter.append('g').classed('signal', true);
+    //  MERGE
     const signalMerge = signalNoiseMerge.selectAll('.signal').attr('tabindex', this.interactive || this.unequal ? 0 : null).classed('interactive', this.interactive).classed('unequal', this.unequal).on('keydown.sensitivity', this.interactive ? event => {
       if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-        let muS = this.muS;
-        /* eslint-disable-line prefer-destructuring */
-
+        let muS = this.muS; /* eslint-disable-line prefer-destructuring */
         switch (event.key) {
           case 'ArrowRight':
             muS += event.shiftKey ? 0.01 : 0.1;
             break;
-
           case 'ArrowLeft':
             muS -= event.shiftKey ? 0.01 : 0.1;
             break;
-        } // Clamp C to visible extent
-
-
+        }
+        // Clamp C to visible extent
         muS = muS < xScale.domain()[0] ? xScale.domain()[0] : muS > xScale.domain()[1] ? xScale.domain()[1] : muS;
-
         if (muS !== this.muS) {
           this.d = SDTMath.muS2D(muS, this.s);
           this.alignState();
           this.sendEvent();
         }
-
         event.preventDefault();
       }
     } : null).on('keydown.variance', this.unequal ? event => {
       if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-        let hS = this.hS;
-        /* eslint-disable-line prefer-destructuring */
-
+        let hS = this.hS; /* eslint-disable-line prefer-destructuring */
         switch (event.key) {
           case 'ArrowUp':
             hS += event.shiftKey ? 0.002 : 0.02;
             break;
-
           case 'ArrowDown':
             hS -= event.shiftKey ? 0.002 : 0.02;
             break;
-        } // Clamp s so distribution stays visible
-
-
+        }
+        // Clamp s so distribution stays visible
         hS = hS < 0.01 ? 0.01 : hS > yScale.domain()[0] ? yScale.domain()[0] : hS;
-
         if (hS !== this.hS) {
           this.s = SDTMath.h2S(hS);
           this.d = SDTMath.muN2D(this.muN, this.s);
@@ -15358,23 +14783,21 @@ class SDTModel extends DetectableElement {
           this.alignState();
           this.sendEvent();
         }
-
         event.preventDefault();
       }
     } : null);
-
     if (this.firstUpdate || changedProperties.has('interactive') || changedProperties.has('unequal')) {
       if (this.interactive || this.unequal) {
         signalMerge.call(dragSignal);
       } else {
         signalMerge.on('.drag', null);
       }
-    } // M Curve
+    }
+
+    // M Curve
     //  ENTER
-
-
-    signalEnter.append('path').classed('curve-m', true); //  MERGE
-
+    signalEnter.append('path').classed('curve-m', true);
+    //  MERGE
     signalMerge.select('.curve-m').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
       const element = elements[index];
       const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
@@ -15387,12 +14810,12 @@ class SDTModel extends DetectableElement {
         const misses = range(xScale.domain()[0], SDTMath.c2L(element.c, element.s), 0.05).map(e => {
           return {
             e: e,
-            p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
+            p: jstatExports.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
           };
         });
         misses.push({
           e: SDTMath.c2L(element.c, element.s),
-          p: jstat.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuS(element.d, element.s), element.s)
+          p: jstatExports.normal.pdf(SDTMath.c2L(element.c, element.s), SDTMath.d2MuS(element.d, element.s), element.s)
         });
         misses.push({
           e: SDTMath.c2L(element.c, element.s),
@@ -15404,11 +14827,12 @@ class SDTModel extends DetectableElement {
         });
         return line$1(misses);
       };
-    }); // H Curve
+    });
+
+    // H Curve
     //  ENTER
-
-    signalEnter.append('path').classed('curve-h', true); //  MERGE
-
+    signalEnter.append('path').classed('curve-h', true);
+    //  MERGE
     signalMerge.select('.curve-h').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
       const element = elements[index];
       const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
@@ -15421,12 +14845,12 @@ class SDTModel extends DetectableElement {
         const hits = range(SDTMath.c2L(element.c, element.s), xScale.domain()[1], 0.05).map(e => {
           return {
             e: e,
-            p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
+            p: jstatExports.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
           };
         });
         hits.push({
           e: xScale.domain()[1],
-          p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
+          p: jstatExports.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
         });
         hits.push({
           e: xScale.domain()[1],
@@ -15438,11 +14862,12 @@ class SDTModel extends DetectableElement {
         });
         return line$1(hits);
       };
-    }); // Signal Curve
+    });
+
+    // Signal Curve
     //  ENTER
-
-    signalEnter.append('path').classed('curve-signal', true); //  MERGE
-
+    signalEnter.append('path').classed('curve-signal', true);
+    //  MERGE
     signalMerge.select('.curve-signal').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
       const element = elements[index];
       const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
@@ -15453,20 +14878,21 @@ class SDTModel extends DetectableElement {
         const signal = range(xScale.domain()[0], xScale.domain()[1], 0.05).map(e => {
           return {
             e: e,
-            p: jstat.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
+            p: jstatExports.normal.pdf(e, SDTMath.d2MuS(element.d, element.s), element.s)
           };
         });
         signal.push({
           e: xScale.domain()[1],
-          p: jstat.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
+          p: jstatExports.normal.pdf(xScale.domain()[1], SDTMath.d2MuS(element.d, element.s), element.s)
         });
         return line$1(signal);
       };
-    }); // d' Measure
+    });
+
+    // d' Measure
     //  DATA-JOIN
-
-    const dUpdate = contentMerge.selectAll('.measure-d').data(this.sensitivity ? [{}] : []); //  ENTER
-
+    const dUpdate = contentMerge.selectAll('.measure-d').data(this.sensitivity ? [{}] : []);
+    //  ENTER
     const dEnter = dUpdate.enter().append('g').classed('measure-d', true);
     dEnter.append('line').classed('line', true);
     dEnter.append('line').classed('cap-left', true);
@@ -15474,20 +14900,16 @@ class SDTModel extends DetectableElement {
     const dLabel = dEnter.append('text').classed('label', true);
     dLabel.append('tspan').classed('d math-var', true).text('d′');
     dLabel.append('tspan').classed('equals', true).text(' = ');
-    dLabel.append('tspan').classed('value', true); //  MERGE
-
+    dLabel.append('tspan').classed('value', true);
+    //  MERGE
     const dMerge = dEnter.merge(dUpdate);
     dMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43)) // FIX - no hardcoding
     .attr('x2', xScale(this.muS)).attr('y2', yScale(0.43)); // FIX - no hardcoding
-
     dMerge.select('.cap-left').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muN)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
     .attr('x2', xScale(this.muN)).attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
-
     dMerge.select('.cap-right').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS)).attr('y1', yScale(0.43) + 5) // FIX - no hardcoding
     .attr('x2', xScale(this.muS)).attr('y2', yScale(0.43) - 5); // FIX - no hardcoding
-
     const dLabelTransition = dMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(this.muN > this.muS ? this.muN : this.muS) + 5).attr('y', yScale(0.43) + 3); // FIX - no hardcoding
-
     dLabelTransition.select('.value').tween('text', (datum, index, elements) => {
       const element = elements[index];
       const interpolateD = interpolate$1(element.d !== undefined ? element.d : this.d, this.d);
@@ -15495,28 +14917,27 @@ class SDTModel extends DetectableElement {
         element.d = interpolateD(time);
         select(element).text(format('.3')(element.d));
       };
-    }); //  EXIT
+    });
+    //  EXIT
+    dUpdate.exit().remove();
 
-    dUpdate.exit().remove(); // c Measure
+    // c Measure
     //  DATA-JOIN
-
-    const cUpdate = contentMerge.selectAll('.measure-c').data(this.bias ? [{}] : []); //  ENTER
-
+    const cUpdate = contentMerge.selectAll('.measure-c').data(this.bias ? [{}] : []);
+    //  ENTER
     const cEnter = cUpdate.enter().append('g').classed('measure-c', true);
     cEnter.append('line').classed('line', true);
     cEnter.append('line').classed('cap-zero', true);
     const cLabel = cEnter.append('text').classed('label', true);
     cLabel.append('tspan').classed('c math-var', true).text('c');
     cLabel.append('tspan').classed('equals', true).text(' = ');
-    cLabel.append('tspan').classed('value', true); //  MERGE
-
+    cLabel.append('tspan').classed('value', true);
+    //  MERGE
     const cMerge = cEnter.merge(cUpdate);
     cMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0.47)) // FIX - no hardcoding
     .attr('x2', xScale(0)).attr('y2', yScale(0.47)); // FIX - no hardcoding
-
     cMerge.select('.cap-zero').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(0)).attr('y1', yScale(0.47) + 5) // FIX - no hardcoding
     .attr('x2', xScale(0)).attr('y2', yScale(0.47) - 5); // FIX - no hardcoding
-
     const cLabelTransition = cMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(0) + (this.l < 0 ? 5 : -5)).attr('y', yScale(0.47) + 3) // FIX - no hardcoding
     .attr('text-anchor', this.c < 0 ? 'start' : 'end');
     cLabelTransition.select('.value').tween('text', (datum, index, elements) => {
@@ -15526,13 +14947,14 @@ class SDTModel extends DetectableElement {
         element.c = interpolateC(time);
         select(element).text(format('.3')(element.c));
       };
-    }); //  EXIT
+    });
+    //  EXIT
+    cUpdate.exit().remove();
 
-    cUpdate.exit().remove(); // s Measure
+    // s Measure
     //  DATA-JOIN
-
-    const sUpdate = contentMerge.selectAll('.measure-s').data(this.variance ? [{}] : []); //  ENTER
-
+    const sUpdate = contentMerge.selectAll('.measure-s').data(this.variance ? [{}] : []);
+    //  ENTER
     const sEnter = sUpdate.enter().append('g').classed('measure-s', true);
     sEnter.append('line').classed('line', true);
     sEnter.append('line').classed('cap-left', true);
@@ -15540,20 +14962,16 @@ class SDTModel extends DetectableElement {
     const sLabel = sEnter.append('text').classed('label', true);
     sLabel.append('tspan').classed('s math-var', true).text('σ');
     sLabel.append('tspan').classed('equals', true).text(' = ');
-    sLabel.append('tspan').classed('value', true); //  MERGE
-
+    sLabel.append('tspan').classed('value', true);
+    //  MERGE
     const sMerge = sEnter.merge(sUpdate);
-    sMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s) // FIX - no hardcoding
-    .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s); // FIX - no hardcoding
-
-    sMerge.select('.cap-left').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
-    .attr('x2', xScale(this.muS - this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
-
-    sMerge.select('.cap-right').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS + this.s)).attr('y1', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
-    .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
-
-    const sLabelTransition = sMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(this.muS)).attr('y', yScale(jstat.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 3); // FIX - no hardcoding
-
+    sMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstatExports.normal.pdf(this.s, 0, this.s)) + 10 / this.s) // FIX - no hardcoding
+    .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstatExports.normal.pdf(this.s, 0, this.s)) + 10 / this.s); // FIX - no hardcoding
+    sMerge.select('.cap-left').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS - this.s)).attr('y1', yScale(jstatExports.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
+    .attr('x2', xScale(this.muS - this.s)).attr('y2', yScale(jstatExports.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
+    sMerge.select('.cap-right').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.muS + this.s)).attr('y1', yScale(jstatExports.normal.pdf(this.s, 0, this.s)) + 10 / this.s + 5) // FIX - no hardcoding
+    .attr('x2', xScale(this.muS + this.s)).attr('y2', yScale(jstatExports.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 5); // FIX - no hardcoding
+    const sLabelTransition = sMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', xScale(this.muS)).attr('y', yScale(jstatExports.normal.pdf(this.s, 0, this.s)) + 10 / this.s - 3); // FIX - no hardcoding
     sLabelTransition.select('.value').tween('text', (datum, index, elements) => {
       const element = elements[index];
       const interpolateS = interpolate$1(element.s !== undefined ? element.s : this.s, this.s);
@@ -15561,45 +14979,39 @@ class SDTModel extends DetectableElement {
         element.s = interpolateS(time);
         select(element).text(format('.3')(element.s));
       };
-    }); //  EXIT
+    });
+    //  EXIT
+    sUpdate.exit().remove();
 
-    sUpdate.exit().remove(); // Threshold Line
+    // Threshold Line
     //  DATA-JOIN
-
-    const thresholdUpdate = contentMerge.selectAll('.threshold').data(this.threshold ? [{}] : []); //  ENTER
-
+    const thresholdUpdate = contentMerge.selectAll('.threshold').data(this.threshold ? [{}] : []);
+    //  ENTER
     const thresholdEnter = thresholdUpdate.enter().append('g').classed('threshold', true);
     thresholdEnter.append('line').classed('line', true);
-    thresholdEnter.append('circle').classed('handle', true); //  MERGE
-
+    thresholdEnter.append('circle').classed('handle', true);
+    //  MERGE
     const thresholdMerge = thresholdEnter.merge(thresholdUpdate).attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive);
-
     if (this.firstUpdate || changedProperties.has('interactive')) {
       if (this.interactive) {
         thresholdMerge.call(dragThreshold).on('keydown', event => {
           if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-            let l = this.l;
-            /* eslint-disable-line prefer-destructuring */
-
+            let l = this.l; /* eslint-disable-line prefer-destructuring */
             switch (event.key) {
               case 'ArrowRight':
                 l += event.shiftKey ? 0.01 : 0.1;
                 break;
-
               case 'ArrowLeft':
                 l -= event.shiftKey ? 0.01 : 0.1;
                 break;
-            } // Clamp C to visible extent
-
-
+            }
+            // Clamp C to visible extent
             l = l < xScale.domain()[0] ? xScale.domain()[0] : l > xScale.domain()[1] ? xScale.domain()[1] : l;
-
             if (l !== this.l) {
               this.c = SDTMath.l2C(l, this.s);
               this.alignState();
               this.sendEvent();
             }
-
             event.preventDefault();
           }
         });
@@ -15607,21 +15019,22 @@ class SDTModel extends DetectableElement {
         thresholdMerge.on('drag', null).on('keydown', null);
       }
     }
-
     thresholdMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', xScale(this.l)).attr('y1', yScale(0)).attr('x2', xScale(this.l)).attr('y2', yScale(0.54));
-    thresholdMerge.select('.handle').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('cx', xScale(this.l)).attr('cy', yScale(0.54)); //  EXIT
+    thresholdMerge.select('.handle').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('cx', xScale(this.l)).attr('cy', yScale(0.54));
+    //  EXIT
+    thresholdUpdate.exit().remove();
 
-    thresholdUpdate.exit().remove(); // Histogram
+    // Histogram
     //  DATA-JOIN
+    const histogramUpdate = contentMerge.selectAll('.histogram').data(this.histogram ? [{}] : []);
+    //  ENTER
+    const histogramEnter = histogramUpdate.enter().append('g').classed('histogram', true);
+    //  MERGE
+    const histogramMerge = histogramEnter.merge(histogramUpdate);
+    //  EXIT
+    histogramUpdate.exit().remove();
 
-    const histogramUpdate = contentMerge.selectAll('.histogram').data(this.histogram ? [{}] : []); //  ENTER
-
-    const histogramEnter = histogramUpdate.enter().append('g').classed('histogram', true); //  MERGE
-
-    const histogramMerge = histogramEnter.merge(histogramUpdate); //  EXIT
-
-    histogramUpdate.exit().remove(); // Trials
-
+    // Trials
     if (this.histogram) {
       const histogram = bin().value(datum => {
         return datum.trueEvidence;
@@ -15629,7 +15042,6 @@ class SDTModel extends DetectableElement {
       const hist = histogram(this.trials);
       let binCountLeft = -1;
       let binCountRight = -1;
-
       for (let i = 0; i < hist.length; i += 1) {
         for (let j = 0; j < hist[i].length; j += 1) {
           hist[i][j].binValue = hist[i].x0;
@@ -15637,52 +15049,45 @@ class SDTModel extends DetectableElement {
           if (i === 0) binCountLeft = j;
           if (i === hist.length - 1) binCountRight = j;
         }
-      } // Put out-of-range values in extreme left/right bins
-
-
+      }
+      // Put out-of-range values in extreme left/right bins
       for (let i = 0; i < this.trials.length; i += 1) {
         if (this.trials[i].trueEvidence < this.binRange[0]) {
           binCountLeft += 1;
           this.trials[i].binCount = binCountLeft;
           this.trials[i].binValue = hist[0].x0;
         }
-
         if (this.trials[i].trueEvidence > this.binRange[1]) {
           binCountRight += 1;
           this.trials[i].binCount = binCountRight;
           this.trials[i].binValue = hist[hist.length - 1].x0;
         }
-      } //  DATA-JOIN
-
-
+      }
+      //  DATA-JOIN
       const trialUpdate = histogramMerge.selectAll('.trial').data(this.trials, datum => {
         return datum.trial;
-      }); //  ENTER
-
+      });
+      //  ENTER
       const trialEnter = trialUpdate.enter().append('rect').attr('stroke-width', strokeWidth).attr('data-new-trial-ease-time', 0) // use 'data-trial-enter'
-      .attr('stroke', this.getComputedStyleValue('---color-acc')).attr('fill', this.getComputedStyleValue('---color-acc-light')); //  MERGE
-
+      .attr('stroke', this.getComputedStyleValue('---color-acc')).attr('fill', this.getComputedStyleValue('---color-acc-light'));
+      //  MERGE
       const trialMerge = trialEnter.merge(trialUpdate).attr('class', datum => {
         return `trial ${datum.outcome}`;
-      }).attr('width', binWidth - strokeWidth).attr('height', binWidth - strokeWidth); //  MERGE - Active New Trials
-
+      }).attr('width', binWidth - strokeWidth).attr('height', binWidth - strokeWidth);
+      //  MERGE - Active New Trials
       const trialMergeNewActive = trialMerge.filter(datum => {
         return datum.new && !datum.paused;
       });
-
       if (!trialMergeNewActive.empty()) {
         const easeTime = trialMergeNewActive.attr('data-new-trial-ease-time');
-
         const scaleIn = time => {
           return linear().domain([0, 1]).range([easeTime, 1])(time);
         };
-
         const scaleOutGenerator = easeFunction => {
           return time => {
             return linear().domain([easeFunction(easeTime), 1]).range([0, 1])(easeFunction(time));
           };
         };
-
         trialMergeNewActive.transition('new').duration(datum => {
           return Math.floor((datum.duration * 0.75 + datum.wait * 0.25) * (1 - easeTime));
         }).ease(scaleIn).attr('data-new-trial-ease-time', 1).attrTween('stroke', (datum, index, elements) => {
@@ -15728,13 +15133,11 @@ class SDTModel extends DetectableElement {
             bubbles: true
           }));
         });
-      } // MERGE - Paused New Trials
-
-
+      }
+      // MERGE - Paused New Trials
       const trialMergeNewPaused = trialMerge.filter(datum => {
         return datum.new && datum.paused;
       });
-
       if (!trialMergeNewPaused.empty()) {
         const easeTime = trialMergeNewPaused.attr('data-new-trial-ease-time');
         trialMergeNewPaused.transition().duration(transitionDuration).ease(cubicOut).attr('x', datum => {
@@ -15750,9 +15153,8 @@ class SDTModel extends DetectableElement {
           const interpolator = interpolateRgb(this.getComputedStyleValue('---color-acc-light'), this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr-light') : this.getComputedStyleValue('---color-far-light') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}-light`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}-light`) : this.getComputedStyleValue('---color-acc-light'));
           return interpolator(cubicIn(easeTime));
         });
-      } //  MERGE - Old Trials
-
-
+      }
+      //  MERGE - Old Trials
       trialMerge.filter(datum => {
         return !datum.new;
       }).transition().duration(transitionDuration).ease(cubicOut).attr('x', datum => {
@@ -15763,8 +15165,8 @@ class SDTModel extends DetectableElement {
         return this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr') : this.getComputedStyleValue('---color-far') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}`) : this.getComputedStyleValue('---color-acc');
       }).attr('fill', datum => {
         return this.color === 'stimulus' ? datum.signal === 'present' ? this.getComputedStyleValue('---color-hr-light') : this.getComputedStyleValue('---color-far-light') : this.color === 'response' ? this.getComputedStyleValue(`---color-${datum.response}-light`) : this.color === 'outcome' ? this.getComputedStyleValue(`---color-${datum.outcome}-light`) : this.getComputedStyleValue('---color-acc-light');
-      }); //  EXIT
-
+      });
+      //  EXIT
       trialUpdate.exit().transition().duration(transitionDuration).ease(linear$1).attrTween('stroke', (datum, index, elements) => {
         const element = elements[index];
         const interpolator = interpolateRgb(element.getAttribute('stroke'), this.getComputedStyleValue('---color-acc'));
@@ -15790,23 +15192,24 @@ class SDTModel extends DetectableElement {
           return interpolator(cubicOut(time));
         };
       }).remove();
-    } // Overlayer
+    }
+
+    // Overlayer
     //  ENTER
+    const overlayerEnter = plotEnter.append('g').classed('overlayer', true);
+    // MERGE
+    const overlayerMerge = plotMerge.select('.overlayer');
 
-
-    const overlayerEnter = plotEnter.append('g').classed('overlayer', true); // MERGE
-
-    const overlayerMerge = plotMerge.select('.overlayer'); // Background
+    // Background
     //  ENTER
-
-    overlayerEnter.append('rect').classed('background', true); //  MERGE
-
+    overlayerEnter.append('rect').classed('background', true);
+    //  MERGE
     overlayerMerge.select('.background').attr('height', height).attr('width', width);
     this.drag = false;
     this.firstUpdate = false;
-  } // Called to pause trial animations!
+  }
 
-
+  // Called to pause trial animations!
   pauseTrial() {
     const trialNew = select(this.renderRoot).select('.trial[data-new-trial-ease-time]');
     trialNew.interrupt('new');
@@ -15814,9 +15217,9 @@ class SDTModel extends DetectableElement {
       datum.paused = true;
       return datum;
     });
-  } // Called to resume trial animations!
+  }
 
-
+  // Called to resume trial animations!
   resumeTrial() {
     const trialNew = select(this.renderRoot).select('.trial[data-new-trial-ease-time]');
     trialNew.datum(datum => {
@@ -15825,31 +15228,9 @@ class SDTModel extends DetectableElement {
     });
     this.requestUpdate();
   }
-
 }
 customElements.define('sdt-model', SDTModel);
 
-let _$c = t => t,
-    _t$c,
-    _t2$b,
-    _t3$a,
-    _t4$a,
-    _t5$a,
-    _t6$a,
-    _t7$a,
-    _t8$6,
-    _t9$6,
-    _t10$6,
-    _t11$6,
-    _t12$1,
-    _t13$1,
-    _t14$1,
-    _t15$1,
-    _t16$1,
-    _t17$1,
-    _t18$1,
-    _t19$1,
-    _t20$1;
 /*
   DetectableResponse element
   <detectable-response>
@@ -15857,7 +15238,6 @@ let _$c = t => t,
   Attributes:
 
 */
-
 class DetectableResponse extends DetectableElement {
   static get properties() {
     return {
@@ -15918,66 +15298,45 @@ class DetectableResponse extends DetectableElement {
       }
     };
   }
-
   constructor() {
-    super(); // Attributes
+    super();
 
+    // Attributes
     this.feedbacks = ['none', 'accuracy', 'outcome']; // Possible values for 'feedback'
-
     this.feedback = 'outcome'; // What feedback to display
-
     this.trial = false; // Show trial count?
-
     this.payoffs = ['none', 'trial', 'total']; // Possible types of 'payoff' info
-
     this.payoff = 'none'; // What payoff info to display
 
     this.hPayoff = 0; // Hit payoff
-
     this.mPayoff = 0; // Miss payoff
-
     this.crPayoff = 0; // Correct Rejection payoff
-
     this.faPayoff = 0; // False Alarm payoff
-
     this.nrPayoff = 0; // No Response payoff
+
     // Properties
-
     this.states = ['off', 'waiting', 'feedback']; // Possible states
-
     this.state = 'off'; // Current state
 
     this.trialCount = 0; // Current trial
-
     this.trialTotal = 0; // Total trials
+
     // Private
-
     this.signals = ['present', 'absent']; // Possible values of 'signal'
-
     this.signal = undefined; // Signal for current trial
-
     this.responses = ['present', 'absent']; // Possible values of 'response'
-
     this.response = undefined; // Response for current trial
-
     this.outcomes = ['h', 'm', 'fa', 'cr', 'nr']; // Possible values of 'outcome'
-
     this.outcome = undefined; // Outcome for current trial
-
     this.accuracies = ['c', 'e', 'nr']; // Possible values of 'accuracy'
-
     this.accuracy = undefined; // Accuracy for current trial
 
     this.h = 0; // Count of Hits
-
     this.m = 0; // Count of Misses
-
     this.cr = 0; // Count of Correct Rejections
-
     this.fa = 0; // Count of False Alarms
 
     this.c = 0; // Count of Correct trials
-
     this.e = 0; // Count of Error trials
 
     this.nr = 0; // Count of No Response trials
@@ -15987,28 +15346,21 @@ class DetectableResponse extends DetectableElement {
     switch (this.outcome) {
       case 'h':
         return this.hPayoff;
-
       case 'm':
         return this.mPayoff;
-
       case 'fa':
         return this.faPayoff;
-
       case 'cr':
         return this.crPayoff;
-
       case 'nr':
         return this.nrPayoff;
-
       default:
         return undefined;
     }
   }
-
   get totalPayoff() {
     return this.h * this.hPayoff + this.m * this.mPayoff + this.cr * this.crPayoff + this.fa * this.faPayoff + this.nr * this.nrPayoff;
   }
-
   start(signal, trial) {
     this.trialCount = trial;
     this.state = 'waiting';
@@ -16016,29 +15368,23 @@ class DetectableResponse extends DetectableElement {
     this.response = undefined;
     this.outcome = undefined;
   }
-
   stop() {
     this.state = 'feedback';
-
     if (this.response === undefined) {
       this.outcome = 'nr';
       this.nr += 1;
       this.accuracy = 'nr';
     }
   }
-
   present() {
     this.responded('present');
   }
-
   absent() {
     this.responded('absent');
   }
-
   responded(response) {
     this.state = 'feedback';
     this.response = response;
-
     if (this.signal === 'present' && this.response === 'present') {
       this.outcome = 'h';
       this.h += 1;
@@ -16060,7 +15406,6 @@ class DetectableResponse extends DetectableElement {
       this.accuracy = 'c';
       this.c += 1;
     }
-
     this.dispatchEvent(new CustomEvent('detectable-response', {
       detail: {
         trial: this.trialCount,
@@ -16078,7 +15423,6 @@ class DetectableResponse extends DetectableElement {
       bubbles: true
     }));
   }
-
   reset() {
     this.state = 'off';
     this.trialCount = 0;
@@ -16094,9 +15438,8 @@ class DetectableResponse extends DetectableElement {
     this.c = 0;
     this.e = 0;
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$c || (_t$c = _$c`
+    return [super.styles, r$2`
         :host {
           display: inline-block;
         }
@@ -16216,9 +15559,8 @@ class DetectableResponse extends DetectableElement {
         .total .label {
           font-weight: 600;
         }
-      `))];
+      `];
   }
-
   render() {
     const payoffFormatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -16226,7 +15568,6 @@ class DetectableResponse extends DetectableElement {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     });
-
     const payoffFormat = number => {
       return payoffFormatter.formatToParts(number).map(({
         type,
@@ -16235,88 +15576,38 @@ class DetectableResponse extends DetectableElement {
         if (type === 'minusSign') {
           return '−';
         }
-
         return value;
       }).reduce((string, part) => {
         return string + part;
       });
     };
-
-    return $(_t2$b || (_t2$b = _$c`
+    return $`
       <div class="holder">
         <div class="responses">
-          <decidables-button name="present" class=${0} ?disabled=${0} @click=${0}>Present</decidables-button>
-          <decidables-button name="absent" class=${0} ?disabled=${0} @click=${0}>Absent</decidables-button>
+          <decidables-button name="present" class=${this.state === 'feedback' && this.response === 'present' ? 'selected' : this.state === 'waiting' ? 'waiting' : ''} ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.present.bind(this)}>Present</decidables-button>
+          <decidables-button name="absent" class=${this.state === 'feedback' && this.response === 'absent' ? 'selected' : this.state === 'waiting' ? 'waiting' : ''} ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.absent.bind(this)}>Absent</decidables-button>
         </div>
-        ${0}
-      </div>`), this.state === 'feedback' && this.response === 'present' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.present.bind(this), this.state === 'feedback' && this.response === 'absent' ? 'selected' : this.state === 'waiting' ? 'waiting' : '', this.state !== 'waiting' || this.interactive !== true, this.absent.bind(this), this.trial || this.feedback !== 'none' || this.payoff === 'total' ? $(_t3$a || (_t3$a = _$c`
+        ${this.trial || this.feedback !== 'none' || this.payoff === 'total' ? $`
             <div class="feedbacks">
-              ${0}
-              ${0}
-              ${0}
-            </div>`), this.trial ? $(_t4$a || (_t4$a = _$c`
+              ${this.trial ? $`
                   <div class="trial">
-                    <span class="label">Trial: </span><span class="count">${0}</span><span class="of"> of </span><span class="total">${0}</span>
-                  </div>`), this.trialCount, this.trialTotal) : $(_t5$a || (_t5$a = _$c``)), this.feedback !== 'none' ? $(_t6$a || (_t6$a = _$c`
-                  <div class=${0}>
-                    ${0}
-                    ${0}
-                  </div>`), `feedback ${this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''}`, this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? $(_t7$a || (_t7$a = _$c`<span class="outcome">Hit</span>`)) : this.outcome === 'm' ? $(_t8$6 || (_t8$6 = _$c`<span class="outcome">Miss</span>`)) : this.outcome === 'fa' ? $(_t9$6 || (_t9$6 = _$c`<span class="outcome">False<br>Alarm</span>`)) : this.outcome === 'cr' ? $(_t10$6 || (_t10$6 = _$c`<span class="outcome">Correct<br>Rejection</span>`)) : $(_t11$6 || (_t11$6 = _$c`<span class="outcome">No<br>Response</span>`)) : this.accuracy === 'c' ? $(_t12$1 || (_t12$1 = _$c`<span class="outcome">Correct</span>`)) : this.accuracy === 'e' ? $(_t13$1 || (_t13$1 = _$c`<span class="outcome">Error</span>`)) : $(_t14$1 || (_t14$1 = _$c`<span class="outcome">No<br>Response</span>`)) : '', this.state === 'feedback' && (this.payoff === 'trial' || this.payoff === 'total') ? $(_t15$1 || (_t15$1 = _$c`<span class="payoff">${0}</span>`), payoffFormat(this.trialPayoff)) : $(_t16$1 || (_t16$1 = _$c``))) : $(_t17$1 || (_t17$1 = _$c``)), this.payoff === 'total' ? $(_t18$1 || (_t18$1 = _$c`
+                    <span class="label">Trial: </span><span class="count">${this.trialCount}</span><span class="of"> of </span><span class="total">${this.trialTotal}</span>
+                  </div>` : $``}
+              ${this.feedback !== 'none' ? $`
+                  <div class=${`feedback ${this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''}`}>
+                    ${this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? $`<span class="outcome">Hit</span>` : this.outcome === 'm' ? $`<span class="outcome">Miss</span>` : this.outcome === 'fa' ? $`<span class="outcome">False<br>Alarm</span>` : this.outcome === 'cr' ? $`<span class="outcome">Correct<br>Rejection</span>` : $`<span class="outcome">No<br>Response</span>` : this.accuracy === 'c' ? $`<span class="outcome">Correct</span>` : this.accuracy === 'e' ? $`<span class="outcome">Error</span>` : $`<span class="outcome">No<br>Response</span>` : ''}
+                    ${this.state === 'feedback' && (this.payoff === 'trial' || this.payoff === 'total') ? $`<span class="payoff">${payoffFormat(this.trialPayoff)}</span>` : $``}
+                  </div>` : $``}
+              ${this.payoff === 'total' ? $`
                   <div class="total">
-                    <span class="label">Total: </span><span class="value">${0}</span>
-                  </div>`), payoffFormat(this.totalPayoff)) : $(_t19$1 || (_t19$1 = _$c``))) : $(_t20$1 || (_t20$1 = _$c``)));
+                    <span class="label">Total: </span><span class="value">${payoffFormat(this.totalPayoff)}</span>
+                  </div>` : $``}
+            </div>` : $``}
+      </div>`;
   }
-
 }
 customElements.define('detectable-response', DetectableResponse);
 
-let _$b = t => t,
-    _t$b,
-    _t2$a,
-    _t3$9,
-    _t4$9,
-    _t5$9,
-    _t6$9,
-    _t7$9,
-    _t8$5,
-    _t9$5,
-    _t10$5,
-    _t11$5,
-    _t12,
-    _t13,
-    _t14,
-    _t15,
-    _t16,
-    _t17,
-    _t18,
-    _t19,
-    _t20,
-    _t21,
-    _t22,
-    _t23,
-    _t24,
-    _t25,
-    _t26,
-    _t27,
-    _t28,
-    _t29,
-    _t30,
-    _t31,
-    _t32,
-    _t33,
-    _t34,
-    _t35,
-    _t36,
-    _t37,
-    _t38,
-    _t39,
-    _t40,
-    _t41,
-    _t42,
-    _t43,
-    _t44,
-    _t45,
-    _t46;
 /*
   DetectableTable element
   <detectable-table>
@@ -16324,7 +15615,6 @@ let _$b = t => t,
   Attributes:
   Hit; Miss; FalseAlarm; CorrectRejection;
 */
-
 class DetectableTable extends DetectableElement {
   static get properties() {
     return {
@@ -16418,7 +15708,6 @@ class DetectableTable extends DetectableElement {
       }
     };
   }
-
   constructor() {
     super();
     this.numeric = false;
@@ -16433,11 +15722,8 @@ class DetectableTable extends DetectableElement {
     this.alignState();
     this.payoff = false;
     this.hPayoff = undefined; // Hit payoff
-
     this.mPayoff = undefined; // Miss payoff
-
     this.crPayoff = undefined; // Correct Rejection payoff
-
     this.faPayoff = undefined; // False Alarm payoff
   }
 
@@ -16448,7 +15734,6 @@ class DetectableTable extends DetectableElement {
     this.ppv = SDTMath.hFa2Ppv(this.h, this.fa);
     this.fomr = SDTMath.mCr2Fomr(this.m, this.cr);
   }
-
   sendEvent() {
     this.dispatchEvent(new CustomEvent('detectable-table-change', {
       detail: {
@@ -16465,31 +15750,26 @@ class DetectableTable extends DetectableElement {
       bubbles: true
     }));
   }
-
   hInput(e) {
     this.h = parseInt(e.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   mInput(e) {
     this.m = parseInt(e.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   faInput(e) {
     this.fa = parseInt(e.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   crInput(e) {
     this.cr = parseInt(e.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   hrInput(e) {
     const newhr = parseFloat(e.target.value);
     const present = this.h + this.m;
@@ -16498,7 +15778,6 @@ class DetectableTable extends DetectableElement {
     this.alignState();
     this.sendEvent();
   }
-
   farInput(e) {
     const newfar = parseFloat(e.target.value);
     const absent = this.fa + this.cr;
@@ -16507,36 +15786,29 @@ class DetectableTable extends DetectableElement {
     this.alignState();
     this.sendEvent();
   }
-
   accInput(e) {
     const newacc = parseFloat(e.target.value);
     const present = this.h + this.m;
     const absent = this.fa + this.cr;
     const x = (this.hr + this.far - 1) / 2; // Rotate into ACC
-
     let newhr = x + newacc;
     let newfar = 1 + x - newacc;
-
     if (newfar > 1) {
       newfar = 1;
       newhr = newfar + 2 * newacc - 1;
     }
-
     if (newfar < 0) {
       newfar = 0;
       newhr = newfar + 2 * newacc - 1;
     }
-
     if (newhr > 1) {
       newhr = 1;
       newfar = newhr - 2 * newacc + 1;
     }
-
     if (newhr < 0) {
       newhr = 0;
       newfar = newhr - 2 * newacc + 1;
     }
-
     this.h = Math.round(newhr * present);
     this.m = present - this.h;
     this.fa = Math.round(newfar * absent);
@@ -16544,7 +15816,6 @@ class DetectableTable extends DetectableElement {
     this.alignState();
     this.sendEvent();
   }
-
   ppvInput(e) {
     const newppv = parseFloat(e.target.value);
     const present = this.h + this.fa;
@@ -16553,7 +15824,6 @@ class DetectableTable extends DetectableElement {
     this.alignState();
     this.sendEvent();
   }
-
   fomrInput(e) {
     const newfomr = parseFloat(e.target.value);
     const present = this.m + this.cr;
@@ -16562,9 +15832,8 @@ class DetectableTable extends DetectableElement {
     this.alignState();
     this.sendEvent();
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$b || (_t$b = _$b`
+    return [super.styles, r$2`
         :host {
           display: inline-block;
         }
@@ -16747,9 +16016,8 @@ class DetectableTable extends DetectableElement {
         :host([color="none"]) .acc {
           background: var(---color-element-background);
         }
-      `))];
+      `];
   }
-
   render() {
     const payoffFormatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -16757,7 +16025,6 @@ class DetectableTable extends DetectableElement {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     });
-
     const payoffFormat = number => {
       return payoffFormatter.formatToParts(number).map(({
         type,
@@ -16766,13 +16033,11 @@ class DetectableTable extends DetectableElement {
         if (type === 'minusSign') {
           return '−';
         }
-
         return value;
       }).reduce((string, part) => {
         return string + part;
       });
     };
-
     this.alignState();
     let h;
     let m;
@@ -16783,75 +16048,73 @@ class DetectableTable extends DetectableElement {
     let acc;
     let ppv;
     let fomr;
-
     if (this.numeric) {
-      h = $(_t2$a || (_t2$a = _$b`
-        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      h = $`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <span>Hits</span>
-          ${0}
+          ${this.payoff ? $`<span class="payoff">${payoffFormat(this.hPayoff)}</span>` : $``}
         </decidables-spinner>
-      `), !this.interactive, this.h, this.hInput.bind(this), this.payoff ? $(_t3$9 || (_t3$9 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.hPayoff)) : $(_t4$9 || (_t4$9 = _$b``)));
-      m = $(_t5$9 || (_t5$9 = _$b`
-        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      `;
+      m = $`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <span>Misses</span>
-          ${0}
+          ${this.payoff ? $`<span class="payoff">${payoffFormat(this.mPayoff)}</span>` : $``}
         </decidables-spinner>
-      `), !this.interactive, this.m, this.mInput.bind(this), this.payoff ? $(_t6$9 || (_t6$9 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.mPayoff)) : $(_t7$9 || (_t7$9 = _$b``)));
-      fa = $(_t8$5 || (_t8$5 = _$b`
-        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      `;
+      fa = $`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <span>False Alarms</span>
-          ${0}
+          ${this.payoff ? $`<span class="payoff">${payoffFormat(this.faPayoff)}</span>` : $``}
         </decidables-spinner>
-      `), !this.interactive, this.fa, this.faInput.bind(this), this.payoff ? $(_t9$5 || (_t9$5 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.faPayoff)) : $(_t10$5 || (_t10$5 = _$b``)));
-      cr = $(_t11$5 || (_t11$5 = _$b`
-        <decidables-spinner ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      `;
+      cr = $`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <span>Correct Rejections</span>
-          ${0}
+          ${this.payoff ? $`<span class="payoff">${payoffFormat(this.crPayoff)}</span>` : $``}
         </decidables-spinner>
-      `), !this.interactive, this.cr, this.crInput.bind(this), this.payoff ? $(_t12 || (_t12 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.crPayoff)) : $(_t13 || (_t13 = _$b``)));
-      hr = $(_t14 || (_t14 = _$b`
-        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+      `;
+      hr = $`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}" @input=${this.hrInput.bind(this)}>
           <span>Hit Rate</span>
         </decidables-spinner>
-      `), !this.interactive, +this.hr.toFixed(3), this.hrInput.bind(this));
-      far = $(_t15 || (_t15 = _$b`
-        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+      `;
+      far = $`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}" @input=${this.farInput.bind(this)}>
           <span>False Alarm Rate</span>
         </decidables-spinner>
-      `), !this.interactive, +this.far.toFixed(3), this.farInput.bind(this));
-      acc = $(_t16 || (_t16 = _$b`
-        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+      `;
+      acc = $`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}" @input=${this.accInput.bind(this)}>
           <span>Accuracy</span>
         </decidables-spinner>
-      `), !this.interactive, +this.acc.toFixed(3), this.accInput.bind(this));
-      ppv = $(_t17 || (_t17 = _$b`
-        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+      `;
+      ppv = $`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.ppv.toFixed(3)}" @input=${this.ppvInput.bind(this)}>
           <span>Positive Predictive Value</span>
         </decidables-spinner>
-      `), !this.interactive, +this.ppv.toFixed(3), this.ppvInput.bind(this));
-      fomr = $(_t18 || (_t18 = _$b`
-        <decidables-spinner ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+      `;
+      fomr = $`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.fomr.toFixed(3)}" @input=${this.fomrInput.bind(this)}>
           <span>False Omission Rate</span>
         </decidables-spinner>
-      `), !this.interactive, +this.fomr.toFixed(3), this.fomrInput.bind(this));
+      `;
     } else {
-      h = $(_t19 || (_t19 = _$b`<span>Hits</span>
-        ${0}`), this.payoff ? $(_t20 || (_t20 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.hPayoff)) : $(_t21 || (_t21 = _$b``)));
-      m = $(_t22 || (_t22 = _$b`<span>Misses</span>
-        ${0}`), this.payoff ? $(_t23 || (_t23 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.mPayoff)) : $(_t24 || (_t24 = _$b``)));
-      fa = $(_t25 || (_t25 = _$b`<span>False Alarms</span>
-        ${0}`), this.payoff ? $(_t26 || (_t26 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.faPayoff)) : $(_t27 || (_t27 = _$b``)));
-      cr = $(_t28 || (_t28 = _$b`<span>Correct Rejections</span>
-        ${0}`), this.payoff ? $(_t29 || (_t29 = _$b`<span class="payoff">${0}</span>`), payoffFormat(this.crPayoff)) : $(_t30 || (_t30 = _$b``)));
-      hr = $(_t31 || (_t31 = _$b`<span>Hit Rate</span>`));
-      far = $(_t32 || (_t32 = _$b`<span>False Alarm Rate</span>`));
-      acc = $(_t33 || (_t33 = _$b`<span>Accuracy</span>`));
-      ppv = $(_t34 || (_t34 = _$b`<span>Positive Predictive Value</span>`));
-      fomr = $(_t35 || (_t35 = _$b`<span>False Omission Rate</span>`));
+      h = $`<span>Hits</span>
+        ${this.payoff ? $`<span class="payoff">${payoffFormat(this.hPayoff)}</span>` : $``}`;
+      m = $`<span>Misses</span>
+        ${this.payoff ? $`<span class="payoff">${payoffFormat(this.mPayoff)}</span>` : $``}`;
+      fa = $`<span>False Alarms</span>
+        ${this.payoff ? $`<span class="payoff">${payoffFormat(this.faPayoff)}</span>` : $``}`;
+      cr = $`<span>Correct Rejections</span>
+        ${this.payoff ? $`<span class="payoff">${payoffFormat(this.crPayoff)}</span>` : $``}`;
+      hr = $`<span>Hit Rate</span>`;
+      far = $`<span>False Alarm Rate</span>`;
+      acc = $`<span>Accuracy</span>`;
+      ppv = $`<span>Positive Predictive Value</span>`;
+      fomr = $`<span>False Omission Rate</span>`;
     }
-
-    return $(_t36 || (_t36 = _$b`
-      <table class=${0}>
+    return $`
+      <table class=${this.numeric ? 'numeric' : ''}>
         <thead>
           <tr>
             <th colspan="2" rowspan="2"></th>
@@ -16877,61 +16140,57 @@ class DetectableTable extends DetectableElement {
               Present
             </th>
             <td class="td td-data h">
-              ${0}
+              ${h}
             </td>
             <td class="td td-data m">
-              ${0}
+              ${m}
             </td>
-            ${0}
+            ${this.summary.has('stimulusRates') ? $`
+                <td class="td td-summary hr">
+                  ${hr}
+                </td>` : $``}
           </tr>
           <tr>
             <th class="th th-sub th-left" scope="row">
               Absent
             </th>
             <td class="td td-data fa">
-              ${0}
+              ${fa}
             </td>
             <td class="td td-data cr">
-              ${0}
+              ${cr}
             </td>
-            ${0}
-          </tr>
-          ${0}
-        </tbody>
-      </table>`), this.numeric ? 'numeric' : '', h, m, this.summary.has('stimulusRates') ? $(_t37 || (_t37 = _$b`
-                <td class="td td-summary hr">
-                  ${0}
-                </td>`), hr) : $(_t38 || (_t38 = _$b``)), fa, cr, this.summary.has('stimulusRates') ? $(_t39 || (_t39 = _$b`
+            ${this.summary.has('stimulusRates') ? $`
                 <td class="td td-summary far">
-                  ${0}
-                </td>`), far) : $(_t40 || (_t40 = _$b``)), this.summary.has('responseRates') || this.summary.has('accuracy') ? $(_t41 || (_t41 = _$b`
+                  ${far}
+                </td>` : $``}
+          </tr>
+          ${this.summary.has('responseRates') || this.summary.has('accuracy') ? $`
               <tr>
                 <td colspan="2"></td>
-                ${0}
-                ${0}
-              </tr>`), this.summary.has('responseRates') ? $(_t42 || (_t42 = _$b`
+                ${this.summary.has('responseRates') ? $`
                     <td class="td td-summary ppv">
-                      ${0}
+                      ${ppv}
                     </td>
                     <td class="td td-summary fomr">
-                      ${0}
-                    </td>`), ppv, fomr) : $(_t43 || (_t43 = _$b`
-                    <td colspan="2"></td>`)), this.summary.has('accuracy') ? $(_t44 || (_t44 = _$b`
+                      ${fomr}
+                    </td>` : $`
+                    <td colspan="2"></td>`}
+                ${this.summary.has('accuracy') ? $`
                     <td class="td td-summary acc" rowspan="2">
-                      ${0}
-                    </td>`), acc) : $(_t45 || (_t45 = _$b``))) : $(_t46 || (_t46 = _$b``)));
+                      ${acc}
+                    </td>` : $``}
+              </tr>` : $``}
+        </tbody>
+      </table>`;
   }
-
 }
 customElements.define('detectable-table', DetectableTable);
 
-let _$a = t => t,
-    _t$a;
 /*
   SDTEquation Base Class - Not intended for instantiation!
   <sdt-equation>
 */
-
 class SDTEquation extends DetectableElement {
   static get properties() {
     return {
@@ -16942,14 +16201,12 @@ class SDTEquation extends DetectableElement {
       }
     };
   }
-
   constructor() {
     super();
     this.numeric = false;
   }
-
   static get styles() {
-    return [super.styles, r$2(_t$a || (_t$a = _$a`
+    return [super.styles, r$2`
         :host {
           display: block;
 
@@ -17073,23 +16330,10 @@ class SDTEquation extends DetectableElement {
         .s {
           background: var(---color-s-light);
         }
-      `))];
+      `];
   }
-
 }
 
-let _$9 = t => t,
-    _t$9,
-    _t2$9,
-    _t3$8,
-    _t4$8,
-    _t5$8,
-    _t6$8,
-    _t7$8,
-    _t8$4,
-    _t9$4,
-    _t10$4,
-    _t11$4;
 /*
   SDTEquationDC2Far element
   <sdt-equation-dc2far>
@@ -17097,7 +16341,6 @@ let _$9 = t => t,
   Attributes:
   d'; c; False Alarm Rate;
 */
-
 class SDTEquationDC2Far extends SDTEquation {
   static get properties() {
     return {
@@ -17128,7 +16371,6 @@ class SDTEquationDC2Far extends SDTEquation {
       }
     };
   }
-
   constructor() {
     super();
     this.unequal = false;
@@ -17137,11 +16379,9 @@ class SDTEquationDC2Far extends SDTEquation {
     this.s = 1;
     this.alignState();
   }
-
   alignState() {
     this.far = SDTMath.dC2Far(this.d, this.c, this.s);
   }
-
   sendEvent() {
     this.dispatchEvent(new CustomEvent('sdt-equation-dc2far-change', {
       detail: {
@@ -17153,79 +16393,72 @@ class SDTEquationDC2Far extends SDTEquation {
       bubbles: true
     }));
   }
-
   dInput(event) {
     this.d = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   cInput(event) {
     this.c = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   sInput(event) {
     this.s = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   render() {
     this.alignState();
     let d;
     let c;
     let s;
     let far;
-
     if (this.numeric) {
-      d = $(_t$9 || (_t$9 = _$9`
-        <decidables-spinner class="d bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+      d = $`
+        <decidables-spinner class="d bottom" ?disabled=${!this.interactive} step=".001" .value="${this.d}" @input=${this.dInput.bind(this)}>
           <var class="math-var">d′</var>
         </decidables-spinner>
-      `), !this.interactive, this.d, this.dInput.bind(this));
-      c = $(_t2$9 || (_t2$9 = _$9`
-        <decidables-spinner class="c bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+      `;
+      c = $`
+        <decidables-spinner class="c bottom" ?disabled=${!this.interactive} step=".001" .value="${this.c}" @input=${this.cInput.bind(this)}>
           <var class="math-var">c</var>
         </decidables-spinner>
-      `), !this.interactive, this.c, this.cInput.bind(this));
-      s = $(_t3$8 || (_t3$8 = _$9`
-        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+      `;
+      s = $`
+        <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
           <var class="math-var">σ</var>
         </decidables-spinner>
-      `), !this.interactive, this.s, this.sInput.bind(this));
-      far = $(_t4$8 || (_t4$8 = _$9`
-        <decidables-spinner class="far bottom" disabled min="0" max="1" step=".001" .value="${0}">
+      `;
+      far = $`
+        <decidables-spinner class="far bottom" disabled min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}">
           <var>False Alarm Rate</var>
         </decidables-spinner>
-      `), +this.far.toFixed(3));
+      `;
     } else {
-      d = $(_t5$8 || (_t5$8 = _$9`<var class="math-var d">d′</var>`));
-      c = $(_t6$8 || (_t6$8 = _$9`<var class="math-var c">c</var>`));
-      s = $(_t7$8 || (_t7$8 = _$9`<var class="math-var s">σ</var>`));
-      far = $(_t8$4 || (_t8$4 = _$9`<var class="far">False Alarm Rate</var>`));
+      d = $`<var class="math-var d">d′</var>`;
+      c = $`<var class="math-var c">c</var>`;
+      s = $`<var class="math-var s">σ</var>`;
+      far = $`<var class="far">False Alarm Rate</var>`;
     }
-
     let equation;
-
     if (this.unequal) {
-      equation = $(_t9$4 || (_t9$4 = _$9`
+      equation = $`
         <tr>
           <td rowspan="2">
-            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
+            ${far}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
           </td>
           <td class="underline bottom">
-            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+            <span>1</span><span class="plus tight">+</span><span>${s}<sup class="exp">2</sup></span>
           </td>
           <td rowspan="2">
             <span class="bracket tight">]<sup class="exp">½</sup></span><span class="bracket tight">[</span>
           </td>
           <td class="underline">
-            <span class="minus tight">−</span>${0}
+            <span class="minus tight">−</span>${d}
           </td>
           <td rowspan="2">
-            <span class="minus">−</span>${0}<span class="bracket tight">]</span><span class="paren tight">)</span>
+            <span class="minus">−</span>${c}<span class="bracket tight">]</span><span class="paren tight">)</span>
           </td>
         </tr>
         <tr>
@@ -17233,54 +16466,40 @@ class SDTEquationDC2Far extends SDTEquation {
             <span>2</span>
           </td>
           <td>
-            <span><span>1</span><span class="plus">+</span>${0}</span>
+            <span><span>1</span><span class="plus">+</span>${s}</span>
           </td>
-        </tr>`), far, s, d, c, s);
+        </tr>`;
     } else {
-      equation = $(_t10$4 || (_t10$4 = _$9`
+      equation = $`
         <tr>
           <td rowspan="2">
-            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="minus tight">−</span>
+            ${far}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="minus tight">−</span>
           </td>
           <td class="underline">
-            ${0}
+            ${d}
           </td>
           <td rowspan="2">
-            <span class="minus">−</span>${0}<span class="paren tight">)</span>
+            <span class="minus">−</span>${c}<span class="paren tight">)</span>
           </td>
         </tr>
         <tr>
           <td>
             <span>2</span>
           </td>
-        </tr>`), far, d, c);
+        </tr>`;
     }
-
-    return $(_t11$4 || (_t11$4 = _$9`
+    return $`
       <div class="holder">
         <table class="equation">
           <tbody>
-            ${0}
+            ${equation}
           </tbody>
         </table>
-      </div>`), equation);
+      </div>`;
   }
-
 }
 customElements.define('sdt-equation-dc2far', SDTEquationDC2Far);
 
-let _$8 = t => t,
-    _t$8,
-    _t2$8,
-    _t3$7,
-    _t4$7,
-    _t5$7,
-    _t6$7,
-    _t7$7,
-    _t8$3,
-    _t9$3,
-    _t10$3,
-    _t11$3;
 /*
   SDTEquationDC2Hr element
   <sdt-equation-dc2hr>
@@ -17288,7 +16507,6 @@ let _$8 = t => t,
   Attributes:
   d'; c; Hit Rate;
 */
-
 class SDTEquationDC2Hr extends SDTEquation {
   static get properties() {
     return {
@@ -17319,7 +16537,6 @@ class SDTEquationDC2Hr extends SDTEquation {
       }
     };
   }
-
   constructor() {
     super();
     this.unequal = false;
@@ -17328,11 +16545,9 @@ class SDTEquationDC2Hr extends SDTEquation {
     this.s = 1;
     this.alignState();
   }
-
   alignState() {
     this.hr = SDTMath.dC2Hr(this.d, this.c, this.s);
   }
-
   sendEvent() {
     this.dispatchEvent(new CustomEvent('sdt-equation-dc2hr-change', {
       detail: {
@@ -17344,82 +16559,75 @@ class SDTEquationDC2Hr extends SDTEquation {
       bubbles: true
     }));
   }
-
   dInput(event) {
     this.d = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   cInput(event) {
     this.c = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   sInput(event) {
     this.s = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   render() {
     this.alignState();
     let d;
     let c;
     let s;
     let hr;
-
     if (this.numeric) {
-      d = $(_t$8 || (_t$8 = _$8`
-        <decidables-spinner class="d bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+      d = $`
+        <decidables-spinner class="d bottom" ?disabled=${!this.interactive} step=".001" .value="${this.d}" @input=${this.dInput.bind(this)}>
           <var class="math-var">d′</var>
         </decidables-spinner>
-      `), !this.interactive, this.d, this.dInput.bind(this));
-      c = $(_t2$8 || (_t2$8 = _$8`
-        <decidables-spinner class="c bottom" ?disabled=${0} step=".001" .value="${0}" @input=${0}>
+      `;
+      c = $`
+        <decidables-spinner class="c bottom" ?disabled=${!this.interactive} step=".001" .value="${this.c}" @input=${this.cInput.bind(this)}>
           <var class="math-var">c</var>
         </decidables-spinner>
-      `), !this.interactive, this.c, this.cInput.bind(this));
-      s = $(_t3$7 || (_t3$7 = _$8`
-        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+      `;
+      s = $`
+        <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
           <var class="math-var">σ</var>
         </decidables-spinner>
-      `), !this.interactive, this.s, this.sInput.bind(this));
-      hr = $(_t4$7 || (_t4$7 = _$8`
-        <decidables-spinner class="hr bottom" disabled min="0" max="1" step=".001" .value="${0}">
+      `;
+      hr = $`
+        <decidables-spinner class="hr bottom" disabled min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}">
           <var>Hit Rate</var>
         </decidables-spinner>
-      `), +this.hr.toFixed(3));
+      `;
     } else {
-      d = $(_t5$7 || (_t5$7 = _$8`<var class="math-var d">d′</var>`));
-      c = $(_t6$7 || (_t6$7 = _$8`<var class="math-var c">c</var>`));
-      s = $(_t7$7 || (_t7$7 = _$8`<var class="math-var s">σ</var>`));
-      hr = $(_t8$3 || (_t8$3 = _$8`<var class="hr">Hit Rate</var>`));
+      d = $`<var class="math-var d">d′</var>`;
+      c = $`<var class="math-var c">c</var>`;
+      s = $`<var class="math-var s">σ</var>`;
+      hr = $`<var class="hr">Hit Rate</var>`;
     }
-
     let equation;
-
     if (this.unequal) {
-      equation = $(_t9$3 || (_t9$3 = _$8`
+      equation = $`
         <tr>
           <td rowspan="2">
-            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
+            ${hr}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
           </td>
           <td class="underline bottom">
-            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+            <span>1</span><span class="plus tight">+</span><span>${s}<sup class="exp">2</sup></span>
           </td>
           <td rowspan="2">
             <span class="bracket tight">]<sup class="exp">½</sup></span><span class="bracket tight">[</span>
           </td>
           <td class="underline">
-            ${0}
+            ${d}
           </td>
           <td rowspan="2">
             <span class="minus">−</span>
           </td>
           <td class="underline">
-            ${0}
+            ${c}
           </td>
           <td rowspan="2">
             <span class="bracket tight">]</span><span class="paren tight">)</span>
@@ -17430,53 +16638,43 @@ class SDTEquationDC2Hr extends SDTEquation {
             <span>2</span>
           </td>
           <td>
-            <span><span>1</span><span class="plus">+</span>${0}</span>
+            <span><span>1</span><span class="plus">+</span>${s}</span>
           </td>
           <td>
-            ${0}
+            ${s}
           </td>
-        </tr>`), hr, s, d, c, s, s);
+        </tr>`;
     } else {
-      equation = $(_t10$3 || (_t10$3 = _$8`
+      equation = $`
         <tr>
           <td rowspan="2">
-            ${0}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span>
+            ${hr}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span>
           </td>
           <td class="underline">
-            ${0}
+            ${d}
           </td>
           <td rowspan="2">
-            <span class="minus">−</span>${0}<span class="paren tight">)</span>
+            <span class="minus">−</span>${c}<span class="paren tight">)</span>
           </td>
         </tr>
         <tr>
           <td>
             <span>2</span>
           </td>
-        </tr>`), hr, d, c);
+        </tr>`;
     }
-
-    return $(_t11$3 || (_t11$3 = _$8`
+    return $`
       <div class="holder">
         <table class="equation">
           <tbody>
-            ${0}
+            ${equation}
           </tbody>
         </table>
-      </div>`), equation);
+      </div>`;
   }
-
 }
 customElements.define('sdt-equation-dc2hr', SDTEquationDC2Hr);
 
-let _$7 = t => t,
-    _t$7,
-    _t2$7,
-    _t3$6,
-    _t4$6,
-    _t5$6,
-    _t6$6,
-    _t7$6;
 /*
   SDTEquationFaCr2Far element
   <sdt-equation-facr2far>
@@ -17484,7 +16682,6 @@ let _$7 = t => t,
   Attributes:
   False Alarms; Correct Rejections; False Alarm Rate;
 */
-
 class SDTEquationFaCr2Far extends SDTEquation {
   static get properties() {
     return {
@@ -17505,18 +16702,15 @@ class SDTEquationFaCr2Far extends SDTEquation {
       }
     };
   }
-
   constructor() {
     super();
     this.fa = 0;
     this.cr = 0;
     this.alignState();
   }
-
   alignState() {
     this.far = SDTMath.faCr2Far(this.fa, this.cr);
   }
-
   sendEvent() {
     this.dispatchEvent(new CustomEvent('sdt-equation-facr2far-change', {
       detail: {
@@ -17527,80 +16721,66 @@ class SDTEquationFaCr2Far extends SDTEquation {
       bubbles: true
     }));
   }
-
   faInput(event) {
     this.fa = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   crInput(event) {
     this.cr = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   render() {
     this.alignState();
     let fa;
     let cr;
     let far;
-
     if (this.numeric) {
-      fa = $(_t$7 || (_t$7 = _$7`
-        <decidables-spinner class="fa" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      fa = $`
+        <decidables-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <var>False Alarms</var>
         </decidables-spinner>
-      `), !this.interactive, this.fa, this.faInput.bind(this));
-      cr = $(_t2$7 || (_t2$7 = _$7`
-        <decidables-spinner class="cr" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      `;
+      cr = $`
+        <decidables-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <var>Correct Rejections</var>
         </decidables-spinner>
-      `), !this.interactive, this.cr, this.crInput.bind(this));
-      far = $(_t3$6 || (_t3$6 = _$7`
-        <decidables-spinner class="far" disabled min="0" max="1" step=".001" .value="${0}">
+      `;
+      far = $`
+        <decidables-spinner class="far" disabled min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}">
           <var>False Alarm Rate</var>
         </decidables-spinner>
-      `), +this.far.toFixed(3));
+      `;
     } else {
-      fa = $(_t4$6 || (_t4$6 = _$7`<var class="fa">False Alarms</var>`));
-      cr = $(_t5$6 || (_t5$6 = _$7`<var class="cr">Correct Rejections</var>`));
-      far = $(_t6$6 || (_t6$6 = _$7`<var class="far">False Alarm Rate</var>`));
+      fa = $`<var class="fa">False Alarms</var>`;
+      cr = $`<var class="cr">Correct Rejections</var>`;
+      far = $`<var class="far">False Alarm Rate</var>`;
     }
-
-    return $(_t7$6 || (_t7$6 = _$7`
+    return $`
       <div class="holder">
         <table class="equation">
           <tbody>
             <tr>
               <td rowspan="2">
-                ${0}<span class="equals">=</span>
+                ${far}<span class="equals">=</span>
               </td>
               <td class="underline">
-                ${0}
+                ${fa}
               </td>
             </tr>
             <tr>
               <td>
-                ${0}<span class="plus">+</span>${0}
+                ${fa}<span class="plus">+</span>${cr}
               </td>
             </tr>
           </tbody>
         </table>
-      </div>`), far, fa, fa, cr);
+      </div>`;
   }
-
 }
 customElements.define('sdt-equation-facr2far', SDTEquationFaCr2Far);
 
-let _$6 = t => t,
-    _t$6,
-    _t2$6,
-    _t3$5,
-    _t4$5,
-    _t5$5,
-    _t6$5,
-    _t7$5;
 /*
   SDTEquationHFa2Ppv element
   <sdt-equation-hm2hr>
@@ -17608,7 +16788,6 @@ let _$6 = t => t,
   Attributes:
   Hits; Misses; Hit Rate;
 */
-
 class SDTEquationHFa2Ppv extends SDTEquation {
   static get properties() {
     return {
@@ -17629,18 +16808,15 @@ class SDTEquationHFa2Ppv extends SDTEquation {
       }
     };
   }
-
   constructor() {
     super();
     this.h = 0;
     this.fa = 0;
     this.alignState();
   }
-
   alignState() {
     this.ppv = SDTMath.hFa2Ppv(this.h, this.fa);
   }
-
   sendEvent() {
     this.dispatchEvent(new CustomEvent('sdt-equation-hfa2ppv-change', {
       detail: {
@@ -17651,81 +16827,67 @@ class SDTEquationHFa2Ppv extends SDTEquation {
       bubbles: true
     }));
   }
-
   hInput(event) {
     this.h = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   faInput(event) {
     this.fa = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   render() {
     this.alignState();
     let h;
     let fa;
     let ppv;
-
     if (this.numeric) {
-      h = $(_t$6 || (_t$6 = _$6`
-        <decidables-spinner class="h" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      h = $`
+        <decidables-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <var>Hits</var>
         </decidables-spinner>
-      `), !this.interactive, this.h, this.hInput.bind(this));
-      fa = $(_t2$6 || (_t2$6 = _$6`
-        <decidables-spinner class="fa" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      `;
+      fa = $`
+        <decidables-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <var>False Alarms</var>
         </decidables-spinner>
-      `), !this.interactive, this.fa, this.faInput.bind(this));
-      ppv = $(_t3$5 || (_t3$5 = _$6`
-        <decidables-spinner class="ppv" disabled min="0" max="1" step=".001" .value="${0}">
+      `;
+      ppv = $`
+        <decidables-spinner class="ppv" disabled min="0" max="1" step=".001" .value="${+this.ppv.toFixed(3)}">
           <var>Positive Predictive Value</var>
         </decidables-spinner>
-      `), +this.ppv.toFixed(3));
+      `;
     } else {
-      h = $(_t4$5 || (_t4$5 = _$6`<var class="h">Hits</var>`));
-      fa = $(_t5$5 || (_t5$5 = _$6`<var class="fa">False Alarms</var>`));
-      ppv = $(_t6$5 || (_t6$5 = _$6`<var class="ppv">Positive Predictive Value</var>`));
+      h = $`<var class="h">Hits</var>`;
+      fa = $`<var class="fa">False Alarms</var>`;
+      ppv = $`<var class="ppv">Positive Predictive Value</var>`;
     }
-
-    return $(_t7$5 || (_t7$5 = _$6`
+    return $`
       <div class="holder">
         <table class="equation">
           <tbody>
             <tr>
               <td rowspan="2">
-                ${0}<span class="equals">=</span>
+                ${ppv}<span class="equals">=</span>
               </td>
               <td class="underline">
-                ${0}
+                ${h}
               </td>
             </tr>
             <tr>
               <td>
-                ${0}<span class="plus">+</span>${0}
+                ${h}<span class="plus">+</span>${fa}
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-    `), ppv, h, h, fa);
+    `;
   }
-
 }
 customElements.define('sdt-equation-hfa2ppv', SDTEquationHFa2Ppv);
 
-let _$5 = t => t,
-    _t$5,
-    _t2$5,
-    _t3$4,
-    _t4$4,
-    _t5$4,
-    _t6$4,
-    _t7$4;
 /*
   SDTEquationHM2Hr element
   <sdt-equation-hm2hr>
@@ -17733,7 +16895,6 @@ let _$5 = t => t,
   Attributes:
   Hits; Misses; Hit Rate;
 */
-
 class SDTEquationHM2Hr extends SDTEquation {
   static get properties() {
     return {
@@ -17754,18 +16915,15 @@ class SDTEquationHM2Hr extends SDTEquation {
       }
     };
   }
-
   constructor() {
     super();
     this.h = 0;
     this.m = 0;
     this.alignState();
   }
-
   alignState() {
     this.hr = SDTMath.hM2Hr(this.h, this.m);
   }
-
   sendEvent() {
     this.dispatchEvent(new CustomEvent('sdt-equation-hm2hr-change', {
       detail: {
@@ -17776,85 +16934,67 @@ class SDTEquationHM2Hr extends SDTEquation {
       bubbles: true
     }));
   }
-
   hInput(event) {
     this.h = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   mInput(event) {
     this.m = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   render() {
     this.alignState();
     let h;
     let m;
     let hr;
-
     if (this.numeric) {
-      h = $(_t$5 || (_t$5 = _$5`
-        <decidables-spinner class="h" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      h = $`
+        <decidables-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <var>Hits</var>
         </decidables-spinner>
-      `), !this.interactive, this.h, this.hInput.bind(this));
-      m = $(_t2$5 || (_t2$5 = _$5`
-        <decidables-spinner class="m" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      `;
+      m = $`
+        <decidables-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <var>Misses</var>
         </decidables-spinner>
-      `), !this.interactive, this.m, this.mInput.bind(this));
-      hr = $(_t3$4 || (_t3$4 = _$5`
-        <decidables-spinner class="hr" disabled min="0" max="1" step=".001" .value="${0}">
+      `;
+      hr = $`
+        <decidables-spinner class="hr" disabled min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}">
           <var>Hit Rate</var>
         </decidables-spinner>
-      `), +this.hr.toFixed(3));
+      `;
     } else {
-      h = $(_t4$4 || (_t4$4 = _$5`<var class="h">Hits</var>`));
-      m = $(_t5$4 || (_t5$4 = _$5`<var class="m">Misses</var>`));
-      hr = $(_t6$4 || (_t6$4 = _$5`<var class="hr">Hit Rate</var>`));
+      h = $`<var class="h">Hits</var>`;
+      m = $`<var class="m">Misses</var>`;
+      hr = $`<var class="hr">Hit Rate</var>`;
     }
-
-    return $(_t7$4 || (_t7$4 = _$5`
+    return $`
       <div class="holder">
         <table class="equation">
           <tbody>
             <tr>
               <td rowspan="2">
-                ${0}<span class="equals">=</span>
+                ${hr}<span class="equals">=</span>
               </td>
               <td class="underline">
-                ${0}
+                ${h}
               </td>
             </tr>
             <tr>
               <td>
-                ${0}<span class="plus">+</span>${0}
+                ${h}<span class="plus">+</span>${m}
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-    `), hr, h, h, m);
+    `;
   }
-
 }
 customElements.define('sdt-equation-hm2hr', SDTEquationHM2Hr);
 
-let _$4 = t => t,
-    _t$4,
-    _t2$4,
-    _t3$3,
-    _t4$3,
-    _t5$3,
-    _t6$3,
-    _t7$3,
-    _t8$2,
-    _t9$2,
-    _t10$2,
-    _t11$2;
 /*
   SDTEquationHMFaCr2Acc element
   <sdt-equation-hmfacr2acc>
@@ -17862,7 +17002,6 @@ let _$4 = t => t,
   Attributes:
   Hits; Misses; False Alarms; Correct Rejections; Accuracy;
 */
-
 class SDTEquationHMFaCr2Acc extends SDTEquation {
   static get properties() {
     return {
@@ -17893,7 +17032,6 @@ class SDTEquationHMFaCr2Acc extends SDTEquation {
       }
     };
   }
-
   constructor() {
     super();
     this.h = 0;
@@ -17902,11 +17040,9 @@ class SDTEquationHMFaCr2Acc extends SDTEquation {
     this.cr = 0;
     this.alignState();
   }
-
   alignState() {
     this.acc = SDTMath.hMFaCr2Acc(this.h, this.m, this.fa, this.cr);
   }
-
   sendEvent() {
     this.dispatchEvent(new CustomEvent('sdt-equation-hmfacr2acc-change', {
       detail: {
@@ -17919,31 +17055,26 @@ class SDTEquationHMFaCr2Acc extends SDTEquation {
       bubbles: true
     }));
   }
-
   hInput(event) {
     this.h = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   mInput(event) {
     this.m = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   faInput(event) {
     this.fa = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   crInput(event) {
     this.cr = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   render() {
     this.alignState();
     let h;
@@ -17951,78 +17082,63 @@ class SDTEquationHMFaCr2Acc extends SDTEquation {
     let fa;
     let cr;
     let acc;
-
     if (this.numeric) {
-      h = $(_t$4 || (_t$4 = _$4`
-        <decidables-spinner class="h" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      h = $`
+        <decidables-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <var>Hits</var>
         </decidables-spinner>
-      `), !this.interactive, this.h, this.hInput.bind(this));
-      m = $(_t2$4 || (_t2$4 = _$4`
-        <decidables-spinner class="m" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      `;
+      m = $`
+        <decidables-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <var>Misses</var>
         </decidables-spinner>
-      `), !this.interactive, this.m, this.mInput.bind(this));
-      fa = $(_t3$3 || (_t3$3 = _$4`
-        <decidables-spinner class="fa" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      `;
+      fa = $`
+        <decidables-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <var>False Alarms</var>
         </decidables-spinner>
-      `), !this.interactive, this.fa, this.faInput.bind(this));
-      cr = $(_t4$3 || (_t4$3 = _$4`
-        <decidables-spinner class="cr" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      `;
+      cr = $`
+        <decidables-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <var>Correct Rejections</var>
         </decidables-spinner>
-      `), !this.interactive, this.cr, this.crInput.bind(this));
-      acc = $(_t5$3 || (_t5$3 = _$4`
-        <decidables-spinner class="acc" disabled min="0" max="1" step=".001" .value="${0}">
+      `;
+      acc = $`
+        <decidables-spinner class="acc" disabled min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}">
           <var>Accuracy</var>
         </decidables-spinner>
-      `), +this.acc.toFixed(3));
+      `;
     } else {
-      h = $(_t6$3 || (_t6$3 = _$4`<var class="h">Hits</var>`));
-      m = $(_t7$3 || (_t7$3 = _$4`<var class="m">Misses</var>`));
-      fa = $(_t8$2 || (_t8$2 = _$4`<var class="fa">False Alarms</var>`));
-      cr = $(_t9$2 || (_t9$2 = _$4`<var class="cr">Correct Rejections</var>`));
-      acc = $(_t10$2 || (_t10$2 = _$4`<var class="acc">Accuracy</var>`));
+      h = $`<var class="h">Hits</var>`;
+      m = $`<var class="m">Misses</var>`;
+      fa = $`<var class="fa">False Alarms</var>`;
+      cr = $`<var class="cr">Correct Rejections</var>`;
+      acc = $`<var class="acc">Accuracy</var>`;
     }
-
-    return $(_t11$2 || (_t11$2 = _$4`
+    return $`
       <div class="holder">
         <table class="equation">
           <tbody>
             <tr>
               <td rowspan="2">
-                ${0}<span class="equals">=</span>
+                ${acc}<span class="equals">=</span>
               </td>
               <td class="underline">
-                ${0}<span class="plus">+</span>${0}
+                ${h}<span class="plus">+</span>${cr}
               </td>
             </tr>
             <tr>
               <td>
-                ${0}<span class="plus">+</span>${0}<span class="plus">+</span>${0}<span class="plus">+</span>${0}
+                ${h}<span class="plus">+</span>${cr}<span class="plus">+</span>${m}<span class="plus">+</span>${fa}
               </td>
             </tr>
           </tbody>
         </table>
-      </div>`), acc, h, cr, h, cr, m, fa);
+      </div>`;
   }
-
 }
 customElements.define('sdt-equation-hmfacr2acc', SDTEquationHMFaCr2Acc);
 
-let _$3 = t => t,
-    _t$3,
-    _t2$3,
-    _t3$2,
-    _t4$2,
-    _t5$2,
-    _t6$2,
-    _t7$2,
-    _t8$1,
-    _t9$1,
-    _t10$1,
-    _t11$1;
 /*
   SDTEquationHrFar2C element
   <sdt-equation-hrfar2c>
@@ -18030,7 +17146,6 @@ let _$3 = t => t,
   Attributes:
   Hit Rate; False Alarm Rate; d';
 */
-
 class SDTEquationHrFar2C extends SDTEquation {
   static get properties() {
     return {
@@ -18061,7 +17176,6 @@ class SDTEquationHrFar2C extends SDTEquation {
       }
     };
   }
-
   constructor() {
     super();
     this.unequal = false;
@@ -18070,11 +17184,9 @@ class SDTEquationHrFar2C extends SDTEquation {
     this.s = 1;
     this.alignState();
   }
-
   alignState() {
     this.c = SDTMath.hrFar2C(this.hr, this.far, this.s);
   }
-
   sendEvent() {
     this.dispatchEvent(new CustomEvent('sdt-equation-hrfar2c-change', {
       detail: {
@@ -18086,79 +17198,72 @@ class SDTEquationHrFar2C extends SDTEquation {
       bubbles: true
     }));
   }
-
   hrInput(event) {
     this.hr = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   farInput(event) {
     this.far = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   sInput(event) {
     this.s = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   render() {
     this.alignState();
     let hr;
     let far;
     let s;
     let c;
-
     if (this.numeric) {
-      hr = $(_t$3 || (_t$3 = _$3`
-        <decidables-spinner class="hr bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+      hr = $`
+        <decidables-spinner class="hr bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.hr}" @input=${this.hrInput.bind(this)}>
           <var>Hit Rate</var>
         </decidables-spinner>
-      `), !this.interactive, this.hr, this.hrInput.bind(this));
-      far = $(_t2$3 || (_t2$3 = _$3`
-        <decidables-spinner class="far bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+      `;
+      far = $`
+        <decidables-spinner class="far bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.far}" @input=${this.farInput.bind(this)}>
           <var>False Alarm Rate</var>
         </decidables-spinner>
-      `), !this.interactive, this.far, this.farInput.bind(this));
-      s = $(_t3$2 || (_t3$2 = _$3`
-        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+      `;
+      s = $`
+        <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
           <var class="math-var">σ</var>
         </decidables-spinner>
-      `), !this.interactive, this.s, this.sInput.bind(this));
-      c = $(_t4$2 || (_t4$2 = _$3`
-        <decidables-spinner class="c bottom" disabled step=".001" .value="${0}">
+      `;
+      c = $`
+        <decidables-spinner class="c bottom" disabled step=".001" .value="${+this.c.toFixed(3)}">
           <var class="math-var">c</var>
         </decidables-spinner>
-      `), +this.c.toFixed(3));
+      `;
     } else {
-      hr = $(_t5$2 || (_t5$2 = _$3`<var class="hr">Hit Rate</var>`));
-      far = $(_t6$2 || (_t6$2 = _$3`<var class="far">False Alarm Rate</var>`));
-      s = $(_t7$2 || (_t7$2 = _$3`<var class="math-var s">σ</var>`));
-      c = $(_t8$1 || (_t8$1 = _$3`<var class="math-var c">c</var>`));
+      hr = $`<var class="hr">Hit Rate</var>`;
+      far = $`<var class="far">False Alarm Rate</var>`;
+      s = $`<var class="math-var s">σ</var>`;
+      c = $`<var class="math-var c">c</var>`;
     }
-
     let equation;
-
     if (this.unequal) {
-      equation = $(_t9$1 || (_t9$1 = _$3`
+      equation = $`
         <tr>
           <td rowspan="2">
-            ${0}<span class="equals">=</span><span class="bracket tight">(</span>
+            ${c}<span class="equals">=</span><span class="bracket tight">(</span>
           </td>
           <td class="underline bottom">
-            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+            <span>1</span><span class="plus tight">+</span><span>${s}<sup class="exp">2</sup></span>
           </td>
           <td rowspan="2">
             <span class="bracket tight">)<sup class="exp">−½</sup></span><span class="bracket tight">(</span>
           </td>
           <td class="underline bottom">
-            <span class="minus tight">−</span>${0}
+            <span class="minus tight">−</span>${s}
           </td>
           <td rowspan="2">
-            <span class="bracket tight">)</span><span class="bracket">[</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="plus">+</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="bracket">]</span>
+            <span class="bracket tight">)</span><span class="bracket">[</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="plus">+</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span><span class="bracket">]</span>
           </td>
         </tr>
         <tr>
@@ -18166,51 +17271,37 @@ class SDTEquationHrFar2C extends SDTEquation {
             <span>2</span>
           </td>
           <td>
-            <span><span>1</span><span class="plus">+</span>${0}</span>
+            <span><span>1</span><span class="plus">+</span>${s}</span>
           </td>
-        </tr>`), c, s, s, hr, far, s);
+        </tr>`;
     } else {
-      equation = $(_t10$1 || (_t10$1 = _$3`
+      equation = $`
         <tr>
           <td rowspan="2">
-            ${0}<span class="equals">=</span>
+            ${c}<span class="equals">=</span>
           </td>
           <td class="underline">
-            <span class="minus tight">−</span><span class="bracket tight">[</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="plus">+</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="bracket tight">]</span>
+            <span class="minus tight">−</span><span class="bracket tight">[</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="plus">+</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span><span class="bracket tight">]</span>
           </td>
         </tr>
         <tr>
           <td>
             <span>2</span>
           </td>
-        </tr>`), c, hr, far);
+        </tr>`;
     }
-
-    return $(_t11$1 || (_t11$1 = _$3`
+    return $`
       <div class="holder">
         <table class="equation">
           <tbody>
-            ${0}
+            ${equation}
           </tbody>
         </table>
-      </div>`), equation);
+      </div>`;
   }
-
 }
 customElements.define('sdt-equation-hrfar2c', SDTEquationHrFar2C);
 
-let _$2 = t => t,
-    _t$2,
-    _t2$2,
-    _t3$1,
-    _t4$1,
-    _t5$1,
-    _t6$1,
-    _t7$1,
-    _t8,
-    _t9,
-    _t10,
-    _t11;
 /*
   SDTEquationHrFar2D element
   <sdt-equation-hrfar2d>
@@ -18218,7 +17309,6 @@ let _$2 = t => t,
   Attributes:
   Hit Rate; False Alarm Rate; d';
 */
-
 class SDTEquationHrFar2D extends SDTEquation {
   static get properties() {
     return {
@@ -18249,7 +17339,6 @@ class SDTEquationHrFar2D extends SDTEquation {
       }
     };
   }
-
   constructor() {
     super();
     this.unequal = false;
@@ -18258,11 +17347,9 @@ class SDTEquationHrFar2D extends SDTEquation {
     this.s = 1;
     this.alignState();
   }
-
   alignState() {
     this.d = SDTMath.hrFar2D(this.hr, this.far, this.s);
   }
-
   sendEvent() {
     this.dispatchEvent(new CustomEvent('sdt-equation-hrfar2d-change', {
       detail: {
@@ -18274,110 +17361,93 @@ class SDTEquationHrFar2D extends SDTEquation {
       bubbles: true
     }));
   }
-
   hrInput(event) {
     this.hr = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   farInput(event) {
     this.far = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   sInput(event) {
     this.s = parseFloat(event.target.value);
     this.alignState();
     this.sendEvent();
   }
-
   render() {
     this.alignState();
     let hr;
     let far;
     let s;
     let d;
-
     if (this.numeric) {
-      hr = $(_t$2 || (_t$2 = _$2`
-        <decidables-spinner class="hr bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+      hr = $`
+        <decidables-spinner class="hr bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.hr}" @input=${this.hrInput.bind(this)}>
           <var>Hit Rate</var>
         </decidables-spinner>
-      `), !this.interactive, this.hr, this.hrInput.bind(this));
-      far = $(_t2$2 || (_t2$2 = _$2`
-        <decidables-spinner class="far bottom" ?disabled=${0} min="0" max="1" step=".001" .value="${0}" @input=${0}>
+      `;
+      far = $`
+        <decidables-spinner class="far bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.far}" @input=${this.farInput.bind(this)}>
           <var>False Alarm Rate</var>
         </decidables-spinner>
-      `), !this.interactive, this.far, this.farInput.bind(this));
-      s = $(_t3$1 || (_t3$1 = _$2`
-        <decidables-spinner class="s bottom" ?disabled=${0} min="0" step=".001" .value="${0}" @input=${0}>
+      `;
+      s = $`
+        <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
           <var class="math-var">σ</var>
         </decidables-spinner>
-      `), !this.interactive, this.s, this.sInput.bind(this));
-      d = $(_t4$1 || (_t4$1 = _$2`
-        <decidables-spinner class="d bottom" disabled step=".001" .value="${0}">
+      `;
+      d = $`
+        <decidables-spinner class="d bottom" disabled step=".001" .value="${+this.d.toFixed(3)}">
           <var class="math-var">d′</var>
         </decidables-spinner>
-      `), +this.d.toFixed(3));
+      `;
     } else {
-      hr = $(_t5$1 || (_t5$1 = _$2`<var class="hr">Hit Rate</var>`));
-      far = $(_t6$1 || (_t6$1 = _$2`<var class="far">False Alarm Rate</var>`));
-      s = $(_t7$1 || (_t7$1 = _$2`<var class="math-var s">σ</var>`));
-      d = $(_t8 || (_t8 = _$2`<var class="math-var d">d′</var>`));
+      hr = $`<var class="hr">Hit Rate</var>`;
+      far = $`<var class="far">False Alarm Rate</var>`;
+      s = $`<var class="math-var s">σ</var>`;
+      d = $`<var class="math-var d">d′</var>`;
     }
-
     let equation;
-
     if (this.unequal) {
-      equation = $(_t9 || (_t9 = _$2`
+      equation = $`
         <tr>
           <td rowspan="2">
-            ${0}<span class="equals">=</span><span class="bracket tight">(</span>
+            ${d}<span class="equals">=</span><span class="bracket tight">(</span>
           </td>
           <td class="underline bottom">
-            <span>1</span><span class="plus tight">+</span><span>${0}<sup class="exp">2</sup></span>
+            <span>1</span><span class="plus tight">+</span><span>${s}<sup class="exp">2</sup></span>
           </td>
           <td rowspan="2">
-            <span class="bracket tight">)<sup class="exp">−½</sup></span><span class="bracket">[</span>${0}<span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="bracket">]</span>
+            <span class="bracket tight">)<sup class="exp">−½</sup></span><span class="bracket">[</span>${s}<span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span><span class="bracket">]</span>
           </td>
         </tr>
         <tr>
           <td>
             <span>2</span>
           </td>
-        </tr>`), d, s, s, hr, far);
+        </tr>`;
     } else {
-      equation = $(_t10 || (_t10 = _$2`
+      equation = $`
         <tr>
           <td>
-              ${0}<span class="equals">=</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${0}<span class="paren tight">)</span>
+              ${d}<span class="equals">=</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span>
           </td>
-        </tr>`), d, hr, far);
+        </tr>`;
     }
-
-    return $(_t11 || (_t11 = _$2`
+    return $`
       <div class="holder">
         <table class="equation">
           <tbody>
-            ${0}
+            ${equation}
           </tbody>
         </table>
-      </div>`), equation);
+      </div>`;
   }
-
 }
 customElements.define('sdt-equation-hrfar2d', SDTEquationHrFar2D);
 
-let _$1 = t => t,
-    _t$1,
-    _t2$1,
-    _t3,
-    _t4,
-    _t5,
-    _t6,
-    _t7;
 /*
   SDTEquationMCr2Fomr element
   <sdt-equation-mcr2fomr>
@@ -18385,7 +17455,6 @@ let _$1 = t => t,
   Attributes:
   Hits; Misses; Hit Rate;
 */
-
 class SDTEquationMCr2Fomr extends SDTEquation {
   static get properties() {
     return {
@@ -18406,18 +17475,15 @@ class SDTEquationMCr2Fomr extends SDTEquation {
       }
     };
   }
-
   constructor() {
     super();
     this.m = 0;
     this.cr = 0;
     this.alignState();
   }
-
   alignState() {
     this.fomr = SDTMath.mCr2Fomr(this.m, this.cr);
   }
-
   sendEvent() {
     this.dispatchEvent(new CustomEvent('sdt-equation-mcr2fomr-change', {
       detail: {
@@ -18428,84 +17494,74 @@ class SDTEquationMCr2Fomr extends SDTEquation {
       bubbles: true
     }));
   }
-
   mInput(event) {
     this.m = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   crInput(event) {
     this.cr = parseInt(event.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
-
   render() {
     this.alignState();
     let m;
     let cr;
     let fomr;
-
     if (this.numeric) {
-      m = $(_t$1 || (_t$1 = _$1`
-        <decidables-spinner class="m" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      m = $`
+        <decidables-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <var>Misses</var>
         </decidables-spinner>
-      `), !this.interactive, this.m, this.mInput.bind(this));
-      cr = $(_t2$1 || (_t2$1 = _$1`
-        <decidables-spinner class="cr" ?disabled=${0} min="0" .value="${0}" @input=${0}>
+      `;
+      cr = $`
+        <decidables-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <var>Correct Rejections</var>
         </decidables-spinner>
-      `), !this.interactive, this.cr, this.crInput.bind(this));
-      fomr = $(_t3 || (_t3 = _$1`
-        <decidables-spinner class="fomr" disabled min="0" max="1" step=".001" .value="${0}">
+      `;
+      fomr = $`
+        <decidables-spinner class="fomr" disabled min="0" max="1" step=".001" .value="${+this.fomr.toFixed(3)}">
           <var>False Omission Rate</var>
         </decidables-spinner>
-      `), +this.fomr.toFixed(3));
+      `;
     } else {
-      m = $(_t4 || (_t4 = _$1`<var class="m">Misses</var>`));
-      cr = $(_t5 || (_t5 = _$1`<var class="cr">Correct Rejections</var>`));
-      fomr = $(_t6 || (_t6 = _$1`<var class="fomr">False Omission Rate</var>`));
+      m = $`<var class="m">Misses</var>`;
+      cr = $`<var class="cr">Correct Rejections</var>`;
+      fomr = $`<var class="fomr">False Omission Rate</var>`;
     }
-
-    return $(_t7 || (_t7 = _$1`
+    return $`
       <div class="holder">
         <table class="equation">
           <tbody>
             <tr>
               <td rowspan="2">
-                ${0}<span class="equals">=</span>
+                ${fomr}<span class="equals">=</span>
               </td>
               <td class="underline">
-                ${0}
+                ${m}
               </td>
             </tr>
             <tr>
               <td>
-                ${0}<span class="plus">+</span>${0}
+                ${m}<span class="plus">+</span>${cr}
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-    `), fomr, m, m, cr);
+    `;
   }
-
 }
 customElements.define('sdt-equation-mcr2fomr', SDTEquationMCr2Fomr);
 
-let _ = t => t,
-    _t,
-    _t2;
 /*
   SDTExample Base Class - Not intended for instantiation!
   <sdt-example>
 */
-
 class SDTExample extends DetectableElement {
   static get styles() {
-    return [super.styles, r$2(_t || (_t = _`
+    return [super.styles, r$2`
         :host {
           display: inline-block;
 
@@ -18549,19 +17605,17 @@ class SDTExample extends DetectableElement {
         .body ::slotted(rdk-task) {
           margin-left: 0;
         }
-      `))];
+      `];
   }
-
   render() {
     /* eslint-disable-line class-methods-use-this */
-    return $(_t2 || (_t2 = _`
+    return $`
       <div class="holder">
         <div class="body">
           <slot>Empty!</slot>
         </div>
-      </div>`));
+      </div>`;
   }
-
 }
 customElements.define('sdt-example', SDTExample);
 
@@ -18569,9 +17623,9 @@ customElements.define('sdt-example', SDTExample);
   SDTExample_DoubleInteractive element
   <sdt-example-interactive>
 */
-
 class SDTExampleDoubleInteractive extends SDTExample {
-  firstUpdated() {
+  firstUpdated( /* changedProperties */
+  ) {
     this.one = {};
     this.one.h = 95;
     this.one.m = 5;
@@ -18595,7 +17649,6 @@ class SDTExampleDoubleInteractive extends SDTExample {
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModelOne = this.querySelector('sdt-model:nth-of-type(1)');
     this.sdtModelTwo = this.querySelector('sdt-model:nth-of-type(2)');
-
     if (this.detectableTableOne) {
       this.detectableTableOne.h = this.one.h;
       this.detectableTableOne.m = this.one.m;
@@ -18605,14 +17658,12 @@ class SDTExampleDoubleInteractive extends SDTExample {
         if (this.rocSpace) {
           this.rocSpace.set(event.detail.hr, event.detail.far, 'default', '↑');
         }
-
         if (this.sdtModelOne) {
           this.sdtModelOne.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far);
           this.sdtModelOne.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far);
         }
       });
     }
-
     if (this.detectableTableTwo) {
       this.detectableTableTwo.h = this.two.h;
       this.detectableTableTwo.m = this.two.m;
@@ -18622,14 +17673,12 @@ class SDTExampleDoubleInteractive extends SDTExample {
         if (this.rocSpace) {
           this.rocSpace.set(event.detail.hr, event.detail.far, 'two', '↓');
         }
-
         if (this.sdtModelTwo) {
           this.sdtModelTwo.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far);
           this.sdtModelTwo.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far);
         }
       });
     }
-
     if (this.rocSpace) {
       this.rocSpace.set(this.one.hr, this.one.far, 'default', '↑');
       this.rocSpace.set(this.two.hr, this.two.far, 'two', '↓');
@@ -18641,7 +17690,6 @@ class SDTExampleDoubleInteractive extends SDTExample {
           this.sdtModelTwo.d = event.detail.d;
           this.sdtModelTwo.c = event.detail.c;
         }
-
         if (event.detail.name === 'default' && this.detectableTableOne) {
           const newh = Math.round((this.detectableTableOne.h + this.detectableTableOne.m) * event.detail.hr);
           const newm = this.detectableTableOne.h + this.detectableTableOne.m - newh;
@@ -18663,7 +17711,6 @@ class SDTExampleDoubleInteractive extends SDTExample {
         }
       });
     }
-
     if (this.sdtModelOne) {
       this.sdtModelOne.d = this.one.d;
       this.sdtModelOne.c = this.one.c;
@@ -18671,7 +17718,6 @@ class SDTExampleDoubleInteractive extends SDTExample {
         if (this.rocSpace) {
           this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', '↑');
         }
-
         if (this.detectableTableOne) {
           const newh = Math.round((this.detectableTableOne.h + this.detectableTableOne.m) * event.detail.hr);
           const newm = this.detectableTableOne.h + this.detectableTableOne.m - newh;
@@ -18684,7 +17730,6 @@ class SDTExampleDoubleInteractive extends SDTExample {
         }
       });
     }
-
     if (this.sdtModelTwo) {
       this.sdtModelTwo.d = this.two.d;
       this.sdtModelTwo.c = this.two.c;
@@ -18692,7 +17737,6 @@ class SDTExampleDoubleInteractive extends SDTExample {
         if (this.rocSpace) {
           this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'two', '↓');
         }
-
         if (this.detectableTableTwo) {
           const newh = Math.round((this.detectableTableTwo.h + this.detectableTableTwo.m) * event.detail.hr);
           const newm = this.detectableTableTwo.h + this.detectableTableTwo.m - newh;
@@ -18706,7 +17750,6 @@ class SDTExampleDoubleInteractive extends SDTExample {
       });
     }
   }
-
 }
 customElements.define('sdt-example-double-interactive', SDTExampleDoubleInteractive);
 
@@ -18714,9 +17757,9 @@ customElements.define('sdt-example-double-interactive', SDTExampleDoubleInteract
   SDTExample_Human element
   <sdt-example-human>
 */
-
 class SDTExampleHuman extends SDTExample {
-  firstUpdated() {
+  firstUpdated( /* changedProperties */
+  ) {
     this.count = 1;
     this.detectableControl = this.querySelector('detectable-control');
     this.rdkTask = this.querySelector('rdk-task');
@@ -18724,25 +17767,21 @@ class SDTExampleHuman extends SDTExample {
     this.detectableTable = this.querySelector('detectable-table');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
-
     if (this.rocSpace) {
       if (this.rocSpace.hasAttribute('history')) {
         this.rocSpace.set(0.5, 0.5, 'default', this.count);
       }
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('trials')) {
       this.detectableControl.addEventListener('detectable-control-trials', event => {
         if (this.rdkTask) {
           this.rdkTask.trials = event.detail.trials;
         }
-
         if (this.detectableResponse) {
           this.detectableResponse.trialTotal = event.detail.trials;
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('duration')) {
       this.detectableControl.addEventListener('detectable-control-duration', event => {
         if (this.rdkTask) {
@@ -18752,7 +17791,6 @@ class SDTExampleHuman extends SDTExample {
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('coherence')) {
       this.detectableControl.addEventListener('detectable-control-coherence', event => {
         if (this.rdkTask) {
@@ -18760,62 +17798,53 @@ class SDTExampleHuman extends SDTExample {
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('payoff')) {
       this.detectableControl.addEventListener('detectable-control-payoff', event => {
         if (this.detectableResponse) {
           this.detectableResponse.hPayoff = event.detail.payoff;
           this.detectableResponse.mPayoff = -event.detail.payoff + 0; // Get rid of -0
-
           this.detectableResponse.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
-
           this.detectableResponse.crPayoff = 100 - event.detail.payoff;
         }
-
         if (this.detectableTable) {
           this.detectableTable.hPayoff = event.detail.payoff;
           this.detectableTable.mPayoff = -event.detail.payoff + 0; // Get rid of -0
-
           this.detectableTable.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
-
           this.detectableTable.crPayoff = 100 - event.detail.payoff;
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('run')) {
-      this.detectableControl.addEventListener('detectable-control-run', () => {
+      this.detectableControl.addEventListener('detectable-control-run', ( /* event */
+      ) => {
         if (this.rdkTask) {
           this.rdkTask.running = true;
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('pause')) {
-      this.detectableControl.addEventListener('detectable-control-pause', () => {
+      this.detectableControl.addEventListener('detectable-control-pause', ( /* event */
+      ) => {
         if (this.rdkTask) {
           this.rdkTask.running = false;
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('reset')) {
-      this.detectableControl.addEventListener('detectable-control-reset', () => {
+      this.detectableControl.addEventListener('detectable-control-reset', ( /* event */
+      ) => {
         if (this.rdkTask) {
           this.rdkTask.reset();
         }
-
         if (this.detectableResponse) {
           this.detectableResponse.reset();
         }
-
         if (this.detectableTable) {
           this.detectableTable.h = 0;
           this.detectableTable.m = 0;
           this.detectableTable.fa = 0;
           this.detectableTable.cr = 0;
         }
-
         if (this.rocSpace) {
           if (this.rocSpace.hasAttribute('history')) {
             this.count += 1;
@@ -18825,20 +17854,17 @@ class SDTExampleHuman extends SDTExample {
             this.rocSpace.far = 0.5;
           }
         }
-
         if (this.sdtModel) {
           this.sdtModel.d = 0;
           this.sdtModel.c = 0;
         }
       });
     }
-
     if (this.rdkTask) {
       if (this.detectableResponse) {
         this.detectableResponse.trialTotal = this.rdkTask.trials;
       }
     }
-
     if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-trial-start', event => {
         if (this.detectableResponse) {
@@ -18846,23 +17872,22 @@ class SDTExampleHuman extends SDTExample {
         }
       });
     }
-
     if (this.rdkTask) {
-      this.rdkTask.addEventListener('rdk-trial-end', () => {
+      this.rdkTask.addEventListener('rdk-trial-end', ( /* event */
+      ) => {
         if (this.detectableResponse) {
           this.detectableResponse.stop();
         }
       });
     }
-
     if (this.rdkTask) {
-      this.rdkTask.addEventListener('rdk-block-end', () => {
+      this.rdkTask.addEventListener('rdk-block-end', ( /* event */
+      ) => {
         if (this.detectableControl) {
           this.detectableControl.complete();
         }
       });
     }
-
     if (this.detectableResponse) {
       this.detectableResponse.addEventListener('detectable-response', event => {
         if (this.detectableTable) {
@@ -18871,10 +17896,8 @@ class SDTExampleHuman extends SDTExample {
           this.detectableTable.fa = event.detail.fa;
           this.detectableTable.cr = event.detail.cr;
         }
-
         const newhr = SDTMath.hM2Hr(event.detail.h + 1, event.detail.m + 1);
         const newfar = SDTMath.faCr2Far(event.detail.fa + 1, event.detail.cr + 1);
-
         if (this.rocSpace) {
           if (this.rocSpace.hasAttribute('history')) {
             this.rocSpace.set(newhr, newfar, this.count === 1 ? 'default' : `point${this.count}`, this.count);
@@ -18883,7 +17906,6 @@ class SDTExampleHuman extends SDTExample {
             this.rocSpace.far = newfar;
           }
         }
-
         if (this.sdtModel) {
           this.sdtModel.d = SDTMath.hrFar2D(newhr, newfar);
           this.sdtModel.c = SDTMath.hrFar2C(newhr, newfar);
@@ -18891,7 +17913,6 @@ class SDTExampleHuman extends SDTExample {
       });
     }
   }
-
 }
 customElements.define('sdt-example-human', SDTExampleHuman);
 
@@ -18899,27 +17920,24 @@ customElements.define('sdt-example-human', SDTExampleHuman);
   SDTExample_Interactive element
   <sdt-example-interactive>
 */
-
 class SDTExampleInteractive extends SDTExample {
-  firstUpdated() {
+  firstUpdated( /* changedProperties */
+  ) {
     this.detectableControl = this.querySelector('detectable-control');
     this.detectableTable = this.querySelector('detectable-table');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
     this.rocSpaces = this.querySelectorAll('roc-space');
-
     if (this.detectableControl && this.detectableControl.hasAttribute('color')) {
       this.detectableControl.addEventListener('detectable-control-color', event => {
         if (this.sdtModel) {
           this.sdtModel.color = event.detail.color;
         }
-
         if (this.detectableTable) {
           this.detectableTable.color = event.detail.color;
         }
       });
     }
-
     if (this.detectableControl) {
       this.detectableControl.addEventListener('detectable-control-z-roc', event => {
         if (this.rocSpaces.length > 0) {
@@ -18929,45 +17947,38 @@ class SDTExampleInteractive extends SDTExample {
         }
       });
     }
-
     if (this.detectableTable) {
       if (this.rocSpace) {
         this.rocSpace.hr = SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m);
         this.rocSpace.far = SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr);
       }
-
       if (this.sdtModel) {
         this.sdtModel.d = SDTMath.hrFar2D(SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m), SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr), this.sdtModel.s);
         this.sdtModel.c = SDTMath.hrFar2C(SDTMath.hM2Hr(this.detectableTable.h, this.detectableTable.m), SDTMath.faCr2Far(this.detectableTable.fa, this.detectableTable.cr), this.sdtModel.s);
       }
-
       this.detectableTable.addEventListener('detectable-table-change', event => {
         if (this.rocSpace) {
           this.rocSpace.far = event.detail.far;
           this.rocSpace.hr = event.detail.hr;
         }
-
         if (this.sdtModel) {
           this.sdtModel.d = SDTMath.hrFar2D(event.detail.hr, event.detail.far, this.sdtModel.s);
           this.sdtModel.c = SDTMath.hrFar2C(event.detail.hr, event.detail.far, this.sdtModel.s);
         }
       });
     }
-
     if (this.rocSpace) {
       if (this.sdtModel && !this.detectableTable) {
         this.sdtModel.d = SDTMath.hrFar2D(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
         this.sdtModel.c = SDTMath.hrFar2C(this.rocSpace.hr, this.rocSpace.far, this.rocSpace.s);
         this.sdtModel.s = this.rocSpace.s;
       }
-
       this.rocSpace.addEventListener('roc-point-change', event => {
         if (this.sdtModel) {
           this.sdtModel.d = event.detail.d;
           this.sdtModel.c = event.detail.c;
           this.sdtModel.s = event.detail.s;
         }
-
         if (this.detectableTable) {
           const newh = Math.round((this.detectableTable.h + this.detectableTable.m) * event.detail.hr);
           const newm = this.detectableTable.h + this.detectableTable.m - newh;
@@ -18980,7 +17991,6 @@ class SDTExampleInteractive extends SDTExample {
         }
       });
     }
-
     if (this.sdtModel) {
       this.sdtModel.addEventListener('sdt-model-change', event => {
         if (this.rocSpaces.length > 0) {
@@ -18988,7 +17998,6 @@ class SDTExampleInteractive extends SDTExample {
             rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', '', event.detail.s);
           });
         }
-
         if (this.detectableTable) {
           const newh = Math.round((this.detectableTable.h + this.detectableTable.m) * event.detail.hr);
           const newm = this.detectableTable.h + this.detectableTable.m - newh;
@@ -19002,7 +18011,6 @@ class SDTExampleInteractive extends SDTExample {
       });
     }
   }
-
 }
 customElements.define('sdt-example-interactive', SDTExampleInteractive);
 
@@ -19010,9 +18018,9 @@ customElements.define('sdt-example-interactive', SDTExampleInteractive);
   SDTExample_Model element
   <sdt-example-model>
 */
-
 class SDTExampleModel extends SDTExample {
-  firstUpdated() {
+  firstUpdated( /* changedProperties */
+  ) {
     this.count = 1;
     this.detectableControl = this.querySelector('detectable-control');
     this.rdkTask = this.querySelector('rdk-task');
@@ -19020,19 +18028,16 @@ class SDTExampleModel extends SDTExample {
     this.detectableResponse = this.querySelector('detectable-response');
     this.detectableTable = this.querySelector('detectable-table');
     this.rocSpace = this.querySelector('roc-space');
-
     if (this.detectableControl && this.detectableControl.hasAttribute('color')) {
       this.detectableControl.addEventListener('detectable-control-color', event => {
         if (this.sdtModel) {
           this.sdtModel.color = event.detail.color;
         }
-
         if (this.detectableTable) {
           this.detectableTable.color = event.detail.color;
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('duration')) {
       this.detectableControl.addEventListener('detectable-control-duration', event => {
         if (this.rdkTask) {
@@ -19042,19 +18047,16 @@ class SDTExampleModel extends SDTExample {
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('trials')) {
       this.detectableControl.addEventListener('detectable-control-trials', event => {
         if (this.rdkTask) {
           this.rdkTask.trials = event.detail.trials;
         }
-
         if (this.detectableResponse) {
           this.detectableResponse.trialTotal = event.detail.trials;
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('coherence')) {
       this.detectableControl.addEventListener('detectable-control-coherence', event => {
         if (this.rdkTask) {
@@ -19062,52 +18064,46 @@ class SDTExampleModel extends SDTExample {
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('run')) {
-      this.detectableControl.addEventListener('detectable-control-run', () => {
+      this.detectableControl.addEventListener('detectable-control-run', ( /* event */
+      ) => {
         if (this.rdkTask) {
           this.rdkTask.running = true;
         }
-
         if (this.sdtModel) {
           this.sdtModel.resumeTrial();
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('pause')) {
-      this.detectableControl.addEventListener('detectable-control-pause', () => {
+      this.detectableControl.addEventListener('detectable-control-pause', ( /* event */
+      ) => {
         if (this.rdkTask) {
           this.rdkTask.running = false;
         }
-
         if (this.sdtModel) {
           this.sdtModel.pauseTrial();
         }
       });
     }
-
     if (this.detectableControl && this.detectableControl.hasAttribute('reset')) {
-      this.detectableControl.addEventListener('detectable-control-reset', () => {
+      this.detectableControl.addEventListener('detectable-control-reset', ( /* event */
+      ) => {
         if (this.rdkTask) {
           this.rdkTask.reset();
         }
-
         if (this.detectableResponse) {
           this.detectableResponse.reset();
         }
-
         if (this.sdtModel) {
           this.sdtModel.reset();
         }
-
         if (this.detectableTable) {
           this.detectableTable.h = 0;
           this.detectableTable.m = 0;
           this.detectableTable.fa = 0;
           this.detectableTable.cr = 0;
         }
-
         if (this.rocSpace) {
           if (this.rocSpace.hasAttribute('history')) {
             this.count += 1;
@@ -19119,68 +18115,62 @@ class SDTExampleModel extends SDTExample {
         }
       });
     }
-
     if (this.rdkTask) {
       if (this.detectableResponse) {
         this.detectableResponse.trialTotal = this.rdkTask.trials;
       }
     }
-
     if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-trial-start', event => {
         if (this.detectableResponse) {
           this.detectableResponse.start(event.detail.signal, event.detail.trial);
         }
-
         if (this.sdtModel) {
           this.sdtModel.trial(event.detail.trial, event.detail.signal, event.detail.duration, event.detail.wait, event.detail.iti);
         }
       });
     }
-
     if (this.rdkTask) {
-      this.rdkTask.addEventListener('rdk-trial-middle', () => {// if (this.sdtModel) {
+      this.rdkTask.addEventListener('rdk-trial-middle', ( /* event */
+      ) => {
+        // if (this.sdtModel) {
         //   this.sdtModel.trial(event.detail.trial, event.detail.signal);
         // }
       });
     }
-
     if (this.rdkTask) {
-      this.rdkTask.addEventListener('rdk-trial-end', () => {
+      this.rdkTask.addEventListener('rdk-trial-end', ( /* event */
+      ) => {
         if (this.detectableResponse) {
           this.detectableResponse.stop();
         }
       });
     }
-
     if (this.rdkTask) {
-      this.rdkTask.addEventListener('rdk-block-end', () => {
+      this.rdkTask.addEventListener('rdk-block-end', ( /* event */
+      ) => {
         if (this.detectableControl) {
           this.detectableControl.complete();
         }
       });
     }
-
     if (this.sdtModel) {
       this.sdtModel.addEventListener('detectable-response', event => {
         if (this.detectableResponse) {
           this.detectableResponse.responded(event.detail.response);
         }
-
         if (this.detectableTable) {
           this.detectableTable.h = event.detail.h;
           this.detectableTable.m = event.detail.m;
           this.detectableTable.fa = event.detail.fa;
           this.detectableTable.cr = event.detail.cr;
         }
-
         if (this.rocSpace) {
           this.rocSpace.hr = SDTMath.hM2Hr(event.detail.h, event.detail.m);
           this.rocSpace.far = SDTMath.faCr2Far(event.detail.fa, event.detail.cr);
         }
       });
     }
-
     if (this.sdtModel) {
       this.sdtModel.addEventListener('sdt-model-change', event => {
         if (this.detectableTable) {
@@ -19189,7 +18179,6 @@ class SDTExampleModel extends SDTExample {
           this.detectableTable.fa = event.detail.fa;
           this.detectableTable.cr = event.detail.cr;
         }
-
         if (this.rocSpace) {
           this.rocSpace.hr = SDTMath.hM2Hr(event.detail.h, event.detail.m);
           this.rocSpace.far = SDTMath.faCr2Far(event.detail.fa, event.detail.cr);
@@ -19197,7 +18186,6 @@ class SDTExampleModel extends SDTExample {
       });
     }
   }
-
 }
 customElements.define('sdt-example-model', SDTExampleModel);
 
@@ -19205,7 +18193,6 @@ customElements.define('sdt-example-model', SDTExampleModel);
   SDTExampleMulti element
   <sdt-example-multi>
 */
-
 class SDTExampleMultiple extends SDTExample {
   static get properties() {
     return {
@@ -19221,28 +18208,24 @@ class SDTExampleMultiple extends SDTExample {
       }
     };
   }
-
   constructor() {
     super();
     this.variables = ['d', 'c'];
     this.variable = 'd';
     this.values = [0, 1];
   }
-
-  firstUpdated() {
+  firstUpdated( /* changedProperties */
+  ) {
     this.detectableControl = this.querySelector('detectable-control');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
-
     if (this.detectableControl) {
       this.detectableControl.addEventListener('detectable-control-z-roc', event => {
         this.rocSpace.zRoc = event.detail.zRoc;
       });
     }
-
     if (this.rocSpace) {
       this.rocSpace.setWithSDT(1, 0, 'default', '', 1);
-
       if (this.variable === 'd') {
         this.values.forEach((d, index) => {
           this.rocSpace.setWithSDT(d, this.sdtModel.c, `point${index}`, index + 1, this.sdtModel.s);
@@ -19253,12 +18236,10 @@ class SDTExampleMultiple extends SDTExample {
         });
       }
     }
-
     if (this.sdtModel) {
       this.sdtModel.addEventListener('sdt-model-change', event => {
         if (this.rocSpace) {
           this.rocSpace.setWithSDT(event.detail.d, event.detail.c, 'default', '', event.detail.s);
-
           if (this.variable === 'd') {
             this.values.forEach((d, index) => {
               this.rocSpace.setWithSDT(d, event.detail.c, `point${index}`, index + 1, event.detail.s);
@@ -19272,7 +18253,6 @@ class SDTExampleMultiple extends SDTExample {
       });
     }
   }
-
 }
 customElements.define('sdt-example-multiple', SDTExampleMultiple);
 
@@ -19280,19 +18260,17 @@ customElements.define('sdt-example-multiple', SDTExampleMultiple);
   SDTExampleUnequal element
   <sdt-example-unequal>
 */
-
 class SDTExampleUnequal extends SDTExample {
-  firstUpdated() {
+  firstUpdated( /* changedProperties */
+  ) {
     this.detectableControl = this.querySelector('detectable-control');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
-
     if (this.detectableControl) {
       this.detectableControl.addEventListener('detectable-control-z-roc', event => {
         this.rocSpace.zRoc = event.detail.zRoc;
       });
     }
-
     if (this.rocSpace) {
       this.rocSpace.setWithSDT(1, 0, 'default', '', 1); // Set 'default' to equal variance for contours
 
@@ -19300,7 +18278,6 @@ class SDTExampleUnequal extends SDTExample {
         this.rocSpace.setWithSDT(this.sdtModel.d, c, `point${index}`, '', this.sdtModel.s);
       });
     }
-
     if (this.sdtModel) {
       this.sdtModel.addEventListener('sdt-model-change', event => {
         if (this.rocSpace) {
@@ -19311,7 +18288,6 @@ class SDTExampleUnequal extends SDTExample {
       });
     }
   }
-
 }
 customElements.define('sdt-example-unequal', SDTExampleUnequal);
 
