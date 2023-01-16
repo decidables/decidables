@@ -122,5 +122,8 @@
     "type-detect": "^4.0.8",
     "unist-util-visit": "^4.1.1",
     "vinyl": "^3.0.0"
+  },
+  "resolutions": {
+    "@web/dev-server-rollup@^0.3.19": "patch:@web/dev-server-rollup@npm%3A0.3.19#./.yarn/patches/@web-dev-server-rollup-npm-0.3.19-a1d5e41d5f.patch"
   }
 }
