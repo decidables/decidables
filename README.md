@@ -2,7 +2,7 @@
 
 # [<b>decidables</b>](https://decidables.github.io)<br>Explorable Explanations of Decision Making
 
-[![deployment](https://img.shields.io/github/workflow/status/decidables/decidables/Deployment?label=deployment&logo=github)](https://github.com/decidables/decidables/actions/workflows/deploy-to-decidables-github-io.yml)
+[![deployment](https://img.shields.io/github/actions/workflow/status/decidables/decidables/deploy-to-decidables-github-io.yml?branch=main&label=deployment&logo=github)](https://github.com/decidables/decidables/actions/workflows/deploy-to-decidables-github-io.yml)
 [![license](https://img.shields.io/github/package-json/license/decidables/decidables?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
 
 <b>decidables</b> is a collection of websites and supporting libraries for explorable explanations of
