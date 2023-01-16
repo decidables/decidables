@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.5](https://github.com/decidables/decidables/compare/@decidables/detectable@0.9.4...@decidables/detectable@0.9.5) (2023-01-16)
+
+**Note:** Version bump only for package @decidables/detectable
+
+
+
+
+
 ### [0.9.4](https://github.com/decidables/decidables/compare/@decidables/detectable@0.9.3...@decidables/detectable@0.9.4) (2022-04-28)
 
 **Note:** Version bump only for package @decidables/detectable
