@@ -236,8 +236,9 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 
 #### Publish
 
-- `yarn publish`
+- `yarn publish ######`
   - **Note:** to be run immediately after `yarn version`
+  - **Note:** `######` should be replaced with an actual one time passcode
   - Publishes all new versions of *public* libraries to *npm*
 
 #### Deploy
