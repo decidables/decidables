@@ -1,7 +1,11 @@
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
-import { fromRollup } from '@web/dev-server-rollup';
+// Monkey patch!
+// import { fromRollup } from '@web/dev-server-rollup';
+import {fromRollupWithFix} from './scripts/wtrCommonjsFixes.js';
 
-const commonjsPlugin = fromRollup(rollupPluginCommonjs);
+// Monkey patch!
+// const commonjsPlugin = fromRollup(rollupPluginCommonjs);
+const commonjsPlugin = fromRollupWithFix(rollupPluginCommonjs);
 
 export default {
   nodeResolve: true,
@@ -12,12 +16,6 @@ export default {
     reportDir: 'test/coverage',
   },
   plugins: [
-    commonjsPlugin({
-      include: [
-        '../../**/node_modules/deep-eql/**/*',
-        '../../**/node_modules/jstat/**/*',
-        '../../**/node_modules/type-detect/**/*',
-      ],
-    }),
+    commonjsPlugin(),
   ],
 };
