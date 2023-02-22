@@ -1902,7 +1902,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@decidables/decidables-elements@^0.3.2, @decidables/decidables-elements@workspace:libraries/decidables-elements":
+"@decidables/decidables-elements@^0.3.3, @decidables/decidables-elements@workspace:libraries/decidables-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/decidables-elements@workspace:libraries/decidables-elements"
   dependencies:
@@ -1917,8 +1917,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/decidables@workspace:sites/decidables"
   dependencies:
-    "@decidables/detectable-elements": ^0.2.2
-    "@decidables/prospectable-elements": ^0.2.2
+    "@decidables/detectable-elements": ^0.2.3
+    "@decidables/prospectable-elements": ^0.2.3
     bootstrap: ^5.2.3
     bootstrap-icons: ^1.10.3
     core-js: ^3.27.1
@@ -1931,12 +1931,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/detectable-elements@^0.2.2, @decidables/detectable-elements@workspace:libraries/detectable-elements":
+"@decidables/detectable-elements@^0.2.3, @decidables/detectable-elements@workspace:libraries/detectable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/detectable-elements@workspace:libraries/detectable-elements"
   dependencies:
-    "@decidables/decidables-elements": ^0.3.2
-    "@decidables/detectable-math": ^0.1.2
+    "@decidables/decidables-elements": ^0.3.3
+    "@decidables/detectable-math": ^0.1.3
     "@web/test-runner": ^0.15.0
     d3: ^7.8.0
     gulp: ^4.0.2
@@ -1945,7 +1945,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/detectable-math@^0.1.2, @decidables/detectable-math@workspace:libraries/detectable-math":
+"@decidables/detectable-math@^0.1.3, @decidables/detectable-math@workspace:libraries/detectable-math":
   version: 0.0.0-use.local
   resolution: "@decidables/detectable-math@workspace:libraries/detectable-math"
   dependencies:
@@ -1959,7 +1959,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/detectable@workspace:sites/detectable"
   dependencies:
-    "@decidables/detectable-elements": ^0.2.2
+    "@decidables/detectable-elements": ^0.2.3
     bootstrap: ^5.2.3
     bootstrap-icons: ^1.10.3
     core-js: ^3.27.1
@@ -1972,12 +1972,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/prospectable-elements@^0.2.2, @decidables/prospectable-elements@workspace:libraries/prospectable-elements":
+"@decidables/prospectable-elements@^0.2.3, @decidables/prospectable-elements@workspace:libraries/prospectable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable-elements@workspace:libraries/prospectable-elements"
   dependencies:
-    "@decidables/decidables-elements": ^0.3.2
-    "@decidables/prospectable-math": ^0.2.0
+    "@decidables/decidables-elements": ^0.3.3
+    "@decidables/prospectable-math": ^0.2.1
     "@lit-labs/motion": ^1.0.3
     "@web/test-runner": ^0.15.0
     bayes.js: "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f"
@@ -1994,7 +1994,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/prospectable-math@^0.2.0, @decidables/prospectable-math@workspace:libraries/prospectable-math":
+"@decidables/prospectable-math@^0.2.1, @decidables/prospectable-math@workspace:libraries/prospectable-math":
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable-math@workspace:libraries/prospectable-math"
   dependencies:
@@ -2007,7 +2007,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable@workspace:sites/prospectable"
   dependencies:
-    "@decidables/prospectable-elements": ^0.2.2
+    "@decidables/prospectable-elements": ^0.2.3
     bootstrap: ^5.2.3
     bootstrap-icons: ^1.10.3
     core-js: ^3.27.1
