@@ -1,11 +1,8 @@
-import rollupPluginCommonjs from '@rollup/plugin-commonjs';
-// Monkey patch!
-// import { fromRollup } from '@web/dev-server-rollup';
-import {fromRollupWithFix} from './scripts/wtrCommonjsFixes.js';
 
-// Monkey patch!
-// const commonjsPlugin = fromRollup(rollupPluginCommonjs);
-const commonjsPlugin = fromRollupWithFix(rollupPluginCommonjs);
+import rollupPluginCommonjs from '@rollup/plugin-commonjs';
+import { fromRollup } from '@web/dev-server-rollup';
+
+const commonjsPlugin = fromRollup(rollupPluginCommonjs);
 
 export default {
   nodeResolve: true,
