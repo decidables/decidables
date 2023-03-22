@@ -1,6 +1,6 @@
 {
   "name": "@decidables/prospectable",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "prospectable: An Explorable Explanation of Cumulative Prospect Theory",
   "type": "module",
   "main": "./dist/index.html",
