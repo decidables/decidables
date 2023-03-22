@@ -55,7 +55,7 @@
     "build": "gulp build"
   },
   "devDependencies": {
-    "@web/test-runner": "^0.15.0",
+    "@web/test-runner": "^0.15.1",
     "gulp": "^4.0.2",
     "gulp-dart-sass": "^1.0.2",
     "gulp-inject": "^5.0.5",
@@ -67,7 +67,7 @@
     "@decidables/prospectable-math": "^0.2.1",
     "@lit-labs/motion": "^1.0.3",
     "bayes.js": "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f",
-    "d3": "^7.8.0",
+    "d3": "^7.8.2",
     "jstat": "^1.9.6",
     "lit": "^2.5.0",
     "plotly.js": "^2.17.0",
