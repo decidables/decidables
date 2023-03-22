@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.5](https://github.com/decidables/decidables/compare/@decidables/decidables@0.6.4...@decidables/decidables@0.6.5) (2023-03-22)
+
+
+### Bug Fixes
+
+* **sites:** rolling back Source Serif Pro from 4.5 to 4.4 ([c5eb475](https://github.com/decidables/decidables/commit/c5eb4754b60fb1036c85dbaff3cd3d534f3a6267))
+
+
+
 ## [0.6.4](https://github.com/decidables/decidables/compare/@decidables/decidables@0.6.3...@decidables/decidables@0.6.4) (2023-03-22)
 
 **Note:** Version bump only for package @decidables/decidables
