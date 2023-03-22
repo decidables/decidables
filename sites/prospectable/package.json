@@ -29,11 +29,11 @@
     "@decidables/prospectable-elements": "^0.2.3",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
-    "core-js": "^3.27.1",
-    "lit": "^2.5.0",
+    "core-js": "^3.29.1",
+    "lit": "^2.7.0",
     "regenerator-runtime": "^0.13.11",
     "source-code-pro": "^2.38.0",
     "source-sans": "^3.46.0",
-    "source-serif": "^4.4.0"
+    "source-serif": "^4.5.0"
   }
 }
