@@ -66,6 +66,7 @@ Dependencies updated 15/1/2023.
 
 ### Features/Bugs/Notes
 
+- Use prettier?
 - Cleanup headers and comments in all *.js files!
 - Add targets/links to all headers
   - *rehype-slug* (https://github.com/rehypejs/rehype-slug)

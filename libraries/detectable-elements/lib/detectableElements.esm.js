@@ -3,21 +3,21 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$3 = window,
-  e$5 = t$3.ShadowRoot && (void 0 === t$3.ShadyCSS || t$3.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
-  s$6 = Symbol(),
-  n$6 = new WeakMap();
-let o$6 = class o {
+const t$2 = window,
+  e$4 = t$2.ShadowRoot && (void 0 === t$2.ShadyCSS || t$2.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
+  s$5 = Symbol(),
+  n$5 = new WeakMap();
+let o$5 = class o {
   constructor(t, e, n) {
-    if (this._$cssResult$ = !0, n !== s$6) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+    if (this._$cssResult$ = !0, n !== s$5) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
     this.cssText = t, this.t = e;
   }
   get styleSheet() {
     let t = this.o;
     const s = this.t;
-    if (e$5 && void 0 === t) {
+    if (e$4 && void 0 === t) {
       const e = void 0 !== s && 1 === s.length;
-      e && (t = n$6.get(s)), void 0 === t && ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText), e && n$6.set(s, t));
+      e && (t = n$5.get(s)), void 0 === t && ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText), e && n$5.set(s, t));
     }
     return t;
   }
@@ -25,18 +25,18 @@ let o$6 = class o {
     return this.cssText;
   }
 };
-const r$5 = t => new o$6("string" == typeof t ? t : t + "", void 0, s$6),
-  S$3 = (s, n) => {
-    e$5 ? s.adoptedStyleSheets = n.map(t => t instanceof CSSStyleSheet ? t : t.styleSheet) : n.forEach(e => {
+const r$4 = t => new o$5("string" == typeof t ? t : t + "", void 0, s$5),
+  S$2 = (s, n) => {
+    e$4 ? s.adoptedStyleSheets = n.map(t => t instanceof CSSStyleSheet ? t : t.styleSheet) : n.forEach(e => {
       const n = document.createElement("style"),
-        o = t$3.litNonce;
+        o = t$2.litNonce;
       void 0 !== o && n.setAttribute("nonce", o), n.textContent = e.cssText, s.appendChild(n);
     });
   },
-  c$2 = e$5 ? t => t : t => t instanceof CSSStyleSheet ? (t => {
+  c$1 = e$4 ? t => t : t => t instanceof CSSStyleSheet ? (t => {
     let e = "";
     for (const s of t.cssRules) e += s.cssText;
-    return r$5(e);
+    return r$4(e);
   })(t) : t;
 
 /**
@@ -44,16 +44,16 @@ const r$5 = t => new o$6("string" == typeof t ? t : t + "", void 0, s$6),
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-var s$5;
-const e$4 = window,
-  r$4 = e$4.trustedTypes,
-  h$3 = r$4 ? r$4.emptyScript : "",
-  o$5 = e$4.reactiveElementPolyfillSupport,
-  n$5 = {
+var s$4;
+const e$3 = window,
+  r$3 = e$3.trustedTypes,
+  h$2 = r$3 ? r$3.emptyScript : "",
+  o$4 = e$3.reactiveElementPolyfillSupport,
+  n$4 = {
     toAttribute(t, i) {
       switch (i) {
         case Boolean:
-          t = t ? h$3 : null;
+          t = t ? h$2 : null;
           break;
         case Object:
         case Array:
@@ -81,15 +81,15 @@ const e$4 = window,
       return s;
     }
   },
-  a$3 = (t, i) => i !== t && (i == i || t == t),
-  l$5 = {
+  a$2 = (t, i) => i !== t && (i == i || t == t),
+  l$4 = {
     attribute: !0,
     type: String,
-    converter: n$5,
+    converter: n$4,
     reflect: !1,
-    hasChanged: a$3
+    hasChanged: a$2
   };
-let d$2 = class d extends HTMLElement {
+let d$1 = class d extends HTMLElement {
   constructor() {
     super(), this._$Ei = new Map(), this.isUpdatePending = !1, this.hasUpdated = !1, this._$El = null, this.u();
   }
@@ -105,7 +105,7 @@ let d$2 = class d extends HTMLElement {
       void 0 !== e && (this._$Ev.set(e, s), t.push(e));
     }), t;
   }
-  static createProperty(t, i = l$5) {
+  static createProperty(t, i = l$4) {
     if (i.state && (i.attribute = !1), this.finalize(), this.elementProperties.set(t, i), !i.noAccessor && !this.prototype.hasOwnProperty(t)) {
       const s = "symbol" == typeof t ? Symbol() : "__" + t,
         e = this.getPropertyDescriptor(t, s, i);
@@ -126,7 +126,7 @@ let d$2 = class d extends HTMLElement {
     };
   }
   static getPropertyOptions(t) {
-    return this.elementProperties.get(t) || l$5;
+    return this.elementProperties.get(t) || l$4;
   }
   static finalize() {
     if (this.hasOwnProperty("finalized")) return !1;
@@ -143,8 +143,8 @@ let d$2 = class d extends HTMLElement {
     const s = [];
     if (Array.isArray(i)) {
       const e = new Set(i.flat(1 / 0).reverse());
-      for (const i of e) s.unshift(c$2(i));
-    } else void 0 !== i && s.push(c$2(i));
+      for (const i of e) s.unshift(c$1(i));
+    } else void 0 !== i && s.push(c$1(i));
     return s;
   }
   static _$Ep(t, i) {
@@ -171,7 +171,7 @@ let d$2 = class d extends HTMLElement {
   createRenderRoot() {
     var t;
     const s = null !== (t = this.shadowRoot) && void 0 !== t ? t : this.attachShadow(this.constructor.shadowRootOptions);
-    return S$3(s, this.constructor.elementStyles), s;
+    return S$2(s, this.constructor.elementStyles), s;
   }
   connectedCallback() {
     var t;
@@ -191,11 +191,11 @@ let d$2 = class d extends HTMLElement {
   attributeChangedCallback(t, i, s) {
     this._$AK(t, s);
   }
-  _$EO(t, i, s = l$5) {
+  _$EO(t, i, s = l$4) {
     var e;
     const r = this.constructor._$Ep(t, s);
     if (void 0 !== r && !0 === s.reflect) {
-      const h = (void 0 !== (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute) ? s.converter : n$5).toAttribute(i, s.type);
+      const h = (void 0 !== (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute) ? s.converter : n$4).toAttribute(i, s.type);
       this._$El = t, null == h ? this.removeAttribute(r) : this.setAttribute(r, h), this._$El = null;
     }
   }
@@ -207,13 +207,13 @@ let d$2 = class d extends HTMLElement {
       const t = e.getPropertyOptions(r),
         h = "function" == typeof t.converter ? {
           fromAttribute: t.converter
-        } : void 0 !== (null === (s = t.converter) || void 0 === s ? void 0 : s.fromAttribute) ? t.converter : n$5;
+        } : void 0 !== (null === (s = t.converter) || void 0 === s ? void 0 : s.fromAttribute) ? t.converter : n$4;
       this._$El = r, this[r] = h.fromAttribute(i, t.type), this._$El = null;
     }
   }
   requestUpdate(t, i, s) {
     let e = !0;
-    void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || a$3)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$El !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$E_ = this._$Ej());
+    void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || a$2)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$El !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$E_ = this._$Ej());
   }
   async _$Ej() {
     this.isUpdatePending = !0;
@@ -270,140 +270,149 @@ let d$2 = class d extends HTMLElement {
   updated(t) {}
   firstUpdated(t) {}
 };
-d$2.finalized = !0, d$2.elementProperties = new Map(), d$2.elementStyles = [], d$2.shadowRootOptions = {
+d$1.finalized = !0, d$1.elementProperties = new Map(), d$1.elementStyles = [], d$1.shadowRootOptions = {
   mode: "open"
-}, null == o$5 || o$5({
-  ReactiveElement: d$2
-}), (null !== (s$5 = e$4.reactiveElementVersions) && void 0 !== s$5 ? s$5 : e$4.reactiveElementVersions = []).push("1.5.0");
+}, null == o$4 || o$4({
+  ReactiveElement: d$1
+}), (null !== (s$4 = e$3.reactiveElementVersions) && void 0 !== s$4 ? s$4 : e$3.reactiveElementVersions = []).push("1.6.1");
 
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-var t$2;
-const i$2 = window,
-  s$4 = i$2.trustedTypes,
-  e$3 = s$4 ? s$4.createPolicy("lit-html", {
+var t$1;
+const i$1 = window,
+  s$3 = i$1.trustedTypes,
+  e$2 = s$3 ? s$3.createPolicy("lit-html", {
     createHTML: t => t
   }) : void 0,
-  o$4 = `lit$${(Math.random() + "").slice(9)}$`,
-  n$4 = "?" + o$4,
-  l$4 = `<${n$4}>`,
-  h$2 = document,
-  r$3 = (t = "") => h$2.createComment(t),
-  d$1 = t => null === t || "object" != typeof t && "function" != typeof t,
-  u$1 = Array.isArray,
-  c$1 = t => u$1(t) || "function" == typeof (null == t ? void 0 : t[Symbol.iterator]),
-  v$1 = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
-  a$2 = /-->/g,
-  f$1 = />/g,
-  _$1 = RegExp(">|[ \t\n\f\r](?:([^\\s\"'>=/]+)([ \t\n\f\r]*=[ \t\n\f\r]*(?:[^ \t\n\f\r\"'`<>=]|(\"|')|))|$)", "g"),
-  m$1 = /'/g,
-  p$1 = /"/g,
-  $$1 = /^(?:script|style|textarea|title)$/i,
-  x$2 = Symbol.for("lit-noChange"),
-  b$1 = Symbol.for("lit-nothing"),
-  T$1 = new WeakMap(),
-  A$1 = h$2.createTreeWalker(h$2, 129, null, !1),
-  E$1 = (t, i) => {
+  o$3 = "$lit$",
+  n$3 = `lit$${(Math.random() + "").slice(9)}$`,
+  l$3 = "?" + n$3,
+  h$1 = `<${l$3}>`,
+  r$2 = document,
+  d = () => r$2.createComment(""),
+  u = t => null === t || "object" != typeof t && "function" != typeof t,
+  c = Array.isArray,
+  v = t => c(t) || "function" == typeof (null == t ? void 0 : t[Symbol.iterator]),
+  a$1 = "[ \t\n\f\r]",
+  f = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
+  _ = /-->/g,
+  m = />/g,
+  p = RegExp(`>|${a$1}(?:([^\\s"'>=/]+)(${a$1}*=${a$1}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"),
+  g = /'/g,
+  $ = /"/g,
+  y$1 = /^(?:script|style|textarea|title)$/i,
+  w = t => (i, ...s) => ({
+    _$litType$: t,
+    strings: i,
+    values: s
+  }),
+  x$1 = w(1),
+  b = w(2),
+  T = Symbol.for("lit-noChange"),
+  A = Symbol.for("lit-nothing"),
+  E = new WeakMap(),
+  C = r$2.createTreeWalker(r$2, 129, null, !1),
+  P = (t, i) => {
     const s = t.length - 1,
-      n = [];
-    let h,
-      r = 2 === i ? "<svg>" : "",
-      d = v$1;
+      l = [];
+    let r,
+      d = 2 === i ? "<svg>" : "",
+      u = f;
     for (let i = 0; i < s; i++) {
       const s = t[i];
       let e,
-        u,
-        c = -1,
-        g = 0;
-      for (; g < s.length && (d.lastIndex = g, u = d.exec(s), null !== u);) g = d.lastIndex, d === v$1 ? "!--" === u[1] ? d = a$2 : void 0 !== u[1] ? d = f$1 : void 0 !== u[2] ? ($$1.test(u[2]) && (h = RegExp("</" + u[2], "g")), d = _$1) : void 0 !== u[3] && (d = _$1) : d === _$1 ? ">" === u[0] ? (d = null != h ? h : v$1, c = -1) : void 0 === u[1] ? c = -2 : (c = d.lastIndex - u[2].length, e = u[1], d = void 0 === u[3] ? _$1 : '"' === u[3] ? p$1 : m$1) : d === p$1 || d === m$1 ? d = _$1 : d === a$2 || d === f$1 ? d = v$1 : (d = _$1, h = void 0);
-      const y = d === _$1 && t[i + 1].startsWith("/>") ? " " : "";
-      r += d === v$1 ? s + l$4 : c >= 0 ? (n.push(e), s.slice(0, c) + "$lit$" + s.slice(c) + o$4 + y) : s + o$4 + (-2 === c ? (n.push(void 0), i) : y);
+        c,
+        v = -1,
+        a = 0;
+      for (; a < s.length && (u.lastIndex = a, c = u.exec(s), null !== c);) a = u.lastIndex, u === f ? "!--" === c[1] ? u = _ : void 0 !== c[1] ? u = m : void 0 !== c[2] ? (y$1.test(c[2]) && (r = RegExp("</" + c[2], "g")), u = p) : void 0 !== c[3] && (u = p) : u === p ? ">" === c[0] ? (u = null != r ? r : f, v = -1) : void 0 === c[1] ? v = -2 : (v = u.lastIndex - c[2].length, e = c[1], u = void 0 === c[3] ? p : '"' === c[3] ? $ : g) : u === $ || u === g ? u = p : u === _ || u === m ? u = f : (u = p, r = void 0);
+      const w = u === p && t[i + 1].startsWith("/>") ? " " : "";
+      d += u === f ? s + h$1 : v >= 0 ? (l.push(e), s.slice(0, v) + o$3 + s.slice(v) + n$3 + w) : s + n$3 + (-2 === v ? (l.push(void 0), i) : w);
     }
-    const u = r + (t[s] || "<?>") + (2 === i ? "</svg>" : "");
+    const c = d + (t[s] || "<?>") + (2 === i ? "</svg>" : "");
     if (!Array.isArray(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
-    return [void 0 !== e$3 ? e$3.createHTML(u) : u, n];
+    return [void 0 !== e$2 ? e$2.createHTML(c) : c, l];
   };
-let C$1 = class C {
+class V {
   constructor({
     strings: t,
     _$litType$: i
   }, e) {
-    let l;
+    let h;
     this.parts = [];
-    let h = 0,
-      d = 0;
-    const u = t.length - 1,
-      c = this.parts,
-      [v, a] = E$1(t, i);
-    if (this.el = C$1.createElement(v, e), A$1.currentNode = this.el.content, 2 === i) {
+    let r = 0,
+      u = 0;
+    const c = t.length - 1,
+      v = this.parts,
+      [a, f] = P(t, i);
+    if (this.el = V.createElement(a, e), C.currentNode = this.el.content, 2 === i) {
       const t = this.el.content,
         i = t.firstChild;
       i.remove(), t.append(...i.childNodes);
     }
-    for (; null !== (l = A$1.nextNode()) && c.length < u;) {
-      if (1 === l.nodeType) {
-        if (l.hasAttributes()) {
+    for (; null !== (h = C.nextNode()) && v.length < c;) {
+      if (1 === h.nodeType) {
+        if (h.hasAttributes()) {
           const t = [];
-          for (const i of l.getAttributeNames()) if (i.endsWith("$lit$") || i.startsWith(o$4)) {
-            const s = a[d++];
+          for (const i of h.getAttributeNames()) if (i.endsWith(o$3) || i.startsWith(n$3)) {
+            const s = f[u++];
             if (t.push(i), void 0 !== s) {
-              const t = l.getAttribute(s.toLowerCase() + "$lit$").split(o$4),
+              const t = h.getAttribute(s.toLowerCase() + o$3).split(n$3),
                 i = /([.?@])?(.*)/.exec(s);
-              c.push({
+              v.push({
                 type: 1,
-                index: h,
+                index: r,
                 name: i[2],
                 strings: t,
-                ctor: "." === i[1] ? M$1 : "?" === i[1] ? k$1 : "@" === i[1] ? H$1 : S$2
+                ctor: "." === i[1] ? k : "?" === i[1] ? I : "@" === i[1] ? L : R
               });
-            } else c.push({
+            } else v.push({
               type: 6,
-              index: h
+              index: r
             });
           }
-          for (const i of t) l.removeAttribute(i);
+          for (const i of t) h.removeAttribute(i);
         }
-        if ($$1.test(l.tagName)) {
-          const t = l.textContent.split(o$4),
+        if (y$1.test(h.tagName)) {
+          const t = h.textContent.split(n$3),
             i = t.length - 1;
           if (i > 0) {
-            l.textContent = s$4 ? s$4.emptyScript : "";
-            for (let s = 0; s < i; s++) l.append(t[s], r$3()), A$1.nextNode(), c.push({
+            h.textContent = s$3 ? s$3.emptyScript : "";
+            for (let s = 0; s < i; s++) h.append(t[s], d()), C.nextNode(), v.push({
               type: 2,
-              index: ++h
+              index: ++r
             });
-            l.append(t[i], r$3());
+            h.append(t[i], d());
           }
         }
-      } else if (8 === l.nodeType) if (l.data === n$4) c.push({
+      } else if (8 === h.nodeType) if (h.data === l$3) v.push({
         type: 2,
-        index: h
+        index: r
       });else {
         let t = -1;
-        for (; -1 !== (t = l.data.indexOf(o$4, t + 1));) c.push({
+        for (; -1 !== (t = h.data.indexOf(n$3, t + 1));) v.push({
           type: 7,
-          index: h
-        }), t += o$4.length - 1;
+          index: r
+        }), t += n$3.length - 1;
       }
-      h++;
+      r++;
     }
   }
   static createElement(t, i) {
-    const s = h$2.createElement("template");
+    const s = r$2.createElement("template");
     return s.innerHTML = t, s;
   }
-};
-function P$1(t, i, s = t, e) {
-  var o, n, l, h;
-  if (i === x$2) return i;
-  let r = void 0 !== e ? null === (o = s._$Co) || void 0 === o ? void 0 : o[e] : s._$Cl;
-  const u = d$1(i) ? void 0 : i._$litDirective$;
-  return (null == r ? void 0 : r.constructor) !== u && (null === (n = null == r ? void 0 : r._$AO) || void 0 === n || n.call(r, !1), void 0 === u ? r = void 0 : (r = new u(t), r._$AT(t, s, e)), void 0 !== e ? (null !== (l = (h = s)._$Co) && void 0 !== l ? l : h._$Co = [])[e] = r : s._$Cl = r), void 0 !== r && (i = P$1(t, r._$AS(t, i.values), r, e)), i;
 }
-let V$1 = class V {
+function N(t, i, s = t, e) {
+  var o, n, l, h;
+  if (i === T) return i;
+  let r = void 0 !== e ? null === (o = s._$Co) || void 0 === o ? void 0 : o[e] : s._$Cl;
+  const d = u(i) ? void 0 : i._$litDirective$;
+  return (null == r ? void 0 : r.constructor) !== d && (null === (n = null == r ? void 0 : r._$AO) || void 0 === n || n.call(r, !1), void 0 === d ? r = void 0 : (r = new d(t), r._$AT(t, s, e)), void 0 !== e ? (null !== (l = (h = s)._$Co) && void 0 !== l ? l : h._$Co = [])[e] = r : s._$Cl = r), void 0 !== r && (i = N(t, r._$AS(t, i.values), r, e)), i;
+}
+let S$1 = class S {
   constructor(t, i) {
     this.u = [], this._$AN = void 0, this._$AD = t, this._$AM = i;
   }
@@ -421,18 +430,18 @@ let V$1 = class V {
         },
         parts: e
       } = this._$AD,
-      o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i ? i : h$2).importNode(s, !0);
-    A$1.currentNode = o;
-    let n = A$1.nextNode(),
+      o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i ? i : r$2).importNode(s, !0);
+    C.currentNode = o;
+    let n = C.nextNode(),
       l = 0,
-      r = 0,
+      h = 0,
       d = e[0];
     for (; void 0 !== d;) {
       if (l === d.index) {
         let i;
-        2 === d.type ? i = new N$1(n, n.nextSibling, this, t) : 1 === d.type ? i = new d.ctor(n, d.name, d.strings, this, t) : 6 === d.type && (i = new I$1(n, this, t)), this.u.push(i), d = e[++r];
+        2 === d.type ? i = new M(n, n.nextSibling, this, t) : 1 === d.type ? i = new d.ctor(n, d.name, d.strings, this, t) : 6 === d.type && (i = new z(n, this, t)), this.u.push(i), d = e[++h];
       }
-      l !== (null == d ? void 0 : d.index) && (n = A$1.nextNode(), l++);
+      l !== (null == d ? void 0 : d.index) && (n = C.nextNode(), l++);
     }
     return o;
   }
@@ -441,10 +450,10 @@ let V$1 = class V {
     for (const s of this.u) void 0 !== s && (void 0 !== s.strings ? (s._$AI(t, s, i), i += s.strings.length - 2) : s._$AI(t[i])), i++;
   }
 };
-let N$1 = class N {
+class M {
   constructor(t, i, s, e) {
     var o;
-    this.type = 2, this._$AH = b$1, this._$AN = void 0, this._$AA = t, this._$AB = i, this._$AM = s, this.options = e, this._$Cm = null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o;
+    this.type = 2, this._$AH = A, this._$AN = void 0, this._$AA = t, this._$AB = i, this._$AM = s, this.options = e, this._$Cm = null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o;
   }
   get _$AU() {
     var t, i;
@@ -453,7 +462,7 @@ let N$1 = class N {
   get parentNode() {
     let t = this._$AA.parentNode;
     const i = this._$AM;
-    return void 0 !== i && 11 === t.nodeType && (t = i.parentNode), t;
+    return void 0 !== i && 11 === (null == t ? void 0 : t.nodeType) && (t = i.parentNode), t;
   }
   get startNode() {
     return this._$AA;
@@ -462,16 +471,16 @@ let N$1 = class N {
     return this._$AB;
   }
   _$AI(t, i = this) {
-    t = P$1(this, t, i), d$1(t) ? t === b$1 || null == t || "" === t ? (this._$AH !== b$1 && this._$AR(), this._$AH = b$1) : t !== this._$AH && t !== x$2 && this.g(t) : void 0 !== t._$litType$ ? this.$(t) : void 0 !== t.nodeType ? this.T(t) : c$1(t) ? this.k(t) : this.g(t);
+    t = N(this, t, i), u(t) ? t === A || null == t || "" === t ? (this._$AH !== A && this._$AR(), this._$AH = A) : t !== this._$AH && t !== T && this.g(t) : void 0 !== t._$litType$ ? this.$(t) : void 0 !== t.nodeType ? this.T(t) : v(t) ? this.k(t) : this.g(t);
   }
-  O(t, i = this._$AB) {
-    return this._$AA.parentNode.insertBefore(t, i);
+  S(t) {
+    return this._$AA.parentNode.insertBefore(t, this._$AB);
   }
   T(t) {
-    this._$AH !== t && (this._$AR(), this._$AH = this.O(t));
+    this._$AH !== t && (this._$AR(), this._$AH = this.S(t));
   }
   g(t) {
-    this._$AH !== b$1 && d$1(this._$AH) ? this._$AA.nextSibling.data = t : this.T(h$2.createTextNode(t)), this._$AH = t;
+    this._$AH !== A && u(this._$AH) ? this._$AA.nextSibling.data = t : this.T(r$2.createTextNode(t)), this._$AH = t;
   }
   $(t) {
     var i;
@@ -479,23 +488,23 @@ let N$1 = class N {
         values: s,
         _$litType$: e
       } = t,
-      o = "number" == typeof e ? this._$AC(t) : (void 0 === e.el && (e.el = C$1.createElement(e.h, this.options)), e);
+      o = "number" == typeof e ? this._$AC(t) : (void 0 === e.el && (e.el = V.createElement(e.h, this.options)), e);
     if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o) this._$AH.p(s);else {
-      const t = new V$1(o, this),
+      const t = new S$1(o, this),
         i = t.v(this.options);
       t.p(s), this.T(i), this._$AH = t;
     }
   }
   _$AC(t) {
-    let i = T$1.get(t.strings);
-    return void 0 === i && T$1.set(t.strings, i = new C$1(t)), i;
+    let i = E.get(t.strings);
+    return void 0 === i && E.set(t.strings, i = new V(t)), i;
   }
   k(t) {
-    u$1(this._$AH) || (this._$AH = [], this._$AR());
+    c(this._$AH) || (this._$AH = [], this._$AR());
     const i = this._$AH;
     let s,
       e = 0;
-    for (const o of t) e === i.length ? i.push(s = new N$1(this.O(r$3()), this.O(r$3()), this, this.options)) : s = i[e], s._$AI(o), e++;
+    for (const o of t) e === i.length ? i.push(s = new M(this.S(d()), this.S(d()), this, this.options)) : s = i[e], s._$AI(o), e++;
     e < i.length && (this._$AR(s && s._$AB.nextSibling, e), i.length = e);
   }
   _$AR(t = this._$AA.nextSibling, i) {
@@ -509,10 +518,10 @@ let N$1 = class N {
     var i;
     void 0 === this._$AM && (this._$Cm = t, null === (i = this._$AP) || void 0 === i || i.call(this, t));
   }
-};
-let S$2 = class S {
+}
+class R {
   constructor(t, i, s, e, o) {
-    this.type = 1, this._$AH = b$1, this._$AN = void 0, this.element = t, this.name = i, this._$AM = e, this.options = o, s.length > 2 || "" !== s[0] || "" !== s[1] ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = b$1;
+    this.type = 1, this._$AH = A, this._$AN = void 0, this.element = t, this.name = i, this._$AM = e, this.options = o, s.length > 2 || "" !== s[0] || "" !== s[1] ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = A;
   }
   get tagName() {
     return this.element.tagName;
@@ -523,52 +532,52 @@ let S$2 = class S {
   _$AI(t, i = this, s, e) {
     const o = this.strings;
     let n = !1;
-    if (void 0 === o) t = P$1(this, t, i, 0), n = !d$1(t) || t !== this._$AH && t !== x$2, n && (this._$AH = t);else {
+    if (void 0 === o) t = N(this, t, i, 0), n = !u(t) || t !== this._$AH && t !== T, n && (this._$AH = t);else {
       const e = t;
       let l, h;
-      for (t = o[0], l = 0; l < o.length - 1; l++) h = P$1(this, e[s + l], i, l), h === x$2 && (h = this._$AH[l]), n || (n = !d$1(h) || h !== this._$AH[l]), h === b$1 ? t = b$1 : t !== b$1 && (t += (null != h ? h : "") + o[l + 1]), this._$AH[l] = h;
+      for (t = o[0], l = 0; l < o.length - 1; l++) h = N(this, e[s + l], i, l), h === T && (h = this._$AH[l]), n || (n = !u(h) || h !== this._$AH[l]), h === A ? t = A : t !== A && (t += (null != h ? h : "") + o[l + 1]), this._$AH[l] = h;
     }
     n && !e && this.j(t);
   }
   j(t) {
-    t === b$1 ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, null != t ? t : "");
+    t === A ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, null != t ? t : "");
   }
-};
-let M$1 = class M extends S$2 {
+}
+class k extends R {
   constructor() {
     super(...arguments), this.type = 3;
   }
   j(t) {
-    this.element[this.name] = t === b$1 ? void 0 : t;
+    this.element[this.name] = t === A ? void 0 : t;
   }
-};
-const R = s$4 ? s$4.emptyScript : "";
-let k$1 = class k extends S$2 {
+}
+const H = s$3 ? s$3.emptyScript : "";
+class I extends R {
   constructor() {
     super(...arguments), this.type = 4;
   }
   j(t) {
-    t && t !== b$1 ? this.element.setAttribute(this.name, R) : this.element.removeAttribute(this.name);
+    t && t !== A ? this.element.setAttribute(this.name, H) : this.element.removeAttribute(this.name);
   }
-};
-let H$1 = class H extends S$2 {
+}
+class L extends R {
   constructor(t, i, s, e, o) {
     super(t, i, s, e, o), this.type = 5;
   }
   _$AI(t, i = this) {
     var s;
-    if ((t = null !== (s = P$1(this, t, i, 0)) && void 0 !== s ? s : b$1) === x$2) return;
+    if ((t = null !== (s = N(this, t, i, 0)) && void 0 !== s ? s : A) === T) return;
     const e = this._$AH,
-      o = t === b$1 && e !== b$1 || t.capture !== e.capture || t.once !== e.once || t.passive !== e.passive,
-      n = t !== b$1 && (e === b$1 || o);
+      o = t === A && e !== A || t.capture !== e.capture || t.once !== e.once || t.passive !== e.passive,
+      n = t !== A && (e === A || o);
     o && this.element.removeEventListener(this.name, this, e), n && this.element.addEventListener(this.name, this, t), this._$AH = t;
   }
   handleEvent(t) {
     var i, s;
     "function" == typeof this._$AH ? this._$AH.call(null !== (s = null === (i = this.options) || void 0 === i ? void 0 : i.host) && void 0 !== s ? s : this.element, t) : this._$AH.handleEvent(t);
   }
-};
-let I$1 = class I {
+}
+class z {
   constructor(t, i, s) {
     this.element = t, this.type = 6, this._$AN = void 0, this._$AM = i, this.options = s;
   }
@@ -576,53 +585,63 @@ let I$1 = class I {
     return this._$AM._$AU;
   }
   _$AI(t) {
-    P$1(this, t);
+    N(this, t);
   }
+}
+const j = i$1.litHtmlPolyfillSupport;
+null == j || j(V, M), (null !== (t$1 = i$1.litHtmlVersions) && void 0 !== t$1 ? t$1 : i$1.litHtmlVersions = []).push("2.7.0");
+const B = (t, i, s) => {
+  var e, o;
+  const n = null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i;
+  let l = n._$litPart$;
+  if (void 0 === l) {
+    const t = null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o ? o : null;
+    n._$litPart$ = l = new M(i.insertBefore(d(), t), t, void 0, null != s ? s : {});
+  }
+  return l._$AI(t), l;
 };
-const z$1 = i$2.litHtmlPolyfillSupport;
-null == z$1 || z$1(C$1, N$1), (null !== (t$2 = i$2.litHtmlVersions) && void 0 !== t$2 ? t$2 : i$2.litHtmlVersions = []).push("2.5.0");
 
 /**
  * @license
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$1 = window.ShadowRoot && (void 0 === window.ShadyCSS || window.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
-  e$2 = Symbol(),
-  n$3 = new Map();
-let s$3 = class s {
+const t = window.ShadowRoot && (void 0 === window.ShadyCSS || window.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
+  e$1 = Symbol(),
+  n$2 = new Map();
+let s$2 = class s {
   constructor(t, n) {
-    if (this._$cssResult$ = !0, n !== e$2) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+    if (this._$cssResult$ = !0, n !== e$1) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
     this.cssText = t;
   }
   get styleSheet() {
-    let e = n$3.get(this.cssText);
-    return t$1 && void 0 === e && (n$3.set(this.cssText, e = new CSSStyleSheet()), e.replaceSync(this.cssText)), e;
+    let e = n$2.get(this.cssText);
+    return t && void 0 === e && (n$2.set(this.cssText, e = new CSSStyleSheet()), e.replaceSync(this.cssText)), e;
   }
   toString() {
     return this.cssText;
   }
 };
-const o$3 = t => new s$3("string" == typeof t ? t : t + "", e$2),
-  r$2 = (t, ...n) => {
+const o$2 = t => new s$2("string" == typeof t ? t : t + "", e$1),
+  r$1 = (t, ...n) => {
     const o = 1 === t.length ? t[0] : n.reduce((e, n, s) => e + (t => {
       if (!0 === t._$cssResult$) return t.cssText;
       if ("number" == typeof t) return t;
       throw Error("Value passed to 'css' function must be a 'css' function result: " + t + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
     })(n) + t[s + 1], t[0]);
-    return new s$3(o, e$2);
+    return new s$2(o, e$1);
   },
-  i$1 = (e, n) => {
-    t$1 ? e.adoptedStyleSheets = n.map(t => t instanceof CSSStyleSheet ? t : t.styleSheet) : n.forEach(t => {
+  i = (e, n) => {
+    t ? e.adoptedStyleSheets = n.map(t => t instanceof CSSStyleSheet ? t : t.styleSheet) : n.forEach(t => {
       const n = document.createElement("style"),
         s = window.litNonce;
       void 0 !== s && n.setAttribute("nonce", s), n.textContent = t.cssText, e.appendChild(n);
     });
   },
-  S$1 = t$1 ? t => t : t => t instanceof CSSStyleSheet ? (t => {
+  S = t ? t => t : t => t instanceof CSSStyleSheet ? (t => {
     let e = "";
     for (const n of t.cssRules) e += n.cssText;
-    return o$3(e);
+    return o$2(e);
   })(t) : t;
 
 /**
@@ -630,15 +649,15 @@ const o$3 = t => new s$3("string" == typeof t ? t : t + "", e$2),
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-var s$2;
-const e$1 = window.trustedTypes,
-  r$1 = e$1 ? e$1.emptyScript : "",
-  h$1 = window.reactiveElementPolyfillSupport,
-  o$2 = {
+var s$1;
+const e = window.trustedTypes,
+  r = e ? e.emptyScript : "",
+  h = window.reactiveElementPolyfillSupport,
+  o$1 = {
     toAttribute(t, i) {
       switch (i) {
         case Boolean:
-          t = t ? r$1 : null;
+          t = t ? r : null;
           break;
         case Object:
         case Array:
@@ -666,15 +685,15 @@ const e$1 = window.trustedTypes,
       return s;
     }
   },
-  n$2 = (t, i) => i !== t && (i == i || t == t),
-  l$3 = {
+  n$1 = (t, i) => i !== t && (i == i || t == t),
+  l$2 = {
     attribute: !0,
     type: String,
-    converter: o$2,
+    converter: o$1,
     reflect: !1,
-    hasChanged: n$2
+    hasChanged: n$1
   };
-let a$1 = class a extends HTMLElement {
+class a extends HTMLElement {
   constructor() {
     super(), this._$Et = new Map(), this.isUpdatePending = !1, this.hasUpdated = !1, this._$Ei = null, this.o();
   }
@@ -690,7 +709,7 @@ let a$1 = class a extends HTMLElement {
       void 0 !== e && (this._$Eu.set(e, s), t.push(e));
     }), t;
   }
-  static createProperty(t, i = l$3) {
+  static createProperty(t, i = l$2) {
     if (i.state && (i.attribute = !1), this.finalize(), this.elementProperties.set(t, i), !i.noAccessor && !this.prototype.hasOwnProperty(t)) {
       const s = "symbol" == typeof t ? Symbol() : "__" + t,
         e = this.getPropertyDescriptor(t, s, i);
@@ -711,7 +730,7 @@ let a$1 = class a extends HTMLElement {
     };
   }
   static getPropertyOptions(t) {
-    return this.elementProperties.get(t) || l$3;
+    return this.elementProperties.get(t) || l$2;
   }
   static finalize() {
     if (this.hasOwnProperty("finalized")) return !1;
@@ -728,8 +747,8 @@ let a$1 = class a extends HTMLElement {
     const s = [];
     if (Array.isArray(i)) {
       const e = new Set(i.flat(1 / 0).reverse());
-      for (const i of e) s.unshift(S$1(i));
-    } else void 0 !== i && s.push(S$1(i));
+      for (const i of e) s.unshift(S(i));
+    } else void 0 !== i && s.push(S(i));
     return s;
   }
   static _$Eh(t, i) {
@@ -756,7 +775,7 @@ let a$1 = class a extends HTMLElement {
   createRenderRoot() {
     var t;
     const s = null !== (t = this.shadowRoot) && void 0 !== t ? t : this.attachShadow(this.constructor.shadowRootOptions);
-    return i$1(s, this.constructor.elementStyles), s;
+    return i(s, this.constructor.elementStyles), s;
   }
   connectedCallback() {
     var t;
@@ -776,11 +795,11 @@ let a$1 = class a extends HTMLElement {
   attributeChangedCallback(t, i, s) {
     this._$AK(t, s);
   }
-  _$ES(t, i, s = l$3) {
+  _$ES(t, i, s = l$2) {
     var e, r;
     const h = this.constructor._$Eh(t, s);
     if (void 0 !== h && !0 === s.reflect) {
-      const n = (null !== (r = null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute) && void 0 !== r ? r : o$2.toAttribute)(i, s.type);
+      const n = (null !== (r = null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute) && void 0 !== r ? r : o$1.toAttribute)(i, s.type);
       this._$Ei = t, null == n ? this.removeAttribute(h) : this.setAttribute(h, n), this._$Ei = null;
     }
   }
@@ -791,13 +810,13 @@ let a$1 = class a extends HTMLElement {
     if (void 0 !== n && this._$Ei !== n) {
       const t = h.getPropertyOptions(n),
         l = t.converter,
-        a = null !== (r = null !== (e = null === (s = l) || void 0 === s ? void 0 : s.fromAttribute) && void 0 !== e ? e : "function" == typeof l ? l : null) && void 0 !== r ? r : o$2.fromAttribute;
+        a = null !== (r = null !== (e = null === (s = l) || void 0 === s ? void 0 : s.fromAttribute) && void 0 !== e ? e : "function" == typeof l ? l : null) && void 0 !== r ? r : o$1.fromAttribute;
       this._$Ei = n, this[n] = a(i, t.type), this._$Ei = null;
     }
   }
   requestUpdate(t, i, s) {
     let e = !0;
-    void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || n$2)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$Ei !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$Ep = this._$E_());
+    void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || n$1)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$Ei !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$Ep = this._$E_());
   }
   async _$E_() {
     this.isUpdatePending = !0;
@@ -853,337 +872,12 @@ let a$1 = class a extends HTMLElement {
   }
   updated(t) {}
   firstUpdated(t) {}
-};
-a$1.finalized = !0, a$1.elementProperties = new Map(), a$1.elementStyles = [], a$1.shadowRootOptions = {
+}
+a.finalized = !0, a.elementProperties = new Map(), a.elementStyles = [], a.shadowRootOptions = {
   mode: "open"
-}, null == h$1 || h$1({
-  ReactiveElement: a$1
-}), (null !== (s$2 = globalThis.reactiveElementVersions) && void 0 !== s$2 ? s$2 : globalThis.reactiveElementVersions = []).push("1.3.1");
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-var t;
-const i = globalThis.trustedTypes,
-  s$1 = i ? i.createPolicy("lit-html", {
-    createHTML: t => t
-  }) : void 0,
-  e = `lit$${(Math.random() + "").slice(9)}$`,
-  o$1 = "?" + e,
-  n$1 = `<${o$1}>`,
-  l$2 = document,
-  h = (t = "") => l$2.createComment(t),
-  r = t => null === t || "object" != typeof t && "function" != typeof t,
-  d = Array.isArray,
-  u = t => {
-    var i;
-    return d(t) || "function" == typeof (null === (i = t) || void 0 === i ? void 0 : i[Symbol.iterator]);
-  },
-  c = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
-  v = /-->/g,
-  a = />/g,
-  f = />|[ 	\n\r](?:([^\s"'>=/]+)([ 	\n\r]*=[ 	\n\r]*(?:[^ 	\n\r"'`<>=]|("|')|))|$)/g,
-  _ = /'/g,
-  m = /"/g,
-  g = /^(?:script|style|textarea|title)$/i,
-  p = t => (i, ...s) => ({
-    _$litType$: t,
-    strings: i,
-    values: s
-  }),
-  $ = p(1),
-  y$1 = p(2),
-  b = Symbol.for("lit-noChange"),
-  w = Symbol.for("lit-nothing"),
-  T = new WeakMap(),
-  x$1 = (t, i, s) => {
-    var e, o;
-    const n = null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i;
-    let l = n._$litPart$;
-    if (void 0 === l) {
-      const t = null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o ? o : null;
-      n._$litPart$ = l = new N(i.insertBefore(h(), t), t, void 0, null != s ? s : {});
-    }
-    return l._$AI(t), l;
-  },
-  A = l$2.createTreeWalker(l$2, 129, null, !1),
-  C = (t, i) => {
-    const o = t.length - 1,
-      l = [];
-    let h,
-      r = 2 === i ? "<svg>" : "",
-      d = c;
-    for (let i = 0; i < o; i++) {
-      const s = t[i];
-      let o,
-        u,
-        p = -1,
-        $ = 0;
-      for (; $ < s.length && (d.lastIndex = $, u = d.exec(s), null !== u);) $ = d.lastIndex, d === c ? "!--" === u[1] ? d = v : void 0 !== u[1] ? d = a : void 0 !== u[2] ? (g.test(u[2]) && (h = RegExp("</" + u[2], "g")), d = f) : void 0 !== u[3] && (d = f) : d === f ? ">" === u[0] ? (d = null != h ? h : c, p = -1) : void 0 === u[1] ? p = -2 : (p = d.lastIndex - u[2].length, o = u[1], d = void 0 === u[3] ? f : '"' === u[3] ? m : _) : d === m || d === _ ? d = f : d === v || d === a ? d = c : (d = f, h = void 0);
-      const y = d === f && t[i + 1].startsWith("/>") ? " " : "";
-      r += d === c ? s + n$1 : p >= 0 ? (l.push(o), s.slice(0, p) + "$lit$" + s.slice(p) + e + y) : s + e + (-2 === p ? (l.push(void 0), i) : y);
-    }
-    const u = r + (t[o] || "<?>") + (2 === i ? "</svg>" : "");
-    if (!Array.isArray(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
-    return [void 0 !== s$1 ? s$1.createHTML(u) : u, l];
-  };
-class E {
-  constructor({
-    strings: t,
-    _$litType$: s
-  }, n) {
-    let l;
-    this.parts = [];
-    let r = 0,
-      d = 0;
-    const u = t.length - 1,
-      c = this.parts,
-      [v, a] = C(t, s);
-    if (this.el = E.createElement(v, n), A.currentNode = this.el.content, 2 === s) {
-      const t = this.el.content,
-        i = t.firstChild;
-      i.remove(), t.append(...i.childNodes);
-    }
-    for (; null !== (l = A.nextNode()) && c.length < u;) {
-      if (1 === l.nodeType) {
-        if (l.hasAttributes()) {
-          const t = [];
-          for (const i of l.getAttributeNames()) if (i.endsWith("$lit$") || i.startsWith(e)) {
-            const s = a[d++];
-            if (t.push(i), void 0 !== s) {
-              const t = l.getAttribute(s.toLowerCase() + "$lit$").split(e),
-                i = /([.?@])?(.*)/.exec(s);
-              c.push({
-                type: 1,
-                index: r,
-                name: i[2],
-                strings: t,
-                ctor: "." === i[1] ? M : "?" === i[1] ? H : "@" === i[1] ? I : S
-              });
-            } else c.push({
-              type: 6,
-              index: r
-            });
-          }
-          for (const i of t) l.removeAttribute(i);
-        }
-        if (g.test(l.tagName)) {
-          const t = l.textContent.split(e),
-            s = t.length - 1;
-          if (s > 0) {
-            l.textContent = i ? i.emptyScript : "";
-            for (let i = 0; i < s; i++) l.append(t[i], h()), A.nextNode(), c.push({
-              type: 2,
-              index: ++r
-            });
-            l.append(t[s], h());
-          }
-        }
-      } else if (8 === l.nodeType) if (l.data === o$1) c.push({
-        type: 2,
-        index: r
-      });else {
-        let t = -1;
-        for (; -1 !== (t = l.data.indexOf(e, t + 1));) c.push({
-          type: 7,
-          index: r
-        }), t += e.length - 1;
-      }
-      r++;
-    }
-  }
-  static createElement(t, i) {
-    const s = l$2.createElement("template");
-    return s.innerHTML = t, s;
-  }
-}
-function P(t, i, s = t, e) {
-  var o, n, l, h;
-  if (i === b) return i;
-  let d = void 0 !== e ? null === (o = s._$Cl) || void 0 === o ? void 0 : o[e] : s._$Cu;
-  const u = r(i) ? void 0 : i._$litDirective$;
-  return (null == d ? void 0 : d.constructor) !== u && (null === (n = null == d ? void 0 : d._$AO) || void 0 === n || n.call(d, !1), void 0 === u ? d = void 0 : (d = new u(t), d._$AT(t, s, e)), void 0 !== e ? (null !== (l = (h = s)._$Cl) && void 0 !== l ? l : h._$Cl = [])[e] = d : s._$Cu = d), void 0 !== d && (i = P(t, d._$AS(t, i.values), d, e)), i;
-}
-class V {
-  constructor(t, i) {
-    this.v = [], this._$AN = void 0, this._$AD = t, this._$AM = i;
-  }
-  get parentNode() {
-    return this._$AM.parentNode;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  p(t) {
-    var i;
-    const {
-        el: {
-          content: s
-        },
-        parts: e
-      } = this._$AD,
-      o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i ? i : l$2).importNode(s, !0);
-    A.currentNode = o;
-    let n = A.nextNode(),
-      h = 0,
-      r = 0,
-      d = e[0];
-    for (; void 0 !== d;) {
-      if (h === d.index) {
-        let i;
-        2 === d.type ? i = new N(n, n.nextSibling, this, t) : 1 === d.type ? i = new d.ctor(n, d.name, d.strings, this, t) : 6 === d.type && (i = new L(n, this, t)), this.v.push(i), d = e[++r];
-      }
-      h !== (null == d ? void 0 : d.index) && (n = A.nextNode(), h++);
-    }
-    return o;
-  }
-  m(t) {
-    let i = 0;
-    for (const s of this.v) void 0 !== s && (void 0 !== s.strings ? (s._$AI(t, s, i), i += s.strings.length - 2) : s._$AI(t[i])), i++;
-  }
-}
-class N {
-  constructor(t, i, s, e) {
-    var o;
-    this.type = 2, this._$AH = w, this._$AN = void 0, this._$AA = t, this._$AB = i, this._$AM = s, this.options = e, this._$Cg = null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o;
-  }
-  get _$AU() {
-    var t, i;
-    return null !== (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) && void 0 !== i ? i : this._$Cg;
-  }
-  get parentNode() {
-    let t = this._$AA.parentNode;
-    const i = this._$AM;
-    return void 0 !== i && 11 === t.nodeType && (t = i.parentNode), t;
-  }
-  get startNode() {
-    return this._$AA;
-  }
-  get endNode() {
-    return this._$AB;
-  }
-  _$AI(t, i = this) {
-    t = P(this, t, i), r(t) ? t === w || null == t || "" === t ? (this._$AH !== w && this._$AR(), this._$AH = w) : t !== this._$AH && t !== b && this.$(t) : void 0 !== t._$litType$ ? this.T(t) : void 0 !== t.nodeType ? this.k(t) : u(t) ? this.S(t) : this.$(t);
-  }
-  A(t, i = this._$AB) {
-    return this._$AA.parentNode.insertBefore(t, i);
-  }
-  k(t) {
-    this._$AH !== t && (this._$AR(), this._$AH = this.A(t));
-  }
-  $(t) {
-    this._$AH !== w && r(this._$AH) ? this._$AA.nextSibling.data = t : this.k(l$2.createTextNode(t)), this._$AH = t;
-  }
-  T(t) {
-    var i;
-    const {
-        values: s,
-        _$litType$: e
-      } = t,
-      o = "number" == typeof e ? this._$AC(t) : (void 0 === e.el && (e.el = E.createElement(e.h, this.options)), e);
-    if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o) this._$AH.m(s);else {
-      const t = new V(o, this),
-        i = t.p(this.options);
-      t.m(s), this.k(i), this._$AH = t;
-    }
-  }
-  _$AC(t) {
-    let i = T.get(t.strings);
-    return void 0 === i && T.set(t.strings, i = new E(t)), i;
-  }
-  S(t) {
-    d(this._$AH) || (this._$AH = [], this._$AR());
-    const i = this._$AH;
-    let s,
-      e = 0;
-    for (const o of t) e === i.length ? i.push(s = new N(this.A(h()), this.A(h()), this, this.options)) : s = i[e], s._$AI(o), e++;
-    e < i.length && (this._$AR(s && s._$AB.nextSibling, e), i.length = e);
-  }
-  _$AR(t = this._$AA.nextSibling, i) {
-    var s;
-    for (null === (s = this._$AP) || void 0 === s || s.call(this, !1, !0, i); t && t !== this._$AB;) {
-      const i = t.nextSibling;
-      t.remove(), t = i;
-    }
-  }
-  setConnected(t) {
-    var i;
-    void 0 === this._$AM && (this._$Cg = t, null === (i = this._$AP) || void 0 === i || i.call(this, t));
-  }
-}
-class S {
-  constructor(t, i, s, e, o) {
-    this.type = 1, this._$AH = w, this._$AN = void 0, this.element = t, this.name = i, this._$AM = e, this.options = o, s.length > 2 || "" !== s[0] || "" !== s[1] ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = w;
-  }
-  get tagName() {
-    return this.element.tagName;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  _$AI(t, i = this, s, e) {
-    const o = this.strings;
-    let n = !1;
-    if (void 0 === o) t = P(this, t, i, 0), n = !r(t) || t !== this._$AH && t !== b, n && (this._$AH = t);else {
-      const e = t;
-      let l, h;
-      for (t = o[0], l = 0; l < o.length - 1; l++) h = P(this, e[s + l], i, l), h === b && (h = this._$AH[l]), n || (n = !r(h) || h !== this._$AH[l]), h === w ? t = w : t !== w && (t += (null != h ? h : "") + o[l + 1]), this._$AH[l] = h;
-    }
-    n && !e && this.C(t);
-  }
-  C(t) {
-    t === w ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, null != t ? t : "");
-  }
-}
-class M extends S {
-  constructor() {
-    super(...arguments), this.type = 3;
-  }
-  C(t) {
-    this.element[this.name] = t === w ? void 0 : t;
-  }
-}
-const k = i ? i.emptyScript : "";
-class H extends S {
-  constructor() {
-    super(...arguments), this.type = 4;
-  }
-  C(t) {
-    t && t !== w ? this.element.setAttribute(this.name, k) : this.element.removeAttribute(this.name);
-  }
-}
-class I extends S {
-  constructor(t, i, s, e, o) {
-    super(t, i, s, e, o), this.type = 5;
-  }
-  _$AI(t, i = this) {
-    var s;
-    if ((t = null !== (s = P(this, t, i, 0)) && void 0 !== s ? s : w) === b) return;
-    const e = this._$AH,
-      o = t === w && e !== w || t.capture !== e.capture || t.once !== e.once || t.passive !== e.passive,
-      n = t !== w && (e === w || o);
-    o && this.element.removeEventListener(this.name, this, e), n && this.element.addEventListener(this.name, this, t), this._$AH = t;
-  }
-  handleEvent(t) {
-    var i, s;
-    "function" == typeof this._$AH ? this._$AH.call(null !== (s = null === (i = this.options) || void 0 === i ? void 0 : i.host) && void 0 !== s ? s : this.element, t) : this._$AH.handleEvent(t);
-  }
-}
-class L {
-  constructor(t, i, s) {
-    this.element = t, this.type = 6, this._$AN = void 0, this._$AM = i, this.options = s;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  _$AI(t) {
-    P(this, t);
-  }
-}
-const z = window.litHtmlPolyfillSupport;
-null == z || z(E, N), (null !== (t = globalThis.litHtmlVersions) && void 0 !== t ? t : globalThis.litHtmlVersions = []).push("2.2.1");
+}, null == h || h({
+  ReactiveElement: a
+}), (null !== (s$1 = globalThis.reactiveElementVersions) && void 0 !== s$1 ? s$1 : globalThis.reactiveElementVersions = []).push("1.3.1");
 
 /**
  * @license
@@ -1191,11 +885,11 @@ null == z || z(E, N), (null !== (t = globalThis.litHtmlVersions) && void 0 !== t
  * SPDX-License-Identifier: BSD-3-Clause
  */
 var l$1, o;
-class s extends a$1 {
+class s extends a {
   constructor() {
     super(...arguments), this.renderOptions = {
       host: this
-    }, this._$Dt = void 0;
+    }, this._$Do = void 0;
   }
   createRenderRoot() {
     var t, e;
@@ -1204,18 +898,18 @@ class s extends a$1 {
   }
   update(t) {
     const i = this.render();
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Dt = x$1(i, this.renderRoot, this.renderOptions);
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = B(i, this.renderRoot, this.renderOptions);
   }
   connectedCallback() {
     var t;
-    super.connectedCallback(), null === (t = this._$Dt) || void 0 === t || t.setConnected(!0);
+    super.connectedCallback(), null === (t = this._$Do) || void 0 === t || t.setConnected(!0);
   }
   disconnectedCallback() {
     var t;
-    super.disconnectedCallback(), null === (t = this._$Dt) || void 0 === t || t.setConnected(!1);
+    super.disconnectedCallback(), null === (t = this._$Do) || void 0 === t || t.setConnected(!1);
   }
   render() {
-    return b;
+    return T;
   }
 }
 s.finalized = !0, s._$litElement$ = !0, null === (l$1 = globalThis.litElementHydrateSupport) || void 0 === l$1 || l$1.call(globalThis, {
@@ -1225,7 +919,7 @@ const n = globalThis.litElementPolyfillSupport;
 null == n || n({
   LitElement: s
 });
-(null !== (o = globalThis.litElementVersions) && void 0 !== o ? o : globalThis.litElementVersions = []).push("3.2.0");
+(null !== (o = globalThis.litElementVersions) && void 0 !== o ? o : globalThis.litElementVersions = []).push("3.3.0");
 
 function ascending$2(a, b) {
   return a == null || b == null ? NaN : a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
@@ -6469,7 +6163,6 @@ Transform.prototype = {
     return "translate(" + this.x + "," + this.y + ") scale(" + this.k + ")";
   }
 };
-new Transform(1, 0, 0);
 Transform.prototype;
 
 /*
@@ -6647,7 +6340,7 @@ class DecidablesElement extends s {
     const shadows = DecidablesElement.shadows; /* eslint-disable-line prefer-destructuring */
 
     const filters = shadows.elevations.map(z => {
-      return y$1`
+      return b`
         <filter id=${`shadow-${z}`} x="-250%" y="-250%" width="600%" height="600%">
           <feComponentTransfer in="SourceAlpha" result="solid">
             <feFuncA  type="table" tableValues="0 1 1"/>
@@ -6655,9 +6348,9 @@ class DecidablesElement extends s {
           <feOffset in="solid" result="offU" dx=${shadows.mapUmbra[z].y / 2} dy=${shadows.mapUmbra[z].y} />
           <feOffset in="solid" result="offP" dx=${shadows.mapPenumbra[z].y / 2} dy=${shadows.mapPenumbra[z].y} />
           <feOffset in="solid" result="offA" dx=${shadows.mapAmbient[z].y / 2} dy=${shadows.mapAmbient[z].y} />
-          ${shadows.mapUmbra[z].s === 0 ? y$1`` : y$1`<feMorphology in="offU" result="spreadU" operator=${shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapUmbra[z].s)} />`}
-          ${shadows.mapPenumbra[z].s === 0 ? y$1`` : y$1`<feMorphology in="offP" result="spreadP" operator=${shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapPenumbra[z].s)} />`}
-          ${shadows.mapAmbient[z].s === 0 ? y$1`` : y$1`<feMorphology in="offA" result="spreadA" operator=${shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapAmbient[z].s)} />`}
+          ${shadows.mapUmbra[z].s === 0 ? b`` : b`<feMorphology in="offU" result="spreadU" operator=${shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapUmbra[z].s)} />`}
+          ${shadows.mapPenumbra[z].s === 0 ? b`` : b`<feMorphology in="offP" result="spreadP" operator=${shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapPenumbra[z].s)} />`}
+          ${shadows.mapAmbient[z].s === 0 ? b`` : b`<feMorphology in="offA" result="spreadA" operator=${shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapAmbient[z].s)} />`}
           <feGaussianBlur in=${shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU'} result="blurU" stdDeviation=${shadows.mapUmbra[z].b / 2} />
           <feGaussianBlur in=${shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP'} result="blurP" stdDeviation=${shadows.mapPenumbra[z].b / 2} />
           <feGaussianBlur in=${shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA'} result="blurA" stdDeviation=${shadows.mapAmbient[z].b / 2} />
@@ -6679,7 +6372,7 @@ class DecidablesElement extends s {
           </feMerge>
         </filter>`;
     });
-    return y$1`
+    return b`
       <svg class="defs">
         <defs>
           ${filters}
@@ -6688,24 +6381,24 @@ class DecidablesElement extends s {
     `;
   }
   static get styles() {
-    return r$2`
+    return r$1`
       :host {
-        ---shadow-0: var(--shadow-0, ${o$3(this.cssBoxShadow(0))});
-        ---shadow-2: var(--shadow-2, ${o$3(this.cssBoxShadow(2))});
-        ---shadow-4: var(--shadow-4, ${o$3(this.cssBoxShadow(4))});
-        ---shadow-8: var(--shadow-8, ${o$3(this.cssBoxShadow(8))});
+        ---shadow-0: var(--shadow-0, ${o$2(this.cssBoxShadow(0))});
+        ---shadow-2: var(--shadow-2, ${o$2(this.cssBoxShadow(2))});
+        ---shadow-4: var(--shadow-4, ${o$2(this.cssBoxShadow(4))});
+        ---shadow-8: var(--shadow-8, ${o$2(this.cssBoxShadow(8))});
 
-        ---color-background: var(--color-background, ${o$3(this.greys.white)});
-        ---color-border: var(--color-border, ${o$3(this.greys.light75)});
-        ---color-text: var(--color-text, ${o$3(this.greys.dark75)});
-        ---color-text-inverse: var(--color-text-inverse, ${o$3(this.greys.white)});
-        ---color-link: var(--color-link, ${o$3(this.greys.dark25)});
-        ---color-element-background: var(--color-element-background, ${o$3(this.greys.light75)});
-        ---color-element-disabled: var(--color-element-disabled, ${o$3(this.greys.light50)});
-        ---color-element-enabled: var(--color-element-enabled, ${o$3(this.greys.dark25)});
-        ---color-element-selected: var(--color-element-selected, ${o$3(this.greys.grey)});
-        ---color-element-border: var(--color-element-border, ${o$3(this.greys.dark50)});
-        ---color-element-emphasis: var(--color-element-emphasis, ${o$3(this.greys.dark75)});
+        ---color-background: var(--color-background, ${o$2(this.greys.white)});
+        ---color-border: var(--color-border, ${o$2(this.greys.light75)});
+        ---color-text: var(--color-text, ${o$2(this.greys.dark75)});
+        ---color-text-inverse: var(--color-text-inverse, ${o$2(this.greys.white)});
+        ---color-link: var(--color-link, ${o$2(this.greys.dark25)});
+        ---color-element-background: var(--color-element-background, ${o$2(this.greys.light75)});
+        ---color-element-disabled: var(--color-element-disabled, ${o$2(this.greys.light50)});
+        ---color-element-enabled: var(--color-element-enabled, ${o$2(this.greys.dark25)});
+        ---color-element-selected: var(--color-element-selected, ${o$2(this.greys.grey)});
+        ---color-element-border: var(--color-element-border, ${o$2(this.greys.dark50)});
+        ---color-element-emphasis: var(--color-element-emphasis, ${o$2(this.greys.dark75)});
 
         ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
         ---font-family-math: var(--font-family-math, "Source Serif", serif);
@@ -6766,7 +6459,7 @@ class DecidablesButton extends DecidablesElement {
     this.disabled = false;
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           margin: 0.25rem;
         }
@@ -6822,7 +6515,7 @@ class DecidablesButton extends DecidablesElement {
       `];
   }
   render() {
-    return $`
+    return x$1`
       <button ?disabled=${this.disabled}>
         <slot></slot>
       </button>
@@ -6836,7 +6529,7 @@ customElements.define('decidables-button', DecidablesButton);
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const l = l => null != l ? l : b$1;
+const l = l => null != l ? l : A;
 
 class DecidablesSlider extends DecidablesElement {
   static get properties() {
@@ -6891,11 +6584,11 @@ class DecidablesSlider extends DecidablesElement {
     this.value = event.target.value;
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
-          ---shadow-2-rotate: var(--shadow-2-rotate, ${o$3(this.cssBoxShadow(2, true, false))});
-          ---shadow-4-rotate: var(--shadow-4-rotate, ${o$3(this.cssBoxShadow(4, true, false))});
-          ---shadow-8-rotate: var(--shadow-8-rotate, ${o$3(this.cssBoxShadow(8, true, false))});
+          ---shadow-2-rotate: var(--shadow-2-rotate, ${o$2(this.cssBoxShadow(2, true, false))});
+          ---shadow-4-rotate: var(--shadow-4-rotate, ${o$2(this.cssBoxShadow(4, true, false))});
+          ---shadow-8-rotate: var(--shadow-8-rotate, ${o$2(this.cssBoxShadow(8, true, false))});
 
           display: flex;
 
@@ -7144,7 +6837,7 @@ class DecidablesSlider extends DecidablesElement {
       `];
   }
   render() {
-    return $`
+    return x$1`
       <label for="slider">
         <slot></slot>
       </label>
@@ -7201,7 +6894,7 @@ class DecidablesSpinner extends DecidablesElement {
     this.value = event.target.value;
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           ---decidables-spinner-font-size: var(--decidables-spinner-font-size, 1.125rem);
           ---decidables-spinner-input-width: var(--decidables-spinner-input-width, 4rem);
@@ -7283,7 +6976,7 @@ class DecidablesSpinner extends DecidablesElement {
       `];
   }
   render() {
-    return $`
+    return x$1`
       <label>
         <slot></slot>
         <input ?disabled=${this.disabled} type="number" min=${l(this.min)} max=${l(this.max)} step=${l(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}>
@@ -7325,7 +7018,7 @@ class DecidablesSwitch extends DecidablesElement {
     }));
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           display: flex;
 
@@ -7447,7 +7140,7 @@ class DecidablesSwitch extends DecidablesElement {
       `];
   }
   render() {
-    return $`
+    return x$1`
       <input type="checkbox" id="switch" ?checked=${this.checked} ?disabled=${this.disabled} @change=${this.changed.bind(this)}>
       <label for="switch">
         <slot name="off-label"></slot>
@@ -7477,7 +7170,7 @@ class DecidablesToggle extends DecidablesElement {
     this.disabled = false;
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         fieldset {
           display: flex;
 
@@ -7497,7 +7190,7 @@ class DecidablesToggle extends DecidablesElement {
       `];
   }
   render() {
-    return $`
+    return x$1`
       <fieldset ?disabled=${this.disabled}>
         <legend><slot name="label"></slot></legend>
         <slot></slot>
@@ -7552,7 +7245,7 @@ class DecidablesToggleOption extends DecidablesElement {
     }));
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           display: flex;
         }
@@ -7648,7 +7341,7 @@ class DecidablesToggleOption extends DecidablesElement {
       `];
   }
   render() {
-    return $`
+    return x$1`
       <input type="radio" id="toggle-option" name=${this.name} value=${this.value} .checked=${this.checked} @change=${this.changed.bind(this)}>
       <label for="toggle-option">
         <slot></slot>
@@ -7738,55 +7431,55 @@ class DetectableElement extends DecidablesElement {
     }, {});
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
-          ---color-h: var(--color-h, ${o$3(this.colors.h)});
-          ---color-m: var(--color-m, ${o$3(this.colors.m)});
-          ---color-fa: var(--color-fa, ${o$3(this.colors.fa)});
-          ---color-cr: var(--color-cr, ${o$3(this.colors.cr)});
-          ---color-hr: var(--color-hr, ${o$3(this.colors.hr)});
-          ---color-far: var(--color-far, ${o$3(this.colors.far)});
-          ---color-acc: var(--color-acc, ${o$3(this.colors.acc)});
-          ---color-d: var(--color-d, ${o$3(this.colors.d)});
-          ---color-c: var(--color-c, ${o$3(this.colors.c)});
-          ---color-s: var(--color-s, ${o$3(this.colors.s)});
-          ---color-present: var(--color-present, ${o$3(this.colors.present)});
-          ---color-absent: var(--color-absent, ${o$3(this.colors.absent)});
-          ---color-correct: var(--color-correct, ${o$3(this.colors.correct)});
-          ---color-error: var(--color-error, ${o$3(this.colors.error)});
-          ---color-nr: var(--color-nr, ${o$3(this.colors.nr)});
+          ---color-h: var(--color-h, ${o$2(this.colors.h)});
+          ---color-m: var(--color-m, ${o$2(this.colors.m)});
+          ---color-fa: var(--color-fa, ${o$2(this.colors.fa)});
+          ---color-cr: var(--color-cr, ${o$2(this.colors.cr)});
+          ---color-hr: var(--color-hr, ${o$2(this.colors.hr)});
+          ---color-far: var(--color-far, ${o$2(this.colors.far)});
+          ---color-acc: var(--color-acc, ${o$2(this.colors.acc)});
+          ---color-d: var(--color-d, ${o$2(this.colors.d)});
+          ---color-c: var(--color-c, ${o$2(this.colors.c)});
+          ---color-s: var(--color-s, ${o$2(this.colors.s)});
+          ---color-present: var(--color-present, ${o$2(this.colors.present)});
+          ---color-absent: var(--color-absent, ${o$2(this.colors.absent)});
+          ---color-correct: var(--color-correct, ${o$2(this.colors.correct)});
+          ---color-error: var(--color-error, ${o$2(this.colors.error)});
+          ---color-nr: var(--color-nr, ${o$2(this.colors.nr)});
 
-          ---color-h-light: var(--color-h-light, ${o$3(this.lights.h)});
-          ---color-m-light: var(--color-m-light, ${o$3(this.lights.m)});
-          ---color-fa-light: var(--color-fa-light, ${o$3(this.lights.fa)});
-          ---color-cr-light: var(--color-cr-light, ${o$3(this.lights.cr)});
-          ---color-hr-light: var(--color-hr-light, ${o$3(this.lights.hr)});
-          ---color-far-light: var(--color-far-light, ${o$3(this.lights.far)});
-          ---color-acc-light: var(--color-acc-light, ${o$3(this.lights.acc)});
-          ---color-d-light: var(--color-d-light, ${o$3(this.lights.d)});
-          ---color-c-light: var(--color-c-light, ${o$3(this.lights.c)});
-          ---color-s-light: var(--color-s-light, ${o$3(this.lights.s)});
-          ---color-present-light: var(--color-present-light, ${o$3(this.lights.present)});
-          ---color-absent-light: var(--color-absent-light, ${o$3(this.lights.absent)});
-          ---color-correct-light: var(--color-correct-light, ${o$3(this.lights.correct)});
-          ---color-error-light: var(--color-error-light, ${o$3(this.lights.error)});
-          ---color-nr-light: var(--color-nr-light, ${o$3(this.lights.nr)});
+          ---color-h-light: var(--color-h-light, ${o$2(this.lights.h)});
+          ---color-m-light: var(--color-m-light, ${o$2(this.lights.m)});
+          ---color-fa-light: var(--color-fa-light, ${o$2(this.lights.fa)});
+          ---color-cr-light: var(--color-cr-light, ${o$2(this.lights.cr)});
+          ---color-hr-light: var(--color-hr-light, ${o$2(this.lights.hr)});
+          ---color-far-light: var(--color-far-light, ${o$2(this.lights.far)});
+          ---color-acc-light: var(--color-acc-light, ${o$2(this.lights.acc)});
+          ---color-d-light: var(--color-d-light, ${o$2(this.lights.d)});
+          ---color-c-light: var(--color-c-light, ${o$2(this.lights.c)});
+          ---color-s-light: var(--color-s-light, ${o$2(this.lights.s)});
+          ---color-present-light: var(--color-present-light, ${o$2(this.lights.present)});
+          ---color-absent-light: var(--color-absent-light, ${o$2(this.lights.absent)});
+          ---color-correct-light: var(--color-correct-light, ${o$2(this.lights.correct)});
+          ---color-error-light: var(--color-error-light, ${o$2(this.lights.error)});
+          ---color-nr-light: var(--color-nr-light, ${o$2(this.lights.nr)});
 
-          ---color-h-dark: var(--color-h-dark, ${o$3(this.darks.h)});
-          ---color-m-dark: var(--color-m-dark, ${o$3(this.darks.m)});
-          ---color-fa-dark: var(--color-fa-dark, ${o$3(this.darks.fa)});
-          ---color-cr-dark: var(--color-cr-dark, ${o$3(this.darks.cr)});
-          ---color-hr-dark: var(--color-hr-dark, ${o$3(this.darks.hr)});
-          ---color-far-dark: var(--color-far-dark, ${o$3(this.darks.far)});
-          ---color-acc-dark: var(--color-acc-dark, ${o$3(this.darks.acc)});
-          ---color-d-dark: var(--color-d-dark, ${o$3(this.darks.d)});
-          ---color-c-dark: var(--color-c-dark, ${o$3(this.darks.c)});
-          ---color-s-dark: var(--color-s-dark, ${o$3(this.darks.s)});
-          ---color-present-dark: var(--color-present-dark, ${o$3(this.darks.present)});
-          ---color-absent-dark: var(--color-absent-dark, ${o$3(this.darks.absent)});
-          ---color-correct-dark: var(--color-correct-dark, ${o$3(this.darks.correct)});
-          ---color-error-dark: var(--color-error-dark, ${o$3(this.darks.error)});
-          ---color-nr-dark: var(--color-nr-dark, ${o$3(this.darks.nr)});
+          ---color-h-dark: var(--color-h-dark, ${o$2(this.darks.h)});
+          ---color-m-dark: var(--color-m-dark, ${o$2(this.darks.m)});
+          ---color-fa-dark: var(--color-fa-dark, ${o$2(this.darks.fa)});
+          ---color-cr-dark: var(--color-cr-dark, ${o$2(this.darks.cr)});
+          ---color-hr-dark: var(--color-hr-dark, ${o$2(this.darks.hr)});
+          ---color-far-dark: var(--color-far-dark, ${o$2(this.darks.far)});
+          ---color-acc-dark: var(--color-acc-dark, ${o$2(this.darks.acc)});
+          ---color-d-dark: var(--color-d-dark, ${o$2(this.darks.d)});
+          ---color-c-dark: var(--color-c-dark, ${o$2(this.darks.c)});
+          ---color-s-dark: var(--color-s-dark, ${o$2(this.darks.s)});
+          ---color-present-dark: var(--color-present-dark, ${o$2(this.darks.present)});
+          ---color-absent-dark: var(--color-absent-dark, ${o$2(this.darks.absent)});
+          ---color-correct-dark: var(--color-correct-dark, ${o$2(this.darks.correct)});
+          ---color-error-dark: var(--color-error-dark, ${o$2(this.darks.error)});
+          ---color-nr-dark: var(--color-nr-dark, ${o$2(this.darks.nr)});
         }
       `];
   }
@@ -7922,7 +7615,7 @@ class RDKTask extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           display: inline-block;
 
@@ -7971,7 +7664,7 @@ class RDKTask extends DetectableElement {
   }
   render() {
     /* eslint-disable-line class-methods-use-this */
-    return $``;
+    return x$1``;
   }
   getDimensions() {
     this.width = parseFloat(this.getComputedStyleValue('width'), 10);
@@ -12972,7 +12665,7 @@ class ROCSpace extends DetectableElement {
     this.requestUpdate();
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           display: inline-block;
 
@@ -13108,7 +12801,7 @@ class ROCSpace extends DetectableElement {
   }
   render() {
     /* eslint-disable-line class-methods-use-this */
-    return $`
+    return x$1`
       ${DetectableElement.svgFilters}
     `;
   }
@@ -13809,7 +13502,7 @@ class DetectableControl extends DetectableElement {
     this.state = 'ended';
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           display: inline-block;
         }
@@ -13839,13 +13532,13 @@ class DetectableControl extends DetectableElement {
       `];
   }
   render() {
-    return $`
+    return x$1`
       <div class="holder">
-        ${this.trials ? $`<decidables-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>` : $``}
-        ${this.duration ? $`<decidables-slider min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>` : $``}
-        ${this.coherence ? $`<decidables-slider min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidables-slider>` : $``}
-        ${this.payoff ? $`<decidables-slider class="payoff" min="0" max="100" step="1" .value=${this.payoff} @change=${this.setPayoff.bind(this)} @input=${this.setPayoff.bind(this)}>Payoff</decidables-slider>` : $``}
-        ${this.color !== undefined ? $`
+        ${this.trials ? x$1`<decidables-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>` : x$1``}
+        ${this.duration ? x$1`<decidables-slider min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>` : x$1``}
+        ${this.coherence ? x$1`<decidables-slider min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidables-slider>` : x$1``}
+        ${this.payoff ? x$1`<decidables-slider class="payoff" min="0" max="100" step="1" .value=${this.payoff} @change=${this.setPayoff.bind(this)} @input=${this.setPayoff.bind(this)}>Payoff</decidables-slider>` : x$1``}
+        ${this.color !== undefined ? x$1`
             <decidables-toggle @change=${this.chooseColor.bind(this)}>
               <span slot="label">Emphasis</span>
               <decidables-toggle-option name="toggle" value="none" ?checked=${this.color === 'none'}>None</decidables-toggle-option>
@@ -13855,20 +13548,20 @@ class DetectableControl extends DetectableElement {
               <decidables-toggle-option name="toggle" value="outcome" ?checked=${this.color === 'outcome'}>Outcome</decidables-toggle-option>
               <decidables-toggle-option name="toggle" value="all" ?checked=${this.color === 'all'}>All</decidables-toggle-option>
             </decidables-toggle>
-          ` : $``}
-        ${this.zRoc !== undefined ? $`
+          ` : x$1``}
+        ${this.zRoc !== undefined ? x$1`
             <decidables-switch ?checked=${this.zRoc} @change=${this.flipZRoc.bind(this)}>
               <span class="math-var">z</span>ROC
               <span slot="off-label">ROC</span>
             </decidables-switch>
-          ` : $``}
-        ${this.run || this.pause || this.reset ? $`
+          ` : x$1``}
+        ${this.run || this.pause || this.reset ? x$1`
             <div class="buttons">
-              ${this.run ? $`<decidables-button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</decidables-button>` : $``}
-              ${this.pause ? $`<decidables-button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</decidables-button>` : $``}
-              ${this.reset ? $`<decidables-button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</decidables-button>` : $``}
+              ${this.run ? x$1`<decidables-button name="run" ?disabled=${this.state === 'running' || this.state === 'ended'} @click=${this.doRun.bind(this)}>Run</decidables-button>` : x$1``}
+              ${this.pause ? x$1`<decidables-button name="pause" ?disabled=${this.state !== 'running'} @click=${this.doPause.bind(this)}>Pause</decidables-button>` : x$1``}
+              ${this.reset ? x$1`<decidables-button name="reset" ?disabled=${this.state === 'resetted'} @click=${this.doReset.bind(this)}>Reset</decidables-button>` : x$1``}
             </div>
-          ` : $``}
+          ` : x$1``}
       </div>`;
   }
 }
@@ -14079,7 +13772,7 @@ class SDTModel extends DetectableElement {
     }
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           display: inline-block;
 
@@ -14325,7 +14018,7 @@ class SDTModel extends DetectableElement {
   }
   render() {
     /* eslint-disable-line class-methods-use-this */
-    return $`
+    return x$1`
       ${DetectableElement.svgFilters}
     `;
   }
@@ -15439,7 +15132,7 @@ class DetectableResponse extends DetectableElement {
     this.e = 0;
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           display: inline-block;
         }
@@ -15581,28 +15274,28 @@ class DetectableResponse extends DetectableElement {
         return string + part;
       });
     };
-    return $`
+    return x$1`
       <div class="holder">
         <div class="responses">
           <decidables-button name="present" class=${this.state === 'feedback' && this.response === 'present' ? 'selected' : this.state === 'waiting' ? 'waiting' : ''} ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.present.bind(this)}>Present</decidables-button>
           <decidables-button name="absent" class=${this.state === 'feedback' && this.response === 'absent' ? 'selected' : this.state === 'waiting' ? 'waiting' : ''} ?disabled=${this.state !== 'waiting' || this.interactive !== true} @click=${this.absent.bind(this)}>Absent</decidables-button>
         </div>
-        ${this.trial || this.feedback !== 'none' || this.payoff === 'total' ? $`
+        ${this.trial || this.feedback !== 'none' || this.payoff === 'total' ? x$1`
             <div class="feedbacks">
-              ${this.trial ? $`
+              ${this.trial ? x$1`
                   <div class="trial">
                     <span class="label">Trial: </span><span class="count">${this.trialCount}</span><span class="of"> of </span><span class="total">${this.trialTotal}</span>
-                  </div>` : $``}
-              ${this.feedback !== 'none' ? $`
+                  </div>` : x$1``}
+              ${this.feedback !== 'none' ? x$1`
                   <div class=${`feedback ${this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome : this.accuracy : ''}`}>
-                    ${this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? $`<span class="outcome">Hit</span>` : this.outcome === 'm' ? $`<span class="outcome">Miss</span>` : this.outcome === 'fa' ? $`<span class="outcome">False<br>Alarm</span>` : this.outcome === 'cr' ? $`<span class="outcome">Correct<br>Rejection</span>` : $`<span class="outcome">No<br>Response</span>` : this.accuracy === 'c' ? $`<span class="outcome">Correct</span>` : this.accuracy === 'e' ? $`<span class="outcome">Error</span>` : $`<span class="outcome">No<br>Response</span>` : ''}
-                    ${this.state === 'feedback' && (this.payoff === 'trial' || this.payoff === 'total') ? $`<span class="payoff">${payoffFormat(this.trialPayoff)}</span>` : $``}
-                  </div>` : $``}
-              ${this.payoff === 'total' ? $`
+                    ${this.state === 'feedback' ? this.feedback === 'outcome' ? this.outcome === 'h' ? x$1`<span class="outcome">Hit</span>` : this.outcome === 'm' ? x$1`<span class="outcome">Miss</span>` : this.outcome === 'fa' ? x$1`<span class="outcome">False<br>Alarm</span>` : this.outcome === 'cr' ? x$1`<span class="outcome">Correct<br>Rejection</span>` : x$1`<span class="outcome">No<br>Response</span>` : this.accuracy === 'c' ? x$1`<span class="outcome">Correct</span>` : this.accuracy === 'e' ? x$1`<span class="outcome">Error</span>` : x$1`<span class="outcome">No<br>Response</span>` : ''}
+                    ${this.state === 'feedback' && (this.payoff === 'trial' || this.payoff === 'total') ? x$1`<span class="payoff">${payoffFormat(this.trialPayoff)}</span>` : x$1``}
+                  </div>` : x$1``}
+              ${this.payoff === 'total' ? x$1`
                   <div class="total">
                     <span class="label">Total: </span><span class="value">${payoffFormat(this.totalPayoff)}</span>
-                  </div>` : $``}
-            </div>` : $``}
+                  </div>` : x$1``}
+            </div>` : x$1``}
       </div>`;
   }
 }
@@ -15833,7 +15526,7 @@ class DetectableTable extends DetectableElement {
     this.sendEvent();
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           display: inline-block;
         }
@@ -16049,71 +15742,71 @@ class DetectableTable extends DetectableElement {
     let ppv;
     let fomr;
     if (this.numeric) {
-      h = $`
+      h = x$1`
         <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <span>Hits</span>
-          ${this.payoff ? $`<span class="payoff">${payoffFormat(this.hPayoff)}</span>` : $``}
+          ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.hPayoff)}</span>` : x$1``}
         </decidables-spinner>
       `;
-      m = $`
+      m = x$1`
         <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <span>Misses</span>
-          ${this.payoff ? $`<span class="payoff">${payoffFormat(this.mPayoff)}</span>` : $``}
+          ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.mPayoff)}</span>` : x$1``}
         </decidables-spinner>
       `;
-      fa = $`
+      fa = x$1`
         <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <span>False Alarms</span>
-          ${this.payoff ? $`<span class="payoff">${payoffFormat(this.faPayoff)}</span>` : $``}
+          ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.faPayoff)}</span>` : x$1``}
         </decidables-spinner>
       `;
-      cr = $`
+      cr = x$1`
         <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <span>Correct Rejections</span>
-          ${this.payoff ? $`<span class="payoff">${payoffFormat(this.crPayoff)}</span>` : $``}
+          ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.crPayoff)}</span>` : x$1``}
         </decidables-spinner>
       `;
-      hr = $`
+      hr = x$1`
         <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}" @input=${this.hrInput.bind(this)}>
           <span>Hit Rate</span>
         </decidables-spinner>
       `;
-      far = $`
+      far = x$1`
         <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}" @input=${this.farInput.bind(this)}>
           <span>False Alarm Rate</span>
         </decidables-spinner>
       `;
-      acc = $`
+      acc = x$1`
         <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}" @input=${this.accInput.bind(this)}>
           <span>Accuracy</span>
         </decidables-spinner>
       `;
-      ppv = $`
+      ppv = x$1`
         <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.ppv.toFixed(3)}" @input=${this.ppvInput.bind(this)}>
           <span>Positive Predictive Value</span>
         </decidables-spinner>
       `;
-      fomr = $`
+      fomr = x$1`
         <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${+this.fomr.toFixed(3)}" @input=${this.fomrInput.bind(this)}>
           <span>False Omission Rate</span>
         </decidables-spinner>
       `;
     } else {
-      h = $`<span>Hits</span>
-        ${this.payoff ? $`<span class="payoff">${payoffFormat(this.hPayoff)}</span>` : $``}`;
-      m = $`<span>Misses</span>
-        ${this.payoff ? $`<span class="payoff">${payoffFormat(this.mPayoff)}</span>` : $``}`;
-      fa = $`<span>False Alarms</span>
-        ${this.payoff ? $`<span class="payoff">${payoffFormat(this.faPayoff)}</span>` : $``}`;
-      cr = $`<span>Correct Rejections</span>
-        ${this.payoff ? $`<span class="payoff">${payoffFormat(this.crPayoff)}</span>` : $``}`;
-      hr = $`<span>Hit Rate</span>`;
-      far = $`<span>False Alarm Rate</span>`;
-      acc = $`<span>Accuracy</span>`;
-      ppv = $`<span>Positive Predictive Value</span>`;
-      fomr = $`<span>False Omission Rate</span>`;
+      h = x$1`<span>Hits</span>
+        ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.hPayoff)}</span>` : x$1``}`;
+      m = x$1`<span>Misses</span>
+        ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.mPayoff)}</span>` : x$1``}`;
+      fa = x$1`<span>False Alarms</span>
+        ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.faPayoff)}</span>` : x$1``}`;
+      cr = x$1`<span>Correct Rejections</span>
+        ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.crPayoff)}</span>` : x$1``}`;
+      hr = x$1`<span>Hit Rate</span>`;
+      far = x$1`<span>False Alarm Rate</span>`;
+      acc = x$1`<span>Accuracy</span>`;
+      ppv = x$1`<span>Positive Predictive Value</span>`;
+      fomr = x$1`<span>False Omission Rate</span>`;
     }
-    return $`
+    return x$1`
       <table class=${this.numeric ? 'numeric' : ''}>
         <thead>
           <tr>
@@ -16145,10 +15838,10 @@ class DetectableTable extends DetectableElement {
             <td class="td td-data m">
               ${m}
             </td>
-            ${this.summary.has('stimulusRates') ? $`
+            ${this.summary.has('stimulusRates') ? x$1`
                 <td class="td td-summary hr">
                   ${hr}
-                </td>` : $``}
+                </td>` : x$1``}
           </tr>
           <tr>
             <th class="th th-sub th-left" scope="row">
@@ -16160,27 +15853,27 @@ class DetectableTable extends DetectableElement {
             <td class="td td-data cr">
               ${cr}
             </td>
-            ${this.summary.has('stimulusRates') ? $`
+            ${this.summary.has('stimulusRates') ? x$1`
                 <td class="td td-summary far">
                   ${far}
-                </td>` : $``}
+                </td>` : x$1``}
           </tr>
-          ${this.summary.has('responseRates') || this.summary.has('accuracy') ? $`
+          ${this.summary.has('responseRates') || this.summary.has('accuracy') ? x$1`
               <tr>
                 <td colspan="2"></td>
-                ${this.summary.has('responseRates') ? $`
+                ${this.summary.has('responseRates') ? x$1`
                     <td class="td td-summary ppv">
                       ${ppv}
                     </td>
                     <td class="td td-summary fomr">
                       ${fomr}
-                    </td>` : $`
+                    </td>` : x$1`
                     <td colspan="2"></td>`}
-                ${this.summary.has('accuracy') ? $`
+                ${this.summary.has('accuracy') ? x$1`
                     <td class="td td-summary acc" rowspan="2">
                       ${acc}
-                    </td>` : $``}
-              </tr>` : $``}
+                    </td>` : x$1``}
+              </tr>` : x$1``}
         </tbody>
       </table>`;
   }
@@ -16206,7 +15899,7 @@ class SDTEquation extends DetectableElement {
     this.numeric = false;
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           display: block;
 
@@ -16415,35 +16108,35 @@ class SDTEquationDC2Far extends SDTEquation {
     let s;
     let far;
     if (this.numeric) {
-      d = $`
+      d = x$1`
         <decidables-spinner class="d bottom" ?disabled=${!this.interactive} step=".001" .value="${this.d}" @input=${this.dInput.bind(this)}>
           <var class="math-var">d′</var>
         </decidables-spinner>
       `;
-      c = $`
+      c = x$1`
         <decidables-spinner class="c bottom" ?disabled=${!this.interactive} step=".001" .value="${this.c}" @input=${this.cInput.bind(this)}>
           <var class="math-var">c</var>
         </decidables-spinner>
       `;
-      s = $`
+      s = x$1`
         <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
           <var class="math-var">σ</var>
         </decidables-spinner>
       `;
-      far = $`
+      far = x$1`
         <decidables-spinner class="far bottom" disabled min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}">
           <var>False Alarm Rate</var>
         </decidables-spinner>
       `;
     } else {
-      d = $`<var class="math-var d">d′</var>`;
-      c = $`<var class="math-var c">c</var>`;
-      s = $`<var class="math-var s">σ</var>`;
-      far = $`<var class="far">False Alarm Rate</var>`;
+      d = x$1`<var class="math-var d">d′</var>`;
+      c = x$1`<var class="math-var c">c</var>`;
+      s = x$1`<var class="math-var s">σ</var>`;
+      far = x$1`<var class="far">False Alarm Rate</var>`;
     }
     let equation;
     if (this.unequal) {
-      equation = $`
+      equation = x$1`
         <tr>
           <td rowspan="2">
             ${far}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
@@ -16470,7 +16163,7 @@ class SDTEquationDC2Far extends SDTEquation {
           </td>
         </tr>`;
     } else {
-      equation = $`
+      equation = x$1`
         <tr>
           <td rowspan="2">
             ${far}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="minus tight">−</span>
@@ -16488,7 +16181,7 @@ class SDTEquationDC2Far extends SDTEquation {
           </td>
         </tr>`;
     }
-    return $`
+    return x$1`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -16581,35 +16274,35 @@ class SDTEquationDC2Hr extends SDTEquation {
     let s;
     let hr;
     if (this.numeric) {
-      d = $`
+      d = x$1`
         <decidables-spinner class="d bottom" ?disabled=${!this.interactive} step=".001" .value="${this.d}" @input=${this.dInput.bind(this)}>
           <var class="math-var">d′</var>
         </decidables-spinner>
       `;
-      c = $`
+      c = x$1`
         <decidables-spinner class="c bottom" ?disabled=${!this.interactive} step=".001" .value="${this.c}" @input=${this.cInput.bind(this)}>
           <var class="math-var">c</var>
         </decidables-spinner>
       `;
-      s = $`
+      s = x$1`
         <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
           <var class="math-var">σ</var>
         </decidables-spinner>
       `;
-      hr = $`
+      hr = x$1`
         <decidables-spinner class="hr bottom" disabled min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}">
           <var>Hit Rate</var>
         </decidables-spinner>
       `;
     } else {
-      d = $`<var class="math-var d">d′</var>`;
-      c = $`<var class="math-var c">c</var>`;
-      s = $`<var class="math-var s">σ</var>`;
-      hr = $`<var class="hr">Hit Rate</var>`;
+      d = x$1`<var class="math-var d">d′</var>`;
+      c = x$1`<var class="math-var c">c</var>`;
+      s = x$1`<var class="math-var s">σ</var>`;
+      hr = x$1`<var class="hr">Hit Rate</var>`;
     }
     let equation;
     if (this.unequal) {
-      equation = $`
+      equation = x$1`
         <tr>
           <td rowspan="2">
             ${hr}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
@@ -16645,7 +16338,7 @@ class SDTEquationDC2Hr extends SDTEquation {
           </td>
         </tr>`;
     } else {
-      equation = $`
+      equation = x$1`
         <tr>
           <td rowspan="2">
             ${hr}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span>
@@ -16663,7 +16356,7 @@ class SDTEquationDC2Hr extends SDTEquation {
           </td>
         </tr>`;
     }
-    return $`
+    return x$1`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -16737,27 +16430,27 @@ class SDTEquationFaCr2Far extends SDTEquation {
     let cr;
     let far;
     if (this.numeric) {
-      fa = $`
+      fa = x$1`
         <decidables-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <var>False Alarms</var>
         </decidables-spinner>
       `;
-      cr = $`
+      cr = x$1`
         <decidables-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <var>Correct Rejections</var>
         </decidables-spinner>
       `;
-      far = $`
+      far = x$1`
         <decidables-spinner class="far" disabled min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}">
           <var>False Alarm Rate</var>
         </decidables-spinner>
       `;
     } else {
-      fa = $`<var class="fa">False Alarms</var>`;
-      cr = $`<var class="cr">Correct Rejections</var>`;
-      far = $`<var class="far">False Alarm Rate</var>`;
+      fa = x$1`<var class="fa">False Alarms</var>`;
+      cr = x$1`<var class="cr">Correct Rejections</var>`;
+      far = x$1`<var class="far">False Alarm Rate</var>`;
     }
-    return $`
+    return x$1`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -16843,27 +16536,27 @@ class SDTEquationHFa2Ppv extends SDTEquation {
     let fa;
     let ppv;
     if (this.numeric) {
-      h = $`
+      h = x$1`
         <decidables-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <var>Hits</var>
         </decidables-spinner>
       `;
-      fa = $`
+      fa = x$1`
         <decidables-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <var>False Alarms</var>
         </decidables-spinner>
       `;
-      ppv = $`
+      ppv = x$1`
         <decidables-spinner class="ppv" disabled min="0" max="1" step=".001" .value="${+this.ppv.toFixed(3)}">
           <var>Positive Predictive Value</var>
         </decidables-spinner>
       `;
     } else {
-      h = $`<var class="h">Hits</var>`;
-      fa = $`<var class="fa">False Alarms</var>`;
-      ppv = $`<var class="ppv">Positive Predictive Value</var>`;
+      h = x$1`<var class="h">Hits</var>`;
+      fa = x$1`<var class="fa">False Alarms</var>`;
+      ppv = x$1`<var class="ppv">Positive Predictive Value</var>`;
     }
-    return $`
+    return x$1`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -16950,27 +16643,27 @@ class SDTEquationHM2Hr extends SDTEquation {
     let m;
     let hr;
     if (this.numeric) {
-      h = $`
+      h = x$1`
         <decidables-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <var>Hits</var>
         </decidables-spinner>
       `;
-      m = $`
+      m = x$1`
         <decidables-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <var>Misses</var>
         </decidables-spinner>
       `;
-      hr = $`
+      hr = x$1`
         <decidables-spinner class="hr" disabled min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}">
           <var>Hit Rate</var>
         </decidables-spinner>
       `;
     } else {
-      h = $`<var class="h">Hits</var>`;
-      m = $`<var class="m">Misses</var>`;
-      hr = $`<var class="hr">Hit Rate</var>`;
+      h = x$1`<var class="h">Hits</var>`;
+      m = x$1`<var class="m">Misses</var>`;
+      hr = x$1`<var class="hr">Hit Rate</var>`;
     }
-    return $`
+    return x$1`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -17083,39 +16776,39 @@ class SDTEquationHMFaCr2Acc extends SDTEquation {
     let cr;
     let acc;
     if (this.numeric) {
-      h = $`
+      h = x$1`
         <decidables-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
           <var>Hits</var>
         </decidables-spinner>
       `;
-      m = $`
+      m = x$1`
         <decidables-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <var>Misses</var>
         </decidables-spinner>
       `;
-      fa = $`
+      fa = x$1`
         <decidables-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
           <var>False Alarms</var>
         </decidables-spinner>
       `;
-      cr = $`
+      cr = x$1`
         <decidables-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <var>Correct Rejections</var>
         </decidables-spinner>
       `;
-      acc = $`
+      acc = x$1`
         <decidables-spinner class="acc" disabled min="0" max="1" step=".001" .value="${+this.acc.toFixed(3)}">
           <var>Accuracy</var>
         </decidables-spinner>
       `;
     } else {
-      h = $`<var class="h">Hits</var>`;
-      m = $`<var class="m">Misses</var>`;
-      fa = $`<var class="fa">False Alarms</var>`;
-      cr = $`<var class="cr">Correct Rejections</var>`;
-      acc = $`<var class="acc">Accuracy</var>`;
+      h = x$1`<var class="h">Hits</var>`;
+      m = x$1`<var class="m">Misses</var>`;
+      fa = x$1`<var class="fa">False Alarms</var>`;
+      cr = x$1`<var class="cr">Correct Rejections</var>`;
+      acc = x$1`<var class="acc">Accuracy</var>`;
     }
-    return $`
+    return x$1`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -17220,35 +16913,35 @@ class SDTEquationHrFar2C extends SDTEquation {
     let s;
     let c;
     if (this.numeric) {
-      hr = $`
+      hr = x$1`
         <decidables-spinner class="hr bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.hr}" @input=${this.hrInput.bind(this)}>
           <var>Hit Rate</var>
         </decidables-spinner>
       `;
-      far = $`
+      far = x$1`
         <decidables-spinner class="far bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.far}" @input=${this.farInput.bind(this)}>
           <var>False Alarm Rate</var>
         </decidables-spinner>
       `;
-      s = $`
+      s = x$1`
         <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
           <var class="math-var">σ</var>
         </decidables-spinner>
       `;
-      c = $`
+      c = x$1`
         <decidables-spinner class="c bottom" disabled step=".001" .value="${+this.c.toFixed(3)}">
           <var class="math-var">c</var>
         </decidables-spinner>
       `;
     } else {
-      hr = $`<var class="hr">Hit Rate</var>`;
-      far = $`<var class="far">False Alarm Rate</var>`;
-      s = $`<var class="math-var s">σ</var>`;
-      c = $`<var class="math-var c">c</var>`;
+      hr = x$1`<var class="hr">Hit Rate</var>`;
+      far = x$1`<var class="far">False Alarm Rate</var>`;
+      s = x$1`<var class="math-var s">σ</var>`;
+      c = x$1`<var class="math-var c">c</var>`;
     }
     let equation;
     if (this.unequal) {
-      equation = $`
+      equation = x$1`
         <tr>
           <td rowspan="2">
             ${c}<span class="equals">=</span><span class="bracket tight">(</span>
@@ -17275,7 +16968,7 @@ class SDTEquationHrFar2C extends SDTEquation {
           </td>
         </tr>`;
     } else {
-      equation = $`
+      equation = x$1`
         <tr>
           <td rowspan="2">
             ${c}<span class="equals">=</span>
@@ -17290,7 +16983,7 @@ class SDTEquationHrFar2C extends SDTEquation {
           </td>
         </tr>`;
     }
-    return $`
+    return x$1`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -17383,35 +17076,35 @@ class SDTEquationHrFar2D extends SDTEquation {
     let s;
     let d;
     if (this.numeric) {
-      hr = $`
+      hr = x$1`
         <decidables-spinner class="hr bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.hr}" @input=${this.hrInput.bind(this)}>
           <var>Hit Rate</var>
         </decidables-spinner>
       `;
-      far = $`
+      far = x$1`
         <decidables-spinner class="far bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.far}" @input=${this.farInput.bind(this)}>
           <var>False Alarm Rate</var>
         </decidables-spinner>
       `;
-      s = $`
+      s = x$1`
         <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
           <var class="math-var">σ</var>
         </decidables-spinner>
       `;
-      d = $`
+      d = x$1`
         <decidables-spinner class="d bottom" disabled step=".001" .value="${+this.d.toFixed(3)}">
           <var class="math-var">d′</var>
         </decidables-spinner>
       `;
     } else {
-      hr = $`<var class="hr">Hit Rate</var>`;
-      far = $`<var class="far">False Alarm Rate</var>`;
-      s = $`<var class="math-var s">σ</var>`;
-      d = $`<var class="math-var d">d′</var>`;
+      hr = x$1`<var class="hr">Hit Rate</var>`;
+      far = x$1`<var class="far">False Alarm Rate</var>`;
+      s = x$1`<var class="math-var s">σ</var>`;
+      d = x$1`<var class="math-var d">d′</var>`;
     }
     let equation;
     if (this.unequal) {
-      equation = $`
+      equation = x$1`
         <tr>
           <td rowspan="2">
             ${d}<span class="equals">=</span><span class="bracket tight">(</span>
@@ -17429,14 +17122,14 @@ class SDTEquationHrFar2D extends SDTEquation {
           </td>
         </tr>`;
     } else {
-      equation = $`
+      equation = x$1`
         <tr>
           <td>
               ${d}<span class="equals">=</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${hr}<span class="paren tight">)</span><span class="minus">−</span><span class="tight"><var class="math-greek phi tight">Φ</var><sup class="exp">−1</sup></span><span class="paren tight">(</span>${far}<span class="paren tight">)</span>
           </td>
         </tr>`;
     }
-    return $`
+    return x$1`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -17510,27 +17203,27 @@ class SDTEquationMCr2Fomr extends SDTEquation {
     let cr;
     let fomr;
     if (this.numeric) {
-      m = $`
+      m = x$1`
         <decidables-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
           <var>Misses</var>
         </decidables-spinner>
       `;
-      cr = $`
+      cr = x$1`
         <decidables-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
           <var>Correct Rejections</var>
         </decidables-spinner>
       `;
-      fomr = $`
+      fomr = x$1`
         <decidables-spinner class="fomr" disabled min="0" max="1" step=".001" .value="${+this.fomr.toFixed(3)}">
           <var>False Omission Rate</var>
         </decidables-spinner>
       `;
     } else {
-      m = $`<var class="m">Misses</var>`;
-      cr = $`<var class="cr">Correct Rejections</var>`;
-      fomr = $`<var class="fomr">False Omission Rate</var>`;
+      m = x$1`<var class="m">Misses</var>`;
+      cr = x$1`<var class="cr">Correct Rejections</var>`;
+      fomr = x$1`<var class="fomr">False Omission Rate</var>`;
     }
-    return $`
+    return x$1`
       <div class="holder">
         <table class="equation">
           <tbody>
@@ -17561,7 +17254,7 @@ customElements.define('sdt-equation-mcr2fomr', SDTEquationMCr2Fomr);
 */
 class SDTExample extends DetectableElement {
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, r$1`
         :host {
           display: inline-block;
 
@@ -17609,7 +17302,7 @@ class SDTExample extends DetectableElement {
   }
   render() {
     /* eslint-disable-line class-methods-use-this */
-    return $`
+    return x$1`
       <div class="holder">
         <div class="body">
           <slot>Empty!</slot>
