@@ -2021,7 +2021,7 @@ __metadata:
     regenerator-runtime: ^0.13.11
     source-code-pro: ^2.38.0
     source-sans: ^3.46.0
-    source-serif: ^4.5.0
+    source-serif: 4.4.0
   languageName: unknown
   linkType: soft
 
@@ -2062,7 +2062,7 @@ __metadata:
     regenerator-runtime: ^0.13.11
     source-code-pro: ^2.38.0
     source-sans: ^3.46.0
-    source-serif: ^4.5.0
+    source-serif: 4.4.0
   languageName: unknown
   linkType: soft
 
@@ -2110,7 +2110,7 @@ __metadata:
     regenerator-runtime: ^0.13.11
     source-code-pro: ^2.38.0
     source-sans: ^3.46.0
-    source-serif: ^4.5.0
+    source-serif: 4.4.0
   languageName: unknown
   linkType: soft
 
@@ -19721,10 +19721,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-serif@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "source-serif@npm:4.5.0"
-  checksum: d2d59c305c4f3ccdc9659fa4fa36b1c1aa19c7a8927ccaecbfbeeb46e692d42f648a384add71e429c6f34b491def55d9d884e373e3dcfbe7eb5d5a7ede8541fc
+"source-serif@npm:4.4.0":
+  version: 4.4.0
+  resolution: "source-serif@npm:4.4.0"
+  checksum: 3950ce6c4147c5580d689c57c5e5ef3a6d51089eb7494adbcec95eb9c1067a22e8e83add7d50f40c316beaa518762eff79880fa4eae09f5e9a3a7e541356c199
   languageName: node
   linkType: hard
 
