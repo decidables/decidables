@@ -34,6 +34,6 @@
     "regenerator-runtime": "^0.13.11",
     "source-code-pro": "^2.38.0",
     "source-sans": "^3.46.0",
-    "source-serif": "^4.5.0"
+    "source-serif": "4.4.0"
   }
 }
