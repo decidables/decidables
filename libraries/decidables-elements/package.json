@@ -1,6 +1,6 @@
 {
   "name": "@decidables/decidables-elements",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "decidables-elements: Basic UI Web Components for the decidables project",
   "keywords": [
     "web component",
