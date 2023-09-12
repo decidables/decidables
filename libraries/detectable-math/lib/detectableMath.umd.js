@@ -6,11 +6,11 @@
 
 	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-	var jstatExports = {};
-	var jstat = {
-	  get exports(){ return jstatExports; },
-	  set exports(v){ jstatExports = v; },
-	};
+	function getDefaultExportFromCjs (x) {
+		return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+	}
+
+	var jstat = {exports: {}};
 
 	(function (module, exports) {
 	  (function (window, factory) {
@@ -4284,6 +4284,8 @@
 	    return jStat;
 	  });
 	})(jstat);
+	var jstatExports = jstat.exports;
+	var jStat = /*@__PURE__*/getDefaultExportFromCjs(jstatExports);
 
 	/*
 	  SDTMath Static Class - Not intended for instantiation!
@@ -4403,28 +4405,28 @@
 	    return m / (m + cr);
 	  }
 	  static hrFar2D(hr, far, s = 1) {
-	    if (s === 1) return jstatExports.normal.inv(hr, 0, 1) - jstatExports.normal.inv(far, 0, 1);
-	    return Math.sqrt(2 / (s * s + 1)) * (s * jstatExports.normal.inv(hr, 0, 1) - jstatExports.normal.inv(far, 0, 1));
+	    if (s === 1) return jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1);
+	    return Math.sqrt(2 / (s * s + 1)) * (s * jStat.normal.inv(hr, 0, 1) - jStat.normal.inv(far, 0, 1));
 	  }
 	  static hrFar2C(hr, far, s = 1) {
-	    if (s === 1) return -(jstatExports.normal.inv(hr, 0, 1) + jstatExports.normal.inv(far, 0, 1)) / 2;
-	    return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jstatExports.normal.inv(hr, 0, 1) + jstatExports.normal.inv(far, 0, 1));
+	    if (s === 1) return -(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1)) / 2;
+	    return Math.sqrt(2 / (s * s + 1)) * (s / (s + 1)) * -(jStat.normal.inv(hr, 0, 1) + jStat.normal.inv(far, 0, 1));
 	  }
 	  static dC2Hr(d, c, s = 1) {
-	    if (s === 1) return jstatExports.normal.cdf(d / 2 - c, 0, 1);
-	    return jstatExports.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
+	    if (s === 1) return jStat.normal.cdf(d / 2 - c, 0, 1);
+	    return jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * (d / (1 + s) - c / s), 0, 1);
 	  }
 	  static dC2Far(d, c, s = 1) {
-	    if (s === 1) return jstatExports.normal.cdf(-(d / 2 + c), 0, 1);
-	    return jstatExports.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
+	    if (s === 1) return jStat.normal.cdf(-(d / 2 + c), 0, 1);
+	    return jStat.normal.cdf(Math.sqrt((s * s + 1) / 2) * -(d / (1 + s) + c), 0, 1);
 	  }
 	  static dFar2Hr(d, far, s = 1) {
-	    if (s === 1) return jstatExports.normal.cdf(d + jstatExports.normal.inv(far, 0, 1), 0, 1);
-	    return jstatExports.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jstatExports.normal.inv(far, 0, 1)) / s, 0, 1);
+	    if (s === 1) return jStat.normal.cdf(d + jStat.normal.inv(far, 0, 1), 0, 1);
+	    return jStat.normal.cdf((Math.sqrt((s * s + 1) / 2) * d + jStat.normal.inv(far, 0, 1)) / s, 0, 1);
 	  }
 	  static cFar2Hr(c, far, s = 1) {
-	    if (s === 1) return jstatExports.normal.cdf(-(2 * c) - jstatExports.normal.inv(far, 0, 1), 0, 1);
-	    return jstatExports.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jstatExports.normal.inv(far, 0, 1), 0, 1);
+	    if (s === 1) return jStat.normal.cdf(-(2 * c) - jStat.normal.inv(far, 0, 1), 0, 1);
+	    return jStat.normal.cdf(-Math.sqrt((s * s + 1) / 2) * ((s + 1) / s) * c - jStat.normal.inv(far, 0, 1), 0, 1);
 	  }
 	  static d2MuN(d, s = 1) {
 	    if (s === 1) return -d / 2;
@@ -4457,16 +4459,16 @@
 	    return 1 / (h * Math.sqrt(2 * Math.PI));
 	  }
 	  static hr2Zhr(hr) {
-	    return jstatExports.normal.inv(hr, 0, 1);
+	    return jStat.normal.inv(hr, 0, 1);
 	  }
 	  static far2Zfar(far) {
-	    return jstatExports.normal.inv(far, 0, 1);
+	    return jStat.normal.inv(far, 0, 1);
 	  }
 	  static zhr2Hr(zhr) {
-	    return jstatExports.normal.cdf(zhr, 0, 1);
+	    return jStat.normal.cdf(zhr, 0, 1);
 	  }
 	  static zfar2Far(zfar) {
-	    return jstatExports.normal.cdf(zfar, 0, 1);
+	    return jStat.normal.cdf(zfar, 0, 1);
 	  }
 	}
 
