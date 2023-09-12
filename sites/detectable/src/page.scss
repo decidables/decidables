@@ -663,7 +663,7 @@ $transition-duration: 500ms;
 }
 
 .det-index-subtitle {
-  @extend .text-center, .fw-semibold, .font-serif;
+  @extend .h2, .text-center, .fw-semibold, .font-serif;
 }
 
 .det-index-demo {
