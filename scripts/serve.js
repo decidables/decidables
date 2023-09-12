@@ -1,7 +1,7 @@
 
 // devDependencies
 import express from 'express';
-import glob from 'glob';
+import {glob} from 'glob';
 
 // Tasks
 export function serve() {

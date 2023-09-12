@@ -1,7 +1,7 @@
 
 // devDependencies
 import fancyLog from 'fancy-log';
-import glob from 'glob';
+import {glob} from 'glob';
 import gulp from 'gulp';
 import gulpDartSass from 'gulp-dart-sass';
 import gulpEjs from 'gulp-ejs';
