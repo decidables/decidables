@@ -441,7 +441,7 @@ $transition-duration: 500ms;
 }
 
 .dec-main-subtitle {
-  @extend .text-center, .fw-semibold, .font-serif;
+  @extend .h2, .text-center, .fw-semibold, .font-serif;
 }
 
 .dec-main-lead {

@@ -667,7 +667,7 @@ $transition-duration: 500ms;
 }
 
 .pro-index-subtitle {
-  @extend .text-center, .fw-semibold, .font-serif;
+  @extend .h2, .text-center, .fw-semibold, .font-serif;
 }
 
 .pro-index-demo {

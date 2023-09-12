@@ -11,7 +11,7 @@ script: page
     <h1 class="pro-index-title">
       <span class="prospectable">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
     </h1>
-    <h2 class="pro-index-subtitle">An Explorable Explanation of Cumulative Prospect Theory</h2>
+    <p class="pro-index-subtitle">An Explorable Explanation of Cumulative Prospect Theory</p>
   </hgroup>
   <div class="pro-index-demo">
     <risky-task running trials="Infinity" duration="3000" iti="500"></risky-task>

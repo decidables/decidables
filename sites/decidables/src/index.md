@@ -9,7 +9,7 @@ script: page
 <header class="dec-main-header">
   <hgroup class="dec-main-titles">
     <h1 class="dec-main-title">decidables</h1>
-    <h2 class="dec-main-subtitle">Explorable Explanations of Decision Making</h2>
+    <p class="dec-main-subtitle">Explorable Explanations of Decision Making</p>
   </hgroup>
   <p class="dec-main-lead">
     In-depth tutorials about topics in the cognitive psychology of decision making.
@@ -31,7 +31,7 @@ script: page
             <h2 class="dec-site-title">
               <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
             </h2>
-            <h3 class="dec-site-subtitle">An Explorable Explanation of Signal Detection Theory</h3>
+            <p class="dec-site-subtitle">An Explorable Explanation of Signal Detection Theory</p>
           </hgroup>
         </a>
         <p class="dec-site-lead">
@@ -95,7 +95,7 @@ script: page
             <h2 class="dec-site-title">
               <span class="prospectable">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
             </h2>
-            <h3 class="dec-site-subtitle">An Explorable Explanation of Cumulative Prospect Theory</h3>
+            <p class="dec-site-subtitle">An Explorable Explanation of Cumulative Prospect Theory</p>
           </hgroup>
         </a>
         <p class="dec-site-lead dec-disabled">
@@ -153,7 +153,7 @@ script: page
             <h2 class="dec-site-title">
               <span class="discountable">dis<span class="math-var">k</span>ountable</span>
             </h2>
-            <h3 class="dec-site-subtitle">An Explorable Explanation of Hyperbolic Temporal Discounting</h3>
+            <p class="dec-site-subtitle">An Explorable Explanation of Hyperbolic Temporal Discounting</p>
           </hgroup>
         </a>
         <p class="dec-site-lead dec-disabled">
