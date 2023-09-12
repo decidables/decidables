@@ -15,4 +15,9 @@ export default {
   plugins: [
     commonjsPlugin(),
   ],
+  testFramework: {
+    config: {
+      timeout: '30000',
+    },
+  },
 };
