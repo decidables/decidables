@@ -1,5 +1,4 @@
 {
-  "useWorkspaces": true,
   "version": "independent",
   "command": {
     "version": {
@@ -11,5 +10,6 @@
     "**/local/**",
     "**/dist/**",
     "**/test/**"
-  ]
+  ],
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }

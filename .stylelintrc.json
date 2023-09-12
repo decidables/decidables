@@ -1,4 +1,7 @@
 {
+  "plugins": [
+    "stylelint-stylistic"
+  ],
   "extends": [
     "stylelint-config-recommended-scss",
     "stylelint-config-sass-guidelines",
@@ -375,7 +378,7 @@
         "ignore": ["custom-elements"]
       }
     ],
-    "string-quotes": "double"
+    "stylistic/string-quotes": "double"
   },
   "overrides": [
     {

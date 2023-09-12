@@ -52,14 +52,14 @@
     "build": "gulp build"
   },
   "devDependencies": {
-    "@web/test-runner": "^0.15.1",
+    "@web/test-runner": "^0.17.1",
     "gulp": "^4.0.2"
   },
   "dependencies": {
     "@decidables/decidables-elements": "^0.3.4",
     "@decidables/detectable-math": "^0.1.4",
-    "d3": "^7.8.2",
+    "d3": "^7.8.5",
     "jstat": "^1.9.6",
-    "lit": "^2.7.0"
+    "lit": "^2.8.0"
   }
 }
