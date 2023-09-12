@@ -66,7 +66,7 @@ export default class DetectableControl extends DetectableElement {
       },
 
       state: {
-        atribute: false,
+        attribute: false,
         type: String,
         reflect: false,
       },
