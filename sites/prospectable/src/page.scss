@@ -8,6 +8,11 @@
 // BOOTSTRAP INITIAL IMPORTS
 // Bootstrap 5 Configuration
 @import "~bootstrap/scss/functions";
+
+// Bootstrap SASS settings
+$enable-rfs: false;
+$enable-dark-mode: false;
+
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/maps";
 @import "~bootstrap/scss/mixins";
@@ -256,7 +261,6 @@ $container-max-widths: (
   xxl: 1560px
 );
 $container-padding-x: 2rem;
-$enable-rfs: false;
 $grid-breakpoints: (
   xs: 0,
   sm: 576px,
