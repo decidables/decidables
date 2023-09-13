@@ -238,7 +238,8 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 #### Publish
 
 - `yarn publish ######`
-  - **Note:** you must be logged in to NPM with appropriate scope: `npm adduser <username> --scope=@decidables`
+  - **Note:** you must be logged in to NPM with appropriate scope:
+    `npm adduser <username> --scope=@decidables`
   - **Note:** to be run immediately after `yarn version`
   - **Note:** `######` should be replaced with an actual one time passcode
   - Publishes all new versions of *public* libraries to *npm*
