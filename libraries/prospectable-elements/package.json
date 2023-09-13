@@ -1,6 +1,6 @@
 {
   "name": "@decidables/prospectable-elements",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "prospectable-elements: Web Components for visualizing Cumulative Prospect Theory",
   "keywords": [
     "web component",
@@ -63,8 +63,8 @@
     "node-sass-package-importer": "^5.3.3"
   },
   "dependencies": {
-    "@decidables/decidables-elements": "^0.3.4",
-    "@decidables/prospectable-math": "^0.2.2",
+    "@decidables/decidables-elements": "^0.3.5",
+    "@decidables/prospectable-math": "^0.2.3",
     "@lit-labs/motion": "^1.0.4",
     "bayes.js": "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f",
     "d3": "^7.8.5",

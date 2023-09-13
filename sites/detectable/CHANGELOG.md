@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.8](https://github.com/decidables/decidables/compare/@decidables/detectable@0.9.7...@decidables/detectable@0.9.8) (2023-09-13)
+
+
+### Bug Fixes
+
+* **sites:** fix html linting errors for `hgroup` ([dc996f8](https://github.com/decidables/decidables/commit/dc996f816319c6512adb768f73752fa443d2be87))
+* **sites:** update Bootstrap settings for latest ([d27cf89](https://github.com/decidables/decidables/commit/d27cf898d0ef6ade279eb1d67eccfbb2eaf2171b))
+
+
+
 ## [0.9.7](https://github.com/decidables/decidables/compare/@decidables/detectable@0.9.6...@decidables/detectable@0.9.7) (2023-03-22)
 
 

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.5](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.2.4...@decidables/detectable-elements@0.2.5) (2023-09-13)
+
+
+### Bug Fixes
+
+* **detectable-elements:** fix a minor typo ([135f54c](https://github.com/decidables/decidables/commit/135f54c7cf3a4b03d26630ac443887c5faffc89d))
+
+
+
 ## [0.2.4](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.2.3...@decidables/detectable-elements@0.2.4) (2023-03-22)
 
 **Note:** Version bump only for package @decidables/detectable-elements

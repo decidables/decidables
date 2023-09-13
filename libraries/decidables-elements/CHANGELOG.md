@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.5](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.3.4...@decidables/decidables-elements@0.3.5) (2023-09-13)
+
+**Note:** Version bump only for package @decidables/decidables-elements
+
+
+
+
+
 ## [0.3.4](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.3.3...@decidables/decidables-elements@0.3.4) (2023-03-22)
 
 **Note:** Version bump only for package @decidables/decidables-elements
