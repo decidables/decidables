@@ -13,10 +13,13 @@
       "detectable-elements",
       "prospectable-math",
       "prospectable-elements",
+      "discountable-math",
+      "discountable-elements",
       "sites",
       "decidables",
       "detectable",
-      "prospectable"
+      "prospectable",
+      "discountable"
     ]]
   }
 }

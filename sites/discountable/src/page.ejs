@@ -1,0 +1,162 @@
+---
+toc:
+  - section: introduction
+    nav: true
+    pages:
+      - {file: index, name: 'Home'}
+      - {file: introduction, name: 'Introduction'}
+  - section: model
+    nav: true
+    name: 'Model'
+    pages:
+      - {file: exploration, name: 'Model Exploration'}
+      - {file: fitting, name: 'Model Fitting'}
+      - {file: prediction, name: 'Model Predictions'}
+  - section: resources
+    name: 'Resources'
+    pages:
+      - {file: legend, name: 'Legend'}
+      - {file: glossary, name: 'Glossary'}
+      - {file: equations, name: 'Equations'}
+      - {file: references, name: 'References'}
+      - {file: credits, name: 'Credits'}
+---
+<!doctype html>
+<html class="dis-html" lang="en">
+  <head>
+    <%
+      let activeSection;
+      let activePage;
+      let windowTitle;
+      for (const [sectionIndex, section] of toc.entries()) {
+        for (const [pageIndex, page] of section.pages.entries()) {
+          if (page.file === file) {
+            activeSection = sectionIndex;
+            activePage = pageIndex;
+            windowTitle = page.name.replace(/<[^>]+>/g, '');
+          }
+        }
+      }
+    %>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="discountable: <%= title.replace(/<[^>]+>/g, '') %>">
+    <meta name="author" content="Dr. Adam Krawitz">
+
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
+    <title>discountable<%- (file !== 'index') ? `: ${windowTitle}` : '' %></title>
+
+    <link href="page.css" rel="stylesheet">
+  </head>
+  <body class="dis-body">
+    <div class="dis-page">
+      <div class="dis-layout">
+
+        <div class="dis-sidebar">
+          <div class="dis-nav-group">
+            <div class="dis-nav-top">
+              <button class="dis-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dis-nav" aria-controls="dis-nav" aria-expanded="false" aria-label="Toggle table of contents">
+                <%- include(resolvePkg('bootstrap-icons/icons/list.svg')) %>
+              </button>
+              <a class="dis-nav-brand" href="index.html"><span class="discountable">dis<span class="math-var">k</span>ountable</span></a>
+           </div>
+            <nav class="dis-nav-collapse collapse" id="dis-nav">
+              <ol class="dis-toc">
+                <% for (const [sectionIndex, section] of toc.entries()){ %>
+                  <li class="dis-toc-list">
+                    <% if (section.name) { %>
+                    <div class="dis-toc-section-name"><%- section.name %></div>
+                    <% } %>
+                    <ol class="dis-toc-section dis-toc-section-<%- section.section %>">
+                      <% for (const [pageIndex, page] of section.pages.entries()) { %>
+                        <% if ((activeSection === sectionIndex) && (activePage === pageIndex)) { %>
+                          <li class="dis-toc-item dis-toc-item-active">
+                        <% } else { %>
+                          <li class="dis-toc-item">
+                        <% } %>
+                            <a class="dis-toc-link" href="<%= page.file %>.html">
+                              <%- page.name %>
+                            </a>
+                          </li>
+                      <% } %>
+                    </ol>
+                  </li>
+                <% } %>
+                <li class="dis-toc-list">
+                  <div class="dis-toc-section-name"></div>
+                  <ol class="dis-toc-section dis-toc-section-external">
+                    <li class="dis-toc-item">
+                      <a class="dis-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdiscountable%40<%- utilities.getPackageVersion() %>" target="_blank" rel="noopener">
+                        v<%- utilities.getPackageVersion() %>
+                      </a>
+                    </li>
+                    <li class="dis-toc-item">
+                      <a class="dis-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
+                    </li>
+                    <li class="dis-toc-item">
+                      <a class="dis-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
+                    </li>
+                    <li class="dis-toc-item">
+                      <a class="dis-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/discountable" target="_blank" rel="noopener">
+                        <%- include(resolvePkg('bootstrap-icons/icons/github.svg')) %>
+                      </a>
+                    </li>
+                  </ol>
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <div class="dis-nav-bottom">
+            <a class="dis-nav-decidables" href="../"><span class="decidables">decidables</span></a>
+          </div>
+        </div>
+
+        <main class="dis-main">
+          <% if (file !== 'index') { %>
+            <header class="dis-header">
+              <h1 class="dis-title"><%- title %></h1>
+            </header>
+          <% } %>
+          <section class="dis-content">
+            <%- contents %>
+          </section>
+
+          <footer class="dis-footer">
+            <div class="dis-footer-item dis-footer-item-left">
+              <% if (toc[activeSection].nav && ((activePage > 0) || (activeSection > 0))) { %>
+                <% const previousPage = (activePage > 0)
+                    ? toc[activeSection].pages[activePage - 1]
+                    : toc[activeSection - 1].pages[toc[activeSection - 1].pages.length - 1]; %>
+                <a class="dis-toc-link" href="<%= previousPage.file %>.html">
+                  <%- include(resolvePkg('bootstrap-icons/icons/arrow-left-short.svg')) %>
+                  <%- previousPage.name %>
+                </a>
+              <% } %>
+            </div>
+            <div class="dis-footer-item dis-footer-item-right">
+              <% if (toc[activeSection].nav && ((activePage < (toc[activeSection].pages.length - 1)) || ((activeSection < (toc.length - 1)) && toc[activeSection + 1].nav))) { %>
+                <% const nextPage = (activePage < (toc[activeSection].pages.length - 1))
+                    ? toc[activeSection].pages[activePage + 1]
+                    : toc[activeSection + 1].pages[0]; %>
+                <a class="dis-toc-link" href="<%= nextPage.file %>.html">
+                  <%- nextPage.name %>
+                  <%- include(resolvePkg('bootstrap-icons/icons/arrow-right-short.svg')) %>
+                </a>
+              <% } %>
+            </div>
+          </footer>
+        </main>
+
+      </div>
+    </div>
+    <script type="module" src="<%= script %>.js"></script>
+  </body>
+</html>

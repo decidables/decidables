@@ -1,0 +1,39 @@
+{
+  "name": "@decidables/discountable",
+  "version": "0.0.1",
+  "description": "discountable: An Explorable Explanation of Hyperbolic Temporal Discounting",
+  "type": "module",
+  "main": "./dist/index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decidables/decidables.git",
+    "directory": "sites/discountable"
+  },
+  "bugs": "https://github.com/decidables/decidables/issues",
+  "homepage": "https://github.com/decidables/decidables/tree/main/sites/discountable",
+  "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
+  "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
+  "private": true,
+  "scripts": {
+    "compile": "gulp compile",
+    "watch": "gulp watch",
+    "lint": "gulp lint",
+    "build": "gulp build",
+    "deploy": "gulp deploy",
+    "serve": "gulp serve"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  },
+  "dependencies": {
+    "@decidables/discountable-elements": "^0.0.1",
+    "bootstrap": "^5.3.1",
+    "bootstrap-icons": "^1.11.0",
+    "core-js": "^3.32.2",
+    "lit": "^2.8.0",
+    "regenerator-runtime": "^0.14.0",
+    "source-code-pro": "^2.38.0",
+    "source-sans": "^3.46.0",
+    "source-serif": "4.4.0"
+  }
+}
