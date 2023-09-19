@@ -124,6 +124,59 @@ export default class DecidablesElement extends LitElement {
     return `${umbraS} ${umbraC}, ${penumbraS} ${penumbraC}, ${ambientS} ${ambientC}`;
   }
 
+  static get svgDefs() {
+    const shadows = DecidablesElement.shadows; /* eslint-disable-line prefer-destructuring */
+
+    const filters = shadows.elevations.map((z) => {
+      return `
+        <filter id=${`shadow-${z}`} filterUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
+          <feComponentTransfer in="SourceAlpha" result="solid">
+            <feFuncA type="table" tableValues="0 1 1"/>
+          </feComponentTransfer>
+          <feOffset in="solid" result="offU" dx=${shadows.mapUmbra[z].y / 2} dy=${shadows.mapUmbra[z].y} />
+          <feOffset in="solid" result="offP" dx=${shadows.mapPenumbra[z].y / 2} dy=${shadows.mapPenumbra[z].y} />
+          <feOffset in="solid" result="offA" dx=${shadows.mapAmbient[z].y / 2} dy=${shadows.mapAmbient[z].y} />
+          ${(shadows.mapUmbra[z].s === 0)
+            ? ''
+            : `<feMorphology in="offU" result="spreadU" operator=${(shadows.mapUmbra[z].s > 0) ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapUmbra[z].s)} />`
+          }
+          ${(shadows.mapPenumbra[z].s === 0)
+            ? ''
+            : `<feMorphology in="offP" result="spreadP" operator=${(shadows.mapPenumbra[z].s > 0) ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapPenumbra[z].s)} />`
+          }
+          ${(shadows.mapAmbient[z].s === 0)
+            ? ''
+            : `<feMorphology in="offA" result="spreadA" operator=${(shadows.mapAmbient[z].s > 0) ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapAmbient[z].s)} />`
+          }
+          <feGaussianBlur in=${(shadows.mapUmbra[z].s === 0) ? 'offU' : 'spreadU'} result="blurU" stdDeviation=${shadows.mapUmbra[z].b / 2} />
+          <feGaussianBlur in=${(shadows.mapPenumbra[z].s === 0) ? 'offP' : 'spreadP'} result="blurP" stdDeviation=${shadows.mapPenumbra[z].b / 2} />
+          <feGaussianBlur in=${(shadows.mapAmbient[z].s === 0) ? 'offA' : 'spreadA'} result="blurA" stdDeviation=${shadows.mapAmbient[z].b / 2} />
+          <feFlood in="SourceGraphic" result="opU" flood-color=${shadows.baselineColor} flood-opacity=${shadows.opacityUmbra + shadows.opacityBoost} />
+          <feFlood in="SourceGraphic" result="opP" flood-color=${shadows.baselineColor} flood-opacity=${shadows.opacityPenumbra + shadows.opacityBoost} />
+          <feFlood in="SourceGraphic" result="opA" flood-color=${shadows.baselineColor} flood-opacity=${shadows.opacityAmbient + shadows.opacityBoost} />
+          <feComposite in="opU" in2="blurU" result="shU" operator="in" />
+          <feComposite in="opP" in2="blurP" result="shP" operator="in" />
+          <feComposite in="opA" in2="blurA" result="shA" operator="in" />
+          <feMorphology in="solid" result="smaller" operator="erode" radius="1" />
+          <feComposite in="shU" in2="smaller" result="finalU" operator="out" />
+          <feComposite in="shP" in2="smaller" result="finalP" operator="out" />
+          <feComposite in="shA" in2="smaller" result="finalA" operator="out" />
+          <feMerge>
+            <feMergeNode in="finalU" />
+            <feMergeNode in="finalP" />
+            <feMergeNode in="finalA" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>`;
+    });
+
+    return `
+      <defs>
+        ${filters}
+      </defs>
+    `;
+  }
+
   static get svgFilters() {
     const shadows = DecidablesElement.shadows; /* eslint-disable-line prefer-destructuring */
 
@@ -131,7 +184,7 @@ export default class DecidablesElement extends LitElement {
       return svg`
         <filter id=${`shadow-${z}`} x="-250%" y="-250%" width="600%" height="600%">
           <feComponentTransfer in="SourceAlpha" result="solid">
-            <feFuncA  type="table" tableValues="0 1 1"/>
+            <feFuncA type="table" tableValues="0 1 1"/>
           </feComponentTransfer>
           <feOffset in="solid" result="offU" dx=${shadows.mapUmbra[z].y / 2} dy=${shadows.mapUmbra[z].y} />
           <feOffset in="solid" result="offP" dx=${shadows.mapPenumbra[z].y / 2} dy=${shadows.mapPenumbra[z].y} />
