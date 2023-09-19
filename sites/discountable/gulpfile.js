@@ -60,8 +60,8 @@ export const compile = gulp.series(
 
 export const watchLibraries = watches.watchLibrariesTask([
   'decidables-elements',
-  'diskountable-math',
-  'diskountable-elements',
+  'discountable-math',
+  'discountable-elements',
 ]);
 
 export const watch = gulp.parallel(
