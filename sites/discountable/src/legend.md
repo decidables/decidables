@@ -9,12 +9,12 @@ script: page
 ### Objective 
 
 <ul class="pro-legend">
-  <li class="x">
-    <span class="key value">Value</span>
+  <li class="a">
+    <span class="key amount">Amount</span>
     (<span class="key objectivevalue">Objective Value</span>)
   </li>
-  <li class="p">
-    <span class="key probability">Probability</span>
+  <li class="d">
+    <span class="key delay">Delay</span>
   </li>
 </ul>
 
@@ -22,14 +22,8 @@ script: page
 
 <ul class="pro-legend">
   <li class="v">
-    <span class="key subjectivevalue">Subjective value</span>
-  </li>
-  <li class="w">
-    <span class="key decisionweight">Decision weight</span>
-  </li>
-  <li class="u">
-    <span class="key utility">Utility</span>
-    (<span class="key subjectiveutility">Subjective utility</span>)
+    <span class="key value">Value</span>
+    (<span class="key subjectivevalue">Subjective value</span>)
   </li>
 </ul>
 
@@ -68,13 +62,7 @@ script: page
 
 <ul class="pro-legend">
   <li class="a">
-    <span class="key α">α</span>
-  </li>
-  <li class="l">
-    <span class="key λ">λ</span>
-  </li>
-  <li class="g">
-    <span class="key γ">γ</span>
+    <span class="key k">k</span>
   </li>
 </ul>
 
@@ -82,9 +70,9 @@ script: page
 
 ### UI components
 
-- Buttons: :button[#####Pause]
-- Prompts: :prompt[#####?]
-- Sliders: :slider[#####Duration]
+- Buttons: :button[Pause]
+- Prompts: :prompt[?]
+- Sliders: :slider[Duration]
 - Switches :switch[#####<span class="math-var">z</span>ROC-ROC]
 - Toggles: :toggle[#####Emphasis]
 
@@ -95,4 +83,4 @@ script: page
 - Glossary entries: :term[decision]
 - Other pages: [:page[Legend]](legend.html)
 - Outside links: [explorabl.es](https://explorabl.es/)
-- References: :cite[@Kahneman1979]
+- References: :cite[@mazur_adjusting_1987]

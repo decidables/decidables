@@ -26,14 +26,6 @@ script: page
   given the definition of the task. In a signal detection task, this occurs when the signal is
   present and the participant responds 'present' or the signal is absent and they respond 'absent'.
  
-:entry[decision]
-
-: The selection of an action (or lack thereof) in a particular circumstance. Or even more broadly,
-  "a commitment to a course of action that is intended to yield results that are satisfying for
-  specified individuals" :cite[@Yates2006a]. In a signal detection task, it is the process that
-  leads on each trial from the stimulus, which might have a signal present or absent, to a response,
-  which might be 'present' or 'absent', or to no response.
-
 :entry[error]
 
 : The outcome that occurs when the response that is made is *not* the one that should have been made
