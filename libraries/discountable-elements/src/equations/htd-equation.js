@@ -181,36 +181,20 @@ export default class HTDEquation extends DiscountableElement {
           background: var(---color-even);
         } */
 
-        .x {
-          background: var(---color-x-light);
-        }
-
         .a {
           background: var(---color-a-light);
         }
 
-        .l {
-          background: var(---color-l-light);
+        .d {
+          background: var(---color-d-light);
+        }
+
+        .k {
+          background: var(---color-k-light);
         }
 
         .v {
           background: var(---color-v-light);
-        }
-
-        .p {
-          background: var(---color-p-light);
-        }
-
-        .g {
-          background: var(---color-g-light);
-        }
-
-        .w {
-          background: var(---color-w-light);
-        }
-
-        .u {
-          background: var(---color-u-light);
         }
       `,
     ];
