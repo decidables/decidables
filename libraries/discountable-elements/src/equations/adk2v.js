@@ -95,7 +95,7 @@ export default class HTDEquationADK2V extends HTDEquation {
       d = html`<decidables-spinner class="d bottom" ?disabled=${!this.interactive} min="0" step="1" .value="${this.d}" @input=${this.dInput.bind(this)}>
           <var class="math-var">D</var>
         </decidables-spinner>`;
-      k = html`<decidables-spinner class="k bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.k}" @input=${this.kInput.bind(this)}>
+      k = html`<decidables-spinner class="k bottom" ?disabled=${!this.interactive} min="0" max="100" step=".001" .value="${this.k}" @input=${this.kInput.bind(this)}>
           <var class="math-var">k</var>
         </decidables-spinner>`;
       v = html`<decidables-spinner class="v bottom" disabled step=".001" .value="${+this.v.toFixed(3)}">
@@ -110,14 +110,14 @@ export default class HTDEquationADK2V extends HTDEquation {
     const equation = html`
       <tr>
         <td rowspan="2">
-          ${v}<span class="equals">=</span><span class="brace tight">{</span>
+          ${v}<span class="equals">=</span>
         </td>
-        <td class="left">
+        <td class="underline">
           ${a}
         </td>
       </tr>
       <tr>
-        <td class="left">
+        <td class="">
           <span class="paren tight">(</span>1<span class="plus">+</span>${k}${d}<span class="paren tight">)</span>
         </td>
       </tr>`;
