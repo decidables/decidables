@@ -97,12 +97,33 @@ export default class HTDCurves extends DiscountableElement {
     this.firstUpdate = true;
     this.drag = false;
 
+    this.scale = {
+      value: {
+        min: 0,
+        max: 80,
+        step: 1,
+        round: Math.round,
+      },
+      time: {
+        min: 0,
+        max: 100,
+        step: 1,
+        round: Math.round,
+      },
+      discount: {
+        min: 0,
+        max: 100,
+        step: 0.001,
+        round: (k) => { return +k.toFixed(3); },
+      },
+    };
+
     this.a1 = 20;
     this.d1 = 5;
-    this.label1 = 's';
+    this.label1 = '1';
     this.a2 = 50;
     this.d2 = 40;
-    this.label2 = 'l';
+    this.label2 = '2';
     this.k = 0.1;
 
     this.options = [
@@ -211,10 +232,14 @@ export default class HTDCurves extends DiscountableElement {
   }
 
   setOption(a, d, name = 'default1', label = '', trial = false) {
-    if (name === 'default') {
+    if (name === 'default1') {
       this.a1 = a;
       this.d1 = d;
       this.label1 = label;
+    } else if (name === 'default2') {
+      this.a2 = a;
+      this.d2 = d;
+      this.label2 = label;
     }
 
     const myOption = this.options.find((option) => {
@@ -458,16 +483,14 @@ export default class HTDCurves extends DiscountableElement {
     const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10);
 
     // X Scale
-    const timeScale = 100;
     const xScale = d3.scaleLinear()
-      .domain([0, timeScale])
+      .domain([this.scale.time.min, this.scale.time.max])
       .range([0, width]);
 
     // Y Scale
-    const valueScale = 80;
     const yScale = d3.scaleLinear()
-      .domain([valueScale, 0])
-      .range([0, height]);
+      .domain([this.scale.value.min, this.scale.value.max])
+      .range([height, 0]);
 
     // Line for time/value space
     const line = d3.line()
@@ -640,8 +663,8 @@ export default class HTDCurves extends DiscountableElement {
             .on('drag', (event, datum) => {
               this.drag = true;
               const dragD = datum.d - xScale.invert(event.x);
-              const d = (dragD <= 0)
-                ? 0.001
+              const d = (dragD < 0)
+                ? 0
                 : (dragD > datum.d)
                   ? datum.d
                   : dragD;
@@ -652,16 +675,20 @@ export default class HTDCurves extends DiscountableElement {
                   ? datum.a
                   : dragV;
               const k = HTDMath.adv2k(datum.a, d, v);
-              this.k = (k < 0)
-                ? 0
-                : (k > 100)
-                  ? 100
-                  : k;
+              this.k = (k < this.scale.discount.min)
+                ? this.scale.discount.min
+                : (k > this.scale.discount.max)
+                  ? this.scale.discount.max
+                  : this.scale.discount.round(k);
               this.alignState();
               this.requestUpdate();
               this.dispatchEvent(new CustomEvent('htd-curves-change', {
                 detail: {
+                  name: datum.name,
+                  a: datum.a,
+                  d: datum.d,
                   k: this.k,
+                  label: datum.label,
                 },
                 bubbles: true,
               }));
@@ -671,7 +698,7 @@ export default class HTDCurves extends DiscountableElement {
               d3.select(element).classed('dragging', false);
             }))
           // Keyboard interaction
-          .on('keydown', (event) => {
+          .on('keydown', (event, datum) => {
             if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
               let keyK = this.k;
               switch (event.key) {
@@ -686,18 +713,22 @@ export default class HTDCurves extends DiscountableElement {
                 default:
                   // no-op
               }
-              keyK = (keyK < 0)
-                ? 0
-                : (keyK > 100)
-                  ? 100
-                  : keyK;
+              keyK = (keyK < this.scale.discount.min)
+                ? this.scale.discount.min
+                : (keyK > this.scale.discount.max)
+                  ? this.scale.discount.max
+                  : this.scale.discount.round(keyK);
               if (keyK !== this.k) {
                 this.k = keyK;
                 this.alignState();
                 this.requestUpdate();
                 this.dispatchEvent(new CustomEvent('htd-curves-change', {
                   detail: {
+                    name: datum.name,
+                    a: datum.a,
+                    d: datum.d,
                     k: this.k,
+                    label: datum.label,
                   },
                   bubbles: true,
                 }));
@@ -723,11 +754,11 @@ export default class HTDCurves extends DiscountableElement {
             .on('drag', (event, datum) => {
               this.drag = true;
               const d = xScale.invert(event.x);
-              datum.d = (d < 0)
-                ? 0
-                : (d > timeScale)
-                  ? timeScale
-                  : d;
+              datum.d = (d < this.scale.time.min)
+                ? this.scale.time.min
+                : (d > this.scale.time.max)
+                  ? this.scale.time.max
+                  : this.scale.time.round(d);
               if (datum.name === 'default1') {
                 this.d1 = datum.d;
               } else if (datum.name === 'default2') {
@@ -738,7 +769,9 @@ export default class HTDCurves extends DiscountableElement {
               this.dispatchEvent(new CustomEvent('htd-curves-change', {
                 detail: {
                   name: datum.name,
+                  a: datum.a,
                   d: datum.d,
+                  k: this.k,
                   label: datum.label,
                 },
                 bubbles: true,
@@ -762,10 +795,10 @@ export default class HTDCurves extends DiscountableElement {
                 default:
                   // no-op
               }
-              keyD = (keyD < 0)
-                ? 0
-                : ((keyD > timeScale)
-                  ? timeScale
+              keyD = (keyD < this.scale.time.min)
+                ? this.scale.time.min
+                : ((keyD > this.scale.time.max)
+                  ? this.scale.time.max
                   : keyD);
               if (keyD !== datum.d) {
                 datum.d = keyD;
@@ -779,7 +812,9 @@ export default class HTDCurves extends DiscountableElement {
                 this.dispatchEvent(new CustomEvent('htd-curves-change', {
                   detail: {
                     name: datum.name,
+                    a: datum.a,
                     d: datum.d,
+                    k: this.k,
                     label: datum.label,
                   },
                   bubbles: true,
@@ -805,11 +840,11 @@ export default class HTDCurves extends DiscountableElement {
             .on('drag', (event, datum) => {
               this.drag = true;
               const a = yScale.invert(event.y);
-              datum.a = (a < 0)
-                ? 0
-                : (a > valueScale)
-                  ? valueScale
-                  : a;
+              datum.a = (a < this.scale.value.min)
+                ? this.scale.value.min
+                : (a > this.scale.value.max)
+                  ? this.scale.value.max
+                  : this.scale.value.round(a);
               if (datum.name === 'default1') {
                 this.a1 = datum.a;
               } else if (datum.name === 'default2') {
@@ -821,6 +856,8 @@ export default class HTDCurves extends DiscountableElement {
                 detail: {
                   name: datum.name,
                   a: datum.a,
+                  d: datum.d,
+                  k: this.k,
                   label: datum.label,
                 },
                 bubbles: true,
@@ -844,10 +881,10 @@ export default class HTDCurves extends DiscountableElement {
                 default:
                   // no-op
               }
-              keyA = (keyA < 0)
-                ? 0
-                : ((keyA > valueScale)
-                  ? valueScale
+              keyA = (keyA < this.scale.value.min)
+                ? this.scale.value.min
+                : ((keyA > this.scale.value.max)
+                  ? this.scale.value.max
                   : keyA);
               if (keyA !== datum.a) {
                 datum.a = keyA;
@@ -862,6 +899,8 @@ export default class HTDCurves extends DiscountableElement {
                   detail: {
                     name: datum.name,
                     a: datum.a,
+                    d: datum.d,
+                    k: this.k,
                     label: datum.label,
                   },
                   bubbles: true,
