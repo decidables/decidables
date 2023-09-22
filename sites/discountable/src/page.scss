@@ -115,16 +115,10 @@ $utilities: (
 // SASS variables
 // http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
 $color-map: (
-  x: #e41a1c, // red (CB1)
-  a: #ff7f00, // orange (CB5)
-  l: #ffff33, // yellow (CB6)
-  v: #f781bf, // pink (CB8)
-
-  p: #377eb8, // blue (CB2)
-  g: #4daf4a, // green (CB3)
-  w: #984ea3, // purple (CB4)
-
-  u: #a65628, // brown (CB7)
+  a: #e41a1c, // red (CB1)
+  d: #377eb8, // orange (CB5)
+  k: #4daf4a, // yellow (CB6)
+  v: #984ea3, // pink (CB8)
 
   chosen: #999999, // grey (CB9)
 
@@ -138,15 +132,15 @@ $color-map: (
   nr: #cccccc, // grey-light50
 );
 
-@function cpt-color($name) {
+@function htd-color($name) {
   @return map.get($color-map, $name);
 }
 
-@function cpt-color-light($name) {
+@function htd-color-light($name) {
   @return color.mix(#ffffff, map.get($color-map, $name), 50%);
 }
 
-@function cpt-color-dark($name) {
+@function htd-color-dark($name) {
   @return color.mix(#000000, map.get($color-map, $name), 50%);
 }
 
@@ -184,9 +178,9 @@ $color-element-emphasis: #{$color-grey-dark75};
 // CSS variables
 :root { /* stylelint-disable-line no-duplicate-selectors */
   @each $name in map-keys($color-map) {
-    --color-#{$name}: #{cpt-color($name)};
-    --color-#{$name}-light: #{cpt-color-light($name)};
-    --color-#{$name}-dark: #{cpt-color-dark($name)};
+    --color-#{$name}: #{htd-color($name)};
+    --color-#{$name}-light: #{htd-color-light($name)};
+    --color-#{$name}-dark: #{htd-color-dark($name)};
   }
   --color-background: #{$color-background};
   --color-background-inverse: #{$color-background-inverse};
@@ -800,61 +794,43 @@ $transition-duration: 500ms;
   }
 
   // Keys: Objective
-  .key[class~="value"],
+  .key[class~="amount"],
   .key[class~="objectivevalue"] {
-    background-color: cpt-color-light(x);
+    background-color: htd-color-light(a);
   }
 
-  .key[class~="probability"] {
-    background-color: cpt-color-light(p);
+  .key[class~="delay"] {
+    background-color: htd-color-light(d);
   }
 
   // Keys: Subjective
+  .key[class~="value"],
   .key[class~="subjectivevalue"] {
-    background-color: cpt-color-light(v);
-  }
-
-  .key[class~="decisionweight"] {
-    background-color: cpt-color-light(w);
-  }
-
-  .key[class~="utility"],
-  .key[class~="subjectiveutility"] {
-    background-color: cpt-color-light(u);
+    background-color: htd-color-light(v);
   }
 
   // Keys: Response
   .key[class~="chosen"] {
-    background-color: cpt-color-light(chosen);
+    background-color: htd-color-light(chosen);
   }
 
   // Keys: Parameters
-  .key[class~="α"] {
+  .key[class~="k"] {
     /* purgecss ignore current */
-    background-color: cpt-color-light(a);
-  }
-
-  .key[class~="λ"] {
-    /* purgecss ignore current */
-    background-color: cpt-color-light(l);
-  }
-
-  .key[class~="γ"] {
-    /* purgecss ignore current */
-    background-color: cpt-color-light(g);
+    background-color: htd-color-light(k);
   }
 
   // Keys: Outcomes
   .key[class~="better"] {
-    background-color: cpt-color-light(better);
+    background-color: htd-color-light(better);
   }
 
   .key[class~="worse"] {
-    background-color: cpt-color-light(worse);
+    background-color: htd-color-light(worse);
   }
 
   .key[class~="even"] {
-    background-color: cpt-color-light(even);
+    background-color: htd-color-light(even);
   }
 
   .key[class~="correct"],
@@ -864,17 +840,17 @@ $transition-duration: 500ms;
   }
 
   .key[class~="correct"] {
-    background-color: cpt-color-light(correct);
+    background-color: htd-color-light(correct);
   }
 
   .key[class~="error"] {
     color: $color-text-inverse;
 
-    background-color: cpt-color-light(error);
+    background-color: htd-color-light(error);
   }
 
   .key[class~="noresponse"] {
-    background-color: cpt-color-light(nr);
+    background-color: htd-color-light(nr);
   }
   
   // UI Components
@@ -1069,83 +1045,63 @@ $transition-duration: 500ms;
     border-radius: $border-radius;
   }
 
-  .x::before {
-    background: cpt-color-light(x);
-    border-left-color: cpt-color(x);
-  }
-
   .a::before {
-    background: cpt-color-light(a);
-    border-left-color: cpt-color(a);
+    background: htd-color-light(a);
+    border-left-color: htd-color(a);
   }
 
-  .l::before {
-    background: cpt-color-light(l);
-    border-left-color: cpt-color(l);
+  .d::before {
+    background: htd-color-light(d);
+    border-left-color: htd-color(d);
+  }
+
+  .k::before {
+    background: htd-color-light(k);
+    border-left-color: htd-color(k);
   }
 
   .v::before {
-    background: cpt-color-light(v);
-    border-left-color: cpt-color(v);
-  }
-
-  .p::before {
-    background: cpt-color-light(p);
-    border-left-color: cpt-color(p);
-  }
-
-  .g::before {
-    background: cpt-color-light(g);
-    border-left-color: cpt-color(g);
-  }
-
-  .w::before {
-    background: cpt-color-light(w);
-    border-left-color: cpt-color(w);
-  }
-
-  .u::before {
-    background: cpt-color-light(u);
-    border-left-color: cpt-color(u);
+    background: htd-color-light(v);
+    border-left-color: htd-color(v);
   }
 
   .chosen::before {
-    background: cpt-color-light(chosen);
-    border-left-color: cpt-color(chosen);
+    background: htd-color-light(chosen);
+    border-left-color: htd-color(chosen);
   }
 
   .better::before {
-    background: cpt-color-light(better);
-    border-left-color: cpt-color(better);
+    background: htd-color-light(better);
+    border-left-color: htd-color(better);
   }
 
   .worse::before {
-    background: cpt-color-light(worse);
-    border-left-color: cpt-color(worse);
+    background: htd-color-light(worse);
+    border-left-color: htd-color(worse);
   }
 
   .even::before {
-    background: cpt-color-light(even);
-    border-left-color: cpt-color(even);
+    background: htd-color-light(even);
+    border-left-color: htd-color(even);
   }
 
   .correct::before {
     padding-left: calc(1.5rem - 2px);
 
-    background: cpt-color(correct);
+    background: htd-color(correct);
     border: 1px solid $color-element-border;
   }
 
   .error::before {
     color: $color-text-inverse;
 
-    background: cpt-color-light(error);
-    border-left-color: cpt-color(error);
+    background: htd-color-light(error);
+    border-left-color: htd-color(error);
   }
 
   .nr::before {
-    background: cpt-color-light(nr);
-    border-left-color: cpt-color(nr);
+    background: htd-color-light(nr);
+    border-left-color: htd-color(nr);
   }
 }
 
