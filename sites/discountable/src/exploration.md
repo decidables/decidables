@@ -8,11 +8,8 @@ script: page
 
 Exploring the relationship between model parameters and behavior.
 
-<cpt-example-interactive probability="0.75" win="20" loss="0" sure="10" alpha="0.9" lambda="2" gamma="0.75">
-  <risky-choice interactive></risky-choice>
-  <cpt-probability interactive></cpt-probability>
-  <cpt-value interactive></cpt-value>
-  <cpt-calculation numeric interactive></cpt-calculation>
-  <cpt-space updateable></cpt-space>
-  <decision-space updateable></decision-space>
-</cpt-example-interactive>
+<htd-example-interactive a1="5" d1="20" a2="30" d2="350" k="0.01">
+  <itc-choice interactive></itc-choice>
+  <htd-curves interactive></htd-curves>
+  <htd-calculation numeric interactive></htd-calculation>
+</htd-example-interactive>
