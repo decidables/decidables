@@ -2,18 +2,18 @@
 import {html, css} from 'lit';
 import * as d3 from 'd3';
 
-import ProspectableElement from '../prospectable-element';
-import './risky-choice';
+import DiscountableElement from '../discountable-element';
+import './itc-choice';
 
 /*
-  RiskyTask element
-  <risky-task>
+  ITCTask element
+  <itc-task>
 
   Attributes:
   Dots; Coherence;
   # Direction, Speed, Lifetime
 */
-export default class RiskyTask extends ProspectableElement {
+export default class ITCTask extends DiscountableElement {
   static get properties() {
     return {
       duration: {
@@ -60,39 +60,39 @@ export default class RiskyTask extends ProspectableElement {
 
     // Decision parameters
     this.range = {};
-    this.range.xl = {start: 0, stop: 0, step: 1}; // Gamble Loss Value
-    this.range.xw = {start: 10, stop: 30, step: 1}; // Gamble Win Value
-    this.range.pw = {start: 0.1, stop: 0.9, step: 0.1}; // Gamble Win Probability
-    this.range.xs = {start: 5, stop: 15, step: 1}; // Sure Value
+    this.range.a1 = {start: 0, stop: 10, step: 1}; // Amount_1
+    this.range.d1 = {start: 10, stop: 40, step: 1}; // Delay_1
+    this.range.a2 = {start: 20, stop: 40, step: 1}; // Amount_2
+    this.range.d2 = {start: 50, stop: 80, step: 1}; // Delay_2
 
-    this.range.xl.values = d3.range(
-      this.range.xl.start,
-      this.range.xl.stop + 0.01,
-      this.range.xl.step,
+    this.range.a1.values = d3.range(
+      this.range.a1.start,
+      this.range.a1.stop + 0.01,
+      this.range.a1.step,
     );
-    this.range.xw.values = d3.range(
-      this.range.xw.start,
-      this.range.xw.stop + 0.01,
-      this.range.xw.step,
+    this.range.d1.values = d3.range(
+      this.range.d1.start,
+      this.range.d1.stop + 0.01,
+      this.range.d1.step,
     );
-    this.range.pw.values = d3.range(
-      this.range.pw.start,
-      this.range.pw.stop + 0.01,
-      this.range.pw.step,
+    this.range.a2.values = d3.range(
+      this.range.a2.start,
+      this.range.a2.stop + 0.01,
+      this.range.a2.step,
     );
-    this.range.xs.values = d3.range(
-      this.range.xs.start,
-      this.range.xs.stop + 0.01,
-      this.range.xs.step,
+    this.range.d2.values = d3.range(
+      this.range.d2.start,
+      this.range.d2.stop + 0.01,
+      this.range.d2.step,
     );
 
     // Private
     this.firstUpdate = true;
 
-    this.xl = 0;
-    this.xw = 0;
-    this.pw = 0;
-    this.xs = 0;
+    this.a1 = 0;
+    this.d1 = 0;
+    this.a2 = 0;
+    this.d2 = 0;
 
     this.trial = 0; // Count of current trial
 
@@ -118,7 +118,17 @@ export default class RiskyTask extends ProspectableElement {
   render() {
     return html`
       <div class="holder">
-        <risky-choice state="${(this.state === 'stimulus') ? 'choice' : (this.state === 'iti') ? 'fixation' : 'blank'}" probability="${this.pw}" win="${this.xw}" loss="${this.xl}" sure="${this.xs}"></risky-choice>
+        <itc-choice 
+          state="${(this.state === 'stimulus')
+            ? 'choice'
+            : (this.state === 'iti')
+              ? 'fixation'
+              : 'blank'}"
+          amount1="${this.a1}"
+          delay1="${this.d1}"
+          amount2="${this.a2}"
+          delay2="${this.d2}">
+        </itc-choice>
       </div>`;
   }
 
@@ -151,10 +161,10 @@ export default class RiskyTask extends ProspectableElement {
     this.trial = 0;
     this.state = 'resetted';
 
-    this.xl = 0;
-    this.xw = 0;
-    this.pw = 0;
-    this.xs = 0;
+    this.a1 = 0;
+    this.d1 = 0;
+    this.a2 = 0;
+    this.d2 = 0;
 
     this.baseTime = 0;
     this.pauseTime = 0;
@@ -172,7 +182,7 @@ export default class RiskyTask extends ProspectableElement {
       this.state = 'iti';
       this.baseTime = realTime;
       this.startTime = 0;
-      this.dispatchEvent(new CustomEvent('risky-block-start', {
+      this.dispatchEvent(new CustomEvent('itc-block-start', {
         detail: {
           trials: this.trials,
         },
@@ -184,49 +194,35 @@ export default class RiskyTask extends ProspectableElement {
       this.state = 'stimulus';
       this.startTime = currentTime;
       // Determine trial
-      this.xl = this.range.xl.values[Math.floor(Math.random() * this.range.xl.values.length)];
-      this.xw = this.range.xw.values[Math.floor(Math.random() * this.range.xw.values.length)];
-      this.pw = this.range.pw.values[Math.floor(Math.random() * this.range.pw.values.length)];
-      this.xs = this.range.xs.values[Math.floor(Math.random() * this.range.xs.values.length)];
-      this.vDiff = ((this.xw * this.pw) + (this.xl * (1 - this.pw))) - this.xs;
-      this.gamblePayoff = (Math.random() < this.pw) ? this.xw : this.xl;
-      this.surePayoff = this.xs;
-      this.better = (this.vDiff > 0)
-        ? 'gamble'
-        : (this.vDiff < 0)
-          ? 'sure'
-          : 'equal';
-      this.dispatchEvent(new CustomEvent('risky-trial-start', {
+      this.a1 = this.range.a1.values[Math.floor(Math.random() * this.range.a1.values.length)];
+      this.d1 = this.range.d1.values[Math.floor(Math.random() * this.range.d1.values.length)];
+      this.a2 = this.range.a2.values[Math.floor(Math.random() * this.range.a2.values.length)];
+      this.d2 = this.range.d2.values[Math.floor(Math.random() * this.range.d2.values.length)];
+      this.dispatchEvent(new CustomEvent('itc-trial-start', {
         detail: {
           trials: this.trials,
           duration: this.duration,
           iti: this.iti,
           trial: this.trial,
-          xl: this.xl,
-          xw: this.xw,
-          pw: this.pw,
-          xs: this.xs,
-          better: this.better,
-          gamblePayoff: this.gamblePayoff,
-          surePayoff: this.surePayoff,
+          a1: this.a1,
+          d1: this.d1,
+          a2: this.a2,
+          d2: this.d2,
         },
         bubbles: true,
       }));
     } else if ((this.state === 'stimulus') && (elapsedTime >= this.duration)) {
       // Stimulus is over, end of trial
-      this.dispatchEvent(new CustomEvent('risky-trial-end', {
+      this.dispatchEvent(new CustomEvent('itc-trial-end', {
         detail: {
           trials: this.trials,
           duration: this.duration,
           iti: this.iti,
           trial: this.trial,
-          xl: this.xl,
-          xw: this.xw,
-          pw: this.pw,
-          xs: this.xs,
-          better: this.better,
-          gamblePayoff: this.gamblePayoff,
-          surePayoff: this.surePayoff,
+          a1: this.a1,
+          d1: this.d1,
+          a2: this.a2,
+          d2: this.d2,
         },
         bubbles: true,
       }));
@@ -239,7 +235,7 @@ export default class RiskyTask extends ProspectableElement {
         this.pauseTime = 0;
         this.startTime = 0;
         this.lastTime = 0;
-        this.dispatchEvent(new CustomEvent('risky-block-end', {
+        this.dispatchEvent(new CustomEvent('itc-block-end', {
           detail: {
             trials: this.trial,
           },
@@ -254,4 +250,4 @@ export default class RiskyTask extends ProspectableElement {
   }
 }
 
-customElements.define('risky-task', RiskyTask);
+customElements.define('itc-task', ITCTask);
