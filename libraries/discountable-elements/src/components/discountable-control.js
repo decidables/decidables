@@ -7,8 +7,8 @@ import '@decidables/decidables-elements/slider';
 import DiscountableElement from '../discountable-element';
 
 /*
-  ProspectableControl element
-  <prospectable-control>
+  DiscountableControl element
+  <discountable-control>
 
   Attributes:
 
