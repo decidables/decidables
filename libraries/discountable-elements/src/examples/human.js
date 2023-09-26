@@ -63,9 +63,9 @@ export default class HTDExampleHuman extends HTDExample {
             this.discountableResponse.reset();
           }
 
-          // if (this.htdCurves) {
-          //   this.htdCurves.clear();
-          // }
+          if (this.htdCurves) {
+            this.htdCurves.clear();
+          }
         });
       }
     }
@@ -78,13 +78,10 @@ export default class HTDExampleHuman extends HTDExample {
       this.itcTask.addEventListener('itc-trial-start', (event) => {
         if (this.discountableResponse) {
           this.discountableResponse.start(
-            event.detail.xl,
-            event.detail.xw,
-            event.detail.pw,
-            event.detail.xs,
-            event.detail.gamblePayoff,
-            event.detail.surePayoff,
-            event.detail.better,
+            event.detail.a1,
+            event.detail.d1,
+            event.detail.a2,
+            event.detail.d2,
             event.detail.trial,
           );
         }
@@ -104,7 +101,7 @@ export default class HTDExampleHuman extends HTDExample {
     }
 
     if (this.discountableResponse) {
-      this.discountableResponse.addEventListener('discountable-response', (event) => {
+      this.discountableResponse.addEventListener('discountable-response', (/* event */) => {
         if (this.htdCurves) {
           // this.htdCurves.set(
           //   event.detail.xw,
