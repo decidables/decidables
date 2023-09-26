@@ -1,6 +1,4 @@
 
-// import CPTMath from '@decidables/prospectable-math';
-
 import HTDExample from './htd-example';
 
 /*
@@ -80,9 +78,6 @@ export default class HTDExampleInteractive extends HTDExample {
           this.d2 = event.detail.d;
         }
       });
-
-      // this.cptValue.set(this.xs, this.a, this.l, 'default', 's');
-      // this.cptValue.set(this.xw, this.a, this.l, 'gamble', 'g', 'default');
     }
 
     if (this.itcChoice) {
