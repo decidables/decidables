@@ -79,7 +79,6 @@ export default class ITCOption extends DiscountableElement {
 
         .interactive {
           --decidables-spinner-font-size: 1.75rem;
-          --decidables-spinner-input-width: 4rem;          
         }
 
         .static {
@@ -93,8 +92,18 @@ export default class ITCOption extends DiscountableElement {
           background-color: var(---color-a-light);
         }
 
+        .amount.interactive {
+          --decidables-spinner-input-width: 4rem;
+        }
+
         .delay {
           background-color: var(---color-d-light);
+        }
+        
+        .delay.interactive {
+          --decidables-spinner-input-width: 6.75rem;
+          --decidables-spinner-postfix: "days";
+          --decidables-spinner-postfix-padding: 3.75rem;
         }
       `,
     ];
