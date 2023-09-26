@@ -59,6 +59,9 @@ export default class DecidablesSpinner extends DecidablesElement {
           ---decidables-spinner-input-width: var(--decidables-spinner-input-width, 4rem);
           ---decidables-spinner-prefix: var(--decidables-spinner-prefix, "");
 
+          ---decidables-spinner-postfix: var(--decidables-spinner-postfix, "");
+          ---decidables-spinner-postfix-padding: var(--decidables-spinner-postfix-padding, 0);
+
           display: block;
         }
 
@@ -86,8 +89,20 @@ export default class DecidablesSpinner extends DecidablesElement {
           content: var(---decidables-spinner-prefix);
         }
 
+        label::after {
+          position: absolute;
+          right: 0.25rem;
+          bottom: 1px;
+
+          font-size: var(---decidables-spinner-font-size);
+          line-height: normal;
+
+          content: var(---decidables-spinner-postfix);
+        }
+
         input[type=number] {
           width: var(---decidables-spinner-input-width);
+          padding-right: var(---decidables-spinner-postfix-padding);
 
           font-family: var(---font-family-base);
           font-size: var(---decidables-spinner-font-size);
