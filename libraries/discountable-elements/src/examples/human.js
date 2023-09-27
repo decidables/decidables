@@ -13,6 +13,7 @@ export default class HTDExampleHuman extends HTDExample {
     this.itcTask = this.querySelector('itc-task');
     this.discountableResponse = this.querySelector('discountable-response');
 
+    this.htdFit = this.querySelector('htd-fit');
     this.htdCurves = this.querySelector('htd-curves');
 
     if (this.discountableControl) {
@@ -63,6 +64,10 @@ export default class HTDExampleHuman extends HTDExample {
             this.discountableResponse.reset();
           }
 
+          if (this.htdFit) {
+            this.htdFit.clear();
+          }
+
           if (this.htdCurves) {
             this.htdCurves.clear();
           }
@@ -101,7 +106,19 @@ export default class HTDExampleHuman extends HTDExample {
     }
 
     if (this.discountableResponse) {
-      this.discountableResponse.addEventListener('discountable-response', (/* event */) => {
+      this.discountableResponse.addEventListener('discountable-response', (event) => {
+        if (this.htdFit) {
+          this.htdFit.set(
+            event.detail.a1,
+            event.detail.d1,
+            event.detail.a2,
+            event.detail.d2,
+            event.detail.response,
+            event.detail.trial.toString(),
+            event.detail.trial.toString(),
+          );
+        }
+
         if (this.htdCurves) {
           // this.htdCurves.set(
           //   event.detail.xw,
@@ -111,6 +128,14 @@ export default class HTDExampleHuman extends HTDExample {
           //   event.detail.trial.toString(),
           //   event.detail.trial.toString(),
           // );
+        }
+      });
+    }
+
+    if (this.htdFit) {
+      this.htdFit.addEventListener('htd-fit-update', (event) => {
+        if (this.htdCurves) {
+          this.htdCurves.k = event.detail.k;
         }
       });
     }
