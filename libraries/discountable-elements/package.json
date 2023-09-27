@@ -52,14 +52,21 @@
   },
   "devDependencies": {
     "@web/test-runner": "^0.17.1",
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-dart-sass": "^1.1.0",
+    "gulp-inject": "^5.0.5",
+    "gulp-rename": "^2.0.0",
+    "node-sass-package-importer": "^5.3.3"
   },
   "dependencies": {
     "@decidables/decidables-elements": "^0.3.5",
     "@decidables/discountable-math": "^0.0.1",
     "@lit-labs/motion": "^1.0.4",
+    "bayes.js": "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f",
     "d3": "^7.8.5",
     "jstat": "^1.9.6",
-    "lit": "^2.8.0"
+    "lit": "^2.8.0",
+    "plotly.js": "^2.26.0",
+    "regenerator-runtime": "^0.14.0"
   }
 }

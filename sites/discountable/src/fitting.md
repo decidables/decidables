@@ -13,6 +13,7 @@ Fitting the model to your performance.
   <itc-task trials="10"></itc-task>
   <discountable-response interactive trial feedback></discountable-response>
   <htd-curves></htd-curves>
+  <htd-fit></htd-fit>
 <!--
   <cpt-calculation numeric interactive></cpt-calculation>
   <cpt-space></cpt-space>
