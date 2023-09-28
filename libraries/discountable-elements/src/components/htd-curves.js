@@ -26,48 +26,29 @@ import DiscountableElement from '../discountable-element';
 export default class HTDCurves extends DiscountableElement {
   static get properties() {
     return {
-      a1: {
-        attribute: 'amount1',
+      a: {
+        attribute: 'amount',
         type: Number,
         reflect: true,
       },
-      d1: {
-        attribute: 'delay1',
+      d: {
+        attribute: 'delay',
         type: Number,
         reflect: true,
       },
-      label1: {
-        attribute: 'label1',
+      label: {
+        attribute: 'label',
         type: String,
         reflect: true,
       },
-      a2: {
-        attribute: 'amount2',
-        type: Number,
-        reflect: true,
-      },
-      d2: {
-        attribute: 'delay2',
-        type: Number,
-        reflect: true,
-      },
-      label2: {
-        attribute: 'label2',
-        type: String,
-        reflect: true,
-      },
+
       k: {
         attribute: 'k',
         type: Number,
         reflect: true,
       },
 
-      v1: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      v2: {
+      v: {
         attribute: false,
         type: Number,
         reflect: false,
@@ -118,26 +99,17 @@ export default class HTDCurves extends DiscountableElement {
       },
     };
 
-    this.a1 = 20;
-    this.d1 = 5;
-    this.label1 = '1';
-    this.a2 = 50;
-    this.d2 = 40;
-    this.label2 = '2';
+    this.a = 20;
+    this.d = 5;
+    this.label = '';
     this.k = 0.1;
 
     this.options = [
       {
-        name: 'default1',
-        a: this.a1,
-        d: this.d1,
-        label: this.label1,
-      },
-      {
-        name: 'default2',
-        a: this.a2,
-        d: this.d2,
-        label: this.label2,
+        name: 'default',
+        a: this.a,
+        d: this.d,
+        label: this.label,
       },
     ];
 
@@ -157,20 +129,15 @@ export default class HTDCurves extends DiscountableElement {
 
   alignState() {
     // Default options
-    this.options[0].a = this.a1;
-    this.options[0].d = this.d1;
-    this.options[0].label = this.label1;
-
-    this.options[1].a = this.a2;
-    this.options[1].d = this.d2;
-    this.options[1].label = this.label2;
+    this.options[0].a = this.a;
+    this.options[0].d = this.d;
+    this.options[0].label = this.label;
 
     // Update values
     this.options.forEach((option) => {
       option.v = HTDMath.adk2v(option.a, option.d, this.k);
     });
-    this.v1 = this.options[0].v;
-    this.v2 = this.options[1].v;
+    this.v = this.options[0].v;
   }
 
   trial(as, ds, al, dl, trial, response) {
@@ -231,15 +198,11 @@ export default class HTDCurves extends DiscountableElement {
     });
   }
 
-  setOption(a, d, name = 'default1', label = '', trial = false) {
-    if (name === 'default1') {
-      this.a1 = a;
-      this.d1 = d;
-      this.label1 = label;
-    } else if (name === 'default2') {
-      this.a2 = a;
-      this.d2 = d;
-      this.label2 = label;
+  setOption(a, d, name = 'default', label = '', trial = false) {
+    if (name === 'default') {
+      this.a = a;
+      this.d = d;
+      this.label = label;
     }
 
     const myOption = this.options.find((option) => {
@@ -425,7 +388,7 @@ export default class HTDCurves extends DiscountableElement {
     this.width = parseFloat(this.getComputedStyleValue('width'), 10);
     this.height = parseFloat(this.getComputedStyleValue('height'), 10);
     this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`cpt-value: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
+    // console.log(`htd-curves: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
   }
 
   connectedCallback() {
@@ -641,292 +604,286 @@ export default class HTDCurves extends DiscountableElement {
       .classed('label', true);
     //  MERGE
     const optionMerge = optionEnter.merge(optionUpdate);
-    if (this.firstUpdate || changedProperties.has('interactive')) {
-      if (this.interactive) {
-        // Interactive options
-        optionMerge
-          .classed('interactive', true);
-        optionMerge.select('.curve')
-          .attr('tabindex', 0)
-          // Drag interaction
-          .call(d3.drag()
-            .subject((event) => {
-              return {
-                x: event.x,
-                y: event.y,
-              };
-            })
-            .on('start', (event) => {
-              const element = event.currentTarget;
-              d3.select(element).classed('dragging', true);
-            })
-            .on('drag', (event, datum) => {
-              this.drag = true;
-              const dragD = datum.d - xScale.invert(event.x);
-              const d = (dragD < 0)
-                ? 0
-                : (dragD > datum.d)
-                  ? datum.d
-                  : dragD;
-              const dragV = yScale.invert(event.y);
-              const v = (dragV <= 0)
-                ? 0.001
-                : (dragV > datum.a)
-                  ? datum.a
-                  : dragV;
-              const k = HTDMath.adv2k(datum.a, d, v);
-              this.k = (k < this.scale.discount.min)
-                ? this.scale.discount.min
-                : (k > this.scale.discount.max)
-                  ? this.scale.discount.max
-                  : this.scale.discount.round(k);
-              this.alignState();
-              this.requestUpdate();
-              this.dispatchEvent(new CustomEvent('htd-curves-change', {
-                detail: {
-                  name: datum.name,
-                  a: datum.a,
-                  d: datum.d,
-                  k: this.k,
-                  label: datum.label,
-                },
-                bubbles: true,
-              }));
-            })
-            .on('end', (event) => {
-              const element = event.currentTarget;
-              d3.select(element).classed('dragging', false);
-            }))
-          // Keyboard interaction
-          .on('keydown', (event, datum) => {
-            if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-              let keyK = this.k;
-              switch (event.key) {
-                case 'ArrowUp':
-                case 'ArrowLeft':
-                  keyK *= event.shiftKey ? 0.95 : 0.85;
-                  break;
-                case 'ArrowDown':
-                case 'ArrowRight':
-                  keyK *= event.shiftKey ? 1.05 : 1.15;
-                  break;
-                default:
-                  // no-op
-              }
-              keyK = (keyK < this.scale.discount.min)
-                ? this.scale.discount.min
-                : (keyK > this.scale.discount.max)
-                  ? this.scale.discount.max
-                  : this.scale.discount.round(keyK);
-              if (keyK !== this.k) {
-                this.k = keyK;
-                this.alignState();
-                this.requestUpdate();
-                this.dispatchEvent(new CustomEvent('htd-curves-change', {
-                  detail: {
-                    name: datum.name,
-                    a: datum.a,
-                    d: datum.d,
-                    k: this.k,
-                    label: datum.label,
-                  },
-                  bubbles: true,
-                }));
-              }
-              event.preventDefault();
+    // Interactive options
+    const optionMergeInteractive = optionMerge.filter((datum, index, nodes) => {
+      return (this.interactive && !nodes[index].classList.contains('interactive'));
+    });
+    optionMergeInteractive
+      .classed('interactive', true);
+    optionMergeInteractive.select('.curve')
+      .attr('tabindex', 0)
+      // Drag interaction
+      .call(d3.drag()
+        .subject((event) => {
+          return {
+            x: event.x,
+            y: event.y,
+          };
+        })
+        .on('start', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', true);
+        })
+        .on('drag', (event, datum) => {
+          this.drag = true;
+          const dragD = datum.d - xScale.invert(event.x);
+          const d = (dragD < 0)
+            ? 0
+            : (dragD > datum.d)
+              ? datum.d
+              : dragD;
+          const dragV = yScale.invert(event.y);
+          const v = (dragV <= 0)
+            ? 0.001
+            : (dragV > datum.a)
+              ? datum.a
+              : dragV;
+          const k = HTDMath.adv2k(datum.a, d, v);
+          this.k = (k < this.scale.discount.min)
+            ? this.scale.discount.min
+            : (k > this.scale.discount.max)
+              ? this.scale.discount.max
+              : this.scale.discount.round(k);
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('htd-curves-change', {
+            detail: {
+              name: datum.name,
+              a: datum.a,
+              d: datum.d,
+              k: this.k,
+              label: datum.label,
+            },
+            bubbles: true,
+          }));
+        })
+        .on('end', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', false);
+        }))
+      // Keyboard interaction
+      .on('keydown', (event, datum) => {
+        if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
+          let keyK = this.k;
+          switch (event.key) {
+            case 'ArrowUp':
+            case 'ArrowLeft':
+              keyK *= event.shiftKey ? 0.95 : 0.85;
+              break;
+            case 'ArrowDown':
+            case 'ArrowRight':
+              keyK *= event.shiftKey ? 1.05 : 1.15;
+              break;
+            default:
+              // no-op
+          }
+          keyK = (keyK < this.scale.discount.min)
+            ? this.scale.discount.min
+            : (keyK > this.scale.discount.max)
+              ? this.scale.discount.max
+              : this.scale.discount.round(keyK);
+          if (keyK !== this.k) {
+            this.k = keyK;
+            this.alignState();
+            this.requestUpdate();
+            this.dispatchEvent(new CustomEvent('htd-curves-change', {
+              detail: {
+                name: datum.name,
+                a: datum.a,
+                d: datum.d,
+                k: this.k,
+                label: datum.label,
+              },
+              bubbles: true,
+            }));
+          }
+          event.preventDefault();
+        }
+      });
+    optionMergeInteractive.select('.bar')
+      .attr('tabindex', 0)
+      // Drag interaction
+      .call(d3.drag()
+        .subject((event, datum) => {
+          return {
+            x: xScale(datum.d),
+            y: yScale(datum.a),
+          };
+        })
+        .on('start', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', true);
+        })
+        .on('drag', (event, datum) => {
+          this.drag = true;
+          const d = xScale.invert(event.x);
+          datum.d = (d < this.scale.time.min)
+            ? this.scale.time.min
+            : (d > this.scale.time.max)
+              ? this.scale.time.max
+              : this.scale.time.round(d);
+          if (datum.name === 'default') {
+            this.d = datum.d;
+          }
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('htd-curves-change', {
+            detail: {
+              name: datum.name,
+              a: datum.a,
+              d: datum.d,
+              k: this.k,
+              label: datum.label,
+            },
+            bubbles: true,
+          }));
+        })
+        .on('end', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', false);
+        }))
+      // Keyboard interaction
+      .on('keydown', (event, datum) => {
+        if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+          let keyD = datum.d;
+          switch (event.key) {
+            case 'ArrowRight':
+              keyD += event.shiftKey ? 1 : 5;
+              break;
+            case 'ArrowLeft':
+              keyD -= event.shiftKey ? 1 : 5;
+              break;
+            default:
+              // no-op
+          }
+          keyD = (keyD < this.scale.time.min)
+            ? this.scale.time.min
+            : ((keyD > this.scale.time.max)
+              ? this.scale.time.max
+              : keyD);
+          if (keyD !== datum.d) {
+            datum.d = keyD;
+            if (datum.name === 'default') {
+              this.d = datum.d;
             }
-          });
+            this.alignState();
+            this.requestUpdate();
+            this.dispatchEvent(new CustomEvent('htd-curves-change', {
+              detail: {
+                name: datum.name,
+                a: datum.a,
+                d: datum.d,
+                k: this.k,
+                label: datum.label,
+              },
+              bubbles: true,
+            }));
+          }
+          event.preventDefault();
+        }
+      });
+    optionMergeInteractive.select('.point')
+      .attr('tabindex', 0)
+      // Drag interaction
+      .call(d3.drag()
+        .subject((event, datum) => {
+          return {
+            x: xScale(datum.d),
+            y: yScale(datum.a),
+          };
+        })
+        .on('start', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', true);
+        })
+        .on('drag', (event, datum) => {
+          this.drag = true;
+          const a = yScale.invert(event.y);
+          datum.a = (a < this.scale.value.min)
+            ? this.scale.value.min
+            : (a > this.scale.value.max)
+              ? this.scale.value.max
+              : this.scale.value.round(a);
+          if (datum.name === 'default') {
+            this.a = datum.a;
+          }
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('htd-curves-change', {
+            detail: {
+              name: datum.name,
+              a: datum.a,
+              d: datum.d,
+              k: this.k,
+              label: datum.label,
+            },
+            bubbles: true,
+          }));
+        })
+        .on('end', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', false);
+        }))
+      // Keyboard interaction
+      .on('keydown', (event, datum) => {
+        if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
+          let keyA = datum.a;
+          switch (event.key) {
+            case 'ArrowUp':
+              keyA += event.shiftKey ? 1 : 5;
+              break;
+            case 'ArrowDown':
+              keyA -= event.shiftKey ? 1 : 5;
+              break;
+            default:
+              // no-op
+          }
+          keyA = (keyA < this.scale.value.min)
+            ? this.scale.value.min
+            : ((keyA > this.scale.value.max)
+              ? this.scale.value.max
+              : keyA);
+          if (keyA !== datum.a) {
+            datum.a = keyA;
+            if (datum.name === 'default') {
+              this.a = datum.a;
+            }
+            this.alignState();
+            this.requestUpdate();
+            this.dispatchEvent(new CustomEvent('htd-curves-change', {
+              detail: {
+                name: datum.name,
+                a: datum.a,
+                d: datum.d,
+                k: this.k,
+                label: datum.label,
+              },
+              bubbles: true,
+            }));
+          }
+          event.preventDefault();
+        }
+      });
 
-        optionMerge.select('.bar')
-          .attr('tabindex', 0)
-          // Drag interaction
-          .call(d3.drag()
-            .subject((event, datum) => {
-              return {
-                x: xScale(datum.d),
-                y: yScale(datum.a),
-              };
-            })
-            .on('start', (event) => {
-              const element = event.currentTarget;
-              d3.select(element).classed('dragging', true);
-            })
-            .on('drag', (event, datum) => {
-              this.drag = true;
-              const d = xScale.invert(event.x);
-              datum.d = (d < this.scale.time.min)
-                ? this.scale.time.min
-                : (d > this.scale.time.max)
-                  ? this.scale.time.max
-                  : this.scale.time.round(d);
-              if (datum.name === 'default1') {
-                this.d1 = datum.d;
-              } else if (datum.name === 'default2') {
-                this.d2 = datum.d;
-              }
-              this.alignState();
-              this.requestUpdate();
-              this.dispatchEvent(new CustomEvent('htd-curves-change', {
-                detail: {
-                  name: datum.name,
-                  a: datum.a,
-                  d: datum.d,
-                  k: this.k,
-                  label: datum.label,
-                },
-                bubbles: true,
-              }));
-            })
-            .on('end', (event) => {
-              const element = event.currentTarget;
-              d3.select(element).classed('dragging', false);
-            }))
-          // Keyboard interaction
-          .on('keydown', (event, datum) => {
-            if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
-              let keyD = datum.d;
-              switch (event.key) {
-                case 'ArrowRight':
-                  keyD += event.shiftKey ? 1 : 5;
-                  break;
-                case 'ArrowLeft':
-                  keyD -= event.shiftKey ? 1 : 5;
-                  break;
-                default:
-                  // no-op
-              }
-              keyD = (keyD < this.scale.time.min)
-                ? this.scale.time.min
-                : ((keyD > this.scale.time.max)
-                  ? this.scale.time.max
-                  : keyD);
-              if (keyD !== datum.d) {
-                datum.d = keyD;
-                if (datum.name === 'default1') {
-                  this.d1 = datum.d;
-                } else if (datum.name === 'default2') {
-                  this.d2 = datum.d;
-                }
-                this.alignState();
-                this.requestUpdate();
-                this.dispatchEvent(new CustomEvent('htd-curves-change', {
-                  detail: {
-                    name: datum.name,
-                    a: datum.a,
-                    d: datum.d,
-                    k: this.k,
-                    label: datum.label,
-                  },
-                  bubbles: true,
-                }));
-              }
-              event.preventDefault();
-            }
-          });
-        optionMerge.select('.point')
-          .attr('tabindex', 0)
-          // Drag interaction
-          .call(d3.drag()
-            .subject((event, datum) => {
-              return {
-                x: xScale(datum.d),
-                y: yScale(datum.a),
-              };
-            })
-            .on('start', (event) => {
-              const element = event.currentTarget;
-              d3.select(element).classed('dragging', true);
-            })
-            .on('drag', (event, datum) => {
-              this.drag = true;
-              const a = yScale.invert(event.y);
-              datum.a = (a < this.scale.value.min)
-                ? this.scale.value.min
-                : (a > this.scale.value.max)
-                  ? this.scale.value.max
-                  : this.scale.value.round(a);
-              if (datum.name === 'default1') {
-                this.a1 = datum.a;
-              } else if (datum.name === 'default2') {
-                this.a2 = datum.a;
-              }
-              this.alignState();
-              this.requestUpdate();
-              this.dispatchEvent(new CustomEvent('htd-curves-change', {
-                detail: {
-                  name: datum.name,
-                  a: datum.a,
-                  d: datum.d,
-                  k: this.k,
-                  label: datum.label,
-                },
-                bubbles: true,
-              }));
-            })
-            .on('end', (event) => {
-              const element = event.currentTarget;
-              d3.select(element).classed('dragging', false);
-            }))
-          // Keyboard interaction
-          .on('keydown', (event, datum) => {
-            if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-              let keyA = datum.a;
-              switch (event.key) {
-                case 'ArrowUp':
-                  keyA += event.shiftKey ? 1 : 5;
-                  break;
-                case 'ArrowDown':
-                  keyA -= event.shiftKey ? 1 : 5;
-                  break;
-                default:
-                  // no-op
-              }
-              keyA = (keyA < this.scale.value.min)
-                ? this.scale.value.min
-                : ((keyA > this.scale.value.max)
-                  ? this.scale.value.max
-                  : keyA);
-              if (keyA !== datum.a) {
-                datum.a = keyA;
-                if (datum.name === 'default1') {
-                  this.a1 = datum.a;
-                } else if (datum.name === 'default2') {
-                  this.a2 = datum.a;
-                }
-                this.alignState();
-                this.requestUpdate();
-                this.dispatchEvent(new CustomEvent('htd-curves-change', {
-                  detail: {
-                    name: datum.name,
-                    a: datum.a,
-                    d: datum.d,
-                    k: this.k,
-                    label: datum.label,
-                  },
-                  bubbles: true,
-                }));
-              }
-              event.preventDefault();
-            }
-          });
-      } else {
-        // Non-interactive options
-        optionMerge
-          .classed('interactive', false);
-        optionMerge.select('.curve')
-          .attr('tabindex', null)
-          .on('drag', null)
-          .on('keydown', null);
-        optionMerge.select('.bar')
-          .attr('tabindex', null)
-          .on('drag', null)
-          .on('keydown', null);
-        optionMerge.select('.point')
-          .attr('tabindex', null)
-          .on('drag', null)
-          .on('keydown', null);
-      }
-    }
+    // Non-interactive options
+    const optionMergeStatic = optionMerge.filter((datum, index, nodes) => {
+      return (!this.interactive && nodes[index].classList.contains('interactive'));
+    });
+    optionMergeStatic
+      .classed('interactive', false);
+    optionMergeStatic.select('.curve')
+      .attr('tabindex', null)
+      .on('drag', null)
+      .on('keydown', null);
+    optionMergeStatic.select('.bar')
+      .attr('tabindex', null)
+      .on('drag', null)
+      .on('keydown', null);
+    optionMergeStatic.select('.point')
+      .attr('tabindex', null)
+      .on('drag', null)
+      .on('keydown', null);
+
     // All options
     optionMerge.select('.curve').transition()
       .duration(this.drag

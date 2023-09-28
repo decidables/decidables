@@ -83,25 +83,25 @@ export default class HTDFit extends DiscountableElement {
     return (choice === undefined) ? null : choice;
   }
 
-  set(a1, d1, a2, d2, response, name = '', label = '') {
+  set(as, ds, al, dl, response, name = '', label = '') {
     const choice = this.choices.find((item) => {
       return (item.name === name);
     });
     if (choice === undefined) {
       this.choices.push({
-        a1: a1,
-        d1: d1,
-        a2: a2,
-        d2: d2,
+        as: as,
+        ds: ds,
+        al: al,
+        dl: dl,
         response: response,
         name: name,
         label: label,
       });
     } else {
-      choice.a1 = a1;
-      choice.d1 = d1;
-      choice.a2 = a2;
-      choice.d2 = d2;
+      choice.as = as;
+      choice.ds = ds;
+      choice.al = al;
+      choice.dl = dl;
       choice.response = response;
       choice.label = label;
     }
