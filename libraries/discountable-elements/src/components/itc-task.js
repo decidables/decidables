@@ -60,39 +60,39 @@ export default class ITCTask extends DiscountableElement {
 
     // Decision parameters
     this.range = {};
-    this.range.a1 = {start: 0, stop: 10, step: 1}; // Amount_1
-    this.range.d1 = {start: 10, stop: 40, step: 1}; // Delay_1
-    this.range.a2 = {start: 20, stop: 40, step: 1}; // Amount_2
-    this.range.d2 = {start: 50, stop: 80, step: 1}; // Delay_2
+    this.range.as = {start: 0, stop: 10, step: 1}; // Amount SS
+    this.range.ds = {start: 10, stop: 40, step: 1}; // Delay SS
+    this.range.al = {start: 20, stop: 40, step: 1}; // Amount LL
+    this.range.dl = {start: 50, stop: 80, step: 1}; // Delay LL
 
-    this.range.a1.values = d3.range(
-      this.range.a1.start,
-      this.range.a1.stop + 0.01,
-      this.range.a1.step,
+    this.range.as.values = d3.range(
+      this.range.as.start,
+      this.range.as.stop + 0.01,
+      this.range.as.step,
     );
-    this.range.d1.values = d3.range(
-      this.range.d1.start,
-      this.range.d1.stop + 0.01,
-      this.range.d1.step,
+    this.range.ds.values = d3.range(
+      this.range.ds.start,
+      this.range.ds.stop + 0.01,
+      this.range.ds.step,
     );
-    this.range.a2.values = d3.range(
-      this.range.a2.start,
-      this.range.a2.stop + 0.01,
-      this.range.a2.step,
+    this.range.al.values = d3.range(
+      this.range.al.start,
+      this.range.al.stop + 0.01,
+      this.range.al.step,
     );
-    this.range.d2.values = d3.range(
-      this.range.d2.start,
-      this.range.d2.stop + 0.01,
-      this.range.d2.step,
+    this.range.dl.values = d3.range(
+      this.range.dl.start,
+      this.range.dl.stop + 0.01,
+      this.range.dl.step,
     );
 
     // Private
     this.firstUpdate = true;
 
-    this.a1 = 0;
-    this.d1 = 0;
-    this.a2 = 0;
-    this.d2 = 0;
+    this.as = 0;
+    this.ds = 0;
+    this.al = 0;
+    this.dl = 0;
 
     this.trial = 0; // Count of current trial
 
@@ -124,10 +124,10 @@ export default class ITCTask extends DiscountableElement {
             : (this.state === 'iti')
               ? 'fixation'
               : 'blank'}"
-          amount1="${this.a1}"
-          delay1="${this.d1}"
-          amount2="${this.a2}"
-          delay2="${this.d2}">
+          amount-ss="${this.as}"
+          delay-ss="${this.ds}"
+          amount-ll="${this.al}"
+          delay-ll="${this.dl}">
         </itc-choice>
       </div>`;
   }
@@ -161,10 +161,10 @@ export default class ITCTask extends DiscountableElement {
     this.trial = 0;
     this.state = 'resetted';
 
-    this.a1 = 0;
-    this.d1 = 0;
-    this.a2 = 0;
-    this.d2 = 0;
+    this.as = 0;
+    this.ds = 0;
+    this.al = 0;
+    this.dl = 0;
 
     this.baseTime = 0;
     this.pauseTime = 0;
@@ -194,20 +194,20 @@ export default class ITCTask extends DiscountableElement {
       this.state = 'stimulus';
       this.startTime = currentTime;
       // Determine trial
-      this.a1 = this.range.a1.values[Math.floor(Math.random() * this.range.a1.values.length)];
-      this.d1 = this.range.d1.values[Math.floor(Math.random() * this.range.d1.values.length)];
-      this.a2 = this.range.a2.values[Math.floor(Math.random() * this.range.a2.values.length)];
-      this.d2 = this.range.d2.values[Math.floor(Math.random() * this.range.d2.values.length)];
+      this.as = this.range.as.values[Math.floor(Math.random() * this.range.as.values.length)];
+      this.ds = this.range.ds.values[Math.floor(Math.random() * this.range.ds.values.length)];
+      this.al = this.range.al.values[Math.floor(Math.random() * this.range.al.values.length)];
+      this.dl = this.range.dl.values[Math.floor(Math.random() * this.range.dl.values.length)];
       this.dispatchEvent(new CustomEvent('itc-trial-start', {
         detail: {
           trials: this.trials,
           duration: this.duration,
           iti: this.iti,
           trial: this.trial,
-          a1: this.a1,
-          d1: this.d1,
-          a2: this.a2,
-          d2: this.d2,
+          as: this.as,
+          ds: this.ds,
+          al: this.al,
+          dl: this.dl,
         },
         bubbles: true,
       }));
@@ -219,10 +219,10 @@ export default class ITCTask extends DiscountableElement {
           duration: this.duration,
           iti: this.iti,
           trial: this.trial,
-          a1: this.a1,
-          d1: this.d1,
-          a2: this.a2,
-          d2: this.d2,
+          as: this.as,
+          ds: this.ds,
+          al: this.al,
+          dl: this.dl,
         },
         bubbles: true,
       }));

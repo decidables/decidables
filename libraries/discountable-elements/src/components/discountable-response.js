@@ -59,21 +59,21 @@ export default class DiscountableResponse extends DiscountableElement {
     this.trialTotal = 0; // Total trials
 
     // Private
-    this.a1 = 0;
-    this.d1 = 0;
-    this.a2 = 0;
-    this.d2 = 0;
+    this.as = 0;
+    this.ds = 0;
+    this.al = 0;
+    this.dl = 0;
     this.responses = ['first', 'second', 'nr']; // Possible values of 'response'
     this.response = undefined; // Response for current trial
   }
 
-  start(a1, d1, a2, d2, trial) {
+  start(as, ds, al, dl, trial) {
     this.state = 'waiting';
 
-    this.a1 = a1;
-    this.d1 = d1;
-    this.a2 = a2;
-    this.d2 = d2;
+    this.as = as;
+    this.ds = ds;
+    this.al = al;
+    this.dl = dl;
     this.trialCount = trial;
 
     this.response = undefined;
@@ -101,10 +101,10 @@ export default class DiscountableResponse extends DiscountableElement {
     this.dispatchEvent(new CustomEvent('discountable-response', {
       detail: {
         trial: this.trialCount,
-        a1: this.a1,
-        d1: this.d1,
-        a2: this.a2,
-        d2: this.d2,
+        as: this.as,
+        ds: this.ds,
+        al: this.al,
+        dl: this.dl,
         response: this.response,
       },
       bubbles: true,
@@ -205,11 +205,11 @@ export default class DiscountableResponse extends DiscountableElement {
         }
 
         .feedback.first {
-          background-color: var(---color-better-light);
+          background-color: var(---color-worse-light);
         }
 
         .feedback.second {
-          background-color: var(---color-worse-light);
+          background-color: var(---color-better-light);
         }
 
         .feedback.nr {
@@ -237,7 +237,7 @@ export default class DiscountableResponse extends DiscountableElement {
           <decidables-button 
             name="first"
             class="response ${
-              (this.state === 'feedback' && this.response === 'gamble')
+              (this.state === 'feedback' && this.response === 'first')
                 ? 'selected'
                 : (this.state === 'waiting')
                   ? 'waiting'
@@ -249,7 +249,7 @@ export default class DiscountableResponse extends DiscountableElement {
           <decidables-button 
             name="second"
             class="response ${
-              (this.state === 'feedback' && this.response === 'sure')
+              (this.state === 'feedback' && this.response === 'second')
                 ? 'selected'
                 : (this.state === 'waiting')
                   ? 'waiting'

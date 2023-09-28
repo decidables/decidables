@@ -20,23 +20,23 @@ export default class HTDCalculation extends HTDEquation {
         reflect: true,
       },
 
-      a1: {
-        attribute: 'amount1',
+      as: {
+        attribute: 'amount-ss',
         type: Number,
         reflect: true,
       },
-      d1: {
-        attribute: 'delay1',
+      ds: {
+        attribute: 'delay-ss',
         type: Number,
         reflect: true,
       },
-      a2: {
-        attribute: 'amount2',
+      al: {
+        attribute: 'amount-ll',
         type: Number,
         reflect: true,
       },
-      d2: {
-        attribute: 'delay2',
+      dl: {
+        attribute: 'delay-ll',
         type: Number,
         reflect: true,
       },
@@ -54,10 +54,10 @@ export default class HTDCalculation extends HTDEquation {
 
     this.numeric = false;
 
-    this.a1 = 20;
-    this.d1 = 5;
-    this.a2 = 50;
-    this.d2 = 40;
+    this.as = 20;
+    this.ds = 5;
+    this.al = 50;
+    this.dl = 40;
 
     this.k = 0.1;
 
@@ -66,19 +66,19 @@ export default class HTDCalculation extends HTDEquation {
 
   alignState() {
     // Calculate value
-    this.v1 = HTDMath.adk2v(this.a1, this.d1, this.k);
-    this.v2 = HTDMath.adk2v(this.a2, this.d2, this.k);
+    this.vs = HTDMath.adk2v(this.as, this.ds, this.k);
+    this.vl = HTDMath.adk2v(this.al, this.dl, this.k);
     // Calculate difference
-    this.vDiff = this.v1 - this.v2;
+    this.vDiff = this.vs - this.vl;
   }
 
   sendEvent() {
     this.dispatchEvent(new CustomEvent('htd-calculation-change', {
       detail: {
-        a1: this.a1,
-        d1: this.d1,
-        a2: this.a2,
-        d2: this.d2,
+        as: this.as,
+        ds: this.ds,
+        al: this.al,
+        dl: this.dl,
 
         k: this.k,
       },
@@ -86,26 +86,26 @@ export default class HTDCalculation extends HTDEquation {
     }));
   }
 
-  a1Input(e) {
-    this.a1 = parseFloat(e.target.value);
+  asInput(e) {
+    this.as = parseFloat(e.target.value);
     this.alignState();
     this.sendEvent();
   }
 
-  d1Input(e) {
-    this.d1 = parseFloat(e.target.value);
+  dsInput(e) {
+    this.ds = parseFloat(e.target.value);
     this.alignState();
     this.sendEvent();
   }
 
-  a2Input(e) {
-    this.a2 = parseFloat(e.target.value);
+  alInput(e) {
+    this.al = parseFloat(e.target.value);
     this.alignState();
     this.sendEvent();
   }
 
-  d2Input(e) {
-    this.d2 = parseFloat(e.target.value);
+  dlInput(e) {
+    this.dl = parseFloat(e.target.value);
     this.alignState();
     this.sendEvent();
   }
@@ -137,36 +137,36 @@ export default class HTDCalculation extends HTDEquation {
 
   render() {
     this.alignState();
-    let a1;
-    let d1;
-    let a2;
-    let d2;
+    let as;
+    let ds;
+    let al;
+    let dl;
     let k;
-    let v1;
-    let v2;
+    let vs;
+    let vl;
     let vDiff;
     if (this.numeric) {
-      a1 = html`<decidables-spinner class="a a1" ?disabled=${!this.interactive} step="1" .value="${this.a1}" @input=${this.a1Input.bind(this)}>
-          <var class="math-var">A<sub class="subscript">1</sub></var>
+      as = html`<decidables-spinner class="a as" ?disabled=${!this.interactive} step="1" .value="${this.as}" @input=${this.asInput.bind(this)}>
+          <var class="math-var">A<sub class="subscript">ss</sub></var>
         </decidables-spinner>`;
-      d1 = html`<decidables-spinner class="d d1" ?disabled=${!this.interactive} min="0" step="1" .value="${this.d1}" @input=${this.a1Input.bind(this)}>
-          <var class="math-var">D<sub class="subscript">1</sub></var>
+      ds = html`<decidables-spinner class="d ds" ?disabled=${!this.interactive} min="0" step="1" .value="${this.ds}" @input=${this.dsInput.bind(this)}>
+          <var class="math-var">D<sub class="subscript">ss</sub></var>
         </decidables-spinner>`;
-      a2 = html`<decidables-spinner class="a a2" ?disabled=${!this.interactive} step="1" .value="${this.a2}" @input=${this.a2Input.bind(this)}>
-          <var class="math-var">A<sub class="subscript">2</sub></var>
+      al = html`<decidables-spinner class="a al" ?disabled=${!this.interactive} step="1" .value="${this.al}" @input=${this.alInput.bind(this)}>
+          <var class="math-var">A<sub class="subscript">ll</sub></var>
         </decidables-spinner>`;
-      d2 = html`<decidables-spinner class="d d2" ?disabled=${!this.interactive} min="0" step="1" .value="${this.d2}" @input=${this.d2Input.bind(this)}>
-          <var class="math-var">D<sub class="subscript">2</sub></var>
+      dl = html`<decidables-spinner class="d dl" ?disabled=${!this.interactive} min="0" step="1" .value="${this.dl}" @input=${this.dlInput.bind(this)}>
+          <var class="math-var">D<sub class="subscript">ll</sub></var>
         </decidables-spinner>`;
       k = html`<decidables-spinner class="k" ?disabled=${!this.interactive} min="0" max="100" step=".001" .value="${this.k}" @input=${this.kInput.bind(this)}>
           <var class="math-var">k</var>
         </decidables-spinner>`;
 
-      v1 = html`<decidables-spinner class="v v1" disabled .value="${+this.v1.toFixed(2)}">
-          <var class="math-var">V<sub class="subscript">1</sub></var>
+      vs = html`<decidables-spinner class="v vs" disabled .value="${+this.vs.toFixed(2)}">
+          <var class="math-var">V<sub class="subscript">ss</sub></var>
         </decidables-spinner>`;
-      v2 = html`<decidables-spinner class="v v2" disabled .value="${+this.v2.toFixed(2)}">
-          <var class="math-var">V<sub class="subscript">2</sub></var>
+      vl = html`<decidables-spinner class="v vl" disabled .value="${+this.vl.toFixed(2)}">
+          <var class="math-var">V<sub class="subscript">ll</sub></var>
         </decidables-spinner>`;
       vDiff = html`${(this.vDiff > 0)
         ? html`<span class="comparison" ${animate({in: fadeIn})}>&gt;</span>`
@@ -174,46 +174,46 @@ export default class HTDCalculation extends HTDEquation {
           ? html`<span class="comparison" ${animate({in: fadeIn})}>&lt;</span>`
           : html`<span class="comparison" ${animate({in: fadeIn})}>=</span>`}`;
     } else {
-      a1 = html`<var class="math-var a a1">A<sub class="subscript">1</sub></var>`;
-      d1 = html`<var class="math-var d d1">D<sub class="subscript">1</sub></var>`;
-      a2 = html`<var class="math-var a a2">A<sub class="subscript">2</sub></var>`;
-      d2 = html`<var class="math-var d d2">D<sub class="subscript">2</sub></var>`;
+      as = html`<var class="math-var a as">A<sub class="subscript">ss</sub></var>`;
+      ds = html`<var class="math-var d ds">D<sub class="subscript">ss</sub></var>`;
+      al = html`<var class="math-var a al">A<sub class="subscript">ll</sub></var>`;
+      dl = html`<var class="math-var d dl">D<sub class="subscript">ll</sub></var>`;
 
       k = html`<var class="math-var k">k</var>`;
 
-      v1 = html`<var class="math-var v v1">V<sub class="subscript">1</sub></var>`;
-      v2 = html`<var class="math-var v v2">V<sub class="subscript">2</sub></var>`;
+      vs = html`<var class="math-var v vs">V<sub class="subscript">ss</sub></var>`;
+      vl = html`<var class="math-var v vl">V<sub class="subscript">ll</sub></var>`;
       vDiff = html`<span class="comparison">≟</span>`;
     }
     const equation = html`
       <tr>
         <td class="underline">
-          ${a1}
+          ${as}
         </td>
         <td rowspan="2">
           ${vDiff}
         </td>
         <td class="underline">
-          ${a2}
+          ${al}
         </td>
       </tr>
       <tr>
         <td class="">
-          <span class="paren tight">(</span>1<span class="plus">+</span>${k}${d1}<span class="paren tight">)</span>
+          <span class="paren tight">(</span>1<span class="plus">+</span>${k}${ds}<span class="paren tight">)</span>
         </td>
         <td class="">
-          <span class="paren tight">(</span>1<span class="plus">+</span>${k}${d2}<span class="paren tight">)</span>
+          <span class="paren tight">(</span>1<span class="plus">+</span>${k}${dl}<span class="paren tight">)</span>
         </td>
       </tr>
       <tr>
         <td class="right">
-          ${v1}
+          ${vs}
         </td>
         <td>
           ${vDiff}
         </td>
         <td class="left">
-          ${v2}
+          ${vl}
         </td>
       </tr>`;
     return html`

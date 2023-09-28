@@ -19,23 +19,23 @@ export default class ITCChoice extends DiscountableElement {
         reflect: true,
       },
 
-      a1: {
-        attribute: 'amount1',
+      as: {
+        attribute: 'amount-ss',
         type: Number,
         reflect: true,
       },
-      d1: {
-        attribute: 'delay1',
+      ds: {
+        attribute: 'delay-ss',
         type: Number,
         reflect: true,
       },
-      a2: {
-        attribute: 'amount2',
+      al: {
+        attribute: 'amount-ll',
         type: Number,
         reflect: true,
       },
-      d2: {
-        attribute: 'delay2',
+      dl: {
+        attribute: 'delay-ll',
         type: Number,
         reflect: true,
       },
@@ -48,10 +48,10 @@ export default class ITCChoice extends DiscountableElement {
     this.states = ['choice', 'fixation', 'blank']; // Possible states
     this.state = 'choice'; // Current state
 
-    this.a1 = 10;
-    this.d1 = 5;
-    this.a2 = 40;
-    this.d2 = 30;
+    this.as = 10;
+    this.ds = 5;
+    this.al = 40;
+    this.dl = 30;
   }
 
   static get styles() {
@@ -88,24 +88,24 @@ export default class ITCChoice extends DiscountableElement {
   sendEvent() {
     this.dispatchEvent(new CustomEvent('itc-choice-change', {
       detail: {
-        a1: this.a1,
-        d1: this.d1,
-        a2: this.a2,
-        d2: this.d2,
+        as: this.as,
+        ds: this.ds,
+        al: this.al,
+        dl: this.dl,
       },
       bubbles: true,
     }));
   }
 
-  firstChange(event) {
-    this.a1 = parseFloat(event.detail.a);
-    this.d1 = parseFloat(event.detail.d);
+  ssChange(event) {
+    this.as = parseFloat(event.detail.a);
+    this.ds = parseFloat(event.detail.d);
     this.sendEvent();
   }
 
-  secondChange(event) {
-    this.a2 = parseFloat(event.detail.a);
-    this.d2 = parseFloat(event.detail.d);
+  llChange(event) {
+    this.al = parseFloat(event.detail.a);
+    this.dl = parseFloat(event.detail.d);
     this.sendEvent();
   }
 
@@ -115,17 +115,17 @@ export default class ITCChoice extends DiscountableElement {
         <itc-option 
           state=${this.state}
           ?interactive=${this.interactive}
-          amount="${this.a1}"
-          delay="${this.d1}"
-          @itc-option-change=${this.firstChange.bind(this)}>
+          amount="${this.as}"
+          delay="${this.ds}"
+          @itc-option-change=${this.ssChange.bind(this)}>
         </itc-option><span class="query"
          >${(this.state === 'choice') ? '?' : (this.state === 'fixation') ? '+' : html`∙`}</span
         ><itc-option 
           state=${this.state}
           ?interactive=${this.interactive}
-          amount="${this.a2}"
-          delay="${this.d2}"
-          @itc-option-change=${this.secondChange.bind(this)}>
+          amount="${this.al}"
+          delay="${this.dl}"
+          @itc-option-change=${this.llChange.bind(this)}>
         </itc-option>
       </div>`;
   }

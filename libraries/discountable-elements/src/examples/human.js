@@ -83,10 +83,10 @@ export default class HTDExampleHuman extends HTDExample {
       this.itcTask.addEventListener('itc-trial-start', (event) => {
         if (this.discountableResponse) {
           this.discountableResponse.start(
-            event.detail.a1,
-            event.detail.d1,
-            event.detail.a2,
-            event.detail.d2,
+            event.detail.as,
+            event.detail.ds,
+            event.detail.al,
+            event.detail.dl,
             event.detail.trial,
           );
         }
@@ -109,10 +109,10 @@ export default class HTDExampleHuman extends HTDExample {
       this.discountableResponse.addEventListener('discountable-response', (event) => {
         if (this.htdFit) {
           this.htdFit.set(
-            event.detail.a1,
-            event.detail.d1,
-            event.detail.a2,
-            event.detail.d2,
+            event.detail.as,
+            event.detail.ds,
+            event.detail.al,
+            event.detail.dl,
             event.detail.response,
             event.detail.trial.toString(),
             event.detail.trial.toString(),

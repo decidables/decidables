@@ -39,12 +39,12 @@ self.onmessage = (event) => {
     // Likelihood
     data.forEach((choice) => {
       // Values
-      const v1 = HTDMath.adk2v(choice.a1, choice.d1, state.k);
-      const v2 = HTDMath.adk2v(choice.a2, choice.d2, state.k);
+      const vs = HTDMath.adk2v(choice.as, choice.ds, state.k);
+      const vl = HTDMath.adk2v(choice.al, choice.dl, state.k);
 
       // Choice of sooner or later is sampled from a Bernoulli distribution
       // Luce choice rule is used to compute probability of waiting! (0 = sooner, 1 = later)
-      const binval = 1 / (1 + Math.exp(state.luce * (v1 - v2)));
+      const binval = 1 / (1 + Math.exp(state.luce * (vs - vl)));
 
       // Actual response
       const response = (choice.response === 'first') ? 0 : 1;
