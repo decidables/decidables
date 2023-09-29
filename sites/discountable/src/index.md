@@ -14,7 +14,10 @@ script: page
     <p class="dis-index-subtitle">An Explorable Explanation of Hyperbolic Temporal Discounting</p>
   </hgroup>
   <div class="dis-index-demo">
-    <htd-curves interactive></htd-curves>
+    <itc-task running trials="Infinity" duration="4000" iti="1000"></itc-task>
+    <htd-curves interactive amount="60" delay="40" k="0.2"></htd-curves>
+    <htd-calculation></htd-calculation>
+    <htd-calculation numeric interactive></htd-calculation>
   </div>
   <p class="dis-index-lead">
     How do we decide between smaller rewards sooner and larger rewards later? 
