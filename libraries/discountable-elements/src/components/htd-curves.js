@@ -13,10 +13,8 @@ import DiscountableElement from '../discountable-element';
   Attributes:
     interactive: true/false
 
-    a1: numeric (-infinity, infinity)
-    d1: numeric [0, infinity)
-    a2: numeric (-infinity, infinity)
-    d2: numeric [0, infinity)
+    a: numeric (-infinity, infinity)
+    d: numeric [0, infinity)
     k: numeric [0, infinity)
     label: string
 
@@ -99,8 +97,8 @@ export default class HTDCurves extends DiscountableElement {
       },
     };
 
-    this.a = 20;
-    this.d = 5;
+    this.a = null;
+    this.d = null;
     this.label = '';
     this.k = 0.1;
 
@@ -192,7 +190,7 @@ export default class HTDCurves extends DiscountableElement {
     this.requestUpdate();
   }
 
-  getOption(name = 'default1') {
+  getOption(name = 'default') {
     return this.options.find((option) => {
       return (option.name === name);
     });
@@ -586,7 +584,10 @@ export default class HTDCurves extends DiscountableElement {
     // Options
     // DATA-JOIN
     const optionUpdate = contentMerge.selectAll('.option')
-      .data(this.options, (datum) => { return datum.name; });
+      .data(
+        this.options.filter((option) => { return ((option.a !== null) && (option.d !== null)); }),
+        (datum) => { return datum.name; },
+      );
     //  ENTER
     const optionEnter = optionUpdate.enter().append('g')
       .classed('option', true);

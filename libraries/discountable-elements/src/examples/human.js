@@ -69,7 +69,7 @@ export default class HTDExampleHuman extends HTDExample {
           }
 
           if (this.htdCurves) {
-            this.htdCurves.clear();
+            this.htdCurves.clearOptions();
           }
         });
       }
@@ -88,6 +88,21 @@ export default class HTDExampleHuman extends HTDExample {
             event.detail.al,
             event.detail.dl,
             event.detail.trial,
+          );
+        }
+
+        if (this.htdCurves) {
+          this.htdCurves.setOption(
+            event.detail.as,
+            event.detail.ds,
+            'smaller-sooner',
+            's',
+          );
+          this.htdCurves.setOption(
+            event.detail.al,
+            event.detail.dl,
+            'larger-later',
+            'l',
           );
         }
       });
@@ -117,17 +132,6 @@ export default class HTDExampleHuman extends HTDExample {
             event.detail.trial.toString(),
             event.detail.trial.toString(),
           );
-        }
-
-        if (this.htdCurves) {
-          // this.htdCurves.set(
-          //   event.detail.xw,
-          //   event.detail.pw,
-          //   event.detail.xs,
-          //   event.detail.response,
-          //   event.detail.trial.toString(),
-          //   event.detail.trial.toString(),
-          // );
         }
       });
     }
