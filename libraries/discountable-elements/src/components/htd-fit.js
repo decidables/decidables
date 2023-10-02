@@ -1,16 +1,11 @@
 
 import {html, css} from 'lit';
-import * as Plotly from 'plotly.js/lib/core';
-import * as PlotlyHistogram from 'plotly.js/lib/histogram';
+import * as Plot from '@observablehq/plot';
 
 // Special Web Worker import for rollup-plugin-web-worker-loader
 import HTDFitWorker from 'web-worker:./htd-fit-worker'; /* eslint-disable-line import/no-unresolved */
 
 import DiscountableElement from '../discountable-element';
-import plotlyStyle from './plotly-style.auto';
-
-// Load in the needed trace types
-Plotly.register([PlotlyHistogram]);
 
 /*
   HTDFit element
@@ -112,18 +107,25 @@ export default class HTDFit extends DiscountableElement {
   static get styles() {
     return [
       super.styles,
-      plotlyStyle,
       css`
         /* :host {
           display: inline-block;
         } */
 
+        figure {
+          margin: 0.625rem;
+        }
+
+        figure h2 {
+          margin: 0.25rem 0;
+
+          font-size: 1.125rem;
+          font-weight: 600;
+        }
+
         .trace,
         .hist {
           display: inline-block;
-
-          width: 20rem;
-          height: 15rem;
         }
       `,
     ];
@@ -149,20 +151,36 @@ export default class HTDFit extends DiscountableElement {
   }
 
   plotParam(param) {
-    const plotMargins = {
-      l: 40, r: 10, b: 40, t: 40, pad: 4,
-    };
-
-    Plotly.react(
-      this.shadowRoot.querySelector(`.trace.${param}`),
-      [{y: this.samples[param]}],
-      {margin: plotMargins, title: `Traceplot of ${param}`},
+    this.shadowRoot.querySelector(`.hist.${param}`).replaceChildren(
+      Plot.plot({
+        title: `Posterior of ${param}`,
+        x: {label: `${param}`},
+        width: 320,
+        height: 240,
+        style: 'font-size: 0.75rem; font-family: var(---font-family-base);',
+        marks: [
+          Plot.rectY(
+            this.samples[param],
+            Plot.binX({y: 'count'}, {x: Plot.identity}),
+          ),
+        ],
+      }),
     );
 
-    Plotly.react(
-      this.shadowRoot.querySelector(`.hist.${param}`),
-      [{x: this.samples[param], type: 'histogram'}],
-      {margin: plotMargins, title: `Posterior of ${param}`},
+    this.shadowRoot.querySelector(`.trace.${param}`).replaceChildren(
+      Plot.plot({
+        title: `Traceplot of ${param}`,
+        x: {label: 'Samples'},
+        y: {label: `${param}`},
+        width: 320,
+        height: 240,
+        style: 'font-size: 0.75rem; font-family: var(---font-family-base);',
+        marks: [
+          Plot.lineY(
+            this.samples[param],
+          ),
+        ],
+      }),
     );
   }
 
