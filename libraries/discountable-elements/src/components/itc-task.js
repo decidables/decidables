@@ -60,7 +60,7 @@ export default class ITCTask extends DiscountableElement {
 
     // Decision parameters
     this.range = {};
-    this.range.as = {start: 0, stop: 10, step: 1}; // Amount SS
+    this.range.as = {start: 10, stop: 20, step: 1}; // Amount SS
     this.range.ds = {start: 10, stop: 40, step: 1}; // Delay SS
     this.range.al = {start: 20, stop: 40, step: 1}; // Amount LL
     this.range.dl = {start: 50, stop: 80, step: 1}; // Delay LL
