@@ -280,22 +280,22 @@ export default class HTDCurves extends DiscountableElement {
           stroke-width: 2;
         }
 
-        .option.interactive .curve {
+        .curve.interactive {
           cursor: nwse-resize;
           
           filter: url("#shadow-2");
           outline: none;
         }
 
-        .option.interactive .curve:hover {
+        .curve.interactive:hover {
           filter: url("#shadow-4");
         }
 
-        .option.interactive .curve:active {
+        .curve.interactive:active {
           filter: url("#shadow-8");
         }
 
-        :host(.keyboard) .option.interactive .curve:focus {
+        :host(.keyboard) .curve.interactive:focus {
           filter: url("#shadow-8");
         }
 
@@ -305,22 +305,22 @@ export default class HTDCurves extends DiscountableElement {
           stroke-width: 2;
         }
 
-        .option.interactive .bar {
+        .bar.interactive {
           cursor: ew-resize;
           
           filter: url("#shadow-2");
           outline: none;
         }
 
-        .option.interactive .bar:hover {
+        .bar.interactive:hover {
           filter: url("#shadow-4");
         }
 
-        .option.interactive .bar:active {
+        .bar.interactive:active {
           filter: url("#shadow-8");
         }
 
-        :host(.keyboard) .option.interactive .bar:focus {
+        :host(.keyboard) .bar.interactive:focus {
           filter: url("#shadow-8");
         }
 
@@ -330,7 +330,16 @@ export default class HTDCurves extends DiscountableElement {
           r: 6px;
         }
 
-        .option.interactive .point {
+        .point .label {
+          font-size: 0.75rem;
+
+          dominant-baseline: middle;
+          text-anchor: middle;
+
+          fill: var(---color-text-inverse);
+        }
+
+        .point.interactive {
           cursor: ns-resize;
 
           filter: url("#shadow-2");
@@ -343,30 +352,21 @@ export default class HTDCurves extends DiscountableElement {
           stroke-width: 0;
         }
 
-        .point .label {
-          font-size: 0.75rem;
-
-          dominant-baseline: middle;
-          text-anchor: middle;
-
-          fill: var(---color-text-inverse);
-        }
-
-        .option.interactive .point:hover {
+        .point.interactive:hover {
           filter: url("#shadow-4");
 
           /* HACK: This gets Safari to correctly apply the filter! */
           stroke: #ff0000;
         }
 
-        .option.interactive .point:active {
+        .point.interactive:active {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
           stroke: #00ff00;
         }
 
-        :host(.keyboard) .option.interactive .point:focus {
+        :host(.keyboard) .point.interactive:focus {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
@@ -587,27 +587,71 @@ export default class HTDCurves extends DiscountableElement {
     //  ENTER
     const optionEnter = optionUpdate.enter().append('g')
       .classed('option', true);
+    // Curve
     optionEnter.append('path')
       .classed('curve', true)
-      .attr('clip-path', 'url(#clip-htd-curves)');
+      .attr('clip-path', 'url(#clip-htd-curves)')
+      .attr('d', (datum) => {
+        const curve = d3.range(xScale(datum.d), xScale(0), -1).map((range) => {
+          return {
+            d: xScale.invert(range),
+            v: HTDMath.adk2v(
+              datum.a,
+              datum.d - xScale.invert(range),
+              this.k,
+            ),
+          };
+        });
+        return line(curve);
+      })
+      .attr('stroke-dasharray', (datum, index, nodes) => {
+        if (datum.trial) {
+          const length = nodes[index].getTotalLength();
+          return `0,${length}`;
+        }
+        return 'none';
+      });
+    // Bar
     optionEnter.append('line')
       .classed('bar', true)
-      .attr('y2', yScale(0));
+      .attr('x1', (datum) => { return xScale(datum.d); })
+      .attr('x2', (datum) => { return xScale(datum.d); })
+      .attr('y1', yScale(0))
+      .attr('y2', (datum) => { return yScale(datum.a); })
+      .attr('stroke-dasharray', (datum, index, nodes) => {
+        if (datum.trial) {
+          const length = nodes[index].getTotalLength();
+          return `0,${length}`;
+        }
+        return 'none';
+      });
+    // Point
     const pointEnter = optionEnter.append('g')
-      .classed('point', true);
+      .classed('point', true)
+      .attr('transform', (datum) => {
+        return `translate(${xScale(datum.d)}, ${yScale(datum.a)})`;
+      })
+      .attr('opacity', (datum) => {
+        if (datum.trial) {
+          return 0;
+        }
+        return 1;
+      });
     pointEnter.append('circle')
       .classed('mark', true);
     pointEnter.append('text')
       .classed('label', true);
     //  MERGE
     const optionMerge = optionEnter.merge(optionUpdate);
+
     // Interactive options
-    const optionMergeInteractive = optionMerge.filter((datum, index, nodes) => {
-      return (this.interactive && !nodes[index].classList.contains('interactive'));
-    });
-    optionMergeInteractive
-      .classed('interactive', true);
-    optionMergeInteractive.select('.curve')
+    // Curve
+    optionMerge
+      .filter((datum, index, nodes) => {
+        return (this.interactive && !nodes[index].classList.contains('interactive'));
+      })
+      .select('.curve')
+      .classed('interactive', true)
       .attr('tabindex', 0)
       // Drag interaction
       .call(d3.drag()
@@ -697,7 +741,13 @@ export default class HTDCurves extends DiscountableElement {
           event.preventDefault();
         }
       });
-    optionMergeInteractive.select('.bar')
+    // Bar
+    optionMerge
+      .filter((datum, index, nodes) => {
+        return (this.interactive && !datum.trial && !nodes[index].classList.contains('interactive'));
+      })
+      .select('.bar')
+      .classed('interactive', true)
       .attr('tabindex', 0)
       // Drag interaction
       .call(d3.drag()
@@ -779,7 +829,13 @@ export default class HTDCurves extends DiscountableElement {
           event.preventDefault();
         }
       });
-    optionMergeInteractive.select('.point')
+    // Point
+    optionMerge
+      .filter((datum, index, nodes) => {
+        return (this.interactive && !datum.trial && !nodes[index].classList.contains('interactive'));
+      })
+      .select('.point')
+      .classed('interactive', true)
       .attr('tabindex', 0)
       // Drag interaction
       .call(d3.drag()
@@ -863,26 +919,90 @@ export default class HTDCurves extends DiscountableElement {
       });
 
     // Non-interactive options
-    const optionMergeStatic = optionMerge.filter((datum, index, nodes) => {
-      return (!this.interactive && nodes[index].classList.contains('interactive'));
-    });
-    optionMergeStatic
-      .classed('interactive', false);
-    optionMergeStatic.select('.curve')
+    // Curve
+    optionMerge
+      .filter((datum, index, nodes) => {
+        return (!this.interactive && nodes[index].classList.contains('interactive'));
+      })
+      .select('.curve')
+      .classed('interactive', false)
       .attr('tabindex', null)
       .on('drag', null)
       .on('keydown', null);
-    optionMergeStatic.select('.bar')
+    // Bar
+    optionMerge
+      .filter((datum, index, nodes) => {
+        return ((!this.interactive || datum.trial) && nodes[index].classList.contains('interactive'));
+      })
+      .select('.bar')
+      .classed('interactive', false)
       .attr('tabindex', null)
       .on('drag', null)
       .on('keydown', null);
-    optionMergeStatic.select('.point')
+    // Point
+    optionMerge
+      .filter((datum, index, nodes) => {
+        return ((!this.interactive || datum.trial) && nodes[index].classList.contains('interactive'));
+      })
+      .select('.point')
+      .classed('interactive', false)
       .attr('tabindex', null)
       .on('drag', null)
       .on('keydown', null);
 
+    // Trial Animation
+    // Curve
+    optionMerge
+      .filter((datum) => {
+        return (datum.new);
+      })
+      .select('.curve').transition()
+      .duration(transitionDuration)
+      .delay(transitionDuration + transitionDuration / 10)
+      .ease(d3.easeLinear)
+      .attrTween('stroke-dasharray', (datum, index, nodes) => {
+        const length = nodes[index].getTotalLength();
+        return d3.interpolate(`0,${length}`, `${length},${0}`);
+      })
+      .on('end', (datum) => {
+        datum.new = false;
+        this.dispatchEvent(new CustomEvent('discountable-response', {
+          detail: {
+            trial: this.trialCount,
+            as: this.as,
+            ds: this.ds,
+            al: this.al,
+            dl: this.dl,
+            response: this.response,
+          },
+          bubbles: true,
+        }));
+      });
+    // Bar
+    optionMerge
+      .filter((datum) => {
+        return (datum.new);
+      })
+      .select('.bar').transition()
+      .duration(transitionDuration)
+      .ease(d3.easeLinear)
+      .attrTween('stroke-dasharray', (datum, index, nodes) => {
+        const length = nodes[index].getTotalLength();
+        return d3.interpolate(`0,${length}`, `${length},${length}`);
+      });
+    // Point
+    optionMerge
+      .filter((datum) => {
+        return (datum.new);
+      })
+      .select('.point').transition()
+      .duration(transitionDuration / 10)
+      .delay(transitionDuration)
+      .ease(d3.easeLinear)
+      .attrTween('opacity', () => { return d3.interpolate(0, 1); });
+
     // All options
-    optionMerge.select('.curve').transition()
+    optionUpdate.select('.curve').transition()
       .duration(this.drag
         ? 0
         : (this.firstUpdate
@@ -902,7 +1022,7 @@ export default class HTDCurves extends DiscountableElement {
         return (time) => {
           element.a = interpolateA(time);
           element.d = interpolateD(time);
-          const curve = d3.range(xScale(0), xScale(element.d), 1).map((range) => {
+          const curve = d3.range(xScale(element.d), xScale(0), -1).map((range) => {
             return {
               d: xScale.invert(range),
               v: HTDMath.adk2v(
@@ -915,7 +1035,7 @@ export default class HTDCurves extends DiscountableElement {
           return line(curve);
         };
       });
-    optionMerge.select('.bar').transition()
+    optionUpdate.select('.bar').transition()
       .duration(this.drag
         ? 0
         : (this.firstUpdate
@@ -944,7 +1064,7 @@ export default class HTDCurves extends DiscountableElement {
           return `${xScale(element.d)}`;
         };
       })
-      .attrTween('y1', (datum, index, elements) => {
+      .attrTween('y2', (datum, index, elements) => {
         const element = elements[index];
         const interpolateA = d3.interpolate(
           (element.a !== undefined) ? element.a : datum.a,
@@ -955,66 +1075,31 @@ export default class HTDCurves extends DiscountableElement {
           return `${yScale(element.a)}`;
         };
       });
-    optionMerge.select('.point .mark').transition()
+    optionUpdate.select('.point').transition()
       .duration(this.drag
         ? 0
         : (this.firstUpdate
           ? (transitionDuration * 2)
           : transitionDuration))
       .ease(d3.easeCubicOut)
-      .attrTween('cx', (datum, index, elements) => {
+      .attrTween('transform', (datum, index, elements) => {
         const element = elements[index];
         const interpolateD = d3.interpolate(
           (element.d !== undefined) ? element.d : datum.d,
           datum.d,
         );
-        return (time) => {
-          element.d = interpolateD(time);
-          return `${xScale(element.d)}`;
-        };
-      })
-      .attrTween('cy', (datum, index, elements) => {
-        const element = elements[index];
         const interpolateA = d3.interpolate(
           (element.a !== undefined) ? element.a : datum.a,
           datum.a,
         );
         return (time) => {
+          element.d = interpolateD(time);
           element.a = interpolateA(time);
-          return `${yScale(element.a)}`;
+          return `translate(${xScale(element.d)}, ${yScale(element.a)})`;
         };
       });
     optionMerge.select('.point .label')
       .text((datum) => { return datum.label; });
-    optionMerge.select('.point .label').transition()
-      .duration(this.drag
-        ? 0
-        : (this.firstUpdate
-          ? (transitionDuration * 2)
-          : transitionDuration))
-      .ease(d3.easeCubicOut)
-      .attrTween('x', (datum, index, elements) => {
-        const element = elements[index];
-        const interpolateD = d3.interpolate(
-          (element.d !== undefined) ? element.d : datum.d,
-          datum.d,
-        );
-        return (time) => {
-          element.d = interpolateD(time);
-          return `${xScale(element.d)}`;
-        };
-      })
-      .attrTween('y', (datum, index, elements) => {
-        const element = elements[index];
-        const interpolateA = d3.interpolate(
-          (element.a !== undefined) ? element.a : datum.a,
-          datum.a,
-        );
-        return (time) => {
-          element.a = interpolateA(time);
-          return `${yScale(element.a)}`;
-        };
-      });
     //  EXIT
     // NOTE: Could add a transition here
     optionUpdate.exit().remove();
