@@ -129,7 +129,7 @@ export default class DecidablesElement extends LitElement {
 
     const filters = shadows.elevations.map((z) => {
       return `
-        <filter id=${`shadow-${z}`} filterUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
+        <filter id=${`shadow-${z}`} filterUnits="userSpaceOnUse" x="-100%" y="-100%" width="200%" height="200%">
           <feComponentTransfer in="SourceAlpha" result="solid">
             <feFuncA type="table" tableValues="0 1 1"/>
           </feComponentTransfer>
