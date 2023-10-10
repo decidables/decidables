@@ -111,6 +111,11 @@ export default class HTDExampleHuman extends HTDExample {
         if (this.discountableResponse) {
           this.discountableResponse.stop();
         }
+
+        if (this.htdCurves) {
+          this.htdCurves.removeOption('smaller-sooner');
+          this.htdCurves.removeOption('larger-later');
+        }
       });
 
       this.itcTask.addEventListener('itc-block-end', (/* event */) => {
