@@ -1,5 +1,5 @@
 ---
-title: 'Model Fitting: Fitting Human Performance to Cumulative Prospect Theory'
+title: 'Model Fitting: Fitting Human Performance with Hyperbolic Temporal Discounting'
 layout: page
 script: page
 ---
