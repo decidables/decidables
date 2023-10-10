@@ -391,19 +391,15 @@ export default class HTDCurves extends DiscountableElement {
 
   connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('resize', this.getDimensions.bind(this));
+
+    this.resizeObserver = new ResizeObserver(this.getDimensions.bind(this));
+    this.resizeObserver.observe(this);
   }
 
   disconnectedCallback() {
-    window.removeEventListener('resize', this.getDimensions.bind(this));
+    this.resizeObserver.unobserve(this);
+
     super.disconnectedCallback();
-  }
-
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    this.getDimensions();
   }
 
   update(changedProperties) {
