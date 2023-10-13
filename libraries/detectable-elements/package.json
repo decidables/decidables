@@ -1,6 +1,6 @@
 {
   "name": "@decidables/detectable-elements",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "detectable-elements: Web Components for visualizing Signal Detection Theory",
   "keywords": [
     "web component",
@@ -56,7 +56,7 @@
     "gulp": "^4.0.2"
   },
   "dependencies": {
-    "@decidables/decidables-elements": "^0.3.5",
+    "@decidables/decidables-elements": "^0.4.0",
     "@decidables/detectable-math": "^0.1.5",
     "d3": "^7.8.5",
     "jstat": "^1.9.6",
