@@ -7,6 +7,7 @@ import * as PlotlyScatter3d from 'plotly.js/lib/scatter3d';
 // import Plotly from 'plotly.js-dist';
 
 import CPTMath from '@decidables/prospectable-math';
+import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
 
 import ProspectableElement from '../prospectable-element';
 import plotlyStyle from './plotly-style.auto';
@@ -37,7 +38,7 @@ Plotly.register([PlotlyIsoSurface, PlotlyScatter3d]);
   Styles:
     ??
 */
-export default class DecisionSpace extends ProspectableElement {
+export default class DecisionSpace extends DecidablesMixinResizeable(ProspectableElement) {
   static get properties() {
     return {
       surface: {
@@ -92,22 +93,6 @@ export default class DecisionSpace extends ProspectableElement {
         type: Number,
         reflect: true,
       },
-
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      rem: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
     };
   }
 
@@ -155,10 +140,6 @@ export default class DecisionSpace extends ProspectableElement {
     this.range.xs = {start: 5, stop: 15, step: 0.5}; // Sure Value
     this.range.xw = {start: 10, stop: 30, step: 1}; // Gamble Win Value
     this.range.pw = {start: 0, stop: 1, step: 0.05}; // Gamble Win Probability
-
-    this.width = NaN;
-    this.height = NaN;
-    this.rem = NaN;
 
     this.decisionSpace = [];
 
@@ -326,31 +307,6 @@ export default class DecisionSpace extends ProspectableElement {
       <div class="plotly"></div>
     `;
     // ${ProspectableElement.svgFilters}
-  }
-
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`cpt-value: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('resize', this.getDimensions.bind(this));
-  }
-
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.getDimensions.bind(this));
-    super.disconnectedCallback();
-  }
-
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    // this.getDimensions();
-    window.setTimeout(this.getDimensions.bind(this), 0);
   }
 
   update(changedProperties) {

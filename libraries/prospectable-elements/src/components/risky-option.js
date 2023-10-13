@@ -2,6 +2,8 @@
 import {html, css} from 'lit';
 import * as d3 from 'd3';
 
+import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
+
 import ProspectableElement from '../prospectable-element';
 
 /*
@@ -11,36 +13,7 @@ import ProspectableElement from '../prospectable-element';
   Attributes:
   Win, Loss, Probability
 */
-export default class RiskyOption extends ProspectableElement {
-  static get properties() {
-    return {
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      rem: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-    };
-  }
-
-  constructor() {
-    super();
-
-    // Properties
-    this.width = NaN; // Width of component in pixels
-    this.height = NaN; // Height of component in pixels
-    this.rem = NaN; // Pixels per rem for component
-  }
-
+export default class RiskyOption extends DecidablesMixinResizeable(ProspectableElement) {
   static get styles() {
     return [
       super.styles,
@@ -148,42 +121,24 @@ export default class RiskyOption extends ProspectableElement {
     `;
   }
 
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`rdk-task: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
   connectedCallback() {
     super.connectedCallback();
 
-    window.addEventListener('resize', this.getDimensions.bind(this));
-
     // Detect and update on changes in children
-    this.observer = new MutationObserver((mutations) => {
+    this.mutationObserver = new MutationObserver((mutations) => {
       if (mutations.some((mutation) => {
         return ((mutation.type === 'childList') || ((mutation.type === 'attributes') && (mutation.target !== this)));
       })) {
         this.requestUpdate();
       }
     });
-    this.observer.observe(this, {subtree: true, childList: true, attributes: true});
+    this.mutationObserver.observe(this, {subtree: true, childList: true, attributes: true});
   }
 
   disconnectedCallback() {
-    this.observer.disconnect();
-
-    window.removeEventListener('resize', this.getDimensions.bind(this));
+    this.mutationObserver.disconnect();
 
     super.disconnectedCallback();
-  }
-
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    this.getDimensions();
   }
 
   update(changedProperties) {
