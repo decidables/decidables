@@ -9,7 +9,7 @@ var check = function (it) {
 };
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var global$l =
+var global$k =
 // eslint-disable-next-line es/no-global-this -- safe
 check(typeof globalThis == 'object' && globalThis) || check(typeof window == 'object' && window) ||
 // eslint-disable-next-line no-restricted-globals -- safe
@@ -21,7 +21,7 @@ function () {
 
 var objectGetOwnPropertyDescriptor = {};
 
-var fails$g = function (exec) {
+var fails$f = function (exec) {
   try {
     return !!exec();
   } catch (error) {
@@ -29,10 +29,10 @@ var fails$g = function (exec) {
   }
 };
 
-var fails$f = fails$g;
+var fails$e = fails$f;
 
 // Detect IE8's incomplete defineProperty implementation
-var descriptors = !fails$f(function () {
+var descriptors = !fails$e(function () {
   // eslint-disable-next-line es/no-object-defineproperty -- required for testing
   return Object.defineProperty({}, 1, {
     get: function () {
@@ -41,8 +41,8 @@ var descriptors = !fails$f(function () {
   })[1] !== 7;
 });
 
-var fails$e = fails$g;
-var functionBindNative = !fails$e(function () {
+var fails$d = fails$f;
+var functionBindNative = !fails$d(function () {
   // eslint-disable-next-line es/no-function-prototype-bind -- safe
   var test = function () {/* empty */}.bind();
   // eslint-disable-next-line no-prototype-builtins -- safe
@@ -100,19 +100,19 @@ var classofRaw$2 = function (it) {
 };
 
 var uncurryThis$g = functionUncurryThis;
-var fails$d = fails$g;
-var classof$8 = classofRaw$2;
-var $Object$4 = Object;
+var fails$c = fails$f;
+var classof$7 = classofRaw$2;
+var $Object$3 = Object;
 var split = uncurryThis$g(''.split);
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var indexedObject = fails$d(function () {
+var indexedObject = fails$c(function () {
   // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
   // eslint-disable-next-line no-prototype-builtins -- safe
-  return !$Object$4('z').propertyIsEnumerable(0);
+  return !$Object$3('z').propertyIsEnumerable(0);
 }) ? function (it) {
-  return classof$8(it) === 'String' ? split(it, '') : $Object$4(it);
-} : $Object$4;
+  return classof$7(it) === 'String' ? split(it, '') : $Object$3(it);
+} : $Object$3;
 
 // we can't use just `it == null` since of `document.all` special case
 // https://tc39.es/ecma262/#sec-IsHTMLDDA-internal-slot-aec
@@ -131,10 +131,10 @@ var requireObjectCoercible$2 = function (it) {
 };
 
 // toObject with fallback for non-array-like ES3 strings
-var IndexedObject$1 = indexedObject;
+var IndexedObject = indexedObject;
 var requireObjectCoercible$1 = requireObjectCoercible$2;
-var toIndexedObject$4 = function (it) {
-  return IndexedObject$1(requireObjectCoercible$1(it));
+var toIndexedObject$3 = function (it) {
+  return IndexedObject(requireObjectCoercible$1(it));
 };
 
 var documentAll$2 = typeof document == 'object' && document.all;
@@ -152,28 +152,28 @@ var documentAll$1 = $documentAll$1.all;
 
 // `IsCallable` abstract operation
 // https://tc39.es/ecma262/#sec-iscallable
-var isCallable$j = $documentAll$1.IS_HTMLDDA ? function (argument) {
+var isCallable$h = $documentAll$1.IS_HTMLDDA ? function (argument) {
   return typeof argument == 'function' || argument === documentAll$1;
 } : function (argument) {
   return typeof argument == 'function';
 };
 
-var isCallable$i = isCallable$j;
+var isCallable$g = isCallable$h;
 var $documentAll = documentAll_1;
 var documentAll = $documentAll.all;
-var isObject$8 = $documentAll.IS_HTMLDDA ? function (it) {
-  return typeof it == 'object' ? it !== null : isCallable$i(it) || it === documentAll;
+var isObject$7 = $documentAll.IS_HTMLDDA ? function (it) {
+  return typeof it == 'object' ? it !== null : isCallable$g(it) || it === documentAll;
 } : function (it) {
-  return typeof it == 'object' ? it !== null : isCallable$i(it);
+  return typeof it == 'object' ? it !== null : isCallable$g(it);
 };
 
-var global$k = global$l;
-var isCallable$h = isCallable$j;
+var global$j = global$k;
+var isCallable$f = isCallable$h;
 var aFunction = function (argument) {
-  return isCallable$h(argument) ? argument : undefined;
+  return isCallable$f(argument) ? argument : undefined;
 };
 var getBuiltIn$5 = function (namespace, method) {
-  return arguments.length < 2 ? aFunction(global$k[namespace]) : global$k[namespace] && global$k[namespace][method];
+  return arguments.length < 2 ? aFunction(global$j[namespace]) : global$j[namespace] && global$j[namespace][method];
 };
 
 var uncurryThis$f = functionUncurryThis;
@@ -181,10 +181,10 @@ var objectIsPrototypeOf = uncurryThis$f({}.isPrototypeOf);
 
 var engineUserAgent = typeof navigator != 'undefined' && String(navigator.userAgent) || '';
 
-var global$j = global$l;
+var global$i = global$k;
 var userAgent$1 = engineUserAgent;
-var process$1 = global$j.process;
-var Deno$1 = global$j.Deno;
+var process$1 = global$i.process;
+var Deno$1 = global$i.Deno;
 var versions = process$1 && process$1.versions || Deno$1 && Deno$1.version;
 var v8 = versions && versions.v8;
 var match, version;
@@ -208,12 +208,12 @@ var engineV8Version = version;
 
 /* eslint-disable es/no-symbol -- required for testing */
 var V8_VERSION = engineV8Version;
-var fails$c = fails$g;
-var global$i = global$l;
-var $String$5 = global$i.String;
+var fails$b = fails$f;
+var global$h = global$k;
+var $String$5 = global$h.String;
 
 // eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
-var symbolConstructorDetection = !!Object.getOwnPropertySymbols && !fails$c(function () {
+var symbolConstructorDetection = !!Object.getOwnPropertySymbols && !fails$b(function () {
   var symbol = Symbol('symbol detection');
   // Chrome 38 Symbol has incorrect toString conversion
   // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
@@ -229,19 +229,19 @@ var NATIVE_SYMBOL$1 = symbolConstructorDetection;
 var useSymbolAsUid = NATIVE_SYMBOL$1 && !Symbol.sham && typeof Symbol.iterator == 'symbol';
 
 var getBuiltIn$4 = getBuiltIn$5;
-var isCallable$g = isCallable$j;
-var isPrototypeOf$4 = objectIsPrototypeOf;
+var isCallable$e = isCallable$h;
+var isPrototypeOf$3 = objectIsPrototypeOf;
 var USE_SYMBOL_AS_UID$1 = useSymbolAsUid;
-var $Object$3 = Object;
+var $Object$2 = Object;
 var isSymbol$3 = USE_SYMBOL_AS_UID$1 ? function (it) {
   return typeof it == 'symbol';
 } : function (it) {
   var $Symbol = getBuiltIn$4('Symbol');
-  return isCallable$g($Symbol) && isPrototypeOf$4($Symbol.prototype, $Object$3(it));
+  return isCallable$e($Symbol) && isPrototypeOf$3($Symbol.prototype, $Object$2(it));
 };
 
 var $String$4 = String;
-var tryToString$5 = function (argument) {
+var tryToString$4 = function (argument) {
   try {
     return $String$4(argument);
   } catch (error) {
@@ -249,14 +249,14 @@ var tryToString$5 = function (argument) {
   }
 };
 
-var isCallable$f = isCallable$j;
-var tryToString$4 = tryToString$5;
+var isCallable$d = isCallable$h;
+var tryToString$3 = tryToString$4;
 var $TypeError$c = TypeError;
 
 // `Assert: IsCallable(argument) is true`
 var aCallable$4 = function (argument) {
-  if (isCallable$f(argument)) return argument;
-  throw $TypeError$c(tryToString$4(argument) + ' is not a function');
+  if (isCallable$d(argument)) return argument;
+  throw $TypeError$c(tryToString$3(argument) + ' is not a function');
 };
 
 var aCallable$3 = aCallable$4;
@@ -270,43 +270,43 @@ var getMethod$3 = function (V, P) {
 };
 
 var call$7 = functionCall;
-var isCallable$e = isCallable$j;
-var isObject$7 = isObject$8;
+var isCallable$c = isCallable$h;
+var isObject$6 = isObject$7;
 var $TypeError$b = TypeError;
 
 // `OrdinaryToPrimitive` abstract operation
 // https://tc39.es/ecma262/#sec-ordinarytoprimitive
 var ordinaryToPrimitive$1 = function (input, pref) {
   var fn, val;
-  if (pref === 'string' && isCallable$e(fn = input.toString) && !isObject$7(val = call$7(fn, input))) return val;
-  if (isCallable$e(fn = input.valueOf) && !isObject$7(val = call$7(fn, input))) return val;
-  if (pref !== 'string' && isCallable$e(fn = input.toString) && !isObject$7(val = call$7(fn, input))) return val;
+  if (pref === 'string' && isCallable$c(fn = input.toString) && !isObject$6(val = call$7(fn, input))) return val;
+  if (isCallable$c(fn = input.valueOf) && !isObject$6(val = call$7(fn, input))) return val;
+  if (pref !== 'string' && isCallable$c(fn = input.toString) && !isObject$6(val = call$7(fn, input))) return val;
   throw $TypeError$b("Can't convert object to primitive value");
 };
 
 var shared$3 = {exports: {}};
 
-var global$h = global$l;
+var global$g = global$k;
 
 // eslint-disable-next-line es/no-object-defineproperty -- safe
-var defineProperty$4 = Object.defineProperty;
+var defineProperty$3 = Object.defineProperty;
 var defineGlobalProperty$3 = function (key, value) {
   try {
-    defineProperty$4(global$h, key, {
+    defineProperty$3(global$g, key, {
       value: value,
       configurable: true,
       writable: true
     });
   } catch (error) {
-    global$h[key] = value;
+    global$g[key] = value;
   }
   return value;
 };
 
-var global$g = global$l;
+var global$f = global$k;
 var defineGlobalProperty$2 = defineGlobalProperty$3;
 var SHARED = '__core-js_shared__';
-var store$3 = global$g[SHARED] || defineGlobalProperty$2(SHARED, {});
+var store$3 = global$f[SHARED] || defineGlobalProperty$2(SHARED, {});
 var sharedStore = store$3;
 
 var store$2 = sharedStore;
@@ -322,68 +322,68 @@ var store$2 = sharedStore;
 var sharedExports = shared$3.exports;
 
 var requireObjectCoercible = requireObjectCoercible$2;
-var $Object$2 = Object;
+var $Object$1 = Object;
 
 // `ToObject` abstract operation
 // https://tc39.es/ecma262/#sec-toobject
-var toObject$5 = function (argument) {
-  return $Object$2(requireObjectCoercible(argument));
+var toObject$3 = function (argument) {
+  return $Object$1(requireObjectCoercible(argument));
 };
 
 var uncurryThis$e = functionUncurryThis;
-var toObject$4 = toObject$5;
+var toObject$2 = toObject$3;
 var hasOwnProperty = uncurryThis$e({}.hasOwnProperty);
 
 // `HasOwnProperty` abstract operation
 // https://tc39.es/ecma262/#sec-hasownproperty
 // eslint-disable-next-line es/no-object-hasown -- safe
 var hasOwnProperty_1 = Object.hasOwn || function hasOwn(it, key) {
-  return hasOwnProperty(toObject$4(it), key);
+  return hasOwnProperty(toObject$2(it), key);
 };
 
 var uncurryThis$d = functionUncurryThis;
 var id$1 = 0;
 var postfix = Math.random();
 var toString$2 = uncurryThis$d(1.0.toString);
-var uid$4 = function (key) {
+var uid$3 = function (key) {
   return 'Symbol(' + (key === undefined ? '' : key) + ')_' + toString$2(++id$1 + postfix, 36);
 };
 
-var global$f = global$l;
+var global$e = global$k;
 var shared$2 = sharedExports;
-var hasOwn$c = hasOwnProperty_1;
-var uid$3 = uid$4;
+var hasOwn$a = hasOwnProperty_1;
+var uid$2 = uid$3;
 var NATIVE_SYMBOL = symbolConstructorDetection;
 var USE_SYMBOL_AS_UID = useSymbolAsUid;
-var Symbol$1 = global$f.Symbol;
+var Symbol$1 = global$e.Symbol;
 var WellKnownSymbolsStore = shared$2('wks');
-var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol$1['for'] || Symbol$1 : Symbol$1 && Symbol$1.withoutSetter || uid$3;
-var wellKnownSymbol$7 = function (name) {
-  if (!hasOwn$c(WellKnownSymbolsStore, name)) {
-    WellKnownSymbolsStore[name] = NATIVE_SYMBOL && hasOwn$c(Symbol$1, name) ? Symbol$1[name] : createWellKnownSymbol('Symbol.' + name);
+var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol$1['for'] || Symbol$1 : Symbol$1 && Symbol$1.withoutSetter || uid$2;
+var wellKnownSymbol$5 = function (name) {
+  if (!hasOwn$a(WellKnownSymbolsStore, name)) {
+    WellKnownSymbolsStore[name] = NATIVE_SYMBOL && hasOwn$a(Symbol$1, name) ? Symbol$1[name] : createWellKnownSymbol('Symbol.' + name);
   }
   return WellKnownSymbolsStore[name];
 };
 
 var call$6 = functionCall;
-var isObject$6 = isObject$8;
+var isObject$5 = isObject$7;
 var isSymbol$2 = isSymbol$3;
 var getMethod$2 = getMethod$3;
 var ordinaryToPrimitive = ordinaryToPrimitive$1;
-var wellKnownSymbol$6 = wellKnownSymbol$7;
+var wellKnownSymbol$4 = wellKnownSymbol$5;
 var $TypeError$a = TypeError;
-var TO_PRIMITIVE = wellKnownSymbol$6('toPrimitive');
+var TO_PRIMITIVE = wellKnownSymbol$4('toPrimitive');
 
 // `ToPrimitive` abstract operation
 // https://tc39.es/ecma262/#sec-toprimitive
 var toPrimitive$1 = function (input, pref) {
-  if (!isObject$6(input) || isSymbol$2(input)) return input;
+  if (!isObject$5(input) || isSymbol$2(input)) return input;
   var exoticToPrim = getMethod$2(input, TO_PRIMITIVE);
   var result;
   if (exoticToPrim) {
     if (pref === undefined) pref = 'default';
     result = call$6(exoticToPrim, input, pref);
-    if (!isObject$6(result) || isSymbol$2(result)) return result;
+    if (!isObject$5(result) || isSymbol$2(result)) return result;
     throw $TypeError$a("Can't convert object to primitive value");
   }
   if (pref === undefined) pref = 'number';
@@ -400,21 +400,21 @@ var toPropertyKey$3 = function (argument) {
   return isSymbol$1(key) ? key : key + '';
 };
 
-var global$e = global$l;
-var isObject$5 = isObject$8;
-var document$1 = global$e.document;
+var global$d = global$k;
+var isObject$4 = isObject$7;
+var document$1 = global$d.document;
 // typeof document.createElement is 'object' in old IE
-var EXISTS$1 = isObject$5(document$1) && isObject$5(document$1.createElement);
-var documentCreateElement$1 = function (it) {
+var EXISTS$1 = isObject$4(document$1) && isObject$4(document$1.createElement);
+var documentCreateElement = function (it) {
   return EXISTS$1 ? document$1.createElement(it) : {};
 };
 
-var DESCRIPTORS$b = descriptors;
-var fails$b = fails$g;
-var createElement$1 = documentCreateElement$1;
+var DESCRIPTORS$9 = descriptors;
+var fails$a = fails$f;
+var createElement$1 = documentCreateElement;
 
 // Thanks to IE8 for its funny defineProperty
-var ie8DomDefine = !DESCRIPTORS$b && !fails$b(function () {
+var ie8DomDefine = !DESCRIPTORS$9 && !fails$a(function () {
   // eslint-disable-next-line es/no-object-defineproperty -- required for testing
   return Object.defineProperty(createElement$1('div'), 'a', {
     get: function () {
@@ -423,13 +423,13 @@ var ie8DomDefine = !DESCRIPTORS$b && !fails$b(function () {
   }).a !== 7;
 });
 
-var DESCRIPTORS$a = descriptors;
+var DESCRIPTORS$8 = descriptors;
 var call$5 = functionCall;
 var propertyIsEnumerableModule = objectPropertyIsEnumerable;
 var createPropertyDescriptor$4 = createPropertyDescriptor$5;
-var toIndexedObject$3 = toIndexedObject$4;
+var toIndexedObject$2 = toIndexedObject$3;
 var toPropertyKey$2 = toPropertyKey$3;
-var hasOwn$b = hasOwnProperty_1;
+var hasOwn$9 = hasOwnProperty_1;
 var IE8_DOM_DEFINE$1 = ie8DomDefine;
 
 // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
@@ -437,23 +437,23 @@ var $getOwnPropertyDescriptor$1 = Object.getOwnPropertyDescriptor;
 
 // `Object.getOwnPropertyDescriptor` method
 // https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
-objectGetOwnPropertyDescriptor.f = DESCRIPTORS$a ? $getOwnPropertyDescriptor$1 : function getOwnPropertyDescriptor(O, P) {
-  O = toIndexedObject$3(O);
+objectGetOwnPropertyDescriptor.f = DESCRIPTORS$8 ? $getOwnPropertyDescriptor$1 : function getOwnPropertyDescriptor(O, P) {
+  O = toIndexedObject$2(O);
   P = toPropertyKey$2(P);
   if (IE8_DOM_DEFINE$1) try {
     return $getOwnPropertyDescriptor$1(O, P);
   } catch (error) {/* empty */}
-  if (hasOwn$b(O, P)) return createPropertyDescriptor$4(!call$5(propertyIsEnumerableModule.f, O, P), O[P]);
+  if (hasOwn$9(O, P)) return createPropertyDescriptor$4(!call$5(propertyIsEnumerableModule.f, O, P), O[P]);
 };
 
 var objectDefineProperty = {};
 
-var DESCRIPTORS$9 = descriptors;
-var fails$a = fails$g;
+var DESCRIPTORS$7 = descriptors;
+var fails$9 = fails$f;
 
 // V8 ~ Chrome 36-
 // https://bugs.chromium.org/p/v8/issues/detail?id=3334
-var v8PrototypeDefineBug = DESCRIPTORS$9 && fails$a(function () {
+var v8PrototypeDefineBug = DESCRIPTORS$7 && fails$9(function () {
   // eslint-disable-next-line es/no-object-defineproperty -- required for testing
   return Object.defineProperty(function () {/* empty */}, 'prototype', {
     value: 42,
@@ -461,20 +461,20 @@ var v8PrototypeDefineBug = DESCRIPTORS$9 && fails$a(function () {
   }).prototype !== 42;
 });
 
-var isObject$4 = isObject$8;
+var isObject$3 = isObject$7;
 var $String$3 = String;
 var $TypeError$9 = TypeError;
 
 // `Assert: Type(argument) is Object`
-var anObject$a = function (argument) {
-  if (isObject$4(argument)) return argument;
+var anObject$8 = function (argument) {
+  if (isObject$3(argument)) return argument;
   throw $TypeError$9($String$3(argument) + ' is not an object');
 };
 
-var DESCRIPTORS$8 = descriptors;
+var DESCRIPTORS$6 = descriptors;
 var IE8_DOM_DEFINE = ie8DomDefine;
-var V8_PROTOTYPE_DEFINE_BUG$1 = v8PrototypeDefineBug;
-var anObject$9 = anObject$a;
+var V8_PROTOTYPE_DEFINE_BUG = v8PrototypeDefineBug;
+var anObject$7 = anObject$8;
 var toPropertyKey$1 = toPropertyKey$3;
 var $TypeError$8 = TypeError;
 // eslint-disable-next-line es/no-object-defineproperty -- safe
@@ -487,10 +487,10 @@ var WRITABLE = 'writable';
 
 // `Object.defineProperty` method
 // https://tc39.es/ecma262/#sec-object.defineproperty
-objectDefineProperty.f = DESCRIPTORS$8 ? V8_PROTOTYPE_DEFINE_BUG$1 ? function defineProperty(O, P, Attributes) {
-  anObject$9(O);
+objectDefineProperty.f = DESCRIPTORS$6 ? V8_PROTOTYPE_DEFINE_BUG ? function defineProperty(O, P, Attributes) {
+  anObject$7(O);
   P = toPropertyKey$1(P);
-  anObject$9(Attributes);
+  anObject$7(Attributes);
   if (typeof O === 'function' && P === 'prototype' && 'value' in Attributes && WRITABLE in Attributes && !Attributes[WRITABLE]) {
     var current = $getOwnPropertyDescriptor(O, P);
     if (current && current[WRITABLE]) {
@@ -504,9 +504,9 @@ objectDefineProperty.f = DESCRIPTORS$8 ? V8_PROTOTYPE_DEFINE_BUG$1 ? function de
   }
   return $defineProperty(O, P, Attributes);
 } : $defineProperty : function defineProperty(O, P, Attributes) {
-  anObject$9(O);
+  anObject$7(O);
   P = toPropertyKey$1(P);
-  anObject$9(Attributes);
+  anObject$7(Attributes);
   if (IE8_DOM_DEFINE) try {
     return $defineProperty(O, P, Attributes);
   } catch (error) {/* empty */}
@@ -515,11 +515,11 @@ objectDefineProperty.f = DESCRIPTORS$8 ? V8_PROTOTYPE_DEFINE_BUG$1 ? function de
   return O;
 };
 
-var DESCRIPTORS$7 = descriptors;
-var definePropertyModule$4 = objectDefineProperty;
+var DESCRIPTORS$5 = descriptors;
+var definePropertyModule$3 = objectDefineProperty;
 var createPropertyDescriptor$3 = createPropertyDescriptor$5;
-var createNonEnumerableProperty$4 = DESCRIPTORS$7 ? function (object, key, value) {
-  return definePropertyModule$4.f(object, key, createPropertyDescriptor$3(1, value));
+var createNonEnumerableProperty$3 = DESCRIPTORS$5 ? function (object, key, value) {
+  return definePropertyModule$3.f(object, key, createPropertyDescriptor$3(1, value));
 } : function (object, key, value) {
   object[key] = value;
   return object;
@@ -527,15 +527,15 @@ var createNonEnumerableProperty$4 = DESCRIPTORS$7 ? function (object, key, value
 
 var makeBuiltIn$3 = {exports: {}};
 
-var DESCRIPTORS$6 = descriptors;
-var hasOwn$a = hasOwnProperty_1;
+var DESCRIPTORS$4 = descriptors;
+var hasOwn$8 = hasOwnProperty_1;
 var FunctionPrototype$1 = Function.prototype;
 // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-var getDescriptor = DESCRIPTORS$6 && Object.getOwnPropertyDescriptor;
-var EXISTS = hasOwn$a(FunctionPrototype$1, 'name');
+var getDescriptor = DESCRIPTORS$4 && Object.getOwnPropertyDescriptor;
+var EXISTS = hasOwn$8(FunctionPrototype$1, 'name');
 // additional protection from minified / mangled / dropped function names
 var PROPER = EXISTS && function something() {/* empty */}.name === 'something';
-var CONFIGURABLE = EXISTS && (!DESCRIPTORS$6 || DESCRIPTORS$6 && getDescriptor(FunctionPrototype$1, 'name').configurable);
+var CONFIGURABLE = EXISTS && (!DESCRIPTORS$4 || DESCRIPTORS$4 && getDescriptor(FunctionPrototype$1, 'name').configurable);
 var functionName = {
   EXISTS: EXISTS,
   PROPER: PROPER,
@@ -543,43 +543,43 @@ var functionName = {
 };
 
 var uncurryThis$c = functionUncurryThis;
-var isCallable$d = isCallable$j;
+var isCallable$b = isCallable$h;
 var store$1 = sharedStore;
 var functionToString = uncurryThis$c(Function.toString);
 
 // this helper broken in `core-js@3.4.1-3.4.4`, so we can't use `shared` helper
-if (!isCallable$d(store$1.inspectSource)) {
+if (!isCallable$b(store$1.inspectSource)) {
   store$1.inspectSource = function (it) {
     return functionToString(it);
   };
 }
 var inspectSource$2 = store$1.inspectSource;
 
-var global$d = global$l;
-var isCallable$c = isCallable$j;
-var WeakMap$2 = global$d.WeakMap;
-var weakMapBasicDetection = isCallable$c(WeakMap$2) && /native code/.test(String(WeakMap$2));
+var global$c = global$k;
+var isCallable$a = isCallable$h;
+var WeakMap$2 = global$c.WeakMap;
+var weakMapBasicDetection = isCallable$a(WeakMap$2) && /native code/.test(String(WeakMap$2));
 
 var shared$1 = sharedExports;
-var uid$2 = uid$4;
+var uid$1 = uid$3;
 var keys = shared$1('keys');
-var sharedKey$3 = function (key) {
-  return keys[key] || (keys[key] = uid$2(key));
+var sharedKey$1 = function (key) {
+  return keys[key] || (keys[key] = uid$1(key));
 };
 
-var hiddenKeys$4 = {};
+var hiddenKeys$3 = {};
 
 var NATIVE_WEAK_MAP = weakMapBasicDetection;
-var global$c = global$l;
-var isObject$3 = isObject$8;
-var createNonEnumerableProperty$3 = createNonEnumerableProperty$4;
-var hasOwn$9 = hasOwnProperty_1;
+var global$b = global$k;
+var isObject$2 = isObject$7;
+var createNonEnumerableProperty$2 = createNonEnumerableProperty$3;
+var hasOwn$7 = hasOwnProperty_1;
 var shared = sharedStore;
-var sharedKey$2 = sharedKey$3;
-var hiddenKeys$3 = hiddenKeys$4;
+var sharedKey = sharedKey$1;
+var hiddenKeys$2 = hiddenKeys$3;
 var OBJECT_ALREADY_INITIALIZED = 'Object already initialized';
-var TypeError$3 = global$c.TypeError;
-var WeakMap$1 = global$c.WeakMap;
+var TypeError$2 = global$b.TypeError;
+var WeakMap$1 = global$b.WeakMap;
 var set$3, get$2, has;
 var enforce = function (it) {
   return has(it) ? get$2(it) : set$3(it, {});
@@ -587,8 +587,8 @@ var enforce = function (it) {
 var getterFor = function (TYPE) {
   return function (it) {
     var state;
-    if (!isObject$3(it) || (state = get$2(it)).type !== TYPE) {
-      throw TypeError$3('Incompatible receiver, ' + TYPE + ' required');
+    if (!isObject$2(it) || (state = get$2(it)).type !== TYPE) {
+      throw TypeError$2('Incompatible receiver, ' + TYPE + ' required');
     }
     return state;
   };
@@ -601,7 +601,7 @@ if (NATIVE_WEAK_MAP || shared.state) {
   store.set = store.set;
   /* eslint-enable no-self-assign -- prototype methods protection */
   set$3 = function (it, metadata) {
-    if (store.has(it)) throw TypeError$3(OBJECT_ALREADY_INITIALIZED);
+    if (store.has(it)) throw TypeError$2(OBJECT_ALREADY_INITIALIZED);
     metadata.facade = it;
     store.set(it, metadata);
     return metadata;
@@ -613,19 +613,19 @@ if (NATIVE_WEAK_MAP || shared.state) {
     return store.has(it);
   };
 } else {
-  var STATE = sharedKey$2('state');
-  hiddenKeys$3[STATE] = true;
+  var STATE = sharedKey('state');
+  hiddenKeys$2[STATE] = true;
   set$3 = function (it, metadata) {
-    if (hasOwn$9(it, STATE)) throw TypeError$3(OBJECT_ALREADY_INITIALIZED);
+    if (hasOwn$7(it, STATE)) throw TypeError$2(OBJECT_ALREADY_INITIALIZED);
     metadata.facade = it;
-    createNonEnumerableProperty$3(it, STATE, metadata);
+    createNonEnumerableProperty$2(it, STATE, metadata);
     return metadata;
   };
   get$2 = function (it) {
-    return hasOwn$9(it, STATE) ? it[STATE] : {};
+    return hasOwn$7(it, STATE) ? it[STATE] : {};
   };
   has = function (it) {
-    return hasOwn$9(it, STATE);
+    return hasOwn$7(it, STATE);
   };
 }
 var internalState = {
@@ -637,23 +637,23 @@ var internalState = {
 };
 
 var uncurryThis$b = functionUncurryThis;
-var fails$9 = fails$g;
-var isCallable$b = isCallable$j;
-var hasOwn$8 = hasOwnProperty_1;
-var DESCRIPTORS$5 = descriptors;
+var fails$8 = fails$f;
+var isCallable$9 = isCallable$h;
+var hasOwn$6 = hasOwnProperty_1;
+var DESCRIPTORS$3 = descriptors;
 var CONFIGURABLE_FUNCTION_NAME = functionName.CONFIGURABLE;
 var inspectSource$1 = inspectSource$2;
-var InternalStateModule$1 = internalState;
-var enforceInternalState$1 = InternalStateModule$1.enforce;
-var getInternalState$1 = InternalStateModule$1.get;
+var InternalStateModule = internalState;
+var enforceInternalState = InternalStateModule.enforce;
+var getInternalState = InternalStateModule.get;
 var $String$2 = String;
 // eslint-disable-next-line es/no-object-defineproperty -- safe
-var defineProperty$3 = Object.defineProperty;
+var defineProperty$2 = Object.defineProperty;
 var stringSlice = uncurryThis$b(''.slice);
 var replace$1 = uncurryThis$b(''.replace);
 var join = uncurryThis$b([].join);
-var CONFIGURABLE_LENGTH = DESCRIPTORS$5 && !fails$9(function () {
-  return defineProperty$3(function () {/* empty */}, 'length', {
+var CONFIGURABLE_LENGTH = DESCRIPTORS$3 && !fails$8(function () {
+  return defineProperty$2(function () {/* empty */}, 'length', {
     value: 8
   }).length !== 8;
 });
@@ -664,27 +664,27 @@ var makeBuiltIn$2 = makeBuiltIn$3.exports = function (value, name, options) {
   }
   if (options && options.getter) name = 'get ' + name;
   if (options && options.setter) name = 'set ' + name;
-  if (!hasOwn$8(value, 'name') || CONFIGURABLE_FUNCTION_NAME && value.name !== name) {
-    if (DESCRIPTORS$5) defineProperty$3(value, 'name', {
+  if (!hasOwn$6(value, 'name') || CONFIGURABLE_FUNCTION_NAME && value.name !== name) {
+    if (DESCRIPTORS$3) defineProperty$2(value, 'name', {
       value: name,
       configurable: true
     });else value.name = name;
   }
-  if (CONFIGURABLE_LENGTH && options && hasOwn$8(options, 'arity') && value.length !== options.arity) {
-    defineProperty$3(value, 'length', {
+  if (CONFIGURABLE_LENGTH && options && hasOwn$6(options, 'arity') && value.length !== options.arity) {
+    defineProperty$2(value, 'length', {
       value: options.arity
     });
   }
   try {
-    if (options && hasOwn$8(options, 'constructor') && options.constructor) {
-      if (DESCRIPTORS$5) defineProperty$3(value, 'prototype', {
+    if (options && hasOwn$6(options, 'constructor') && options.constructor) {
+      if (DESCRIPTORS$3) defineProperty$2(value, 'prototype', {
         writable: false
       });
       // in V8 ~ Chrome 53, prototypes of some methods, like `Array.prototype.values`, are non-writable
     } else if (value.prototype) value.prototype = undefined;
   } catch (error) {/* empty */}
-  var state = enforceInternalState$1(value);
-  if (!hasOwn$8(state, 'source')) {
+  var state = enforceInternalState(value);
+  if (!hasOwn$6(state, 'source')) {
     state.source = join(TEMPLATE, typeof name == 'string' ? name : '');
   }
   return value;
@@ -693,26 +693,26 @@ var makeBuiltIn$2 = makeBuiltIn$3.exports = function (value, name, options) {
 // add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
 // eslint-disable-next-line no-extend-native -- required
 Function.prototype.toString = makeBuiltIn$2(function toString() {
-  return isCallable$b(this) && getInternalState$1(this).source || inspectSource$1(this);
+  return isCallable$9(this) && getInternalState(this).source || inspectSource$1(this);
 }, 'toString');
 var makeBuiltInExports = makeBuiltIn$3.exports;
 
-var isCallable$a = isCallable$j;
-var definePropertyModule$3 = objectDefineProperty;
+var isCallable$8 = isCallable$h;
+var definePropertyModule$2 = objectDefineProperty;
 var makeBuiltIn$1 = makeBuiltInExports;
 var defineGlobalProperty$1 = defineGlobalProperty$3;
-var defineBuiltIn$2 = function (O, key, value, options) {
+var defineBuiltIn$1 = function (O, key, value, options) {
   if (!options) options = {};
   var simple = options.enumerable;
   var name = options.name !== undefined ? options.name : key;
-  if (isCallable$a(value)) makeBuiltIn$1(value, name, options);
+  if (isCallable$8(value)) makeBuiltIn$1(value, name, options);
   if (options.global) {
     if (simple) O[key] = value;else defineGlobalProperty$1(key, value);
   } else {
     try {
       if (!options.unsafe) delete O[key];else if (O[key]) simple = true;
     } catch (error) {/* empty */}
-    if (simple) O[key] = value;else definePropertyModule$3.f(O, key, {
+    if (simple) O[key] = value;else definePropertyModule$2.f(O, key, {
       value: value,
       enumerable: false,
       configurable: !options.nonConfigurable,
@@ -770,19 +770,19 @@ var toLength = toLength$1;
 
 // `LengthOfArrayLike` abstract operation
 // https://tc39.es/ecma262/#sec-lengthofarraylike
-var lengthOfArrayLike$6 = function (obj) {
+var lengthOfArrayLike$5 = function (obj) {
   return toLength(obj.length);
 };
 
-var toIndexedObject$2 = toIndexedObject$4;
+var toIndexedObject$1 = toIndexedObject$3;
 var toAbsoluteIndex = toAbsoluteIndex$1;
-var lengthOfArrayLike$5 = lengthOfArrayLike$6;
+var lengthOfArrayLike$4 = lengthOfArrayLike$5;
 
 // `Array.prototype.{ indexOf, includes }` methods implementation
-var createMethod$1 = function (IS_INCLUDES) {
+var createMethod = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
-    var O = toIndexedObject$2($this);
-    var length = lengthOfArrayLike$5(O);
+    var O = toIndexedObject$1($this);
+    var length = lengthOfArrayLike$4(O);
     var index = toAbsoluteIndex(fromIndex, length);
     var value;
     // Array#includes uses SameValueZero equality algorithm
@@ -801,43 +801,43 @@ var createMethod$1 = function (IS_INCLUDES) {
 var arrayIncludes = {
   // `Array.prototype.includes` method
   // https://tc39.es/ecma262/#sec-array.prototype.includes
-  includes: createMethod$1(true),
+  includes: createMethod(true),
   // `Array.prototype.indexOf` method
   // https://tc39.es/ecma262/#sec-array.prototype.indexof
-  indexOf: createMethod$1(false)
+  indexOf: createMethod(false)
 };
 
 var uncurryThis$a = functionUncurryThis;
-var hasOwn$7 = hasOwnProperty_1;
-var toIndexedObject$1 = toIndexedObject$4;
+var hasOwn$5 = hasOwnProperty_1;
+var toIndexedObject = toIndexedObject$3;
 var indexOf = arrayIncludes.indexOf;
-var hiddenKeys$2 = hiddenKeys$4;
+var hiddenKeys$1 = hiddenKeys$3;
 var push$1 = uncurryThis$a([].push);
 var objectKeysInternal = function (object, names) {
-  var O = toIndexedObject$1(object);
+  var O = toIndexedObject(object);
   var i = 0;
   var result = [];
   var key;
-  for (key in O) !hasOwn$7(hiddenKeys$2, key) && hasOwn$7(O, key) && push$1(result, key);
+  for (key in O) !hasOwn$5(hiddenKeys$1, key) && hasOwn$5(O, key) && push$1(result, key);
   // Don't enum bug & hidden keys
-  while (names.length > i) if (hasOwn$7(O, key = names[i++])) {
+  while (names.length > i) if (hasOwn$5(O, key = names[i++])) {
     ~indexOf(result, key) || push$1(result, key);
   }
   return result;
 };
 
 // IE8- don't enum bug keys
-var enumBugKeys$3 = ['constructor', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'valueOf'];
+var enumBugKeys$1 = ['constructor', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'valueOf'];
 
-var internalObjectKeys$1 = objectKeysInternal;
-var enumBugKeys$2 = enumBugKeys$3;
-var hiddenKeys$1 = enumBugKeys$2.concat('length', 'prototype');
+var internalObjectKeys = objectKeysInternal;
+var enumBugKeys = enumBugKeys$1;
+var hiddenKeys = enumBugKeys.concat('length', 'prototype');
 
 // `Object.getOwnPropertyNames` method
 // https://tc39.es/ecma262/#sec-object.getownpropertynames
 // eslint-disable-next-line es/no-object-getownpropertynames -- safe
 objectGetOwnPropertyNames.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-  return internalObjectKeys$1(O, hiddenKeys$1);
+  return internalObjectKeys(O, hiddenKeys);
 };
 
 var objectGetOwnPropertySymbols = {};
@@ -849,38 +849,38 @@ var getBuiltIn$3 = getBuiltIn$5;
 var uncurryThis$9 = functionUncurryThis;
 var getOwnPropertyNamesModule = objectGetOwnPropertyNames;
 var getOwnPropertySymbolsModule = objectGetOwnPropertySymbols;
-var anObject$8 = anObject$a;
+var anObject$6 = anObject$8;
 var concat = uncurryThis$9([].concat);
 
 // all object keys, includes non-enumerable and symbols
 var ownKeys$1 = getBuiltIn$3('Reflect', 'ownKeys') || function ownKeys(it) {
-  var keys = getOwnPropertyNamesModule.f(anObject$8(it));
+  var keys = getOwnPropertyNamesModule.f(anObject$6(it));
   var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
   return getOwnPropertySymbols ? concat(keys, getOwnPropertySymbols(it)) : keys;
 };
 
-var hasOwn$6 = hasOwnProperty_1;
+var hasOwn$4 = hasOwnProperty_1;
 var ownKeys = ownKeys$1;
 var getOwnPropertyDescriptorModule = objectGetOwnPropertyDescriptor;
-var definePropertyModule$2 = objectDefineProperty;
+var definePropertyModule$1 = objectDefineProperty;
 var copyConstructorProperties$1 = function (target, source, exceptions) {
   var keys = ownKeys(source);
-  var defineProperty = definePropertyModule$2.f;
+  var defineProperty = definePropertyModule$1.f;
   var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
   for (var i = 0; i < keys.length; i++) {
     var key = keys[i];
-    if (!hasOwn$6(target, key) && !(exceptions && hasOwn$6(exceptions, key))) {
+    if (!hasOwn$4(target, key) && !(exceptions && hasOwn$4(exceptions, key))) {
       defineProperty(target, key, getOwnPropertyDescriptor(source, key));
     }
   }
 };
 
-var fails$8 = fails$g;
-var isCallable$9 = isCallable$j;
+var fails$7 = fails$f;
+var isCallable$7 = isCallable$h;
 var replacement = /#|\.prototype\./;
 var isForced$1 = function (feature, detection) {
   var value = data[normalize$1(feature)];
-  return value === POLYFILL ? true : value === NATIVE ? false : isCallable$9(detection) ? fails$8(detection) : !!detection;
+  return value === POLYFILL ? true : value === NATIVE ? false : isCallable$7(detection) ? fails$7(detection) : !!detection;
 };
 var normalize$1 = isForced$1.normalize = function (string) {
   return String(string).replace(replacement, '.').toLowerCase();
@@ -890,10 +890,10 @@ var NATIVE = isForced$1.NATIVE = 'N';
 var POLYFILL = isForced$1.POLYFILL = 'P';
 var isForced_1 = isForced$1;
 
-var global$b = global$l;
+var global$a = global$k;
 var getOwnPropertyDescriptor$1 = objectGetOwnPropertyDescriptor.f;
-var createNonEnumerableProperty$2 = createNonEnumerableProperty$4;
-var defineBuiltIn$1 = defineBuiltIn$2;
+var createNonEnumerableProperty$1 = createNonEnumerableProperty$3;
+var defineBuiltIn = defineBuiltIn$1;
 var defineGlobalProperty = defineGlobalProperty$3;
 var copyConstructorProperties = copyConstructorProperties$1;
 var isForced = isForced_1;
@@ -919,11 +919,11 @@ var _export = function (options, source) {
   var STATIC = options.stat;
   var FORCED, target, key, targetProperty, sourceProperty, descriptor;
   if (GLOBAL) {
-    target = global$b;
+    target = global$a;
   } else if (STATIC) {
-    target = global$b[TARGET] || defineGlobalProperty(TARGET, {});
+    target = global$a[TARGET] || defineGlobalProperty(TARGET, {});
   } else {
-    target = (global$b[TARGET] || {}).prototype;
+    target = (global$a[TARGET] || {}).prototype;
   }
   if (target) for (key in source) {
     sourceProperty = source[key];
@@ -939,256 +939,29 @@ var _export = function (options, source) {
     }
     // add a flag to not completely full polyfills
     if (options.sham || targetProperty && targetProperty.sham) {
-      createNonEnumerableProperty$2(sourceProperty, 'sham', true);
+      createNonEnumerableProperty$1(sourceProperty, 'sham', true);
     }
-    defineBuiltIn$1(target, key, sourceProperty, options);
+    defineBuiltIn(target, key, sourceProperty, options);
   }
 };
 
-var classofRaw$1 = classofRaw$2;
-var uncurryThis$8 = functionUncurryThis;
-var functionUncurryThisClause = function (fn) {
-  // Nashorn bug:
-  //   https://github.com/zloirock/core-js/issues/1128
-  //   https://github.com/zloirock/core-js/issues/1130
-  if (classofRaw$1(fn) === 'Function') return uncurryThis$8(fn);
-};
-
-var uncurryThis$7 = functionUncurryThisClause;
-var aCallable$2 = aCallable$4;
-var NATIVE_BIND$1 = functionBindNative;
-var bind$3 = uncurryThis$7(uncurryThis$7.bind);
-
-// optional / simple context binding
-var functionBindContext = function (fn, that) {
-  aCallable$2(fn);
-  return that === undefined ? fn : NATIVE_BIND$1 ? bind$3(fn, that) : function /* ...args */
-  () {
-    return fn.apply(that, arguments);
-  };
-};
-
-var bind$2 = functionBindContext;
-var IndexedObject = indexedObject;
-var toObject$3 = toObject$5;
-var lengthOfArrayLike$4 = lengthOfArrayLike$6;
-
-// `Array.prototype.{ findLast, findLastIndex }` methods implementation
-var createMethod = function (TYPE) {
-  var IS_FIND_LAST_INDEX = TYPE === 1;
-  return function ($this, callbackfn, that) {
-    var O = toObject$3($this);
-    var self = IndexedObject(O);
-    var boundFunction = bind$2(callbackfn, that);
-    var index = lengthOfArrayLike$4(self);
-    var value, result;
-    while (index-- > 0) {
-      value = self[index];
-      result = boundFunction(value, index, O);
-      if (result) switch (TYPE) {
-        case 0:
-          return value;
-        // findLast
-        case 1:
-          return index;
-        // findLastIndex
-      }
-    }
-
-    return IS_FIND_LAST_INDEX ? -1 : undefined;
-  };
-};
-var arrayIterationFromLast = {
-  // `Array.prototype.findLast` method
-  // https://github.com/tc39/proposal-array-find-from-last
-  findLast: createMethod(0),
-  // `Array.prototype.findLastIndex` method
-  // https://github.com/tc39/proposal-array-find-from-last
-  findLastIndex: createMethod(1)
-};
-
-var objectDefineProperties = {};
-
-var internalObjectKeys = objectKeysInternal;
-var enumBugKeys$1 = enumBugKeys$3;
-
-// `Object.keys` method
-// https://tc39.es/ecma262/#sec-object.keys
-// eslint-disable-next-line es/no-object-keys -- safe
-var objectKeys$2 = Object.keys || function keys(O) {
-  return internalObjectKeys(O, enumBugKeys$1);
-};
-
-var DESCRIPTORS$4 = descriptors;
-var V8_PROTOTYPE_DEFINE_BUG = v8PrototypeDefineBug;
-var definePropertyModule$1 = objectDefineProperty;
-var anObject$7 = anObject$a;
-var toIndexedObject = toIndexedObject$4;
-var objectKeys$1 = objectKeys$2;
-
-// `Object.defineProperties` method
-// https://tc39.es/ecma262/#sec-object.defineproperties
-// eslint-disable-next-line es/no-object-defineproperties -- safe
-objectDefineProperties.f = DESCRIPTORS$4 && !V8_PROTOTYPE_DEFINE_BUG ? Object.defineProperties : function defineProperties(O, Properties) {
-  anObject$7(O);
-  var props = toIndexedObject(Properties);
-  var keys = objectKeys$1(Properties);
-  var length = keys.length;
-  var index = 0;
-  var key;
-  while (length > index) definePropertyModule$1.f(O, key = keys[index++], props[key]);
-  return O;
-};
-
-var getBuiltIn$2 = getBuiltIn$5;
-var html$2 = getBuiltIn$2('document', 'documentElement');
-
-/* global ActiveXObject -- old IE, WSH */
-var anObject$6 = anObject$a;
-var definePropertiesModule = objectDefineProperties;
-var enumBugKeys = enumBugKeys$3;
-var hiddenKeys = hiddenKeys$4;
-var html$1 = html$2;
-var documentCreateElement = documentCreateElement$1;
-var sharedKey$1 = sharedKey$3;
-var GT = '>';
-var LT = '<';
-var PROTOTYPE = 'prototype';
-var SCRIPT = 'script';
-var IE_PROTO$1 = sharedKey$1('IE_PROTO');
-var EmptyConstructor = function () {/* empty */};
-var scriptTag = function (content) {
-  return LT + SCRIPT + GT + content + LT + '/' + SCRIPT + GT;
-};
-
-// Create object with fake `null` prototype: use ActiveX Object with cleared prototype
-var NullProtoObjectViaActiveX = function (activeXDocument) {
-  activeXDocument.write(scriptTag(''));
-  activeXDocument.close();
-  var temp = activeXDocument.parentWindow.Object;
-  activeXDocument = null; // avoid memory leak
-  return temp;
-};
-
-// Create object with fake `null` prototype: use iframe Object with cleared prototype
-var NullProtoObjectViaIFrame = function () {
-  // Thrash, waste and sodomy: IE GC bug
-  var iframe = documentCreateElement('iframe');
-  var JS = 'java' + SCRIPT + ':';
-  var iframeDocument;
-  iframe.style.display = 'none';
-  html$1.appendChild(iframe);
-  // https://github.com/zloirock/core-js/issues/475
-  iframe.src = String(JS);
-  iframeDocument = iframe.contentWindow.document;
-  iframeDocument.open();
-  iframeDocument.write(scriptTag('document.F=Object'));
-  iframeDocument.close();
-  return iframeDocument.F;
-};
-
-// Check for document.domain and active x support
-// No need to use active x approach when document.domain is not set
-// see https://github.com/es-shims/es5-shim/issues/150
-// variation of https://github.com/kitcambridge/es5-shim/commit/4f738ac066346
-// avoid IE GC bug
-var activeXDocument;
-var NullProtoObject = function () {
-  try {
-    activeXDocument = new ActiveXObject('htmlfile');
-  } catch (error) {/* ignore */}
-  NullProtoObject = typeof document != 'undefined' ? document.domain && activeXDocument ? NullProtoObjectViaActiveX(activeXDocument) // old IE
-  : NullProtoObjectViaIFrame() : NullProtoObjectViaActiveX(activeXDocument); // WSH
-  var length = enumBugKeys.length;
-  while (length--) delete NullProtoObject[PROTOTYPE][enumBugKeys[length]];
-  return NullProtoObject();
-};
-hiddenKeys[IE_PROTO$1] = true;
-
-// `Object.create` method
-// https://tc39.es/ecma262/#sec-object.create
-// eslint-disable-next-line es/no-object-create -- safe
-var objectCreate = Object.create || function create(O, Properties) {
-  var result;
-  if (O !== null) {
-    EmptyConstructor[PROTOTYPE] = anObject$6(O);
-    result = new EmptyConstructor();
-    EmptyConstructor[PROTOTYPE] = null;
-    // add "__proto__" for Object.getPrototypeOf polyfill
-    result[IE_PROTO$1] = O;
-  } else result = NullProtoObject();
-  return Properties === undefined ? result : definePropertiesModule.f(result, Properties);
-};
-
-var wellKnownSymbol$5 = wellKnownSymbol$7;
-var create$1 = objectCreate;
-var defineProperty$2 = objectDefineProperty.f;
-var UNSCOPABLES = wellKnownSymbol$5('unscopables');
-var ArrayPrototype$1 = Array.prototype;
-
-// Array.prototype[@@unscopables]
-// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-if (ArrayPrototype$1[UNSCOPABLES] === undefined) {
-  defineProperty$2(ArrayPrototype$1, UNSCOPABLES, {
-    configurable: true,
-    value: create$1(null)
-  });
-}
-
-// add a key to Array.prototype[@@unscopables]
-var addToUnscopables$2 = function (key) {
-  ArrayPrototype$1[UNSCOPABLES][key] = true;
-};
-
-var $$9 = _export;
-var $findLast$1 = arrayIterationFromLast.findLast;
-var addToUnscopables$1 = addToUnscopables$2;
-
-// `Array.prototype.findLast` method
-// https://tc39.es/ecma262/#sec-array.prototype.findlast
-$$9({
-  target: 'Array',
-  proto: true
-}, {
-  findLast: function findLast(callbackfn /* , that = undefined */) {
-    return $findLast$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-addToUnscopables$1('findLast');
-
-var $$8 = _export;
-var $findLastIndex$1 = arrayIterationFromLast.findLastIndex;
-var addToUnscopables = addToUnscopables$2;
-
-// `Array.prototype.findLastIndex` method
-// https://tc39.es/ecma262/#sec-array.prototype.findlastindex
-$$8({
-  target: 'Array',
-  proto: true
-}, {
-  findLastIndex: function findLastIndex(callbackfn /* , that = undefined */) {
-    return $findLastIndex$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-addToUnscopables('findLastIndex');
-
-var classof$7 = classofRaw$2;
+var classof$6 = classofRaw$2;
 
 // `IsArray` abstract operation
 // https://tc39.es/ecma262/#sec-isarray
 // eslint-disable-next-line es/no-array-isarray -- safe
 var isArray$1 = Array.isArray || function isArray(argument) {
-  return classof$7(argument) === 'Array';
+  return classof$6(argument) === 'Array';
 };
 
-var DESCRIPTORS$3 = descriptors;
+var DESCRIPTORS$2 = descriptors;
 var isArray = isArray$1;
 var $TypeError$7 = TypeError;
 // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
 var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 
 // Safari < 13 does not throw an error in this case
-var SILENT_ON_NON_WRITABLE_LENGTH_SET = DESCRIPTORS$3 && !function () {
+var SILENT_ON_NON_WRITABLE_LENGTH_SET = DESCRIPTORS$2 && !function () {
   // makes no sense without proper strict mode support
   if (this !== undefined) return true;
   try {
@@ -1217,13 +990,13 @@ var doesNotExceedSafeInteger$2 = function (it) {
   return it;
 };
 
-var $$7 = _export;
-var toObject$2 = toObject$5;
-var lengthOfArrayLike$3 = lengthOfArrayLike$6;
+var $$6 = _export;
+var toObject$1 = toObject$3;
+var lengthOfArrayLike$3 = lengthOfArrayLike$5;
 var setArrayLength$1 = arraySetLength;
 var doesNotExceedSafeInteger$1 = doesNotExceedSafeInteger$2;
-var fails$7 = fails$g;
-var INCORRECT_TO_LENGTH = fails$7(function () {
+var fails$6 = fails$f;
+var INCORRECT_TO_LENGTH = fails$6(function () {
   return [].push.call({
     length: 0x100000000
   }, 1) !== 4294967297;
@@ -1245,7 +1018,7 @@ var FORCED$2 = INCORRECT_TO_LENGTH || !properErrorOnNonWritableLength$1();
 
 // `Array.prototype.push` method
 // https://tc39.es/ecma262/#sec-array.prototype.push
-$$7({
+$$6({
   target: 'Array',
   proto: true,
   arity: 1,
@@ -1253,7 +1026,7 @@ $$7({
 }, {
   // eslint-disable-next-line no-unused-vars -- required for `.length`
   push: function push(item) {
-    var O = toObject$2(this);
+    var O = toObject$1(this);
     var len = lengthOfArrayLike$3(O);
     var argCount = arguments.length;
     doesNotExceedSafeInteger$1(len + argCount);
@@ -1266,15 +1039,15 @@ $$7({
   }
 });
 
-var tryToString$3 = tryToString$5;
+var tryToString$2 = tryToString$4;
 var $TypeError$5 = TypeError;
 var deletePropertyOrThrow$1 = function (O, P) {
-  if (!delete O[P]) throw $TypeError$5('Cannot delete property ' + tryToString$3(P) + ' of ' + tryToString$3(O));
+  if (!delete O[P]) throw $TypeError$5('Cannot delete property ' + tryToString$2(P) + ' of ' + tryToString$2(O));
 };
 
-var $$6 = _export;
-var toObject$1 = toObject$5;
-var lengthOfArrayLike$2 = lengthOfArrayLike$6;
+var $$5 = _export;
+var toObject = toObject$3;
+var lengthOfArrayLike$2 = lengthOfArrayLike$5;
 var setArrayLength = arraySetLength;
 var deletePropertyOrThrow = deletePropertyOrThrow$1;
 var doesNotExceedSafeInteger = doesNotExceedSafeInteger$2;
@@ -1297,7 +1070,7 @@ var FORCED$1 = INCORRECT_RESULT || !properErrorOnNonWritableLength();
 
 // `Array.prototype.unshift` method
 // https://tc39.es/ecma262/#sec-array.prototype.unshift
-$$6({
+$$5({
   target: 'Array',
   proto: true,
   arity: 1,
@@ -1305,7 +1078,7 @@ $$6({
 }, {
   // eslint-disable-next-line no-unused-vars -- required for `.length`
   unshift: function unshift(item) {
-    var O = toObject$1(this);
+    var O = toObject(this);
     var len = lengthOfArrayLike$2(O);
     var argCount = arguments.length;
     if (argCount) {
@@ -1325,7 +1098,7 @@ $$6({
 
 var makeBuiltIn = makeBuiltInExports;
 var defineProperty$1 = objectDefineProperty;
-var defineBuiltInAccessor$2 = function (target, name, descriptor) {
+var defineBuiltInAccessor$1 = function (target, name, descriptor) {
   if (descriptor.get) makeBuiltIn(descriptor.get, name, {
     getter: true
   });
@@ -1335,7 +1108,7 @@ var defineBuiltInAccessor$2 = function (target, name, descriptor) {
   return defineProperty$1.f(target, name, descriptor);
 };
 
-var anObject$5 = anObject$a;
+var anObject$5 = anObject$8;
 
 // `RegExp.prototype.flags` getter implementation
 // https://tc39.es/ecma262/#sec-get-regexp.prototype.flags
@@ -1353,16 +1126,16 @@ var regexpFlags = function () {
   return result;
 };
 
-var global$a = global$l;
-var DESCRIPTORS$2 = descriptors;
-var defineBuiltInAccessor$1 = defineBuiltInAccessor$2;
+var global$9 = global$k;
+var DESCRIPTORS$1 = descriptors;
+var defineBuiltInAccessor = defineBuiltInAccessor$1;
 var regExpFlags$1 = regexpFlags;
-var fails$6 = fails$g;
+var fails$5 = fails$f;
 
 // babel-minify and Closure Compiler transpiles RegExp('.', 'd') -> /./d and it causes SyntaxError
-var RegExp$1 = global$a.RegExp;
+var RegExp$1 = global$9.RegExp;
 var RegExpPrototype$1 = RegExp$1.prototype;
-var FORCED = DESCRIPTORS$2 && fails$6(function () {
+var FORCED = DESCRIPTORS$1 && fails$5(function () {
   var INDICES_SUPPORT = true;
   try {
     RegExp$1('.', 'd');
@@ -1399,101 +1172,38 @@ var FORCED = DESCRIPTORS$2 && fails$6(function () {
 
 // `RegExp.prototype.flags` getter
 // https://tc39.es/ecma262/#sec-get-regexp.prototype.flags
-if (FORCED) defineBuiltInAccessor$1(RegExpPrototype$1, 'flags', {
+if (FORCED) defineBuiltInAccessor(RegExpPrototype$1, 'flags', {
   configurable: true,
   get: regExpFlags$1
 });
 
-// eslint-disable-next-line es/no-typed-arrays -- safe
-var arrayBufferBasicDetection = typeof ArrayBuffer != 'undefined' && typeof DataView != 'undefined';
-
-var wellKnownSymbol$4 = wellKnownSymbol$7;
-var TO_STRING_TAG$2 = wellKnownSymbol$4('toStringTag');
-var test = {};
-test[TO_STRING_TAG$2] = 'z';
-var toStringTagSupport = String(test) === '[object z]';
-
-var TO_STRING_TAG_SUPPORT = toStringTagSupport;
-var isCallable$8 = isCallable$j;
-var classofRaw = classofRaw$2;
-var wellKnownSymbol$3 = wellKnownSymbol$7;
-var TO_STRING_TAG$1 = wellKnownSymbol$3('toStringTag');
-var $Object$1 = Object;
-
-// ES3 wrong here
-var CORRECT_ARGUMENTS = classofRaw(function () {
-  return arguments;
-}()) === 'Arguments';
-
-// fallback for IE11 Script Access Denied error
-var tryGet = function (it, key) {
-  try {
-    return it[key];
-  } catch (error) {/* empty */}
+var isPrototypeOf$2 = objectIsPrototypeOf;
+var $TypeError$4 = TypeError;
+var anInstance$1 = function (it, Prototype) {
+  if (isPrototypeOf$2(Prototype, it)) return it;
+  throw $TypeError$4('Incorrect invocation');
 };
 
-// getting tag from ES6+ `Object.prototype.toString`
-var classof$6 = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
-  var O, tag, result;
-  return it === undefined ? 'Undefined' : it === null ? 'Null'
-  // @@toStringTag case
-  : typeof (tag = tryGet(O = $Object$1(it), TO_STRING_TAG$1)) == 'string' ? tag
-  // builtinTag case
-  : CORRECT_ARGUMENTS ? classofRaw(O)
-  // ES3 arguments fallback
-  : (result = classofRaw(O)) === 'Object' && isCallable$8(O.callee) ? 'Arguments' : result;
-};
-
-var fails$5 = fails$g;
-var correctPrototypeGetter = !fails$5(function () {
-  function F() {/* empty */}
-  F.prototype.constructor = null;
-  // eslint-disable-next-line es/no-object-getprototypeof -- required for testing
-  return Object.getPrototypeOf(new F()) !== F.prototype;
-});
-
-var hasOwn$5 = hasOwnProperty_1;
-var isCallable$7 = isCallable$j;
-var toObject = toObject$5;
-var sharedKey = sharedKey$3;
-var CORRECT_PROTOTYPE_GETTER = correctPrototypeGetter;
-var IE_PROTO = sharedKey('IE_PROTO');
-var $Object = Object;
-var ObjectPrototype$1 = $Object.prototype;
-
-// `Object.getPrototypeOf` method
-// https://tc39.es/ecma262/#sec-object.getprototypeof
-// eslint-disable-next-line es/no-object-getprototypeof -- safe
-var objectGetPrototypeOf = CORRECT_PROTOTYPE_GETTER ? $Object.getPrototypeOf : function (O) {
-  var object = toObject(O);
-  if (hasOwn$5(object, IE_PROTO)) return object[IE_PROTO];
-  var constructor = object.constructor;
-  if (isCallable$7(constructor) && object instanceof constructor) {
-    return constructor.prototype;
-  }
-  return object instanceof $Object ? ObjectPrototype$1 : null;
-};
-
-var uncurryThis$6 = functionUncurryThis;
-var aCallable$1 = aCallable$4;
+var uncurryThis$8 = functionUncurryThis;
+var aCallable$2 = aCallable$4;
 var functionUncurryThisAccessor = function (object, key, method) {
   try {
     // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-    return uncurryThis$6(aCallable$1(Object.getOwnPropertyDescriptor(object, key)[method]));
+    return uncurryThis$8(aCallable$2(Object.getOwnPropertyDescriptor(object, key)[method]));
   } catch (error) {/* empty */}
 };
 
-var isCallable$6 = isCallable$j;
+var isCallable$6 = isCallable$h;
 var $String$1 = String;
-var $TypeError$4 = TypeError;
+var $TypeError$3 = TypeError;
 var aPossiblePrototype$1 = function (argument) {
   if (typeof argument == 'object' || isCallable$6(argument)) return argument;
-  throw $TypeError$4("Can't set " + $String$1(argument) + ' as a prototype');
+  throw $TypeError$3("Can't set " + $String$1(argument) + ' as a prototype');
 };
 
 /* eslint-disable no-proto -- safe */
 var uncurryThisAccessor = functionUncurryThisAccessor;
-var anObject$4 = anObject$a;
+var anObject$4 = anObject$8;
 var aPossiblePrototype = aPossiblePrototype$1;
 
 // `Object.setPrototypeOf` method
@@ -1517,209 +1227,8 @@ var objectSetPrototypeOf = Object.setPrototypeOf || ('__proto__' in {} ? functio
   };
 }() : undefined);
 
-var NATIVE_ARRAY_BUFFER = arrayBufferBasicDetection;
-var DESCRIPTORS$1 = descriptors;
-var global$9 = global$l;
-var isCallable$5 = isCallable$j;
-var isObject$2 = isObject$8;
-var hasOwn$4 = hasOwnProperty_1;
-var classof$5 = classof$6;
-var tryToString$2 = tryToString$5;
-var createNonEnumerableProperty$1 = createNonEnumerableProperty$4;
-var defineBuiltIn = defineBuiltIn$2;
-var defineBuiltInAccessor = defineBuiltInAccessor$2;
-var isPrototypeOf$3 = objectIsPrototypeOf;
-var getPrototypeOf = objectGetPrototypeOf;
-var setPrototypeOf$1 = objectSetPrototypeOf;
-var wellKnownSymbol$2 = wellKnownSymbol$7;
-var uid$1 = uid$4;
-var InternalStateModule = internalState;
-var enforceInternalState = InternalStateModule.enforce;
-var getInternalState = InternalStateModule.get;
-var Int8Array = global$9.Int8Array;
-var Int8ArrayPrototype = Int8Array && Int8Array.prototype;
-var Uint8ClampedArray = global$9.Uint8ClampedArray;
-var Uint8ClampedArrayPrototype = Uint8ClampedArray && Uint8ClampedArray.prototype;
-var TypedArray = Int8Array && getPrototypeOf(Int8Array);
-var TypedArrayPrototype = Int8ArrayPrototype && getPrototypeOf(Int8ArrayPrototype);
-var ObjectPrototype = Object.prototype;
-var TypeError$2 = global$9.TypeError;
-var TO_STRING_TAG = wellKnownSymbol$2('toStringTag');
-var TYPED_ARRAY_TAG = uid$1('TYPED_ARRAY_TAG');
-var TYPED_ARRAY_CONSTRUCTOR = 'TypedArrayConstructor';
-// Fixing native typed arrays in Opera Presto crashes the browser, see #595
-var NATIVE_ARRAY_BUFFER_VIEWS = NATIVE_ARRAY_BUFFER && !!setPrototypeOf$1 && classof$5(global$9.opera) !== 'Opera';
-var TYPED_ARRAY_TAG_REQUIRED = false;
-var NAME$4, Constructor, Prototype;
-var TypedArrayConstructorsList = {
-  Int8Array: 1,
-  Uint8Array: 1,
-  Uint8ClampedArray: 1,
-  Int16Array: 2,
-  Uint16Array: 2,
-  Int32Array: 4,
-  Uint32Array: 4,
-  Float32Array: 4,
-  Float64Array: 8
-};
-var BigIntArrayConstructorsList = {
-  BigInt64Array: 8,
-  BigUint64Array: 8
-};
-var isView = function isView(it) {
-  if (!isObject$2(it)) return false;
-  var klass = classof$5(it);
-  return klass === 'DataView' || hasOwn$4(TypedArrayConstructorsList, klass) || hasOwn$4(BigIntArrayConstructorsList, klass);
-};
-var getTypedArrayConstructor = function (it) {
-  var proto = getPrototypeOf(it);
-  if (!isObject$2(proto)) return;
-  var state = getInternalState(proto);
-  return state && hasOwn$4(state, TYPED_ARRAY_CONSTRUCTOR) ? state[TYPED_ARRAY_CONSTRUCTOR] : getTypedArrayConstructor(proto);
-};
-var isTypedArray = function (it) {
-  if (!isObject$2(it)) return false;
-  var klass = classof$5(it);
-  return hasOwn$4(TypedArrayConstructorsList, klass) || hasOwn$4(BigIntArrayConstructorsList, klass);
-};
-var aTypedArray$2 = function (it) {
-  if (isTypedArray(it)) return it;
-  throw TypeError$2('Target is not a typed array');
-};
-var aTypedArrayConstructor = function (C) {
-  if (isCallable$5(C) && (!setPrototypeOf$1 || isPrototypeOf$3(TypedArray, C))) return C;
-  throw TypeError$2(tryToString$2(C) + ' is not a typed array constructor');
-};
-var exportTypedArrayMethod$2 = function (KEY, property, forced, options) {
-  if (!DESCRIPTORS$1) return;
-  if (forced) for (var ARRAY in TypedArrayConstructorsList) {
-    var TypedArrayConstructor = global$9[ARRAY];
-    if (TypedArrayConstructor && hasOwn$4(TypedArrayConstructor.prototype, KEY)) try {
-      delete TypedArrayConstructor.prototype[KEY];
-    } catch (error) {
-      // old WebKit bug - some methods are non-configurable
-      try {
-        TypedArrayConstructor.prototype[KEY] = property;
-      } catch (error2) {/* empty */}
-    }
-  }
-  if (!TypedArrayPrototype[KEY] || forced) {
-    defineBuiltIn(TypedArrayPrototype, KEY, forced ? property : NATIVE_ARRAY_BUFFER_VIEWS && Int8ArrayPrototype[KEY] || property, options);
-  }
-};
-var exportTypedArrayStaticMethod = function (KEY, property, forced) {
-  var ARRAY, TypedArrayConstructor;
-  if (!DESCRIPTORS$1) return;
-  if (setPrototypeOf$1) {
-    if (forced) for (ARRAY in TypedArrayConstructorsList) {
-      TypedArrayConstructor = global$9[ARRAY];
-      if (TypedArrayConstructor && hasOwn$4(TypedArrayConstructor, KEY)) try {
-        delete TypedArrayConstructor[KEY];
-      } catch (error) {/* empty */}
-    }
-    if (!TypedArray[KEY] || forced) {
-      // V8 ~ Chrome 49-50 `%TypedArray%` methods are non-writable non-configurable
-      try {
-        return defineBuiltIn(TypedArray, KEY, forced ? property : NATIVE_ARRAY_BUFFER_VIEWS && TypedArray[KEY] || property);
-      } catch (error) {/* empty */}
-    } else return;
-  }
-  for (ARRAY in TypedArrayConstructorsList) {
-    TypedArrayConstructor = global$9[ARRAY];
-    if (TypedArrayConstructor && (!TypedArrayConstructor[KEY] || forced)) {
-      defineBuiltIn(TypedArrayConstructor, KEY, property);
-    }
-  }
-};
-for (NAME$4 in TypedArrayConstructorsList) {
-  Constructor = global$9[NAME$4];
-  Prototype = Constructor && Constructor.prototype;
-  if (Prototype) enforceInternalState(Prototype)[TYPED_ARRAY_CONSTRUCTOR] = Constructor;else NATIVE_ARRAY_BUFFER_VIEWS = false;
-}
-for (NAME$4 in BigIntArrayConstructorsList) {
-  Constructor = global$9[NAME$4];
-  Prototype = Constructor && Constructor.prototype;
-  if (Prototype) enforceInternalState(Prototype)[TYPED_ARRAY_CONSTRUCTOR] = Constructor;
-}
-
-// WebKit bug - typed arrays constructors prototype is Object.prototype
-if (!NATIVE_ARRAY_BUFFER_VIEWS || !isCallable$5(TypedArray) || TypedArray === Function.prototype) {
-  // eslint-disable-next-line no-shadow -- safe
-  TypedArray = function TypedArray() {
-    throw TypeError$2('Incorrect invocation');
-  };
-  if (NATIVE_ARRAY_BUFFER_VIEWS) for (NAME$4 in TypedArrayConstructorsList) {
-    if (global$9[NAME$4]) setPrototypeOf$1(global$9[NAME$4], TypedArray);
-  }
-}
-if (!NATIVE_ARRAY_BUFFER_VIEWS || !TypedArrayPrototype || TypedArrayPrototype === ObjectPrototype) {
-  TypedArrayPrototype = TypedArray.prototype;
-  if (NATIVE_ARRAY_BUFFER_VIEWS) for (NAME$4 in TypedArrayConstructorsList) {
-    if (global$9[NAME$4]) setPrototypeOf$1(global$9[NAME$4].prototype, TypedArrayPrototype);
-  }
-}
-
-// WebKit bug - one more object in Uint8ClampedArray prototype chain
-if (NATIVE_ARRAY_BUFFER_VIEWS && getPrototypeOf(Uint8ClampedArrayPrototype) !== TypedArrayPrototype) {
-  setPrototypeOf$1(Uint8ClampedArrayPrototype, TypedArrayPrototype);
-}
-if (DESCRIPTORS$1 && !hasOwn$4(TypedArrayPrototype, TO_STRING_TAG)) {
-  TYPED_ARRAY_TAG_REQUIRED = true;
-  defineBuiltInAccessor(TypedArrayPrototype, TO_STRING_TAG, {
-    configurable: true,
-    get: function () {
-      return isObject$2(this) ? this[TYPED_ARRAY_TAG] : undefined;
-    }
-  });
-  for (NAME$4 in TypedArrayConstructorsList) if (global$9[NAME$4]) {
-    createNonEnumerableProperty$1(global$9[NAME$4], TYPED_ARRAY_TAG, NAME$4);
-  }
-}
-var arrayBufferViewCore = {
-  NATIVE_ARRAY_BUFFER_VIEWS: NATIVE_ARRAY_BUFFER_VIEWS,
-  TYPED_ARRAY_TAG: TYPED_ARRAY_TAG_REQUIRED && TYPED_ARRAY_TAG,
-  aTypedArray: aTypedArray$2,
-  aTypedArrayConstructor: aTypedArrayConstructor,
-  exportTypedArrayMethod: exportTypedArrayMethod$2,
-  exportTypedArrayStaticMethod: exportTypedArrayStaticMethod,
-  getTypedArrayConstructor: getTypedArrayConstructor,
-  isView: isView,
-  isTypedArray: isTypedArray,
-  TypedArray: TypedArray,
-  TypedArrayPrototype: TypedArrayPrototype
-};
-
-var ArrayBufferViewCore$1 = arrayBufferViewCore;
-var $findLast = arrayIterationFromLast.findLast;
-var aTypedArray$1 = ArrayBufferViewCore$1.aTypedArray;
-var exportTypedArrayMethod$1 = ArrayBufferViewCore$1.exportTypedArrayMethod;
-
-// `%TypedArray%.prototype.findLast` method
-// https://tc39.es/ecma262/#sec-%typedarray%.prototype.findlast
-exportTypedArrayMethod$1('findLast', function findLast(predicate /* , thisArg */) {
-  return $findLast(aTypedArray$1(this), predicate, arguments.length > 1 ? arguments[1] : undefined);
-});
-
-var ArrayBufferViewCore = arrayBufferViewCore;
-var $findLastIndex = arrayIterationFromLast.findLastIndex;
-var aTypedArray = ArrayBufferViewCore.aTypedArray;
-var exportTypedArrayMethod = ArrayBufferViewCore.exportTypedArrayMethod;
-
-// `%TypedArray%.prototype.findLastIndex` method
-// https://tc39.es/ecma262/#sec-%typedarray%.prototype.findlastindex
-exportTypedArrayMethod('findLastIndex', function findLastIndex(predicate /* , thisArg */) {
-  return $findLastIndex(aTypedArray(this), predicate, arguments.length > 1 ? arguments[1] : undefined);
-});
-
-var isPrototypeOf$2 = objectIsPrototypeOf;
-var $TypeError$3 = TypeError;
-var anInstance$1 = function (it, Prototype) {
-  if (isPrototypeOf$2(Prototype, it)) return it;
-  throw $TypeError$3('Incorrect invocation');
-};
-
-var isCallable$4 = isCallable$j;
-var isObject$1 = isObject$8;
+var isCallable$5 = isCallable$h;
+var isObject$1 = isObject$7;
 var setPrototypeOf = objectSetPrototypeOf;
 
 // makes subclassing work correct for wrapped built-ins
@@ -1729,11 +1238,48 @@ var inheritIfRequired$1 = function ($this, dummy, Wrapper) {
   // it can work only with native `setPrototypeOf`
   setPrototypeOf &&
   // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
-  isCallable$4(NewTarget = dummy.constructor) && NewTarget !== Wrapper && isObject$1(NewTargetPrototype = NewTarget.prototype) && NewTargetPrototype !== Wrapper.prototype) setPrototypeOf($this, NewTargetPrototype);
+  isCallable$5(NewTarget = dummy.constructor) && NewTarget !== Wrapper && isObject$1(NewTargetPrototype = NewTarget.prototype) && NewTargetPrototype !== Wrapper.prototype) setPrototypeOf($this, NewTargetPrototype);
   return $this;
 };
 
-var classof$4 = classof$6;
+var wellKnownSymbol$3 = wellKnownSymbol$5;
+var TO_STRING_TAG$1 = wellKnownSymbol$3('toStringTag');
+var test = {};
+test[TO_STRING_TAG$1] = 'z';
+var toStringTagSupport = String(test) === '[object z]';
+
+var TO_STRING_TAG_SUPPORT = toStringTagSupport;
+var isCallable$4 = isCallable$h;
+var classofRaw$1 = classofRaw$2;
+var wellKnownSymbol$2 = wellKnownSymbol$5;
+var TO_STRING_TAG = wellKnownSymbol$2('toStringTag');
+var $Object = Object;
+
+// ES3 wrong here
+var CORRECT_ARGUMENTS = classofRaw$1(function () {
+  return arguments;
+}()) === 'Arguments';
+
+// fallback for IE11 Script Access Denied error
+var tryGet = function (it, key) {
+  try {
+    return it[key];
+  } catch (error) {/* empty */}
+};
+
+// getting tag from ES6+ `Object.prototype.toString`
+var classof$5 = TO_STRING_TAG_SUPPORT ? classofRaw$1 : function (it) {
+  var O, tag, result;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+  // @@toStringTag case
+  : typeof (tag = tryGet(O = $Object(it), TO_STRING_TAG)) == 'string' ? tag
+  // builtinTag case
+  : CORRECT_ARGUMENTS ? classofRaw$1(O)
+  // ES3 arguments fallback
+  : (result = classofRaw$1(O)) === 'Object' && isCallable$4(O.callee) ? 'Arguments' : result;
+};
+
+var classof$4 = classof$5;
 var $String = String;
 var toString$1 = function (argument) {
   if (classof$4(argument) === 'Symbol') throw TypeError('Cannot convert a Symbol value to a string');
@@ -1873,9 +1419,9 @@ var domExceptionConstants = {
   }
 };
 
-var uncurryThis$5 = functionUncurryThis;
+var uncurryThis$7 = functionUncurryThis;
 var $Error = Error;
-var replace = uncurryThis$5(''.replace);
+var replace = uncurryThis$7(''.replace);
 var TEST = function (arg) {
   return String($Error(arg).stack);
 }('zxcasd');
@@ -1889,9 +1435,9 @@ var errorStackClear = function (stack, dropEntries) {
   return stack;
 };
 
-var $$5 = _export;
-var global$8 = global$l;
-var getBuiltIn$1 = getBuiltIn$5;
+var $$4 = _export;
+var global$8 = global$k;
+var getBuiltIn$2 = getBuiltIn$5;
 var createPropertyDescriptor$2 = createPropertyDescriptor$5;
 var defineProperty = objectDefineProperty.f;
 var hasOwn$3 = hasOwnProperty_1;
@@ -1902,8 +1448,8 @@ var DOMExceptionConstants = domExceptionConstants;
 var clearErrorStack = errorStackClear;
 var DESCRIPTORS = descriptors;
 var DOM_EXCEPTION = 'DOMException';
-var Error$2 = getBuiltIn$1('Error');
-var NativeDOMException = getBuiltIn$1(DOM_EXCEPTION);
+var Error$2 = getBuiltIn$2('Error');
+var NativeDOMException = getBuiltIn$2(DOM_EXCEPTION);
 var $DOMException = function DOMException() {
   anInstance(this, DOMExceptionPrototype);
   var argumentsLength = arguments.length;
@@ -1930,7 +1476,7 @@ var FORCED_CONSTRUCTOR = ERROR_HAS_STACK && !BUGGY_DESCRIPTOR && !DOM_EXCEPTION_
 
 // `DOMException` constructor patch for `.stack` where it's required
 // https://webidl.spec.whatwg.org/#es-DOMException-specialness
-$$5({
+$$4({
   global: true,
   constructor: true,
   forced: FORCED_CONSTRUCTOR
@@ -1938,7 +1484,7 @@ $$5({
   // TODO: fix export logic
   DOMException: FORCED_CONSTRUCTOR ? $DOMException : NativeDOMException
 });
-var PolyfilledDOMException = getBuiltIn$1(DOM_EXCEPTION);
+var PolyfilledDOMException = getBuiltIn$2(DOM_EXCEPTION);
 var PolyfilledDOMExceptionPrototype = PolyfilledDOMException.prototype;
 if (PolyfilledDOMExceptionPrototype.constructor !== PolyfilledDOMException) {
   {
@@ -1953,15 +1499,41 @@ if (PolyfilledDOMExceptionPrototype.constructor !== PolyfilledDOMException) {
   }
 }
 
-var NATIVE_BIND = functionBindNative;
+var NATIVE_BIND$1 = functionBindNative;
 var FunctionPrototype = Function.prototype;
 var apply$2 = FunctionPrototype.apply;
 var call$4 = FunctionPrototype.call;
 
 // eslint-disable-next-line es/no-reflect -- safe
-var functionApply = typeof Reflect == 'object' && Reflect.apply || (NATIVE_BIND ? call$4.bind(apply$2) : function () {
+var functionApply = typeof Reflect == 'object' && Reflect.apply || (NATIVE_BIND$1 ? call$4.bind(apply$2) : function () {
   return call$4.apply(apply$2, arguments);
 });
+
+var classofRaw = classofRaw$2;
+var uncurryThis$6 = functionUncurryThis;
+var functionUncurryThisClause = function (fn) {
+  // Nashorn bug:
+  //   https://github.com/zloirock/core-js/issues/1128
+  //   https://github.com/zloirock/core-js/issues/1130
+  if (classofRaw(fn) === 'Function') return uncurryThis$6(fn);
+};
+
+var uncurryThis$5 = functionUncurryThisClause;
+var aCallable$1 = aCallable$4;
+var NATIVE_BIND = functionBindNative;
+var bind$2 = uncurryThis$5(uncurryThis$5.bind);
+
+// optional / simple context binding
+var functionBindContext = function (fn, that) {
+  aCallable$1(fn);
+  return that === undefined ? fn : NATIVE_BIND ? bind$2(fn, that) : function /* ...args */
+  () {
+    return fn.apply(that, arguments);
+  };
+};
+
+var getBuiltIn$1 = getBuiltIn$5;
+var html$1 = getBuiltIn$1('document', 'documentElement');
 
 var uncurryThis$4 = functionUncurryThis;
 var arraySlice$2 = uncurryThis$4([].slice);
@@ -1977,19 +1549,19 @@ var userAgent = engineUserAgent;
 // eslint-disable-next-line redos/no-vulnerable -- safe
 var engineIsIos = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent);
 
-var global$7 = global$l;
+var global$7 = global$k;
 var classof$3 = classofRaw$2;
 var engineIsNode = classof$3(global$7.process) === 'process';
 
-var global$6 = global$l;
+var global$6 = global$k;
 var apply$1 = functionApply;
 var bind$1 = functionBindContext;
-var isCallable$3 = isCallable$j;
+var isCallable$3 = isCallable$h;
 var hasOwn$2 = hasOwnProperty_1;
-var fails$4 = fails$g;
-var html = html$2;
+var fails$4 = fails$f;
+var html = html$1;
 var arraySlice$1 = arraySlice$2;
-var createElement = documentCreateElement$1;
+var createElement = documentCreateElement;
 var validateArgumentsLength$2 = validateArgumentsLength$3;
 var IS_IOS = engineIsIos;
 var IS_NODE$2 = engineIsNode;
@@ -2085,13 +1657,13 @@ var task = {
   clear: clear
 };
 
-var $$4 = _export;
-var global$5 = global$l;
+var $$3 = _export;
+var global$5 = global$k;
 var clearImmediate = task.clear;
 
 // `clearImmediate` method
 // http://w3c.github.io/setImmediate/#si-clearImmediate
-$$4({
+$$3({
   global: true,
   bind: true,
   enumerable: true,
@@ -2103,9 +1675,9 @@ $$4({
 /* global Bun -- Deno case */
 var engineIsBun = typeof Bun == 'function' && Bun && typeof Bun.version == 'string';
 
-var global$4 = global$l;
+var global$4 = global$k;
 var apply = functionApply;
-var isCallable$2 = isCallable$j;
+var isCallable$2 = isCallable$h;
 var ENGINE_IS_BUN = engineIsBun;
 var USER_AGENT = engineUserAgent;
 var arraySlice = arraySlice$2;
@@ -2133,8 +1705,8 @@ var schedulersFix$1 = function (scheduler, hasTimeArg) {
   } : scheduler;
 };
 
-var $$3 = _export;
-var global$3 = global$l;
+var $$2 = _export;
+var global$3 = global$k;
 var setTask = task.set;
 var schedulersFix = schedulersFix$1;
 
@@ -2143,7 +1715,7 @@ var setImmediate = global$3.setImmediate ? schedulersFix(setTask, false) : setTa
 
 // `setImmediate` method
 // http://w3c.github.io/setImmediate/#si-setImmediate
-$$3({
+$$2({
   global: true,
   bind: true,
   enumerable: true,
@@ -2153,9 +1725,9 @@ $$3({
 });
 
 var uncurryThis$3 = functionUncurryThis;
-var fails$3 = fails$g;
-var isCallable$1 = isCallable$j;
-var classof$2 = classof$6;
+var fails$3 = fails$f;
+var isCallable$1 = isCallable$h;
+var classof$2 = classof$5;
 var getBuiltIn = getBuiltIn$5;
 var inspectSource = inspectSource$2;
 var noop$3 = function () {/* empty */};
@@ -2203,7 +1775,7 @@ var isConstructor$1 = !construct || fails$3(function () {
 
 var iterators = {};
 
-var wellKnownSymbol$1 = wellKnownSymbol$7;
+var wellKnownSymbol$1 = wellKnownSymbol$5;
 var Iterators$1 = iterators;
 var ITERATOR$1 = wellKnownSymbol$1('iterator');
 var ArrayPrototype = Array.prototype;
@@ -2213,11 +1785,11 @@ var isArrayIteratorMethod$1 = function (it) {
   return it !== undefined && (Iterators$1.Array === it || ArrayPrototype[ITERATOR$1] === it);
 };
 
-var classof$1 = classof$6;
+var classof$1 = classof$5;
 var getMethod$1 = getMethod$3;
 var isNullOrUndefined$1 = isNullOrUndefined$4;
 var Iterators = iterators;
-var wellKnownSymbol = wellKnownSymbol$7;
+var wellKnownSymbol = wellKnownSymbol$5;
 var ITERATOR = wellKnownSymbol('iterator');
 var getIteratorMethod$2 = function (it) {
   if (!isNullOrUndefined$1(it)) return getMethod$1(it, ITERATOR) || getMethod$1(it, '@@iterator') || Iterators[classof$1(it)];
@@ -2225,8 +1797,8 @@ var getIteratorMethod$2 = function (it) {
 
 var call$3 = functionCall;
 var aCallable = aCallable$4;
-var anObject$3 = anObject$a;
-var tryToString$1 = tryToString$5;
+var anObject$3 = anObject$8;
+var tryToString$1 = tryToString$4;
 var getIteratorMethod$1 = getIteratorMethod$2;
 var $TypeError$1 = TypeError;
 var getIterator$1 = function (argument, usingIterator) {
@@ -2236,7 +1808,7 @@ var getIterator$1 = function (argument, usingIterator) {
 };
 
 var call$2 = functionCall;
-var anObject$2 = anObject$a;
+var anObject$2 = anObject$8;
 var getMethod = getMethod$3;
 var iteratorClose$1 = function (iterator, kind, value) {
   var innerResult, innerError;
@@ -2260,10 +1832,10 @@ var iteratorClose$1 = function (iterator, kind, value) {
 
 var bind = functionBindContext;
 var call$1 = functionCall;
-var anObject$1 = anObject$a;
-var tryToString = tryToString$5;
+var anObject$1 = anObject$8;
+var tryToString = tryToString$4;
 var isArrayIteratorMethod = isArrayIteratorMethod$1;
-var lengthOfArrayLike$1 = lengthOfArrayLike$6;
+var lengthOfArrayLike$1 = lengthOfArrayLike$5;
 var isPrototypeOf$1 = objectIsPrototypeOf;
 var getIterator = getIterator$1;
 var getIteratorMethod = getIteratorMethod$2;
@@ -2367,7 +1939,7 @@ var setHelpers = {
   proto: SetPrototype
 };
 
-var fails$2 = fails$g;
+var fails$2 = fails$f;
 var createPropertyDescriptor = createPropertyDescriptor$5;
 var errorStackInstallable = !fails$2(function () {
   var error = Error('a');
@@ -2384,8 +1956,8 @@ var IS_DENO$1 = engineIsDeno;
 var IS_NODE$1 = engineIsNode;
 var engineIsBrowser = !IS_DENO$1 && !IS_NODE$1 && typeof window == 'object' && typeof document == 'object';
 
-var global$2 = global$l;
-var fails$1 = fails$g;
+var global$2 = global$k;
+var fails$1 = fails$f;
 var V8 = engineV8Version;
 var IS_BROWSER = engineIsBrowser;
 var IS_DENO = engineIsDeno;
@@ -2402,24 +1974,24 @@ var structuredCloneProperTransfer = !!structuredClone && !fails$1(function () {
   return buffer.byteLength !== 0 || clone.byteLength !== 8;
 });
 
-var $$2 = _export;
-var global$1 = global$l;
+var $$1 = _export;
+var global$1 = global$k;
 var getBuiltin = getBuiltIn$5;
 var uncurryThis = functionUncurryThis;
-var fails = fails$g;
-var uid = uid$4;
-var isCallable = isCallable$j;
+var fails = fails$f;
+var uid = uid$3;
+var isCallable = isCallable$h;
 var isConstructor = isConstructor$1;
 var isNullOrUndefined = isNullOrUndefined$4;
-var isObject = isObject$8;
+var isObject = isObject$7;
 var isSymbol = isSymbol$3;
 var iterate = iterate$1;
-var anObject = anObject$a;
-var classof = classof$6;
+var anObject = anObject$8;
+var classof = classof$5;
 var hasOwn = hasOwnProperty_1;
 var createProperty = createProperty$1;
-var createNonEnumerableProperty = createNonEnumerableProperty$4;
-var lengthOfArrayLike = lengthOfArrayLike$6;
+var createNonEnumerableProperty = createNonEnumerableProperty$3;
+var lengthOfArrayLike = lengthOfArrayLike$5;
 var validateArgumentsLength = validateArgumentsLength$3;
 var getRegExpFlags = regexpGetFlags;
 var MapHelpers = mapHelpers;
@@ -2431,7 +2003,7 @@ var Array$1 = global$1.Array;
 var Date$1 = global$1.Date;
 var Error$1 = global$1.Error;
 var EvalError = global$1.EvalError;
-var RangeError = global$1.RangeError;
+var RangeError$1 = global$1.RangeError;
 var ReferenceError = global$1.ReferenceError;
 var SyntaxError = global$1.SyntaxError;
 var TypeError$1 = global$1.TypeError;
@@ -2625,7 +2197,7 @@ var structuredCloneInternal = function (value, map, transferredBuffers) {
           cloned = EvalError();
           break;
         case 'RangeError':
-          cloned = RangeError();
+          cloned = RangeError$1();
           break;
         case 'ReferenceError':
           cloned = ReferenceError();
@@ -2971,7 +2543,7 @@ var tryToTransferBuffers = function (transfer, map) {
 
 // `structuredClone` method
 // https://html.spec.whatwg.org/multipage/structured-data.html#dom-structuredclone
-$$2({
+$$1({
   global: true,
   enumerable: true,
   sham: !PROPER_TRANSFER,
@@ -3606,7 +3178,7 @@ class Config {
  * Constants
  */
 
-const VERSION = '5.3.1';
+const VERSION = '5.3.2';
 
 /**
  * Class definition
@@ -3751,9 +3323,9 @@ const getSelector = element => {
     if (hrefAttribute.includes('#') && !hrefAttribute.startsWith('#')) {
       hrefAttribute = `#${hrefAttribute.split('#')[1]}`;
     }
-    selector = hrefAttribute && hrefAttribute !== '#' ? hrefAttribute.trim() : null;
+    selector = hrefAttribute && hrefAttribute !== '#' ? parseSelector(hrefAttribute.trim()) : null;
   }
-  return parseSelector(selector);
+  return selector;
 };
 const SelectorEngine = {
   find(selector, element = document.documentElement) {
@@ -4548,21 +4120,21 @@ defineJQueryPlugin(Collapse);
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$3 = window,
-  e$5 = t$3.ShadowRoot && (void 0 === t$3.ShadyCSS || t$3.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
-  s$6 = Symbol(),
-  n$6 = new WeakMap();
-let o$6 = class o {
+const t$1 = window,
+  e$2 = t$1.ShadowRoot && (void 0 === t$1.ShadyCSS || t$1.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
+  s$3 = Symbol(),
+  n$3 = new WeakMap();
+let o$3 = class o {
   constructor(t, e, n) {
-    if (this._$cssResult$ = !0, n !== s$6) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+    if (this._$cssResult$ = !0, n !== s$3) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
     this.cssText = t, this.t = e;
   }
   get styleSheet() {
     let t = this.o;
     const s = this.t;
-    if (e$5 && void 0 === t) {
+    if (e$2 && void 0 === t) {
       const e = void 0 !== s && 1 === s.length;
-      e && (t = n$6.get(s)), void 0 === t && ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText), e && n$6.set(s, t));
+      e && (t = n$3.get(s)), void 0 === t && ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText), e && n$3.set(s, t));
     }
     return t;
   }
@@ -4570,18 +4142,26 @@ let o$6 = class o {
     return this.cssText;
   }
 };
-const r$5 = t => new o$6("string" == typeof t ? t : t + "", void 0, s$6),
-  S$3 = (s, n) => {
-    e$5 ? s.adoptedStyleSheets = n.map(t => t instanceof CSSStyleSheet ? t : t.styleSheet) : n.forEach(e => {
+const r$2 = t => new o$3("string" == typeof t ? t : t + "", void 0, s$3),
+  i$1 = (t, ...e) => {
+    const n = 1 === t.length ? t[0] : e.reduce((e, s, n) => e + (t => {
+      if (!0 === t._$cssResult$) return t.cssText;
+      if ("number" == typeof t) return t;
+      throw Error("Value passed to 'css' function must be a 'css' function result: " + t + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
+    })(s) + t[n + 1], t[0]);
+    return new o$3(n, t, s$3);
+  },
+  S$1 = (s, n) => {
+    e$2 ? s.adoptedStyleSheets = n.map(t => t instanceof CSSStyleSheet ? t : t.styleSheet) : n.forEach(e => {
       const n = document.createElement("style"),
-        o = t$3.litNonce;
+        o = t$1.litNonce;
       void 0 !== o && n.setAttribute("nonce", o), n.textContent = e.cssText, s.appendChild(n);
     });
   },
-  c$2 = e$5 ? t => t : t => t instanceof CSSStyleSheet ? (t => {
+  c$1 = e$2 ? t => t : t => t instanceof CSSStyleSheet ? (t => {
     let e = "";
     for (const s of t.cssRules) e += s.cssText;
-    return r$5(e);
+    return r$2(e);
   })(t) : t;
 
 /**
@@ -4589,16 +4169,16 @@ const r$5 = t => new o$6("string" == typeof t ? t : t + "", void 0, s$6),
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-var s$5;
-const e$4 = window,
-  r$4 = e$4.trustedTypes,
-  h$3 = r$4 ? r$4.emptyScript : "",
-  o$5 = e$4.reactiveElementPolyfillSupport,
-  n$5 = {
+var s$2;
+const e$1 = window,
+  r$1 = e$1.trustedTypes,
+  h$1 = r$1 ? r$1.emptyScript : "",
+  o$2 = e$1.reactiveElementPolyfillSupport,
+  n$2 = {
     toAttribute(t, i) {
       switch (i) {
         case Boolean:
-          t = t ? h$3 : null;
+          t = t ? h$1 : null;
           break;
         case Object:
         case Array:
@@ -4626,17 +4206,18 @@ const e$4 = window,
       return s;
     }
   },
-  a$3 = (t, i) => i !== t && (i == i || t == t),
-  l$5 = {
+  a$1 = (t, i) => i !== t && (i == i || t == t),
+  l$3 = {
     attribute: !0,
     type: String,
-    converter: n$5,
+    converter: n$2,
     reflect: !1,
-    hasChanged: a$3
-  };
-let d$2 = class d extends HTMLElement {
+    hasChanged: a$1
+  },
+  d$1 = "finalized";
+let u$1 = class u extends HTMLElement {
   constructor() {
-    super(), this._$Ei = new Map(), this.isUpdatePending = !1, this.hasUpdated = !1, this._$El = null, this.u();
+    super(), this._$Ei = new Map(), this.isUpdatePending = !1, this.hasUpdated = !1, this._$El = null, this._$Eu();
   }
   static addInitializer(t) {
     var i;
@@ -4650,7 +4231,7 @@ let d$2 = class d extends HTMLElement {
       void 0 !== e && (this._$Ev.set(e, s), t.push(e));
     }), t;
   }
-  static createProperty(t, i = l$5) {
+  static createProperty(t, i = l$3) {
     if (i.state && (i.attribute = !1), this.finalize(), this.elementProperties.set(t, i), !i.noAccessor && !this.prototype.hasOwnProperty(t)) {
       const s = "symbol" == typeof t ? Symbol() : "__" + t,
         e = this.getPropertyDescriptor(t, s, i);
@@ -4671,11 +4252,11 @@ let d$2 = class d extends HTMLElement {
     };
   }
   static getPropertyOptions(t) {
-    return this.elementProperties.get(t) || l$5;
+    return this.elementProperties.get(t) || l$3;
   }
   static finalize() {
-    if (this.hasOwnProperty("finalized")) return !1;
-    this.finalized = !0;
+    if (this.hasOwnProperty(d$1)) return !1;
+    this[d$1] = !0;
     const t = Object.getPrototypeOf(this);
     if (t.finalize(), void 0 !== t.h && (this.h = [...t.h]), this.elementProperties = new Map(t.elementProperties), this._$Ev = new Map(), this.hasOwnProperty("properties")) {
       const t = this.properties,
@@ -4688,15 +4269,15 @@ let d$2 = class d extends HTMLElement {
     const s = [];
     if (Array.isArray(i)) {
       const e = new Set(i.flat(1 / 0).reverse());
-      for (const i of e) s.unshift(c$2(i));
-    } else void 0 !== i && s.push(c$2(i));
+      for (const i of e) s.unshift(c$1(i));
+    } else void 0 !== i && s.push(c$1(i));
     return s;
   }
   static _$Ep(t, i) {
     const s = i.attribute;
     return !1 === s ? void 0 : "string" == typeof s ? s : "string" == typeof t ? t.toLowerCase() : void 0;
   }
-  u() {
+  _$Eu() {
     var t;
     this._$E_ = new Promise(t => this.enableUpdating = t), this._$AL = new Map(), this._$Eg(), this.requestUpdate(), null === (t = this.constructor.h) || void 0 === t || t.forEach(t => t(this));
   }
@@ -4716,7 +4297,7 @@ let d$2 = class d extends HTMLElement {
   createRenderRoot() {
     var t;
     const s = null !== (t = this.shadowRoot) && void 0 !== t ? t : this.attachShadow(this.constructor.shadowRootOptions);
-    return S$3(s, this.constructor.elementStyles), s;
+    return S$1(s, this.constructor.elementStyles), s;
   }
   connectedCallback() {
     var t;
@@ -4736,11 +4317,11 @@ let d$2 = class d extends HTMLElement {
   attributeChangedCallback(t, i, s) {
     this._$AK(t, s);
   }
-  _$EO(t, i, s = l$5) {
+  _$EO(t, i, s = l$3) {
     var e;
     const r = this.constructor._$Ep(t, s);
     if (void 0 !== r && !0 === s.reflect) {
-      const h = (void 0 !== (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute) ? s.converter : n$5).toAttribute(i, s.type);
+      const h = (void 0 !== (null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute) ? s.converter : n$2).toAttribute(i, s.type);
       this._$El = t, null == h ? this.removeAttribute(r) : this.setAttribute(r, h), this._$El = null;
     }
   }
@@ -4752,13 +4333,13 @@ let d$2 = class d extends HTMLElement {
       const t = e.getPropertyOptions(r),
         h = "function" == typeof t.converter ? {
           fromAttribute: t.converter
-        } : void 0 !== (null === (s = t.converter) || void 0 === s ? void 0 : s.fromAttribute) ? t.converter : n$5;
+        } : void 0 !== (null === (s = t.converter) || void 0 === s ? void 0 : s.fromAttribute) ? t.converter : n$2;
       this._$El = r, this[r] = h.fromAttribute(i, t.type), this._$El = null;
     }
   }
   requestUpdate(t, i, s) {
     let e = !0;
-    void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || a$3)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$El !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$E_ = this._$Ej());
+    void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || a$1)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$El !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$E_ = this._$Ej());
   }
   async _$Ej() {
     this.isUpdatePending = !0;
@@ -4815,599 +4396,11 @@ let d$2 = class d extends HTMLElement {
   updated(t) {}
   firstUpdated(t) {}
 };
-d$2.finalized = !0, d$2.elementProperties = new Map(), d$2.elementStyles = [], d$2.shadowRootOptions = {
+u$1[d$1] = !0, u$1.elementProperties = new Map(), u$1.elementStyles = [], u$1.shadowRootOptions = {
   mode: "open"
-}, null == o$5 || o$5({
-  ReactiveElement: d$2
-}), (null !== (s$5 = e$4.reactiveElementVersions) && void 0 !== s$5 ? s$5 : e$4.reactiveElementVersions = []).push("1.6.1");
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-var t$2;
-const i$2 = window,
-  s$4 = i$2.trustedTypes,
-  e$3 = s$4 ? s$4.createPolicy("lit-html", {
-    createHTML: t => t
-  }) : void 0,
-  o$4 = "$lit$",
-  n$4 = `lit$${(Math.random() + "").slice(9)}$`,
-  l$4 = "?" + n$4,
-  h$2 = `<${l$4}>`,
-  r$3 = document,
-  u$1 = () => r$3.createComment(""),
-  d$1 = t => null === t || "object" != typeof t && "function" != typeof t,
-  c$1 = Array.isArray,
-  v$1 = t => c$1(t) || "function" == typeof (null == t ? void 0 : t[Symbol.iterator]),
-  a$2 = "[ \t\n\f\r]",
-  f$1 = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,
-  _$1 = /-->/g,
-  m$1 = />/g,
-  p$1 = RegExp(`>|${a$2}(?:([^\\s"'>=/]+)(${a$2}*=${a$2}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"),
-  g$1 = /'/g,
-  $$1 = /"/g,
-  y$2 = /^(?:script|style|textarea|title)$/i,
-  T$1 = Symbol.for("lit-noChange"),
-  A$1 = Symbol.for("lit-nothing"),
-  E$1 = new WeakMap(),
-  C$1 = r$3.createTreeWalker(r$3, 129, null, !1);
-function P$1(t, i) {
-  if (!Array.isArray(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
-  return void 0 !== e$3 ? e$3.createHTML(i) : i;
-}
-const V$1 = (t, i) => {
-  const s = t.length - 1,
-    e = [];
-  let l,
-    r = 2 === i ? "<svg>" : "",
-    u = f$1;
-  for (let i = 0; i < s; i++) {
-    const s = t[i];
-    let d,
-      c,
-      v = -1,
-      a = 0;
-    for (; a < s.length && (u.lastIndex = a, c = u.exec(s), null !== c);) a = u.lastIndex, u === f$1 ? "!--" === c[1] ? u = _$1 : void 0 !== c[1] ? u = m$1 : void 0 !== c[2] ? (y$2.test(c[2]) && (l = RegExp("</" + c[2], "g")), u = p$1) : void 0 !== c[3] && (u = p$1) : u === p$1 ? ">" === c[0] ? (u = null != l ? l : f$1, v = -1) : void 0 === c[1] ? v = -2 : (v = u.lastIndex - c[2].length, d = c[1], u = void 0 === c[3] ? p$1 : '"' === c[3] ? $$1 : g$1) : u === $$1 || u === g$1 ? u = p$1 : u === _$1 || u === m$1 ? u = f$1 : (u = p$1, l = void 0);
-    const w = u === p$1 && t[i + 1].startsWith("/>") ? " " : "";
-    r += u === f$1 ? s + h$2 : v >= 0 ? (e.push(d), s.slice(0, v) + o$4 + s.slice(v) + n$4 + w) : s + n$4 + (-2 === v ? (e.push(void 0), i) : w);
-  }
-  return [P$1(t, r + (t[s] || "<?>") + (2 === i ? "</svg>" : "")), e];
-};
-let N$1 = class N {
-  constructor({
-    strings: t,
-    _$litType$: i
-  }, e) {
-    let h;
-    this.parts = [];
-    let r = 0,
-      d = 0;
-    const c = t.length - 1,
-      v = this.parts,
-      [a, f] = V$1(t, i);
-    if (this.el = N.createElement(a, e), C$1.currentNode = this.el.content, 2 === i) {
-      const t = this.el.content,
-        i = t.firstChild;
-      i.remove(), t.append(...i.childNodes);
-    }
-    for (; null !== (h = C$1.nextNode()) && v.length < c;) {
-      if (1 === h.nodeType) {
-        if (h.hasAttributes()) {
-          const t = [];
-          for (const i of h.getAttributeNames()) if (i.endsWith(o$4) || i.startsWith(n$4)) {
-            const s = f[d++];
-            if (t.push(i), void 0 !== s) {
-              const t = h.getAttribute(s.toLowerCase() + o$4).split(n$4),
-                i = /([.?@])?(.*)/.exec(s);
-              v.push({
-                type: 1,
-                index: r,
-                name: i[2],
-                strings: t,
-                ctor: "." === i[1] ? H$1 : "?" === i[1] ? L$1 : "@" === i[1] ? z$1 : k$1
-              });
-            } else v.push({
-              type: 6,
-              index: r
-            });
-          }
-          for (const i of t) h.removeAttribute(i);
-        }
-        if (y$2.test(h.tagName)) {
-          const t = h.textContent.split(n$4),
-            i = t.length - 1;
-          if (i > 0) {
-            h.textContent = s$4 ? s$4.emptyScript : "";
-            for (let s = 0; s < i; s++) h.append(t[s], u$1()), C$1.nextNode(), v.push({
-              type: 2,
-              index: ++r
-            });
-            h.append(t[i], u$1());
-          }
-        }
-      } else if (8 === h.nodeType) if (h.data === l$4) v.push({
-        type: 2,
-        index: r
-      });else {
-        let t = -1;
-        for (; -1 !== (t = h.data.indexOf(n$4, t + 1));) v.push({
-          type: 7,
-          index: r
-        }), t += n$4.length - 1;
-      }
-      r++;
-    }
-  }
-  static createElement(t, i) {
-    const s = r$3.createElement("template");
-    return s.innerHTML = t, s;
-  }
-};
-function S$2(t, i, s = t, e) {
-  var o, n, l, h;
-  if (i === T$1) return i;
-  let r = void 0 !== e ? null === (o = s._$Co) || void 0 === o ? void 0 : o[e] : s._$Cl;
-  const u = d$1(i) ? void 0 : i._$litDirective$;
-  return (null == r ? void 0 : r.constructor) !== u && (null === (n = null == r ? void 0 : r._$AO) || void 0 === n || n.call(r, !1), void 0 === u ? r = void 0 : (r = new u(t), r._$AT(t, s, e)), void 0 !== e ? (null !== (l = (h = s)._$Co) && void 0 !== l ? l : h._$Co = [])[e] = r : s._$Cl = r), void 0 !== r && (i = S$2(t, r._$AS(t, i.values), r, e)), i;
-}
-let M$1 = class M {
-  constructor(t, i) {
-    this._$AV = [], this._$AN = void 0, this._$AD = t, this._$AM = i;
-  }
-  get parentNode() {
-    return this._$AM.parentNode;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  u(t) {
-    var i;
-    const {
-        el: {
-          content: s
-        },
-        parts: e
-      } = this._$AD,
-      o = (null !== (i = null == t ? void 0 : t.creationScope) && void 0 !== i ? i : r$3).importNode(s, !0);
-    C$1.currentNode = o;
-    let n = C$1.nextNode(),
-      l = 0,
-      h = 0,
-      u = e[0];
-    for (; void 0 !== u;) {
-      if (l === u.index) {
-        let i;
-        2 === u.type ? i = new R$1(n, n.nextSibling, this, t) : 1 === u.type ? i = new u.ctor(n, u.name, u.strings, this, t) : 6 === u.type && (i = new Z(n, this, t)), this._$AV.push(i), u = e[++h];
-      }
-      l !== (null == u ? void 0 : u.index) && (n = C$1.nextNode(), l++);
-    }
-    return C$1.currentNode = r$3, o;
-  }
-  v(t) {
-    let i = 0;
-    for (const s of this._$AV) void 0 !== s && (void 0 !== s.strings ? (s._$AI(t, s, i), i += s.strings.length - 2) : s._$AI(t[i])), i++;
-  }
-};
-let R$1 = class R {
-  constructor(t, i, s, e) {
-    var o;
-    this.type = 2, this._$AH = A$1, this._$AN = void 0, this._$AA = t, this._$AB = i, this._$AM = s, this.options = e, this._$Cp = null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o;
-  }
-  get _$AU() {
-    var t, i;
-    return null !== (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) && void 0 !== i ? i : this._$Cp;
-  }
-  get parentNode() {
-    let t = this._$AA.parentNode;
-    const i = this._$AM;
-    return void 0 !== i && 11 === (null == t ? void 0 : t.nodeType) && (t = i.parentNode), t;
-  }
-  get startNode() {
-    return this._$AA;
-  }
-  get endNode() {
-    return this._$AB;
-  }
-  _$AI(t, i = this) {
-    t = S$2(this, t, i), d$1(t) ? t === A$1 || null == t || "" === t ? (this._$AH !== A$1 && this._$AR(), this._$AH = A$1) : t !== this._$AH && t !== T$1 && this._(t) : void 0 !== t._$litType$ ? this.g(t) : void 0 !== t.nodeType ? this.$(t) : v$1(t) ? this.T(t) : this._(t);
-  }
-  k(t) {
-    return this._$AA.parentNode.insertBefore(t, this._$AB);
-  }
-  $(t) {
-    this._$AH !== t && (this._$AR(), this._$AH = this.k(t));
-  }
-  _(t) {
-    this._$AH !== A$1 && d$1(this._$AH) ? this._$AA.nextSibling.data = t : this.$(r$3.createTextNode(t)), this._$AH = t;
-  }
-  g(t) {
-    var i;
-    const {
-        values: s,
-        _$litType$: e
-      } = t,
-      o = "number" == typeof e ? this._$AC(t) : (void 0 === e.el && (e.el = N$1.createElement(P$1(e.h, e.h[0]), this.options)), e);
-    if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o) this._$AH.v(s);else {
-      const t = new M$1(o, this),
-        i = t.u(this.options);
-      t.v(s), this.$(i), this._$AH = t;
-    }
-  }
-  _$AC(t) {
-    let i = E$1.get(t.strings);
-    return void 0 === i && E$1.set(t.strings, i = new N$1(t)), i;
-  }
-  T(t) {
-    c$1(this._$AH) || (this._$AH = [], this._$AR());
-    const i = this._$AH;
-    let s,
-      e = 0;
-    for (const o of t) e === i.length ? i.push(s = new R(this.k(u$1()), this.k(u$1()), this, this.options)) : s = i[e], s._$AI(o), e++;
-    e < i.length && (this._$AR(s && s._$AB.nextSibling, e), i.length = e);
-  }
-  _$AR(t = this._$AA.nextSibling, i) {
-    var s;
-    for (null === (s = this._$AP) || void 0 === s || s.call(this, !1, !0, i); t && t !== this._$AB;) {
-      const i = t.nextSibling;
-      t.remove(), t = i;
-    }
-  }
-  setConnected(t) {
-    var i;
-    void 0 === this._$AM && (this._$Cp = t, null === (i = this._$AP) || void 0 === i || i.call(this, t));
-  }
-};
-let k$1 = class k {
-  constructor(t, i, s, e, o) {
-    this.type = 1, this._$AH = A$1, this._$AN = void 0, this.element = t, this.name = i, this._$AM = e, this.options = o, s.length > 2 || "" !== s[0] || "" !== s[1] ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = A$1;
-  }
-  get tagName() {
-    return this.element.tagName;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  _$AI(t, i = this, s, e) {
-    const o = this.strings;
-    let n = !1;
-    if (void 0 === o) t = S$2(this, t, i, 0), n = !d$1(t) || t !== this._$AH && t !== T$1, n && (this._$AH = t);else {
-      const e = t;
-      let l, h;
-      for (t = o[0], l = 0; l < o.length - 1; l++) h = S$2(this, e[s + l], i, l), h === T$1 && (h = this._$AH[l]), n || (n = !d$1(h) || h !== this._$AH[l]), h === A$1 ? t = A$1 : t !== A$1 && (t += (null != h ? h : "") + o[l + 1]), this._$AH[l] = h;
-    }
-    n && !e && this.j(t);
-  }
-  j(t) {
-    t === A$1 ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, null != t ? t : "");
-  }
-};
-let H$1 = class H extends k$1 {
-  constructor() {
-    super(...arguments), this.type = 3;
-  }
-  j(t) {
-    this.element[this.name] = t === A$1 ? void 0 : t;
-  }
-};
-const I$1 = s$4 ? s$4.emptyScript : "";
-let L$1 = class L extends k$1 {
-  constructor() {
-    super(...arguments), this.type = 4;
-  }
-  j(t) {
-    t && t !== A$1 ? this.element.setAttribute(this.name, I$1) : this.element.removeAttribute(this.name);
-  }
-};
-let z$1 = class z extends k$1 {
-  constructor(t, i, s, e, o) {
-    super(t, i, s, e, o), this.type = 5;
-  }
-  _$AI(t, i = this) {
-    var s;
-    if ((t = null !== (s = S$2(this, t, i, 0)) && void 0 !== s ? s : A$1) === T$1) return;
-    const e = this._$AH,
-      o = t === A$1 && e !== A$1 || t.capture !== e.capture || t.once !== e.once || t.passive !== e.passive,
-      n = t !== A$1 && (e === A$1 || o);
-    o && this.element.removeEventListener(this.name, this, e), n && this.element.addEventListener(this.name, this, t), this._$AH = t;
-  }
-  handleEvent(t) {
-    var i, s;
-    "function" == typeof this._$AH ? this._$AH.call(null !== (s = null === (i = this.options) || void 0 === i ? void 0 : i.host) && void 0 !== s ? s : this.element, t) : this._$AH.handleEvent(t);
-  }
-};
-class Z {
-  constructor(t, i, s) {
-    this.element = t, this.type = 6, this._$AN = void 0, this._$AM = i, this.options = s;
-  }
-  get _$AU() {
-    return this._$AM._$AU;
-  }
-  _$AI(t) {
-    S$2(this, t);
-  }
-}
-const B$1 = i$2.litHtmlPolyfillSupport;
-null == B$1 || B$1(N$1, R$1), (null !== (t$2 = i$2.litHtmlVersions) && void 0 !== t$2 ? t$2 : i$2.litHtmlVersions = []).push("2.8.0");
-
-/**
- * @license
- * Copyright 2019 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-const t$1 = window.ShadowRoot && (void 0 === window.ShadyCSS || window.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype,
-  e$2 = Symbol(),
-  n$3 = new Map();
-let s$3 = class s {
-  constructor(t, n) {
-    if (this._$cssResult$ = !0, n !== e$2) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
-    this.cssText = t;
-  }
-  get styleSheet() {
-    let e = n$3.get(this.cssText);
-    return t$1 && void 0 === e && (n$3.set(this.cssText, e = new CSSStyleSheet()), e.replaceSync(this.cssText)), e;
-  }
-  toString() {
-    return this.cssText;
-  }
-};
-const o$3 = t => new s$3("string" == typeof t ? t : t + "", e$2),
-  r$2 = (t, ...n) => {
-    const o = 1 === t.length ? t[0] : n.reduce((e, n, s) => e + (t => {
-      if (!0 === t._$cssResult$) return t.cssText;
-      if ("number" == typeof t) return t;
-      throw Error("Value passed to 'css' function must be a 'css' function result: " + t + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
-    })(n) + t[s + 1], t[0]);
-    return new s$3(o, e$2);
-  },
-  i$1 = (e, n) => {
-    t$1 ? e.adoptedStyleSheets = n.map(t => t instanceof CSSStyleSheet ? t : t.styleSheet) : n.forEach(t => {
-      const n = document.createElement("style"),
-        s = window.litNonce;
-      void 0 !== s && n.setAttribute("nonce", s), n.textContent = t.cssText, e.appendChild(n);
-    });
-  },
-  S$1 = t$1 ? t => t : t => t instanceof CSSStyleSheet ? (t => {
-    let e = "";
-    for (const n of t.cssRules) e += n.cssText;
-    return o$3(e);
-  })(t) : t;
-
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-var s$2;
-const e$1 = window.trustedTypes,
-  r$1 = e$1 ? e$1.emptyScript : "",
-  h$1 = window.reactiveElementPolyfillSupport,
-  o$2 = {
-    toAttribute(t, i) {
-      switch (i) {
-        case Boolean:
-          t = t ? r$1 : null;
-          break;
-        case Object:
-        case Array:
-          t = null == t ? t : JSON.stringify(t);
-      }
-      return t;
-    },
-    fromAttribute(t, i) {
-      let s = t;
-      switch (i) {
-        case Boolean:
-          s = null !== t;
-          break;
-        case Number:
-          s = null === t ? null : Number(t);
-          break;
-        case Object:
-        case Array:
-          try {
-            s = JSON.parse(t);
-          } catch (t) {
-            s = null;
-          }
-      }
-      return s;
-    }
-  },
-  n$2 = (t, i) => i !== t && (i == i || t == t),
-  l$3 = {
-    attribute: !0,
-    type: String,
-    converter: o$2,
-    reflect: !1,
-    hasChanged: n$2
-  };
-let a$1 = class a extends HTMLElement {
-  constructor() {
-    super(), this._$Et = new Map(), this.isUpdatePending = !1, this.hasUpdated = !1, this._$Ei = null, this.o();
-  }
-  static addInitializer(t) {
-    var i;
-    null !== (i = this.l) && void 0 !== i || (this.l = []), this.l.push(t);
-  }
-  static get observedAttributes() {
-    this.finalize();
-    const t = [];
-    return this.elementProperties.forEach((i, s) => {
-      const e = this._$Eh(s, i);
-      void 0 !== e && (this._$Eu.set(e, s), t.push(e));
-    }), t;
-  }
-  static createProperty(t, i = l$3) {
-    if (i.state && (i.attribute = !1), this.finalize(), this.elementProperties.set(t, i), !i.noAccessor && !this.prototype.hasOwnProperty(t)) {
-      const s = "symbol" == typeof t ? Symbol() : "__" + t,
-        e = this.getPropertyDescriptor(t, s, i);
-      void 0 !== e && Object.defineProperty(this.prototype, t, e);
-    }
-  }
-  static getPropertyDescriptor(t, i, s) {
-    return {
-      get() {
-        return this[i];
-      },
-      set(e) {
-        const r = this[t];
-        this[i] = e, this.requestUpdate(t, r, s);
-      },
-      configurable: !0,
-      enumerable: !0
-    };
-  }
-  static getPropertyOptions(t) {
-    return this.elementProperties.get(t) || l$3;
-  }
-  static finalize() {
-    if (this.hasOwnProperty("finalized")) return !1;
-    this.finalized = !0;
-    const t = Object.getPrototypeOf(this);
-    if (t.finalize(), this.elementProperties = new Map(t.elementProperties), this._$Eu = new Map(), this.hasOwnProperty("properties")) {
-      const t = this.properties,
-        i = [...Object.getOwnPropertyNames(t), ...Object.getOwnPropertySymbols(t)];
-      for (const s of i) this.createProperty(s, t[s]);
-    }
-    return this.elementStyles = this.finalizeStyles(this.styles), !0;
-  }
-  static finalizeStyles(i) {
-    const s = [];
-    if (Array.isArray(i)) {
-      const e = new Set(i.flat(1 / 0).reverse());
-      for (const i of e) s.unshift(S$1(i));
-    } else void 0 !== i && s.push(S$1(i));
-    return s;
-  }
-  static _$Eh(t, i) {
-    const s = i.attribute;
-    return !1 === s ? void 0 : "string" == typeof s ? s : "string" == typeof t ? t.toLowerCase() : void 0;
-  }
-  o() {
-    var t;
-    this._$Ep = new Promise(t => this.enableUpdating = t), this._$AL = new Map(), this._$Em(), this.requestUpdate(), null === (t = this.constructor.l) || void 0 === t || t.forEach(t => t(this));
-  }
-  addController(t) {
-    var i, s;
-    (null !== (i = this._$Eg) && void 0 !== i ? i : this._$Eg = []).push(t), void 0 !== this.renderRoot && this.isConnected && (null === (s = t.hostConnected) || void 0 === s || s.call(t));
-  }
-  removeController(t) {
-    var i;
-    null === (i = this._$Eg) || void 0 === i || i.splice(this._$Eg.indexOf(t) >>> 0, 1);
-  }
-  _$Em() {
-    this.constructor.elementProperties.forEach((t, i) => {
-      this.hasOwnProperty(i) && (this._$Et.set(i, this[i]), delete this[i]);
-    });
-  }
-  createRenderRoot() {
-    var t;
-    const s = null !== (t = this.shadowRoot) && void 0 !== t ? t : this.attachShadow(this.constructor.shadowRootOptions);
-    return i$1(s, this.constructor.elementStyles), s;
-  }
-  connectedCallback() {
-    var t;
-    void 0 === this.renderRoot && (this.renderRoot = this.createRenderRoot()), this.enableUpdating(!0), null === (t = this._$Eg) || void 0 === t || t.forEach(t => {
-      var i;
-      return null === (i = t.hostConnected) || void 0 === i ? void 0 : i.call(t);
-    });
-  }
-  enableUpdating(t) {}
-  disconnectedCallback() {
-    var t;
-    null === (t = this._$Eg) || void 0 === t || t.forEach(t => {
-      var i;
-      return null === (i = t.hostDisconnected) || void 0 === i ? void 0 : i.call(t);
-    });
-  }
-  attributeChangedCallback(t, i, s) {
-    this._$AK(t, s);
-  }
-  _$ES(t, i, s = l$3) {
-    var e, r;
-    const h = this.constructor._$Eh(t, s);
-    if (void 0 !== h && !0 === s.reflect) {
-      const n = (null !== (r = null === (e = s.converter) || void 0 === e ? void 0 : e.toAttribute) && void 0 !== r ? r : o$2.toAttribute)(i, s.type);
-      this._$Ei = t, null == n ? this.removeAttribute(h) : this.setAttribute(h, n), this._$Ei = null;
-    }
-  }
-  _$AK(t, i) {
-    var s, e, r;
-    const h = this.constructor,
-      n = h._$Eu.get(t);
-    if (void 0 !== n && this._$Ei !== n) {
-      const t = h.getPropertyOptions(n),
-        l = t.converter,
-        a = null !== (r = null !== (e = null === (s = l) || void 0 === s ? void 0 : s.fromAttribute) && void 0 !== e ? e : "function" == typeof l ? l : null) && void 0 !== r ? r : o$2.fromAttribute;
-      this._$Ei = n, this[n] = a(i, t.type), this._$Ei = null;
-    }
-  }
-  requestUpdate(t, i, s) {
-    let e = !0;
-    void 0 !== t && (((s = s || this.constructor.getPropertyOptions(t)).hasChanged || n$2)(this[t], i) ? (this._$AL.has(t) || this._$AL.set(t, i), !0 === s.reflect && this._$Ei !== t && (void 0 === this._$EC && (this._$EC = new Map()), this._$EC.set(t, s))) : e = !1), !this.isUpdatePending && e && (this._$Ep = this._$E_());
-  }
-  async _$E_() {
-    this.isUpdatePending = !0;
-    try {
-      await this._$Ep;
-    } catch (t) {
-      Promise.reject(t);
-    }
-    const t = this.scheduleUpdate();
-    return null != t && (await t), !this.isUpdatePending;
-  }
-  scheduleUpdate() {
-    return this.performUpdate();
-  }
-  performUpdate() {
-    var t;
-    if (!this.isUpdatePending) return;
-    this.hasUpdated, this._$Et && (this._$Et.forEach((t, i) => this[i] = t), this._$Et = void 0);
-    let i = !1;
-    const s = this._$AL;
-    try {
-      i = this.shouldUpdate(s), i ? (this.willUpdate(s), null === (t = this._$Eg) || void 0 === t || t.forEach(t => {
-        var i;
-        return null === (i = t.hostUpdate) || void 0 === i ? void 0 : i.call(t);
-      }), this.update(s)) : this._$EU();
-    } catch (t) {
-      throw i = !1, this._$EU(), t;
-    }
-    i && this._$AE(s);
-  }
-  willUpdate(t) {}
-  _$AE(t) {
-    var i;
-    null === (i = this._$Eg) || void 0 === i || i.forEach(t => {
-      var i;
-      return null === (i = t.hostUpdated) || void 0 === i ? void 0 : i.call(t);
-    }), this.hasUpdated || (this.hasUpdated = !0, this.firstUpdated(t)), this.updated(t);
-  }
-  _$EU() {
-    this._$AL = new Map(), this.isUpdatePending = !1;
-  }
-  get updateComplete() {
-    return this.getUpdateComplete();
-  }
-  getUpdateComplete() {
-    return this._$Ep;
-  }
-  shouldUpdate(t) {
-    return !0;
-  }
-  update(t) {
-    void 0 !== this._$EC && (this._$EC.forEach((t, i) => this._$ES(i, this[i], t)), this._$EC = void 0), this._$EU();
-  }
-  updated(t) {}
-  firstUpdated(t) {}
-};
-a$1.finalized = !0, a$1.elementProperties = new Map(), a$1.elementStyles = [], a$1.shadowRootOptions = {
-  mode: "open"
-}, null == h$1 || h$1({
-  ReactiveElement: a$1
-}), (null !== (s$2 = globalThis.reactiveElementVersions) && void 0 !== s$2 ? s$2 : globalThis.reactiveElementVersions = []).push("1.3.1");
+}, null == o$2 || o$2({
+  ReactiveElement: u$1
+}), (null !== (s$2 = e$1.reactiveElementVersions) && void 0 !== s$2 ? s$2 : e$1.reactiveElementVersions = []).push("1.6.3");
 
 /**
  * @license
@@ -5425,8 +4418,8 @@ const i = window,
   l$2 = "?" + n$1,
   h = `<${l$2}>`,
   r = document,
-  d = () => r.createComment(""),
-  u = t => null === t || "object" != typeof t && "function" != typeof t,
+  u = () => r.createComment(""),
+  d = t => null === t || "object" != typeof t && "function" != typeof t,
   c = Array.isArray,
   v = t => c(t) || "function" == typeof (null == t ? void 0 : t[Symbol.iterator]),
   a = "[ \t\n\f\r]",
@@ -5447,28 +4440,30 @@ const i = window,
   T = Symbol.for("lit-noChange"),
   A = Symbol.for("lit-nothing"),
   E = new WeakMap(),
-  C = r.createTreeWalker(r, 129, null, !1),
-  P = (t, i) => {
-    const s = t.length - 1,
-      l = [];
-    let r,
-      d = 2 === i ? "<svg>" : "",
-      u = f;
-    for (let i = 0; i < s; i++) {
-      const s = t[i];
-      let e,
-        c,
-        v = -1,
-        a = 0;
-      for (; a < s.length && (u.lastIndex = a, c = u.exec(s), null !== c);) a = u.lastIndex, u === f ? "!--" === c[1] ? u = _ : void 0 !== c[1] ? u = m : void 0 !== c[2] ? (y$1.test(c[2]) && (r = RegExp("</" + c[2], "g")), u = p) : void 0 !== c[3] && (u = p) : u === p ? ">" === c[0] ? (u = null != r ? r : f, v = -1) : void 0 === c[1] ? v = -2 : (v = u.lastIndex - c[2].length, e = c[1], u = void 0 === c[3] ? p : '"' === c[3] ? $ : g) : u === $ || u === g ? u = p : u === _ || u === m ? u = f : (u = p, r = void 0);
-      const w = u === p && t[i + 1].startsWith("/>") ? " " : "";
-      d += u === f ? s + h : v >= 0 ? (l.push(e), s.slice(0, v) + o$1 + s.slice(v) + n$1 + w) : s + n$1 + (-2 === v ? (l.push(void 0), i) : w);
-    }
-    const c = d + (t[s] || "<?>") + (2 === i ? "</svg>" : "");
-    if (!Array.isArray(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
-    return [void 0 !== e ? e.createHTML(c) : c, l];
-  };
-class V {
+  C = r.createTreeWalker(r, 129, null, !1);
+function P(t, i) {
+  if (!Array.isArray(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
+  return void 0 !== e ? e.createHTML(i) : i;
+}
+const V = (t, i) => {
+  const s = t.length - 1,
+    e = [];
+  let l,
+    r = 2 === i ? "<svg>" : "",
+    u = f;
+  for (let i = 0; i < s; i++) {
+    const s = t[i];
+    let d,
+      c,
+      v = -1,
+      a = 0;
+    for (; a < s.length && (u.lastIndex = a, c = u.exec(s), null !== c);) a = u.lastIndex, u === f ? "!--" === c[1] ? u = _ : void 0 !== c[1] ? u = m : void 0 !== c[2] ? (y$1.test(c[2]) && (l = RegExp("</" + c[2], "g")), u = p) : void 0 !== c[3] && (u = p) : u === p ? ">" === c[0] ? (u = null != l ? l : f, v = -1) : void 0 === c[1] ? v = -2 : (v = u.lastIndex - c[2].length, d = c[1], u = void 0 === c[3] ? p : '"' === c[3] ? $ : g) : u === $ || u === g ? u = p : u === _ || u === m ? u = f : (u = p, l = void 0);
+    const w = u === p && t[i + 1].startsWith("/>") ? " " : "";
+    r += u === f ? s + h : v >= 0 ? (e.push(d), s.slice(0, v) + o$1 + s.slice(v) + n$1 + w) : s + n$1 + (-2 === v ? (e.push(void 0), i) : w);
+  }
+  return [P(t, r + (t[s] || "<?>") + (2 === i ? "</svg>" : "")), e];
+};
+class N {
   constructor({
     strings: t,
     _$litType$: i
@@ -5476,11 +4471,11 @@ class V {
     let h;
     this.parts = [];
     let r = 0,
-      u = 0;
+      d = 0;
     const c = t.length - 1,
       v = this.parts,
-      [a, f] = P(t, i);
-    if (this.el = V.createElement(a, e), C.currentNode = this.el.content, 2 === i) {
+      [a, f] = V(t, i);
+    if (this.el = N.createElement(a, e), C.currentNode = this.el.content, 2 === i) {
       const t = this.el.content,
         i = t.firstChild;
       i.remove(), t.append(...i.childNodes);
@@ -5490,7 +4485,7 @@ class V {
         if (h.hasAttributes()) {
           const t = [];
           for (const i of h.getAttributeNames()) if (i.endsWith(o$1) || i.startsWith(n$1)) {
-            const s = f[u++];
+            const s = f[d++];
             if (t.push(i), void 0 !== s) {
               const t = h.getAttribute(s.toLowerCase() + o$1).split(n$1),
                 i = /([.?@])?(.*)/.exec(s);
@@ -5499,7 +4494,7 @@ class V {
                 index: r,
                 name: i[2],
                 strings: t,
-                ctor: "." === i[1] ? k : "?" === i[1] ? I : "@" === i[1] ? L : R
+                ctor: "." === i[1] ? H : "?" === i[1] ? L : "@" === i[1] ? z : k
               });
             } else v.push({
               type: 6,
@@ -5513,11 +4508,11 @@ class V {
             i = t.length - 1;
           if (i > 0) {
             h.textContent = s$1 ? s$1.emptyScript : "";
-            for (let s = 0; s < i; s++) h.append(t[s], d()), C.nextNode(), v.push({
+            for (let s = 0; s < i; s++) h.append(t[s], u()), C.nextNode(), v.push({
               type: 2,
               index: ++r
             });
-            h.append(t[i], d());
+            h.append(t[i], u());
           }
         }
       } else if (8 === h.nodeType) if (h.data === l$2) v.push({
@@ -5538,16 +4533,16 @@ class V {
     return s.innerHTML = t, s;
   }
 }
-function N(t, i, s = t, e) {
+function S(t, i, s = t, e) {
   var o, n, l, h;
   if (i === T) return i;
   let r = void 0 !== e ? null === (o = s._$Co) || void 0 === o ? void 0 : o[e] : s._$Cl;
-  const d = u(i) ? void 0 : i._$litDirective$;
-  return (null == r ? void 0 : r.constructor) !== d && (null === (n = null == r ? void 0 : r._$AO) || void 0 === n || n.call(r, !1), void 0 === d ? r = void 0 : (r = new d(t), r._$AT(t, s, e)), void 0 !== e ? (null !== (l = (h = s)._$Co) && void 0 !== l ? l : h._$Co = [])[e] = r : s._$Cl = r), void 0 !== r && (i = N(t, r._$AS(t, i.values), r, e)), i;
+  const u = d(i) ? void 0 : i._$litDirective$;
+  return (null == r ? void 0 : r.constructor) !== u && (null === (n = null == r ? void 0 : r._$AO) || void 0 === n || n.call(r, !1), void 0 === u ? r = void 0 : (r = new u(t), r._$AT(t, s, e)), void 0 !== e ? (null !== (l = (h = s)._$Co) && void 0 !== l ? l : h._$Co = [])[e] = r : s._$Cl = r), void 0 !== r && (i = S(t, r._$AS(t, i.values), r, e)), i;
 }
-class S {
+class M {
   constructor(t, i) {
-    this.u = [], this._$AN = void 0, this._$AD = t, this._$AM = i;
+    this._$AV = [], this._$AN = void 0, this._$AD = t, this._$AM = i;
   }
   get parentNode() {
     return this._$AM.parentNode;
@@ -5555,7 +4550,7 @@ class S {
   get _$AU() {
     return this._$AM._$AU;
   }
-  v(t) {
+  u(t) {
     var i;
     const {
         el: {
@@ -5568,29 +4563,29 @@ class S {
     let n = C.nextNode(),
       l = 0,
       h = 0,
-      d = e[0];
-    for (; void 0 !== d;) {
-      if (l === d.index) {
+      u = e[0];
+    for (; void 0 !== u;) {
+      if (l === u.index) {
         let i;
-        2 === d.type ? i = new M(n, n.nextSibling, this, t) : 1 === d.type ? i = new d.ctor(n, d.name, d.strings, this, t) : 6 === d.type && (i = new z(n, this, t)), this.u.push(i), d = e[++h];
+        2 === u.type ? i = new R(n, n.nextSibling, this, t) : 1 === u.type ? i = new u.ctor(n, u.name, u.strings, this, t) : 6 === u.type && (i = new Z(n, this, t)), this._$AV.push(i), u = e[++h];
       }
-      l !== (null == d ? void 0 : d.index) && (n = C.nextNode(), l++);
+      l !== (null == u ? void 0 : u.index) && (n = C.nextNode(), l++);
     }
-    return o;
+    return C.currentNode = r, o;
   }
-  p(t) {
+  v(t) {
     let i = 0;
-    for (const s of this.u) void 0 !== s && (void 0 !== s.strings ? (s._$AI(t, s, i), i += s.strings.length - 2) : s._$AI(t[i])), i++;
+    for (const s of this._$AV) void 0 !== s && (void 0 !== s.strings ? (s._$AI(t, s, i), i += s.strings.length - 2) : s._$AI(t[i])), i++;
   }
 }
-class M {
+class R {
   constructor(t, i, s, e) {
     var o;
-    this.type = 2, this._$AH = A, this._$AN = void 0, this._$AA = t, this._$AB = i, this._$AM = s, this.options = e, this._$Cm = null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o;
+    this.type = 2, this._$AH = A, this._$AN = void 0, this._$AA = t, this._$AB = i, this._$AM = s, this.options = e, this._$Cp = null === (o = null == e ? void 0 : e.isConnected) || void 0 === o || o;
   }
   get _$AU() {
     var t, i;
-    return null !== (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) && void 0 !== i ? i : this._$Cm;
+    return null !== (i = null === (t = this._$AM) || void 0 === t ? void 0 : t._$AU) && void 0 !== i ? i : this._$Cp;
   }
   get parentNode() {
     let t = this._$AA.parentNode;
@@ -5604,40 +4599,40 @@ class M {
     return this._$AB;
   }
   _$AI(t, i = this) {
-    t = N(this, t, i), u(t) ? t === A || null == t || "" === t ? (this._$AH !== A && this._$AR(), this._$AH = A) : t !== this._$AH && t !== T && this.g(t) : void 0 !== t._$litType$ ? this.$(t) : void 0 !== t.nodeType ? this.T(t) : v(t) ? this.k(t) : this.g(t);
+    t = S(this, t, i), d(t) ? t === A || null == t || "" === t ? (this._$AH !== A && this._$AR(), this._$AH = A) : t !== this._$AH && t !== T && this._(t) : void 0 !== t._$litType$ ? this.g(t) : void 0 !== t.nodeType ? this.$(t) : v(t) ? this.T(t) : this._(t);
   }
-  S(t) {
+  k(t) {
     return this._$AA.parentNode.insertBefore(t, this._$AB);
   }
-  T(t) {
-    this._$AH !== t && (this._$AR(), this._$AH = this.S(t));
+  $(t) {
+    this._$AH !== t && (this._$AR(), this._$AH = this.k(t));
+  }
+  _(t) {
+    this._$AH !== A && d(this._$AH) ? this._$AA.nextSibling.data = t : this.$(r.createTextNode(t)), this._$AH = t;
   }
   g(t) {
-    this._$AH !== A && u(this._$AH) ? this._$AA.nextSibling.data = t : this.T(r.createTextNode(t)), this._$AH = t;
-  }
-  $(t) {
     var i;
     const {
         values: s,
         _$litType$: e
       } = t,
-      o = "number" == typeof e ? this._$AC(t) : (void 0 === e.el && (e.el = V.createElement(e.h, this.options)), e);
-    if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o) this._$AH.p(s);else {
-      const t = new S(o, this),
-        i = t.v(this.options);
-      t.p(s), this.T(i), this._$AH = t;
+      o = "number" == typeof e ? this._$AC(t) : (void 0 === e.el && (e.el = N.createElement(P(e.h, e.h[0]), this.options)), e);
+    if ((null === (i = this._$AH) || void 0 === i ? void 0 : i._$AD) === o) this._$AH.v(s);else {
+      const t = new M(o, this),
+        i = t.u(this.options);
+      t.v(s), this.$(i), this._$AH = t;
     }
   }
   _$AC(t) {
     let i = E.get(t.strings);
-    return void 0 === i && E.set(t.strings, i = new V(t)), i;
+    return void 0 === i && E.set(t.strings, i = new N(t)), i;
   }
-  k(t) {
+  T(t) {
     c(this._$AH) || (this._$AH = [], this._$AR());
     const i = this._$AH;
     let s,
       e = 0;
-    for (const o of t) e === i.length ? i.push(s = new M(this.S(d()), this.S(d()), this, this.options)) : s = i[e], s._$AI(o), e++;
+    for (const o of t) e === i.length ? i.push(s = new R(this.k(u()), this.k(u()), this, this.options)) : s = i[e], s._$AI(o), e++;
     e < i.length && (this._$AR(s && s._$AB.nextSibling, e), i.length = e);
   }
   _$AR(t = this._$AA.nextSibling, i) {
@@ -5649,10 +4644,10 @@ class M {
   }
   setConnected(t) {
     var i;
-    void 0 === this._$AM && (this._$Cm = t, null === (i = this._$AP) || void 0 === i || i.call(this, t));
+    void 0 === this._$AM && (this._$Cp = t, null === (i = this._$AP) || void 0 === i || i.call(this, t));
   }
 }
-class R {
+class k {
   constructor(t, i, s, e, o) {
     this.type = 1, this._$AH = A, this._$AN = void 0, this.element = t, this.name = i, this._$AM = e, this.options = o, s.length > 2 || "" !== s[0] || "" !== s[1] ? (this._$AH = Array(s.length - 1).fill(new String()), this.strings = s) : this._$AH = A;
   }
@@ -5665,10 +4660,10 @@ class R {
   _$AI(t, i = this, s, e) {
     const o = this.strings;
     let n = !1;
-    if (void 0 === o) t = N(this, t, i, 0), n = !u(t) || t !== this._$AH && t !== T, n && (this._$AH = t);else {
+    if (void 0 === o) t = S(this, t, i, 0), n = !d(t) || t !== this._$AH && t !== T, n && (this._$AH = t);else {
       const e = t;
       let l, h;
-      for (t = o[0], l = 0; l < o.length - 1; l++) h = N(this, e[s + l], i, l), h === T && (h = this._$AH[l]), n || (n = !u(h) || h !== this._$AH[l]), h === A ? t = A : t !== A && (t += (null != h ? h : "") + o[l + 1]), this._$AH[l] = h;
+      for (t = o[0], l = 0; l < o.length - 1; l++) h = S(this, e[s + l], i, l), h === T && (h = this._$AH[l]), n || (n = !d(h) || h !== this._$AH[l]), h === A ? t = A : t !== A && (t += (null != h ? h : "") + o[l + 1]), this._$AH[l] = h;
     }
     n && !e && this.j(t);
   }
@@ -5676,7 +4671,7 @@ class R {
     t === A ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, null != t ? t : "");
   }
 }
-class k extends R {
+class H extends k {
   constructor() {
     super(...arguments), this.type = 3;
   }
@@ -5684,22 +4679,22 @@ class k extends R {
     this.element[this.name] = t === A ? void 0 : t;
   }
 }
-const H = s$1 ? s$1.emptyScript : "";
-class I extends R {
+const I = s$1 ? s$1.emptyScript : "";
+class L extends k {
   constructor() {
     super(...arguments), this.type = 4;
   }
   j(t) {
-    t && t !== A ? this.element.setAttribute(this.name, H) : this.element.removeAttribute(this.name);
+    t && t !== A ? this.element.setAttribute(this.name, I) : this.element.removeAttribute(this.name);
   }
 }
-class L extends R {
+class z extends k {
   constructor(t, i, s, e, o) {
     super(t, i, s, e, o), this.type = 5;
   }
   _$AI(t, i = this) {
     var s;
-    if ((t = null !== (s = N(this, t, i, 0)) && void 0 !== s ? s : A) === T) return;
+    if ((t = null !== (s = S(this, t, i, 0)) && void 0 !== s ? s : A) === T) return;
     const e = this._$AH,
       o = t === A && e !== A || t.capture !== e.capture || t.once !== e.once || t.passive !== e.passive,
       n = t !== A && (e === A || o);
@@ -5710,7 +4705,7 @@ class L extends R {
     "function" == typeof this._$AH ? this._$AH.call(null !== (s = null === (i = this.options) || void 0 === i ? void 0 : i.host) && void 0 !== s ? s : this.element, t) : this._$AH.handleEvent(t);
   }
 }
-class z {
+class Z {
   constructor(t, i, s) {
     this.element = t, this.type = 6, this._$AN = void 0, this._$AM = i, this.options = s;
   }
@@ -5718,18 +4713,18 @@ class z {
     return this._$AM._$AU;
   }
   _$AI(t) {
-    N(this, t);
+    S(this, t);
   }
 }
-const j = i.litHtmlPolyfillSupport;
-null == j || j(V, M), (null !== (t = i.litHtmlVersions) && void 0 !== t ? t : i.litHtmlVersions = []).push("2.7.0");
-const B = (t, i, s) => {
+const B = i.litHtmlPolyfillSupport;
+null == B || B(N, R), (null !== (t = i.litHtmlVersions) && void 0 !== t ? t : i.litHtmlVersions = []).push("2.8.0");
+const D = (t, i, s) => {
   var e, o;
   const n = null !== (e = null == s ? void 0 : s.renderBefore) && void 0 !== e ? e : i;
   let l = n._$litPart$;
   if (void 0 === l) {
     const t = null !== (o = null == s ? void 0 : s.renderBefore) && void 0 !== o ? o : null;
-    n._$litPart$ = l = new M(i.insertBefore(d(), t), t, void 0, null != s ? s : {});
+    n._$litPart$ = l = new R(i.insertBefore(u(), t), t, void 0, null != s ? s : {});
   }
   return l._$AI(t), l;
 };
@@ -5740,7 +4735,7 @@ const B = (t, i, s) => {
  * SPDX-License-Identifier: BSD-3-Clause
  */
 var l$1, o;
-class s extends a$1 {
+class s extends u$1 {
   constructor() {
     super(...arguments), this.renderOptions = {
       host: this
@@ -5753,7 +4748,7 @@ class s extends a$1 {
   }
   update(t) {
     const i = this.render();
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = B(i, this.renderRoot, this.renderOptions);
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = D(i, this.renderRoot, this.renderOptions);
   }
   connectedCallback() {
     var t;
@@ -5774,20 +4769,32 @@ const n = globalThis.litElementPolyfillSupport;
 null == n || n({
   LitElement: s
 });
-(null !== (o = globalThis.litElementVersions) && void 0 !== o ? o : globalThis.litElementVersions = []).push("3.3.0");
+(null !== (o = globalThis.litElementVersions) && void 0 !== o ? o : globalThis.litElementVersions = []).push("3.3.3");
 
 function ascending$2(a, b) {
   return a == null || b == null ? NaN : a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
 }
 
+function descending$1(a, b) {
+  return a == null || b == null ? NaN : b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
+}
+
 function bisector(f) {
-  let delta = f;
-  let compare1 = f;
-  let compare2 = f;
+  let compare1, compare2, delta;
+
+  // If an accessor is specified, promote it to a comparator. In this case we
+  // can test whether the search value is (self-) comparable. We can’t do this
+  // for a comparator (except for specific, known comparators) because we can’t
+  // tell if the comparator is symmetric, and an asymmetric comparator can’t be
+  // used to test whether a single value is comparable.
   if (f.length !== 2) {
-    delta = (d, x) => f(d) - x;
     compare1 = ascending$2;
     compare2 = (d, x) => ascending$2(f(d), x);
+    delta = (d, x) => f(d) - x;
+  } else {
+    compare1 = f === ascending$2 || f === descending$1 ? f : zero$1;
+    compare2 = f;
+    delta = f;
   }
   function left(a, x, lo = 0, hi = a.length) {
     if (lo < hi) {
@@ -5819,6 +4826,9 @@ function bisector(f) {
     right
   };
 }
+function zero$1() {
+  return 0;
+}
 
 function number$2(x) {
   return x === null ? NaN : +x;
@@ -5829,7 +4839,7 @@ const bisectRight = ascendingBisect.right;
 bisector(number$2).center;
 var bisect = bisectRight;
 
-function count$1(values, valueof) {
+function count(values, valueof) {
   let count = 0;
   if (valueof === undefined) {
     for (let value of values) {
@@ -5848,7 +4858,7 @@ function count$1(values, valueof) {
   return count;
 }
 
-function extent$1(values, valueof) {
+function extent(values, valueof) {
   let min;
   let max;
   if (valueof === undefined) {
@@ -5935,56 +4945,63 @@ function constant$5(x) {
   return () => x;
 }
 
-var e10$1 = Math.sqrt(50),
-  e5$1 = Math.sqrt(10),
-  e2$1 = Math.sqrt(2);
-function ticks$1(start, stop, count) {
-  var reverse,
-    i = -1,
-    n,
-    ticks,
-    step;
-  stop = +stop, start = +start, count = +count;
-  if (start === stop && count > 0) return [start];
-  if (reverse = stop < start) n = start, start = stop, stop = n;
-  if ((step = tickIncrement$1(start, stop, count)) === 0 || !isFinite(step)) return [];
-  if (step > 0) {
-    let r0 = Math.round(start / step),
-      r1 = Math.round(stop / step);
-    if (r0 * step < start) ++r0;
-    if (r1 * step > stop) --r1;
-    ticks = new Array(n = r1 - r0 + 1);
-    while (++i < n) ticks[i] = (r0 + i) * step;
+const e10 = Math.sqrt(50),
+  e5 = Math.sqrt(10),
+  e2 = Math.sqrt(2);
+function tickSpec(start, stop, count) {
+  const step = (stop - start) / Math.max(0, count),
+    power = Math.floor(Math.log10(step)),
+    error = step / Math.pow(10, power),
+    factor = error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1;
+  let i1, i2, inc;
+  if (power < 0) {
+    inc = Math.pow(10, -power) / factor;
+    i1 = Math.round(start * inc);
+    i2 = Math.round(stop * inc);
+    if (i1 / inc < start) ++i1;
+    if (i2 / inc > stop) --i2;
+    inc = -inc;
   } else {
-    step = -step;
-    let r0 = Math.round(start * step),
-      r1 = Math.round(stop * step);
-    if (r0 / step < start) ++r0;
-    if (r1 / step > stop) --r1;
-    ticks = new Array(n = r1 - r0 + 1);
-    while (++i < n) ticks[i] = (r0 + i) / step;
+    inc = Math.pow(10, power) * factor;
+    i1 = Math.round(start / inc);
+    i2 = Math.round(stop / inc);
+    if (i1 * inc < start) ++i1;
+    if (i2 * inc > stop) --i2;
   }
-  if (reverse) ticks.reverse();
+  if (i2 < i1 && 0.5 <= count && count < 2) return tickSpec(start, stop, count * 2);
+  return [i1, i2, inc];
+}
+function ticks(start, stop, count) {
+  stop = +stop, start = +start, count = +count;
+  if (!(count > 0)) return [];
+  if (start === stop) return [start];
+  const reverse = stop < start,
+    [i1, i2, inc] = reverse ? tickSpec(stop, start, count) : tickSpec(start, stop, count);
+  if (!(i2 >= i1)) return [];
+  const n = i2 - i1 + 1,
+    ticks = new Array(n);
+  if (reverse) {
+    if (inc < 0) for (let i = 0; i < n; ++i) ticks[i] = (i2 - i) / -inc;else for (let i = 0; i < n; ++i) ticks[i] = (i2 - i) * inc;
+  } else {
+    if (inc < 0) for (let i = 0; i < n; ++i) ticks[i] = (i1 + i) / -inc;else for (let i = 0; i < n; ++i) ticks[i] = (i1 + i) * inc;
+  }
   return ticks;
 }
-function tickIncrement$1(start, stop, count) {
-  var step = (stop - start) / Math.max(0, count),
-    power = Math.floor(Math.log(step) / Math.LN10),
-    error = step / Math.pow(10, power);
-  return power >= 0 ? (error >= e10$1 ? 10 : error >= e5$1 ? 5 : error >= e2$1 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10$1 ? 10 : error >= e5$1 ? 5 : error >= e2$1 ? 2 : 1);
+function tickIncrement(start, stop, count) {
+  stop = +stop, start = +start, count = +count;
+  return tickSpec(start, stop, count)[2];
 }
-function tickStep$1(start, stop, count) {
-  var step0 = Math.abs(stop - start) / Math.max(0, count),
-    step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)),
-    error = step0 / step1;
-  if (error >= e10$1) step1 *= 10;else if (error >= e5$1) step1 *= 5;else if (error >= e2$1) step1 *= 2;
-  return stop < start ? -step1 : step1;
+function tickStep(start, stop, count) {
+  stop = +stop, start = +start, count = +count;
+  const reverse = stop < start,
+    inc = reverse ? tickIncrement(stop, start, count) : tickIncrement(start, stop, count);
+  return (reverse ? -1 : 1) * (inc < 0 ? 1 / -inc : inc);
 }
 
 function nice(start, stop, count) {
   let prestep;
   while (true) {
-    const step = tickIncrement$1(start, stop, count);
+    const step = tickIncrement(start, stop, count);
     if (step === prestep || step === 0 || !isFinite(step)) {
       return [start, stop];
     } else if (step > 0) {
@@ -5998,19 +5015,20 @@ function nice(start, stop, count) {
   }
 }
 
-function thresholdSturges$1(values) {
-  return Math.ceil(Math.log(count$1(values)) / Math.LN2) + 1;
+function thresholdSturges(values) {
+  return Math.max(1, Math.ceil(Math.log(count(values)) / Math.LN2) + 1);
 }
 
 function bin() {
   var value = identity$7,
-    domain = extent$1,
-    threshold = thresholdSturges$1;
+    domain = extent,
+    threshold = thresholdSturges;
   function histogram(data) {
     if (!Array.isArray(data)) data = Array.from(data);
     var i,
       n = data.length,
       x,
+      step,
       values = new Array(n);
     for (i = 0; i < n; ++i) {
       values[i] = value(data[i], i, data);
@@ -6025,8 +5043,13 @@ function bin() {
     if (!Array.isArray(tz)) {
       const max = x1,
         tn = +tz;
-      if (domain === extent$1) [x0, x1] = nice(x0, x1, tn);
-      tz = ticks$1(x0, x1, tn);
+      if (domain === extent) [x0, x1] = nice(x0, x1, tn);
+      tz = ticks(x0, x1, tn);
+
+      // If the domain is aligned with the first tick (which it will by
+      // default), then we can use quantization rather than bisection to bin
+      // values, which is substantially faster.
+      if (tz[0] <= x0) step = tickIncrement(x0, x1, tn);
 
       // If the last threshold is coincident with the domain’s upper bound, the
       // last bin will be zero-width. If the default domain is used, and this
@@ -6036,8 +5059,8 @@ function bin() {
       // coerce values or the domain to numbers, and thus must be careful to
       // compare order (>=) rather than strict equality (===)!
       if (tz[tz.length - 1] >= x1) {
-        if (max >= x1 && domain === extent$1) {
-          const step = tickIncrement$1(x0, x1, tn);
+        if (max >= x1 && domain === extent) {
+          const step = tickIncrement(x0, x1, tn);
           if (isFinite(step)) {
             if (step > 0) {
               x1 = (Math.floor(x1 / step) + 1) * step;
@@ -6052,9 +5075,13 @@ function bin() {
     }
 
     // Remove any thresholds outside the domain.
-    var m = tz.length;
-    while (tz[0] <= x0) tz.shift(), --m;
-    while (tz[m - 1] > x1) tz.pop(), --m;
+    // Be careful not to mutate an array owned by the user!
+    var m = tz.length,
+      a = 0,
+      b = m;
+    while (tz[a] <= x0) ++a;
+    while (tz[b - 1] > x1) --b;
+    if (a || b < m) tz = tz.slice(a, b), m = b - a;
     var bins = new Array(m + 1),
       bin;
 
@@ -6066,10 +5093,26 @@ function bin() {
     }
 
     // Assign data to bins by value, ignoring any outside the domain.
-    for (i = 0; i < n; ++i) {
-      x = values[i];
-      if (x != null && x0 <= x && x <= x1) {
-        bins[bisect(tz, x, 0, m)].push(data[i]);
+    if (isFinite(step)) {
+      if (step > 0) {
+        for (i = 0; i < n; ++i) {
+          if ((x = values[i]) != null && x0 <= x && x <= x1) {
+            bins[Math.min(m, Math.floor((x - x0) / step))].push(data[i]);
+          }
+        }
+      } else if (step < 0) {
+        for (i = 0; i < n; ++i) {
+          if ((x = values[i]) != null && x0 <= x && x <= x1) {
+            const j = Math.floor((x0 - x) * step);
+            bins[Math.min(m, j + (tz[j] <= x))].push(data[i]); // handle off-by-one due to rounding
+          }
+        }
+      }
+    } else {
+      for (i = 0; i < n; ++i) {
+        if ((x = values[i]) != null && x0 <= x && x <= x1) {
+          bins[bisect(tz, x, 0, m)].push(data[i]);
+        }
       }
     }
     return bins;
@@ -6081,7 +5124,7 @@ function bin() {
     return arguments.length ? (domain = typeof _ === "function" ? _ : constant$5([_[0], _[1]]), histogram) : domain;
   };
   histogram.thresholds = function (_) {
-    return arguments.length ? (threshold = typeof _ === "function" ? _ : Array.isArray(_) ? constant$5(slice$1.call(_)) : constant$5(_), histogram) : threshold;
+    return arguments.length ? (threshold = typeof _ === "function" ? _ : constant$5(Array.isArray(_) ? slice$1.call(_) : _), histogram) : threshold;
   };
   return histogram;
 }
@@ -7458,15 +6501,15 @@ function Color() {}
 var darker = 0.7;
 var brighter = 1 / darker;
 var reI = "\\s*([+-]?\\d+)\\s*",
-  reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*",
-  reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*",
+  reN = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)\\s*",
+  reP = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)%\\s*",
   reHex = /^#([0-9a-f]{3,8})$/,
-  reRgbInteger = new RegExp("^rgb\\(" + [reI, reI, reI] + "\\)$"),
-  reRgbPercent = new RegExp("^rgb\\(" + [reP, reP, reP] + "\\)$"),
-  reRgbaInteger = new RegExp("^rgba\\(" + [reI, reI, reI, reN] + "\\)$"),
-  reRgbaPercent = new RegExp("^rgba\\(" + [reP, reP, reP, reN] + "\\)$"),
-  reHslPercent = new RegExp("^hsl\\(" + [reN, reP, reP] + "\\)$"),
-  reHslaPercent = new RegExp("^hsla\\(" + [reN, reP, reP, reN] + "\\)$");
+  reRgbInteger = new RegExp(`^rgb\\(${reI},${reI},${reI}\\)$`),
+  reRgbPercent = new RegExp(`^rgb\\(${reP},${reP},${reP}\\)$`),
+  reRgbaInteger = new RegExp(`^rgba\\(${reI},${reI},${reI},${reN}\\)$`),
+  reRgbaPercent = new RegExp(`^rgba\\(${reP},${reP},${reP},${reN}\\)$`),
+  reHslPercent = new RegExp(`^hsl\\(${reN},${reP},${reP}\\)$`),
+  reHslaPercent = new RegExp(`^hsla\\(${reN},${reP},${reP},${reN}\\)$`);
 var named = {
   aliceblue: 0xf0f8ff,
   antiquewhite: 0xfaebd7,
@@ -7618,21 +6661,25 @@ var named = {
   yellowgreen: 0x9acd32
 };
 define(Color, color, {
-  copy: function (channels) {
+  copy(channels) {
     return Object.assign(new this.constructor(), this, channels);
   },
-  displayable: function () {
+  displayable() {
     return this.rgb().displayable();
   },
   hex: color_formatHex,
   // Deprecated! Use color.formatHex.
   formatHex: color_formatHex,
+  formatHex8: color_formatHex8,
   formatHsl: color_formatHsl,
   formatRgb: color_formatRgb,
   toString: color_formatRgb
 });
 function color_formatHex() {
   return this.rgb().formatHex();
+}
+function color_formatHex8() {
+  return this.rgb().formatHex8();
 }
 function color_formatHsl() {
   return hslConvert(this).formatHsl();
@@ -7680,36 +6727,48 @@ function Rgb(r, g, b, opacity) {
   this.opacity = +opacity;
 }
 define(Rgb, rgb, extend(Color, {
-  brighter: function (k) {
+  brighter(k) {
     k = k == null ? brighter : Math.pow(brighter, k);
     return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
   },
-  darker: function (k) {
+  darker(k) {
     k = k == null ? darker : Math.pow(darker, k);
     return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
   },
-  rgb: function () {
+  rgb() {
     return this;
   },
-  displayable: function () {
+  clamp() {
+    return new Rgb(clampi(this.r), clampi(this.g), clampi(this.b), clampa(this.opacity));
+  },
+  displayable() {
     return -0.5 <= this.r && this.r < 255.5 && -0.5 <= this.g && this.g < 255.5 && -0.5 <= this.b && this.b < 255.5 && 0 <= this.opacity && this.opacity <= 1;
   },
   hex: rgb_formatHex,
   // Deprecated! Use color.formatHex.
   formatHex: rgb_formatHex,
+  formatHex8: rgb_formatHex8,
   formatRgb: rgb_formatRgb,
   toString: rgb_formatRgb
 }));
 function rgb_formatHex() {
-  return "#" + hex(this.r) + hex(this.g) + hex(this.b);
+  return `#${hex(this.r)}${hex(this.g)}${hex(this.b)}`;
+}
+function rgb_formatHex8() {
+  return `#${hex(this.r)}${hex(this.g)}${hex(this.b)}${hex((isNaN(this.opacity) ? 1 : this.opacity) * 255)}`;
 }
 function rgb_formatRgb() {
-  var a = this.opacity;
-  a = isNaN(a) ? 1 : Math.max(0, Math.min(1, a));
-  return (a === 1 ? "rgb(" : "rgba(") + Math.max(0, Math.min(255, Math.round(this.r) || 0)) + ", " + Math.max(0, Math.min(255, Math.round(this.g) || 0)) + ", " + Math.max(0, Math.min(255, Math.round(this.b) || 0)) + (a === 1 ? ")" : ", " + a + ")");
+  const a = clampa(this.opacity);
+  return `${a === 1 ? "rgb(" : "rgba("}${clampi(this.r)}, ${clampi(this.g)}, ${clampi(this.b)}${a === 1 ? ")" : `, ${a})`}`;
+}
+function clampa(opacity) {
+  return isNaN(opacity) ? 1 : Math.max(0, Math.min(1, opacity));
+}
+function clampi(value) {
+  return Math.max(0, Math.min(255, Math.round(value) || 0));
 }
 function hex(value) {
-  value = Math.max(0, Math.min(255, Math.round(value) || 0));
+  value = clampi(value);
   return (value < 16 ? "0" : "") + value.toString(16);
 }
 function hsla(h, s, l, a) {
@@ -7749,15 +6808,15 @@ function Hsl(h, s, l, opacity) {
   this.opacity = +opacity;
 }
 define(Hsl, hsl, extend(Color, {
-  brighter: function (k) {
+  brighter(k) {
     k = k == null ? brighter : Math.pow(brighter, k);
     return new Hsl(this.h, this.s, this.l * k, this.opacity);
   },
-  darker: function (k) {
+  darker(k) {
     k = k == null ? darker : Math.pow(darker, k);
     return new Hsl(this.h, this.s, this.l * k, this.opacity);
   },
-  rgb: function () {
+  rgb() {
     var h = this.h % 360 + (this.h < 0) * 360,
       s = isNaN(h) || isNaN(this.s) ? 0 : this.s,
       l = this.l,
@@ -7765,15 +6824,24 @@ define(Hsl, hsl, extend(Color, {
       m1 = 2 * l - m2;
     return new Rgb(hsl2rgb(h >= 240 ? h - 240 : h + 120, m1, m2), hsl2rgb(h, m1, m2), hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2), this.opacity);
   },
-  displayable: function () {
+  clamp() {
+    return new Hsl(clamph(this.h), clampt(this.s), clampt(this.l), clampa(this.opacity));
+  },
+  displayable() {
     return (0 <= this.s && this.s <= 1 || isNaN(this.s)) && 0 <= this.l && this.l <= 1 && 0 <= this.opacity && this.opacity <= 1;
   },
-  formatHsl: function () {
-    var a = this.opacity;
-    a = isNaN(a) ? 1 : Math.max(0, Math.min(1, a));
-    return (a === 1 ? "hsl(" : "hsla(") + (this.h || 0) + ", " + (this.s || 0) * 100 + "%, " + (this.l || 0) * 100 + "%" + (a === 1 ? ")" : ", " + a + ")");
+  formatHsl() {
+    const a = clampa(this.opacity);
+    return `${a === 1 ? "hsl(" : "hsla("}${clamph(this.h)}, ${clampt(this.s) * 100}%, ${clampt(this.l) * 100}%${a === 1 ? ")" : `, ${a})`}`;
   }
 }));
+function clamph(value) {
+  value = (value || 0) % 360;
+  return value < 0 ? value + 360 : value;
+}
+function clampt(value) {
+  return Math.max(0, Math.min(1, value || 0));
+}
 
 /* From FvD 13.37, CSS Color Module Level 3 */
 function hsl2rgb(h, m1, m2) {
@@ -8984,38 +8052,56 @@ const pi$2 = Math.PI,
   tau$2 = 2 * pi$2,
   epsilon$2 = 1e-6,
   tauEpsilon = tau$2 - epsilon$2;
-function Path() {
-  this._x0 = this._y0 =
-  // start of current subpath
-  this._x1 = this._y1 = null; // end of current subpath
-  this._ = "";
+function append$1(strings) {
+  this._ += strings[0];
+  for (let i = 1, n = strings.length; i < n; ++i) {
+    this._ += arguments[i] + strings[i];
+  }
 }
-function path() {
-  return new Path();
+function appendRound$1(digits) {
+  let d = Math.floor(digits);
+  if (!(d >= 0)) throw new Error(`invalid digits: ${digits}`);
+  if (d > 15) return append$1;
+  const k = 10 ** d;
+  return function (strings) {
+    this._ += strings[0];
+    for (let i = 1, n = strings.length; i < n; ++i) {
+      this._ += Math.round(arguments[i] * k) / k + strings[i];
+    }
+  };
 }
-Path.prototype = path.prototype = {
-  constructor: Path,
-  moveTo: function (x, y) {
-    this._ += "M" + (this._x0 = this._x1 = +x) + "," + (this._y0 = this._y1 = +y);
-  },
-  closePath: function () {
+class Path {
+  constructor(digits) {
+    this._x0 = this._y0 =
+    // start of current subpath
+    this._x1 = this._y1 = null; // end of current subpath
+    this._ = "";
+    this._append = digits == null ? append$1 : appendRound$1(digits);
+  }
+  moveTo(x, y) {
+    this._append`M${this._x0 = this._x1 = +x},${this._y0 = this._y1 = +y}`;
+  }
+  closePath() {
     if (this._x1 !== null) {
       this._x1 = this._x0, this._y1 = this._y0;
-      this._ += "Z";
+      this._append`Z`;
     }
-  },
-  lineTo: function (x, y) {
-    this._ += "L" + (this._x1 = +x) + "," + (this._y1 = +y);
-  },
-  quadraticCurveTo: function (x1, y1, x, y) {
-    this._ += "Q" + +x1 + "," + +y1 + "," + (this._x1 = +x) + "," + (this._y1 = +y);
-  },
-  bezierCurveTo: function (x1, y1, x2, y2, x, y) {
-    this._ += "C" + +x1 + "," + +y1 + "," + +x2 + "," + +y2 + "," + (this._x1 = +x) + "," + (this._y1 = +y);
-  },
-  arcTo: function (x1, y1, x2, y2, r) {
+  }
+  lineTo(x, y) {
+    this._append`L${this._x1 = +x},${this._y1 = +y}`;
+  }
+  quadraticCurveTo(x1, y1, x, y) {
+    this._append`Q${+x1},${+y1},${this._x1 = +x},${this._y1 = +y}`;
+  }
+  bezierCurveTo(x1, y1, x2, y2, x, y) {
+    this._append`C${+x1},${+y1},${+x2},${+y2},${this._x1 = +x},${this._y1 = +y}`;
+  }
+  arcTo(x1, y1, x2, y2, r) {
     x1 = +x1, y1 = +y1, x2 = +x2, y2 = +y2, r = +r;
-    var x0 = this._x1,
+
+    // Is the radius negative? Error.
+    if (r < 0) throw new Error(`negative radius: ${r}`);
+    let x0 = this._x1,
       y0 = this._y1,
       x21 = x2 - x1,
       y21 = y2 - y1,
@@ -9023,12 +8109,9 @@ Path.prototype = path.prototype = {
       y01 = y0 - y1,
       l01_2 = x01 * x01 + y01 * y01;
 
-    // Is the radius negative? Error.
-    if (r < 0) throw new Error("negative radius: " + r);
-
     // Is this path empty? Move to (x1,y1).
     if (this._x1 === null) {
-      this._ += "M" + (this._x1 = x1) + "," + (this._y1 = y1);
+      this._append`M${this._x1 = x1},${this._y1 = y1}`;
     }
 
     // Or, is (x1,y1) coincident with (x0,y0)? Do nothing.
@@ -9038,12 +8121,12 @@ Path.prototype = path.prototype = {
     // Equivalently, is (x1,y1) coincident with (x2,y2)?
     // Or, is the radius zero? Line to (x1,y1).
     else if (!(Math.abs(y01 * x21 - y21 * x01) > epsilon$2) || !r) {
-      this._ += "L" + (this._x1 = x1) + "," + (this._y1 = y1);
+      this._append`L${this._x1 = x1},${this._y1 = y1}`;
     }
 
     // Otherwise, draw an arc!
     else {
-      var x20 = x2 - x0,
+      let x20 = x2 - x0,
         y20 = y2 - y0,
         l21_2 = x21 * x21 + y21 * y21,
         l20_2 = x20 * x20 + y20 * y20,
@@ -9055,31 +8138,31 @@ Path.prototype = path.prototype = {
 
       // If the start tangent is not coincident with (x0,y0), line to.
       if (Math.abs(t01 - 1) > epsilon$2) {
-        this._ += "L" + (x1 + t01 * x01) + "," + (y1 + t01 * y01);
+        this._append`L${x1 + t01 * x01},${y1 + t01 * y01}`;
       }
-      this._ += "A" + r + "," + r + ",0,0," + +(y01 * x20 > x01 * y20) + "," + (this._x1 = x1 + t21 * x21) + "," + (this._y1 = y1 + t21 * y21);
+      this._append`A${r},${r},0,0,${+(y01 * x20 > x01 * y20)},${this._x1 = x1 + t21 * x21},${this._y1 = y1 + t21 * y21}`;
     }
-  },
-  arc: function (x, y, r, a0, a1, ccw) {
+  }
+  arc(x, y, r, a0, a1, ccw) {
     x = +x, y = +y, r = +r, ccw = !!ccw;
-    var dx = r * Math.cos(a0),
+
+    // Is the radius negative? Error.
+    if (r < 0) throw new Error(`negative radius: ${r}`);
+    let dx = r * Math.cos(a0),
       dy = r * Math.sin(a0),
       x0 = x + dx,
       y0 = y + dy,
       cw = 1 ^ ccw,
       da = ccw ? a0 - a1 : a1 - a0;
 
-    // Is the radius negative? Error.
-    if (r < 0) throw new Error("negative radius: " + r);
-
     // Is this path empty? Move to (x0,y0).
     if (this._x1 === null) {
-      this._ += "M" + x0 + "," + y0;
+      this._append`M${x0},${y0}`;
     }
 
     // Or, is (x0,y0) not coincident with the previous point? Line to (x0,y0).
     else if (Math.abs(this._x1 - x0) > epsilon$2 || Math.abs(this._y1 - y0) > epsilon$2) {
-      this._ += "L" + x0 + "," + y0;
+      this._append`L${x0},${y0}`;
     }
 
     // Is this arc empty? We’re done.
@@ -9090,119 +8173,20 @@ Path.prototype = path.prototype = {
 
     // Is this a complete circle? Draw two arcs to complete the circle.
     if (da > tauEpsilon) {
-      this._ += "A" + r + "," + r + ",0,1," + cw + "," + (x - dx) + "," + (y - dy) + "A" + r + "," + r + ",0,1," + cw + "," + (this._x1 = x0) + "," + (this._y1 = y0);
+      this._append`A${r},${r},0,1,${cw},${x - dx},${y - dy}A${r},${r},0,1,${cw},${this._x1 = x0},${this._y1 = y0}`;
     }
 
     // Is this arc non-empty? Draw an arc!
     else if (da > epsilon$2) {
-      this._ += "A" + r + "," + r + ",0," + +(da >= pi$2) + "," + cw + "," + (this._x1 = x + r * Math.cos(a1)) + "," + (this._y1 = y + r * Math.sin(a1));
+      this._append`A${r},${r},0,${+(da >= pi$2)},${cw},${this._x1 = x + r * Math.cos(a1)},${this._y1 = y + r * Math.sin(a1)}`;
     }
-  },
-  rect: function (x, y, w, h) {
-    this._ += "M" + (this._x0 = this._x1 = +x) + "," + (this._y0 = this._y1 = +y) + "h" + +w + "v" + +h + "h" + -w + "Z";
-  },
-  toString: function () {
+  }
+  rect(x, y, w, h) {
+    this._append`M${this._x0 = this._x1 = +x},${this._y0 = this._y1 = +y}h${w = +w}v${+h}h${-w}Z`;
+  }
+  toString() {
     return this._;
   }
-};
-
-function count(values, valueof) {
-  let count = 0;
-  if (valueof === undefined) {
-    for (let value of values) {
-      if (value != null && (value = +value) >= value) {
-        ++count;
-      }
-    }
-  } else {
-    let index = -1;
-    for (let value of values) {
-      if ((value = valueof(value, ++index, values)) != null && (value = +value) >= value) {
-        ++count;
-      }
-    }
-  }
-  return count;
-}
-
-function extent(values, valueof) {
-  let min;
-  let max;
-  if (valueof === undefined) {
-    for (const value of values) {
-      if (value != null) {
-        if (min === undefined) {
-          if (value >= value) min = max = value;
-        } else {
-          if (min > value) min = value;
-          if (max < value) max = value;
-        }
-      }
-    }
-  } else {
-    let index = -1;
-    for (let value of values) {
-      if ((value = valueof(value, ++index, values)) != null) {
-        if (min === undefined) {
-          if (value >= value) min = max = value;
-        } else {
-          if (min > value) min = value;
-          if (max < value) max = value;
-        }
-      }
-    }
-  }
-  return [min, max];
-}
-
-var e10 = Math.sqrt(50),
-  e5 = Math.sqrt(10),
-  e2 = Math.sqrt(2);
-function ticks(start, stop, count) {
-  var reverse,
-    i = -1,
-    n,
-    ticks,
-    step;
-  stop = +stop, start = +start, count = +count;
-  if (start === stop && count > 0) return [start];
-  if (reverse = stop < start) n = start, start = stop, stop = n;
-  if ((step = tickIncrement(start, stop, count)) === 0 || !isFinite(step)) return [];
-  if (step > 0) {
-    let r0 = Math.round(start / step),
-      r1 = Math.round(stop / step);
-    if (r0 * step < start) ++r0;
-    if (r1 * step > stop) --r1;
-    ticks = new Array(n = r1 - r0 + 1);
-    while (++i < n) ticks[i] = (r0 + i) * step;
-  } else {
-    step = -step;
-    let r0 = Math.round(start * step),
-      r1 = Math.round(stop * step);
-    if (r0 / step < start) ++r0;
-    if (r1 / step > stop) --r1;
-    ticks = new Array(n = r1 - r0 + 1);
-    while (++i < n) ticks[i] = (r0 + i) / step;
-  }
-  if (reverse) ticks.reverse();
-  return ticks;
-}
-function tickIncrement(start, stop, count) {
-  var step = (stop - start) / Math.max(0, count),
-    power = Math.floor(Math.log(step) / Math.LN10),
-    error = step / Math.pow(10, power);
-  return power >= 0 ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
-}
-function tickStep(start, stop, count) {
-  var step0 = Math.abs(stop - start) / Math.max(0, count),
-    step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)),
-    error = step0 / step1;
-  if (error >= e10) step1 *= 10;else if (error >= e5) step1 *= 5;else if (error >= e2) step1 *= 2;
-  return stop < start ? -step1 : step1;
-}
-
-function thresholdSturges(values) {
-  return Math.ceil(Math.log(count(values)) / Math.LN2) + 1;
 }
 
 var array$1 = Array.prototype;
@@ -9269,9 +8253,10 @@ function Contours () {
 
     // Convert number of thresholds into uniform thresholds.
     if (!Array.isArray(tz)) {
-      const e = extent(values),
-        ts = tickStep(e[0], e[1], tz);
-      tz = ticks(Math.floor(e[0] / ts) * ts, Math.floor(e[1] / ts - 1) * ts, tz);
+      const e = extent(values, finite);
+      tz = ticks(...nice(e[0], e[1], tz), tz);
+      while (tz[tz.length - 1] >= e[1]) tz.pop();
+      while (tz[1] < e[0]) tz.shift();
     } else {
       tz = tz.slice().sort(ascending);
     }
@@ -9281,10 +8266,12 @@ function Contours () {
   // Accumulate, smooth contour rings, assign holes to exterior rings.
   // Based on https://github.com/mbostock/shapefile/blob/v0.6.2/shp/polygon.js
   function contour(values, value) {
+    const v = value == null ? NaN : +value;
+    if (isNaN(v)) throw new Error(`invalid value: ${value}`);
     var polygons = [],
       holes = [];
-    isorings(values, value, function (ring) {
-      smooth(ring, values, value);
+    isorings(values, v, function (ring) {
+      smooth(ring, values, v);
       if (area(ring) > 0) polygons.push([ring]);else holes.push(ring);
     });
     holes.forEach(function (hole) {
@@ -9316,10 +8303,10 @@ function Contours () {
 
     // Special case for the first row (y = -1, t2 = t3 = 0).
     x = y = -1;
-    t1 = values[0] >= value;
+    t1 = above(values[0], value);
     cases[t1 << 1].forEach(stitch);
     while (++x < dx - 1) {
-      t0 = t1, t1 = values[x + 1] >= value;
+      t0 = t1, t1 = above(values[x + 1], value);
       cases[t0 | t1 << 1].forEach(stitch);
     }
     cases[t1 << 0].forEach(stitch);
@@ -9327,12 +8314,12 @@ function Contours () {
     // General case for the intermediate rows.
     while (++y < dy - 1) {
       x = -1;
-      t1 = values[y * dx + dx] >= value;
-      t2 = values[y * dx] >= value;
+      t1 = above(values[y * dx + dx], value);
+      t2 = above(values[y * dx], value);
       cases[t1 << 1 | t2 << 2].forEach(stitch);
       while (++x < dx - 1) {
-        t0 = t1, t1 = values[y * dx + dx + x + 1] >= value;
-        t3 = t2, t2 = values[y * dx + x + 1] >= value;
+        t0 = t1, t1 = above(values[y * dx + dx + x + 1], value);
+        t3 = t2, t2 = above(values[y * dx + x + 1], value);
         cases[t0 | t1 << 1 | t2 << 2 | t3 << 3].forEach(stitch);
       }
       cases[t1 | t2 << 3].forEach(stitch);
@@ -9343,7 +8330,7 @@ function Contours () {
     t2 = values[y * dx] >= value;
     cases[t2 << 2].forEach(stitch);
     while (++x < dx - 1) {
-      t3 = t2, t2 = values[y * dx + x + 1] >= value;
+      t3 = t2, t2 = above(values[y * dx + x + 1], value);
       cases[t2 << 2 | t3 << 3].forEach(stitch);
     }
     cases[t2 << 3].forEach(stitch);
@@ -9410,15 +8397,12 @@ function Contours () {
         y = point[1],
         xt = x | 0,
         yt = y | 0,
-        v0,
-        v1 = values[yt * dx + xt];
+        v1 = valid(values[yt * dx + xt]);
       if (x > 0 && x < dx && xt === x) {
-        v0 = values[yt * dx + xt - 1];
-        point[0] = x + (value - v0) / (v1 - v0) - 0.5;
+        point[0] = smooth1(x, valid(values[yt * dx + xt - 1]), v1, value);
       }
       if (y > 0 && y < dy && yt === y) {
-        v0 = values[(yt - 1) * dx + xt];
-        point[1] = y + (value - v0) / (v1 - v0) - 0.5;
+        point[1] = smooth1(y, valid(values[(yt - 1) * dx + xt]), v1, value);
       }
     });
   }
@@ -9437,6 +8421,28 @@ function Contours () {
     return arguments.length ? (smooth = _ ? smoothLinear : noop$1, contours) : smooth === smoothLinear;
   };
   return contours;
+}
+
+// When computing the extent, ignore infinite values (as well as invalid ones).
+function finite(x) {
+  return isFinite(x) ? x : NaN;
+}
+
+// Is the (possibly invalid) x greater than or equal to the (known valid) value?
+// Treat any invalid value as below negative infinity.
+function above(x, value) {
+  return x == null ? false : +x >= value;
+}
+
+// During smoothing, treat any invalid value as negative infinity.
+function valid(v) {
+  return v == null || isNaN(v = +v) ? -Infinity : v;
+}
+function smooth1(x, v0, v1, value) {
+  const a = value - v0;
+  const b = v1 - v0;
+  const d = isFinite(a) || isFinite(b) ? a / b : Math.sign(a) / Math.sign(b);
+  return isNaN(d) ? x : x + d - 0.5;
 }
 
 function formatDecimal (x) {
@@ -10395,66 +9401,96 @@ function lengthPoint(x, y) {
 }
 var pathMeasure = lengthStream;
 
-function PathString() {
-  this._string = [];
-}
-PathString.prototype = {
-  _radius: 4.5,
-  _circle: circle(4.5),
-  pointRadius: function (_) {
-    if ((_ = +_) !== this._radius) this._radius = _, this._circle = null;
+// Simple caching for constant-radius points.
+let cacheDigits, cacheAppend, cacheRadius, cacheCircle;
+class PathString {
+  constructor(digits) {
+    this._append = digits == null ? append : appendRound(digits);
+    this._radius = 4.5;
+    this._ = "";
+  }
+  pointRadius(_) {
+    this._radius = +_;
     return this;
-  },
-  polygonStart: function () {
+  }
+  polygonStart() {
     this._line = 0;
-  },
-  polygonEnd: function () {
+  }
+  polygonEnd() {
     this._line = NaN;
-  },
-  lineStart: function () {
+  }
+  lineStart() {
     this._point = 0;
-  },
-  lineEnd: function () {
-    if (this._line === 0) this._string.push("Z");
+  }
+  lineEnd() {
+    if (this._line === 0) this._ += "Z";
     this._point = NaN;
-  },
-  point: function (x, y) {
+  }
+  point(x, y) {
     switch (this._point) {
       case 0:
         {
-          this._string.push("M", x, ",", y);
+          this._append`M${x},${y}`;
           this._point = 1;
           break;
         }
       case 1:
         {
-          this._string.push("L", x, ",", y);
+          this._append`L${x},${y}`;
           break;
         }
       default:
         {
-          if (this._circle == null) this._circle = circle(this._radius);
-          this._string.push("M", x, ",", y, this._circle);
+          this._append`M${x},${y}`;
+          if (this._radius !== cacheRadius || this._append !== cacheAppend) {
+            const r = this._radius;
+            const s = this._;
+            this._ = ""; // stash the old string so we can cache the circle path fragment
+            this._append`m0,${r}a${r},${r} 0 1,1 0,${-2 * r}a${r},${r} 0 1,1 0,${2 * r}z`;
+            cacheRadius = r;
+            cacheAppend = this._append;
+            cacheCircle = this._;
+            this._ = s;
+          }
+          this._ += cacheCircle;
           break;
         }
     }
-  },
-  result: function () {
-    if (this._string.length) {
-      var result = this._string.join("");
-      this._string = [];
-      return result;
-    } else {
-      return null;
-    }
   }
-};
-function circle(radius) {
-  return "m0," + radius + "a" + radius + "," + radius + " 0 1,1 0," + -2 * radius + "a" + radius + "," + radius + " 0 1,1 0," + 2 * radius + "z";
+  result() {
+    const result = this._;
+    this._ = "";
+    return result.length ? result : null;
+  }
+}
+function append(strings) {
+  let i = 1;
+  this._ += strings[0];
+  for (const j = strings.length; i < j; ++i) {
+    this._ += arguments[i] + strings[i];
+  }
+}
+function appendRound(digits) {
+  const d = Math.floor(digits);
+  if (!(d >= 0)) throw new RangeError(`invalid digits: ${digits}`);
+  if (d > 15) return append;
+  if (d !== cacheDigits) {
+    const k = 10 ** d;
+    cacheDigits = d;
+    cacheAppend = function append(strings) {
+      let i = 1;
+      this._ += strings[0];
+      for (const j = strings.length; i < j; ++i) {
+        this._ += Math.round(arguments[i] * k) / k + strings[i];
+      }
+    };
+  }
+  return cacheAppend;
 }
 
 function index (projection, context) {
-  var pointRadius = 4.5,
+  let digits = 3,
+    pointRadius = 4.5,
     projectionStream,
     contextStream;
   function path(object) {
@@ -10481,11 +9517,13 @@ function index (projection, context) {
     return pathCentroid.result();
   };
   path.projection = function (_) {
-    return arguments.length ? (projectionStream = _ == null ? (projection = null, identity$3) : (projection = _).stream, path) : projection;
+    if (!arguments.length) return projection;
+    projectionStream = _ == null ? (projection = null, identity$3) : (projection = _).stream;
+    return path;
   };
   path.context = function (_) {
     if (!arguments.length) return context;
-    contextStream = _ == null ? (context = null, new PathString()) : new PathContext(context = _);
+    contextStream = _ == null ? (context = null, new PathString(digits)) : new PathContext(context = _);
     if (typeof pointRadius !== "function") contextStream.pointRadius(pointRadius);
     return path;
   };
@@ -10494,7 +9532,17 @@ function index (projection, context) {
     pointRadius = typeof _ === "function" ? _ : (contextStream.pointRadius(+_), +_);
     return path;
   };
-  return path.projection(projection).context(context);
+  path.digits = function (_) {
+    if (!arguments.length) return digits;
+    if (_ == null) digits = null;else {
+      const d = Math.floor(_);
+      if (!(d >= 0)) throw new RangeError(`invalid digits: ${_}`);
+      digits = d;
+    }
+    if (context === null) contextStream = new PathString(digits);
+    return path;
+  };
+  return path.projection(projection).digits(digits).context(context);
 }
 
 function transformer$1(methods) {
@@ -10789,7 +9837,7 @@ function continuous() {
 }
 
 function tickFormat(start, stop, count, specifier) {
-  var step = tickStep$1(start, stop, count),
+  var step = tickStep(start, stop, count),
     precision;
   specifier = formatSpecifier(specifier == null ? ",f" : specifier);
   switch (specifier.type) {
@@ -10822,7 +9870,7 @@ function linearish(scale) {
   var domain = scale.domain;
   scale.ticks = function (count) {
     var d = domain();
-    return ticks$1(d[0], d[d.length - 1], count == null ? 10 : count);
+    return ticks(d[0], d[d.length - 1], count == null ? 10 : count);
   };
   scale.tickFormat = function (count, specifier) {
     var d = domain();
@@ -10843,7 +9891,7 @@ function linearish(scale) {
       step = i0, i0 = i1, i1 = step;
     }
     while (maxIter-- > 0) {
-      step = tickIncrement$1(start, stop, count);
+      step = tickIncrement(start, stop, count);
       if (step === prestep) {
         d[i0] = start;
         d[i1] = stop;
@@ -10904,6 +9952,22 @@ function acos(x) {
 }
 function asin(x) {
   return x >= 1 ? halfPi : x <= -1 ? -halfPi : Math.asin(x);
+}
+
+function withPath(shape) {
+  let digits = 3;
+  shape.digits = function (_) {
+    if (!arguments.length) return digits;
+    if (_ == null) {
+      digits = null;
+    } else {
+      const d = Math.floor(_);
+      if (!(d >= 0)) throw new RangeError(`invalid digits: ${_}`);
+      digits = d;
+    }
+    return shape;
+  };
+  return () => new Path(digits);
 }
 
 function arcInnerRadius(d) {
@@ -10982,7 +10046,8 @@ function arc () {
     startAngle = arcStartAngle,
     endAngle = arcEndAngle,
     padAngle = arcPadAngle,
-    context = null;
+    context = null,
+    path = withPath(arc);
   function arc() {
     var buffer,
       r,
@@ -11046,16 +10111,22 @@ function arc () {
           y00 = r0 * sin(a00),
           oc;
 
-        // Restrict the corner radius according to the sector angle.
-        if (da < pi && (oc = intersect(x01, y01, x00, y00, x11, y11, x10, y10))) {
-          var ax = x01 - oc[0],
-            ay = y01 - oc[1],
-            bx = x11 - oc[0],
-            by = y11 - oc[1],
-            kc = 1 / sin(acos((ax * bx + ay * by) / (sqrt(ax * ax + ay * ay) * sqrt(bx * bx + by * by))) / 2),
-            lc = sqrt(oc[0] * oc[0] + oc[1] * oc[1]);
-          rc0 = min(rc, (r0 - lc) / (kc - 1));
-          rc1 = min(rc, (r1 - lc) / (kc + 1));
+        // Restrict the corner radius according to the sector angle. If this
+        // intersection fails, it’s probably because the arc is too small, so
+        // disable the corner radius entirely.
+        if (da < pi) {
+          if (oc = intersect(x01, y01, x00, y00, x11, y11, x10, y10)) {
+            var ax = x01 - oc[0],
+              ay = y01 - oc[1],
+              bx = x11 - oc[0],
+              by = y11 - oc[1],
+              kc = 1 / sin(acos((ax * bx + ay * by) / (sqrt(ax * ax + ay * ay) * sqrt(bx * bx + by * by))) / 2),
+              lc = sqrt(oc[0] * oc[0] + oc[1] * oc[1]);
+            rc0 = min(rc, (r0 - lc) / (kc - 1));
+            rc1 = min(rc, (r1 - lc) / (kc + 1));
+          } else {
+            rc0 = rc1 = 0;
+          }
         }
       }
 
@@ -11194,7 +10265,8 @@ function line (x$1, y$1) {
   var defined = constant(true),
     context = null,
     curve = curveLinear,
-    output = null;
+    output = null,
+    path = withPath(line);
   x$1 = typeof x$1 === "function" ? x$1 : x$1 === undefined ? x : constant(x$1);
   y$1 = typeof y$1 === "function" ? y$1 : y$1 === undefined ? y : constant(y$1);
   function line(data) {
@@ -11520,6 +10592,48 @@ class DecidablesElement extends s {
     const ambientS = rotate ? `${-ambientM.y}px ${ambientM.y / 2}px ${ambientM.b}px ${ambientM.s}px` : `${ambientM.y / 2}px ${ambientM.y}px ${ambientM.b}px ${ambientM.s}px`;
     return `${umbraS} ${umbraC}, ${penumbraS} ${penumbraC}, ${ambientS} ${ambientC}`;
   }
+  static get svgDefs() {
+    const shadows = DecidablesElement.shadows; /* eslint-disable-line prefer-destructuring */
+
+    const filters = shadows.elevations.map(z => {
+      return `
+        <filter id=${`shadow-${z}`} filterUnits="userSpaceOnUse" x="-100%" y="-100%" width="200%" height="200%">
+          <feComponentTransfer in="SourceAlpha" result="solid">
+            <feFuncA type="table" tableValues="0 1 1"/>
+          </feComponentTransfer>
+          <feOffset in="solid" result="offU" dx=${shadows.mapUmbra[z].y / 2} dy=${shadows.mapUmbra[z].y} />
+          <feOffset in="solid" result="offP" dx=${shadows.mapPenumbra[z].y / 2} dy=${shadows.mapPenumbra[z].y} />
+          <feOffset in="solid" result="offA" dx=${shadows.mapAmbient[z].y / 2} dy=${shadows.mapAmbient[z].y} />
+          ${shadows.mapUmbra[z].s === 0 ? '' : `<feMorphology in="offU" result="spreadU" operator=${shadows.mapUmbra[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapUmbra[z].s)} />`}
+          ${shadows.mapPenumbra[z].s === 0 ? '' : `<feMorphology in="offP" result="spreadP" operator=${shadows.mapPenumbra[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapPenumbra[z].s)} />`}
+          ${shadows.mapAmbient[z].s === 0 ? '' : `<feMorphology in="offA" result="spreadA" operator=${shadows.mapAmbient[z].s > 0 ? 'dilate' : 'erode'} radius=${Math.abs(shadows.mapAmbient[z].s)} />`}
+          <feGaussianBlur in=${shadows.mapUmbra[z].s === 0 ? 'offU' : 'spreadU'} result="blurU" stdDeviation=${shadows.mapUmbra[z].b / 2} />
+          <feGaussianBlur in=${shadows.mapPenumbra[z].s === 0 ? 'offP' : 'spreadP'} result="blurP" stdDeviation=${shadows.mapPenumbra[z].b / 2} />
+          <feGaussianBlur in=${shadows.mapAmbient[z].s === 0 ? 'offA' : 'spreadA'} result="blurA" stdDeviation=${shadows.mapAmbient[z].b / 2} />
+          <feFlood in="SourceGraphic" result="opU" flood-color=${shadows.baselineColor} flood-opacity=${shadows.opacityUmbra + shadows.opacityBoost} />
+          <feFlood in="SourceGraphic" result="opP" flood-color=${shadows.baselineColor} flood-opacity=${shadows.opacityPenumbra + shadows.opacityBoost} />
+          <feFlood in="SourceGraphic" result="opA" flood-color=${shadows.baselineColor} flood-opacity=${shadows.opacityAmbient + shadows.opacityBoost} />
+          <feComposite in="opU" in2="blurU" result="shU" operator="in" />
+          <feComposite in="opP" in2="blurP" result="shP" operator="in" />
+          <feComposite in="opA" in2="blurA" result="shA" operator="in" />
+          <feMorphology in="solid" result="smaller" operator="erode" radius="1" />
+          <feComposite in="shU" in2="smaller" result="finalU" operator="out" />
+          <feComposite in="shP" in2="smaller" result="finalP" operator="out" />
+          <feComposite in="shA" in2="smaller" result="finalA" operator="out" />
+          <feMerge>
+            <feMergeNode in="finalU" />
+            <feMergeNode in="finalP" />
+            <feMergeNode in="finalA" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>`;
+    });
+    return `
+      <defs>
+        ${filters}
+      </defs>
+    `;
+  }
   static get svgFilters() {
     const shadows = DecidablesElement.shadows; /* eslint-disable-line prefer-destructuring */
 
@@ -11527,7 +10641,7 @@ class DecidablesElement extends s {
       return b`
         <filter id=${`shadow-${z}`} x="-250%" y="-250%" width="600%" height="600%">
           <feComponentTransfer in="SourceAlpha" result="solid">
-            <feFuncA  type="table" tableValues="0 1 1"/>
+            <feFuncA type="table" tableValues="0 1 1"/>
           </feComponentTransfer>
           <feOffset in="solid" result="offU" dx=${shadows.mapUmbra[z].y / 2} dy=${shadows.mapUmbra[z].y} />
           <feOffset in="solid" result="offP" dx=${shadows.mapPenumbra[z].y / 2} dy=${shadows.mapPenumbra[z].y} />
@@ -11565,24 +10679,24 @@ class DecidablesElement extends s {
     `;
   }
   static get styles() {
-    return r$2`
+    return i$1`
       :host {
-        ---shadow-0: var(--shadow-0, ${o$3(this.cssBoxShadow(0))});
-        ---shadow-2: var(--shadow-2, ${o$3(this.cssBoxShadow(2))});
-        ---shadow-4: var(--shadow-4, ${o$3(this.cssBoxShadow(4))});
-        ---shadow-8: var(--shadow-8, ${o$3(this.cssBoxShadow(8))});
+        ---shadow-0: var(--shadow-0, ${r$2(this.cssBoxShadow(0))});
+        ---shadow-2: var(--shadow-2, ${r$2(this.cssBoxShadow(2))});
+        ---shadow-4: var(--shadow-4, ${r$2(this.cssBoxShadow(4))});
+        ---shadow-8: var(--shadow-8, ${r$2(this.cssBoxShadow(8))});
 
-        ---color-background: var(--color-background, ${o$3(this.greys.white)});
-        ---color-border: var(--color-border, ${o$3(this.greys.light75)});
-        ---color-text: var(--color-text, ${o$3(this.greys.dark75)});
-        ---color-text-inverse: var(--color-text-inverse, ${o$3(this.greys.white)});
-        ---color-link: var(--color-link, ${o$3(this.greys.dark25)});
-        ---color-element-background: var(--color-element-background, ${o$3(this.greys.light75)});
-        ---color-element-disabled: var(--color-element-disabled, ${o$3(this.greys.light50)});
-        ---color-element-enabled: var(--color-element-enabled, ${o$3(this.greys.dark25)});
-        ---color-element-selected: var(--color-element-selected, ${o$3(this.greys.grey)});
-        ---color-element-border: var(--color-element-border, ${o$3(this.greys.dark50)});
-        ---color-element-emphasis: var(--color-element-emphasis, ${o$3(this.greys.dark75)});
+        ---color-background: var(--color-background, ${r$2(this.greys.white)});
+        ---color-border: var(--color-border, ${r$2(this.greys.light75)});
+        ---color-text: var(--color-text, ${r$2(this.greys.dark75)});
+        ---color-text-inverse: var(--color-text-inverse, ${r$2(this.greys.white)});
+        ---color-link: var(--color-link, ${r$2(this.greys.dark25)});
+        ---color-element-background: var(--color-element-background, ${r$2(this.greys.light75)});
+        ---color-element-disabled: var(--color-element-disabled, ${r$2(this.greys.light50)});
+        ---color-element-enabled: var(--color-element-enabled, ${r$2(this.greys.dark25)});
+        ---color-element-selected: var(--color-element-selected, ${r$2(this.greys.grey)});
+        ---color-element-border: var(--color-element-border, ${r$2(this.greys.dark50)});
+        ---color-element-emphasis: var(--color-element-emphasis, ${r$2(this.greys.dark75)});
 
         ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
         ---font-family-math: var(--font-family-math, "Source Serif", serif);
@@ -11643,7 +10757,7 @@ class DecidablesButton extends DecidablesElement {
     this.disabled = false;
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           margin: 0.25rem;
         }
@@ -11713,7 +10827,7 @@ customElements.define('decidables-button', DecidablesButton);
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const l = l => null != l ? l : A$1;
+const l = l => null != l ? l : A;
 
 class DecidablesSlider extends DecidablesElement {
   static get properties() {
@@ -11768,11 +10882,11 @@ class DecidablesSlider extends DecidablesElement {
     this.value = event.target.value;
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
-          ---shadow-2-rotate: var(--shadow-2-rotate, ${o$3(this.cssBoxShadow(2, true, false))});
-          ---shadow-4-rotate: var(--shadow-4-rotate, ${o$3(this.cssBoxShadow(4, true, false))});
-          ---shadow-8-rotate: var(--shadow-8-rotate, ${o$3(this.cssBoxShadow(8, true, false))});
+          ---shadow-2-rotate: var(--shadow-2-rotate, ${r$2(this.cssBoxShadow(2, true, false))});
+          ---shadow-4-rotate: var(--shadow-4-rotate, ${r$2(this.cssBoxShadow(4, true, false))});
+          ---shadow-8-rotate: var(--shadow-8-rotate, ${r$2(this.cssBoxShadow(8, true, false))});
 
           display: flex;
 
@@ -12078,11 +11192,14 @@ class DecidablesSpinner extends DecidablesElement {
     this.value = event.target.value;
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           ---decidables-spinner-font-size: var(--decidables-spinner-font-size, 1.125rem);
           ---decidables-spinner-input-width: var(--decidables-spinner-input-width, 4rem);
           ---decidables-spinner-prefix: var(--decidables-spinner-prefix, "");
+
+          ---decidables-spinner-postfix: var(--decidables-spinner-postfix, "");
+          ---decidables-spinner-postfix-padding: var(--decidables-spinner-postfix-padding, 0);
 
           display: block;
         }
@@ -12111,8 +11228,20 @@ class DecidablesSpinner extends DecidablesElement {
           content: var(---decidables-spinner-prefix);
         }
 
+        label::after {
+          position: absolute;
+          right: 0.25rem;
+          bottom: 1px;
+
+          font-size: var(---decidables-spinner-font-size);
+          line-height: normal;
+
+          content: var(---decidables-spinner-postfix);
+        }
+
         input[type=number] {
           width: var(---decidables-spinner-input-width);
+          padding-right: var(---decidables-spinner-postfix-padding);
 
           font-family: var(---font-family-base);
           font-size: var(---decidables-spinner-font-size);
@@ -12202,7 +11331,7 @@ class DecidablesSwitch extends DecidablesElement {
     }));
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           display: flex;
 
@@ -12354,7 +11483,7 @@ class DecidablesToggle extends DecidablesElement {
     this.disabled = false;
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         fieldset {
           display: flex;
 
@@ -12429,7 +11558,7 @@ class DecidablesToggleOption extends DecidablesElement {
     }));
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           display: flex;
         }
@@ -12548,6 +11677,50 @@ const DecidablesConverterSet = {
   }
 };
 
+function DecidablesMixinResizeable(superClass) {
+  return class extends superClass {
+    static get properties() {
+      return {
+        width: {
+          attribute: false,
+          type: Number,
+          reflect: false
+        },
+        height: {
+          attribute: false,
+          type: Number,
+          reflect: false
+        },
+        rem: {
+          attribute: false,
+          type: Number,
+          reflect: false
+        }
+      };
+    }
+    constructor() {
+      super();
+      this.width = NaN;
+      this.height = NaN;
+      this.rem = NaN;
+    }
+    getDimensions() {
+      this.width = parseFloat(this.getComputedStyleValue('width'), 10);
+      this.height = parseFloat(this.getComputedStyleValue('height'), 10);
+      this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
+    }
+    connectedCallback() {
+      super.connectedCallback();
+      this.resizeObserver = new ResizeObserver(this.getDimensions.bind(this));
+      this.resizeObserver.observe(this);
+    }
+    disconnectedCallback() {
+      this.resizeObserver.unobserve(this);
+      super.disconnectedCallback();
+    }
+  };
+}
+
 /*
   DetectableElement Base Class - Not intended for instantiation!
   <detectable-element>
@@ -12598,55 +11771,55 @@ class DetectableElement extends DecidablesElement {
     }, {});
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
-          ---color-h: var(--color-h, ${o$3(this.colors.h)});
-          ---color-m: var(--color-m, ${o$3(this.colors.m)});
-          ---color-fa: var(--color-fa, ${o$3(this.colors.fa)});
-          ---color-cr: var(--color-cr, ${o$3(this.colors.cr)});
-          ---color-hr: var(--color-hr, ${o$3(this.colors.hr)});
-          ---color-far: var(--color-far, ${o$3(this.colors.far)});
-          ---color-acc: var(--color-acc, ${o$3(this.colors.acc)});
-          ---color-d: var(--color-d, ${o$3(this.colors.d)});
-          ---color-c: var(--color-c, ${o$3(this.colors.c)});
-          ---color-s: var(--color-s, ${o$3(this.colors.s)});
-          ---color-present: var(--color-present, ${o$3(this.colors.present)});
-          ---color-absent: var(--color-absent, ${o$3(this.colors.absent)});
-          ---color-correct: var(--color-correct, ${o$3(this.colors.correct)});
-          ---color-error: var(--color-error, ${o$3(this.colors.error)});
-          ---color-nr: var(--color-nr, ${o$3(this.colors.nr)});
+          ---color-h: var(--color-h, ${r$2(this.colors.h)});
+          ---color-m: var(--color-m, ${r$2(this.colors.m)});
+          ---color-fa: var(--color-fa, ${r$2(this.colors.fa)});
+          ---color-cr: var(--color-cr, ${r$2(this.colors.cr)});
+          ---color-hr: var(--color-hr, ${r$2(this.colors.hr)});
+          ---color-far: var(--color-far, ${r$2(this.colors.far)});
+          ---color-acc: var(--color-acc, ${r$2(this.colors.acc)});
+          ---color-d: var(--color-d, ${r$2(this.colors.d)});
+          ---color-c: var(--color-c, ${r$2(this.colors.c)});
+          ---color-s: var(--color-s, ${r$2(this.colors.s)});
+          ---color-present: var(--color-present, ${r$2(this.colors.present)});
+          ---color-absent: var(--color-absent, ${r$2(this.colors.absent)});
+          ---color-correct: var(--color-correct, ${r$2(this.colors.correct)});
+          ---color-error: var(--color-error, ${r$2(this.colors.error)});
+          ---color-nr: var(--color-nr, ${r$2(this.colors.nr)});
 
-          ---color-h-light: var(--color-h-light, ${o$3(this.lights.h)});
-          ---color-m-light: var(--color-m-light, ${o$3(this.lights.m)});
-          ---color-fa-light: var(--color-fa-light, ${o$3(this.lights.fa)});
-          ---color-cr-light: var(--color-cr-light, ${o$3(this.lights.cr)});
-          ---color-hr-light: var(--color-hr-light, ${o$3(this.lights.hr)});
-          ---color-far-light: var(--color-far-light, ${o$3(this.lights.far)});
-          ---color-acc-light: var(--color-acc-light, ${o$3(this.lights.acc)});
-          ---color-d-light: var(--color-d-light, ${o$3(this.lights.d)});
-          ---color-c-light: var(--color-c-light, ${o$3(this.lights.c)});
-          ---color-s-light: var(--color-s-light, ${o$3(this.lights.s)});
-          ---color-present-light: var(--color-present-light, ${o$3(this.lights.present)});
-          ---color-absent-light: var(--color-absent-light, ${o$3(this.lights.absent)});
-          ---color-correct-light: var(--color-correct-light, ${o$3(this.lights.correct)});
-          ---color-error-light: var(--color-error-light, ${o$3(this.lights.error)});
-          ---color-nr-light: var(--color-nr-light, ${o$3(this.lights.nr)});
+          ---color-h-light: var(--color-h-light, ${r$2(this.lights.h)});
+          ---color-m-light: var(--color-m-light, ${r$2(this.lights.m)});
+          ---color-fa-light: var(--color-fa-light, ${r$2(this.lights.fa)});
+          ---color-cr-light: var(--color-cr-light, ${r$2(this.lights.cr)});
+          ---color-hr-light: var(--color-hr-light, ${r$2(this.lights.hr)});
+          ---color-far-light: var(--color-far-light, ${r$2(this.lights.far)});
+          ---color-acc-light: var(--color-acc-light, ${r$2(this.lights.acc)});
+          ---color-d-light: var(--color-d-light, ${r$2(this.lights.d)});
+          ---color-c-light: var(--color-c-light, ${r$2(this.lights.c)});
+          ---color-s-light: var(--color-s-light, ${r$2(this.lights.s)});
+          ---color-present-light: var(--color-present-light, ${r$2(this.lights.present)});
+          ---color-absent-light: var(--color-absent-light, ${r$2(this.lights.absent)});
+          ---color-correct-light: var(--color-correct-light, ${r$2(this.lights.correct)});
+          ---color-error-light: var(--color-error-light, ${r$2(this.lights.error)});
+          ---color-nr-light: var(--color-nr-light, ${r$2(this.lights.nr)});
 
-          ---color-h-dark: var(--color-h-dark, ${o$3(this.darks.h)});
-          ---color-m-dark: var(--color-m-dark, ${o$3(this.darks.m)});
-          ---color-fa-dark: var(--color-fa-dark, ${o$3(this.darks.fa)});
-          ---color-cr-dark: var(--color-cr-dark, ${o$3(this.darks.cr)});
-          ---color-hr-dark: var(--color-hr-dark, ${o$3(this.darks.hr)});
-          ---color-far-dark: var(--color-far-dark, ${o$3(this.darks.far)});
-          ---color-acc-dark: var(--color-acc-dark, ${o$3(this.darks.acc)});
-          ---color-d-dark: var(--color-d-dark, ${o$3(this.darks.d)});
-          ---color-c-dark: var(--color-c-dark, ${o$3(this.darks.c)});
-          ---color-s-dark: var(--color-s-dark, ${o$3(this.darks.s)});
-          ---color-present-dark: var(--color-present-dark, ${o$3(this.darks.present)});
-          ---color-absent-dark: var(--color-absent-dark, ${o$3(this.darks.absent)});
-          ---color-correct-dark: var(--color-correct-dark, ${o$3(this.darks.correct)});
-          ---color-error-dark: var(--color-error-dark, ${o$3(this.darks.error)});
-          ---color-nr-dark: var(--color-nr-dark, ${o$3(this.darks.nr)});
+          ---color-h-dark: var(--color-h-dark, ${r$2(this.darks.h)});
+          ---color-m-dark: var(--color-m-dark, ${r$2(this.darks.m)});
+          ---color-fa-dark: var(--color-fa-dark, ${r$2(this.darks.fa)});
+          ---color-cr-dark: var(--color-cr-dark, ${r$2(this.darks.cr)});
+          ---color-hr-dark: var(--color-hr-dark, ${r$2(this.darks.hr)});
+          ---color-far-dark: var(--color-far-dark, ${r$2(this.darks.far)});
+          ---color-acc-dark: var(--color-acc-dark, ${r$2(this.darks.acc)});
+          ---color-d-dark: var(--color-d-dark, ${r$2(this.darks.d)});
+          ---color-c-dark: var(--color-c-dark, ${r$2(this.darks.c)});
+          ---color-s-dark: var(--color-s-dark, ${r$2(this.darks.s)});
+          ---color-present-dark: var(--color-present-dark, ${r$2(this.darks.present)});
+          ---color-absent-dark: var(--color-absent-dark, ${r$2(this.darks.absent)});
+          ---color-correct-dark: var(--color-correct-dark, ${r$2(this.darks.correct)});
+          ---color-error-dark: var(--color-error-dark, ${r$2(this.darks.error)});
+          ---color-nr-dark: var(--color-nr-dark, ${r$2(this.darks.nr)});
         }
       `];
   }
@@ -12660,7 +11833,7 @@ class DetectableElement extends DecidablesElement {
   Dots; Coherence;
   # Direction, Speed, Lifetime
 */
-class RDKTask extends DetectableElement {
+class RDKTask extends DecidablesMixinResizeable(DetectableElement) {
   static get properties() {
     return {
       coherence: {
@@ -12717,21 +11890,6 @@ class RDKTask extends DetectableElement {
         attribute: false,
         type: Number,
         reflect: false
-      },
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      rem: {
-        attribute: false,
-        type: Number,
-        reflect: false
       }
     };
   }
@@ -12752,10 +11910,6 @@ class RDKTask extends DetectableElement {
     this.direction = -1; // Direction of current trial in degrees
     this.lifetime = 400; // Lifetime of each dot in milliseconds
     this.speed = 50; // Rate of dot movement in pixels per second
-
-    this.width = NaN; // Width of component in pixels
-    this.height = NaN; // Height of component in pixels
-    this.rem = NaN; // Pixels per rem for component
 
     // Private
     this.firstUpdate = true;
@@ -12782,7 +11936,7 @@ class RDKTask extends DetectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           display: inline-block;
 
@@ -12832,27 +11986,6 @@ class RDKTask extends DetectableElement {
   render() {
     /* eslint-disable-line class-methods-use-this */
     return x$1``;
-  }
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`rdk-task: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('resize', this.getDimensions.bind(this));
-  }
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.getDimensions.bind(this));
-    super.disconnectedCallback();
-  }
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    this.getDimensions();
   }
   update(changedProperties) {
     super.update(changedProperties);
@@ -17641,7 +16774,7 @@ class SDTMath {
   Styles:
     ??
 */
-class ROCSpace extends DetectableElement {
+class ROCSpace extends DecidablesMixinResizeable(DetectableElement) {
   static get properties() {
     return {
       contour: {
@@ -17693,21 +16826,6 @@ class ROCSpace extends DetectableElement {
         attribute: false,
         type: Number,
         reflect: false
-      },
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      rem: {
-        attribute: false,
-        type: Number,
-        reflect: false
       }
     };
   }
@@ -17739,9 +16857,6 @@ class ROCSpace extends DetectableElement {
     this.pointArray = [];
     this.isoDArray = [];
     this.isoCArray = [];
-    this.width = NaN;
-    this.height = NaN;
-    this.rem = NaN;
     this.alignState();
   }
   alignState() {
@@ -17828,7 +16943,7 @@ class ROCSpace extends DetectableElement {
     this.requestUpdate();
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           display: inline-block;
 
@@ -17968,27 +17083,6 @@ class ROCSpace extends DetectableElement {
       ${DetectableElement.svgFilters}
     `;
   }
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`roc-space: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('resize', this.getDimensions.bind(this));
-  }
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.getDimensions.bind(this));
-    super.disconnectedCallback();
-  }
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    this.getDimensions();
-  }
   update(changedProperties) {
     super.update(changedProperties);
     this.alignState();
@@ -18121,7 +17215,7 @@ class ROCSpace extends DetectableElement {
         const contours = Contours().size([n, n]).thresholds(contourThresholds);
         const contourColorStart = this.getComputedStyleValue(this.contour === 'bias' ? '---color-element-background' : this.contour === 'sensitivity' ? '---color-d' : this.contour === 'accuracy' ? '---color-acc-dark' : null);
         const contourColorEnd = this.getComputedStyleValue(this.contour === 'bias' ? '---color-c' : this.contour === 'sensitivity' ? '---color-element-background' : this.contour === 'accuracy' ? '---color-element-background' : null);
-        const contourColor = linear().domain(extent$1(contourThresholds)).interpolate(() => {
+        const contourColor = linear().domain(extent(contourThresholds)).interpolate(() => {
           return interpolateRgb(contourColorStart, contourColorEnd);
         });
         //  DATA-JOIN
@@ -18519,7 +17613,7 @@ customElements.define('roc-space', ROCSpace);
     Styles:
       ??
 */
-class SDTModel extends DetectableElement {
+class SDTModel extends DecidablesMixinResizeable(DetectableElement) {
   static get properties() {
     return {
       color: {
@@ -18596,21 +17690,6 @@ class SDTModel extends DetectableElement {
         attribute: false,
         type: Array,
         reflect: false
-      },
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      rem: {
-        attribute: false,
-        type: Number,
-        reflect: false
       }
     };
   }
@@ -18637,10 +17716,6 @@ class SDTModel extends DetectableElement {
     this.signals = ['present', 'absent']; // Allowable values of trial.signal
     this.responses = ['present', 'absent']; // Allowable values of trial.response
     this.trials = []; // Array of simulated trials
-
-    this.width = NaN; // Width of component in pixels
-    this.height = NaN; // Height of component in pixels
-    this.rem = NaN; // Pixels per rem for component
 
     // Private
     this.muN = NaN; // Mean of noise distribution
@@ -18710,7 +17785,7 @@ class SDTModel extends DetectableElement {
     }
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           display: inline-block;
 
@@ -18975,27 +18050,6 @@ class SDTModel extends DetectableElement {
       },
       bubbles: true
     }));
-  }
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`sdt-model: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('resize', this.getDimensions.bind(this));
-  }
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.getDimensions.bind(this));
-    super.disconnectedCallback();
-  }
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    this.getDimensions();
   }
   update(changedProperties) {
     super.update(changedProperties);
@@ -20087,7 +19141,7 @@ class DetectableTable extends DetectableElement {
     this.sendEvent();
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           display: inline-block;
         }
@@ -20557,55 +19611,55 @@ class ProspectableElement extends DecidablesElement {
     }, {});
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
-          ---color-x: var(--color-x, ${o$3(this.colors.x)});
-          ---color-a: var(--color-a, ${o$3(this.colors.a)});
-          ---color-l: var(--color-l, ${o$3(this.colors.l)});
-          ---color-v: var(--color-v, ${o$3(this.colors.v)});
-          ---color-p: var(--color-p, ${o$3(this.colors.p)});
-          ---color-g: var(--color-g, ${o$3(this.colors.g)});
-          ---color-w: var(--color-w, ${o$3(this.colors.w)});
-          ---color-u: var(--color-u, ${o$3(this.colors.u)});
-          ---color-chosen: var(--color-chosen, ${o$3(this.colors.chosen)});
-          ---color-better: var(--color-better, ${o$3(this.colors.better)});
-          ---color-worse: var(--color-worse, ${o$3(this.colors.worse)});
-          ---color-even: var(--color-even, ${o$3(this.colors.even)});
-          ---color-correct: var(--color-correct, ${o$3(this.colors.correct)});
-          ---color-error: var(--color-error, ${o$3(this.colors.error)});
-          ---color-nr: var(--color-nr, ${o$3(this.colors.nr)});
+          ---color-x: var(--color-x, ${r$2(this.colors.x)});
+          ---color-a: var(--color-a, ${r$2(this.colors.a)});
+          ---color-l: var(--color-l, ${r$2(this.colors.l)});
+          ---color-v: var(--color-v, ${r$2(this.colors.v)});
+          ---color-p: var(--color-p, ${r$2(this.colors.p)});
+          ---color-g: var(--color-g, ${r$2(this.colors.g)});
+          ---color-w: var(--color-w, ${r$2(this.colors.w)});
+          ---color-u: var(--color-u, ${r$2(this.colors.u)});
+          ---color-chosen: var(--color-chosen, ${r$2(this.colors.chosen)});
+          ---color-better: var(--color-better, ${r$2(this.colors.better)});
+          ---color-worse: var(--color-worse, ${r$2(this.colors.worse)});
+          ---color-even: var(--color-even, ${r$2(this.colors.even)});
+          ---color-correct: var(--color-correct, ${r$2(this.colors.correct)});
+          ---color-error: var(--color-error, ${r$2(this.colors.error)});
+          ---color-nr: var(--color-nr, ${r$2(this.colors.nr)});
 
-          ---color-x-light: var(--color-x-light, ${o$3(this.lights.x)});
-          ---color-a-light: var(--color-a-light, ${o$3(this.lights.a)});
-          ---color-l-light: var(--color-l-light, ${o$3(this.lights.l)});
-          ---color-v-light: var(--color-v-light, ${o$3(this.lights.v)});
-          ---color-p-light: var(--color-p-light, ${o$3(this.lights.p)});
-          ---color-g-light: var(--color-g-light, ${o$3(this.lights.g)});
-          ---color-w-light: var(--color-w-light, ${o$3(this.lights.w)});
-          ---color-u-light: var(--color-u-light, ${o$3(this.lights.u)});
-          ---color-chosen-light: var(--color-chosen-light, ${o$3(this.lights.chosen)});
-          ---color-better-light: var(--color-better-light, ${o$3(this.lights.better)});
-          ---color-worse-light: var(--color-worse-light, ${o$3(this.lights.worse)});
-          ---color-even-light: var(--color-even-light, ${o$3(this.lights.even)});
-          ---color-correct-light: var(--color-correct-light, ${o$3(this.lights.correct)});
-          ---color-error-light: var(--color-error-light, ${o$3(this.lights.error)});
-          ---color-nr-light: var(--color-nr-light, ${o$3(this.lights.nr)});
+          ---color-x-light: var(--color-x-light, ${r$2(this.lights.x)});
+          ---color-a-light: var(--color-a-light, ${r$2(this.lights.a)});
+          ---color-l-light: var(--color-l-light, ${r$2(this.lights.l)});
+          ---color-v-light: var(--color-v-light, ${r$2(this.lights.v)});
+          ---color-p-light: var(--color-p-light, ${r$2(this.lights.p)});
+          ---color-g-light: var(--color-g-light, ${r$2(this.lights.g)});
+          ---color-w-light: var(--color-w-light, ${r$2(this.lights.w)});
+          ---color-u-light: var(--color-u-light, ${r$2(this.lights.u)});
+          ---color-chosen-light: var(--color-chosen-light, ${r$2(this.lights.chosen)});
+          ---color-better-light: var(--color-better-light, ${r$2(this.lights.better)});
+          ---color-worse-light: var(--color-worse-light, ${r$2(this.lights.worse)});
+          ---color-even-light: var(--color-even-light, ${r$2(this.lights.even)});
+          ---color-correct-light: var(--color-correct-light, ${r$2(this.lights.correct)});
+          ---color-error-light: var(--color-error-light, ${r$2(this.lights.error)});
+          ---color-nr-light: var(--color-nr-light, ${r$2(this.lights.nr)});
 
-          ---color-x-dark: var(--color-x-dark, ${o$3(this.darks.x)});
-          ---color-a-dark: var(--color-a-dark, ${o$3(this.darks.a)});
-          ---color-l-dark: var(--color-l-dark, ${o$3(this.darks.l)});
-          ---color-v-dark: var(--color-v-dark, ${o$3(this.darks.v)});
-          ---color-p-dark: var(--color-p-dark, ${o$3(this.darks.p)});
-          ---color-g-dark: var(--color-g-dark, ${o$3(this.darks.g)});
-          ---color-w-dark: var(--color-w-dark, ${o$3(this.darks.w)});
-          ---color-u-dark: var(--color-u-dark, ${o$3(this.darks.u)});
-          ---color-chosen-dark: var(--color-chosen-dark, ${o$3(this.darks.chosen)});
-          ---color-better-dark: var(--color-better-dark, ${o$3(this.darks.better)});
-          ---color-worse-dark: var(--color-worse-dark, ${o$3(this.darks.worse)});
-          ---color-even-dark: var(--color-even-dark, ${o$3(this.darks.even)});
-          ---color-correct-dark: var(--color-correct-dark, ${o$3(this.darks.correct)});
-          ---color-error-dark: var(--color-error-dark, ${o$3(this.darks.error)});
-          ---color-nr-dark: var(--color-nr-dark, ${o$3(this.darks.nr)});
+          ---color-x-dark: var(--color-x-dark, ${r$2(this.darks.x)});
+          ---color-a-dark: var(--color-a-dark, ${r$2(this.darks.a)});
+          ---color-l-dark: var(--color-l-dark, ${r$2(this.darks.l)});
+          ---color-v-dark: var(--color-v-dark, ${r$2(this.darks.v)});
+          ---color-p-dark: var(--color-p-dark, ${r$2(this.darks.p)});
+          ---color-g-dark: var(--color-g-dark, ${r$2(this.darks.g)});
+          ---color-w-dark: var(--color-w-dark, ${r$2(this.darks.w)});
+          ---color-u-dark: var(--color-u-dark, ${r$2(this.darks.u)});
+          ---color-chosen-dark: var(--color-chosen-dark, ${r$2(this.darks.chosen)});
+          ---color-better-dark: var(--color-better-dark, ${r$2(this.darks.better)});
+          ---color-worse-dark: var(--color-worse-dark, ${r$2(this.darks.worse)});
+          ---color-even-dark: var(--color-even-dark, ${r$2(this.darks.even)});
+          ---color-correct-dark: var(--color-correct-dark, ${r$2(this.darks.correct)});
+          ---color-error-dark: var(--color-error-dark, ${r$2(this.darks.error)});
+          ---color-nr-dark: var(--color-nr-dark, ${r$2(this.darks.nr)});
         }
       `];
   }
@@ -20627,7 +19681,7 @@ class ProspectableElement extends DecidablesElement {
   Styles:
     ??
 */
-class CPTProbability extends ProspectableElement {
+class CPTProbability extends DecidablesMixinResizeable(ProspectableElement) {
   static get properties() {
     return {
       p: {
@@ -20646,21 +19700,6 @@ class CPTProbability extends ProspectableElement {
         reflect: true
       },
       w: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      rem: {
         attribute: false,
         type: Number,
         reflect: false
@@ -20691,9 +19730,6 @@ class CPTProbability extends ProspectableElement {
     this.xs = null;
     this.trialCount = null;
     this.response = null;
-    this.width = NaN;
-    this.height = NaN;
-    this.rem = NaN;
     this.alignState();
   }
   alignState() {
@@ -20838,7 +19874,7 @@ class CPTProbability extends ProspectableElement {
     this.setProbability(p, name, label, func);
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           display: inline-block;
 
@@ -20993,27 +20029,6 @@ class CPTProbability extends ProspectableElement {
     return x$1`
       ${ProspectableElement.svgFilters}
     `;
-  }
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`cpt-value: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('resize', this.getDimensions.bind(this));
-  }
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.getDimensions.bind(this));
-    super.disconnectedCallback();
-  }
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    this.getDimensions();
   }
   update(changedProperties) {
     super.update(changedProperties);
@@ -21527,7 +20542,7 @@ customElements.define('cpt-probability', CPTProbability);
   Styles:
     ??
 */
-class CPTValue extends ProspectableElement {
+class CPTValue extends DecidablesMixinResizeable(ProspectableElement) {
   static get properties() {
     return {
       x: {
@@ -21551,21 +20566,6 @@ class CPTValue extends ProspectableElement {
         reflect: true
       },
       v: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      rem: {
         attribute: false,
         type: Number,
         reflect: false
@@ -21598,9 +20598,6 @@ class CPTValue extends ProspectableElement {
     this.xs = null;
     this.trialCount = null;
     this.response = null;
-    this.width = NaN;
-    this.height = NaN;
-    this.rem = NaN;
     this.alignState();
   }
   alignState() {
@@ -21751,7 +20748,7 @@ class CPTValue extends ProspectableElement {
     this.setValue(x, name, label, func);
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           display: inline-block;
 
@@ -21917,27 +20914,6 @@ class CPTValue extends ProspectableElement {
     return x$1`
       ${ProspectableElement.svgFilters}
     `;
-  }
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`cpt-value: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('resize', this.getDimensions.bind(this));
-  }
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.getDimensions.bind(this));
-    super.disconnectedCallback();
-  }
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    this.getDimensions();
   }
   update(changedProperties) {
     super.update(changedProperties);
@@ -22555,37 +21531,9 @@ customElements.define('cpt-value', CPTValue);
   Attributes:
   Win, Loss, Probability
 */
-class RiskyOption extends ProspectableElement {
-  static get properties() {
-    return {
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      },
-      rem: {
-        attribute: false,
-        type: Number,
-        reflect: false
-      }
-    };
-  }
-  constructor() {
-    super();
-
-    // Properties
-    this.width = NaN; // Width of component in pixels
-    this.height = NaN; // Height of component in pixels
-    this.rem = NaN; // Pixels per rem for component
-  }
-
+class RiskyOption extends DecidablesMixinResizeable(ProspectableElement) {
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           --decidables-spinner-font-size: 1.75rem;
           --decidables-spinner-input-width: 4rem;
@@ -22687,41 +21635,26 @@ class RiskyOption extends ProspectableElement {
       <slot></slot>
     `;
   }
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`rdk-task: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
   connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('resize', this.getDimensions.bind(this));
 
     // Detect and update on changes in children
-    this.observer = new MutationObserver(mutations => {
+    this.mutationObserver = new MutationObserver(mutations => {
       if (mutations.some(mutation => {
         return mutation.type === 'childList' || mutation.type === 'attributes' && mutation.target !== this;
       })) {
         this.requestUpdate();
       }
     });
-    this.observer.observe(this, {
+    this.mutationObserver.observe(this, {
       subtree: true,
       childList: true,
       attributes: true
     });
   }
   disconnectedCallback() {
-    this.observer.disconnect();
-    window.removeEventListener('resize', this.getDimensions.bind(this));
+    this.mutationObserver.disconnect();
     super.disconnectedCallback();
-  }
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    this.getDimensions();
   }
   update(changedProperties) {
     super.update(changedProperties);
@@ -22970,7 +21903,7 @@ class RiskyOutcome extends ProspectableElement {
     this.name = '';
   }
   static get styles() {
-    return [r$2`
+    return [i$1`
         :host {
           display: none;
         }
@@ -23030,7 +21963,7 @@ class RiskyChoice extends ProspectableElement {
     this.xs = 50;
   }
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           display: inline-block;
         }
@@ -23190,7 +22123,7 @@ class RiskyTask extends ProspectableElement {
   }
 
   static get styles() {
-    return [super.styles, r$2`
+    return [super.styles, i$1`
         :host {
           display: inline-block;
         }
