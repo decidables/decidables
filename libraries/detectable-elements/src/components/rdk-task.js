@@ -2,6 +2,8 @@
 import {html, css} from 'lit';
 import * as d3 from 'd3';
 
+import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
+
 import DetectableElement from '../detectable-element';
 
 /*
@@ -12,7 +14,7 @@ import DetectableElement from '../detectable-element';
   Dots; Coherence;
   # Direction, Speed, Lifetime
 */
-export default class RDKTask extends DetectableElement {
+export default class RDKTask extends DecidablesMixinResizeable(DetectableElement) {
   static get properties() {
     return {
       coherence: {
@@ -71,22 +73,6 @@ export default class RDKTask extends DetectableElement {
         type: Number,
         reflect: false,
       },
-
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      rem: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
     };
   }
 
@@ -107,10 +93,6 @@ export default class RDKTask extends DetectableElement {
     this.direction = -1; // Direction of current trial in degrees
     this.lifetime = 400; // Lifetime of each dot in milliseconds
     this.speed = 50; // Rate of dot movement in pixels per second
-
-    this.width = NaN; // Width of component in pixels
-    this.height = NaN; // Height of component in pixels
-    this.rem = NaN; // Pixels per rem for component
 
     // Private
     this.firstUpdate = true;
@@ -190,30 +172,6 @@ export default class RDKTask extends DetectableElement {
 
   render() { /* eslint-disable-line class-methods-use-this */
     return html``;
-  }
-
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`rdk-task: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('resize', this.getDimensions.bind(this));
-  }
-
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.getDimensions.bind(this));
-    super.disconnectedCallback();
-  }
-
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    this.getDimensions();
   }
 
   update(changedProperties) {

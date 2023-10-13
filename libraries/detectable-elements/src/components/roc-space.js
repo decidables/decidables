@@ -2,6 +2,7 @@
 import {html, css} from 'lit';
 import * as d3 from 'd3';
 
+import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
 import SDTMath from '@decidables/detectable-math';
 
 import DetectableElement from '../detectable-element';
@@ -23,7 +24,7 @@ import DetectableElement from '../detectable-element';
   Styles:
     ??
 */
-export default class ROCSpace extends DetectableElement {
+export default class ROCSpace extends DecidablesMixinResizeable(DetectableElement) {
   static get properties() {
     return {
       contour: {
@@ -79,22 +80,6 @@ export default class ROCSpace extends DetectableElement {
         type: Number,
         reflect: false,
       },
-
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      rem: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
     };
   }
 
@@ -136,10 +121,6 @@ export default class ROCSpace extends DetectableElement {
     this.pointArray = [];
     this.isoDArray = [];
     this.isoCArray = [];
-
-    this.width = NaN;
-    this.height = NaN;
-    this.rem = NaN;
 
     this.alignState();
   }
@@ -380,30 +361,6 @@ export default class ROCSpace extends DetectableElement {
     return html`
       ${DetectableElement.svgFilters}
     `;
-  }
-
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`roc-space: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('resize', this.getDimensions.bind(this));
-  }
-
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.getDimensions.bind(this));
-    super.disconnectedCallback();
-  }
-
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    this.getDimensions();
   }
 
   update(changedProperties) {

@@ -3,6 +3,7 @@ import {html, css} from 'lit';
 import * as d3 from 'd3';
 import jStat from 'jstat';
 
+import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
 import SDTMath from '@decidables/detectable-math';
 
 import DetectableElement from '../detectable-element';
@@ -21,7 +22,7 @@ import DetectableElement from '../detectable-element';
     Styles:
       ??
 */
-export default class SDTModel extends DetectableElement {
+export default class SDTModel extends DecidablesMixinResizeable(DetectableElement) {
   static get properties() {
     return {
       color: {
@@ -100,22 +101,6 @@ export default class SDTModel extends DetectableElement {
         type: Array,
         reflect: false,
       },
-
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      rem: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
     };
   }
 
@@ -143,10 +128,6 @@ export default class SDTModel extends DetectableElement {
     this.signals = ['present', 'absent']; // Allowable values of trial.signal
     this.responses = ['present', 'absent']; // Allowable values of trial.response
     this.trials = []; // Array of simulated trials
-
-    this.width = NaN; // Width of component in pixels
-    this.height = NaN; // Height of component in pixels
-    this.rem = NaN; // Pixels per rem for component
 
     // Private
     this.muN = NaN; // Mean of noise distribution
@@ -494,30 +475,6 @@ export default class SDTModel extends DetectableElement {
       },
       bubbles: true,
     }));
-  }
-
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`sdt-model: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('resize', this.getDimensions.bind(this));
-  }
-
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.getDimensions.bind(this));
-    super.disconnectedCallback();
-  }
-
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Get the width and height after initial render/update has occurred
-    this.getDimensions();
   }
 
   update(changedProperties) {
