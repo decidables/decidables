@@ -3,6 +3,7 @@ import {html, css} from 'lit';
 import * as d3 from 'd3';
 
 import HTDMath from '@decidables/discountable-math';
+import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
 
 import DiscountableElement from '../discountable-element';
 
@@ -21,7 +22,7 @@ import DiscountableElement from '../discountable-element';
   Styles:
     ??
 */
-export default class HTDCurves extends DiscountableElement {
+export default class HTDCurves extends DecidablesMixinResizeable(DiscountableElement) {
   static get properties() {
     return {
       a: {
@@ -47,22 +48,6 @@ export default class HTDCurves extends DiscountableElement {
       },
 
       v: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-
-      width: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      height: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
-      rem: {
         attribute: false,
         type: Number,
         reflect: false,
@@ -117,10 +102,6 @@ export default class HTDCurves extends DiscountableElement {
     this.dl = null;
     this.trialCount = null;
     this.response = null;
-
-    this.width = NaN;
-    this.height = NaN;
-    this.rem = NaN;
 
     this.alignState();
   }
@@ -380,26 +361,6 @@ export default class HTDCurves extends DiscountableElement {
     return html``;
     //   ${DiscountableElement.svgFilters}
     // `;
-  }
-
-  getDimensions() {
-    this.width = parseFloat(this.getComputedStyleValue('width'), 10);
-    this.height = parseFloat(this.getComputedStyleValue('height'), 10);
-    this.rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-    // console.log(`htd-curves: width = ${this.width}, height = ${this.height}, rem = ${this.rem}`);
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    this.resizeObserver = new ResizeObserver(this.getDimensions.bind(this));
-    this.resizeObserver.observe(this);
-  }
-
-  disconnectedCallback() {
-    this.resizeObserver.unobserve(this);
-
-    super.disconnectedCallback();
   }
 
   update(changedProperties) {
