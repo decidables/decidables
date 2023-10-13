@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.3.5...@decidables/decidables-elements@0.4.0) (2023-10-13)
+
+
+### Features
+
+* **decidables-elements:** add mixin for dynamic resizing ([ff0ce34](https://github.com/decidables/decidables/commit/ff0ce340ade96afa2042424e124959c17f5d7dd3))
+* **decidables-elements:** add optional postfix to spinner ([8b2baa6](https://github.com/decidables/decidables/commit/8b2baa64dea2a11085451d5085c6a4077743624a))
+
+
+### Bug Fixes
+
+* **decidables-elements:** fix filter effects region for shadows ([2370812](https://github.com/decidables/decidables/commit/237081206211e6aa0f22fb375a1e986695d030ff))
+* **decidables-elements:** fix shadow filter for translated elements ([bb41c3a](https://github.com/decidables/decidables/commit/bb41c3a46acaa5c6a4448e358f2fef5f144c0a06))
+
+
+
 ## [0.3.5](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.3.4...@decidables/decidables-elements@0.3.5) (2023-09-13)
 
 **Note:** Version bump only for package @decidables/decidables-elements

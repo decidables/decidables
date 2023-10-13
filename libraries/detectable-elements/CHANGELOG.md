@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.6](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.2.5...@decidables/detectable-elements@0.2.6) (2023-10-13)
+
+
+### Bug Fixes
+
+* **detectable-elements:** fixed resizing of SVG elements ([bfa08f0](https://github.com/decidables/decidables/commit/bfa08f09e288153d9b0e5b0086f3fdfee64252f3))
+
+
+
 ## [0.2.5](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.2.4...@decidables/detectable-elements@0.2.5) (2023-09-13)
 
 
