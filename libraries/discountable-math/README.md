@@ -31,7 +31,8 @@ A class providing static functions for calculating Hyperbolic Temporal Discounti
 Single class exposing static functions for HTD calculations. Each function takes values for one or
 more variables and returns the value of another variable. The functions are named with a list of the
 input variables followed by a '2' followed by the output variable, in camelcase. For example,
-`adk2v` takes as input the amount, `a`, the delay, `d`, and a discounting factor, `k`, and outputs the value, `v`
+`adk2v` takes as input the amount, `a`, the delay, `d`, and a discounting factor, `k`, and outputs
+the value, `v`.
 
 #### Variable names
 
