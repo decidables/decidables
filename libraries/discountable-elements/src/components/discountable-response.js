@@ -15,13 +15,13 @@ import DiscountableElement from '../discountable-element';
 export default class DiscountableResponse extends DiscountableElement {
   static get properties() {
     return {
-      trial: {
-        attribute: 'trial',
+      feedback: {
+        attribute: 'feedback',
         type: Boolean,
         reflect: true,
       },
-      feedback: {
-        attribute: 'feedback',
+      trial: {
+        attribute: 'trial',
         type: Boolean,
         reflect: true,
       },
