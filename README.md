@@ -26,9 +26,9 @@ The sites are served from *GitHub Pages* at [**decidables.github.io**](https://d
   [<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable)
   [(source)](https://github.com/decidables/decidables/tree/main/sites/prospectable)<br>
   An Explorable Explanation of Cumulative Prospect Theory<br>
-- *Coming soon...*<br>
+- *On the way...*<br>
   <b>dis<i>k</i>ountable</b>
-  (source)<br>
+  [(source)](https://github.com/decidables/decidables/tree/main/sites/discountable)<br>
   An Explorable Explanation of Hyperbolic Temporal Discounting
 
 ## Libraries
@@ -51,13 +51,11 @@ The libraries are published to *npm* in the
 - [**`prospectable-elements`**](https://www.npmjs.com/package/@decidables/prospectable-elements)
   [(source)](https://github.com/decidables/decidables/tree/main/libraries/prospectable-elements)<br>
   Web components for exploring Cumulative Prospect Theory
-- *Coming soon...*<br>
-  **`discountable-math`**
-  (source)<br>
+- [**`discountable-math`**](https://www.npmjs.com/package/@decidables/discountable-math)
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/discountable-math)<br>
   Provides a class with equations for calculating Hyperbolic Temporal Discounting
-- *Coming soon...*<br>
-  **`discountable-elements`**
-  (source)<br>
+- [**`discountable-elements`**](https://www.npmjs.com/package/@decidables/discountable-elements)
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/discountable-elements)<br>
   Web components for exploring Hyperbolic Temporal Discounting
 
 ## Development
