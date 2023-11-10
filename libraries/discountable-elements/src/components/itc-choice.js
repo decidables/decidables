@@ -112,7 +112,8 @@ export default class ITCChoice extends DiscountableElement {
   render() {
     return html`
       <div class="holder">
-        <itc-option 
+        <itc-option
+          class="ss"
           state=${this.state}
           ?interactive=${this.interactive}
           amount="${this.as}"
@@ -120,7 +121,8 @@ export default class ITCChoice extends DiscountableElement {
           @itc-option-change=${this.ssChange.bind(this)}>
         </itc-option><span class="query"
          >${(this.state === 'choice') ? '?' : (this.state === 'fixation') ? '+' : html`∙`}</span
-        ><itc-option 
+        ><itc-option
+          class="ll"
           state=${this.state}
           ?interactive=${this.interactive}
           amount="${this.al}"
