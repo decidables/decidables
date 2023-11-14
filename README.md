@@ -27,7 +27,7 @@ The sites are served from *GitHub Pages* at [**decidables.github.io**](https://d
   [(source)](https://github.com/decidables/decidables/tree/main/sites/prospectable)<br>
   An Explorable Explanation of Cumulative Prospect Theory<br>
 - *On the way...*<br>
-  <b>dis<i>k</i>ountable</b>
+  [<b>dis<i>k</i>ountable</b>](https://decidables.github.io/discountable)
   [(source)](https://github.com/decidables/decidables/tree/main/sites/discountable)<br>
   An Explorable Explanation of Hyperbolic Temporal Discounting
 
