@@ -11710,13 +11710,13 @@ customElements.define('discountable-control', DiscountableControl);
 class DiscountableResponse extends DiscountableElement {
   static get properties() {
     return {
-      trial: {
-        attribute: 'trial',
+      feedback: {
+        attribute: 'feedback',
         type: Boolean,
         reflect: true
       },
-      feedback: {
-        attribute: 'feedback',
+      trial: {
+        attribute: 'trial',
         type: Boolean,
         reflect: true
       },
@@ -22537,7 +22537,8 @@ class ITCChoice extends DiscountableElement {
   render() {
     return x$2`
       <div class="holder">
-        <itc-option 
+        <itc-option
+          class="ss"
           state=${this.state}
           ?interactive=${this.interactive}
           amount="${this.as}"
@@ -22545,7 +22546,8 @@ class ITCChoice extends DiscountableElement {
           @itc-option-change=${this.ssChange.bind(this)}>
         </itc-option><span class="query"
          >${this.state === 'choice' ? '?' : this.state === 'fixation' ? '+' : x$2`∙`}</span
-        ><itc-option 
+        ><itc-option
+          class="ll"
           state=${this.state}
           ?interactive=${this.interactive}
           amount="${this.al}"
