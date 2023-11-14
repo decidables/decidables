@@ -24,6 +24,8 @@ describe('cpt-value', () => {
 
   it('has a default function', async () => {
     const el = await fixture(html`<cpt-value></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
     expect(el.functions).to.have.length(1);
     expect(el.shadowRoot).to.have.descendants('.curve-n').with.length(1);
     expect(el.shadowRoot).to.have.descendants('.curve-p').with.length(1);
@@ -32,6 +34,8 @@ describe('cpt-value', () => {
 
   it('can have a default value', async () => {
     const el = await fixture(html`<cpt-value value="10"></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
     expect(el.values).to.have.length(1);
     expect(el.shadowRoot).to.have.descendants('.point').with.length(1);
     expect(el.getValue()).to.include({name: 'default', x: 10});
@@ -39,6 +43,8 @@ describe('cpt-value', () => {
 
   it('can change the default function and/or value', async () => {
     const el = await fixture(html`<cpt-value value="10" alpha="0.8" lambda="1.5"></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
     expect(el.functions[0]).to.include({name: 'default', a: 0.8, l: 1.5});
     expect(el.values[0]).to.include({name: 'default', x: 10});
     expect(el.get()).to.include({
@@ -61,6 +67,8 @@ describe('cpt-value', () => {
 
   it('can set another function and/or value', async () => {
     const el = await fixture(html`<cpt-value value="10" alpha="0.8" lambda="1.5"></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
 
     el.setFunction(0.9, 1.6, 'anotherFunction');
     await elementUpdated(el);
@@ -88,6 +96,9 @@ describe('cpt-value', () => {
 
   it('can change another function and value', async () => {
     const el = await fixture(html`<cpt-value value="10" alpha="0.8" lambda="1.5"></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
+
     el.set(20, 0.9, 1.6, 'anotherValue', '', 'anotherFunction');
     await elementUpdated(el);
     expect(el.functions).to.have.length(2);
@@ -111,6 +122,9 @@ describe('cpt-value', () => {
 
   it('can remove functions and/or values', async () => {
     const el = await fixture(html`<cpt-value value="10" alpha="0.8" lambda="1.5"></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
+
     el.set(20, 0.9, 1.6, 'anotherValue', '', 'anotherFunction');
     await elementUpdated(el);
     expect(el.functions).to.have.length(2);
@@ -121,7 +135,7 @@ describe('cpt-value', () => {
     expect(el.values[1]).to.include({name: 'anotherValue', x: 20});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
 
     el.removeValue('anotherValue');
@@ -142,7 +156,7 @@ describe('cpt-value', () => {
     expect(el.values[1]).to.include({name: 'new', x: 30});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
 
     el.remove('new');
@@ -152,6 +166,9 @@ describe('cpt-value', () => {
 
   it('can clear functions and/or values', async () => {
     const el = await fixture(html`<cpt-value value="10" alpha="0.8" lambda="1.5"></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
+
     el.set(20, 0.9, 1.6, 'anotherValue', '', 'anotherFunction');
     await elementUpdated(el);
     expect(el.functions).to.have.length(2);
@@ -162,7 +179,7 @@ describe('cpt-value', () => {
     expect(el.values[1]).to.include({name: 'anotherValue', x: 20});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
 
     el.clearValues();
@@ -183,7 +200,7 @@ describe('cpt-value', () => {
     expect(el.values[1]).to.include({name: 'new', x: 30});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
 
     el.clear();
@@ -193,13 +210,16 @@ describe('cpt-value', () => {
 
   it('can be interactive', async () => {
     const el = await fixture(html`<cpt-value interactive></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
+
     expect(el.shadowRoot).to.have.descendant('.curve-n').with.class('interactive');
     expect(el.shadowRoot).to.have.descendant('.curve-p').with.class('interactive');
   });
 
   it('supports mouse manipulation of point', async () => {
     const el = await fixture(html`<cpt-value interactive value="10" alpha="0.8" lambda="1.5"></cpt-value>`);
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
     // Get "before" state
     const {x} = el;
@@ -214,6 +234,8 @@ describe('cpt-value', () => {
 
   it('supports keyboard manipulation of point', async () => {
     const el = await fixture(html`<cpt-value interactive value="10" alpha="0.8" lambda="1.5"></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
     // Get "before" state
     const {x} = el;
     // Action
@@ -228,7 +250,7 @@ describe('cpt-value', () => {
 
   it('supports mouse manipulation of positive curve', async () => {
     const el = await fixture(html`<cpt-value interactive value="5" alpha="1" lambda="1.5"></cpt-value>`);
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
     // Get "before" state
     const {a} = el;
@@ -243,6 +265,8 @@ describe('cpt-value', () => {
 
   it('supports keyboard manipulation of positive curve', async () => {
     const el = await fixture(html`<cpt-value interactive value="5" alpha="1" lambda="1.5"></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
     // Get "before" state
     const {a} = el;
     // Action
@@ -257,7 +281,7 @@ describe('cpt-value', () => {
 
   it('supports mouse manipulation of negative curve', async () => {
     const el = await fixture(html`<cpt-value interactive value="5" alpha="1" lambda="1"></cpt-value>`);
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
     // Get "before" state
     const {l} = el;
@@ -272,6 +296,8 @@ describe('cpt-value', () => {
 
   it('supports keyboard manipulation of negative curve', async () => {
     const el = await fixture(html`<cpt-value interactive value="5" alpha="1" lambda="1.5"></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
     // Get "before" state
     const {l} = el;
     // Action
@@ -286,6 +312,9 @@ describe('cpt-value', () => {
 
   it('can add, pause and resume a trial', async () => {
     const el = await fixture(html`<cpt-value></cpt-value>`);
+    // Wait for resize?
+    await aTimeout(200);
+
     el.trial(0, 20, 0.75, 10, 1, 'gamble');
     await elementUpdated(el);
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
