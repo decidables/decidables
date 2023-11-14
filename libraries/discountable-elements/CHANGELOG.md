@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.1.1...@decidables/discountable-elements@0.2.0) (2023-11-14)
+
+
+### Features
+
+* **discountable-elements:** itc-choice - add class names to options ([feae667](https://github.com/decidables/decidables/commit/feae6674c9c536fa263963bd3dce698a01b3de3f))
+
+
+
 ## [0.1.1](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.1.0...@decidables/discountable-elements@0.1.1) (2023-10-16)
 
 **Note:** Version bump only for package @decidables/discountable-elements
