@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.9](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.6.8...@decidables/prospectable@0.6.9) (2023-11-14)
+
+
+### Bug Fixes
+
+* **prospectable:** cleanup introduction ([542dd66](https://github.com/decidables/decidables/commit/542dd66fd52b617f838269f04d458746c9d9989d))
+
+
+
 ## [0.6.8](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.6.7...@decidables/prospectable@0.6.8) (2023-10-13)
 
 **Note:** Version bump only for package @decidables/prospectable
