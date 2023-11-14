@@ -1,4 +1,5 @@
 import {
+  aTimeout,
   expect,
   fixture,
   html,
@@ -65,6 +66,8 @@ describe('cpt-example-interactive', () => {
         <!-- <decision-space updateable></decision-space> -->
       </cpt-example-interactive>
     `);
+    // Wait for resize?
+    await aTimeout(200);
     // Action
     const target = el.querySelector('risky-choice')
       .shadowRoot.querySelector('.sure')
@@ -91,6 +94,8 @@ describe('cpt-example-interactive', () => {
         <!-- <decision-space updateable></decision-space> -->
       </cpt-example-interactive>
     `);
+    // Wait for resize?
+    await aTimeout(200);
     // Action
     const target = el.querySelector('cpt-probability').shadowRoot.querySelector('.point.interactive');
     target.focus();
@@ -113,6 +118,8 @@ describe('cpt-example-interactive', () => {
         <!-- <decision-space updateable></decision-space> -->
       </cpt-example-interactive>
     `);
+    // Wait for resize?
+    await aTimeout(200);
     // Action
     const target = el.querySelector('cpt-value').shadowRoot.querySelector('.point.interactive');
     target.focus();

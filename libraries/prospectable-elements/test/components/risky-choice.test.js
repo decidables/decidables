@@ -1,4 +1,5 @@
 import {
+  aTimeout,
   expect,
   fixture,
   html,
@@ -76,6 +77,8 @@ describe('risky-choice', () => {
     const el = await fixture(html`
       <risky-choice interactive loss="0" win="20" probability="0.6" sure="10" state="choice"></risky-choice>
     `);
+    // Wait for resize?
+    await aTimeout(200);
     // Action
     const target = el.shadowRoot.querySelector('.sure').shadowRoot.querySelector('decidables-spinner').shadowRoot.querySelector('input');
     target.focus();
@@ -92,6 +95,8 @@ describe('risky-choice', () => {
     const el = await fixture(html`
       <risky-choice interactive loss="0" win="20" probability="0.6" sure="10" state="choice"></risky-choice>
     `);
+    // Wait for resize?
+    await aTimeout(200);
     // Action
     const target = el.shadowRoot.querySelector('.gamble').shadowRoot.querySelector('decidables-spinner').shadowRoot.querySelector('input');
     target.focus();
@@ -108,6 +113,8 @@ describe('risky-choice', () => {
     const el = await fixture(html`
       <risky-choice interactive loss="0" win="20" probability="0.6" sure="10" state="choice"></risky-choice>
     `);
+    // Wait for resize?
+    await aTimeout(200);
     // Action
     const target = el.shadowRoot.querySelector('.gamble').shadowRoot.querySelector('.arc.win.interactive');
     target.focus();

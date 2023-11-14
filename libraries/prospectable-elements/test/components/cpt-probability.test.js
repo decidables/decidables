@@ -24,6 +24,8 @@ describe('cpt-probability', () => {
 
   it('has a default function', async () => {
     const el = await fixture(html`<cpt-probability></cpt-probability>`);
+    // Wait for resize?
+    await aTimeout(200);
     expect(el.functions).to.have.length(1);
     expect(el.shadowRoot).to.have.descendants('.curve').with.length(1);
     expect(el.getFunction()).to.include({name: 'default', g: 0.5});
@@ -31,6 +33,8 @@ describe('cpt-probability', () => {
 
   it('can have a default probability', async () => {
     const el = await fixture(html`<cpt-probability probability="0.4"></cpt-probability>`);
+    // Wait for resize?
+    await aTimeout(200);
     expect(el.probabilities).to.have.length(1);
     expect(el.shadowRoot).to.have.descendants('.point').with.length(1);
     expect(el.getProbability()).to.include({name: 'default', p: 0.4});
@@ -38,6 +42,8 @@ describe('cpt-probability', () => {
 
   it('can change the default function and/or probability', async () => {
     const el = await fixture(html`<cpt-probability probability="0.4" gamma="0.6"></cpt-probability>`);
+    // Wait for resize?
+    await aTimeout(200);
     expect(el.functions[0]).to.include({name: 'default', g: 0.6});
     expect(el.probabilities[0]).to.include({name: 'default', p: 0.4});
     expect(el.get()).to.include({name: 'default', p: 0.4, g: 0.6});
@@ -58,6 +64,8 @@ describe('cpt-probability', () => {
 
   it('can set another function and/or probability', async () => {
     const el = await fixture(html`<cpt-probability probability="0.4" gamma="0.6"></cpt-probability>`);
+    // Wait for resize?
+    await aTimeout(200);
 
     el.setFunction(0.8, 'anotherFunction');
     await elementUpdated(el);
@@ -83,6 +91,9 @@ describe('cpt-probability', () => {
 
   it('can change another function and probability', async () => {
     const el = await fixture(html`<cpt-probability probability="0.4" gamma="0.6"></cpt-probability>`);
+    // Wait for resize?
+    await aTimeout(200);
+
     el.set(0.2, 0.8, 'anotherProbability', '', 'anotherFunction');
     await elementUpdated(el);
     expect(el.functions).to.have.length(2);
@@ -104,6 +115,9 @@ describe('cpt-probability', () => {
 
   it('can remove functions and/or probabilities', async () => {
     const el = await fixture(html`<cpt-probability probability="0.4" gamma="0.6"></cpt-probability>`);
+    // Wait for resize?
+    await aTimeout(200);
+
     el.set(0.2, 0.8, 'anotherProbability', '', 'anotherFunction');
     await elementUpdated(el);
     expect(el.functions).to.have.length(2);
@@ -113,7 +127,7 @@ describe('cpt-probability', () => {
     expect(el.probabilities[1]).to.include({name: 'anotherProbability', p: 0.2});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
 
     el.removeProbability('anotherProbability');
@@ -133,7 +147,7 @@ describe('cpt-probability', () => {
     expect(el.probabilities[1]).to.include({name: 'new', p: 0.1});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
 
     el.remove('new');
@@ -143,6 +157,9 @@ describe('cpt-probability', () => {
 
   it('can clear functions and/or probabilities', async () => {
     const el = await fixture(html`<cpt-probability probability="0.4" gamma="0.6"></cpt-probability>`);
+    // Wait for resize?
+    await aTimeout(200);
+
     el.set(0.2, 0.8, 'anotherProbability', '', 'anotherFunction');
     await elementUpdated(el);
     expect(el.functions).to.have.length(2);
@@ -152,7 +169,7 @@ describe('cpt-probability', () => {
     expect(el.probabilities[1]).to.include({name: 'anotherProbability', p: 0.2});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
 
     el.clearProbabilities();
@@ -172,7 +189,7 @@ describe('cpt-probability', () => {
     expect(el.probabilities[1]).to.include({name: 'new', p: 0.1});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
 
     el.clear();
@@ -182,12 +199,14 @@ describe('cpt-probability', () => {
 
   it('can be interactive', async () => {
     const el = await fixture(html`<cpt-probability interactive></cpt-probability>`);
+    // Wait for resize?
+    await aTimeout(200);
     expect(el.shadowRoot).to.have.descendant('.curve').with.class('interactive');
   });
 
   it('supports mouse manipulation of point', async () => {
     const el = await fixture(html`<cpt-probability interactive probability="0.4" gamma="0.6"></cpt-probability>`);
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
     // Get "before" state
     const {p} = el;
@@ -202,6 +221,8 @@ describe('cpt-probability', () => {
 
   it('supports keyboard manipulation of point', async () => {
     const el = await fixture(html`<cpt-probability interactive probability="0.4" gamma="0.6"></cpt-probability>`);
+    // Wait for resize?
+    await aTimeout(200);
     // Get "before" state
     const {p} = el;
     // Action
@@ -216,7 +237,7 @@ describe('cpt-probability', () => {
 
   it('supports mouse manipulation of curve', async () => {
     const el = await fixture(html`<cpt-probability interactive probability="0.4" gamma="1"></cpt-probability>`);
-    // HACK: Why do I need this timeout?
+    // Wait for resize?
     await aTimeout(200);
     // Get "before" state
     const {g} = el;
@@ -231,6 +252,8 @@ describe('cpt-probability', () => {
 
   it('supports keyboard manipulation of curve', async () => {
     const el = await fixture(html`<cpt-probability interactive probability="0.4" gamma="0.6"></cpt-probability>`);
+    // Wait for resize?
+    await aTimeout(200);
     // Get "before" state
     const {g} = el;
     // Action
@@ -245,6 +268,9 @@ describe('cpt-probability', () => {
 
   it('can add, pause and resume a trial', async () => {
     const el = await fixture(html`<cpt-probability></cpt-probability>`);
+    // Wait for resize?
+    await aTimeout(200);
+
     el.trial(0, 20, 0.75, 10, 1, 'gamble');
     await elementUpdated(el);
     expect(el.shadowRoot).to.have.descendants('.point').with.length(1);

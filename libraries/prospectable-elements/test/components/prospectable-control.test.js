@@ -1,4 +1,5 @@
 import {
+  elementUpdated,
   expect,
   fixture,
   html,
@@ -66,6 +67,9 @@ describe('prospectable-control', () => {
 
   it('can have a pause button', async () => {
     const el = await fixture(html`<prospectable-control pause></prospectable-control>`);
+    // Put controls in "running" state
+    el.doRun();
+    await elementUpdated(el);
     // Check "before" state
     expect(el.pause).to.equal(true);
     expect(el.shadowRoot).to.have.descendant('decidables-button');
@@ -80,6 +84,9 @@ describe('prospectable-control', () => {
 
   it('can have a reset button', async () => {
     const el = await fixture(html`<prospectable-control reset></prospectable-control>`);
+    // Put controls in "running" state
+    el.doRun();
+    await elementUpdated(el);
     // Check "before" state
     expect(el.reset).to.equal(true);
     expect(el.shadowRoot).to.have.descendant('decidables-button');

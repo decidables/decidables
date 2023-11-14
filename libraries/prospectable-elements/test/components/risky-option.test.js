@@ -1,4 +1,5 @@
 import {
+  aTimeout,
   expect,
   fixture,
   html,
@@ -43,6 +44,9 @@ describe('risky-option', () => {
         <risky-outcome value="0" probability="0.25" name="loss"></risky-outcome>
       </risky-option>
     `);
+    // Wait for resize?
+    await aTimeout(200);
+
     expect(el.shadowRoot).to.have.descendant('.pie');
     expect(el.shadowRoot).to.have.descendants('.arc').with.length(2);
     expect(el.shadowRoot).to.have.descendants('.label.static').with.length(2);
@@ -57,6 +61,9 @@ describe('risky-option', () => {
         <risky-outcome value="0" probability="0.25" name="loss"></risky-outcome>
       </risky-option>
     `);
+    // Wait for resize?
+    await aTimeout(200);
+
     expect(el.shadowRoot).to.have.descendant('.pie');
     expect(el.shadowRoot).to.have.descendants('.arc').with.length(2);
     expect(el.shadowRoot).to.have.descendants('.label.static').with.length(1);
@@ -72,6 +79,9 @@ describe('risky-option', () => {
         <risky-outcome value="0" probability="0.25" name="loss"></risky-outcome>
       </risky-option>
     `);
+    // Wait for resize?
+    await aTimeout(200);
+
     expect(el.shadowRoot).to.have.descendants('.label.interactive').with.length(1);
     expect(el.shadowRoot).to.have.descendant('.label.win decidables-spinner:not([disabled])').with.value(20);
     // Action
@@ -95,6 +105,8 @@ describe('risky-option', () => {
         <risky-outcome value="0" probability="0.55" name="loss"></risky-outcome>
       </risky-option>
     `);
+    // Wait for resize?
+    await aTimeout(200);
     // Get "before" state
     const {p} = el.querySelector('risky-outcome[name="win"]');
     // Action
@@ -113,6 +125,8 @@ describe('risky-option', () => {
         <risky-outcome value="0" probability="0.55" name="loss"></risky-outcome>
       </risky-option>
     `);
+    // Wait for resize?
+    await aTimeout(200);
     // Get "before" state
     const {p} = el.querySelector('risky-outcome[name="win"]');
     // Action
