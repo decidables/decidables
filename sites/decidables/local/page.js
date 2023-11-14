@@ -22259,4 +22259,1442 @@ class RiskyTask extends ProspectableElement {
   }
 }
 customElements.define('risky-task', RiskyTask);
+
+/*
+  HTDMath Static Class - Not intended for instantiation!
+
+  Variables:
+    A = amount
+    D = delay
+    V = subjective value
+
+    k = discount factor
+
+  Equations:
+    V = A / (1 + kD)
+*/
+class HTDMath {
+  static adk2v(a, d, k) {
+    return a / (1 + k * d);
+  }
+  static adv2k(a, d, v) {
+    return (a - v) / (v * d);
+  }
+}
+
+/*
+  DiscountableElement Base Class - Not intended for instantiation!
+  <sdt-element>
+*/
+class DiscountableElement extends DecidablesElement {
+  static get properties() {
+    return {
+      interactive: {
+        attribute: 'interactive',
+        type: Boolean,
+        reflect: true
+      }
+    };
+  }
+  constructor() {
+    super();
+    this.interactive = false;
+  }
+  static get colors() {
+    return {
+      a: Set1[0],
+      d: Set1[1],
+      k: Set1[2],
+      v: Set1[3],
+      chosen: Set1[8],
+      better: '#4545d0',
+      worse: '#f032e6',
+      even: '#10dbc9',
+      correct: '#ffffff',
+      error: '#000000',
+      nr: '#cccccc'
+    };
+  }
+  static get lights() {
+    return Object.keys(DiscountableElement.colors).reduce((acc, cur) => {
+      acc[cur] = interpolateRgb(DiscountableElement.colors[cur], '#ffffff')(0.5);
+      return acc;
+    }, {});
+  }
+  static get darks() {
+    return Object.keys(DiscountableElement.colors).reduce((acc, cur) => {
+      acc[cur] = interpolateRgb(DiscountableElement.colors[cur], '#000000')(0.5);
+      return acc;
+    }, {});
+  }
+  static get styles() {
+    return [super.styles, i$1`
+        :host {
+          ---color-a: var(--color-a, ${r$2(this.colors.a)});
+          ---color-d: var(--color-d, ${r$2(this.colors.d)});
+          ---color-k: var(--color-k, ${r$2(this.colors.k)});
+          ---color-v: var(--color-v, ${r$2(this.colors.v)});
+          ---color-chosen: var(--color-chosen, ${r$2(this.colors.chosen)});
+          ---color-better: var(--color-better, ${r$2(this.colors.better)});
+          ---color-worse: var(--color-worse, ${r$2(this.colors.worse)});
+          ---color-even: var(--color-even, ${r$2(this.colors.even)});
+          ---color-correct: var(--color-correct, ${r$2(this.colors.correct)});
+          ---color-error: var(--color-error, ${r$2(this.colors.error)});
+          ---color-nr: var(--color-nr, ${r$2(this.colors.nr)});
+
+          ---color-a-light: var(--color-a-light, ${r$2(this.lights.a)});
+          ---color-d-light: var(--color-d-light, ${r$2(this.lights.d)});
+          ---color-k-light: var(--color-k-light, ${r$2(this.lights.k)});
+          ---color-v-light: var(--color-v-light, ${r$2(this.lights.v)});
+          ---color-chosen-light: var(--color-chosen-light, ${r$2(this.lights.chosen)});
+          ---color-better-light: var(--color-better-light, ${r$2(this.lights.better)});
+          ---color-worse-light: var(--color-worse-light, ${r$2(this.lights.worse)});
+          ---color-even-light: var(--color-even-light, ${r$2(this.lights.even)});
+          ---color-correct-light: var(--color-correct-light, ${r$2(this.lights.correct)});
+          ---color-error-light: var(--color-error-light, ${r$2(this.lights.error)});
+          ---color-nr-light: var(--color-nr-light, ${r$2(this.lights.nr)});
+
+          ---color-a-dark: var(--color-a-dark, ${r$2(this.darks.a)});
+          ---color-d-dark: var(--color-d-dark, ${r$2(this.darks.d)});
+          ---color-k-dark: var(--color-k-dark, ${r$2(this.darks.k)});
+          ---color-v-dark: var(--color-v-dark, ${r$2(this.darks.v)});
+          ---color-chosen-dark: var(--color-chosen-dark, ${r$2(this.darks.chosen)});
+          ---color-better-dark: var(--color-better-dark, ${r$2(this.darks.better)});
+          ---color-worse-dark: var(--color-worse-dark, ${r$2(this.darks.worse)});
+          ---color-even-dark: var(--color-even-dark, ${r$2(this.darks.even)});
+          ---color-correct-dark: var(--color-correct-dark, ${r$2(this.darks.correct)});
+          ---color-error-dark: var(--color-error-dark, ${r$2(this.darks.error)});
+          ---color-nr-dark: var(--color-nr-dark, ${r$2(this.darks.nr)});
+        }
+      `];
+  }
+}
+
+/*
+  HTDCurves element
+  <htd-curves>
+
+  Attributes:
+    interactive: true/false
+
+    a: numeric (-infinity, infinity)
+    d: numeric [0, infinity)
+    k: numeric [0, infinity)
+    label: string
+
+  Styles:
+    ??
+*/
+class HTDCurves extends DecidablesMixinResizeable(DiscountableElement) {
+  static get properties() {
+    return {
+      a: {
+        attribute: 'amount',
+        type: Number,
+        reflect: true
+      },
+      d: {
+        attribute: 'delay',
+        type: Number,
+        reflect: true
+      },
+      label: {
+        attribute: 'label',
+        type: String,
+        reflect: true
+      },
+      k: {
+        attribute: 'k',
+        type: Number,
+        reflect: true
+      },
+      v: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
+  }
+  constructor() {
+    super();
+    this.firstUpdate = true;
+    this.drag = false;
+    this.scale = {
+      value: {
+        min: 0,
+        max: 80,
+        step: 1,
+        round: Math.round
+      },
+      time: {
+        min: 0,
+        max: 100,
+        step: 1,
+        round: Math.round
+      },
+      discount: {
+        min: 0,
+        max: 100,
+        step: 0.001,
+        round: k => {
+          return +k.toFixed(3);
+        }
+      }
+    };
+    this.a = null;
+    this.d = null;
+    this.label = '';
+    this.k = 0.1;
+    this.options = [{
+      name: 'default',
+      a: this.a,
+      d: this.d,
+      label: this.label
+    }];
+    this.as = null;
+    this.ds = null;
+    this.al = null;
+    this.dl = null;
+    this.trialCount = null;
+    this.response = null;
+    this.alignState();
+  }
+  alignState() {
+    // Default options
+    this.options[0].a = this.a;
+    this.options[0].d = this.d;
+    this.options[0].label = this.label;
+
+    // Update values
+    this.options.forEach(option => {
+      option.v = HTDMath.adk2v(option.a, option.d, this.k);
+    });
+    this.v = this.options[0].v;
+  }
+  trial(as, ds, al, dl, trial, response) {
+    // Remove the old trial
+    if (this.trialCount) this.removeOption(`${this.trialCount}-s`);
+    if (this.trialCount) this.removeOption(`${this.trialCount}-l`);
+    this.as = as;
+    this.ds = ds;
+    this.al = al;
+    this.dl = dl;
+    this.trialCount = trial;
+    this.response = response;
+
+    // Add the new trial
+    this.setOption(this.as, this.ds, `${this.trialCount}-s`, 's', true);
+    this.setOption(this.al, this.dl, `${this.trialCount}-l`, 'l', true);
+  }
+
+  // Called to pause trial animations!
+  pauseTrial() {
+    const lineNew = select(this.renderRoot).selectAll('.lines[data-animating-ease-time-1]');
+    lineNew.interrupt('new-1');
+    lineNew.interrupt('new-2');
+    lineNew.datum(datum => {
+      datum.paused = true;
+      return datum;
+    });
+  }
+
+  // Called to resume trial animations!
+  resumeTrial() {
+    const lineNew = select(this.renderRoot).selectAll('.lines[data-animating-ease-time-1]');
+    lineNew.datum(datum => {
+      datum.paused = false;
+      return datum;
+    });
+    this.requestUpdate();
+  }
+  clearOptions() {
+    this.options.splice(1);
+    this.requestUpdate();
+  }
+  removeOption(name) {
+    this.options = this.options.filter(option => {
+      return option.name !== name;
+    });
+    this.requestUpdate();
+  }
+  getOption(name = 'default') {
+    return this.options.find(option => {
+      return option.name === name;
+    });
+  }
+  setOption(a, d, name = 'default', label = '', trial = false) {
+    if (name === 'default') {
+      this.a = a;
+      this.d = d;
+      this.label = label;
+    }
+    const myOption = this.options.find(option => {
+      return option.name === name;
+    });
+    if (myOption === undefined) {
+      this.options.push({
+        name: name,
+        a: a,
+        d: d,
+        label: label,
+        trial: trial,
+        new: trial
+      });
+    } else {
+      myOption.a = a;
+      myOption.d = d;
+      myOption.label = label;
+    }
+    this.requestUpdate();
+  }
+  static get styles() {
+    return [super.styles, i$1`
+        :host {
+          display: inline-block;
+
+          width: 27rem;
+          height: 15rem;
+        }
+
+        .main {
+          width: 100%;
+          height: 100%;
+        }
+
+        text {
+          /* stylelint-disable property-no-vendor-prefix */
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        .background {
+          fill: var(---color-element-background);
+          stroke: var(---color-element-border);
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+
+        .title-x,
+        .title-y {
+          font-weight: 600;
+
+          fill: currentColor;
+        }
+
+        .tick {
+          font-size: 0.75rem;
+        }
+
+        .axis-x path,
+        .axis-x line,
+        .axis-y path,
+        .axis-y line {
+          stroke: var(---color-element-border);
+          /* shape-rendering: crispEdges; */
+        }
+
+        .curve {
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2;
+        }
+
+        .curve.interactive {
+          cursor: nwse-resize;
+          
+          filter: url("#shadow-2");
+          outline: none;
+        }
+
+        .curve.interactive:hover {
+          filter: url("#shadow-4");
+        }
+
+        .curve.interactive:active {
+          filter: url("#shadow-8");
+        }
+
+        :host(.keyboard) .curve.interactive:focus {
+          filter: url("#shadow-8");
+        }
+
+        .bar {
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2;
+        }
+
+        .bar.interactive {
+          cursor: ew-resize;
+          
+          filter: url("#shadow-2");
+          outline: none;
+        }
+
+        .bar.interactive:hover {
+          filter: url("#shadow-4");
+        }
+
+        .bar.interactive:active {
+          filter: url("#shadow-8");
+        }
+
+        :host(.keyboard) .bar.interactive:focus {
+          filter: url("#shadow-8");
+        }
+
+        .point .mark {
+          fill: var(---color-element-emphasis);
+
+          r: 6px;
+        }
+
+        .point .label {
+          font-size: 0.75rem;
+
+          dominant-baseline: middle;
+          text-anchor: middle;
+
+          fill: var(---color-text-inverse);
+        }
+
+        .point.interactive {
+          cursor: ns-resize;
+
+          filter: url("#shadow-2");
+          outline: none;
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
+          stroke: #000000;
+          stroke-opacity: 0;
+          stroke-width: 0;
+        }
+
+        .point.interactive:hover {
+          filter: url("#shadow-4");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          stroke: #ff0000;
+        }
+
+        .point.interactive:active {
+          filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          stroke: #00ff00;
+        }
+
+        :host(.keyboard) .point.interactive:focus {
+          filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          stroke: #0000ff;
+        }
+      `];
+  }
+  render() {
+    /* eslint-disable-line class-methods-use-this */
+    return x$1``;
+    //   ${DiscountableElement.svgFilters}
+    // `;
+  }
+
+  update(changedProperties) {
+    super.update(changedProperties);
+    this.alignState();
+
+    // Bail out if we can't get the width/height
+    if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
+      return;
+    }
+    const hostWidth = this.width;
+    const hostHeight = this.height;
+    const hostAspectRatio = hostWidth / hostHeight;
+    const elementAspectRatio = 1.8;
+    let elementWidth;
+    let elementHeight;
+    if (hostAspectRatio > elementAspectRatio) {
+      elementHeight = hostHeight;
+      elementWidth = elementHeight * elementAspectRatio;
+    } else {
+      elementWidth = hostWidth;
+      elementHeight = elementWidth / elementAspectRatio;
+    }
+    const margin = {
+      top: 2 * this.rem,
+      bottom: 3 * this.rem,
+      left: 3 * this.rem,
+      right: 2 * this.rem
+    };
+    const height = elementHeight - (margin.top + margin.bottom);
+    const width = elementWidth - (margin.left + margin.right);
+    const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10);
+
+    // X Scale
+    const xScale = linear().domain([this.scale.time.min, this.scale.time.max]).range([0, width]);
+
+    // Y Scale
+    const yScale = linear().domain([this.scale.value.min, this.scale.value.max]).range([height, 0]);
+
+    // Line for time/value space
+    const line$1 = line().x(datum => {
+      return xScale(datum.d);
+    }).y(datum => {
+      return yScale(datum.v);
+    });
+
+    // Svg
+    //  DATA-JOIN
+    const svgUpdate = select(this.renderRoot).selectAll('.main').data([{
+      width: this.width,
+      height: this.height,
+      rem: this.rem
+    }]);
+    //  ENTER
+    const svgEnter = svgUpdate.enter().append('svg').classed('main', true);
+    svgEnter.html(DiscountableElement.svgDefs);
+    //  MERGE
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`);
+
+    // Plot
+    //  ENTER
+    const plotEnter = svgEnter.append('g').classed('plot', true);
+    //  MERGE
+    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+    // Clippath
+    //  ENTER
+    plotEnter.append('clipPath').attr('id', 'clip-htd-curves').append('rect');
+    //  MERGE
+    plotMerge.select('clipPath rect').attr('height', height + 1).attr('width', width + 1);
+
+    // Underlayer
+    //  ENTER
+    const underlayerEnter = plotEnter.append('g').classed('underlayer', true);
+    // MERGE
+    const underlayerMerge = plotMerge.select('.underlayer');
+
+    // Background
+    //  ENTER
+    underlayerEnter.append('rect').classed('background', true);
+    //  MERGE
+    underlayerMerge.select('.background').attr('height', height).attr('width', width);
+
+    // X Axis
+    //  ENTER
+    underlayerEnter.append('g').classed('axis-x', true);
+    //  MERGE
+    const scaleXMerge = underlayerMerge.select('.axis-x').attr('transform', `translate(0, ${yScale(0)})`);
+    const scaleXTransition = scaleXMerge.transition().duration(transitionDuration * 2) // Extra long transition!
+    .ease(cubicOut).call(axisBottom(xScale)).attr('font-size', null).attr('font-family', null);
+    scaleXTransition.selectAll('line, path').attr('stroke', null);
+
+    // X Axis Title
+    //  ENTER
+    const titleXEnter = underlayerEnter.append('text').classed('title-x', true).attr('text-anchor', 'middle');
+    titleXEnter.append('tspan').classed('name', true).text('Delay (');
+    titleXEnter.append('tspan').classed('math-var d', true).text('D');
+    titleXEnter.append('tspan').classed('name', true).text(')');
+    //  MERGE
+    underlayerMerge.select('.title-x').attr('transform', `translate(${width / 2}, ${height + 2.25 * this.rem})`);
+
+    // Y Axis
+    //  ENTER
+    underlayerEnter.append('g').classed('axis-y', true);
+    // MERGE
+    const scaleYTransition = underlayerMerge.select('.axis-y').transition().duration(transitionDuration * 2) // Extra long transition!
+    .ease(cubicOut).call(axisLeft(yScale)).attr('font-size', null).attr('font-family', null);
+    scaleYTransition.selectAll('line, path').attr('stroke', null);
+
+    // Y Axis Title
+    //  ENTER
+    const titleYEnter = underlayerEnter.append('text').classed('title-y', true).attr('text-anchor', 'middle');
+    titleYEnter.append('tspan').classed('name', true).text('Value (');
+    titleYEnter.append('tspan').classed('math-var v', true).text('V');
+    titleYEnter.append('tspan').classed('name', true).text(')');
+    //  MERGE
+    underlayerMerge.select('.title-y').attr('transform', `translate(${-2 * this.rem}, ${height / 2})rotate(-90)`);
+
+    // Content
+    //  ENTER
+    plotEnter.append('g').classed('content', true);
+    //  MERGE
+    const contentMerge = plotMerge.select('.content');
+
+    // Options
+    // DATA-JOIN
+    const optionUpdate = contentMerge.selectAll('.option').data(this.options.filter(option => {
+      return option.a !== null && option.d !== null;
+    }), datum => {
+      return datum.name;
+    });
+    //  ENTER
+    const optionEnter = optionUpdate.enter().append('g').classed('option', true);
+    // Curve
+    optionEnter.append('path').classed('curve', true).attr('clip-path', 'url(#clip-htd-curves)').attr('d', datum => {
+      const curve = range(xScale(datum.d), xScale(0), -1).map(range => {
+        return {
+          d: xScale.invert(range),
+          v: HTDMath.adk2v(datum.a, datum.d - xScale.invert(range), this.k)
+        };
+      });
+      return line$1(curve);
+    }).attr('stroke-dasharray', (datum, index, nodes) => {
+      if (datum.trial) {
+        const length = nodes[index].getTotalLength();
+        return `0,${length}`;
+      }
+      return 'none';
+    });
+    // Bar
+    optionEnter.append('line').classed('bar', true).attr('x1', datum => {
+      return xScale(datum.d);
+    }).attr('x2', datum => {
+      return xScale(datum.d);
+    }).attr('y1', yScale(0)).attr('y2', datum => {
+      return yScale(datum.a);
+    }).attr('stroke-dasharray', (datum, index, nodes) => {
+      if (datum.trial) {
+        const length = nodes[index].getTotalLength();
+        return `0,${length}`;
+      }
+      return 'none';
+    });
+    // Point
+    const pointEnter = optionEnter.append('g').classed('point', true).attr('transform', datum => {
+      return `translate(${xScale(datum.d)}, ${yScale(datum.a)})`;
+    }).attr('opacity', datum => {
+      if (datum.trial) {
+        return 0;
+      }
+      return 1;
+    });
+    pointEnter.append('circle').classed('mark', true);
+    pointEnter.append('text').classed('label', true);
+    //  MERGE
+    const optionMerge = optionEnter.merge(optionUpdate);
+
+    // Interactive options
+    // Curve
+    optionMerge.filter((datum, index, nodes) => {
+      return this.interactive && !nodes[index].classList.contains('interactive');
+    }).select('.curve').classed('interactive', true).attr('tabindex', 0)
+    // Drag interaction
+    .call(drag().subject(event => {
+      return {
+        x: event.x,
+        y: event.y
+      };
+    }).on('start', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', true);
+    }).on('drag', (event, datum) => {
+      this.drag = true;
+      const dragD = datum.d - xScale.invert(event.x);
+      const d = dragD < 0 ? 0 : dragD > datum.d ? datum.d : dragD;
+      const dragV = yScale.invert(event.y);
+      const v = dragV <= 0 ? 0.001 : dragV > datum.a ? datum.a : dragV;
+      const k = HTDMath.adv2k(datum.a, d, v);
+      this.k = k < this.scale.discount.min ? this.scale.discount.min : k > this.scale.discount.max ? this.scale.discount.max : this.scale.discount.round(k);
+      this.alignState();
+      this.requestUpdate();
+      this.dispatchEvent(new CustomEvent('htd-curves-change', {
+        detail: {
+          name: datum.name,
+          a: datum.a,
+          d: datum.d,
+          k: this.k,
+          label: datum.label
+        },
+        bubbles: true
+      }));
+    }).on('end', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', false);
+    }))
+    // Keyboard interaction
+    .on('keydown', (event, datum) => {
+      if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
+        let keyK = this.k;
+        switch (event.key) {
+          case 'ArrowUp':
+          case 'ArrowLeft':
+            keyK *= event.shiftKey ? 0.95 : 0.85;
+            break;
+          case 'ArrowDown':
+          case 'ArrowRight':
+            keyK *= event.shiftKey ? 1.05 : 1.15;
+            break;
+          // no-op
+        }
+
+        keyK = keyK < this.scale.discount.min ? this.scale.discount.min : keyK > this.scale.discount.max ? this.scale.discount.max : this.scale.discount.round(keyK);
+        if (keyK !== this.k) {
+          this.k = keyK;
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('htd-curves-change', {
+            detail: {
+              name: datum.name,
+              a: datum.a,
+              d: datum.d,
+              k: this.k,
+              label: datum.label
+            },
+            bubbles: true
+          }));
+        }
+        event.preventDefault();
+      }
+    });
+    // Bar
+    optionMerge.filter((datum, index, nodes) => {
+      return this.interactive && !datum.trial && !nodes[index].classList.contains('interactive');
+    }).select('.bar').classed('interactive', true).attr('tabindex', 0)
+    // Drag interaction
+    .call(drag().subject((event, datum) => {
+      return {
+        x: xScale(datum.d),
+        y: yScale(datum.a)
+      };
+    }).on('start', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', true);
+    }).on('drag', (event, datum) => {
+      this.drag = true;
+      const d = xScale.invert(event.x);
+      datum.d = d < this.scale.time.min ? this.scale.time.min : d > this.scale.time.max ? this.scale.time.max : this.scale.time.round(d);
+      if (datum.name === 'default') {
+        this.d = datum.d;
+      }
+      this.alignState();
+      this.requestUpdate();
+      this.dispatchEvent(new CustomEvent('htd-curves-change', {
+        detail: {
+          name: datum.name,
+          a: datum.a,
+          d: datum.d,
+          k: this.k,
+          label: datum.label
+        },
+        bubbles: true
+      }));
+    }).on('end', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', false);
+    }))
+    // Keyboard interaction
+    .on('keydown', (event, datum) => {
+      if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        let keyD = datum.d;
+        switch (event.key) {
+          case 'ArrowRight':
+            keyD += event.shiftKey ? 1 : 5;
+            break;
+          case 'ArrowLeft':
+            keyD -= event.shiftKey ? 1 : 5;
+            break;
+          // no-op
+        }
+
+        keyD = keyD < this.scale.time.min ? this.scale.time.min : keyD > this.scale.time.max ? this.scale.time.max : keyD;
+        if (keyD !== datum.d) {
+          datum.d = keyD;
+          if (datum.name === 'default') {
+            this.d = datum.d;
+          }
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('htd-curves-change', {
+            detail: {
+              name: datum.name,
+              a: datum.a,
+              d: datum.d,
+              k: this.k,
+              label: datum.label
+            },
+            bubbles: true
+          }));
+        }
+        event.preventDefault();
+      }
+    });
+    // Point
+    optionMerge.filter((datum, index, nodes) => {
+      return this.interactive && !datum.trial && !nodes[index].classList.contains('interactive');
+    }).select('.point').classed('interactive', true).attr('tabindex', 0)
+    // Drag interaction
+    .call(drag().subject((event, datum) => {
+      return {
+        x: xScale(datum.d),
+        y: yScale(datum.a)
+      };
+    }).on('start', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', true);
+    }).on('drag', (event, datum) => {
+      this.drag = true;
+      const a = yScale.invert(event.y);
+      datum.a = a < this.scale.value.min ? this.scale.value.min : a > this.scale.value.max ? this.scale.value.max : this.scale.value.round(a);
+      if (datum.name === 'default') {
+        this.a = datum.a;
+      }
+      this.alignState();
+      this.requestUpdate();
+      this.dispatchEvent(new CustomEvent('htd-curves-change', {
+        detail: {
+          name: datum.name,
+          a: datum.a,
+          d: datum.d,
+          k: this.k,
+          label: datum.label
+        },
+        bubbles: true
+      }));
+    }).on('end', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', false);
+    }))
+    // Keyboard interaction
+    .on('keydown', (event, datum) => {
+      if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
+        let keyA = datum.a;
+        switch (event.key) {
+          case 'ArrowUp':
+            keyA += event.shiftKey ? 1 : 5;
+            break;
+          case 'ArrowDown':
+            keyA -= event.shiftKey ? 1 : 5;
+            break;
+          // no-op
+        }
+
+        keyA = keyA < this.scale.value.min ? this.scale.value.min : keyA > this.scale.value.max ? this.scale.value.max : keyA;
+        if (keyA !== datum.a) {
+          datum.a = keyA;
+          if (datum.name === 'default') {
+            this.a = datum.a;
+          }
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('htd-curves-change', {
+            detail: {
+              name: datum.name,
+              a: datum.a,
+              d: datum.d,
+              k: this.k,
+              label: datum.label
+            },
+            bubbles: true
+          }));
+        }
+        event.preventDefault();
+      }
+    });
+
+    // Non-interactive options
+    // Curve
+    optionMerge.filter((datum, index, nodes) => {
+      return !this.interactive && nodes[index].classList.contains('interactive');
+    }).select('.curve').classed('interactive', false).attr('tabindex', null).on('drag', null).on('keydown', null);
+    // Bar
+    optionMerge.filter((datum, index, nodes) => {
+      return (!this.interactive || datum.trial) && nodes[index].classList.contains('interactive');
+    }).select('.bar').classed('interactive', false).attr('tabindex', null).on('drag', null).on('keydown', null);
+    // Point
+    optionMerge.filter((datum, index, nodes) => {
+      return (!this.interactive || datum.trial) && nodes[index].classList.contains('interactive');
+    }).select('.point').classed('interactive', false).attr('tabindex', null).on('drag', null).on('keydown', null);
+
+    // Trial Animation
+    // Curve
+    optionMerge.filter(datum => {
+      return datum.new;
+    }).select('.curve').transition().duration(transitionDuration).delay(transitionDuration + transitionDuration / 10).ease(linear$1).attrTween('stroke-dasharray', (datum, index, nodes) => {
+      const length = nodes[index].getTotalLength();
+      return interpolate$1(`0,${length}`, `${length},${0}`);
+    }).on('end', datum => {
+      datum.new = false;
+      this.dispatchEvent(new CustomEvent('discountable-response', {
+        detail: {
+          trial: this.trialCount,
+          as: this.as,
+          ds: this.ds,
+          al: this.al,
+          dl: this.dl,
+          response: this.response
+        },
+        bubbles: true
+      }));
+    });
+    // Bar
+    optionMerge.filter(datum => {
+      return datum.new;
+    }).select('.bar').transition().duration(transitionDuration).ease(linear$1).attrTween('stroke-dasharray', (datum, index, nodes) => {
+      const length = nodes[index].getTotalLength();
+      return interpolate$1(`0,${length}`, `${length},${length}`);
+    });
+    // Point
+    optionMerge.filter(datum => {
+      return datum.new;
+    }).select('.point').transition().duration(transitionDuration / 10).delay(transitionDuration).ease(linear$1).attrTween('opacity', () => {
+      return interpolate$1(0, 1);
+    });
+
+    // All options
+    optionUpdate.select('.curve').transition().duration(this.drag ? 0 : this.firstUpdate ? transitionDuration * 2 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateA = interpolate$1(element.a !== undefined ? element.a : datum.a, datum.a);
+      const interpolateD = interpolate$1(element.d !== undefined ? element.d : datum.d, datum.d);
+      return time => {
+        element.a = interpolateA(time);
+        element.d = interpolateD(time);
+        const curve = range(xScale(element.d), xScale(0), -1).map(range => {
+          return {
+            d: xScale.invert(range),
+            v: HTDMath.adk2v(element.a, element.d - xScale.invert(range), this.k)
+          };
+        });
+        return line$1(curve);
+      };
+    });
+    optionUpdate.select('.bar').transition().duration(this.drag ? 0 : this.firstUpdate ? transitionDuration * 2 : transitionDuration).ease(cubicOut).attrTween('x1', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateD = interpolate$1(element.d !== undefined ? element.d : datum.d, datum.d);
+      return time => {
+        element.d = interpolateD(time);
+        return `${xScale(element.d)}`;
+      };
+    }).attrTween('x2', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateD = interpolate$1(element.d !== undefined ? element.d : datum.d, datum.d);
+      return time => {
+        element.d = interpolateD(time);
+        return `${xScale(element.d)}`;
+      };
+    }).attrTween('y2', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateA = interpolate$1(element.a !== undefined ? element.a : datum.a, datum.a);
+      return time => {
+        element.a = interpolateA(time);
+        return `${yScale(element.a)}`;
+      };
+    });
+    optionUpdate.select('.point').transition().duration(this.drag ? 0 : this.firstUpdate ? transitionDuration * 2 : transitionDuration).ease(cubicOut).attrTween('transform', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateD = interpolate$1(element.d !== undefined ? element.d : datum.d, datum.d);
+      const interpolateA = interpolate$1(element.a !== undefined ? element.a : datum.a, datum.a);
+      return time => {
+        element.d = interpolateD(time);
+        element.a = interpolateA(time);
+        return `translate(${xScale(element.d)}, ${yScale(element.a)})`;
+      };
+    });
+    optionMerge.select('.point .label').text(datum => {
+      return datum.label;
+    });
+    //  EXIT
+    // NOTE: Could add a transition here
+    optionUpdate.exit().remove();
+    this.drag = false;
+    this.firstUpdate = false;
+  }
+}
+customElements.define('htd-curves', HTDCurves);
+
+/*
+  ITCOption element
+  <itc-option>
+
+  Attributes:
+  State
+  Amount, Delay
+*/
+class ITCOption extends DiscountableElement {
+  static get properties() {
+    return {
+      state: {
+        attribute: 'state',
+        type: String,
+        reflect: true
+      },
+      a: {
+        attribute: 'amount',
+        type: Number,
+        reflect: true
+      },
+      d: {
+        attribute: 'delay',
+        type: Number,
+        reflect: true
+      }
+    };
+  }
+  constructor() {
+    super();
+    this.states = ['choice', 'fixation', 'blank']; // Possible states
+    this.state = 'choice'; // Current state
+
+    this.a = 0;
+    this.d = 0;
+  }
+  static get styles() {
+    return [super.styles, i$1`
+        :host {
+          display: inline-block;
+          
+          width: 10rem;
+          height: 10rem;
+        }
+
+        .holder {
+          display: flex;
+          
+          flex-flow: column nowrap;
+
+          align-items: center;
+          justify-content: center;
+
+          width: 100%;
+          height: 100%;
+          overflow: visible;
+          
+
+          background: var(---color-element-background);
+          border: 2px solid var(---color-element-emphasis);
+          border-radius: 50%;
+        }
+
+        .interactive,
+        .static {
+          font-size: 1.75rem;
+        }
+
+        .interactive {
+          --decidables-spinner-font-size: 1.75rem;
+        }
+
+        .static {
+          padding: 0 0.25rem;
+          
+          border-radius: var(---border-radius);
+        }
+
+        .amount {
+          --decidables-spinner-prefix: "$";
+          background-color: var(---color-a-light);
+        }
+
+        .amount.interactive {
+          --decidables-spinner-input-width: 4rem;
+        }
+
+        .delay {
+          background-color: var(---color-d-light);
+        }
+        
+        .delay.interactive {
+          --decidables-spinner-input-width: 6.75rem;
+          --decidables-spinner-postfix: "days";
+          --decidables-spinner-postfix-padding: 3.75rem;
+        }
+      `];
+  }
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('itc-option-change', {
+      detail: {
+        a: this.a,
+        d: this.d
+      },
+      bubbles: true
+    }));
+  }
+  aInput(event) {
+    this.a = parseFloat(event.target.value);
+    this.sendEvent();
+  }
+  dInput(event) {
+    this.d = parseFloat(event.target.value);
+    this.sendEvent();
+  }
+  render() {
+    /* eslint-disable-line class-methods-use-this */
+    return x$1`
+      <div class="holder">
+        ${this.state === 'choice' ? this.interactive ? x$1`<decidables-spinner
+              class="amount interactive"
+              ?disabled=${!this.interactive}
+              step="1"
+              .value="${this.a}"
+              @input=${this.aInput.bind(this)}
+              ></decidables-spinner>` : x$1`<div
+              class="amount static"
+              >$${this.a}</div>` : ''}
+        ${this.state === 'choice' ? x$1`<div class="in">in</div>` : ''}
+        ${this.state === 'choice' ? this.interactive ? x$1`<decidables-spinner
+              class="delay interactive"
+              ?disabled=${!this.interactive}
+              min="0" 
+              step="1"
+              .value="${this.d}"
+              @input=${this.dInput.bind(this)}
+              ></decidables-spinner>` : x$1`<div
+              class="delay static"
+              >${this.d} days</div>` : ''}
+      </div>
+    `;
+  }
+}
+customElements.define('itc-option', ITCOption);
+
+/*
+  ITCChoice element
+  <itc-choice>
+
+  Attributes:
+*/
+class ITCChoice extends DiscountableElement {
+  static get properties() {
+    return {
+      state: {
+        attribute: 'state',
+        type: String,
+        reflect: true
+      },
+      as: {
+        attribute: 'amount-ss',
+        type: Number,
+        reflect: true
+      },
+      ds: {
+        attribute: 'delay-ss',
+        type: Number,
+        reflect: true
+      },
+      al: {
+        attribute: 'amount-ll',
+        type: Number,
+        reflect: true
+      },
+      dl: {
+        attribute: 'delay-ll',
+        type: Number,
+        reflect: true
+      }
+    };
+  }
+  constructor() {
+    super();
+    this.states = ['choice', 'fixation', 'blank']; // Possible states
+    this.state = 'choice'; // Current state
+
+    this.as = 10;
+    this.ds = 5;
+    this.al = 40;
+    this.dl = 30;
+  }
+  static get styles() {
+    return [super.styles, i$1`
+        :host {
+          display: inline-block;
+        }
+
+        .holder {
+          user-select: none;
+        }
+
+        .holder > * {
+          vertical-align: middle;
+        }
+
+        .query {
+          margin: 0 0.5rem;
+
+          font-family: var(--font-family-code);
+          font-size: 1.75rem;
+        }
+
+        itc-option {
+          width: 10rem;
+          height: 10rem;
+        }
+      `];
+  }
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('itc-choice-change', {
+      detail: {
+        as: this.as,
+        ds: this.ds,
+        al: this.al,
+        dl: this.dl
+      },
+      bubbles: true
+    }));
+  }
+  ssChange(event) {
+    this.as = parseFloat(event.detail.a);
+    this.ds = parseFloat(event.detail.d);
+    this.sendEvent();
+  }
+  llChange(event) {
+    this.al = parseFloat(event.detail.a);
+    this.dl = parseFloat(event.detail.d);
+    this.sendEvent();
+  }
+  render() {
+    return x$1`
+      <div class="holder">
+        <itc-option
+          class="ss"
+          state=${this.state}
+          ?interactive=${this.interactive}
+          amount="${this.as}"
+          delay="${this.ds}"
+          @itc-option-change=${this.ssChange.bind(this)}>
+        </itc-option><span class="query"
+         >${this.state === 'choice' ? '?' : this.state === 'fixation' ? '+' : x$1`∙`}</span
+        ><itc-option
+          class="ll"
+          state=${this.state}
+          ?interactive=${this.interactive}
+          amount="${this.al}"
+          delay="${this.dl}"
+          @itc-option-change=${this.llChange.bind(this)}>
+        </itc-option>
+      </div>`;
+  }
+}
+customElements.define('itc-choice', ITCChoice);
+
+/*
+  ITCTask element
+  <itc-task>
+
+  Attributes:
+  Dots; Coherence;
+  # Direction, Speed, Lifetime
+*/
+class ITCTask extends DiscountableElement {
+  static get properties() {
+    return {
+      duration: {
+        attribute: 'duration',
+        type: Number,
+        reflect: true
+      },
+      iti: {
+        attribute: 'iti',
+        type: Number,
+        reflect: true
+      },
+      trials: {
+        attribute: 'trials',
+        type: Number,
+        reflect: true
+      },
+      running: {
+        attribute: 'running',
+        type: Boolean,
+        reflect: true
+      },
+      state: {
+        attribute: false,
+        type: String,
+        reflect: false
+      }
+    };
+  }
+  constructor() {
+    super();
+
+    // Attributes
+    this.duration = 2000; // Duration of stimulus in milliseconds
+    this.iti = 2000; // Duration of inter-trial interval in milliseconds
+    this.trials = 5; // Number of trials per block
+    this.running = false; // Currently executing block of trials
+
+    // Properties
+    this.states = ['resetted', 'iti', 'stimulus', 'ended']; // Possible states of task
+    this.state = 'resetted'; // Current state of task
+
+    // Decision parameters
+    this.range = {};
+    this.range.as = {
+      start: 10,
+      stop: 20,
+      step: 1
+    }; // Amount SS
+    this.range.ds = {
+      start: 10,
+      stop: 40,
+      step: 1
+    }; // Delay SS
+    this.range.al = {
+      start: 20,
+      stop: 40,
+      step: 1
+    }; // Amount LL
+    this.range.dl = {
+      start: 50,
+      stop: 80,
+      step: 1
+    }; // Delay LL
+
+    this.range.as.values = range(this.range.as.start, this.range.as.stop + 0.01, this.range.as.step);
+    this.range.ds.values = range(this.range.ds.start, this.range.ds.stop + 0.01, this.range.ds.step);
+    this.range.al.values = range(this.range.al.start, this.range.al.stop + 0.01, this.range.al.step);
+    this.range.dl.values = range(this.range.dl.start, this.range.dl.stop + 0.01, this.range.dl.step);
+
+    // Private
+    this.firstUpdate = true;
+    this.as = 0;
+    this.ds = 0;
+    this.al = 0;
+    this.dl = 0;
+    this.trial = 0; // Count of current trial
+
+    this.baseTime = 0; // Real time, in milliseconds, that the current block started
+    this.pauseTime = 0; // Real time, in milliseconds, that block was paused at
+    this.startTime = 0; // Virtual time, in milliseconds, that current stage of trial started
+    this.lastTime = 0; // Virtual time, in milliseconds, of the most recent frame
+
+    this.runner = undefined; // D3 Interval for frame timing
+  }
+
+  static get styles() {
+    return [super.styles, i$1`
+        :host {
+          display: inline-block;
+        }
+      `];
+  }
+  render() {
+    return x$1`
+      <div class="holder">
+        <itc-choice 
+          state="${this.state === 'stimulus' ? 'choice' : this.state === 'iti' ? 'fixation' : 'blank'}"
+          amount-ss="${this.as}"
+          delay-ss="${this.ds}"
+          amount-ll="${this.al}"
+          delay-ll="${this.dl}">
+        </itc-choice>
+      </div>`;
+  }
+  update(changedProperties) {
+    super.update(changedProperties);
+
+    // Start or stop trial block
+    if (this.firstUpdate || changedProperties.has('running')) {
+      if (this.running) {
+        // (Re)Start
+        if (this.pauseTime) {
+          // Shift timeline forward as if paused time never happened
+          this.baseTime += now() - this.pauseTime;
+          this.pauseTime = 0;
+        }
+        this.runner = interval(this.run.bind(this), 20); // FIXME??
+      } else if (this.runner !== undefined) {
+        // Pause
+        this.runner.stop();
+        this.pauseTime = now();
+      }
+    }
+    this.firstUpdate = false;
+  }
+  reset() {
+    this.runner.stop();
+    this.running = false;
+    this.trial = 0;
+    this.state = 'resetted';
+    this.as = 0;
+    this.ds = 0;
+    this.al = 0;
+    this.dl = 0;
+    this.baseTime = 0;
+    this.pauseTime = 0;
+    this.startTime = 0;
+    this.lastTime = 0;
+  }
+  run( /* elapsed */
+  ) {
+    const realTime = now();
+    const currentTime = this.baseTime ? realTime - this.baseTime : 0;
+    const elapsedTime = this.baseTime ? currentTime - this.startTime : 0;
+    this.lastTime = currentTime;
+    if (this.state === 'resetted') {
+      // Start block with an ITI
+      this.state = 'iti';
+      this.baseTime = realTime;
+      this.startTime = 0;
+      this.dispatchEvent(new CustomEvent('itc-block-start', {
+        detail: {
+          trials: this.trials
+        },
+        bubbles: true
+      }));
+    } else if (this.state === 'iti' && elapsedTime >= this.iti) {
+      // Start new trial with a stimulus
+      this.trial += 1;
+      this.state = 'stimulus';
+      this.startTime = currentTime;
+      // Determine trial
+      this.as = this.range.as.values[Math.floor(Math.random() * this.range.as.values.length)];
+      this.ds = this.range.ds.values[Math.floor(Math.random() * this.range.ds.values.length)];
+      this.al = this.range.al.values[Math.floor(Math.random() * this.range.al.values.length)];
+      this.dl = this.range.dl.values[Math.floor(Math.random() * this.range.dl.values.length)];
+      this.dispatchEvent(new CustomEvent('itc-trial-start', {
+        detail: {
+          trials: this.trials,
+          duration: this.duration,
+          iti: this.iti,
+          trial: this.trial,
+          as: this.as,
+          ds: this.ds,
+          al: this.al,
+          dl: this.dl
+        },
+        bubbles: true
+      }));
+    } else if (this.state === 'stimulus' && elapsedTime >= this.duration) {
+      // Stimulus is over, end of trial
+      this.dispatchEvent(new CustomEvent('itc-trial-end', {
+        detail: {
+          trials: this.trials,
+          duration: this.duration,
+          iti: this.iti,
+          trial: this.trial,
+          as: this.as,
+          ds: this.ds,
+          al: this.al,
+          dl: this.dl
+        },
+        bubbles: true
+      }));
+      if (this.trial >= this.trials) {
+        // End of block
+        this.runner.stop();
+        this.running = false;
+        this.state = 'ended';
+        this.baseTime = 0;
+        this.pauseTime = 0;
+        this.startTime = 0;
+        this.lastTime = 0;
+        this.dispatchEvent(new CustomEvent('itc-block-end', {
+          detail: {
+            trials: this.trial
+          },
+          bubbles: true
+        }));
+      } else {
+        // ITI
+        this.state = 'iti';
+        this.startTime = currentTime;
+      }
+    }
+  }
+}
+customElements.define('itc-task', ITCTask);
 //# sourceMappingURL=page.js.map

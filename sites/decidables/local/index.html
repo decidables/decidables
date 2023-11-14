@@ -221,25 +221,18 @@
         <div class="dec-carousel-indicators carousel-indicators">
           <button type="button" data-bs-target="#discountable-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
           <button type="button" data-bs-target="#discountable-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#discountable-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="dec-carousel-items">
           <div class="dec-carousel-item carousel-item active">
             <figure class="dec-demo-figure">
-              <div class="dec-demo-placeholder dec-disabled">Coming soon...</div>
-              <figcaption class="dec-demo-caption"></figcaption>
+              <htd-curves class="dec-demo" interactive amount="40" delay="80" k="0.1"></htd-curves>
+              <figcaption class="dec-demo-caption">Discounting curve.</figcaption>
             </figure>
           </div>
           <div class="dec-carousel-item carousel-item">
             <figure class="dec-demo-figure">
-              <div class="dec-demo-placeholder dec-disabled">Under construction...</div>
-              <figcaption class="dec-demo-caption"></figcaption>
-            </figure>
-          </div>
-          <div class="dec-carousel-item carousel-item">
-            <figure class="dec-demo-figure">
-              <div class="dec-demo-placeholder dec-disabled">Pending completion...</div>
-              <figcaption class="dec-demo-caption"></figcaption>
+              <itc-task class="dec-demo" running trials="Infinity" duration="2500" iti="1500"></itc-task>
+              <figcaption class="dec-demo-caption">Inter-temporal choice task.</figcaption>
             </figure>
           </div>
         </div>
