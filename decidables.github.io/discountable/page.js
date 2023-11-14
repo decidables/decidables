@@ -851,7 +851,7 @@ const l$1=t=>null!=t?t:A$2;class DecidablesSlider extends DecidablesElement{stat
               ${this.reset?x$2`<decidables-button name="reset" ?disabled=${"resetted"===this.state} @click=${this.doReset.bind(this)}>Reset</decidables-button>`:x$2``}
             </div>
             `:x$2``}
-      </div>`}}customElements.define("discountable-control",DiscountableControl);class DiscountableResponse extends DiscountableElement{static get properties(){return{trial:{attribute:"trial",type:Boolean,reflect:!0},feedback:{attribute:"feedback",type:Boolean,reflect:!0},state:{attribute:!1,type:String,reflect:!1},trialCount:{attribute:!1,type:Number,reflect:!1},trialTotal:{attribute:!1,type:Number,reflect:!1}}}constructor(){super(),this.trial=!1,this.feedback=!1,this.states=["off","waiting","feedback"],this.state="off",this.trialCount=0,this.trialTotal=0,this.as=0,this.ds=0,this.al=0,this.dl=0,this.responses=["first","second","nr"],this.response=void 0}start(t,e,n,i,r){this.state="waiting",this.as=t,this.ds=e,this.al=n,this.dl=i,this.trialCount=r,this.response=void 0}stop(){this.state="feedback",void 0===this.response&&(this.response="nr")}first(){this.responded("first")}second(){this.responded("second")}responded(t){this.state="feedback",this.response=t,this.dispatchEvent(new CustomEvent("discountable-response",{detail:{trial:this.trialCount,as:this.as,ds:this.ds,al:this.al,dl:this.dl,response:this.response},bubbles:!0}))}reset(){this.state="off",this.trialCount=0,this.response=void 0}static get styles(){return[super.styles,i$3`
+      </div>`}}customElements.define("discountable-control",DiscountableControl);class DiscountableResponse extends DiscountableElement{static get properties(){return{feedback:{attribute:"feedback",type:Boolean,reflect:!0},trial:{attribute:"trial",type:Boolean,reflect:!0},state:{attribute:!1,type:String,reflect:!1},trialCount:{attribute:!1,type:Number,reflect:!1},trialTotal:{attribute:!1,type:Number,reflect:!1}}}constructor(){super(),this.trial=!1,this.feedback=!1,this.states=["off","waiting","feedback"],this.state="off",this.trialCount=0,this.trialTotal=0,this.as=0,this.ds=0,this.al=0,this.dl=0,this.responses=["first","second","nr"],this.response=void 0}start(t,e,n,i,r){this.state="waiting",this.as=t,this.ds=e,this.al=n,this.dl=i,this.trialCount=r,this.response=void 0}stop(){this.state="feedback",void 0===this.response&&(this.response="nr")}first(){this.responded("first")}second(){this.responded("second")}responded(t){this.state="feedback",this.response=t,this.dispatchEvent(new CustomEvent("discountable-response",{detail:{trial:this.trialCount,as:this.as,ds:this.ds,al:this.al,dl:this.dl,response:this.response},bubbles:!0}))}reset(){this.state="off",this.trialCount=0,this.response=void 0}static get styles(){return[super.styles,i$3`
         :host {
           display: inline-block;
         }
@@ -1515,7 +1515,8 @@ const t={ATTRIBUTE:1,CHILD:2,PROPERTY:3,BOOLEAN_ATTRIBUTE:4,EVENT:5,ELEMENT:6},e
         }
       `]}sendEvent(){this.dispatchEvent(new CustomEvent("itc-choice-change",{detail:{as:this.as,ds:this.ds,al:this.al,dl:this.dl},bubbles:!0}))}ssChange(t){this.as=parseFloat(t.detail.a),this.ds=parseFloat(t.detail.d),this.sendEvent()}llChange(t){this.al=parseFloat(t.detail.a),this.dl=parseFloat(t.detail.d),this.sendEvent()}render(){return x$2`
       <div class="holder">
-        <itc-option 
+        <itc-option
+          class="ss"
           state=${this.state}
           ?interactive=${this.interactive}
           amount="${this.as}"
@@ -1523,7 +1524,8 @@ const t={ATTRIBUTE:1,CHILD:2,PROPERTY:3,BOOLEAN_ATTRIBUTE:4,EVENT:5,ELEMENT:6},e
           @itc-option-change=${this.ssChange.bind(this)}>
         </itc-option><span class="query"
          >${"choice"===this.state?"?":"fixation"===this.state?"+":x$2`∙`}</span
-        ><itc-option 
+        ><itc-option
+          class="ll"
           state=${this.state}
           ?interactive=${this.interactive}
           amount="${this.al}"
