@@ -1,4 +1,5 @@
 import {
+  aTimeout,
   expect,
   fixture,
   html,
@@ -9,7 +10,7 @@ import {
 import '../../src/examples/multiple';
 import '../../src/components';
 
-describe('sdt-example-multipleple', () => {
+describe('sdt-example-multiple', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <sdt-example-multiple variable="d" values="0 1 2 3 4">
@@ -52,6 +53,8 @@ describe('sdt-example-multipleple', () => {
         <roc-space z-roc point="rest" iso-d="rest" iso-c="first"></roc-space>
       </sdt-example-multiple>
     `);
+    // Wait for resize?
+    await aTimeout(200);
     // Get "before" state
     const {c} = el.sdtModel;
     const {hr, far} = el.rocSpace.locations[1];
@@ -74,6 +77,8 @@ describe('sdt-example-multipleple', () => {
         <roc-space z-roc point="rest" iso-d="first" iso-c="rest"></roc-space>
       </sdt-example-multiple>
     `);
+    // Wait for resize?
+    await aTimeout(200);
     // Get "before" state
     const {d} = el.sdtModel;
     const {hr, far} = el.rocSpace.locations[1];
