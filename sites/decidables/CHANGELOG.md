@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.6.7...@decidables/decidables@0.7.0) (2023-11-14)
+
+
+### Features
+
+* **decidables:** add discountable components to home page ([e30057f](https://github.com/decidables/decidables/commit/e30057fd2848bc6d844d0e54e284e709b7570071))
+
+
+
 ## [0.6.7](https://github.com/decidables/decidables/compare/@decidables/decidables@0.6.6...@decidables/decidables@0.6.7) (2023-10-13)
 
 **Note:** Version bump only for package @decidables/decidables
