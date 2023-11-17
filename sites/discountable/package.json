@@ -1,6 +1,6 @@
 {
   "name": "@decidables/discountable",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "discountable: An Explorable Explanation of Hyperbolic Temporal Discounting",
   "type": "module",
   "main": "./dist/index.html",
