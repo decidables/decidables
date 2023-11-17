@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](https://github.com/decidables/decidables/compare/@decidables/discountable@0.1.3...@decidables/discountable@0.1.4) (2023-11-17)
+
+
+### Bug Fixes
+
+* **discountable:** customize the favicon ([6b6884c](https://github.com/decidables/decidables/commit/6b6884c934e092eb4438f6818c553cb7ffcf2d83))
+
+
+
 ## [0.1.3](https://github.com/decidables/decidables/compare/@decidables/discountable@0.1.2...@decidables/discountable@0.1.3) (2023-11-14)
 
 
