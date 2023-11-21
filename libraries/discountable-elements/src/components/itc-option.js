@@ -69,7 +69,7 @@ export default class ITCOption extends DiscountableElement {
 
           background: var(---color-element-background);
           border: 2px solid var(---color-element-emphasis);
-          border-radius: 50%;
+          border-radius: var(---border-radius);
         }
 
         .interactive,
