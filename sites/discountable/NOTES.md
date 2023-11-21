@@ -1,0 +1,24 @@
+## Outline
+
+- *discountable*: Temporal discounting
+  - Introduction
+  - Behavior
+    - Task: inter-temporal choice task
+      - now vs later? immediate vs delayed? sooner vs later?
+      - set: ds = 0, as = ?
+      - variable: dl, al, as?
+    - Method: stairstep procedure
+    - Analysis: area under the curve (AUC)
+  - Model (hyperbolic discounting)
+    - Prescriptive: exponential
+    - Empirical: violations - preference reversals
+    - Descriptive: hyperbolic
+    - Model comparison: none, linear, exponential, hyperbolic
+    - Model exploration
+    - Model fitting
+    - Model prediction
+  - Advanced
+    - Interaction of temporal discounting and PT value function?
+  - Applications
+    - Drug addiction?
+  - Conclusion
