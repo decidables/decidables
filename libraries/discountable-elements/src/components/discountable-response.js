@@ -168,11 +168,11 @@ export default class DiscountableResponse extends DiscountableElement {
         }
 
         .selected[disabled][name="first"] {
-          --decidables-button-background-color: var(---color-worse);
+          --decidables-button-background-color: var(---color-sooner);
         }
 
         .selected[disabled][name="second"] {
-          --decidables-button-background-color: var(---color-better);
+          --decidables-button-background-color: var(---color-later);
         }
 
         /* Feedback messages */
@@ -205,11 +205,11 @@ export default class DiscountableResponse extends DiscountableElement {
         }
 
         .feedback.first {
-          background-color: var(---color-worse-light);
+          background-color: var(---color-sooner-light);
         }
 
         .feedback.second {
-          background-color: var(---color-better-light);
+          background-color: var(---color-later-light);
         }
 
         .feedback.nr {

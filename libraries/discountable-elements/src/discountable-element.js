@@ -33,12 +33,11 @@ export default class DiscountableElement extends DecidablesElement {
       d: d3.schemeSet1[1],
       k: d3.schemeSet1[2],
       v: d3.schemeSet1[3],
-      chosen: d3.schemeSet1[8],
-      better: '#4545d0',
-      worse: '#f032e6',
-      even: '#10dbc9',
-      correct: '#ffffff',
-      error: '#000000',
+      sooner: d3.schemeSet1[5],
+      later: d3.schemeSet1[7],
+      larger: '#4545d0',
+      smaller: '#f032e6',
+      equal: '#10dbc9',
       nr: '#cccccc',
     };
   }
@@ -67,36 +66,33 @@ export default class DiscountableElement extends DecidablesElement {
           ---color-d: var(--color-d, ${unsafeCSS(this.colors.d)});
           ---color-k: var(--color-k, ${unsafeCSS(this.colors.k)});
           ---color-v: var(--color-v, ${unsafeCSS(this.colors.v)});
-          ---color-chosen: var(--color-chosen, ${unsafeCSS(this.colors.chosen)});
-          ---color-better: var(--color-better, ${unsafeCSS(this.colors.better)});
-          ---color-worse: var(--color-worse, ${unsafeCSS(this.colors.worse)});
-          ---color-even: var(--color-even, ${unsafeCSS(this.colors.even)});
-          ---color-correct: var(--color-correct, ${unsafeCSS(this.colors.correct)});
-          ---color-error: var(--color-error, ${unsafeCSS(this.colors.error)});
+          ---color-sooner: var(--color-sooner, ${unsafeCSS(this.colors.sooner)});
+          ---color-later: var(--color-later, ${unsafeCSS(this.colors.later)});
+          ---color-larger: var(--color-larger, ${unsafeCSS(this.colors.larger)});
+          ---color-smaller: var(--color-smaller, ${unsafeCSS(this.colors.smaller)});
+          ---color-equal: var(--color-equal, ${unsafeCSS(this.colors.equal)});
           ---color-nr: var(--color-nr, ${unsafeCSS(this.colors.nr)});
 
           ---color-a-light: var(--color-a-light, ${unsafeCSS(this.lights.a)});
           ---color-d-light: var(--color-d-light, ${unsafeCSS(this.lights.d)});
           ---color-k-light: var(--color-k-light, ${unsafeCSS(this.lights.k)});
           ---color-v-light: var(--color-v-light, ${unsafeCSS(this.lights.v)});
-          ---color-chosen-light: var(--color-chosen-light, ${unsafeCSS(this.lights.chosen)});
-          ---color-better-light: var(--color-better-light, ${unsafeCSS(this.lights.better)});
-          ---color-worse-light: var(--color-worse-light, ${unsafeCSS(this.lights.worse)});
-          ---color-even-light: var(--color-even-light, ${unsafeCSS(this.lights.even)});
-          ---color-correct-light: var(--color-correct-light, ${unsafeCSS(this.lights.correct)});
-          ---color-error-light: var(--color-error-light, ${unsafeCSS(this.lights.error)});
+          ---color-sooner-light: var(--color-sooner-light, ${unsafeCSS(this.lights.sooner)});
+          ---color-later-light: var(--color-later-light, ${unsafeCSS(this.lights.later)});
+          ---color-larger-light: var(--color-larger-light, ${unsafeCSS(this.lights.larger)});
+          ---color-smaller-light: var(--color-smaller-light, ${unsafeCSS(this.lights.smaller)});
+          ---color-equal-light: var(--color-equal-light, ${unsafeCSS(this.lights.equal)});
           ---color-nr-light: var(--color-nr-light, ${unsafeCSS(this.lights.nr)});
 
           ---color-a-dark: var(--color-a-dark, ${unsafeCSS(this.darks.a)});
           ---color-d-dark: var(--color-d-dark, ${unsafeCSS(this.darks.d)});
           ---color-k-dark: var(--color-k-dark, ${unsafeCSS(this.darks.k)});
           ---color-v-dark: var(--color-v-dark, ${unsafeCSS(this.darks.v)});
-          ---color-chosen-dark: var(--color-chosen-dark, ${unsafeCSS(this.darks.chosen)});
-          ---color-better-dark: var(--color-better-dark, ${unsafeCSS(this.darks.better)});
-          ---color-worse-dark: var(--color-worse-dark, ${unsafeCSS(this.darks.worse)});
-          ---color-even-dark: var(--color-even-dark, ${unsafeCSS(this.darks.even)});
-          ---color-correct-dark: var(--color-correct-dark, ${unsafeCSS(this.darks.correct)});
-          ---color-error-dark: var(--color-error-dark, ${unsafeCSS(this.darks.error)});
+          ---color-sooner-dark: var(--color-sooner-dark, ${unsafeCSS(this.darks.sooner)});
+          ---color-later-dark: var(--color-later-dark, ${unsafeCSS(this.darks.later)});
+          ---color-larger-dark: var(--color-larger-dark, ${unsafeCSS(this.darks.larger)});
+          ---color-smaller-dark: var(--color-smaller-dark, ${unsafeCSS(this.darks.smaller)});
+          ---color-equal-dark: var(--color-equal-dark, ${unsafeCSS(this.darks.equal)});
           ---color-nr-dark: var(--color-nr-dark, ${unsafeCSS(this.darks.nr)});
         }
       `,
