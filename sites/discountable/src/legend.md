@@ -30,28 +30,25 @@ script: page
 ### Response
 
 <ul class="dis-legend">
-  <li class="chosen">
-    <span class="key chosen">Chosen</span>
+  <li class="sooner">
+    <span class="key sooner">Sooner</span>
+  </li>
+  <li class="later">
+    <span class="key later">Later</span>
   </li>
 </ul>
 
 ### Outcomes
 
 <ul class="dis-legend">
-  <li class="better">
-    <span class="key better">Better</span>
+  <li class="smaller">
+    <span class="key smaller">Smaller</span>
   </li>
-  <li class="worse">
-    <span class="key worse">Worse</span>
+  <li class="larger">
+    <span class="key larger">Larger</span>
   </li>
-  <li class="even">
-    <span class="key even">Even</span>
-  </li>
-  <li class="correct">
-    <span class="key correct">Correct</span>
-  </li>
-  <li class="error">
-    <span class="key error">Error</span>
+  <li class="equal">
+    <span class="key equal">Equal</span>
   </li>
   <li class="nr">
     <span class="key noresponse">No Response</span>

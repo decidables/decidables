@@ -120,14 +120,12 @@ $color-map: (
   k: #4daf4a, // green (CB3)
   v: #984ea3, // purple (CB4)
 
-  chosen: #999999, // grey (CB9)
-
-  better: #4545d0, // violet
-  worse: #f032e6, // magenta
-  even: #10dbc9, // cyan
-
-  correct: #ffffff, // white
-  error: #000000, // black
+  sooner: #ff7f00, // grey (CB5)
+  later: #f781bf, // color (CB8)
+  
+  larger: #4545d0, // violet
+  smaller: #f032e6, // magenta
+  equal: #10dbc9, // cyan
 
   nr: #cccccc, // grey-light50
 );
@@ -809,9 +807,13 @@ $transition-duration: 500ms;
     background-color: htd-color-light(v);
   }
 
-  // Keys: Response
-  .key[class~="chosen"] {
-    background-color: htd-color-light(chosen);
+  // Keys: Responses
+  .key[class~="sooner"] {
+    background-color: htd-color-light(sooner);
+  }
+
+  .key[class~="later"] {
+    background-color: htd-color-light(later);
   }
 
   // Keys: Parameters
@@ -821,36 +823,21 @@ $transition-duration: 500ms;
   }
 
   // Keys: Outcomes
-  .key[class~="better"] {
-    background-color: htd-color-light(better);
+  .key[class~="larger"] {
+    background-color: htd-color-light(larger);
   }
 
-  .key[class~="worse"] {
-    background-color: htd-color-light(worse);
+  .key[class~="smaller"] {
+    background-color: htd-color-light(smaller);
   }
 
-  .key[class~="even"] {
-    background-color: htd-color-light(even);
-  }
-
-  .key[class~="correct"],
-  .key[class~="error"],
-  .key[class~="noresponse"] {
-    border: 1px solid $color-element-emphasis;
-  }
-
-  .key[class~="correct"] {
-    background-color: htd-color-light(correct);
-  }
-
-  .key[class~="error"] {
-    color: $color-text-inverse;
-
-    background-color: htd-color-light(error);
+  .key[class~="equal"] {
+    background-color: htd-color-light(equal);
   }
 
   .key[class~="noresponse"] {
     background-color: htd-color-light(nr);
+    border: 1px solid $color-element-emphasis;
   }
   
   // UI Components
@@ -1065,38 +1052,29 @@ $transition-duration: 500ms;
     border-left-color: htd-color(v);
   }
 
-  .chosen::before {
-    background: htd-color-light(chosen);
-    border-left-color: htd-color(chosen);
+  .sooner::before {
+    background: htd-color-light(sooner);
+    border-left-color: htd-color(sooner);
   }
 
-  .better::before {
-    background: htd-color-light(better);
-    border-left-color: htd-color(better);
+  .later::before {
+    background: htd-color-light(later);
+    border-left-color: htd-color(later);
   }
 
-  .worse::before {
-    background: htd-color-light(worse);
-    border-left-color: htd-color(worse);
+  .smaller::before {
+    background: htd-color-light(smaller);
+    border-left-color: htd-color(smaller);
   }
 
-  .even::before {
-    background: htd-color-light(even);
-    border-left-color: htd-color(even);
+  .larger::before {
+    background: htd-color-light(larger);
+    border-left-color: htd-color(larger);
   }
 
-  .correct::before {
-    padding-left: calc(1.5rem - 2px);
-
-    background: htd-color(correct);
-    border: 1px solid $color-element-border;
-  }
-
-  .error::before {
-    color: $color-text-inverse;
-
-    background: htd-color-light(error);
-    border-left-color: htd-color(error);
+  .equal::before {
+    background: htd-color-light(equal);
+    border-left-color: htd-color(equal);
   }
 
   .nr::before {
