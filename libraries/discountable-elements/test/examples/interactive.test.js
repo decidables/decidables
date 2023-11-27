@@ -1,10 +1,10 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
   oneEvent,
   sendKeys,
+  waitUntil,
 } from '../../../../scripts/test';
 
 import '../../src/components/htd-calculation';
@@ -80,8 +80,10 @@ describe('htd-example-interactive', () => {
         <htd-calculation numeric interactive></htd-calculation>
       </htd-example-interactive>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.querySelector('htd-curves').shadowRoot.querySelector('.bar.interactive'); },
+      'Element did not render children',
+    );
     // Action
     const target = el.querySelector('htd-curves').shadowRoot.querySelector('.bar.interactive');
     target.focus();

@@ -1,5 +1,4 @@
 import {
-  aTimeout,
   elementUpdated,
   expect,
   fixture,
@@ -7,6 +6,7 @@ import {
   oneEvent,
   mouseDragElement,
   sendKeys,
+  waitUntil,
 } from '../../../../scripts/test';
 
 import '../../src/components/htd-curves';
@@ -14,8 +14,10 @@ import '../../src/components/htd-curves';
 describe('htd-curves', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<htd-curves></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendant('svg');
   });
 
@@ -26,8 +28,10 @@ describe('htd-curves', () => {
 
   it('has an empty default option', async () => {
     const el = await fixture(html`<htd-curves></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.options).to.have.length(1);
     expect(el.getOption()).to.include({
       name: 'default', a: null, d: null, label: '',
@@ -36,8 +40,10 @@ describe('htd-curves', () => {
 
   it('can set the default option', async () => {
     const el = await fixture(html`<htd-curves amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.options).to.have.length(1);
     expect(el.shadowRoot).to.have.descendants('.option').with.length(1);
     expect(el.getOption()).to.include({
@@ -48,8 +54,10 @@ describe('htd-curves', () => {
 
   it('can change the default option', async () => {
     const el = await fixture(html`<htd-curves amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.options[0]).to.include({
       name: 'default', a: 10, d: 20, label: 'test',
     });
@@ -66,8 +74,10 @@ describe('htd-curves', () => {
 
   it('can set another option', async () => {
     const el = await fixture(html`<htd-curves amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     el.setOption(15, 25, 'another', 'other');
     await elementUpdated(el);
     expect(el.options).to.have.length(2);
@@ -79,8 +89,10 @@ describe('htd-curves', () => {
 
   it('can change another option', async () => {
     const el = await fixture(html`<htd-curves amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     el.setOption(15, 25, 'another', 'other');
     await elementUpdated(el);
     expect(el.options).to.have.length(2);
@@ -100,8 +112,10 @@ describe('htd-curves', () => {
 
   it('can remove an option', async () => {
     const el = await fixture(html`<htd-curves amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     el.setOption(15, 25, 'another', 'other');
     await elementUpdated(el);
     expect(el.options).to.have.length(2);
@@ -118,8 +132,10 @@ describe('htd-curves', () => {
 
   it('can clear options', async () => {
     const el = await fixture(html`<htd-curves amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     el.setOption(15, 25, 'another', 'other');
     await elementUpdated(el);
     expect(el.options).to.have.length(2);
@@ -131,8 +147,10 @@ describe('htd-curves', () => {
 
   it('can be interactive', async () => {
     const el = await fixture(html`<htd-curves interactive amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendant('.curve').with.class('interactive');
     expect(el.shadowRoot).to.have.descendant('.bar').with.class('interactive');
     expect(el.shadowRoot).to.have.descendant('.point').with.class('interactive');
@@ -140,8 +158,10 @@ describe('htd-curves', () => {
 
   it('supports mouse manipulation of point', async () => {
     const el = await fixture(html`<htd-curves interactive amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {a} = el;
     // Action
@@ -155,8 +175,10 @@ describe('htd-curves', () => {
 
   it('supports keyboard manipulation of point', async () => {
     const el = await fixture(html`<htd-curves interactive amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {a} = el;
     // Action
@@ -171,8 +193,10 @@ describe('htd-curves', () => {
 
   it('supports mouse manipulation of bar', async () => {
     const el = await fixture(html`<htd-curves interactive amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {d} = el;
     // Action
@@ -186,8 +210,10 @@ describe('htd-curves', () => {
 
   it('supports keyboard manipulation of bar', async () => {
     const el = await fixture(html`<htd-curves interactive amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {d} = el;
     // Action
@@ -202,8 +228,10 @@ describe('htd-curves', () => {
 
   it('supports mouse manipulation of curve', async () => {
     const el = await fixture(html`<htd-curves interactive amount="50" delay="40" label="test" k="0"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {k} = el;
     // Action
@@ -217,8 +245,10 @@ describe('htd-curves', () => {
 
   it('supports keyboard manipulation of curve', async () => {
     const el = await fixture(html`<htd-curves interactive amount="50" delay="40" label="test" k="0.1"></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {k} = el;
     // Action
@@ -233,8 +263,10 @@ describe('htd-curves', () => {
 
   it('can add a trial and receive response', async () => {
     const el = await fixture(html`<htd-curves></htd-curves>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     el.trial(20, 30, 50, 70, 1, 'first');
     await elementUpdated(el);
     expect(el.shadowRoot).to.have.descendants('.option').with.length(2);
