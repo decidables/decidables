@@ -4,9 +4,11 @@ import gulp from 'gulp';
 import gulpEslintNew from 'gulp-eslint-new';
 import gulpHtml from 'gulp-html';
 import gulpHtmlhint from 'gulp-htmlhint';
-import {remark as gulpRemark} from 'gulp-remark';
 import gulpStylelint from 'gulp-stylelint';
 import stylelintFormatterPretty from 'stylelint-formatter-pretty';
+
+// Local Dependencies
+import gulpRemark from './gulp-remark.js';
 
 // Tasks
 export function lintMarkdown() {
@@ -19,7 +21,7 @@ export function lintMarkupLocal() {
     .pipe(gulpHtml())
     .pipe(gulpHtmlhint())
     .pipe(gulpHtmlhint.reporter())
-    .pipe(gulpHtmlhint.failOnError({suppress: true}));
+    .pipe(gulpHtmlhint.failAfterError({suppress: true}));
 }
 
 export function lintScripts() {

@@ -8,7 +8,6 @@ import gulpEjs from 'gulp-ejs';
 import gulpFrontMatter from 'gulp-front-matter';
 import gulpIf from 'gulp-if';
 import gulpNotify from 'gulp-notify';
-import {remark as gulpRemark} from 'gulp-remark';
 import gulpRename from 'gulp-rename';
 import gulpSvgmin from 'gulp-svgmin';
 import localeEnUs from 'locale-en-us';
@@ -30,6 +29,7 @@ import styleApa from 'style-apa';
 
 // Local Dependencies
 import gulpFavicons from './gulp-favicons.js';
+import gulpRemark from './gulp-remark.js';
 import remarkCiteproc from './remark-citeproc.js';
 import remarkDiv from './remark-div.js';
 import {remarkGlossary, extraEntries, extraTerms} from './remark-glossary.js';
@@ -168,7 +168,7 @@ const pluginBabel = rollupPluginBabel.babel({
   presets: [['@babel/preset-env', {
     bugfixes: true,
     useBuiltIns: 'entry',
-    corejs: '3.27',
+    corejs: '3.33.3',
   }]],
   babelHelpers: 'bundled',
 });
