@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.2.0...@decidables/discountable-elements@0.3.0) (2023-11-30)
+
+
+### Features
+
+* **discountable-elements:** change itc-option to round rect ([d618017](https://github.com/decidables/decidables/commit/d6180173506947ccac2aac4373a961a75ea591fb))
+* **discountable-elements:** more logical theme color categories ([11379d8](https://github.com/decidables/decidables/commit/11379d8ee4c6ea891fc6adc4455cc677d2f1b659))
+
+
+### Bug Fixes
+
+* **discountable-elements:** better ranges for itc-task ([3982c34](https://github.com/decidables/decidables/commit/3982c34ed9f51aac3c96fbac225c6d0f79edee4b))
+
+
+
 ## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.1.1...@decidables/discountable-elements@0.2.0) (2023-11-14)
 
 
