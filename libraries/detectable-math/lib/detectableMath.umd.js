@@ -3377,12 +3377,10 @@
 	            if (Q2[0].length === undefined) {
 	              Q2 = [Q2]; // The confusing jStat.multifly implementation threat nature process again.
 	            }
-
 	            var x = jStat.multiply(jStat.multiply(RI, Q2), b);
 	            if (x.length === undefined) {
 	              x = [[x]]; // The confusing jStat.multifly implementation threat nature process again.
 	            }
-
 	            if (array_mode) return x.map(function (i) {
 	              return i[0];
 	            });
