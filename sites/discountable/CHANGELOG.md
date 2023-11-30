@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/discountable@0.1.4...@decidables/discountable@0.2.0) (2023-11-30)
+
+
+### Features
+
+* **discountable:** update theme color categories ([744b92a](https://github.com/decidables/decidables/commit/744b92a25cb5130f2d1703b1e490bb193f347714))
+
+
+### Bug Fixes
+
+* **discountable:** fix legend styling ([525f64a](https://github.com/decidables/decidables/commit/525f64a32b933a79f2124b6965b119e2f6a95516))
+
+
+
 ## [0.1.4](https://github.com/decidables/decidables/compare/@decidables/discountable@0.1.3...@decidables/discountable@0.1.4) (2023-11-17)
 
 
