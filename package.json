@@ -19,7 +19,7 @@
     "watch": "yarn workspaces foreach -Apitv -j 2 run watch",
     "build": "yarn workspaces foreach -Apitv -j 2 run build",
     "changed": "lerna changed -a",
-    "version": "lerna version --conventional-commits --create-release github",
+    "versions": "lerna version --conventional-commits --create-release github",
     "publish": "lerna publish from-git --no-private --otp $@",
     "deploy": "yarn workspaces foreach -Apitv -j 2 run deploy",
     "serve": "gulp serveAll"

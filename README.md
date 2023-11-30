@@ -227,7 +227,7 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 
 - `yarn changed`
   - Lists which libraries and sites will receive version bumps when `yarn version` is run
-- `yarn version`
+- `yarn versions`
   - Bumps version numbers of all libraries and sites as needed based on conventional commits
   - Transitive dependencies updated in each `package.json`
   - Git tags added for new versions
