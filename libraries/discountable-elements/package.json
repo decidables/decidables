@@ -51,18 +51,18 @@
     "build": "gulp build"
   },
   "devDependencies": {
-    "@web/test-runner": "^0.17.1",
+    "@web/test-runner": "^0.18.0",
     "gulp": "^4.0.2"
   },
   "dependencies": {
     "@decidables/decidables-elements": "^0.4.0",
     "@decidables/discountable-math": "^0.1.1",
-    "@lit-labs/motion": "^1.0.4",
+    "@lit-labs/motion": "^1.0.6",
     "@observablehq/plot": "^0.6.11",
     "bayes.js": "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f",
     "d3": "^7.8.5",
     "jstat": "^1.9.6",
-    "lit": "^2.8.0",
+    "lit": "^3.1.0",
     "regenerator-runtime": "^0.14.0"
   }
 }

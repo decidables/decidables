@@ -30,7 +30,7 @@ const pluginBabel = rollupPluginBabel.babel({
   presets: [['@babel/preset-env', {
     bugfixes: true,
     useBuiltIns: 'entry',
-    corejs: '3.27',
+    corejs: '3.33.3',
   }]],
   babelHelpers: 'bundled',
 });
