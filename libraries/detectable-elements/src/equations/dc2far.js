@@ -88,8 +88,11 @@ export default class SDTEquationDC2Far extends SDTEquation {
     this.sendEvent();
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let d;
     let c;
     let s;

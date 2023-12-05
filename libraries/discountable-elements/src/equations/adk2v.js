@@ -82,8 +82,11 @@ export default class HTDEquationADK2V extends HTDEquation {
     this.sendEvent();
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let a;
     let d;
     let k;

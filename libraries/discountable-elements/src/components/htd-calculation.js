@@ -135,8 +135,11 @@ export default class HTDCalculation extends HTDEquation {
     ];
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let as;
     let ds;
     let al;

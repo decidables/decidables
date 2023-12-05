@@ -94,8 +94,11 @@ export default class SDTEquationHMFaCr2Acc extends SDTEquation {
     this.sendEvent();
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let h;
     let m;
     let fa;

@@ -68,8 +68,11 @@ export default class SDTEquationMCr2Fomr extends SDTEquation {
     this.sendEvent();
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let m;
     let cr;
     let fomr;

@@ -309,10 +309,12 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     // ${ProspectableElement.svgFilters}
   }
 
+  willUpdate() {
+    this.alignState();
+  }
+
   update(changedProperties) {
     super.update(changedProperties);
-
-    this.alignState();
 
     // Bail out if we can't get the width/height/rem
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {

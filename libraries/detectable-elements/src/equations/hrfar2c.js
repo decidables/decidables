@@ -88,8 +88,11 @@ export default class SDTEquationHrFar2C extends SDTEquation {
     this.sendEvent();
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let hr;
     let far;
     let s;

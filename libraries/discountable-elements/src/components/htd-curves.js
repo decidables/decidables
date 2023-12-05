@@ -359,14 +359,14 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
 
   render() { /* eslint-disable-line class-methods-use-this */
     return html``;
-    //   ${DiscountableElement.svgFilters}
-    // `;
+  }
+
+  willUpdate() {
+    this.alignState();
   }
 
   update(changedProperties) {
     super.update(changedProperties);
-
-    this.alignState();
 
     // Bail out if we can't get the width/height
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
