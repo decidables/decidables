@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.3.0...@decidables/discountable-elements@0.3.1) (2023-12-05)
+
+
+### Bug Fixes
+
+* **libraries:** add event listeners in connectedCallback ([affc3de](https://github.com/decidables/decidables/commit/affc3de94ad40a3811ae8d710dbc2461ce492251))
+* **libraries:** move alignState to willUpdate ([d6decd0](https://github.com/decidables/decidables/commit/d6decd07b9430ddf858d9996869f23b987c44b42))
+
+
+
 ## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.2.0...@decidables/discountable-elements@0.3.0) (2023-11-30)
 
 
