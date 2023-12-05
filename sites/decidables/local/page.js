@@ -17854,9 +17854,11 @@ class ROCSpace extends DecidablesMixinResizeable(DetectableElement) {
       ${DetectableElement.svgFilters}
     `;
   }
+  willUpdate() {
+    this.alignState();
+  }
   update(changedProperties) {
     super.update(changedProperties);
-    this.alignState();
 
     // Bail out if we can't get the width/height/rem
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
@@ -18821,9 +18823,11 @@ class SDTModel extends DecidablesMixinResizeable(DetectableElement) {
       bubbles: true
     }));
   }
+  willUpdate() {
+    this.alignState();
+  }
   update(changedProperties) {
     super.update(changedProperties);
-    this.alignState();
 
     // Bail out if we can't get the width/height
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
@@ -19793,16 +19797,17 @@ class DetectableTable extends DetectableElement {
     this.summary = new Set();
     this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome', 'all'];
     this.color = 'all';
-    this.h = 40;
-    this.m = 60;
-    this.fa = 75;
-    this.cr = 25;
-    this.alignState();
     this.payoff = false;
     this.hPayoff = undefined; // Hit payoff
     this.mPayoff = undefined; // Miss payoff
     this.crPayoff = undefined; // Correct Rejection payoff
     this.faPayoff = undefined; // False Alarm payoff
+
+    this.h = 40;
+    this.m = 60;
+    this.fa = 75;
+    this.cr = 25;
+    this.alignState();
   }
   alignState() {
     this.hr = SDTMath.hM2Hr(this.h, this.m);
@@ -20095,6 +20100,9 @@ class DetectableTable extends DetectableElement {
         }
       `];
   }
+  willUpdate() {
+    this.alignState();
+  }
   render() {
     const payoffFormatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -20115,7 +20123,6 @@ class DetectableTable extends DetectableElement {
         return string + part;
       });
     };
-    this.alignState();
     let h;
     let m;
     let fa;
@@ -20799,9 +20806,11 @@ class CPTProbability extends DecidablesMixinResizeable(ProspectableElement) {
       ${ProspectableElement.svgFilters}
     `;
   }
+  willUpdate() {
+    this.alignState();
+  }
   update(changedProperties) {
     super.update(changedProperties);
-    this.alignState();
 
     // Bail out if we can't get the width/height/rem
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
@@ -21684,9 +21693,11 @@ class CPTValue extends DecidablesMixinResizeable(ProspectableElement) {
       ${ProspectableElement.svgFilters}
     `;
   }
+  willUpdate() {
+    this.alignState();
+  }
   update(changedProperties) {
     super.update(changedProperties);
-    this.alignState();
 
     // Bail out if we can't get the width/height/rem
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
@@ -23460,12 +23471,12 @@ class HTDCurves extends DecidablesMixinResizeable(DiscountableElement) {
   render() {
     /* eslint-disable-line class-methods-use-this */
     return x$1``;
-    //   ${DiscountableElement.svgFilters}
-    // `;
+  }
+  willUpdate() {
+    this.alignState();
   }
   update(changedProperties) {
     super.update(changedProperties);
-    this.alignState();
 
     // Bail out if we can't get the width/height
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {

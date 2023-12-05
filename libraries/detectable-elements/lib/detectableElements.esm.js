@@ -12644,9 +12644,11 @@ class ROCSpace extends DecidablesMixinResizeable(DetectableElement) {
       ${DetectableElement.svgFilters}
     `;
   }
+  willUpdate() {
+    this.alignState();
+  }
   update(changedProperties) {
     super.update(changedProperties);
-    this.alignState();
 
     // Bail out if we can't get the width/height/rem
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
@@ -13836,9 +13838,11 @@ class SDTModel extends DecidablesMixinResizeable(DetectableElement) {
       bubbles: true
     }));
   }
+  willUpdate() {
+    this.alignState();
+  }
   update(changedProperties) {
     super.update(changedProperties);
-    this.alignState();
 
     // Bail out if we can't get the width/height
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
@@ -15184,16 +15188,17 @@ class DetectableTable extends DetectableElement {
     this.summary = new Set();
     this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome', 'all'];
     this.color = 'all';
-    this.h = 40;
-    this.m = 60;
-    this.fa = 75;
-    this.cr = 25;
-    this.alignState();
     this.payoff = false;
     this.hPayoff = undefined; // Hit payoff
     this.mPayoff = undefined; // Miss payoff
     this.crPayoff = undefined; // Correct Rejection payoff
     this.faPayoff = undefined; // False Alarm payoff
+
+    this.h = 40;
+    this.m = 60;
+    this.fa = 75;
+    this.cr = 25;
+    this.alignState();
   }
   alignState() {
     this.hr = SDTMath.hM2Hr(this.h, this.m);
@@ -15486,6 +15491,9 @@ class DetectableTable extends DetectableElement {
         }
       `];
   }
+  willUpdate() {
+    this.alignState();
+  }
   render() {
     const payoffFormatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -15506,7 +15514,6 @@ class DetectableTable extends DetectableElement {
         return string + part;
       });
     };
-    this.alignState();
     let h;
     let m;
     let fa;
@@ -15876,8 +15883,10 @@ class SDTEquationDC2Far extends SDTEquation {
     this.alignState();
     this.sendEvent();
   }
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+  render() {
     let d;
     let c;
     let s;
@@ -16042,8 +16051,10 @@ class SDTEquationDC2Hr extends SDTEquation {
     this.alignState();
     this.sendEvent();
   }
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+  render() {
     let d;
     let c;
     let s;
@@ -16199,8 +16210,10 @@ class SDTEquationFaCr2Far extends SDTEquation {
     this.alignState();
     this.sendEvent();
   }
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+  render() {
     let fa;
     let cr;
     let far;
@@ -16305,8 +16318,10 @@ class SDTEquationHFa2Ppv extends SDTEquation {
     this.alignState();
     this.sendEvent();
   }
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+  render() {
     let h;
     let fa;
     let ppv;
@@ -16412,8 +16427,10 @@ class SDTEquationHM2Hr extends SDTEquation {
     this.alignState();
     this.sendEvent();
   }
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+  render() {
     let h;
     let m;
     let hr;
@@ -16543,8 +16560,10 @@ class SDTEquationHMFaCr2Acc extends SDTEquation {
     this.alignState();
     this.sendEvent();
   }
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+  render() {
     let h;
     let m;
     let fa;
@@ -16681,8 +16700,10 @@ class SDTEquationHrFar2C extends SDTEquation {
     this.alignState();
     this.sendEvent();
   }
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+  render() {
     let hr;
     let far;
     let s;
@@ -16844,8 +16865,10 @@ class SDTEquationHrFar2D extends SDTEquation {
     this.alignState();
     this.sendEvent();
   }
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+  render() {
     let hr;
     let far;
     let s;
@@ -16972,8 +16995,10 @@ class SDTEquationMCr2Fomr extends SDTEquation {
     this.alignState();
     this.sendEvent();
   }
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+  render() {
     let m;
     let cr;
     let fomr;
@@ -17092,8 +17117,8 @@ customElements.define('sdt-example', SDTExample);
   <sdt-example-interactive>
 */
 class SDTExampleDoubleInteractive extends SDTExample {
-  firstUpdated( /* changedProperties */
-  ) {
+  connectedCallback() {
+    super.connectedCallback();
     this.one = {};
     this.one.h = 95;
     this.one.m = 5;
@@ -17226,8 +17251,8 @@ customElements.define('sdt-example-double-interactive', SDTExampleDoubleInteract
   <sdt-example-human>
 */
 class SDTExampleHuman extends SDTExample {
-  firstUpdated( /* changedProperties */
-  ) {
+  connectedCallback() {
+    super.connectedCallback();
     this.count = 1;
     this.detectableControl = this.querySelector('detectable-control');
     this.rdkTask = this.querySelector('rdk-task');
@@ -17389,8 +17414,8 @@ customElements.define('sdt-example-human', SDTExampleHuman);
   <sdt-example-interactive>
 */
 class SDTExampleInteractive extends SDTExample {
-  firstUpdated( /* changedProperties */
-  ) {
+  connectedCallback() {
+    super.connectedCallback();
     this.detectableControl = this.querySelector('detectable-control');
     this.detectableTable = this.querySelector('detectable-table');
     this.rocSpace = this.querySelector('roc-space');
@@ -17487,8 +17512,8 @@ customElements.define('sdt-example-interactive', SDTExampleInteractive);
   <sdt-example-model>
 */
 class SDTExampleModel extends SDTExample {
-  firstUpdated( /* changedProperties */
-  ) {
+  connectedCallback() {
+    super.connectedCallback();
     this.count = 1;
     this.detectableControl = this.querySelector('detectable-control');
     this.rdkTask = this.querySelector('rdk-task');
@@ -17682,8 +17707,8 @@ class SDTExampleMultiple extends SDTExample {
     this.variable = 'd';
     this.values = [0, 1];
   }
-  firstUpdated( /* changedProperties */
-  ) {
+  connectedCallback() {
+    super.connectedCallback();
     this.detectableControl = this.querySelector('detectable-control');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
@@ -17729,8 +17754,8 @@ customElements.define('sdt-example-multiple', SDTExampleMultiple);
   <sdt-example-unequal>
 */
 class SDTExampleUnequal extends SDTExample {
-  firstUpdated( /* changedProperties */
-  ) {
+  connectedCallback() {
+    super.connectedCallback();
     this.detectableControl = this.querySelector('detectable-control');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');

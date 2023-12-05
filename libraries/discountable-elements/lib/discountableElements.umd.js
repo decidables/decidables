@@ -12613,8 +12613,10 @@
         }
       `];
     }
-    render() {
+    willUpdate() {
       this.alignState();
+    }
+    render() {
       let as;
       let ds;
       let al;
@@ -13033,12 +13035,12 @@
     render() {
       /* eslint-disable-line class-methods-use-this */
       return x$2``;
-      //   ${DiscountableElement.svgFilters}
-      // `;
+    }
+    willUpdate() {
+      this.alignState();
     }
     update(changedProperties) {
       super.update(changedProperties);
-      this.alignState();
 
       // Bail out if we can't get the width/height
       if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
@@ -22812,8 +22814,10 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
       this.alignState();
       this.sendEvent();
     }
-    render() {
+    willUpdate() {
       this.alignState();
+    }
+    render() {
       let a;
       let d;
       let k;
@@ -22936,8 +22940,8 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
     <htd-example-human>
   */
   class HTDExampleHuman extends HTDExample {
-    firstUpdated( /* changedProperties */
-    ) {
+    connectedCallback() {
+      super.connectedCallback();
       this.discountableControl = this.querySelector('discountable-control');
       this.itcTask = this.querySelector('itc-task');
       this.discountableResponse = this.querySelector('discountable-response');
@@ -23089,8 +23093,8 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
       this.htdCurves = null;
       this.itcChoice = null;
     }
-    firstUpdated( /* changedProperties */
-    ) {
+    connectedCallback() {
+      super.connectedCallback();
       this.htdCalculation = this.querySelector('htd-calculation');
       this.htdCurves = this.querySelector('htd-curves');
       this.itcChoice = this.querySelector('itc-choice');
@@ -23172,8 +23176,8 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
       this.htdCurves = null;
       this.itcTask = null;
     }
-    firstUpdated( /* changedProperties */
-    ) {
+    connectedCallback() {
+      super.connectedCallback();
       this.discountableControl = this.querySelector('discountable-control');
       this.discountableResponse = this.querySelector('discountable-response');
       this.htdCalculation = this.querySelector('htd-calculation');

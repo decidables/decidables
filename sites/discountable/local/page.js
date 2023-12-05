@@ -16982,8 +16982,10 @@ class HTDCalculation extends HTDEquation {
         }
       `];
   }
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+  render() {
     let as;
     let ds;
     let al;
@@ -17402,12 +17404,12 @@ class HTDCurves extends DecidablesMixinResizeable(DiscountableElement) {
   render() {
     /* eslint-disable-line class-methods-use-this */
     return x$2``;
-    //   ${DiscountableElement.svgFilters}
-    // `;
+  }
+  willUpdate() {
+    this.alignState();
   }
   update(changedProperties) {
     super.update(changedProperties);
-    this.alignState();
 
     // Bail out if we can't get the width/height
     if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
@@ -27181,8 +27183,10 @@ class HTDEquationADK2V extends HTDEquation {
     this.alignState();
     this.sendEvent();
   }
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+  render() {
     let a;
     let d;
     let k;
@@ -27305,8 +27309,8 @@ customElements.define('htd-example', HTDExample);
   <htd-example-human>
 */
 class HTDExampleHuman extends HTDExample {
-  firstUpdated( /* changedProperties */
-  ) {
+  connectedCallback() {
+    super.connectedCallback();
     this.discountableControl = this.querySelector('discountable-control');
     this.itcTask = this.querySelector('itc-task');
     this.discountableResponse = this.querySelector('discountable-response');
@@ -27458,8 +27462,8 @@ class HTDExampleInteractive extends HTDExample {
     this.htdCurves = null;
     this.itcChoice = null;
   }
-  firstUpdated( /* changedProperties */
-  ) {
+  connectedCallback() {
+    super.connectedCallback();
     this.htdCalculation = this.querySelector('htd-calculation');
     this.htdCurves = this.querySelector('htd-curves');
     this.itcChoice = this.querySelector('itc-choice');
@@ -27541,8 +27545,8 @@ class HTDExampleModel extends HTDExample {
     this.htdCurves = null;
     this.itcTask = null;
   }
-  firstUpdated( /* changedProperties */
-  ) {
+  connectedCallback() {
+    super.connectedCallback();
     this.discountableControl = this.querySelector('discountable-control');
     this.discountableResponse = this.querySelector('discountable-response');
     this.htdCalculation = this.querySelector('htd-calculation');

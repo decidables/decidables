@@ -12650,9 +12650,11 @@
       ${DetectableElement.svgFilters}
     `;
     }
+    willUpdate() {
+      this.alignState();
+    }
     update(changedProperties) {
       super.update(changedProperties);
-      this.alignState();
 
       // Bail out if we can't get the width/height/rem
       if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
@@ -13842,9 +13844,11 @@
         bubbles: true
       }));
     }
+    willUpdate() {
+      this.alignState();
+    }
     update(changedProperties) {
       super.update(changedProperties);
-      this.alignState();
 
       // Bail out if we can't get the width/height
       if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
@@ -15190,16 +15194,17 @@
       this.summary = new Set();
       this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome', 'all'];
       this.color = 'all';
-      this.h = 40;
-      this.m = 60;
-      this.fa = 75;
-      this.cr = 25;
-      this.alignState();
       this.payoff = false;
       this.hPayoff = undefined; // Hit payoff
       this.mPayoff = undefined; // Miss payoff
       this.crPayoff = undefined; // Correct Rejection payoff
       this.faPayoff = undefined; // False Alarm payoff
+
+      this.h = 40;
+      this.m = 60;
+      this.fa = 75;
+      this.cr = 25;
+      this.alignState();
     }
     alignState() {
       this.hr = SDTMath.hM2Hr(this.h, this.m);
@@ -15492,6 +15497,9 @@
         }
       `];
     }
+    willUpdate() {
+      this.alignState();
+    }
     render() {
       const payoffFormatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -15512,7 +15520,6 @@
           return string + part;
         });
       };
-      this.alignState();
       let h;
       let m;
       let fa;
@@ -15882,8 +15889,10 @@
       this.alignState();
       this.sendEvent();
     }
-    render() {
+    willUpdate() {
       this.alignState();
+    }
+    render() {
       let d;
       let c;
       let s;
@@ -16048,8 +16057,10 @@
       this.alignState();
       this.sendEvent();
     }
-    render() {
+    willUpdate() {
       this.alignState();
+    }
+    render() {
       let d;
       let c;
       let s;
@@ -16205,8 +16216,10 @@
       this.alignState();
       this.sendEvent();
     }
-    render() {
+    willUpdate() {
       this.alignState();
+    }
+    render() {
       let fa;
       let cr;
       let far;
@@ -16311,8 +16324,10 @@
       this.alignState();
       this.sendEvent();
     }
-    render() {
+    willUpdate() {
       this.alignState();
+    }
+    render() {
       let h;
       let fa;
       let ppv;
@@ -16418,8 +16433,10 @@
       this.alignState();
       this.sendEvent();
     }
-    render() {
+    willUpdate() {
       this.alignState();
+    }
+    render() {
       let h;
       let m;
       let hr;
@@ -16549,8 +16566,10 @@
       this.alignState();
       this.sendEvent();
     }
-    render() {
+    willUpdate() {
       this.alignState();
+    }
+    render() {
       let h;
       let m;
       let fa;
@@ -16687,8 +16706,10 @@
       this.alignState();
       this.sendEvent();
     }
-    render() {
+    willUpdate() {
       this.alignState();
+    }
+    render() {
       let hr;
       let far;
       let s;
@@ -16850,8 +16871,10 @@
       this.alignState();
       this.sendEvent();
     }
-    render() {
+    willUpdate() {
       this.alignState();
+    }
+    render() {
       let hr;
       let far;
       let s;
@@ -16978,8 +17001,10 @@
       this.alignState();
       this.sendEvent();
     }
-    render() {
+    willUpdate() {
       this.alignState();
+    }
+    render() {
       let m;
       let cr;
       let fomr;
@@ -17098,8 +17123,8 @@
     <sdt-example-interactive>
   */
   class SDTExampleDoubleInteractive extends SDTExample {
-    firstUpdated( /* changedProperties */
-    ) {
+    connectedCallback() {
+      super.connectedCallback();
       this.one = {};
       this.one.h = 95;
       this.one.m = 5;
@@ -17232,8 +17257,8 @@
     <sdt-example-human>
   */
   class SDTExampleHuman extends SDTExample {
-    firstUpdated( /* changedProperties */
-    ) {
+    connectedCallback() {
+      super.connectedCallback();
       this.count = 1;
       this.detectableControl = this.querySelector('detectable-control');
       this.rdkTask = this.querySelector('rdk-task');
@@ -17395,8 +17420,8 @@
     <sdt-example-interactive>
   */
   class SDTExampleInteractive extends SDTExample {
-    firstUpdated( /* changedProperties */
-    ) {
+    connectedCallback() {
+      super.connectedCallback();
       this.detectableControl = this.querySelector('detectable-control');
       this.detectableTable = this.querySelector('detectable-table');
       this.rocSpace = this.querySelector('roc-space');
@@ -17493,8 +17518,8 @@
     <sdt-example-model>
   */
   class SDTExampleModel extends SDTExample {
-    firstUpdated( /* changedProperties */
-    ) {
+    connectedCallback() {
+      super.connectedCallback();
       this.count = 1;
       this.detectableControl = this.querySelector('detectable-control');
       this.rdkTask = this.querySelector('rdk-task');
@@ -17688,8 +17713,8 @@
       this.variable = 'd';
       this.values = [0, 1];
     }
-    firstUpdated( /* changedProperties */
-    ) {
+    connectedCallback() {
+      super.connectedCallback();
       this.detectableControl = this.querySelector('detectable-control');
       this.rocSpace = this.querySelector('roc-space');
       this.sdtModel = this.querySelector('sdt-model');
@@ -17735,8 +17760,8 @@
     <sdt-example-unequal>
   */
   class SDTExampleUnequal extends SDTExample {
-    firstUpdated( /* changedProperties */
-    ) {
+    connectedCallback() {
+      super.connectedCallback();
       this.detectableControl = this.querySelector('detectable-control');
       this.rocSpace = this.querySelector('roc-space');
       this.sdtModel = this.querySelector('sdt-model');
