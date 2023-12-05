@@ -8,7 +8,9 @@ import SDTExample from './sdt-example';
   <sdt-example-interactive>
 */
 export default class SDTExampleInteractive extends SDTExample {
-  firstUpdated(/* changedProperties */) {
+  connectedCallback() {
+    super.connectedCallback();
+
     this.detectableControl = this.querySelector('detectable-control');
     this.detectableTable = this.querySelector('detectable-table');
     this.rocSpace = this.querySelector('roc-space');

@@ -8,7 +8,9 @@ import CPTExample from './cpt-example';
   <cpt-example-interactive>
 */
 export default class CPTExampleHuman extends CPTExample {
-  firstUpdated(/* changedProperties */) {
+  connectedCallback() {
+    super.connectedCallback();
+
     this.cptFit = this.querySelector('cpt-fit');
     this.prospectableControl = this.querySelector('prospectable-control');
     this.riskyTask = this.querySelector('risky-task');

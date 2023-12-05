@@ -8,7 +8,9 @@ import SDTExample from './sdt-example';
   <sdt-example-interactive>
 */
 export default class SDTExampleDoubleInteractive extends SDTExample {
-  firstUpdated(/* changedProperties */) {
+  connectedCallback() {
+    super.connectedCallback();
+
     this.one = {};
     this.one.h = 95;
     this.one.m = 5;

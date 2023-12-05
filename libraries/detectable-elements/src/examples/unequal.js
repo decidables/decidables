@@ -7,7 +7,9 @@ import SDTExample from './sdt-example';
   <sdt-example-unequal>
 */
 export default class SDTExampleUnequal extends SDTExample {
-  firstUpdated(/* changedProperties */) {
+  connectedCallback() {
+    super.connectedCallback();
+
     this.detectableControl = this.querySelector('detectable-control');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');

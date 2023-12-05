@@ -49,7 +49,9 @@ export default class CPTExampleModel extends CPTExample {
     this.riskyTask = null;
   }
 
-  firstUpdated(/* changedProperties */) {
+  connectedCallback() {
+    super.connectedCallback();
+
     this.cptCalculation = this.querySelector('cpt-calculation');
     this.cptProbability = this.querySelector('cpt-probability');
     // this.cptSpace = this.querySelector('cpt-space');
