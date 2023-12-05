@@ -68,8 +68,11 @@ export default class SDTEquationHFa2Ppv extends SDTEquation {
     this.sendEvent();
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let h;
     let fa;
     let ppv;

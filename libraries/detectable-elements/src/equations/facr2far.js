@@ -68,8 +68,11 @@ export default class SDTEquationFaCr2Far extends SDTEquation {
     this.sendEvent();
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let fa;
     let cr;
     let far;

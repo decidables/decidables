@@ -133,8 +133,11 @@ export default class CPTEquationVW2U extends CPTEquation {
     return w;
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let u;
     let n;
     if (this.numeric) {

@@ -69,8 +69,11 @@ export default class CPTEquationPG2W extends CPTEquation {
     this.sendEvent();
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let p;
     let g;
     let w;

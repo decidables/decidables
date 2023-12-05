@@ -82,8 +82,11 @@ export default class CPTEquationXAL2V extends CPTEquation {
     this.sendEvent();
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let x;
     let a;
     let l;

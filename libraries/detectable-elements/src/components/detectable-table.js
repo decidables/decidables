@@ -121,17 +121,17 @@ export default class DetectableTable extends DetectableElement {
     this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome', 'all'];
     this.color = 'all';
 
-    this.h = 40;
-    this.m = 60;
-    this.fa = 75;
-    this.cr = 25;
-    this.alignState();
-
     this.payoff = false;
     this.hPayoff = undefined; // Hit payoff
     this.mPayoff = undefined; // Miss payoff
     this.crPayoff = undefined; // Correct Rejection payoff
     this.faPayoff = undefined; // False Alarm payoff
+
+    this.h = 40;
+    this.m = 60;
+    this.fa = 75;
+    this.cr = 25;
+    this.alignState();
   }
 
   alignState() {
@@ -442,6 +442,10 @@ export default class DetectableTable extends DetectableElement {
     ];
   }
 
+  willUpdate() {
+    this.alignState();
+  }
+
   render() {
     const payoffFormatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -458,7 +462,6 @@ export default class DetectableTable extends DetectableElement {
       }).reduce((string, part) => { return string + part; });
     };
 
-    this.alignState();
     let h;
     let m;
     let fa;

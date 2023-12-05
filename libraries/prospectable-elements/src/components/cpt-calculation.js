@@ -161,8 +161,11 @@ export default class CPTCalculation extends CPTEquation {
     ];
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let xw;
     let xl;
     let pw;

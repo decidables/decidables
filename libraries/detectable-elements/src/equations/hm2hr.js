@@ -68,8 +68,11 @@ export default class SDTEquationHM2Hr extends SDTEquation {
     this.sendEvent();
   }
 
-  render() {
+  willUpdate() {
     this.alignState();
+  }
+
+  render() {
     let h;
     let m;
     let hr;
