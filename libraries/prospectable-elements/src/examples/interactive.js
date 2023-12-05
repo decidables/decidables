@@ -68,7 +68,9 @@ export default class CPTExampleInteractive extends CPTExample {
     this.decisionSpace = null;
   }
 
-  firstUpdated(/* changedProperties */) {
+  connectedCallback() {
+    super.connectedCallback();
+
     this.cptCalculation = this.querySelector('cpt-calculation');
     this.cptProbability = this.querySelector('cpt-probability');
     this.cptSpace = this.querySelector('cpt-space');

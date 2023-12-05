@@ -30,7 +30,9 @@ export default class SDTExampleMultiple extends SDTExample {
     this.values = [0, 1];
   }
 
-  firstUpdated(/* changedProperties */) {
+  connectedCallback() {
+    super.connectedCallback();
+
     this.detectableControl = this.querySelector('detectable-control');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');

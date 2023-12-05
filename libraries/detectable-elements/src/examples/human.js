@@ -8,7 +8,9 @@ import SDTExample from './sdt-example';
   <sdt-example-human>
 */
 export default class SDTExampleHuman extends SDTExample {
-  firstUpdated(/* changedProperties */) {
+  connectedCallback() {
+    super.connectedCallback();
+
     this.count = 1;
 
     this.detectableControl = this.querySelector('detectable-control');

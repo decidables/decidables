@@ -8,7 +8,9 @@ import HTDExample from './htd-example';
   <htd-example-human>
 */
 export default class HTDExampleHuman extends HTDExample {
-  firstUpdated(/* changedProperties */) {
+  connectedCallback() {
+    super.connectedCallback();
+
     this.discountableControl = this.querySelector('discountable-control');
     this.itcTask = this.querySelector('itc-task');
     this.discountableResponse = this.querySelector('discountable-response');

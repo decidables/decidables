@@ -51,7 +51,9 @@ export default class HTDExampleInteractive extends HTDExample {
     this.itcChoice = null;
   }
 
-  firstUpdated(/* changedProperties */) {
+  connectedCallback() {
+    super.connectedCallback();
+
     this.htdCalculation = this.querySelector('htd-calculation');
     this.htdCurves = this.querySelector('htd-curves');
     this.itcChoice = this.querySelector('itc-choice');

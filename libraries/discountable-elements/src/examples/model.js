@@ -30,7 +30,9 @@ export default class HTDExampleModel extends HTDExample {
     this.itcTask = null;
   }
 
-  firstUpdated(/* changedProperties */) {
+  connectedCallback() {
+    super.connectedCallback();
+
     this.discountableControl = this.querySelector('discountable-control');
     this.discountableResponse = this.querySelector('discountable-response');
     this.htdCalculation = this.querySelector('htd-calculation');
