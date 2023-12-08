@@ -24,6 +24,7 @@ import * as rollup from 'rollup';
 import * as rollupPluginBabel from '@rollup/plugin-babel';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
+import {visualizer as rollupPluginVisualizer} from 'rollup-plugin-visualizer';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
 import styleApa from 'style-apa';
 
@@ -172,6 +173,9 @@ const pluginBabel = rollupPluginBabel.babel({
   }]],
   babelHelpers: 'bundled',
 });
+const pluginVisualizer = rollupPluginVisualizer({
+  filename: 'rollup-stats.html',
+});
 export async function compileScripts() {
   const bundle = await rollup.rollup({
     cache: rollupCache,
@@ -181,6 +185,7 @@ export async function compileScripts() {
       pluginCommonjs,
       pluginWebWorkerLoader,
       pluginBabel,
+      pluginVisualizer,
     ],
     // Hide warnings for circular dependencies, which are allowed in the ES6 spec
     // https://github.com/rollup/rollup/issues/2271#issuecomment-475540827

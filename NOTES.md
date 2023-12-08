@@ -1,5 +1,9 @@
 ## Notes
 
+Move from jstat to stdlib?
+Remove jstate from packages that don't use it
+Move bugs from README into NOTES
+
 Getting the following warning from `node`:
   (node:12224) [DEP0040] DeprecationWarning: The `punycode` module is deprecated.
   Please use a userland alternative instead.
