@@ -268,6 +268,8 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
   - Upgrade to latest dependencies, ignoring semver!
 - `yarn upgrade-interactive`
   - Manual upgrade to newer dependencies, with option to ignore semver
+- `yarn dlx update-browserslist-db@latest`
+  - Update `caniuse-lite` so the browser data is up-to-date
 
 ### File Organization
 
