@@ -33,7 +33,7 @@
   },
   "packageManager": "yarn@4.0.2",
   "browserslist": [
-    "> 0.5%, last 2 versions, Firefox ESR, not dead, not IE 11 AND supports es6-module"
+    "> 0.5%, last 2 versions, Firefox ESR, not dead AND supports es6-module"
   ],
   "devDependencies": {
     "@babel/core": "^7.23.5",
