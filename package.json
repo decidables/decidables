@@ -108,6 +108,7 @@
     "remark-smartypants": "^2.0.0",
     "resolve-pkg": "^2.0.0",
     "rollup": "^4.6.0",
+    "rollup-plugin-visualizer": "^5.10.0",
     "rollup-plugin-web-worker-loader": "^1.6.1",
     "style-apa": "^0.0.2",
     "stylelint": "^15.11.0",
