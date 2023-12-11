@@ -1,7 +1,5 @@
 ## Notes
 
-Move from jstat to stdlib?
-Remove jstate from packages that don't use it
 Move bugs from README into NOTES
 
 Getting the following warning from `node`:
