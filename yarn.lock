@@ -1717,7 +1717,6 @@ __metadata:
     bayes.js: "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f"
     d3: "npm:^7.8.5"
     gulp: "npm:^4.0.2"
-    jstat: "npm:^1.9.6"
     lit: "npm:^3.1.0"
     regenerator-runtime: "npm:^0.14.0"
   languageName: unknown
@@ -1763,7 +1762,6 @@ __metadata:
     gulp-dart-sass: "npm:^1.1.0"
     gulp-inject: "npm:^5.0.5"
     gulp-rename: "npm:^2.0.0"
-    jstat: "npm:^1.9.6"
     lit: "npm:^3.1.0"
     node-sass-package-importer: "npm:^5.3.3"
     plotly.js: "npm:^2.27.1"
