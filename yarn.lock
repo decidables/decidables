@@ -7077,11 +7077,11 @@ __metadata:
     normalize-path: "npm:^3.0.0"
     postcss: "npm:^8.4.31"
     postcss-syntax: "npm:^0.36.2"
+    rehype-stringify: "npm:^10.0.0"
     remark: "npm:^15.0.1"
     remark-definition-list: "npm:^2.0.0"
     remark-directive: "npm:^3.0.0"
     remark-frontmatter: "npm:^5.0.0"
-    remark-html: "npm:^16.0.1"
     remark-lint: "npm:^9.1.2"
     remark-lint-first-heading-level: "npm:^3.1.2"
     remark-lint-linebreak-style: "npm:^3.1.2"
@@ -7091,6 +7091,7 @@ __metadata:
     remark-preset-lint-consistent: "npm:^5.1.2"
     remark-preset-lint-markdown-style-guide: "npm:^5.1.3"
     remark-preset-lint-recommended: "npm:^6.1.3"
+    remark-rehype: "npm:^11.0.0"
     remark-smartypants: "npm:^2.0.0"
     resolve-pkg: "npm:^2.0.0"
     rollup: "npm:^4.6.0"
@@ -10409,17 +10410,6 @@ __metadata:
     web-namespaces: "npm:^2.0.0"
     zwitch: "npm:^2.0.0"
   checksum: b89a198ec3a3786cef08beac500d27f948124d0f2795e079f775f16c38506719157b9b5cc9a0c781c705b6eff7f66d692f55f0aa5e88530d4ba81e21ca653248
-  languageName: node
-  linkType: hard
-
-"hast-util-sanitize@npm:^5.0.0":
-  version: 5.0.1
-  resolution: "hast-util-sanitize@npm:5.0.1"
-  dependencies:
-    "@types/hast": "npm:^3.0.0"
-    "@ungap/structured-clone": "npm:^1.2.0"
-    unist-util-position: "npm:^5.0.0"
-  checksum: bdffc06f587e79f25048dcf60da6731d5a91b057190ef59ce6d3b72501855b6ae7b79e44ff9d68801c2c5b11de9e4834df90a6ba658eafa3a7c6ba06d6d0c19e
   languageName: node
   linkType: hard
 
@@ -17246,6 +17236,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rehype-stringify@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "rehype-stringify@npm:10.0.0"
+  dependencies:
+    "@types/hast": "npm:^3.0.0"
+    hast-util-to-html: "npm:^9.0.0"
+    unified: "npm:^11.0.0"
+  checksum: d5cf4e0951f5fa6a65c69479fbe974f1b75298170de2c4618e0e91cceba6a52c6094926e26c9501252120572f3daba02fb6d09436cc483282b0b647f1d970b66
+  languageName: node
+  linkType: hard
+
 "relateurl@npm:0.2.x":
   version: 0.2.7
   resolution: "relateurl@npm:0.2.7"
@@ -17285,19 +17286,6 @@ __metadata:
     micromark-extension-frontmatter: "npm:^2.0.0"
     unified: "npm:^11.0.0"
   checksum: 5d859f336e9cd6f6ed02139a76781b35a8cabbbb240d30dd8048e1c74d7b8e8335b98f27290c9787baab3bc5eb935347a046fa85ad307cf0f7ea6c1ecfde8dc4
-  languageName: node
-  linkType: hard
-
-"remark-html@npm:^16.0.1":
-  version: 16.0.1
-  resolution: "remark-html@npm:16.0.1"
-  dependencies:
-    "@types/mdast": "npm:^4.0.0"
-    hast-util-sanitize: "npm:^5.0.0"
-    hast-util-to-html: "npm:^9.0.0"
-    mdast-util-to-hast: "npm:^13.0.0"
-    unified: "npm:^11.0.0"
-  checksum: eeae58299929d506b770db6e461f57e551f5502f33b6ae64bd770ab3b1d6ece5c7fe45b254636ff12e5bb2006f4e713dfa8084752e0fa627c79e7decea8a91cc
   languageName: node
   linkType: hard
 
@@ -18180,6 +18168,19 @@ __metadata:
     remark-lint-ordered-list-marker-style: "npm:^3.0.0"
     unified: "npm:^10.0.0"
   checksum: 3cec19b393eeadc07e6350ecb56e9b1bc3e0c7623b242c6a0520242fb766dc9a6d5b5c3f6d7c99ee8437ce0dfff5c777b9a6c1d2d5a0f36cd46e3f804714c60c
+  languageName: node
+  linkType: hard
+
+"remark-rehype@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "remark-rehype@npm:11.0.0"
+  dependencies:
+    "@types/hast": "npm:^3.0.0"
+    "@types/mdast": "npm:^4.0.0"
+    mdast-util-to-hast: "npm:^13.0.0"
+    unified: "npm:^11.0.0"
+    vfile: "npm:^6.0.0"
+  checksum: e6c58307cbcbc52d81a3c902201214c2037992ebbd5713322caa890bf1be54a7aad43a36bb5ece5711a4a542514be2188e0a94ac10e96c745def33f6fa324907
   languageName: node
   linkType: hard
 

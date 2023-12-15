@@ -15,9 +15,10 @@ import mergeStream from 'merge-stream';
 import nodeNotifier from 'node-notifier';
 import nodeSassPackageImporter from 'node-sass-package-importer';
 import normalizePath from 'normalize-path';
+import rehypeStringify from 'rehype-stringify';
 import {remarkDefinitionList, defListHastHandlers} from 'remark-definition-list';
 import remarkDirective from 'remark-directive';
-import remarkHtml from 'remark-html';
+import remarkRehype from 'remark-rehype';
 import remarkSmartypants from 'remark-smartypants';
 import resolvePkg from 'resolve-pkg';
 import * as rollup from 'rollup';
@@ -122,10 +123,12 @@ export function compileMarkdown() {
         ],
       })
       .use(remarkSmartypants, {dashes: 'oldschool'})
-      .use(remarkHtml, {
-        sanitize: false,
+      // Hack to avoid remark-rehype issue #35 (https://github.com/remarkjs/remark-rehype/issues/35)
+      .use((options, fileSet) => { return remarkRehype({}, options, fileSet); }, {
+        allowDangerousHtml: true,
         handlers: {...defListHastHandlers},
-      }))
+      })
+      .use(rehypeStringify, {allowDangerousHtml: true}))
     .on('data', (file) => {
       return gulp.src(`src/${file.data.layout}.ejs`)
         .pipe(gulpFrontMatter({property: 'data'}))
