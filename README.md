@@ -77,8 +77,6 @@ Dependencies updated 30/11/2023.
 - Use *eslint-plugin-lit*? (https://www.npmjs.com/package/eslint-plugin-lit)
 - Use *eslint-plugin-wc*? (https://github.com/43081j/eslint-plugin-wc)
 - Reducing bundle sizes
-  - Replace *jStat* with *stdlib*?
-    - Is *stdlib* here to stay?
   - Tighter *D3* imports?
     - Tried this once and the bundle actually grew!
   - Drop *regenerator-runtime* and/or *core-js*?
@@ -92,7 +90,6 @@ Dependencies updated 30/11/2023.
       1. Always import needed classes
       1. Always import from specific file?
 - Include `preparePlotly` in compile step?
-- Get *remark-lint* working in editor
 - Linting and transpiling in tagged template literals?
 - Clean way for inter-page references?
 - Add "question" blocks for thoughts for readers to try - maybe with foldout answers?
