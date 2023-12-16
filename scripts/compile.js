@@ -1,4 +1,7 @@
 
+// Node native modules
+import fs from 'fs';
+
 // devDependencies
 import fancyLog from 'fancy-log';
 import {glob} from 'glob';
@@ -10,11 +13,14 @@ import gulpIf from 'gulp-if';
 import gulpNotify from 'gulp-notify';
 import gulpRename from 'gulp-rename';
 import gulpSvgmin from 'gulp-svgmin';
+import {fromHtmlIsomorphic as hastUtilFromHtmlIsomorphic} from 'hast-util-from-html-isomorphic';
 import localeEnUs from 'locale-en-us';
 import mergeStream from 'merge-stream';
 import nodeNotifier from 'node-notifier';
 import nodeSassPackageImporter from 'node-sass-package-importer';
 import normalizePath from 'normalize-path';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
 import {remarkDefinitionList, defListHastHandlers} from 'remark-definition-list';
 import remarkDirective from 'remark-directive';
@@ -101,6 +107,7 @@ export function compileFontsTask(fonts) {
 }
 
 export function compileMarkdown() {
+  const linkIcon = fs.readFileSync(resolvePkg('bootstrap-icons/icons/link-45deg.svg')).toString();
   remarkCiteproc({
     initialize: true,
     locale: localeEnUs,
@@ -127,6 +134,20 @@ export function compileMarkdown() {
       .use((options, fileSet) => { return remarkRehype({}, options, fileSet); }, {
         allowDangerousHtml: true,
         handlers: {...defListHastHandlers},
+      })
+      .use(rehypeSlug)
+      .use(rehypeAutolinkHeadings, {
+        behavior: 'append',
+        content: hastUtilFromHtmlIsomorphic(
+          linkIcon,
+          {fragment: true},
+        ).children,
+        headingProperties: {class: 'heading'},
+        properties: {
+          ariaHidden: true,
+          class: 'heading-autolink',
+          tabIndex: -1,
+        },
       })
       .use(rehypeStringify, {allowDangerousHtml: true}))
     .on('data', (file) => {
