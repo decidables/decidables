@@ -1,0 +1,38 @@
+// DECORATIONS
+
+// Decidables modules
+@use "colors" as *;
+
+// Bootstrap SASS variables
+$border-width: 1px;
+$border-radius: 0.25rem;
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1560px
+);
+$container-padding-x: 2rem;
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1590px
+);
+$grid-gutter-width: 2rem;
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+// SASS variables
+$border: $border-width solid $border-color;
+$transition-duration: 500ms;
+
+// CSS variables
+:root { /* stylelint-disable-line no-duplicate-selectors */
+  --border: #{$border};
+  --border-radius: #{$border-radius};
+  --transition-duration: #{$transition-duration};
+}

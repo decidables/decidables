@@ -9,6 +9,7 @@
       "all",
       "libraries",
       "decidables-elements",
+      "decidables-site",
       "detectable-math",
       "detectable-elements",
       "prospectable-math",
