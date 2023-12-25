@@ -1,0 +1,48 @@
+// SHADOWS
+
+// Built-in modules
+@use "sass:map";
+
+// Based on Material Design
+// https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
+$shadow-baseline-color: #000000;
+$shadow-umbra-opacity: 0.2;
+$shadow-penumbra-opacity: 0.14;
+$shadow-ambient-opacity: 0.12;
+$shadow-opacity-boost: 0.2;
+$shadow-umbra-map: (
+  0: "0px 0px 0px 0px",
+  2: "1.5px 3px 1px -2px",
+  4: "1px 2px 4px -1px",
+  8: "2.5px 5px 5px -3px",
+  16: "4px 8px 10px -5px"
+);
+$shadow-penumbra-map: (
+  0: "0px 0px 0px 0px",
+  2: "1px 2px 2px 0px",
+  4: "2px 4px 5px 0px",
+  8: "4px 8px 10px 1px",
+  16: "8px 16px 24px 2px"
+);
+$shadow-ambient-map: (
+  0: "0px 0px 0px 0px",
+  2: "0.5px 1px 5px 0px",
+  4: "0.5px 1px 10px 0px",
+  8: "1.5px 3px 14px 2px",
+  16: "3px 6px 30px 5px"
+);
+
+@mixin shadow($shadow-level) {
+  $shadow-umbra: map.get($shadow-umbra-map, $shadow-level);
+  $shadow-penumbra: map.get($shadow-penumbra-map, $shadow-level);
+  $shadow-ambient: map.get($shadow-ambient-map, $shadow-level);
+
+  $shadow-umbra-color: rgba($shadow-baseline-color, $shadow-umbra-opacity + $shadow-opacity-boost);
+  $shadow-penumbra-color: rgba($shadow-baseline-color, $shadow-penumbra-opacity + $shadow-opacity-boost);
+  $shadow-ambient-color: rgba($shadow-baseline-color, $shadow-ambient-opacity + $shadow-opacity-boost);
+
+  box-shadow:
+    #{$shadow-umbra} #{$shadow-umbra-color},
+    #{$shadow-penumbra} #{$shadow-penumbra-color},
+    #{$shadow-ambient} #{$shadow-ambient-color};
+}
