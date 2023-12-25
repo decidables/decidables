@@ -1,11 +1,9 @@
 <!--lint ignore first-heading-level-->
 
-# **`@decidables/decidables-site`**<br>Styles and Templates for [**decidables**](https://decidables.github.io) sites
+# **`@decidables/decidables-site`**<br>Styles and Templates for [**decidables**](https://decidables.github.io) Sites
 
-[![GitHub version](https://img.shields.io/github/package-json/v/decidables/decidables?filename=libraries%decidables-site%2Fpackage.json&logo=github)](https:/decidables.github.io/discountable)
-
-[![npm version](https://img.shields.io/npm/v/@decidables/decidables-site?logo=npm)](https://github.com/decidables/decidables/tree/main/libraries/decidables-site)
-[![license](https://img.shields.io/npm/l/@decidables/decidables-site?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
+[![GitHub version](https://img.shields.io/github/package-json/v/decidables/decidables?filename=libraries%2Fdecidables-site%2Fpackage.json&logo=github)](https:/decidables.github.io/discountable)
+[![license](https://img.shields.io/github/package-json/license/decidables/decidables?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
 
 This package provides SCSS styles and an EJS template for use in all of the decidables websites.
 This facilitates a consistent look and feel.
