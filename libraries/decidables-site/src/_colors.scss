@@ -1,0 +1,75 @@
+// COLOR
+
+// Built-in modules
+@use "sass:color";
+@use "sass:map";
+
+// Default params
+$color-map: () !default;
+
+// Color functions
+@function dec-color($name) {
+  @return map.get($color-map, $name);
+}
+
+@function dec-color-light($name) {
+  @return color.mix(#ffffff, map.get($color-map, $name), 50%);
+}
+
+@function dec-color-dark($name) {
+  @return color.mix(#000000, map.get($color-map, $name), 50%);
+}
+
+// Color definitions
+$color-white: #ffffff; // 100% lightness #ffffff
+$color-grey: #999999; // 60% lightness #999999
+$color-black: #000000;  // 0% lightness #000000
+$color-grey-light75: color.mix($color-white, $color-grey, 75%); // 90% lightness #e6e6e6
+$color-grey-light50: color.mix($color-white, $color-grey, 50%); // 80% lightness #cccccc
+$color-grey-light25: color.mix($color-white, $color-grey, 25%); // 70% lightness #b3b3b3
+$color-grey-dark25: color.mix($color-black, $color-grey, 25%); // 45% lightness #737373
+$color-grey-dark50: color.mix($color-black, $color-grey, 50%); // 30% lightness #4d4d4d
+$color-grey-dark75: color.mix($color-black, $color-grey, 75%); // 15% lightness #262626
+
+// Bootstrap SASS variables
+$body-bg: $color-white;
+$border-color: $color-grey-light75;
+$body-color: $color-grey-dark75;
+$link-color: $color-grey-dark25;
+$link-hover-color: $color-grey-dark50;
+
+// SASS variables
+$color-background: #{$body-bg};
+$color-background-inverse: #{$body-color};
+$color-border: #{$border-color};
+$color-text: #{$body-color};
+$color-text-inverse: #{$body-bg};
+$color-link: #{$link-color};
+$color-element-background: #{$color-grey-light75};
+$color-element-disabled: #{$color-grey-light50};
+$color-element-enabled: #{$color-grey-dark25};
+$color-element-selected: #{$color-grey};
+$color-element-border: #{$color-grey-dark50};
+$color-element-emphasis: #{$color-grey-dark75};
+
+// CSS variables
+:root {
+  @each $name in map-keys($color-map) {
+    --color-#{$name}: #{dec-color($name)};
+    --color-#{$name}-light: #{dec-color-light($name)};
+    --color-#{$name}-dark: #{dec-color-dark($name)};
+  }
+
+  --color-background: #{$color-background};
+  --color-background-inverse: #{$color-background-inverse};
+  --color-border: #{$color-border};
+  --color-text: #{$color-text};
+  --color-text-inverse: #{$color-text-inverse};
+  --color-link: #{$color-link};
+  --color-element-background: #{$color-element-background};
+  --color-element-disabled: #{$color-element-disabled};
+  --color-element-enabled: #{$color-element-enabled};
+  --color-element-selected: #{$color-element-selected};
+  --color-element-border: #{$color-element-border};
+  --color-element-emphasis: #{$color-element-emphasis};
+}

@@ -1,0 +1,95 @@
+// FONTS
+
+// Built-in modules
+@use "sass:list";
+
+// Font files
+$font-map: (
+  // filename: (family, style, weight, stretch)
+  SourceCodePro-Regular: ("Source Code", normal, 400, normal),
+  SourceCodePro-It: ("Source Code", italic, 400, normal),
+  SourceCodePro-Semibold: ("Source Code", normal, 600, normal),
+  SourceCodePro-SemiboldIt: ("Source Code", italic, 600, normal),
+  SourceCodePro-Bold: ("Source Code", normal, 700, normal),
+  SourceCodePro-BoldIt: ("Source Code", italic, 700, normal),
+
+  SourceSans3-Regular: ("Source Sans", normal, 400, normal),
+  SourceSans3-It: ("Source Sans", italic, 400, normal),
+  SourceSans3-Semibold: ("Source Sans", normal, 600, normal),
+  SourceSans3-SemiboldIt: ("Source Sans", italic, 600, normal),
+  SourceSans3-Bold: ("Source Sans", normal, 700, normal),
+  SourceSans3-BoldIt: ("Source Sans", italic, 700, normal),
+
+  SourceSerif4-Regular: ("Source Serif", normal, 400, normal),
+  SourceSerif4-It: ("Source Serif", italic, 400, normal),
+  SourceSerif4-Semibold: ("Source Serif", normal, 600, normal),
+  SourceSerif4-SemiboldIt: ("Source Serif", italic, 600, normal),
+  SourceSerif4-Bold: ("Source Serif", normal, 700, normal),
+  SourceSerif4-BoldIt: ("Source Serif", italic, 700, normal),
+
+  SourceCodeVariable-Roman: ("Source Code Variable", normal, 200 900, normal),
+  SourceCodeVariable-Italic: ("Source Code Variable", italic, 200 900, normal),
+
+  SourceSans3VF-Roman: ("Source Sans Variable", normal, 200 900, normal),
+  SourceSans3VF-Italic: ("Source Sans Variable", italic, 200 900, normal),
+
+  SourceSerif4Variable-Roman: ("Source Serif Variable", normal, 200 900, normal),
+  SourceSerif4Variable-Italic: ("Source Serif Variable", italic, 200 900, normal),
+);
+
+@each $file, $font-list in $font-map {
+  @font-face {
+    src: url("fonts/#{$file}.otf.woff2") format("woff2"), url("fonts/#{$file}.otf.woff") format("woff");
+    font-family: list.nth($font-list, 1);
+    font-style: list.nth($font-list, 2);
+    font-weight: list.nth($font-list, 3);
+    font-stretch: list.nth($font-list, 4);
+  }
+}
+
+// SASS variables
+$font-family-serif: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
+$font-family-sans-serif: "Source Sans Variable", "Source Sans", sans-serif;
+$font-family-monospace: "Source Code Variable", "Source Code", monospace;
+
+$font-family-base: $font-family-sans-serif;
+$font-family-code: $font-family-monospace;
+$font-family-math: $font-family-serif; // Not in Bootstrap
+
+$font-weight-normal: 400;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+$font-size-main: 1.125rem; // Not in Bootstrap
+
+// CSS variables
+:root { /* stylelint-disable-line no-duplicate-selectors */
+  --font-family-base: #{$font-family-base};
+  --font-family-math: #{$font-family-math};
+  --font-family-code: #{$font-family-code};
+  --font-family-serif: #{$font-family-serif};
+  --font-family-sans-serif: #{$font-family-sans-serif};
+  --font-family-monospace: #{$font-family-monospace};
+}
+
+// Bootstrap utility
+$utilities: (
+  "font-family": (
+    property: font-family,
+    class: font,
+    values: (
+      serif: var(--font-family-serif),
+      sans-serif: var(--font-family-sans-serif),
+      monospace: var(--font-family-monospace),
+    ),
+  ),
+  "font-weight": (
+    property: font-weight,
+    class: fw,
+    values: (
+      normal: $font-weight-normal,
+      semibold: $font-weight-semibold,
+      bold: $font-weight-bold,
+    ),
+  ),
+);

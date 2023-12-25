@@ -1,0 +1,35 @@
+{
+  "name": "@decidables/decidables-site",
+  "version": "0.0.0",
+  "description": "decidables-site: Styles and templates for decidables sites",
+  "keywords": [
+    "style",
+    "HTML template",
+    "explorable explanation",
+    "explorable",
+    "decision making",
+    "decidables"
+  ],
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decidables/decidables.git",
+    "directory": "libraries/decidables-site"
+  },
+  "bugs": "https://github.com/decidables/decidables/issues",
+  "homepage": "https://github.com/decidables/decidables/tree/main/libraries/decidables-site",
+  "author": "Adam Krawitz (https://web.uvic.ca/psyc/krawitz/)",
+  "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
+  "private": true,
+  "files": [
+    "package.json",
+    "*.md",
+    "src"
+  ],
+  "scripts": {
+    "lint": "gulp lint"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
+}

@@ -1,0 +1,141 @@
+<!doctype html>
+<html class="dec-html" lang="en">
+  <head>
+    <%
+      let activeSection;
+      let activePage;
+      let windowTitle;
+      for (const [sectionIndex, section] of toc.entries()) {
+        for (const [pageIndex, page] of section.pages.entries()) {
+          if (page.file === file) {
+            activeSection = sectionIndex;
+            activePage = pageIndex;
+            windowTitle = page.name.replace(/<[^>]+>/g, '');
+          }
+        }
+      }
+    %>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="<%= site.text %>: <%= title.replace(/<[^>]+>/g, '') %>">
+    <meta name="author" content="Dr. Adam Krawitz">
+
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+
+    <title><%- site.text %><%- (file !== 'index') ? `: ${windowTitle}` : '' %></title>
+
+    <link href="page.css" rel="stylesheet">
+  </head>
+  <body class="dec-body">
+    <div class="dec-page">
+      <div class="dec-layout">
+
+        <div class="dec-sidebar">
+          <div class="dec-nav-group">
+            <div class="dec-nav-top">
+              <button class="dec-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dec-nav" aria-controls="dec-nav" aria-expanded="false" aria-label="Toggle table of contents">
+                <%- include(resolvePkg('bootstrap-icons/icons/list.svg')) %>
+              </button>
+              <a class="dec-nav-brand" href="index.html"><span class="dec-site"><%- site.html %></span></a>
+           </div>
+            <nav class="dec-nav-collapse collapse" id="dec-nav">
+              <ol class="dec-toc">
+                <% for (const [sectionIndex, section] of toc.entries()){ %>
+                  <li class="dec-toc-list">
+                    <% if (section.name) { %>
+                    <div class="dec-toc-section-name"><%- section.name %></div>
+                    <% } %>
+                    <ol class="dec-toc-section dec-toc-section-<%- section.section %>">
+                      <% for (const [pageIndex, page] of section.pages.entries()) { %>
+                        <% if ((activeSection === sectionIndex) && (activePage === pageIndex)) { %>
+                          <li class="dec-toc-item dec-toc-item-active">
+                        <% } else { %>
+                          <li class="dec-toc-item">
+                        <% } %>
+                            <a class="dec-toc-link" href="<%= page.file %>.html">
+                              <%- page.name %>
+                            </a>
+                          </li>
+                      <% } %>
+                    </ol>
+                  </li>
+                <% } %>
+                <li class="dec-toc-list">
+                  <div class="dec-toc-section-name"></div>
+                  <ol class="dec-toc-section dec-toc-section-external">
+                    <li class="dec-toc-item">
+                      <a class="dec-toc-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2F<%- site.package %>%40<%- utilities.getPackageVersion() %>" target="_blank" rel="noopener">
+                        v<%- utilities.getPackageVersion() %>
+                      </a>
+                    </li>
+                    <li class="dec-toc-item">
+                      <a class="dec-toc-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">
+                        CC-BY-SA-4.0
+                      </a>
+                    </li>
+                    <li class="dec-toc-item">
+                      <a class="dec-toc-link" href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">
+                        GPL-3.0-or-later
+                      </a>
+                    </li>
+                    <li class="dec-toc-item">
+                      <a class="dec-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/<%- site.package %>" target="_blank" rel="noopener">
+                        <%- include(resolvePkg('bootstrap-icons/icons/github.svg')) %>
+                      </a>
+                    </li>
+                  </ol>
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <div class="dec-nav-bottom">
+            <a class="dec-nav-decidables" href="../"><span class="decidables">decidables</span></a>
+          </div>
+        </div>
+
+        <main class="dec-main">
+          <% if (file !== 'index') { %>
+            <header class="dec-header">
+              <h1 class="dec-title dec-heading">
+                <%- title %><a aria-hidden="" class="dec-heading-autolink" tabindex="-1" href=""><%- include(resolvePkg('bootstrap-icons/icons/link-45deg.svg')) %></a>
+              </h1>
+            </header>
+          <% } %>
+          <section class="dec-content">
+            <%- contents %>
+          </section>
+
+          <footer class="dec-footer">
+            <div class="dec-footer-item dec-footer-item-left">
+              <% if (toc[activeSection].nav && ((activePage > 0) || (activeSection > 0))) { %>
+                <% const previousPage = (activePage > 0)
+                    ? toc[activeSection].pages[activePage - 1]
+                    : toc[activeSection - 1].pages[toc[activeSection - 1].pages.length - 1]; %>
+                <a class="dec-toc-link" href="<%= previousPage.file %>.html">
+                  <%- include(resolvePkg('bootstrap-icons/icons/arrow-left-short.svg')) %>
+                  <%- previousPage.name %>
+                </a>
+              <% } %>
+            </div>
+            <div class="dec-footer-item dec-footer-item-right">
+              <% if (toc[activeSection].nav && ((activePage < (toc[activeSection].pages.length - 1)) || ((activeSection < (toc.length - 1)) && toc[activeSection + 1].nav))) { %>
+                <% const nextPage = (activePage < (toc[activeSection].pages.length - 1))
+                    ? toc[activeSection].pages[activePage + 1]
+                    : toc[activeSection + 1].pages[0]; %>
+                <a class="dec-toc-link" href="<%= nextPage.file %>.html">
+                  <%- nextPage.name %>
+                  <%- include(resolvePkg('bootstrap-icons/icons/arrow-right-short.svg')) %>
+                </a>
+              <% } %>
+            </div>
+          </footer>
+        </main>
+
+      </div>
+    </div>
+    <script type="module" src="<%= script %>.js"></script>
+  </body>
+</html>
