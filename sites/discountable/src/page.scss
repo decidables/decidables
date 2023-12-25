@@ -1,1103 +1,125 @@
-////////////////////////////////
-// BUILT-IN MODULES
-@use "sass:color";
-@use "sass:list";
-@use "sass:map";
+// Decidables module
+@use "~@decidables/decidables-site/src/site" as * with (
+  // Custom colors
+  // http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
+  $color-map: (
+    a: #e41a1c, // red (CB1)
+    d: #377eb8, // blue (CB2)
+    k: #4daf4a, // green (CB3)
+    v: #984ea3, // purple (CB4)
 
-////////////////////////////////
-// BOOTSTRAP INITIAL IMPORTS
-// Bootstrap 5 Configuration
-@import "~bootstrap/scss/functions";
-
-// Bootstrap SASS settings
-$enable-rfs: false;
-$enable-dark-mode: false;
-
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/maps";
-@import "~bootstrap/scss/mixins";
-
-////////////////////////////////
-// FONTS
-$font-map: (
-  // filename: (family, style, weight, stretch)
-  SourceCodePro-Regular: ("Source Code", normal, 400, normal),
-  SourceCodePro-It: ("Source Code", italic, 400, normal),
-  SourceCodePro-Semibold: ("Source Code", normal, 600, normal),
-  SourceCodePro-SemiboldIt: ("Source Code", italic, 600, normal),
-  SourceCodePro-Bold: ("Source Code", normal, 700, normal),
-  SourceCodePro-BoldIt: ("Source Code", italic, 700, normal),
-
-  SourceSans3-Regular: ("Source Sans", normal, 400, normal),
-  SourceSans3-It: ("Source Sans", italic, 400, normal),
-  SourceSans3-Semibold: ("Source Sans", normal, 600, normal),
-  SourceSans3-SemiboldIt: ("Source Sans", italic, 600, normal),
-  SourceSans3-Bold: ("Source Sans", normal, 700, normal),
-  SourceSans3-BoldIt: ("Source Sans", italic, 700, normal),
-
-  SourceSerif4-Regular: ("Source Serif", normal, 400, normal),
-  SourceSerif4-It: ("Source Serif", italic, 400, normal),
-  SourceSerif4-Semibold: ("Source Serif", normal, 600, normal),
-  SourceSerif4-SemiboldIt: ("Source Serif", italic, 600, normal),
-  SourceSerif4-Bold: ("Source Serif", normal, 700, normal),
-  SourceSerif4-BoldIt: ("Source Serif", italic, 700, normal),
-
-  SourceCodeVariable-Roman: ("Source Code Variable", normal, 200 900, normal),
-  SourceCodeVariable-Italic: ("Source Code Variable", italic, 200 900, normal),
-
-  SourceSans3VF-Roman: ("Source Sans Variable", normal, 200 900, normal),
-  SourceSans3VF-Italic: ("Source Sans Variable", italic, 200 900, normal),
-
-  SourceSerif4Variable-Roman: ("Source Serif Variable", normal, 200 900, normal),
-  SourceSerif4Variable-Italic: ("Source Serif Variable", italic, 200 900, normal),
-);
-
-@each $file, $font-list in $font-map {
-  @font-face {
-    src: url("fonts/#{$file}.otf.woff2") format("woff2"), url("fonts/#{$file}.otf.woff") format("woff");
-    font-family: list.nth($font-list, 1);
-    font-style: list.nth($font-list, 2);
-    font-weight: list.nth($font-list, 3);
-    font-stretch: list.nth($font-list, 4);
-  }
-}
-
-// SASS variables
-$font-family-serif: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
-$font-family-sans-serif: "Source Sans Variable", "Source Sans", sans-serif;
-$font-family-monospace: "Source Code Variable", "Source Code", monospace;
-
-$font-family-base: $font-family-sans-serif;
-$font-family-code: $font-family-monospace;
-$font-family-math: $font-family-serif; // Not in Bootstrap
-
-$font-weight-normal: 400;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
-
-$font-size-main: 1.125rem; // Not in Bootstrap
-
-// CSS variables
-:root { /* stylelint-disable-line no-duplicate-selectors */
-  --font-family-base: #{$font-family-base};
-  --font-family-math: #{$font-family-math};
-  --font-family-code: #{$font-family-code};
-  --font-family-serif: #{$font-family-serif};
-  --font-family-sans-serif: #{$font-family-sans-serif};
-  --font-family-monospace: #{$font-family-monospace};
-}
-
-// Bootstrap utility
-$utilities: (
-  "font-family": (
-    property: font-family,
-    class: font,
-    values: (
-      serif: var(--font-family-serif),
-      sans-serif: var(--font-family-sans-serif),
-      monospace: var(--font-family-monospace),
-    ),
-  ),
-  "font-weight": (
-    property: font-weight,
-    class: fw,
-    values: (
-      normal: $font-weight-normal,
-      semibold: $font-weight-semibold,
-      bold: $font-weight-bold,
-    ),
-  ),
-);
-
-////////////////////////////////
-// COLOR
-
-// SASS variables
-// http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
-$color-map: (
-  a: #e41a1c, // red (CB1)
-  d: #377eb8, // blue (CB2)
-  k: #4daf4a, // green (CB3)
-  v: #984ea3, // purple (CB4)
-
-  sooner: #ff7f00, // grey (CB5)
-  later: #f781bf, // color (CB8)
-  
-  larger: #4545d0, // violet
-  smaller: #f032e6, // magenta
-  equal: #10dbc9, // cyan
-
-  nr: #cccccc, // grey-light50
-);
-
-@function htd-color($name) {
-  @return map.get($color-map, $name);
-}
-
-@function htd-color-light($name) {
-  @return color.mix(#ffffff, map.get($color-map, $name), 50%);
-}
-
-@function htd-color-dark($name) {
-  @return color.mix(#000000, map.get($color-map, $name), 50%);
-}
-
-$color-white: #ffffff; // 100% lightness #ffffff
-$color-grey: #999999; // 60% lightness #999999
-$color-black: #000000;  // 0% lightness #000000
-$color-grey-light75: color.mix($color-white, $color-grey, 75%); // 90% lightness #e6e6e6
-$color-grey-light50: color.mix($color-white, $color-grey, 50%); // 80% lightness #cccccc
-$color-grey-light25: color.mix($color-white, $color-grey, 25%); // 70% lightness #b3b3b3
-$color-grey-dark25: color.mix($color-black, $color-grey, 25%); // 45% lightness #737373
-$color-grey-dark50: color.mix($color-black, $color-grey, 50%); // 30% lightness #4d4d4d
-$color-grey-dark75: color.mix($color-black, $color-grey, 75%); // 15% lightness #262626
-
-// Bootstrap SASS variables
-$body-bg: $color-white;
-$border-color: $color-grey-light75;
-$body-color: $color-grey-dark75;
-$link-color: $color-grey-dark25;
-$link-hover-color: $color-grey-dark50;
-
-// SASS variables
-$color-background: #{$body-bg};
-$color-background-inverse: #{$body-color};
-$color-border: #{$border-color};
-$color-text: #{$body-color};
-$color-text-inverse: #{$body-bg};
-$color-link: #{$link-color};
-$color-element-background: #{$color-grey-light75};
-$color-element-disabled: #{$color-grey-light50};
-$color-element-enabled: #{$color-grey-dark25};
-$color-element-selected: #{$color-grey};
-$color-element-border: #{$color-grey-dark50};
-$color-element-emphasis: #{$color-grey-dark75};
-
-// CSS variables
-:root { /* stylelint-disable-line no-duplicate-selectors */
-  @each $name in map-keys($color-map) {
-    --color-#{$name}: #{htd-color($name)};
-    --color-#{$name}-light: #{htd-color-light($name)};
-    --color-#{$name}-dark: #{htd-color-dark($name)};
-  }
-  --color-background: #{$color-background};
-  --color-background-inverse: #{$color-background-inverse};
-  --color-border: #{$color-border};
-  --color-text: #{$color-text};
-  --color-text-inverse: #{$color-text-inverse};
-  --color-link: #{$color-link};
-  --color-element-background: #{$color-element-background};
-  --color-element-disabled: #{$color-element-disabled};
-  --color-element-enabled: #{$color-element-enabled};
-  --color-element-selected: #{$color-element-selected};
-  --color-element-border: #{$color-element-border};
-  --color-element-emphasis: #{$color-element-emphasis};
-}
-
-////////////////////////////////
-// SHADOWS
-// Based on Material Design
-// https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
-$shadow-baseline-color: #000000;
-$shadow-umbra-opacity: 0.2;
-$shadow-penumbra-opacity: 0.14;
-$shadow-ambient-opacity: 0.12;
-$shadow-opacity-boost: 0.2;
-$shadow-umbra-map: (
-  0: "0px 0px 0px 0px",
-  2: "1.5px 3px 1px -2px",
-  4: "1px 2px 4px -1px",
-  8: "2.5px 5px 5px -3px",
-  16: "4px 8px 10px -5px"
-);
-$shadow-penumbra-map: (
-  0: "0px 0px 0px 0px",
-  2: "1px 2px 2px 0px",
-  4: "2px 4px 5px 0px",
-  8: "4px 8px 10px 1px",
-  16: "8px 16px 24px 2px"
-);
-$shadow-ambient-map: (
-  0: "0px 0px 0px 0px",
-  2: "0.5px 1px 5px 0px",
-  4: "0.5px 1px 10px 0px",
-  8: "1.5px 3px 14px 2px",
-  16: "3px 6px 30px 5px"
-);
-
-@mixin shadow($shadow-level) {
-  $shadow-umbra: map.get($shadow-umbra-map, $shadow-level);
-  $shadow-penumbra: map.get($shadow-penumbra-map, $shadow-level);
-  $shadow-ambient: map.get($shadow-ambient-map, $shadow-level);
-
-  $shadow-umbra-color: rgba($shadow-baseline-color, $shadow-umbra-opacity + $shadow-opacity-boost);
-  $shadow-penumbra-color: rgba($shadow-baseline-color, $shadow-penumbra-opacity + $shadow-opacity-boost);
-  $shadow-ambient-color: rgba($shadow-baseline-color, $shadow-ambient-opacity + $shadow-opacity-boost);
-
-  box-shadow:
-    #{$shadow-umbra} #{$shadow-umbra-color},
-    #{$shadow-penumbra} #{$shadow-penumbra-color},
-    #{$shadow-ambient} #{$shadow-ambient-color};
-}
-
-////////////////////////////////
-// OTHER
-// Bootstrap SASS variables
-$border-width: 1px;
-$border-radius: 0.25rem;
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px,
-  xxl: 1560px
-);
-$container-padding-x: 2rem;
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1590px
-);
-$grid-gutter-width: 2rem;
-$link-decoration: none;
-$link-hover-decoration: underline;
-
-// SASS variables
-$border: $border-width solid $border-color;
-$transition-duration: 500ms;
-
-// CSS variables
-:root { /* stylelint-disable-line no-duplicate-selectors */
-  --border: #{$border};
-  --border-radius: #{$border-radius};
-  --transition-duration: #{$transition-duration};
-}
-
-////////////////////////////////
-// BOOTSTRAP IMPORTS
-/* stylelint-disable no-invalid-position-at-import-rule */
-// Bootstrap 5 Configuration
-@import "~bootstrap/scss/utilities";
-
-// Bootstrap 5 Layout & components
-@import "~bootstrap/scss/root";
-@import "~bootstrap/scss/reboot";
-@import "~bootstrap/scss/type";
-@import "~bootstrap/scss/containers";
-@import "~bootstrap/scss/grid";
-@import "~bootstrap/scss/tables";
-@import "~bootstrap/scss/buttons";
-@import "~bootstrap/scss/transitions";
-@import "~bootstrap/scss/nav";
-@import "~bootstrap/scss/navbar";
-
-// Bootstrap 5 Helpers
-@import "~bootstrap/scss/helpers";
-
-// Bootstrap 5 Utilities
-@import "~bootstrap/scss/utilities/api";
-/* stylelint-enable no-invalid-position-at-import-rule */
-
-////////////////////////////////
-// SEMANTIC BOOTSTRAP
-// Content
-
-.math-var {
-  font-family: $font-family-math;
-  font-style: italic;
-}
-
-.math-greek {
-  font-family: $font-family-math;
-  font-style: normal;
-}
-
-.discountable {
-  font-family: $font-family-sans-serif;
-  font-style: normal;
-  font-weight: bold;
-}
-
-.decidables {
-  font-family: $font-family-sans-serif;
-  font-style: normal;
-  font-weight: bold;
-}
-
-.bi.bi-arrow-left-short,
-.bi.bi-arrow-right-short {
-  width: 1.25rem;
-  height: 1.25rem;
-  
-  vertical-align: -0.3125rem;
-}
-
-.bi.bi-github {
-  width: 1.125rem;
-  height: 1.125rem;
-}
-
-.bi.bi-list {
-  width: 2rem;
-  height: 2rem;
-}
-
-// Top-level
-// Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
-.dis-html {
-  font-size: 1rem;
-}
-
-@include media-breakpoint-down(md) {
-  .dis-html {
-    font-size: 0.9rem;
-  }
-}
-
-@include media-breakpoint-down(sm) {
-  .dis-html {
-    font-size: 0.8rem;
-  }
-}
-
-.dis-body {
-  font-size: 1.125rem;
-}
-
-.dis-page {
-  @include make-container();
-}
-
-.dis-layout {
-  @include make-row();
-}
-
-// Sidebar
-.dis-sidebar {
-  @include make-col-ready();
-  @include make-col(10, 10);
-
-  display: flex;
-
-  align-items: start;
-  justify-content: space-between;
-
-  border-bottom: $border;
-
-  @include media-breakpoint-up(md) {
-    @include make-col(2, 10);
-
-    flex-direction: column;
+    sooner: #ff7f00, // grey (CB5)
+    later: #f781bf, // color (CB8)
     
-    align-items: stretch;
-
-    min-height: 100vh;
-
-    border-right: $border;
-    border-bottom: 0;
-
-    @supports (position: sticky) or (position: -webkit-sticky) {
-      position: -webkit-sticky; /* stylelint-disable-line value-no-vendor-prefix */
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-
-      height: 100vh;
-    }
-  }
-
-  @include media-breakpoint-up(lg) {
-    @include make-col(2, 12);
-  }
-
-  @include media-breakpoint-up(xl) {
-    flex: 0 1 20rem;
-
-    max-width: calc(100% * 2 / 12);
-  }
-}
-
-.dis-nav-top {
-  position: relative;
-  display: flex;
-
-  align-items: center;
-
-  padding: 0.5rem;
-  margin-right: calc($grid-gutter-width / -2);
-  margin-left: calc($grid-gutter-width / -2);
-}
-
-.dis-nav-toggler {
-  @extend .btn;
-  @extend .btn-link;
-
-  padding: 0.1875rem 0.5rem;
-  margin: 0;
-
-  line-height: 1;
-  color: $color-text;
-
-  border: 0;
-
-  @include media-breakpoint-up(md) {
-    display: none;
-  }
-
-  &:hover {
-    @include shadow(2);
-
-    color: $color-text;
-  }
-
-  &:focus {
-    @include shadow(2);
-
-    color: $color-text;
-  }
-
-  &:active {
-    @include shadow(4);
-
-    color: $color-text;
-  }
-}
-
-.dis-nav-brand {
-  @extend .navbar-brand;
-
-  padding: 0 0.5rem;
-  margin: 0;
-
-  font-size: 1.5rem;
-  color: $color-text;
-
-  border-radius: $border-radius;
-  outline: none;
-
-  &:hover {
-    @include shadow(2);
-
-    color: $color-text;
-    text-decoration: none;
-  }
-
-  &:focus {
-    @include shadow(2);
-
-    color: $color-text;
-    text-decoration: none;
-  }
-
-  &:active {
-    @include shadow(4);
-
-    color: $color-text;
-    text-decoration: none;
-  }
-}
-
-.dis-nav-collapse {
-  padding-top: 0.25rem;
-  padding-bottom: 0.5rem;
-  margin-right: calc($grid-gutter-width / -2);
-  margin-left: calc($grid-gutter-width / -2);
-
-  @include media-breakpoint-up(md) {
-    @supports (position: sticky) {
-      max-height: calc(100vh - 6.3125rem);
-      overflow-y: auto;
-    }
-  }
-  // Override collapse behaviors
-  @include media-breakpoint-up(md) {
-    display: block !important;
-  }
-}
-
-.dis-toc,
-.dis-toc-section {
-  @extend .nav;
-
-  display: block;
-}
-
-.dis-toc-section-name {
-  padding-top: 0.75rem;
-  padding-left: 1rem;
-
-  font-weight: $font-weight-semibold;
-  font-variant: small-caps;
-  color: $color-link;
-}
-
-// .dis-toc-list {
-// }
-
-.dis-toc-text,
-.dis-toc-link {
-  display: block;
-
-  padding: 0.25rem 0.5rem;
-
-  font-size: 1rem;
-  font-weight: $font-weight-semibold;
-  line-height: 1;
-  color: $color-link;
-
-  border-radius: $border-radius;
-}
-
-.dis-toc-link {
-  outline: none;
-
-  &:hover {
-    @include shadow(2);
-
-    color: $color-text;
-    text-decoration: none;
-  }
-
-  &:focus {
-    @include shadow(2);
-
-    color: $color-text;
-    text-decoration: none;
-  }
-
-  &:active {
-    @include shadow(4);
-
-    color: $color-text;
-    text-decoration: none;
-  }
-
-}
-
-.dis-toc-item .dis-toc-text,
-.dis-toc-item .dis-toc-link {
-  padding: 0.375rem 0.5rem;
-  margin: 0 0.5rem;
-}
-
-.dis-toc-item-active .dis-toc-link,
-.dis-toc-item-active:hover .dis-toc-link {
-  font-weight: $font-weight-bold;
-  color: $color-text;
-}
-
-.dis-nav-bottom {
-  padding: 0.75rem 0.5rem;
-  margin-right: calc($grid-gutter-width / -2);
-  margin-left: calc($grid-gutter-width / -2);
-
-  font-size: 1.5rem;
-
-  background-color: $color-background-inverse;
-
-  @include media-breakpoint-up(md) {
-    padding: 0.5625rem 0.5rem;
-  }
-}
-
-.dis-nav-decidables {
-  display: block;
-
-  padding: 0 0.5rem;
-  margin: 0;
-
-  font-size: 1.25rem;
-  color: $color-text-inverse;
-
-  &:hover {
-    color: $color-text-inverse;
-    text-decoration: underline;
-  }
-}
-
-// Main
-.dis-main {
-  @include make-col-ready();
-  @include make-col(10, 10);
-
-  padding-top: 1rem;
-  padding-bottom: 0.625rem;
-
-  @include media-breakpoint-up(md) {
-    @include make-col(8, 10);
-  }
-
-  @include media-breakpoint-up(lg) {
-    @include make-col(10, 12);
-  }
-
-  @include media-breakpoint-up(xl) {
-    @include make-col(9, 12);
-    border-right: $border;
-  }
-
-  @include media-breakpoint-up(xxl) {
-    @include make-col(8, 12);
-    border-right: $border;
-  }
-}
-
-// Index Page
-.dis-index-header {
-  @extend .row, .g-4, .py-4, .justify-content-center;
-}
-
-.dis-index-titles {
-  @extend .col-11;
-}
-
-.dis-index-title {
-  @extend .display-1, .fw-bold, .text-center;
-}
-
-.dis-index-subtitle {
-  @extend .h2, .text-center, .fw-semibold, .font-serif;
-}
-
-.dis-index-demo {
-  @extend .col-11, .text-center;
-  
-  // decision-task {
-  //   width: ????;
-  //   height: ????;
-  // }
-}
-
-.dis-index-lead {
-  @extend .col-11, .col-md-10, .col-xxl-8, .mt-4, .mb-0, .fw-normal, .lead, .text-center;
-}
-
-// Header
-// .dis-header {
-// }
-
-.dis-title {
-  margin-top: 0.75rem;
-  margin-bottom: 0.25rem;
-}
-
-// Footer
-.dis-footer {
-  @include make-row();
-
-  padding-top: 0.625rem;
-
-  border-top: $border;
-}
-
-.dis-footer-item {
-  @include make-col-ready();
-
-  flex: 0 0 auto;
-
-  width: auto;
-  max-width: none;
-  padding: 0 0.5rem;
-
-  font-size: 1rem;
-  font-weight: $font-weight-semibold;
-  line-height: 1;
-
-  &.dis-footer-item-left {
-    margin-right: auto;
-  }
-}
-
-// Page Content
-.dis-content {
-  padding-bottom: 1rem;
-
-  h2 {
-    padding-top: 1rem;
-
-    font-family: $font-family-serif;
-  }
-
-  code {
-    padding: 0.125rem 0.25rem;
-
-    color: revert;
-
-    background-color: $color-element-background;
-    border-radius: $border-radius;
-  }
-
-  dt {
-    font-weight: $font-weight-semibold;
-  }
-
-  dt::after {
-    content: ":";
-  }
-
-  dd {
-    margin-bottom: 1rem;
-  }
-
-  // UI Notes
-  .ui-note {
-    padding: 0.625rem;
-    margin-bottom: 1rem;
-
-    background-color: color.mix($color-white, $color-grey, 82.5%);
-    border: $color-border solid 1px;
-    border-radius: $border-radius;
-
-    p:last-child { /* stylelint-disable-line max-nesting-depth */
-      margin-bottom: 0;
-    }
-  }
-
-  // Terms
-  .term {
-    font-weight: $font-weight-bold;
-    color: $color-text;
-
-    &:hover,
-    &:focus,
-    &:active {
-      text-decoration: underline dashed 1px $color-text;
-    }
-  }
-
-  // Glossary Entries
-  .entry {
-    font-weight: $font-weight-semibold;
-  }
-
-  // Pages
-  .page {
-    font-weight: $font-weight-semibold;
-  }
-
-  // Keys
-  .key {
-    padding: 0.0625rem 0.25rem;
-
-    font-family: $font-family-monospace;
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: $font-weight-semibold;
-    white-space: nowrap;
-
-    border-radius: $border-radius;
-  }
-
+    larger: #4545d0, // violet
+    smaller: #f032e6, // magenta
+    equal: #10dbc9, // cyan
+
+    nr: #cccccc, // grey-light50
+  )
+);
+
+// Key colors
+.dec-content {
   // Keys: Objective
   .key[class~="amount"],
   .key[class~="objectivevalue"] {
-    background-color: htd-color-light(a);
+    background-color: dec-color-light(a);
   }
 
   .key[class~="delay"] {
-    background-color: htd-color-light(d);
+    background-color: dec-color-light(d);
   }
 
   // Keys: Subjective
   .key[class~="value"],
   .key[class~="subjectivevalue"] {
-    background-color: htd-color-light(v);
+    background-color: dec-color-light(v);
   }
 
   // Keys: Responses
   .key[class~="sooner"] {
-    background-color: htd-color-light(sooner);
+    background-color: dec-color-light(sooner);
   }
 
   .key[class~="later"] {
-    background-color: htd-color-light(later);
+    background-color: dec-color-light(later);
   }
 
   // Keys: Parameters
   .key[class~="k"] {
     /* purgecss ignore current */
-    background-color: htd-color-light(k);
+    background-color: dec-color-light(k);
   }
 
   // Keys: Outcomes
   .key[class~="larger"] {
-    background-color: htd-color-light(larger);
+    background-color: dec-color-light(larger);
   }
 
   .key[class~="smaller"] {
-    background-color: htd-color-light(smaller);
+    background-color: dec-color-light(smaller);
   }
 
   .key[class~="equal"] {
-    background-color: htd-color-light(equal);
+    background-color: dec-color-light(equal);
   }
 
   .key[class~="noresponse"] {
-    background-color: htd-color-light(nr);
+    background-color: dec-color-light(nr);
     border: 1px solid $color-element-emphasis;
-  }
-  
-  // UI Components
-  .button,
-  .prompt,
-  .slider,
-  .switch,
-  .toggle {
-    padding: 0.0625rem 0.25rem;
-
-    font-family: $font-family-monospace;
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: $font-weight-semibold;
-    white-space: nowrap;
-
-    background-color: $color-element-background;
-    border-radius: $border-radius;
-  }
-
-  // UI: Buttons
-  .button {
-    color: $color-text-inverse;
-
-    background-color: $color-element-enabled;
-  }
-
-  // UI: Prompts
-  .prompt {
-    background-color: $color-element-disabled;
-
-    border: 2px solid $color-element-emphasis;
-    border-radius: 1rem;
-  }
-
-  // UI: Sliders
-  .slider {
-    position: relative;
-
-    padding-right: 1.5rem;
-
-    background-color: $color-grey-light50;
-  }
-
-  .slider::before {
-    position: absolute;
-
-    top: 0;
-    right: 0.625rem;
-
-    width: 0.25rem;
-    height: 1.375rem;
-
-    content: "";
-
-    background-color: $color-grey-light25;
-    border-width: 0.125rem;
-  }
-
-  .slider::after {
-    position: absolute;
-
-    top: 0.4rem;
-    right: 0.125rem;
-
-    width: 1.25rem;
-    height: 0.625rem;
-
-    content: "";
-
-    background-color: $color-element-enabled;
-    border-width: 0.25rem;
-    border-radius: 0.25rem;
-  }
-
-  // UI: Switches
-  .switch {
-    position: relative;
-
-    padding-right: 1rem;
-
-    background-color: $color-grey-light50;
-  }
-
-  .switch::before {
-    position: absolute;
-
-    top: 0.125rem;
-    right: 0.375rem;
-
-    width: 0.25rem;
-    height: 1.125rem;
-
-    content: "";
-
-    background-color: $color-grey-light25;
-    border-width: 0.125rem;
-    border-radius: 0.25rem;
-  }
-
-  .switch::after {
-    position: absolute;
-
-    top: 0.125rem;
-    right: 0.1875rem;
-
-    width: 0.625rem;
-    height: 0.625rem;
-
-    content: "";
-
-    background-color: $color-element-enabled;
-    border-width: 0.25rem;
-    border-radius: 0.5rem;
-  }
-
-  // UI: Toggles
-  .toggle {
-    position: relative;
-
-    padding-right: 1.5rem;
-
-    background-color: $color-grey-light50;
-  }
-
-  .toggle::before {
-    position: absolute;
-
-    top: 0.125rem;
-    right: 0.125rem;
-
-    width: 1.25rem;
-    height: 0.5625rem;
-
-    content: "";
-
-    background-color: $color-element-enabled;
-    border-width: 0.125rem;
-    border-radius: 0.25rem 0.25rem 0 0;
-  }
-
-  .toggle::after {
-    position: absolute;
-
-    top: 0.6875rem;
-    right: 0.125rem;
-
-    width: 1.25rem;
-    height: 0.5625rem;
-
-    content: "";
-
-    background-color: $color-grey-light25;
-    border-width: 0.25rem;
-    border-radius: 0 0 0.25rem 0.25rem;
-  }
-
-  // References
-  .csl-entry {
-    padding-left: 2rem;
-
-    text-indent: -2rem;
-  }
-
-  .csl-entry:last-of-type {
-    margin-bottom: 1rem;
-  }
+  }  
 }
 
-// Legend
-.dis-legend {
-  padding-left: 0;
-  
-  list-style: none;
-
-  li {
-    margin-bottom: 1rem;
-    margin-left: 2.5rem;
-  }
-
-  li::before {
-    display: inline-block;
-
-    width: 1.6875rem;
-    margin-right: 0.75rem;
-    margin-left: -2.5rem;
-
-    content: "\a0";
-
-    border-left-style: solid;
-    border-left-width: 0.5625rem;
-    border-radius: $border-radius;
-  }
-
+// Legend colors
+.dec-legend {
   .a::before {
-    background: htd-color-light(a);
-    border-left-color: htd-color(a);
+    background: dec-color-light(a);
+    border-left-color: dec-color(a);
   }
 
   .d::before {
-    background: htd-color-light(d);
-    border-left-color: htd-color(d);
+    background: dec-color-light(d);
+    border-left-color: dec-color(d);
   }
 
   .k::before {
-    background: htd-color-light(k);
-    border-left-color: htd-color(k);
+    background: dec-color-light(k);
+    border-left-color: dec-color(k);
   }
 
   .v::before {
-    background: htd-color-light(v);
-    border-left-color: htd-color(v);
+    background: dec-color-light(v);
+    border-left-color: dec-color(v);
   }
 
   .sooner::before {
-    background: htd-color-light(sooner);
-    border-left-color: htd-color(sooner);
+    background: dec-color-light(sooner);
+    border-left-color: dec-color(sooner);
   }
 
   .later::before {
-    background: htd-color-light(later);
-    border-left-color: htd-color(later);
+    background: dec-color-light(later);
+    border-left-color: dec-color(later);
   }
 
   .smaller::before {
-    background: htd-color-light(smaller);
-    border-left-color: htd-color(smaller);
+    background: dec-color-light(smaller);
+    border-left-color: dec-color(smaller);
   }
 
   .larger::before {
-    background: htd-color-light(larger);
-    border-left-color: htd-color(larger);
+    background: dec-color-light(larger);
+    border-left-color: dec-color(larger);
   }
 
   .equal::before {
-    background: htd-color-light(equal);
-    border-left-color: htd-color(equal);
+    background: dec-color-light(equal);
+    border-left-color: dec-color(equal);
   }
 
   .nr::before {
-    background: htd-color-light(nr);
-    border-left-color: htd-color(nr);
-  }
-}
-
-// Glossary
-.glossary {
-  margin-left: 2rem;
-
-  dt {
-    margin-left: -2rem;
-
-    font-weight: $font-weight-normal;
-  }
-
-  dt::after {
-    content: "";
-  }
-
-  dd {
-    margin-bottom: 0.25rem;
+    background: dec-color-light(nr);
+    border-left-color: dec-color(nr);
   }
 }

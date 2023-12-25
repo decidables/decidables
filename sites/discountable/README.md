@@ -4,7 +4,7 @@
 
 **NOT PUBLISHED YET!**
 
-[![GitHub version](https://img.shields.io/github/package-json/v/decidables/decidables?filename=sites%discountable%2Fpackage.json&logo=github)](https:/decidables.github.io/discountable)
+[![GitHub version](https://img.shields.io/github/package-json/v/decidables/decidables?filename=sites%2Fdiscountable%2Fpackage.json&logo=github)](https:/decidables.github.io/discountable)
 [![license](https://img.shields.io/github/package-json/license/decidables/decidables?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
 
 The website for [<b>dis<i>k</i>ountable</b>](https://decidables.github.io/discountable). This
