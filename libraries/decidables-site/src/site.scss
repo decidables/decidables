@@ -1,0 +1,769 @@
+// Built-in modules
+@use "sass:color";
+
+// Decidables modules
+@forward "fonts";
+@forward "colors";
+@forward "shadows";
+@forward "decorations";
+
+@use "fonts" as *;
+@use "colors" as *;
+@use "shadows" as *;
+@use "decorations" as *;
+
+// Bootstrap SASS settings
+$enable-rfs: false;
+$enable-dark-mode: false;
+
+// BOOTSTRAP IMPORTS
+// Refer to: https://getbootstrap.com/docs/5.3/customize/sass/
+
+// Bootstrap 5 Functions
+@import "~bootstrap/scss/functions";
+
+// Bootstrap 5 Variables
+@import "~bootstrap/scss/variables";
+
+// Bootstrap 5 Required
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/root";
+
+// Bootstrap 5 Optional
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/containers";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/transitions";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+
+// Bootstrap 5 Helpers
+@import "~bootstrap/scss/helpers";
+
+// Bootstrap 5 Utilities API
+@import "~bootstrap/scss/utilities/api";
+
+////////////////////////////////
+// SEMANTIC BOOTSTRAP
+// Content
+
+.math-var {
+  font-family: $font-family-math;
+  font-style: italic;
+}
+
+.math-greek {
+  font-family: $font-family-math;
+  font-style: normal;
+}
+
+.dec-site {
+  font-family: $font-family-sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+
+.decidables {
+  font-family: $font-family-sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+
+.bi.bi-arrow-left-short,
+.bi.bi-arrow-right-short {
+  width: 1.25rem;
+  height: 1.25rem;
+  
+  vertical-align: -0.3125rem;
+}
+
+.bi.bi-github {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.bi.bi-list {
+  width: 2rem;
+  height: 2rem;
+}
+
+.dec-heading {
+  .dec-heading-autolink {
+    padding-left: 0.25rem;
+
+    color: $color-text;
+
+    visibility: hidden;
+  }
+
+  &:hover .dec-heading-autolink {
+    visibility: visible;
+  }
+
+  .bi.bi-link-45deg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+// Top-level
+// Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
+.dec-html {
+  font-size: 1rem;
+}
+
+@include media-breakpoint-down(md) {
+  .dec-html {
+    font-size: 0.9rem;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .dec-html {
+    font-size: 0.8rem;
+  }
+}
+
+.dec-body {
+  font-size: 1.125rem;
+}
+
+.dec-page {
+  @include make-container();
+}
+
+.dec-layout {
+  @include make-row();
+}
+
+// Sidebar
+.dec-sidebar {
+  @include make-col-ready();
+  @include make-col(10, 10);
+
+  display: flex;
+
+  align-items: start;
+  justify-content: space-between;
+
+  border-bottom: $border;
+
+  @include media-breakpoint-up(md) {
+    @include make-col(2, 10);
+
+    flex-direction: column;
+    
+    align-items: stretch;
+
+    min-height: 100vh;
+
+    border-right: $border;
+    border-bottom: 0;
+
+    @supports (position: sticky) or (position: -webkit-sticky) {
+      position: -webkit-sticky; /* stylelint-disable-line value-no-vendor-prefix */
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      height: 100vh;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include make-col(2, 12);
+  }
+
+  @include media-breakpoint-up(xl) {
+    flex: 0 1 20rem;
+
+    max-width: calc(100% * 2 / 12);
+  }
+}
+
+.dec-nav-top {
+  position: relative;
+  display: flex;
+
+  align-items: center;
+
+  padding: 0.5rem;
+  margin-right: calc($grid-gutter-width / -2);
+  margin-left: calc($grid-gutter-width / -2);
+}
+
+.dec-nav-toggler {
+  @extend .btn;
+  @extend .btn-link;
+
+  padding: 0.1875rem 0.5rem;
+  margin: 0;
+
+  line-height: 1;
+  color: $color-text;
+
+  border: 0;
+
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+
+  &:hover {
+    @include shadow(2);
+
+    color: $color-text;
+  }
+
+  &:focus {
+    @include shadow(2);
+
+    color: $color-text;
+  }
+
+  &:active {
+    @include shadow(4);
+
+    color: $color-text;
+  }
+}
+
+.dec-nav-brand {
+  @extend .navbar-brand;
+
+  padding: 0 0.5rem;
+  margin: 0;
+
+  font-size: 1.5rem;
+  color: $color-text;
+
+  border-radius: $border-radius;
+  outline: none;
+
+  &:hover {
+    @include shadow(2);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+
+  &:focus {
+    @include shadow(2);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+
+  &:active {
+    @include shadow(4);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+}
+
+.dec-nav-collapse {
+  padding-top: 0.25rem;
+  padding-bottom: 0.5rem;
+  margin-right: calc($grid-gutter-width / -2);
+  margin-left: calc($grid-gutter-width / -2);
+
+  @include media-breakpoint-up(md) {
+    @supports (position: sticky) {
+      max-height: calc(100vh - 6.3125rem);
+      overflow-y: auto;
+    }
+  }
+  // Override collapse behaviors
+  @include media-breakpoint-up(md) {
+    display: block !important;
+  }
+}
+
+.dec-toc,
+.dec-toc-section {
+  @extend .nav;
+
+  display: block;
+}
+
+.dec-toc-section-name {
+  padding-top: 0.75rem;
+  padding-left: 1rem;
+
+  font-weight: $font-weight-semibold;
+  font-variant: small-caps;
+  color: $color-link;
+}
+
+// .dec-toc-list {
+// }
+
+.dec-toc-text,
+.dec-toc-link {
+  display: block;
+
+  padding: 0.25rem 0.5rem;
+
+  font-size: 1rem;
+  font-weight: $font-weight-semibold;
+  line-height: 1;
+  color: $color-link;
+
+  border-radius: $border-radius;
+}
+
+.dec-toc-link {
+  outline: none;
+
+  &:hover {
+    @include shadow(2);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+
+  &:focus {
+    @include shadow(2);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+
+  &:active {
+    @include shadow(4);
+
+    color: $color-text;
+    text-decoration: none;
+  }
+
+}
+
+.dec-toc-item .dec-toc-text,
+.dec-toc-item .dec-toc-link {
+  padding: 0.375rem 0.5rem;
+  margin: 0 0.5rem;
+}
+
+.dec-toc-item-active .dec-toc-link,
+.dec-toc-item-active:hover .dec-toc-link {
+  font-weight: $font-weight-bold;
+  color: $color-text;
+}
+
+.dec-nav-bottom {
+  padding: 0.75rem 0.5rem;
+  margin-right: calc($grid-gutter-width / -2);
+  margin-left: calc($grid-gutter-width / -2);
+
+  font-size: 1.5rem;
+
+  background-color: $color-background-inverse;
+
+  @include media-breakpoint-up(md) {
+    padding: 0.5625rem 0.5rem;
+  }
+}
+
+.dec-nav-decidables {
+  display: block;
+
+  padding: 0 0.5rem;
+  margin: 0;
+
+  font-size: 1.25rem;
+  color: $color-text-inverse;
+
+  &:hover {
+    color: $color-text-inverse;
+    text-decoration: underline;
+  }
+}
+
+// Main
+.dec-main {
+  @include make-col-ready();
+  @include make-col(10, 10);
+
+  padding-top: 1rem;
+  padding-bottom: 0.625rem;
+
+  @include media-breakpoint-up(md) {
+    @include make-col(8, 10);
+  }
+
+  @include media-breakpoint-up(lg) {
+    @include make-col(10, 12);
+  }
+
+  @include media-breakpoint-up(xl) {
+    @include make-col(9, 12);
+    border-right: $border;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    @include make-col(8, 12);
+    border-right: $border;
+  }
+}
+
+// Index Page
+.dec-index-header {
+  @extend .row, .g-4, .py-4, .justify-content-center;
+}
+
+.dec-index-titles {
+  @extend .col-11;
+}
+
+.dec-index-title {
+  @extend .display-1, .fw-bold, .text-center;
+}
+
+.dec-index-subtitle {
+  @extend .h2, .text-center, .fw-semibold, .font-serif;
+}
+
+.dec-index-demo {
+  @extend .col-11, .text-center;
+  
+  // decision-task {
+  //   width: ????;
+  //   height: ????;
+  // }
+}
+
+.dec-index-lead {
+  @extend .col-11, .col-md-10, .col-xxl-8, .mt-4, .mb-0, .fw-normal, .lead, .text-center;
+}
+
+// Header
+// .dec-header {
+// }
+
+.dec-title {
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+// Footer
+.dec-footer {
+  @include make-row();
+
+  padding-top: 0.625rem;
+
+  border-top: $border;
+}
+
+.dec-footer-item {
+  @include make-col-ready();
+
+  flex: 0 0 auto;
+
+  width: auto;
+  max-width: none;
+  padding: 0 0.5rem;
+
+  font-size: 1rem;
+  font-weight: $font-weight-semibold;
+  line-height: 1;
+
+  &.dec-footer-item-left {
+    margin-right: auto;
+  }
+}
+
+// Page Content
+.dec-content {
+  padding-bottom: 1rem;
+
+  h2 {
+    padding-top: 1rem;
+
+    font-family: $font-family-serif;
+  }
+
+  code {
+    padding: 0.125rem 0.25rem;
+
+    color: revert;
+
+    background-color: $color-element-background;
+    border-radius: $border-radius;
+  }
+
+  dt {
+    font-weight: $font-weight-semibold;
+  }
+
+  dt::after {
+    content: ":";
+  }
+
+  dd {
+    margin-bottom: 1rem;
+  }
+
+  // UI Notes
+  .ui-note {
+    padding: 0.625rem;
+    margin-bottom: 1rem;
+
+    background-color: color.mix($color-white, $color-grey, 82.5%);
+    border: $color-border solid 1px;
+    border-radius: $border-radius;
+
+    p:last-child { /* stylelint-disable-line max-nesting-depth */
+      margin-bottom: 0;
+    }
+  }
+
+  // Terms
+  .term {
+    font-weight: $font-weight-bold;
+    color: $color-text;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: underline dashed 1px $color-text;
+    }
+  }
+
+  // Glossary Entries
+  .entry {
+    font-weight: $font-weight-semibold;
+  }
+
+  // Pages
+  .page {
+    font-weight: $font-weight-semibold;
+  }
+
+  // Keys
+  .key {
+    padding: 0.0625rem 0.25rem;
+
+    font-family: $font-family-monospace;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: $font-weight-semibold;
+    white-space: nowrap;
+
+    border-radius: $border-radius;
+  }
+  // UI Components
+  .button,
+  .prompt,
+  .slider,
+  .switch,
+  .toggle {
+    padding: 0.0625rem 0.25rem;
+
+    font-family: $font-family-monospace;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: $font-weight-semibold;
+    white-space: nowrap;
+
+    background-color: $color-element-background;
+    border-radius: $border-radius;
+  }
+
+  // UI: Buttons
+  .button {
+    color: $color-text-inverse;
+
+    background-color: $color-element-enabled;
+  }
+
+  // UI: Prompts
+  .prompt {
+    background-color: $color-element-disabled;
+
+    border: 2px solid $color-element-emphasis;
+    border-radius: 1rem;
+  }
+
+  // UI: Sliders
+  .slider {
+    position: relative;
+
+    padding-right: 1.5rem;
+
+    background-color: $color-grey-light50;
+  }
+
+  .slider::before {
+    position: absolute;
+
+    top: 0;
+    right: 0.625rem;
+
+    width: 0.25rem;
+    height: 1.375rem;
+
+    content: "";
+
+    background-color: $color-grey-light25;
+    border-width: 0.125rem;
+  }
+
+  .slider::after {
+    position: absolute;
+
+    top: 0.4rem;
+    right: 0.125rem;
+
+    width: 1.25rem;
+    height: 0.625rem;
+
+    content: "";
+
+    background-color: $color-element-enabled;
+    border-width: 0.25rem;
+    border-radius: 0.25rem;
+  }
+
+  // UI: Switches
+  .switch {
+    position: relative;
+
+    padding-right: 1rem;
+
+    background-color: $color-grey-light50;
+  }
+
+  .switch::before {
+    position: absolute;
+
+    top: 0.125rem;
+    right: 0.375rem;
+
+    width: 0.25rem;
+    height: 1.125rem;
+
+    content: "";
+
+    background-color: $color-grey-light25;
+    border-width: 0.125rem;
+    border-radius: 0.25rem;
+  }
+
+  .switch::after {
+    position: absolute;
+
+    top: 0.125rem;
+    right: 0.1875rem;
+
+    width: 0.625rem;
+    height: 0.625rem;
+
+    content: "";
+
+    background-color: $color-element-enabled;
+    border-width: 0.25rem;
+    border-radius: 0.5rem;
+  }
+
+  // UI: Toggles
+  .toggle {
+    position: relative;
+
+    padding-right: 1.5rem;
+
+    background-color: $color-grey-light50;
+  }
+
+  .toggle::before {
+    position: absolute;
+
+    top: 0.125rem;
+    right: 0.125rem;
+
+    width: 1.25rem;
+    height: 0.5625rem;
+
+    content: "";
+
+    background-color: $color-element-enabled;
+    border-width: 0.125rem;
+    border-radius: 0.25rem 0.25rem 0 0;
+  }
+
+  .toggle::after {
+    position: absolute;
+
+    top: 0.6875rem;
+    right: 0.125rem;
+
+    width: 1.25rem;
+    height: 0.5625rem;
+
+    content: "";
+
+    background-color: $color-grey-light25;
+    border-width: 0.25rem;
+    border-radius: 0 0 0.25rem 0.25rem;
+  }
+
+  // References
+  .csl-entry {
+    padding-left: 2rem;
+
+    text-indent: -2rem;
+  }
+
+  .csl-entry:last-of-type {
+    margin-bottom: 1rem;
+  }
+}
+
+// Legend
+.dec-legend {
+  padding-left: 0;
+  
+  list-style: none;
+
+  li {
+    margin-bottom: 1rem;
+    margin-left: 2.5rem;
+  }
+
+  li::before {
+    display: inline-block;
+
+    width: 1.6875rem;
+    margin-right: 0.75rem;
+    margin-left: -2.5rem;
+
+    content: "\a0";
+
+    border-left-style: solid;
+    border-left-width: 0.5625rem;
+    border-radius: $border-radius;
+  }
+}
+
+// Glossary
+.glossary {
+  margin-left: 2rem;
+
+  dt {
+    margin-left: -2rem;
+
+    font-weight: $font-weight-normal;
+  }
+
+  dt::after {
+    content: "";
+  }
+
+  dd {
+    margin-bottom: 0.25rem;
+  }
+}
