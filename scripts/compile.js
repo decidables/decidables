@@ -142,10 +142,10 @@ export function compileMarkdown() {
           linkIcon,
           {fragment: true},
         ).children,
-        headingProperties: {class: 'heading'},
+        headingProperties: {class: 'dec-heading'},
         properties: {
           ariaHidden: true,
-          class: 'heading-autolink',
+          class: 'dec-heading-autolink',
           tabIndex: -1,
         },
       })
@@ -232,6 +232,7 @@ export async function compileScripts() {
 export function compileStyles() {
   return gulp.src('src/*.scss', {sourcemaps: true})
     .pipe(gulpDartSass({importer: nodeSassPackageImporter()}).on('error', gulpDartSass.logError))
+    // .pipe(gulpDartSass({loadPaths: ['../../node_modules']}).on('error', gulpDartSass.logError))
     .pipe(gulp.dest('local', {sourcemaps: '.'}))
     .pipe(gulpNotify({title: 'Gulp: compileStyles done!', message: ' ', onLast: true}));
 }
