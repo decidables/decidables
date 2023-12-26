@@ -8,7 +8,7 @@ script: page
 
 ### Objective 
 
-<ul class="pro-legend">
+<ul class="dec-legend">
   <li class="x">
     <span class="key value">Value</span>
     (<span class="key objectivevalue">Objective Value</span>)
@@ -20,7 +20,7 @@ script: page
 
 ### Subjective
 
-<ul class="pro-legend">
+<ul class="dec-legend">
   <li class="v">
     <span class="key subjectivevalue">Subjective value</span>
   </li>
@@ -35,7 +35,7 @@ script: page
 
 ### Response
 
-<ul class="pro-legend">
+<ul class="dec-legend">
   <li class="chosen">
     <span class="key chosen">Chosen</span>
   </li>
@@ -43,7 +43,7 @@ script: page
 
 ### Outcomes
 
-<ul class="pro-legend">
+<ul class="dec-legend">
   <li class="better">
     <span class="key better">Better</span>
   </li>
@@ -66,7 +66,7 @@ script: page
 
 ### Parameters
 
-<ul class="pro-legend">
+<ul class="dec-legend">
   <li class="a">
     <span class="key α">α</span>
   </li>

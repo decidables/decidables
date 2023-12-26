@@ -26,6 +26,7 @@
     "gulp": "^4.0.2"
   },
   "dependencies": {
+    "@decidables/decidables-site": "^0.0.0",
     "@decidables/prospectable-elements": "^0.2.8",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.2",
