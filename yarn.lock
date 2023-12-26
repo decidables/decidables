@@ -1645,7 +1645,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/decidables-site@workspace:^, @decidables/decidables-site@workspace:libraries/decidables-site":
+"@decidables/decidables-site@npm:^0.0.0, @decidables/decidables-site@workspace:libraries/decidables-site":
   version: 0.0.0-use.local
   resolution: "@decidables/decidables-site@workspace:libraries/decidables-site"
   dependencies:
@@ -1700,6 +1700,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/detectable@workspace:sites/detectable"
   dependencies:
+    "@decidables/decidables-site": "npm:^0.0.0"
     "@decidables/detectable-elements": "npm:^0.2.8"
     bootstrap: "npm:^5.3.2"
     bootstrap-icons: "npm:^1.11.2"
@@ -1743,7 +1744,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/discountable@workspace:sites/discountable"
   dependencies:
-    "@decidables/decidables-site": "workspace:^"
+    "@decidables/decidables-site": "npm:^0.0.0"
     "@decidables/discountable-elements": "npm:^0.3.1"
     bootstrap: "npm:^5.3.2"
     bootstrap-icons: "npm:^1.11.2"
@@ -1791,6 +1792,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable@workspace:sites/prospectable"
   dependencies:
+    "@decidables/decidables-site": "npm:^0.0.0"
     "@decidables/prospectable-elements": "npm:^0.2.8"
     bootstrap: "npm:^5.3.2"
     bootstrap-icons: "npm:^1.11.2"
