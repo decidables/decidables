@@ -316,6 +316,25 @@ $transition-duration: 500ms;
   vertical-align: -0.1875rem;
 }
 
+.dec-heading {
+  .dec-heading-autolink {
+    padding-left: 0.25rem;
+
+    color: $color-text;
+
+    visibility: hidden;
+  }
+
+  &:hover .dec-heading-autolink {
+    visibility: visible;
+  }
+
+  .bi.bi-link-45deg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
 // Top-level
 // Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
 .dec-html {
