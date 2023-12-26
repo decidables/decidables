@@ -8,7 +8,7 @@ script: page
 
 ### Stimuli 
 
-<ul class="det-legend">
+<ul class="dec-legend">
   <li class="hr">
     <span class="key signal">Signal</span>
     (Signal <span class="key present">Present</span>)
@@ -31,7 +31,7 @@ script: page
 
 ### Responses
 
-<ul class="det-legend">
+<ul class="dec-legend">
   <li class="present">
     <span class="key 'present'">'Present'</span>
     <div class="related">
@@ -50,7 +50,7 @@ script: page
 
 ### Outcomes
 
-<ul class="det-legend">
+<ul class="dec-legend">
   <li class="correct">
     <span class="key correct">Correct</span>
   </li>
@@ -80,7 +80,7 @@ script: page
 
 ### Rates
 
-<ul class="det-legend">
+<ul class="dec-legend">
   <li class="acc">
     <span class="key accuracy">Accuracy</span>
   </li>
@@ -120,7 +120,7 @@ script: page
 
 ### Distributions 
 
-<ul class="det-legend">
+<ul class="dec-legend">
   <li class="hr">
     <span class="key signal+noisedistribution">Signal + Noise Distribution</span>
     <div class="related">
@@ -143,7 +143,7 @@ script: page
 
 ### Parameters
 
-<ul class="det-legend">
+<ul class="dec-legend">
   <li class="d">
     <span class="key sensitivity">Sensitivity</span>
     (<span class="key sensitivity"><var class="math-var">d′</var></span>)
@@ -166,7 +166,7 @@ script: page
 
 ### Iso-Curves
 
-<ul class="det-legend">
+<ul class="dec-legend">
   <li class="d">
     <span class="key iso-sensitivitycurve">Iso-Sensitivity Curve</span>
     <div class="related">
