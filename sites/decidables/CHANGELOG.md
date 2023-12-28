@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.7.2...@decidables/decidables@0.8.0) (2023-12-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* **decidables:** adding dependency on decidables-site
+
+### Features
+
+* **decidables:** implement autolink headings ([d4d1315](https://github.com/decidables/decidables/commit/d4d1315ac2de8d55aa65c078fd392c263472b4fd))
+* **decidables:** use decidables-site for styles ([9c0390d](https://github.com/decidables/decidables/commit/9c0390d385bf7ad1eff489c059b583800ececf21))
+
+
+
 ## [0.7.2](https://github.com/decidables/decidables/compare/@decidables/decidables@0.7.1...@decidables/decidables@0.7.2) (2023-12-05)
 
 **Note:** Version bump only for package @decidables/decidables

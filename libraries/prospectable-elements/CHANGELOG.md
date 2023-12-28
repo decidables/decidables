@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.9](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.2.8...@decidables/prospectable-elements@0.2.9) (2023-12-28)
+
+
+### Bug Fixes
+
+* **prospectable-elements:** update plotly style ([5f36519](https://github.com/decidables/decidables/commit/5f36519710aada16202c714df9e419c57041f4b1))
+
+
+
 ## [0.2.8](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.2.7...@decidables/prospectable-elements@0.2.8) (2023-12-05)
 
 

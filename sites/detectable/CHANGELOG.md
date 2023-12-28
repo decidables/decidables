@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.9.11...@decidables/detectable@0.10.0) (2023-12-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* **detectable:** depend on decidables-site
+
+### Features
+
+* **detectable:** use decidables-site for styles and page template ([d6573a8](https://github.com/decidables/decidables/commit/d6573a8da63eb7bd4cce684db1ac870a13f96e5d))
+
+
+
 ## [0.9.11](https://github.com/decidables/decidables/compare/@decidables/detectable@0.9.10...@decidables/detectable@0.9.11) (2023-12-05)
 
 **Note:** Version bump only for package @decidables/detectable

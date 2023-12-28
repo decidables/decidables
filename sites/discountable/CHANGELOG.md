@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/discountable@0.2.1...@decidables/discountable@0.3.0) (2023-12-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* **discountable:** Use shared styles and template
+
+### Features
+
+* **discountable:** use decidables-site styles and template ([807bf20](https://github.com/decidables/decidables/commit/807bf20b77ce04749885dd579c25fa8de07620b8))
+
+
+### Bug Fixes
+
+* **discountable:** fix text title for site ([c6a73ab](https://github.com/decidables/decidables/commit/c6a73abe9f537e55bf55778db8f71628e33e950a))
+
+
+
 ## [0.2.1](https://github.com/decidables/decidables/compare/@decidables/discountable@0.2.0...@decidables/discountable@0.2.1) (2023-12-05)
 
 **Note:** Version bump only for package @decidables/discountable
