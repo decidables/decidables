@@ -1,7 +1,7 @@
-// Built-in modules
+// Built-in Modules
 @use "sass:color";
 
-// Decidables modules
+// Decidables Modules
 @forward "fonts";
 @forward "colors";
 @forward "shadows";
@@ -12,7 +12,7 @@
 @use "shadows" as *;
 @use "decorations" as *;
 
-// Bootstrap SASS settings
+// Bootstrap SASS Settings
 $enable-rfs: false;
 $enable-dark-mode: false;
 
@@ -48,10 +48,7 @@ $enable-dark-mode: false;
 // Bootstrap 5 Utilities API
 @import "~bootstrap/scss/utilities/api";
 
-////////////////////////////////
-// SEMANTIC BOOTSTRAP
-// Content
-
+// CONTENT
 .math-var {
   font-family: $font-family-math;
   font-style: italic;
@@ -111,7 +108,7 @@ $enable-dark-mode: false;
   }
 }
 
-// Top-level
+// Top-Level
 // Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
 .dec-html {
   font-size: 1rem;

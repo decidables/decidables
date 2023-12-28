@@ -1,6 +1,6 @@
-// Decidables module
+// Decidables Module
 @use "~@decidables/decidables-site/src/site" as * with (
-  // Custom colors
+  // Custom Colors
   // http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
   $color-map: (
     h: #4daf4a, // green (CB3)
@@ -26,7 +26,7 @@
   )
 );
 
-// Key colors
+// Key Colors
 .dec-content {
   // Keys: Stimuli
   .key[class~="signal"],
@@ -172,7 +172,7 @@
   }
 }
 
-// Legend colors
+// Legend Colors
 .dec-legend {
   .h::before {
     background: dec-color-light(h);
