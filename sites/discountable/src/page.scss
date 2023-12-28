@@ -1,6 +1,6 @@
-// Decidables module
+// Decidables Module
 @use "~@decidables/decidables-site/src/site" as * with (
-  // Custom colors
+  // Custom Colors
   // http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
   $color-map: (
     a: #e41a1c, // red (CB1)
@@ -19,7 +19,7 @@
   )
 );
 
-// Key colors
+// Key Colors
 .dec-content {
   // Keys: Objective
   .key[class~="amount"],
@@ -71,7 +71,7 @@
   }  
 }
 
-// Legend colors
+// Legend Colors
 .dec-legend {
   .a::before {
     background: dec-color-light(a);

@@ -1,9 +1,9 @@
 // FONTS
 
-// Built-in modules
+// Built-in Modules
 @use "sass:list";
 
-// Font files
+// Font Files
 $font-map: (
   // filename: (family, style, weight, stretch)
   SourceCodePro-Regular: ("Source Code", normal, 400, normal),
@@ -47,7 +47,7 @@ $font-map: (
   }
 }
 
-// SASS variables
+// SASS Variables
 $font-family-serif: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
 $font-family-sans-serif: "Source Sans Variable", "Source Sans", sans-serif;
 $font-family-monospace: "Source Code Variable", "Source Code", monospace;
@@ -62,7 +62,7 @@ $font-weight-bold: 700;
 
 $font-size-main: 1.125rem; // Not in Bootstrap
 
-// CSS variables
+// CSS Variables
 :root { /* stylelint-disable-line no-duplicate-selectors */
   --font-family-base: #{$font-family-base};
   --font-family-math: #{$font-family-math};
@@ -72,7 +72,7 @@ $font-size-main: 1.125rem; // Not in Bootstrap
   --font-family-monospace: #{$font-family-monospace};
 }
 
-// Bootstrap utility
+// Bootstrap Utility
 $utilities: (
   "font-family": (
     property: font-family,

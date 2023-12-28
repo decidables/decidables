@@ -1,13 +1,13 @@
 // COLOR
 
-// Built-in modules
+// Built-in Modules
 @use "sass:color";
 @use "sass:map";
 
-// Default params
+// Default Params
 $color-map: () !default;
 
-// Color functions
+// Color Functions
 @function dec-color($name) {
   @return map.get($color-map, $name);
 }
@@ -20,7 +20,7 @@ $color-map: () !default;
   @return color.mix(#000000, map.get($color-map, $name), 50%);
 }
 
-// Color definitions
+// Color Definitions
 $color-white: #ffffff; // 100% lightness #ffffff
 $color-grey: #999999; // 60% lightness #999999
 $color-black: #000000;  // 0% lightness #000000
@@ -31,14 +31,14 @@ $color-grey-dark25: color.mix($color-black, $color-grey, 25%); // 45% lightness 
 $color-grey-dark50: color.mix($color-black, $color-grey, 50%); // 30% lightness #4d4d4d
 $color-grey-dark75: color.mix($color-black, $color-grey, 75%); // 15% lightness #262626
 
-// Bootstrap SASS variables
+// Bootstrap SASS Variables
 $body-bg: $color-white;
 $border-color: $color-grey-light75;
 $body-color: $color-grey-dark75;
 $link-color: $color-grey-dark25;
 $link-hover-color: $color-grey-dark50;
 
-// SASS variables
+// SASS Variables
 $color-background: #{$body-bg};
 $color-background-inverse: #{$body-color};
 $color-border: #{$border-color};
@@ -52,7 +52,7 @@ $color-element-selected: #{$color-grey};
 $color-element-border: #{$color-grey-dark50};
 $color-element-emphasis: #{$color-grey-dark75};
 
-// CSS variables
+// CSS Variables
 :root {
   @each $name in map-keys($color-map) {
     --color-#{$name}: #{dec-color($name)};
