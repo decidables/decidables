@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.6.11...@decidables/prospectable@0.7.0) (2023-12-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* **prospectable:** depend on decidables-site
+
+### Features
+
+* **prospectable:** use decidables-site for styles and page template ([f1543f6](https://github.com/decidables/decidables/commit/f1543f67429a971a5ee65afcad87a757b4b94c96))
+
+
+
 ## [0.6.11](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.6.10...@decidables/prospectable@0.6.11) (2023-12-05)
 
 **Note:** Version bump only for package @decidables/prospectable

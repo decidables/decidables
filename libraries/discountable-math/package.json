@@ -1,6 +1,6 @@
 {
   "name": "@decidables/discountable-math",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "discountable-math: Equations for calculating Hyperbolic Temporal Discounting",
   "keywords": [
     "explorable explanation",
