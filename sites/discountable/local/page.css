@@ -1,5 +1,19 @@
 @charset "UTF-8";
 @font-face {
+  src: url("fonts/SourceCodePro-Light.otf.woff2") format("woff2"), url("fonts/SourceCodePro-Light.otf.woff") format("woff");
+  font-family: "Source Code";
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: normal;
+}
+@font-face {
+  src: url("fonts/SourceCodePro-LightIt.otf.woff2") format("woff2"), url("fonts/SourceCodePro-LightIt.otf.woff") format("woff");
+  font-family: "Source Code";
+  font-style: italic;
+  font-weight: 300;
+  font-stretch: normal;
+}
+@font-face {
   src: url("fonts/SourceCodePro-Regular.otf.woff2") format("woff2"), url("fonts/SourceCodePro-Regular.otf.woff") format("woff");
   font-family: "Source Code";
   font-style: normal;
@@ -42,6 +56,20 @@
   font-stretch: normal;
 }
 @font-face {
+  src: url("fonts/SourceSans3-Light.otf.woff2") format("woff2"), url("fonts/SourceSans3-Light.otf.woff") format("woff");
+  font-family: "Source Sans";
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: normal;
+}
+@font-face {
+  src: url("fonts/SourceSans3-LightIt.otf.woff2") format("woff2"), url("fonts/SourceSans3-LightIt.otf.woff") format("woff");
+  font-family: "Source Sans";
+  font-style: italic;
+  font-weight: 300;
+  font-stretch: normal;
+}
+@font-face {
   src: url("fonts/SourceSans3-Regular.otf.woff2") format("woff2"), url("fonts/SourceSans3-Regular.otf.woff") format("woff");
   font-family: "Source Sans";
   font-style: normal;
@@ -81,6 +109,20 @@
   font-family: "Source Sans";
   font-style: italic;
   font-weight: 700;
+  font-stretch: normal;
+}
+@font-face {
+  src: url("fonts/SourceSerif4-Light.otf.woff2") format("woff2"), url("fonts/SourceSerif4-Light.otf.woff") format("woff");
+  font-family: "Source Serif";
+  font-style: normal;
+  font-weight: 300;
+  font-stretch: normal;
+}
+@font-face {
+  src: url("fonts/SourceSerif4-LightIt.otf.woff2") format("woff2"), url("fonts/SourceSerif4-LightIt.otf.woff") format("woff");
+  font-family: "Source Serif";
+  font-style: italic;
+  font-weight: 300;
   font-stretch: normal;
 }
 @font-face {
@@ -225,6 +267,76 @@
   --border: 1px solid #e6e6e6;
   --border-radius: 0.25rem;
   --transition-duration: 500ms;
+}
+
+.dec-body .bi.bi-arrow-left-short,
+.dec-body .bi.bi-arrow-right-short {
+  width: 1.25rem;
+  height: 1.25rem;
+  vertical-align: -0.3125rem;
+}
+.dec-body .bi.bi-github {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+.dec-body .bi.bi-link-45deg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.dec-body .bi.bi-list {
+  width: 2rem;
+  height: 2rem;
+}
+.dec-body .math-var {
+  font-family: "Source Serif Variable", "Source Serif", serif;
+  font-style: italic;
+}
+.dec-body .math-greek {
+  font-family: "Source Serif Variable", "Source Serif", serif;
+  font-style: normal;
+}
+.dec-body .decidables {
+  font-family: "Source Sans Variable", "Source Sans", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.dec-body .dec-site {
+  font-family: "Source Sans Variable", "Source Sans", sans-serif;
+  font-style: normal;
+  font-weight: bold;
+}
+.dec-body .dec-heading {
+  /* stylelint-disable-next-line max-nesting-depth */
+}
+.dec-body .dec-heading .dec-heading-autolink {
+  padding-left: 0.25rem;
+  color: #262626;
+  visibility: hidden;
+}
+.dec-body .dec-heading:hover .dec-heading-autolink {
+  visibility: visible;
+}
+.dec-body .csl-entry {
+  padding-left: 2rem;
+  text-indent: -2rem;
+}
+.dec-body .csl-entry:last-of-type {
+  margin-bottom: 1rem;
+}
+.dec-body code {
+  padding: 0.125rem 0.25rem;
+  color: revert;
+  background-color: #e6e6e6;
+  border-radius: 0.25rem;
+}
+.dec-body dt {
+  font-weight: 600;
+}
+.dec-body dt::after {
+  content: ":";
+}
+.dec-body dd {
+  margin-bottom: 1rem;
 }
 
 :root,
@@ -4677,6 +4789,10 @@ progress {
   font-style: normal !important;
 }
 
+.fw-light {
+  font-weight: 300 !important;
+}
+
 .fw-normal, .dec-index-lead {
   font-weight: 400 !important;
 }
@@ -8226,58 +8342,6 @@ progress {
     display: none !important;
   }
 }
-.math-var {
-  font-family: "Source Serif Variable", "Source Serif", serif;
-  font-style: italic;
-}
-
-.math-greek {
-  font-family: "Source Serif Variable", "Source Serif", serif;
-  font-style: normal;
-}
-
-.dec-site {
-  font-family: "Source Sans Variable", "Source Sans", sans-serif;
-  font-style: normal;
-  font-weight: bold;
-}
-
-.decidables {
-  font-family: "Source Sans Variable", "Source Sans", sans-serif;
-  font-style: normal;
-  font-weight: bold;
-}
-
-.bi.bi-arrow-left-short,
-.bi.bi-arrow-right-short {
-  width: 1.25rem;
-  height: 1.25rem;
-  vertical-align: -0.3125rem;
-}
-
-.bi.bi-github {
-  width: 1.125rem;
-  height: 1.125rem;
-}
-
-.bi.bi-list {
-  width: 2rem;
-  height: 2rem;
-}
-
-.dec-heading .dec-heading-autolink {
-  padding-left: 0.25rem;
-  color: #262626;
-  visibility: hidden;
-}
-.dec-heading:hover .dec-heading-autolink {
-  visibility: visible;
-}
-.dec-heading .bi.bi-link-45deg {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
 .dec-html {
   font-size: 1rem;
 }
@@ -8603,21 +8667,6 @@ progress {
   padding-top: 1rem;
   font-family: "Source Serif Variable", "Source Serif", serif;
 }
-.dec-content code {
-  padding: 0.125rem 0.25rem;
-  color: revert;
-  background-color: #e6e6e6;
-  border-radius: 0.25rem;
-}
-.dec-content dt {
-  font-weight: 600;
-}
-.dec-content dt::after {
-  content: ":";
-}
-.dec-content dd {
-  margin-bottom: 1rem;
-}
 .dec-content .ui-note {
   padding: 0.625rem;
   margin-bottom: 1rem;
@@ -8752,13 +8801,6 @@ progress {
   background-color: #b3b3b3;
   border-width: 0.25rem;
   border-radius: 0 0 0.25rem 0.25rem;
-}
-.dec-content .csl-entry {
-  padding-left: 2rem;
-  text-indent: -2rem;
-}
-.dec-content .csl-entry:last-of-type {
-  margin-bottom: 1rem;
 }
 
 .dec-legend {
