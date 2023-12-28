@@ -6,18 +6,20 @@
 @forward "colors";
 @forward "shadows";
 @forward "decorations";
+@forward "content";
 
 @use "fonts" as *;
 @use "colors" as *;
 @use "shadows" as *;
 @use "decorations" as *;
+@use "content" as *;
+
+// BOOTSTRAP IMPORTS
+// Refer to: https://getbootstrap.com/docs/5.3/customize/sass/
 
 // Bootstrap SASS Settings
 $enable-rfs: false;
 $enable-dark-mode: false;
-
-// BOOTSTRAP IMPORTS
-// Refer to: https://getbootstrap.com/docs/5.3/customize/sass/
 
 // Bootstrap 5 Functions
 @import "~bootstrap/scss/functions";
@@ -48,65 +50,7 @@ $enable-dark-mode: false;
 // Bootstrap 5 Utilities API
 @import "~bootstrap/scss/utilities/api";
 
-// CONTENT
-.math-var {
-  font-family: $font-family-math;
-  font-style: italic;
-}
-
-.math-greek {
-  font-family: $font-family-math;
-  font-style: normal;
-}
-
-.dec-site {
-  font-family: $font-family-sans-serif;
-  font-style: normal;
-  font-weight: bold;
-}
-
-.decidables {
-  font-family: $font-family-sans-serif;
-  font-style: normal;
-  font-weight: bold;
-}
-
-.bi.bi-arrow-left-short,
-.bi.bi-arrow-right-short {
-  width: 1.25rem;
-  height: 1.25rem;
-  
-  vertical-align: -0.3125rem;
-}
-
-.bi.bi-github {
-  width: 1.125rem;
-  height: 1.125rem;
-}
-
-.bi.bi-list {
-  width: 2rem;
-  height: 2rem;
-}
-
-.dec-heading {
-  .dec-heading-autolink {
-    padding-left: 0.25rem;
-
-    color: $color-text;
-
-    visibility: hidden;
-  }
-
-  &:hover .dec-heading-autolink {
-    visibility: visible;
-  }
-
-  .bi.bi-link-45deg {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-}
+// SEMANTIC BOOTSTRAP
 
 // Top-Level
 // Responsive sizing (changes font size, but also margins, padding, etc... due to use of rem)
@@ -427,11 +371,6 @@ $enable-dark-mode: false;
 
 .dec-index-demo {
   @extend .col-11, .text-center;
-  
-  // decision-task {
-  //   width: ????;
-  //   height: ????;
-  // }
 }
 
 .dec-index-lead {
@@ -484,27 +423,6 @@ $enable-dark-mode: false;
     font-family: $font-family-serif;
   }
 
-  code {
-    padding: 0.125rem 0.25rem;
-
-    color: revert;
-
-    background-color: $color-element-background;
-    border-radius: $border-radius;
-  }
-
-  dt {
-    font-weight: $font-weight-semibold;
-  }
-
-  dt::after {
-    content: ":";
-  }
-
-  dd {
-    margin-bottom: 1rem;
-  }
-
   // UI Notes
   .ui-note {
     padding: 0.625rem;
@@ -553,6 +471,7 @@ $enable-dark-mode: false;
 
     border-radius: $border-radius;
   }
+
   // UI Components
   .button,
   .prompt,
@@ -706,17 +625,6 @@ $enable-dark-mode: false;
     background-color: $color-grey-light25;
     border-width: 0.25rem;
     border-radius: 0 0 0.25rem 0.25rem;
-  }
-
-  // References
-  .csl-entry {
-    padding-left: 2rem;
-
-    text-indent: -2rem;
-  }
-
-  .csl-entry:last-of-type {
-    margin-bottom: 1rem;
   }
 }
 
