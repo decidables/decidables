@@ -1,267 +1,49 @@
-////////////////////////////////
-// BUILT-IN MODULES
+// Built-in Modules
 @use "sass:color";
 @use "sass:list";
 @use "sass:map";
 
-////////////////////////////////
-// BOOTSTRAP INITIAL IMPORTS
-// Bootstrap 5 Configuration
-@import "~bootstrap/scss/functions";
+// Decidables modules
+@use "~@decidables/decidables-site/src/fonts" as *;
+@use "~@decidables/decidables-site/src/colors" as *;
+@use "~@decidables/decidables-site/src/shadows" as *;
+@use "~@decidables/decidables-site/src/decorations" as *;
+@use "~@decidables/decidables-site/src/content" as *;
+
+// BOOTSTRAP IMPORTS
+// Refer to: https://getbootstrap.com/docs/5.3/customize/sass/
 
 // Bootstrap SASS settings
 $enable-rfs: false;
 $enable-dark-mode: false;
 
+// Bootstrap 5 Functions
+@import "~bootstrap/scss/functions";
+
+// Bootstrap 5 Variables
 @import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/maps";
-@import "~bootstrap/scss/mixins";
 
-////////////////////////////////
-// FONTS
-$font-map: (
-  // filename: (family, style, weight, stretch)
-  SourceCodePro-Light: ("Source Code", normal, 300, normal),
-  SourceCodePro-LightIt: ("Source Code", italic, 300, normal),
-  SourceCodePro-Regular: ("Source Code", normal, 400, normal),
-  SourceCodePro-It: ("Source Code", italic, 400, normal),
-  SourceCodePro-Semibold: ("Source Code", normal, 600, normal),
-  SourceCodePro-SemiboldIt: ("Source Code", italic, 600, normal),
-  SourceCodePro-Bold: ("Source Code", normal, 700, normal),
-  SourceCodePro-BoldIt: ("Source Code", italic, 700, normal),
-
-  SourceSans3-Light: ("Source Sans", normal, 300, normal),
-  SourceSans3-LightIt: ("Source Sans", italic, 300, normal),
-  SourceSans3-Regular: ("Source Sans", normal, 400, normal),
-  SourceSans3-It: ("Source Sans", italic, 400, normal),
-  SourceSans3-Semibold: ("Source Sans", normal, 600, normal),
-  SourceSans3-SemiboldIt: ("Source Sans", italic, 600, normal),
-  SourceSans3-Bold: ("Source Sans", normal, 700, normal),
-  SourceSans3-BoldIt: ("Source Sans", italic, 700, normal),
-
-  SourceSerif4-Light: ("Source Serif", normal, 300, normal),
-  SourceSerif4-LightIt: ("Source Serif", italic, 300, normal),
-  SourceSerif4-Regular: ("Source Serif", normal, 400, normal),
-  SourceSerif4-It: ("Source Serif", italic, 400, normal),
-  SourceSerif4-Semibold: ("Source Serif", normal, 600, normal),
-  SourceSerif4-SemiboldIt: ("Source Serif", italic, 600, normal),
-  SourceSerif4-Bold: ("Source Serif", normal, 700, normal),
-  SourceSerif4-BoldIt: ("Source Serif", italic, 700, normal),
-
-  SourceCodeVariable-Roman: ("Source Code Variable", normal, 200 900, normal),
-  SourceCodeVariable-Italic: ("Source Code Variable", italic, 200 900, normal),
-
-  SourceSans3VF-Roman: ("Source Sans Variable", normal, 200 900, normal),
-  SourceSans3VF-Italic: ("Source Sans Variable", italic, 200 900, normal),
-
-  SourceSerif4Variable-Roman: ("Source Serif Variable", normal, 200 900, normal),
-  SourceSerif4Variable-Italic: ("Source Serif Variable", italic, 200 900, normal),
-);
-
-@each $file, $font-list in $font-map {
-  @font-face {
-    src: url("fonts/#{$file}.otf.woff2") format("woff2"), url("fonts/#{$file}.otf.woff") format("woff");
-    font-family: list.nth($font-list, 1);
-    font-style: list.nth($font-list, 2);
-    font-weight: list.nth($font-list, 3);
-    font-stretch: list.nth($font-list, 4);
-  }
-}
-
-// SASS variables
-$font-family-serif: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
-$font-family-sans-serif: "Source Sans Variable", "Source Sans", sans-serif;
-$font-family-monospace: "Source Code Variable", "Source Code", monospace;
-
-$font-family-base: $font-family-sans-serif;
-$font-family-code: $font-family-monospace;
-$font-family-math: $font-family-serif; // Not in Bootstrap
-
-$font-weight-light: 300;
-$font-weight-normal: 400;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
-
-$font-size-main: 1.125rem; // Not in Bootstrap
-
-// CSS variables
-:root { /* stylelint-disable-line no-duplicate-selectors */
-  --font-family-base: #{$font-family-base};
-  --font-family-math: #{$font-family-math};
-  --font-family-code: #{$font-family-code};
-  --font-family-serif: #{$font-family-serif};
-  --font-family-sans-serif: #{$font-family-sans-serif};
-  --font-family-monospace: #{$font-family-monospace};
-}
-
-// Bootstrap utility
-$utilities: (
-  "font-family": (
-    property: font-family,
-    class: font,
-    values: (
-      serif: var(--font-family-serif),
-      sans-serif: var(--font-family-sans-serif),
-      monospace: var(--font-family-monospace),
-    ),
-  ),
-  "font-weight": (
-    property: font-weight,
-    class: fw,
-    values: (
-      light: $font-weight-light,
-      normal: $font-weight-normal,
-      semibold: $font-weight-semibold,
-      bold: $font-weight-bold,
-    ),
-  ),
-);
-
-////////////////////////////////
-// COLOR
-$color-white: #ffffff; // 100% lightness #ffffff
-$color-grey: #999999; // 60% lightness #999999
-$color-black: #000000;  // 0% lightness #000000
-$color-grey-light75: color.mix($color-white, $color-grey, 75%); // 90% lightness #e6e6e6
-$color-grey-light50: color.mix($color-white, $color-grey, 50%); // 80% lightness #cccccc
-$color-grey-light25: color.mix($color-white, $color-grey, 25%); // 70% lightness #b3b3b3
-$color-grey-dark25: color.mix($color-black, $color-grey, 25%); // 45% lightness #737373
-$color-grey-dark50: color.mix($color-black, $color-grey, 50%); // 30% lightness #4d4d4d
-$color-grey-dark75: color.mix($color-black, $color-grey, 75%); // 15% lightness #262626
-
-// Bootstrap SASS variables
-$body-bg: $color-white;
-$border-color: $color-grey-light75;
-$body-color: $color-grey-dark75;
-$link-color: $color-grey-dark25;
-$link-hover-color: $color-grey-dark50;
+// Colors Additions/Overrides
 $navbar-dark-color: $color-grey-light25;
 $navbar-dark-hover-color: $color-grey-light75;
 $navbar-dark-active-color: $color-white;
 
-// SASS variables
-$color-background: #{$body-bg};
-$color-border: #{$border-color};
-$color-text: #{$body-color};
-$color-text-inverse: #{$color-white};
-$color-link: #{$link-color};
-$color-element-background: #{$color-grey-light75};
-$color-element-disabled: #{$color-grey-light50};
-$color-element-enabled: #{$color-grey-dark25};
-$color-element-selected: #{$color-grey};
-$color-element-border: #{$color-grey-dark50};
-$color-element-emphasis: #{$color-grey-dark75};
-
-// CSS variables
-:root { /* stylelint-disable-line no-duplicate-selectors */
-  --color-background: #{$color-background};
-  --color-border: #{$color-border};
-  --color-text: #{$color-text};
-  --color-text-inverse: #{$color-text-inverse};
-  --color-link: #{$color-link};
-  --color-element-background: #{$color-element-background};
-  --color-element-disabled: #{$color-element-disabled};
-  --color-element-enabled: #{$color-element-enabled};
-  --color-element-selected: #{$color-element-selected};
-  --color-element-border: #{$color-element-border};
-  --color-element-emphasis: #{$color-element-emphasis};
-}
-
-////////////////////////////////
-// SHADOWS
-// Based on Material Design
-// https://github.com/material-components/material-components-web/tree/master/packages/mdc-elevation
-$shadow-baseline-color: #000000;
-$shadow-umbra-opacity: 0.2;
-$shadow-penumbra-opacity: 0.14;
-$shadow-ambient-opacity: 0.12;
-$shadow-opacity-boost: 0.2;
-$shadow-umbra-map: (
-  0: "0px 0px 0px 0px",
-  2: "1.5px 3px 1px -2px",
-  4: "1px 2px 4px -1px",
-  8: "2.5px 5px 5px -3px",
-  16: "4px 8px 10px -5px"
-);
-$shadow-penumbra-map: (
-  0: "0px 0px 0px 0px",
-  2: "1px 2px 2px 0px",
-  4: "2px 4px 5px 0px",
-  8: "4px 8px 10px 1px",
-  16: "8px 16px 24px 2px"
-);
-$shadow-ambient-map: (
-  0: "0px 0px 0px 0px",
-  2: "0.5px 1px 5px 0px",
-  4: "0.5px 1px 10px 0px",
-  8: "1.5px 3px 14px 2px",
-  16: "3px 6px 30px 5px"
-);
-
-@mixin shadow($shadow-level, $shadow-baseline-color: $shadow-baseline-color) {
-  $shadow-umbra: map.get($shadow-umbra-map, $shadow-level);
-  $shadow-penumbra: map.get($shadow-penumbra-map, $shadow-level);
-  $shadow-ambient: map.get($shadow-ambient-map, $shadow-level);
-
-  $shadow-umbra-color: rgba($shadow-baseline-color, $shadow-umbra-opacity + $shadow-opacity-boost);
-  $shadow-penumbra-color: rgba($shadow-baseline-color, $shadow-penumbra-opacity + $shadow-opacity-boost);
-  $shadow-ambient-color: rgba($shadow-baseline-color, $shadow-ambient-opacity + $shadow-opacity-boost);
-
-  box-shadow:
-    #{$shadow-umbra} #{$shadow-umbra-color},
-    #{$shadow-penumbra} #{$shadow-penumbra-color},
-    #{$shadow-ambient} #{$shadow-ambient-color};
-}
-
-////////////////////////////////
-// OTHER
-// Bootstrap SASS variables
-$border-radius: 0.25rem;
-$border-width: 1px;
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px,
-  xxl: 1560px
-);
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1590px
-);
+// Decorations Additions/Overrides
+$container-padding-x: 1.5rem;
 $grid-gutter-width: 3rem;
-$link-decoration: none;
-$link-hover-decoration: underline;
 $navbar-brand-margin-end: 0;
-
 // Compute the navbar-brand padding-y so the navbar-brand will have the same height as navbar-text and nav-link
 $nav-link-height: $font-size-main * $line-height-base + $nav-link-padding-y * 2;
 $navbar-brand-height: $navbar-brand-font-size * $line-height-base;
 $navbar-brand-padding-y: ($nav-link-height - $navbar-brand-height) * 0.5;
 
-// SASS variables
-$border: $border-width solid $border-color;
-$transition-duration: 500ms;
-
-// CSS variables
-:root { /* stylelint-disable-line no-duplicate-selectors */
-  --border: #{$border};
-  --border-radius: #{$border-radius};
-  --transition-duration: #{$transition-duration};
-}
-
-////////////////////////////////
-// BOOTSTRAP IMPORTS
-/* stylelint-disable no-invalid-position-at-import-rule */
-// Bootstrap 5 Configuration
-@import "~bootstrap/scss/utilities";
-
-// Bootstrap 5 Layout & components
+// Bootstrap 5 Required
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/root";
+
+// Bootstrap 5 Optional
+@import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
 @import "~bootstrap/scss/images";
@@ -277,62 +59,18 @@ $transition-duration: 500ms;
 // Bootstrap 5 Helpers
 @import "~bootstrap/scss/helpers";
 
-// Bootstrap 5 Utilities
+// Bootstrap 5 Utilities API
 @import "~bootstrap/scss/utilities/api";
-/* stylelint-enable no-invalid-position-at-import-rule */
 
-////////////////////////////////
 // SEMANTIC BOOTSTRAP
-// Content
-.math-var {
-  font-family: $font-family-math;
-  font-style: italic;
-}
 
-.math-greek {
-  font-family: $font-family-math;
-  font-style: normal;
-}
-
-.decidables {
-  font-family: $font-family-sans-serif;
-  font-style: normal;
-  font-weight: bold;
+// Content Additions/Overrides
+.bi.bi-github {
+  vertical-align: -0.1875rem;
 }
 
 .dec-disabled {
   @extend .text-opacity-50, .pe-none;
-}
-
-.bi.bi-list {
-  width: 2rem;
-  height: 2rem;
-}
-
-.bi.bi-github {
-  width: 1.125rem;
-  height: 1.125rem;
-
-  vertical-align: -0.1875rem;
-}
-
-.dec-heading {
-  .dec-heading-autolink {
-    padding-left: 0.25rem;
-
-    color: $color-text;
-
-    visibility: hidden;
-  }
-
-  &:hover .dec-heading-autolink {
-    visibility: visible;
-  }
-
-  .bi.bi-link-45deg {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
 }
 
 // Top-level
@@ -489,35 +227,8 @@ $transition-duration: 500ms;
     @extend .mb-1;
   }
 
-  code {
-    padding: 0.125rem 0.25rem;
-
-    color: revert;
-
-    background-color: $color-element-background;
-    border-radius: $border-radius;
-  }
-
-  dt {
-    font-weight: $font-weight-semibold;
-  }
-
-  dt::after {
-    content: ":";
-  }
-
-  dd {
-    margin-bottom: 1rem;
-  }
-
   .tool {
     font-weight: $font-weight-semibold;
-  }
-
-  .csl-entry {
-    padding-left: 2rem;
-  
-    text-indent: -2rem;
   }
 }
 

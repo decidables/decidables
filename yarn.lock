@@ -1657,6 +1657,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/decidables@workspace:sites/decidables"
   dependencies:
+    "@decidables/decidables-site": "npm:^0.0.0"
     "@decidables/detectable-elements": "npm:^0.2.8"
     "@decidables/discountable-elements": "npm:^0.3.1"
     "@decidables/prospectable-elements": "npm:^0.2.8"
