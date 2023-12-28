@@ -1330,18 +1330,6 @@ const o$2=e=>e??T;class DecidablesSlider extends DecidablesElement{static get pr
   margin-top: 8px;
   margin-right: -30px;
 }
-.js-plotly-plot .plotly .select-outline {
-  fill: none;
-  stroke-width: 1;
-  shape-rendering: crispEdges;
-}
-.js-plotly-plot .plotly .select-outline-1 {
-  stroke: white;
-}
-.js-plotly-plot .plotly .select-outline-2 {
-  stroke: black;
-  stroke-dasharray: 2px 2px;
-}
 
 .plotly-notifier {
   font-family: "Open Sans", verdana, arial, sans-serif;
