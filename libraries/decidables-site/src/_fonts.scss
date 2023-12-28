@@ -6,6 +6,8 @@
 // Font Files
 $font-map: (
   // filename: (family, style, weight, stretch)
+  SourceCodePro-Light: ("Source Code", normal, 300, normal),
+  SourceCodePro-LightIt: ("Source Code", italic, 300, normal),
   SourceCodePro-Regular: ("Source Code", normal, 400, normal),
   SourceCodePro-It: ("Source Code", italic, 400, normal),
   SourceCodePro-Semibold: ("Source Code", normal, 600, normal),
@@ -13,6 +15,8 @@ $font-map: (
   SourceCodePro-Bold: ("Source Code", normal, 700, normal),
   SourceCodePro-BoldIt: ("Source Code", italic, 700, normal),
 
+  SourceSans3-Light: ("Source Sans", normal, 300, normal),
+  SourceSans3-LightIt: ("Source Sans", italic, 300, normal),
   SourceSans3-Regular: ("Source Sans", normal, 400, normal),
   SourceSans3-It: ("Source Sans", italic, 400, normal),
   SourceSans3-Semibold: ("Source Sans", normal, 600, normal),
@@ -20,6 +24,8 @@ $font-map: (
   SourceSans3-Bold: ("Source Sans", normal, 700, normal),
   SourceSans3-BoldIt: ("Source Sans", italic, 700, normal),
 
+  SourceSerif4-Light: ("Source Serif", normal, 300, normal),
+  SourceSerif4-LightIt: ("Source Serif", italic, 300, normal),
   SourceSerif4-Regular: ("Source Serif", normal, 400, normal),
   SourceSerif4-It: ("Source Serif", italic, 400, normal),
   SourceSerif4-Semibold: ("Source Serif", normal, 600, normal),
@@ -56,6 +62,7 @@ $font-family-base: $font-family-sans-serif;
 $font-family-code: $font-family-monospace;
 $font-family-math: $font-family-serif; // Not in Bootstrap
 
+$font-weight-light: 300;
 $font-weight-normal: 400;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
@@ -87,6 +94,7 @@ $utilities: (
     property: font-weight,
     class: fw,
     values: (
+      light: $font-weight-light,
       normal: $font-weight-normal,
       semibold: $font-weight-semibold,
       bold: $font-weight-bold,
