@@ -64,11 +64,6 @@ Dependencies updated 30/11/2023.
 
 ### Features/Bugs/Notes
 
-- Move styles (and EJS?) into a single standard for all of decidables
-  - Only colors and a few other things? should be site specific
-- Add targets/links to all headers (including top-level in EJS)
-  - *rehype-slug* (https://github.com/rehypejs/rehype-slug)
-  - *rehype-autolink-headings* (https://github.com/rehypejs/rehype-autolink-headings)
 - Use prettier?
 - Cleanup headers and comments in all *.js files!
 - Format negative numbers with true minus sign character?
