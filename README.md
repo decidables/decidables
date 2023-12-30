@@ -70,7 +70,6 @@ Dependencies updated 30/11/2023.
 - Should decidables-elements have base classes for equations and examples?
 - Accessibility testing/auditing
 - Can we use *@testing-library/dom* for interface testing?
-- Use APA v7 (https://github.com/citation-style-language/styles)
 - Use *eslint-plugin-lit*? (https://www.npmjs.com/package/eslint-plugin-lit)
 - Use *eslint-plugin-wc*? (https://github.com/43081j/eslint-plugin-wc)
 - Reducing bundle sizes
