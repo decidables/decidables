@@ -1386,6 +1386,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@citation-js/plugin-csl@npm:^0.7.2":
+  version: 0.7.2
+  resolution: "@citation-js/plugin-csl@npm:0.7.2"
+  dependencies:
+    "@citation-js/date": "npm:^0.5.0"
+    citeproc: "npm:^2.4.6"
+  peerDependencies:
+    "@citation-js/core": ^0.7.0
+  checksum: 11d1ee8db254f3acb4a351e97bd1ea395f15465abfc6dbb48ab3a22e100d248fabe0e71514dbe4d886ab2a71840abe0ecbe511d08f084565cd2f9e9825b665f4
+  languageName: node
+  linkType: hard
+
 "@colors/colors@npm:1.6.0, @colors/colors@npm:^1.6.0":
   version: 1.6.0
   resolution: "@colors/colors@npm:1.6.0"
@@ -1634,7 +1646,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@decidables/decidables-elements@npm:^0.4.1, @decidables/decidables-elements@workspace:libraries/decidables-elements":
+"@decidables/decidables-elements@npm:^0.4.2, @decidables/decidables-elements@workspace:libraries/decidables-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/decidables-elements@workspace:libraries/decidables-elements"
   dependencies:
@@ -1645,7 +1657,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/decidables-site@npm:^0.0.0, @decidables/decidables-site@workspace:libraries/decidables-site":
+"@decidables/decidables-site@npm:^0.1.0, @decidables/decidables-site@workspace:libraries/decidables-site":
   version: 0.0.0-use.local
   resolution: "@decidables/decidables-site@workspace:libraries/decidables-site"
   dependencies:
@@ -1657,10 +1669,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/decidables@workspace:sites/decidables"
   dependencies:
-    "@decidables/decidables-site": "npm:^0.0.0"
-    "@decidables/detectable-elements": "npm:^0.2.8"
-    "@decidables/discountable-elements": "npm:^0.3.1"
-    "@decidables/prospectable-elements": "npm:^0.2.8"
+    "@decidables/decidables-site": "npm:^0.1.0"
+    "@decidables/detectable-elements": "npm:^0.2.9"
+    "@decidables/discountable-elements": "npm:^0.3.2"
+    "@decidables/prospectable-elements": "npm:^0.2.9"
     bootstrap: "npm:^5.3.2"
     bootstrap-icons: "npm:^1.11.2"
     core-js: "npm:^3.33.3"
@@ -1673,12 +1685,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/detectable-elements@npm:^0.2.8, @decidables/detectable-elements@workspace:libraries/detectable-elements":
+"@decidables/detectable-elements@npm:^0.2.9, @decidables/detectable-elements@workspace:libraries/detectable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/detectable-elements@workspace:libraries/detectable-elements"
   dependencies:
-    "@decidables/decidables-elements": "npm:^0.4.1"
-    "@decidables/detectable-math": "npm:^0.1.6"
+    "@decidables/decidables-elements": "npm:^0.4.2"
+    "@decidables/detectable-math": "npm:^0.1.7"
     "@web/test-runner": "npm:^0.18.0"
     d3: "npm:^7.8.5"
     gulp: "npm:^4.0.2"
@@ -1687,7 +1699,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/detectable-math@npm:^0.1.6, @decidables/detectable-math@workspace:libraries/detectable-math":
+"@decidables/detectable-math@npm:^0.1.7, @decidables/detectable-math@workspace:libraries/detectable-math":
   version: 0.0.0-use.local
   resolution: "@decidables/detectable-math@workspace:libraries/detectable-math"
   dependencies:
@@ -1701,8 +1713,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/detectable@workspace:sites/detectable"
   dependencies:
-    "@decidables/decidables-site": "npm:^0.0.0"
-    "@decidables/detectable-elements": "npm:^0.2.8"
+    "@decidables/decidables-site": "npm:^0.1.0"
+    "@decidables/detectable-elements": "npm:^0.2.9"
     bootstrap: "npm:^5.3.2"
     bootstrap-icons: "npm:^1.11.2"
     core-js: "npm:^3.33.3"
@@ -1715,12 +1727,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/discountable-elements@npm:^0.3.1, @decidables/discountable-elements@workspace:libraries/discountable-elements":
+"@decidables/discountable-elements@npm:^0.3.2, @decidables/discountable-elements@workspace:libraries/discountable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/discountable-elements@workspace:libraries/discountable-elements"
   dependencies:
-    "@decidables/decidables-elements": "npm:^0.4.1"
-    "@decidables/discountable-math": "npm:^0.1.2"
+    "@decidables/decidables-elements": "npm:^0.4.2"
+    "@decidables/discountable-math": "npm:^0.1.3"
     "@lit-labs/motion": "npm:^1.0.6"
     "@observablehq/plot": "npm:^0.6.11"
     "@web/test-runner": "npm:^0.18.0"
@@ -1732,7 +1744,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/discountable-math@npm:^0.1.2, @decidables/discountable-math@workspace:libraries/discountable-math":
+"@decidables/discountable-math@npm:^0.1.3, @decidables/discountable-math@workspace:libraries/discountable-math":
   version: 0.0.0-use.local
   resolution: "@decidables/discountable-math@workspace:libraries/discountable-math"
   dependencies:
@@ -1745,8 +1757,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/discountable@workspace:sites/discountable"
   dependencies:
-    "@decidables/decidables-site": "npm:^0.0.0"
-    "@decidables/discountable-elements": "npm:^0.3.1"
+    "@decidables/decidables-site": "npm:^0.1.0"
+    "@decidables/discountable-elements": "npm:^0.3.2"
     bootstrap: "npm:^5.3.2"
     bootstrap-icons: "npm:^1.11.2"
     core-js: "npm:^3.33.3"
@@ -1759,12 +1771,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/prospectable-elements@npm:^0.2.8, @decidables/prospectable-elements@workspace:libraries/prospectable-elements":
+"@decidables/prospectable-elements@npm:^0.2.9, @decidables/prospectable-elements@workspace:libraries/prospectable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable-elements@workspace:libraries/prospectable-elements"
   dependencies:
-    "@decidables/decidables-elements": "npm:^0.4.1"
-    "@decidables/prospectable-math": "npm:^0.2.4"
+    "@decidables/decidables-elements": "npm:^0.4.2"
+    "@decidables/prospectable-math": "npm:^0.2.5"
     "@lit-labs/motion": "npm:^1.0.6"
     "@web/test-runner": "npm:^0.18.0"
     bayes.js: "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f"
@@ -1780,7 +1792,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/prospectable-math@npm:^0.2.4, @decidables/prospectable-math@workspace:libraries/prospectable-math":
+"@decidables/prospectable-math@npm:^0.2.5, @decidables/prospectable-math@workspace:libraries/prospectable-math":
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable-math@workspace:libraries/prospectable-math"
   dependencies:
@@ -1793,8 +1805,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable@workspace:sites/prospectable"
   dependencies:
-    "@decidables/decidables-site": "npm:^0.0.0"
-    "@decidables/prospectable-elements": "npm:^0.2.8"
+    "@decidables/decidables-site": "npm:^0.1.0"
+    "@decidables/prospectable-elements": "npm:^0.2.9"
     bootstrap: "npm:^5.3.2"
     bootstrap-icons: "npm:^1.11.2"
     core-js: "npm:^3.33.3"
@@ -5392,7 +5404,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"citeproc@npm:^2.4.63":
+"citeproc@npm:^2.4.6, citeproc@npm:^2.4.63":
   version: 2.4.63
   resolution: "citeproc@npm:2.4.63"
   checksum: 719d7a1d2aa8c12583270ed9663180d53dfd4f51259644732547f5bb38f9c451183c080d126967e78771fc5eb86b03eece497012baba87102da20d128be87f2d
@@ -7038,6 +7050,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.23.5"
     "@citation-js/core": "npm:^0.7.1"
     "@citation-js/plugin-bibtex": "npm:^0.7.2"
+    "@citation-js/plugin-csl": "npm:^0.7.2"
     "@commitlint/cli": "npm:^18.4.3"
     "@commitlint/config-conventional": "npm:^18.4.3"
     "@fullhuman/postcss-purgecss": "npm:^5.0.0"
@@ -7082,7 +7095,6 @@ __metadata:
     hastscript: "npm:^8.0.0"
     husky: "npm:^8.0.3"
     lerna: "npm:^8.0.0"
-    locale-en-us: "npm:^0.0.2"
     mdast-util-to-string: "npm:^4.0.0"
     merge-stream: "npm:^2.0.0"
     node-notifier: "npm:^10.0.1"
@@ -7112,7 +7124,6 @@ __metadata:
     rollup: "npm:^4.6.0"
     rollup-plugin-visualizer: "npm:^5.10.0"
     rollup-plugin-web-worker-loader: "npm:^1.6.1"
-    style-apa: "npm:^0.0.2"
     stylelint: "npm:^15.11.0"
     stylelint-config-recess-order: "npm:^4.4.0"
     stylelint-config-recommended-scss: "npm:^13.1.0"
@@ -12545,13 +12556,6 @@ __metadata:
     "@npmcli/config": "npm:^8.0.0"
     import-meta-resolve: "npm:^4.0.0"
   checksum: a4876815ca894c6dfc19dc5e4d3c840fa18390e9b997772d475dcca591bebc60261d3e60d189b9222716e097868e9e6764f591db2eedec1d4e371931ec810520
-  languageName: node
-  linkType: hard
-
-"locale-en-us@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "locale-en-us@npm:0.0.2"
-  checksum: 03ee72e087e07632d62a39dcad7d277cb4940d1d473c0b9d5124a7033c1831259ba1ca1687b23bd7210821066b91b1627945a4ccda984148db7d61fa5378e53e
   languageName: node
   linkType: hard
 
@@ -19834,13 +19838,6 @@ __metadata:
   version: 1.0.1
   resolution: "strongly-connected-components@npm:1.0.1"
   checksum: f731c4a1e9b02b9d19a419e6bf1f901b1a7369cb4e0edca3b7ecb6c5076d2afe151ba12103669156594b2c2186ec9cffbd84f9d45c7e7928373d705e7ff7c3b2
-  languageName: node
-  linkType: hard
-
-"style-apa@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "style-apa@npm:0.0.2"
-  checksum: ae177f84f29ad043963a14d0b225a9d536979048a7eecfb595692a689304fd86efa15981034c0b9eb4f1328527f187d286a29cf6205a488ca1fcc10e968e713e
   languageName: node
   linkType: hard
 

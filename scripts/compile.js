@@ -3,6 +3,8 @@
 import fs from 'fs';
 
 // devDependencies
+import citationJs from '@citation-js/core';
+import '@citation-js/plugin-csl';
 import fancyLog from 'fancy-log';
 import {glob} from 'glob';
 import gulp from 'gulp';
@@ -14,7 +16,6 @@ import gulpNotify from 'gulp-notify';
 import gulpRename from 'gulp-rename';
 import gulpSvgmin from 'gulp-svgmin';
 import {fromHtmlIsomorphic as hastUtilFromHtmlIsomorphic} from 'hast-util-from-html-isomorphic';
-import localeEnUs from 'locale-en-us';
 import mergeStream from 'merge-stream';
 import nodeNotifier from 'node-notifier';
 import nodeSassPackageImporter from 'node-sass-package-importer';
@@ -33,7 +34,6 @@ import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import {visualizer as rollupPluginVisualizer} from 'rollup-plugin-visualizer';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
-import styleApa from 'style-apa';
 
 // Local Dependencies
 import gulpFavicons from './gulp-favicons.js';
@@ -110,8 +110,8 @@ export function compileMarkdown() {
   const linkIcon = fs.readFileSync(resolvePkg('bootstrap-icons/icons/link-45deg.svg')).toString();
   remarkCiteproc({
     initialize: true,
-    locale: localeEnUs,
-    style: styleApa,
+    locale: citationJs.plugins.config.get('@csl').locales.get('en-US'),
+    style: citationJs.plugins.config.get('@csl').templates.get('apa'),
     bibliographyFile: './src/references.bib',
     referencesLink: 'references.html',
   });
