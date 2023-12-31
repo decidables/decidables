@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.7.0...@decidables/prospectable@0.7.1) (2023-12-31)
+
+
+### Bug Fixes
+
+* **sites:** fix case in references ([6db1d50](https://github.com/decidables/decidables/commit/6db1d5081d2e60c13896a1a25cc77200c7a9a857))
+
+
+
 ## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.6.11...@decidables/prospectable@0.7.0) (2023-12-28)
 
 
