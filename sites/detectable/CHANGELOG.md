@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.1](https://github.com/decidables/decidables/compare/@decidables/detectable@0.10.0...@decidables/detectable@0.10.1) (2023-12-31)
+
+
+### Bug Fixes
+
+* **detectable:** minor fixes to references ([b598758](https://github.com/decidables/decidables/commit/b5987589ffd1a62834a465b15869e326eb206642))
+* **sites:** fix case in references ([6db1d50](https://github.com/decidables/decidables/commit/6db1d5081d2e60c13896a1a25cc77200c7a9a857))
+
+
+
 ## [0.10.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.9.11...@decidables/detectable@0.10.0) (2023-12-28)
 
 
