@@ -45,7 +45,8 @@ Depending on
   and [regenerator-runtime](http://facebook.github.io/regenerator/)
 
 Decorated with
-: [APA 6th Edition](https://www.npmjs.com/package/style-apa) citation style
+: [APA 7th Edition](https://citation.js.org/api/0.7/module-@citation-js_plugin-csl.html) citation
+  style
   from the [Citation Style Language](https://citationstyles.org/) project,
   [colors](https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9)
   from [ColorBrewer](https://colorbrewer2.org/),
@@ -75,9 +76,7 @@ Minified via
   and [terser](https://terser.org/)
 
 Built using
-: [Atom](https://atom.io/)
-  with [packages](https://atom.io/packages),
-  [VSCode](https://code.visualstudio.com/)
+: [VSCode](https://code.visualstudio.com/)
   with [extensions](https://marketplace.visualstudio.com/VSCode),
   [Git](https://git-scm.com/),
   [Node.js](https://nodejs.org/)
@@ -99,8 +98,7 @@ Published to
   with [lerna](https://github.com/lerna/lerna),
   [husky](https://typicode.github.io/husky/),
   and [commitlint](https://commitlint.js.org/)
-  as [**`@decidables/decidables-elements`**](https://www.npmjs.com/package/@decidables/decidables-elements),
-  [**`@decidables/prospectable-math`**](https://www.npmjs.com/package/@decidables/prospectable-math),
+  as [**`@decidables/prospectable-math`**](https://www.npmjs.com/package/@decidables/prospectable-math),
   and [**`@decidables/prospectable-elements`**](https://www.npmjs.com/package/@decidables/prospectable-elements)
 
 Licensed as
