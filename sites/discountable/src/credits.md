@@ -41,10 +41,12 @@ Depending on
   [D3](https://d3js.org/),
   [jStat](https://github.com/jstat/jstat),
   [Lit](https://lit.dev/),
+  [Observable Plot](https://observablehq.com/plot/),
   and [regenerator-runtime](http://facebook.github.io/regenerator/)
 
 Decorated with
-: [APA 6th Edition](https://www.npmjs.com/package/style-apa) citation style
+: [APA 7th Edition](https://citation.js.org/api/0.7/module-@citation-js_plugin-csl.html) citation
+  style
   from the [Citation Style Language](https://citationstyles.org/) project,
   [colors](https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9)
   from [ColorBrewer](https://colorbrewer2.org/),
@@ -74,9 +76,7 @@ Minified via
   and [terser](https://terser.org/)
 
 Built using
-: [Atom](https://atom.io/)
-  with [packages](https://atom.io/packages),
-  [VSCode](https://code.visualstudio.com/)
+: [VSCode](https://code.visualstudio.com/)
   with [extensions](https://marketplace.visualstudio.com/VSCode),
   [Git](https://git-scm.com/),
   [Node.js](https://nodejs.org/)
@@ -88,19 +88,18 @@ Built using
 Hosted at
 : [GitHub](https://github.com/)
   in the [**`decidables/decidables`**](https://github.com/decidables/decidables) monorepo
-  as [**`sites/prospectable`**](https://github.com/decidables/decidables/tree/main/sites/prospectable)
+  as [**`sites/discountable`**](https://github.com/decidables/decidables/tree/main/sites/discountable)
 
 Published to
 : [GitHub Pages](https://pages.github.com/)
   with [GitHub Actions](https://docs.github.com/en/actions)
-  as [<span class="prospectable">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>](https://decidables.github.io/detectable/)
+  as [<span class="dec-site">dis<span class="math-var">k</span>ountable</span>](https://decidables.github.io/discountable/)
   and [npm](https://www.npmjs.com/)
   with [lerna](https://github.com/lerna/lerna),
   [husky](https://typicode.github.io/husky/),
   and [commitlint](https://commitlint.js.org/)
-  as [**`@decidables/decidables-elements`**](https://www.npmjs.com/package/@decidables/decidables-elements),
-  [**`@decidables/prospectable-math`**](https://www.npmjs.com/package/@decidables/prospectable-math),
-  and [**`@decidables/prospectable-elements`**](https://www.npmjs.com/package/@decidables/prospectable-elements)
+  as [**`@decidables/discountable-math`**](https://www.npmjs.com/package/@decidables/discountable-math),
+  and [**`@decidables/discountable-elements`**](https://www.npmjs.com/package/@decidables/discountable-elements)
 
 Licensed as
 : [Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA-4.0)](https://creativecommons.org/licenses/by-sa/4.0/)

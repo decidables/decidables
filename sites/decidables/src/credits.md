@@ -39,7 +39,8 @@ Depending on
   and [regenerator-runtime](http://facebook.github.io/regenerator/)
 
 Decorated with
-: [APA 6th Edition](https://www.npmjs.com/package/style-apa) citation style
+: [APA 7th Edition](https://citation.js.org/api/0.7/module-@citation-js_plugin-csl.html) citation
+  style
   from the [Citation Style Language](https://citationstyles.org/) project,
   [colors](https://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9)
   from [ColorBrewer](https://colorbrewer2.org/),
@@ -69,9 +70,7 @@ Minified via
   and [terser](https://terser.org/)
 
 Built using
-: [Atom](https://atom.io/)
-  with [packages](https://atom.io/packages),
-  [VSCode](https://code.visualstudio.com/)
+: [VSCode](https://code.visualstudio.com/)
   with [extensions](https://marketplace.visualstudio.com/VSCode),
   [Git](https://git-scm.com/),
   [Node.js](https://nodejs.org/)
