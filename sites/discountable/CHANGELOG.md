@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/decidables/decidables/compare/@decidables/discountable@0.3.1...@decidables/discountable@0.3.2) (2024-01-09)
+
+
+### Bug Fixes
+
+* **sites:** update credits ([4e956e4](https://github.com/decidables/decidables/commit/4e956e4d6f693aaf96302e89cfe18a0fcfbc3b45))
+
+
+
 ## [0.3.1](https://github.com/decidables/decidables/compare/@decidables/discountable@0.3.0...@decidables/discountable@0.3.1) (2023-12-31)
 
 
