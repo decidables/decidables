@@ -65,6 +65,7 @@ Dependencies updated 30/11/2023.
 ### Features/Bugs/Notes
 
 - Use prettier?
+- Better CSS linting - more stylistic rules?
 - Cleanup headers and comments in all *.js files!
 - Format negative numbers with true minus sign character?
 - Should decidables-elements have base classes for equations and examples?

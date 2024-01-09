@@ -1,6 +1,6 @@
 {
   "plugins": [
-    "stylelint-stylistic"
+    "@stylistic/stylelint-plugin"
   ],
   "extends": [
     "stylelint-config-recommended-scss",
@@ -34,7 +34,6 @@
         ]
       }
     ],
-    "no-missing-end-of-source-newline": null,
     "order/properties-alphabetical-order": null,
     "order/properties-order": [
       [
@@ -378,7 +377,8 @@
         "ignore": ["custom-elements"]
       }
     ],
-    "stylistic/string-quotes": "double"
+    "@stylistic/no-missing-end-of-source-newline": null,
+    "@stylistic/string-quotes": "double"
   },
   "overrides": [
     {

@@ -38,5 +38,7 @@ export function lintStyles() {
         formatter: stylelintFormatterPretty,
         console: true,
       }],
+      // Remove once we move to ESM plugin!
+      quietDeprecationWarnings: true,
     }));
 }
