@@ -722,7 +722,6 @@
   const ascendingBisect = bisector(ascending$2);
   const bisectRight = ascendingBisect.right;
   bisector(number$2).center;
-  var bisect = bisectRight;
 
   function count(values, valueof) {
     let count = 0;
@@ -996,7 +995,7 @@
       } else {
         for (i = 0; i < n; ++i) {
           if ((x = values[i]) != null && x0 <= x && x <= x1) {
-            bins[bisect(tz, x, 0, m)].push(data[i]);
+            bins[bisectRight(tz, x, 0, m)].push(data[i]);
           }
         }
       }
@@ -5093,7 +5092,6 @@
   function areaRingEnd() {
     areaPoint(x00$2, y00$2);
   }
-  var pathArea = areaStream;
 
   var x0$2 = Infinity,
     y0$2 = x0$2,
@@ -5117,7 +5115,6 @@
     if (y < y0$2) y0$2 = y;
     if (y > y1) y1 = y;
   }
-  var boundsStream$1 = boundsStream;
 
   // TODO Enforce positive area for exterior, negative area for interior?
 
@@ -5200,7 +5197,6 @@
     Z2 += z * 3;
     centroidPoint(x0$1 = x, y0$1 = y);
   }
-  var pathCentroid = centroidStream;
 
   function PathContext(context) {
     this._context = context;
@@ -5283,7 +5279,6 @@
     lengthSum.add(sqrt(x0 * x0 + y0 * y0));
     x0 = x, y0 = y;
   }
-  var pathMeasure = lengthStream;
 
   // Simple caching for constant-radius points.
   let cacheDigits, cacheAppend, cacheRadius, cacheCircle;
@@ -5385,20 +5380,20 @@
       return contextStream.result();
     }
     path.area = function (object) {
-      geoStream(object, projectionStream(pathArea));
-      return pathArea.result();
+      geoStream(object, projectionStream(areaStream));
+      return areaStream.result();
     };
     path.measure = function (object) {
-      geoStream(object, projectionStream(pathMeasure));
-      return pathMeasure.result();
+      geoStream(object, projectionStream(lengthStream));
+      return lengthStream.result();
     };
     path.bounds = function (object) {
-      geoStream(object, projectionStream(boundsStream$1));
-      return boundsStream$1.result();
+      geoStream(object, projectionStream(boundsStream));
+      return boundsStream.result();
     };
     path.centroid = function (object) {
-      geoStream(object, projectionStream(pathCentroid));
-      return pathCentroid.result();
+      geoStream(object, projectionStream(centroidStream));
+      return centroidStream.result();
     };
     path.projection = function (_) {
       if (!arguments.length) return projection;
@@ -5464,8 +5459,8 @@
     var clip = projection.clipExtent && projection.clipExtent();
     projection.scale(150).translate([0, 0]);
     if (clip != null) projection.clipExtent(null);
-    geoStream(object, projection.stream(boundsStream$1));
-    fitBounds(boundsStream$1.result());
+    geoStream(object, projection.stream(boundsStream));
+    fitBounds(boundsStream.result());
     if (clip != null) projection.clipExtent(clip);
     return projection;
   }
@@ -5662,7 +5657,7 @@
       r[i] = interpolate(range[i], range[i + 1]);
     }
     return function (x) {
-      var i = bisect(domain, x, 1, j) - 1;
+      var i = bisectRight(domain, x, 1, j) - 1;
       return r[i](d[i](x));
     };
   }

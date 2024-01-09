@@ -738,7 +738,6 @@
   const ascendingBisect = bisector(ascending$1);
   const bisectRight = ascendingBisect.right;
   bisector(number$4).center;
-  var bisect = bisectRight;
 
   function count(values, valueof) {
     let count = 0;
@@ -6055,7 +6054,6 @@
   function areaRingEnd() {
     areaPoint(x00$2, y00$2);
   }
-  var pathArea = areaStream;
 
   var x0$2 = Infinity,
     y0$2 = x0$2,
@@ -6079,7 +6077,6 @@
     if (y < y0$2) y0$2 = y;
     if (y > y1) y1 = y;
   }
-  var boundsStream$1 = boundsStream;
 
   // TODO Enforce positive area for exterior, negative area for interior?
 
@@ -6162,7 +6159,6 @@
     Z2 += z * 3;
     centroidPoint(x0$1 = x, y0$1 = y);
   }
-  var pathCentroid = centroidStream;
 
   function PathContext(context) {
     this._context = context;
@@ -6245,7 +6241,6 @@
     lengthSum.add(sqrt$1(x0 * x0 + y0 * y0));
     x0 = x, y0 = y;
   }
-  var pathMeasure = lengthStream;
 
   // Simple caching for constant-radius points.
   let cacheDigits, cacheAppend, cacheRadius, cacheCircle;
@@ -6347,20 +6342,20 @@
       return contextStream.result();
     }
     path.area = function (object) {
-      geoStream(object, projectionStream(pathArea));
-      return pathArea.result();
+      geoStream(object, projectionStream(areaStream));
+      return areaStream.result();
     };
     path.measure = function (object) {
-      geoStream(object, projectionStream(pathMeasure));
-      return pathMeasure.result();
+      geoStream(object, projectionStream(lengthStream));
+      return lengthStream.result();
     };
     path.bounds = function (object) {
-      geoStream(object, projectionStream(boundsStream$1));
-      return boundsStream$1.result();
+      geoStream(object, projectionStream(boundsStream));
+      return boundsStream.result();
     };
     path.centroid = function (object) {
-      geoStream(object, projectionStream(pathCentroid));
-      return pathCentroid.result();
+      geoStream(object, projectionStream(centroidStream));
+      return centroidStream.result();
     };
     path.projection = function (_) {
       if (!arguments.length) return projection;
@@ -6431,8 +6426,8 @@
     var clip = projection.clipExtent && projection.clipExtent();
     projection.scale(150).translate([0, 0]);
     if (clip != null) projection.clipExtent(null);
-    geoStream(object, projection.stream(boundsStream$1));
-    fitBounds(boundsStream$1.result());
+    geoStream(object, projection.stream(boundsStream));
+    fitBounds(boundsStream.result());
     if (clip != null) projection.clipExtent(clip);
     return projection;
   }
@@ -7304,7 +7299,7 @@
       r[i] = interpolate(range[i], range[i + 1]);
     }
     return function (x) {
-      var i = bisect(domain, x, 1, j) - 1;
+      var i = bisectRight(domain, x, 1, j) - 1;
       return r[i](d[i](x));
     };
   }
@@ -7662,7 +7657,7 @@
       return scale;
     }
     function scale(x) {
-      return x == null || isNaN(x = +x) ? unknown : range[bisect(thresholds, x)];
+      return x == null || isNaN(x = +x) ? unknown : range[bisectRight(thresholds, x)];
     }
     scale.invertExtent = function (y) {
       var i = range.indexOf(y);
@@ -7696,7 +7691,7 @@
       unknown,
       n = 1;
     function scale(x) {
-      return x != null && x <= x ? range[bisect(domain, x, 0, n)] : unknown;
+      return x != null && x <= x ? range[bisectRight(domain, x, 0, n)] : unknown;
     }
     scale.domain = function (_) {
       return arguments.length ? (domain = Array.from(_), n = Math.min(domain.length, range.length - 1), scale) : domain.slice();
@@ -13622,17 +13617,19 @@
     interval[intervalDuration] = durations.get(name);
     interval[intervalType] = "utc";
   }
+  const utcFormatIntervals = [["year", utcYear, "utc"], ["month", utcMonth, "utc"], ["day", unixDay, "utc", 6 * durationMonth], ["hour", utcHour, "utc", 3 * durationDay], ["minute", utcMinute, "utc", 6 * durationHour], ["second", second$1, "utc", 30 * durationMinute]];
+  const timeFormatIntervals = [["year", timeYear, "time"], ["month", timeMonth, "time"], ["day", timeDay, "time", 6 * durationMonth], ["hour", timeHour, "time", 3 * durationDay], ["minute", timeMinute, "time", 6 * durationHour], ["second", second$1, "time", 30 * durationMinute]];
 
   // An interleaved array of UTC and local time intervals, in descending order
   // from largest to smallest, used to determine the most specific standard time
   // format for a given array of dates. This is a subset of the tick intervals
   // listed above; we only need the breakpoints where the format changes.
-  const formatIntervals = [["year", utcYear, "utc"], ["year", timeYear, "time"], ["month", utcMonth, "utc"], ["month", timeMonth, "time"], ["day", unixDay, "utc", 6 * durationMonth], ["day", timeDay, "time", 6 * durationMonth],
+  const formatIntervals = [utcFormatIntervals[0], timeFormatIntervals[0], utcFormatIntervals[1], timeFormatIntervals[1], utcFormatIntervals[2], timeFormatIntervals[2],
   // Below day, local time typically has an hourly offset from UTC and hence the
   // two are aligned and indistinguishable; therefore, we only consider UTC, and
   // we don’t consider these if the domain only has a single value.
-  ["hour", utcHour, "utc", 3 * durationDay], ["minute", utcMinute, "utc", 6 * durationHour], ["second", second$1, "utc", 30 * durationMinute]];
-  function parseInterval(input, intervals, type) {
+  ...utcFormatIntervals.slice(3)];
+  function parseTimeInterval(input) {
     let name = `${input}`.toLowerCase();
     if (name.endsWith("s")) name = name.slice(0, -1); // drop plural
     let period = 1;
@@ -13651,21 +13648,25 @@
         period *= 6;
         break;
     }
-    let interval = intervals.get(name);
+    let interval = utcIntervals.get(name);
     if (!interval) throw new Error(`unknown interval: ${input}`);
+    if (period > 1 && !interval.every) throw new Error(`non-periodic interval: ${name}`);
+    return [name, period];
+  }
+  function maybeTimeInterval(input) {
+    return asInterval(parseTimeInterval(input), "time");
+  }
+  function maybeUtcInterval(input) {
+    return asInterval(parseTimeInterval(input), "utc");
+  }
+  function asInterval([name, period], type) {
+    let interval = (type === "time" ? timeIntervals : utcIntervals).get(name);
     if (period > 1) {
-      if (!interval.every) throw new Error(`non-periodic interval: ${name}`);
       interval = interval.every(period);
       interval[intervalDuration] = durations.get(name) * period;
       interval[intervalType] = type;
     }
     return interval;
-  }
-  function maybeTimeInterval(interval) {
-    return parseInterval(interval, timeIntervals, "time");
-  }
-  function maybeUtcInterval(interval) {
-    return parseInterval(interval, utcIntervals, "utc");
   }
 
   // If the given interval is a standard time interval, we may be able to promote
@@ -13708,17 +13709,20 @@
     return anchor === "left" || anchor === "right" ? (f1, f2) => `\n${f1}\n${f2}` // extra newline to keep f1 centered
     : anchor === "top" ? (f1, f2) => `${f2}\n${f1}` : (f1, f2) => `${f1}\n${f2}`;
   }
+  function getFormatIntervals(type) {
+    return type === "time" ? timeFormatIntervals : type === "utc" ? utcFormatIntervals : formatIntervals;
+  }
 
   // Given an array of dates, returns the largest compatible standard time
   // interval. If no standard interval is compatible (other than milliseconds,
   // which is universally compatible), returns undefined.
-  function inferTimeFormat(dates, anchor) {
+  function inferTimeFormat(type, dates, anchor) {
     const step = max(pairs(dates, (a, b) => Math.abs(b - a))); // maybe undefined!
     if (step < 1000) return formatTimeInterval("millisecond", "utc", anchor);
-    for (const [name, interval, type, maxStep] of formatIntervals) {
+    for (const [name, interval, intervalType, maxStep] of getFormatIntervals(type)) {
       if (step > maxStep) break; // e.g., 52 weeks
       if (name === "hour" && !step) break; // e.g., domain with a single date
-      if (dates.every(d => interval.floor(d) >= d)) return formatTimeInterval(name, type, anchor);
+      if (dates.every(d => interval.floor(d) >= d)) return formatTimeInterval(name, intervalType, anchor);
     }
   }
   function formatConditional(format1, format2, template) {
@@ -15640,7 +15644,9 @@
     return [x, y];
   }
 
-  const categoricalSchemes = new Map([["accent", schemeAccent], ["category10", schemeCategory10], ["dark2", schemeDark2], ["paired", schemePaired], ["pastel1", schemePastel1], ["pastel2", schemePastel2], ["set1", schemeSet1], ["set2", schemeSet2], ["set3", schemeSet3], ["tableau10", schemeTableau10]]);
+  // TODO https://github.com/d3/d3-scale-chromatic/pull/51
+  const schemeObservable10 = ["#4269d0", "#efb118", "#ff725c", "#6cc5b0", "#3ca951", "#ff8ab7", "#a463f2", "#97bbf5", "#9c6b4e", "#9498a0"];
+  const categoricalSchemes = new Map([["accent", schemeAccent], ["category10", schemeCategory10], ["dark2", schemeDark2], ["observable10", schemeObservable10], ["paired", schemePaired], ["pastel1", schemePastel1], ["pastel2", schemePastel2], ["set1", schemeSet1], ["set2", schemeSet2], ["set3", schemeSet3], ["tableau10", schemeTableau10]]);
   function isCategoricalScheme(scheme) {
     return scheme != null && categoricalSchemes.has(`${scheme}`.toLowerCase());
   }
@@ -16223,7 +16229,7 @@
         if (range !== undefined) scheme = undefined; // Don’t re-apply scheme.
       }
       if (scheme === undefined && range === undefined) {
-        scheme = type === "ordinal" ? "turbo" : "tableau10";
+        scheme = type === "ordinal" ? "turbo" : "observable10";
       }
       if (scheme !== undefined) {
         if (range !== undefined) {
@@ -16302,8 +16308,7 @@
     } of channels) {
       const candidate = hint?.[key];
       if (candidate === undefined) continue; // no hint here
-      if (value === undefined) value = candidate;
-      // first hint
+      if (value === undefined) value = candidate; // first hint
       else if (value !== candidate) return; // inconsistent hint
     }
     return value;
@@ -16441,6 +16446,13 @@
       inferred: true,
       toString: () => label
     };
+  }
+
+  // Determines whether the scale points in the “positive” (right or down) or
+  // “negative” (left or up) direction; if the scale order cannot be determined,
+  // returns NaN; used to assign an appropriate label arrow.
+  function inferScaleOrder(scale) {
+    return Math.sign(orderof(scale.domain())) * Math.sign(orderof(scale.range()));
   }
 
   // Returns the dimensions of the outer frame; this is subdivided into facets
@@ -16667,6 +16679,9 @@
   function formatScaleType(type) {
     return typeof type === "symbol" ? type.description : type;
   }
+  function maybeScaleType(type) {
+    return typeof type === "string" ? `${type}`.toLowerCase() : type;
+  }
 
   // A special type symbol when the x and y scales are replaced with a projection.
   const typeProjection = {
@@ -16680,6 +16695,8 @@
     pivot,
     projection
   }) {
+    type = maybeScaleType(type);
+
     // The facet scales are always band scales; this cannot be changed.
     if (key === "fx" || key === "fy") return "band";
 
@@ -16691,9 +16708,8 @@
     // If a channel dictates a scale type, make sure that it is consistent with
     // the user-specified scale type (if any) and all other channels. For example,
     // barY requires x to be a band scale and disallows any other scale type.
-    for (const {
-      type: t
-    } of channels) {
+    for (const channel of channels) {
+      const t = maybeScaleType(channel.type);
       if (t === undefined) continue;else if (type === undefined) type = t;else if (type !== t) throw new Error(`scale incompatible with channel: ${type} !== ${t}`);
     }
 
@@ -16791,6 +16807,7 @@
   }, coerceValues) {
     for (const c of channels) {
       if (c.value !== undefined) {
+        if (domain === undefined) domain = c.value?.domain; // promote channel domain
         c.value = coerceValues(c.value);
       }
     }
@@ -17716,15 +17733,14 @@
     if (tickFormat === null) tickFormat = () => null;
     const svg = create("svg", context).attr("class", `${className}-ramp`).attr("font-family", "system-ui, sans-serif").attr("font-size", 10).attr("width", width).attr("height", height).attr("viewBox", `0 0 ${width} ${height}`).call(svg =>
     // Warning: if you edit this, change defaultClassName.
-    svg.append("style").text(`.${className}-ramp {
+    svg.append("style").text(`:where(.${className}-ramp) {
   display: block;
-  background: white;
   height: auto;
   height: intrinsic;
   max-width: 100%;
   overflow: visible;
 }
-.${className}-ramp text {
+:where(.${className}-ramp text) {
   white-space: pre;
 }`)).call(applyInlineStyles, style);
     let tickAdjust = g => g.selectAll(".tick line").attr("y1", marginTop + marginBottom - height);
@@ -17826,6 +17842,12 @@
         return markerCircleFill;
       case "circle-stroke":
         return markerCircleStroke;
+      case "tick":
+        return markerTick("auto");
+      case "tick-x":
+        return markerTick(90);
+      case "tick-y":
+        return markerTick(0);
     }
     throw new Error(`invalid marker: ${marker}`);
   }
@@ -17836,10 +17858,13 @@
     return create("svg:marker", context).attr("viewBox", "-5 -5 10 10").attr("markerWidth", 6.67).attr("markerHeight", 6.67).attr("fill", color).attr("stroke", "none").call(marker => marker.append("circle").attr("r", 2.5)).node();
   }
   function markerCircleFill(color, context) {
-    return create("svg:marker", context).attr("viewBox", "-5 -5 10 10").attr("markerWidth", 6.67).attr("markerHeight", 6.67).attr("fill", color).attr("stroke", "white").attr("stroke-width", 1.5).call(marker => marker.append("circle").attr("r", 3)).node();
+    return create("svg:marker", context).attr("viewBox", "-5 -5 10 10").attr("markerWidth", 6.67).attr("markerHeight", 6.67).attr("fill", color).attr("stroke", "var(--plot-background)").attr("stroke-width", 1.5).call(marker => marker.append("circle").attr("r", 3)).node();
   }
   function markerCircleStroke(color, context) {
-    return create("svg:marker", context).attr("viewBox", "-5 -5 10 10").attr("markerWidth", 6.67).attr("markerHeight", 6.67).attr("fill", "white").attr("stroke", color).attr("stroke-width", 1.5).call(marker => marker.append("circle").attr("r", 3)).node();
+    return create("svg:marker", context).attr("viewBox", "-5 -5 10 10").attr("markerWidth", 6.67).attr("markerHeight", 6.67).attr("fill", "var(--plot-background)").attr("stroke", color).attr("stroke-width", 1.5).call(marker => marker.append("circle").attr("r", 3)).node();
+  }
+  function markerTick(orient) {
+    return (color, context) => create("svg:marker", context).attr("viewBox", "-3 -3 6 6").attr("markerWidth", 6).attr("markerHeight", 6).attr("orient", orient).attr("stroke", color).call(marker => marker.append("path").attr("d", "M0,-3v6")).node();
   }
   let nextMarkerId = 0;
   function applyMarkers(path, mark, {
@@ -17945,7 +17970,7 @@
         ...options,
         [k]: undefined,
         [`${k}1`]: v1 === undefined ? kv : v1,
-        [`${k}2`]: v2 === undefined ? kv : v2
+        [`${k}2`]: v2 === undefined && !(v1 === v2 && trivial) ? kv : v2
       };
     }
     let D1, V1;
@@ -18583,7 +18608,7 @@
   function monospaceWidth(text, start = 0, end = text.length) {
     let sum = 0;
     for (let i = start; i < end; i = readCharacter(text, i)) {
-      sum += isPictographic(text, i) ? 200 : 100;
+      sum += isPictographic(text, i) ? 126 : 63;
     }
     return sum;
   }
@@ -19425,7 +19450,7 @@
   // possible, or the default ISO format (2014-01-26). TODO We need a better way
   // to infer whether the ordinal scale is UTC or local time.
   function inferTickFormat(scale, data, ticks, tickFormat, anchor) {
-    return typeof tickFormat === "function" ? tickFormat : tickFormat === undefined && data && isTemporal(data) ? inferTimeFormat(data, anchor) ?? formatDefault : scale.tickFormat ? scale.tickFormat(typeof ticks === "number" ? ticks : null, tickFormat) : tickFormat === undefined ? formatDefault : typeof tickFormat === "string" ? (isTemporal(scale.domain()) ? utcFormat : format$1)(tickFormat) : constant(tickFormat);
+    return typeof tickFormat === "function" ? tickFormat : tickFormat === undefined && data && isTemporal(data) ? inferTimeFormat(scale.type, data, anchor) ?? formatDefault : scale.tickFormat ? scale.tickFormat(typeof ticks === "number" ? ticks : null, tickFormat) : tickFormat === undefined ? formatDefault : typeof tickFormat === "string" ? (isTemporal(scale.domain()) ? utcFormat : format$1)(tickFormat) : constant(tickFormat);
   }
   function inclusiveRange(interval, min, max) {
     return interval.range(min, interval.offset(interval.floor(max)));
@@ -19459,13 +19484,6 @@
   // function rather than a scale descriptor.
   function inferFontVariant(scale) {
     return scale.bandwidth && !scale.interval ? undefined : "tabular-nums";
-  }
-
-  // Determines whether the scale points in the “positive” (right or down) or
-  // “negative” (left or up) direction; if the scale order cannot be determined,
-  // returns NaN; used to assign an appropriate label arrow.
-  function inferScaleOrder(scale) {
-    return Math.sign(orderof(scale.domain())) * Math.sign(orderof(scale.range()));
   }
 
   // Takes the scale label, and if this is not an ordinal scale and the label was
@@ -19559,29 +19577,29 @@
     const swatches = create("div", context).attr("class", `${className}-swatches ${className}-swatches-${columns != null ? "columns" : "wrap"}`);
     let extraStyle;
     if (columns != null) {
-      extraStyle = `.${className}-swatches-columns .${className}-swatch {
+      extraStyle = `:where(.${className}-swatches-columns .${className}-swatch) {
   display: flex;
   align-items: center;
   break-inside: avoid;
   padding-bottom: 1px;
 }
-.${className}-swatches-columns .${className}-swatch::before {
+:where(.${className}-swatches-columns .${className}-swatch::before) {
   flex-shrink: 0;
 }
-.${className}-swatches-columns .${className}-swatch-label {
+:where(.${className}-swatches-columns .${className}-swatch-label) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }`;
       swatches.style("columns", columns).selectAll().data(scale.domain).enter().append("div").attr("class", `${className}-swatch`).call(swatch, scale, swatchWidth, swatchHeight).call(item => item.append("div").attr("class", `${className}-swatch-label`).attr("title", tickFormat).text(tickFormat));
     } else {
-      extraStyle = `.${className}-swatches-wrap {
+      extraStyle = `:where(.${className}-swatches-wrap) {
   display: flex;
   align-items: center;
   min-height: 33px;
   flex-wrap: wrap;
 }
-.${className}-swatches-wrap .${className}-swatch {
+:where(.${className}-swatches-wrap .${className}-swatch) {
   display: inline-flex;
   align-items: center;
   margin-right: 1em;
@@ -19590,12 +19608,12 @@
         return this.ownerDocument.createTextNode(tickFormat.apply(this, arguments));
       });
     }
-    return swatches.call(div => div.insert("style", "*").text(`.${className}-swatches {
+    return swatches.call(div => div.insert("style", "*").text(`:where(.${className}-swatches) {
   font-family: system-ui, sans-serif;
   font-size: 10px;
   margin-bottom: 0.5em;
 }
-.${className}-swatch > svg {
+:where(.${className}-swatch > svg) {
   margin-right: 0.5em;
   overflow: visible;
 }
@@ -19748,7 +19766,7 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
 
   const defaults$2 = {
     ariaLabel: "tip",
-    fill: "white",
+    fill: "var(--plot-background)",
     stroke: "currentColor"
   };
 
@@ -19772,6 +19790,7 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
         y1,
         y2,
         anchor,
+        preferredAnchor = "bottom",
         monospace,
         fontFamily = monospace ? "ui-monospace, monospace" : undefined,
         fontSize,
@@ -19828,7 +19847,7 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
         } // filter: defined
       }, options, defaults$2);
       this.anchor = maybeAnchor$1(anchor, "anchor");
-      this.previousAnchor = this.anchor ?? "top-left";
+      this.preferredAnchor = maybeAnchor$1(preferredAnchor, "preferredAnchor");
       this.frameAnchor = maybeFrameAnchor(frameAnchor);
       this.textAnchor = impliedString(textAnchor, "middle");
       this.textPadding = +textPadding;
@@ -19976,8 +19995,8 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
           const [k] = cut(value, w - widthof(label), widthof, ee);
           if (k >= 0) {
             // value is truncated
-            value = value.slice(0, k).trimEnd() + ellipsis;
             title = value.trim();
+            value = value.slice(0, k).trimEnd() + ellipsis;
           }
         }
         const line = selection.append("tspan").attr("x", 0).attr("dy", `${lineHeight}em`).text("\u200b"); // zwsp for double-click
@@ -20003,16 +20022,13 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
           w = Math.round(w), h = Math.round(h); // crisp edges
           let a = anchor; // use the specified anchor, if any
           if (a === undefined) {
-            a = mark.previousAnchor; // favor the previous anchor, if it fits
             const x = px(i) + ox;
             const y = py(i) + oy;
-            const fitLeft = x + w + r * 2 < width;
-            const fitRight = x - w - r * 2 > 0;
-            const fitTop = y + h + m + r * 2 + 7 < height;
+            const fitLeft = x + w + m + r * 2 < width;
+            const fitRight = x - w - m - r * 2 > 0;
+            const fitTop = y + h + m + r * 2 < height;
             const fitBottom = y - h - m - r * 2 > 0;
-            const ax = (/-left$/.test(a) ? fitLeft || !fitRight : fitLeft && !fitRight) ? "left" : "right";
-            const ay = (/^top-/.test(a) ? fitTop || !fitBottom : fitTop && !fitBottom) ? "top" : "bottom";
-            a = mark.previousAnchor = `${ay}-${ax}`;
+            a = fitLeft && fitRight ? fitTop && fitBottom ? mark.preferredAnchor : fitBottom ? "bottom" : "top" : fitTop && fitBottom ? fitLeft ? "left" : "right" : (fitLeft || fitRight) && (fitTop || fitBottom) ? `${fitBottom ? "bottom" : "top"}-${fitLeft ? "left" : "right"}` : mark.preferredAnchor;
           }
           const path = this.firstChild; // note: assumes exactly two children!
           const text = this.lastChild; // note: assumes exactly two children!
@@ -20487,15 +20503,15 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
     } = dimensions;
     select(svg).attr("class", className).attr("fill", "currentColor").attr("font-family", "system-ui, sans-serif").attr("font-size", 10).attr("text-anchor", "middle").attr("width", width).attr("height", height).attr("viewBox", `0 0 ${width} ${height}`).attr("aria-label", ariaLabel).attr("aria-description", ariaDescription).call(svg =>
     // Warning: if you edit this, change defaultClassName.
-    svg.append("style").text(`.${className} {
+    svg.append("style").text(`:where(.${className}) {
+  --plot-background: white;
   display: block;
-  background: white;
   height: auto;
   height: intrinsic;
   max-width: 100%;
 }
-.${className} text,
-.${className} tspan {
+:where(.${className} text),
+:where(.${className} tspan) {
   white-space: pre;
 }`)).call(applyInlineStyles, style);
 
@@ -20781,11 +20797,13 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
           pointer: tipOptions
         };
         let {
-          pointer: p
+          pointer: p,
+          preferredAnchor: a
         } = tipOptions;
         p = /^x$/i.test(p) ? pointerX : /^y$/i.test(p) ? pointerY : pointer; // TODO validate?
         tipOptions = p(derive(mark, tipOptions));
         tipOptions.title = null; // prevent implicit title for primitive data
+        if (a === undefined) tipOptions.preferredAnchor = p === pointerY ? "left" : "bottom";
         const t = tip(mark.data, tipOptions);
         t.facet = mark.facet; // inherit facet settings
         t.facetAnchor = mark.facetAnchor; // inherit facet settings
@@ -21174,7 +21192,7 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
         const BX2 = bx && setBX2([]);
         const BY1 = by && setBY1([]);
         const BY2 = by && setBY2([]);
-        const bin = bing(bx?.(data), by?.(data));
+        const bin = bing(bx, by, data);
         let i = 0;
         for (const o of outputs) o.initialize(data);
         if (sort) sort.initialize(data);
@@ -21403,13 +21421,16 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
   function isTimeThresholds(t) {
     return isTimeInterval(t) || isIterable(t) && isTemporal(t);
   }
-  function bing(EX, EY) {
+  function bing(bx, by, data) {
+    const EX = bx?.(data);
+    const EY = by?.(data);
     return EX && EY ? function* (I) {
       const X = EX.bin(I); // first bin on x
       for (const [ix, [x1, x2]] of EX.entries()) {
         const Y = EY.bin(X[ix]); // then bin on y
         for (const [iy, [y1, y2]] of EY.entries()) {
           yield [Y[iy], {
+            data,
             x1,
             y1,
             x2,
@@ -21421,6 +21442,7 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
       const X = EX.bin(I);
       for (const [i, [x1, x2]] of EX.entries()) {
         yield [X[i], {
+          data,
           x1,
           x2
         }];
@@ -21429,6 +21451,7 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
       const Y = EY.bin(I);
       for (const [i, [y1, y2]] of EY.entries()) {
         yield [Y[i], {
+          data,
           y1,
           y2
         }];
@@ -21441,7 +21464,7 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
     T = coerceNumbers(T); // for faster bisection
     return I => {
       const B = E.map(() => []);
-      for (const i of I) B[bisect(T, V[i]) - 1]?.push(i); // TODO quantization?
+      for (const i of I) B[bisectRight(T, V[i]) - 1]?.push(i); // TODO quantization?
       return B;
     };
   }
@@ -21990,11 +22013,13 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
         x1: {
           value: x1,
           scale: "x",
+          type: x1 != null && x2 == null ? "band" : undefined,
           optional: true
         },
         y1: {
           value: y1,
           scale: "y",
+          type: y1 != null && y2 == null ? "band" : undefined,
           optional: true
         },
         x2: {
@@ -22045,10 +22070,9 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
         rx,
         ry
       } = this;
-      return create("svg:g", context).call(applyIndirectStyles, this, dimensions, context).call(applyTransform, this, {
-        x: X1 && X2 && x,
-        y: Y1 && Y2 && y
-      }, 0, 0).call(g => g.selectAll().data(index).enter().append("rect").call(applyDirectStyles, this).attr("x", X1 && X2 && (projection || !isCollapsed(x)) ? i => Math.min(X1[i], X2[i]) + insetLeft : marginLeft + insetLeft).attr("y", Y1 && Y2 && (projection || !isCollapsed(y)) ? i => Math.min(Y1[i], Y2[i]) + insetTop : marginTop + insetTop).attr("width", X1 && X2 && (projection || !isCollapsed(x)) ? i => Math.max(0, Math.abs(X2[i] - X1[i]) - insetLeft - insetRight) : width - marginRight - marginLeft - insetRight - insetLeft).attr("height", Y1 && Y2 && (projection || !isCollapsed(y)) ? i => Math.max(0, Math.abs(Y1[i] - Y2[i]) - insetTop - insetBottom) : height - marginTop - marginBottom - insetTop - insetBottom).call(applyAttr, "rx", rx).call(applyAttr, "ry", ry).call(applyChannelStyles, this, channels)).node();
+      const bx = (x?.bandwidth ? x.bandwidth() : 0) - insetLeft - insetRight;
+      const by = (y?.bandwidth ? y.bandwidth() : 0) - insetTop - insetBottom;
+      return create("svg:g", context).call(applyIndirectStyles, this, dimensions, context).call(applyTransform, this, {}, 0, 0).call(g => g.selectAll().data(index).enter().append("rect").call(applyDirectStyles, this).attr("x", X1 && (projection || !isCollapsed(x)) ? X2 ? i => Math.min(X1[i], X2[i]) + insetLeft : i => X1[i] + insetLeft : marginLeft + insetLeft).attr("y", Y1 && (projection || !isCollapsed(y)) ? Y2 ? i => Math.min(Y1[i], Y2[i]) + insetTop : i => Y1[i] + insetTop : marginTop + insetTop).attr("width", X1 && (projection || !isCollapsed(x)) ? X2 ? i => Math.max(0, Math.abs(X2[i] - X1[i]) + bx) : bx : width - marginRight - marginLeft - insetRight - insetLeft).attr("height", Y1 && (projection || !isCollapsed(y)) ? Y2 ? i => Math.max(0, Math.abs(Y1[i] - Y2[i]) + by) : by : height - marginTop - marginBottom - insetTop - insetBottom).call(applyAttr, "rx", rx).call(applyAttr, "ry", ry).call(applyChannelStyles, this, channels)).node();
     }
   }
   function rectY(data, options = {}) {
