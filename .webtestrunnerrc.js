@@ -5,6 +5,7 @@ import { fromRollup } from '@web/dev-server-rollup';
 const commonjsPlugin = fromRollup(rollupPluginCommonjs);
 
 export default {
+  concurrency: 1,
   nodeResolve: true,
   coverage: true,
   coverageConfig: {
