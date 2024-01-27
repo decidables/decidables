@@ -6,7 +6,7 @@ import {
   mouseDragElement,
   oneEvent,
   sendKeys,
-} from '../../../../scripts/test';
+} from '../../../../scripts/test-utility';
 
 import '../../src/components/risky-option';
 import '../../src/components/risky-outcome';

@@ -1,7 +1,7 @@
 
 // devDependencies
 import express from 'express';
-import {glob} from 'glob';
+import {globby} from 'globby';
 
 // Tasks
 export function serve() {
@@ -10,8 +10,12 @@ export function serve() {
   app.listen(8000);
 }
 
-export function serveAll() {
-  const sites = glob.sync('!(decidables)', {cwd: 'sites/'});
+export async function serveAll() {
+  const sites = await globby(['*', '!decidables'], {
+    cwd: 'sites/',
+    onlyFiles: false,
+    onlyDirectories: true,
+  });
   const app = express();
 
   // local

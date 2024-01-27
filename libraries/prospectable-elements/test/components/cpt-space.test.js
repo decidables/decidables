@@ -3,7 +3,7 @@
 //   expect,
 //   fixture,
 //   html,
-// } from '../../../../scripts/test';
+// } from '../../../../scripts/test-utility';
 
 // import '../../src/components/cpt-space';
 

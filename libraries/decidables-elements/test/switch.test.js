@@ -1,4 +1,4 @@
-import {expect, fixture, html} from '../../../scripts/test';
+import {expect, fixture, html} from '../../../scripts/test-utility';
 
 import '../src/switch';
 

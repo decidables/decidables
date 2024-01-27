@@ -2,7 +2,7 @@ import {
   expect,
   fixture,
   html,
-} from '../../../../scripts/test';
+} from '../../../../scripts/test-utility';
 
 import '../../src/components/cpt-calculation';
 import CPTExample from '../../src/examples/cpt-example';

@@ -5,7 +5,7 @@ import {
   oneEvent,
   sendKeys,
   waitUntil,
-} from '../../../../scripts/test';
+} from '../../../../scripts/test-utility';
 
 import '../../src/components/htd-calculation';
 import '../../src/components/htd-curves';

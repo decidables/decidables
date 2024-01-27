@@ -66,12 +66,13 @@
       "rules": {
         "import/extensions": ["error", "ignorePackages"],
         "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
-        "import/no-relative-packages": "off"
+        "import/no-relative-packages": "off",
+        "no-console": "off"
       }
     },
     {
       "files": [
-        "scripts/test.js",
+        "scripts/test-utility.js",
         "**/test/**/*.test.js"
       ],
       "env": {

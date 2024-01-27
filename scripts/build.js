@@ -1,10 +1,14 @@
 
+// Node native modules
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
 // devDependencies
+import cpy from 'cpy';
 import cssnano from 'cssnano';
-import gulp from 'gulp';
-import gulpHtmlmin from 'gulp-htmlmin';
-import gulpPostcss from 'gulp-postcss';
-import gulpTerser from 'gulp-terser';
+import {globby} from 'globby';
+import htmlMinifier from 'html-minifier';
+import postcss from 'postcss';
 import postcssPurgecss from '@fullhuman/postcss-purgecss';
 import * as rollup from 'rollup';
 import * as rollupPluginBabel from '@rollup/plugin-babel';
@@ -13,6 +17,7 @@ import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import rollupPluginTerser from '@rollup/plugin-terser';
 import {visualizer as rollupPluginVisualizer} from 'rollup-plugin-visualizer';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
+import * as terser from 'terser';
 
 // Local Dependencies
 import * as utilities from './utility.js';
@@ -40,9 +45,12 @@ const pluginVisualizer = rollupPluginVisualizer({
 });
 const pluginTerser = rollupPluginTerser();
 export async function buildLibrary() {
+  const src = 'src/index.js';
+  const dest = 'lib';
+
   const bundle = await rollup.rollup({
     cache: rollupCache,
-    input: 'src/index.js',
+    input: src,
     plugins: [
       pluginNodeResolve,
       pluginCommonjs,
@@ -65,7 +73,7 @@ export async function buildLibrary() {
   // UMD
   await bundle.write({
     name: packageName,
-    file: `lib/${packageName}.umd.js`,
+    file: path.join(dest, `${packageName}.umd.js`),
     format: 'umd',
     sourcemap: true,
   });
@@ -73,7 +81,7 @@ export async function buildLibrary() {
   // Minified UMD
   await bundle.write({
     name: packageName,
-    file: `lib/${packageName}.umd.min.js`,
+    file: path.join(dest, `${packageName}.umd.min.js`),
     format: 'umd',
     sourcemap: true,
     plugins: [pluginTerser],
@@ -82,7 +90,7 @@ export async function buildLibrary() {
   // ESM
   await bundle.write({
     name: packageName,
-    file: `lib/${packageName}.esm.js`,
+    file: path.join(dest, `${packageName}.esm.js`),
     format: 'esm',
     sourcemap: true,
   });
@@ -90,45 +98,110 @@ export async function buildLibrary() {
   // Minified ESM
   await bundle.write({
     name: packageName,
-    file: `lib/${packageName}.esm.min.js`,
+    file: path.join(dest, `${packageName}.esm.min.js`),
     format: 'esm',
     sourcemap: true,
     plugins: [pluginTerser],
   });
 }
 
-export function buildFavicons() {
-  return gulp.src('local/*.{ico,png,svg,webmanifest}')
-    .pipe(gulp.dest('dist'));
+export async function buildFavicons() {
+  const src = 'local/*.{ico,png,svg,webmanifest}';
+  const dest = 'dist';
+
+  return cpy(src, dest);
 }
 
-export function buildFonts() {
-  return gulp.src('local/fonts/*.{woff,woff2}')
-    .pipe(gulp.dest('dist/fonts'));
+export async function buildFonts() {
+  const src = 'local/fonts/*.{woff,woff2}';
+  const dest = 'dist/fonts';
+
+  return cpy(src, dest);
 }
 
-export function buildMarkup() {
-  return gulp.src('local/*.html')
-    .pipe(gulpHtmlmin({
-      collapseWhitespace: true,
-      removeComments: true,
-    }))
-    .pipe(gulp.dest('dist'));
+export async function buildMarkup() {
+  const src = 'local/*.html';
+  const dest = 'dist';
+
+  const srcPaths = await globby(src);
+
+  return Promise.all(
+    srcPaths.map(
+      async (srcPath) => {
+        const srcName = path.basename(srcPath);
+
+        const content = (await fs.readFile(srcPath)).toString();
+
+        const result = htmlMinifier.minify(content, {
+          collapseWhitespace: true,
+          removeComments: true,
+        });
+
+        await fs.writeFile(path.join(dest, srcName), result);
+      },
+    ),
+  );
 }
 
-export function buildScripts() {
-  return gulp.src('local/*.js', {sourcemaps: true})
-    .pipe(gulpTerser())
-    .pipe(gulp.dest('dist', {sourcemaps: '.'}));
+export async function buildScripts() {
+  const src = 'local/*.js';
+  const dest = 'dist';
+
+  const srcPaths = await globby(src);
+
+  return Promise.all(
+    srcPaths.map(
+      async (srcPath) => {
+        const srcName = path.basename(srcPath);
+        const mapPath = `${srcPath}.map`;
+        const mapName = `${srcName}.map`;
+
+        const content = (await fs.readFile(srcPath)).toString();
+        const map = (await fs.readFile(mapPath)).toString();
+
+        const result = await terser.minify(content, {
+          sourceMap: {
+            content: map,
+            filename: srcName,
+            url: mapName,
+          },
+        });
+
+        await fs.writeFile(path.join(dest, srcName), result.code);
+        await fs.writeFile(path.join(dest, mapName), result.map);
+      },
+    ),
+  );
 }
 
-export function buildStyles() {
-  return gulp.src('local/*.css', {sourcemaps: true})
-    .pipe(gulpPostcss([
-      postcssPurgecss({
-        content: ['./local/*.{html,js}'],
-      }),
-      cssnano(),
-    ]))
-    .pipe(gulp.dest('dist', {sourcemaps: '.'}));
+export async function buildStyles() {
+  const src = 'local/*.css';
+  const dest = 'dist';
+
+  const srcPaths = await globby(src);
+
+  return Promise.all(
+    srcPaths.map(
+      async (srcPath) => {
+        const srcName = path.basename(srcPath);
+        const mapName = `${srcName}.map`;
+
+        const content = (await fs.readFile(srcPath)).toString();
+
+        const result = await postcss([
+          postcssPurgecss({
+            content: ['./local/*.{html,js}'],
+          }),
+          cssnano(),
+        ]).process(content, {
+          from: srcPath,
+          // For sourcemaps, this makes it act as if src and dest files are in the same directory
+          to: srcPath,
+        });
+
+        await fs.writeFile(path.join(dest, srcName), result.css);
+        await fs.writeFile(path.join(dest, mapName), result.map.toString());
+      },
+    ),
+  );
 }

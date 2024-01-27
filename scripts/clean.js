@@ -1,4 +1,7 @@
 
+// Node native modules
+import fs from 'node:fs/promises';
+
 // devDependencies
 import {deleteAsync} from 'del';
 
@@ -6,23 +9,37 @@ import {deleteAsync} from 'del';
 import * as utilities from './utility.js';
 
 // Tasks
-export function cleanLib() {
-  return deleteAsync('lib');
+export async function cleanLib() {
+  const dir = 'lib';
+
+  await deleteAsync(dir);
+  await fs.mkdir(dir);
 }
 
-export function cleanLocal() {
-  return deleteAsync('local');
+export async function cleanLocal() {
+  const dir = 'local';
+
+  await deleteAsync(dir);
+  await fs.mkdir(dir);
 }
 
-export function cleanDist() {
-  return deleteAsync('dist');
+export async function cleanDist() {
+  const dir = 'dist';
+
+  await deleteAsync(dir);
+  await fs.mkdir(dir);
 }
 
-export function cleanDeploySite() {
+export async function cleanDeploySite() {
   const packageName = utilities.getPackageName();
-  return deleteAsync(`../../decidables.github.io/${packageName}`, {force: true});
+  const dir = `../../decidables.github.io/${packageName}`;
+
+  await deleteAsync(dir, {force: true});
+  await fs.mkdir(dir);
 }
 
-export function cleanDeployRoot() {
-  return deleteAsync('../../decidables.github.io/{*.*,.*,fonts}', {force: true});
+export async function cleanDeployRoot() {
+  const glob = '../../decidables.github.io/{*.*,.*,fonts}';
+
+  await deleteAsync(glob, {force: true});
 }

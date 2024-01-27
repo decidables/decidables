@@ -1,4 +1,4 @@
-import {expect} from '../../../../scripts/test';
+import {expect} from '../../../../scripts/test-utility';
 
 import CPTEquation from '../../src/equations/cpt-equation';
 

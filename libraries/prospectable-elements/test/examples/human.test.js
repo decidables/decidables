@@ -4,7 +4,7 @@ import {
   html,
   oneEvent,
   mouseClickElement,
-} from '../../../../scripts/test';
+} from '../../../../scripts/test-utility';
 
 import '../../src/components/cpt-probability';
 import '../../src/components/cpt-value';
