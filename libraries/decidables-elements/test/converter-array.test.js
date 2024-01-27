@@ -1,4 +1,4 @@
-import {expect} from '../../../scripts/test';
+import {expect} from '../../../scripts/test-utility';
 
 import DecidablesConvertArray from '../src/converter-array';
 

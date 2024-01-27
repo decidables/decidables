@@ -2,8 +2,8 @@
 import {css} from 'lit';
 
 const plotlyStyle = css`
-  /* inject:css */
-  .js-plotly-plot .plotly, .js-plotly-plot .plotly div {
+  /* inject:start */
+.js-plotly-plot .plotly, .js-plotly-plot .plotly div {
   direction: ltr;
   font-family: "Open Sans", verdana, arial, sans-serif;
   margin: 0;
@@ -266,6 +266,6 @@ const plotlyStyle = css`
   text-decoration: none;
   cursor: pointer;
 }
-  /* endinject */
+  /* inject:end */
 `;
 export default plotlyStyle;

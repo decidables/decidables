@@ -1,4 +1,4 @@
-import {expect} from '../../../scripts/test';
+import {expect} from '../../../scripts/test-utility';
 
 import DecidablesElement from '../src/decidables-element';
 

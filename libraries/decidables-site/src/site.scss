@@ -22,33 +22,33 @@ $enable-rfs: false;
 $enable-dark-mode: false;
 
 // Bootstrap 5 Functions
-@import "~bootstrap/scss/functions";
+@import "bootstrap/scss/functions";
 
 // Bootstrap 5 Variables
-@import "~bootstrap/scss/variables";
+@import "bootstrap/scss/variables";
 
 // Bootstrap 5 Required
-@import "~bootstrap/scss/maps";
-@import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/root";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
 
 // Bootstrap 5 Optional
-@import "~bootstrap/scss/utilities";
-@import "~bootstrap/scss/reboot";
-@import "~bootstrap/scss/type";
-@import "~bootstrap/scss/containers";
-@import "~bootstrap/scss/grid";
-@import "~bootstrap/scss/tables";
-@import "~bootstrap/scss/buttons";
-@import "~bootstrap/scss/transitions";
-@import "~bootstrap/scss/nav";
-@import "~bootstrap/scss/navbar";
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/tables";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
 
 // Bootstrap 5 Helpers
-@import "~bootstrap/scss/helpers";
+@import "bootstrap/scss/helpers";
 
 // Bootstrap 5 Utilities API
-@import "~bootstrap/scss/utilities/api";
+@import "bootstrap/scss/utilities/api";
 
 // SEMANTIC BOOTSTRAP
 

@@ -1,5 +1,6 @@
+
 // Node native modules
-import fs from 'fs';
+import fs from 'node:fs';
 
 // devDependencies
 import camelcase from 'camelcase';

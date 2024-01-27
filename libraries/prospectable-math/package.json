@@ -45,13 +45,10 @@
   ],
   "scripts": {
     "lint": "gulp lint",
-    "test": "web-test-runner test/**/*.test.js --config ../../.webtestrunnerrc.js",
-    "test:watch": "web-test-runner test/**/*.test.js --config ../../.webtestrunnerrc.js --watch",
-    "test:file": "web-test-runner $@ --config ../../.webtestrunnerrc.js",
+    "test": "gulp test",
     "build": "gulp build"
   },
   "devDependencies": {
-    "@web/test-runner": "^0.18.0",
     "gulp": "^4.0.2"
   }
 }

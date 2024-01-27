@@ -5,7 +5,7 @@ import {
   html,
   oneEvent,
   sendKeys,
-} from '../../../../scripts/test';
+} from '../../../../scripts/test-utility';
 
 import '../../src/examples/multiple';
 import '../../src/components';

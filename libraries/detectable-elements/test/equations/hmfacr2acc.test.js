@@ -4,7 +4,7 @@ import {
   html,
   oneEvent,
   sendKeys,
-} from '../../../../scripts/test';
+} from '../../../../scripts/test-utility';
 
 import '../../src/equations/hmfacr2acc';
 

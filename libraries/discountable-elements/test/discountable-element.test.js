@@ -1,4 +1,4 @@
-import {expect} from '../../../scripts/test';
+import {expect} from '../../../scripts/test-utility';
 
 import DiscountableElement from '../src/discountable-element';
 

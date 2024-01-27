@@ -1,6 +1,6 @@
 
 // Node native modules
-import fs from 'fs';
+import fs from 'node:fs';
 
 // devDependencies
 import citationJs from '@citation-js/core';

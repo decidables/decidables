@@ -3,7 +3,7 @@ import {
   fixture,
   html,
   oneEvent,
-} from '../../../../scripts/test';
+} from '../../../../scripts/test-utility';
 
 import '../../src/components/risky-task';
 

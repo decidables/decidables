@@ -1,18 +1,21 @@
 
 // devDependencies
-import gulp from 'gulp';
+import cpy from 'cpy';
 
 // Local Dependencies
 import * as utilities from './utility.js';
 
 // Tasks
 export function deploySite() {
-  const packageName = utilities.getPackageName();
-  return gulp.src('dist/**/{*,.*}')
-    .pipe(gulp.dest(`../../decidables.github.io/${packageName}`));
+  const src = 'dist/**/{*,.*}';
+  const dest = `../../decidables.github.io/${utilities.getPackageName()}`;
+
+  return cpy(src, dest);
 }
 
 export function deployRoot() {
-  return gulp.src('dist/**/{*,.*}')
-    .pipe(gulp.dest('../../decidables.github.io'));
+  const src = 'dist/**/{*,.*}';
+  const dest = '../../decidables.github.io';
+
+  return cpy(src, dest);
 }

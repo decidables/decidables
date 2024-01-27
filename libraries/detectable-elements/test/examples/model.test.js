@@ -4,7 +4,7 @@ import {
   html,
   oneEvent,
   mouseClickElement,
-} from '../../../../scripts/test';
+} from '../../../../scripts/test-utility';
 
 import '../../src/examples/model';
 import '../../src/components';
