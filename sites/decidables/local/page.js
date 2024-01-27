@@ -302,10 +302,10 @@ var store$2 = sharedStore;
 (shared$3.exports = function (key, value) {
   return store$2[key] || (store$2[key] = value !== undefined ? value : {});
 })('versions', []).push({
-  version: '3.35.0',
+  version: '3.35.1',
   mode: 'global',
-  copyright: '© 2014-2023 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.35.0/LICENSE',
+  copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
+  license: 'https://github.com/zloirock/core-js/blob/v3.35.1/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 var sharedExports = shared$3.exports;
@@ -649,7 +649,7 @@ var CONFIGURABLE_LENGTH = DESCRIPTORS$7 && !fails$c(function () {
 var TEMPLATE = String(String).split('String');
 var makeBuiltIn$2 = makeBuiltIn$3.exports = function (value, name, options) {
   if (stringSlice($String$2(name), 0, 7) === 'Symbol(') {
-    name = '[' + replace$1($String$2(name), /^Symbol\(([^)]*)\)/, '$1') + ']';
+    name = '[' + replace$1($String$2(name), /^Symbol\(([^)]*)\).*$/, '$1') + ']';
   }
   if (options && options.getter) name = 'get ' + name;
   if (options && options.setter) name = 'set ' + name;
@@ -752,7 +752,8 @@ var min$2 = Math.min;
 // `ToLength` abstract operation
 // https://tc39.es/ecma262/#sec-tolength
 var toLength$1 = function (argument) {
-  return argument > 0 ? min$2(toIntegerOrInfinity$3(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+  var len = toIntegerOrInfinity$3(argument);
+  return len > 0 ? min$2(len, 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
 };
 
 var toLength = toLength$1;
@@ -912,7 +913,7 @@ var _export = function (options, source) {
   } else if (STATIC) {
     target = global$d[TARGET] || defineGlobalProperty(TARGET, {});
   } else {
-    target = (global$d[TARGET] || {}).prototype;
+    target = global$d[TARGET] && global$d[TARGET].prototype;
   }
   if (target) for (key in source) {
     sourceProperty = source[key];
@@ -2362,7 +2363,6 @@ var classof$2 = classof$7;
 var getBuiltIn$2 = getBuiltIn$7;
 var inspectSource = inspectSource$2;
 var noop$3 = function () {/* empty */};
-var empty$1 = [];
 var construct = getBuiltIn$2('Reflect', 'construct');
 var constructorRegExp = /^\s*(?:class|function)\b/;
 var exec = uncurryThis$7(constructorRegExp.exec);
@@ -2370,7 +2370,7 @@ var INCORRECT_TO_STRING = !constructorRegExp.test(noop$3);
 var isConstructorModern = function isConstructor(argument) {
   if (!isCallable$1(argument)) return false;
   try {
-    construct(noop$3, empty$1, argument);
+    construct(noop$3, [], argument);
     return true;
   } catch (error) {
     return false;
