@@ -6,16 +6,16 @@ import cpy from 'cpy';
 import * as utilities from './utility.js';
 
 // Tasks
-export function deploySite() {
+export async function deploySite() {
   const src = 'dist/**/{*,.*}';
   const dest = `../../decidables.github.io/${utilities.getPackageName()}`;
 
-  return cpy(src, dest);
+  await cpy(src, dest);
 }
 
-export function deployRoot() {
+export async function deployRoot() {
   const src = 'dist/**/{*,.*}';
   const dest = '../../decidables.github.io';
 
-  return cpy(src, dest);
+  await cpy(src, dest);
 }
