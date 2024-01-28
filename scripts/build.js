@@ -17,6 +17,7 @@ import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import rollupPluginTerser from '@rollup/plugin-terser';
 import {visualizer as rollupPluginVisualizer} from 'rollup-plugin-visualizer';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
+import svgo from 'svgo';
 import * as terser from 'terser';
 
 // Local Dependencies
@@ -106,10 +107,16 @@ export async function buildLibrary() {
 }
 
 export async function buildFavicons() {
-  const src = 'local/*.{ico,png,svg,webmanifest}';
-  const dest = 'dist';
+  const svgSrc = 'local/favicon.svg';
+  const otherSrc = 'local/*.{ico,png,webmanifest}';
+  const svgDest = 'dist/favicon.svg';
+  const otherDest = 'dist';
 
-  return cpy(src, dest);
+  const svg = await fs.readFile(svgSrc);
+  const svgResult = svgo.optimize(svg);
+  await fs.writeFile(svgDest, svgResult.data);
+
+  return cpy(otherSrc, otherDest);
 }
 
 export async function buildFonts() {
