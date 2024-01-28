@@ -86,7 +86,6 @@ Dependencies updated 30/11/2023.
       1. No sideEffects false
       1. Always import needed classes
       1. Always import from specific file?
-- Include `preparePlotly` in compile step?
 - Replace Plotly with something lighter? echarts & echarts-gl?
 - Linting and transpiling in tagged template literals?
 - Clean way for inter-page references?
