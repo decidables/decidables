@@ -64,7 +64,6 @@ Dependencies updated 30/11/2023.
 
 ### Features/Bugs/Notes
 
-- Move svgo from compile to build?
 - Use prettier?
 - Better CSS linting - more stylistic rules?
 - Cleanup headers and comments in all *.js files!

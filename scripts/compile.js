@@ -31,7 +31,6 @@ import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import {visualizer as rollupPluginVisualizer} from 'rollup-plugin-visualizer';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
 import * as sass from 'sass';
-import svgo from 'svgo';
 import {unified} from 'unified';
 
 // Local Dependencies
@@ -88,9 +87,7 @@ export function compileFaviconsTask(configuration) {
       ),
     );
 
-    const svg = await fs.readFile(src);
-    const svgResult = svgo.optimize(svg);
-    await fs.writeFile(path.join(dest, 'favicon.svg'), svgResult.data);
+    await cpy(src, dest, {flat: true});
   };
 }
 
