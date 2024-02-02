@@ -1,13 +1,12 @@
 
 // Node native modules
-import fs from 'node:fs/promises';
+import fs from 'node:fs';
 import path from 'node:path';
 import url from 'node:url';
 
 // devDependencies
 import citationJs from '@citation-js/core';
 import '@citation-js/plugin-csl';
-import cpy from 'cpy';
 import ejs from 'ejs';
 import fancyLog from 'fancy-log';
 import favicons from 'favicons';
@@ -78,29 +77,35 @@ export function compileFaviconsTask(configuration) {
       },
     );
 
-    await fs.mkdir(dest, {recursive: true});
+    await fs.promises.mkdir(dest, {recursive: true});
     await Promise.all(
       [...result.images, ...result.files].map(
         async (item) => {
-          await fs.writeFile(path.join(dest, item.name), item.contents);
+          await fs.promises.writeFile(path.posix.join(dest, item.name), item.contents);
         },
       ),
     );
 
-    await cpy(src, dest, {flat: true});
+    await fs.promises.cp(src, path.posix.join(dest, path.posix.basename(src)));
   };
 }
 
 export function compileFontsTask(fonts) {
   return async function compileFonts() {
-    const src = (await Promise.all(
+    const srcPaths = (await Promise.all(
       fonts.map((font) => {
         return globby(resolvePkg(font).split(path.sep).join(path.posix.sep));
       }),
     )).flat();
     const dest = 'local/fonts';
 
-    return cpy(src, dest, {flat: true});
+    await Promise.all(
+      srcPaths.map(
+        async (srcPath) => {
+          await fs.promises.cp(srcPath, path.posix.join(dest, path.posix.basename(srcPath)));
+        },
+      ),
+    );
   };
 }
 
@@ -111,7 +116,7 @@ export async function compileMarkdown() {
 
   const srcPaths = [...await globby(src), ...await globby(lastSrc)];
 
-  const linkIcon = (await fs.readFile(resolvePkg('bootstrap-icons/icons/link-45deg.svg'))).toString();
+  const linkIcon = (await fs.promises.readFile(resolvePkg('bootstrap-icons/icons/link-45deg.svg'))).toString();
   remarkCiteproc({
     initialize: true,
     locale: citationJs.plugins.config.get('@csl').locales.get('en-US'),
@@ -125,11 +130,11 @@ export async function compileMarkdown() {
     async (serial, srcPath) => {
       await serial;
 
-      const srcBase = path.basename(srcPath, '.md');
+      const srcBase = path.posix.basename(srcPath, '.md');
       const destName = `${srcBase}.html`;
 
       // Process markdown
-      const content = (await fs.readFile(srcPath)).toString();
+      const content = (await fs.promises.readFile(srcPath)).toString();
       const frontContent = frontMatter(content);
       const result = await unified()
         .use(remarkParse)
@@ -168,7 +173,7 @@ export async function compileMarkdown() {
         .process(frontContent.body);
 
       // Process EJS
-      const layout = (await fs.readFile(`src/${frontContent.attributes.layout}.ejs`)).toString();
+      const layout = (await fs.promises.readFile(`src/${frontContent.attributes.layout}.ejs`)).toString();
       const frontLayout = frontMatter(layout);
       const finalResult = ejs.render(
         frontLayout.body,
@@ -182,7 +187,7 @@ export async function compileMarkdown() {
         },
       );
 
-      await fs.writeFile(path.join(dest, destName), finalResult);
+      await fs.promises.writeFile(path.posix.join(dest, destName), finalResult);
     },
     Promise.resolve(),
   );
@@ -267,8 +272,8 @@ export async function compileStyles() {
   await Promise.all(
     srcPaths.map(
       async (srcPath) => {
-        const srcBase = path.basename(srcPath, '.scss');
-        const srcDir = path.dirname(srcPath);
+        const srcBase = path.posix.basename(srcPath, '.scss');
+        const srcDir = path.posix.dirname(srcPath);
         const destName = `${srcBase}.css`;
         const mapName = `${destName}.map`;
 
@@ -286,11 +291,14 @@ export async function compileStyles() {
             .join(path.posix.sep);
         });
 
-        await fs.writeFile(
-          path.join(dest, destName),
+        await fs.promises.writeFile(
+          path.posix.join(dest, destName),
           `${result.css}\n/*# sourceMappingURL=${mapName} */`,
         );
-        await fs.writeFile(path.join(dest, mapName), JSON.stringify(result.sourceMap));
+        await fs.promises.writeFile(
+          path.posix.join(dest, mapName),
+          JSON.stringify(result.sourceMap),
+        );
       },
     ),
   );

@@ -1,10 +1,9 @@
 
 // Node native modules
-import fs from 'node:fs/promises';
+import fs from 'node:fs';
 import path from 'node:path';
 
 // devDependencies
-import cpy from 'cpy';
 import cssnano from 'cssnano';
 import {globby} from 'globby';
 import htmlMinifier from 'html-minifier';
@@ -74,7 +73,7 @@ export async function buildLibrary() {
   // UMD
   await bundle.write({
     name: packageName,
-    file: path.join(dest, `${packageName}.umd.js`),
+    file: path.posix.join(dest, `${packageName}.umd.js`),
     format: 'umd',
     sourcemap: true,
   });
@@ -82,7 +81,7 @@ export async function buildLibrary() {
   // Minified UMD
   await bundle.write({
     name: packageName,
-    file: path.join(dest, `${packageName}.umd.min.js`),
+    file: path.posix.join(dest, `${packageName}.umd.min.js`),
     format: 'umd',
     sourcemap: true,
     plugins: [pluginTerser],
@@ -91,7 +90,7 @@ export async function buildLibrary() {
   // ESM
   await bundle.write({
     name: packageName,
-    file: path.join(dest, `${packageName}.esm.js`),
+    file: path.posix.join(dest, `${packageName}.esm.js`),
     format: 'esm',
     sourcemap: true,
   });
@@ -99,7 +98,7 @@ export async function buildLibrary() {
   // Minified ESM
   await bundle.write({
     name: packageName,
-    file: path.join(dest, `${packageName}.esm.min.js`),
+    file: path.posix.join(dest, `${packageName}.esm.min.js`),
     format: 'esm',
     sourcemap: true,
     plugins: [pluginTerser],
@@ -107,23 +106,37 @@ export async function buildLibrary() {
 }
 
 export async function buildFavicons() {
+  const src = 'local/*.{ico,png,webmanifest}';
   const svgSrc = 'local/favicon.svg';
-  const otherSrc = 'local/*.{ico,png,webmanifest}';
-  const svgDest = 'dist/favicon.svg';
-  const otherDest = 'dist';
+  const dest = 'dist';
 
-  const svg = await fs.readFile(svgSrc);
+  const srcPaths = await globby(src);
+  await Promise.all(
+    srcPaths.map(
+      async (srcPath) => {
+        await fs.promises.cp(srcPath, path.posix.join(dest, path.posix.basename(srcPath)));
+      },
+    ),
+  );
+
+  const svg = await fs.promises.readFile(svgSrc);
   const svgResult = svgo.optimize(svg);
-  await fs.writeFile(svgDest, svgResult.data);
-
-  return cpy(otherSrc, otherDest);
+  await fs.promises.writeFile(path.posix.join(dest, path.posix.basename(svgSrc)), svgResult.data);
 }
 
 export async function buildFonts() {
   const src = 'local/fonts/*.{woff,woff2}';
   const dest = 'dist/fonts';
 
-  return cpy(src, dest);
+  const srcPaths = await globby(src);
+
+  await Promise.all(
+    srcPaths.map(
+      async (srcPath) => {
+        await fs.promises.cp(srcPath, path.posix.join(dest, path.posix.basename(srcPath)));
+      },
+    ),
+  );
 }
 
 export async function buildMarkup() {
@@ -135,16 +148,16 @@ export async function buildMarkup() {
   return Promise.all(
     srcPaths.map(
       async (srcPath) => {
-        const srcName = path.basename(srcPath);
+        const srcName = path.posix.basename(srcPath);
 
-        const content = (await fs.readFile(srcPath)).toString();
+        const content = (await fs.promises.readFile(srcPath)).toString();
 
         const result = htmlMinifier.minify(content, {
           collapseWhitespace: true,
           removeComments: true,
         });
 
-        await fs.writeFile(path.join(dest, srcName), result);
+        await fs.promises.writeFile(path.posix.join(dest, srcName), result);
       },
     ),
   );
@@ -159,12 +172,12 @@ export async function buildScripts() {
   return Promise.all(
     srcPaths.map(
       async (srcPath) => {
-        const srcName = path.basename(srcPath);
+        const srcName = path.posix.basename(srcPath);
         const mapPath = `${srcPath}.map`;
         const mapName = `${srcName}.map`;
 
-        const content = (await fs.readFile(srcPath)).toString();
-        const map = (await fs.readFile(mapPath)).toString();
+        const content = (await fs.promises.readFile(srcPath)).toString();
+        const map = (await fs.promises.readFile(mapPath)).toString();
 
         const result = await terser.minify(content, {
           sourceMap: {
@@ -174,8 +187,8 @@ export async function buildScripts() {
           },
         });
 
-        await fs.writeFile(path.join(dest, srcName), result.code);
-        await fs.writeFile(path.join(dest, mapName), result.map);
+        await fs.promises.writeFile(path.posix.join(dest, srcName), result.code);
+        await fs.promises.writeFile(path.posix.join(dest, mapName), result.map);
       },
     ),
   );
@@ -190,10 +203,10 @@ export async function buildStyles() {
   return Promise.all(
     srcPaths.map(
       async (srcPath) => {
-        const srcName = path.basename(srcPath);
+        const srcName = path.posix.basename(srcPath);
         const mapName = `${srcName}.map`;
 
-        const content = (await fs.readFile(srcPath)).toString();
+        const content = (await fs.promises.readFile(srcPath)).toString();
 
         const result = await postcss([
           postcssPurgecss({
@@ -206,8 +219,8 @@ export async function buildStyles() {
           to: srcPath,
         });
 
-        await fs.writeFile(path.join(dest, srcName), result.css);
-        await fs.writeFile(path.join(dest, mapName), result.map.toString());
+        await fs.promises.writeFile(path.posix.join(dest, srcName), result.css);
+        await fs.promises.writeFile(path.posix.join(dest, mapName), result.map.toString());
       },
     ),
   );
