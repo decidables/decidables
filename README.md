@@ -60,7 +60,7 @@ The libraries are published to *npm* in the
 
 ## Development
 
-Dependencies updated 30/11/2023.
+Dependencies updated 9/1/2024.
 
 ### Features/Bugs/Notes
 
