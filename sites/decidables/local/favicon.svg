@@ -1,1 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="main" viewBox="0 0 200 200"><defs><marker id="a" fill="#262626" markerHeight="7" markerWidth="7" orient="auto" refX="10" refY="7" viewBox="0 0 14 14"><path d="m0 0 12 7-12 7z"/></marker></defs><path fill="#E6E6E6" d="M0 0h200v200H0z"/><path stroke="#262626" stroke-width="8" marker-end="url(#a)" d="M100 100v90"/><path stroke="#262626" stroke-width="8" marker-end="url(#a)" d="M100 100h90"/><path stroke="#262626" stroke-width="8" marker-end="url(#a)" d="M100 100V10"/><path stroke="#262626" stroke-width="8" marker-end="url(#a)" d="M100 100H10"/><circle cx="100" cy="100" r="30" fill="#262626"/><text x="50%" y="50%" fill="#fff" dy=".35em" font-family="Century Gothic, sans-serif" font-size="54" font-weight="bold" text-anchor="middle">?</text></svg>
+<svg class="main" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+ <defs>
+    <marker id="arrow" viewBox="0 0 14 14" refX="10" refY="7" fill="rgb(38, 38, 38)" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 12 7 L 0 14 z" />
+    </marker>
+  </defs>
+  <rect fill="rgb(230, 230, 230)" stroke="none" height="200" width="200"></rect>
+  <line stroke="rgb(38, 38, 38)" stroke-width="8" x1="100" y1="100" x2="100" y2="190" marker-end="url(#arrow)"></line>
+  <line stroke="rgb(38, 38, 38)" stroke-width="8" x1="100" y1="100" x2="190" y2="100" marker-end="url(#arrow)"></line>
+  <line stroke="rgb(38, 38, 38)" stroke-width="8" x1="100" y1="100" x2="100" y2="10" marker-end="url(#arrow)"></line>
+  <line stroke="rgb(38, 38, 38)" stroke-width="8" x1="100" y1="100" x2="10" y2="100" marker-end="url(#arrow)"></line>
+  <circle r="30" cx="100" cy="100" fill="rgb(38, 38, 38)"></circle>
+  <text x="50%" y="50%" text-anchor="middle" dy="0.35em" fill="#ffffff"
+  font-size="54" font-weight="bold" font-family="Century Gothic, sans-serif">?</text>
+</svg>
