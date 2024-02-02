@@ -1,7 +1,7 @@
 
 // Node native modules
 import childProcess from 'node:child_process';
-import fs from 'node:fs/promises';
+import fs from 'node:fs';
 import util from 'node:util';
 
 // devDependencies
@@ -58,7 +58,7 @@ export async function lintMarkupLocal() {
   try {
     await execFile('java', vnuArgs, {shell: true});
   } catch (error) {
-    console.group(`${format.bold}${format.red}lintLocalMarkup (v.Nu)${format.reset}`);
+    console.group(`${format.bold}${format.red}lintMarkupLocal (v.Nu)${format.reset}`);
     console.error(`${format.yellow}${error.stderr}${format.reset}`);
     console.groupEnd();
   }
@@ -67,12 +67,12 @@ export async function lintMarkupLocal() {
   return Promise.all(
     srcPaths.map(
       async (srcPath) => {
-        const content = (await fs.readFile(srcPath)).toString();
+        const content = (await fs.promises.readFile(srcPath)).toString();
 
         const result = htmlhint.verify(content);
 
         if (result.length) {
-          console.group(`${format.bold}${format.red}lintLocalMarkup (HTMLHint)${format.reset}`);
+          console.group(`${format.bold}${format.red}lintMarkupLocal (HTMLHint)${format.reset}`);
           console.error(`${format.yellow}${srcPath}${format.reset}`);
           console.error(htmlhint.format(result, {colors: true, indent: 2}).join('\n'));
           console.groupEnd();
