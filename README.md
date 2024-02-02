@@ -64,6 +64,7 @@ Dependencies updated 30/11/2023.
 
 ### Features/Bugs/Notes
 
+- Use localStorage or sessionStorage for maintaining page state?
 - Use prettier?
 - Better CSS linting - more stylistic rules?
 - Cleanup headers and comments in all *.js files!
