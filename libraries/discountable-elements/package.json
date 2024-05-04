@@ -54,11 +54,11 @@
   "dependencies": {
     "@decidables/decidables-elements": "^0.4.5",
     "@decidables/discountable-math": "^0.1.6",
-    "@lit-labs/motion": "^1.0.6",
-    "@observablehq/plot": "^0.6.13",
+    "@lit-labs/motion": "^1.0.7",
+    "@observablehq/plot": "^0.6.14",
     "bayes.js": "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f",
-    "d3": "^7.8.5",
-    "lit": "^3.1.1",
+    "d3": "^7.9.0",
+    "lit": "^3.1.3",
     "regenerator-runtime": "^0.14.1"
   }
 }
