@@ -725,16 +725,9 @@
 
   function count(values, valueof) {
     let count = 0;
-    if (valueof === undefined) {
+    {
       for (let value of values) {
         if (value != null && (value = +value) >= value) {
-          ++count;
-        }
-      }
-    } else {
-      let index = -1;
-      for (let value of values) {
-        if ((value = valueof(value, ++index, values)) != null && (value = +value) >= value) {
           ++count;
         }
       }
@@ -3151,7 +3144,6 @@
   function interval (callback, delay, time) {
     var t = new Timer(),
       total = delay;
-    if (delay == null) return t.restart(callback, delay, time), t;
     t._restart = t.restart;
     t.restart = function (callback, delay, time) {
       delay = +delay, time = time == null ? now() : +time;
@@ -6987,12 +6979,13 @@
           box-shadow: var(---shadow-4);
         }
 
-        /* stylelint-disable-next-line selector-max-compound-selectors */
+        /* stylelint-disable selector-max-compound-selectors */
         :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,
         :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {
           box-shadow: var(---shadow-8);
         }
-      `];
+        /* stylelint-enable selector-max-compound-selectors */
+        `];
     }
     render() {
       return x$1`

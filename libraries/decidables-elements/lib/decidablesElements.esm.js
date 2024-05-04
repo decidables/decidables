@@ -4087,12 +4087,13 @@ class DecidablesSwitch extends DecidablesElement {
           box-shadow: var(---shadow-4);
         }
 
-        /* stylelint-disable-next-line selector-max-compound-selectors */
+        /* stylelint-disable selector-max-compound-selectors */
         :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,
         :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {
           box-shadow: var(---shadow-8);
         }
-      `];
+        /* stylelint-enable selector-max-compound-selectors */
+        `];
   }
   render() {
     return x`
