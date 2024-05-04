@@ -226,6 +226,7 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 - `yarn changed`
   - Lists which libraries and sites will receive version bumps when `yarn versions` is run
 - `yarn versions`
+  - **Note:** requires a valid GitHub personal access token be set to GH_TOKEN environment variable
   - Bumps version numbers of all libraries and sites as needed based on conventional commits
   - Transitive dependencies updated in each `package.json`
   - Git tags added for new versions
@@ -243,6 +244,8 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 #### Deploy
 
 - `yarn deploy`
+  - **Note:** requires a valid GitHub personal access token be set to the repository secret
+    API_TOKEN_GITHUB on @decidables/decidables
   - Re-compile and build markdown (to grab new version) then copy files for all sites from `dist/`
     to `decidables.github.io/` for GitHub Pages deployment
 - `yarn workspace @decidables/<site> deploy`
