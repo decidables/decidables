@@ -64,6 +64,9 @@ Dependencies updated 9/1/2024.
 
 ### Features/Bugs/Notes
 
+- Run axe DevTools to check for a11y
+  - Github links need title/text
+- Include a search function? 
 - Use localStorage or sessionStorage for maintaining page state?
 - Use prettier?
 - Better CSS linting - more stylistic rules?

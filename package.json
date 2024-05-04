@@ -31,7 +31,7 @@
   "engines": {
     "node": ">=16.10.0"
   },
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@4.2.1",
   "browserslist": [
     "> 0.5%, last 2 versions, Firefox ESR, not dead AND supports es6-module"
   ],
@@ -116,7 +116,6 @@
     "type-detect": "^4.0.8",
     "unified": "^11.0.4",
     "unified-engine": "^11.2.0",
-    "unified-engine-gulp": "^11.0.0",
     "unist-util-visit": "^5.0.0",
     "vnu-jar": "^23.4.11"
   }
