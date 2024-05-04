@@ -2,7 +2,7 @@
 
 # [<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable)<br>An Explorable Explanation of Cumulative Prospect Theory
 
-**NOT PUBLISHED YET!**
+Note: **NOT PUBLISHED YET!**
 
 [![GitHub version](https://img.shields.io/github/package-json/v/decidables/decidables?filename=sites%2Fprospectable%2Fpackage.json&logo=github)](https:/decidables.github.io/prospectable)
 [![license](https://img.shields.io/github/package-json/license/decidables/decidables?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)

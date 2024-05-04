@@ -30,6 +30,6 @@
     "lint": "gulp lint"
   },
   "devDependencies": {
-    "gulp": "^4.0.2"
+    "gulp": "^5.0.0"
   }
 }

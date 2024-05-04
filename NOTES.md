@@ -2,6 +2,9 @@
 
 Move bugs from README into NOTES
 
+To trace deprecations:
+  process.traceDeprecation = true;
+
 Getting the following warning from `node`:
   (node:12224) [DEP0040] DeprecationWarning: The `punycode` module is deprecated.
   Please use a userland alternative instead.
@@ -13,6 +16,25 @@ This is due to the following chain of transitive dependencies:
   punycode
 The issue is that the latest `fetch-ponyfill` relies on an old version of `node-fetch`.
 If `fetch-ponyfill` bumped to the latest (^3) `node-fetch` this would go away
+
+Getting the following warning from `node`:
+  (node:11992) [DEP0180] DeprecationWarning: fs.Stats constructor is deprecated.
+This is due to the following chain of transitive dependencies:
+  stylelint latest (16.5.0)
+  @dual-bundle/import-meta-resolve (4.0.0)
+  fs.Stats()
+
+## Waiting to upgrade
+
+- @commitlint/cli 18.6.1  19.3.0
+- @commitlint/config-conventional 18.6.3  19.2.2
+  Waiting on VSCode plugin: @vivaxy/vscode-conventional-commits
+- eslint  8.57.0  9.2.0
+  Waiting on airbnb/javascript
+- eslint-formatter-pretty 5.0.0 6.0.1
+  Waiting on eslint to go ESM
+- source-serif  4.4.0 4.5.0
+  Waiting on font compatibility issues
 
 ## Write-up
 

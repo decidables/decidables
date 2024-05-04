@@ -50,7 +50,7 @@
     "build": "gulp build"
   },
   "devDependencies": {
-    "gulp": "^4.0.2"
+    "gulp": "^5.0.0"
   },
   "dependencies": {
     "@decidables/decidables-elements": "^0.4.5",

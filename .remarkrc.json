@@ -7,7 +7,7 @@
     "preset-lint-recommended",
     ["lint-first-heading-level", 2],
     ["lint-linebreak-style", "unix"],
-    ["lint-list-item-indent", "space"],
+    ["lint-list-item-indent", "one"],
     ["lint-list-item-spacing", {"checkBlanks": true}],
     ["lint-maximum-heading-length", 100],
     ["lint-maximum-line-length", 100],
