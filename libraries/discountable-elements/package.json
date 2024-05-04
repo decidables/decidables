@@ -1,6 +1,6 @@
 {
   "name": "@decidables/discountable-elements",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "discountable-elements: Web Components for visualizing Hyperbolic Temporal Discounting",
   "keywords": [
     "web component",
@@ -52,8 +52,8 @@
     "gulp": "^5.0.0"
   },
   "dependencies": {
-    "@decidables/decidables-elements": "^0.4.5",
-    "@decidables/discountable-math": "^0.1.6",
+    "@decidables/decidables-elements": "^0.4.6",
+    "@decidables/discountable-math": "^0.1.7",
     "@lit-labs/motion": "^1.0.7",
     "@observablehq/plot": "^0.6.14",
     "bayes.js": "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f",

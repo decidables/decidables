@@ -1,6 +1,6 @@
 {
   "name": "@decidables/detectable",
-  "version": "0.10.3",
+  "version": "0.10.4",
   "description": "detectable: An Explorable Explanation of Signal Detection Theory",
   "type": "module",
   "main": "./dist/index.html",
@@ -26,8 +26,8 @@
     "gulp": "^5.0.0"
   },
   "dependencies": {
-    "@decidables/decidables-site": "^0.1.1",
-    "@decidables/detectable-elements": "^0.2.12",
+    "@decidables/decidables-site": "^0.1.2",
+    "@decidables/detectable-elements": "^0.2.13",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "core-js": "^3.37.0",
