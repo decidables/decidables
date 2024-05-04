@@ -1249,9 +1249,10 @@ Used to build specialized examples illustrating the implications of unequal vari
 include controls, ROC space, and a visual rendering of signal detection theory. The SDT model and
 ROC space can be interactive.
 
-**Note:** Unequal variance can be included in other examples, such as `<detectable-example-interactive>` as
-well. This example is for a particular bespoke illustration, and illustrates the highly specialized
-demonstrations that are possible by composing the various elements.
+**Note:** Unequal variance can be included in other examples, such as
+`<detectable-example-interactive>` as well. This example is for a particular bespoke illustration,
+and illustrates the highly specialized demonstrations that are possible by composing the various
+elements.
 
 ##### Slots
 

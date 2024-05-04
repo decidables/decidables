@@ -54,7 +54,7 @@ $color-element-emphasis: #{$color-grey-dark75};
 
 // CSS Variables
 :root {
-  @each $name in map-keys($color-map) {
+  @each $name in map.keys($color-map) {
     --color-#{$name}: #{dec-color($name)};
     --color-#{$name}-light: #{dec-color-light($name)};
     --color-#{$name}-dark: #{dec-color-dark($name)};
