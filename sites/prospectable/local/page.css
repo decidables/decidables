@@ -2356,6 +2356,9 @@ progress {
 .btn-check:checked + .btn:focus-visible, .btn-check:checked + .dec-nav-toggler:focus-visible, :not(.btn-check) + .btn:active:focus-visible, :not(.btn-check) + .dec-nav-toggler:active:focus-visible, .btn:first-child:active:focus-visible, .dec-nav-toggler:first-child:active:focus-visible, .btn.active:focus-visible, .active.dec-nav-toggler:focus-visible, .btn.show:focus-visible, .show.dec-nav-toggler:focus-visible {
   box-shadow: var(--bs-btn-focus-box-shadow);
 }
+.btn-check:checked:focus-visible + .btn, .btn-check:checked:focus-visible + .dec-nav-toggler {
+  box-shadow: var(--bs-btn-focus-box-shadow);
+}
 .btn:disabled, .dec-nav-toggler:disabled, .btn.disabled, .disabled.dec-nav-toggler, fieldset:disabled .btn, fieldset:disabled .dec-nav-toggler {
   color: var(--bs-btn-disabled-color);
   pointer-events: none;

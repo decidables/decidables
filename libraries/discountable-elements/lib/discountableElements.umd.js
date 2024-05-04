@@ -193,15 +193,15 @@
       super(), this._$Ep = void 0, this.isUpdatePending = !1, this.hasUpdated = !1, this._$Em = null, this._$Ev();
     }
     _$Ev() {
-      this._$Eg = new Promise(t => this.enableUpdating = t), this._$AL = new Map(), this._$ES(), this.requestUpdate(), this.constructor.l?.forEach(t => t(this));
+      this._$ES = new Promise(t => this.enableUpdating = t), this._$AL = new Map(), this._$E_(), this.requestUpdate(), this.constructor.l?.forEach(t => t(this));
     }
     addController(t) {
-      (this._$E_ ??= new Set()).add(t), void 0 !== this.renderRoot && this.isConnected && t.hostConnected?.();
+      (this._$EO ??= new Set()).add(t), void 0 !== this.renderRoot && this.isConnected && t.hostConnected?.();
     }
     removeController(t) {
-      this._$E_?.delete(t);
+      this._$EO?.delete(t);
     }
-    _$ES() {
+    _$E_() {
       const t = new Map(),
         s = this.constructor.elementProperties;
       for (const i of s.keys()) this.hasOwnProperty(i) && (t.set(i, this[i]), delete this[i]);
@@ -212,16 +212,16 @@
       return S$1(t, this.constructor.elementStyles), t;
     }
     connectedCallback() {
-      this.renderRoot ??= this.createRenderRoot(), this.enableUpdating(!0), this._$E_?.forEach(t => t.hostConnected?.());
+      this.renderRoot ??= this.createRenderRoot(), this.enableUpdating(!0), this._$EO?.forEach(t => t.hostConnected?.());
     }
     enableUpdating(t) {}
     disconnectedCallback() {
-      this._$E_?.forEach(t => t.hostDisconnected?.());
+      this._$EO?.forEach(t => t.hostDisconnected?.());
     }
     attributeChangedCallback(t, s, i) {
       this._$AK(t, i);
     }
-    _$EO(t, s) {
+    _$EC(t, s) {
       const i = this.constructor.elementProperties.get(t),
         e = this.constructor._$Eu(t, i);
       if (void 0 !== e && !0 === i.reflect) {
@@ -240,20 +240,20 @@
         this._$Em = e, this[e] = r.fromAttribute(s, t.type), this._$Em = null;
       }
     }
-    requestUpdate(t, s, i, e = !1, r) {
+    requestUpdate(t, s, i) {
       if (void 0 !== t) {
-        if (i ??= this.constructor.getPropertyOptions(t), !(i.hasChanged ?? f$3)(e ? r : this[t], s)) return;
-        this.C(t, s, i);
+        if (i ??= this.constructor.getPropertyOptions(t), !(i.hasChanged ?? f$3)(this[t], s)) return;
+        this.P(t, s, i);
       }
-      !1 === this.isUpdatePending && (this._$Eg = this._$EP());
+      !1 === this.isUpdatePending && (this._$ES = this._$ET());
     }
-    C(t, s, i) {
+    P(t, s, i) {
       this._$AL.has(t) || this._$AL.set(t, s), !0 === i.reflect && this._$Em !== t && (this._$Ej ??= new Set()).add(t);
     }
-    async _$EP() {
+    async _$ET() {
       this.isUpdatePending = !0;
       try {
-        await this._$Eg;
+        await this._$ES;
       } catch (t) {
         Promise.reject(t);
       }
@@ -271,35 +271,35 @@
           this._$Ep = void 0;
         }
         const t = this.constructor.elementProperties;
-        if (t.size > 0) for (const [s, i] of t) !0 !== i.wrapped || this._$AL.has(s) || void 0 === this[s] || this.C(s, this[s], i);
+        if (t.size > 0) for (const [s, i] of t) !0 !== i.wrapped || this._$AL.has(s) || void 0 === this[s] || this.P(s, this[s], i);
       }
       let t = !1;
       const s = this._$AL;
       try {
-        t = this.shouldUpdate(s), t ? (this.willUpdate(s), this._$E_?.forEach(t => t.hostUpdate?.()), this.update(s)) : this._$ET();
+        t = this.shouldUpdate(s), t ? (this.willUpdate(s), this._$EO?.forEach(t => t.hostUpdate?.()), this.update(s)) : this._$EU();
       } catch (s) {
-        throw t = !1, this._$ET(), s;
+        throw t = !1, this._$EU(), s;
       }
       t && this._$AE(s);
     }
     willUpdate(t) {}
     _$AE(t) {
-      this._$E_?.forEach(t => t.hostUpdated?.()), this.hasUpdated || (this.hasUpdated = !0, this.firstUpdated(t)), this.updated(t);
+      this._$EO?.forEach(t => t.hostUpdated?.()), this.hasUpdated || (this.hasUpdated = !0, this.firstUpdated(t)), this.updated(t);
     }
-    _$ET() {
+    _$EU() {
       this._$AL = new Map(), this.isUpdatePending = !1;
     }
     get updateComplete() {
       return this.getUpdateComplete();
     }
     getUpdateComplete() {
-      return this._$Eg;
+      return this._$ES;
     }
     shouldUpdate(t) {
       return !0;
     }
     update(t) {
-      this._$Ej &&= this._$Ej.forEach(t => this._$EO(t, this[t])), this._$ET();
+      this._$Ej &&= this._$Ej.forEach(t => this._$EC(t, this[t])), this._$EU();
     }
     updated(t) {}
     firstUpdated(t) {}
@@ -308,7 +308,7 @@
     mode: "open"
   }, b$2[d$1("elementProperties")] = new Map(), b$2[d$1("finalized")] = new Map(), p$1?.({
     ReactiveElement: b$2
-  }), (a$3.reactiveElementVersions ??= []).push("2.0.2");
+  }), (a$3.reactiveElementVersions ??= []).push("2.0.4");
 
   /**
    * @license
@@ -321,7 +321,7 @@
       createHTML: t => t
     }) : void 0,
     e$1 = "$lit$",
-    h$1 = `lit$${(Math.random() + "").slice(9)}$`,
+    h$1 = `lit$${Math.random().toFixed(9).slice(2)}$`,
     o$3 = "?" + h$1,
     n$2 = `<${o$3}>`,
     r$3 = document,
@@ -495,18 +495,18 @@
       return this._$AB;
     }
     _$AI(t, i = this) {
-      t = N$1(this, t, i), c$4(t) ? t === T || null == t || "" === t ? (this._$AH !== T && this._$AR(), this._$AH = T) : t !== this._$AH && t !== w$1 && this._(t) : void 0 !== t._$litType$ ? this.g(t) : void 0 !== t.nodeType ? this.$(t) : u(t) ? this.T(t) : this._(t);
+      t = N$1(this, t, i), c$4(t) ? t === T || null == t || "" === t ? (this._$AH !== T && this._$AR(), this._$AH = T) : t !== this._$AH && t !== w$1 && this._(t) : void 0 !== t._$litType$ ? this.$(t) : void 0 !== t.nodeType ? this.T(t) : u(t) ? this.k(t) : this._(t);
     }
-    k(t) {
+    S(t) {
       return this._$AA.parentNode.insertBefore(t, this._$AB);
     }
-    $(t) {
-      this._$AH !== t && (this._$AR(), this._$AH = this.k(t));
+    T(t) {
+      this._$AH !== t && (this._$AR(), this._$AH = this.S(t));
     }
     _(t) {
-      this._$AH !== T && c$4(this._$AH) ? this._$AA.nextSibling.data = t : this.$(r$3.createTextNode(t)), this._$AH = t;
+      this._$AH !== T && c$4(this._$AH) ? this._$AA.nextSibling.data = t : this.T(r$3.createTextNode(t)), this._$AH = t;
     }
-    g(t) {
+    $(t) {
       const {
           values: i,
           _$litType$: s
@@ -515,19 +515,19 @@
       if (this._$AH?._$AD === e) this._$AH.p(i);else {
         const t = new S(e, this),
           s = t.u(this.options);
-        t.p(i), this.$(s), this._$AH = t;
+        t.p(i), this.T(s), this._$AH = t;
       }
     }
     _$AC(t) {
       let i = A$2.get(t.strings);
       return void 0 === i && A$2.set(t.strings, i = new V(t)), i;
     }
-    T(t) {
+    k(t) {
       a$2(this._$AH) || (this._$AH = [], this._$AR());
       const i = this._$AH;
       let s,
         e = 0;
-      for (const h of t) e === i.length ? i.push(s = new M(this.k(l()), this.k(l()), this, this.options)) : s = i[e], s._$AI(h), e++;
+      for (const h of t) e === i.length ? i.push(s = new M(this.S(l()), this.S(l()), this, this.options)) : s = i[e], s._$AI(h), e++;
       e < i.length && (this._$AR(s && s._$AB.nextSibling, e), i.length = e);
     }
     _$AR(t = this._$AA.nextSibling, i) {
@@ -558,9 +558,9 @@
         let n, r;
         for (t = h[0], n = 0; n < h.length - 1; n++) r = N$1(this, e[s + n], i, n), r === w$1 && (r = this._$AH[n]), o ||= !c$4(r) || r !== this._$AH[n], r === T ? t = T : t !== T && (t += (r ?? "") + h[n + 1]), this._$AH[n] = r;
       }
-      o && !e && this.O(t);
+      o && !e && this.j(t);
     }
-    O(t) {
+    j(t) {
       t === T ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t ?? "");
     }
   }
@@ -568,7 +568,7 @@
     constructor() {
       super(...arguments), this.type = 3;
     }
-    O(t) {
+    j(t) {
       this.element[this.name] = t === T ? void 0 : t;
     }
   };
@@ -576,7 +576,7 @@
     constructor() {
       super(...arguments), this.type = 4;
     }
-    O(t) {
+    j(t) {
       this.element.toggleAttribute(this.name, !!t && t !== T);
     }
   }
@@ -607,7 +607,7 @@
     }
   }
   const Z = t$1.litHtmlPolyfillSupport;
-  Z?.(V, M$1), (t$1.litHtmlVersions ??= []).push("3.1.0");
+  Z?.(V, M$1), (t$1.litHtmlVersions ??= []).push("3.1.3");
   const j$1 = (t, i, s) => {
     const e = s?.renderBefore ?? i;
     let h = e._$litPart$;
@@ -654,7 +654,7 @@
   r$2?.({
     LitElement: s$2
   });
-  (globalThis.litElementVersions ??= []).push("4.0.2");
+  (globalThis.litElementVersions ??= []).push("4.0.5");
 
   function ascending$1(a, b) {
     return a == null || b == null ? NaN : a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
@@ -5641,7 +5641,7 @@
 
   function clipCircle (radius) {
     var cr = cos$1(radius),
-      delta = 6 * radians$1,
+      delta = 2 * radians$1,
       smallRadius = cr > 0,
       notHemisphere = abs(cr) > epsilon$1; // TODO optimise for this common case
 
@@ -8767,6 +8767,8 @@
   var schemeAccent = colors("7fc97fbeaed4fdc086ffff99386cb0f0027fbf5b17666666");
 
   var schemeDark2 = colors("1b9e77d95f027570b3e7298a66a61ee6ab02a6761d666666");
+
+  var schemeObservable10 = colors("4269d0efb118ff725c6cc5b03ca951ff8ab7a463f297bbf59c6b4e9498a0");
 
   var schemePaired = colors("a6cee31f78b4b2df8a33a02cfb9a99e31a1cfdbf6fff7f00cab2d66a3d9affff99b15928");
 
@@ -12082,31 +12084,31 @@
     j = new WeakMap();
   class x extends f {
     constructor(t$1) {
-      if (super(t$1), this.t = null, this.i = null, this.o = !0, this.shouldLog = !1, t$1.type === t.CHILD) throw Error("The `animate` directive must be used in attribute position.");
+      if (super(t$1), this.t = !1, this.i = null, this.o = null, this.h = !0, this.shouldLog = !1, t$1.type === t.CHILD) throw Error("The `animate` directive must be used in attribute position.");
       this.createFinished();
     }
     createFinished() {
       this.resolveFinished?.(), this.finished = new Promise(t => {
-        this.h = t;
+        this.l = t;
       });
     }
     async resolveFinished() {
-      this.h?.(), this.h = void 0;
+      this.l?.(), this.l = void 0;
     }
     render(i) {
       return T;
     }
     getController() {
-      return i.get(this.l);
+      return i.get(this.u);
     }
     isDisabled() {
       return this.options.disabled || this.getController()?.disabled;
     }
     update(t, [i]) {
-      const s = void 0 === this.l;
-      return s && (this.l = t.options?.host, this.l.addController(this), this.element = t.element, j.set(this.element, this)), this.optionsOrCallback = i, (s || "function" != typeof i) && this.u(i), this.render(i);
+      const s = void 0 === this.u;
+      return s && (this.u = t.options?.host, this.u.addController(this), this.u.updateComplete.then(t => this.t = !0), this.element = t.element, j.set(this.element, this)), this.optionsOrCallback = i, (s || "function" != typeof i) && this.p(i), this.render(i);
     }
-    u(t) {
+    p(t) {
       t = t ?? {};
       const i = this.getController();
       void 0 !== i && ((t = {
@@ -12117,7 +12119,7 @@
         ...t.keyframeOptions
       }), t.properties ??= b, this.options = t;
     }
-    p() {
+    m() {
       const t = {},
         i = this.element.getBoundingClientRect(),
         s = getComputedStyle(this.element);
@@ -12127,7 +12129,7 @@
         t[e] = isNaN(o) ? h + "" : o;
       }), t;
     }
-    m() {
+    v() {
       let t,
         i = !0;
       return this.options.guard && (t = this.options.guard(), i = ((t, i) => {
@@ -12135,24 +12137,24 @@
           if (Array.isArray(i) && i.length === t.length && t.every((t, s) => t === i[s])) return !1;
         } else if (i === t) return !1;
         return !0;
-      })(t, this.v)), this.o = this.l.hasUpdated && !this.isDisabled() && !this.isAnimating() && i && this.element.isConnected, this.o && (this.v = Array.isArray(t) ? Array.from(t) : t), this.o;
+      })(t, this._)), this.h = this.t && !this.isDisabled() && !this.isAnimating() && i && this.element.isConnected, this.h && (this._ = Array.isArray(t) ? Array.from(t) : t), this.h;
     }
     hostUpdate() {
-      "function" == typeof this.optionsOrCallback && this.u(this.optionsOrCallback()), this.m() && (this.g = this.p(), this.t = this.t ?? this.element.parentNode, this.i = this.element.nextSibling);
+      "function" == typeof this.optionsOrCallback && this.p(this.optionsOrCallback()), this.v() && (this.A = this.m(), this.i = this.i ?? this.element.parentNode, this.o = this.element.nextSibling);
     }
     async hostUpdated() {
-      if (!this.o || !this.element.isConnected || this.options.skipInitial && !this.isHostRendered) return;
+      if (!this.h || !this.element.isConnected || this.options.skipInitial && !this.isHostRendered) return;
       let t;
       this.prepare(), await a;
-      const i = this._(),
-        s = this.A(this.options.keyframeOptions, i),
-        e = this.p();
-      if (void 0 !== this.g) {
+      const i = this.O(),
+        s = this.j(this.options.keyframeOptions, i),
+        e = this.m();
+      if (void 0 !== this.A) {
         const {
           from: s,
           to: h
-        } = this.O(this.g, e, i);
-        this.log("measured", [this.g, e, s, h]), t = this.calculateKeyframes(s, h);
+        } = this.N(this.A, e, i);
+        this.log("measured", [this.A, e, s, h]), t = this.calculateKeyframes(s, h);
       } else {
         const s = r.get(this.options.inId);
         if (s) {
@@ -12160,7 +12162,7 @@
           const {
             from: h,
             to: n
-          } = this.O(s, e, i);
+          } = this.N(s, e, i);
           t = this.calculateKeyframes(h, n), t = this.options.in ? [{
             ...this.options.in[0],
             ...t[0]
@@ -12170,26 +12172,26 @@
       this.animate(t, s);
     }
     resetStyles() {
-      void 0 !== this.j && (this.element.setAttribute("style", this.j ?? ""), this.j = void 0);
+      void 0 !== this.P && (this.element.setAttribute("style", this.P ?? ""), this.P = void 0);
     }
     commitStyles() {
-      this.j = this.element.getAttribute("style"), this.webAnimation?.commitStyles(), this.webAnimation?.cancel();
+      this.P = this.element.getAttribute("style"), this.webAnimation?.commitStyles(), this.webAnimation?.cancel();
     }
     reconnected() {}
     async disconnected() {
-      if (!this.o) return;
-      if (void 0 !== this.options.id && r.set(this.options.id, this.g), void 0 === this.options.out) return;
-      if (this.prepare(), await a(), this.t?.isConnected) {
-        const t = this.i && this.i.parentNode === this.t ? this.i : null;
-        if (this.t.insertBefore(this.element, t), this.options.stabilizeOut) {
-          const t = this.p();
+      if (!this.h) return;
+      if (void 0 !== this.options.id && r.set(this.options.id, this.A), void 0 === this.options.out) return;
+      if (this.prepare(), await a(), this.i?.isConnected) {
+        const t = this.o && this.o.parentNode === this.i ? this.o : null;
+        if (this.i.insertBefore(this.element, t), this.options.stabilizeOut) {
+          const t = this.m();
           this.log("stabilizing out");
-          const i = this.g.left - t.left,
-            s = this.g.top - t.top;
+          const i = this.A.left - t.left,
+            s = this.A.top - t.top;
           !("static" === getComputedStyle(this.element).position) || 0 === i && 0 === s || (this.element.style.position = "relative"), 0 !== i && (this.element.style.left = i + "px"), 0 !== s && (this.element.style.top = s + "px");
         }
       }
-      const t = this.A(this.options.keyframeOptions);
+      const t = this.j(this.options.keyframeOptions);
       await this.animate(this.options.out, t), this.element.remove();
     }
     prepare() {
@@ -12199,9 +12201,9 @@
       this.options.onStart?.(this);
     }
     didFinish(t) {
-      t && this.options.onComplete?.(this), this.g = void 0, this.animatingProperties = void 0, this.frames = void 0, this.resolveFinished();
+      t && this.options.onComplete?.(this), this.A = void 0, this.animatingProperties = void 0, this.frames = void 0, this.resolveFinished();
     }
-    _() {
+    O() {
       const t = [];
       for (let i = this.element.parentNode; i; i = i?.parentNode) {
         const s = j.get(i);
@@ -12210,18 +12212,18 @@
       return t;
     }
     get isHostRendered() {
-      const t = n.has(this.l);
-      return t || this.l.updateComplete.then(() => {
-        n.add(this.l);
+      const t = n.has(this.u);
+      return t || this.u.updateComplete.then(() => {
+        n.add(this.u);
       }), t;
     }
-    A(t, i = this._()) {
+    j(t, i = this.O()) {
       const s = {
         ...A
       };
       return i.forEach(t => Object.assign(s, t.options.keyframeOptions)), Object.assign(s, t), s;
     }
-    O(t, i, s) {
+    N(t, i, s) {
       t = {
         ...t
       }, i = {
@@ -12230,7 +12232,7 @@
       const e = s.map(t => t.animatingProperties).filter(t => void 0 !== t);
       let h = 1,
         o = 1;
-      return void 0 !== e && (e.forEach(t => {
+      return e.length > 0 && (e.forEach(t => {
         t.width && (h /= t.width), t.height && (o /= t.height);
       }), void 0 !== t.left && void 0 !== i.left && (t.left = h * t.left, i.left = h * i.left), void 0 !== t.top && void 0 !== i.top && (t.top = o * t.top, i.top = o * i.top)), {
         from: t,
@@ -13569,6 +13571,16 @@
     return new Date(string);
   }
 
+  // Like a sort comparator, returns a positive value if the given array of values
+  // is in ascending order, a negative value if the values are in descending
+  // order. Assumes monotonicity; only tests the first and last values.
+  function orderof(values) {
+    if (values == null) return;
+    const first = values[0];
+    const last = values[values.length - 1];
+    return descending(first, last);
+  }
+
   const durationSecond = 1000;
   const durationMinute = durationSecond * 60;
   const durationHour = durationMinute * 60;
@@ -14171,16 +14183,6 @@
     return maybeAnchor$1(value, "frameAnchor");
   }
 
-  // Like a sort comparator, returns a positive value if the given array of values
-  // is in ascending order, a negative value if the values are in descending
-  // order. Assumes monotonicity; only tests the first and last values.
-  function orderof(values) {
-    if (values == null) return;
-    const first = values[0];
-    const last = values[values.length - 1];
-    return descending(first, last);
-  }
-
   // Unlike {...defaults, ...options}, this ensures that any undefined (but
   // present) properties in options inherit the given default value.
   function inherit(options = {}, ...rest) {
@@ -14218,6 +14220,13 @@
   }
   function maybeNamed(things) {
     return isIterable(things) ? named(things) : things;
+  }
+
+  // TODO Accept other types of clips (paths, urls, x, y, other marks…)?
+  // https://github.com/observablehq/plot/issues/181
+  function maybeClip(clip) {
+    if (clip === true) clip = "frame";else if (clip === false) clip = null;else if (clip != null) clip = keyword(clip, "clip", ["frame", "sphere"]);
+    return clip;
   }
 
   // Positional scales have associated axes, and for ordinal data, a point or band
@@ -14519,7 +14528,7 @@
     };
   }
   function maybeGroup(I, X) {
-    return X ? sort(group(I, i => X[i]), first) : [[, I]];
+    return X ? group(I, i => X[i]) : [[, I]];
   }
   function maybeReduce(reduce, value, fallback = invalidReduce) {
     if (reduce == null) return fallback(reduce);
@@ -14667,6 +14676,13 @@
       reduceIndex: (I, V, basis = 1) => sum(I, i => V[i]) / basis
     };
   }
+  const reduceZ = {
+    reduceIndex(I, X, {
+      z
+    }) {
+      return z;
+    }
+  };
 
   function createChannel(data, {
     scale,
@@ -14847,499 +14863,6 @@
     return channel.source === null ? null : channel;
   }
 
-  function memoize1(compute) {
-    let cacheValue, cacheKeys;
-    return (...keys) => {
-      if (cacheKeys?.length !== keys.length || cacheKeys.some((k, i) => k !== keys[i])) {
-        cacheKeys = keys;
-        cacheValue = compute(...keys);
-      }
-      return cacheValue;
-    };
-  }
-
-  const numberFormat = memoize1(locale => {
-    return new Intl.NumberFormat(locale);
-  });
-  function formatNumber(locale = "en-US") {
-    const format = numberFormat(locale);
-    return i => i != null && !isNaN(i) ? format.format(i) : undefined;
-  }
-  function formatIsoDate(date) {
-    return format(date, "Invalid Date");
-  }
-  function formatAuto(locale = "en-US") {
-    const number = formatNumber(locale);
-    return v => (v instanceof Date ? formatIsoDate : typeof v === "number" ? number : string)(v);
-  }
-
-  // TODO When Plot supports a top-level locale option, this should be removed
-  // because it lacks context to know which locale to use; formatAuto should be
-  // used instead whenever possible.
-  const formatDefault = formatAuto();
-
-  let warnings = 0;
-  let lastMessage;
-  function consumeWarnings() {
-    const w = warnings;
-    warnings = 0;
-    lastMessage = undefined;
-    return w;
-  }
-  function warn(message) {
-    if (message === lastMessage) return;
-    lastMessage = message;
-    console.warn(message);
-    ++warnings;
-  }
-
-  const offset = (typeof window !== "undefined" ? window.devicePixelRatio > 1 : typeof it === "undefined") ? 0 : 0.5; // prettier-ignore
-
-  let nextClipId = 0;
-  function getClipId() {
-    return `plot-clip-${++nextClipId}`;
-  }
-  function styles(mark, {
-    title,
-    href,
-    ariaLabel: variaLabel,
-    ariaDescription,
-    ariaHidden,
-    target,
-    fill,
-    fillOpacity,
-    stroke,
-    strokeWidth,
-    strokeOpacity,
-    strokeLinejoin,
-    strokeLinecap,
-    strokeMiterlimit,
-    strokeDasharray,
-    strokeDashoffset,
-    opacity,
-    mixBlendMode,
-    imageFilter,
-    paintOrder,
-    pointerEvents,
-    shapeRendering,
-    channels
-  }, {
-    ariaLabel: cariaLabel,
-    fill: defaultFill = "currentColor",
-    fillOpacity: defaultFillOpacity,
-    stroke: defaultStroke = "none",
-    strokeOpacity: defaultStrokeOpacity,
-    strokeWidth: defaultStrokeWidth,
-    strokeLinecap: defaultStrokeLinecap,
-    strokeLinejoin: defaultStrokeLinejoin,
-    strokeMiterlimit: defaultStrokeMiterlimit,
-    paintOrder: defaultPaintOrder
-  }) {
-    // Some marks don’t support fill (e.g., tick and rule).
-    if (defaultFill === null) {
-      fill = null;
-      fillOpacity = null;
-    }
-
-    // Some marks don’t support stroke (e.g., image).
-    if (defaultStroke === null) {
-      stroke = null;
-      strokeOpacity = null;
-    }
-
-    // Some marks default to fill with no stroke, while others default to stroke
-    // with no fill. For example, bar and area default to fill, while dot and line
-    // default to stroke. For marks that fill by default, the default fill only
-    // applies if the stroke is (constant) none; if you set a stroke, then the
-    // default fill becomes none. Similarly for marks that stroke by stroke, the
-    // default stroke only applies if the fill is (constant) none.
-    if (isNoneish(defaultFill)) {
-      if (!isNoneish(defaultStroke) && (!isNoneish(fill) || channels?.fill)) defaultStroke = "none";
-    } else {
-      if (isNoneish(defaultStroke) && (!isNoneish(stroke) || channels?.stroke)) defaultFill = "none";
-    }
-    const [vfill, cfill] = maybeColorChannel(fill, defaultFill);
-    const [vfillOpacity, cfillOpacity] = maybeNumberChannel(fillOpacity, defaultFillOpacity);
-    const [vstroke, cstroke] = maybeColorChannel(stroke, defaultStroke);
-    const [vstrokeOpacity, cstrokeOpacity] = maybeNumberChannel(strokeOpacity, defaultStrokeOpacity);
-    const [vopacity, copacity] = maybeNumberChannel(opacity);
-
-    // For styles that have no effect if there is no stroke, only apply the
-    // defaults if the stroke is not the constant none. (If stroke is a channel,
-    // then cstroke will be undefined, but there’s still a stroke; hence we don’t
-    // use isNoneish here.)
-    if (!isNone(cstroke)) {
-      if (strokeWidth === undefined) strokeWidth = defaultStrokeWidth;
-      if (strokeLinecap === undefined) strokeLinecap = defaultStrokeLinecap;
-      if (strokeLinejoin === undefined) strokeLinejoin = defaultStrokeLinejoin;
-
-      // The default stroke miterlimit need not be applied if the current stroke
-      // is the constant round; this only has effect on miter joins.
-      if (strokeMiterlimit === undefined && !isRound(strokeLinejoin)) strokeMiterlimit = defaultStrokeMiterlimit;
-
-      // The paint order only takes effect if there is both a fill and a stroke
-      // (at least if we ignore markers, which no built-in marks currently use).
-      if (!isNone(cfill) && paintOrder === undefined) paintOrder = defaultPaintOrder;
-    }
-    const [vstrokeWidth, cstrokeWidth] = maybeNumberChannel(strokeWidth);
-
-    // Some marks don’t support fill (e.g., tick and rule).
-    if (defaultFill !== null) {
-      mark.fill = impliedString(cfill, "currentColor");
-      mark.fillOpacity = impliedNumber(cfillOpacity, 1);
-    }
-
-    // Some marks don’t support stroke (e.g., image).
-    if (defaultStroke !== null) {
-      mark.stroke = impliedString(cstroke, "none");
-      mark.strokeWidth = impliedNumber(cstrokeWidth, 1);
-      mark.strokeOpacity = impliedNumber(cstrokeOpacity, 1);
-      mark.strokeLinejoin = impliedString(strokeLinejoin, "miter");
-      mark.strokeLinecap = impliedString(strokeLinecap, "butt");
-      mark.strokeMiterlimit = impliedNumber(strokeMiterlimit, 4);
-      mark.strokeDasharray = impliedString(strokeDasharray, "none");
-      mark.strokeDashoffset = impliedString(strokeDashoffset, "0");
-    }
-    mark.target = string(target);
-    mark.ariaLabel = string(cariaLabel);
-    mark.ariaDescription = string(ariaDescription);
-    mark.ariaHidden = string(ariaHidden);
-    mark.opacity = impliedNumber(copacity, 1);
-    mark.mixBlendMode = impliedString(mixBlendMode, "normal");
-    mark.imageFilter = impliedString(imageFilter, "none");
-    mark.paintOrder = impliedString(paintOrder, "normal");
-    mark.pointerEvents = impliedString(pointerEvents, "auto");
-    mark.shapeRendering = impliedString(shapeRendering, "auto");
-    return {
-      title: {
-        value: title,
-        optional: true,
-        filter: null
-      },
-      href: {
-        value: href,
-        optional: true,
-        filter: null
-      },
-      ariaLabel: {
-        value: variaLabel,
-        optional: true,
-        filter: null
-      },
-      fill: {
-        value: vfill,
-        scale: "auto",
-        optional: true
-      },
-      fillOpacity: {
-        value: vfillOpacity,
-        scale: "auto",
-        optional: true
-      },
-      stroke: {
-        value: vstroke,
-        scale: "auto",
-        optional: true
-      },
-      strokeOpacity: {
-        value: vstrokeOpacity,
-        scale: "auto",
-        optional: true
-      },
-      strokeWidth: {
-        value: vstrokeWidth,
-        optional: true
-      },
-      opacity: {
-        value: vopacity,
-        scale: "auto",
-        optional: true
-      }
-    };
-  }
-
-  // Applies the specified titles via selection.call.
-  function applyTitle(selection, L) {
-    if (L) selection.filter(i => nonempty(L[i])).append("title").call(applyText, L);
-  }
-
-  // Like applyTitle, but for grouped data (lines, areas).
-  function applyTitleGroup(selection, L) {
-    if (L) selection.filter(([i]) => nonempty(L[i])).append("title").call(applyTextGroup, L);
-  }
-  function applyText(selection, T) {
-    if (T) selection.text(i => formatDefault(T[i]));
-  }
-  function applyTextGroup(selection, T) {
-    if (T) selection.text(([i]) => formatDefault(T[i]));
-  }
-  function applyChannelStyles(selection, {
-    target,
-    tip
-  }, {
-    ariaLabel: AL,
-    title: T,
-    fill: F,
-    fillOpacity: FO,
-    stroke: S,
-    strokeOpacity: SO,
-    strokeWidth: SW,
-    opacity: O,
-    href: H
-  }) {
-    if (AL) applyAttr(selection, "aria-label", i => AL[i]);
-    if (F) applyAttr(selection, "fill", i => F[i]);
-    if (FO) applyAttr(selection, "fill-opacity", i => FO[i]);
-    if (S) applyAttr(selection, "stroke", i => S[i]);
-    if (SO) applyAttr(selection, "stroke-opacity", i => SO[i]);
-    if (SW) applyAttr(selection, "stroke-width", i => SW[i]);
-    if (O) applyAttr(selection, "opacity", i => O[i]);
-    if (H) applyHref(selection, i => H[i], target);
-    if (!tip) applyTitle(selection, T);
-  }
-  function applyGroupedChannelStyles(selection, {
-    target,
-    tip
-  }, {
-    ariaLabel: AL,
-    title: T,
-    fill: F,
-    fillOpacity: FO,
-    stroke: S,
-    strokeOpacity: SO,
-    strokeWidth: SW,
-    opacity: O,
-    href: H
-  }) {
-    if (AL) applyAttr(selection, "aria-label", ([i]) => AL[i]);
-    if (F) applyAttr(selection, "fill", ([i]) => F[i]);
-    if (FO) applyAttr(selection, "fill-opacity", ([i]) => FO[i]);
-    if (S) applyAttr(selection, "stroke", ([i]) => S[i]);
-    if (SO) applyAttr(selection, "stroke-opacity", ([i]) => SO[i]);
-    if (SW) applyAttr(selection, "stroke-width", ([i]) => SW[i]);
-    if (O) applyAttr(selection, "opacity", ([i]) => O[i]);
-    if (H) applyHref(selection, ([i]) => H[i], target);
-    if (!tip) applyTitleGroup(selection, T);
-  }
-  function groupAesthetics({
-    ariaLabel: AL,
-    title: T,
-    fill: F,
-    fillOpacity: FO,
-    stroke: S,
-    strokeOpacity: SO,
-    strokeWidth: SW,
-    opacity: O,
-    href: H
-  }, {
-    tip
-  }) {
-    return [AL, tip ? undefined : T, F, FO, S, SO, SW, O, H].filter(c => c !== undefined);
-  }
-  function groupZ(I, Z, z) {
-    const G = group(I, i => Z[i]);
-    if (z === undefined && G.size > 1 + I.length >> 1) {
-      warn(`Warning: the implicit z channel has high cardinality. This may occur when the fill or stroke channel is associated with quantitative data rather than ordinal or categorical data. You can suppress this warning by setting the z option explicitly; if this data represents a single series, set z to null.`);
-    }
-    return G.values();
-  }
-  function* groupIndex(I, position, mark, channels) {
-    const {
-      z
-    } = mark;
-    const {
-      z: Z
-    } = channels; // group channel
-    const A = groupAesthetics(channels, mark); // aesthetic channels
-    const C = [...position, ...A]; // all channels
-
-    // Group the current index by Z (if any).
-    for (const G of Z ? groupZ(I, Z, z) : [I]) {
-      let Ag; // the A-values (aesthetics) of the current group, if any
-      let Gg; // the current group index (a subset of G, and I), if any
-      out: for (const i of G) {
-        // If any channel has an undefined value for this index, skip it.
-        for (const c of C) {
-          if (!defined(c[i])) {
-            if (Gg) Gg.push(-1);
-            continue out;
-          }
-        }
-
-        // Otherwise, if this is a new group, record the aesthetics for this
-        // group. Yield the current group and start a new one.
-        if (Ag === undefined) {
-          if (Gg) yield Gg;
-          Ag = A.map(c => keyof(c[i])), Gg = [i];
-          continue;
-        }
-
-        // Otherwise, add the current index to the current group. Then, if any of
-        // the aesthetics don’t match the current group, yield the current group
-        // and start a new group of the current index.
-        Gg.push(i);
-        for (let j = 0; j < A.length; ++j) {
-          const k = keyof(A[j][i]);
-          if (k !== Ag[j]) {
-            yield Gg;
-            Ag = A.map(c => keyof(c[i])), Gg = [i];
-            continue out;
-          }
-        }
-      }
-
-      // Yield the current group, if any.
-      if (Gg) yield Gg;
-    }
-  }
-
-  // TODO Accept other types of clips (paths, urls, x, y, other marks…)?
-  // https://github.com/observablehq/plot/issues/181
-  function maybeClip(clip) {
-    if (clip === true) clip = "frame";else if (clip === false) clip = null;else if (clip != null) clip = keyword(clip, "clip", ["frame", "sphere"]);
-    return clip;
-  }
-
-  // Note: may mutate selection.node!
-  function applyClip(selection, mark, dimensions, context) {
-    let clipUrl;
-    const {
-      clip = context.clip
-    } = mark;
-    switch (clip) {
-      case "frame":
-        {
-          const {
-            width,
-            height,
-            marginLeft,
-            marginRight,
-            marginTop,
-            marginBottom
-          } = dimensions;
-          const id = getClipId();
-          clipUrl = `url(#${id})`;
-          selection = create("svg:g", context).call(g => g.append("svg:clipPath").attr("id", id).append("rect").attr("x", marginLeft).attr("y", marginTop).attr("width", width - marginRight - marginLeft).attr("height", height - marginTop - marginBottom)).each(function () {
-            this.appendChild(selection.node());
-            selection.node = () => this; // Note: mutation!
-          });
-          break;
-        }
-      case "sphere":
-        {
-          const {
-            projection
-          } = context;
-          if (!projection) throw new Error(`the "sphere" clip option requires a projection`);
-          const id = getClipId();
-          clipUrl = `url(#${id})`;
-          selection.append("clipPath").attr("id", id).append("path").attr("d", geoPath(projection)({
-            type: "Sphere"
-          }));
-          break;
-        }
-    }
-    // Here we’re careful to apply the ARIA attributes to the outer G element when
-    // clipping is applied, and to apply the ARIA attributes before any other
-    // attributes (for readability).
-    applyAttr(selection, "aria-label", mark.ariaLabel);
-    applyAttr(selection, "aria-description", mark.ariaDescription);
-    applyAttr(selection, "aria-hidden", mark.ariaHidden);
-    applyAttr(selection, "clip-path", clipUrl);
-  }
-
-  // Note: may mutate selection.node!
-  function applyIndirectStyles(selection, mark, dimensions, context) {
-    applyClip(selection, mark, dimensions, context);
-    applyAttr(selection, "fill", mark.fill);
-    applyAttr(selection, "fill-opacity", mark.fillOpacity);
-    applyAttr(selection, "stroke", mark.stroke);
-    applyAttr(selection, "stroke-width", mark.strokeWidth);
-    applyAttr(selection, "stroke-opacity", mark.strokeOpacity);
-    applyAttr(selection, "stroke-linejoin", mark.strokeLinejoin);
-    applyAttr(selection, "stroke-linecap", mark.strokeLinecap);
-    applyAttr(selection, "stroke-miterlimit", mark.strokeMiterlimit);
-    applyAttr(selection, "stroke-dasharray", mark.strokeDasharray);
-    applyAttr(selection, "stroke-dashoffset", mark.strokeDashoffset);
-    applyAttr(selection, "shape-rendering", mark.shapeRendering);
-    applyAttr(selection, "filter", mark.imageFilter);
-    applyAttr(selection, "paint-order", mark.paintOrder);
-    const {
-      pointerEvents = context.pointerSticky === false ? "none" : undefined
-    } = mark;
-    applyAttr(selection, "pointer-events", pointerEvents);
-  }
-  function applyDirectStyles(selection, mark) {
-    applyStyle(selection, "mix-blend-mode", mark.mixBlendMode);
-    applyAttr(selection, "opacity", mark.opacity);
-  }
-  function applyHref(selection, href, target) {
-    selection.each(function (i) {
-      const h = href(i);
-      if (h != null) {
-        const a = this.ownerDocument.createElementNS(namespaces.svg, "a");
-        a.setAttribute("fill", "inherit");
-        a.setAttributeNS(namespaces.xlink, "href", h);
-        if (target != null) a.setAttribute("target", target);
-        this.parentNode.insertBefore(a, this).appendChild(this);
-      }
-    });
-  }
-  function applyAttr(selection, name, value) {
-    if (value != null) selection.attr(name, value);
-  }
-  function applyStyle(selection, name, value) {
-    if (value != null) selection.style(name, value);
-  }
-  function applyTransform(selection, mark, {
-    x,
-    y
-  }, tx = offset, ty = offset) {
-    tx += mark.dx;
-    ty += mark.dy;
-    if (x?.bandwidth) tx += x.bandwidth() / 2;
-    if (y?.bandwidth) ty += y.bandwidth() / 2;
-    if (tx || ty) selection.attr("transform", `translate(${tx},${ty})`);
-  }
-  function impliedString(value, impliedValue) {
-    if ((value = string(value)) !== impliedValue) return value;
-  }
-  function impliedNumber(value, impliedValue) {
-    if ((value = number(value)) !== impliedValue) return value;
-  }
-
-  // https://www.w3.org/TR/CSS21/grammar.html
-  const validClassName = /^-?([_a-z]|[\240-\377]|\\[0-9a-f]{1,6}(\r\n|[ \t\r\n\f])?|\\[^\r\n\f0-9a-f])([_a-z0-9-]|[\240-\377]|\\[0-9a-f]{1,6}(\r\n|[ \t\r\n\f])?|\\[^\r\n\f0-9a-f])*$/i;
-  function maybeClassName(name) {
-    // The default should be changed whenever the default styles are changed, so
-    // as to avoid conflict when multiple versions of Plot are on the page.
-    if (name === undefined) return "plot-d6a7b5";
-    name = `${name}`;
-    if (!validClassName.test(name)) throw new Error(`invalid class name: ${name}`);
-    return name;
-  }
-  function applyInlineStyles(selection, style) {
-    if (typeof style === "string") {
-      selection.property("style", style);
-    } else if (style != null) {
-      for (const element of selection) {
-        Object.assign(element.style, style);
-      }
-    }
-  }
-  function applyFrameAnchor({
-    frameAnchor
-  }, {
-    width,
-    height,
-    marginTop,
-    marginRight,
-    marginBottom,
-    marginLeft
-  }) {
-    return [/left$/.test(frameAnchor) ? marginLeft : /right$/.test(frameAnchor) ? width - marginRight : (marginLeft + width - marginRight) / 2, /^top/.test(frameAnchor) ? marginTop : /^bottom/.test(frameAnchor) ? height - marginBottom : (marginTop + height - marginBottom) / 2];
-  }
-
   function createContext(options = {}) {
     const {
       document = typeof window !== "undefined" ? window.document : undefined,
@@ -15354,6 +14877,21 @@
     document
   }) {
     return select(creator(name).call(document.documentElement));
+  }
+
+  let warnings = 0;
+  let lastMessage;
+  function consumeWarnings() {
+    const w = warnings;
+    warnings = 0;
+    lastMessage = undefined;
+    return w;
+  }
+  function warn(message) {
+    if (message === lastMessage) return;
+    lastMessage = message;
+    console.warn(message);
+    ++warnings;
   }
 
   const pi = Math.PI;
@@ -15636,8 +15174,6 @@
     return [x, y];
   }
 
-  // TODO https://github.com/d3/d3-scale-chromatic/pull/51
-  const schemeObservable10 = ["#4269d0", "#efb118", "#ff725c", "#6cc5b0", "#3ca951", "#ff8ab7", "#a463f2", "#97bbf5", "#9c6b4e", "#9498a0"];
   const categoricalSchemes = new Map([["accent", schemeAccent], ["category10", schemeCategory10], ["dark2", schemeDark2], ["observable10", schemeObservable10], ["paired", schemePaired], ["pastel1", schemePastel1], ["pastel2", schemePastel2], ["set1", schemeSet1], ["set2", schemeSet2], ["set3", schemeSet3], ["tableau10", schemeTableau10]]);
   function isCategoricalScheme(scheme) {
     return scheme != null && categoricalSchemes.has(`${scheme}`.toLowerCase());
@@ -16903,6 +16439,477 @@
         invert: t => scale.invert(t)
       })
     };
+  }
+
+  function memoize1(compute) {
+    let cacheValue, cacheKeys;
+    return (...keys) => {
+      if (cacheKeys?.length !== keys.length || cacheKeys.some((k, i) => k !== keys[i])) {
+        cacheKeys = keys;
+        cacheValue = compute(...keys);
+      }
+      return cacheValue;
+    };
+  }
+
+  const numberFormat = memoize1(locale => {
+    return new Intl.NumberFormat(locale);
+  });
+  function formatNumber(locale = "en-US") {
+    const format = numberFormat(locale);
+    return i => i != null && !isNaN(i) ? format.format(i) : undefined;
+  }
+  function formatIsoDate(date) {
+    return format(date, "Invalid Date");
+  }
+  function formatAuto(locale = "en-US") {
+    const number = formatNumber(locale);
+    return v => (v instanceof Date ? formatIsoDate : typeof v === "number" ? number : string)(v);
+  }
+
+  // TODO When Plot supports a top-level locale option, this should be removed
+  // because it lacks context to know which locale to use; formatAuto should be
+  // used instead whenever possible.
+  const formatDefault = formatAuto();
+
+  const offset = (typeof window !== "undefined" ? window.devicePixelRatio > 1 : typeof it === "undefined") ? 0 : 0.5; // prettier-ignore
+
+  let nextClipId = 0;
+  function getClipId() {
+    return `plot-clip-${++nextClipId}`;
+  }
+  function styles(mark, {
+    title,
+    href,
+    ariaLabel: variaLabel,
+    ariaDescription,
+    ariaHidden,
+    target,
+    fill,
+    fillOpacity,
+    stroke,
+    strokeWidth,
+    strokeOpacity,
+    strokeLinejoin,
+    strokeLinecap,
+    strokeMiterlimit,
+    strokeDasharray,
+    strokeDashoffset,
+    opacity,
+    mixBlendMode,
+    imageFilter,
+    paintOrder,
+    pointerEvents,
+    shapeRendering,
+    channels
+  }, {
+    ariaLabel: cariaLabel,
+    fill: defaultFill = "currentColor",
+    fillOpacity: defaultFillOpacity,
+    stroke: defaultStroke = "none",
+    strokeOpacity: defaultStrokeOpacity,
+    strokeWidth: defaultStrokeWidth,
+    strokeLinecap: defaultStrokeLinecap,
+    strokeLinejoin: defaultStrokeLinejoin,
+    strokeMiterlimit: defaultStrokeMiterlimit,
+    paintOrder: defaultPaintOrder
+  }) {
+    // Some marks don’t support fill (e.g., tick and rule).
+    if (defaultFill === null) {
+      fill = null;
+      fillOpacity = null;
+    }
+
+    // Some marks don’t support stroke (e.g., image).
+    if (defaultStroke === null) {
+      stroke = null;
+      strokeOpacity = null;
+    }
+
+    // Some marks default to fill with no stroke, while others default to stroke
+    // with no fill. For example, bar and area default to fill, while dot and line
+    // default to stroke. For marks that fill by default, the default fill only
+    // applies if the stroke is (constant) none; if you set a stroke, then the
+    // default fill becomes none. Similarly for marks that stroke by stroke, the
+    // default stroke only applies if the fill is (constant) none.
+    if (isNoneish(defaultFill)) {
+      if (!isNoneish(defaultStroke) && (!isNoneish(fill) || channels?.fill)) defaultStroke = "none";
+    } else {
+      if (isNoneish(defaultStroke) && (!isNoneish(stroke) || channels?.stroke)) defaultFill = "none";
+    }
+    const [vfill, cfill] = maybeColorChannel(fill, defaultFill);
+    const [vfillOpacity, cfillOpacity] = maybeNumberChannel(fillOpacity, defaultFillOpacity);
+    const [vstroke, cstroke] = maybeColorChannel(stroke, defaultStroke);
+    const [vstrokeOpacity, cstrokeOpacity] = maybeNumberChannel(strokeOpacity, defaultStrokeOpacity);
+    const [vopacity, copacity] = maybeNumberChannel(opacity);
+
+    // For styles that have no effect if there is no stroke, only apply the
+    // defaults if the stroke is not the constant none. (If stroke is a channel,
+    // then cstroke will be undefined, but there’s still a stroke; hence we don’t
+    // use isNoneish here.)
+    if (!isNone(cstroke)) {
+      if (strokeWidth === undefined) strokeWidth = defaultStrokeWidth;
+      if (strokeLinecap === undefined) strokeLinecap = defaultStrokeLinecap;
+      if (strokeLinejoin === undefined) strokeLinejoin = defaultStrokeLinejoin;
+
+      // The default stroke miterlimit need not be applied if the current stroke
+      // is the constant round; this only has effect on miter joins.
+      if (strokeMiterlimit === undefined && !isRound(strokeLinejoin)) strokeMiterlimit = defaultStrokeMiterlimit;
+
+      // The paint order only takes effect if there is both a fill and a stroke
+      // (at least if we ignore markers, which no built-in marks currently use).
+      if (!isNone(cfill) && paintOrder === undefined) paintOrder = defaultPaintOrder;
+    }
+    const [vstrokeWidth, cstrokeWidth] = maybeNumberChannel(strokeWidth);
+
+    // Some marks don’t support fill (e.g., tick and rule).
+    if (defaultFill !== null) {
+      mark.fill = impliedString(cfill, "currentColor");
+      mark.fillOpacity = impliedNumber(cfillOpacity, 1);
+    }
+
+    // Some marks don’t support stroke (e.g., image).
+    if (defaultStroke !== null) {
+      mark.stroke = impliedString(cstroke, "none");
+      mark.strokeWidth = impliedNumber(cstrokeWidth, 1);
+      mark.strokeOpacity = impliedNumber(cstrokeOpacity, 1);
+      mark.strokeLinejoin = impliedString(strokeLinejoin, "miter");
+      mark.strokeLinecap = impliedString(strokeLinecap, "butt");
+      mark.strokeMiterlimit = impliedNumber(strokeMiterlimit, 4);
+      mark.strokeDasharray = impliedString(strokeDasharray, "none");
+      mark.strokeDashoffset = impliedString(strokeDashoffset, "0");
+    }
+    mark.target = string(target);
+    mark.ariaLabel = string(cariaLabel);
+    mark.ariaDescription = string(ariaDescription);
+    mark.ariaHidden = string(ariaHidden);
+    mark.opacity = impliedNumber(copacity, 1);
+    mark.mixBlendMode = impliedString(mixBlendMode, "normal");
+    mark.imageFilter = impliedString(imageFilter, "none");
+    mark.paintOrder = impliedString(paintOrder, "normal");
+    mark.pointerEvents = impliedString(pointerEvents, "auto");
+    mark.shapeRendering = impliedString(shapeRendering, "auto");
+    return {
+      title: {
+        value: title,
+        optional: true,
+        filter: null
+      },
+      href: {
+        value: href,
+        optional: true,
+        filter: null
+      },
+      ariaLabel: {
+        value: variaLabel,
+        optional: true,
+        filter: null
+      },
+      fill: {
+        value: vfill,
+        scale: "auto",
+        optional: true
+      },
+      fillOpacity: {
+        value: vfillOpacity,
+        scale: "auto",
+        optional: true
+      },
+      stroke: {
+        value: vstroke,
+        scale: "auto",
+        optional: true
+      },
+      strokeOpacity: {
+        value: vstrokeOpacity,
+        scale: "auto",
+        optional: true
+      },
+      strokeWidth: {
+        value: vstrokeWidth,
+        optional: true
+      },
+      opacity: {
+        value: vopacity,
+        scale: "auto",
+        optional: true
+      }
+    };
+  }
+
+  // Applies the specified titles via selection.call.
+  function applyTitle(selection, L) {
+    if (L) selection.filter(i => nonempty(L[i])).append("title").call(applyText, L);
+  }
+
+  // Like applyTitle, but for grouped data (lines, areas).
+  function applyTitleGroup(selection, L) {
+    if (L) selection.filter(([i]) => nonempty(L[i])).append("title").call(applyTextGroup, L);
+  }
+  function applyText(selection, T) {
+    if (T) selection.text(i => formatDefault(T[i]));
+  }
+  function applyTextGroup(selection, T) {
+    if (T) selection.text(([i]) => formatDefault(T[i]));
+  }
+  function applyChannelStyles(selection, {
+    target,
+    tip
+  }, {
+    ariaLabel: AL,
+    title: T,
+    fill: F,
+    fillOpacity: FO,
+    stroke: S,
+    strokeOpacity: SO,
+    strokeWidth: SW,
+    opacity: O,
+    href: H
+  }) {
+    if (AL) applyAttr(selection, "aria-label", i => AL[i]);
+    if (F) applyAttr(selection, "fill", i => F[i]);
+    if (FO) applyAttr(selection, "fill-opacity", i => FO[i]);
+    if (S) applyAttr(selection, "stroke", i => S[i]);
+    if (SO) applyAttr(selection, "stroke-opacity", i => SO[i]);
+    if (SW) applyAttr(selection, "stroke-width", i => SW[i]);
+    if (O) applyAttr(selection, "opacity", i => O[i]);
+    if (H) applyHref(selection, i => H[i], target);
+    if (!tip) applyTitle(selection, T);
+  }
+  function applyGroupedChannelStyles(selection, {
+    target,
+    tip
+  }, {
+    ariaLabel: AL,
+    title: T,
+    fill: F,
+    fillOpacity: FO,
+    stroke: S,
+    strokeOpacity: SO,
+    strokeWidth: SW,
+    opacity: O,
+    href: H
+  }) {
+    if (AL) applyAttr(selection, "aria-label", ([i]) => AL[i]);
+    if (F) applyAttr(selection, "fill", ([i]) => F[i]);
+    if (FO) applyAttr(selection, "fill-opacity", ([i]) => FO[i]);
+    if (S) applyAttr(selection, "stroke", ([i]) => S[i]);
+    if (SO) applyAttr(selection, "stroke-opacity", ([i]) => SO[i]);
+    if (SW) applyAttr(selection, "stroke-width", ([i]) => SW[i]);
+    if (O) applyAttr(selection, "opacity", ([i]) => O[i]);
+    if (H) applyHref(selection, ([i]) => H[i], target);
+    if (!tip) applyTitleGroup(selection, T);
+  }
+  function groupAesthetics({
+    ariaLabel: AL,
+    title: T,
+    fill: F,
+    fillOpacity: FO,
+    stroke: S,
+    strokeOpacity: SO,
+    strokeWidth: SW,
+    opacity: O,
+    href: H
+  }, {
+    tip
+  }) {
+    return [AL, tip ? undefined : T, F, FO, S, SO, SW, O, H].filter(c => c !== undefined);
+  }
+  function groupZ(I, Z, z) {
+    const G = group(I, i => Z[i]);
+    if (z === undefined && G.size > 1 + I.length >> 1) {
+      warn(`Warning: the implicit z channel has high cardinality. This may occur when the fill or stroke channel is associated with quantitative data rather than ordinal or categorical data. You can suppress this warning by setting the z option explicitly; if this data represents a single series, set z to null.`);
+    }
+    return G.values();
+  }
+  function* groupIndex(I, position, mark, channels) {
+    const {
+      z
+    } = mark;
+    const {
+      z: Z
+    } = channels; // group channel
+    const A = groupAesthetics(channels, mark); // aesthetic channels
+    const C = [...position, ...A]; // all channels
+
+    // Group the current index by Z (if any).
+    for (const G of Z ? groupZ(I, Z, z) : [I]) {
+      let Ag; // the A-values (aesthetics) of the current group, if any
+      let Gg; // the current group index (a subset of G, and I), if any
+      out: for (const i of G) {
+        // If any channel has an undefined value for this index, skip it.
+        for (const c of C) {
+          if (!defined(c[i])) {
+            if (Gg) Gg.push(-1);
+            continue out;
+          }
+        }
+
+        // Otherwise, if this is a new group, record the aesthetics for this
+        // group. Yield the current group and start a new one.
+        if (Ag === undefined) {
+          if (Gg) yield Gg;
+          Ag = A.map(c => keyof(c[i])), Gg = [i];
+          continue;
+        }
+
+        // Otherwise, add the current index to the current group. Then, if any of
+        // the aesthetics don’t match the current group, yield the current group
+        // and start a new group of the current index.
+        Gg.push(i);
+        for (let j = 0; j < A.length; ++j) {
+          const k = keyof(A[j][i]);
+          if (k !== Ag[j]) {
+            yield Gg;
+            Ag = A.map(c => keyof(c[i])), Gg = [i];
+            continue out;
+          }
+        }
+      }
+
+      // Yield the current group, if any.
+      if (Gg) yield Gg;
+    }
+  }
+
+  // Note: may mutate selection.node!
+  function applyClip(selection, mark, dimensions, context) {
+    let clipUrl;
+    const {
+      clip = context.clip
+    } = mark;
+    switch (clip) {
+      case "frame":
+        {
+          const {
+            width,
+            height,
+            marginLeft,
+            marginRight,
+            marginTop,
+            marginBottom
+          } = dimensions;
+          const id = getClipId();
+          clipUrl = `url(#${id})`;
+          selection = create("svg:g", context).call(g => g.append("svg:clipPath").attr("id", id).append("rect").attr("x", marginLeft).attr("y", marginTop).attr("width", width - marginRight - marginLeft).attr("height", height - marginTop - marginBottom)).each(function () {
+            this.appendChild(selection.node());
+            selection.node = () => this; // Note: mutation!
+          });
+          break;
+        }
+      case "sphere":
+        {
+          const {
+            projection
+          } = context;
+          if (!projection) throw new Error(`the "sphere" clip option requires a projection`);
+          const id = getClipId();
+          clipUrl = `url(#${id})`;
+          selection.append("clipPath").attr("id", id).append("path").attr("d", geoPath(projection)({
+            type: "Sphere"
+          }));
+          break;
+        }
+    }
+    // Here we’re careful to apply the ARIA attributes to the outer G element when
+    // clipping is applied, and to apply the ARIA attributes before any other
+    // attributes (for readability).
+    applyAttr(selection, "aria-label", mark.ariaLabel);
+    applyAttr(selection, "aria-description", mark.ariaDescription);
+    applyAttr(selection, "aria-hidden", mark.ariaHidden);
+    applyAttr(selection, "clip-path", clipUrl);
+  }
+
+  // Note: may mutate selection.node!
+  function applyIndirectStyles(selection, mark, dimensions, context) {
+    applyClip(selection, mark, dimensions, context);
+    applyAttr(selection, "fill", mark.fill);
+    applyAttr(selection, "fill-opacity", mark.fillOpacity);
+    applyAttr(selection, "stroke", mark.stroke);
+    applyAttr(selection, "stroke-width", mark.strokeWidth);
+    applyAttr(selection, "stroke-opacity", mark.strokeOpacity);
+    applyAttr(selection, "stroke-linejoin", mark.strokeLinejoin);
+    applyAttr(selection, "stroke-linecap", mark.strokeLinecap);
+    applyAttr(selection, "stroke-miterlimit", mark.strokeMiterlimit);
+    applyAttr(selection, "stroke-dasharray", mark.strokeDasharray);
+    applyAttr(selection, "stroke-dashoffset", mark.strokeDashoffset);
+    applyAttr(selection, "shape-rendering", mark.shapeRendering);
+    applyAttr(selection, "filter", mark.imageFilter);
+    applyAttr(selection, "paint-order", mark.paintOrder);
+    const {
+      pointerEvents = context.pointerSticky === false ? "none" : undefined
+    } = mark;
+    applyAttr(selection, "pointer-events", pointerEvents);
+  }
+  function applyDirectStyles(selection, mark) {
+    applyStyle(selection, "mix-blend-mode", mark.mixBlendMode);
+    applyAttr(selection, "opacity", mark.opacity);
+  }
+  function applyHref(selection, href, target) {
+    selection.each(function (i) {
+      const h = href(i);
+      if (h != null) {
+        const a = this.ownerDocument.createElementNS(namespaces.svg, "a");
+        a.setAttribute("fill", "inherit");
+        a.setAttributeNS(namespaces.xlink, "href", h);
+        if (target != null) a.setAttribute("target", target);
+        this.parentNode.insertBefore(a, this).appendChild(this);
+      }
+    });
+  }
+  function applyAttr(selection, name, value) {
+    if (value != null) selection.attr(name, value);
+  }
+  function applyStyle(selection, name, value) {
+    if (value != null) selection.style(name, value);
+  }
+  function applyTransform(selection, mark, {
+    x,
+    y
+  }, tx = offset, ty = offset) {
+    tx += mark.dx;
+    ty += mark.dy;
+    if (x?.bandwidth) tx += x.bandwidth() / 2;
+    if (y?.bandwidth) ty += y.bandwidth() / 2;
+    if (tx || ty) selection.attr("transform", `translate(${tx},${ty})`);
+  }
+  function impliedString(value, impliedValue) {
+    if ((value = string(value)) !== impliedValue) return value;
+  }
+  function impliedNumber(value, impliedValue) {
+    if ((value = number(value)) !== impliedValue) return value;
+  }
+
+  // https://www.w3.org/TR/CSS21/grammar.html
+  const validClassName = /^-?([_a-z]|[\240-\377]|\\[0-9a-f]{1,6}(\r\n|[ \t\r\n\f])?|\\[^\r\n\f0-9a-f])([_a-z0-9-]|[\240-\377]|\\[0-9a-f]{1,6}(\r\n|[ \t\r\n\f])?|\\[^\r\n\f0-9a-f])*$/i;
+  function maybeClassName(name) {
+    // The default should be changed whenever the default styles are changed, so
+    // as to avoid conflict when multiple versions of Plot are on the page.
+    if (name === undefined) return "plot-d6a7b5";
+    name = `${name}`;
+    if (!validClassName.test(name)) throw new Error(`invalid class name: ${name}`);
+    return name;
+  }
+  function applyInlineStyles(selection, style) {
+    if (typeof style === "string") {
+      selection.property("style", style);
+    } else if (style != null) {
+      for (const element of selection) {
+        Object.assign(element.style, style);
+      }
+    }
+  }
+  function applyFrameAnchor({
+    frameAnchor
+  }, {
+    width,
+    height,
+    marginTop,
+    marginRight,
+    marginBottom,
+    marginLeft
+  }) {
+    return [/left$/.test(frameAnchor) ? marginLeft : /right$/.test(frameAnchor) ? width - marginRight : (marginLeft + width - marginRight) / 2, /^top/.test(frameAnchor) ? marginTop : /^bottom/.test(frameAnchor) ? height - marginBottom : (marginTop + height - marginBottom) / 2];
   }
 
   function createDimensions(scales, marks, options = {}) {
@@ -19108,7 +19115,10 @@
     y = k === "y" ? undefined : null,
     ...options
   }) {
-    return axisMark(vectorY, k, anchor, `${k}-axis tick`, data, {
+    return axisMark(vectorY, k, data, {
+      ariaLabel: `${k}-axis tick`,
+      ariaHidden: true
+    }, {
       strokeWidth,
       strokeLinecap,
       strokeLinejoin,
@@ -19136,7 +19146,10 @@
     x = k === "x" ? undefined : null,
     ...options
   }) {
-    return axisMark(vectorX, k, anchor, `${k}-axis tick`, data, {
+    return axisMark(vectorX, k, data, {
+      ariaLabel: `${k}-axis tick`,
+      ariaHidden: true
+    }, {
       strokeWidth,
       strokeLinejoin,
       strokeLinecap,
@@ -19167,7 +19180,9 @@
     y = k === "y" ? undefined : null,
     ...options
   }) {
-    return axisMark(textY, k, anchor, `${k}-axis tick label`, data, {
+    return axisMark(textY, k, data, {
+      ariaLabel: `${k}-axis tick label`
+    }, {
       facetAnchor,
       frameAnchor,
       text,
@@ -19200,7 +19215,9 @@
     x = k === "x" ? undefined : null,
     ...options
   }) {
-    return axisMark(textX, k, anchor, `${k}-axis tick label`, data, {
+    return axisMark(textX, k, data, {
+      ariaLabel: `${k}-axis tick label`
+    }, {
       facetAnchor,
       frameAnchor,
       text: text === undefined ? null : text,
@@ -19239,7 +19256,10 @@
     x2 = anchor === "right" ? x : null,
     ...options
   }) {
-    return axisMark(ruleY, k, anchor, `${k}-grid`, data, {
+    return axisMark(ruleY, k, data, {
+      ariaLabel: `${k}-grid`,
+      ariaHidden: true
+    }, {
       y,
       x1,
       x2,
@@ -19253,7 +19273,10 @@
     y2 = anchor === "bottom" ? y : null,
     ...options
   }) {
-    return axisMark(ruleX, k, anchor, `${k}-grid`, data, {
+    return axisMark(ruleX, k, data, {
+      ariaLabel: `${k}-grid`,
+      ariaHidden: true
+    }, {
       x,
       y1,
       y2,
@@ -19309,7 +19332,7 @@
       initializer
     };
   }
-  function axisMark(mark, k, anchor, ariaLabel, data, options, initialize) {
+  function axisMark(mark, k, data, properties, options, initialize) {
     let channels;
     function axisInitializer(data, facets, _channels, scales, dimensions, context) {
       const initializeFacets = data == null && (k === "fx" || k === "fy");
@@ -19421,7 +19444,7 @@
     } else {
       channels = {};
     }
-    m.ariaLabel = ariaLabel;
+    if (properties !== undefined) Object.assign(m, properties);
     if (m.clip === undefined) m.clip = false; // don’t clip axes by default
     return m;
   }
@@ -21194,6 +21217,7 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
           for (const [f, I] of maybeGroup(facet, G)) {
             for (const [k, g] of maybeGroup(I, K)) {
               for (const [b, extent] of bin(g)) {
+                if (G) extent.z = f;
                 if (filter && !filter.reduce(b, extent)) continue;
                 groupFacet.push(i++);
                 groupData.push(reduceData.reduceIndex(b, data, extent));
@@ -21204,7 +21228,7 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
                 if (BX1) BX1.push(extent.x1), BX2.push(extent.x2);
                 if (BY1) BY1.push(extent.y1), BY2.push(extent.y2);
                 for (const o of outputs) o.reduce(b, extent);
-                if (sort) sort.reduce(b);
+                if (sort) sort.reduce(b, extent);
               }
             }
           }
@@ -21401,6 +21425,8 @@ ${extraStyle}`)).style("margin-left", marginLeft ? `${+marginLeft}px` : null).st
         return reduceY1;
       case "y2":
         return reduceY2;
+      case "z":
+        return reduceZ;
     }
     throw new Error(`invalid bin reduce: ${reduce}`);
   }
