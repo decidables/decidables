@@ -1,5 +1,15 @@
 ## Notes
 
+Create "quick take" pages for each model:
+
+- exploration
+- simulation
+- fitting (enter own data?)
+Ideas:
+- This would be separate from in-depth explanations
+- Provide "early" access to web components
+- Maybe even a page that demonstrates usage of components
+
 Move bugs from README into NOTES
 
 To trace deprecations:
