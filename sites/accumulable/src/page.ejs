@@ -1,0 +1,28 @@
+---
+site:
+  package: accumulable
+  text: accumulable
+  html: '<span class="math-var">a</span>ccumulable'
+toc:
+  - section: introduction
+    nav: true
+    pages:
+      - {file: index, name: 'Home'}
+      - {file: introduction, name: 'Introduction'}
+  - section: model
+    nav: true
+    name: 'Model'
+    pages:
+      - {file: exploration, name: 'Model Exploration'}
+      - {file: fitting, name: 'Model Fitting'}
+      - {file: prediction, name: 'Model Predictions'}
+  - section: resources
+    name: 'Resources'
+    pages:
+      - {file: legend, name: 'Legend'}
+      - {file: glossary, name: 'Glossary'}
+      - {file: equations, name: 'Equations'}
+      - {file: references, name: 'References'}
+      - {file: credits, name: 'Credits'}
+---
+<%- include(resolvePkg('@decidables/decidables-site/src/site.ejs')) %>

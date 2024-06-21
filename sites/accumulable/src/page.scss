@@ -1,0 +1,98 @@
+// Decidables Module
+@use "@decidables/decidables-site/src/site" as * with (
+  // Custom Colors
+  // http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
+  $color-map: (
+    a: #e41a1c, // red (CB1)
+    z: #377eb8, // blue (CB2)
+    v: #ff7f00, // orange (CB5)
+    t0: #f781bf, // pink (CB8)
+
+    correct: #4daf4a, // green (CB3)
+    error: #984ea3, // purple (CB4)
+
+    nr: #cccccc, // grey-light50
+
+    // #ffff33, // yellow (CB6)
+    // #a65628, // brown (CB7)
+    // #4545d0, // violet
+    // #f032e6, // magenta
+    // #10dbc9, // cyan
+  )
+);
+
+// Key Colors
+.dec-content {
+  // Keys: Parameters
+  .key[class~="a"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(a);
+  }
+
+  .key[class~="z"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(z);
+  }
+
+  .key[class~="v"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(v);
+  }
+
+  .key[class~="t0"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(t0);
+  }
+
+  // Keys: Outcomes
+  .key[class~="correct"] {
+    background-color: dec-color-light(correct);
+  }
+
+  .key[class~="error"] {
+    background-color: dec-color-light(error);
+  }
+
+  .key[class~="noresponse"] {
+    background-color: dec-color-light(nr);
+    border: 1px solid $color-element-emphasis;
+  }  
+}
+
+// Legend Colors
+.dec-legend {
+  .a::before {
+    background: dec-color-light(a);
+    border-left-color: dec-color(a);
+  }
+
+  .z::before {
+    background: dec-color-light(z);
+    border-left-color: dec-color(z);
+  }
+
+  .v::before {
+    background: dec-color-light(v);
+    border-left-color: dec-color(v);
+  }
+
+  .t0::before {
+    background: dec-color-light(t0);
+    border-left-color: dec-color(t0);
+  }
+
+  .correct::before {
+    background: dec-color-light(correct);
+    border-left-color: dec-color(correct);
+  }
+
+  .error::before {
+    background: dec-color-light(error);
+    border-left-color: dec-color(error);
+  }
+
+  .nr::before {
+    background: dec-color-light(nr);
+    border-left-color: dec-color(nr);
+  }
+}
