@@ -1,0 +1,40 @@
+{
+  "name": "@decidables/accumulable",
+  "version": "0.0.1",
+  "description": "accumulable: An Explorable Explanation of the Diffusion Decision Model",
+  "type": "module",
+  "main": "./dist/index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decidables/decidables.git",
+    "directory": "sites/accumulable"
+  },
+  "bugs": "https://github.com/decidables/decidables/issues",
+  "homepage": "https://github.com/decidables/decidables/tree/main/sites/accumulable",
+  "author": "Adam Krawitz (https://web.uvic.ca/~akrawitz/)",
+  "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
+  "private": true,
+  "scripts": {
+    "compile": "gulp compile",
+    "watch": "gulp watch",
+    "lint": "gulp lint",
+    "build": "gulp build",
+    "deploy": "gulp deploy",
+    "serve": "gulp serve"
+  },
+  "devDependencies": {
+    "gulp": "^5.0.0"
+  },
+  "dependencies": {
+    "@decidables/accumulable-elements": "^0.0.1",
+    "@decidables/decidables-site": "^0.1.2",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "core-js": "^3.37.0",
+    "lit": "^3.1.3",
+    "regenerator-runtime": "^0.14.1",
+    "source-code-pro": "^2.38.0",
+    "source-sans": "^3.46.0",
+    "source-serif": "4.4.0"
+  }
+}
