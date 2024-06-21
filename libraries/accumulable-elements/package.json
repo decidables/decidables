@@ -1,0 +1,65 @@
+{
+  "name": "@decidables/accumulable-elements",
+  "version": "0.0.1",
+  "description": "accumulable-elements: Web Components for visualizing the Diffusion Decision Model",
+  "keywords": [
+    "web component",
+    "explorable explanation",
+    "explorable",
+    "decision making",
+    "decidables",
+    "hyperbolic temporal discounting",
+    "temporal discounting",
+    "delay discounting",
+    "discountable"
+  ],
+  "type": "module",
+  "main": "./lib/accumulableElements.umd.min.js",
+  "browser": "./lib/accumulableElements.umd.min.js",
+  "module": "./lib/accumulableElements.esm.min.js",
+  "exports": {
+    "./lib/*.js": "./lib/*.js",
+    ".": "./src/index.js",
+    "./components": "./src/components/index.js",
+    "./equations": "./src/equations/index.js",
+    "./examples": "./src/examples/index.js",
+    "./*": "./src/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/decidables/decidables.git",
+    "directory": "libraries/accumulable-elements"
+  },
+  "bugs": "https://github.com/decidables/decidables/issues",
+  "homepage": "https://github.com/decidables/decidables/tree/main/libraries/accumulable-elements",
+  "author": "Adam Krawitz (https://web.uvic.ca/~akrawitz/)",
+  "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "package.json",
+    "*.md",
+    "src",
+    "lib"
+  ],
+  "scripts": {
+    "lint": "gulp lint",
+    "test": "gulp test",
+    "build": "gulp build"
+  },
+  "devDependencies": {
+    "gulp": "^5.0.0"
+  },
+  "dependencies": {
+    "@decidables/accumulable-math": "^0.0.1",
+    "@decidables/decidables-elements": "^0.4.6",
+    "@lit-labs/motion": "^1.0.7",
+    "@observablehq/plot": "^0.6.14",
+    "bayes.js": "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f",
+    "d3": "^7.9.0",
+    "lit": "^3.1.3",
+    "regenerator-runtime": "^0.14.1"
+  }
+}
