@@ -41,7 +41,7 @@ export default class DDMExampleInteractive extends DDMExample {
 
     this.trials = 10;
     this.a = 1.2;
-    this.z = 0.5;
+    this.z = 0.35;
     this.v = 1.5;
     this.t0 = 150;
 
