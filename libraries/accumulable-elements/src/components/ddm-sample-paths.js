@@ -110,7 +110,6 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
     this.t0 = 100;
 
     this.s = 1;
-
     // this.sz = null;
     // this.eta = null;
     // this.st = null;
@@ -121,9 +120,9 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
 
     this.bounds = null;
     this.startingPoint = null;
-    this.paths = null;
-    this.accuracy = null;
-    this.dists = null;
+
+    this.sample = {};
+    this.model = {};
 
     this.alignState();
   }
@@ -138,10 +137,15 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
     this.startingPoint = this.a * this.z - this.a / 2;
     const drift = this.v * this.precision;
 
-    let correct = 0;
-    this.paths = Array.from({length: this.trials}, () => {
+    // Sample Paths
+    let correctTrials = 0;
+    let errorTrials = 0;
+    let correctRTs = 0;
+    let errorRTs = 0;
+    this.sample.paths = Array.from({length: this.trials}, () => {
       const seed = (this.random() / 1000) * 997; // HACK to avoid randomLcg repetition
       const random = d3.randomNormal.source(d3.randomLcg(seed))(0, this.precision ** 0.5);
+
       const path = [];
       path.push(
         {t: this.t0, e: this.startingPoint},
@@ -157,7 +161,9 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
         : (path.at(-1).e >= this.bounds.upper)
           ? 'correct'
           : 'nr';
-      correct += (outcome === 'correct') ? 1 : 0;
+      correctTrials += (outcome === 'correct') ? 1 : 0;
+      errorTrials += (outcome === 'error') ? 1 : 0;
+
       const rt = (outcome === 'error')
         ? path.at(-2).t + (
           ((this.bounds.lower - path.at(-2).e) / (path.at(-1).e - path.at(-2).e))
@@ -169,28 +175,37 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
             * (this.precision * 1000)
           )
           : null;
+      correctRTs += (outcome === 'correct') ? rt : 0;
+      errorRTs += (outcome === 'error') ? rt : 0;
+
       return {
         seed, path, rt, outcome,
       };
     });
-    this.paths.accuracy = correct / this.trials;
+    this.sample.accuracy = {
+      correct: correctTrials / this.trials,
+      error: errorTrials / this.trials,
+    };
+    this.sample.meanRT = {
+      correct: correctRTs / correctTrials,
+      error: errorRTs / (this.trials - correctTrials),
+    };
 
-    this.accuracy = {
+    // Model Distributions
+    this.model.accuracy = {
       correct: DDMMath.azvs2pC(this.a, this.z, this.v, this.s),
       error: DDMMath.azvs2pE(this.a, this.z, this.v, this.s),
     };
-
-    this.meanRT = {
+    this.model.meanRT = {
       correct: this.t0 + DDMMath.azvs2mC(this.a, this.z, this.v, this.s) * 1000,
       error: this.t0 + DDMMath.azvs2mE(this.a, this.z, this.v, this.s) * 1000,
     };
-
-    this.dists = {correct: [], error: []};
-    this.dists.correct.push(
+    this.model.dists = {correct: [], error: []};
+    this.model.dists.correct.push(
       {t: 0, d: 0},
       {t: this.t0, d: 0},
     );
-    this.dists.error.push(
+    this.model.dists.error.push(
       {t: 0, d: 0},
       {t: this.t0, d: 0},
     );
@@ -199,13 +214,15 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
       i <= (this.scale.time.max - (this.t0));
       i += this.scale.time.step) {
       if (i > 0) {
-        this.dists.correct.push({
+        this.model.dists.correct.push({
           t: this.t0 + i,
-          d: DDMMath.tazvs2gC(i / 1000, this.a, this.z, this.v, this.s) / this.accuracy.correct,
+          d: DDMMath.tazvs2gC(i / 1000, this.a, this.z, this.v, this.s)
+            / this.model.accuracy.correct,
         });
-        this.dists.error.push({
+        this.model.dists.error.push({
           t: this.t0 + i,
-          d: DDMMath.tazvs2gE(i / 1000, this.a, this.z, this.v, this.s) / this.accuracy.error,
+          d: DDMMath.tazvs2gE(i / 1000, this.a, this.z, this.v, this.s)
+            / this.model.accuracy.error,
         });
       }
     }
@@ -235,6 +252,9 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
           user-select: none;
         }
 
+        /*  
+          UNDERLAYER
+        */
         .background {
           fill: var(---color-element-background);
           stroke: none;
@@ -248,39 +268,41 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
           fill: currentColor;
         }
 
-        .tick {
-          font-size: 0.75rem;
-        }
-
         .axis path,
         .axis line {
           stroke: var(---color-element-border);
           /* shape-rendering: crispEdges; */
         }
 
-        .curve {
+        .tick {
+          font-size: 0.75rem;
+        }
+
+        /*  
+          CONTENT
+        */
+        .line {
           fill: none;
           stroke: var(---color-element-emphasis);
           stroke-width: 2;
         }
 
-        .curve.interactive {
-          cursor: nwse-resize;
-          
-          filter: url("#shadow-2");
-          outline: none;
+        .curve {
+          stroke-width: 2;
         }
 
-        .curve.interactive:hover {
-          filter: url("#shadow-4");
+        .path .curve {
+          opacity: 0.5;
+
+          fill: none;
         }
 
-        .curve.interactive:active {
-          filter: url("#shadow-8");
+        .path.correct .curve {
+          stroke: var(---color-correct);
         }
 
-        :host(.keyboard) .curve.interactive:focus {
-          filter: url("#shadow-8");
+        .path.error .curve {
+          stroke: var(---color-error);
         }
 
         .dist.correct .curve {
@@ -303,16 +325,48 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
           stroke-width: 1;
         }
 
-        .path.correct .curve {
-          opacity: 0.5;
-
-          stroke: var(---color-correct);
+        .accuracy.model .bar {
+          stroke: none;
         }
 
-        .path.error .curve {
-          opacity: 0.5;
+        .accuracy.model.correct .bar {
+          fill: var(---color-correct);
+        }
 
-          stroke: var(---color-error);
+        .accuracy.model.error .bar {
+          fill: var(---color-error);
+        }
+
+        .accuracy.sample .mark {
+          stroke-width: 2;
+        }
+
+        .accuracy.sample.correct .mark {
+          stroke: var(---color-correct-light);
+        }
+
+        .accuracy.sample.error .mark {
+          stroke: var(---color-error-light);
+        }
+
+        /*
+          OVERLAYER
+        */
+        .interactive {
+          filter: url("#shadow-2");
+          outline: none;
+        }
+
+        .interactive:hover {
+          filter: url("#shadow-4");
+        }
+
+        .interactive:active {
+          filter: url("#shadow-8");
+        }
+
+        :host(.keyboard) .interactive:focus {
+          filter: url("#shadow-8");
         }
 
         .boundary {
@@ -323,185 +377,99 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
 
         .boundary.interactive {
           cursor: ns-resize;
-          
-          filter: url("#shadow-2");
-          outline: none;
-        }
-
-        .boundary.interactive:hover {
-          filter: url("#shadow-4");
-        }
-
-        .boundary.interactive:active {
-          filter: url("#shadow-8");
-        }
-
-        :host(.keyboard) .boundary.interactive:focus {
-          filter: url("#shadow-8");
-        }
-
-        .t0z.interactive {
-          cursor: move;
-
-          filter: url("#shadow-2");
-          outline: none;
-        }
-
-        .t0z.interactive:hover {
-          filter: url("#shadow-4");
-        }
-
-        .t0z.interactive:active {
-          filter: url("#shadow-8");
-        }
-
-        :host(.keyboard) .t0z.interactive:focus {
-          filter: url("#shadow-8");
-        }
-
-        .line {
-          fill: none;
-          stroke: var(---color-element-emphasis);
-          stroke-width: 2;
         }
 
         .drift {
           pointer-events: visible;
-        }
 
-        .drift .line {
           fill: none;
           stroke: var(---color-element-emphasis);
           stroke-dasharray: 8 4;
           stroke-width: 2;
         }
 
-        .drift .arrow {
-          fill: none;
-          stroke: var(---color-element-emphasis);
-          stroke-width: 2;
-        }
-
         .drift.interactive {
           cursor: ns-resize;
-          
-          filter: url("#shadow-2");
-          outline: none;
         }
 
-        .drift.interactive:hover {
-          filter: url("#shadow-4");
+        .drift .arrow {
+          stroke-dasharray: none;
         }
 
-        .drift.interactive:active {
-          filter: url("#shadow-8");
+        .t0z.interactive {
+          cursor: move;
         }
 
-        :host(.keyboard) .drift.interactive:focus {
-          filter: url("#shadow-8");
-        }
-
-        .handle {
+        .t0z .point {
           fill: var(---color-element-emphasis);
 
           r: 6px;
         }
 
-        .bar {
-          fill: none;
-          stroke: var(---color-element-emphasis);
+        .measure {
           stroke-width: 2;
         }
 
-        .bar.interactive {
-          cursor: ew-resize;
-          
-          filter: url("#shadow-2");
-          outline: none;
-        }
-
-        .bar.interactive:hover {
-          filter: url("#shadow-4");
-        }
-
-        .bar.interactive:active {
-          filter: url("#shadow-8");
-        }
-
-        :host(.keyboard) .bar.interactive:focus {
-          filter: url("#shadow-8");
-        }
-
-        .accuracy.correct .bar {
-          fill: var(---color-correct);
-          stroke: none;
-        }
-
-        .accuracy.error .bar {
-          fill: var(---color-error);
-          stroke: none;
-        }
-
-        .percent-correct .mark.correct {
-          stroke: var(---color-correct-light);
-          stroke-width: 2;
-        }
-
-        .percent-correct .mark.error {
-          stroke: var(---color-error-light);
-          stroke-width: 2;
-        }
-
-        .measure-a .line {
-          stroke: var(---color-a);
-          stroke-width: 2;
-        }
-
-        .measure-a .label {
+        .measure .label {
           font-size: 0.75rem;
 
+          fill: currentColor;
+        }
+
+        .measure.a .line {
+          stroke: var(---color-a);
+        }
+
+        .measure.a .label {
           dominant-baseline: auto;
           text-anchor: end;
-          fill: currentColor;
         }
 
-        .measure-z .line {
+        .measure.z .line {
           stroke: var(---color-z);
-          stroke-width: 2;
         }
 
-        .measure-z .label {
-          font-size: 0.75rem;
-
+        .measure.z .label {
           dominant-baseline: hanging;
           text-anchor: start;
-          fill: currentColor;
         }
 
-        .measure-v .line {
+        .measure.v .line {
           stroke: var(---color-v);
-          stroke-width: 2;
         }
 
-        .measure-v .label {
-          font-size: 0.75rem;
-
+        .measure.v .label {
           dominant-baseline: auto;
           text-anchor: start;
-          fill: currentColor;
         }
 
-        .measure-t0 .line {
+        .measure.t0 .line {
           stroke: var(---color-t0);
+        }
+
+        .measure.t0 .label {
+          dominant-baseline: auto;
+          text-anchor: middle;
+        }
+
+        .mean .indicator {
           stroke-width: 2;
         }
 
-        .measure-t0 .label {
-          font-size: 0.75rem;
+        .mean.model .indicator {
+          stroke-dasharray: 2 2;
+        }
 
-          dominant-baseline: auto;
-          text-anchor: middle;
-          fill: currentColor;
+        .mean.sample .indicator {
+          stroke-dasharray: 1 1;
+        }
+
+        .mean.correct .indicator {
+          stroke: var(---color-correct-dark);
+        }
+
+        .mean.error .indicator {
+          stroke: var(---color-error-dark);
         }
       `,
     ];
@@ -558,6 +526,10 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
 
     const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10);
 
+    //
+    // SCALES
+    //
+
     // Time Scale
     const timeScale = d3.scaleLinear()
       .domain([this.scale.time.min, this.scale.time.max])
@@ -582,6 +554,10 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
     const accuracyScale = d3.scaleLinear()
       .domain([0, 1])
       .range([0, height]);
+
+    //
+    // DRAG BEHAVIORS
+    //
 
     // Nondecision Time/Starting Point Drag behavior
     const dragT0z = d3.drag()
@@ -703,6 +679,10 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
         d3.select(element).classed('dragging', false);
       });
 
+    //
+    // LINES
+    //
+
     // Line for time/evidence space
     const evidenceLine = d3.line()
       .x((datum) => { return timeScale(datum.t); })
@@ -718,6 +698,10 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
       .x((datum) => { return timeScale(datum.t); })
       .y((datum) => { return errorDensityScale(datum.d); });
 
+    //
+    // PLOTS
+    //
+
     // Svg
     //  DATA-JOIN
     const svgUpdate = d3.select(this.renderRoot).selectAll('.main')
@@ -728,12 +712,8 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
       }]);
     //  ENTER
     const svgEnter = svgUpdate.enter().append('svg')
-      .classed('main', true);
-    svgEnter.html(AccumulableElement.svgDefs);
-    //  MERGE
-    const svgMerge = svgEnter.merge(svgUpdate)
-      .attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`);
-
+      .classed('main', true)
+      .html(AccumulableElement.svgDefs);
     // Arrow head marker for measures
     svgEnter.append('defs').append('marker')
       .attr('id', 'measure-arrow')
@@ -748,6 +728,9 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
       .attr('stroke', 'context-stroke')
       .attr('fill', 'context-stroke')
       .attr('d', 'M -3 -3 l 6 3 l -6 3 z');
+    //  MERGE
+    const svgMerge = svgEnter.merge(svgUpdate)
+      .attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`);
 
     // Plots
     //  ENTER
@@ -783,6 +766,10 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
       .attr('height', evidenceScale(this.bounds.lower) - evidenceScale(this.bounds.upper) + 1)
       .attr('width', timeWidth + 1);
 
+    //
+    // UNDERLAYERS
+    //
+
     // Underlayers
     //  ENTER
     const evidenceUnderlayerEnter = evidencePlotEnter.append('g')
@@ -812,10 +799,10 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
       .attr('y', evidenceScale(this.bounds.upper))
       .attr('height', evidenceScale(this.bounds.lower) - evidenceScale(this.bounds.upper))
       .attr('width', timeWidth);
-    correctDensityUnderlayerEnter.select('.background')
+    correctDensityUnderlayerMerge.select('.background')
       .attr('height', densityHeight)
       .attr('width', timeWidth);
-    errorDensityUnderlayerEnter.select('.background')
+    errorDensityUnderlayerMerge.select('.background')
       .attr('height', densityHeight)
       .attr('width', timeWidth);
 
@@ -938,6 +925,10 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
     accuracyUnderlayerMerge.select('.title.accuracy')
       .attr('transform', `translate(${accuracyWidth + 2.25 * this.rem}, ${(height / 2)})rotate(90)`);
 
+    //
+    // CONTENTS
+    //
+
     // Contents
     //  ENTER
     evidencePlotEnter.append('g')
@@ -959,7 +950,7 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
     //  DATA-JOIN
     const pathUpdate = evidenceContentMerge.select('.paths').selectAll('.path')
       .data(
-        this.paths,
+        this.sample.paths,
       );
     //  ENTER
     const pathEnter = pathUpdate.enter().append('g')
@@ -979,9 +970,305 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
     //  EXIT
     pathUpdate.exit().remove();
 
+    // Distributions
+    // DATA-JOIN
+    const correctDistUpdate = correctDensityContentMerge.selectAll('.dist.correct')
+      .data(
+        [this.model.dists.correct],
+      );
+    const errorDistUpdate = errorDensityContentMerge.selectAll('.dist.error')
+      .data(
+        [this.model.dists.error],
+      );
+    //  ENTER
+    const correctDistEnter = correctDistUpdate.enter().append('g')
+      .classed('dist correct', true);
+    const errorDistEnter = errorDistUpdate.enter().append('g')
+      .classed('dist error', true);
+    correctDistEnter.append('path')
+      .classed('curve', true);
+    errorDistEnter.append('path')
+      .classed('curve', true);
+    //  MERGE
+    correctDistEnter.merge(correctDistUpdate).select('.curve')
+      .attr('d', (datum) => {
+        return correctDensityLine(datum);
+      });
+    errorDistEnter.merge(errorDistUpdate).select('.curve')
+      .attr('d', (datum) => {
+        return errorDensityLine(datum);
+      });
+    //  EXIT
+    correctDistUpdate.exit().remove();
+    errorDistUpdate.exit().remove();
+
+    // RTs
+    //  DATA-JOIN
+    const correctRTUpdate = correctDensityContentMerge.selectAll('.rt.correct')
+      .data(
+        this.sample.paths.filter((path) => {
+          return ((path.outcome === 'correct') && (path.rt < this.scale.time.max));
+        }),
+      );
+    const errorRTUpdate = errorDensityContentMerge.selectAll('.rt.error')
+      .data(
+        this.sample.paths.filter((path) => {
+          return ((path.outcome === 'error') && (path.rt < this.scale.time.max));
+        }),
+      );
+    //  ENTER
+    const correctRTEnter = correctRTUpdate.enter().append('g')
+      .classed('rt correct', true);
+    const errorRTEnter = errorRTUpdate.enter().append('g')
+      .classed('rt error', true);
+    correctRTEnter.append('line')
+      .classed('mark', true);
+    errorRTEnter.append('line')
+      .classed('mark', true);
+    //  MERGE
+    correctRTEnter.merge(correctRTUpdate).select('.mark')
+      .attr('x1', (datum) => {
+        return timeScale(datum.rt);
+      })
+      .attr('x2', (datum) => {
+        return timeScale(datum.rt);
+      })
+      .attr('y1', correctDensityScale(0) + 0.125 * this.rem)
+      .attr('y2', correctDensityScale(0) + 0.675 * this.rem);
+    errorRTEnter.merge(errorRTUpdate).select('.mark')
+      .attr('x1', (datum) => {
+        return timeScale(datum.rt);
+      })
+      .attr('x2', (datum) => {
+        return timeScale(datum.rt);
+      })
+      .attr('y1', errorDensityScale(0) - 0.125 * this.rem)
+      .attr('y2', errorDensityScale(0) - 0.675 * this.rem);
+    //  EXIT
+    correctRTUpdate.exit().remove();
+    errorRTUpdate.exit().remove();
+
+    // Model Accuracy
+    //  DATA-JOIN
+    const accuracyUpdate = accuracyContentMerge.selectAll('.accuracy.model')
+      .data(
+        [this.model.accuracy.correct, this.model.accuracy.error],
+      );
+    //  ENTER
+    const accuracyEnter = accuracyUpdate.enter().append('g')
+      .attr('class', (_, index) => {
+        return `accuracy model ${(index === 0) ? 'correct' : 'error'}`;
+      });
+    accuracyEnter.append('rect')
+      .classed('bar', true)
+      .attr('x', 0);
+    //  MERGE
+    accuracyEnter.merge(accuracyUpdate).select('rect')
+      .attr('y', (datum, index) => {
+        return (index === 0) ? accuracyScale(0) : accuracyScale(1 - datum);
+      })
+      .attr('width', accuracyWidth)
+      .attr('height', (datum) => {
+        return accuracyScale(datum);
+      });
+
+    // Sample Accuracy
+    //  DATA-JOIN
+    const sampleAccuracyUpdate = accuracyContentMerge.selectAll('.accuracy.sample')
+      .data(
+        [this.sample.accuracy.correct],
+      );
+    //  ENTER
+    const sampleAccuracyEnter = sampleAccuracyUpdate.enter().append('g')
+      .classed('accuracy sample', true);
+    sampleAccuracyEnter.append('line')
+      .classed('mark', true);
+    //  MERGE
+    const sampleAccuracyMerge = sampleAccuracyEnter.merge(sampleAccuracyUpdate)
+      .attr('class', (datum) => {
+        return `accuracy sample ${(datum < this.model.accuracy.correct) ? 'correct' : 'error'}`;
+      });
+    sampleAccuracyMerge.select('.mark')
+      .attr('x1', 0 + 0.25 * this.rem)
+      .attr('x2', accuracyWidth - 0.25 * this.rem)
+      .attr('y1', (datum) => {
+        return accuracyScale(datum) - 1;
+      })
+      .attr('y2', (datum) => {
+        return accuracyScale(datum) - 1;
+      });
+
+    //
+    // OVERLAYERS
+    //
+
+    // Overlayers
+    //  ENTER
+    evidencePlotEnter.append('g')
+      .classed('overlayer', true);
+    correctDensityPlotEnter.append('g')
+      .classed('overlayer', true);
+    errorDensityPlotEnter.append('g')
+      .classed('overlayer', true);
+    accuracyPlotEnter.append('g')
+      .classed('overlayer', true);
+    //  MERGE
+    const evidenceOverlayerMerge = evidencePlotMerge.select('.overlayer');
+    const correctDensityOverlayerMerge = correctDensityPlotMerge.select('.overlayer');
+    const errorDensityOverlayerMerge = errorDensityPlotMerge.select('.overlayer');
+    // const accuracyOverlayerMerge = accuracyPlotMerge.select('.overlayer');
+
+    // Boundaries
+    //  DATA-JOIN
+    const boundaryUpdate = evidenceOverlayerMerge.selectAll('.boundary')
+      .data([
+        {bound: 'upper', value: this.bounds.upper},
+        {bound: 'lower', value: this.bounds.lower},
+      ]);
+    //  ENTER
+    const boundaryEnter = boundaryUpdate.enter().append('g')
+      .attr('class', (_, index) => {
+        return `boundary ${(index === 0) ? 'correct' : 'error'}`;
+      });
+    boundaryEnter.append('line')
+      .classed('line', true);
+    //  MERGE
+    const boundaryMerge = boundaryEnter.merge(boundaryUpdate)
+      .attr('tabindex', this.interactive ? 0 : null)
+      .classed('interactive', this.interactive)
+      .on('keydown', this.interactive
+        ? (event, datum) => {
+          if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
+            let a = this.a; /* eslint-disable-line prefer-destructuring */
+            switch (event.key) {
+              case 'ArrowUp':
+                a += (datum.bound === 'upper')
+                  ? event.shiftKey ? 0.01 : 0.1
+                  : event.shiftKey ? -0.01 : -0.1;
+                break;
+              case 'ArrowDown':
+                a += (datum.bound === 'upper')
+                  ? event.shiftKey ? -0.01 : -0.1
+                  : event.shiftKey ? 0.01 : 0.1;
+                break;
+              default:
+            }
+            // Clamp boundaries to visible evidence
+            a = (a < 0.01)
+              ? 0.01
+              : (a > this.scale.evidence.max * 2)
+                ? this.scale.evidence.max * 2
+                : a;
+            this.a = a;
+            this.alignState();
+            this.dispatchEvent(new CustomEvent('ddm-sample-paths-a', {
+              detail: {
+                a: this.a,
+              },
+              bubbles: true,
+            }));
+            event.preventDefault();
+          }
+        }
+        : null);
+    if (
+      this.firstUpdate
+      || changedProperties.has('interactive')
+    ) {
+      if (this.interactive) {
+        boundaryMerge.call(dragBoundary);
+      } else {
+        boundaryMerge.on('.drag', null);
+      }
+    }
+    boundaryMerge.select('.line')
+      .attr('x1', timeScale(this.scale.time.min))
+      .attr('x2', timeScale(this.scale.time.max))
+      .attr('y1', (datum) => {
+        return evidenceScale(datum.value);
+      })
+      .attr('y2', (datum) => {
+        return evidenceScale(datum.value);
+      });
+    //  EXIT
+    boundaryUpdate.exit().remove();
+
+    // Drift Rate
+    //  DATA-JOIN
+    const driftUpdate = evidenceOverlayerMerge.selectAll('.drift')
+      .data([
+        {v: this.v, t0: this.t0, startingPoint: this.startingPoint},
+      ]);
+    //  ENTER
+    const driftEnter = driftUpdate.enter().append('g')
+      .classed('drift', true);
+    driftEnter.append('line')
+      .classed('line', true);
+    driftEnter.append('path')
+      .classed('arrow', true);
+    //  MERGE
+    const driftMerge = driftEnter.merge(driftUpdate)
+      .attr('tabindex', this.interactive ? 0 : null)
+      .classed('interactive', this.interactive)
+      .on('keydown', this.interactive
+        ? (event) => {
+          if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
+            let v = this.v; /* eslint-disable-line prefer-destructuring */
+            switch (event.key) {
+              case 'ArrowUp':
+                v += event.shiftKey ? 0.01 : 0.1;
+                break;
+              case 'ArrowDown':
+                v -= event.shiftKey ? 0.01 : 0.1;
+                break;
+              default:
+            }
+            // Clamp z
+            v = (v < 0.01)
+              ? 0.01
+              : (v > 5)
+                ? 5
+                : v;
+            this.v = v;
+            this.alignState();
+            this.dispatchEvent(new CustomEvent('ddm-sample-paths-v', {
+              detail: {
+                v: this.v,
+              },
+              bubbles: true,
+            }));
+            event.preventDefault();
+          }
+        }
+        : null);
+    if (
+      this.firstUpdate
+      || changedProperties.has('interactive')
+    ) {
+      if (this.interactive) {
+        driftMerge.call(dragDrift);
+      } else {
+        driftMerge.on('.drag', null);
+      }
+    }
+    const scaleRatio = (evidenceScale(0) - evidenceScale(1)) / (timeScale(1) - timeScale(0));
+    driftMerge
+      .attr('transform', (datum) => {
+        return `translate(${timeScale(datum.t0)}, ${evidenceScale(datum.startingPoint)})
+          rotate(${-Math.atan((datum.v / 1000) * scaleRatio) * (180 / Math.PI)})`;
+      });
+    driftMerge.select('.line')
+      .attr('x2', timeScale(200));
+    driftMerge.select('.arrow')
+      .attr('d', `
+        M ${timeScale(200) - this.rem * 0.5},${-this.rem * 0.5}
+        l ${this.rem * 0.5},${this.rem * 0.5}
+        l ${-this.rem * 0.5},${this.rem * 0.5}
+      `);
+
     // Nondecision Time/Starting Point
     //  DATA-JOIN
-    const t0zUpdate = evidenceContentMerge.selectAll('.t0z')
+    const t0zUpdate = evidenceOverlayerMerge.selectAll('.t0z')
       .data([
         {t0: this.t0, startingPoint: this.startingPoint},
       ]);
@@ -991,7 +1278,7 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
     t0zEnter.append('line')
       .classed('line', true);
     t0zEnter.append('circle')
-      .classed('handle', true);
+      .classed('point', true);
     //  MERGE
     const t0zMerge = t0zEnter.merge(t0zUpdate)
       .attr('tabindex', this.interactive ? 0 : null)
@@ -1069,165 +1356,17 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
       .attr('x2', (datum) => { return timeScale(datum.t0); })
       .attr('y1', (datum) => { return evidenceScale(datum.startingPoint); })
       .attr('y2', (datum) => { return evidenceScale(datum.startingPoint); });
-    t0zMerge.select('.handle')
+    t0zMerge.select('.point')
       .attr('cx', (datum) => { return timeScale(datum.t0); })
       .attr('cy', (datum) => { return evidenceScale(datum.startingPoint); });
 
-    // Drift Rate
-    //  DATA-JOIN
-    const driftUpdate = evidenceContentMerge.selectAll('.drift')
-      .data([
-        {v: this.v, t0: this.t0, startingPoint: this.startingPoint},
-      ]);
-    //  ENTER
-    const driftEnter = driftUpdate.enter().append('g')
-      .classed('drift', true);
-    driftEnter.append('line')
-      .classed('line', true);
-    driftEnter.append('path')
-      .classed('arrow', true);
-    //  MERGE
-    const driftMerge = driftEnter.merge(driftUpdate)
-      .attr('tabindex', this.interactive ? 0 : null)
-      .classed('interactive', this.interactive)
-      .on('keydown', this.interactive
-        ? (event) => {
-          if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-            let v = this.v; /* eslint-disable-line prefer-destructuring */
-            switch (event.key) {
-              case 'ArrowUp':
-                v += event.shiftKey ? 0.01 : 0.1;
-                break;
-              case 'ArrowDown':
-                v -= event.shiftKey ? 0.01 : 0.1;
-                break;
-              default:
-            }
-            // Clamp z
-            v = (v < 0.01)
-              ? 0.01
-              : (v > 5)
-                ? 5
-                : v;
-            this.v = v;
-            this.alignState();
-            this.dispatchEvent(new CustomEvent('ddm-sample-paths-v', {
-              detail: {
-                v: this.v,
-              },
-              bubbles: true,
-            }));
-            event.preventDefault();
-          }
-        }
-        : null);
-    if (
-      this.firstUpdate
-      || changedProperties.has('interactive')
-    ) {
-      if (this.interactive) {
-        driftMerge.call(dragDrift);
-      } else {
-        driftMerge.on('.drag', null);
-      }
-    }
-    const scaleRatio = (evidenceScale(0) - evidenceScale(1)) / (timeScale(1) - timeScale(0));
-    driftMerge
-      .attr('transform', (datum) => {
-        return `translate(${timeScale(datum.t0)}, ${evidenceScale(datum.startingPoint)})
-          rotate(${-Math.atan((datum.v / 1000) * scaleRatio) * (180 / Math.PI)})`;
-      });
-    driftMerge.select('.line')
-      .attr('x2', timeScale(200));
-    driftMerge.select('.arrow')
-      .attr('d', `
-        M ${timeScale(200) - this.rem * 0.5},${-this.rem * 0.5}
-        l ${this.rem * 0.5},${this.rem * 0.5}
-        l ${-this.rem * 0.5},${this.rem * 0.5}
-      `);
-
-    // Boundaries
-    //  DATA-JOIN
-    const boundaryUpdate = evidenceContentMerge.selectAll('.boundary')
-      .data([
-        {bound: 'upper', value: this.bounds.upper},
-        {bound: 'lower', value: this.bounds.lower},
-      ]);
-    //  ENTER
-    const boundaryEnter = boundaryUpdate.enter().append('g')
-      .attr('class', (_, index) => {
-        return `boundary ${(index === 0) ? 'correct' : 'error'}`;
-      });
-    boundaryEnter.append('line')
-      .classed('border', true);
-    //  MERGE
-    const boundaryMerge = boundaryEnter.merge(boundaryUpdate)
-      .attr('tabindex', this.interactive ? 0 : null)
-      .classed('interactive', this.interactive)
-      .on('keydown', this.interactive
-        ? (event, datum) => {
-          if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-            let a = this.a; /* eslint-disable-line prefer-destructuring */
-            switch (event.key) {
-              case 'ArrowUp':
-                a += (datum.bound === 'upper')
-                  ? event.shiftKey ? 0.01 : 0.1
-                  : event.shiftKey ? -0.01 : -0.1;
-                break;
-              case 'ArrowDown':
-                a += (datum.bound === 'upper')
-                  ? event.shiftKey ? -0.01 : -0.1
-                  : event.shiftKey ? 0.01 : 0.1;
-                break;
-              default:
-            }
-            // Clamp boundaries to visible evidence
-            a = (a < 0.01)
-              ? 0.01
-              : (a > this.scale.evidence.max * 2)
-                ? this.scale.evidence.max * 2
-                : a;
-            this.a = a;
-            this.alignState();
-            this.dispatchEvent(new CustomEvent('ddm-sample-paths-a', {
-              detail: {
-                a: this.a,
-              },
-              bubbles: true,
-            }));
-            event.preventDefault();
-          }
-        }
-        : null);
-    if (
-      this.firstUpdate
-      || changedProperties.has('interactive')
-    ) {
-      if (this.interactive) {
-        boundaryMerge.call(dragBoundary);
-      } else {
-        boundaryMerge.on('.drag', null);
-      }
-    }
-    boundaryMerge.select('.border')
-      .attr('x1', timeScale(this.scale.time.min))
-      .attr('x2', timeScale(this.scale.time.max))
-      .attr('y1', (datum) => {
-        return evidenceScale(datum.value);
-      })
-      .attr('y2', (datum) => {
-        return evidenceScale(datum.value);
-      });
-    //  EXIT
-    boundaryUpdate.exit().remove();
-
     // a Measure
     //  DATA-JOIN
-    const aUpdate = evidenceContentMerge.selectAll('.measure-a')
+    const aUpdate = evidenceOverlayerMerge.selectAll('.measure.a')
       .data([this.a]);
     //  ENTER
     const aEnter = aUpdate.enter().append('g')
-      .classed('measure-a', true);
+      .classed('measure a', true);
     aEnter.append('line')
       .classed('line', true)
       .attr('marker-start', 'url(#measure-arrow)')
@@ -1259,11 +1398,11 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
 
     // z Measure
     //  DATA-JOIN
-    const zUpdate = evidenceContentMerge.selectAll('.measure-z')
+    const zUpdate = evidenceOverlayerMerge.selectAll('.measure.z')
       .data([this.z]);
     //  ENTER
     const zEnter = zUpdate.enter().append('g')
-      .classed('measure-z', true);
+      .classed('measure z', true);
     zEnter.append('line')
       .classed('line', true)
       .attr('marker-start', 'url(#measure-arrow)')
@@ -1295,11 +1434,11 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
 
     // v Measure
     //  DATA-JOIN
-    const vUpdate = evidenceContentMerge.selectAll('.measure-v')
+    const vUpdate = evidenceOverlayerMerge.selectAll('.measure.v')
       .data([this.v]);
     //  ENTER
     const vEnter = vUpdate.enter().append('g')
-      .classed('measure-v', true);
+      .classed('measure v', true);
     vEnter.append('path')
       .classed('line', true)
       .attr('marker-start', 'url(#measure-arrow)')
@@ -1335,11 +1474,11 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
 
     // t0 Measure
     //  DATA-JOIN
-    const t0Update = evidenceContentMerge.selectAll('.measure-t0')
+    const t0Update = evidenceOverlayerMerge.selectAll('.measure.t0')
       .data([this.t0]);
     //  ENTER
     const t0Enter = t0Update.enter().append('g')
-      .classed('measure-t0', true);
+      .classed('measure t0', true);
     t0Enter.append('line')
       .classed('line', true)
       .attr('marker-start', 'url(#measure-arrow)')
@@ -1369,62 +1508,28 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
     //  EXIT
     t0Update.exit().remove();
 
-    // Distributions
-    // DATA-JOIN
-    const correctDistUpdate = correctDensityContentMerge.selectAll('.dist.correct')
-      .data(
-        [this.dists.correct],
-      );
-    const errorDistUpdate = errorDensityContentMerge.selectAll('.dist.error')
-      .data(
-        [this.dists.error],
-      );
-    //  ENTER
-    const correctDistEnter = correctDistUpdate.enter().append('g')
-      .classed('dist correct', true);
-    const errorDistEnter = errorDistUpdate.enter().append('g')
-      .classed('dist error', true);
-    correctDistEnter.append('path')
-      .classed('curve', true);
-    errorDistEnter.append('path')
-      .classed('curve', true);
-    //  MERGE
-    const correctDistMerge = correctDistEnter.merge(correctDistUpdate);
-    correctDistMerge.select('.curve')
-      .attr('d', (datum) => {
-        return correctDensityLine(datum);
-      });
-    const errorDistMerge = errorDistEnter.merge(errorDistUpdate);
-    errorDistMerge.select('.curve')
-      .attr('d', (datum) => {
-        return errorDensityLine(datum);
-      });
-    //  EXIT
-    correctDistUpdate.exit().remove();
-    errorDistUpdate.exit().remove();
-
     // Means
     // DATA-JOIN
-    const correctMeanUpdate = correctDensityContentMerge.selectAll('.mean.correct')
+    const correctMeanUpdate = correctDensityOverlayerMerge.selectAll('.mean.model.correct')
       .data(
-        [this.meanRT.correct],
+        [this.model.meanRT.correct],
       );
-    const errorMeanUpdate = errorDensityContentMerge.selectAll('.mean.error')
+    const errorMeanUpdate = errorDensityOverlayerMerge.selectAll('.mean.model.error')
       .data(
-        [this.meanRT.error],
+        [this.model.meanRT.error],
       );
     //  ENTER
     const correctMeanEnter = correctMeanUpdate.enter().append('g')
-      .classed('mean correct', true);
+      .classed('mean model correct', true);
     const errorMeanEnter = errorMeanUpdate.enter().append('g')
-      .classed('mean error', true);
+      .classed('mean model error', true);
     correctMeanEnter.append('line')
-      .classed('line', true);
+      .classed('indicator', true);
     errorMeanEnter.append('line')
-      .classed('line', true);
+      .classed('indicator', true);
     //  MERGE
     const correctMeanMerge = correctMeanEnter.merge(correctMeanUpdate);
-    correctMeanMerge.select('.line')
+    correctMeanMerge.select('.indicator')
       .attr('x1', (datum) => {
         return timeScale(datum);
       })
@@ -1434,7 +1539,7 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
       .attr('y1', correctDensityScale(this.scale.density.min))
       .attr('y2', correctDensityScale(this.scale.density.max));
     const errorMeanMerge = errorMeanEnter.merge(errorMeanUpdate);
-    errorMeanMerge.select('.line')
+    errorMeanMerge.select('.indicator')
       .attr('x1', (datum) => {
         return timeScale(datum);
       })
@@ -1447,102 +1552,49 @@ export default class DDMSamplePaths extends DecidablesMixinResizeable(Accumulabl
     correctMeanUpdate.exit().remove();
     errorMeanUpdate.exit().remove();
 
-    // RTs
-    //  DATA-JOIN
-    const correctRtUpdate = correctDensityContentMerge.selectAll('.rt.correct')
+    // Sample Means
+    // DATA-JOIN
+    const correctAverageUpdate = correctDensityOverlayerMerge.selectAll('.mean.sample.correct')
       .data(
-        this.paths.filter((path) => {
-          return ((path.outcome === 'correct') && (path.rt < this.scale.time.max));
-        }),
+        [this.sample.meanRT.correct],
       );
-    const errorRtUpdate = errorDensityContentMerge.selectAll('.rt.error')
+    const errorAverageUpdate = errorDensityOverlayerMerge.selectAll('.mean.sample.error')
       .data(
-        this.paths.filter((path) => {
-          return ((path.outcome === 'error') && (path.rt < this.scale.time.max));
-        }),
+        [this.sample.meanRT.error],
       );
     //  ENTER
-    const correctRtEnter = correctRtUpdate.enter().append('g')
-      .classed('rt correct', true);
-    const errorRtEnter = errorRtUpdate.enter().append('g')
-      .classed('rt error', true);
-    correctRtEnter.append('line')
-      .classed('mark', true);
-    errorRtEnter.append('line')
-      .classed('mark', true);
+    const correctAverageEnter = correctAverageUpdate.enter().append('g')
+      .classed('mean sample correct', true);
+    const errorAverageEnter = errorAverageUpdate.enter().append('g')
+      .classed('mean sample error', true);
+    correctAverageEnter.append('line')
+      .classed('indicator', true);
+    errorAverageEnter.append('line')
+      .classed('indicator', true);
     //  MERGE
-    const correctRtMerge = correctRtEnter.merge(correctRtUpdate);
-    correctRtMerge.select('.mark')
+    const correctAverageMerge = correctAverageEnter.merge(correctAverageUpdate);
+    correctAverageMerge.select('.indicator')
       .attr('x1', (datum) => {
-        return timeScale(datum.rt);
+        return timeScale(datum);
       })
       .attr('x2', (datum) => {
-        return timeScale(datum.rt);
+        return timeScale(datum);
       })
       .attr('y1', correctDensityScale(0) + 0.125 * this.rem)
       .attr('y2', correctDensityScale(0) + 0.675 * this.rem);
-    const errorRtMerge = errorRtEnter.merge(errorRtUpdate);
-    errorRtMerge.select('.mark')
+    const errorAverageMerge = errorAverageEnter.merge(errorAverageUpdate);
+    errorAverageMerge.select('.indicator')
       .attr('x1', (datum) => {
-        return timeScale(datum.rt);
+        return timeScale(datum);
       })
       .attr('x2', (datum) => {
-        return timeScale(datum.rt);
+        return timeScale(datum);
       })
       .attr('y1', errorDensityScale(0) - 0.125 * this.rem)
       .attr('y2', errorDensityScale(0) - 0.675 * this.rem);
     //  EXIT
-    correctRtUpdate.exit().remove();
-    errorRtUpdate.exit().remove();
-
-    // Accuracy
-    //  DATA-JOIN
-    const accuracyUpdate = accuracyContentMerge.selectAll('.accuracy')
-      .data(
-        [this.accuracy.correct, this.accuracy.error],
-      );
-    //  ENTER
-    const accuracyEnter = accuracyUpdate.enter().append('g')
-      .attr('class', (_, index) => {
-        return `accuracy ${(index === 0) ? 'correct' : 'error'}`;
-      });
-    accuracyEnter.append('rect')
-      .classed('bar', true)
-      .attr('x', 0);
-    //  MERGE
-    const accuracyMerge = accuracyEnter.merge(accuracyUpdate);
-    accuracyMerge.select('rect')
-      .attr('y', (datum, index) => {
-        return (index === 0) ? accuracyScale(0) : accuracyScale(1 - datum);
-      })
-      .attr('width', accuracyWidth)
-      .attr('height', (datum) => {
-        return accuracyScale(datum);
-      });
-
-    // Sample Accuracy
-    //  DATA-JOIN
-    const percentCorrectUpdate = accuracyContentMerge.selectAll('.percent-correct')
-      .data(
-        [this.paths.accuracy],
-      );
-    //  ENTER
-    const percentCorrectEnter = percentCorrectUpdate.enter().append('g')
-      .classed('percent-correct', true);
-    percentCorrectEnter.append('line')
-      .classed('mark', true);
-    //  MERGE
-    const percentCorrectMerge = percentCorrectEnter.merge(percentCorrectUpdate);
-    percentCorrectMerge.select('.mark')
-      .attr('class', (datum) => { return `mark ${(datum < this.accuracy.correct) ? 'correct' : 'error'}`; })
-      .attr('x1', 0 + 0.25 * this.rem)
-      .attr('x2', accuracyWidth - 0.25 * this.rem)
-      .attr('y1', (datum) => {
-        return accuracyScale(datum) - 1;
-      })
-      .attr('y2', (datum) => {
-        return accuracyScale(datum) - 1;
-      });
+    correctAverageUpdate.exit().remove();
+    errorAverageUpdate.exit().remove();
 
     this.drag = false;
     this.firstUpdate = false;
