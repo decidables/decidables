@@ -10,20 +10,26 @@ import '@decidables/decidables-elements/toggle-option';
 import AccumulableElement from '../accumulable-element';
 
 /*
-  AccumulableParameters element
-  <accumulable-paramters>
+  DDMParameters element
+  <ddm-paramters>
 
   Attributes:
 
 */
-export default class AccumulableParameters extends AccumulableElement {
+export default class DDMParameters extends AccumulableElement {
   static get properties() {
     return {
+      resample: {
+        attribute: 'resample',
+        type: Boolean,
+        reflect: true,
+      },
       trials: {
         attribute: 'trials',
         type: Number,
         reflect: true,
       },
+
       a: {
         attribute: 'boundary-separation',
         type: Number,
@@ -51,16 +57,25 @@ export default class AccumulableParameters extends AccumulableElement {
     super();
 
     // Attributes
+    this.resample = false;
     this.trials = undefined;
+
     this.a = undefined;
     this.z = undefined;
     this.v = undefined;
     this.t0 = undefined;
   }
 
+  doResample() {
+    this.dispatchEvent(new CustomEvent('ddm-parameters-resample', {
+      detail: {},
+      bubbles: true,
+    }));
+  }
+
   setTrials(e) {
     this.trials = e.target.value;
-    this.dispatchEvent(new CustomEvent('accumulable-parameters-trials', {
+    this.dispatchEvent(new CustomEvent('ddm-parameters-trials', {
       detail: {
         trials: this.trials,
       },
@@ -70,7 +85,7 @@ export default class AccumulableParameters extends AccumulableElement {
 
   setBoundarySeparation(e) {
     this.a = e.target.value;
-    this.dispatchEvent(new CustomEvent('accumulable-parameters-a', {
+    this.dispatchEvent(new CustomEvent('ddm-parameters-a', {
       detail: {
         a: this.a,
       },
@@ -80,7 +95,7 @@ export default class AccumulableParameters extends AccumulableElement {
 
   setStartingPoint(e) {
     this.z = e.target.value;
-    this.dispatchEvent(new CustomEvent('accumulable-parameters-z', {
+    this.dispatchEvent(new CustomEvent('ddm-parameters-z', {
       detail: {
         z: this.z,
       },
@@ -90,7 +105,7 @@ export default class AccumulableParameters extends AccumulableElement {
 
   setDriftRate(e) {
     this.v = e.target.value;
-    this.dispatchEvent(new CustomEvent('accumulable-parameters-v', {
+    this.dispatchEvent(new CustomEvent('ddm-parameters-v', {
       detail: {
         v: this.v,
       },
@@ -100,7 +115,7 @@ export default class AccumulableParameters extends AccumulableElement {
 
   setNondecisionTime(e) {
     this.t0 = e.target.value;
-    this.dispatchEvent(new CustomEvent('accumulable-parameters-t0', {
+    this.dispatchEvent(new CustomEvent('ddm-parameters-t0', {
       detail: {
         t0: this.t0,
       },
@@ -124,6 +139,15 @@ export default class AccumulableParameters extends AccumulableElement {
           align-items: stretch;
           justify-content: center;
         }
+
+        .buttons {
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: stretch;
+          justify-content: center;
+        }
       `,
     ];
   }
@@ -131,8 +155,17 @@ export default class AccumulableParameters extends AccumulableElement {
   render() {
     return html`
       <div class="holder">
+        ${this.resample
+          ? html`
+            <div class="buttons">
+              ${this.resample
+                ? html`<decidables-button name="resample" @click=${this.doResample.bind(this)}>Resample</decidables-button>`
+                : html``}
+            </div>
+          `
+          : html``}
         ${this.trials != null
-          ? html`<decidables-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>`
+          ? html`<decidables-slider min="0" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>`
           : html``}
         ${this.a != null
           ? html`<decidables-slider min="0.01" max="2" step=".01" .value=${this.a} @change=${this.setBoundarySeparation.bind(this)} @input=${this.setBoundarySeparation.bind(this)}>Boundary Separation</decidables-slider>`
@@ -150,4 +183,4 @@ export default class AccumulableParameters extends AccumulableElement {
   }
 }
 
-customElements.define('accumulable-parameters', AccumulableParameters);
+customElements.define('ddm-parameters', DDMParameters);
