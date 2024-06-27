@@ -9,6 +9,6 @@ script: page
 Exploring the relationship between model parameters and behavior.
 
 <ddm-example-interactive>
-  <accumulable-parameters></accumulable-parameters>
-  <ddm-sample-paths interactive></ddm-sample-paths>
+  <ddm-parameters resample></ddm-parameters>
+  <ddm-model interactive measures means sds></ddm-model>
 </ddm-example-interactive>

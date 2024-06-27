@@ -45,45 +45,48 @@ export default class DDMExampleInteractive extends DDMExample {
     this.v = 1.5;
     this.t0 = 150;
 
-    this.accumulableParameters = null;
-    this.ddmSamplePaths = null;
+    this.ddmParameters = null;
+    this.ddmModel = null;
   }
 
   connectedCallback() {
     super.connectedCallback();
 
-    this.accumulableParameters = this.querySelector('accumulable-parameters');
-    this.ddmSamplePaths = this.querySelector('ddm-sample-paths');
+    this.ddmParameters = this.querySelector('ddm-parameters');
+    this.ddmModel = this.querySelector('ddm-model');
 
-    if (this.accumulableParameters) {
-      this.accumulableParameters.addEventListener('accumulable-parameters-trials', (event) => {
+    if (this.ddmParameters) {
+      this.ddmParameters.addEventListener('ddm-parameters-resample', (event) => {
+        this.ddmModel?.resample();
+      });
+      this.ddmParameters.addEventListener('ddm-parameters-trials', (event) => {
         this.trials = event.detail.trials;
       });
-      this.accumulableParameters.addEventListener('accumulable-parameters-a', (event) => {
+      this.ddmParameters.addEventListener('ddm-parameters-a', (event) => {
         this.a = event.detail.a;
       });
-      this.accumulableParameters.addEventListener('accumulable-parameters-z', (event) => {
+      this.ddmParameters.addEventListener('ddm-parameters-z', (event) => {
         this.z = event.detail.z;
       });
-      this.accumulableParameters.addEventListener('accumulable-parameters-v', (event) => {
+      this.ddmParameters.addEventListener('ddm-parameters-v', (event) => {
         this.v = event.detail.v;
       });
-      this.accumulableParameters.addEventListener('accumulable-parameters-t0', (event) => {
+      this.ddmParameters.addEventListener('ddm-parameters-t0', (event) => {
         this.t0 = event.detail.t0;
       });
     }
 
-    if (this.ddmSamplePaths) {
-      this.ddmSamplePaths.addEventListener('ddm-sample-paths-a', (event) => {
+    if (this.ddmModel) {
+      this.ddmModel.addEventListener('ddm-model-a', (event) => {
         this.a = event.detail.a;
       });
-      this.ddmSamplePaths.addEventListener('ddm-sample-paths-z', (event) => {
+      this.ddmModel.addEventListener('ddm-model-z', (event) => {
         this.z = event.detail.z;
       });
-      this.ddmSamplePaths.addEventListener('ddm-sample-paths-v', (event) => {
+      this.ddmModel.addEventListener('ddm-model-v', (event) => {
         this.v = event.detail.v;
       });
-      this.ddmSamplePaths.addEventListener('ddm-sample-paths-t0', (event) => {
+      this.ddmModel.addEventListener('ddm-model-t0', (event) => {
         this.t0 = event.detail.t0;
       });
     }
@@ -94,20 +97,20 @@ export default class DDMExampleInteractive extends DDMExample {
   update(changedProperties) {
     super.update(changedProperties);
 
-    if (this.accumulableParameters) {
-      this.accumulableParameters.trials = this.trials;
-      this.accumulableParameters.a = this.a;
-      this.accumulableParameters.z = this.z;
-      this.accumulableParameters.v = this.v;
-      this.accumulableParameters.t0 = this.t0;
+    if (this.ddmParameters) {
+      this.ddmParameters.trials = this.trials;
+      this.ddmParameters.a = this.a;
+      this.ddmParameters.z = this.z;
+      this.ddmParameters.v = this.v;
+      this.ddmParameters.t0 = this.t0;
     }
 
-    if (this.ddmSamplePaths) {
-      this.ddmSamplePaths.trials = this.trials;
-      this.ddmSamplePaths.a = +this.a;
-      this.ddmSamplePaths.z = +this.z;
-      this.ddmSamplePaths.v = +this.v;
-      this.ddmSamplePaths.t0 = +this.t0;
+    if (this.ddmModel) {
+      this.ddmModel.trials = this.trials;
+      this.ddmModel.a = +this.a;
+      this.ddmModel.z = +this.z;
+      this.ddmModel.v = +this.v;
+      this.ddmModel.t0 = +this.t0;
     }
   }
 }

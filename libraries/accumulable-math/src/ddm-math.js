@@ -45,6 +45,36 @@ export default class DDMMath {
     return DDMMath.azvs2mE(a, 1 - zprime, -v, s);
   }
 
+  // SD Error RT
+  static azvs2sdE(a, zprime, v, s) {
+    function phi(x, y) {
+      return Math.exp((2 * v * y) / (s ** 2)) - Math.exp((2 * v * x) / (s ** 2));
+    }
+    const z = a * zprime;
+
+    return Math.sqrt((
+      (
+        -2 * a * phi(0, z)
+        * ((2 * v * a * phi(z, 2 * a)) + (s ** 2 * phi(0, a) * phi(z, a)))
+        * Math.exp((2 * v * a) / s ** 2)
+      ) / (
+        v ** 3 * phi(0, a) ** 2 * phi(z, a) ** 2
+      )
+    ) + (
+      (
+        4 * v * z * (2 * a - z) * Math.exp((2 * v * (z + a)) / s ** 2)
+        + z * s ** 2 * phi(2 * z, 2 * a)
+      ) / (
+        v ** 3 * phi(z, a) ** 2
+      )
+    ));
+  }
+
+  // SD Correct RT
+  static azvs2sdC(a, zprime, v, s) {
+    return DDMMath.azvs2sdE(a, 1 - zprime, -v, s);
+  }
+
   // Density of Error RT
   static tazvs2gE(t, a, zprime, v, s) {
     if (!t) return 0;

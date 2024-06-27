@@ -1,9 +1,7 @@
 ## Outline
 
-universal bounds and step sizes for each parameter?
-mean (and SD) for RT dist (and samples?)
-separate Controls vs Parameters
-Be consistent: upper/lower, positive/negative, correct/error
+SDs -> height of line?
+labels for model means & SDs?
 
 - *accumulable*: Drift-diffusion/race/LBA model of RT
   - Introduction
