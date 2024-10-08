@@ -58,11 +58,6 @@ export default class RDK2AFCTask extends DecidablesMixinResizeable(AccumulableEl
         reflect: true,
       },
 
-      direction: {
-        attribute: false,
-        type: Number,
-        reflect: false,
-      },
       lifetime: {
         attribute: false,
         type: Number,
@@ -82,7 +77,7 @@ export default class RDK2AFCTask extends DecidablesMixinResizeable(AccumulableEl
     // Attributes
     this.coherence = 0.5; // Proportion of dots moving coherently
     this.count = 100; // Number of dots
-    this.probability = 0.5; // Probability of signal (as opposed to noise)
+    this.probability = 0.5; // Probability of left (as opposed to right)
     this.duration = 2000; // Duration of stimulus in milliseconds
     this.wait = 2000; // Duration of wait period for response in milliseconds
     this.iti = 2000; // Duration of inter-trial interval in milliseconds
@@ -90,7 +85,6 @@ export default class RDK2AFCTask extends DecidablesMixinResizeable(AccumulableEl
     this.running = false; // Currently executing block of trials
 
     // Properties
-    this.direction = -1; // Direction of current trial in degrees
     this.lifetime = 400; // Lifetime of each dot in milliseconds
     this.speed = 50; // Rate of dot movement in pixels per second
 
@@ -108,9 +102,12 @@ export default class RDK2AFCTask extends DecidablesMixinResizeable(AccumulableEl
     this.pauseTime = 0; // Real time, in milliseconds, that block was paused at
     this.startTime = 0; // Virtual time, in milliseconds, that current stage of trial started
     this.lastTime = 0; // Virtual time, in milliseconds, of the most recent frame
+
+    this.LEFT = 180; // "Constant" for left stimulus direction
+    this.RIGHT = 0; // "Constant" for right stimulus direction
     this.currentDirection = undefined; // Direction in degrees for current trial
 
-    this.signals = ['present', 'absent']; // Possible trial types
+    this.signals = ['left', 'right']; // Possible trial types
     this.signal = undefined; // Current trial type
 
     this.runner = undefined; // D3 Interval for frame timing
@@ -366,12 +363,10 @@ export default class RDK2AFCTask extends DecidablesMixinResizeable(AccumulableEl
       this.trial += 1;
       this.state = 'stimulus';
       this.startTime = currentTime;
-      this.signal = (Math.random() < this.probability) ? 'present' : 'absent';
-      this.currentDirection = (this.signal === 'absent')
-        ? undefined
-        : (this.direction >= 0)
-          ? this.direction
-          : (Math.random() * 360);
+      this.signal = (Math.random() < this.probability) ? 'left' : 'right';
+      this.currentDirection = (this.signal === 'left')
+        ? this.LEFT
+        : this.RIGHT;
       this.dispatchEvent(new CustomEvent('rdk-trial-start', {
         detail: {
           trials: this.trials,
@@ -437,8 +432,8 @@ export default class RDK2AFCTask extends DecidablesMixinResizeable(AccumulableEl
 
     // Dots
     if (this.state === 'stimulus') {
-      this.dots[this.COHERENT].length = (this.signal === 'present') ? Math.round(this.count * this.coherence) : 0;
-      this.dots[this.RANDOM].length = (this.signal === 'present') ? (this.count - this.dots[this.COHERENT].length) : this.count;
+      this.dots[this.COHERENT].length = Math.round(this.count * this.coherence);
+      this.dots[this.RANDOM].length = (this.count - this.dots[this.COHERENT].length);
 
       for (let t = 0; t < this.dots.length; t += 1) {
         for (let i = 0; i < this.dots[t].length; i += 1) {
