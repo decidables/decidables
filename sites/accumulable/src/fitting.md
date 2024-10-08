@@ -8,10 +8,9 @@ script: page
 
 Fitting the model to your performance.
 
-<!-- <htd-example-human>
-  <discountable-control trials="10" run pause reset></discountable-control>
-  <itc-task trials="10"></itc-task>
-  <discountable-response interactive trial feedback></discountable-response>
-  <htd-curves></htd-curves>
-  <htd-fit></htd-fit>
-</htd-example-human> -->
+<ddm-example-human>
+  <accumulable-control trials="10" duration="1000" coherence="0.4" color="outcome" run pause reset></accumulable-control>
+  <rdk-2afc-task trials="10"></rdk-2afc-task>
+  <accumulable-response interactive trial feedback></accumulable-response>
+  <accumulable-table numeric interactive summary="total" color="outcome"></accumulable-table>
+</ddm-example-human>
