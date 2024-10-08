@@ -2,6 +2,7 @@
 
 SDs -> height of line?
 labels for model means & SDs?
+highlight individual paths with RT label?
 
 - *accumulable*: Drift-diffusion/race/LBA model of RT
   - Introduction
