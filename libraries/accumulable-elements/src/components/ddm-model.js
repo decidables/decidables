@@ -184,7 +184,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     let errorTrials = 0;
     let correctRTs = 0;
     let errorRTs = 0;
-    this.sample.paths = Array.from({length: this.trials}, () => {
+    this.sample.paths = Array.from({length: this.trials}, (element, index) => {
       const seed = (this.random() / 1000) * 997; // HACK to avoid randomLcg repetition
       const random = d3.randomNormal.source(d3.randomLcg(seed))(0, this.precision ** 0.5);
 
@@ -221,7 +221,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       errorRTs += (outcome === 'error') ? rt : 0;
 
       return {
-        seed, path, rt, outcome,
+        index, seed, path, rt, outcome,
       };
     });
     this.sample.accuracy = {
@@ -355,6 +355,11 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           opacity: 0.5;
 
           fill: none;
+        }
+
+        .path.highlight .curve {
+          filter: url("#shadow-2");
+          opacity: 1;
         }
 
         .path.correct .curve {
@@ -536,6 +541,27 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         .mean.error .indicator {
           stroke: var(---color-error-dark);
         }
+
+        .rt-label rect {
+          filter: url("#shadow-2");
+
+          fill: var(--color-background);
+          rx: 4;
+        }
+
+        .rt-label text {
+          font-size: 0.75rem;
+          
+          text-anchor: middle;
+        }
+
+        .rt-label.correct text {
+          dominant-baseline: auto;
+        }
+
+        .rt-label.error text {
+          dominant-baseline: hanging;
+        }
       `,
     ];
   }
@@ -677,6 +703,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .on('end', (event) => {
         const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
+        this.drag = false;
       });
 
     // Drift Rate Drag behavior
@@ -706,6 +733,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .on('end', (event) => {
         const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
+        this.drag = false;
       });
 
     // Boundary Drag behavior
@@ -742,6 +770,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .on('end', (event) => {
         const element = event.currentTarget;
         d3.select(element).classed('dragging', false);
+        this.drag = false;
       });
 
     //
@@ -862,7 +891,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('width', timeWidth + 1);
 
     //
-    // UNDERLAYERS
+    // LAYERS
     //
 
     // Underlayers
@@ -880,6 +909,43 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const correctDensityUnderlayerMerge = correctDensityPlotMerge.select('.underlayer');
     const errorDensityUnderlayerMerge = errorDensityPlotMerge.select('.underlayer');
     const accuracyUnderlayerMerge = accuracyPlotMerge.select('.underlayer');
+
+    // Contents
+    //  ENTER
+    evidencePlotEnter.append('g')
+      .classed('content', true)
+      .append('g').classed('paths', true);
+    correctDensityPlotEnter.append('g')
+      .classed('content', true);
+    errorDensityPlotEnter.append('g')
+      .classed('content', true);
+    accuracyPlotEnter.append('g')
+      .classed('content', true);
+    //  MERGE
+    const evidenceContentMerge = evidencePlotMerge.select('.content');
+    const correctDensityContentMerge = correctDensityPlotMerge.select('.content');
+    const errorDensityContentMerge = errorDensityPlotMerge.select('.content');
+    const accuracyContentMerge = accuracyPlotMerge.select('.content');
+
+    // Overlayers
+    //  ENTER
+    evidencePlotEnter.append('g')
+      .classed('overlayer', true);
+    correctDensityPlotEnter.append('g')
+      .classed('overlayer', true);
+    errorDensityPlotEnter.append('g')
+      .classed('overlayer', true);
+    accuracyPlotEnter.append('g')
+      .classed('overlayer', true);
+    //  MERGE
+    const evidenceOverlayerMerge = evidencePlotMerge.select('.overlayer');
+    const correctDensityOverlayerMerge = correctDensityPlotMerge.select('.overlayer');
+    const errorDensityOverlayerMerge = errorDensityPlotMerge.select('.overlayer');
+    // const accuracyOverlayerMerge = accuracyPlotMerge.select('.overlayer');
+
+    //
+    // UNDERLAYERS
+    //
 
     // Backgrounds
     //  ENTER
@@ -1024,23 +1090,6 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     // CONTENTS
     //
 
-    // Contents
-    //  ENTER
-    evidencePlotEnter.append('g')
-      .classed('content', true)
-      .append('g').classed('paths', true);
-    correctDensityPlotEnter.append('g')
-      .classed('content', true);
-    errorDensityPlotEnter.append('g')
-      .classed('content', true);
-    accuracyPlotEnter.append('g')
-      .classed('content', true);
-    //  MERGE
-    const evidenceContentMerge = evidencePlotMerge.select('.content');
-    const correctDensityContentMerge = correctDensityPlotMerge.select('.content');
-    const errorDensityContentMerge = errorDensityPlotMerge.select('.content');
-    const accuracyContentMerge = accuracyPlotMerge.select('.content');
-
     // Paths
     //  DATA-JOIN
     const pathUpdate = evidenceContentMerge.select('.paths').selectAll('.path')
@@ -1048,8 +1097,42 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         this.sample.paths,
       );
     //  ENTER
+    const rtLabel = d3.local();
     const pathEnter = pathUpdate.enter().append('g')
-      .classed('path', true);
+      .classed('path', true)
+      .on('pointerenter', (event, datum) => {
+        if (!this.drag) {
+          d3.select(event.currentTarget)
+            .classed('highlight', true)
+            .raise();
+          const myRtLabel = evidenceOverlayerMerge.append('g')
+            .classed(`rt-label ${datum.outcome}`, true);
+          const rect = myRtLabel.append('rect');
+          const text = myRtLabel.append('text')
+            .text(`RT = ${datum.rt.toFixed()}`)
+            .attr('x', timeScale(datum.rt))
+            .attr('y', datum.outcome === 'correct'
+              ? evidenceScale(this.bounds.upper) - this.rem * 0.25
+              : evidenceScale(this.bounds.lower) + this.rem * 0.125);
+          const bbox = text.node().getBBox();
+          rect
+            .attr('x', bbox.x - this.rem * 0.125)
+            .attr('y', bbox.y + this.rem * 0.125)
+            .attr('width', bbox.width + this.rem * 0.25)
+            .attr('height', bbox.height - this.rem * 0.25);
+          rtLabel.set(event.currentTarget, myRtLabel);
+        }
+      })
+      .on('pointerout', (event, datum) => {
+        d3.select(event.currentTarget)
+          .classed('highlight', false)
+          .lower();
+        event.currentTarget.parentNode.insertBefore(
+          event.currentTarget,
+          event.currentTarget.parentNode.children[datum.index],
+        );
+        rtLabel.get(event.currentTarget).remove();
+      });
     pathEnter.append('path')
       .classed('curve', true)
       .attr('clip-path', 'url(#clip-evidence)');
@@ -1200,22 +1283,6 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //
     // OVERLAYERS
     //
-
-    // Overlayers
-    //  ENTER
-    evidencePlotEnter.append('g')
-      .classed('overlayer', true);
-    correctDensityPlotEnter.append('g')
-      .classed('overlayer', true);
-    errorDensityPlotEnter.append('g')
-      .classed('overlayer', true);
-    accuracyPlotEnter.append('g')
-      .classed('overlayer', true);
-    //  MERGE
-    const evidenceOverlayerMerge = evidencePlotMerge.select('.overlayer');
-    const correctDensityOverlayerMerge = correctDensityPlotMerge.select('.overlayer');
-    const errorDensityOverlayerMerge = errorDensityPlotMerge.select('.overlayer');
-    // const accuracyOverlayerMerge = accuracyPlotMerge.select('.overlayer');
 
     // Boundaries
     //  DATA-JOIN
@@ -1811,7 +1878,6 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     correctSampleSDUpdate.exit().remove();
     errorSampleSDUpdate.exit().remove();
 
-    this.drag = false;
     this.firstUpdate = false;
   }
 }
