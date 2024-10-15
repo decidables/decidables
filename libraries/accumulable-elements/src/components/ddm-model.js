@@ -224,13 +224,22 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         index, seed, path, rt, outcome,
       };
     });
+    this.sample.count = {
+      correct: correctTrials,
+      error: errorTrials,
+      overall: correctTrials + errorTrials,
+    };
     this.sample.accuracy = {
       correct: (this.trials > 0) ? (correctTrials / this.trials) : undefined,
       error: (this.trials > 0) ? (errorTrials / this.trials) : undefined,
+      overall: (this.trials > 0) ? (correctTrials / this.trials) : undefined,
     };
     this.sample.meanRT = {
       correct: (correctTrials > 0) ? (correctRTs / correctTrials) : undefined,
       error: (errorTrials > 0) ? (errorRTs / errorTrials) : undefined,
+      overall: (this.trials > 0)
+        ? ((correctRTs + errorRTs) / (correctTrials + errorTrials))
+        : undefined,
     };
     const correctSS = this.sample.paths.reduce((sum, path) => {
       return (path.outcome === 'correct')
@@ -242,9 +251,13 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         ? sum + (path.rt - this.sample.meanRT.error) ** 2
         : sum;
     }, 0);
+    const overallSS = this.sample.paths.reduce((sum, path) => {
+      return sum + (path.rt - this.sample.meanRT.overall) ** 2;
+    }, 0);
     this.sample.sdRT = {
       correct: (correctTrials > 1) ? Math.sqrt(correctSS / (correctTrials - 1)) : undefined,
       error: (errorTrials > 1) ? Math.sqrt(errorSS / (errorTrials - 1)) : undefined,
+      overall: (this.trials > 1) ? Math.sqrt(overallSS / (this.trials - 1)) : undefined,
     };
 
     // Model Distributions
