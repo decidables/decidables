@@ -33,13 +33,18 @@ export default class AccumulableTable extends AccumulableElement {
         reflect: true,
       },
 
-      correctAccuracy: {
-        attribute: 'correct-accuracy',
+      correctCount: {
+        attribute: 'correct-count',
         type: Number,
         reflect: true,
       },
-      errorAccuracy: {
-        attribute: 'error-accuracy',
+      errorCount: {
+        attribute: 'error-count',
+        type: Number,
+        reflect: true,
+      },
+      accuracy: {
+        attribute: 'accuracy',
         type: Number,
         reflect: true,
       },
@@ -102,7 +107,7 @@ export default class AccumulableTable extends AccumulableElement {
 
     this.numeric = false;
 
-    this.summaries = ['total'];
+    this.summaries = ['overall'];
     this.summary = new Set();
 
     this.colors = ['none', 'measure', 'outcome', 'all'];
@@ -113,8 +118,9 @@ export default class AccumulableTable extends AccumulableElement {
     this.errorPayoff = undefined; // Error payoff
     this.nrPayoff = undefined; // No Response payoff
 
-    this.correctAccuracy = NaN;
-    this.errorAccuracy = NaN;
+    this.correctCount = NaN;
+    this.errorCount = NaN;
+    this.accuracy = NaN;
     this.correctMeanRT = NaN;
     this.errorMeanRT = NaN;
     this.meanRT = NaN;
@@ -135,8 +141,9 @@ export default class AccumulableTable extends AccumulableElement {
   sendEvent() {
     this.dispatchEvent(new CustomEvent('accumulable-table-change', {
       detail: {
-        correctAccuracy: this.correctAccuracy,
-        errorAccuracy: this.errorAccuracy,
+        correctCount: this.correctCount,
+        errorCount: this.errorCount,
+        accuracy: this.accuracy,
         correctMeanRT: this.correctMeanRT,
         errorMeanRT: this.errorMeanRT,
         meanRT: this.meanRT,
@@ -148,14 +155,20 @@ export default class AccumulableTable extends AccumulableElement {
     }));
   }
 
-  correctAccuracyInput(e) {
-    this.correctAccuracy = parseFloat(e.target.value);
+  correctCountInput(e) {
+    this.correctCount = parseInt(e.target.value, 10);
     this.alignState();
     this.sendEvent();
   }
 
-  errorAccuracyInput(e) {
-    this.errorAccuracy = parseFloat(e.target.value);
+  errorCountInput(e) {
+    this.errorCount = parseInt(e.target.value, 10);
+    this.alignState();
+    this.sendEvent();
+  }
+
+  accuracyInput(e) {
+    this.accuracy = parseFloat(e.target.value);
     this.alignState();
     this.sendEvent();
   }
@@ -269,7 +282,7 @@ export default class AccumulableTable extends AccumulableElement {
           border-right: 2px solid var(---color-element-emphasis);
         }
 
-        .td-data.accuracy {
+        .td-data.count {
           border-top: 2px solid var(---color-element-emphasis);
         }
 
@@ -280,11 +293,15 @@ export default class AccumulableTable extends AccumulableElement {
         /* Color schemes */
 
         /* (Default) All color scheme */
-        .correct.accuracy {
+        .correct.count {
           background: var(---color-element-background); /* ###### */
         }
 
-        .error.accuracy {
+        .error.count {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        .overall.accuracy {
           background: var(---color-element-background); /* ###### */
         }
 
@@ -296,7 +313,7 @@ export default class AccumulableTable extends AccumulableElement {
           background: var(---color-element-background); /* ###### */
         }
 
-        .total.mean-rt {
+        .overall.mean-rt {
           background: var(---color-element-background); /* ###### */
         }
 
@@ -308,7 +325,7 @@ export default class AccumulableTable extends AccumulableElement {
           background: var(---color-element-background); /* ###### */
         }
 
-        .total.sd-rt {
+        .overall.sd-rt {
           background: var(---color-element-background); /* ###### */
         }
 
@@ -321,11 +338,12 @@ export default class AccumulableTable extends AccumulableElement {
           background: var(---color-error-light);
         }
 
-        :host([color="outcome"]) .total {
+        :host([color="outcome"]) .overall {
           background: var(---color-element-background);
         }
 
         /* Measure color scheme */
+        :host([color="measure"]) .count,
         :host([color="measure"]) .accuracy {
           background: var(---color-element-background); /* ###### */
         }
@@ -367,8 +385,9 @@ export default class AccumulableTable extends AccumulableElement {
       }).reduce((string, part) => { return string + part; });
     };
 
-    let correctAccuracy;
-    let errorAccuracy;
+    let correctCount;
+    let errorCount;
+    let accuracy;
     let correctMeanRT;
     let errorMeanRT;
     let meanRT;
@@ -376,53 +395,59 @@ export default class AccumulableTable extends AccumulableElement {
     let errorSDRT;
     let sdRT;
     if (this.numeric) {
-      correctAccuracy = html`
-        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".01" .value="${+this.correctAccuracy.toFixed(2)}" @input=${this.correctAccuracyInput.bind(this)}>
-          <span>Correct Accuracy</span>
+      correctCount = html`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.correctCount}" @input=${this.correctCountInput.bind(this)}>
+          <span>Correct Count</span>
           ${this.payoff ? html`<span class="payoff">${payoffFormat(this.correctPayoff)}</span>` : html``}
         </decidables-spinner>
       `;
-      errorAccuracy = html`
-        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".01" .value="${+this.errorAccuracy.toFixed(2)}" @input=${this.errorAccuracyInput.bind(this)}>
-          <span>Error Accuracy</span>
+      errorCount = html`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.errorCount}" @input=${this.errorCountInput.bind(this)}>
+          <span>Error Count</span>
           ${this.payoff ? html`<span class="payoff">${payoffFormat(this.errorPayoff)}</span>` : html``}
         </decidables-spinner>
       `;
+      accuracy = html`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".01" .value="${+this.accuracy.toFixed(2)}" @input=${this.accuracyInput.bind(this)}>
+          <span>Accuracy</span>
+        </decidables-spinner>
+        `;
       correctMeanRT = html`
-        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.correctMeanRT.toFixed(3)}" @input=${this.correctMeanRTInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.correctMeanRT.toFixed(0)}" @input=${this.correctMeanRTInput.bind(this)}>
           <span>Correct Mean RT</span>
         </decidables-spinner>
       `;
       errorMeanRT = html`
-        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.errorMeanRT.toFixed(3)}" @input=${this.errorMeanRTInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.errorMeanRT.toFixed(0)}" @input=${this.errorMeanRTInput.bind(this)}>
           <span>Error Mean RT</span>
         </decidables-spinner>
       `;
       meanRT = html`
-        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.meanRT.toFixed(3)}" @input=${this.meanRTInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.meanRT.toFixed(0)}" @input=${this.meanRTInput.bind(this)}>
           <span>Mean RT</span>
         </decidables-spinner>
       `;
       correctSDRT = html`
-        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.correctSDRT.toFixed(3)}" @input=${this.correctSDRTInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.correctSDRT.toFixed(0)}" @input=${this.correctSDRTInput.bind(this)}>
           <span>Correct SD RT</span>
         </decidables-spinner>
       `;
       errorSDRT = html`
-        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.errorSDRT.toFixed(3)}" @input=${this.errorSDRTInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.errorSDRT.toFixed(0)}" @input=${this.errorSDRTInput.bind(this)}>
           <span>Error SD RT</span>
         </decidables-spinner>
       `;
       sdRT = html`
-        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.sdRT.toFixed(3)}" @input=${this.sdRTInput.bind(this)}>
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.sdRT.toFixed(0)}" @input=${this.sdRTInput.bind(this)}>
           <span>SD RT</span>
         </decidables-spinner>
       `;
     } else {
-      correctAccuracy = html`<span>Correct Accuracy</span>
+      correctCount = html`<span>Correct Count</span>
         ${this.payoff ? html`<span class="payoff">${payoffFormat(this.correctPayoff)}</span>` : html``}`;
-      errorAccuracy = html`<span>Error Accuracy</span>
+      errorCount = html`<span>Error Count</span>
         ${this.payoff ? html`<span class="payoff">${payoffFormat(this.errorPayoff)}</span>` : html``}`;
+      accuracy = html`<span>Accuracy</span>`;
       correctMeanRT = html`<span>Correct Mean RT</span>`;
       errorMeanRT = html`<span>Error Mean RT</span>`;
       meanRT = html`<span>Mean RT</span>`;
@@ -434,7 +459,7 @@ export default class AccumulableTable extends AccumulableElement {
       <table class=${this.numeric ? 'numeric' : ''}>
         <thead>
           <tr>
-            <th colspan="2" rowspan="2"></th>
+            <th rowspan="2"></th>
             <th class="th th-main" colspan="2" scope="col">
               Outcome
             </th>
@@ -446,28 +471,31 @@ export default class AccumulableTable extends AccumulableElement {
             <th class="th th-sub" scope="col">
               Error
             </th>
-            ${(this.summary.has('total'))
+            ${(this.summary.has('overall'))
               ? html`
                 <th class="th th-main" scope="col">
-                  Total
+                  Overall
                 </th>`
               : html``}
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th class="th th-main" rowspan="3" scope="row">
-              Measure
-            </th>
             <th class="th th-sub th-left" scope="row">
-              Accuracy
+              Count
             </th>
-            <td class="td td-data correct accuracy">
-              ${correctAccuracy}
+            <td class="td td-data correct count">
+              ${correctCount}
             </td>
-            <td class="td td-data error accuracy">
-              ${errorAccuracy}
+            <td class="td td-data error count">
+              ${errorCount}
             </td>
+            ${(this.summary.has('overall'))
+              ? html`
+                <td class="td td-summary overall accuracy">
+                  ${accuracy}
+                </td>`
+              : html``}
           </tr>
           <tr>
             <th class="th th-sub th-left" scope="row">
@@ -479,9 +507,9 @@ export default class AccumulableTable extends AccumulableElement {
             <td class="td td-data error mean-rt">
               ${errorMeanRT}
             </td>
-            ${(this.summary.has('total'))
+            ${(this.summary.has('overall'))
               ? html`
-                <td class="td td-summary total mean-rt">
+                <td class="td td-summary overall mean-rt">
                   ${meanRT}
                 </td>`
               : html``}
@@ -496,9 +524,9 @@ export default class AccumulableTable extends AccumulableElement {
             <td class="td td-data error sd-rt">
               ${errorSDRT}
             </td>
-            ${(this.summary.has('total'))
+            ${(this.summary.has('overall'))
               ? html`
-                <td class="td td-summary total sd-rt">
+                <td class="td td-summary overall sd-rt">
                   ${sdRT}
                 </td>`
               : html``}
