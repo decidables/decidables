@@ -84,8 +84,9 @@ export default class DDMExampleHuman extends DDMExample {
         }
 
         if (this.accumulableTable) {
-          this.accumulableTable.correctAccuracy = NaN;
-          this.accumulableTable.errorAccuracy = NaN;
+          this.accumulableTable.correctCount = NaN;
+          this.accumulableTable.errorCount = NaN;
+          this.accumulableTable.accuracy = NaN;
           this.accumulableTable.correctMeanRT = NaN;
           this.accumulableTable.errorMeanRT = NaN;
           this.accumulableTable.meanRT = NaN;
@@ -134,9 +135,9 @@ export default class DDMExampleHuman extends DDMExample {
     if (this.accumulableResponse) {
       this.accumulableResponse.addEventListener('accumulable-response', (event) => {
         if (this.accumulableTable) {
-          this.accumulableTable.correctAccuracy = event.detail.correct
-            / (event.detail.correct + event.detail.error + event.detail.nr);
-          this.accumulableTable.errorAccuracy = event.detail.error
+          this.accumulableTable.correctCount = event.detail.correct;
+          this.accumulableTable.errorCount = event.detail.error;
+          this.accumulableTable.accuracy = event.detail.correct
             / (event.detail.correct + event.detail.error + event.detail.nr);
           this.accumulableTable.correctMeanRT = event.detail.meanCorrectRT;
           this.accumulableTable.errorMeanRT = event.detail.meanErrorRT;
