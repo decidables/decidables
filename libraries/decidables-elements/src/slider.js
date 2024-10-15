@@ -323,9 +323,9 @@ export default class DecidablesSlider extends DecidablesElement {
         <slot></slot>
       </label>
       <div class="range">
-        <input type="range" id="slider" min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @change=${this.changed.bind(this)} @input=${this.inputted.bind(this)}>
+        <input ?disabled=${this.disabled} type="range" id="slider" min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @change=${this.changed.bind(this)} @input=${this.inputted.bind(this)}>
       </div>
-      <decidables-spinner min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}></decidables-spinner>
+      <decidables-spinner ?disabled=${this.disabled} min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}></decidables-spinner>
     `;
   }
 }
