@@ -12,5 +12,5 @@ Fitting the model to your performance.
   <accumulable-control trials="10" duration="1000" coherence="0.4" color="outcome" run pause reset></accumulable-control>
   <rdk-2afc-task trials="10"></rdk-2afc-task>
   <accumulable-response interactive trial feedback></accumulable-response>
-  <accumulable-table numeric interactive summary="total" color="outcome"></accumulable-table>
+  <accumulable-table numeric summary="overall" color="outcome"></accumulable-table>
 </ddm-example-human>

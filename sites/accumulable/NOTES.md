@@ -1,8 +1,16 @@
-## Outline
-
 SDs -> height of line?
 labels for model means & SDs?
-highlight individual paths with RT label?
+
+- Exploration
+  - move Trials and Resample to Controls?
+- Fitting
+  - need fitting process...
+  - show model with fit
+- Predictions
+  - Control, Task, Parameters/Model, Response, Table
+  - animate Model!
+
+## Outline
 
 - *accumulable*: Drift-diffusion/race/LBA model of RT
   - Introduction
