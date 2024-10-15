@@ -230,16 +230,16 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       overall: correctTrials + errorTrials,
     };
     this.sample.accuracy = {
-      correct: (this.trials > 0) ? (correctTrials / this.trials) : undefined,
-      error: (this.trials > 0) ? (errorTrials / this.trials) : undefined,
-      overall: (this.trials > 0) ? (correctTrials / this.trials) : undefined,
+      correct: (this.trials > 0) ? (correctTrials / this.trials) : NaN,
+      error: (this.trials > 0) ? (errorTrials / this.trials) : NaN,
+      overall: (this.trials > 0) ? (correctTrials / this.trials) : NaN,
     };
     this.sample.meanRT = {
-      correct: (correctTrials > 0) ? (correctRTs / correctTrials) : undefined,
-      error: (errorTrials > 0) ? (errorRTs / errorTrials) : undefined,
+      correct: (correctTrials > 0) ? (correctRTs / correctTrials) : NaN,
+      error: (errorTrials > 0) ? (errorRTs / errorTrials) : NaN,
       overall: (this.trials > 0)
         ? ((correctRTs + errorRTs) / (correctTrials + errorTrials))
-        : undefined,
+        : NaN,
     };
     const correctSS = this.sample.paths.reduce((sum, path) => {
       return (path.outcome === 'correct')
@@ -255,9 +255,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       return sum + (path.rt - this.sample.meanRT.overall) ** 2;
     }, 0);
     this.sample.sdRT = {
-      correct: (correctTrials > 1) ? Math.sqrt(correctSS / (correctTrials - 1)) : undefined,
-      error: (errorTrials > 1) ? Math.sqrt(errorSS / (errorTrials - 1)) : undefined,
-      overall: (this.trials > 1) ? Math.sqrt(overallSS / (this.trials - 1)) : undefined,
+      correct: (correctTrials > 1) ? Math.sqrt(correctSS / (correctTrials - 1)) : NaN,
+      error: (errorTrials > 1) ? Math.sqrt(errorSS / (errorTrials - 1)) : NaN,
+      overall: (this.trials > 1) ? Math.sqrt(overallSS / (this.trials - 1)) : NaN,
     };
 
     // Model Distributions
@@ -1269,7 +1269,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  DATA-JOIN
     const sampleAccuracyUpdate = accuracyContentMerge.selectAll('.accuracy.sample')
       .data(
-        (this.sample.accuracy.correct !== undefined) ? [this.sample.accuracy.correct] : [],
+        !Number.isNaN(this.sample.accuracy.correct) ? [this.sample.accuracy.correct] : [],
       );
     //  ENTER
     const sampleAccuracyEnter = sampleAccuracyUpdate.enter().append('g')
@@ -1739,13 +1739,13 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     // DATA-JOIN
     const correctSampleMeanUpdate = correctDensityOverlayerMerge.selectAll('.mean.sample.correct')
       .data(
-        (this.means && (this.sample.meanRT.correct !== undefined))
+        (this.means && !Number.isNaN(this.sample.meanRT.correct))
           ? [this.sample.meanRT.correct]
           : [],
       );
     const errorSampleMeanUpdate = errorDensityOverlayerMerge.selectAll('.mean.sample.error')
       .data(
-        (this.means && (this.sample.meanRT.error !== undefined))
+        (this.means && !Number.isNaN(this.sample.meanRT.error))
           ? [this.sample.meanRT.error]
           : [],
       );
@@ -1837,8 +1837,8 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .data(
         (
           this.sds
-          && (this.sample.meanRT.correct !== undefined)
-          && (this.sample.sdRT.correct !== undefined)
+          && !Number.isNaN(this.sample.meanRT.correct)
+          && !Number.isNaN(this.sample.sdRT.correct)
         )
           ? [{mean: this.sample.meanRT.correct, sd: this.sample.sdRT.correct}]
           : [],
@@ -1847,8 +1847,8 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .data(
         (
           this.sds
-          && (this.sample.meanRT.error !== undefined)
-          && (this.sample.sdRT.error !== undefined)
+          && !Number.isNaN(this.sample.meanRT.error)
+          && !Number.isNaN(this.sample.sdRT.error)
         )
           ? [{mean: this.sample.meanRT.error, sd: this.sample.sdRT.error}]
           : [],

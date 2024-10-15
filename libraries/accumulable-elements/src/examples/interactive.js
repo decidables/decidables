@@ -66,6 +66,7 @@ export default class DDMExampleInteractive extends DDMExample {
     if (this.ddmParameters) {
       this.ddmParameters.addEventListener('ddm-parameters-resample', (event) => {
         this.ddmModel?.resample();
+        this.requestUpdate();
       });
       this.ddmParameters.addEventListener('ddm-parameters-trials', (event) => {
         this.trials = event.detail.trials;
@@ -105,18 +106,6 @@ export default class DDMExampleInteractive extends DDMExample {
   update(changedProperties) {
     super.update(changedProperties);
 
-    if (this.accumulableTable && this.ddmModel) {
-      this.accumulableTable.correctCount = this.ddmModel.sample.count.correct;
-      this.accumulableTable.errorCount = this.ddmModel.sample.count.error;
-      this.accumulableTable.accuracy = this.ddmModel.sample.accuracy.correct;
-      this.accumulableTable.correctMeanRT = this.ddmModel.sample.meanRT.correct;
-      this.accumulableTable.errorMeanRT = this.ddmModel.sample.meanRT.error;
-      this.accumulableTable.meanRT = this.ddmModel.sample.meanRT.overall;
-      this.accumulableTable.correctSDRT = this.ddmModel.sample.sdRT.correct;
-      this.accumulableTable.errorSDRT = this.ddmModel.sample.sdRT.error;
-      this.accumulableTable.sdRT = this.ddmModel.sample.sdRT.overall;
-    }
-
     if (this.ddmParameters) {
       this.ddmParameters.trials = this.trials;
       this.ddmParameters.a = this.a;
@@ -131,6 +120,18 @@ export default class DDMExampleInteractive extends DDMExample {
       this.ddmModel.z = +this.z;
       this.ddmModel.v = +this.v;
       this.ddmModel.t0 = +this.t0;
+    }
+
+    if (this.accumulableTable && this.ddmModel) {
+      this.accumulableTable.correctCount = this.ddmModel.sample.count.correct;
+      this.accumulableTable.errorCount = this.ddmModel.sample.count.error;
+      this.accumulableTable.accuracy = this.ddmModel.sample.accuracy.correct;
+      this.accumulableTable.correctMeanRT = this.ddmModel.sample.meanRT.correct;
+      this.accumulableTable.errorMeanRT = this.ddmModel.sample.meanRT.error;
+      this.accumulableTable.meanRT = this.ddmModel.sample.meanRT.overall;
+      this.accumulableTable.correctSDRT = this.ddmModel.sample.sdRT.correct;
+      this.accumulableTable.errorSDRT = this.ddmModel.sample.sdRT.error;
+      this.accumulableTable.sdRT = this.ddmModel.sample.sdRT.overall;
     }
   }
 }
