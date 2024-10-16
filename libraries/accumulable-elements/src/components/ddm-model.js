@@ -1137,14 +1137,16 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         }
       })
       .on('pointerout', (event, datum) => {
-        d3.select(event.currentTarget)
-          .classed('highlight', false)
-          .lower();
-        event.currentTarget.parentNode.insertBefore(
-          event.currentTarget,
-          event.currentTarget.parentNode.children[datum.index],
-        );
-        rtLabel.get(event.currentTarget).remove();
+        if (!this.drag) {
+          d3.select(event.currentTarget)
+            .classed('highlight', false)
+            .lower();
+          event.currentTarget.parentNode.insertBefore(
+            event.currentTarget,
+            event.currentTarget.parentNode.children[datum.index],
+          );
+          rtLabel.get(event.currentTarget).remove();
+        }
       });
     pathEnter.append('path')
       .classed('curve', true)
