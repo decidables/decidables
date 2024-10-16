@@ -72,12 +72,6 @@ export default class DDMExampleInteractive extends DDMExample {
       });
     }
 
-    if (this.accumulableTable) {
-      this.accumulableTable.addEventListener('accumulable-table-change', (event) => {
-        // Do something smart?
-      });
-    }
-
     if (this.ddmParameters) {
       this.ddmParameters.addEventListener('ddm-parameters-a', (event) => {
         this.a = event.detail.a;
@@ -123,7 +117,6 @@ export default class DDMExampleInteractive extends DDMExample {
       this.accumulableControl.trials = this.trials;
     }
 
-    // ##### FIX ##### Need to update module, then copy to table!
     if (this.accumulableTable) {
       this.accumulableTable.correctCount = this.sample.count.correct;
       this.accumulableTable.errorCount = this.sample.count.error;
