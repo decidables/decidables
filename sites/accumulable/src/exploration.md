@@ -9,7 +9,8 @@ script: page
 Exploring the relationship between model parameters and behavior.
 
 <ddm-example-interactive>
-  <ddm-parameters resample></ddm-parameters>
+  <accumulable-control trials="10" resample></accumulable-control>
+  <ddm-parameters interactive></ddm-parameters>
   <ddm-model interactive measures means sds></ddm-model>
   <accumulable-table interactive numeric summary="overall" color="outcome"></accumulable-table>
 </ddm-example-interactive>

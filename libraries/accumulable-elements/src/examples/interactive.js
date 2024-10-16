@@ -45,6 +45,7 @@ export default class DDMExampleInteractive extends DDMExample {
     this.v = 1.5;
     this.t0 = 150;
 
+    this.accumulableControl = null;
     this.accumulableTable = null;
     this.ddmParameters = null;
     this.ddmModel = null;
@@ -53,9 +54,20 @@ export default class DDMExampleInteractive extends DDMExample {
   connectedCallback() {
     super.connectedCallback();
 
+    this.accumulableControl = this.querySelector('accumulable-control');
     this.accumulableTable = this.querySelector('accumulable-table');
     this.ddmParameters = this.querySelector('ddm-parameters');
     this.ddmModel = this.querySelector('ddm-model');
+
+    if (this.accumulableControl) {
+      this.accumulableControl.addEventListener('accumulable-control-resample', (event) => {
+        this.ddmModel?.resample();
+        this.requestUpdate();
+      });
+      this.accumulableControl.addEventListener('accumulable-control-trials', (event) => {
+        this.trials = event.detail.trials;
+      });
+    }
 
     if (this.accumulableTable) {
       this.accumulableTable.addEventListener('accumulable-table-change', (event) => {
@@ -64,13 +76,6 @@ export default class DDMExampleInteractive extends DDMExample {
     }
 
     if (this.ddmParameters) {
-      this.ddmParameters.addEventListener('ddm-parameters-resample', (event) => {
-        this.ddmModel?.resample();
-        this.requestUpdate();
-      });
-      this.ddmParameters.addEventListener('ddm-parameters-trials', (event) => {
-        this.trials = event.detail.trials;
-      });
       this.ddmParameters.addEventListener('ddm-parameters-a', (event) => {
         this.a = event.detail.a;
       });
@@ -106,8 +111,24 @@ export default class DDMExampleInteractive extends DDMExample {
   update(changedProperties) {
     super.update(changedProperties);
 
+    if (this.accumulableControl) {
+      this.accumulableControl.trials = this.trials;
+    }
+
+    // ##### FIX ##### Need to update module, then copy to table!
+    if (this.accumulableTable && this.ddmModel) {
+      this.accumulableTable.correctCount = this.ddmModel.sample.count.correct;
+      this.accumulableTable.errorCount = this.ddmModel.sample.count.error;
+      this.accumulableTable.accuracy = this.ddmModel.sample.accuracy.correct;
+      this.accumulableTable.correctMeanRT = this.ddmModel.sample.meanRT.correct;
+      this.accumulableTable.errorMeanRT = this.ddmModel.sample.meanRT.error;
+      this.accumulableTable.meanRT = this.ddmModel.sample.meanRT.overall;
+      this.accumulableTable.correctSDRT = this.ddmModel.sample.sdRT.correct;
+      this.accumulableTable.errorSDRT = this.ddmModel.sample.sdRT.error;
+      this.accumulableTable.sdRT = this.ddmModel.sample.sdRT.overall;
+    }
+
     if (this.ddmParameters) {
-      this.ddmParameters.trials = this.trials;
       this.ddmParameters.a = this.a;
       this.ddmParameters.z = this.z;
       this.ddmParameters.v = this.v;
@@ -120,18 +141,6 @@ export default class DDMExampleInteractive extends DDMExample {
       this.ddmModel.z = +this.z;
       this.ddmModel.v = +this.v;
       this.ddmModel.t0 = +this.t0;
-    }
-
-    if (this.accumulableTable && this.ddmModel) {
-      this.accumulableTable.correctCount = this.ddmModel.sample.count.correct;
-      this.accumulableTable.errorCount = this.ddmModel.sample.count.error;
-      this.accumulableTable.accuracy = this.ddmModel.sample.accuracy.correct;
-      this.accumulableTable.correctMeanRT = this.ddmModel.sample.meanRT.correct;
-      this.accumulableTable.errorMeanRT = this.ddmModel.sample.meanRT.error;
-      this.accumulableTable.meanRT = this.ddmModel.sample.meanRT.overall;
-      this.accumulableTable.correctSDRT = this.ddmModel.sample.sdRT.correct;
-      this.accumulableTable.errorSDRT = this.ddmModel.sample.sdRT.error;
-      this.accumulableTable.sdRT = this.ddmModel.sample.sdRT.overall;
     }
   }
 }

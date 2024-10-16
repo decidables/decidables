@@ -24,6 +24,12 @@ export default class AccumulableControl extends AccumulableElement {
         type: Number,
         reflect: true,
       },
+      resample: {
+        attribute: 'resample',
+        type: Boolean,
+        reflect: true,
+      },
+
       duration: {
         attribute: 'duration',
         type: Number,
@@ -68,6 +74,8 @@ export default class AccumulableControl extends AccumulableElement {
 
     // Attributes
     this.trials = undefined;
+    this.resample = false;
+
     this.duration = undefined;
     this.coherence = undefined;
     this.colors = ['none', 'measure', 'outcome', 'all'];
@@ -87,6 +95,13 @@ export default class AccumulableControl extends AccumulableElement {
       detail: {
         trials: this.trials,
       },
+      bubbles: true,
+    }));
+  }
+
+  doResample() {
+    this.dispatchEvent(new CustomEvent('accumulable-control-resample', {
+      detail: {},
       bubbles: true,
     }));
   }
@@ -183,6 +198,15 @@ export default class AccumulableControl extends AccumulableElement {
       <div class="holder">
         ${this.trials
           ? html`<decidables-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>`
+          : html``}
+        ${this.resample
+          ? html`
+            <div class="buttons">
+              ${this.resample
+                ? html`<decidables-button name="resample" @click=${this.doResample.bind(this)}>Resample</decidables-button>`
+                : html``}
+            </div>
+          `
           : html``}
         ${this.duration
           ? html`<decidables-slider min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>`
