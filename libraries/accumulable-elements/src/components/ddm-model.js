@@ -299,6 +299,14 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         });
       }
     }
+
+    this.dispatchEvent(new CustomEvent('ddm-model-output', {
+      detail: {
+        sample: this.sample,
+        model: this.model,
+      },
+      bubbles: true,
+    }));
   }
 
   static get styles() {
