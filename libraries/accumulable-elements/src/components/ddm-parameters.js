@@ -19,17 +19,6 @@ import AccumulableElement from '../accumulable-element';
 export default class DDMParameters extends AccumulableElement {
   static get properties() {
     return {
-      resample: {
-        attribute: 'resample',
-        type: Boolean,
-        reflect: true,
-      },
-      trials: {
-        attribute: 'trials',
-        type: Number,
-        reflect: true,
-      },
-
       a: {
         attribute: 'boundary-separation',
         type: Number,
@@ -57,30 +46,10 @@ export default class DDMParameters extends AccumulableElement {
     super();
 
     // Attributes
-    this.resample = false;
-    this.trials = undefined;
-
     this.a = undefined;
     this.z = undefined;
     this.v = undefined;
     this.t0 = undefined;
-  }
-
-  doResample() {
-    this.dispatchEvent(new CustomEvent('ddm-parameters-resample', {
-      detail: {},
-      bubbles: true,
-    }));
-  }
-
-  setTrials(e) {
-    this.trials = e.target.value;
-    this.dispatchEvent(new CustomEvent('ddm-parameters-trials', {
-      detail: {
-        trials: this.trials,
-      },
-      bubbles: true,
-    }));
   }
 
   setBoundarySeparation(e) {
@@ -164,29 +133,17 @@ export default class DDMParameters extends AccumulableElement {
   render() {
     return html`
       <div class="holder">
-        ${this.resample
-          ? html`
-            <div class="buttons">
-              ${this.resample
-                ? html`<decidables-button name="resample" @click=${this.doResample.bind(this)}>Resample</decidables-button>`
-                : html``}
-            </div>
-          `
-          : html``}
-        ${this.trials != null
-          ? html`<decidables-slider min="0" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}><div>Trials<br>&nbsp;</div></decidables-slider>`
-          : html``}
         ${this.a != null
-          ? html`<decidables-slider min="0.01" max="2" step=".01" .value=${this.a} @change=${this.setBoundarySeparation.bind(this)} @input=${this.setBoundarySeparation.bind(this)}><div>Boundary Separation<br><span class="math-var">a</span></div></decidables-slider>`
+          ? html`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="2" step=".01" .value=${this.a} @change=${this.setBoundarySeparation.bind(this)} @input=${this.setBoundarySeparation.bind(this)}><div>Boundary Separation<br><span class="math-var">a</span></div></decidables-slider>`
           : html``}
         ${this.z != null
-          ? html`<decidables-slider min="0.01" max="0.99" step=".01" .value=${this.z} @change=${this.setStartingPoint.bind(this)} @input=${this.setStartingPoint.bind(this)}><div>Starting Point<br><span class="math-var">z</span></div></decidables-slider>`
+          ? html`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="0.99" step=".01" .value=${this.z} @change=${this.setStartingPoint.bind(this)} @input=${this.setStartingPoint.bind(this)}><div>Starting Point<br><span class="math-var">z</span></div></decidables-slider>`
           : html``}
         ${this.v != null
-          ? html`<decidables-slider min="0.01" max="5" step=".01" .value=${this.v} @change=${this.setDriftRate.bind(this)} @input=${this.setDriftRate.bind(this)}><div>Drift Rate<br><span class="math-var">v</span></div></decidables-slider>`
+          ? html`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="5" step=".01" .value=${this.v} @change=${this.setDriftRate.bind(this)} @input=${this.setDriftRate.bind(this)}><div>Drift Rate<br><span class="math-var">v</span></div></decidables-slider>`
           : html``}
         ${this.t0 != null
-          ? html`<decidables-slider min="0" max="500" step="1" .value=${this.t0} @change=${this.setNondecisionTime.bind(this)} @input=${this.setNondecisionTime.bind(this)}><div>Nondecision Time<br><span class="math-var">t₀</span></div></decidables-slider>`
+          ? html`<decidables-slider ?disabled=${!this.interactive} min="0" max="500" step="1" .value=${this.t0} @change=${this.setNondecisionTime.bind(this)} @input=${this.setNondecisionTime.bind(this)}><div>Nondecision Time<br><span class="math-var">t₀</span></div></decidables-slider>`
           : html``}
       </div>`;
   }
