@@ -791,7 +791,8 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       })
       .on('drag', (event) => {
         this.drag = true;
-        let v = (evidenceScale.invert(event.y) / (timeScale.invert(event.x) - this.t0)) * 1000;
+        let v = ((evidenceScale.invert(event.y) - this.startingPoint)
+          / (timeScale.invert(event.x) - this.t0)) * 1000;
         // Clamp drift rate
         v = (v < 0.01)
           ? 0.01

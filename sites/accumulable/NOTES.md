@@ -1,7 +1,6 @@
 ## Bugs
 
 - trials in ddm-model need to be persistent!
-- drift rate interaction is glitchy
 
 ## Ideas
 
