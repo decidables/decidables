@@ -45,6 +45,7 @@ export default class AccumulableControl extends AccumulableElement {
         type: String,
         reflect: true,
       },
+
       run: {
         attribute: 'run',
         type: Boolean,
@@ -80,6 +81,7 @@ export default class AccumulableControl extends AccumulableElement {
     this.coherence = undefined;
     this.colors = ['none', 'measure', 'outcome', 'all'];
     this.color = undefined;
+
     this.run = false;
     this.pause = false;
     this.reset = false;

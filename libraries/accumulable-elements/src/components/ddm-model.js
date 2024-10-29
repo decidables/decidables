@@ -161,8 +161,28 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
     this.sample = {};
     this.model = {};
+    this.animate = false;
+    this.paused = false;
 
     this.alignState();
+  }
+
+  trial() {
+    this.animate = true;
+    this.trials += 1;
+  }
+
+  // Called to pause trial animations!
+  pauseTrial() {
+    const pathNew = d3.select(this.renderRoot).select('.path[data-new-trial-ease-time]');
+    pathNew.interrupt('new').select('.curve').interrupt('new');
+    this.paused = true;
+  }
+
+  // Called to resume trial animations!
+  resumeTrial() {
+    this.paused = false;
+    this.requestUpdate();
   }
 
   resample() {
@@ -180,13 +200,10 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const drift = this.v * this.precision;
 
     // Sample Paths
-    let correctTrials = 0;
-    let errorTrials = 0;
-    let correctRTs = 0;
-    let errorRTs = 0;
     this.sample.paths = Array.from({length: this.trials}, (element, index) => {
       const seed = (this.random() / 1000) * 997; // HACK to avoid randomLcg repetition
       const random = d3.randomNormal.source(d3.randomLcg(seed))(0, this.precision ** 0.5);
+      const animate = this.animate && (index === (this.trials - 1));
 
       const path = [];
       path.push(
@@ -198,14 +215,12 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           e: path.at(-1).e + drift + this.s * random(),
         });
       }
+
       const outcome = (path.at(-1).e <= this.bounds.lower)
         ? 'error'
         : (path.at(-1).e >= this.bounds.upper)
           ? 'correct'
           : 'nr';
-      correctTrials += (outcome === 'correct') ? 1 : 0;
-      errorTrials += (outcome === 'error') ? 1 : 0;
-
       const rt = (outcome === 'error')
         ? path.at(-2).t + (
           ((this.bounds.lower - path.at(-2).e) / (path.at(-1).e - path.at(-2).e))
@@ -217,47 +232,72 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
             * (this.precision * 1000)
           )
           : null;
-      correctRTs += (outcome === 'correct') ? rt : 0;
-      errorRTs += (outcome === 'error') ? rt : 0;
 
       return {
-        index, seed, path, rt, outcome,
+        index, seed, path, rt, outcome, animate,
       };
     });
+
+    // Sample Summary Stats
+    const trials = this.sample.paths
+      .filter((path) => { return !path.animate; })
+      .reduce((stats, path) => {
+        stats.correct += (path.outcome === 'correct') ? 1 : 0;
+        stats.error += (path.outcome === 'error') ? 1 : 0;
+        return stats;
+      }, {
+        correct: 0,
+        error: 0,
+      });
     this.sample.count = {
-      correct: correctTrials,
-      error: errorTrials,
-      overall: correctTrials + errorTrials,
+      correct: trials.correct,
+      error: trials.error,
+      overall: trials.correct + trials.error,
     };
     this.sample.accuracy = {
-      correct: (this.trials > 0) ? (correctTrials / this.trials) : NaN,
-      error: (this.trials > 0) ? (errorTrials / this.trials) : NaN,
-      overall: (this.trials > 0) ? (correctTrials / this.trials) : NaN,
+      correct: (this.trials > 0) ? (trials.correct / this.trials) : NaN,
+      error: (this.trials > 0) ? (trials.error / this.trials) : NaN,
+      overall: (this.trials > 0) ? (trials.correct / this.trials) : NaN,
     };
+
+    const rts = this.sample.paths
+      .filter((path) => { return !path.animate; })
+      .reduce((stats, path) => {
+        stats.correct += (path.outcome === 'correct') ? path.rt : 0;
+        stats.error += (path.outcome === 'error') ? path.rt : 0;
+        return stats;
+      }, {
+        correct: 0,
+        error: 0,
+      });
     this.sample.meanRT = {
-      correct: (correctTrials > 0) ? (correctRTs / correctTrials) : NaN,
-      error: (errorTrials > 0) ? (errorRTs / errorTrials) : NaN,
+      correct: (trials.correct > 0) ? (rts.correct / trials.correct) : NaN,
+      error: (trials.error > 0) ? (rts.error / trials.error) : NaN,
       overall: (this.trials > 0)
-        ? ((correctRTs + errorRTs) / (correctTrials + errorTrials))
+        ? ((rts.correct + rts.error) / (trials.correct + trials.error))
         : NaN,
     };
-    const correctSS = this.sample.paths.reduce((sum, path) => {
-      return (path.outcome === 'correct')
-        ? sum + (path.rt - this.sample.meanRT.correct) ** 2
-        : sum;
-    }, 0);
-    const errorSS = this.sample.paths.reduce((sum, path) => {
-      return (path.outcome === 'error')
-        ? sum + (path.rt - this.sample.meanRT.error) ** 2
-        : sum;
-    }, 0);
-    const overallSS = this.sample.paths.reduce((sum, path) => {
-      return sum + (path.rt - this.sample.meanRT.overall) ** 2;
-    }, 0);
+
+    const sss = this.sample.paths
+      .filter((path) => { return !path.animate; })
+      .reduce((stats, path) => {
+        stats.correct += (path.outcome === 'correct')
+          ? (path.rt - this.sample.meanRT.correct) ** 2
+          : 0;
+        stats.error += (path.outcome === 'error')
+          ? (path.rt - this.sample.meanRT.error) ** 2
+          : 0;
+        stats.overall += (path.rt - this.sample.meanRT.overall) ** 2;
+        return stats;
+      }, {
+        correct: 0,
+        error: 0,
+        overall: 0,
+      });
     this.sample.sdRT = {
-      correct: (correctTrials > 1) ? Math.sqrt(correctSS / (correctTrials - 1)) : NaN,
-      error: (errorTrials > 1) ? Math.sqrt(errorSS / (errorTrials - 1)) : NaN,
-      overall: (this.trials > 1) ? Math.sqrt(overallSS / (this.trials - 1)) : NaN,
+      correct: (trials.correct > 1) ? Math.sqrt(sss.correct / (trials.correct - 1)) : NaN,
+      error: (trials.error > 1) ? Math.sqrt(sss.error / (trials.error - 1)) : NaN,
+      overall: (this.trials > 1) ? Math.sqrt(sss.overall / (this.trials - 1)) : NaN,
     };
 
     // Model Distributions
@@ -376,6 +416,8 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           opacity: 0.5;
 
           fill: none;
+
+          transition: opacity 0.5s;
         }
 
         .path.highlight .curve {
@@ -389,6 +431,20 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
         .path.error .curve {
           stroke: var(---color-error);
+        }
+
+        .stop-0 {
+          stop-color: var(---color-correct);
+        }
+
+        .stop-100 {
+          stop-color: var(---color-error);
+        }
+
+        .path.animate .curve {
+          opacity: 1;
+
+          stroke: url("#path-animate");
         }
 
         .dist.correct .curve {
@@ -873,6 +929,20 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('fill', 'context-stroke')
       .attr('stroke-width', '2')
       .attr('d', 'M 0 -3 l 0 6');
+    const gradient = svgDefs.append('linearGradient')
+      .attr('id', 'path-animate')
+      .attr('gradientUnits', 'userSpaceOnUse')
+      .attr('color-interpolation', 'linearRGB')
+      .attr('x1', '0')
+      .attr('x2', '0')
+      .attr('y1', evidenceScale(this.bounds.upper))
+      .attr('y2', evidenceScale(this.bounds.lower));
+    gradient.append('stop')
+      .classed('stop-0', true)
+      .attr('offset', '0%');
+    gradient.append('stop')
+      .classed('stop-100', true)
+      .attr('offset', '100%');
     //  MERGE
     const svgMerge = svgEnter.merge(svgUpdate)
       .attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`);
@@ -1121,6 +1191,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const rtLabel = d3.local();
     const pathEnter = pathUpdate.enter().append('g')
       .classed('path', true)
+      .attr('data-new-trial-ease-time', 0)
       .on('pointerenter', (event, datum) => {
         if (!this.drag) {
           d3.select(event.currentTarget)
@@ -1158,7 +1229,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       });
     pathEnter.append('path')
       .classed('curve', true)
-      .attr('clip-path', 'url(#clip-evidence)');
+      .attr('clip-path', 'url(#clip-evidence)')
+      .attr('pathLength', 1)
+      .attr('stroke-dashoffset', 1);
     //  MERGE
     const pathMerge = pathEnter.merge(pathUpdate)
       .attr('class', (datum) => {
@@ -1168,6 +1241,82 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('d', (datum) => {
         return evidenceLine(datum.path);
       });
+    //  MERGE - Active Animate Paths
+    const pathMergeNewActive = pathMerge.filter((datum) => {
+      return (datum.animate && !this.paused);
+    });
+    if (!pathMergeNewActive.empty()) {
+      const easeTime = pathMergeNewActive.attr('data-new-trial-ease-time');
+      console.log(`NewActive: ${easeTime}`);
+      const scaleIn = (time) => {
+        return d3.scaleLinear().domain([0, 1]).range([easeTime, 1])(time);
+      };
+      const scaleOutGenerator = (easeFunction) => {
+        return (time) => {
+          return d3.scaleLinear()
+            .domain([easeFunction(easeTime), 1]).range([0, 1])(easeFunction(time));
+        };
+      };
+      pathMergeNewActive
+        .classed('animate', true)
+        .select('.curve')
+        .attr('stroke-dasharray', 1);
+      pathMergeNewActive
+        .transition('new')
+        .duration((datum) => {
+          // scale the RT for viewing pleasure
+          return Math.floor((datum.rt * 1.5) * (1 - easeTime));
+        })
+        .ease(scaleIn)
+        .attr('data-new-trial-ease-time', 1)
+        .select('.curve')
+        .attrTween('stroke-dashoffset', (datum, index, elements) => {
+          const element = elements[index];
+          const interpolator = d3.interpolate(
+            element.getAttribute('stroke-dashoffset'),
+            0,
+          );
+          return (time) => { return interpolator(scaleOutGenerator(d3.easeLinear)(time)); };
+        })
+        .on('end', (datum, index, elements) => {
+          const element = elements[index];
+          console.log(`End`);
+          d3.select(element.parentElement)
+            .classed('animate', false)
+            .attr('data-new-trial-ease-time', null);
+          datum.animate = false;
+          this.animate = false;
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('accumulable-response', {
+            detail: {
+              outcome: datum.outcome,
+              sample: this.sample,
+              model: this.model,
+            },
+            bubbles: true,
+          }));
+        });
+    }
+    //  MERGE - Paused Animate Paths
+    const pathMergeNewPaused = pathMerge.filter((datum) => {
+      return (datum.animate && this.paused);
+    });
+    if (!pathMergeNewPaused.empty()) {
+      const easeTime = pathMergeNewPaused.attr('data-new-trial-ease-time');
+      console.log(`NewPaused: ${easeTime}`);
+      pathMergeNewPaused
+        .classed('animate', true)
+        .select('.curve')
+        .attr('stroke-dasharray', 1)
+        .attr('stroke-dashoffset', () => {
+          const interpolator = d3.interpolate(1, 0);
+          return interpolator(d3.easeLinear(easeTime));
+        });
+    }
+    //  MERGE - Non-Animate Paths
+    pathMerge.filter((datum) => { return (!datum.animate); })
+      .attr('data-new-trial-ease-time', null);
     //  EXIT
     pathUpdate.exit().remove();
 
@@ -1227,7 +1376,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     errorRTEnter.append('line')
       .classed('mark', true);
     //  MERGE
-    correctRTEnter.merge(correctRTUpdate).select('.mark')
+    correctRTEnter.merge(correctRTUpdate).filter((datum) => { return (!datum.animate); }).select('.mark')
       .attr('x1', (datum) => {
         return timeScale(datum.rt);
       })
@@ -1236,7 +1385,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       })
       .attr('y1', correctDensityScale(0) + 0.125 * this.rem)
       .attr('y2', correctDensityScale(0) + 0.675 * this.rem);
-    errorRTEnter.merge(errorRTUpdate).select('.mark')
+    errorRTEnter.merge(errorRTUpdate).filter((datum) => { return (!datum.animate); }).select('.mark')
       .attr('x1', (datum) => {
         return timeScale(datum.rt);
       })
