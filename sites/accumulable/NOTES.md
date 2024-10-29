@@ -1,14 +1,18 @@
-SDs -> height of line?
-labels for model means & SDs?
+## Bugs
 
-- Exploration
-  - move Trials and Resample to Controls?
-- Fitting
-  - need fitting process...
-  - show model with fit
-- Predictions
-  - Control, Task, Parameters/Model, Response, Table
-  - animate Model!
+- trials in ddm-model need to be persistent!
+- drift rate interaction is glitchy
+
+## Ideas
+
+- SDs -> height of line?
+- labels for model means & SDs?
+- Main pages
+  - Exploration
+  - Fitting
+    - need fitting process...
+    - show Parameters and Model with fit
+  - Predictions
 
 ## Outline
 
