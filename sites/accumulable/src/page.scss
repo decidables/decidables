@@ -8,6 +8,9 @@
     v: #ff7f00, // orange (CB5)
     t0: #f781bf, // pink (CB8)
 
+    left: #f032e6, // magenta
+    right: #10dbc9, // cyan
+
     correct: #4daf4a, // green (CB3)
     error: #984ea3, // purple (CB4)
 
@@ -16,8 +19,6 @@
     // #ffff33, // yellow (CB6)
     // #a65628, // brown (CB7)
     // #4545d0, // violet
-    // #f032e6, // magenta
-    // #10dbc9, // cyan
   )
 );
 
@@ -42,6 +43,17 @@
   .key[class~="t0"] {
     /* purgecss ignore current */
     background-color: dec-color-light(t0);
+  }
+
+  // Keys: Responses
+  .key[class~="'left'"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(left);
+  }
+
+  .key[class~="'right'"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(right);
   }
 
   // Keys: Outcomes
@@ -79,6 +91,16 @@
   .t0::before {
     background: dec-color-light(t0);
     border-left-color: dec-color(t0);
+  }
+
+  .left::before {
+    background: dec-color-light(left);
+    border-left-color: dec-color(left);
+  }
+
+  .right::before {
+    background: dec-color-light(right);
+    border-left-color: dec-color(right);
   }
 
   .correct::before {
