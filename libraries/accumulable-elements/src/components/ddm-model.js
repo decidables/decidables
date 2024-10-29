@@ -1247,7 +1247,6 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     });
     if (!pathMergeNewActive.empty()) {
       const easeTime = pathMergeNewActive.attr('data-new-trial-ease-time');
-      console.log(`NewActive: ${easeTime}`);
       const scaleIn = (time) => {
         return d3.scaleLinear().domain([0, 1]).range([easeTime, 1])(time);
       };
@@ -1280,7 +1279,6 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         })
         .on('end', (datum, index, elements) => {
           const element = elements[index];
-          console.log(`End`);
           d3.select(element.parentElement)
             .classed('animate', false)
             .attr('data-new-trial-ease-time', null);
@@ -1304,7 +1302,6 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     });
     if (!pathMergeNewPaused.empty()) {
       const easeTime = pathMergeNewPaused.attr('data-new-trial-ease-time');
-      console.log(`NewPaused: ${easeTime}`);
       pathMergeNewPaused
         .classed('animate', true)
         .select('.curve')
