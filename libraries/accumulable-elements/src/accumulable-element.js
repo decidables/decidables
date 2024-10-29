@@ -32,6 +32,8 @@ export default class AccumulableElement extends DecidablesElement {
       z: d3.schemeSet1[1],
       v: d3.schemeSet1[4],
       t0: d3.schemeSet1[7],
+      left: '#f032e6',
+      right: '#10dbc9',
       correct: d3.schemeSet1[2],
       error: d3.schemeSet1[3],
       nr: '#cccccc',
@@ -57,29 +59,26 @@ export default class AccumulableElement extends DecidablesElement {
       super.styles,
       css`
         :host {
-          ---color-a: var(--color-a, ${unsafeCSS(this.colors.a)});
-          ---color-z: var(--color-z, ${unsafeCSS(this.colors.z)});
-          ---color-v: var(--color-v, ${unsafeCSS(this.colors.v)});
-          ---color-t0: var(--color-t0, ${unsafeCSS(this.colors.t0)});
-          ---color-correct: var(--color-correct, ${unsafeCSS(this.colors.correct)});
-          ---color-error: var(--color-error, ${unsafeCSS(this.colors.error)});
-          ---color-nr: var(--color-nr, ${unsafeCSS(this.colors.nr)});
+          /* Declare base colors */
+          ${
+            unsafeCSS(Object.keys(AccumulableElement.colors).map((color) => {
+              return `---color-${color}: var(--color-${color}, ${this.colors[color]});`;
+            }).join('\n'))
+          }
 
-          ---color-a-light: var(--color-a-light, ${unsafeCSS(this.lights.a)});
-          ---color-z-light: var(--color-z-light, ${unsafeCSS(this.lights.z)});
-          ---color-v-light: var(--color-v-light, ${unsafeCSS(this.lights.v)});
-          ---color-t0-light: var(--color-t0-light, ${unsafeCSS(this.lights.t0)});
-          ---color-correct-light: var(--color-correct-light, ${unsafeCSS(this.lights.correct)});
-          ---color-error-light: var(--color-error-light, ${unsafeCSS(this.lights.error)});
-          ---color-nr-light: var(--color-nr-light, ${unsafeCSS(this.lights.nr)});
+          /* Declare light colors */
+          ${
+            unsafeCSS(Object.keys(AccumulableElement.colors).map((color) => {
+              return `---color-${color}-light: var(--color-${color}-light, ${this.lights[color]});`;
+            }).join('\n'))
+          }
 
-          ---color-a-dark: var(--color-a-dark, ${unsafeCSS(this.darks.a)});
-          ---color-z-dark: var(--color-z-dark, ${unsafeCSS(this.darks.z)});
-          ---color-v-dark: var(--color-v-dark, ${unsafeCSS(this.darks.v)});
-          ---color-t0-dark: var(--color-t0-dark, ${unsafeCSS(this.darks.t0)});
-          ---color-correct-dark: var(--color-correct-dark, ${unsafeCSS(this.darks.correct)});
-          ---color-error-dark: var(--color-error-dark, ${unsafeCSS(this.darks.error)});
-          ---color-nr-dark: var(--color-nr-dark, ${unsafeCSS(this.darks.nr)});
+          /* Declare dark colors */
+          ${
+            unsafeCSS(Object.keys(AccumulableElement.colors).map((color) => {
+              return `---color-${color}-dark: var(--color-${color}-dark, ${this.darks[color]});`;
+            }).join('\n'))
+          }
         }
       `,
     ];
