@@ -35,6 +35,6 @@ describe('ddm-example', () => {
         <ddm-parameters></ddm-parameters>
       </ddm-example>
     `);
-    expect(el).lightDom.to.equal('<ddm-parameters></ddm-parameters>');
+    expect(el).lightDom.to.equal('<ddm-parameters class="keyboard"></ddm-parameters>');
   });
 });
