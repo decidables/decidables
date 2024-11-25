@@ -13,4 +13,7 @@ Fitting the model to your performance.
   <rdk-2afc-task trials="10"></rdk-2afc-task>
   <accumulable-response interactive trial feedback></accumulable-response>
   <accumulable-table numeric summary="overall" color="outcome"></accumulable-table>
+  <ddm-parameters></ddm-parameters>
+  <ddm-model human measures means sds></ddm-model>
+  <ddm-fit></ddm-fit>
 </ddm-example-human>
