@@ -2,6 +2,9 @@
   "env": {
     "browser": true
   },
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
   "settings": {
     "import/resolver": "@tophat/eslint-import-resolver-require"
   },
