@@ -1,0 +1,26 @@
+<svg class="main" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <clipPath id="clip-evidence">
+    <rect y="16.4" height="67.2" width="80"></rect>
+  </clipPath>
+  <g transform="scale(3) translate(0, -16)">
+    <rect class="background" fill="rgb(230, 230, 230)" stroke="none" y="22.4" height="67.2" width="80"></rect>
+
+    <g transform="translate(0, 6)">
+      <path class="curve error" clip-path="url(#clip-evidence)" stroke="rgb(152, 78, 163)" opacity="0.5" stroke-width="2.666667" fill="none"
+        d="M17.2,56.08L18.64,61.887L20.08,64.408L21.52,65.566L22.96,63.08L24.4,64.014L25.84,66.822L27.28,64.906L28.72,70.079L30.16,68.071L31.6,68.363L33.04,62.323L34.48,59.966L35.92,64.011L37.36,64.81L38.8,69.96L40.24,64.406L41.68,70.341L43.12,68.195L44.56,64.738L46,64.938L47.44,73.832L48.88,80.126L50.32,84.401L51.76,92.846"></path>
+      <path class="curve correct" clip-path="url(#clip-evidence)" stroke="rgb(77, 175, 74)" opacity="0.5" stroke-width="2.666667" fill="none"
+        d="M14.58,57.051L15.876,57.817L17.172,63.797L18.468,60.876L19.764,58.184L21.059,55.489L22.355,53.109L23.651,58.205L24.947,56.547L26.243,53.8L27.539,53.105L28.835,50.47L30.131,53.633L31.427,51.998L32.723,46.698L34.019,43.238L35.315,43.044L36.611,39.1L37.907,40.292L39.203,42.359L40.499,39.298L41.795,32.996L43.091,29.811L44.387,26.142L45.683,26.185L46.979,24.651L48.275,26.011L49.571,24.652L50.867,23.398L52.163,24.114L53.459,23.237L54.755,22.933L56.051,26.843L57.347,26.478L58.643,28.808L59.938,27.273L61.234,25.902L62.53,25.753L63.826,26.749L65.122,25.745L66.418,34.514L67.714,30.899L69.01,31.655L70.306,34.221L71.602,31.724L72.898,24.586L74.194,23.521L75.49,18.466L76.79,16.466"></path>
+      <g class="drift interactive" tabindex="0" transform="translate(14.579650352458653, 57.051385) rotate(-16.260223807400642)">
+        <line class="line" stroke="rgb(38, 38, 38)" stroke-width="2.666667" stroke-dasharray="8, 4" x2="51.83865"></line>
+        <path class="arrow" stroke="rgb(38, 38, 38)" stroke-width="2.666667" fill="none" d="M 44.63865,-7.2 l 7.2,7.2 l -7.2,7.2"></path>
+      </g>
+      <g class="t0z interactive" tabindex="0">
+        <line class="line" stroke="rgb(38, 38, 38)" stroke-width="2.666667" x1="0" x2="14.579650352458653" y1="57.051385" y2="57.051385"></line>
+        <circle class="point" stroke="rgb(38, 38, 38)" r="6" fill="rgb(38, 38, 38)" cx="14.579650352458653" cy="57.051385"></circle>
+      </g>
+    </g>
+
+    <line class="line" stroke="rgb(38, 38, 38)" stroke-width="2.666667" x1="0" x2="80" y1="22.4" y2="22.4"></line>
+    <line class="line" stroke="rgb(38, 38, 38)" stroke-width="2.666667" x1="0" x2="80" y1="89.6" y2="89.6"></line>
+  </g>
+</svg>
