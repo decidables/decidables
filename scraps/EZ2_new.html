@@ -1,0 +1,2241 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtmll/DTD/xhtmll-strict.dtd">
+<html>
+
+<head>
+<title>EZ2</title>
+<!-- ----- Google Analytics ----- -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+<script type="text/javascript"> _uacct = "UA-121264-1";urchinTracker();</script>
+<!-- ----- ================ ----- -->
+
+<style type="text/css">/* ---- old version things ---- */
+#Params         {width: 100%; position: relative; height: 15px;}
+#tdParams       {background-color: #ddf}
+#POPcontrol     {width: 10%; }
+
+
+.POPctrlBut {
+    width: 100%;
+    height: 2em;
+    color: #333;
+}
+
+.menuButton {
+    width: 100px;
+    height: 2em;
+    color: #444;
+}
+.menu-button-group {
+	border-left: dotted 1px gray;
+	border-bottom: dotted 1px gray;
+	padding: 3px 3px 3px 10px;
+}
+
+button {
+    background-color: buttonface;
+    border-style:solid;
+    border-width:1px;
+    border-color: white gray gray white;
+    color:gray;
+    text-decoration: none;
+    text-align: center;
+    padding: 0px;
+    cursor: hand;
+}
+
+#menuBar {
+    width: 100%;
+    position:absolute;
+    top:0px;
+    left:1px;
+}
+
+#menuBar > td {
+    width: 33%;
+}
+
+
+a:link          {color:gray;text-decoration:none;}
+a:hover         {color:green;background-color:cornsilk;text-decoration:underline;}
+
+#console {
+    background-color: #aaa;
+    color: green;
+    font-family: Courier New;
+    font-size:10pt;
+    height: 50px;
+    position: absolute;
+    top: 400px;
+}
+</style>
+<style type="text/css">/* ----------- tab menu --------------- */
+
+ul.menu { 
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    list-style-type: none;
+    font-family: arial;
+    font-size: 10pt;
+    margin: 20px 0px 0px 0px;
+    z-index: 1000;
+}
+ul.menu > li {
+    width: 50px;
+    height: 17px;
+    float: left;
+    padding: 5px 3px 2px 3px;
+    margin: 5px 5px 0px 5px;
+    border: 1px solid gray;
+    text-align: center;
+    z-index: 10;
+    cursor: hand;
+}
+ul.menu > li.active {
+    border-bottom: 1px solid white;
+    text-align: center;
+    z-index: 100;
+}    
+ul.menu > li:hover {
+    background-color: gray;
+    color: white;
+}
+</style>
+
+<style type="text/css">/* ------------------- model tab ------------------------ */
+#model {
+    display: block;
+    clear: both;
+    position: absolute;
+    top: 80px;
+    z-index: 50;
+    width: 98%;
+    min-width: 800px;
+    border: 1px solid gray;
+}
+#POPs           {min-width: 100%; } /* top:30px; position:relative; } */
+.POPfieldset    {height: 90%;}
+#POPairsVRT     {height: 100%; width: 100%;}
+#tdPOPairsVRT   {background-color: #fef; width: 18%;}
+#POPairsCVRT    {height: 100%; width: 100%;}
+#tdPOPairsCVRT  {background-color: #fee; width: 18%;}
+#POPairsPE      {height: 100%;width: 100%;}
+#tdPOPairsPE    {background-color: #ffe; width: 18%;}
+#POPairsMRT     {height: 100%;width: 100%;}
+#tdPOPairsMRT   {background-color: #eff; width: 18%;}
+#POPairsCMRT    {height: 100%;width: 100%;}
+#tdPOPairsCMRT  {background-color: #eef; width: 18%;}
+
+.POPairLegend {
+    font-family:arial;
+    font-size:8pt;
+    color:gray;
+}
+</style>
+<style type="text/css">/* -------------------- batch tab ------------------------ */
+#batch {
+    display: none;
+    clear: both;
+    position: absolute;
+    top: 80px;
+    z-index: 50;
+    width: 98%;
+    min-width: 800px;
+    min-height: 100px;
+    border: 1px solid gray;
+    background-color: transparent;
+    font-family: arial, sans;
+}
+#batch > p {
+    margin: 10px;
+}
+#batchInputDiv {
+    float: left;
+    width:45%;
+    min-width: 400px;
+}
+#batchInputTA {
+    width:90%;
+    margin: 10px;
+    min-height: 350px;
+    white-space: pre;
+    font-family: monospace;
+}
+#batchOutputDiv {
+    float: right;
+    width: 45%;
+    min-width: 400px;
+}
+#batchOutputTA {
+    width:90%;
+    margin: 10px;
+    min-height: 350px;
+    white-space: pre;
+    font-family: monospace;
+}
+#batchButtons {
+    float: left;
+}
+#batchButtons > button {
+    width: 80px;
+    height: 50px;
+    margin: 0px 0px 30px 0px;
+    padding: 2px 0px 2px 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+#batchwarningsconsole {
+    clear: both;
+    font-size: 10pt;
+    font-family: monospace;
+    border: 1px dotted gray;
+    width: 99.9%;
+}
+</style>
+
+
+<script type="text/javascript" src="hooke.js">
+</script>
+
+<script type="text/javascript" >// utils & shorthands
+function $(name){ return document.getElementById(name); }
+</script>
+
+
+<script>// Predicted-Observed Pairs Objects and other GUI elements
+function PredObsPair(predFunc, predFuncArgs, parent, title, availParams, destructionCallback)
+// input:		predFunc - string with name of function that predicts the value based on argument values
+// 				predFuncArgs - Object of the form {arg1:'',arg2:'',...,argN:''}
+//				parent - pointer to existing container HTML-element in which the interface to the object will be appended
+//				title - name of the PredObsPair
+//				availParams - Object that handles the changing of the expressions used as arguments to predFunc
+// output:		PredObsPair object
+//
+// usage:		var oPOPair = new PredObsPair('VRT',{m:'',x:'',a:'',s:''}, <pointer to HTML-element>, 'VRT<sup>0< /sup>', <Obj>)
+// side-effect:	an GUI interface will be appended to <parent>
+{
+	try{
+		var div, field, legend, obsvrt, predvrt, copy, availableParams = availParams, destroy;
+		var self = this;
+		var bindParams = predFuncArgs;
+		var obsvalue=null;
+
+		/* **
+		// build the Graphical User Interface
+		*/
+		function buildInterface(){
+			// GUI container element: div + fieldset
+			div = document.createElement('div');
+			div.style.position = 'relative';
+			div.style.left = "0%";
+            div.style.float = "left";
+            
+			field = document.createElement('fieldset')
+            field.style.height = '100%';
+			field.style.overflow = "hidden"
+            field.style.padding = '1px 10px 1px 1px';
+
+			// legend element for the label of the POPair, should be changeble
+			legend = document.createElement('legend')
+			legend.style.fontFamily = 'arial';
+			legend.style.fontSize = '8pt';
+			legend.innerHTML = title;
+            legend.ondblclick = function(event){
+                var tmp=prompt('Please provide a new name, or click "Cancel".',this.innerHTML);
+                if(!tmp) return;
+                   title = legend.innerHTML = tmp;
+            }
+            legend.onclick = function(event){ 
+                if(event && event.ctrlKey)
+                    this.ondblclick();
+            }
+            legend.setAttribute('title','Double click or Ctrl+click to modify the name');
+            
+            // Observed value input element, should make sure content is numeric
+			obsvrt = document.createElement('input')
+			obsvrt.setAttribute('type','text')
+			obsvrt.setAttribute('title','observed value');
+			obsvrt.style.fontSize = "8pt";
+            obsvrt.style.float = "left";
+            obsvrt.style.position = 'absolute';
+            obsvrt.style.left = '5px';
+            obsvrt.style.top = '22px';
+            obsvrt.style.width = '62px';
+			obsvrt.onblur = function(){
+                            var val=parseFloat(obsvrt.value);
+                            self.setObserved((val?val:0));
+                        } 
+//(function(obj,interf){return function(){if(obj.setObserved){obj.setObserved(interf.value);}else{alert('iets geks'+self.predFunc);}}})(this,obsvrt)
+
+			// Predicted value output element (HTML-input element)
+			predvrt = document.createElement('input')
+			predvrt.setAttribute('type','text')
+            predvrt.readOnly = true; // MSIE
+            predvrt.setAttribute('readonly','readonly'); // W3C
+			predvrt.setAttribute('size','7')
+			predvrt.setAttribute('title','predicted value');
+            predvrt.style.color = 'brown';
+			predvrt.style.fontSize = "8pt"
+            predvrt.style.float = "left";
+            predvrt.style.position = "absolute";
+            predvrt.style.left = obsvrt.style.left; 
+            predvrt.style.top = (parseInt(obsvrt.style.top)+23)+'px';
+            predvrt.style.width = obsvrt.style.width; //parseInt(obsvrt.style.width)+'px';
+
+			// Button to copy predicted value from the output element to the observed value input element
+			copy = document.createElement('button')
+			copy.setAttribute('title','click to copy predicted value to observed value')
+			copy.innerHTML = '&copy;';
+            copy.style.position = 'relative';
+            copy.style.margin = "20px 0px 0px 68px";
+            copy.style.zIndex = "100";
+			copy.style.fontSize = '8pt';
+			copy.style.backgroundColor = 'transparent';
+			copy.style.border = 'none';
+			copy.onclick = function(){self.setObserved(predvrt.value);}
+
+			// Button to allow this POPair to be discared
+            destroy = document.createElement('button');
+            destroy.setAttribute('title','click to delete this predicted-observed value pair');
+            destroy.innerHTML = '&times;' /* times symbol */; // '&#196;'; /* Kronecker product symbol */
+            destroy.style.fontSize = '8pt';
+            destroy.style.fontWeight = '600';
+            destroy.style.margin = '0px 0px 1px 0px';
+            destroy.style.position = 'absolute';
+            destroy.style.top = '11px';
+            destroy.style.right = '5px';
+            destroy.style.width = '12px';
+            destroy.style.height = '12px';
+            destroy.style.backgroundColor = 'transparent'; //'AntiqueWhite';
+            destroy.style.color = 'gray';
+            destroy.style.border = 'none';
+            destroy.style.borderWidth = '1px';
+            destroy.onmouseover = function(){this.style.backgroundColor = 'salmon'; this.style.color='white'; }
+            destroy.onmouseout = function(){this.style.backgroundColor = 'transparent'; this.style.color='gray'; }
+            destroy.onclick = (function(obj){return function(){if(!confirm('Delete this predicted-observed value pair?')) return; obj.destroyGUI();}})(self) // function(){alert('hallo');};
+
+			// Parameters table that allows the formal parameters of the predFunc function to be bound to (expression of) global variables
+			var bindParamsGUI = document.createElement('table');
+            bindParamsGUI.style.position = 'relative';
+            bindParamsGUI.style.top = '4px'; //(parseInt(obsvrt.style.top)+50) + 'px';
+            bindParamsGUI.style.left = (parseInt(obsvrt.style.left)) + 'px';
+            bindParamsGUI.style.fontSize = '9pt';
+            bindParamsGUI.style.fontFamily = 'Arial';
+			for(var i in bindParams) {
+				var ir = bindParamsGUI.rows.length
+				var defaultValue = '<i style="font-size:7pt;color:gray;" title="click to change expression">click</i>';
+				bindParamsGUI.insertRow(ir)
+				bindParamsGUI.rows[ir].insertCell(0)
+				bindParamsGUI.rows[ir].insertCell(1)
+				bindParamsGUI.rows[ir].insertCell(2)
+				bindParamsGUI.rows[ir].cells[0].innerHTML = i ;
+				bindParamsGUI.rows[ir].cells[1].innerHTML = ':=' ;
+				bindParams[i] = bindParamsGUI.rows[ir].cells[2];
+				bindParams[i].style.color = 'blue'
+				bindParams[i].style.fontFamily = 'arial'
+				bindParams[i].style.fontSize = '8pt'
+                bindParams[i].style.height = '20px';
+                bindParams[i].style.overflow = 'hidden';
+				bindParams[i].innerHTML = defaultValue ;
+				bindParams[i].onclick =
+                   (function(j,k,oVRT){
+                      return function(){
+                          var theNode = bindParamsGUI.rows[j].cells[2];
+                          availableParams.update();
+                          if(!theNode.innerHTML.match(/click|^\s*$/g))
+                            availableParams.setSelectedValue(theNode.innerHTML)
+                          else
+                            availableParams.setSelectedValue(k)
+                          theNode.innerHTML = '';
+                          theNode.appendChild(availableParams.selector);
+                          availableParams.selector.focus();
+                          availableParams.selector.onblur = 
+                            (function(Node,avPar,oVRT){
+                              return function(){
+                                if(Node){
+                                  Node.innerHTML=avPar.getSelectedLabel();
+                                  Node.setAttribute('title',avPar.getSelectedValue()+' (click to modify this expression)');
+                                  oVRT.updateExpression();
+                                  oVRT.update();
+                                }
+                             }
+                             })(theNode,availableParams,oVRT)
+                      }
+                   })(ir,i,self);
+            }
+
+			// tie all the newly created elements together and append them in DOM tree at the provided parent node
+            field.appendChild(legend);
+            field.appendChild(destroy);
+            field.appendChild(copy);
+            field.appendChild(obsvrt);
+            field.appendChild(document.createElement('br'));
+            field.appendChild(predvrt);
+            field.appendChild(bindParamsGUI);
+            div.appendChild(field);
+            parent.appendChild(div);
+        }
+        
+
+
+        // set the expression
+        var expression = predFunc + '(' ;
+        for(var i in predFuncArgs) expression += bindParams[i].innerHTML+','
+        expression = expression.replace(/,$/g,'') + ')';
+
+		/* **
+        // POPair methods
+        */
+        this.observed  = function(){return obsvalue; } // (obsvrt.value==''?0:parseFloat(obsvrt.value));
+        this.predicted = function(){window.status = "Please call updateExpression() first";}
+        this.update    = function(){predvrt.value = self.predicted();if(predvrt.value.match(/undefined|NaN/)) predvrt.value = '#VALUE!';}
+		this.updateExpression = function(){
+            var ss = 'with(Math){window.status=""; try{return '+predFunc+'('
+            for(var i in bindParams) ss += bindParams[i].innerHTML+','
+            ss = ss.replace(/,$/,'') + ');} catch(_e_){window.status="Undefined parameters in '+title.replace(/\<.+?\>/g,'')+'";} }';
+            try{
+                window.status = '';
+                predvrt.style.backgroundColor = ''
+                this.predicted = new Function(ss);
+            }
+            catch(_e_){
+                predvrt.style.backgroundColor = '#ffdddd'
+                window.status = title.replace(/\<.+?\>/g,'') + " is not well defined. Check the variable names. (JavaScript exception: "+_e_.description+")";
+            }
+		}
+		this.setObserved = function(val){ obsvalue = obsvrt.value = val.toString()!='null' ? parseFloat(val) : ''; if(parent.onchange) parent.onchange()}
+		this.name = function(){return title.replace(/<.+?>/g,'').replace(/\s+/g,'');}
+		this.toJSON = function(){
+			var spredFuncArgs = "{";
+			for(var i in bindParams)
+				spredFuncArgs += i + ':"' + escape(bindParams[i].innerHTML) +'",';
+			spredFuncArgs = spredFuncArgs.replace(/,$/,"") + "}";
+			return '{title:"'+title+'",predFunc:"'+predFunc+'",observedValue:"'+this.observed()+'",predFuncArgs:'+spredFuncArgs+'}';
+		}
+		this.parseJSON = function(obj){
+			if(typeof obj == "string")
+				obj = eval('('+obj+')');                                                            // parse JSON string by evaluation
+			if(!obj) return false;
+			predFunc = obj['predFunc'];
+			bindParams = new Object();
+			predFuncArgs = new Object();
+			for(var i in obj['predFuncArgs']){                                                      // copy the object to predFuncArgs and bindParams
+				predFuncArgs[i] = obj['predFuncArgs'][i];
+				bindParams[i] = predFuncArgs[i];
+			}
+			parent.innerHTML = '';                                                                  //parent.removeChild(parent.childNodes[0]);   // remove current interface
+			buildInterface();                                                                       // build the new one
+
+			// restore some other properties
+			title = legend.innerHTML = obj['title']
+			for(var i in bindParams){
+				bindParams[i].innerHTML = unescape(predFuncArgs[i])
+			}
+			if(obj.observedValue) this.setObserved(obj.observedValue);
+			this.updateExpression();
+			this.update();
+		}
+        this.buildGUI = buildInterface;
+        this.destroyGUI = function(fun){
+            if(div)
+                parent.removeChild(div);
+            if(typeof this.destroyCallback == "function")
+                this.destroyCallback(self);
+            else if(fun && typeof fun == "function")
+                fun(self);
+        }
+        this.destroyCallback = destructionCallback;
+        this.newParent = function(elem){ 
+            parent = elem;
+            parent.appendChild(div);
+        }
+        this.copy = function(){ copy.click(); }
+        this.clickAll = function(){ 
+            for(var i in bindParams){
+                bindParams[i].onclick(); 
+                //bindParams[i].childNodes[0].blur();
+            }
+        }
+		buildInterface();
+
+		/* **
+		// behaviors
+		*/
+		obsvrt.onmouseover = this.update;
+		obsvrt.onchange = function(){obsvrt.value = parseFloat(obsvrt.value);}
+	}
+	catch(e){
+		alert("Error PredObsPair: " + e.description);
+	}
+}
+
+function Param(parent,name,nameInterface,destructionCallback)
+// input:		parent - HTML-container element in which the interface to the object will be appended
+// 				name - name for the parameter
+// output:		Param object
+// usage:		var oPar = new Param(<pointer to HTML-element>, 'm')
+// side-effect:	a global variable named <name> is created, and a GUI interface will be appended to <parent>
+{
+	var div, field, legend, parElem, fixElem;
+    var self = this;
+
+	if(name.match(/^\b\w+$/))
+		window[name]=0;
+	else{
+		alert('Invalid variable name "'+name+'"')
+		return {invalid:true};
+	}
+
+	this.name = name;
+
+    div = document.createElement('div')
+    div.style.width = '95px';
+	field = document.createElement('fieldset')
+	legend = document.createElement('legend')
+	legend.style.fontFamily = 'arial';
+	legend.style.fontSize = '8pt';
+	legend.style.color = 'blue';
+	legend.innerHTML = name;
+	parElem = document.createElement('input')
+	parElem.setAttribute('type','text');
+	parElem.setAttribute('size','7');
+	parElem.setAttribute('title','parameter value'+(navigator.userAgent.match(/MSIE|Safari|Opera/i)?' (type value or use mouse wheel)':' (type value)'));
+	parElem.setAttribute('id',"par_"+name);
+    parElem.style.width = '65px';
+    parElem.style.height = '1.1em';
+	fixElem = document.createElement('input');
+	fixElem.setAttribute('type','checkbox');
+	fixElem.style.width = "9px"
+	fixElem.setAttribute('id',"parfix_"+name);
+	fixElem.setAttribute('tabindex',"1000");
+	var labElem = document.createElement('label')
+	labElem.setAttribute('FOR','parfix_'+name);
+	labElem.style.color = 'black'
+	labElem.style.fontSize = '7pt'
+	labElem.style.fontFamily = "verdana";
+	labElem.innerHTML = '&nbsp;&nbsp;fixed'
+
+    var destroy = document.createElement('button');
+    destroy.setAttribute('title','click to delete this parameter?');
+    destroy.innerHTML = '&times;' 
+    destroy.style.fontSize = '8pt';
+    destroy.style.fontWeight = '600';
+    //destroy.style.fontFamily = 'Symbol';
+    destroy.style.margin = '0px 0px 1px 0px';
+    destroy.style.position = 'relative';
+    destroy.style.top = '-60px';
+    destroy.style.left = '82px';
+    destroy.style.width = '12px';
+    destroy.style.height = '12px';
+    destroy.style.backgroundColor = 'transparent'; //'AntiqueWhite';
+    destroy.style.color = 'gray';
+    destroy.style.border = 'none';
+    destroy.style.borderWidth = '1px';
+    destroy.onmouseover = function(){this.style.backgroundColor = 'salmon'; this.style.color='white'; }
+    destroy.onmouseout = function(){this.style.backgroundColor = 'transparent'; this.style.color='gray'; }
+    destroy.onclick = (function(obj){return function(){if(confirm('Delete this parameter? ("'+obj.name+'")')) obj.destroyGUI(); this.blur();}})(self) // function(){alert('hallo');};
+/*
+*/
+    div.appendChild(field);
+    div.appendChild(destroy);
+	field.appendChild(legend);
+	field.appendChild(parElem);
+	field.appendChild(document.createElement('br'));
+	field.appendChild(fixElem);
+	field.appendChild(labElem);
+	parent.appendChild(div);
+
+    
+    
+	// behavior
+	parElem.onblur = (function(obj,elem){ return function(){obj.setValue(parseFloat(elem.value));if(parent.onblur) parent.onblur();}})(this,parElem)
+	parElem.onmousewheel = (function(self){ return function(e){ if(self.isFixed()) return false; var d= (e? e.wheelDelta: event.wheelDelta); parElem.value=(parseFloat(parElem.value)+(d>0?1:-1)*1e-3); parElem.onblur();}})(this)
+
+
+	// create a variable for the parameter in the Global Scope
+
+	// methods
+	this.getValue = function(){return window[name];}
+	this.setValue = function(val){parElem.value = window[name] = val; /*parElem.blur();*/}
+	this.isFixed = function(){return fixElem.checked;}
+	this.setFixed = function(val){fixElem.checked = val;}
+	this.toJSON = function(){return '{ name:"'+name+'",value:'+this.getValue()+',fixed:'+this.isFixed()+'}';}
+	this.parseJSON = function(obj){
+		if(typeof obj == "string")
+			obj = eval(obj);
+		if(typeof obj != "object")
+			throw("obj is neither object nor string!");
+		this.name = name = obj.name;
+		legend.innerHTML = name;
+		this.setValue(obj.value);
+		this.setFixed(obj.fixed);
+	}
+    this.destroyGUI = function(fun){
+        if(div)
+            parent.removeChild(div);
+        if(typeof this.destroyCallback == "function")
+            this.destroyCallback(self);
+        else if(fun && typeof fun == "function")
+            fun(self);
+    }
+    this.destroyCallback = destructionCallback;
+    this.newParent = function(elem){ 
+        parent = elem;
+        parent.appendChild(div);
+    }
+}
+
+function ParamsChooser(aParam)
+// input:		aParam - a pointer to an array containing Param objects
+// output:		Object that can be passed as availParams parameter for a PredObsPair object
+{
+	var theParameters = aParam;
+	var self = this;
+/* // oud, nogal clumsy eigenlijk
+	var selectElem = document.createElement('select');
+	var opt = document.createElement('option');
+	opt.innerHTML = '<i>choose</i>';
+	opt.setAttribute('disabled','true');
+	opt.setAttribute('selected','true');
+	opt.setAttribute('value','null');
+	selectElem.appendChild(opt);
+*/
+	var selectElem = document.createElement('input')
+	selectElem.setAttribute('type','text');
+	selectElem.setAttribute('size','5');
+	selectElem.style.fontSize = '8pt';
+    selectElem.style.width = '41px';
+    selectElem.style.height = '12px';
+	selectElem.ondblclick = function(e){if(arguments.length<1){window.event.cancelBubble = true} else {e.cancelBubble=true}; return false;}
+	selectElem.onclick = function(e){if(arguments.length<1){window.event.cancelBubble = true} else {e.cancelBubble=true}; return false;}
+
+	// properties
+	this.selector = selectElem;
+
+	// methods
+	this.update = function(){
+		return true;
+		if(theParameters && theParameters.length>0){
+			selectElem.innerHTML = "";
+			var opt = document.createElement('option')
+			opt.innerHTML = 'choose';
+			opt.setAttribute('value','null');
+			opt.setAttribute('disabled',true);
+			selectElem.appendChild(opt);
+			for(var i=0;i<theParameters.length;i++){
+				opt = document.createElement('option')
+				opt.innerHTML = theParameters[i].name;
+				opt.setAttribute('value',theParameters[i].value);
+				selectElem.appendChild(opt);
+			}
+		}
+		selectElem.selectedIndex = 0;
+		self.length = theParameters.length
+	}
+
+	this.getSelectedValue = function(){
+		return selectElem.value
+		//return selectElem.options[selectElem.selectedIndex].value
+	}
+
+	this.setSelectedValue = function(value){
+		selectElem.value = value;
+		var opts = selectElem.options;
+		//for(var i=0; i<opts.length;i++) if(opts[i].value==value){selectElem.selectedIndex=i; break;}
+	}
+
+	this.getSelectedLabel = function(){
+		return selectElem.value
+		//return selectElem.options[selectElem.selectedIndex].innerHTML
+	}
+	this.setSelectedLabel = function(value){
+		selectElem.value = value;
+		var opts = selectElem.options;
+		//for(var i=0; i<opts.length;i++) if(opts[i].value==value){selectElem.selectedIndex=i; break;}
+	}
+
+	this.getParentNode = function(){
+		return selectElem.parentNode;
+	}
+
+	this.update()
+}
+
+
+function myDiscardCallback(obj)
+// input:                 pointer to a PredObsPair object
+// output:               void
+// usage:                this function is intended for passage to PredObsPair as the discardCallback function which is called after the GUI of the object is destroyed
+// side-effect:      removal of obj from one of the arrays aVRTs, aCVRTs, aMRTs, aCMRTs, aPEs
+{ 
+    var i=aVRTs.length;
+    while(--i>=0) if( aVRTs[i]===obj){  aVRTs.splice(i,1); break; }
+    for(i=0;i<aVRTs.length;i++) 
+        aVRTs[i].newParent(tableCell($('POPairsVRT'), i)); // reorganize the containing table elem
+
+    var i=aCVRTs.length;
+    while(--i>=0) if(aCVRTs[i]===obj){ aCVRTs.splice(i,1); break; }
+    for(i=0;i<aCVRTs.length;i++) 
+        aCVRTs[i].newParent(tableCell($('POPairsCVRT'), i)); // reorganize the containing table elem
+
+    var i=aMRTs.length;
+    while(--i>=0) if( aMRTs[i]===obj){  aMRTs.splice(i,1); break; }
+    for(i=0;i<aMRTs.length;i++) 
+        aMRTs[i].newParent(tableCell($('POPairsMRT'), i)); // reorganize the containing table elem
+
+    var i=aCMRTs.length;
+    while(--i>=0) if(aCMRTs[i]===obj){ aCMRTs.splice(i,1); break; }
+    for(i=0;i<aCMRTs.length;i++) 
+        aCMRTs[i].newParent(tableCell($('POPairsCMRT'), i)); // reorganize the containing table elem
+
+    var i=aPEs.length;
+    while(--i>=0) if(  aPEs[i]===obj){   aPEs.splice(i,1); break; }
+    for(i=0;i<aPEs.length;i++) 
+        aPEs[i].newParent(tableCell($('POPairsPE'), i)); // reorganize the containing table elem
+
+    var i=aParams.length;
+    while(--i>=0)if(aParams[i]===obj){window[aParams.name] = NaN; aParams.splice(i,1); break; }
+    for(i=0;i<aParams.length;i++) 
+        aParams[i].newParent(tableCell($('Params'), i)); // reorganize the containing table elem
+
+}
+
+
+</script>
+
+
+<!--////////////////////////// problem & optimization function ////////////////////////////////-->
+<script type="text/javascript">
+
+
+function sign(r){ return ((r>0)?1:((r==0)?0:-1)); }
+
+function logit(p){	return Math.log(p/(1-p)); }
+
+// EZ-function for starting values
+function Data2EZ(obj)
+// input:	obj - Object with properties
+//				p - Proportion correct
+//				VRT - sample variance of the RT's
+//				MRT - sample mean of the RT's
+//				s - diffusion standard deviation
+// returns:	Object with properties v, a, and Ter, containing EZ-estimates of these parameters
+{
+	var L, x, v, a, y, MDT, Ter, s2, arr = [];
+	var p = obj.p, VRT = obj.VRT, MRT = obj.MRT, s = obj.s;
+
+	if (p == 0)
+	{
+		alert("Oops, only errors!");
+		return;
+	}
+	if (p == 0.5)
+	{
+		alert("Oops, chance performance!");
+		return;
+	}
+	if (p == 1)
+	{
+		alert("Oops, only correct responses!");
+		return;
+	}
+	s2     = s*s;
+	L      = logit(p);
+	x      = L*(L*p*p - L*p + p - 0.5) / VRT;
+	v      = sign(p-0.5)*s*Math.pow(x,(1/4));
+	a      = s2*logit(p)/v;
+	y      = -v*a/s2;
+	MDT    = (a/(2*v))*(1-Math.exp(y))/(1+Math.exp(y));
+	Ter    = (MRT?MRT - MDT:null); // compute Ter only if MRT was provided
+	return {v: v, a: a, Ter: Ter};
+}
+
+
+
+// The prediction functions unconditional on the point of exit
+function VRT(m, x, a, s){ // computes theoretical variance of the RTs of the pooled correct and error (!) responses
+   var nu=m, z=x;
+   with(Math){
+		return ((-nu*pow(exp(-2.0*nu/(s*s)*z)-1.0,2.0)*a*a-4.0*nu*(exp(-2.0*nu/(s*s)*z)-1.0)*a*a)/pow(exp(-2.0*nu/(s*s)*a)-1.0,2.0)+((-3.0*nu*a*a+4.0*nu*z*a+s*s*a)*(exp(-2.0*nu/(s*s)*z)-1.0)+4.0*nu*z*a)/(exp(-2.0*nu/(s*s)*a)-1.0)-s*s*z)/(nu*nu*nu);
+	}
+}
+function PE(m, x, a, s){ // computes expected proportion of error (!) responses
+	with(Math){
+		return (exp(-2.0*m/(s*s)*a)-exp(-2.0*m/(s*s)*x))/(exp(-2.0*m/(s*s)*a)-1.0)
+	}
+}
+function MRT(m, x, a, s, Ter){ // computes theoretical mean of the RTs of the pooled correct and error (!) responses
+	var t1, t3, t6, t8, t10, t13, t19;
+	with(Math){
+		//efficient computation of a/(exp(-2.0*m/(s*s)*a)-1.0)/m*exp(-2.0*m/(s*s)*x)-1/m*x-1/m*a/(exp(-2.0*m/(s*s)*a)-1.0) + Ter;
+		t1 = s*s;
+		t3 = m/t1;
+		t6 = exp(-2.0*t3*a);
+		t8 = 1/(t6-1.0);
+		t10 = 1/m;
+		t13 = exp(-2.0*t3*x);
+		t19 = a*t8*t10*t13-t10*x-t10*a*t8 + Ter;
+	}
+	return t19;
+}
+
+
+// The prediction functions conditional on the point of exit
+
+function CVRT(nu,z,a,s)
+// input:	nu - double, drift rate of a diffusion with absorbing boundaries
+//		z   - double, starting point in interval (0, a)
+//		a   - double, boundary separation & upper boundary
+//		s   - diffusion standard deviation
+// output:	Variance of the exit time **given that the particle exits through the lower boundary** (use mapping z -> a-z for exit through upper boundary)
+{
+	var t1, t11, t12, t14, t17, t2, t25, t26, t27, t28, t29, t39, t4, t46, t53, t57, t6, t9;
+	// this is optimized code for the expression
+	//	(-4*nu*exp(2*nu/s^2*a)*(-1+exp(2*z*nu/s^2))*(exp(4*nu/s^2*a)-exp(2*z*nu/s^2))*a^2-4*exp(2*(z+a)*nu/s^2)*nu*(exp(2*nu/s^2*a)-1)^2*z^2+8*exp(2*(z+a)*nu/s^2)*nu*(exp(2*nu/s^2*a)-1)^2*a*z+2*s^2*exp(2*nu/s^2*a)*(-1+exp(2*z*nu/s^2))*(exp(2*nu/s^2*a)-1)*(-exp(2*nu/s^2*a)+exp(2*z*nu/s^2))*a-s^2*(exp(2*nu/s^2*a)-1)^2*(-exp(4*nu/s^2*a)+exp(4*z*nu/s^2))*z)/(exp(2*nu/s^2*a)-1)^2/nu^3/(exp(2*nu/s^2*a)-exp(2*z*nu/s^2))^2
+	//
+	z = a - z; // the routine implements the error response time variance, while most people will assume the correct response time variance 
+	nu = -nu;
+	with(Math){
+	    t1 = s*s;
+	    t2 = 1/t1;
+	    t4 = nu*t2*a;
+	    t6 = exp(2.0*t4);
+	    t9 = z*nu*t2;
+	    t11 = exp(2.0*t9);
+	    t12 = -1.0+t11;
+	    t14 = exp(4.0*t4);
+	    t17 = a*a;
+	    t25 = exp(2.0*(z+a)*nu*t2);
+	    t26 = t25*nu;
+	    t27 = t6-1.0;
+	    t28 = t27*t27;
+	    t29 = z*z;
+	    t39 = -t6+t11;
+	    t46 = exp(4.0*t9);
+	    t53 = nu*nu;
+	    t57 = t39*t39;
+	    return((-4.0*nu*t6*t12*(t14-t11)*t17-4.0*t26*t28*t29+8.0*t26*t28*a*z+2.0*t1*t6*t12*t27*t39*a-t1*t28*(-t14+t46)*z)/t28/t53/nu/t57);
+	}
+}
+
+function CMRT(nu, z, a, s, Ter)
+{
+	var t1, t2, t4, t6, t11, t13, t17, t30;
+	// this is optimized code for the expression
+	// ((exp(4*nu/s^2*a)+exp(2*nu*(x+a)/s^2)-exp(2*nu/s^2*a)-exp(2*nu*x/s^2))*x+(2*exp(2*nu/s^2*a)-2*exp(2*nu*(x+a)/s^2))*a)/nu/(exp(2*nu/s^2*a)-exp(2*nu*x/s^2))/(-1+exp(2*nu/s^2*a)) 
+	//
+	z = a - z; // the routine implements the mean RT of the error responses, while most people will assume the MRT of the correct responses
+	with(Math){
+		t1 = s*s;
+		t2 = 1/t1;
+		t4 = nu*t2*a;
+		t6 = exp(4.0*t4);
+		t11 = exp(2.0*(z+a)*nu*t2);
+		t13 = exp(2.0*t4);
+		t17 = exp(2.0*z*nu*t2);
+		t30 = 1/(t13-1.0)/(t13-t17)/nu*(z*(t6+t11-t13-t17)+2.0*a*(t13-t11));
+	}
+	return(t30 + Ter);
+}
+
+
+// store Math methods pointers in vars
+var pow = Math.pow;
+var sqrt = Math.sqrt;
+
+// the objective function for Method-of-Moment estimates
+function objf(aX){
+	var j = 0;
+
+	// modify free global parameter values
+	var restSave = new Array();
+	for(var i=0;i<aParams.length && j<aX.length;i++)
+		if(!aParams[i].isFixed()) {
+			restSave[j] = window[aParams[i].name]; // save global state for later restoration
+			window[aParams[i].name] =aX[j++];
+		}
+
+	//
+	//  Calculate descrepancy
+	//
+	var ssd = 0;
+	// VRT's
+	for(var i=0;i<aVRTs.length;i++)
+		ssd += Math.pow(aVRTs[i].observed() - aVRTs[i].predicted(), 2);
+	// CVRT's
+	for(var i=0;i<aCVRTs.length;i++)
+		ssd += Math.pow(aCVRTs[i].observed() - aCVRTs[i].predicted(), 2);
+	// PE's
+	for(var i=0;i<aPEs.length;i++)
+		ssd += Math.pow(aPEs[i].observed() - aPEs[i].predicted(), 2);
+	// MRT's
+	for(var i=0;i<aMRTs.length;i++)
+		ssd += Math.pow(aMRTs[i].observed() - aMRTs[i].predicted(), 2);
+	// CMRT's
+	for(var i=0;i<aCMRTs.length;i++)
+		ssd += Math.pow(aCMRTs[i].observed() - aCMRTs[i].predicted(), 2);
+
+	// restore free global parameter values
+	j=0;
+	for(var i=0;i<aParams.length && j<aX.length;i++)
+		if(!aParams[i].isFixed())
+			window[aParams[i].name]=restSave[j++]; // restore global state
+            
+	return 1e6*ssd;
+}
+
+
+// objective function that equalizes relative contribution of observed values to sum of squared discrepancies
+function objf2(aX){
+	var j = 0;
+
+	// modify free global parameter values
+	var restSave = new Array();
+	for(var i=0;i<aParams.length && j<aX.length;i++)
+		if(!aParams[i].isFixed()) {
+			restSave[j] = window[aParams[i].name]; // save global state for later restoration
+			window[aParams[i].name] =aX[j++];
+		}
+
+	//
+	//  Calculate descrepancy
+	//
+	var ssd = 0;
+	// VRT's
+	for(var i=0;i<aVRTs.length;i++)
+		ssd += Math.pow(sqrt(aVRTs[i].observed()) - sqrt(aVRTs[i].predicted()), 2);
+	// CVRT's
+	for(var i=0;i<aCVRTs.length;i++)
+		ssd += Math.pow(sqrt(aCVRTs[i].observed()) - sqrt(aCVRTs[i].predicted()), 2);
+	// PE's
+	for(var i=0;i<aPEs.length;i++)
+		ssd += Math.pow(aPEs[i].observed() - aPEs[i].predicted(), 2);
+	// MRT's
+	for(var i=0;i<aMRTs.length;i++)
+		ssd += Math.pow(aMRTs[i].observed() - aMRTs[i].predicted(), 2);
+	// CMRT's
+	for(var i=0;i<aCMRTs.length;i++)
+		ssd += Math.pow(aCMRTs[i].observed() - aCMRTs[i].predicted(), 2);
+
+	// restore free global parameter values
+	j=0;
+	for(var i=0;i<aParams.length && j<aX.length;i++)
+		if(!aParams[i].isFixed())
+			window[aParams[i].name]=restSave[j++]; // restore global state
+            
+	return 1e6*ssd;
+}
+
+
+
+// the solver
+var theLastSolver = new Object;
+function solver(acceptSol){
+    /* =========depricated============ 
+    if(!DemoAdvice(function(){ShowRunning();setTimeout(solver,10);} /* callback routine for DemoAdvice GUI * /)) 
+        return HideRunning(); // Give demo advice, stop if cancel is pressed
+    */
+	try{
+		var h=new Hooke(objf);
+        theLastSolver = h; // may be useful later to access convergens properties?
+
+		// collect starting values
+		var X=new Array(), j=0;
+		for(var i=0;i<aParams.length;i++)
+			if(!aParams[i].isFixed())
+				X[j++] = aParams[i].getValue();
+                
+        // check if necessary observed values are actually provided
+        for(var i=0;i< aVRTs.length;i++) if( aVRTs[i].observed()<=0) throw {description: "The parsed observed variance "+aVRTs[i].name()+" is not positive.\n\nA valid value must be specified."};
+        for(var i=0;i<aCVRTs.length;i++) if(aCVRTs[i].observed()<=0) throw {description: "The parsed observed variance "+aCVRTs[i].name()+" is not positive.\n\nA valid value needs to be specified."};
+        for(var i=0;i< aPEs.length; i++) if(  aPEs[i].observed()<=0) throw {description: "The parsed observed proportion of errors "+aPEs[i].name()+" is not positive. (EZ and EZ2 cannot handle perfect performances.)\n\nA valid value needs to be specified."};
+        for(var i=0;i< aMRTs.length;i++) if( aMRTs[i].observed()<=0) throw {description: "The parsed observed mean "+aMRTs[i].name()+" is not positive. A valid value needs to be specified."};
+        for(var i=0;i<aCMRTs.length;i++) if(aCMRTs[i].observed()<=0) throw {description: "Parse observed mean "+aCMRTs[i].name()+" is not positive. A valid value needs to be specified."};
+
+		if(X.length > aVRTs.length + aCVRTs.length + aPEs.length + aMRTs.length + aCMRTs.length)
+			throw {description: "Unable to solve for more parameters than equations. Try to set more parameters fixed."}; // alert("Unable to solve for more parameters than equations. Try to set more parameters fixed.");
+
+		// initialize Hooke object
+		h.startpt = X;
+		h.setConsole(null) //$('console'));
+		h.EPSMIN = 1e-8;
+
+		// solve
+		h.main();
+
+		// set the parameters to the values found
+		for(var i=0;i<X.length;i++) X[i] = h.endpt[i].toPrecision(7);
+		if(acceptSol || confirm("Solve found the following parameter values (in order of appearance, fixed parameters skipped):\n\n"+X.join('\n')+"\n\nDo you want to replace original (starting) values with these values? (In most cases you'd want to click 'OK'.)" + (h.objf(h.endpt)>1e-3?"\n\nIt is sometimes necessary to run solve a couple of times. If you have as many free parameters specified as there are observed moments, the current value of the discrepancy function suggests this is necessary. To do so, click 'OK' and then press the Solve button again.\n\n":"\n\nYou maybe able to improve on the current estimate. To do so, click 'OK' and press the Solve button again.\n\n"))){
+			j = 0;
+			for(var i=0;i<aParams.length;i++)
+				if(!aParams[i].isFixed())
+					aParams[i].setValue(h.endpt[j++]);
+
+		updateAll()
+
+		}
+	}
+	catch(e){
+		alert(e.description || e);
+	}
+	if(!acceptSol) // hack, because solver is called with setTimeout in order to force ShowRunning take effect... But this shouldn't happen in batch mode (in which case acceptSol=true)
+        HideRunning();
+}
+
+function ShowRunning(){
+	$('running').style.visibility = 'visible'
+}
+
+function HideRunning(){
+	$('running').style.visibility = 'hidden'
+}
+</script>
+
+<script type="text/javascript"> // EZstart 
+function EZstart(){
+    try{
+        var obj=new Object();
+        $('EZinterface-input1').value = (GetCookie('EZStartInput')?GetCookie('EZStartInput'):'s,Pe0,cVRT0\ns,Pe1,cVRT1'); 
+        $('EZinterface-input2').value = (GetCookie('EZStartOutput')?GetCookie('EZStartOutput'):'v0,z,a\nv1,z,a'); 
+        var EZintf = $('EZinterface')
+        EZintf.hide = function(){ this.style.display = "none"; }
+        EZintf.prompt = function(){ this.style.display = "block"; }
+        EZintf.modelSet = false;
+        EZintf.callBack = 
+            function(butt){
+                try{
+                    EZintf.hide(); 
+                    if(butt=='Cancel')
+                        return false; 
+                    var EZStartInputAll = $('EZinterface-input1').value.split(/\n/g);
+                    var EZStartOutputAll = $('EZinterface-input2').value.split(/\n/g);
+                    if(EZStartInputAll.length != EZStartOutputAll.length)
+                        throw {description: 'Both input fields should have the same number of rows'};
+                    SetCookie('EZStartInput',EZStartInputAll.join('\n')); 
+                    SetCookie('EZStartOutput',EZStartOutputAll.join('\n')); 
+                    EZintf.modelSet = true; 
+                    for(var iter=0;iter < EZStartInputAll.length; iter++){
+                        var EZStartInput = EZStartInputAll[iter];
+                        var EZStartOutput = EZStartOutputAll[iter];
+                        var aN = eval('['+EZStartInput.replace(/(\w+)/g,'\'$1\'')+']');
+                        var bN = eval('['+EZStartOutput.replace(/(\w+)/g,'\'$1\'')+']'); 
+                        var i=0;
+                        if(aParams.length==0) 
+                            throw {description: 'No parameters defined!'}; 
+                        while(i<aParams.length&&aParams[i].name!=aN[0])
+                            i++;
+                        if(i>=aParams.length) 
+                            throw {description: ('Error: No existing parameter named '+aN[0])};
+                        var s=aParams[i].getValue(); 
+                        var i=0;if(aPEs.length==0) 
+                            throw {description: 'No Proportion Errors defined!'}; 
+                        while(i<aPEs.length&&aPEs[i].name()!=aN[1])
+                            i++;
+                        if(i>=aPEs.length) 
+                            throw {description: ('Error: No existing observed Proportion Errors named '+aN[1])};
+                        var pe=aPEs[i].observed(); 
+                        if(aVRTs.length+aCVRTs.length==0) 
+                            return alert('No Variances defined!'); 
+                            
+                        // look up the variance to use (can be either a VRT or a CVRT)
+                        var i=0,j=0;
+                        while(i<aVRTs.length&&aVRTs[i].name()!=aN[2])
+                            i++;
+                        while(j<aCVRTs.length&&aCVRTs[j].name()!=aN[2])
+                            j++; 
+                        if(i>=aVRTs.length && j>=aCVRTs.length) 
+                            throw {description: ('Error: Non-existing observed variance named '+aN[2])};
+                        if(j>=aCVRTs.length)
+                            var vrt=aVRTs[i].observed();
+                        else
+                            var vrt=aCVRTs[j].observed(); 
+                            
+                        // find mean to use (can be either unused, an MRT, or a CMRT)
+                        var mrt=null;
+                        if(aN.length==4){
+                            if(aMRTs.length+aCMRTs.length==0) 
+                                throw {description: ('No Mean defined!')}; 
+                            var i=0, j=0;
+                            while(i<aMRTs.length&&aMRTs[i].name()!=aN[3])
+                                i++;
+                            while(j<aCMRTs.length&&aCMRTs[j].name()!=aN[3])
+                                j++;
+                            if(i>=aMRTs.length && j>=aCMRTs.length) 
+                                throw {description: ('Error: Non-existing observed variance named '+aN[3])};
+                            if(j>=aCMRTs.length)
+                                mrt=aMRTs[i].observed();
+                            else
+                                mrt=aCMRTs[j].observed();
+                        }; 
+                        var obj={'p':1-pe,'VRT':vrt,'MRT':mrt,'s':s};
+                        var obj2=Data2EZ(obj); 
+                        if(!obj2) 
+                            throw {description: 'Error: Data2EZ failed. This probably occurs because an input value was not specified properly and interpreted as 0. \nGo back to the model and check to see that all observed values have been specified.'}
+                        obj2['z'] = obj2['a']/2; 
+                        var cN=['v','z','a','Ter']; 
+                        for(var j=0;j<cN.length;j++) 
+                            for(var i=0;i<aParams.length;i++) 
+                                if(aParams[i].name==bN[j]) 
+                                    aParams[i].setValue(obj2[cN[j]]); 
+                    }; 
+                    updateAll(); 
+                    return true;
+                }
+                catch(e){
+                    updateAll();
+                    alert(e.description || e);
+                    return false;
+                }
+            }
+        $('EZinterface').prompt();
+    }
+    catch(e){
+        alert(e.description);
+    }
+}
+
+</script>
+
+
+<!-- //////////////////////         menu scripting    ////////////////////////// -->
+<script type="text/javascript">
+function switchPane(obj){ 
+    try{
+    var a = $('tabmenu').childNodes; 
+    for(var i=0; i<a.length; i++){
+        a[i].className = '';
+        if(a[i].style){
+            a[i].style.zIndex = '10';
+            var pane = $(a[i].innerHTML.replace(/\s/g,''));
+            if(pane){
+                pane.style.display = 'none';
+            }
+        }
+    }
+    obj.className = 'active'; 
+    var pane = $(obj.innerHTML.replace(/\s/g,''));
+    if(pane){
+        pane.style.display = 'block';
+    }
+    }
+    catch(e){ alert(e + '\n' + e.description); }
+}
+</script>
+
+
+<!-- //////////////////////        batch processing ////////////////////////// -->
+<script type="text/javascript">// --> data (batch)
+var paramSaveStack = new Array();
+function ParamSave(){
+    var currentVals = new Array();
+    for(var i=0;i<aParams.length;i++)
+        currentVals[aParams[i].name] = aParams[i].getValue();
+    paramSaveStack.push(currentVals);
+}
+function ParamRestore(){
+    var currentVals = paramSaveStack.pop();
+    for(var i=0;i<aParams.length;i++)
+        aParams[i].setValue(currentVals[aParams[i].name]);
+}
+
+function EZ2toData()
+{
+    var warnings = new Array(); // to accumulate warnings so that table processing continues uninterupted --> is especially necessary in Data2EZ2
+    $('batchwarningsconsole').innerHTML = ""; // clear warnings console
+    // save the current values of the parameters (that are defined as global variables
+    ParamSave();
+    // start processing
+    try{
+        var inpTA = $('batchInputTA');
+        var outTA = $('batchOutputTA');
+        inpTA.value = '';
+
+        // make hash table so that parameter values functions can be referenced by label names
+        var parVals = new Array();
+        for(var i=0;i<aParams.length;i++) parVals[aParams[i].name] = aParams[i]
+        
+        /*
+         // parse table
+         */
+        var tmp = outTA.value; 
+
+        // clean up the table to make sure its in a standard format of \t column separartors and \n line seperators
+        tmp = tmp.replace(/\v/g,"#V#");  // due to a bug, in Safari this replaces all v's (not \v's) by #V#
+        tmp = cleanUpTable(tmp); 
+        tmp = tmp.replace(/\#V\#/g,"v"); // restore possible occurences of #V# with a v (circumvent a bug in Safari)
+        tmp = tmp.replace(/\n\t/g,'\n'); // remove \t at start of a line (causes error)
+        tmp = tmp.replace(/\s+$/g,'');   // remove trailing whitespaces  (causes warning)
+        tmp = tmp.split(/\n/); 
+        var head = tmp.shift(), tail = tmp.join('\n');
+        var parNames = head.replace(/\t$/g,'').replace(/\s*\/\/.+$/g,'').split(/\t/g); // column names
+        var parRows = tail.replace(/\t\n$/g,'\n').split(/\n/g);  // rows containing the values
+
+        // check if the variable names are defined in the model, if not, issue only warnings that indicate which are not
+        for(var k=0; k<parNames.length; k++)
+            if(!window[parNames[k]]) // this parameter is undefined
+                warnings[warnings.length] = "the parameter " + parNames[k] + " is defined in the table, but not in the model";
+        
+        // cycle parameter values over all the rows of the table, computing the modeled values
+        var frmt = "#13s";
+        for(var i=0; i < aVRTs.length; i++)
+            inpTA.value += sprintf( frmt, aVRTs[i].name());
+        for(var i=0; i < aCVRTs.length; i++)
+            inpTA.value += sprintf( frmt, aCVRTs[i].name());
+        for(var i=0; i < aPEs.length; i++)
+            inpTA.value += sprintf( frmt, aPEs[i].name());
+        for(var i=0; i < aMRTs.length; i++)
+            inpTA.value += sprintf( frmt, aMRTs[i].name());
+        for(var i=0; i < aCMRTs.length; i++)
+            inpTA.value += sprintf( frmt, aCMRTs[i].name());
+        inpTA.value += '\n'
+
+        for(var j=0; j<parRows.length; j++){ 
+            if(parRows[j].match(/^\/\//||/^\s+$/)){ // allow commenting out rows with '//'
+                inpTA.value += parRows[j].replace(/\t/g,' ') + "\n";
+                continue;
+            }
+            var parValues = parRows[j].split(/\t/g); 
+            if(parValues.length < parNames.length){ // not testing parValues.length==parNames.length will allow commenting in the table
+                warnings[warnings.length] = "Row "+(j+1)+" does not specify enough parameter values! Skipping this one.";
+            }
+            // sets the model parameters to the values specified in this row
+            var tmpval = 0;
+            for(var k=0; k < parNames.length; k++){
+                if(typeof parVals[parNames[k]]=='undefined') continue; 
+                tmpval = parseFloat(parValues[k]); 
+                if(!isNaN(tmpval)) 
+                    parVals[parNames[k]].setValue(tmpval);                
+                else{
+                    warnings[warnings.length] = 'Parsed NaN in row '+(j+1)+', column '+(k+1);
+                    break;
+                }
+            }
+            if(isNaN(tmpval)){
+                inpTA.value += "// parsed NaN, skipped this case \n";
+                continue; // next case in table
+            }
+            
+            // comput the predicted values
+            var frmt = "#13.8f";
+            for(var i=0; i < aVRTs.length; i++)
+                inpTA.value += sprintf( frmt, aVRTs[i].predicted());
+            for(var i=0; i < aCVRTs.length; i++)
+                inpTA.value += sprintf( frmt, aCVRTs[i].predicted());
+            for(var i=0; i < aPEs.length; i++)
+                inpTA.value += sprintf( frmt, aPEs[i].predicted());
+            for(var i=0; i < aMRTs.length; i++)
+                inpTA.value += sprintf( frmt, aMRTs[i].predicted());
+            for(var i=0; i < aCMRTs.length; i++)
+                inpTA.value += sprintf( frmt, aCMRTs[i].predicted());
+            inpTA.value += '\n'; 
+        }
+        $('batchwarningsconsole').innerHTML = warnings.join("<br />");
+    }
+    catch(e){
+        $('batchwarningsconsole').innerHTML = warnings.join("<br />");
+        alert(e.description || e);
+    }
+    // restore the old parameter values
+    ParamRestore();
+}
+
+function sprintf(fmt)
+/** similar to the well known sprintf of C. valid patterns ar 
+//    '#5g', '#12.3f', '#10.4d', '#4d', '#10s', '#12.5s', etc.. 
+// (# is used instead of % due to special treatment of %12 etc in MSIE)
+*/
+{
+    var wsp = "                                                                                                     ";
+    var m = fmt.match(/(?!\\)#\d*(\.\d+)*(g|f|d|s)/g); // extract all valid patterns ('#5g', '#12.3f', '#10.4d', '#4d', '#10s', '#12.5s', etc.), # can be escaped with a backslash ('\%')
+    if(!m)
+        return fmt;
+    for(var i=1;i<m.length+1;i++){
+        var mm = m[i-1].match(/(\d*)(\.(\d+))*(g|f|d|s)/g);
+        var d1 = RegExp.$1 || 0, d2 = RegExp.$3 || 0, f = RegExp.$4;
+        var subs = '';
+        switch(f){
+            case 'g':
+                subs = (wsp + parseFloat(arguments[i]).toPrecision(Math.min(d1,d2))).slice(-Math.max(d1,d2));
+                break;
+            case 'f':
+                subs = (wsp + parseFloat(arguments[i]).toFixed(d2)).slice(-Math.max(d1,d2));
+                break;
+            case 'd':
+                subs = (wsp + arguments[i] + (d2?wsp.slice(-d2):'')).slice(-d1 || -arguments[i].toString().length);
+                break;
+            case 's':
+                subs = (wsp + arguments[i] + (d2?wsp.slice(-d2):'')).slice(-d1 || -arguments[i].toString().length);
+                break;
+        }
+        fmt = fmt.replace(new RegExp(m[i-1]), subs);
+    }
+    return fmt;
+}
+
+</script>
+
+
+<script type="text/javascript">// --> EZ2 (batch)
+var frmtHead = "#16s"
+var frmtBody = "#16.8f"
+
+function delayData2EZ2(){ /** this function is merely necesarry to let MSIE display the 'running screen' */
+    Data2EZ2();
+}
+function Data2EZ2()
+/** input: none
+// output: none
+// sideeffect: the equations of specified model is sequentially solved for the paramters with the table of 
+// observed values, the estimates are displayed in the textarea 'batchOutputTA' (i.e., 'batchOutputTA' is 
+// _assumed_ to be a textarea!)
+*/
+{
+    var warnings = new Array();                 // to accumulate warnings so that table processing continues uninterupted 
+    $('batchwarningsconsole').innerHTML = "";   // clear warnings console
+
+    try{
+        // some formating patterns
+        var frmth = frmtHead /* header of output table */, frmtb = frmtBody /* body of output table */;
+
+        var inpTA = $('batchInputTA');
+        var outTA = $('batchOutputTA');
+
+        // make hash table so that parameter values functions can be referenced by label names
+        var parVals = new Array();
+        for(var i=0;i<aParams.length;i++) if(!aParams[i].isFixed()) parVals[aParams[i].name] = aParams[i]
+        // make hash table so that predicted values functions can be referenced by label names
+        var obsVals = new Array();
+        for(var i=0;i<aVRTs.length;i++) obsVals[aVRTs[i].name()] = aVRTs[i]
+        for(var i=0;i<aCVRTs.length;i++) obsVals[aCVRTs[i].name()] = aCVRTs[i]
+        for(var i=0;i<aPEs.length;i++) obsVals[aPEs[i].name()] = aPEs[i]
+        for(var i=0;i<aMRTs.length;i++) obsVals[aMRTs[i].name()] = aMRTs[i]
+        for(var i=0;i<aCMRTs.length;i++) obsVals[aCMRTs[i].name()] = aCMRTs[i]
+
+        /*
+         // parse starting values table
+         */
+        var tmp = outTA.value;
+
+        // clean up the table to make sure its in a standard format of \t column separartors and \n line seperators
+        tmp = tmp.replace(/\v/g,"#V#");  // due to a bug, in Safari this replaces all v's (not \v's) by #V#
+        tmp = cleanUpTable(tmp); 
+        tmp = tmp.replace(/\#V\#/g,"v"); // restore possible occurences of #V# with a v (circumvent a bug in Safari)
+        tmp = tmp.replace(/\n\t(\/\/\t)?/g,'\n'); // remove \t at start of a line (causes error)
+        tmp = tmp.replace(/\s+$/g,'');            // remove trailing whitespaces  (causes warning)
+        tmp = tmp.split(/\n/); 
+        var head = tmp.shift(), tail = tmp.join('\n');
+        var parNames = head.replace(/\t$/g,'').split(/\t/g);     // column names
+        var parRows = tail.replace(/\t\n$/g,'\n').split(/\n/g);  // rows containing the values
+        // check if the variable names are defined in the model, if not, issue only warnings that indicate which are not
+        for(var k=0; k<parNames.length; k++)
+            if(!parVals[parNames[k]]) // this parameter is undefined
+                warnings[warnings.length] = "the parameter " + parNames[k] + " is defined in the table, but not defined or fixed in the model";
+
+        outTA.value = ""; // clear the given starting values
+
+        /*
+         //  parse observed values table
+         */
+        var tmp = inpTA.value;
+        // clean up the table to make sure its in a standard format of \t column separartors and \n line seperators
+        tmp = cleanUpTable(tmp);
+        tmp = tmp.replace(/\n\t/g,'\n'); // remove \t at start of a line (causes error)
+        tmp = tmp.replace(/\s+$/g,'');   // remove trailing whitespaces  (causes warning)
+        tmp = tmp.split(/\n/); 
+        var head = tmp.shift(), tail = tmp.join('\n');
+        var obsNames = head.replace(/\t$/g,'').split(/\t/g);     // column names
+        var obsRows = tail.replace(/\t\n$/g,'\n').split(/\n/g);  // rows containing the observed values
+
+        // check if the observed values labels are defined in the model, if not, issue only warnings that indicate which are not
+        for(var k=0; k<obsNames.length; k++)
+            if(!obsVals[obsNames[k]]) // this parameter is undefined
+                warnings[warnings.length] = "the observed values label " + obsNames[k] + " is defined in the table, but not in the model";
+
+        /*
+         // cycle over all the cases in the table, solving for the parameters in the model equations with each 
+         */
+
+        // write out the table header
+        for(var i=0; i < aParams.length; i++)
+            if(!aParams[i].isFixed()) outTA.value += sprintf( frmth, aParams[i].name);
+        // outTA.value += sprintf( "    //  #15s #15s ", "Discrepancy", "iterations");
+        outTA.value += '\n'
+        
+        // process each case in the table
+        for(var j=0; j<obsRows.length; j++){ 
+
+            // skip out commented rows
+            if(obsRows[j].match(/^\/\//||/^\s+$/)){ // allow commenting out rows with '//'
+                // inpTA.value += obsRows[j].replace(/\t/g,' ') + "\n";
+                outTA.value += "//" + parRows[j].replace(/\t/g,' ').replace(/^\s*\/\//,'') + "\n";
+                continue;
+            }
+
+            /* 
+             // sets the model parameters to the starting values specified in this row
+             */
+            var parValues = (parRows[j] ? parRows[j].split(/\t/g) : ""); 
+            var tmpval = 0;
+            ParamSave(); // store the current parameter values
+            for(var k=0; k < parNames.length; k++){
+                if(typeof parVals[parNames[k]]=='undefined') continue; 
+                tmpval = parseFloat(parValues[k]); 
+                if(!isNaN(tmpval)) 
+                    parVals[parNames[k]].setValue(tmpval);                
+                else{
+                    // warnings[warnings.length] = 'Parsed NaN in row '+(j+1)+', column '+(k+1)+' of parameter table';
+                    break;
+                }
+            }
+            if(isNaN(tmpval)){
+                ParamRestore(); // use same starting values as the previous case
+            }
+            else{
+                // ParamSave stores previous starting values in this global, they have to removed by hand if not restored
+                paramSaveStack.pop(); 
+            }
+
+            /*
+              // sets the Predicted-Observed Pairs values to the values specified in this row
+              */
+            var obsValues = obsRows[j].split(/\t/g); 
+            var tmpval = 0;
+            for(var k=0; k < obsNames.length; k++){ // k start at 1 because the first element is always empty (?)
+                if(typeof obsVals[obsNames[k]]=='undefined') continue; // undefined observed values cannot be set...
+                tmpval = parseFloat(obsValues[k])
+                if(!isNaN(tmpval))
+                    obsVals[obsNames[k]].setObserved(tmpval);
+                else{ 
+                    warnings[warnings.length] = '"'+obsValues[k].replace(/\t/g,'\\t').replace(/\n/g,'\\n')+'" parsed to NaN in row '+(j+1)+', column '+(k+1);
+                    break;
+                }
+            }
+            if(isNaN(tmpval)){ // parameters cannot be estimated for this row
+                outTA.value += '// NaN parsed for this case, skipping this case \n'
+                continue; // continue to next row in loop over table rows
+            }
+
+            /*
+              // solve for the parameters in the model equations with the observed values in this row
+              */
+            solver(true /* accept solution automatically */);
+            
+            for(var i=0; i < aParams.length; i++)
+                if(!aParams[i].isFixed()) outTA.value += sprintf( frmtb, aParams[i].getValue());
+            outTA.value += sprintf( "    //  #15.8g #15d ", parseFloat($('objf_val').value), theLastSolver.funevals());
+            outTA.value += '\n'; 
+        }
+        $('batchwarningsconsole').innerHTML = warnings.join("<br />");
+    }
+    catch(e){
+        $('batchwarningsconsole').innerHTML = warnings.join("<br />");
+        alert(e.description || e);
+    }
+    HideRunning(); // how ugly... (Data2EZ2 is called with setTimeout to let ShowRunning take effect)
+}
+
+</script>
+
+<script type="text/javascript"> // --> EZ (batch)
+function Data2EZbatch()
+/** input: none
+// output: none
+// sideeffect: the EZ-estimates are calculated and displayed in the textarea 'batchOutputTA' (i.e., 'batchOutputTA' 
+// is *assumed* to be a textarea!)
+*/
+{
+    var warnings = new Array();                 // to accumulate warnings so that table processing continues uninterupted 
+    $('batchwarningsconsole').innerHTML = "";   // clear warnings console
+
+    try{
+        var inpTA = $('batchInputTA');
+        var outTA = $('batchOutputTA');
+        
+        // Check if input and output identities for EZ estimates have been set, and obtain the callback function for computation without dialog
+        if(!$('EZinterface').modelSet){
+            EZstart();
+            throw {description: 'EZ-start requires specification. Please specify first, then try again.'}
+        }
+        var EZcallback = $('EZinterface').callBack; // function called by EZinterface to set Params to EZ-estimates  
+        
+        // make hash table so that parameter values functions can be referenced by label names
+        var parVals = new Array();
+        for(var i=0;i<aParams.length;i++) parVals[aParams[i].name] = aParams[i]
+        // make hash table so that predicted values functions can be referenced by label names
+        var obsVals = new Array();
+        for(var i=0;i<aVRTs.length;i++) obsVals[aVRTs[i].name()] = aVRTs[i]
+        for(var i=0;i<aCVRTs.length;i++) obsVals[aCVRTs[i].name()] = aCVRTs[i]
+        for(var i=0;i<aPEs.length;i++) obsVals[aPEs[i].name()] = aPEs[i]
+        for(var i=0;i<aMRTs.length;i++) obsVals[aMRTs[i].name()] = aMRTs[i]
+        for(var i=0;i<aCMRTs.length;i++) obsVals[aCMRTs[i].name()] = aCMRTs[i]
+
+        /*
+         // parse starting values table
+         */
+        var tmp = outTA.value;
+
+        // clean up the table to make sure its in a standard format of \t column separartors and \n line seperators
+        tmp = tmp.replace(/\v/g,"#V#");  // due to a bug, in Safari this replaces all v's (not \v's) by #V#
+        tmp = cleanUpTable(tmp); 
+        tmp = tmp.replace(/\#V\#/g,"v"); // restore possible occurences of #V# with a v (circumvent a bug in Safari)
+        tmp = tmp.replace(/\n\t/g,'\n'); // remove \t at start of a line (causes error)
+        tmp = tmp.replace(/\s+$/g,'');   // remove trailing whitespaces  (causes warning)
+        tmp = tmp.split(/\n/); 
+        var head = tmp.shift(), tail = tmp.join('\n');
+        var parNames = head.replace(/\t$/g,'').split(/\t/g);     // column names
+        var parRows = tail.replace(/\t\n$/g,'\n').split(/\n/g);  // rows containing the values
+
+        // check if the variable names are defined in the model, if not, issue only warnings that indicate which are not
+        // ||dit moet adh van aParams, niet adh van window||
+        for(var k=0; k<parNames.length; k++)
+            if(!window[parNames[k]]) // this parameter is undefined
+                warnings[warnings.length] = "the parameter " + parNames[k] + " is defined in the table, but not in the model";
+
+        outTA.value = ""; // clear the given starting values
+
+        /*
+         //  parse observed values table
+         */
+        var tmp = inpTA.value;
+        // clean up the table to make sure its in a standard format of \t column separartors and \n line seperators
+        tmp = cleanUpTable(tmp);
+        tmp = tmp.replace(/\n\t/g,'\n'); // remove \t at start of a line (causes error)
+        tmp = tmp.replace(/\s+$/g,'');   // remove trailing whitespaces  (causes warning)
+        tmp = tmp.split(/\n/); 
+        var head = tmp.shift(), tail = tmp.join('\n');
+        var obsNames = head.replace(/\t$/g,'').split(/\t/g);     // column names
+        var obsRows = tail.replace(/\t\n$/g,'\n').split(/\n/g);  // rows containing the observed values
+
+        // check if the observed values labels are defined in the model, if not, issue only warnings that indicate which are not
+        for(var k=0; k<obsNames.length; k++)
+            if(!obsVals[obsNames[k]]) // this parameter is undefined
+                warnings[warnings.length] = "the observed values label " + obsNames[k] + " is defined in the table, but not in the model";
+
+        /*
+         // cycle over all the cases in the table, solving for the parameters in the model equations with each 
+         */
+
+        // write out the table header
+        var frmt = frmtHead /* output table header format */;
+        for(var i=0; i < aParams.length; i++)
+            outTA.value += sprintf( frmt, aParams[i].name);
+        outTA.value += '\n'
+        
+        // process each case in the table
+        for(var j=0; j<obsRows.length; j++){ 
+
+            // skip out commented rows
+            if(obsRows[j].match(/^\/\//||/^\s+$/)){ // allow commenting out rows with '//'
+                outTA.value += "//" + parRows[j].replace(/\t/g,' ').replace(/^\/\//,'') + "\n";
+                continue;
+            }
+
+            /*
+              // sets the Predicted-Observed Pairs values to the values specified in this row
+              */
+            var obsValues = obsRows[j].split(/\t/g); 
+            var tmpval = 0;
+            for(var k=0; k < obsNames.length; k++){ // k start at 1 because the first element is always empty (?)
+                if(typeof obsVals[obsNames[k]]=='undefined') continue; // undefined observed values cannot be set...
+                tmpval = parseFloat(obsValues[k])
+                if(!isNaN(tmpval))
+                    obsVals[obsNames[k]].setObserved(tmpval);
+                else{ 
+                    warnings[warnings.length] = '"'+obsValues[k].replace(/\t/g,'\\t').replace(/\n/g,'\\n')+'" parsed to NaN in row '+(j+1)+', column '+(k+1);
+                    break;
+                }
+            }
+            if(isNaN(tmpval)){ // parameters cannot be estimated for this row
+                outTA.value += '// NaN parsed for this case, skipping this case \n'
+                continue; // continue to next row in loop over table rows
+            }
+
+            /*
+              // solve for the parameters in the model equations with the observed values in this row
+              */
+            EZcallback() /* set Params to EZ-estimates */;
+            
+            var frmt = frmtBody /* table out format */;
+            for(var i=0; i < aParams.length; i++)
+                outTA.value += sprintf( frmt, aParams[i].getValue());
+            outTA.value += '\n'; 
+        }
+        $('batchwarningsconsole').innerHTML = warnings.join("<br />");
+    }
+    catch(e){
+        $('batchwarningsconsole').innerHTML = warnings.join("<br />");
+        alert(e.description || e);
+    }
+}
+</script>
+
+<!-- /////////////////////  text table minipulation library ////////////////// -->
+<script type="text/javascript" src="tablemanip.js"></script>
+
+<!-- ///////////////////// DemoAdvice() ///////////////////////////  ===============depricated================   -->
+<!-- script type="text/javascript">
+var demoAdviceShown = false;
+function DemoAdvice(callBack){
+    try{
+        var msg = "<div>You are strongly adviced to press the help button to see a short demo before you use this application.";
+        msg += "<br /><br />Continue anyway?</div><div style=\"text-align:right;font-size:70%;\"><label for='dontshowagain'>don't ";
+        msg += "show this message again&nbsp;&nbsp;<input type='checkbox' id='dontshowagain' name='dontshowagain' ";
+        msg += "onchange='SetCookie(\"demo_encourage\",this.value);' /></label></div>"
+        if(GetCookie('demo_encourage')!='true' && !demoAdviceShown)
+            MsgBox(msg,function(but){demoAdviceShown=true;if(but=='OK') callBack(); /* next call to DemoAdvice returns true, thereafter show again */});
+        else
+            return true;
+    }
+    catch(e){
+        alert(e.description || e);
+    }
+}
+</script -->
+
+</head>
+
+<body onload="loadSaved();">
+
+
+<ul id="tabmenu" class="menu">
+    <li class="active" onclick="switchPane(this);">model</li>
+    <li class="inactive" onclick="switchPane(this);">batch</li>
+</ul>
+
+
+<!-- ============== Optimization Running Screen ================== -->  
+<div id="running" style="position:absolute;top:0px;left:0px;width:100%;height:100%;visibility: hidden;z-index:1000;">
+<div style="border: 2px solid black; position:absolute;left:1.25%;top:1.25%;width:97.5%;height:92.5%;z-index:910;background-color:blue;filter:alpha(opacity=20);opacity: .2; -moz-opacity: .2;" ></div>
+<img id="runindicator" onclick="HideRunning();" src="pie_32.gif" style="position:absolute;left:48%;top:48%;z-index:950;filter:alpha(opacity=100);opacity: 1; -moz-opacity: 1;"/>
+</div>
+
+<!--a href="http://users.fmg.uva.nl/rgrasman" class="POPctrlBut">Home</a-->
+
+<table id="menuBar" border=0 cellspacing="0" cellpadding="0"><!-- menu bar -->
+	<tr>
+		<td class="menu-button-group">
+			<input type=text value='' id='objf_val' disabled="true" size="20" />
+			<button id='objf_val_button' class="menuButton"
+			onclick='var X=new Array(), j=0; for(var i=0;i<aParams.length;i++) if(!aParams[i].isFixed()) X[j++] = aParams[i].getValue(); $("objf_val").value = sprintf("#19.12g",objf(X));' >Discrepancy</button>
+		</td>
+		<td class="menu-button-group">
+			<button id='EZ_start_button' class="menuButton"
+			onclick="EZstart();" >EZ start</button>
+			<button id='Solve_button' onclick='ShowRunning();setTimeout(solver,10);' class="menuButton">Solve</button>
+		</td>
+		<td class="menu-button-group">
+			<button onclick="saveCurrent();" class="menuButton">Save in Cookie</button>
+			<button onclick="LetMeSaveMyModel();" class="menuButton">Save in File</button>
+			<button onclick="LetMeLoadMyModel();" class="menuButton">Load from File</button>
+			<button onclick="clearModel();window.location=window.location;" class="menuButton">Clear</button>
+		</td>
+        <td class="menu-button-group">
+            <select onchange="setModel(this.options[this.selectedIndex].value);">
+                <option disabled="disabled" selected="selected">
+                    Predefined models
+                </option>
+                <option value="testcookie=EZtestvalue; EZStartInput=s%2CPe0%2CcVRT0; EZStartOutput=v0%2Cz%2Ca; root; aParams=%20%5B%7B%20name%3A%22v0%22%2Cvalue%3A0.1%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22v1%22%2Cvalue%3A0.2%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22z%22%2Cvalue%3A0.07%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22a%22%2Cvalue%3A0.08%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22s%22%2Cvalue%3A0.1%2Cfixed%3Atrue%7D%5D; aVRTs=%20%5B%5D; aCVRTs=%20%5B%7Btitle%3A%22cVRT%3Csub%3E0%3C/sub%3E%22%2CpredFunc%3A%22CVRT%22%2CpredFuncArgs%3A%7Bv%3A%22v0%22%2Cz%3A%22z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%2C%7Btitle%3A%22cVRT%3Csub%3E1%3C/sub%3E%22%2CpredFunc%3A%22CVRT%22%2CpredFuncArgs%3A%7Bv%3A%22v1%22%2Cz%3A%22a-z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%5D; aPEs=%20%5B%7Btitle%3A%22Pe%3Csub%3E0%3C/sub%3E%22%2CpredFunc%3A%22PE%22%2CpredFuncArgs%3A%7Bv%3A%22v0%22%2Cz%3A%22z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%2C%7Btitle%3A%22Pe%3Csub%3E1%3C/sub%3E%22%2CpredFunc%3A%22PE%22%2CpredFuncArgs%3A%7Bv%3A%22v1%22%2Cz%3A%22a-z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%5D; aMRTs=%20%5B%5D; aCMRTs=%20%5B%5D; ">
+                    Lexical decision correct responses without means
+                </option>
+                <option value="testcookie=EZtestvalue; EZStartInput=s%2CPe0%2CcVRT0; EZStartOutput=v0%2Cz%2Ca; root; aParams=%20%5B%7B%20name%3A%22v0%22%2Cvalue%3A0.1%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22v1%22%2Cvalue%3A0.2%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22z%22%2Cvalue%3A0.07%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22a%22%2Cvalue%3A0.08%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22s%22%2Cvalue%3A0.1%2Cfixed%3Atrue%7D%2C%7B%20name%3A%22Ter%22%2Cvalue%3A0.3%2Cfixed%3Afalse%7D%5D; aVRTs=%20%5B%5D; aCVRTs=%20%5B%7Btitle%3A%22cVRT%3Csub%3E0%3C/sub%3E%22%2CpredFunc%3A%22CVRT%22%2CpredFuncArgs%3A%7Bv%3A%22v0%22%2Cz%3A%22z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%2C%7Btitle%3A%22cVRT%3Csub%3E1%3C/sub%3E%22%2CpredFunc%3A%22CVRT%22%2CpredFuncArgs%3A%7Bv%3A%22v1%22%2Cz%3A%22a-z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%5D; aPEs=%20%5B%7Btitle%3A%22Pe%3Csub%3E0%3C/sub%3E%22%2CpredFunc%3A%22PE%22%2CpredFuncArgs%3A%7Bv%3A%22v0%22%2Cz%3A%22z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%2C%7Btitle%3A%22Pe%3Csub%3E1%3C/sub%3E%22%2CpredFunc%3A%22PE%22%2CpredFuncArgs%3A%7Bv%3A%22v1%22%2Cz%3A%22a-z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%5D; aMRTs=%20%5B%5D; aCMRTs=%20%5B%7Btitle%3A%22cMRT%3Csub%3E0%3C/sub%3E%22%2CpredFunc%3A%22CMRT%22%2CpredFuncArgs%3A%7Bv%3A%22v0%22%2Cz%3A%22z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%2CTer%3A%22Ter%22%7D%7D%2C%7Btitle%3A%22cMRT%3Csub%3E1%3C/sub%3E%22%2CpredFunc%3A%22CMRT%22%2CpredFuncArgs%3A%7Bv%3A%22v1%22%2Cz%3A%22a-z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%2CTer%3A%22Ter%22%7D%7D%5D; ">
+                    Lexical decision correct responses with means
+                </option>
+                <option value="testcookie=EZtestvalue; EZStartInput=s%2CPe0%2CVRT0; EZStartOutput=v0%2Cz%2Ca; root; aParams=%20%5B%7B%20name%3A%22v0%22%2Cvalue%3A0.1%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22v1%22%2Cvalue%3A0.2%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22z%22%2Cvalue%3A0.07%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22a%22%2Cvalue%3A0.08%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22s%22%2Cvalue%3A0.1%2Cfixed%3Atrue%7D%5D; aVRTs=%20%5B%7Btitle%3A%22VRT%3Csub%3E0%3C/sub%3E%22%2CpredFunc%3A%22VRT%22%2CpredFuncArgs%3A%7Bv%3A%22v0%22%2Cz%3A%22z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%2C%7Btitle%3A%22VRT%3Csub%3E1%3C/sub%3E%22%2CpredFunc%3A%22VRT%22%2CpredFuncArgs%3A%7Bv%3A%22v1%22%2Cz%3A%22a-z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%5D; aCVRTs=%20%5B%5D; aPEs=%20%5B%7Btitle%3A%22Pe%3Csub%3E0%3C/sub%3E%22%2CpredFunc%3A%22PE%22%2CpredFuncArgs%3A%7Bv%3A%22v0%22%2Cz%3A%22z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%2C%7Btitle%3A%22Pe%3Csub%3E1%3C/sub%3E%22%2CpredFunc%3A%22PE%22%2CpredFuncArgs%3A%7Bv%3A%22v1%22%2Cz%3A%22a-z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%5D; aMRTs=%20%5B%5D; aCMRTs=%20%5B%5D; root">
+                    Lexical decision all responses without means
+                </option>
+                <option value="testcookie=EZtestvalue; EZStartInput=s%2CPe0%2CVRT0; EZStartOutput=v0%2Cz%2Ca; root; aParams=%20%5B%7B%20name%3A%22v0%22%2Cvalue%3A0.1%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22v1%22%2Cvalue%3A0.2%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22z%22%2Cvalue%3A0.07%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22a%22%2Cvalue%3A0.08%2Cfixed%3Afalse%7D%2C%7B%20name%3A%22s%22%2Cvalue%3A0.1%2Cfixed%3Atrue%7D%2C%7B%20name%3A%22Ter%22%2Cvalue%3A0.3%2Cfixed%3Afalse%7D%5D; aVRTs=%20%5B%7Btitle%3A%22VRT%3Csub%3E0%3C/sub%3E%22%2CpredFunc%3A%22VRT%22%2CpredFuncArgs%3A%7Bv%3A%22v0%22%2Cz%3A%22z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%2C%7Btitle%3A%22VRT%3Csub%3E1%3C/sub%3E%22%2CpredFunc%3A%22VRT%22%2CpredFuncArgs%3A%7Bv%3A%22v1%22%2Cz%3A%22a-z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%5D; aCVRTs=%20%5B%5D; aPEs=%20%5B%7Btitle%3A%22Pe%3Csub%3E0%3C/sub%3E%22%2CpredFunc%3A%22PE%22%2CpredFuncArgs%3A%7Bv%3A%22v0%22%2Cz%3A%22z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%2C%7Btitle%3A%22Pe%3Csub%3E1%3C/sub%3E%22%2CpredFunc%3A%22PE%22%2CpredFuncArgs%3A%7Bv%3A%22v1%22%2Cz%3A%22a-z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%7D%7D%5D; aMRTs=%20%5B%7Btitle%3A%22MRT%3Csub%3E0%3C/sub%3E%22%2CpredFunc%3A%22MRT%22%2CpredFuncArgs%3A%7Bv%3A%22v0%22%2Cz%3A%22z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%2CTer%3A%22Ter%22%7D%7D%2C%7Btitle%3A%22MRT%3Csub%3E1%3C/sub%3E%22%2CpredFunc%3A%22MRT%22%2CpredFuncArgs%3A%7Bv%3A%22v1%22%2Cz%3A%22a-z%22%2Ca%3A%22a%22%2Cs%3A%22s%22%2CTer%3A%22Ter%22%7D%7D%5D; aCMRTs=%20%5B%5D; root">
+                    Lexical decision all responses with means
+                </option>
+            </select>
+        </td>
+		<td>
+			<button onclick='window.location="http://screencast.com/t/8pVYIxxbkg"/*"http://users.fmg.uva.nl/rgrasman/uploaded_files/EZ2example.swf.html"*/' class="menuButton">Help</button>
+			<button class="menuButton" onclick='window.location="http://raoul.socsci.uva.nl/EZ2"' title='R package, Excel, paper'>R/Excel</a>
+		</td>
+	</tr>
+</table>
+
+<!--
+<table id="Params1">
+<tr>
+	<td><button onclick="var theName = prompt('Please provide a name','m'+aParams.length); if(theName==null) return false; aParams[aParams.length] = new Param($('Params').rows[0].cells[aParams.length+1],theName,theParamsChooser);theParamsChooser.update(); ">add parameter</button>
+	<td><td><td><td><td><td><td><td><td><td><td><td><td><td><td><td><td><td width="100%">
+</table>
+-->
+
+<div id="model">
+    <table id="POPs" border="0">
+    <tr> <!-- emply table row for spacing -->
+    <!--
+    	<td> </td>
+    	<td> &nbsp; </td>
+    	<td> &nbsp; </td>
+    	<td> &nbsp; </td>
+    	<td width="100%"> </td>
+    -->
+    </tr>
+    <tr id="POPparams" valign=top> <!-- parameters table row-->
+    	<td>
+    		<button id="addParam" class="POPctrlBut" onclick="var theName = prompt('Please provide a name','v'+aParams.length); if(theName==null) return false; var parentElem = tableCell($('Params'),aParams.length+1); parentElem.onblur = updateAll; var curlen = aParams.length; aParams[aParams.length] = new Param(parentElem,theName,theParamsChooser,myDiscardCallback); if(aParams[curlen].invalid) aParams.pop(); ">add parameter</button>
+    	</td>
+    	<td id="tdParams" colspan="6">
+    		<fieldset class="POPfieldset">
+    		<legend class="POPairLegend"><a class="POPctrlBut" href=# onclick="$('POPctrlBut').click();return false;" title="Add a parameter to the model" style="width:6em;">Parameters</a></legend>
+    		<table id="Params" onblur="updateAll()">
+    		<tr>
+    			<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    			<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    			<td width="100%"></td>
+    		</tr>
+    		</table>
+    		</fieldset>
+    	</td>
+    </tr>
+    <tr valign=top> <!-- table row for Predicted Observed value Pairs -->
+    	<td id="POPcontrol"> <!-- td for buttons -->
+    	    <button id="copyAll" class="POPctrlBut" style="background-color: cornsilk;" title="click to automatically copy all predicted values to the observed values fields" onclick="var a=[aVRTs,aCVRTs,aPEs,aMRTs,aCMRTs]; for(var i in a) for(var j in a[i]) if(a[i][j].copy) a[i][j].copy();">&copy; all</button>
+    	    <div class="POPctrlBut"></div>
+    		<button id="addVRTbut"  class="POPctrlBut" onclick="aVRTs[aVRTs.length]  = new PredObsPair('VRT', {v:'',z:'',a:'',s:''},tableCell($('POPairsVRT'), aVRTs.length),'VRT<sub>'+aVRTs.length+'</sub>',theParamsChooser,myDiscardCallback);">add VRT</button>
+    		<button id="addCVRTbut" class="POPctrlBut" onclick="aCVRTs[aCVRTs.length] = new PredObsPair('CVRT',{v:'',z:'',a:'',s:''},tableCell($('POPairsCVRT'), aCVRTs.length),'cVRT<sub>'+aCVRTs.length+'</sub>',theParamsChooser,myDiscardCallback);">add cVRT</button>
+    		<button id="addPEbut"   class="POPctrlBut" onclick="aPEs[aPEs.length]    = new PredObsPair('PE',  {v:'',z:'',a:'',s:''},tableCell($('POPairsPE'), aPEs.length),'Pe<sub>'+aPEs.length+'</sub>',theParamsChooser,myDiscardCallback);">add Pe</button>
+    		<button id="addMRTbut"  class="POPctrlBut" onclick="aMRTs[aMRTs.length]  = new PredObsPair('MRT', {v:'',z:'',a:'',s:'',Ter:''}, tableCell($('POPairsMRT'), aMRTs.length),'MRT<sub>'+aMRTs.length+'</sub>',theParamsChooser,myDiscardCallback);">add MRT</button>
+    		<button id="addCMRTbut" class="POPctrlBut" onclick="aCMRTs[aCMRTs.length] = new PredObsPair('CMRT',{v:'',z:'',a:'',s:'',Ter:''}, tableCell($('POPairsCMRT'), aCMRTs.length),'cMRT<sub>'+aCMRTs.length+'</sub>',theParamsChooser,myDiscardCallback);">add cMRT</button>
+    	 </td>
+    	<td id="tdPOPairsVRT">
+    		<fieldset class="POPfieldset">
+    		<legend class="POPairLegend"><a class="POPctrlBut" href=# onclick="$('addVRTbut').click();return false;" title="Add an observed variance equation to the model" style="width:8em;">Variance all RTs</a></legend>
+    		<table id="POPairsVRT">
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    		</table>
+    		</fieldset>
+    	</td>
+    	<td id="tdPOPairsCVRT">
+    		<fieldset class="POPfieldset">
+    		<legend class="POPairLegend"><a class="POPctrlBut" href=# onclick="$('addCVRTbut').click();return false;" title="Add an observed variance equation to the model" style="width:10em;">Variance correct RTs</a></legend>
+    		<table id="POPairsCVRT">
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    		</table>
+    		</fieldset>
+    	</td>
+    	<td id="tdPOPairsPE">
+    		<fieldset class="POPfieldset">
+    		<legend  class="POPairLegend"><a class="POPctrlBut" href=# onclick="$('addPEbut').click();return false;" title="Add an observed proportion-of-errors equation to the model" style="width:8em;">Proportion Errors</a></legend>
+    		<table id="POPairsPE">
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    		</table>
+    		</fieldset>
+    	</td>
+    	<td id="tdPOPairsMRT">
+    		<fieldset class="POPfieldset">
+    		<legend  class="POPairLegend"><a class="POPctrlBut" href=# onclick="$('addMRTbut').click();return false;" title="Add an observed mean equation to the model" style="width:6em;">Mean all RTs</a></legend>
+    		<table id="POPairsMRT">
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    		</table>
+    		</fieldset>
+    	</td>
+    	<td id="tdPOPairsCMRT">
+    		<fieldset class="POPfieldset">
+    		<legend  class="POPairLegend"><a class="POPctrlBut" href=# onclick="$('addCMRTbut').click();return false;" title="Add an observed mean equation to the model" style="width:9em;">Mean correct RTs</a></legend>
+    		<table id="POPairsCMRT">
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    			<tr><td> </td><td> </td></tr>
+    		</table>
+    		</fieldset>
+    	</td>
+    </tr>
+    </table>
+</div>
+
+<div id="batch">
+
+    <p>Paste a table of means, variances and proportions of errors in the left field below, and a set of starting
+       values in the right field below. Click the <button style="height:20px">&rarr;EZ2</button> button
+       to sequentially fit the specified model to each of the rows. Each row corresponds to a single subject. 
+       Specify the names of the columns in accordance with the names used in the model.</p>
+    <div id="batchInputDiv">
+        <textarea id="batchInputTA"  wrap="off"> </textarea>
+    </div>
+    <div id="batchButtons">
+        <button class="batchbutton" onclick="try{Data2EZbatch(); } catch(e){ alert(e.description || e); }">&rarr; EZ-start</button><br/>
+        <button class="batchbutton" onclick="try{ShowRunning(); setTimeout(delayData2EZ2,10); } catch(e){ HideRunning(); }">&rarr; EZ2</button><br/>
+        <button class="batchbutton" onclick="EZ2toData()">data&larr; </button>
+    </div>        
+    <div id="batchOutputDiv">
+        <textarea id="batchOutputTA" wrap="off">v0  v1  z  a
+.1 .2 .01 .08
+.1 .2 .02 .08
+        </textarea>
+    </div>
+    <div id="batchwarningsconsole">
+    </div>
+
+</div>
+
+
+<div id='console'></div>
+
+<script>
+var aVRTs  = new Array();
+var aCVRTs = new Array();
+var aPEs   = new Array();
+var aMRTs  = new Array();
+var aCMRTs = new Array();
+var aParams = new Array();
+theParamsChooser=new ParamsChooser(aParams);
+var allArrays = {"aParams":'Params',"aVRTs":'POPairsVRT',"aCVRTs":'POPairsCVRT',"aPEs":'POPairsPE',"aMRTs":'POPairsMRT',"aCMRTs":'POPairsCMRT'}
+</script>
+
+<script>
+function updateAll(){
+	for(var aN in allArrays)
+		for(var i=0;i<window[aN].length;i++)
+			if(window[aN][i].update) window[aN][i].update();
+	$('objf_val_button').click();
+}
+</script>
+
+<!-- /////////////////////// utility functions ////////////////-->
+<script>
+function tableCell(table, cellIndex){
+	var rl = table.rows[0].cells.length;
+	var nr = table.rows.length; 
+	if(rl*nr<=cellIndex){
+		var newRow = table.insertRow(-1); 
+		for(var i=0;i<rl;i++)
+			newRow.insertCell(-1);
+		rl = table.rows[0].cells.length;
+	}
+	return table.rows[Math.floor( cellIndex / rl )].cells[cellIndex % rl];
+}
+</script>
+
+
+<!--//////////////////////// Saving and loading //////////////////////////////-->
+<script>
+function clearModel(){
+	if(!confirm("This action will clear the currently saved model entirely. \nDo you realy want this?\n\n(If you just want to go back to the previously stored model click 'Cancel' and simply reload the page.)"))
+		return false;
+	var allArrays = {"aParams":'Params',"aVRTs":'POPairsVRT',"aCVRTs":'POPairsCVRT',"aPEs":'POPairsPE',"aMRTs":'POPairsMRT',"aCMRTs":'POPairsCMRT'}
+	for(var aN in allArrays)
+		DelCookie(aN)
+	document.location = document.location;
+}
+
+function clearArray(aName){
+	if(!confirm("This action will all elements of this section. \nDo you realy want this?\n\n(If you just want to go back to the previously stored model click 'Cancel' and simply reload the page.)"))
+		return false;
+	DelCookie(aName);
+	document.location = document.location;
+}
+
+function saveCurrent(toFile){
+	// test whether cookies are enabled
+	if(!toFile) {
+		SetCookie("testcookie","EZtestvalue");
+		if(GetCookie("testcookie")!="EZtestvalue")
+			return alert("This function only works when cookies are enabled. Please set your browser to accept cookies.");
+	}
+	var allArrays = {"aParams":'Params',"aVRTs":'POPairsVRT',"aCVRTs":'POPairsCVRT',"aPEs":'POPairsPE',"aMRTs":'POPairsMRT',"aCMRTs":'POPairsCMRT'}
+	var theModel = "{"
+	for(var aN in allArrays){
+		var tmp = " ["
+		for(var i=0;i<window[aN].length;i++)
+			tmp += window[aN][i].toJSON() + ",";
+		tmp = tmp.replace(/,$/,"");
+		tmp += "]";
+		if(!toFile) SetCookie(aN,tmp);
+		theModel += aN+':'+tmp+","
+	}
+	if(window.status && !toFile) window.status = "Current model saved."
+	theModel = theModel.replace(/,$/,"") + "}";
+	return theModel;
+}
+
+function LetMeSaveMyModel(){
+	var mdlstring = saveCurrent(true /*to file*/);
+	var msg = '<p>Copy and paste the following to a text file and save it on your hard disk. '
+	msg += 'Make sure you select everything!</p><br />';
+	msg += '<textarea onclick="this.select()" rows=23 style="width:100%;">'+mdlstring+'</textarea>';
+	var favlet = "<br />favlet for your browsers link bar: <a href='javascript:loadSaved(" + "\"" 
+	favlet += mdlstring.replace(/[\n\r\t]/g,'').replace(/\\/g,"\\").replace(/\"/g,'\\\"')
+	favlet += "\');return false;' title='Drag to you browser link bar to load this model the next time in one click'>EZ2 model link</a>"
+	MsgBox(msg, OKBUTTON); // favlet won't work... :-(
+}
+
+function LetMeLoadMyModel(){
+	var msg = "";
+	msg += '<p>Copy and paste the saved model text from the file stored on your hard disk ';
+	msg += 'in the field below. Make sure you select everything from the file!</p>';
+    if(aVRTs.length || aCVRTs.length || aPEs.length || aMRTs.length || aCMRTs.length) 
+    	msg += "<p><b>The loaded model will be appended to the current model.</b> Continuing may result in " +
+    		   "duplicated names. The user is responsible for making sure every label is unique. </p>" +
+    		   "<small>To discard the current model, please click Cancel, and press the Clear button. " +
+    		   "Then load the model again. " +
+    		   "(You may have to reload the page with your browsers reload button to see the effect of Clear.) </small>";
+	var parseModel = function(but){ 
+		var mdl=$('ModelTxtArea').value;
+		if(mdl!=='' && but=='OK') 
+			loadSaved(mdl);
+	}
+	MsgBox(msg+'<textarea id="ModelTxtArea" rows=18 style="width:100%;"></textarea>',OKBUTTON+CANCELBUTTON,parseModel)
+}
+
+function loadSaved(mdlstring){ //if(!confirm('load?'+mdlstring)) return false;
+	var sAParams, Mdl;
+	if(!mdlstring) 
+		sAParams = GetCookie("aParams");
+	else
+		Mdl = eval('('+mdlstring+')'); 
+	if(sAParams || Mdl && Mdl.aParams){
+		sAParams = mdlstring ? Mdl.aParams : eval(sAParams);
+		for(var j=0;j<sAParams.length;j++){
+			var parent = tableCell($("Params"), window["aParams"].length+1);
+			parent.onblur = updateAll;
+			aParams[aParams.length] = new Param(parent,'_tmp',theParamsChooser,myDiscardCallback);
+			aParams[aParams.length-1].parseJSON(sAParams[j]);
+			theParamsChooser.update();
+		}
+	}
+	var allArrays = {"aVRTs":'POPairsVRT',"aCVRTs":'POPairsCVRT',"aPEs":'POPairsPE',"aMRTs":'POPairsMRT',"aCMRTs":'POPairsCMRT'}
+	for(var aN in allArrays){
+		if(!mdlstring) sAParams = GetCookie(aN);
+		if(sAParams || Mdl){
+			sAParams = mdlstring ? Mdl[aN] : eval(sAParams);
+			for(var j=0;j<sAParams.length;j++){
+				var parent = tableCell($(allArrays[aN]), window[aN].length);
+				window[aN][window[aN].length] = new PredObsPair('PE',{v:'',z:'',a:'',s:''}, parent,'TMP',theParamsChooser,myDiscardCallback);
+				window[aN][window[aN].length-1].parseJSON(sAParams[j]);
+				theParamsChooser.update();
+			}
+		}
+	}
+}
+
+</script>
+
+<!--//////////////////////// Cookie handling ////////////////////////////////-->
+<script>
+function SetCookie(sName, sValue, sDate)
+{
+  date = new Date((sDate?sDate:"Jan 1, 2018"));
+  document.cookie = sName + "=" + escape(sValue) + "; expires=" + date.toGMTString();
+}
+
+function GetCookie(sName)
+{
+  // cookies are separated by semicolons
+  var aCookie = document.cookie.split("; ");
+  for (var i=0; i < aCookie.length; i++)
+  {
+    // a name/value pair (a crumb) is separated by an equal sign
+    var aCrumb = aCookie[i].split("=");
+    if (sName == aCrumb[0])
+      return unescape(aCrumb[1]);
+  }
+
+  // a cookie with the requested name does not exist
+  return null;
+}
+
+function DelCookie(sName)
+{
+  var sValue="[]";
+  document.cookie = sName + "=" + escape(sValue) + "; expires=Fri, 31 Dec 1999 23:59:59 GMT;";
+}
+
+</script>
+
+<!--//////////////////////// Predefined models ///////////////////////////// -->
+<script>
+function setModel(mdlString)
+{
+    // remove the current model
+    while(aParams.length) aParams[0].destroyGUI(aParams.shift);
+    while(   aPEs.length)    aPEs[0].destroyGUI(   aPEs.shift);
+    while(  aVRTs.length)   aVRTs[0].destroyGUI(  aVRTs.shift);
+    while(  aMRTs.length)   aMRTs[0].destroyGUI(  aMRTs.shift);
+    while( aCVRTs.length)  aCVRTs[0].destroyGUI( aCVRTs.shift);
+    while( aCMRTs.length)  aCMRTs[0].destroyGUI( aCMRTs.shift);
+    
+    // store the cookie a string
+    var tmp = document.cookie 
+    // store the modelstring mdlString in the cookie so that loadSaved can restore this model
+    var a = mdlString.split(/;/g);
+    for(var i=0;i<a.length;i++) 
+        document.cookie = a[i]+"; expires=Fri, 31 Dec 2018 23:59:59 GMT;"; 
+    loadSaved();
+    // restore the the cookie  
+    a = tmp.split(/;/g);
+    for(var i=0;i<a.length;i++) 
+        document.cookie = a[i]+"; expires=Fri, 31 Dec 2018 23:59:59 GMT;";   
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<!--  ================================================   EZ starting points interface  ===================================================   -->
+<style type="text/css">/* Layout EZ-starting point interface */
+#EZinterface { 
+    display: none;
+    width:100%; 
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+}
+#EZinterface-background {
+    width: 100%; 
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #eee;
+    opacity: 0.7;
+    filter: alpha(opacity = 70);
+    font-family: arial;
+}
+#EZinterface-dialog {
+    margin: 0px;
+    width:400px;
+    height:auto;
+    position: absolute; 
+    left: 30%; 
+    top: 10%; 
+    z-index: 1100;
+    background-color: white; 
+    border: 2px outset white; 
+    padding: 0px 20px 20px 20px;
+    opacity:1;
+    font-family: arial;
+    font-size: 10pt;
+}
+#EZinterface-dialog > h4 {
+    font-family: arial;
+    background-color: #ddf;
+    padding: 5px 30px 5px 30px;
+    margin: 10px 0 0 0;
+}
+#EZinterface-dialog > div > code {
+    font-size: 10pt;
+    font-family: "Courier New", monospace;
+}
+#EZinterface-dialog-div1, #EZinterface-dialog-div2, 
+#EZinterface-dialog-div3, #EZinterface-dialog-div4, 
+#EZinterface-dialog-div5, #EZinterface-dialog-div6  {
+    width:100%;
+    margin: 6px 0px 12px 0px; 
+    font-family:arial;
+    font-size:10pt;
+}
+#EZinterface-dialog-div3, #EZinterface-dialog-div6 {
+    width:100%;
+    text-align:center;
+    margin: 0px;
+}
+#EZinterface-dialog-div7, #EZinterface-dialog-div8 {
+    width: 50%;
+    float:left;
+    text-align:center;
+    margin: 12px 0px 0px 0px;
+}
+#EZinterface-input1, #EZinterface-input2 {
+    width: 100%;
+    height: 40px;
+    margin: 0px 15px 0px 0px;
+    font-size: 10pt;
+    font-family: "Courier New", monospace;
+}
+#EZinterface-dialog > div > button {
+    width: 100px;
+    height: auto;
+    padding: 5px;
+    min-height: 15px;
+}
+</style>
+<div id="EZinterface"> <!-- the EZ starting point dialog div -->
+<div id="EZinterface-background"></div>
+<div id="EZinterface-dialog">
+    <h4>EZ start</h4>
+    <div id="EZinterface-dialog-div1">
+    Please provide the name of the diffusion constant (<i>s</i>), and the labels of the Proportion Errors, 
+    Variance, and (optionally) Mean to be used for determining starting values. These should be separated by comma's
+    and specified in the following order:</div>
+    <div id="EZinterface-dialog-div2">e.g.:&nbsp;&nbsp;&nbsp;&nbsp; <code>s,Pe0,VRT0,MRT0</code>
+    &nbsp;&nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;&nbsp; <code>s,Pe1,VRT1</code> </div>
+    <div id="EZinterface-dialog-div3">
+        <textarea type="text" id="EZinterface-input1" ></textarea>
+    </div>
+    <div id="EZinterface-dialog-div4">
+    Provide the identities of the drift rate (<i>v</i>), starting point (<i>z</i>), boundary separation 
+    (<i>a</i>), and (optionally) non-decision time (<i>T<sub>er</sub></i>). These should be separated by comma's 
+    and specified in the following order:</div>
+    <div id="EZinterface-dialog-div5">
+    e.g.:&nbsp;&nbsp;&nbsp;&nbsp; <code>v,z,a,Ter</code>&nbsp;&nbsp;&nbsp;&nbsp; or
+    &nbsp;&nbsp;&nbsp;&nbsp; <code>v,z,a</code>
+    </div>
+    <div id="EZinterface-dialog-div6">
+        <textarea type="text" id="EZinterface-input2" ></textarea>
+    </div>
+    <div id="EZinterface-dialog-div7"><button onclick="$('EZinterface').callBack('OK');">OK</button></div>
+    <div id="EZinterface-dialog-div8"><button onclick="$('EZinterface').callBack('Cancel');">Cancel</button></div>
+</div>
+</div>
+    
+<script type="text/javascript"> // tijdelijk, moet worden vervangen? of misschien toch hier laten staan...?
+$('EZinterface').callBack = function(but){
+                                this.style.display = "none"; 
+                            }
+$('EZinterface').prompt = function(){ this.style.display = "block"; }
+</script>
+
+
+<!-- ===============================================  Message box ================================================================== -->
+<style type="text/css">/* Layout EZ-starting point interface */
+#msgbox { 
+    display: none;
+    width:100%; 
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+}
+#msgbox-background {
+    width: 100%; 
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #eee;
+    opacity: 0.7;
+    filter: alpha(opacity = 70);
+    font-family: arial;
+}
+#msgbox-dialog {
+    margin: 0px;
+    width:400px;
+    height:auto;
+    position: absolute; 
+    left: 30%; 
+    top: 10%; 
+    z-index: 1100;
+    background-color: white; 
+    border: 2px outset white; 
+    padding: 0px 20px 20px 20px;
+    opacity:1;
+    font-family: arial;
+    font-size: 10pt;
+}
+#msgbox-dialog > h4 {
+    font-family: arial;
+    background-color: #ddf;
+    padding: 5px 30px 5px 30px;
+    margin: 10px 0 0 0;
+}
+#msgbox-dialog > div > code {
+    font-size: 10pt;
+    font-family: "Courier New", monospace;
+}
+#msgbox-dialog-div1 {
+    width:100%;
+    margin: 16px 0px 12px 0px; 
+    font-family:arial;
+    font-size:10pt;
+}
+#msgbox-dialog-div3, #msgbox-dialog-div6 {
+    width:100%;
+    text-align:center;
+    margin: 0px;
+}
+#msgbox-dialog-div7 {
+    width: 100%;
+    float:left;
+    text-align:center;
+    margin: 12px 0px 0px 0px; 
+}
+#msgbox-dialog > div > button {
+    min-width: 100px;
+    height: auto;
+    padding: 5px;
+    min-height: 15px;
+}
+</style>
+<div id="msgbox"> <!-- alternative MsgBox dialog div -->
+<div id="msgbox-background"></div>
+<div id="msgbox-dialog">
+    
+</div>
+</div>
+<script type="text/javascript">
+OKBUTTON = 2;
+CANCELBUTTON = 4;
+YESBUTTON = 8;
+NOBUTTON = 16;
+function MsgBox(HTMLstring,Buttons,func)
+{
+    try{
+        $('msgbox').callBack = function(but){$('msgbox').style.display = "none"; if(func) func(but); $('msgbox').value = (but=='OK'?true: false);};
+        var dialogHTML = '<div id="msgbox-dialog-div7"> \r\n';
+        if(Buttons & OKBUTTON)
+            dialogHTML += '<button class="msgbox-button" onclick="$(\'msgbox\').callBack(\'OK\');">OK</button> \r\n';
+        if(Buttons & CANCELBUTTON)
+            dialogHTML += '<button class="msgbox-button" onclick="$(\'msgbox\').callBack(\'Cancel\');">Cancel</button> \r\n';
+        dialogHTML += '</div>';
+        var n = $('msgbox').childNodes; 
+        for(var i=0;i<n.length;i++) if(n[i].id=='msgbox-dialog') break;         
+        n[i].innerHTML = '<h4>Alert</h4><div id="msgbox-dialog-div1">'+HTMLstring+' </div>'+dialogHTML;
+        $('msgbox').style.display = "block";
+    }
+    catch(e){
+        alert(e.description || e);
+    }
+}
+var msg = "<div>You are strongly adviced to press the help button to see a short demo before you use this application.";
+msg += "</div><div style=\"text-align:right;font-size:70%;\"><label for='dontshowagain'>don't ";
+msg += "show this message again&nbsp;&nbsp;<input type='checkbox' id='dontshowagain' name='dontshowagain' ";
+msg += "onchange='SetCookie(\"demo_encourage\",false);' /></label></div>"
+if(GetCookie('demo_encourage')!='false') MsgBox(msg,OKBUTTON) //+CANCELBUTTON);
+
+</script>
+
+
+
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">var sc_project=2903666; var sc_invisible=0; var sc_partition=30; var sc_security="6a3c7515"; </script>
+<script type="text/javascript" src="http://www.statcounter.com/counter/counter_xhtml.js"></script><noscript><div class="statcounter"><a class="statcounter" href="http://www.statcounter.com/"><img class="statcounter" src="http://c31.statcounter.com/2903666/0/6a3c7515/0/" alt="free webpage counters" /></a></div></noscript>
+<!-- End of StatCounter Code -->
+
+
+</body>
+</html>
