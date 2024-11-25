@@ -1,6 +1,6 @@
 ## Bugs
 
-- trials in ddm-model need to be persistent!
+- unify math?
 
 ## Ideas
 
@@ -9,8 +9,7 @@
 - Main pages
   - Exploration
   - Fitting
-    - need fitting process...
-    - show Parameters and Model with fit
+    - full fitting process...
   - Predictions
 
 ## Outline
