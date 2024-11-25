@@ -89,9 +89,9 @@ export default class AccumulableResponse extends AccumulableElement {
     this.startTime = undefined; // Start time of current trial
     this.rt = undefined; // RT for current trial
 
-    this.correct = 0; // Count of Correct Trials
-    this.error = 0; // Count of Error Trials
-    this.nr = 0; // Count of No Response trials
+    this.correctCount = 0; // Count of Correct Trials
+    this.errorCount = 0; // Count of Error Trials
+    this.nrCount = 0; // Count of No Response trials
 
     this.trials = []; // Record of trials in block
   }
@@ -110,51 +110,51 @@ export default class AccumulableResponse extends AccumulableElement {
   }
 
   get totalPayoff() {
-    return ((this.correct * this.correctPayoff)
-      + (this.error * this.errorPayoff)
-      + (this.nr * this.nrPayoff));
+    return ((this.correctCount * this.correctPayoff)
+      + (this.errorCount * this.errorPayoff)
+      + (this.nrCount * this.nrPayoff));
   }
 
   get meanRT() {
-    const totalSum = this.trials
+    const sumTotal = this.trials
       .filter((trial) => { return trial.outcome !== 'nr'; })
       .reduce((sum, trial) => { return sum + trial.rt; }, 0);
-    return totalSum / (this.correct + this.error);
+    return sumTotal / (this.correctCount + this.errorCount);
   }
 
-  get meanCorrectRT() {
-    const correctSum = this.trials
+  get correctMeanRT() {
+    const sumCorrect = this.trials
       .filter((trial) => { return trial.outcome === 'correct'; })
       .reduce((sum, trial) => { return sum + trial.rt; }, 0);
-    return correctSum / this.correct;
+    return sumCorrect / this.correctCount;
   }
 
-  get meanErrorRT() {
-    const errorSum = this.trials
+  get errorMeanRT() {
+    const sumError = this.trials
       .filter((trial) => { return trial.outcome === 'error'; })
       .reduce((sum, trial) => { return sum + trial.rt; }, 0);
-    return errorSum / this.error;
+    return sumError / this.errorCount;
   }
 
   get sdRT() {
     const ss = this.trials
       .filter((trial) => { return trial.outcome !== 'nr'; })
       .reduce((sum, trial) => { return sum + (trial.rt - this.meanRT) ** 2; }, 0);
-    return Math.sqrt(ss / (this.correct + this.error - 1));
+    return Math.sqrt(ss / (this.correctCount + this.errorCount - 1));
   }
 
-  get sdCorrectRT() {
+  get correctSDRT() {
     const ss = this.trials
       .filter((trial) => { return trial.outcome === 'correct'; })
-      .reduce((sum, trial) => { return sum + (trial.rt - this.meanCorrectRT) ** 2; }, 0);
-    return Math.sqrt(ss / (this.correct - 1));
+      .reduce((sum, trial) => { return sum + (trial.rt - this.correctMeanRT) ** 2; }, 0);
+    return Math.sqrt(ss / (this.correctCount - 1));
   }
 
-  get sdErrorRT() {
+  get errorSDRT() {
     const ss = this.trials
       .filter((trial) => { return trial.outcome === 'error'; })
-      .reduce((sum, trial) => { return sum + (trial.rt - this.meanErrorRT) ** 2; }, 0);
-    return Math.sqrt(ss / (this.error - 1));
+      .reduce((sum, trial) => { return sum + (trial.rt - this.errorMeanRT) ** 2; }, 0);
+    return Math.sqrt(ss / (this.errorCount - 1));
   }
 
   start(signal, trial) {
@@ -171,7 +171,7 @@ export default class AccumulableResponse extends AccumulableElement {
     this.state = 'feedback';
     if (this.response === undefined) {
       this.outcome = 'nr';
-      this.nr += 1;
+      this.nrCount += 1;
       this.rt = undefined;
 
       this.trials.push({
@@ -199,10 +199,10 @@ export default class AccumulableResponse extends AccumulableElement {
     this.response = response;
     if (this.signal === this.response) {
       this.outcome = 'correct';
-      this.correct += 1;
+      this.correctCount += 1;
     } else if (this.signal !== this.response) {
       this.outcome = 'error';
-      this.error += 1;
+      this.errorCount += 1;
     }
     this.trials.push({
       trial: this.trialCount,
@@ -222,15 +222,16 @@ export default class AccumulableResponse extends AccumulableElement {
         outcome: this.outcome,
         payoff: this.trialPayoff,
 
-        correct: this.correct,
-        error: this.error,
-        nr: this.nr,
+        correctCount: this.correctCount,
+        errorCount: this.errorCount,
+        nrCount: this.nrCount,
         meanRT: this.meanRT,
-        meanCorrectRT: this.meanCorrectRT,
-        meanErrorRT: this.meanErrorRT,
+        correctMeanRT: this.correctMeanRT,
+        errorMeanRT: this.errorMeanRT,
         sdRT: this.sdRT,
-        sdCorrectRT: this.sdCorrectRT,
-        sdErrorRT: this.sdErrorRT,
+        correctSDRT: this.correctSDRT,
+        errorSDRT: this.errorSDRT,
+
         totalPayoff: this.totalPayoff,
       },
       bubbles: true,
@@ -244,11 +245,35 @@ export default class AccumulableResponse extends AccumulableElement {
     this.signal = undefined;
     this.response = undefined;
     this.outcome = undefined;
-    this.correct = 0;
-    this.error = 0;
-    this.nr = 0;
+    this.correctCount = 0;
+    this.errorCount = 0;
+    this.nrCount = 0;
 
     this.trials = [];
+  }
+
+  keydown(event) {
+    if (this.state === 'waiting') {
+      if (event.key === 'ArrowLeft') {
+        this.responded('left');
+        event.preventDefault();
+      } else if (event.key === 'ArrowRight') {
+        this.responded('right');
+        event.preventDefault();
+      }
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    window.addEventListener('keydown', this.keydown.bind(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('keydown', this.keydown.bind(this));
+
+    super.disconnectedCallback();
   }
 
   static get styles() {

@@ -78,7 +78,7 @@ export default class DDMExampleModel extends DDMExample {
     this.trialCount = 0;
     this.signals = ['left', 'right']; // Possible values of 'signal'
     this.signal = undefined; // Signal for current trial
-    this.sample = undefined;
+    this.data = undefined;
     this.model = undefined;
   }
 
@@ -166,13 +166,7 @@ export default class DDMExampleModel extends DDMExample {
 
         if (this.ddmModel) {
           this.trialCount += 1;
-          this.ddmModel.trial(
-          //   event.detail.trial,
-          //   event.detail.signal,
-          //   event.detail.duration,
-          //   event.detail.wait,
-          //   event.detail.iti,
-          );
+          this.ddmModel.trial();
         }
       });
 
@@ -220,7 +214,7 @@ export default class DDMExampleModel extends DDMExample {
         this.t0 = event.detail.t0;
       });
       this.ddmModel.addEventListener('ddm-model-output', (event) => {
-        this.sample = event.detail.sample;
+        this.data = event.detail.data;
         this.model = event.detail.model;
         this.requestUpdate();
       });
@@ -236,7 +230,7 @@ export default class DDMExampleModel extends DDMExample {
             this.accumulableResponse.responded(response);
           }
 
-          this.sample = event.detail.sample;
+          this.data = event.detail.data;
           this.model = event.detail.model;
           this.requestUpdate();
         });
@@ -287,15 +281,15 @@ export default class DDMExampleModel extends DDMExample {
     }
 
     if (this.accumulableTable) {
-      this.accumulableTable.correctCount = this.sample.count.correct;
-      this.accumulableTable.errorCount = this.sample.count.error;
-      this.accumulableTable.accuracy = this.sample.accuracy.correct;
-      this.accumulableTable.correctMeanRT = this.sample.meanRT.correct;
-      this.accumulableTable.errorMeanRT = this.sample.meanRT.error;
-      this.accumulableTable.meanRT = this.sample.meanRT.overall;
-      this.accumulableTable.correctSDRT = this.sample.sdRT.correct;
-      this.accumulableTable.errorSDRT = this.sample.sdRT.error;
-      this.accumulableTable.sdRT = this.sample.sdRT.overall;
+      this.accumulableTable.correctCount = this.data.correctCount;
+      this.accumulableTable.errorCount = this.data.errorCount;
+      this.accumulableTable.nrCount = 0;
+      this.accumulableTable.correctMeanRT = this.data.correctMeanRT;
+      this.accumulableTable.errorMeanRT = this.data.errorMeanRT;
+      this.accumulableTable.meanRT = this.data.meanRT;
+      this.accumulableTable.correctSDRT = this.data.correctSDRT;
+      this.accumulableTable.errorSDRT = this.data.errorSDRT;
+      this.accumulableTable.sdRT = this.data.sdRT;
     }
   }
 }

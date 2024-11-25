@@ -25,8 +25,7 @@ import AccumulableElement from '../accumulable-element';
     v: numeric
     t0: numeric
 
-    s: numeric
-
+    // s: numeric
     // sz: numeric
     // eta: numeric
     // st: numeric
@@ -53,13 +52,18 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         reflect: true,
       },
 
-      seed: {
-        attribute: 'seed',
-        type: Number,
+      human: {
+        attribute: 'human',
+        type: Boolean,
         reflect: true,
       },
       trials: {
         attribute: 'trials',
+        type: Number,
+        reflect: true,
+      },
+      seed: {
+        attribute: 'seed',
         type: Number,
         reflect: true,
       },
@@ -85,12 +89,11 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         reflect: true,
       },
 
-      s: {
-        attribute: false, // within-trial variability in drift rate
-        type: Number,
-        reflect: false,
-      },
-
+      // s: {
+      //   attribute: false, // within-trial variability in drift rate
+      //   type: Number,
+      //   reflect: false,
+      // },
       // sz: {
       //   attribute: false, // starting point range
       //   type: Number,
@@ -141,6 +144,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     this.sds = false;
 
     this.resample();
+    this.human = false;
     this.trials = 10;
 
     this.a = 1.2;
@@ -148,7 +152,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     this.v = 1.5;
     this.t0 = 150;
 
-    this.s = 1;
+    // this.s = null;
     // this.sz = null;
     // this.eta = null;
     // this.st = null;
@@ -159,7 +163,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     this.bounds = null;
     this.startingPoint = null;
 
-    this.sample = {};
+    this.data = {};
     this.model = {};
     this.animate = false;
     this.paused = false;
@@ -167,9 +171,18 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     this.alignState();
   }
 
-  trial() {
-    this.animate = true;
+  clear() {
+    this.trials = 0;
+    this.data.trials = [];
+  }
+
+  trial(trial = {}) {
     this.trials += 1;
+    if (this.human) {
+      this.data.trials.push(trial);
+    } else {
+      this.animate = true;
+    }
   }
 
   // Called to pause trial animations!
@@ -189,6 +202,72 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     this.seed = d3.randomUniform(0, 1)();
   }
 
+  alignPath(seed, a, z, v, t0) {
+    const random = d3.randomNormal.source(d3.randomLcg(seed))(0, this.precision ** 0.5);
+    const bounds = {
+      lower: -a / 2,
+      upper: a / 2,
+    };
+    const startingPoint = a * z - a / 2;
+    const drift = v * this.precision;
+
+    const path = [];
+    path.push(
+      {t: t0, e: startingPoint},
+    );
+    while ((path.at(-1).e > bounds.lower) && (path.at(-1).e < bounds.upper)) {
+      path.push({
+        t: path.at(-1).t + (this.precision * 1000),
+        e: path.at(-1).e + drift + DDMMath.s * random(),
+      });
+    }
+    return path;
+  }
+
+  alignCorrectDistribution(a, z, v, t0) {
+    const proportionCorrect = DDMMath.azvs2pC(a, z, v);
+
+    const dist = [
+      {t: 0, d: 0},
+      {t: this.t0, d: 0},
+    ];
+    for (
+      let i = this.scale.time.min;
+      i <= (this.scale.time.max - (t0));
+      i += this.scale.time.step) {
+      if (i > 0) {
+        dist.push({
+          t: t0 + i,
+          d: DDMMath.tazvs2gC(i / 1000, a, z, v) / proportionCorrect,
+        });
+      }
+    }
+
+    return dist;
+  }
+
+  alignErrorDistribution(a, z, v, t0) {
+    const proportionError = DDMMath.azvs2pE(a, z, v);
+
+    const dist = [
+      {t: 0, d: 0},
+      {t: this.t0, d: 0},
+    ];
+    for (
+      let i = this.scale.time.min;
+      i <= (this.scale.time.max - (t0));
+      i += this.scale.time.step) {
+      if (i > 0) {
+        dist.push({
+          t: t0 + i,
+          d: DDMMath.tazvs2gE(i / 1000, a, z, v) / proportionError,
+        });
+      }
+    }
+
+    return dist;
+  }
+
   alignState() {
     this.random = d3.randomUniform.source(d3.randomLcg(this.seed))(0, 1);
 
@@ -197,49 +276,42 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       upper: this.a / 2,
     };
     this.startingPoint = this.a * this.z - this.a / 2;
-    const drift = this.v * this.precision;
 
-    // Sample Paths
-    this.sample.paths = Array.from({length: this.trials}, (element, index) => {
-      const seed = (this.random() / 1000) * 997; // HACK to avoid randomLcg repetition
-      const random = d3.randomNormal.source(d3.randomLcg(seed))(0, this.precision ** 0.5);
-      const animate = this.animate && (index === (this.trials - 1));
+    // Data Trials
+    if (this.human) {
+      this.trials = this.data.trials.length;
+    } else {
+      this.data.trials = Array.from({length: this.trials}, (element, index) => {
+        const seed = (this.random() / 1000) * 997; // HACK to avoid randomLcg repetition
+        const animate = this.animate && (index === (this.trials - 1));
 
-      const path = [];
-      path.push(
-        {t: this.t0, e: this.startingPoint},
-      );
-      while ((path.at(-1).e > this.bounds.lower) && (path.at(-1).e < this.bounds.upper)) {
-        path.push({
-          t: path.at(-1).t + (this.precision * 1000),
-          e: path.at(-1).e + drift + this.s * random(),
-        });
-      }
-
-      const outcome = (path.at(-1).e <= this.bounds.lower)
-        ? 'error'
-        : (path.at(-1).e >= this.bounds.upper)
-          ? 'correct'
-          : 'nr';
-      const rt = (outcome === 'error')
-        ? path.at(-2).t + (
-          ((this.bounds.lower - path.at(-2).e) / (path.at(-1).e - path.at(-2).e))
-          * (this.precision * 1000)
-        )
-        : (outcome === 'correct')
+        // Sample Paths
+        const path = this.alignPath(seed, this.a, this.z, this.v, this.t0);
+        const outcome = (path.at(-1).e <= this.bounds.lower)
+          ? 'error'
+          : (path.at(-1).e >= this.bounds.upper)
+            ? 'correct'
+            : 'nr';
+        const rt = (outcome === 'error')
           ? path.at(-2).t + (
-            ((this.bounds.upper - path.at(-2).e) / (path.at(-1).e - path.at(-2).e))
+            ((this.bounds.lower - path.at(-2).e) / (path.at(-1).e - path.at(-2).e))
             * (this.precision * 1000)
           )
-          : null;
+          : (outcome === 'correct')
+            ? path.at(-2).t + (
+              ((this.bounds.upper - path.at(-2).e) / (path.at(-1).e - path.at(-2).e))
+              * (this.precision * 1000)
+            )
+            : null;
 
-      return {
-        index, seed, path, rt, outcome, animate,
-      };
-    });
+        return {
+          index, seed, path, rt, outcome, animate,
+        };
+      });
+    }
 
-    // Sample Summary Stats
-    const trials = this.sample.paths
+    // Data Summary Stats
+    const trials = this.data.trials
       .filter((path) => { return !path.animate; })
       .reduce((stats, path) => {
         stats.correct += (path.outcome === 'correct') ? 1 : 0;
@@ -249,18 +321,11 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         correct: 0,
         error: 0,
       });
-    this.sample.count = {
-      correct: trials.correct,
-      error: trials.error,
-      overall: trials.correct + trials.error,
-    };
-    this.sample.accuracy = {
-      correct: (this.trials > 0) ? (trials.correct / this.trials) : NaN,
-      error: (this.trials > 0) ? (trials.error / this.trials) : NaN,
-      overall: (this.trials > 0) ? (trials.correct / this.trials) : NaN,
-    };
+    this.data.correctCount = trials.correct;
+    this.data.errorCount = trials.error;
+    this.data.accuracy = (this.trials > 0) ? (trials.correct / this.trials) : NaN;
 
-    const rts = this.sample.paths
+    const rts = this.data.trials
       .filter((path) => { return !path.animate; })
       .reduce((stats, path) => {
         stats.correct += (path.outcome === 'correct') ? path.rt : 0;
@@ -270,79 +335,50 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         correct: 0,
         error: 0,
       });
-    this.sample.meanRT = {
-      correct: (trials.correct > 0) ? (rts.correct / trials.correct) : NaN,
-      error: (trials.error > 0) ? (rts.error / trials.error) : NaN,
-      overall: (this.trials > 0)
-        ? ((rts.correct + rts.error) / (trials.correct + trials.error))
-        : NaN,
-    };
+    this.data.correctMeanRT = (trials.correct > 0) ? (rts.correct / trials.correct) : NaN;
+    this.data.errorMeanRT = (trials.error > 0) ? (rts.error / trials.error) : NaN;
+    this.data.meanRT = (this.trials > 0)
+      ? ((rts.correct + rts.error) / (trials.correct + trials.error))
+      : NaN;
 
-    const sss = this.sample.paths
+    const sss = this.data.trials
       .filter((path) => { return !path.animate; })
       .reduce((stats, path) => {
         stats.correct += (path.outcome === 'correct')
-          ? (path.rt - this.sample.meanRT.correct) ** 2
+          ? (path.rt - this.data.correctMeanRT) ** 2
           : 0;
         stats.error += (path.outcome === 'error')
-          ? (path.rt - this.sample.meanRT.error) ** 2
+          ? (path.rt - this.data.errorMeanRT) ** 2
           : 0;
-        stats.overall += (path.rt - this.sample.meanRT.overall) ** 2;
+        stats.overall += (path.rt - this.data.meanRT) ** 2;
         return stats;
       }, {
         correct: 0,
         error: 0,
         overall: 0,
       });
-    this.sample.sdRT = {
-      correct: (trials.correct > 1) ? Math.sqrt(sss.correct / (trials.correct - 1)) : NaN,
-      error: (trials.error > 1) ? Math.sqrt(sss.error / (trials.error - 1)) : NaN,
-      overall: (this.trials > 1) ? Math.sqrt(sss.overall / (this.trials - 1)) : NaN,
-    };
+    this.data.correctSDRT = (trials.correct > 1)
+      ? Math.sqrt(sss.correct / (trials.correct - 1))
+      : NaN;
+    this.data.errorSDRT = (trials.error > 1) ? Math.sqrt(sss.error / (trials.error - 1)) : NaN;
+    this.data.sdRT = (this.trials > 1) ? Math.sqrt(sss.overall / (this.trials - 1)) : NaN;
+
+    // Model Summary Stats
+    this.model.accuracy = DDMMath.azvs2pC(this.a, this.z, this.v);
+
+    this.model.correctMeanRT = DDMMath.azvt0s2mC(this.a, this.z, this.v, this.t0);
+    this.model.errorMeanRT = DDMMath.azvt0s2mE(this.a, this.z, this.v, this.t0);
+
+    this.model.correctSDRT = DDMMath.azvs2sdC(this.a, this.z, this.v);
+    this.model.errorSDRT = DDMMath.azvs2sdE(this.a, this.z, this.v);
 
     // Model Distributions
-    this.model.accuracy = {
-      correct: DDMMath.azvs2pC(this.a, this.z, this.v, this.s),
-      error: DDMMath.azvs2pE(this.a, this.z, this.v, this.s),
-    };
-    this.model.meanRT = {
-      correct: this.t0 + DDMMath.azvs2mC(this.a, this.z, this.v, this.s) * 1000,
-      error: this.t0 + DDMMath.azvs2mE(this.a, this.z, this.v, this.s) * 1000,
-    };
-    this.model.sdRT = {
-      correct: DDMMath.azvs2sdC(this.a, this.z, this.v, this.s) * 1000,
-      error: DDMMath.azvs2sdE(this.a, this.z, this.v, this.s) * 1000,
-    };
-    this.model.dists = {correct: [], error: []};
-    this.model.dists.correct.push(
-      {t: 0, d: 0},
-      {t: this.t0, d: 0},
-    );
-    this.model.dists.error.push(
-      {t: 0, d: 0},
-      {t: this.t0, d: 0},
-    );
-    for (
-      let i = this.scale.time.min;
-      i <= (this.scale.time.max - (this.t0));
-      i += this.scale.time.step) {
-      if (i > 0) {
-        this.model.dists.correct.push({
-          t: this.t0 + i,
-          d: DDMMath.tazvs2gC(i / 1000, this.a, this.z, this.v, this.s)
-            / this.model.accuracy.correct,
-        });
-        this.model.dists.error.push({
-          t: this.t0 + i,
-          d: DDMMath.tazvs2gE(i / 1000, this.a, this.z, this.v, this.s)
-            / this.model.accuracy.error,
-        });
-      }
-    }
+    this.model.correctDist = this.alignCorrectDistribution(this.a, this.z, this.v, this.t0);
+    this.model.errorDist = this.alignErrorDistribution(this.a, this.z, this.v, this.t0);
 
     this.dispatchEvent(new CustomEvent('ddm-model-output', {
       detail: {
-        sample: this.sample,
+        data: this.data,
         model: this.model,
       },
       bubbles: true,
@@ -479,15 +515,15 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           fill: var(---color-error);
         }
 
-        .accuracy.sample .mark {
+        .accuracy.data .mark {
           stroke-width: 2;
         }
 
-        .accuracy.sample.correct .mark {
+        .accuracy.data.correct .mark {
           stroke: var(---color-correct-light);
         }
 
-        .accuracy.sample.error .mark {
+        .accuracy.data.error .mark {
           stroke: var(---color-error-light);
         }
 
@@ -604,8 +640,8 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           stroke-dasharray: 2 2;
         }
 
-        .sd.sample .indicator,
-        .mean.sample .indicator {
+        .sd.data .indicator,
+        .mean.data .indicator {
           stroke-dasharray: 1 1;
         }
 
@@ -917,7 +953,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('stroke-width', '2')
       .attr('d', 'M 0 -4 l 0 8');
     svgDefs.append('marker')
-      .attr('id', 'sample-sd-cap')
+      .attr('id', 'data-sd-cap')
       .attr('orient', 'auto-start-reverse')
       .attr('markerUnits', 'userSpaceOnUse')
       .attr('viewBox', '-5 -5 10 10')
@@ -1049,13 +1085,22 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .classed('background', true);
     //  MERGE
     evidenceUnderlayerMerge.select('.background')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('y', evidenceScale(this.bounds.upper))
       .attr('height', evidenceScale(this.bounds.lower) - evidenceScale(this.bounds.upper))
       .attr('width', timeWidth);
     correctDensityUnderlayerMerge.select('.background')
+      .transition()
+      .duration(transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('height', densityHeight)
       .attr('width', timeWidth);
     errorDensityUnderlayerMerge.select('.background')
+      .transition()
+      .duration(transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('height', densityHeight)
       .attr('width', timeWidth);
 
@@ -1067,7 +1112,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const timeScaleMerge = errorDensityUnderlayerMerge.select('.axis.time')
       .attr('transform', `translate(0, ${densityHeight + (0.25 * this.rem)})`);
     const timeScaleTransition = timeScaleMerge.transition()
-      .duration(transitionDuration * 2) // Extra long transition!
+      .duration(transitionDuration)
       .ease(d3.easeCubicOut)
       .call(d3.axisBottom(timeScale))
       .attr('font-size', null)
@@ -1085,6 +1130,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .text('Time (ms)');
     //  MERGE
     errorDensityUnderlayerMerge.select('.title.time')
+      .transition()
+      .duration(transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr(
         'transform',
         `translate(${(timeWidth / 2)}, ${(densityHeight + (2.5 * this.rem))})`,
@@ -1110,25 +1158,25 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const accuracyScaleMerge = accuracyUnderlayerMerge.select('.axis.accuracy')
       .attr('transform', `translate(${accuracyWidth + (0.25 * this.rem)}, 0)`);
     const evidenceScaleTransition = evidenceScaleMerge.transition()
-      .duration(transitionDuration * 2) // Extra long transition!
+      .duration(transitionDuration)
       .ease(d3.easeCubicOut)
       .call(d3.axisLeft(evidenceScale))
       .attr('font-size', null)
       .attr('font-family', null);
     const correctDensityScaleTransition = correctDensityScaleMerge.transition()
-      .duration(transitionDuration * 2) // Extra long transition!
+      .duration(transitionDuration)
       .ease(d3.easeCubicOut)
       .call(d3.axisLeft(correctDensityScale).ticks(2))
       .attr('font-size', null)
       .attr('font-family', null);
     const errorDensityScaleTransition = errorDensityScaleMerge.transition()
-      .duration(transitionDuration * 2) // Extra long transition!
+      .duration(transitionDuration)
       .ease(d3.easeCubicOut)
       .call(d3.axisLeft(errorDensityScale).ticks(2))
       .attr('font-size', null)
       .attr('font-family', null);
     const accuracyScaleTransition = accuracyScaleMerge.transition()
-      .duration(transitionDuration * 2) // Extra long transition!
+      .duration(transitionDuration)
       .ease(d3.easeCubicOut)
       .call(d3.axisRight(accuracyScale))
       .attr('font-size', null)
@@ -1170,12 +1218,24 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .text('Accuracy');
     //  MERGE
     evidenceUnderlayerMerge.select('.title.evidence')
+      .transition()
+      .duration(transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('transform', `translate(${-2.5 * this.rem}, ${(evidenceHeight / 2)})rotate(-90)`);
     correctDensityUnderlayerMerge.select('.title.density.correct')
+      .transition()
+      .duration(transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('transform', `translate(${-2.5 * this.rem}, ${(densityHeight / 2)})rotate(-90)`);
     errorDensityUnderlayerMerge.select('.title.density.error')
+      .transition()
+      .duration(transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('transform', `translate(${-2.5 * this.rem}, ${(densityHeight / 2)})rotate(-90)`);
     accuracyUnderlayerMerge.select('.title.accuracy')
+      .transition()
+      .duration(transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('transform', `translate(${accuracyWidth + 2.25 * this.rem}, ${(height / 2)})rotate(90)`);
 
     //
@@ -1186,7 +1246,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  DATA-JOIN
     const pathUpdate = evidenceContentMerge.select('.paths').selectAll('.path')
       .data(
-        this.sample.paths,
+        this.data.trials.filter((trial) => { return trial.path !== undefined; }),
       );
     //  ENTER
     const rtLabel = d3.local();
@@ -1239,9 +1299,37 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         return `path ${datum.outcome}`;
       });
     pathMerge.select('.curve')
-      .attr('d', (datum) => {
-        return evidenceLine(datum.path);
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateA = d3.interpolate(
+          (element.a !== undefined) ? element.a : this.a,
+          this.a,
+        );
+        const interpolateZ = d3.interpolate(
+          (element.z !== undefined) ? element.z : this.z,
+          this.z,
+        );
+        const interpolateV = d3.interpolate(
+          (element.v !== undefined) ? element.v : this.v,
+          this.v,
+        );
+        const interpolateT0 = d3.interpolate(
+          (element.t0 !== undefined) ? element.t0 : this.t0,
+          this.t0,
+        );
+        return (time) => {
+          element.a = interpolateA(time);
+          element.z = interpolateZ(time);
+          element.v = interpolateV(time);
+          element.t0 = interpolateT0(time);
+          const path = this.alignPath(datum.seed, element.a, element.z, element.v, element.t0);
+          return evidenceLine(path);
+        };
       });
+
     //  MERGE - Active Animate Paths
     const pathMergeNewActive = pathMerge.filter((datum) => {
       return (datum.animate && !this.paused);
@@ -1290,7 +1378,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           this.dispatchEvent(new CustomEvent('accumulable-response', {
             detail: {
               outcome: datum.outcome,
-              sample: this.sample,
+              data: this.data,
               model: this.model,
             },
             bubbles: true,
@@ -1322,11 +1410,11 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     // DATA-JOIN
     const correctDistUpdate = correctDensityContentMerge.selectAll('.dist.correct')
       .data(
-        [this.model.dists.correct],
+        [this.model.correctDist],
       );
     const errorDistUpdate = errorDensityContentMerge.selectAll('.dist.error')
       .data(
-        [this.model.dists.error],
+        [this.model.errorDist],
       );
     //  ENTER
     const correctDistEnter = correctDistUpdate.enter().append('g')
@@ -1339,12 +1427,66 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .classed('curve', true);
     //  MERGE
     correctDistEnter.merge(correctDistUpdate).select('.curve')
-      .attr('d', (datum) => {
-        return correctDensityLine(datum);
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateA = d3.interpolate(
+          (element.a !== undefined) ? element.a : this.a,
+          this.a,
+        );
+        const interpolateZ = d3.interpolate(
+          (element.z !== undefined) ? element.z : this.z,
+          this.z,
+        );
+        const interpolateV = d3.interpolate(
+          (element.v !== undefined) ? element.v : this.v,
+          this.v,
+        );
+        const interpolateT0 = d3.interpolate(
+          (element.t0 !== undefined) ? element.t0 : this.t0,
+          this.t0,
+        );
+        return (time) => {
+          element.a = interpolateA(time);
+          element.z = interpolateZ(time);
+          element.v = interpolateV(time);
+          element.t0 = interpolateT0(time);
+          const path = this.alignCorrectDistribution(element.a, element.z, element.v, element.t0);
+          return correctDensityLine(path);
+        };
       });
     errorDistEnter.merge(errorDistUpdate).select('.curve')
-      .attr('d', (datum) => {
-        return errorDensityLine(datum);
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateA = d3.interpolate(
+          (element.a !== undefined) ? element.a : this.a,
+          this.a,
+        );
+        const interpolateZ = d3.interpolate(
+          (element.z !== undefined) ? element.z : this.z,
+          this.z,
+        );
+        const interpolateV = d3.interpolate(
+          (element.v !== undefined) ? element.v : this.v,
+          this.v,
+        );
+        const interpolateT0 = d3.interpolate(
+          (element.t0 !== undefined) ? element.t0 : this.t0,
+          this.t0,
+        );
+        return (time) => {
+          element.a = interpolateA(time);
+          element.z = interpolateZ(time);
+          element.v = interpolateV(time);
+          element.t0 = interpolateT0(time);
+          const path = this.alignErrorDistribution(element.a, element.z, element.v, element.t0);
+          return errorDensityLine(path);
+        };
       });
     //  EXIT
     correctDistUpdate.exit().remove();
@@ -1354,14 +1496,14 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  DATA-JOIN
     const correctRTUpdate = correctDensityContentMerge.selectAll('.rt.correct')
       .data(
-        this.sample.paths.filter((path) => {
-          return ((path.outcome === 'correct') && (path.rt < this.scale.time.max));
+        this.data.trials.filter((trial) => {
+          return ((trial.outcome === 'correct') && (trial.rt < this.scale.time.max));
         }),
       );
     const errorRTUpdate = errorDensityContentMerge.selectAll('.rt.error')
       .data(
-        this.sample.paths.filter((path) => {
-          return ((path.outcome === 'error') && (path.rt < this.scale.time.max));
+        this.data.trials.filter((trial) => {
+          return ((trial.outcome === 'error') && (trial.rt < this.scale.time.max));
         }),
       );
     //  ENTER
@@ -1375,6 +1517,10 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .classed('mark', true);
     //  MERGE
     correctRTEnter.merge(correctRTUpdate).filter((datum) => { return (!datum.animate); }).select('.mark')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      // ## Tween based on params, across correct and error?
       .attr('x1', (datum) => {
         return timeScale(datum.rt);
       })
@@ -1384,6 +1530,10 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('y1', correctDensityScale(0) + 0.125 * this.rem)
       .attr('y2', correctDensityScale(0) + 0.675 * this.rem);
     errorRTEnter.merge(errorRTUpdate).filter((datum) => { return (!datum.animate); }).select('.mark')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      // ## Tween based on params, across correct and error?
       .attr('x1', (datum) => {
         return timeScale(datum.rt);
       })
@@ -1400,7 +1550,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  DATA-JOIN
     const accuracyUpdate = accuracyContentMerge.selectAll('.accuracy.model')
       .data(
-        [this.model.accuracy.correct, this.model.accuracy.error],
+        [this.model.accuracy, 1 - this.model.accuracy],
       );
     //  ENTER
     const accuracyEnter = accuracyUpdate.enter().append('g')
@@ -1412,6 +1562,10 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('x', 0);
     //  MERGE
     accuracyEnter.merge(accuracyUpdate).select('rect')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      // ## Tween based on params?
       .attr('y', (datum, index) => {
         return (index === 0) ? accuracyScale(0) : accuracyScale(1 - datum);
       })
@@ -1422,23 +1576,27 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  EXIT
     accuracyUpdate.exit().remove();
 
-    // Sample Accuracy
+    // Data Accuracy
     //  DATA-JOIN
-    const sampleAccuracyUpdate = accuracyContentMerge.selectAll('.accuracy.sample')
+    const dataAccuracyUpdate = accuracyContentMerge.selectAll('.accuracy.data')
       .data(
-        !Number.isNaN(this.sample.accuracy.correct) ? [this.sample.accuracy.correct] : [],
+        !Number.isNaN(this.data.accuracy) ? [this.data.accuracy] : [],
       );
     //  ENTER
-    const sampleAccuracyEnter = sampleAccuracyUpdate.enter().append('g')
-      .classed('accuracy sample', true);
-    sampleAccuracyEnter.append('line')
+    const dataAccuracyEnter = dataAccuracyUpdate.enter().append('g')
+      .classed('accuracy data', true);
+    dataAccuracyEnter.append('line')
       .classed('mark', true);
     //  MERGE
-    const sampleAccuracyMerge = sampleAccuracyEnter.merge(sampleAccuracyUpdate)
+    const dataAccuracyMerge = dataAccuracyEnter.merge(dataAccuracyUpdate)
       .attr('class', (datum) => {
-        return `accuracy sample ${(datum < this.model.accuracy.correct) ? 'correct' : 'error'}`;
+        return `accuracy data ${(datum < this.model.accuracy.correct) ? 'correct' : 'error'}`;
       });
-    sampleAccuracyMerge.select('.mark')
+    dataAccuracyMerge.select('.mark')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      // ## Tween based on params?
       .attr('x1', 0 + 0.25 * this.rem)
       .attr('x2', accuracyWidth - 0.25 * this.rem)
       .attr('y1', (datum) => {
@@ -1448,7 +1606,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         return accuracyScale(datum) - 1;
       });
     //  EXIT
-    sampleAccuracyUpdate.exit().remove();
+    dataAccuracyUpdate.exit().remove();
 
     //
     // OVERLAYERS
@@ -1518,6 +1676,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       }
     }
     boundaryMerge.select('.line')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', timeScale(this.scale.time.min))
       .attr('x2', timeScale(this.scale.time.max))
       .attr('y1', (datum) => {
@@ -1589,6 +1750,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     }
     const scaleRatio = (evidenceScale(0) - evidenceScale(1)) / (timeScale(1) - timeScale(0));
     driftMerge
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('transform', (datum) => {
         return `translate(${timeScale(datum.t0)}, ${evidenceScale(datum.startingPoint)})
           rotate(${-Math.atan((datum.v / 1000) * scaleRatio) * (180 / Math.PI)})`;
@@ -1690,11 +1854,17 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       }
     }
     t0zMerge.select('.line')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', timeScale(0))
       .attr('x2', (datum) => { return timeScale(datum.t0); })
       .attr('y1', (datum) => { return evidenceScale(datum.startingPoint); })
       .attr('y2', (datum) => { return evidenceScale(datum.startingPoint); });
     t0zMerge.select('.point')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('cx', (datum) => { return timeScale(datum.t0); })
       .attr('cy', (datum) => { return evidenceScale(datum.startingPoint); });
     //  EXIT
@@ -1724,11 +1894,17 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  MERGE
     const aMerge = aEnter.merge(aUpdate);
     aMerge.select('.line')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', timeScale(this.scale.time.max) - this.rem * 0.75)
       .attr('y1', evidenceScale(this.bounds.upper) + 2)
       .attr('x2', timeScale(this.scale.time.max) - this.rem * 0.75)
       .attr('y2', evidenceScale(this.bounds.lower) - 2);
     const aLabelMerge = aMerge.select('.label')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x', timeScale(this.scale.time.max))
       .attr('y', evidenceScale(this.bounds.upper) - this.rem * 0.25);
     aLabelMerge.select('.value')
@@ -1760,11 +1936,17 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  MERGE
     const zMerge = zEnter.merge(zUpdate);
     zMerge.select('.line')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', timeScale(this.scale.time.min) + this.rem * 0.75)
       .attr('y1', evidenceScale(this.startingPoint) + 2)
       .attr('x2', timeScale(this.scale.time.min) + this.rem * 0.75)
       .attr('y2', evidenceScale(this.bounds.lower) - 2);
     const zLabelMerge = zMerge.select('.label')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x', timeScale(this.scale.time.min))
       .attr('y', evidenceScale(this.bounds.lower) + this.rem * 0.125);
     zLabelMerge.select('.value')
@@ -1800,11 +1982,17 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const driftY = Math.sin(driftAngle) * driftHypotenuse;
     const vMerge = vEnter.merge(vUpdate);
     vMerge.select('.line')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('d', `
         M ${timeScale(this.t0 + 200) + this.rem * 0.75}, ${evidenceScale(this.startingPoint)}
         A ${timeScale(200) - timeScale(0)} ${timeScale(200) - timeScale(0)} 0 0 0 ${timeScale(this.t0) + driftX} ${evidenceScale(this.startingPoint) - driftY}
       `);
     const vLabelMerge = vMerge.select('.label')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x', timeScale(this.t0 + 200) + this.rem * 0.5)
       .attr('y', evidenceScale(this.bounds.upper) - this.rem * 0.25);
     vLabelMerge.select('.value')
@@ -1836,11 +2024,17 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  MERGE
     const t0Merge = t0Enter.merge(t0Update);
     t0Merge.select('.line')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', timeScale(0) + 2)
       .attr('y1', evidenceScale(this.startingPoint) - this.rem * 0.75)
       .attr('x2', timeScale(this.t0) - 2)
       .attr('y2', evidenceScale(this.startingPoint) - this.rem * 0.75);
     const t0LabelMerge = t0Merge.select('.label')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x', timeScale(this.t0) + this.rem * 0.25)
       .attr('y', evidenceScale(this.bounds.upper) - this.rem * 0.25);
     t0LabelMerge.select('.value')
@@ -1850,19 +2044,19 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
     // Means
     // DATA-JOIN
-    const correctMeanUpdate = correctDensityOverlayerMerge.selectAll('.mean.model.correct')
+    const correctMeanUpdate = correctDensityOverlayerMerge.selectAll('.model.mean.correct')
       .data(
-        this.means ? [this.model.meanRT.correct] : [],
+        this.means ? [this.model.correctMeanRT] : [],
       );
-    const errorMeanUpdate = errorDensityOverlayerMerge.selectAll('.mean.model.error')
+    const errorMeanUpdate = errorDensityOverlayerMerge.selectAll('.model.mean.error')
       .data(
-        this.means ? [this.model.meanRT.error] : [],
+        this.means ? [this.model.errorMeanRT] : [],
       );
     //  ENTER
     const correctMeanEnter = correctMeanUpdate.enter().append('g')
-      .classed('mean model correct', true);
+      .classed('model mean correct', true);
     const errorMeanEnter = errorMeanUpdate.enter().append('g')
-      .classed('mean model error', true);
+      .classed('model mean error', true);
     correctMeanEnter.append('line')
       .classed('indicator', true);
     errorMeanEnter.append('line')
@@ -1870,6 +2064,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  MERGE
     const correctMeanMerge = correctMeanEnter.merge(correctMeanUpdate);
     correctMeanMerge.select('.indicator')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', (datum) => {
         return timeScale(datum);
       })
@@ -1880,6 +2077,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('y2', correctDensityScale(this.scale.density.max));
     const errorMeanMerge = errorMeanEnter.merge(errorMeanUpdate);
     errorMeanMerge.select('.indicator')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', (datum) => {
         return timeScale(datum);
       })
@@ -1892,32 +2092,35 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     correctMeanUpdate.exit().remove();
     errorMeanUpdate.exit().remove();
 
-    // Sample Means
+    // Data Means
     // DATA-JOIN
-    const correctSampleMeanUpdate = correctDensityOverlayerMerge.selectAll('.mean.sample.correct')
+    const correctDataMeanUpdate = correctDensityOverlayerMerge.selectAll('.data.mean.correct')
       .data(
-        (this.means && !Number.isNaN(this.sample.meanRT.correct))
-          ? [this.sample.meanRT.correct]
+        (this.means && !Number.isNaN(this.data.correctMeanRT))
+          ? [this.data.correctMeanRT]
           : [],
       );
-    const errorSampleMeanUpdate = errorDensityOverlayerMerge.selectAll('.mean.sample.error')
+    const errorDataMeanUpdate = errorDensityOverlayerMerge.selectAll('.data.mean.error')
       .data(
-        (this.means && !Number.isNaN(this.sample.meanRT.error))
-          ? [this.sample.meanRT.error]
+        (this.means && !Number.isNaN(this.data.errorMeanRT))
+          ? [this.data.errorMeanRT]
           : [],
       );
     //  ENTER
-    const correctSampleMeanEnter = correctSampleMeanUpdate.enter().append('g')
-      .classed('mean sample correct', true);
-    const errorSampleMeanEnter = errorSampleMeanUpdate.enter().append('g')
-      .classed('mean sample error', true);
-    correctSampleMeanEnter.append('line')
+    const correctDataMeanEnter = correctDataMeanUpdate.enter().append('g')
+      .classed('data mean correct', true);
+    const errorDataMeanEnter = errorDataMeanUpdate.enter().append('g')
+      .classed('data mean error', true);
+    correctDataMeanEnter.append('line')
       .classed('indicator', true);
-    errorSampleMeanEnter.append('line')
+    errorDataMeanEnter.append('line')
       .classed('indicator', true);
     //  MERGE
-    const correctSampleMeanMerge = correctSampleMeanEnter.merge(correctSampleMeanUpdate);
-    correctSampleMeanMerge.select('.indicator')
+    const correctDataMeanMerge = correctDataMeanEnter.merge(correctDataMeanUpdate);
+    correctDataMeanMerge.select('.indicator')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', (datum) => {
         return timeScale(datum);
       })
@@ -1926,8 +2129,11 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       })
       .attr('y1', correctDensityScale(0) + 0.125 * this.rem)
       .attr('y2', correctDensityScale(0) + 0.675 * this.rem);
-    const errorSampleMeanMerge = errorSampleMeanEnter.merge(errorSampleMeanUpdate);
-    errorSampleMeanMerge.select('.indicator')
+    const errorDataMeanMerge = errorDataMeanEnter.merge(errorDataMeanUpdate);
+    errorDataMeanMerge.select('.indicator')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', (datum) => {
         return timeScale(datum);
       })
@@ -1937,24 +2143,24 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('y1', errorDensityScale(0) - 0.125 * this.rem)
       .attr('y2', errorDensityScale(0) - 0.675 * this.rem);
     //  EXIT
-    correctSampleMeanUpdate.exit().remove();
-    errorSampleMeanUpdate.exit().remove();
+    correctDataMeanUpdate.exit().remove();
+    errorDataMeanUpdate.exit().remove();
 
     // Standard Deviations
     // DATA-JOIN
-    const correctSDUpdate = correctDensityOverlayerMerge.selectAll('.sd.model.correct')
+    const correctSDUpdate = correctDensityOverlayerMerge.selectAll('.model.sd.correct')
       .data(
-        this.sds ? [{mean: this.model.meanRT.correct, sd: this.model.sdRT.correct}] : [],
+        this.sds ? [{mean: this.model.correctMeanRT, sd: this.model.correctSDRT}] : [],
       );
-    const errorSDUpdate = errorDensityOverlayerMerge.selectAll('.sd.model.error')
+    const errorSDUpdate = errorDensityOverlayerMerge.selectAll('.model.sd.error')
       .data(
-        this.sds ? [{mean: this.model.meanRT.error, sd: this.model.sdRT.error}] : [],
+        this.sds ? [{mean: this.model.errorMeanRT, sd: this.model.errorSDRT}] : [],
       );
     //  ENTER
     const correctSDEnter = correctSDUpdate.enter().append('g')
-      .classed('sd model correct', true);
+      .classed('model sd correct', true);
     const errorSDEnter = errorSDUpdate.enter().append('g')
-      .classed('sd model error', true);
+      .classed('model sd error', true);
     correctSDEnter.append('line')
       .classed('indicator', true)
       .attr('marker-start', 'url(#model-sd-cap)')
@@ -1966,6 +2172,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  MERGE
     const correctSDMerge = correctSDEnter.merge(correctSDUpdate);
     correctSDMerge.select('.indicator')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', (datum) => {
         return timeScale(datum.mean - (datum.sd / 2));
       })
@@ -1976,6 +2185,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('y2', correctDensityScale(5));
     const errorSDMerge = errorSDEnter.merge(errorSDUpdate);
     errorSDMerge.select('.indicator')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', (datum) => {
         return timeScale(datum.mean - (datum.sd / 2));
       })
@@ -1988,44 +2200,47 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     correctSDUpdate.exit().remove();
     errorSDUpdate.exit().remove();
 
-    // Sample Standard Deviation
+    // Data Standard Deviation
     // DATA-JOIN
-    const correctSampleSDUpdate = correctDensityOverlayerMerge.selectAll('.sd.sample.correct')
+    const correctDataSDUpdate = correctDensityOverlayerMerge.selectAll('.data.sd.correct')
       .data(
         (
           this.sds
-          && !Number.isNaN(this.sample.meanRT.correct)
-          && !Number.isNaN(this.sample.sdRT.correct)
+          && !Number.isNaN(this.data.correctMeanRT)
+          && !Number.isNaN(this.data.correctSDRT)
         )
-          ? [{mean: this.sample.meanRT.correct, sd: this.sample.sdRT.correct}]
+          ? [{mean: this.data.correctMeanRT, sd: this.data.correctSDRT}]
           : [],
       );
-    const errorSampleSDUpdate = errorDensityOverlayerMerge.selectAll('.sd.sample.error')
+    const errorDataSDUpdate = errorDensityOverlayerMerge.selectAll('.data.sd.error')
       .data(
         (
           this.sds
-          && !Number.isNaN(this.sample.meanRT.error)
-          && !Number.isNaN(this.sample.sdRT.error)
+          && !Number.isNaN(this.data.erroMeanRT)
+          && !Number.isNaN(this.data.errorSDRT)
         )
-          ? [{mean: this.sample.meanRT.error, sd: this.sample.sdRT.error}]
+          ? [{mean: this.data.errorMeanRT, sd: this.data.errorSDRT}]
           : [],
       );
     //  ENTER
-    const correctSampleSDEnter = correctSampleSDUpdate.enter().append('g')
-      .classed('sd sample correct', true);
-    const errorSampleSDEnter = errorSampleSDUpdate.enter().append('g')
-      .classed('sd sample error', true);
-    correctSampleSDEnter.append('line')
+    const correctDataSDEnter = correctDataSDUpdate.enter().append('g')
+      .classed('data sd correct', true);
+    const errorDataSDEnter = errorDataSDUpdate.enter().append('g')
+      .classed('data sd error', true);
+    correctDataSDEnter.append('line')
       .classed('indicator', true)
-      .attr('marker-start', 'url(#sample-sd-cap)')
-      .attr('marker-end', 'url(#sample-sd-cap)');
-    errorSampleSDEnter.append('line')
+      .attr('marker-start', 'url(#data-sd-cap)')
+      .attr('marker-end', 'url(#data-sd-cap)');
+    errorDataSDEnter.append('line')
       .classed('indicator', true)
-      .attr('marker-start', 'url(#sample-sd-cap)')
-      .attr('marker-end', 'url(#sample-sd-cap)');
+      .attr('marker-start', 'url(#data-sd-cap)')
+      .attr('marker-end', 'url(#data-sd-cap)');
     //  MERGE
-    const correctSampleSDMerge = correctSampleSDEnter.merge(correctSampleSDUpdate);
-    correctSampleSDMerge.select('.indicator')
+    const correctDataSDMerge = correctDataSDEnter.merge(correctDataSDUpdate);
+    correctDataSDMerge.select('.indicator')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', (datum) => {
         return timeScale(datum.mean - (datum.sd / 2));
       })
@@ -2034,8 +2249,11 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       })
       .attr('y1', correctDensityScale(0) + 0.375 * this.rem)
       .attr('y2', correctDensityScale(0) + 0.375 * this.rem);
-    const errorSampleSDMerge = errorSampleSDEnter.merge(errorSampleSDUpdate);
-    errorSampleSDMerge.select('.indicator')
+    const errorDataSDMerge = errorDataSDEnter.merge(errorDataSDUpdate);
+    errorDataSDMerge.select('.indicator')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
       .attr('x1', (datum) => {
         return timeScale(datum.mean - (datum.sd / 2));
       })
@@ -2045,8 +2263,8 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('y1', errorDensityScale(0) - 0.375 * this.rem)
       .attr('y2', errorDensityScale(0) - 0.375 * this.rem);
     //  EXIT
-    correctSampleSDUpdate.exit().remove();
-    errorSampleSDUpdate.exit().remove();
+    correctDataSDUpdate.exit().remove();
+    errorDataSDUpdate.exit().remove();
 
     this.firstUpdate = false;
   }
