@@ -43,8 +43,8 @@ export default class AccumulableTable extends AccumulableElement {
         type: Number,
         reflect: true,
       },
-      accuracy: {
-        attribute: 'accuracy',
+      nrCount: {
+        attribute: 'nr-count',
         type: Number,
         reflect: true,
       },
@@ -120,22 +120,20 @@ export default class AccumulableTable extends AccumulableElement {
 
     this.correctCount = NaN;
     this.errorCount = NaN;
-    this.accuracy = NaN;
+    this.nrCount = NaN;
     this.correctMeanRT = NaN;
     this.errorMeanRT = NaN;
     this.meanRT = NaN;
     this.correctSDRT = NaN;
     this.errorSDRT = NaN;
     this.sdRT = NaN;
+
+    this.accuracy = NaN;
     this.alignState();
   }
 
   alignState() {
-  //   this.hr = SDTMath.hM2Hr(this.h, this.m);
-  //   this.far = SDTMath.faCr2Far(this.fa, this.cr);
-  //   this.acc = SDTMath.hMFaCr2Acc(this.h, this.m, this.fa, this.cr);
-  //   this.ppv = SDTMath.hFa2Ppv(this.h, this.fa);
-  //   this.fomr = SDTMath.mCr2Fomr(this.m, this.cr);
+    this.accuracy = this.correctCount / (this.correctCount + this.errorCount + this.nrCount);
   }
 
   sendEvent() {
@@ -143,7 +141,7 @@ export default class AccumulableTable extends AccumulableElement {
       detail: {
         correctCount: this.correctCount,
         errorCount: this.errorCount,
-        accuracy: this.accuracy,
+        nrCount: this.nrCount,
         correctMeanRT: this.correctMeanRT,
         errorMeanRT: this.errorMeanRT,
         meanRT: this.meanRT,
@@ -301,7 +299,7 @@ export default class AccumulableTable extends AccumulableElement {
           background: var(---color-element-background); /* ###### */
         }
 
-        .overall.accuracy {
+        .overall.proportion-correct {
           background: var(---color-element-background); /* ###### */
         }
 
@@ -344,7 +342,7 @@ export default class AccumulableTable extends AccumulableElement {
 
         /* Measure color scheme */
         :host([color="measure"]) .count,
-        :host([color="measure"]) .accuracy {
+        :host([color="measure"]) .proportion-correct {
           background: var(---color-element-background); /* ###### */
         }
 
@@ -492,7 +490,7 @@ export default class AccumulableTable extends AccumulableElement {
             </td>
             ${(this.summary.has('overall'))
               ? html`
-                <td class="td td-summary overall accuracy">
+                <td class="td td-summary overall proportion-correct">
                   ${accuracy}
                 </td>`
               : html``}
