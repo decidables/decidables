@@ -8,16 +8,25 @@ import DDMExample from './ddm-example';
   <ddm-example-human>
 */
 export default class DDMExampleHuman extends DDMExample {
+  constructor() {
+    super();
+
+    this.trialCount = 0;
+  }
+
   connectedCallback() {
     super.connectedCallback();
-
-    this.count = 1;
 
     this.accumulableControl = this.querySelector('accumulable-control');
     this.rdkTask = this.querySelector('rdk-2afc-task');
     this.accumulableResponse = this.querySelector('accumulable-response');
     this.accumulableTable = this.querySelector('accumulable-table');
+    this.ddmParameters = this.querySelector('ddm-parameters');
     this.ddmModel = this.querySelector('ddm-model');
+    this.ddmFit = this.querySelector('ddm-fit');
+
+    // Initialize
+    this.ddmModel.clear();
 
     if (this.accumulableControl && this.accumulableControl.hasAttribute('trials')) {
       this.accumulableControl.addEventListener('accumulable-control-trials', (event) => {
@@ -86,7 +95,7 @@ export default class DDMExampleHuman extends DDMExample {
         if (this.accumulableTable) {
           this.accumulableTable.correctCount = NaN;
           this.accumulableTable.errorCount = NaN;
-          this.accumulableTable.accuracy = NaN;
+          this.accumulableTable.nrCount = NaN;
           this.accumulableTable.correctMeanRT = NaN;
           this.accumulableTable.errorMeanRT = NaN;
           this.accumulableTable.meanRT = NaN;
@@ -95,9 +104,15 @@ export default class DDMExampleHuman extends DDMExample {
           this.accumulableTable.sdRT = NaN;
         }
 
+        // if (this.ddmParameters) {
+        // }
+
         if (this.ddmModel) {
-          // this.sdtModel.d = 0;
-          // this.sdtModel.c = 0;
+          this.ddmModel.clear();
+        }
+
+        if (this.ddmFit) {
+          this.ddmFit.clear();
         }
       });
     }
@@ -135,24 +150,50 @@ export default class DDMExampleHuman extends DDMExample {
     if (this.accumulableResponse) {
       this.accumulableResponse.addEventListener('accumulable-response', (event) => {
         if (this.accumulableTable) {
-          this.accumulableTable.correctCount = event.detail.correct;
-          this.accumulableTable.errorCount = event.detail.error;
-          this.accumulableTable.accuracy = event.detail.correct
-            / (event.detail.correct + event.detail.error + event.detail.nr);
-          this.accumulableTable.correctMeanRT = event.detail.meanCorrectRT;
-          this.accumulableTable.errorMeanRT = event.detail.meanErrorRT;
+          this.accumulableTable.correctCount = event.detail.correctCount;
+          this.accumulableTable.errorCount = event.detail.errorCount;
+          this.accumulableTable.nrCount = event.detail.nrCount;
+          this.accumulableTable.correctMeanRT = event.detail.correctMeanRT;
+          this.accumulableTable.errorMeanRT = event.detail.errorMeanRT;
           this.accumulableTable.meanRT = event.detail.meanRT;
-          this.accumulableTable.correctSDRT = event.detail.sdCorrectRT;
-          this.accumulableTable.errorSDRT = event.detail.sdErrorRT;
+          this.accumulableTable.correctSDRT = event.detail.correctSDRT;
+          this.accumulableTable.errorSDRT = event.detail.errorSDRT;
           this.accumulableTable.sdRT = event.detail.sdRT;
         }
 
-        // const newhr = SDTMath.hM2Hr((event.detail.h + 1), (event.detail.m + 1));
-        // const newfar = SDTMath.faCr2Far((event.detail.fa + 1), (event.detail.cr + 1));
+        if (this.ddmModel) {
+          this.ddmModel.trial({
+            index: event.detail.trial,
+            rt: event.detail.rt,
+            outcome: event.detail.outcome,
+          });
+        }
+
+        if (this.ddmFit) {
+          this.ddmFit.set({
+            meanRT: event.detail.meanRT,
+            sdRT: event.detail.sdRT,
+            accuracy: event.detail.correctCount
+              / (event.detail.correctCount + event.detail.errorCount + event.detail.nrCount),
+          });
+        }
+      });
+    }
+
+    if (this.ddmFit) {
+      this.ddmFit.addEventListener('ddm-fit-update', (event) => {
+        if (this.ddmParameters) {
+          this.ddmParameters.a = event.detail.a;
+          this.ddmParameters.z = 0.5; // event.detail.z;
+          this.ddmParameters.v = event.detail.v;
+          this.ddmParameters.t0 = event.detail.t0;
+        }
 
         if (this.ddmModel) {
-          // this.sdtModel.d = SDTMath.hrFar2D(newhr, newfar);
-          // this.sdtModel.c = SDTMath.hrFar2C(newhr, newfar);
+          this.ddmModel.a = event.detail.a;
+          this.ddmModel.z = 0.5; // event.detail.z;
+          this.ddmModel.v = event.detail.v;
+          this.ddmModel.t0 = event.detail.t0;
         }
       });
     }
