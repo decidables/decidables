@@ -1,7 +1,5 @@
 ## Notes
 
-Why is README.md printing to console during lint?
-
 Universal bounds and step sizes for each parameter?
 Separate Controls vs Parameters
 Keyboard responses for all tasks
