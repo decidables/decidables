@@ -1,6 +1,10 @@
 ## Bugs
 
+- Why is README.md printing to console during lint?
 - unify math?
+- testing
+- publish elements & math
+- add to website
 
 ## Ideas
 
