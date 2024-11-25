@@ -4,7 +4,7 @@ import {
   html,
 } from '../../../../scripts/test-utility';
 
-import '../../src/components/accumulable-parameters';
+import '../../src/components/ddm-parameters';
 import DDMExample from '../../src/examples/ddm-example';
 
 describe('ddm-example', () => {
@@ -15,7 +15,7 @@ describe('ddm-example', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <ddm-example>
-        <accumulable-parameters></accumulable-parameters>
+        <ddm-parameters></ddm-parameters>
       </ddm-example>
     `);
     expect(el).shadowDom.to.equal(`
@@ -32,9 +32,9 @@ describe('ddm-example', () => {
   it('has a lightDom', async () => {
     const el = await fixture(html`
       <ddm-example>
-        <accumulable-parameters></accumulable-parameters>
+        <ddm-parameters></ddm-parameters>
       </ddm-example>
     `);
-    expect(el).lightDom.to.equal('<accumulable-parameters></accumulable-parameters>');
+    expect(el).lightDom.to.equal('<ddm-parameters></ddm-parameters>');
   });
 });
