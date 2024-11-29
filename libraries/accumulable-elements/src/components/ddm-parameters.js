@@ -53,7 +53,7 @@ export default class DDMParameters extends AccumulableElement {
   }
 
   setBoundarySeparation(e) {
-    this.a = e.target.value;
+    this.a = +e.target.value;
     this.dispatchEvent(new CustomEvent('ddm-parameters-a', {
       detail: {
         a: this.a,
@@ -63,7 +63,7 @@ export default class DDMParameters extends AccumulableElement {
   }
 
   setStartingPoint(e) {
-    this.z = e.target.value;
+    this.z = +e.target.value;
     this.dispatchEvent(new CustomEvent('ddm-parameters-z', {
       detail: {
         z: this.z,
@@ -73,7 +73,7 @@ export default class DDMParameters extends AccumulableElement {
   }
 
   setDriftRate(e) {
-    this.v = e.target.value;
+    this.v = +e.target.value;
     this.dispatchEvent(new CustomEvent('ddm-parameters-v', {
       detail: {
         v: this.v,
@@ -83,7 +83,7 @@ export default class DDMParameters extends AccumulableElement {
   }
 
   setNondecisionTime(e) {
-    this.t0 = e.target.value;
+    this.t0 = +e.target.value;
     this.dispatchEvent(new CustomEvent('ddm-parameters-t0', {
       detail: {
         t0: this.t0,
@@ -134,16 +134,16 @@ export default class DDMParameters extends AccumulableElement {
     return html`
       <div class="holder">
         ${this.a != null
-          ? html`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="2" step=".01" .value=${this.a.toFixed(2)} @change=${this.setBoundarySeparation.bind(this)} @input=${this.setBoundarySeparation.bind(this)}><div>Boundary Separation<br><span class="math-var">a</span></div></decidables-slider>`
+          ? html`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="2" step=".01" .value=${+this.a.toFixed(2)} @change=${this.setBoundarySeparation.bind(this)} @input=${this.setBoundarySeparation.bind(this)}><div>Boundary Separation<br><span class="math-var">a</span></div></decidables-slider>`
           : html``}
         ${this.z != null
-          ? html`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="0.99" step=".01" .value=${this.z.toFixed(2)} @change=${this.setStartingPoint.bind(this)} @input=${this.setStartingPoint.bind(this)}><div>Starting Point<br><span class="math-var">z</span></div></decidables-slider>`
+          ? html`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="0.99" step=".01" .value=${+this.z.toFixed(2)} @change=${this.setStartingPoint.bind(this)} @input=${this.setStartingPoint.bind(this)}><div>Starting Point<br><span class="math-var">z</span></div></decidables-slider>`
           : html``}
         ${this.v != null
-          ? html`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="5" step=".01" .value=${this.v.toFixed(2)} @change=${this.setDriftRate.bind(this)} @input=${this.setDriftRate.bind(this)}><div>Drift Rate<br><span class="math-var">v</span></div></decidables-slider>`
+          ? html`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="5" step=".01" .value=${+this.v.toFixed(2)} @change=${this.setDriftRate.bind(this)} @input=${this.setDriftRate.bind(this)}><div>Drift Rate<br><span class="math-var">v</span></div></decidables-slider>`
           : html``}
         ${this.t0 != null
-          ? html`<decidables-slider ?disabled=${!this.interactive} min="0" max="500" step="1" .value=${this.t0.toFixed(0)} @change=${this.setNondecisionTime.bind(this)} @input=${this.setNondecisionTime.bind(this)}><div>Nondecision Time<br><span class="math-var">t₀</span></div></decidables-slider>`
+          ? html`<decidables-slider ?disabled=${!this.interactive} min="0" max="500" step="1" .value=${+this.t0.toFixed(0)} @change=${this.setNondecisionTime.bind(this)} @input=${this.setNondecisionTime.bind(this)}><div>Nondecision Time<br><span class="math-var">t₀</span></div></decidables-slider>`
           : html``}
       </div>`;
   }
