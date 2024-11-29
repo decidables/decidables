@@ -985,25 +985,58 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`);
 
     // Plots
+    //  DATA-JOIN
+    const densityPlotUpdate = svgMerge.selectAll('.plot.density')
+      .data([
+        {
+          outcome: 'correct',
+          data: {
+            meanRT: this.data.correctMeanRT,
+            sdRT: this.data.correctSDRT,
+          },
+          model: {
+            meanRT: this.model.correctMeanRT,
+            sdRT: this.model.correctSDRT,
+            dist: this.model.correctDist,
+          },
+          densityScale: correctDensityScale,
+          densityLine: correctDensityLine,
+          alignDistribution: this.alignCorrectDistribution.bind(this),
+        },
+        {
+          outcome: 'error',
+          data: {
+            meanRT: this.data.errorMeanRT,
+            sdRT: this.data.errorSDRT,
+          },
+          model: {
+            meanRT: this.model.errorMeanRT,
+            sdRT: this.model.errorSDRT,
+            dist: this.model.errorDist,
+          },
+          densityScale: errorDensityScale,
+          densityLine: errorDensityLine,
+          alignDistribution: this.alignErrorDistribution.bind(this),
+        },
+      ]);
     //  ENTER
     const evidencePlotEnter = svgEnter.append('g')
       .classed('plot evidence', true);
-    const correctDensityPlotEnter = svgEnter.append('g')
-      .classed('plot density correct', true);
-    const errorDensityPlotEnter = svgEnter.append('g')
-      .classed('plot density error', true);
+    const densityPlotEnter = densityPlotUpdate.enter().append('g')
+      .attr('class', (datum) => { return `plot density ${datum.outcome}`; });
     const accuracyPlotEnter = svgEnter.append('g')
       .classed('plot accuracy', true);
     //  MERGE
     const evidencePlotMerge = svgMerge.select('.plot.evidence')
       .attr('transform', `translate(${margin.left}, ${margin.top + densityHeight + gapHeight})`);
-    const correctDensityPlotMerge = svgMerge.select('.plot.density.correct')
-      .attr('transform', `translate(${margin.left}, ${margin.top})`);
-    const errorDensityPlotMerge = svgMerge.select('.plot.density.error')
-      .attr(
-        'transform',
-        `translate(${margin.left}, ${margin.top + densityHeight + evidenceHeight + 2 * gapHeight})`,
-      );
+    const densityPlotMerge = densityPlotEnter.merge(densityPlotUpdate)
+      .attr('transform', (datum) => {
+        return `translate(${margin.left}, ${
+          (datum.outcome === 'correct')
+            ? margin.top
+            : margin.top + densityHeight + evidenceHeight + 2 * gapHeight
+        })`;
+      });
     const accuracyPlotMerge = svgMerge.select('.plot.accuracy')
       .attr('transform', `translate(${margin.left + timeWidth + gapWidth}, ${margin.top})`);
 
@@ -1026,16 +1059,13 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  ENTER
     const evidenceUnderlayerEnter = evidencePlotEnter.append('g')
       .classed('underlayer', true);
-    const correctDensityUnderlayerEnter = correctDensityPlotEnter.append('g')
-      .classed('underlayer', true);
-    const errorDensityUnderlayerEnter = errorDensityPlotEnter.append('g')
+    const densityUnderlayerEnter = densityPlotEnter.append('g')
       .classed('underlayer', true);
     const accuracyUnderlayerEnter = accuracyPlotEnter.append('g')
       .classed('underlayer', true);
     //  MERGE
     const evidenceUnderlayerMerge = evidencePlotMerge.select('.underlayer');
-    const correctDensityUnderlayerMerge = correctDensityPlotMerge.select('.underlayer');
-    const errorDensityUnderlayerMerge = errorDensityPlotMerge.select('.underlayer');
+    const densityUnderlayerMerge = densityPlotMerge.select('.underlayer');
     const accuracyUnderlayerMerge = accuracyPlotMerge.select('.underlayer');
 
     // Contents
@@ -1043,32 +1073,26 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     evidencePlotEnter.append('g')
       .classed('content', true)
       .append('g').classed('paths', true);
-    correctDensityPlotEnter.append('g')
-      .classed('content', true);
-    errorDensityPlotEnter.append('g')
+    const densityContentEnter = densityPlotEnter.append('g')
       .classed('content', true);
     accuracyPlotEnter.append('g')
       .classed('content', true);
     //  MERGE
     const evidenceContentMerge = evidencePlotMerge.select('.content');
-    const correctDensityContentMerge = correctDensityPlotMerge.select('.content');
-    const errorDensityContentMerge = errorDensityPlotMerge.select('.content');
+    const densityContentMerge = densityPlotMerge.select('.content');
     const accuracyContentMerge = accuracyPlotMerge.select('.content');
 
     // Overlayers
     //  ENTER
     evidencePlotEnter.append('g')
       .classed('overlayer', true);
-    correctDensityPlotEnter.append('g')
-      .classed('overlayer', true);
-    errorDensityPlotEnter.append('g')
+    densityPlotEnter.append('g')
       .classed('overlayer', true);
     accuracyPlotEnter.append('g')
       .classed('overlayer', true);
     //  MERGE
     const evidenceOverlayerMerge = evidencePlotMerge.select('.overlayer');
-    const correctDensityOverlayerMerge = correctDensityPlotMerge.select('.overlayer');
-    const errorDensityOverlayerMerge = errorDensityPlotMerge.select('.overlayer');
+    const densityOverlayerMerge = densityPlotMerge.select('.overlayer');
     // const accuracyOverlayerMerge = accuracyPlotMerge.select('.overlayer');
 
     //
@@ -1079,9 +1103,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  ENTER
     evidenceUnderlayerEnter.append('rect')
       .classed('background', true);
-    correctDensityUnderlayerEnter.append('rect')
-      .classed('background', true);
-    errorDensityUnderlayerEnter.append('rect')
+    densityUnderlayerEnter.append('rect')
       .classed('background', true);
     //  MERGE
     evidenceUnderlayerMerge.select('.background')
@@ -1091,13 +1113,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('y', evidenceScale(this.bounds.upper))
       .attr('height', evidenceScale(this.bounds.lower) - evidenceScale(this.bounds.upper))
       .attr('width', timeWidth);
-    correctDensityUnderlayerMerge.select('.background')
-      .transition()
-      .duration(transitionDuration)
-      .ease(d3.easeCubicOut)
-      .attr('height', densityHeight)
-      .attr('width', timeWidth);
-    errorDensityUnderlayerMerge.select('.background')
+    densityUnderlayerMerge.select('.background')
       .transition()
       .duration(transitionDuration)
       .ease(d3.easeCubicOut)
@@ -1106,10 +1122,14 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
     // X Axes (Time)
     //  ENTER
-    errorDensityUnderlayerEnter.append('g')
+    densityUnderlayerEnter
+      .filter((datum) => { return datum.outcome === 'error'; })
+      .append('g')
       .classed('axis time', true);
     //  MERGE
-    const timeScaleMerge = errorDensityUnderlayerMerge.select('.axis.time')
+    const timeScaleMerge = densityUnderlayerMerge
+      .filter((datum) => { return datum.outcome === 'error'; })
+      .select('.axis.time')
       .attr('transform', `translate(0, ${densityHeight + (0.25 * this.rem)})`);
     const timeScaleTransition = timeScaleMerge.transition()
       .duration(transitionDuration)
@@ -1122,14 +1142,18 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
     // X Axes Titles
     //  ENTER
-    const timeTitleEnter = errorDensityUnderlayerEnter.append('text')
+    const timeTitleEnter = densityUnderlayerEnter
+      .filter((datum) => { return datum.outcome === 'error'; })
+      .append('text')
       .classed('title time', true)
       .attr('text-anchor', 'middle');
     timeTitleEnter.append('tspan')
       .classed('name', true)
       .text('Time (ms)');
     //  MERGE
-    errorDensityUnderlayerMerge.select('.title.time')
+    densityUnderlayerMerge
+      .filter((datum) => { return datum.outcome === 'error'; })
+      .select('.title.time')
       .transition()
       .duration(transitionDuration)
       .ease(d3.easeCubicOut)
@@ -1142,18 +1166,14 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  ENTER
     evidenceUnderlayerEnter.append('g')
       .classed('axis evidence', true);
-    correctDensityUnderlayerEnter.append('g')
-      .classed('axis density correct', true);
-    errorDensityUnderlayerEnter.append('g')
-      .classed('axis density error', true);
+    densityUnderlayerEnter.append('g')
+      .attr('class', (datum) => { return `axis density ${datum.outcome}`; });
     accuracyUnderlayerEnter.append('g')
       .classed('axis accuracy', true);
     // MERGE
     const evidenceScaleMerge = evidenceUnderlayerMerge.select('.axis.evidence')
       .attr('transform', `translate(${-0.25 * this.rem}, 0)`);
-    const correctDensityScaleMerge = correctDensityUnderlayerMerge.select('.axis.density.correct')
-      .attr('transform', `translate(${-0.25 * this.rem}, 0)`);
-    const errorDensityScaleMerge = errorDensityUnderlayerMerge.select('.axis.density.error')
+    const densityScaleMerge = densityUnderlayerMerge.select('.axis.density')
       .attr('transform', `translate(${-0.25 * this.rem}, 0)`);
     const accuracyScaleMerge = accuracyUnderlayerMerge.select('.axis.accuracy')
       .attr('transform', `translate(${accuracyWidth + (0.25 * this.rem)}, 0)`);
@@ -1163,16 +1183,12 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .call(d3.axisLeft(evidenceScale))
       .attr('font-size', null)
       .attr('font-family', null);
-    const correctDensityScaleTransition = correctDensityScaleMerge.transition()
+    const densityScaleTransition = densityScaleMerge.transition()
       .duration(transitionDuration)
       .ease(d3.easeCubicOut)
-      .call(d3.axisLeft(correctDensityScale).ticks(2))
-      .attr('font-size', null)
-      .attr('font-family', null);
-    const errorDensityScaleTransition = errorDensityScaleMerge.transition()
-      .duration(transitionDuration)
-      .ease(d3.easeCubicOut)
-      .call(d3.axisLeft(errorDensityScale).ticks(2))
+      .each((datum, index, elements) => {
+        d3.axisLeft(datum.densityScale).ticks(2)(d3.select(elements[index]));
+      })
       .attr('font-size', null)
       .attr('font-family', null);
     const accuracyScaleTransition = accuracyScaleMerge.transition()
@@ -1183,9 +1199,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('font-family', null);
     evidenceScaleTransition.selectAll('line, path')
       .attr('stroke', null);
-    correctDensityScaleTransition.selectAll('line, path')
-      .attr('stroke', null);
-    errorDensityScaleTransition.selectAll('line, path')
+    densityScaleTransition.selectAll('line, path')
       .attr('stroke', null);
     accuracyScaleTransition.selectAll('line, path')
       .attr('stroke', null);
@@ -1195,11 +1209,8 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const evidenceTitleEnter = evidenceUnderlayerEnter.append('text')
       .classed('title evidence', true)
       .attr('text-anchor', 'middle');
-    const correctDensityTitleEnter = correctDensityUnderlayerEnter.append('text')
-      .classed('title density correct', true)
-      .attr('text-anchor', 'middle');
-    const errorDensityTitleEnter = errorDensityUnderlayerEnter.append('text')
-      .classed('title density error', true)
+    const densityTitleEnter = densityUnderlayerEnter.append('text')
+      .attr('class', (datum) => { return `title density ${datum.outcome}`; })
       .attr('text-anchor', 'middle');
     const accuracyTitleEnter = accuracyUnderlayerEnter.append('text')
       .classed('title accuracy', true)
@@ -1207,10 +1218,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     evidenceTitleEnter.append('tspan')
       .classed('name', true)
       .text('Evidence');
-    correctDensityTitleEnter.append('tspan')
-      .classed('name', true)
-      .text('Density');
-    errorDensityTitleEnter.append('tspan')
+    densityTitleEnter.append('tspan')
       .classed('name', true)
       .text('Density');
     accuracyTitleEnter.append('tspan')
@@ -1222,12 +1230,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .duration(transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('transform', `translate(${-2.5 * this.rem}, ${(evidenceHeight / 2)})rotate(-90)`);
-    correctDensityUnderlayerMerge.select('.title.density.correct')
-      .transition()
-      .duration(transitionDuration)
-      .ease(d3.easeCubicOut)
-      .attr('transform', `translate(${-2.5 * this.rem}, ${(densityHeight / 2)})rotate(-90)`);
-    errorDensityUnderlayerMerge.select('.title.density.error')
+    densityUnderlayerMerge.select('.title.density')
       .transition()
       .duration(transitionDuration)
       .ease(d3.easeCubicOut)
@@ -1302,6 +1305,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
+// ## Animate color!
       .attrTween('d', (datum, index, elements) => {
         const element = elements[index];
         const interpolateA = d3.interpolate(
@@ -1329,7 +1333,6 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           return evidenceLine(path);
         };
       });
-
     //  MERGE - Active Animate Paths
     const pathMergeNewActive = pathMerge.filter((datum) => {
       return (datum.animate && !this.paused);
@@ -1407,26 +1410,13 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     pathUpdate.exit().remove();
 
     // Distributions
-    // DATA-JOIN
-    const correctDistUpdate = correctDensityContentMerge.selectAll('.dist.correct')
-      .data(
-        [this.model.correctDist],
-      );
-    const errorDistUpdate = errorDensityContentMerge.selectAll('.dist.error')
-      .data(
-        [this.model.errorDist],
-      );
     //  ENTER
-    const correctDistEnter = correctDistUpdate.enter().append('g')
-      .classed('dist correct', true);
-    const errorDistEnter = errorDistUpdate.enter().append('g')
-      .classed('dist error', true);
-    correctDistEnter.append('path')
-      .classed('curve', true);
-    errorDistEnter.append('path')
+    const distEnter = densityContentEnter.append('g')
+      .attr('class', (datum) => { return `dist ${datum.outcome}`; });
+    distEnter.append('path')
       .classed('curve', true);
     //  MERGE
-    correctDistEnter.merge(correctDistUpdate).select('.curve')
+    densityContentMerge.select('.dist').select('.curve')
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
@@ -1453,98 +1443,45 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           element.z = interpolateZ(time);
           element.v = interpolateV(time);
           element.t0 = interpolateT0(time);
-          const path = this.alignCorrectDistribution(element.a, element.z, element.v, element.t0);
-          return correctDensityLine(path);
+          const path = datum.alignDistribution(element.a, element.z, element.v, element.t0);
+          return datum.densityLine(path);
         };
       });
-    errorDistEnter.merge(errorDistUpdate).select('.curve')
-      .transition()
-      .duration(this.drag ? 0 : transitionDuration)
-      .ease(d3.easeCubicOut)
-      .attrTween('d', (datum, index, elements) => {
-        const element = elements[index];
-        const interpolateA = d3.interpolate(
-          (element.a !== undefined) ? element.a : this.a,
-          this.a,
-        );
-        const interpolateZ = d3.interpolate(
-          (element.z !== undefined) ? element.z : this.z,
-          this.z,
-        );
-        const interpolateV = d3.interpolate(
-          (element.v !== undefined) ? element.v : this.v,
-          this.v,
-        );
-        const interpolateT0 = d3.interpolate(
-          (element.t0 !== undefined) ? element.t0 : this.t0,
-          this.t0,
-        );
-        return (time) => {
-          element.a = interpolateA(time);
-          element.z = interpolateZ(time);
-          element.v = interpolateV(time);
-          element.t0 = interpolateT0(time);
-          const path = this.alignErrorDistribution(element.a, element.z, element.v, element.t0);
-          return errorDensityLine(path);
-        };
-      });
-    //  EXIT
-    correctDistUpdate.exit().remove();
-    errorDistUpdate.exit().remove();
 
     // RTs
     //  DATA-JOIN
-    const correctRTUpdate = correctDensityContentMerge.selectAll('.rt.correct')
-      .data(
-        this.data.trials.filter((trial) => {
-          return ((trial.outcome === 'correct') && (trial.rt < this.scale.time.max));
-        }),
-      );
-    const errorRTUpdate = errorDensityContentMerge.selectAll('.rt.error')
-      .data(
-        this.data.trials.filter((trial) => {
-          return ((trial.outcome === 'error') && (trial.rt < this.scale.time.max));
-        }),
-      );
+    const rtUpdate = evidenceContentMerge.selectAll('.rt')
+      .data(this.data.trials);
     //  ENTER
-    const correctRTEnter = correctRTUpdate.enter().append('g')
-      .classed('rt correct', true);
-    const errorRTEnter = errorRTUpdate.enter().append('g')
-      .classed('rt error', true);
-    correctRTEnter.append('line')
-      .classed('mark', true);
-    errorRTEnter.append('line')
+    const rtEnter = rtUpdate.enter().append('g')
+// ## Update class!
+      .attr('class', (datum) => { return `rt ${datum.outcome}`; });
+    rtEnter.append('line')
       .classed('mark', true);
     //  MERGE
-    correctRTEnter.merge(correctRTUpdate).filter((datum) => { return (!datum.animate); }).select('.mark')
+    rtEnter.merge(rtUpdate).filter((datum) => { return (!datum.animate); }).select('.mark')
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
-      // ## Tween based on params, across correct and error?
+// ## Animate color!
       .attr('x1', (datum) => {
         return timeScale(datum.rt);
       })
       .attr('x2', (datum) => {
         return timeScale(datum.rt);
       })
-      .attr('y1', correctDensityScale(0) + 0.125 * this.rem)
-      .attr('y2', correctDensityScale(0) + 0.675 * this.rem);
-    errorRTEnter.merge(errorRTUpdate).filter((datum) => { return (!datum.animate); }).select('.mark')
-      .transition()
-      .duration(this.drag ? 0 : transitionDuration)
-      .ease(d3.easeCubicOut)
-      // ## Tween based on params, across correct and error?
-      .attr('x1', (datum) => {
-        return timeScale(datum.rt);
+      .attr('y1', (datum) => {
+        return (datum.outcome === 'correct')
+          ? evidenceScale(1) - 0.125 * this.rem
+          : evidenceScale(-1) + 0.125 * this.rem;
       })
-      .attr('x2', (datum) => {
-        return timeScale(datum.rt);
-      })
-      .attr('y1', errorDensityScale(0) - 0.125 * this.rem)
-      .attr('y2', errorDensityScale(0) - 0.675 * this.rem);
+      .attr('y2', (datum) => {
+        return (datum.outcome === 'correct')
+          ? evidenceScale(1) - 0.675 * this.rem
+          : evidenceScale(-1) + 0.675 * this.rem;
+      });
     //  EXIT
-    correctRTUpdate.exit().remove();
-    errorRTUpdate.exit().remove();
+    rtUpdate.exit().remove();
 
     // Model Accuracy
     //  DATA-JOIN
@@ -2044,227 +1981,117 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
     // Means
     // DATA-JOIN
-    const correctMeanUpdate = correctDensityOverlayerMerge.selectAll('.model.mean.correct')
-      .data(
-        this.means ? [this.model.correctMeanRT] : [],
-      );
-    const errorMeanUpdate = errorDensityOverlayerMerge.selectAll('.model.mean.error')
-      .data(
-        this.means ? [this.model.errorMeanRT] : [],
-      );
+    const meanUpdate = densityOverlayerMerge.selectAll('.model.mean')
+      .data((datum) => {
+        return this.means ? [datum] : [];
+      });
     //  ENTER
-    const correctMeanEnter = correctMeanUpdate.enter().append('g')
-      .classed('model mean correct', true);
-    const errorMeanEnter = errorMeanUpdate.enter().append('g')
-      .classed('model mean error', true);
-    correctMeanEnter.append('line')
-      .classed('indicator', true);
-    errorMeanEnter.append('line')
+    const meanEnter = meanUpdate.enter().append('g')
+      .attr('class', (datum) => { return `model mean ${datum.outcome}`; });
+    meanEnter.append('line')
       .classed('indicator', true);
     //  MERGE
-    const correctMeanMerge = correctMeanEnter.merge(correctMeanUpdate);
-    correctMeanMerge.select('.indicator')
+    const meanMerge = meanEnter.merge(meanUpdate);
+    meanMerge.select('.indicator')
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
-      .attr('x1', (datum) => {
-        return timeScale(datum);
-      })
-      .attr('x2', (datum) => {
-        return timeScale(datum);
-      })
-      .attr('y1', correctDensityScale(this.scale.density.min))
-      .attr('y2', correctDensityScale(this.scale.density.max));
-    const errorMeanMerge = errorMeanEnter.merge(errorMeanUpdate);
-    errorMeanMerge.select('.indicator')
-      .transition()
-      .duration(this.drag ? 0 : transitionDuration)
-      .ease(d3.easeCubicOut)
-      .attr('x1', (datum) => {
-        return timeScale(datum);
-      })
-      .attr('x2', (datum) => {
-        return timeScale(datum);
-      })
-      .attr('y1', errorDensityScale(this.scale.density.min))
-      .attr('y2', errorDensityScale(this.scale.density.max));
+      .attr('x1', (datum) => { return timeScale(datum.model.meanRT); })
+      .attr('x2', (datum) => { return timeScale(datum.model.meanRT); })
+      .attr('y1', (datum) => { return datum.densityScale(this.scale.density.min); })
+      .attr('y2', (datum) => { return datum.densityScale(this.scale.density.max); });
     //  EXIT
-    correctMeanUpdate.exit().remove();
-    errorMeanUpdate.exit().remove();
+    meanUpdate.exit().remove();
 
     // Data Means
     // DATA-JOIN
-    const correctDataMeanUpdate = correctDensityOverlayerMerge.selectAll('.data.mean.correct')
-      .data(
-        (this.means && !Number.isNaN(this.data.correctMeanRT))
-          ? [this.data.correctMeanRT]
-          : [],
-      );
-    const errorDataMeanUpdate = errorDensityOverlayerMerge.selectAll('.data.mean.error')
-      .data(
-        (this.means && !Number.isNaN(this.data.errorMeanRT))
-          ? [this.data.errorMeanRT]
-          : [],
-      );
+    const dataMeanUpdate = densityOverlayerMerge.selectAll('.data.mean')
+      .data((datum) => {
+        return (this.means && !Number.isNaN(datum.data.meanRT)) ? [datum] : [];
+      });
     //  ENTER
-    const correctDataMeanEnter = correctDataMeanUpdate.enter().append('g')
-      .classed('data mean correct', true);
-    const errorDataMeanEnter = errorDataMeanUpdate.enter().append('g')
-      .classed('data mean error', true);
-    correctDataMeanEnter.append('line')
-      .classed('indicator', true);
-    errorDataMeanEnter.append('line')
+    const dataMeanEnter = dataMeanUpdate.enter().append('g')
+      .attr('class', (datum) => { return `data mean ${datum.outcome}`; });
+    dataMeanEnter.append('line')
       .classed('indicator', true);
     //  MERGE
-    const correctDataMeanMerge = correctDataMeanEnter.merge(correctDataMeanUpdate);
-    correctDataMeanMerge.select('.indicator')
+    const dataMeanMerge = dataMeanEnter.merge(dataMeanUpdate);
+    dataMeanMerge.select('.indicator')
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
-      .attr('x1', (datum) => {
-        return timeScale(datum);
+      .attr('x1', (datum) => { return timeScale(datum.data.meanRT); })
+      .attr('x2', (datum) => { return timeScale(datum.data.meanRT); })
+      .attr('y1', (datum) => {
+        return datum.densityScale(0) + ((datum.outcome === 'correct') ? 0.125 : -0.125) * this.rem;
       })
-      .attr('x2', (datum) => {
-        return timeScale(datum);
-      })
-      .attr('y1', correctDensityScale(0) + 0.125 * this.rem)
-      .attr('y2', correctDensityScale(0) + 0.675 * this.rem);
-    const errorDataMeanMerge = errorDataMeanEnter.merge(errorDataMeanUpdate);
-    errorDataMeanMerge.select('.indicator')
-      .transition()
-      .duration(this.drag ? 0 : transitionDuration)
-      .ease(d3.easeCubicOut)
-      .attr('x1', (datum) => {
-        return timeScale(datum);
-      })
-      .attr('x2', (datum) => {
-        return timeScale(datum);
-      })
-      .attr('y1', errorDensityScale(0) - 0.125 * this.rem)
-      .attr('y2', errorDensityScale(0) - 0.675 * this.rem);
+      .attr('y2', (datum) => {
+        return datum.densityScale(0) + ((datum.outcome === 'correct') ? 0.675 : -0.675) * this.rem;
+      });
     //  EXIT
-    correctDataMeanUpdate.exit().remove();
-    errorDataMeanUpdate.exit().remove();
+    dataMeanUpdate.exit().remove();
 
     // Standard Deviations
     // DATA-JOIN
-    const correctSDUpdate = correctDensityOverlayerMerge.selectAll('.model.sd.correct')
-      .data(
-        this.sds ? [{mean: this.model.correctMeanRT, sd: this.model.correctSDRT}] : [],
-      );
-    const errorSDUpdate = errorDensityOverlayerMerge.selectAll('.model.sd.error')
-      .data(
-        this.sds ? [{mean: this.model.errorMeanRT, sd: this.model.errorSDRT}] : [],
-      );
+    const sdUpdate = densityOverlayerMerge.selectAll('.model.sd')
+      .data((datum) => {
+        return this.sds ? [datum] : [];
+      });
     //  ENTER
-    const correctSDEnter = correctSDUpdate.enter().append('g')
-      .classed('model sd correct', true);
-    const errorSDEnter = errorSDUpdate.enter().append('g')
-      .classed('model sd error', true);
-    correctSDEnter.append('line')
-      .classed('indicator', true)
-      .attr('marker-start', 'url(#model-sd-cap)')
-      .attr('marker-end', 'url(#model-sd-cap)');
-    errorSDEnter.append('line')
+    const sdEnter = sdUpdate.enter().append('g')
+      .attr('class', (datum) => { return `model sd ${datum.outcome}`; });
+    sdEnter.append('line')
       .classed('indicator', true)
       .attr('marker-start', 'url(#model-sd-cap)')
       .attr('marker-end', 'url(#model-sd-cap)');
     //  MERGE
-    const correctSDMerge = correctSDEnter.merge(correctSDUpdate);
-    correctSDMerge.select('.indicator')
+    const sdMerge = sdEnter.merge(sdUpdate);
+    sdMerge.select('.indicator')
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
-      .attr('x1', (datum) => {
-        return timeScale(datum.mean - (datum.sd / 2));
-      })
-      .attr('x2', (datum) => {
-        return timeScale(datum.mean + (datum.sd / 2));
-      })
-      .attr('y1', correctDensityScale(5))
-      .attr('y2', correctDensityScale(5));
-    const errorSDMerge = errorSDEnter.merge(errorSDUpdate);
-    errorSDMerge.select('.indicator')
-      .transition()
-      .duration(this.drag ? 0 : transitionDuration)
-      .ease(d3.easeCubicOut)
-      .attr('x1', (datum) => {
-        return timeScale(datum.mean - (datum.sd / 2));
-      })
-      .attr('x2', (datum) => {
-        return timeScale(datum.mean + (datum.sd / 2));
-      })
-      .attr('y1', errorDensityScale(5))
-      .attr('y2', errorDensityScale(5));
+      .attr('x1', (datum) => { return timeScale(datum.model.meanRT - (datum.model.sdRT / 2)); })
+      .attr('x2', (datum) => { return timeScale(datum.model.meanRT + (datum.model.sdRT / 2)); })
+      .attr('y1', (datum) => { return datum.densityScale(5); })
+      .attr('y2', (datum) => { return datum.densityScale(5); });
     //  EXIT
-    correctSDUpdate.exit().remove();
-    errorSDUpdate.exit().remove();
+    sdUpdate.exit().remove();
 
     // Data Standard Deviation
     // DATA-JOIN
-    const correctDataSDUpdate = correctDensityOverlayerMerge.selectAll('.data.sd.correct')
-      .data(
-        (
-          this.sds
-          && !Number.isNaN(this.data.correctMeanRT)
-          && !Number.isNaN(this.data.correctSDRT)
-        )
-          ? [{mean: this.data.correctMeanRT, sd: this.data.correctSDRT}]
-          : [],
-      );
-    const errorDataSDUpdate = errorDensityOverlayerMerge.selectAll('.data.sd.error')
-      .data(
-        (
-          this.sds
-          && !Number.isNaN(this.data.erroMeanRT)
-          && !Number.isNaN(this.data.errorSDRT)
-        )
-          ? [{mean: this.data.errorMeanRT, sd: this.data.errorSDRT}]
-          : [],
-      );
+    const dataSDUpdate = densityOverlayerMerge.selectAll('.data.sd')
+      .data((datum) => {
+        return (this.sds && !Number.isNaN(datum.data.meanRT) && !Number.isNaN(datum.data.sdRT))
+          ? [datum]
+          : [];
+      });
     //  ENTER
-    const correctDataSDEnter = correctDataSDUpdate.enter().append('g')
-      .classed('data sd correct', true);
-    const errorDataSDEnter = errorDataSDUpdate.enter().append('g')
-      .classed('data sd error', true);
-    correctDataSDEnter.append('line')
-      .classed('indicator', true)
-      .attr('marker-start', 'url(#data-sd-cap)')
-      .attr('marker-end', 'url(#data-sd-cap)');
-    errorDataSDEnter.append('line')
+    const dataSDEnter = dataSDUpdate.enter().append('g')
+      .attr('class', (datum) => { return `data sd ${datum.outcome}`; });
+    dataSDEnter.append('line')
       .classed('indicator', true)
       .attr('marker-start', 'url(#data-sd-cap)')
       .attr('marker-end', 'url(#data-sd-cap)');
     //  MERGE
-    const correctDataSDMerge = correctDataSDEnter.merge(correctDataSDUpdate);
-    correctDataSDMerge.select('.indicator')
+    const dataSDMerge = dataSDEnter.merge(dataSDUpdate);
+    dataSDMerge.select('.indicator')
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', (datum) => {
-        return timeScale(datum.mean - (datum.sd / 2));
+        return timeScale(datum.data.meanRT - (datum.data.sdRT / 2));
       })
       .attr('x2', (datum) => {
-        return timeScale(datum.mean + (datum.sd / 2));
+        return timeScale(datum.data.meanRT + (datum.data.sdRT / 2));
       })
-      .attr('y1', correctDensityScale(0) + 0.375 * this.rem)
-      .attr('y2', correctDensityScale(0) + 0.375 * this.rem);
-    const errorDataSDMerge = errorDataSDEnter.merge(errorDataSDUpdate);
-    errorDataSDMerge.select('.indicator')
-      .transition()
-      .duration(this.drag ? 0 : transitionDuration)
-      .ease(d3.easeCubicOut)
-      .attr('x1', (datum) => {
-        return timeScale(datum.mean - (datum.sd / 2));
+      .attr('y1', (datum) => {
+        return datum.densityScale(0) + ((datum.outcome === 'correct') ? 0.375 : -0.375) * this.rem;
       })
-      .attr('x2', (datum) => {
-        return timeScale(datum.mean + (datum.sd / 2));
-      })
-      .attr('y1', errorDensityScale(0) - 0.375 * this.rem)
-      .attr('y2', errorDensityScale(0) - 0.375 * this.rem);
+      .attr('y2', (datum) => {
+        return datum.densityScale(0) + ((datum.outcome === 'correct') ? 0.375 : -0.375) * this.rem;
+      });
     //  EXIT
-    correctDataSDUpdate.exit().remove();
-    errorDataSDUpdate.exit().remove();
+    dataSDUpdate.exit().remove();
 
     this.firstUpdate = false;
   }
