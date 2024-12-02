@@ -462,11 +462,11 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         }
 
         .path.correct .curve {
-          stroke: var(---color-correct);
+          /* stroke: var(---color-correct); */
         }
 
         .path.error .curve {
-          stroke: var(---color-error);
+          /* stroke: var(---color-error); */
         }
 
         .stop-0 {
@@ -493,13 +493,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           stroke: var(---color-error);
         }
 
-        .rt.correct .mark {
-          stroke: var(---color-correct);
-          stroke-width: 1;
-        }
-
-        .rt.error .mark {
-          stroke: var(---color-error);
+        .rt .mark {
           stroke-width: 1;
         }
 
@@ -1305,7 +1299,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
-// ## Animate color!
+      .attr('stroke', (datum) => {
+        return this.getComputedStyleValue(`---color-${datum.outcome}`);
+      })
       .attrTween('d', (datum, index, elements) => {
         const element = elements[index];
         const interpolateA = d3.interpolate(
@@ -1453,17 +1449,35 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const rtUpdate = evidenceContentMerge.selectAll('.rt')
       .data(this.data.trials);
     //  ENTER
-    const rtEnter = rtUpdate.enter().append('g')
-// ## Update class!
-      .attr('class', (datum) => { return `rt ${datum.outcome}`; });
+    const rtEnter = rtUpdate.enter().append('g');
     rtEnter.append('line')
-      .classed('mark', true);
+      .classed('mark', true)
+      .attr('x1', (datum) => {
+        return timeScale(datum.rt);
+      })
+      .attr('x2', (datum) => {
+        return timeScale(datum.rt);
+      })
+      .attr('y1', (datum) => {
+        return (datum.outcome === 'correct')
+          ? evidenceScale(1) - 0.125 * this.rem
+          : evidenceScale(-1) + 0.125 * this.rem;
+      })
+      .attr('y2', (datum) => {
+        return (datum.outcome === 'correct')
+          ? evidenceScale(1) - 0.675 * this.rem
+          : evidenceScale(-1) + 0.675 * this.rem;
+      });
     //  MERGE
-    rtEnter.merge(rtUpdate).filter((datum) => { return (!datum.animate); }).select('.mark')
+    const rtMerge = rtEnter.merge(rtUpdate)
+      .attr('class', (datum) => { return `rt ${datum.outcome}`; });
+    rtMerge.filter((datum) => { return (!datum.animate); }).select('.mark')
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
-// ## Animate color!
+      .attr('stroke', (datum) => {
+        return this.getComputedStyleValue(`---color-${datum.outcome}`);
+      })
       .attr('x1', (datum) => {
         return timeScale(datum.rt);
       })
@@ -2013,7 +2027,13 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const dataMeanEnter = dataMeanUpdate.enter().append('g')
       .attr('class', (datum) => { return `data mean ${datum.outcome}`; });
     dataMeanEnter.append('line')
-      .classed('indicator', true);
+      .classed('indicator', true)
+      .attr('y1', (datum) => {
+        return datum.densityScale(0) + ((datum.outcome === 'correct') ? 0.125 : -0.125) * this.rem;
+      })
+      .attr('y2', (datum) => {
+        return datum.densityScale(0) + ((datum.outcome === 'correct') ? 0.675 : -0.675) * this.rem;
+      });
     //  MERGE
     const dataMeanMerge = dataMeanEnter.merge(dataMeanUpdate);
     dataMeanMerge.select('.indicator')
@@ -2029,7 +2049,15 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         return datum.densityScale(0) + ((datum.outcome === 'correct') ? 0.675 : -0.675) * this.rem;
       });
     //  EXIT
-    dataMeanUpdate.exit().remove();
+    dataMeanUpdate.exit().select('.indicator')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      .attr('x1', 0)
+      .attr('x2', 0)
+      .on('end', (datum, index, elements) => {
+        d3.select(elements[index].parentElement).remove();
+      });
 
     // Standard Deviations
     // DATA-JOIN
@@ -2071,7 +2099,13 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     dataSDEnter.append('line')
       .classed('indicator', true)
       .attr('marker-start', 'url(#data-sd-cap)')
-      .attr('marker-end', 'url(#data-sd-cap)');
+      .attr('marker-end', 'url(#data-sd-cap)')
+      .attr('y1', (datum) => {
+        return datum.densityScale(0) + ((datum.outcome === 'correct') ? 0.375 : -0.375) * this.rem;
+      })
+      .attr('y2', (datum) => {
+        return datum.densityScale(0) + ((datum.outcome === 'correct') ? 0.375 : -0.375) * this.rem;
+      });
     //  MERGE
     const dataSDMerge = dataSDEnter.merge(dataSDUpdate);
     dataSDMerge.select('.indicator')
@@ -2091,7 +2125,15 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         return datum.densityScale(0) + ((datum.outcome === 'correct') ? 0.375 : -0.375) * this.rem;
       });
     //  EXIT
-    dataSDUpdate.exit().remove();
+    dataSDUpdate.exit().select('.indicator')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      .attr('x1', 0)
+      .attr('x2', 0)
+      .on('end', (datum, index, elements) => {
+        d3.select(elements[index].parentElement).remove();
+      });
 
     this.firstUpdate = false;
   }
