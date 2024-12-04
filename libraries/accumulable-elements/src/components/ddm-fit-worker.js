@@ -10,7 +10,7 @@ self.onmessage = (event) => {
   // ##### Arbitrary default values!!!
   const a = !isNaN(params.a) ? params.a : 1.5;
   const z = !isNaN(params.z) ? params.z : 0.5;
-  const v = !isNaN(params.v) ? params.v : 0;
+  const v = !isNaN(params.v) ? params.v : 0.1;
   const t0 = !isNaN(params.t0) ? params.t0 : 100;
   const s = !isNaN(params.s) ? params.s : DDMMath.s;
 
