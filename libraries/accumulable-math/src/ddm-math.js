@@ -112,7 +112,7 @@ export default class DDMMath {
   }
 
   // Probability of an Error Response
-  static azvs2pE(a, z, v, s = DDMMath.s) {
+  static azv2pE(a, z, v, s = DDMMath.s) {
     const zPrime = a * z;
 
     const A = Math.exp((-2 * v * a) / s ** 2);
@@ -122,13 +122,13 @@ export default class DDMMath {
   }
 
   // Probability of a Correct Response
-  static azvs2pC(a, z, v, s = DDMMath.s) {
-    return DDMMath.azvs2pE(a, 1 - z, -v, s);
+  static azv2pC(a, z, v, s = DDMMath.s) {
+    return DDMMath.azv2pE(a, 1 - z, -v, s);
   }
 
   // Mean Overall RT
   // Equation 5 (Grasman et al., 2009)
-  static azvt0s2m(a, z, v, t0, s = DDMMath.s) {
+  static azvt02m(a, z, v, t0, s = DDMMath.s) {
     const zPrime = a * z;
     const A = Math.exp((-2 * v * a) / s ** 2) - 1;
     const Z = Math.exp((-2 * v * zPrime) / s ** 2) - 1;
@@ -139,7 +139,7 @@ export default class DDMMath {
 
   // SD Overall RT
   // Equation 6 (Grasman et al., 2009)
-  static azvs2sd(a, z, v, s = DDMMath.s) {
+  static azv2sd(a, z, v, s = DDMMath.s) {
     const zPrime = a * z;
     const A = Math.exp((-2 * v * a) / s ** 2) - 1;
     const Z = Math.exp((-2 * v * zPrime) / s ** 2) - 1;
@@ -159,7 +159,7 @@ export default class DDMMath {
 
   // Mean Error RT
   // Equation 13 (Grasman et al., 2009)
-  static azvt0s2mE(a, z, v, t0, s = DDMMath.s) {
+  static azvt02mE(a, z, v, t0, s = DDMMath.s) {
     function phi(x, y) {
       return Math.exp((2 * v * y) / (s ** 2)) - Math.exp((2 * v * x) / (s ** 2));
     }
@@ -172,7 +172,7 @@ export default class DDMMath {
 
   // SD Error RT
   // Equation 14 (Grasman et al., 2009)
-  static azvs2sdE(a, z, v, s = DDMMath.s) {
+  static azv2sdE(a, z, v, s = DDMMath.s) {
     function phi(x, y) {
       return Math.exp((2 * v * y) / (s ** 2)) - Math.exp((2 * v * x) / (s ** 2));
     }
@@ -199,17 +199,17 @@ export default class DDMMath {
   }
 
   // Mean Correct RT
-  static azvt0s2mC(a, z, v, t0, s = DDMMath.s) {
-    return DDMMath.azvt0s2mE(a, 1 - z, -v, t0, s);
+  static azvt02mC(a, z, v, t0, s = DDMMath.s) {
+    return DDMMath.azvt02mE(a, 1 - z, -v, t0, s);
   }
 
   // SD Correct RT
-  static azvs2sdC(a, z, v, s = DDMMath.s) {
-    return DDMMath.azvs2sdE(a, 1 - z, -v, s);
+  static azv2sdC(a, z, v, s = DDMMath.s) {
+    return DDMMath.azv2sdE(a, 1 - z, -v, s);
   }
 
   // Density of Error RT
-  static tazvs2gE(t, a, z, v, s = DDMMath.s) {
+  static tazv2gE(t, a, z, v, s = DDMMath.s) {
     if (!t) return 0;
 
     const zPrime = a * z;
@@ -232,7 +232,7 @@ export default class DDMMath {
   }
 
   // Density of Correct RT
-  static tazvs2gC(t, a, z, v, s = DDMMath.s) {
-    return DDMMath.tazvs2gE(t, a, 1 - z, -v, s);
+  static tazv2gC(t, a, z, v, s = DDMMath.s) {
+    return DDMMath.tazv2gE(t, a, 1 - z, -v, s);
   }
 }

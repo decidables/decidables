@@ -15,13 +15,13 @@ self.onmessage = (event) => {
   const s = !isNaN(params.s) ? params.s : DDMMath.s;
 
   const predicted = {
-    accuracy: DDMMath.azvs2pC(a, z, v),
-    correctMeanRT: DDMMath.azvt0s2mC(a, z, v, t0),
-    errorMeanRT: DDMMath.azvt0s2mE(a, z, v, t0),
-    meanRT: DDMMath.azvt0s2m(a, z, v, t0),
-    correctSDRT: DDMMath.azvs2sdC(a, z, v),
-    errorSDRT: DDMMath.azvs2sdE(a, z, v),
-    sdRT: DDMMath.azvs2sd(a, z, v),
+    accuracy: DDMMath.azv2pC(a, z, v),
+    correctMeanRT: DDMMath.azvt02mC(a, z, v, t0),
+    errorMeanRT: DDMMath.azvt02mE(a, z, v, t0),
+    meanRT: DDMMath.azvt02m(a, z, v, t0),
+    correctSDRT: DDMMath.azv2sdC(a, z, v),
+    errorSDRT: DDMMath.azv2sdE(a, z, v),
+    sdRT: DDMMath.azv2sd(a, z, v),
   };
 
   self.postMessage({

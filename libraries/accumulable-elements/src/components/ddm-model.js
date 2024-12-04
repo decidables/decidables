@@ -225,7 +225,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
   }
 
   alignCorrectDistribution(a, z, v, t0) {
-    const proportionCorrect = DDMMath.azvs2pC(a, z, v);
+    const proportionCorrect = DDMMath.azv2pC(a, z, v);
 
     const dist = [
       {t: 0, d: 0},
@@ -238,7 +238,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       if (i > 0) {
         dist.push({
           t: t0 + i,
-          d: DDMMath.tazvs2gC(i / 1000, a, z, v) / proportionCorrect,
+          d: DDMMath.tazv2gC(i / 1000, a, z, v) / proportionCorrect,
         });
       }
     }
@@ -247,7 +247,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
   }
 
   alignErrorDistribution(a, z, v, t0) {
-    const proportionError = DDMMath.azvs2pE(a, z, v);
+    const proportionError = DDMMath.azv2pE(a, z, v);
 
     const dist = [
       {t: 0, d: 0},
@@ -260,7 +260,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       if (i > 0) {
         dist.push({
           t: t0 + i,
-          d: DDMMath.tazvs2gE(i / 1000, a, z, v) / proportionError,
+          d: DDMMath.tazv2gE(i / 1000, a, z, v) / proportionError,
         });
       }
     }
@@ -317,13 +317,13 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     this.data = {...this.data, ...dataStats};
 
     // Model Summary Stats
-    this.model.accuracy = DDMMath.azvs2pC(this.a, this.z, this.v);
+    this.model.accuracy = DDMMath.azv2pC(this.a, this.z, this.v);
 
-    this.model.correctMeanRT = DDMMath.azvt0s2mC(this.a, this.z, this.v, this.t0);
-    this.model.errorMeanRT = DDMMath.azvt0s2mE(this.a, this.z, this.v, this.t0);
+    this.model.correctMeanRT = DDMMath.azvt02mC(this.a, this.z, this.v, this.t0);
+    this.model.errorMeanRT = DDMMath.azvt02mE(this.a, this.z, this.v, this.t0);
 
-    this.model.correctSDRT = DDMMath.azvs2sdC(this.a, this.z, this.v);
-    this.model.errorSDRT = DDMMath.azvs2sdE(this.a, this.z, this.v);
+    this.model.correctSDRT = DDMMath.azv2sdC(this.a, this.z, this.v);
+    this.model.errorSDRT = DDMMath.azv2sdE(this.a, this.z, this.v);
 
     // Model Distributions
     this.model.correctDist = this.alignCorrectDistribution(this.a, this.z, this.v, this.t0);
