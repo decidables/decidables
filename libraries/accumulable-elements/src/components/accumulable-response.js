@@ -4,6 +4,7 @@ import {html, css} from 'lit';
 import '@decidables/decidables-elements/button';
 
 import AccumulableElement from '../accumulable-element';
+import DDMMath from '@decidables/accumulable-math';
 
 /*
   AccumulableResponse element
@@ -94,6 +95,7 @@ export default class AccumulableResponse extends AccumulableElement {
     this.nrCount = 0; // Count of No Response trials
 
     this.trials = []; // Record of trials in block
+    this.alignState();
   }
 
   get trialPayoff() {
@@ -115,46 +117,9 @@ export default class AccumulableResponse extends AccumulableElement {
       + (this.nrCount * this.nrPayoff));
   }
 
-  get meanRT() {
-    const sumTotal = this.trials
-      .filter((trial) => { return trial.outcome !== 'nr'; })
-      .reduce((sum, trial) => { return sum + trial.rt; }, 0);
-    return sumTotal / (this.correctCount + this.errorCount);
-  }
-
-  get correctMeanRT() {
-    const sumCorrect = this.trials
-      .filter((trial) => { return trial.outcome === 'correct'; })
-      .reduce((sum, trial) => { return sum + trial.rt; }, 0);
-    return sumCorrect / this.correctCount;
-  }
-
-  get errorMeanRT() {
-    const sumError = this.trials
-      .filter((trial) => { return trial.outcome === 'error'; })
-      .reduce((sum, trial) => { return sum + trial.rt; }, 0);
-    return sumError / this.errorCount;
-  }
-
-  get sdRT() {
-    const ss = this.trials
-      .filter((trial) => { return trial.outcome !== 'nr'; })
-      .reduce((sum, trial) => { return sum + (trial.rt - this.meanRT) ** 2; }, 0);
-    return Math.sqrt(ss / (this.correctCount + this.errorCount - 1));
-  }
-
-  get correctSDRT() {
-    const ss = this.trials
-      .filter((trial) => { return trial.outcome === 'correct'; })
-      .reduce((sum, trial) => { return sum + (trial.rt - this.correctMeanRT) ** 2; }, 0);
-    return Math.sqrt(ss / (this.correctCount - 1));
-  }
-
-  get errorSDRT() {
-    const ss = this.trials
-      .filter((trial) => { return trial.outcome === 'error'; })
-      .reduce((sum, trial) => { return sum + (trial.rt - this.errorMeanRT) ** 2; }, 0);
-    return Math.sqrt(ss / (this.errorCount - 1));
+  alignState() {
+    const stats = DDMMath.trials2stats(this.trials);
+    Object.assign(this, stats);
   }
 
   start(signal, trial) {
@@ -182,6 +147,7 @@ export default class AccumulableResponse extends AccumulableElement {
         outcome: this.outcome,
         payoff: this.trialPayoff,
       });
+      this.alignState();
     }
   }
 
@@ -212,6 +178,7 @@ export default class AccumulableResponse extends AccumulableElement {
       outcome: this.outcome,
       payoff: this.trialPayoff,
     });
+    this.alignState();
 
     this.dispatchEvent(new CustomEvent('accumulable-response', {
       detail: {
@@ -250,6 +217,7 @@ export default class AccumulableResponse extends AccumulableElement {
     this.nrCount = 0;
 
     this.trials = [];
+    this.alignState();
   }
 
   keydown(event) {
