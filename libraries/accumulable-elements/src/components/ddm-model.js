@@ -311,57 +311,10 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     }
 
     // Data Summary Stats
-    const trials = this.data.trials
-      .filter((path) => { return !path.animate; })
-      .reduce((stats, path) => {
-        stats.correct += (path.outcome === 'correct') ? 1 : 0;
-        stats.error += (path.outcome === 'error') ? 1 : 0;
-        return stats;
-      }, {
-        correct: 0,
-        error: 0,
-      });
-    this.data.correctCount = trials.correct;
-    this.data.errorCount = trials.error;
-    this.data.accuracy = (this.trials > 0) ? (trials.correct / this.trials) : NaN;
-
-    const rts = this.data.trials
-      .filter((path) => { return !path.animate; })
-      .reduce((stats, path) => {
-        stats.correct += (path.outcome === 'correct') ? path.rt : 0;
-        stats.error += (path.outcome === 'error') ? path.rt : 0;
-        return stats;
-      }, {
-        correct: 0,
-        error: 0,
-      });
-    this.data.correctMeanRT = (trials.correct > 0) ? (rts.correct / trials.correct) : NaN;
-    this.data.errorMeanRT = (trials.error > 0) ? (rts.error / trials.error) : NaN;
-    this.data.meanRT = (this.trials > 0)
-      ? ((rts.correct + rts.error) / (trials.correct + trials.error))
-      : NaN;
-
-    const sss = this.data.trials
-      .filter((path) => { return !path.animate; })
-      .reduce((stats, path) => {
-        stats.correct += (path.outcome === 'correct')
-          ? (path.rt - this.data.correctMeanRT) ** 2
-          : 0;
-        stats.error += (path.outcome === 'error')
-          ? (path.rt - this.data.errorMeanRT) ** 2
-          : 0;
-        stats.overall += (path.rt - this.data.meanRT) ** 2;
-        return stats;
-      }, {
-        correct: 0,
-        error: 0,
-        overall: 0,
-      });
-    this.data.correctSDRT = (trials.correct > 1)
-      ? Math.sqrt(sss.correct / (trials.correct - 1))
-      : NaN;
-    this.data.errorSDRT = (trials.error > 1) ? Math.sqrt(sss.error / (trials.error - 1)) : NaN;
-    this.data.sdRT = (this.trials > 1) ? Math.sqrt(sss.overall / (this.trials - 1)) : NaN;
+    const dataStats = DDMMath.trials2stats(
+      this.data.trials.filter((path) => { return !path.animate; }),
+    );
+    this.data = {...this.data, ...dataStats};
 
     // Model Summary Stats
     this.model.accuracy = DDMMath.azvs2pC(this.a, this.z, this.v);
