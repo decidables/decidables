@@ -120,7 +120,8 @@ export default class DDMExampleInteractive extends DDMExample {
     if (this.accumulableTable) {
       this.accumulableTable.correctCount = this.data.correctCount;
       this.accumulableTable.errorCount = this.data.errorCount;
-      this.accumulableTable.nrCount = 0;
+      this.accumulableTable.nrCount = this.data.nrCount;
+      this.accumulableTable.accuracy = this.data.accuracy;
       this.accumulableTable.correctMeanRT = this.data.correctMeanRT;
       this.accumulableTable.errorMeanRT = this.data.errorMeanRT;
       this.accumulableTable.meanRT = this.data.meanRT;

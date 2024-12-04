@@ -3,7 +3,6 @@ import {html, css} from 'lit';
 
 import '@decidables/decidables-elements/spinner';
 import DecidablesConverterSet from '@decidables/decidables-elements/converter-set';
-// import SDTMath from '@decidables/detectable-math';
 
 import AccumulableElement from '../accumulable-element';
 
@@ -45,6 +44,11 @@ export default class AccumulableTable extends AccumulableElement {
       },
       nrCount: {
         attribute: 'nr-count',
+        type: Number,
+        reflect: true,
+      },
+      accuracy: {
+        attribute: 'accuracy',
         type: Number,
         reflect: true,
       },
@@ -121,19 +125,13 @@ export default class AccumulableTable extends AccumulableElement {
     this.correctCount = NaN;
     this.errorCount = NaN;
     this.nrCount = NaN;
+    this.accuracy = NaN;
     this.correctMeanRT = NaN;
     this.errorMeanRT = NaN;
     this.meanRT = NaN;
     this.correctSDRT = NaN;
     this.errorSDRT = NaN;
     this.sdRT = NaN;
-
-    this.accuracy = NaN;
-    this.alignState();
-  }
-
-  alignState() {
-    this.accuracy = this.correctCount / (this.correctCount + this.errorCount + this.nrCount);
   }
 
   sendEvent() {
@@ -142,6 +140,7 @@ export default class AccumulableTable extends AccumulableElement {
         correctCount: this.correctCount,
         errorCount: this.errorCount,
         nrCount: this.nrCount,
+        accuracy: this.accuracy,
         correctMeanRT: this.correctMeanRT,
         errorMeanRT: this.errorMeanRT,
         meanRT: this.meanRT,
@@ -155,55 +154,46 @@ export default class AccumulableTable extends AccumulableElement {
 
   correctCountInput(e) {
     this.correctCount = parseInt(e.target.value, 10);
-    this.alignState();
     this.sendEvent();
   }
 
   errorCountInput(e) {
     this.errorCount = parseInt(e.target.value, 10);
-    this.alignState();
     this.sendEvent();
   }
 
   accuracyInput(e) {
     this.accuracy = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
 
   correctMeanRTInput(e) {
     this.correctMeanRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
 
   errorMeanRTInput(e) {
     this.errorMeanRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
 
   meanRTInput(e) {
     this.meanRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
 
   correctSDRTInput(e) {
     this.correctSDRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
 
   errorSDRTInput(e) {
     this.errorSDRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
 
   sdRTInput(e) {
     this.sdRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
 
@@ -361,10 +351,6 @@ export default class AccumulableTable extends AccumulableElement {
         }
       `,
     ];
-  }
-
-  willUpdate() {
-    this.alignState();
   }
 
   render() {

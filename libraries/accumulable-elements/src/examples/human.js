@@ -96,6 +96,7 @@ export default class DDMExampleHuman extends DDMExample {
           this.accumulableTable.correctCount = NaN;
           this.accumulableTable.errorCount = NaN;
           this.accumulableTable.nrCount = NaN;
+          this.accumulableTable.accuracy = NaN;
           this.accumulableTable.correctMeanRT = NaN;
           this.accumulableTable.errorMeanRT = NaN;
           this.accumulableTable.meanRT = NaN;
@@ -153,6 +154,7 @@ export default class DDMExampleHuman extends DDMExample {
           this.accumulableTable.correctCount = event.detail.correctCount;
           this.accumulableTable.errorCount = event.detail.errorCount;
           this.accumulableTable.nrCount = event.detail.nrCount;
+          this.accumulableTable.accuracy = event.detail.accuracy;
           this.accumulableTable.correctMeanRT = event.detail.correctMeanRT;
           this.accumulableTable.errorMeanRT = event.detail.errorMeanRT;
           this.accumulableTable.meanRT = event.detail.meanRT;
@@ -171,10 +173,13 @@ export default class DDMExampleHuman extends DDMExample {
 
         if (this.ddmFit) {
           this.ddmFit.set({
+            accuracy: event.detail.accuracy,
+            correctMeanRT: event.detail.correctMeanRT,
+            errorMeanRT: event.detail.errorMeanRT,
             meanRT: event.detail.meanRT,
+            correctSDRT: event.detail.correctSDRT,
+            errorSDRT: event.detail.errorSDRT,
             sdRT: event.detail.sdRT,
-            accuracy: event.detail.correctCount
-              / (event.detail.correctCount + event.detail.errorCount + event.detail.nrCount),
           });
         }
       });

@@ -16,7 +16,11 @@ self.onmessage = (event) => {
 
   const predicted = {
     accuracy: DDMMath.azvs2pC(a, z, v),
+    correctMeanRT: DDMMath.azvt0s2mC(a, z, v, t0),
+    errorMeanRT: DDMMath.azvt0s2mE(a, z, v, t0),
     meanRT: DDMMath.azvt0s2m(a, z, v, t0),
+    correctSDRT: DDMMath.azvs2sdC(a, z, v),
+    errorSDRT: DDMMath.azvs2sdE(a, z, v),
     sdRT: DDMMath.azvs2sd(a, z, v),
   };
 

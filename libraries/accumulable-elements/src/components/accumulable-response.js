@@ -1,10 +1,10 @@
 
 import {html, css} from 'lit';
 
+import DDMMath from '@decidables/accumulable-math';
 import '@decidables/decidables-elements/button';
 
 import AccumulableElement from '../accumulable-element';
-import DDMMath from '@decidables/accumulable-math';
 
 /*
   AccumulableResponse element
@@ -192,6 +192,7 @@ export default class AccumulableResponse extends AccumulableElement {
         correctCount: this.correctCount,
         errorCount: this.errorCount,
         nrCount: this.nrCount,
+        accuracy: this.accuracy,
         meanRT: this.meanRT,
         correctMeanRT: this.correctMeanRT,
         errorMeanRT: this.errorMeanRT,
