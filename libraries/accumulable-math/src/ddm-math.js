@@ -32,19 +32,22 @@ export default class DDMMath {
 
   // Calculate a bunch of statistics for an array of trials
   static trials2stats(trials) {
-    const stats = trials.reduce(
+    const stats = {};
+
+    // First-order sums
+    const sums = trials.reduce(
       (accumulator, trial) => {
         switch (trial.outcome) {
           case 'correct':
-            accumulator.trials.correct += 1;
-            accumulator.rts.correct += trial.rt;
+            accumulator.correctCount += 1;
+            accumulator.correctRTSum += trial.rt;
             break;
           case 'error':
-            accumulator.trials.error += 1;
-            accumulator.rts.error += trial.rt;
+            accumulator.errorCount += 1;
+            accumulator.errorRTSum += trial.rt;
             break;
           case 'nr':
-            accumulator.trials.nr += 1;
+            accumulator.nrCount += 1;
             break;
           default:
             // No-op
@@ -52,63 +55,58 @@ export default class DDMMath {
         return accumulator;
       },
       {
-        trials: {
-          total: 0,
-          correct: 0,
-          error: 0,
-          nr: 0,
-        },
-        rts: {
-          overall: 0,
-          correct: 0,
-          error: 0,
-        },
-        sss: {
-          overall: 0,
-          correct: 0,
-          error: 0,
-        },
+        correctCount: 0,
+        errorCount: 0,
+        nrCount: 0,
+
+        correctRTSum: 0,
+        errorRTSum: 0,
       },
     );
 
-    stats.trials.total = stats.trials.correct + stats.trials.error + stats.trials.nr;
-    stats.rts.overall = stats.rts.correct + stats.rts.error;
+    // First-order stats
+    stats.correctCount = sums.correctCount;
+    stats.errorCount = sums.errorCount;
+    stats.nrCount = sums.nrCount;
+    stats.accuracy = sums.correctCount / (sums.correctCount + sums.errorCount + sums.nrCount);
 
-    stats.proportion = {
-      correct: stats.trials.correct / stats.trials.total,
-      error: stats.trials.error / stats.trials.total,
-      nr: stats.trials.nr / stats.trials.total,
-    };
+    stats.correctMeanRT = sums.correctRTSum / sums.correctCount;
+    stats.errorMeanRT = sums.errorRTSum / sums.errorCount;
+    stats.meanRT = (sums.correctRTSum + sums.errorRTSum) / (sums.correctCount + sums.errorCount);
 
-    stats.meanRT = {
-      overall: stats.rts.overall / (stats.trials.correct + stats.trials.error),
-      correct: stats.rts.correct / stats.trials.correct,
-      error: stats.rts.error / stats.trials.error,
-    };
-
-    trials.reduce(
+    // Second-order sums
+    const sums2 = trials.reduce(
       (accumulator, trial) => {
-        accumulator.sss.overall += (trial.rt - accumulator.meanRT.overall) ** 2;
+        accumulator.ss += (trial.rt - stats.meanRT) ** 2;
         switch (trial.outcome) {
           case 'correct':
-            accumulator.sss.correct += (trial.rt - accumulator.meanRT.correct) ** 2;
+            accumulator.correctSS += (trial.rt - stats.correctMeanRT) ** 2;
             break;
           case 'error':
-            accumulator.sss.error += (trial.rt - accumulator.meanRT.error) ** 2;
+            accumulator.errorSS += (trial.rt - stats.errorMeanRT) ** 2;
             break;
           default:
             // No-op
         }
         return accumulator;
       },
-      stats,
+      {
+        ss: 0,
+        correctSS: 0,
+        errorSS: 0,
+      },
     );
 
-    stats.sdRT = {
-      overall: Math.sqrt(stats.sss.overall / (stats.trials.correct + stats.trials.error - 1)),
-      correct: Math.sqrt(stats.sss.correct / (stats.trials.correct - 1)),
-      error: Math.sqrt(stats.sss.error / (stats.trials.error - 1)),
-    };
+    // Second-order stats
+    stats.correctSDRT = (stats.correctCount > 1)
+      ? Math.sqrt(sums2.correctSS / (stats.correctCount - 1))
+      : NaN;
+    stats.errorSDRT = (stats.errorCount > 1)
+      ? Math.sqrt(sums2.errorSS / (stats.errorCount - 1))
+      : NaN;
+    stats.sdRT = (stats.correctCount + stats.errorCount > 1)
+      ? Math.sqrt(sums2.ss / (stats.correctCount + stats.errorCount - 1))
+      : NaN;
 
     return stats;
   }
