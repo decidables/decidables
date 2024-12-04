@@ -98,25 +98,29 @@ export default class DDMFit extends AccumulableElement {
   render() {
     return html`
       <div>
-        <div>Observed:
-          sd = ${this.observed.sdRT?.toFixed(0)},
-          sdC = ${this.observed.correctSDRT?.toFixed(0)},
-          pC = ${this.observed.accuracy?.toFixed(2)},
-          m = ${this.observed.meanRT?.toFixed(0)},
-          mC = ${this.observed.correctMeanRT?.toFixed(0)}
+        <div><b>Observed:</b>
+          <br/>Accuracy = ${this.observed.accuracy?.toFixed(2)},
+          <br/>Correct Mean RT = ${this.observed.correctMeanRT?.toFixed(0)},
+          Error Mean RT = ${this.observed.errorMeanRT?.toFixed(0)},
+          Mean RT = ${this.observed.meanRT?.toFixed(0)},
+          <br/>Correct SD RT = ${this.observed.correctSDRT?.toFixed(0)},
+          Error SD RT = ${this.observed.errorSDRT?.toFixed(0)},
+          SD RT = ${this.observed.sdRT?.toFixed(0)},
         </div>
-        <div>Current:
-          <var class="math-var a">a</var> = ${this.a.toFixed(2)},
+        <div><b>Parameters:</b>
+          <br/><var class="math-var a">a</var> = ${this.a.toFixed(2)},
           <var class="math-var z">z</var> = ${this.z.toFixed(2)},
           <var class="math-var v">v</var> = ${this.v.toFixed(2)},
           <var class="math-var t0">t0</var> = ${this.t0.toFixed(0)}
         </div>
-        <div>Predicted:
-          sd = ${this.predicted.sdRT?.toFixed(0)},
-          sdC = ${this.predicted.correctSDRT?.toFixed(0)},
-          pC = ${this.predicted.accuracy?.toFixed(2)},
-          m = ${this.predicted.meanRT?.toFixed(0)},
-          mC = ${this.predicted.correctMeanRT?.toFixed(0)}
+        <div><b>Predicted:</b>
+          <br/>Accuracy = ${this.predicted.accuracy?.toFixed(2)},
+          <br/>Correct Mean RT = ${this.predicted.correctMeanRT?.toFixed(0)},
+          Error Mean RT = ${this.predicted.errorMeanRT?.toFixed(0)},
+          Mean RT = ${this.predicted.meanRT?.toFixed(0)},
+          <br/>Correct SD RT = ${this.predicted.correctSDRT?.toFixed(0)},
+          Error SD RT = ${this.predicted.errorSDRT?.toFixed(0)},
+          SD RT = ${this.predicted.sdRT?.toFixed(0)},
         </div>
       </div>
     `;
