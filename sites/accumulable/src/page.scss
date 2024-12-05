@@ -7,6 +7,7 @@
     z: #377eb8, // blue (CB2)
     v: #ff7f00, // orange (CB5)
     t0: #f781bf, // pink (CB8)
+    s: #999999, // gray (CB9)
 
     left: #f032e6, // magenta
     right: #10dbc9, // cyan
@@ -43,6 +44,11 @@
   .key[class~="t0"] {
     /* purgecss ignore current */
     background-color: dec-color-light(t0);
+  }
+
+  .key[class~="s"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(s);
   }
 
   // Keys: Responses
@@ -91,6 +97,11 @@
   .t0::before {
     background: dec-color-light(t0);
     border-left-color: dec-color(t0);
+  }
+
+  .s::before {
+    background: dec-color-light(s);
+    border-left-color: dec-color(s);
   }
 
   .left::before {
