@@ -1,13 +1,14 @@
 ## Bugs
 
 - Why is README.md printing to console during lint?
-- equations?
 - testing
 - publish elements & math
 - add to website
 
 ## Ideas
 
+- add more equations?
+- simplify equations by assuming s = 1?
 - SDs -> height of line?
 - labels for model means & SDs?
 - Main pages
