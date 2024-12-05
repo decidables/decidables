@@ -168,18 +168,6 @@ export default class DDMEquation extends AccumulableElement {
         }
 
         /* Color scheme */
-        /* .win {
-          background: var(---color-better);
-        }
-
-        .loss {
-          background: var(---color-worse);
-        }
-
-        .sure {
-          background: var(---color-even);
-        } */
-
         .a {
           background: var(---color-a-light);
         }
@@ -194,6 +182,10 @@ export default class DDMEquation extends AccumulableElement {
 
         .t0 {
           background: var(---color-t0-light);
+        }
+
+        .s {
+          background: var(---color-s-light);
         }
       `,
     ];
