@@ -32,6 +32,7 @@ export default class AccumulableElement extends DecidablesElement {
       z: d3.schemeSet1[1],
       v: d3.schemeSet1[4],
       t0: d3.schemeSet1[7],
+      s: d3.schemeSet1[8],
       left: '#f032e6',
       right: '#10dbc9',
       correct: d3.schemeSet1[2],

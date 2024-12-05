@@ -1,2 +1,3 @@
 
-// export {default as HTDEquationADK2V} from './adk2v';
+export {default as DDMEquationAZV2PC} from './azv2pc';
+export {default as DDMEquationAZVT02M} from './azvt02m';
