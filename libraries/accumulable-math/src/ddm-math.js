@@ -77,12 +77,13 @@ export default class DDMMath {
     // Second-order sums
     const sums2 = trials.reduce(
       (accumulator, trial) => {
-        accumulator.ss += (trial.rt - stats.meanRT) ** 2;
         switch (trial.outcome) {
           case 'correct':
+            accumulator.ss += (trial.rt - stats.meanRT) ** 2;
             accumulator.correctSS += (trial.rt - stats.correctMeanRT) ** 2;
             break;
           case 'error':
+            accumulator.ss += (trial.rt - stats.meanRT) ** 2;
             accumulator.errorSS += (trial.rt - stats.errorMeanRT) ** 2;
             break;
           default:
