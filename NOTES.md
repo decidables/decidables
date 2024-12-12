@@ -1,5 +1,7 @@
 ## Notes
 
+Fix test:watch
+Use MathML with embedded elements for equations?
 Universal bounds and step sizes for each parameter?
 Separate Controls vs Parameters
 Keyboard responses for all tasks
