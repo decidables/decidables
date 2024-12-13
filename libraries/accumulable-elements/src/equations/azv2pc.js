@@ -8,7 +8,7 @@ import DDMEquation from './ddm-equation';
 
 /*
   DDMEquationAZV2PC element
-  <ddm-equation-azv2pC>
+  <ddm-equation-azv2pc>
 
   Attributes:
 */
@@ -52,7 +52,7 @@ export default class DDMEquationAZV2PC extends DDMEquation {
   }
 
   sendEvent() {
-    this.dispatchEvent(new CustomEvent('ddm-equation-azv2pC-change', {
+    this.dispatchEvent(new CustomEvent('ddm-equation-azv2pc-change', {
       detail: {
         a: this.a,
         z: this.z,
