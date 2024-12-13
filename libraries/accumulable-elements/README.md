@@ -125,9 +125,9 @@ export default class AccumulableElementSomething extends AccumulableElement {
   - Lints scripts in `src/`
 - `yarn test`
   - Runs all tests and reports coverage in `test/coverage/`
-- `yarn test:watch`
+- `yarn gulp testWatchScripts`
   - Runs all tests in watch mode and reports coverage in `test/coverage/`
-- `yarn test:file <filename>`
+- `yarn gulp testScript <filename>`
   - Runs tests for a single file and reports coverage in `test/coverage/`
 - `yarn build`
   - Builds browser-compatible optimized bundle from `src/` to `lib/`
