@@ -73,7 +73,31 @@ describe('ddm-math', () => {
     expect(DDMMath.tazv2gE(0.7, 2, 0.55, 2.25)).to.be.almost(0.004, 0.001);
   });
 
-  it('calculates correct RT density from time boundary separation, starting point, and drift rate', () => {
+  it('calculates correct RT density from time, boundary separation, starting point, and drift rate', () => {
     expect(DDMMath.tazv2gC(0.45, 1.75, 0.45, 3.25)).to.be.almost(0.958, 0.001);
+  });
+
+  it('calculates boundary separation, starting point, drift rate, and non-decision time from correct probability, SD RT, and mean RT', () => {
+    // Take params, convert to values, and then convert back to params!
+    const a = 1.9;
+    const z = 0.5;
+    const v = 0.9;
+    const t0 = 250;
+
+    expect(DDMMath.data2ez({
+      accuracy: DDMMath.azv2pC(a, z, v),
+      sdRT: DDMMath.azv2sd(a, z, v),
+      meanRT: DDMMath.azvt02m(a, z, v, t0),
+      s: DDMMath.s,
+    })).to.be.deep.almost({
+      a: a,
+      v: v,
+      t0: t0,
+      s: DDMMath.s,
+    });
+  });
+
+  it('does not have EZ2 implemented', () => {
+    expect(DDMMath.data2ez2).to.throw();
   });
 });
