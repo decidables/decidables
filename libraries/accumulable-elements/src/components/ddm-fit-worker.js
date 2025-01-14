@@ -2,10 +2,8 @@
 
 import DDMMath from '@decidables/accumulable-math';
 
-import * as EZ from './ez2';
-
 self.onmessage = (event) => {
-  const params = EZ.data2ez({...event.data, s: DDMMath.s});
+  const params = DDMMath.data2ez({...event.data, s: DDMMath.s});
 
   // ##### Arbitrary default values!!!
   const a = !isNaN(params.a) ? params.a : 1.5;
