@@ -28,3 +28,12 @@ export async function testScript() {
     argv: ['node', 'web-test-runner.js', src, '--config', '../../.webtestrunnerrc.js'],
   });
 }
+
+export async function testScriptWatch() {
+  const src = `test/${process.argv[3].slice(2)}.test.js`;
+
+  return startTestRunner({
+    readCliArgs: true,
+    argv: ['node', 'web-test-runner.js', src, '--config', '../../.webtestrunnerrc.js', '--watch'],
+  });
+}
