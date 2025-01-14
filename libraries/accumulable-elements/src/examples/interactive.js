@@ -117,7 +117,7 @@ export default class DDMExampleInteractive extends DDMExample {
       this.accumulableControl.trials = this.trials;
     }
 
-    if (this.accumulableTable) {
+    if (this.accumulableTable && this.data) {
       this.accumulableTable.correctCount = this.data.correctCount;
       this.accumulableTable.errorCount = this.data.errorCount;
       this.accumulableTable.nrCount = this.data.nrCount;

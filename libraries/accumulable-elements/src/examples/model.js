@@ -280,7 +280,7 @@ export default class DDMExampleModel extends DDMExample {
       this.accumulableResponse.trialTotal = this.trials;
     }
 
-    if (this.accumulableTable) {
+    if (this.accumulableTable && this.data) {
       this.accumulableTable.correctCount = this.data.correctCount;
       this.accumulableTable.errorCount = this.data.errorCount;
       this.accumulableTable.nrCount = this.data.nrCount;
