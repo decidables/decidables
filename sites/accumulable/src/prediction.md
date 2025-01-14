@@ -16,5 +16,5 @@ In other words, we can have our model perform the task *as if* it were a partici
   <ddm-parameters interactive></ddm-parameters>
   <ddm-model interactive measures means sds></ddm-model>
   <accumulable-response trial feedback></accumulable-response>
-  <accumulable-table numeric summary="overall" color="outcome"></accumulable-table>
+  <accumulable-table numeric summary color="outcome"></accumulable-table>
 </ddm-example-model>
