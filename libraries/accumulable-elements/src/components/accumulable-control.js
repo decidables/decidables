@@ -199,7 +199,7 @@ export default class AccumulableControl extends AccumulableElement {
     return html`
       <div class="holder">
         ${this.trials
-          ? html`<decidables-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>`
+          ? html`<decidables-slider class="trials" min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>`
           : html``}
         ${this.resample
           ? html`
@@ -211,14 +211,14 @@ export default class AccumulableControl extends AccumulableElement {
           `
           : html``}
         ${this.duration
-          ? html`<decidables-slider min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>`
+          ? html`<decidables-slider class="duration" min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>`
           : html``}
         ${this.coherence
-          ? html`<decidables-slider min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidables-slider>`
+          ? html`<decidables-slider class="coherence" min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidables-slider>`
           : html``}
         ${this.color !== undefined
           ? html`
-            <decidables-toggle @change=${this.chooseColor.bind(this)}>
+            <decidables-toggle class="color" @change=${this.chooseColor.bind(this)}>
               <span slot="label">Emphasis</span>
               <decidables-toggle-option name="toggle" value="none" ?checked=${this.color === 'none'}>None</decidables-toggle-option>
               <decidables-toggle-option name="toggle" value="measure" ?checked=${this.color === 'measure'}>Measure</decidables-toggle-option>
