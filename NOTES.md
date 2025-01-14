@@ -1,11 +1,12 @@
 ## Notes
 
-Fix test:watch
+Fix test:watch test:file test:file:watch & document syntax
 Use MathML with embedded elements for equations?
 Universal bounds and step sizes for each parameter?
 Separate Controls vs Parameters
 Keyboard responses for all tasks
 Rationalize all examples across all decidables
+Larger drag targets for touch in all decidables
 
 Create "quick take" pages for each model:
 
