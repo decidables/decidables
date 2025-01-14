@@ -2,7 +2,6 @@
 import {html, css} from 'lit';
 
 import '@decidables/decidables-elements/spinner';
-import DecidablesConverterSet from '@decidables/decidables-elements/converter-set';
 
 import AccumulableElement from '../accumulable-element';
 
@@ -23,7 +22,7 @@ export default class AccumulableTable extends AccumulableElement {
       },
       summary: {
         attribute: 'summary',
-        converter: DecidablesConverterSet,
+        type: Boolean,
         reflect: true,
       },
       color: {
@@ -110,9 +109,7 @@ export default class AccumulableTable extends AccumulableElement {
     super();
 
     this.numeric = false;
-
-    this.summaries = ['overall'];
-    this.summary = new Set();
+    this.summary = false;
 
     this.colors = ['none', 'measure', 'outcome', 'all'];
     this.color = 'all';
@@ -455,7 +452,7 @@ export default class AccumulableTable extends AccumulableElement {
             <th class="th th-sub" scope="col">
               Error
             </th>
-            ${(this.summary.has('overall'))
+            ${(this.summary)
               ? html`
                 <th class="th th-main" scope="col">
                   Overall
@@ -474,7 +471,7 @@ export default class AccumulableTable extends AccumulableElement {
             <td class="td td-data error count">
               ${errorCount}
             </td>
-            ${(this.summary.has('overall'))
+            ${(this.summary)
               ? html`
                 <td class="td td-summary overall proportion-correct">
                   ${accuracy}
@@ -491,7 +488,7 @@ export default class AccumulableTable extends AccumulableElement {
             <td class="td td-data error mean-rt">
               ${errorMeanRT}
             </td>
-            ${(this.summary.has('overall'))
+            ${(this.summary)
               ? html`
                 <td class="td td-summary overall mean-rt">
                   ${meanRT}
@@ -508,7 +505,7 @@ export default class AccumulableTable extends AccumulableElement {
             <td class="td td-data error sd-rt">
               ${errorSDRT}
             </td>
-            ${(this.summary.has('overall'))
+            ${(this.summary)
               ? html`
                 <td class="td td-summary overall sd-rt">
                   ${sdRT}
