@@ -26,6 +26,11 @@ export default class AccumulableResponse extends AccumulableElement {
         type: Boolean,
         reflect: true,
       },
+      payoff: {
+        attribute: 'payoff',
+        type: String,
+        reflect: true,
+      },
       correctPayoff: {
         attribute: 'correct-payoff',
         type: Number,
