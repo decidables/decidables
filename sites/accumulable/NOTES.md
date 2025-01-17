@@ -1,7 +1,6 @@
 ## Bugs
 
 - rationalize tazv2gE & tazv2gC
-- Why is README.md printing to console during lint?
 - publish elements & math
 - add to website
 
