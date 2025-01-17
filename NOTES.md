@@ -1,5 +1,7 @@
 ## Notes
 
+Convert all code documentation to JSDoc format
+  Use tool to extract docs from code files and add to README?
 Fix test:watch test:file test:file:watch & document syntax
 Use MathML with embedded elements for equations?
 Universal bounds and step sizes for each parameter?
@@ -13,12 +15,10 @@ Create "quick take" pages for each model:
 - exploration
 - simulation
 - fitting (enter own data?)
-
-Ideas:
-
-- This would be separate from in-depth explanations
-- Provide "early" access to web components
-- Maybe even a page that demonstrates usage of components
+- Ideas:
+  - This would be separate from in-depth explanations
+  - Provide "early" access to web components
+  - Maybe even a page that demonstrates usage of components
 
 Move bugs from README into NOTES
 
