@@ -34,7 +34,6 @@
   "homepage": "https://github.com/decidables/decidables/tree/main/libraries/accumulable-elements",
   "author": "Adam Krawitz (https://web.uvic.ca/~akrawitz/)",
   "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
-  "private": true,
   "publishConfig": {
     "access": "public"
   },
