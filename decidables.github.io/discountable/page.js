@@ -431,9 +431,9 @@ const o$2=t=>t??T;class DecidablesSlider extends DecidablesElement{static get pr
         <slot></slot>
       </label>
       <div class="range">
-        <input type="range" id="slider" min=${o$2(this.min)} max=${o$2(this.max)} step=${o$2(this.step)} .value=${this.value} @change=${this.changed.bind(this)} @input=${this.inputted.bind(this)}>
+        <input ?disabled=${this.disabled} type="range" id="slider" min=${o$2(this.min)} max=${o$2(this.max)} step=${o$2(this.step)} .value=${this.value} @change=${this.changed.bind(this)} @input=${this.inputted.bind(this)}>
       </div>
-      <decidables-spinner min=${o$2(this.min)} max=${o$2(this.max)} step=${o$2(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}></decidables-spinner>
+      <decidables-spinner ?disabled=${this.disabled} min=${o$2(this.min)} max=${o$2(this.max)} step=${o$2(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}></decidables-spinner>
     `}}customElements.define("decidables-slider",DecidablesSlider);class DecidablesSpinner extends DecidablesElement{static get properties(){return{disabled:{attribute:"disabled",type:Boolean,reflect:!0},max:{attribute:"max",type:Number,reflect:!0},min:{attribute:"min",type:Number,reflect:!0},step:{attribute:"step",type:Number,reflect:!0},value:{attribute:"value",type:Number,reflect:!0}}}constructor(){super(),this.disabled=!1,this.max=void 0,this.min=void 0,this.step=void 0,this.value=void 0}inputted(t){this.value=t.target.value}static get styles(){return[super.styles,i$4`
         :host {
           ---decidables-spinner-font-size: var(--decidables-spinner-font-size, 1.125rem);
