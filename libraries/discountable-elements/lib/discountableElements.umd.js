@@ -10890,9 +10890,9 @@
         <slot></slot>
       </label>
       <div class="range">
-        <input type="range" id="slider" min=${o$2(this.min)} max=${o$2(this.max)} step=${o$2(this.step)} .value=${this.value} @change=${this.changed.bind(this)} @input=${this.inputted.bind(this)}>
+        <input ?disabled=${this.disabled} type="range" id="slider" min=${o$2(this.min)} max=${o$2(this.max)} step=${o$2(this.step)} .value=${this.value} @change=${this.changed.bind(this)} @input=${this.inputted.bind(this)}>
       </div>
-      <decidables-spinner min=${o$2(this.min)} max=${o$2(this.max)} step=${o$2(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}></decidables-spinner>
+      <decidables-spinner ?disabled=${this.disabled} min=${o$2(this.min)} max=${o$2(this.max)} step=${o$2(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}></decidables-spinner>
     `;
     }
   }

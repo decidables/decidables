@@ -26,10 +26,14 @@ The sites are served from *GitHub Pages* at [**decidables.github.io**](https://d
   [<b>prospect<i>α</i>b<i>λ</i>e</b>](https://decidables.github.io/prospectable)
   [(source)](https://github.com/decidables/decidables/tree/main/sites/prospectable)<br>
   An Explorable Explanation of Cumulative Prospect Theory<br>
-- *On the way...*<br>
+- *In progress...*<br>
   [<b>dis<i>k</i>ountable</b>](https://decidables.github.io/discountable)
   [(source)](https://github.com/decidables/decidables/tree/main/sites/discountable)<br>
   An Explorable Explanation of Hyperbolic Temporal Discounting
+- *In progress...*<br>
+  [<b><i>a</i>ccumulable</b>](https://decidables.github.io/accumulable)
+  [(source)](https://github.com/decidables/decidables/tree/main/sites/accumulable)<br>
+  An Explorable Explanation of the Diffusion Decision Model
 
 ## Libraries
 
@@ -57,6 +61,12 @@ The libraries are published to *npm* in the
 - [**`discountable-elements`**](https://www.npmjs.com/package/@decidables/discountable-elements)
   [(source)](https://github.com/decidables/decidables/tree/main/libraries/discountable-elements)<br>
   Web components for exploring Hyperbolic Temporal Discounting
+- [**`accumulable-math`**](https://www.npmjs.com/package/@decidables/accumulable-math)
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/accumulable-math)<br>
+  Provides a class with equations for calculating the Diffusion Decision Model
+- [**`accumulable-elements`**](https://www.npmjs.com/package/@decidables/accumulable-elements)
+  [(source)](https://github.com/decidables/decidables/tree/main/libraries/accumulable-elements)<br>
+  Web components for exploring the Diffusion Decision Model
 
 ## Development
 
