@@ -105,6 +105,12 @@ export default class DDMExampleModel extends DDMExample {
         });
       }
 
+      if (this.accumulableControl.hasAttribute('color')) {
+        this.accumulableControl.addEventListener('accumulable-control-color', (event) => {
+          this.color = event.detail.color;
+        });
+      }
+
       if (this.accumulableControl.hasAttribute('run')) {
         this.accumulableControl.addEventListener('accumulable-control-run', (/* event */) => {
           if (this.rdkTask) {
@@ -258,7 +264,6 @@ export default class DDMExampleModel extends DDMExample {
       this.rdkTask.trials = this.trials;
       this.rdkTask.duration = this.duration;
       this.rdkTask.coherence = this.coherence;
-      this.rdkTask.color = this.color;
     }
 
     if (this.ddmParameters) {
@@ -278,6 +283,10 @@ export default class DDMExampleModel extends DDMExample {
 
     if (this.accumulableResponse) {
       this.accumulableResponse.trialTotal = this.trials;
+    }
+
+    if (this.accumulableTable) {
+      this.accumulableTable.color = this.color;
     }
 
     if (this.accumulableTable && this.data) {
