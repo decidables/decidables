@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.7](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.4.6...@decidables/decidables-elements@0.4.7) (2025-01-17)
+
+
+### Bug Fixes
+
+* **decidables-elements:** fix disabled attribute for slider ([9dd5c5a](https://github.com/decidables/decidables/commit/9dd5c5a4f69fa67a5ec80eb7160e933609bfbc77))
+
+
+
 ## [0.4.6](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.4.5...@decidables/decidables-elements@0.4.6) (2024-05-04)
 
 **Note:** Version bump only for package @decidables/decidables-elements

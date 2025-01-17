@@ -1,6 +1,6 @@
 {
   "name": "@decidables/discountable",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "discountable: An Explorable Explanation of Hyperbolic Temporal Discounting",
   "type": "module",
   "main": "./dist/index.html",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@decidables/decidables-site": "^0.1.2",
-    "@decidables/discountable-elements": "^0.3.6",
+    "@decidables/discountable-elements": "^0.3.7",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "core-js": "^3.37.0",
