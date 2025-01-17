@@ -2,8 +2,6 @@
 
 # **`@decidables/accumulable-math`**<br>Equations for Calculating the Diffusion Decision Model in [<b><i>a</i>ccumulable</b>](https://decidables.github.io/accumulable)
 
-Note: **NOT PUBLISHED YET!**
-
 [![npm version](https://img.shields.io/npm/v/@decidables/accumulable-math?logo=npm)](https://www.npmjs.com/package/@decidables/accumulable-math)
 [![license](https://img.shields.io/npm/l/@decidables/accumulable-math?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
 

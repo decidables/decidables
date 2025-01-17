@@ -2,8 +2,6 @@
 
 # **`@decidables/accumulable-elements`**<br>Web Components for Visualizing the Diffusion Decision Model in [<b><i>a</i>ccumulable</b>](https://decidables.github.io/accumulable)
 
-Note: **NOT PUBLISHED YET!**
-
 [![npm version](https://img.shields.io/npm/v/@decidables/accumulable-elements?logo=npm)](https://www.npmjs.com/package/@decidables/accumulable-elements)
 [![license](https://img.shields.io/npm/l/@decidables/accumulable-elements?color=informational)](https://github.com/decidables/decidables/blob/main/LICENSE.md)
 
