@@ -20,6 +20,7 @@ export function lintMarkdown(callback) {
 
   unifiedEngine(
     {
+      out: false,
       color: true,
       files: src,
       ignorePatterns: ['CHANGELOG.md', 'LICENSE.md'],
