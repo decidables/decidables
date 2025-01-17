@@ -38,17 +38,58 @@ and the non-decision time, `t0`, and outputs the probability correct, `pC`.
 
 #### Variable names
 
+- trials = an array of trial-by-trial results
+- stats = a data structure with summary statistics:
+  - correctCount = number of correct trials
+  - errorCount = number of error trials
+  - nrCount = number of no response trials
+  - accuracy = overall accuracy (proportion correct)
+  - correctMeanRT = mean RT on correct trials
+  - errorMeanRT = mean RT on error trials
+  - meanRT = overall mean RT
+  - correctSDRT = standard deviation of RT on correct trials
+  - errorSDRT = standard deviation of RT on error trials
+  - sdRT = overall standard deviation of RT
 - a = boundary separation
 - z = starting point
 - v = drift rate
-- t0 = non0decision time
+- t0 = non-decision time
+- s = within-trial variability in drift rate
+- pE = proportion errors
+- pC = proportion correct
+- m = overall mean RT
+- sd = overall standard deviation of RT
+- mE = mean RT on error trials
+- sdE = standard deviation of RT on error trials
+- mC = mean RT on correct trials
+- sdC = standard deviation of RT on correct trials
+- gE = probability density of RT on error trials
+- gC = probability density of RT on correct trials
+- accuracy = overall accuracy
+- meanRT = overall mean reaction time
+- sdRT = overall standard deviation of reaction time
 
-#### Methods w/implemented equations
+#### Methods w/sources
 
-- `azvs2pE(a, zprime, v, s)`
-- `azvs2pC(a, zprime, v, s)`
-- `tazvs2gE(t, a, zprime, v, s)`
-- `tazvs2gC(t, a, zprime, v, s)`
+- Basic stats
+  - `trials2stats(trials)`
+- Probability of correct and error responses (Alexandrowicz, 2020)
+  - `azv2pE(a, z, v, s = DDMMath.s)` 
+  - `azv2pC(a, z, v, s = DDMMath.s)`
+- Mean of overall, error, and correct RTs (Grasman et al., 2009)
+  - `azvt02m(a, z, v, t0, s = DDMMath.s)`
+  - `azvt02mE(a, z, v, t0, s = DDMMath.s)`
+  - `azvt02mC(a, z, v, t0, s = DDMMath.s)`
+- Standard deviation of overall, error, and correct RTs (Grasman et al., 2009)
+  - `azv2sd(a, z, v, s = DDMMath.s)`
+  - `azv2sdE(a, z, v, s = DDMMath.s)`
+  - `azv2sdC(a, z, v, s = DDMMath.s)`
+- Density of error and correct RT distributions (Alexandrowicz, 2020)
+  - `tazv2gE(t, a, z, v, s = DDMMath.s)`
+  - `tazv2gC(t, a, z, v, s = DDMMath.s)`
+- EZ-diffusion model (Wagenmakers et al., 2007)
+  - `data2ez({accuracy, sdRT, meanRT, s})`
+  - `data2ez2()`
 
 ## Development
 
