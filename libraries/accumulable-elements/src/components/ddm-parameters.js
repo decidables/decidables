@@ -1,11 +1,7 @@
 
 import {html, css} from 'lit';
 
-import '@decidables/decidables-elements/button';
 import '@decidables/decidables-elements/slider';
-import '@decidables/decidables-elements/switch';
-import '@decidables/decidables-elements/toggle';
-import '@decidables/decidables-elements/toggle-option';
 
 import AccumulableElement from '../accumulable-element';
 
@@ -104,15 +100,6 @@ export default class DDMParameters extends AccumulableElement {
           display: flex;
 
           flex-direction: row;
-
-          align-items: stretch;
-          justify-content: center;
-        }
-
-        .buttons {
-          display: flex;
-
-          flex-direction: column;
 
           align-items: stretch;
           justify-content: center;
