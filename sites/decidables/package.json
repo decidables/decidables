@@ -1,6 +1,6 @@
 {
   "name": "@decidables/decidables",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "decidables: Explorable Explanations of Decision Making",
   "type": "module",
   "main": "./dist/index.html",
@@ -27,9 +27,9 @@
   },
   "dependencies": {
     "@decidables/decidables-site": "^0.1.2",
-    "@decidables/detectable-elements": "^0.2.13",
-    "@decidables/discountable-elements": "^0.3.6",
-    "@decidables/prospectable-elements": "^0.2.13",
+    "@decidables/detectable-elements": "^0.2.14",
+    "@decidables/discountable-elements": "^0.3.7",
+    "@decidables/prospectable-elements": "^0.2.14",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "core-js": "^3.37.0",
