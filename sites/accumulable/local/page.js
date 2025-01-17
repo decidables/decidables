@@ -10817,19 +10817,6 @@ class DecidablesToggleOption extends DecidablesElement {
 }
 customElements.define('decidables-toggle-option', DecidablesToggleOption);
 
-/*
-  Attribute: Space-separated sequence of strings
-  Property: Set of strings
-*/
-const DecidablesConverterSet = {
-  fromAttribute: value => {
-    return new Set(value.split(/\s+/));
-  },
-  toAttribute: value => {
-    return value.size ? [...value].join(' ') : null;
-  }
-};
-
 function DecidablesMixinResizeable(superClass) {
   return class extends superClass {
     static get properties() {
@@ -10897,6 +10884,7 @@ class AccumulableElement extends DecidablesElement {
       z: Set1[1],
       v: Set1[4],
       t0: Set1[7],
+      s: Set1[8],
       left: '#f032e6',
       right: '#10dbc9',
       correct: Set1[2],
@@ -11107,16 +11095,16 @@ class AccumulableControl extends AccumulableElement {
   render() {
     return x$1`
       <div class="holder">
-        ${this.trials ? x$1`<decidables-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>` : x$1``}
+        ${this.trials ? x$1`<decidables-slider class="trials" min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>` : x$1``}
         ${this.resample ? x$1`
             <div class="buttons">
               ${this.resample ? x$1`<decidables-button name="resample" @click=${this.doResample.bind(this)}>Resample</decidables-button>` : x$1``}
             </div>
           ` : x$1``}
-        ${this.duration ? x$1`<decidables-slider min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>` : x$1``}
-        ${this.coherence ? x$1`<decidables-slider min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidables-slider>` : x$1``}
+        ${this.duration ? x$1`<decidables-slider class="duration" min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>` : x$1``}
+        ${this.coherence ? x$1`<decidables-slider class="coherence" min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidables-slider>` : x$1``}
         ${this.color !== undefined ? x$1`
-            <decidables-toggle @change=${this.chooseColor.bind(this)}>
+            <decidables-toggle class="color" @change=${this.chooseColor.bind(this)}>
               <span slot="label">Emphasis</span>
               <decidables-toggle-option name="toggle" value="none" ?checked=${this.color === 'none'}>None</decidables-toggle-option>
               <decidables-toggle-option name="toggle" value="measure" ?checked=${this.color === 'measure'}>Measure</decidables-toggle-option>
@@ -11137,6 +11125,234 @@ class AccumulableControl extends AccumulableElement {
 customElements.define('accumulable-control', AccumulableControl);
 
 /*
+  DDMMath Static Class - Not intended for instantiation!
+
+  Model parameters:
+    a = boundary separation
+    z = starting point as a proportion of a
+    v = drift rate (per second)
+    t0 = non-decision time (in milliseconds)
+    s = within-trial variability in drift rate (s^2 = infinitesimal variance)
+
+    zPrime = starting point on a 0-to-a scale (typically used in published equations)
+
+  Behavioral variables:
+    pE = proportion of error trials
+    pC = proportion of correct trials
+    m = mean of overall RTs (in milliseconds)
+    mE = mean of error RTs (in milliseconds)
+    mC = mean correct RTs (in milliseconds)
+    sd = standard deviation of overall RTs (in milliseconds)
+    sdE = standard deviation of error RTs (in milliseconds)
+    sdC = standard deviation of correct RTs (in milliseconds)
+
+  Equations:
+    Probability of correct and error responses (Alexandrowicz, 2020)
+    Mean of overall, error, and correct RTs (Grasman et al., 2009)
+    Standard deviation of overall, error, and correct RTs (Grasman et al., 2009)
+    Density of error and correct RT distributions (Alexandrowicz, 2020)
+    EZ-diffusion model (Wagenmakers et al., 2007)
+*/
+class DDMMath {
+  static s = 1;
+
+  // Calculate a bunch of statistics for an array of trials
+  static trials2stats(trials) {
+    const stats = {};
+
+    // First-order sums
+    const sums = trials.reduce((accumulator, trial) => {
+      switch (trial.outcome) {
+        case 'correct':
+          accumulator.correctCount += 1;
+          accumulator.correctRTSum += trial.rt;
+          break;
+        case 'error':
+          accumulator.errorCount += 1;
+          accumulator.errorRTSum += trial.rt;
+          break;
+        case 'nr':
+          accumulator.nrCount += 1;
+          break;
+        // No-op
+      }
+      return accumulator;
+    }, {
+      correctCount: 0,
+      errorCount: 0,
+      nrCount: 0,
+      correctRTSum: 0,
+      errorRTSum: 0
+    });
+
+    // First-order stats
+    stats.correctCount = sums.correctCount;
+    stats.errorCount = sums.errorCount;
+    stats.nrCount = sums.nrCount;
+    stats.accuracy = sums.correctCount / (sums.correctCount + sums.errorCount + sums.nrCount);
+    stats.correctMeanRT = sums.correctRTSum / sums.correctCount;
+    stats.errorMeanRT = sums.errorRTSum / sums.errorCount;
+    stats.meanRT = (sums.correctRTSum + sums.errorRTSum) / (sums.correctCount + sums.errorCount);
+
+    // Second-order sums
+    const sums2 = trials.reduce((accumulator, trial) => {
+      switch (trial.outcome) {
+        case 'correct':
+          accumulator.ss += (trial.rt - stats.meanRT) ** 2;
+          accumulator.correctSS += (trial.rt - stats.correctMeanRT) ** 2;
+          break;
+        case 'error':
+          accumulator.ss += (trial.rt - stats.meanRT) ** 2;
+          accumulator.errorSS += (trial.rt - stats.errorMeanRT) ** 2;
+          break;
+        // No-op
+      }
+      return accumulator;
+    }, {
+      ss: 0,
+      correctSS: 0,
+      errorSS: 0
+    });
+
+    // Second-order stats
+    stats.correctSDRT = stats.correctCount > 1 ? Math.sqrt(sums2.correctSS / (stats.correctCount - 1)) : NaN;
+    stats.errorSDRT = stats.errorCount > 1 ? Math.sqrt(sums2.errorSS / (stats.errorCount - 1)) : NaN;
+    stats.sdRT = stats.correctCount + stats.errorCount > 1 ? Math.sqrt(sums2.ss / (stats.correctCount + stats.errorCount - 1)) : NaN;
+    return stats;
+  }
+
+  // Probability of an Error Response
+  static azv2pE(a, z, v, s = DDMMath.s) {
+    const zPrime = a * z;
+    const A = Math.exp(-2 * v * a / s ** 2);
+    const Z = Math.exp(-2 * v * zPrime / s ** 2);
+    return (A - Z) / (A - 1);
+  }
+
+  // Probability of a Correct Response
+  static azv2pC(a, z, v, s = DDMMath.s) {
+    return DDMMath.azv2pE(a, 1 - z, -v, s);
+  }
+
+  // Mean Overall RT
+  // Equation 5 (Grasman et al., 2009)
+  static azvt02m(a, z, v, t0, s = DDMMath.s) {
+    const zPrime = a * z;
+    const A = Math.exp(-2 * v * a / s ** 2) - 1;
+    const Z = Math.exp(-2 * v * zPrime / s ** 2) - 1;
+    const mean = -(zPrime / v) + a / v * (Z / A);
+    return t0 + mean * 1000;
+  }
+
+  // SD Overall RT
+  // Equation 6 (Grasman et al., 2009)
+  static azv2sd(a, z, v, s = DDMMath.s) {
+    const zPrime = a * z;
+    const A = Math.exp(-2 * v * a / s ** 2) - 1;
+    const Z = Math.exp(-2 * v * zPrime / s ** 2) - 1;
+    const variance = (-v * a ** 2 * (Z + 4) * Z / A ** 2 + ((-3 * v * a ** 2 + 4 * v * zPrime * a + s ** 2 * a) * Z + 4 * v * zPrime * a) / A - s ** 2 * zPrime) / v ** 3;
+    return Math.sqrt(variance) * 1000;
+  }
+
+  // Mean Error RT
+  // Equation 13 (Grasman et al., 2009)
+  static azvt02mE(a, z, v, t0, s = DDMMath.s) {
+    function phi(x, y) {
+      return Math.exp(2 * v * y / s ** 2) - Math.exp(2 * v * x / s ** 2);
+    }
+    const zPrime = a * z;
+    const mean = (zPrime * (phi(zPrime - a, a) + phi(0, zPrime)) + 2 * a * phi(zPrime, 0)) / (v * phi(zPrime, a) * phi(-a, 0));
+    return t0 + mean * 1000;
+  }
+
+  // SD Error RT
+  // Equation 14 (Grasman et al., 2009)
+  static azv2sdE(a, z, v, s = DDMMath.s) {
+    function phi(x, y) {
+      return Math.exp(2 * v * y / s ** 2) - Math.exp(2 * v * x / s ** 2);
+    }
+    const zPrime = a * z;
+    const variance = -2 * a * phi(0, zPrime) * (2 * v * a * phi(zPrime, 2 * a) + s ** 2 * phi(0, a) * phi(zPrime, a)) * Math.exp(2 * v * a / s ** 2) / (v ** 3 * phi(0, a) ** 2 * phi(zPrime, a) ** 2) + (4 * v * zPrime * (2 * a - zPrime) * Math.exp(2 * v * (zPrime + a) / s ** 2) + zPrime * s ** 2 * phi(2 * zPrime, 2 * a)) / (v ** 3 * phi(zPrime, a) ** 2);
+    return Math.sqrt(variance) * 1000;
+  }
+
+  // Mean Correct RT
+  static azvt02mC(a, z, v, t0, s = DDMMath.s) {
+    return DDMMath.azvt02mE(a, 1 - z, -v, t0, s);
+  }
+
+  // SD Correct RT
+  static azv2sdC(a, z, v, s = DDMMath.s) {
+    return DDMMath.azv2sdE(a, 1 - z, -v, s);
+  }
+
+  // Density of Error RT
+  static tazv2gE(t, a, z, v, s = DDMMath.s) {
+    if (!t) return 0;
+    const zPrime = a * z;
+    const base = Math.PI * s ** 2 / a ** 2 * Math.exp(-zPrime * v / s ** 2);
+    let k = 0;
+    let term = 0;
+    let sum = 0;
+    do {
+      k += 1;
+      term = k * Math.sin(Math.PI * zPrime * k / a) * Math.exp(-0.5 * (v ** 2 / s ** 2 + Math.PI ** 2 * k ** 2 * s ** 2 / a ** 2) * t);
+      sum += term;
+    } while (k < 200); // ?? HACK
+
+    return base * sum;
+  }
+
+  // Density of Correct RT
+  static tazv2gC(t, a, z, v, s = DDMMath.s) {
+    return DDMMath.tazv2gE(t, a, 1 - z, -v, s);
+  }
+
+  // Adapted from https://raoul.socsci.uva.nl/EZ2/EZ2_new.html
+  // EZ-function for starting values
+  // input: obj - Object with properties
+  //    pC - Proportion correct
+  //    sd - sample standard deviation of the RT's in ms
+  //    m - sample mean of the RT's in ms
+  //    s - diffusion standard deviation
+  // returns: Object with properties v, a, and t0, containing EZ-estimates of these parameters
+  static data2ez({
+    accuracy: pC,
+    sdRT: sd,
+    meanRT: m,
+    s
+  }) {
+    function sign(r) {
+      return r > 0 ? 1 : r === 0 ? 0 : -1;
+    }
+    function logit(p) {
+      return Math.log(p / (1 - p));
+    }
+    const vrt = (sd / 1000) ** 2;
+    const mrt = m / 1000;
+    const s2 = s ** 2;
+    const l = logit(pC);
+    const x = l * (l * pC ** 2 - l * pC + pC - 0.5) / vrt;
+    const v = sign(pC - 0.5) * s * x ** (1 / 4);
+    const a = s2 * logit(pC) / v;
+    const y = -v * a / s2;
+    const mdt = a / (2 * v) * (1 - Math.exp(y)) / (1 + Math.exp(y));
+    const t0 = mrt ? mrt - mdt : null; // compute Ter only if MRT was provided
+
+    const t0Prime = t0 * 1000;
+    return {
+      v,
+      a,
+      t0: t0Prime,
+      s
+    };
+  }
+  static data2ez2() {
+    throw new Error('data2ez2 is not implemented!');
+  }
+}
+
+/*
   AccumulableResponse element
   <accumulable-response>
 
@@ -11154,6 +11370,11 @@ class AccumulableResponse extends AccumulableElement {
       trial: {
         attribute: 'trial',
         type: Boolean,
+        reflect: true
+      },
+      payoff: {
+        attribute: 'payoff',
+        type: String,
         reflect: true
       },
       correctPayoff: {
@@ -11223,6 +11444,7 @@ class AccumulableResponse extends AccumulableElement {
     this.nrCount = 0; // Count of No Response trials
 
     this.trials = []; // Record of trials in block
+    this.alignState();
   }
   get trialPayoff() {
     switch (this.outcome) {
@@ -11239,53 +11461,9 @@ class AccumulableResponse extends AccumulableElement {
   get totalPayoff() {
     return this.correctCount * this.correctPayoff + this.errorCount * this.errorPayoff + this.nrCount * this.nrPayoff;
   }
-  get meanRT() {
-    const sumTotal = this.trials.filter(trial => {
-      return trial.outcome !== 'nr';
-    }).reduce((sum, trial) => {
-      return sum + trial.rt;
-    }, 0);
-    return sumTotal / (this.correctCount + this.errorCount);
-  }
-  get correctMeanRT() {
-    const sumCorrect = this.trials.filter(trial => {
-      return trial.outcome === 'correct';
-    }).reduce((sum, trial) => {
-      return sum + trial.rt;
-    }, 0);
-    return sumCorrect / this.correctCount;
-  }
-  get errorMeanRT() {
-    const sumError = this.trials.filter(trial => {
-      return trial.outcome === 'error';
-    }).reduce((sum, trial) => {
-      return sum + trial.rt;
-    }, 0);
-    return sumError / this.errorCount;
-  }
-  get sdRT() {
-    const ss = this.trials.filter(trial => {
-      return trial.outcome !== 'nr';
-    }).reduce((sum, trial) => {
-      return sum + (trial.rt - this.meanRT) ** 2;
-    }, 0);
-    return Math.sqrt(ss / (this.correctCount + this.errorCount - 1));
-  }
-  get correctSDRT() {
-    const ss = this.trials.filter(trial => {
-      return trial.outcome === 'correct';
-    }).reduce((sum, trial) => {
-      return sum + (trial.rt - this.correctMeanRT) ** 2;
-    }, 0);
-    return Math.sqrt(ss / (this.correctCount - 1));
-  }
-  get errorSDRT() {
-    const ss = this.trials.filter(trial => {
-      return trial.outcome === 'error';
-    }).reduce((sum, trial) => {
-      return sum + (trial.rt - this.errorMeanRT) ** 2;
-    }, 0);
-    return Math.sqrt(ss / (this.errorCount - 1));
+  alignState() {
+    const stats = DDMMath.trials2stats(this.trials);
+    Object.assign(this, stats);
   }
   start(signal, trial) {
     this.startTime = Date.now();
@@ -11310,6 +11488,7 @@ class AccumulableResponse extends AccumulableElement {
         outcome: this.outcome,
         payoff: this.trialPayoff
       });
+      this.alignState();
     }
   }
   left() {
@@ -11337,6 +11516,7 @@ class AccumulableResponse extends AccumulableElement {
       outcome: this.outcome,
       payoff: this.trialPayoff
     });
+    this.alignState();
     this.dispatchEvent(new CustomEvent('accumulable-response', {
       detail: {
         trial: this.trialCount,
@@ -11348,6 +11528,7 @@ class AccumulableResponse extends AccumulableElement {
         correctCount: this.correctCount,
         errorCount: this.errorCount,
         nrCount: this.nrCount,
+        accuracy: this.accuracy,
         meanRT: this.meanRT,
         correctMeanRT: this.correctMeanRT,
         errorMeanRT: this.errorMeanRT,
@@ -11370,6 +11551,7 @@ class AccumulableResponse extends AccumulableElement {
     this.errorCount = 0;
     this.nrCount = 0;
     this.trials = [];
+    this.alignState();
   }
   keydown(event) {
     if (this.state === 'waiting') {
@@ -11565,7 +11747,7 @@ class AccumulableTable extends AccumulableElement {
       },
       summary: {
         attribute: 'summary',
-        converter: DecidablesConverterSet,
+        type: Boolean,
         reflect: true
       },
       color: {
@@ -11585,6 +11767,11 @@ class AccumulableTable extends AccumulableElement {
       },
       nrCount: {
         attribute: 'nr-count',
+        type: Number,
+        reflect: true
+      },
+      accuracy: {
+        attribute: 'accuracy',
         type: Number,
         reflect: true
       },
@@ -11643,8 +11830,7 @@ class AccumulableTable extends AccumulableElement {
   constructor() {
     super();
     this.numeric = false;
-    this.summaries = ['overall'];
-    this.summary = new Set();
+    this.summary = false;
     this.colors = ['none', 'measure', 'outcome', 'all'];
     this.color = 'all';
     this.payoff = false;
@@ -11655,17 +11841,13 @@ class AccumulableTable extends AccumulableElement {
     this.correctCount = NaN;
     this.errorCount = NaN;
     this.nrCount = NaN;
+    this.accuracy = NaN;
     this.correctMeanRT = NaN;
     this.errorMeanRT = NaN;
     this.meanRT = NaN;
     this.correctSDRT = NaN;
     this.errorSDRT = NaN;
     this.sdRT = NaN;
-    this.accuracy = NaN;
-    this.alignState();
-  }
-  alignState() {
-    this.accuracy = this.correctCount / (this.correctCount + this.errorCount + this.nrCount);
   }
   sendEvent() {
     this.dispatchEvent(new CustomEvent('accumulable-table-change', {
@@ -11673,6 +11855,7 @@ class AccumulableTable extends AccumulableElement {
         correctCount: this.correctCount,
         errorCount: this.errorCount,
         nrCount: this.nrCount,
+        accuracy: this.accuracy,
         correctMeanRT: this.correctMeanRT,
         errorMeanRT: this.errorMeanRT,
         meanRT: this.meanRT,
@@ -11685,47 +11868,38 @@ class AccumulableTable extends AccumulableElement {
   }
   correctCountInput(e) {
     this.correctCount = parseInt(e.target.value, 10);
-    this.alignState();
     this.sendEvent();
   }
   errorCountInput(e) {
     this.errorCount = parseInt(e.target.value, 10);
-    this.alignState();
     this.sendEvent();
   }
   accuracyInput(e) {
     this.accuracy = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
   correctMeanRTInput(e) {
     this.correctMeanRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
   errorMeanRTInput(e) {
     this.errorMeanRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
   meanRTInput(e) {
     this.meanRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
   correctSDRTInput(e) {
     this.correctSDRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
   errorSDRTInput(e) {
     this.errorSDRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
   sdRTInput(e) {
     this.sdRT = parseFloat(e.target.value);
-    this.alignState();
     this.sendEvent();
   }
   static get styles() {
@@ -11880,9 +12054,6 @@ class AccumulableTable extends AccumulableElement {
         }
       `];
   }
-  willUpdate() {
-    this.alignState();
-  }
   render() {
     const payoffFormatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -11989,7 +12160,7 @@ class AccumulableTable extends AccumulableElement {
             <th class="th th-sub" scope="col">
               Error
             </th>
-            ${this.summary.has('overall') ? x$1`
+            ${this.summary ? x$1`
                 <th class="th th-main" scope="col">
                   Overall
                 </th>` : x$1``}
@@ -12006,7 +12177,7 @@ class AccumulableTable extends AccumulableElement {
             <td class="td td-data error count">
               ${errorCount}
             </td>
-            ${this.summary.has('overall') ? x$1`
+            ${this.summary ? x$1`
                 <td class="td td-summary overall proportion-correct">
                   ${accuracy}
                 </td>` : x$1``}
@@ -12021,7 +12192,7 @@ class AccumulableTable extends AccumulableElement {
             <td class="td td-data error mean-rt">
               ${errorMeanRT}
             </td>
-            ${this.summary.has('overall') ? x$1`
+            ${this.summary ? x$1`
                 <td class="td td-summary overall mean-rt">
                   ${meanRT}
                 </td>` : x$1``}
@@ -12036,7 +12207,7 @@ class AccumulableTable extends AccumulableElement {
             <td class="td td-data error sd-rt">
               ${errorSDRT}
             </td>
-            ${this.summary.has('overall') ? x$1`
+            ${this.summary ? x$1`
                 <td class="td td-summary overall sd-rt">
                   ${sdRT}
                 </td>` : x$1``}
@@ -12069,7 +12240,7 @@ function createBase64WorkerFactory(base64, sourcemapArg, enableUnicodeArg) {
     };
 }
 
-var WorkerFactory = createBase64WorkerFactory('Lyogcm9sbHVwLXBsdWdpbi13ZWItd29ya2VyLWxvYWRlciAqLwooZnVuY3Rpb24gKCkgewogICd1c2Ugc3RyaWN0JzsKCiAgLyoKICAgIERETU1hdGggU3RhdGljIENsYXNzIC0gTm90IGludGVuZGVkIGZvciBpbnN0YW50aWF0aW9uIQoKICAgIE1vZGVsIHBhcmFtZXRlcnM6CiAgICAgIGEgPSBib3VuZGFyeSBzZXBhcmF0aW9uCiAgICAgIHogPSBzdGFydGluZyBwb2ludCBhcyBhIHByb3BvcnRpb24gb2YgYQogICAgICB2ID0gZHJpZnQgcmF0ZSAocGVyIHNlY29uZCkKICAgICAgdDAgPSBub24tZGVjaXNpb24gdGltZSAoaW4gbWlsbGlzZWNvbmRzKQogICAgICBzID0gd2l0aGluLXRyaWFsIHZhcmlhYmlsaXR5IGluIGRyaWZ0IHJhdGUgKHNeMiA9IGluZmluaXRlc2ltYWwgdmFyaWFuY2UpCgogICAgICB6UHJpbWUgPSBzdGFydGluZyBwb2ludCBvbiBhIDAtdG8tYSBzY2FsZSAodHlwaWNhbGx5IHVzZWQgaW4gcHVibGlzaGVkIGVxdWF0aW9ucykKCiAgICBCZWhhdmlvcmFsIHZhcmlhYmxlczoKICAgICAgcEUgPSBwcm9wb3J0aW9uIG9mIGVycm9yIHRyaWFscwogICAgICBwQyA9IHByb3BvcnRpb24gb2YgY29ycmVjdCB0cmlhbHMKICAgICAgbSA9IG1lYW4gb2Ygb3ZlcmFsbCBSVHMgKGluIG1pbGxpc2Vjb25kcykKICAgICAgbUUgPSBtZWFuIG9mIGVycm9yIFJUcyAoaW4gbWlsbGlzZWNvbmRzKQogICAgICBtQyA9IG1lYW4gY29ycmVjdCBSVHMgKGluIG1pbGxpc2Vjb25kcykKICAgICAgc2QgPSBzdGFuZGFyZCBkZXZpYXRpb24gb2Ygb3ZlcmFsbCBSVHMgKGluIG1pbGxpc2Vjb25kcykKICAgICAgc2RFID0gc3RhbmRhcmQgZGV2aWF0aW9uIG9mIGVycm9yIFJUcyAoaW4gbWlsbGlzZWNvbmRzKQogICAgICBzZEMgPSBzdGFuZGFyZCBkZXZpYXRpb24gb2YgY29ycmVjdCBSVHMgKGluIG1pbGxpc2Vjb25kcykKCiAgICBFcXVhdGlvbnM6CiAgICAgIFByb2JhYmlsaXR5IG9mIGNvcnJlY3QgYW5kIGVycm9yIHJlc3BvbnNlcyAoQWxleGFuZHJvd2ljeiwgMjAyMCkKICAgICAgTWVhbiBvZiBvdmVyYWxsLCBlcnJvciwgYW5kIGNvcnJlY3QgUlRzIChHcmFzbWFuIGV0IGFsLiwgMjAwOSkKICAgICAgU3RhbmRhcmQgZGV2aWF0aW9uIG9mIG92ZXJhbGwsIGVycm9yLCBhbmQgY29ycmVjdCBSVHMgKEdyYXNtYW4gZXQgYWwuLCAyMDA5KQogICAgICBEZW5zaXR5IG9mIGVycm9yIGFuZCBjb3JyZWN0IFJUIGRpc3RyaWJ1dGlvbnMgKEFsZXhhbmRyb3dpY3osIDIwMjApCiAgKi8KICBjbGFzcyBERE1NYXRoIHsKICAgIHN0YXRpYyBzID0gMTsKCiAgICAvLyBDYWxjdWxhdGUgYSBidW5jaCBvZiBzdGF0aXN0aWNzIGZvciBhbiBhcnJheSBvZiB0cmlhbHMKICAgIHN0YXRpYyB0cmlhbHMyc3RhdHModHJpYWxzKSB7CiAgICAgIGNvbnN0IHN0YXRzID0gdHJpYWxzLnJlZHVjZSgoYWNjdW11bGF0b3IsIHRyaWFsKSA9PiB7CiAgICAgICAgc3dpdGNoICh0cmlhbC5vdXRjb21lKSB7CiAgICAgICAgICBjYXNlICdjb3JyZWN0JzoKICAgICAgICAgICAgYWNjdW11bGF0b3IudHJpYWxzLmNvcnJlY3QgKz0gMTsKICAgICAgICAgICAgYWNjdW11bGF0b3IucnRzLmNvcnJlY3QgKz0gdHJpYWwucnQ7CiAgICAgICAgICAgIGJyZWFrOwogICAgICAgICAgY2FzZSAnZXJyb3InOgogICAgICAgICAgICBhY2N1bXVsYXRvci50cmlhbHMuZXJyb3IgKz0gMTsKICAgICAgICAgICAgYWNjdW11bGF0b3IucnRzLmVycm9yICs9IHRyaWFsLnJ0OwogICAgICAgICAgICBicmVhazsKICAgICAgICAgIGNhc2UgJ25yJzoKICAgICAgICAgICAgYWNjdW11bGF0b3IudHJpYWxzLm5yICs9IDE7CiAgICAgICAgICAgIGJyZWFrOwogICAgICAgICAgLy8gTm8tb3AKICAgICAgICB9CiAgICAgICAgcmV0dXJuIGFjY3VtdWxhdG9yOwogICAgICB9LCB7CiAgICAgICAgdHJpYWxzOiB7CiAgICAgICAgICB0b3RhbDogMCwKICAgICAgICAgIGNvcnJlY3Q6IDAsCiAgICAgICAgICBlcnJvcjogMCwKICAgICAgICAgIG5yOiAwCiAgICAgICAgfSwKICAgICAgICBydHM6IHsKICAgICAgICAgIG92ZXJhbGw6IDAsCiAgICAgICAgICBjb3JyZWN0OiAwLAogICAgICAgICAgZXJyb3I6IDAKICAgICAgICB9LAogICAgICAgIHNzczogewogICAgICAgICAgb3ZlcmFsbDogMCwKICAgICAgICAgIGNvcnJlY3Q6IDAsCiAgICAgICAgICBlcnJvcjogMAogICAgICAgIH0KICAgICAgfSk7CiAgICAgIHN0YXRzLnRyaWFscy50b3RhbCA9IHN0YXRzLnRyaWFscy5jb3JyZWN0ICsgc3RhdHMudHJpYWxzLmVycm9yICsgc3RhdHMudHJpYWxzLm5yOwogICAgICBzdGF0cy5ydHMub3ZlcmFsbCA9IHN0YXRzLnJ0cy5jb3JyZWN0ICsgc3RhdHMucnRzLmVycm9yOwogICAgICBzdGF0cy5wcm9wb3J0aW9uID0gewogICAgICAgIGNvcnJlY3Q6IHN0YXRzLnRyaWFscy5jb3JyZWN0IC8gc3RhdHMudHJpYWxzLnRvdGFsLAogICAgICAgIGVycm9yOiBzdGF0cy50cmlhbHMuZXJyb3IgLyBzdGF0cy50cmlhbHMudG90YWwsCiAgICAgICAgbnI6IHN0YXRzLnRyaWFscy5uciAvIHN0YXRzLnRyaWFscy50b3RhbAogICAgICB9OwogICAgICBzdGF0cy5tZWFuUlQgPSB7CiAgICAgICAgb3ZlcmFsbDogc3RhdHMucnRzLm92ZXJhbGwgLyAoc3RhdHMudHJpYWxzLmNvcnJlY3QgKyBzdGF0cy50cmlhbHMuZXJyb3IpLAogICAgICAgIGNvcnJlY3Q6IHN0YXRzLnJ0cy5jb3JyZWN0IC8gc3RhdHMudHJpYWxzLmNvcnJlY3QsCiAgICAgICAgZXJyb3I6IHN0YXRzLnJ0cy5lcnJvciAvIHN0YXRzLnRyaWFscy5lcnJvcgogICAgICB9OwogICAgICB0cmlhbHMucmVkdWNlKChhY2N1bXVsYXRvciwgdHJpYWwpID0+IHsKICAgICAgICBhY2N1bXVsYXRvci5zc3Mub3ZlcmFsbCArPSAodHJpYWwucnQgLSBhY2N1bXVsYXRvci5tZWFuUlQub3ZlcmFsbCkgKiogMjsKICAgICAgICBzd2l0Y2ggKHRyaWFsLm91dGNvbWUpIHsKICAgICAgICAgIGNhc2UgJ2NvcnJlY3QnOgogICAgICAgICAgICBhY2N1bXVsYXRvci5zc3MuY29ycmVjdCArPSAodHJpYWwucnQgLSBhY2N1bXVsYXRvci5tZWFuUlQuY29ycmVjdCkgKiogMjsKICAgICAgICAgICAgYnJlYWs7CiAgICAgICAgICBjYXNlICdlcnJvcic6CiAgICAgICAgICAgIGFjY3VtdWxhdG9yLnNzcy5lcnJvciArPSAodHJpYWwucnQgLSBhY2N1bXVsYXRvci5tZWFuUlQuZXJyb3IpICoqIDI7CiAgICAgICAgICAgIGJyZWFrOwogICAgICAgICAgLy8gTm8tb3AKICAgICAgICB9CiAgICAgICAgcmV0dXJuIGFjY3VtdWxhdG9yOwogICAgICB9LCBzdGF0cyk7CiAgICAgIHN0YXRzLnNkUlQgPSB7CiAgICAgICAgb3ZlcmFsbDogTWF0aC5zcXJ0KHN0YXRzLnNzcy5vdmVyYWxsIC8gKHN0YXRzLnRyaWFscy5jb3JyZWN0ICsgc3RhdHMudHJpYWxzLmVycm9yIC0gMSkpLAogICAgICAgIGNvcnJlY3Q6IE1hdGguc3FydChzdGF0cy5zc3MuY29ycmVjdCAvIChzdGF0cy50cmlhbHMuY29ycmVjdCAtIDEpKSwKICAgICAgICBlcnJvcjogTWF0aC5zcXJ0KHN0YXRzLnNzcy5lcnJvciAvIChzdGF0cy50cmlhbHMuZXJyb3IgLSAxKSkKICAgICAgfTsKICAgICAgcmV0dXJuIHN0YXRzOwogICAgfQoKICAgIC8vIFByb2JhYmlsaXR5IG9mIGFuIEVycm9yIFJlc3BvbnNlCiAgICBzdGF0aWMgYXp2czJwRShhLCB6LCB2LCBzID0gRERNTWF0aC5zKSB7CiAgICAgIGNvbnN0IHpQcmltZSA9IGEgKiB6OwogICAgICBjb25zdCBBID0gTWF0aC5leHAoLTIgKiB2ICogYSAvIHMgKiogMik7CiAgICAgIGNvbnN0IFogPSBNYXRoLmV4cCgtMiAqIHYgKiB6UHJpbWUgLyBzICoqIDIpOwogICAgICByZXR1cm4gKEEgLSBaKSAvIChBIC0gMSk7CiAgICB9CgogICAgLy8gUHJvYmFiaWxpdHkgb2YgYSBDb3JyZWN0IFJlc3BvbnNlCiAgICBzdGF0aWMgYXp2czJwQyhhLCB6LCB2LCBzID0gRERNTWF0aC5zKSB7CiAgICAgIHJldHVybiBERE1NYXRoLmF6dnMycEUoYSwgMSAtIHosIC12LCBzKTsKICAgIH0KCiAgICAvLyBNZWFuIE92ZXJhbGwgUlQKICAgIC8vIEVxdWF0aW9uIDUgKEdyYXNtYW4gZXQgYWwuLCAyMDA5KQogICAgc3RhdGljIGF6dnQwczJtKGEsIHosIHYsIHQwLCBzID0gRERNTWF0aC5zKSB7CiAgICAgIGNvbnN0IHpQcmltZSA9IGEgKiB6OwogICAgICBjb25zdCBBID0gTWF0aC5leHAoLTIgKiB2ICogYSAvIHMgKiogMikgLSAxOwogICAgICBjb25zdCBaID0gTWF0aC5leHAoLTIgKiB2ICogelByaW1lIC8gcyAqKiAyKSAtIDE7CiAgICAgIGNvbnN0IG1lYW4gPSAtKHpQcmltZSAvIHYpICsgYSAvIHYgKiAoWiAvIEEpOwogICAgICByZXR1cm4gdDAgKyBtZWFuICogMTAwMDsKICAgIH0KCiAgICAvLyBTRCBPdmVyYWxsIFJUCiAgICAvLyBFcXVhdGlvbiA2IChHcmFzbWFuIGV0IGFsLiwgMjAwOSkKICAgIHN0YXRpYyBhenZzMnNkKGEsIHosIHYsIHMgPSBERE1NYXRoLnMpIHsKICAgICAgY29uc3QgelByaW1lID0gYSAqIHo7CiAgICAgIGNvbnN0IEEgPSBNYXRoLmV4cCgtMiAqIHYgKiBhIC8gcyAqKiAyKSAtIDE7CiAgICAgIGNvbnN0IFogPSBNYXRoLmV4cCgtMiAqIHYgKiB6UHJpbWUgLyBzICoqIDIpIC0gMTsKICAgICAgY29uc3QgdmFyaWFuY2UgPSAoLXYgKiBhICoqIDIgKiAoWiArIDQpICogWiAvIEEgKiogMiArICgoLTMgKiB2ICogYSAqKiAyICsgNCAqIHYgKiB6UHJpbWUgKiBhICsgcyAqKiAyICogYSkgKiBaICsgNCAqIHYgKiB6UHJpbWUgKiBhKSAvIEEgLSBzICoqIDIgKiB6UHJpbWUpIC8gdiAqKiAzOwogICAgICByZXR1cm4gTWF0aC5zcXJ0KHZhcmlhbmNlKSAqIDEwMDA7CiAgICB9CgogICAgLy8gTWVhbiBFcnJvciBSVAogICAgLy8gRXF1YXRpb24gMTMgKEdyYXNtYW4gZXQgYWwuLCAyMDA5KQogICAgc3RhdGljIGF6dnQwczJtRShhLCB6LCB2LCB0MCwgcyA9IERETU1hdGgucykgewogICAgICBmdW5jdGlvbiBwaGkoeCwgeSkgewogICAgICAgIHJldHVybiBNYXRoLmV4cCgyICogdiAqIHkgLyBzICoqIDIpIC0gTWF0aC5leHAoMiAqIHYgKiB4IC8gcyAqKiAyKTsKICAgICAgfQogICAgICBjb25zdCB6UHJpbWUgPSBhICogejsKICAgICAgY29uc3QgbWVhbiA9ICh6UHJpbWUgKiAocGhpKHpQcmltZSAtIGEsIGEpICsgcGhpKDAsIHpQcmltZSkpICsgMiAqIGEgKiBwaGkoelByaW1lLCAwKSkgLyAodiAqIHBoaSh6UHJpbWUsIGEpICogcGhpKC1hLCAwKSk7CiAgICAgIHJldHVybiB0MCArIG1lYW4gKiAxMDAwOwogICAgfQoKICAgIC8vIFNEIEVycm9yIFJUCiAgICAvLyBFcXVhdGlvbiAxNCAoR3Jhc21hbiBldCBhbC4sIDIwMDkpCiAgICBzdGF0aWMgYXp2czJzZEUoYSwgeiwgdiwgcyA9IERETU1hdGgucykgewogICAgICBmdW5jdGlvbiBwaGkoeCwgeSkgewogICAgICAgIHJldHVybiBNYXRoLmV4cCgyICogdiAqIHkgLyBzICoqIDIpIC0gTWF0aC5leHAoMiAqIHYgKiB4IC8gcyAqKiAyKTsKICAgICAgfQogICAgICBjb25zdCB6UHJpbWUgPSBhICogejsKICAgICAgY29uc3QgdmFyaWFuY2UgPSAtMiAqIGEgKiBwaGkoMCwgelByaW1lKSAqICgyICogdiAqIGEgKiBwaGkoelByaW1lLCAyICogYSkgKyBzICoqIDIgKiBwaGkoMCwgYSkgKiBwaGkoelByaW1lLCBhKSkgKiBNYXRoLmV4cCgyICogdiAqIGEgLyBzICoqIDIpIC8gKHYgKiogMyAqIHBoaSgwLCBhKSAqKiAyICogcGhpKHpQcmltZSwgYSkgKiogMikgKyAoNCAqIHYgKiB6UHJpbWUgKiAoMiAqIGEgLSB6UHJpbWUpICogTWF0aC5leHAoMiAqIHYgKiAoelByaW1lICsgYSkgLyBzICoqIDIpICsgelByaW1lICogcyAqKiAyICogcGhpKDIgKiB6UHJpbWUsIDIgKiBhKSkgLyAodiAqKiAzICogcGhpKHpQcmltZSwgYSkgKiogMik7CiAgICAgIHJldHVybiBNYXRoLnNxcnQodmFyaWFuY2UpICogMTAwMDsKICAgIH0KCiAgICAvLyBNZWFuIENvcnJlY3QgUlQKICAgIHN0YXRpYyBhenZ0MHMybUMoYSwgeiwgdiwgdDAsIHMgPSBERE1NYXRoLnMpIHsKICAgICAgcmV0dXJuIERETU1hdGguYXp2dDBzMm1FKGEsIDEgLSB6LCAtdiwgdDAsIHMpOwogICAgfQoKICAgIC8vIFNEIENvcnJlY3QgUlQKICAgIHN0YXRpYyBhenZzMnNkQyhhLCB6LCB2LCBzID0gRERNTWF0aC5zKSB7CiAgICAgIHJldHVybiBERE1NYXRoLmF6dnMyc2RFKGEsIDEgLSB6LCAtdiwgcyk7CiAgICB9CgogICAgLy8gRGVuc2l0eSBvZiBFcnJvciBSVAogICAgc3RhdGljIHRhenZzMmdFKHQsIGEsIHosIHYsIHMgPSBERE1NYXRoLnMpIHsKICAgICAgaWYgKCF0KSByZXR1cm4gMDsKICAgICAgY29uc3QgelByaW1lID0gYSAqIHo7CiAgICAgIGNvbnN0IGJhc2UgPSBNYXRoLlBJICogcyAqKiAyIC8gYSAqKiAyICogTWF0aC5leHAoLXpQcmltZSAqIHYgLyBzICoqIDIpOwogICAgICBsZXQgayA9IDA7CiAgICAgIGxldCB0ZXJtID0gMDsKICAgICAgbGV0IHN1bSA9IDA7CiAgICAgIGRvIHsKICAgICAgICBrICs9IDE7CiAgICAgICAgdGVybSA9IGsgKiBNYXRoLnNpbihNYXRoLlBJICogelByaW1lICogayAvIGEpICogTWF0aC5leHAoLTAuNSAqICh2ICoqIDIgLyBzICoqIDIgKyBNYXRoLlBJICoqIDIgKiBrICoqIDIgKiBzICoqIDIgLyBhICoqIDIpICogdCk7CiAgICAgICAgc3VtICs9IHRlcm07CiAgICAgIH0gd2hpbGUgKGsgPCAyMDApOyAvLyA/PyBIQUNLCgogICAgICByZXR1cm4gYmFzZSAqIHN1bTsKICAgIH0KCiAgICAvLyBEZW5zaXR5IG9mIENvcnJlY3QgUlQKICAgIHN0YXRpYyB0YXp2czJnQyh0LCBhLCB6LCB2LCBzID0gRERNTWF0aC5zKSB7CiAgICAgIHJldHVybiBERE1NYXRoLnRhenZzMmdFKHQsIGEsIDEgLSB6LCAtdiwgcyk7CiAgICB9CiAgfQoKICAvLyBJbnRlcm5hbCBkZXBlbmRlbmNpZXMKCiAgLy8gQWRhcHRlZCBmcm9tICBodHRwczovL3Jhb3VsLnNvY3NjaS51dmEubmwvRVoyL0VaMl9uZXcuaHRtbAoKICBmdW5jdGlvbiBzaWduKHIpIHsKICAgIHJldHVybiByID4gMCA/IDEgOiByID09PSAwID8gMCA6IC0xOwogIH0KICBmdW5jdGlvbiBsb2dpdChwKSB7CiAgICByZXR1cm4gTWF0aC5sb2cocCAvICgxIC0gcCkpOwogIH0KCiAgLy8gRVotZnVuY3Rpb24gZm9yIHN0YXJ0aW5nIHZhbHVlcwogIC8vIGlucHV0OiBvYmogLSBPYmplY3Qgd2l0aCBwcm9wZXJ0aWVzCiAgLy8gICAgcEMgLSBQcm9wb3J0aW9uIGNvcnJlY3QKICAvLyAgICBzZCAtIHNhbXBsZSBzdGFuZGFyZCBkZXZpYXRpb24gb2YgdGhlIFJUJ3MgaW4gbXMKICAvLyAgICBtIC0gc2FtcGxlIG1lYW4gb2YgdGhlIFJUJ3MgaW4gbXMKICAvLyAgICBzIC0gZGlmZnVzaW9uIHN0YW5kYXJkIGRldmlhdGlvbgogIC8vIHJldHVybnM6IE9iamVjdCB3aXRoIHByb3BlcnRpZXMgdiwgYSwgYW5kIHQwLCBjb250YWluaW5nIEVaLWVzdGltYXRlcyBvZiB0aGVzZSBwYXJhbWV0ZXJzCiAgZnVuY3Rpb24gZGF0YTJleih7CiAgICBhY2N1cmFjeTogcEMsCiAgICBzZFJUOiBzZCwKICAgIG1lYW5SVDogbSwKICAgIHMKICB9KSB7CiAgICBjb25zdCB2cnQgPSAoc2QgLyAxMDAwKSAqKiAyOwogICAgY29uc3QgbXJ0ID0gbSAvIDEwMDA7CiAgICBjb25zdCBzMiA9IHMgKiogMjsKICAgIGNvbnN0IGwgPSBsb2dpdChwQyk7CiAgICBjb25zdCB4ID0gbCAqIChsICogcEMgKiogMiAtIGwgKiBwQyArIHBDIC0gMC41KSAvIHZydDsKICAgIGNvbnN0IHYgPSBzaWduKHBDIC0gMC41KSAqIHMgKiB4ICoqICgxIC8gNCk7CiAgICBjb25zdCBhID0gczIgKiBsb2dpdChwQykgLyB2OwogICAgY29uc3QgeSA9IC12ICogYSAvIHMyOwogICAgY29uc3QgbWR0ID0gYSAvICgyICogdikgKiAoMSAtIE1hdGguZXhwKHkpKSAvICgxICsgTWF0aC5leHAoeSkpOwogICAgY29uc3QgdDAgPSBtcnQgPyBtcnQgLSBtZHQgOiBudWxsOyAvLyBjb21wdXRlIFRlciBvbmx5IGlmIE1SVCB3YXMgcHJvdmlkZWQKCiAgICBjb25zdCB0MFByaW1lID0gdDAgKiAxMDAwOwogICAgcmV0dXJuIHsKICAgICAgdiwKICAgICAgYSwKICAgICAgdDA6IHQwUHJpbWUsCiAgICAgIHMKICAgIH07CiAgfQoKICAvKiBlc2xpbnQgbm8tcmVzdHJpY3RlZC1nbG9iYWxzOiBbIm9mZiIsICJzZWxmIl0gKi8KCiAgc2VsZi5vbm1lc3NhZ2UgPSBldmVudCA9PiB7CiAgICBjb25zdCBwYXJhbXMgPSBkYXRhMmV6KHsKICAgICAgLi4uZXZlbnQuZGF0YSwKICAgICAgczogRERNTWF0aC5zCiAgICB9KTsKCiAgICAvLyAjIyMjIyBBcmJpdHJhcnkgZGVmYXVsdCB2YWx1ZXMhISEKICAgIGNvbnN0IGEgPSAhaXNOYU4ocGFyYW1zLmEpID8gcGFyYW1zLmEgOiAxLjU7CiAgICBjb25zdCB6ID0gIWlzTmFOKHBhcmFtcy56KSA/IHBhcmFtcy56IDogMC41OwogICAgY29uc3QgdiA9ICFpc05hTihwYXJhbXMudikgPyBwYXJhbXMudiA6IDA7CiAgICBjb25zdCB0MCA9ICFpc05hTihwYXJhbXMudDApID8gcGFyYW1zLnQwIDogMTAwOwogICAgY29uc3QgcyA9ICFpc05hTihwYXJhbXMucykgPyBwYXJhbXMucyA6IERETU1hdGguczsKICAgIGNvbnN0IHByZWRpY3RlZCA9IHsKICAgICAgYWNjdXJhY3k6IERETU1hdGguYXp2czJwQyhhLCB6LCB2KSwKICAgICAgbWVhblJUOiBERE1NYXRoLmF6dnQwczJtKGEsIHosIHYsIHQwKSwKICAgICAgc2RSVDogRERNTWF0aC5henZzMnNkKGEsIHosIHYpCiAgICB9OwogICAgc2VsZi5wb3N0TWVzc2FnZSh7CiAgICAgIHBhcmFtczogewogICAgICAgIGEsCiAgICAgICAgeiwKICAgICAgICB2LAogICAgICAgIHQwLAogICAgICAgIHMKICAgICAgfSwKICAgICAgcHJlZGljdGVkCiAgICB9KTsKICB9OwoKfSkoKTsKLy8jIHNvdXJjZU1hcHBpbmdVUkw9ZGRtLWZpdC13b3JrZXIuanMubWFwCgo=', 'data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGRtLWZpdC13b3JrZXIuanMiLCJzb3VyY2VzIjpbIi4uLy4uL2xpYnJhcmllcy9hY2N1bXVsYWJsZS1tYXRoL3NyYy9kZG0tbWF0aC5qcyIsIi4uLy4uL2xpYnJhcmllcy9hY2N1bXVsYWJsZS1tYXRoL3NyYy9pbmRleC5qcyIsIi4uLy4uL2xpYnJhcmllcy9hY2N1bXVsYWJsZS1lbGVtZW50cy9zcmMvY29tcG9uZW50cy9lejIuanMiLCIuLi8uLi9saWJyYXJpZXMvYWNjdW11bGFibGUtZWxlbWVudHMvc3JjL2NvbXBvbmVudHMvZGRtLWZpdC13b3JrZXIuanMiXSwic291cmNlc0NvbnRlbnQiOlsiXG4vKlxuICBERE1NYXRoIFN0YXRpYyBDbGFzcyAtIE5vdCBpbnRlbmRlZCBmb3IgaW5zdGFudGlhdGlvbiFcblxuICBNb2RlbCBwYXJhbWV0ZXJzOlxuICAgIGEgPSBib3VuZGFyeSBzZXBhcmF0aW9uXG4gICAgeiA9IHN0YXJ0aW5nIHBvaW50IGFzIGEgcHJvcG9ydGlvbiBvZiBhXG4gICAgdiA9IGRyaWZ0IHJhdGUgKHBlciBzZWNvbmQpXG4gICAgdDAgPSBub24tZGVjaXNpb24gdGltZSAoaW4gbWlsbGlzZWNvbmRzKVxuICAgIHMgPSB3aXRoaW4tdHJpYWwgdmFyaWFiaWxpdHkgaW4gZHJpZnQgcmF0ZSAoc14yID0gaW5maW5pdGVzaW1hbCB2YXJpYW5jZSlcblxuICAgIHpQcmltZSA9IHN0YXJ0aW5nIHBvaW50IG9uIGEgMC10by1hIHNjYWxlICh0eXBpY2FsbHkgdXNlZCBpbiBwdWJsaXNoZWQgZXF1YXRpb25zKVxuXG4gIEJlaGF2aW9yYWwgdmFyaWFibGVzOlxuICAgIHBFID0gcHJvcG9ydGlvbiBvZiBlcnJvciB0cmlhbHNcbiAgICBwQyA9IHByb3BvcnRpb24gb2YgY29ycmVjdCB0cmlhbHNcbiAgICBtID0gbWVhbiBvZiBvdmVyYWxsIFJUcyAoaW4gbWlsbGlzZWNvbmRzKVxuICAgIG1FID0gbWVhbiBvZiBlcnJvciBSVHMgKGluIG1pbGxpc2Vjb25kcylcbiAgICBtQyA9IG1lYW4gY29ycmVjdCBSVHMgKGluIG1pbGxpc2Vjb25kcylcbiAgICBzZCA9IHN0YW5kYXJkIGRldmlhdGlvbiBvZiBvdmVyYWxsIFJUcyAoaW4gbWlsbGlzZWNvbmRzKVxuICAgIHNkRSA9IHN0YW5kYXJkIGRldmlhdGlvbiBvZiBlcnJvciBSVHMgKGluIG1pbGxpc2Vjb25kcylcbiAgICBzZEMgPSBzdGFuZGFyZCBkZXZpYXRpb24gb2YgY29ycmVjdCBSVHMgKGluIG1pbGxpc2Vjb25kcylcblxuICBFcXVhdGlvbnM6XG4gICAgUHJvYmFiaWxpdHkgb2YgY29ycmVjdCBhbmQgZXJyb3IgcmVzcG9uc2VzIChBbGV4YW5kcm93aWN6LCAyMDIwKVxuICAgIE1lYW4gb2Ygb3ZlcmFsbCwgZXJyb3IsIGFuZCBjb3JyZWN0IFJUcyAoR3Jhc21hbiBldCBhbC4sIDIwMDkpXG4gICAgU3RhbmRhcmQgZGV2aWF0aW9uIG9mIG92ZXJhbGwsIGVycm9yLCBhbmQgY29ycmVjdCBSVHMgKEdyYXNtYW4gZXQgYWwuLCAyMDA5KVxuICAgIERlbnNpdHkgb2YgZXJyb3IgYW5kIGNvcnJlY3QgUlQgZGlzdHJpYnV0aW9ucyAoQWxleGFuZHJvd2ljeiwgMjAyMClcbiovXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBERE1NYXRoIHtcbiAgc3RhdGljIHMgPSAxO1xuXG4gIC8vIENhbGN1bGF0ZSBhIGJ1bmNoIG9mIHN0YXRpc3RpY3MgZm9yIGFuIGFycmF5IG9mIHRyaWFsc1xuICBzdGF0aWMgdHJpYWxzMnN0YXRzKHRyaWFscykge1xuICAgIGNvbnN0IHN0YXRzID0gdHJpYWxzLnJlZHVjZShcbiAgICAgIChhY2N1bXVsYXRvciwgdHJpYWwpID0+IHtcbiAgICAgICAgc3dpdGNoICh0cmlhbC5vdXRjb21lKSB7XG4gICAgICAgICAgY2FzZSAnY29ycmVjdCc6XG4gICAgICAgICAgICBhY2N1bXVsYXRvci50cmlhbHMuY29ycmVjdCArPSAxO1xuICAgICAgICAgICAgYWNjdW11bGF0b3IucnRzLmNvcnJlY3QgKz0gdHJpYWwucnQ7XG4gICAgICAgICAgICBicmVhaztcbiAgICAgICAgICBjYXNlICdlcnJvcic6XG4gICAgICAgICAgICBhY2N1bXVsYXRvci50cmlhbHMuZXJyb3IgKz0gMTtcbiAgICAgICAgICAgIGFjY3VtdWxhdG9yLnJ0cy5lcnJvciArPSB0cmlhbC5ydDtcbiAgICAgICAgICAgIGJyZWFrO1xuICAgICAgICAgIGNhc2UgJ25yJzpcbiAgICAgICAgICAgIGFjY3VtdWxhdG9yLnRyaWFscy5uciArPSAxO1xuICAgICAgICAgICAgYnJlYWs7XG4gICAgICAgICAgZGVmYXVsdDpcbiAgICAgICAgICAgIC8vIE5vLW9wXG4gICAgICAgIH1cbiAgICAgICAgcmV0dXJuIGFjY3VtdWxhdG9yO1xuICAgICAgfSxcbiAgICAgIHtcbiAgICAgICAgdHJpYWxzOiB7XG4gICAgICAgICAgdG90YWw6IDAsXG4gICAgICAgICAgY29ycmVjdDogMCxcbiAgICAgICAgICBlcnJvcjogMCxcbiAgICAgICAgICBucjogMCxcbiAgICAgICAgfSxcbiAgICAgICAgcnRzOiB7XG4gICAgICAgICAgb3ZlcmFsbDogMCxcbiAgICAgICAgICBjb3JyZWN0OiAwLFxuICAgICAgICAgIGVycm9yOiAwLFxuICAgICAgICB9LFxuICAgICAgICBzc3M6IHtcbiAgICAgICAgICBvdmVyYWxsOiAwLFxuICAgICAgICAgIGNvcnJlY3Q6IDAsXG4gICAgICAgICAgZXJyb3I6IDAsXG4gICAgICAgIH0sXG4gICAgICB9LFxuICAgICk7XG5cbiAgICBzdGF0cy50cmlhbHMudG90YWwgPSBzdGF0cy50cmlhbHMuY29ycmVjdCArIHN0YXRzLnRyaWFscy5lcnJvciArIHN0YXRzLnRyaWFscy5ucjtcbiAgICBzdGF0cy5ydHMub3ZlcmFsbCA9IHN0YXRzLnJ0cy5jb3JyZWN0ICsgc3RhdHMucnRzLmVycm9yO1xuXG4gICAgc3RhdHMucHJvcG9ydGlvbiA9IHtcbiAgICAgIGNvcnJlY3Q6IHN0YXRzLnRyaWFscy5jb3JyZWN0IC8gc3RhdHMudHJpYWxzLnRvdGFsLFxuICAgICAgZXJyb3I6IHN0YXRzLnRyaWFscy5lcnJvciAvIHN0YXRzLnRyaWFscy50b3RhbCxcbiAgICAgIG5yOiBzdGF0cy50cmlhbHMubnIgLyBzdGF0cy50cmlhbHMudG90YWwsXG4gICAgfTtcblxuICAgIHN0YXRzLm1lYW5SVCA9IHtcbiAgICAgIG92ZXJhbGw6IHN0YXRzLnJ0cy5vdmVyYWxsIC8gKHN0YXRzLnRyaWFscy5jb3JyZWN0ICsgc3RhdHMudHJpYWxzLmVycm9yKSxcbiAgICAgIGNvcnJlY3Q6IHN0YXRzLnJ0cy5jb3JyZWN0IC8gc3RhdHMudHJpYWxzLmNvcnJlY3QsXG4gICAgICBlcnJvcjogc3RhdHMucnRzLmVycm9yIC8gc3RhdHMudHJpYWxzLmVycm9yLFxuICAgIH07XG5cbiAgICB0cmlhbHMucmVkdWNlKFxuICAgICAgKGFjY3VtdWxhdG9yLCB0cmlhbCkgPT4ge1xuICAgICAgICBhY2N1bXVsYXRvci5zc3Mub3ZlcmFsbCArPSAodHJpYWwucnQgLSBhY2N1bXVsYXRvci5tZWFuUlQub3ZlcmFsbCkgKiogMjtcbiAgICAgICAgc3dpdGNoICh0cmlhbC5vdXRjb21lKSB7XG4gICAgICAgICAgY2FzZSAnY29ycmVjdCc6XG4gICAgICAgICAgICBhY2N1bXVsYXRvci5zc3MuY29ycmVjdCArPSAodHJpYWwucnQgLSBhY2N1bXVsYXRvci5tZWFuUlQuY29ycmVjdCkgKiogMjtcbiAgICAgICAgICAgIGJyZWFrO1xuICAgICAgICAgIGNhc2UgJ2Vycm9yJzpcbiAgICAgICAgICAgIGFjY3VtdWxhdG9yLnNzcy5lcnJvciArPSAodHJpYWwucnQgLSBhY2N1bXVsYXRvci5tZWFuUlQuZXJyb3IpICoqIDI7XG4gICAgICAgICAgICBicmVhaztcbiAgICAgICAgICBkZWZhdWx0OlxuICAgICAgICAgICAgLy8gTm8tb3BcbiAgICAgICAgfVxuICAgICAgICByZXR1cm4gYWNjdW11bGF0b3I7XG4gICAgICB9LFxuICAgICAgc3RhdHMsXG4gICAgKTtcblxuICAgIHN0YXRzLnNkUlQgPSB7XG4gICAgICBvdmVyYWxsOiBNYXRoLnNxcnQoc3RhdHMuc3NzLm92ZXJhbGwgLyAoc3RhdHMudHJpYWxzLmNvcnJlY3QgKyBzdGF0cy50cmlhbHMuZXJyb3IgLSAxKSksXG4gICAgICBjb3JyZWN0OiBNYXRoLnNxcnQoc3RhdHMuc3NzLmNvcnJlY3QgLyAoc3RhdHMudHJpYWxzLmNvcnJlY3QgLSAxKSksXG4gICAgICBlcnJvcjogTWF0aC5zcXJ0KHN0YXRzLnNzcy5lcnJvciAvIChzdGF0cy50cmlhbHMuZXJyb3IgLSAxKSksXG4gICAgfTtcblxuICAgIHJldHVybiBzdGF0cztcbiAgfVxuXG4gIC8vIFByb2JhYmlsaXR5IG9mIGFuIEVycm9yIFJlc3BvbnNlXG4gIHN0YXRpYyBhenZzMnBFKGEsIHosIHYsIHMgPSBERE1NYXRoLnMpIHtcbiAgICBjb25zdCB6UHJpbWUgPSBhICogejtcblxuICAgIGNvbnN0IEEgPSBNYXRoLmV4cCgoLTIgKiB2ICogYSkgLyBzICoqIDIpO1xuICAgIGNvbnN0IFogPSBNYXRoLmV4cCgoLTIgKiB2ICogelByaW1lKSAvIHMgKiogMik7XG5cbiAgICByZXR1cm4gKEEgLSBaKSAvIChBIC0gMSk7XG4gIH1cblxuICAvLyBQcm9iYWJpbGl0eSBvZiBhIENvcnJlY3QgUmVzcG9uc2VcbiAgc3RhdGljIGF6dnMycEMoYSwgeiwgdiwgcyA9IERETU1hdGgucykge1xuICAgIHJldHVybiBERE1NYXRoLmF6dnMycEUoYSwgMSAtIHosIC12LCBzKTtcbiAgfVxuXG4gIC8vIE1lYW4gT3ZlcmFsbCBSVFxuICAvLyBFcXVhdGlvbiA1IChHcmFzbWFuIGV0IGFsLiwgMjAwOSlcbiAgc3RhdGljIGF6dnQwczJtKGEsIHosIHYsIHQwLCBzID0gRERNTWF0aC5zKSB7XG4gICAgY29uc3QgelByaW1lID0gYSAqIHo7XG4gICAgY29uc3QgQSA9IE1hdGguZXhwKCgtMiAqIHYgKiBhKSAvIHMgKiogMikgLSAxO1xuICAgIGNvbnN0IFogPSBNYXRoLmV4cCgoLTIgKiB2ICogelByaW1lKSAvIHMgKiogMikgLSAxO1xuXG4gICAgY29uc3QgbWVhbiA9IC0oelByaW1lIC8gdikgKyAoYSAvIHYpICogKFogLyBBKTtcbiAgICByZXR1cm4gdDAgKyBtZWFuICogMTAwMDtcbiAgfVxuXG4gIC8vIFNEIE92ZXJhbGwgUlRcbiAgLy8gRXF1YXRpb24gNiAoR3Jhc21hbiBldCBhbC4sIDIwMDkpXG4gIHN0YXRpYyBhenZzMnNkKGEsIHosIHYsIHMgPSBERE1NYXRoLnMpIHtcbiAgICBjb25zdCB6UHJpbWUgPSBhICogejtcbiAgICBjb25zdCBBID0gTWF0aC5leHAoKC0yICogdiAqIGEpIC8gcyAqKiAyKSAtIDE7XG4gICAgY29uc3QgWiA9IE1hdGguZXhwKCgtMiAqIHYgKiB6UHJpbWUpIC8gcyAqKiAyKSAtIDE7XG5cbiAgICBjb25zdCB2YXJpYW5jZSA9IChcbiAgICAgIChcbiAgICAgICAgKC12ICogYSAqKiAyICogKFogKyA0KSAqIFopIC8gQSAqKiAyXG4gICAgICApICsgKFxuICAgICAgICAoKC0zICogdiAqIGEgKiogMiArIDQgKiB2ICogelByaW1lICogYSArIHMgKiogMiAqIGEpICogWiArIDQgKiB2ICogelByaW1lICogYSkgLyBBXG4gICAgICApIC0gKFxuICAgICAgICBzICoqIDIgKiB6UHJpbWVcbiAgICAgIClcbiAgICApIC8gdiAqKiAzO1xuXG4gICAgcmV0dXJuIE1hdGguc3FydCh2YXJpYW5jZSkgKiAxMDAwO1xuICB9XG5cbiAgLy8gTWVhbiBFcnJvciBSVFxuICAvLyBFcXVhdGlvbiAxMyAoR3Jhc21hbiBldCBhbC4sIDIwMDkpXG4gIHN0YXRpYyBhenZ0MHMybUUoYSwgeiwgdiwgdDAsIHMgPSBERE1NYXRoLnMpIHtcbiAgICBmdW5jdGlvbiBwaGkoeCwgeSkge1xuICAgICAgcmV0dXJuIE1hdGguZXhwKCgyICogdiAqIHkpIC8gKHMgKiogMikpIC0gTWF0aC5leHAoKDIgKiB2ICogeCkgLyAocyAqKiAyKSk7XG4gICAgfVxuICAgIGNvbnN0IHpQcmltZSA9IGEgKiB6O1xuXG4gICAgY29uc3QgbWVhbiA9ICh6UHJpbWUgKiAocGhpKHpQcmltZSAtIGEsIGEpICsgcGhpKDAsIHpQcmltZSkpICsgMiAqIGEgKiBwaGkoelByaW1lLCAwKSlcbiAgICAgIC8gKHYgKiBwaGkoelByaW1lLCBhKSAqIHBoaSgtYSwgMCkpO1xuICAgIHJldHVybiB0MCArIG1lYW4gKiAxMDAwO1xuICB9XG5cbiAgLy8gU0QgRXJyb3IgUlRcbiAgLy8gRXF1YXRpb24gMTQgKEdyYXNtYW4gZXQgYWwuLCAyMDA5KVxuICBzdGF0aWMgYXp2czJzZEUoYSwgeiwgdiwgcyA9IERETU1hdGgucykge1xuICAgIGZ1bmN0aW9uIHBoaSh4LCB5KSB7XG4gICAgICByZXR1cm4gTWF0aC5leHAoKDIgKiB2ICogeSkgLyAocyAqKiAyKSkgLSBNYXRoLmV4cCgoMiAqIHYgKiB4KSAvIChzICoqIDIpKTtcbiAgICB9XG4gICAgY29uc3QgelByaW1lID0gYSAqIHo7XG5cbiAgICBjb25zdCB2YXJpYW5jZSA9IChcbiAgICAgIChcbiAgICAgICAgLTIgKiBhICogcGhpKDAsIHpQcmltZSlcbiAgICAgICAgKiAoKDIgKiB2ICogYSAqIHBoaSh6UHJpbWUsIDIgKiBhKSkgKyAocyAqKiAyICogcGhpKDAsIGEpICogcGhpKHpQcmltZSwgYSkpKVxuICAgICAgICAqIE1hdGguZXhwKCgyICogdiAqIGEpIC8gcyAqKiAyKVxuICAgICAgKSAvIChcbiAgICAgICAgdiAqKiAzICogcGhpKDAsIGEpICoqIDIgKiBwaGkoelByaW1lLCBhKSAqKiAyXG4gICAgICApXG4gICAgKSArIChcbiAgICAgIChcbiAgICAgICAgNCAqIHYgKiB6UHJpbWUgKiAoMiAqIGEgLSB6UHJpbWUpICogTWF0aC5leHAoKDIgKiB2ICogKHpQcmltZSArIGEpKSAvIHMgKiogMilcbiAgICAgICAgKyB6UHJpbWUgKiBzICoqIDIgKiBwaGkoMiAqIHpQcmltZSwgMiAqIGEpXG4gICAgICApIC8gKFxuICAgICAgICB2ICoqIDMgKiBwaGkoelByaW1lLCBhKSAqKiAyXG4gICAgICApXG4gICAgKTtcblxuICAgIHJldHVybiBNYXRoLnNxcnQodmFyaWFuY2UpICogMTAwMDtcbiAgfVxuXG4gIC8vIE1lYW4gQ29ycmVjdCBSVFxuICBzdGF0aWMgYXp2dDBzMm1DKGEsIHosIHYsIHQwLCBzID0gRERNTWF0aC5zKSB7XG4gICAgcmV0dXJuIERETU1hdGguYXp2dDBzMm1FKGEsIDEgLSB6LCAtdiwgdDAsIHMpO1xuICB9XG5cbiAgLy8gU0QgQ29ycmVjdCBSVFxuICBzdGF0aWMgYXp2czJzZEMoYSwgeiwgdiwgcyA9IERETU1hdGgucykge1xuICAgIHJldHVybiBERE1NYXRoLmF6dnMyc2RFKGEsIDEgLSB6LCAtdiwgcyk7XG4gIH1cblxuICAvLyBEZW5zaXR5IG9mIEVycm9yIFJUXG4gIHN0YXRpYyB0YXp2czJnRSh0LCBhLCB6LCB2LCBzID0gRERNTWF0aC5zKSB7XG4gICAgaWYgKCF0KSByZXR1cm4gMDtcblxuICAgIGNvbnN0IHpQcmltZSA9IGEgKiB6O1xuICAgIGNvbnN0IGJhc2UgPSAoKE1hdGguUEkgKiBzICoqIDIpIC8gYSAqKiAyKSAqIE1hdGguZXhwKCgtelByaW1lICogdikgLyBzICoqIDIpO1xuXG4gICAgbGV0IGsgPSAwO1xuICAgIGxldCB0ZXJtID0gMDtcbiAgICBsZXQgc3VtID0gMDtcbiAgICBkbyB7XG4gICAgICBrICs9IDE7XG5cbiAgICAgIHRlcm0gPSBrXG4gICAgICAgICogTWF0aC5zaW4oKE1hdGguUEkgKiB6UHJpbWUgKiBrKSAvIGEpXG4gICAgICAgICogTWF0aC5leHAoLTAuNSAqICgodiAqKiAyIC8gcyAqKiAyKSArICgoTWF0aC5QSSAqKiAyICogayAqKiAyICogcyAqKiAyKSAvIGEgKiogMikpICogdCk7XG5cbiAgICAgIHN1bSArPSB0ZXJtO1xuICAgIH0gd2hpbGUgKGsgPCAyMDApOyAvLyA/PyBIQUNLXG5cbiAgICByZXR1cm4gYmFzZSAqIHN1bTtcbiAgfVxuXG4gIC8vIERlbnNpdHkgb2YgQ29ycmVjdCBSVFxuICBzdGF0aWMgdGF6dnMyZ0ModCwgYSwgeiwgdiwgcyA9IERETU1hdGgucykge1xuICAgIHJldHVybiBERE1NYXRoLnRhenZzMmdFKHQsIGEsIDEgLSB6LCAtdiwgcyk7XG4gIH1cbn1cbiIsIlxuLy8gSW50ZXJuYWwgZGVwZW5kZW5jaWVzXG5pbXBvcnQgRERNTWF0aCBmcm9tICcuL2RkbS1tYXRoJztcblxuZXhwb3J0IGRlZmF1bHQgRERNTWF0aDtcbiIsIlxuLy8gQWRhcHRlZCBmcm9tICBodHRwczovL3Jhb3VsLnNvY3NjaS51dmEubmwvRVoyL0VaMl9uZXcuaHRtbFxuXG5mdW5jdGlvbiBzaWduKHIpIHtcbiAgcmV0dXJuICgociA+IDApID8gMSA6ICgociA9PT0gMCkgPyAwIDogLTEpKTtcbn1cblxuZnVuY3Rpb24gbG9naXQocCkge1xuICByZXR1cm4gTWF0aC5sb2cocCAvICgxIC0gcCkpO1xufVxuXG4vLyBFWi1mdW5jdGlvbiBmb3Igc3RhcnRpbmcgdmFsdWVzXG4vLyBpbnB1dDogb2JqIC0gT2JqZWN0IHdpdGggcHJvcGVydGllc1xuLy8gICAgcEMgLSBQcm9wb3J0aW9uIGNvcnJlY3Rcbi8vICAgIHNkIC0gc2FtcGxlIHN0YW5kYXJkIGRldmlhdGlvbiBvZiB0aGUgUlQncyBpbiBtc1xuLy8gICAgbSAtIHNhbXBsZSBtZWFuIG9mIHRoZSBSVCdzIGluIG1zXG4vLyAgICBzIC0gZGlmZnVzaW9uIHN0YW5kYXJkIGRldmlhdGlvblxuLy8gcmV0dXJuczogT2JqZWN0IHdpdGggcHJvcGVydGllcyB2LCBhLCBhbmQgdDAsIGNvbnRhaW5pbmcgRVotZXN0aW1hdGVzIG9mIHRoZXNlIHBhcmFtZXRlcnNcbmV4cG9ydCBmdW5jdGlvbiBkYXRhMmV6KHtcbiAgYWNjdXJhY3k6IHBDLFxuICBzZFJUOiBzZCxcbiAgbWVhblJUOiBtLFxuICBzLFxufSkge1xuICBjb25zdCB2cnQgPSAoc2QgLyAxMDAwKSAqKiAyO1xuICBjb25zdCBtcnQgPSBtIC8gMTAwMDtcblxuICBjb25zdCBzMiA9IHMgKiogMjtcbiAgY29uc3QgbCA9IGxvZ2l0KHBDKTtcbiAgY29uc3QgeCA9IChsICogKGwgKiBwQyAqKiAyIC0gbCAqIHBDICsgcEMgLSAwLjUpKSAvIHZydDtcbiAgY29uc3QgdiA9IHNpZ24ocEMgLSAwLjUpICogcyAqIHggKiogKDEgLyA0KTtcbiAgY29uc3QgYSA9IChzMiAqIGxvZ2l0KHBDKSkgLyB2O1xuICBjb25zdCB5ID0gKC12ICogYSkgLyBzMjtcbiAgY29uc3QgbWR0ID0gKChhIC8gKDIgKiB2KSkgKiAoMSAtIE1hdGguZXhwKHkpKSkgLyAoMSArIE1hdGguZXhwKHkpKTtcbiAgY29uc3QgdDAgPSAobXJ0ID8gbXJ0IC0gbWR0IDogbnVsbCk7IC8vIGNvbXB1dGUgVGVyIG9ubHkgaWYgTVJUIHdhcyBwcm92aWRlZFxuXG4gIGNvbnN0IHQwUHJpbWUgPSB0MCAqIDEwMDA7XG4gIHJldHVybiB7XG4gICAgdixcbiAgICBhLFxuICAgIHQwOiB0MFByaW1lLFxuICAgIHMsXG4gIH07XG59XG5cbmV4cG9ydCBmdW5jdGlvbiBkYXRhMmV6MigpIHtcblxufVxuIiwiLyogZXNsaW50IG5vLXJlc3RyaWN0ZWQtZ2xvYmFsczogW1wib2ZmXCIsIFwic2VsZlwiXSAqL1xuXG5pbXBvcnQgRERNTWF0aCBmcm9tICdAZGVjaWRhYmxlcy9hY2N1bXVsYWJsZS1tYXRoJztcblxuaW1wb3J0ICogYXMgRVogZnJvbSAnLi9lejInO1xuXG5zZWxmLm9ubWVzc2FnZSA9IChldmVudCkgPT4ge1xuICBjb25zdCBwYXJhbXMgPSBFWi5kYXRhMmV6KHsuLi5ldmVudC5kYXRhLCBzOiBERE1NYXRoLnN9KTtcblxuICAvLyAjIyMjIyBBcmJpdHJhcnkgZGVmYXVsdCB2YWx1ZXMhISFcbiAgY29uc3QgYSA9ICFpc05hTihwYXJhbXMuYSkgPyBwYXJhbXMuYSA6IDEuNTtcbiAgY29uc3QgeiA9ICFpc05hTihwYXJhbXMueikgPyBwYXJhbXMueiA6IDAuNTtcbiAgY29uc3QgdiA9ICFpc05hTihwYXJhbXMudikgPyBwYXJhbXMudiA6IDA7XG4gIGNvbnN0IHQwID0gIWlzTmFOKHBhcmFtcy50MCkgPyBwYXJhbXMudDAgOiAxMDA7XG4gIGNvbnN0IHMgPSAhaXNOYU4ocGFyYW1zLnMpID8gcGFyYW1zLnMgOiBERE1NYXRoLnM7XG5cbiAgY29uc3QgcHJlZGljdGVkID0ge1xuICAgIGFjY3VyYWN5OiBERE1NYXRoLmF6dnMycEMoYSwgeiwgdiksXG4gICAgbWVhblJUOiBERE1NYXRoLmF6dnQwczJtKGEsIHosIHYsIHQwKSxcbiAgICBzZFJUOiBERE1NYXRoLmF6dnMyc2QoYSwgeiwgdiksXG4gIH07XG5cbiAgc2VsZi5wb3N0TWVzc2FnZSh7XG4gICAgcGFyYW1zOiB7XG4gICAgICBhLCB6LCB2LCB0MCwgcyxcbiAgICB9LFxuICAgIHByZWRpY3RlZCxcbiAgfSk7XG59O1xuIl0sIm5hbWVzIjpbIkRETU1hdGgiLCJzIiwidHJpYWxzMnN0YXRzIiwidHJpYWxzIiwic3RhdHMiLCJyZWR1Y2UiLCJhY2N1bXVsYXRvciIsInRyaWFsIiwib3V0Y29tZSIsImNvcnJlY3QiLCJydHMiLCJydCIsImVycm9yIiwibnIiLCJ0b3RhbCIsIm92ZXJhbGwiLCJzc3MiLCJwcm9wb3J0aW9uIiwibWVhblJUIiwic2RSVCIsIk1hdGgiLCJzcXJ0IiwiYXp2czJwRSIsImEiLCJ6IiwidiIsInpQcmltZSIsIkEiLCJleHAiLCJaIiwiYXp2czJwQyIsImF6dnQwczJtIiwidDAiLCJtZWFuIiwiYXp2czJzZCIsInZhcmlhbmNlIiwiYXp2dDBzMm1FIiwicGhpIiwieCIsInkiLCJhenZzMnNkRSIsImF6dnQwczJtQyIsImF6dnMyc2RDIiwidGF6dnMyZ0UiLCJ0IiwiYmFzZSIsIlBJIiwiayIsInRlcm0iLCJzdW0iLCJzaW4iLCJ0YXp2czJnQyIsInNpZ24iLCJyIiwibG9naXQiLCJwIiwibG9nIiwiZGF0YTJleiIsImFjY3VyYWN5IiwicEMiLCJzZCIsIm0iLCJ2cnQiLCJtcnQiLCJzMiIsImwiLCJtZHQiLCJ0MFByaW1lIiwic2VsZiIsIm9ubWVzc2FnZSIsImV2ZW50IiwicGFyYW1zIiwiRVoiLCJkYXRhIiwiaXNOYU4iLCJwcmVkaWN0ZWQiLCJwb3N0TWVzc2FnZSJdLCJtYXBwaW5ncyI6Ijs7O0VBQ0E7RUFDQTtBQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0FBQ0E7RUFDQTtBQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0FBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDZSxNQUFNQSxPQUFPLENBQUM7SUFDM0IsT0FBT0MsQ0FBQyxHQUFHLENBQUMsQ0FBQTs7RUFFWjtJQUNBLE9BQU9DLFlBQVlBLENBQUNDLE1BQU0sRUFBRTtNQUMxQixNQUFNQyxLQUFLLEdBQUdELE1BQU0sQ0FBQ0UsTUFBTSxDQUN6QixDQUFDQyxXQUFXLEVBQUVDLEtBQUssS0FBSztRQUN0QixRQUFRQSxLQUFLLENBQUNDLE9BQU87RUFDbkIsUUFBQSxLQUFLLFNBQVM7RUFDWkYsVUFBQUEsV0FBVyxDQUFDSCxNQUFNLENBQUNNLE9BQU8sSUFBSSxDQUFDLENBQUE7RUFDL0JILFVBQUFBLFdBQVcsQ0FBQ0ksR0FBRyxDQUFDRCxPQUFPLElBQUlGLEtBQUssQ0FBQ0ksRUFBRSxDQUFBO0VBQ25DLFVBQUEsTUFBQTtFQUNGLFFBQUEsS0FBSyxPQUFPO0VBQ1ZMLFVBQUFBLFdBQVcsQ0FBQ0gsTUFBTSxDQUFDUyxLQUFLLElBQUksQ0FBQyxDQUFBO0VBQzdCTixVQUFBQSxXQUFXLENBQUNJLEdBQUcsQ0FBQ0UsS0FBSyxJQUFJTCxLQUFLLENBQUNJLEVBQUUsQ0FBQTtFQUNqQyxVQUFBLE1BQUE7RUFDRixRQUFBLEtBQUssSUFBSTtFQUNQTCxVQUFBQSxXQUFXLENBQUNILE1BQU0sQ0FBQ1UsRUFBRSxJQUFJLENBQUMsQ0FBQTtFQUMxQixVQUFBLE1BQUE7RUFFQTtFQUNKLE9BQUE7RUFDQSxNQUFBLE9BQU9QLFdBQVcsQ0FBQTtFQUNwQixLQUFDLEVBQ0Q7RUFDRUgsTUFB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');
+var WorkerFactory = createBase64WorkerFactory('Lyogcm9sbHVwLXBsdWdpbi13ZWItd29ya2VyLWxvYWRlciAqLwooZnVuY3Rpb24gKCkgewogICd1c2Ugc3RyaWN0JzsKCiAgLyoKICAgIERETU1hdGggU3RhdGljIENsYXNzIC0gTm90IGludGVuZGVkIGZvciBpbnN0YW50aWF0aW9uIQoKICAgIE1vZGVsIHBhcmFtZXRlcnM6CiAgICAgIGEgPSBib3VuZGFyeSBzZXBhcmF0aW9uCiAgICAgIHogPSBzdGFydGluZyBwb2ludCBhcyBhIHByb3BvcnRpb24gb2YgYQogICAgICB2ID0gZHJpZnQgcmF0ZSAocGVyIHNlY29uZCkKICAgICAgdDAgPSBub24tZGVjaXNpb24gdGltZSAoaW4gbWlsbGlzZWNvbmRzKQogICAgICBzID0gd2l0aGluLXRyaWFsIHZhcmlhYmlsaXR5IGluIGRyaWZ0IHJhdGUgKHNeMiA9IGluZmluaXRlc2ltYWwgdmFyaWFuY2UpCgogICAgICB6UHJpbWUgPSBzdGFydGluZyBwb2ludCBvbiBhIDAtdG8tYSBzY2FsZSAodHlwaWNhbGx5IHVzZWQgaW4gcHVibGlzaGVkIGVxdWF0aW9ucykKCiAgICBCZWhhdmlvcmFsIHZhcmlhYmxlczoKICAgICAgcEUgPSBwcm9wb3J0aW9uIG9mIGVycm9yIHRyaWFscwogICAgICBwQyA9IHByb3BvcnRpb24gb2YgY29ycmVjdCB0cmlhbHMKICAgICAgbSA9IG1lYW4gb2Ygb3ZlcmFsbCBSVHMgKGluIG1pbGxpc2Vjb25kcykKICAgICAgbUUgPSBtZWFuIG9mIGVycm9yIFJUcyAoaW4gbWlsbGlzZWNvbmRzKQogICAgICBtQyA9IG1lYW4gY29ycmVjdCBSVHMgKGluIG1pbGxpc2Vjb25kcykKICAgICAgc2QgPSBzdGFuZGFyZCBkZXZpYXRpb24gb2Ygb3ZlcmFsbCBSVHMgKGluIG1pbGxpc2Vjb25kcykKICAgICAgc2RFID0gc3RhbmRhcmQgZGV2aWF0aW9uIG9mIGVycm9yIFJUcyAoaW4gbWlsbGlzZWNvbmRzKQogICAgICBzZEMgPSBzdGFuZGFyZCBkZXZpYXRpb24gb2YgY29ycmVjdCBSVHMgKGluIG1pbGxpc2Vjb25kcykKCiAgICBFcXVhdGlvbnM6CiAgICAgIFByb2JhYmlsaXR5IG9mIGNvcnJlY3QgYW5kIGVycm9yIHJlc3BvbnNlcyAoQWxleGFuZHJvd2ljeiwgMjAyMCkKICAgICAgTWVhbiBvZiBvdmVyYWxsLCBlcnJvciwgYW5kIGNvcnJlY3QgUlRzIChHcmFzbWFuIGV0IGFsLiwgMjAwOSkKICAgICAgU3RhbmRhcmQgZGV2aWF0aW9uIG9mIG92ZXJhbGwsIGVycm9yLCBhbmQgY29ycmVjdCBSVHMgKEdyYXNtYW4gZXQgYWwuLCAyMDA5KQogICAgICBEZW5zaXR5IG9mIGVycm9yIGFuZCBjb3JyZWN0IFJUIGRpc3RyaWJ1dGlvbnMgKEFsZXhhbmRyb3dpY3osIDIwMjApCiAgICAgIEVaLWRpZmZ1c2lvbiBtb2RlbCAoV2FnZW5tYWtlcnMgZXQgYWwuLCAyMDA3KQogICovCiAgY2xhc3MgRERNTWF0aCB7CiAgICBzdGF0aWMgcyA9IDE7CgogICAgLy8gQ2FsY3VsYXRlIGEgYnVuY2ggb2Ygc3RhdGlzdGljcyBmb3IgYW4gYXJyYXkgb2YgdHJpYWxzCiAgICBzdGF0aWMgdHJpYWxzMnN0YXRzKHRyaWFscykgewogICAgICBjb25zdCBzdGF0cyA9IHt9OwoKICAgICAgLy8gRmlyc3Qtb3JkZXIgc3VtcwogICAgICBjb25zdCBzdW1zID0gdHJpYWxzLnJlZHVjZSgoYWNjdW11bGF0b3IsIHRyaWFsKSA9PiB7CiAgICAgICAgc3dpdGNoICh0cmlhbC5vdXRjb21lKSB7CiAgICAgICAgICBjYXNlICdjb3JyZWN0JzoKICAgICAgICAgICAgYWNjdW11bGF0b3IuY29ycmVjdENvdW50ICs9IDE7CiAgICAgICAgICAgIGFjY3VtdWxhdG9yLmNvcnJlY3RSVFN1bSArPSB0cmlhbC5ydDsKICAgICAgICAgICAgYnJlYWs7CiAgICAgICAgICBjYXNlICdlcnJvcic6CiAgICAgICAgICAgIGFjY3VtdWxhdG9yLmVycm9yQ291bnQgKz0gMTsKICAgICAgICAgICAgYWNjdW11bGF0b3IuZXJyb3JSVFN1bSArPSB0cmlhbC5ydDsKICAgICAgICAgICAgYnJlYWs7CiAgICAgICAgICBjYXNlICducic6CiAgICAgICAgICAgIGFjY3VtdWxhdG9yLm5yQ291bnQgKz0gMTsKICAgICAgICAgICAgYnJlYWs7CiAgICAgICAgICAvLyBOby1vcAogICAgICAgIH0KICAgICAgICByZXR1cm4gYWNjdW11bGF0b3I7CiAgICAgIH0sIHsKICAgICAgICBjb3JyZWN0Q291bnQ6IDAsCiAgICAgICAgZXJyb3JDb3VudDogMCwKICAgICAgICBuckNvdW50OiAwLAogICAgICAgIGNvcnJlY3RSVFN1bTogMCwKICAgICAgICBlcnJvclJUU3VtOiAwCiAgICAgIH0pOwoKICAgICAgLy8gRmlyc3Qtb3JkZXIgc3RhdHMKICAgICAgc3RhdHMuY29ycmVjdENvdW50ID0gc3Vtcy5jb3JyZWN0Q291bnQ7CiAgICAgIHN0YXRzLmVycm9yQ291bnQgPSBzdW1zLmVycm9yQ291bnQ7CiAgICAgIHN0YXRzLm5yQ291bnQgPSBzdW1zLm5yQ291bnQ7CiAgICAgIHN0YXRzLmFjY3VyYWN5ID0gc3Vtcy5jb3JyZWN0Q291bnQgLyAoc3Vtcy5jb3JyZWN0Q291bnQgKyBzdW1zLmVycm9yQ291bnQgKyBzdW1zLm5yQ291bnQpOwogICAgICBzdGF0cy5jb3JyZWN0TWVhblJUID0gc3Vtcy5jb3JyZWN0UlRTdW0gLyBzdW1zLmNvcnJlY3RDb3VudDsKICAgICAgc3RhdHMuZXJyb3JNZWFuUlQgPSBzdW1zLmVycm9yUlRTdW0gLyBzdW1zLmVycm9yQ291bnQ7CiAgICAgIHN0YXRzLm1lYW5SVCA9IChzdW1zLmNvcnJlY3RSVFN1bSArIHN1bXMuZXJyb3JSVFN1bSkgLyAoc3Vtcy5jb3JyZWN0Q291bnQgKyBzdW1zLmVycm9yQ291bnQpOwoKICAgICAgLy8gU2Vjb25kLW9yZGVyIHN1bXMKICAgICAgY29uc3Qgc3VtczIgPSB0cmlhbHMucmVkdWNlKChhY2N1bXVsYXRvciwgdHJpYWwpID0+IHsKICAgICAgICBzd2l0Y2ggKHRyaWFsLm91dGNvbWUpIHsKICAgICAgICAgIGNhc2UgJ2NvcnJlY3QnOgogICAgICAgICAgICBhY2N1bXVsYXRvci5zcyArPSAodHJpYWwucnQgLSBzdGF0cy5tZWFuUlQpICoqIDI7CiAgICAgICAgICAgIGFjY3VtdWxhdG9yLmNvcnJlY3RTUyArPSAodHJpYWwucnQgLSBzdGF0cy5jb3JyZWN0TWVhblJUKSAqKiAyOwogICAgICAgICAgICBicmVhazsKICAgICAgICAgIGNhc2UgJ2Vycm9yJzoKICAgICAgICAgICAgYWNjdW11bGF0b3Iuc3MgKz0gKHRyaWFsLnJ0IC0gc3RhdHMubWVhblJUKSAqKiAyOwogICAgICAgICAgICBhY2N1bXVsYXRvci5lcnJvclNTICs9ICh0cmlhbC5ydCAtIHN0YXRzLmVycm9yTWVhblJUKSAqKiAyOwogICAgICAgICAgICBicmVhazsKICAgICAgICAgIC8vIE5vLW9wCiAgICAgICAgfQogICAgICAgIHJldHVybiBhY2N1bXVsYXRvcjsKICAgICAgfSwgewogICAgICAgIHNzOiAwLAogICAgICAgIGNvcnJlY3RTUzogMCwKICAgICAgICBlcnJvclNTOiAwCiAgICAgIH0pOwoKICAgICAgLy8gU2Vjb25kLW9yZGVyIHN0YXRzCiAgICAgIHN0YXRzLmNvcnJlY3RTRFJUID0gc3RhdHMuY29ycmVjdENvdW50ID4gMSA/IE1hdGguc3FydChzdW1zMi5jb3JyZWN0U1MgLyAoc3RhdHMuY29ycmVjdENvdW50IC0gMSkpIDogTmFOOwogICAgICBzdGF0cy5lcnJvclNEUlQgPSBzdGF0cy5lcnJvckNvdW50ID4gMSA/IE1hdGguc3FydChzdW1zMi5lcnJvclNTIC8gKHN0YXRzLmVycm9yQ291bnQgLSAxKSkgOiBOYU47CiAgICAgIHN0YXRzLnNkUlQgPSBzdGF0cy5jb3JyZWN0Q291bnQgKyBzdGF0cy5lcnJvckNvdW50ID4gMSA/IE1hdGguc3FydChzdW1zMi5zcyAvIChzdGF0cy5jb3JyZWN0Q291bnQgKyBzdGF0cy5lcnJvckNvdW50IC0gMSkpIDogTmFOOwogICAgICByZXR1cm4gc3RhdHM7CiAgICB9CgogICAgLy8gUHJvYmFiaWxpdHkgb2YgYW4gRXJyb3IgUmVzcG9uc2UKICAgIHN0YXRpYyBhenYycEUoYSwgeiwgdiwgcyA9IERETU1hdGgucykgewogICAgICBjb25zdCB6UHJpbWUgPSBhICogejsKICAgICAgY29uc3QgQSA9IE1hdGguZXhwKC0yICogdiAqIGEgLyBzICoqIDIpOwogICAgICBjb25zdCBaID0gTWF0aC5leHAoLTIgKiB2ICogelByaW1lIC8gcyAqKiAyKTsKICAgICAgcmV0dXJuIChBIC0gWikgLyAoQSAtIDEpOwogICAgfQoKICAgIC8vIFByb2JhYmlsaXR5IG9mIGEgQ29ycmVjdCBSZXNwb25zZQogICAgc3RhdGljIGF6djJwQyhhLCB6LCB2LCBzID0gRERNTWF0aC5zKSB7CiAgICAgIHJldHVybiBERE1NYXRoLmF6djJwRShhLCAxIC0geiwgLXYsIHMpOwogICAgfQoKICAgIC8vIE1lYW4gT3ZlcmFsbCBSVAogICAgLy8gRXF1YXRpb24gNSAoR3Jhc21hbiBldCBhbC4sIDIwMDkpCiAgICBzdGF0aWMgYXp2dDAybShhLCB6LCB2LCB0MCwgcyA9IERETU1hdGgucykgewogICAgICBjb25zdCB6UHJpbWUgPSBhICogejsKICAgICAgY29uc3QgQSA9IE1hdGguZXhwKC0yICogdiAqIGEgLyBzICoqIDIpIC0gMTsKICAgICAgY29uc3QgWiA9IE1hdGguZXhwKC0yICogdiAqIHpQcmltZSAvIHMgKiogMikgLSAxOwogICAgICBjb25zdCBtZWFuID0gLSh6UHJpbWUgLyB2KSArIGEgLyB2ICogKFogLyBBKTsKICAgICAgcmV0dXJuIHQwICsgbWVhbiAqIDEwMDA7CiAgICB9CgogICAgLy8gU0QgT3ZlcmFsbCBSVAogICAgLy8gRXF1YXRpb24gNiAoR3Jhc21hbiBldCBhbC4sIDIwMDkpCiAgICBzdGF0aWMgYXp2MnNkKGEsIHosIHYsIHMgPSBERE1NYXRoLnMpIHsKICAgICAgY29uc3QgelByaW1lID0gYSAqIHo7CiAgICAgIGNvbnN0IEEgPSBNYXRoLmV4cCgtMiAqIHYgKiBhIC8gcyAqKiAyKSAtIDE7CiAgICAgIGNvbnN0IFogPSBNYXRoLmV4cCgtMiAqIHYgKiB6UHJpbWUgLyBzICoqIDIpIC0gMTsKICAgICAgY29uc3QgdmFyaWFuY2UgPSAoLXYgKiBhICoqIDIgKiAoWiArIDQpICogWiAvIEEgKiogMiArICgoLTMgKiB2ICogYSAqKiAyICsgNCAqIHYgKiB6UHJpbWUgKiBhICsgcyAqKiAyICogYSkgKiBaICsgNCAqIHYgKiB6UHJpbWUgKiBhKSAvIEEgLSBzICoqIDIgKiB6UHJpbWUpIC8gdiAqKiAzOwogICAgICByZXR1cm4gTWF0aC5zcXJ0KHZhcmlhbmNlKSAqIDEwMDA7CiAgICB9CgogICAgLy8gTWVhbiBFcnJvciBSVAogICAgLy8gRXF1YXRpb24gMTMgKEdyYXNtYW4gZXQgYWwuLCAyMDA5KQogICAgc3RhdGljIGF6dnQwMm1FKGEsIHosIHYsIHQwLCBzID0gRERNTWF0aC5zKSB7CiAgICAgIGZ1bmN0aW9uIHBoaSh4LCB5KSB7CiAgICAgICAgcmV0dXJuIE1hdGguZXhwKDIgKiB2ICogeSAvIHMgKiogMikgLSBNYXRoLmV4cCgyICogdiAqIHggLyBzICoqIDIpOwogICAgICB9CiAgICAgIGNvbnN0IHpQcmltZSA9IGEgKiB6OwogICAgICBjb25zdCBtZWFuID0gKHpQcmltZSAqIChwaGkoelByaW1lIC0gYSwgYSkgKyBwaGkoMCwgelByaW1lKSkgKyAyICogYSAqIHBoaSh6UHJpbWUsIDApKSAvICh2ICogcGhpKHpQcmltZSwgYSkgKiBwaGkoLWEsIDApKTsKICAgICAgcmV0dXJuIHQwICsgbWVhbiAqIDEwMDA7CiAgICB9CgogICAgLy8gU0QgRXJyb3IgUlQKICAgIC8vIEVxdWF0aW9uIDE0IChHcmFzbWFuIGV0IGFsLiwgMjAwOSkKICAgIHN0YXRpYyBhenYyc2RFKGEsIHosIHYsIHMgPSBERE1NYXRoLnMpIHsKICAgICAgZnVuY3Rpb24gcGhpKHgsIHkpIHsKICAgICAgICByZXR1cm4gTWF0aC5leHAoMiAqIHYgKiB5IC8gcyAqKiAyKSAtIE1hdGguZXhwKDIgKiB2ICogeCAvIHMgKiogMik7CiAgICAgIH0KICAgICAgY29uc3QgelByaW1lID0gYSAqIHo7CiAgICAgIGNvbnN0IHZhcmlhbmNlID0gLTIgKiBhICogcGhpKDAsIHpQcmltZSkgKiAoMiAqIHYgKiBhICogcGhpKHpQcmltZSwgMiAqIGEpICsgcyAqKiAyICogcGhpKDAsIGEpICogcGhpKHpQcmltZSwgYSkpICogTWF0aC5leHAoMiAqIHYgKiBhIC8gcyAqKiAyKSAvICh2ICoqIDMgKiBwaGkoMCwgYSkgKiogMiAqIHBoaSh6UHJpbWUsIGEpICoqIDIpICsgKDQgKiB2ICogelByaW1lICogKDIgKiBhIC0gelByaW1lKSAqIE1hdGguZXhwKDIgKiB2ICogKHpQcmltZSArIGEpIC8gcyAqKiAyKSArIHpQcmltZSAqIHMgKiogMiAqIHBoaSgyICogelByaW1lLCAyICogYSkpIC8gKHYgKiogMyAqIHBoaSh6UHJpbWUsIGEpICoqIDIpOwogICAgICByZXR1cm4gTWF0aC5zcXJ0KHZhcmlhbmNlKSAqIDEwMDA7CiAgICB9CgogICAgLy8gTWVhbiBDb3JyZWN0IFJUCiAgICBzdGF0aWMgYXp2dDAybUMoYSwgeiwgdiwgdDAsIHMgPSBERE1NYXRoLnMpIHsKICAgICAgcmV0dXJuIERETU1hdGguYXp2dDAybUUoYSwgMSAtIHosIC12LCB0MCwgcyk7CiAgICB9CgogICAgLy8gU0QgQ29ycmVjdCBSVAogICAgc3RhdGljIGF6djJzZEMoYSwgeiwgdiwgcyA9IERETU1hdGgucykgewogICAgICByZXR1cm4gRERNTWF0aC5henYyc2RFKGEsIDEgLSB6LCAtdiwgcyk7CiAgICB9CgogICAgLy8gRGVuc2l0eSBvZiBFcnJvciBSVAogICAgc3RhdGljIHRhenYyZ0UodCwgYSwgeiwgdiwgcyA9IERETU1hdGgucykgewogICAgICBpZiAoIXQpIHJldHVybiAwOwogICAgICBjb25zdCB6UHJpbWUgPSBhICogejsKICAgICAgY29uc3QgYmFzZSA9IE1hdGguUEkgKiBzICoqIDIgLyBhICoqIDIgKiBNYXRoLmV4cCgtelByaW1lICogdiAvIHMgKiogMik7CiAgICAgIGxldCBrID0gMDsKICAgICAgbGV0IHRlcm0gPSAwOwogICAgICBsZXQgc3VtID0gMDsKICAgICAgZG8gewogICAgICAgIGsgKz0gMTsKICAgICAgICB0ZXJtID0gayAqIE1hdGguc2luKE1hdGguUEkgKiB6UHJpbWUgKiBrIC8gYSkgKiBNYXRoLmV4cCgtMC41ICogKHYgKiogMiAvIHMgKiogMiArIE1hdGguUEkgKiogMiAqIGsgKiogMiAqIHMgKiogMiAvIGEgKiogMikgKiB0KTsKICAgICAgICBzdW0gKz0gdGVybTsKICAgICAgfSB3aGlsZSAoayA8IDIwMCk7IC8vID8/IEhBQ0sKCiAgICAgIHJldHVybiBiYXNlICogc3VtOwogICAgfQoKICAgIC8vIERlbnNpdHkgb2YgQ29ycmVjdCBSVAogICAgc3RhdGljIHRhenYyZ0ModCwgYSwgeiwgdiwgcyA9IERETU1hdGgucykgewogICAgICByZXR1cm4gRERNTWF0aC50YXp2MmdFKHQsIGEsIDEgLSB6LCAtdiwgcyk7CiAgICB9CgogICAgLy8gQWRhcHRlZCBmcm9tIGh0dHBzOi8vcmFvdWwuc29jc2NpLnV2YS5ubC9FWjIvRVoyX25ldy5odG1sCiAgICAvLyBFWi1mdW5jdGlvbiBmb3Igc3RhcnRpbmcgdmFsdWVzCiAgICAvLyBpbnB1dDogb2JqIC0gT2JqZWN0IHdpdGggcHJvcGVydGllcwogICAgLy8gICAgcEMgLSBQcm9wb3J0aW9uIGNvcnJlY3QKICAgIC8vICAgIHNkIC0gc2FtcGxlIHN0YW5kYXJkIGRldmlhdGlvbiBvZiB0aGUgUlQncyBpbiBtcwogICAgLy8gICAgbSAtIHNhbXBsZSBtZWFuIG9mIHRoZSBSVCdzIGluIG1zCiAgICAvLyAgICBzIC0gZGlmZnVzaW9uIHN0YW5kYXJkIGRldmlhdGlvbgogICAgLy8gcmV0dXJuczogT2JqZWN0IHdpdGggcHJvcGVydGllcyB2LCBhLCBhbmQgdDAsIGNvbnRhaW5pbmcgRVotZXN0aW1hdGVzIG9mIHRoZXNlIHBhcmFtZXRlcnMKICAgIHN0YXRpYyBkYXRhMmV6KHsKICAgICAgYWNjdXJhY3k6IHBDLAogICAgICBzZFJUOiBzZCwKICAgICAgbWVhblJUOiBtLAogICAgICBzCiAgICB9KSB7CiAgICAgIGZ1bmN0aW9uIHNpZ24ocikgewogICAgICAgIHJldHVybiByID4gMCA/IDEgOiByID09PSAwID8gMCA6IC0xOwogICAgICB9CiAgICAgIGZ1bmN0aW9uIGxvZ2l0KHApIHsKICAgICAgICByZXR1cm4gTWF0aC5sb2cocCAvICgxIC0gcCkpOwogICAgICB9CiAgICAgIGNvbnN0IHZydCA9IChzZCAvIDEwMDApICoqIDI7CiAgICAgIGNvbnN0IG1ydCA9IG0gLyAxMDAwOwogICAgICBjb25zdCBzMiA9IHMgKiogMjsKICAgICAgY29uc3QgbCA9IGxvZ2l0KHBDKTsKICAgICAgY29uc3QgeCA9IGwgKiAobCAqIHBDICoqIDIgLSBsICogcEMgKyBwQyAtIDAuNSkgLyB2cnQ7CiAgICAgIGNvbnN0IHYgPSBzaWduKHBDIC0gMC41KSAqIHMgKiB4ICoqICgxIC8gNCk7CiAgICAgIGNvbnN0IGEgPSBzMiAqIGxvZ2l0KHBDKSAvIHY7CiAgICAgIGNvbnN0IHkgPSAtdiAqIGEgLyBzMjsKICAgICAgY29uc3QgbWR0ID0gYSAvICgyICogdikgKiAoMSAtIE1hdGguZXhwKHkpKSAvICgxICsgTWF0aC5leHAoeSkpOwogICAgICBjb25zdCB0MCA9IG1ydCA/IG1ydCAtIG1kdCA6IG51bGw7IC8vIGNvbXB1dGUgVGVyIG9ubHkgaWYgTVJUIHdhcyBwcm92aWRlZAoKICAgICAgY29uc3QgdDBQcmltZSA9IHQwICogMTAwMDsKICAgICAgcmV0dXJuIHsKICAgICAgICB2LAogICAgICAgIGEsCiAgICAgICAgdDA6IHQwUHJpbWUsCiAgICAgICAgcwogICAgICB9OwogICAgfQogICAgc3RhdGljIGRhdGEyZXoyKCkgewogICAgICB0aHJvdyBuZXcgRXJyb3IoJ2RhdGEyZXoyIGlzIG5vdCBpbXBsZW1lbnRlZCEnKTsKICAgIH0KICB9CgogIC8vIEludGVybmFsIGRlcGVuZGVuY2llcwoKICAvKiBlc2xpbnQgbm8tcmVzdHJpY3RlZC1nbG9iYWxzOiBbIm9mZiIsICJzZWxmIl0gKi8KCiAgc2VsZi5vbm1lc3NhZ2UgPSBldmVudCA9PiB7CiAgICBjb25zdCBwYXJhbXMgPSBERE1NYXRoLmRhdGEyZXooewogICAgICAuLi5ldmVudC5kYXRhLAogICAgICBzOiBERE1NYXRoLnMKICAgIH0pOwoKICAgIC8vICMjIyMjIEFyYml0cmFyeSBkZWZhdWx0IHZhbHVlcyEhIQogICAgY29uc3QgYSA9ICFpc05hTihwYXJhbXMuYSkgPyBwYXJhbXMuYSA6IDEuNTsKICAgIGNvbnN0IHogPSAhaXNOYU4ocGFyYW1zLnopID8gcGFyYW1zLnogOiAwLjU7CiAgICBjb25zdCB2ID0gIWlzTmFOKHBhcmFtcy52KSA/IHBhcmFtcy52IDogMC4xOwogICAgY29uc3QgdDAgPSAhaXNOYU4ocGFyYW1zLnQwKSA/IHBhcmFtcy50MCA6IDEwMDsKICAgIGNvbnN0IHMgPSAhaXNOYU4ocGFyYW1zLnMpID8gcGFyYW1zLnMgOiBERE1NYXRoLnM7CiAgICBjb25zdCBwcmVkaWN0ZWQgPSB7CiAgICAgIGFjY3VyYWN5OiBERE1NYXRoLmF6djJwQyhhLCB6LCB2KSwKICAgICAgY29ycmVjdE1lYW5SVDogRERNTWF0aC5henZ0MDJtQyhhLCB6LCB2LCB0MCksCiAgICAgIGVycm9yTWVhblJUOiBERE1NYXRoLmF6dnQwMm1FKGEsIHosIHYsIHQwKSwKICAgICAgbWVhblJUOiBERE1NYXRoLmF6dnQwMm0oYSwgeiwgdiwgdDApLAogICAgICBjb3JyZWN0U0RSVDogRERNTWF0aC5henYyc2RDKGEsIHosIHYpLAogICAgICBlcnJvclNEUlQ6IERETU1hdGguYXp2MnNkRShhLCB6LCB2KSwKICAgICAgc2RSVDogRERNTWF0aC5henYyc2QoYSwgeiwgdikKICAgIH07CiAgICBzZWxmLnBvc3RNZXNzYWdlKHsKICAgICAgcGFyYW1zOiB7CiAgICAgICAgYSwKICAgICAgICB6LAogICAgICAgIHYsCiAgICAgICAgdDAsCiAgICAgICAgcwogICAgICB9LAogICAgICBwcmVkaWN0ZWQKICAgIH0pOwogIH07Cgp9KSgpOwovLyMgc291cmNlTWFwcGluZ1VSTD1kZG0tZml0LXdvcmtlci5qcy5tYXAKCg==', 'data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGRtLWZpdC13b3JrZXIuanMiLCJzb3VyY2VzIjpbIi4uLy4uL2xpYnJhcmllcy9hY2N1bXVsYWJsZS1tYXRoL3NyYy9kZG0tbWF0aC5qcyIsIi4uLy4uL2xpYnJhcmllcy9hY2N1bXVsYWJsZS1tYXRoL3NyYy9pbmRleC5qcyIsIi4uLy4uL2xpYnJhcmllcy9hY2N1bXVsYWJsZS1lbGVtZW50cy9zcmMvY29tcG9uZW50cy9kZG0tZml0LXdvcmtlci5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJcbi8qXG4gIERETU1hdGggU3RhdGljIENsYXNzIC0gTm90IGludGVuZGVkIGZvciBpbnN0YW50aWF0aW9uIVxuXG4gIE1vZGVsIHBhcmFtZXRlcnM6XG4gICAgYSA9IGJvdW5kYXJ5IHNlcGFyYXRpb25cbiAgICB6ID0gc3RhcnRpbmcgcG9pbnQgYXMgYSBwcm9wb3J0aW9uIG9mIGFcbiAgICB2ID0gZHJpZnQgcmF0ZSAocGVyIHNlY29uZClcbiAgICB0MCA9IG5vbi1kZWNpc2lvbiB0aW1lIChpbiBtaWxsaXNlY29uZHMpXG4gICAgcyA9IHdpdGhpbi10cmlhbCB2YXJpYWJpbGl0eSBpbiBkcmlmdCByYXRlIChzXjIgPSBpbmZpbml0ZXNpbWFsIHZhcmlhbmNlKVxuXG4gICAgelByaW1lID0gc3RhcnRpbmcgcG9pbnQgb24gYSAwLXRvLWEgc2NhbGUgKHR5cGljYWxseSB1c2VkIGluIHB1Ymxpc2hlZCBlcXVhdGlvbnMpXG5cbiAgQmVoYXZpb3JhbCB2YXJpYWJsZXM6XG4gICAgcEUgPSBwcm9wb3J0aW9uIG9mIGVycm9yIHRyaWFsc1xuICAgIHBDID0gcHJvcG9ydGlvbiBvZiBjb3JyZWN0IHRyaWFsc1xuICAgIG0gPSBtZWFuIG9mIG92ZXJhbGwgUlRzIChpbiBtaWxsaXNlY29uZHMpXG4gICAgbUUgPSBtZWFuIG9mIGVycm9yIFJUcyAoaW4gbWlsbGlzZWNvbmRzKVxuICAgIG1DID0gbWVhbiBjb3JyZWN0IFJUcyAoaW4gbWlsbGlzZWNvbmRzKVxuICAgIHNkID0gc3RhbmRhcmQgZGV2aWF0aW9uIG9mIG92ZXJhbGwgUlRzIChpbiBtaWxsaXNlY29uZHMpXG4gICAgc2RFID0gc3RhbmRhcmQgZGV2aWF0aW9uIG9mIGVycm9yIFJUcyAoaW4gbWlsbGlzZWNvbmRzKVxuICAgIHNkQyA9IHN0YW5kYXJkIGRldmlhdGlvbiBvZiBjb3JyZWN0IFJUcyAoaW4gbWlsbGlzZWNvbmRzKVxuXG4gIEVxdWF0aW9uczpcbiAgICBQcm9iYWJpbGl0eSBvZiBjb3JyZWN0IGFuZCBlcnJvciByZXNwb25zZXMgKEFsZXhhbmRyb3dpY3osIDIwMjApXG4gICAgTWVhbiBvZiBvdmVyYWxsLCBlcnJvciwgYW5kIGNvcnJlY3QgUlRzIChHcmFzbWFuIGV0IGFsLiwgMjAwOSlcbiAgICBTdGFuZGFyZCBkZXZpYXRpb24gb2Ygb3ZlcmFsbCwgZXJyb3IsIGFuZCBjb3JyZWN0IFJUcyAoR3Jhc21hbiBldCBhbC4sIDIwMDkpXG4gICAgRGVuc2l0eSBvZiBlcnJvciBhbmQgY29ycmVjdCBSVCBkaXN0cmlidXRpb25zIChBbGV4YW5kcm93aWN6LCAyMDIwKVxuICAgIEVaLWRpZmZ1c2lvbiBtb2RlbCAoV2FnZW5tYWtlcnMgZXQgYWwuLCAyMDA3KVxuKi9cbmV4cG9ydCBkZWZhdWx0IGNsYXNzIERETU1hdGgge1xuICBzdGF0aWMgcyA9IDE7XG5cbiAgLy8gQ2FsY3VsYXRlIGEgYnVuY2ggb2Ygc3RhdGlzdGljcyBmb3IgYW4gYXJyYXkgb2YgdHJpYWxzXG4gIHN0YXRpYyB0cmlhbHMyc3RhdHModHJpYWxzKSB7XG4gICAgY29uc3Qgc3RhdHMgPSB7fTtcblxuICAgIC8vIEZpcnN0LW9yZGVyIHN1bXNcbiAgICBjb25zdCBzdW1zID0gdHJpYWxzLnJlZHVjZShcbiAgICAgIChhY2N1bXVsYXRvciwgdHJpYWwpID0+IHtcbiAgICAgICAgc3dpdGNoICh0cmlhbC5vdXRjb21lKSB7XG4gICAgICAgICAgY2FzZSAnY29ycmVjdCc6XG4gICAgICAgICAgICBhY2N1bXVsYXRvci5jb3JyZWN0Q291bnQgKz0gMTtcbiAgICAgICAgICAgIGFjY3VtdWxhdG9yLmNvcnJlY3RSVFN1bSArPSB0cmlhbC5ydDtcbiAgICAgICAgICAgIGJyZWFrO1xuICAgICAgICAgIGNhc2UgJ2Vycm9yJzpcbiAgICAgICAgICAgIGFjY3VtdWxhdG9yLmVycm9yQ291bnQgKz0gMTtcbiAgICAgICAgICAgIGFjY3VtdWxhdG9yLmVycm9yUlRTdW0gKz0gdHJpYWwucnQ7XG4gICAgICAgICAgICBicmVhaztcbiAgICAgICAgICBjYXNlICducic6XG4gICAgICAgICAgICBhY2N1bXVsYXRvci5uckNvdW50ICs9IDE7XG4gICAgICAgICAgICBicmVhaztcbiAgICAgICAgICBkZWZhdWx0OlxuICAgICAgICAgICAgLy8gTm8tb3BcbiAgICAgICAgfVxuICAgICAgICByZXR1cm4gYWNjdW11bGF0b3I7XG4gICAgICB9LFxuICAgICAge1xuICAgICAgICBjb3JyZWN0Q291bnQ6IDAsXG4gICAgICAgIGVycm9yQ291bnQ6IDAsXG4gICAgICAgIG5yQ291bnQ6IDAsXG5cbiAgICAgICAgY29ycmVjdFJUU3VtOiAwLFxuICAgICAgICBlcnJvclJUU3VtOiAwLFxuICAgICAgfSxcbiAgICApO1xuXG4gICAgLy8gRmlyc3Qtb3JkZXIgc3RhdHNcbiAgICBzdGF0cy5jb3JyZWN0Q291bnQgPSBzdW1zLmNvcnJlY3RDb3VudDtcbiAgICBzdGF0cy5lcnJvckNvdW50ID0gc3Vtcy5lcnJvckNvdW50O1xuICAgIHN0YXRzLm5yQ291bnQgPSBzdW1zLm5yQ291bnQ7XG4gICAgc3RhdHMuYWNjdXJhY3kgPSBzdW1zLmNvcnJlY3RDb3VudCAvIChzdW1zLmNvcnJlY3RDb3VudCArIHN1bXMuZXJyb3JDb3VudCArIHN1bXMubnJDb3VudCk7XG5cbiAgICBzdGF0cy5jb3JyZWN0TWVhblJUID0gc3Vtcy5jb3JyZWN0UlRTdW0gLyBzdW1zLmNvcnJlY3RDb3VudDtcbiAgICBzdGF0cy5lcnJvck1lYW5SVCA9IHN1bXMuZXJyb3JSVFN1bSAvIHN1bXMuZXJyb3JDb3VudDtcbiAgICBzdGF0cy5tZWFuUlQgPSAoc3Vtcy5jb3JyZWN0UlRTdW0gKyBzdW1zLmVycm9yUlRTdW0pIC8gKHN1bXMuY29ycmVjdENvdW50ICsgc3Vtcy5lcnJvckNvdW50KTtcblxuICAgIC8vIFNlY29uZC1vcmRlciBzdW1zXG4gICAgY29uc3Qgc3VtczIgPSB0cmlhbHMucmVkdWNlKFxuICAgICAgKGFjY3VtdWxhdG9yLCB0cmlhbCkgPT4ge1xuICAgICAgICBzd2l0Y2ggKHRyaWFsLm91dGNvbWUpIHtcbiAgICAgICAgICBjYXNlICdjb3JyZWN0JzpcbiAgICAgICAgICAgIGFjY3VtdWxhdG9yLnNzICs9ICh0cmlhbC5ydCAtIHN0YXRzLm1lYW5SVCkgKiogMjtcbiAgICAgICAgICAgIGFjY3VtdWxhdG9yLmNvcnJlY3RTUyArPSAodHJpYWwucnQgLSBzdGF0cy5jb3JyZWN0TWVhblJUKSAqKiAyO1xuICAgICAgICAgICAgYnJlYWs7XG4gICAgICAgICAgY2FzZSAnZXJyb3InOlxuICAgICAgICAgICAgYWNjdW11bGF0b3Iuc3MgKz0gKHRyaWFsLnJ0IC0gc3RhdHMubWVhblJUKSAqKiAyO1xuICAgICAgICAgICAgYWNjdW11bGF0b3IuZXJyb3JTUyArPSAodHJpYWwucnQgLSBzdGF0cy5lcnJvck1lYW5SVCkgKiogMjtcbiAgICAgICAgICAgIGJyZWFrO1xuICAgICAgICAgIGRlZmF1bHQ6XG4gICAgICAgICAgICAvLyBOby1vcFxuICAgICAgICB9XG4gICAgICAgIHJldHVybiBhY2N1bXVsYXRvcjtcbiAgICAgIH0sXG4gICAgICB7XG4gICAgICAgIHNzOiAwLFxuICAgICAgICBjb3JyZWN0U1M6IDAsXG4gICAgICAgIGVycm9yU1M6IDAsXG4gICAgICB9LFxuICAgICk7XG5cbiAgICAvLyBTZWNvbmQtb3JkZXIgc3RhdHNcbiAgICBzdGF0cy5jb3JyZWN0U0RSVCA9IChzdGF0cy5jb3JyZWN0Q291bnQgPiAxKVxuICAgICAgPyBNYXRoLnNxcnQoc3VtczIuY29ycmVjdFNTIC8gKHN0YXRzLmNvcnJlY3RDb3VudCAtIDEpKVxuICAgICAgOiBOYU47XG4gICAgc3RhdHMuZXJyb3JTRFJUID0gKHN0YXRzLmVycm9yQ291bnQgPiAxKVxuICAgICAgPyBNYXRoLnNxcnQoc3VtczIuZXJyb3JTUyAvIChzdGF0cy5lcnJvckNvdW50IC0gMSkpXG4gICAgICA6IE5hTjtcbiAgICBzdGF0cy5zZFJUID0gKHN0YXRzLmNvcnJlY3RDb3VudCArIHN0YXRzLmVycm9yQ291bnQgPiAxKVxuICAgICAgPyBNYXRoLnNxcnQoc3VtczIuc3MgLyAoc3RhdHMuY29ycmVjdENvdW50ICsgc3RhdHMuZXJyb3JDb3VudCAtIDEpKVxuICAgICAgOiBOYU47XG5cbiAgICByZXR1cm4gc3RhdHM7XG4gIH1cblxuICAvLyBQcm9iYWJpbGl0eSBvZiBhbiBFcnJvciBSZXNwb25zZVxuICBzdGF0aWMgYXp2MnBFKGEsIHosIHYsIHMgPSBERE1NYXRoLnMpIHtcbiAgICBjb25zdCB6UHJpbWUgPSBhICogejtcblxuICAgIGNvbnN0IEEgPSBNYXRoLmV4cCgoLTIgKiB2ICogYSkgLyBzICoqIDIpO1xuICAgIGNvbnN0IFogPSBNYXRoLmV4cCgoLTIgKiB2ICogelByaW1lKSAvIHMgKiogMik7XG5cbiAgICByZXR1cm4gKEEgLSBaKSAvIChBIC0gMSk7XG4gIH1cblxuICAvLyBQcm9iYWJpbGl0eSBvZiBhIENvcnJlY3QgUmVzcG9uc2VcbiAgc3RhdGljIGF6djJwQyhhLCB6LCB2LCBzID0gRERNTWF0aC5zKSB7XG4gICAgcmV0dXJuIERETU1hdGguYXp2MnBFKGEsIDEgLSB6LCAtdiwgcyk7XG4gIH1cblxuICAvLyBNZWFuIE92ZXJhbGwgUlRcbiAgLy8gRXF1YXRpb24gNSAoR3Jhc21hbiBldCBhbC4sIDIwMDkpXG4gIHN0YXRpYyBhenZ0MDJtKGEsIHosIHYsIHQwLCBzID0gRERNTWF0aC5zKSB7XG4gICAgY29uc3QgelByaW1lID0gYSAqIHo7XG4gICAgY29uc3QgQSA9IE1hdGguZXhwKCgtMiAqIHYgKiBhKSAvIHMgKiogMikgLSAxO1xuICAgIGNvbnN0IFogPSBNYXRoLmV4cCgoLTIgKiB2ICogelByaW1lKSAvIHMgKiogMikgLSAxO1xuXG4gICAgY29uc3QgbWVhbiA9IC0oelByaW1lIC8gdikgKyAoYSAvIHYpICogKFogLyBBKTtcbiAgICByZXR1cm4gdDAgKyBtZWFuICogMTAwMDtcbiAgfVxuXG4gIC8vIFNEIE92ZXJhbGwgUlRcbiAgLy8gRXF1YXRpb24gNiAoR3Jhc21hbiBldCBhbC4sIDIwMDkpXG4gIHN0YXRpYyBhenYyc2QoYSwgeiwgdiwgcyA9IERETU1hdGgucykge1xuICAgIGNvbnN0IHpQcmltZSA9IGEgKiB6O1xuICAgIGNvbnN0IEEgPSBNYXRoLmV4cCgoLTIgKiB2ICogYSkgLyBzICoqIDIpIC0gMTtcbiAgICBjb25zdCBaID0gTWF0aC5leHAoKC0yICogdiAqIHpQcmltZSkgLyBzICoqIDIpIC0gMTtcblxuICAgIGNvbnN0IHZhcmlhbmNlID0gKFxuICAgICAgKFxuICAgICAgICAoLXYgKiBhICoqIDIgKiAoWiArIDQpICogWikgLyBBICoqIDJcbiAgICAgICkgKyAoXG4gICAgICAgICgoLTMgKiB2ICogYSAqKiAyICsgNCAqIHYgKiB6UHJpbWUgKiBhICsgcyAqKiAyICogYSkgKiBaICsgNCAqIHYgKiB6UHJpbWUgKiBhKSAvIEFcbiAgICAgICkgLSAoXG4gICAgICAgIHMgKiogMiAqIHpQcmltZVxuICAgICAgKVxuICAgICkgLyB2ICoqIDM7XG5cbiAgICByZXR1cm4gTWF0aC5zcXJ0KHZhcmlhbmNlKSAqIDEwMDA7XG4gIH1cblxuICAvLyBNZWFuIEVycm9yIFJUXG4gIC8vIEVxdWF0aW9uIDEzIChHcmFzbWFuIGV0IGFsLiwgMjAwOSlcbiAgc3RhdGljIGF6dnQwMm1FKGEsIHosIHYsIHQwLCBzID0gRERNTWF0aC5zKSB7XG4gICAgZnVuY3Rpb24gcGhpKHgsIHkpIHtcbiAgICAgIHJldHVybiBNYXRoLmV4cCgoMiAqIHYgKiB5KSAvIChzICoqIDIpKSAtIE1hdGguZXhwKCgyICogdiAqIHgpIC8gKHMgKiogMikpO1xuICAgIH1cbiAgICBjb25zdCB6UHJpbWUgPSBhICogejtcblxuICAgIGNvbnN0IG1lYW4gPSAoelByaW1lICogKHBoaSh6UHJpbWUgLSBhLCBhKSArIHBoaSgwLCB6UHJpbWUpKSArIDIgKiBhICogcGhpKHpQcmltZSwgMCkpXG4gICAgICAvICh2ICogcGhpKHpQcmltZSwgYSkgKiBwaGkoLWEsIDApKTtcbiAgICByZXR1cm4gdDAgKyBtZWFuICogMTAwMDtcbiAgfVxuXG4gIC8vIFNEIEVycm9yIFJUXG4gIC8vIEVxdWF0aW9uIDE0IChHcmFzbWFuIGV0IGFsLiwgMjAwOSlcbiAgc3RhdGljIGF6djJzZEUoYSwgeiwgdiwgcyA9IERETU1hdGgucykge1xuICAgIGZ1bmN0aW9uIHBoaSh4LCB5KSB7XG4gICAgICByZXR1cm4gTWF0aC5leHAoKDIgKiB2ICogeSkgLyAocyAqKiAyKSkgLSBNYXRoLmV4cCgoMiAqIHYgKiB4KSAvIChzICoqIDIpKTtcbiAgICB9XG4gICAgY29uc3QgelByaW1lID0gYSAqIHo7XG5cbiAgICBjb25zdCB2YXJpYW5jZSA9IChcbiAgICAgIChcbiAgICAgICAgLTIgKiBhICogcGhpKDAsIHpQcmltZSlcbiAgICAgICAgKiAoKDIgKiB2ICogYSAqIHBoaSh6UHJpbWUsIDIgKiBhKSkgKyAocyAqKiAyICogcGhpKDAsIGEpICogcGhpKHpQcmltZSwgYSkpKVxuICAgICAgICAqIE1hdGguZXhwKCgyICogdiAqIGEpIC8gcyAqKiAyKVxuICAgICAgKSAvIChcbiAgICAgICAgdiAqKiAzICogcGhpKDAsIGEpICoqIDIgKiBwaGkoelByaW1lLCBhKSAqKiAyXG4gICAgICApXG4gICAgKSArIChcbiAgICAgIChcbiAgICAgICAgNCAqIHYgKiB6UHJpbWUgKiAoMiAqIGEgLSB6UHJpbWUpICogTWF0aC5leHAoKDIgKiB2ICogKHpQcmltZSArIGEpKSAvIHMgKiogMilcbiAgICAgICAgKyB6UHJpbWUgKiBzICoqIDIgKiBwaGkoMiAqIHpQcmltZSwgMiAqIGEpXG4gICAgICApIC8gKFxuICAgICAgICB2ICoqIDMgKiBwaGkoelByaW1lLCBhKSAqKiAyXG4gICAgICApXG4gICAgKTtcblxuICAgIHJldHVybiBNYXRoLnNxcnQodmFyaWFuY2UpICogMTAwMDtcbiAgfVxuXG4gIC8vIE1lYW4gQ29ycmVjdCBSVFxuICBzdGF0aWMgYXp2dDAybUMoYSwgeiwgdiwgdDAsIHMgPSBERE1NYXRoLnMpIHtcbiAgICByZXR1cm4gRERNTWF0aC5henZ0MDJtRShhLCAxIC0geiwgLXYsIHQwLCBzKTtcbiAgfVxuXG4gIC8vIFNEIENvcnJlY3QgUlRcbiAgc3RhdGljIGF6djJzZEMoYSwgeiwgdiwgcyA9IERETU1hdGgucykge1xuICAgIHJldHVybiBERE1NYXRoLmF6djJzZEUoYSwgMSAtIHosIC12LCBzKTtcbiAgfVxuXG4gIC8vIERlbnNpdHkgb2YgRXJyb3IgUlRcbiAgc3RhdGljIHRhenYyZ0UodCwgYSwgeiwgdiwgcyA9IERETU1hdGgucykge1xuICAgIGlmICghdCkgcmV0dXJuIDA7XG5cbiAgICBjb25zdCB6UHJpbWUgPSBhICogejtcbiAgICBjb25zdCBiYXNlID0gKChNYXRoLlBJICogcyAqKiAyKSAvIGEgKiogMikgKiBNYXRoLmV4cCgoLXpQcmltZSAqIHYpIC8gcyAqKiAyKTtcblxuICAgIGxldCBrID0gMDtcbiAgICBsZXQgdGVybSA9IDA7XG4gICAgbGV0IHN1bSA9IDA7XG4gICAgZG8ge1xuICAgICAgayArPSAxO1xuXG4gICAgICB0ZXJtID0ga1xuICAgICAgICAqIE1hdGguc2luKChNYXRoLlBJICogelByaW1lICogaykgLyBhKVxuICAgICAgICAqIE1hdGguZXhwKC0wLjUgKiAoKHYgKiogMiAvIHMgKiogMikgKyAoKE1hdGguUEkgKiogMiAqIGsgKiogMiAqIHMgKiogMikgLyBhICoqIDIpKSAqIHQpO1xuXG4gICAgICBzdW0gKz0gdGVybTtcbiAgICB9IHdoaWxlIChrIDwgMjAwKTsgLy8gPz8gSEFDS1xuXG4gICAgcmV0dXJuIGJhc2UgKiBzdW07XG4gIH1cblxuICAvLyBEZW5zaXR5IG9mIENvcnJlY3QgUlRcbiAgc3RhdGljIHRhenYyZ0ModCwgYSwgeiwgdiwgcyA9IERETU1hdGgucykge1xuICAgIHJldHVybiBERE1NYXRoLnRhenYyZ0UodCwgYSwgMSAtIHosIC12LCBzKTtcbiAgfVxuXG4gIC8vIEFkYXB0ZWQgZnJvbSBodHRwczovL3Jhb3VsLnNvY3NjaS51dmEubmwvRVoyL0VaMl9uZXcuaHRtbFxuICAvLyBFWi1mdW5jdGlvbiBmb3Igc3RhcnRpbmcgdmFsdWVzXG4gIC8vIGlucHV0OiBvYmogLSBPYmplY3Qgd2l0aCBwcm9wZXJ0aWVzXG4gIC8vICAgIHBDIC0gUHJvcG9ydGlvbiBjb3JyZWN0XG4gIC8vICAgIHNkIC0gc2FtcGxlIHN0YW5kYXJkIGRldmlhdGlvbiBvZiB0aGUgUlQncyBpbiBtc1xuICAvLyAgICBtIC0gc2FtcGxlIG1lYW4gb2YgdGhlIFJUJ3MgaW4gbXNcbiAgLy8gICAgcyAtIGRpZmZ1c2lvbiBzdGFuZGFyZCBkZXZpYXRpb25cbiAgLy8gcmV0dXJuczogT2JqZWN0IHdpdGggcHJvcGVydGllcyB2LCBhLCBhbmQgdDAsIGNvbnRhaW5pbmcgRVotZXN0aW1hdGVzIG9mIHRoZXNlIHBhcmFtZXRlcnNcbiAgc3RhdGljIGRhdGEyZXooe1xuICAgIGFjY3VyYWN5OiBwQyxcbiAgICBzZFJUOiBzZCxcbiAgICBtZWFuUlQ6IG0sXG4gICAgcyxcbiAgfSkge1xuICAgIGZ1bmN0aW9uIHNpZ24ocikge1xuICAgICAgcmV0dXJuICgociA+IDApID8gMSA6ICgociA9PT0gMCkgPyAwIDogLTEpKTtcbiAgICB9XG5cbiAgICBmdW5jdGlvbiBsb2dpdChwKSB7XG4gICAgICByZXR1cm4gTWF0aC5sb2cocCAvICgxIC0gcCkpO1xuICAgIH1cblxuICAgIGNvbnN0IHZydCA9IChzZCAvIDEwMDApICoqIDI7XG4gICAgY29uc3QgbXJ0ID0gbSAvIDEwMDA7XG5cbiAgICBjb25zdCBzMiA9IHMgKiogMjtcbiAgICBjb25zdCBsID0gbG9naXQocEMpO1xuICAgIGNvbnN0IHggPSAobCAqIChsICogcEMgKiogMiAtIGwgKiBwQyArIHBDIC0gMC41KSkgLyB2cnQ7XG4gICAgY29uc3QgdiA9IHNpZ24ocEMgLSAwLjUpICogcyAqIHggKiogKDEgLyA0KTtcbiAgICBjb25zdCBhID0gKHMyICogbG9naXQocEMpKSAvIHY7XG4gICAgY29uc3QgeSA9ICgtdiAqIGEpIC8gczI7XG4gICAgY29uc3QgbWR0ID0gKChhIC8gKDIgKiB2KSkgKiAoMSAtIE1hdGguZXhwKHkpKSkgLyAoMSArIE1hdGguZXhwKHkpKTtcbiAgICBjb25zdCB0MCA9IChtcnQgPyBtcnQgLSBtZHQgOiBudWxsKTsgLy8gY29tcHV0ZSBUZXIgb25seSBpZiBNUlQgd2FzIHByb3ZpZGVkXG5cbiAgICBjb25zdCB0MFByaW1lID0gdDAgKiAxMDAwO1xuICAgIHJldHVybiB7XG4gICAgICB2LFxuICAgICAgYSxcbiAgICAgIHQwOiB0MFByaW1lLFxuICAgICAgcyxcbiAgICB9O1xuICB9XG5cbiAgc3RhdGljIGRhdGEyZXoyKCkge1xuICAgIHRocm93IG5ldyBFcnJvcignZGF0YTJlejIgaXMgbm90IGltcGxlbWVudGVkIScpO1xuICB9XG59XG4iLCJcbi8vIEludGVybmFsIGRlcGVuZGVuY2llc1xuaW1wb3J0IERETU1hdGggZnJvbSAnLi9kZG0tbWF0aCc7XG5cbmV4cG9ydCBkZWZhdWx0IERETU1hdGg7XG4iLCIvKiBlc2xpbnQgbm8tcmVzdHJpY3RlZC1nbG9iYWxzOiBbXCJvZmZcIiwgXCJzZWxmXCJdICovXG5cbmltcG9ydCBERE1NYXRoIGZyb20gJ0BkZWNpZGFibGVzL2FjY3VtdWxhYmxlLW1hdGgnO1xuXG5zZWxmLm9ubWVzc2FnZSA9IChldmVudCkgPT4ge1xuICBjb25zdCBwYXJhbXMgPSBERE1NYXRoLmRhdGEyZXooey4uLmV2ZW50LmRhdGEsIHM6IERETU1hdGguc30pO1xuXG4gIC8vICMjIyMjIEFyYml0cmFyeSBkZWZhdWx0IHZhbHVlcyEhIVxuICBjb25zdCBhID0gIWlzTmFOKHBhcmFtcy5hKSA/IHBhcmFtcy5hIDogMS41O1xuICBjb25zdCB6ID0gIWlzTmFOKHBhcmFtcy56KSA/IHBhcmFtcy56IDogMC41O1xuICBjb25zdCB2ID0gIWlzTmFOKHBhcmFtcy52KSA/IHBhcmFtcy52IDogMC4xO1xuICBjb25zdCB0MCA9ICFpc05hTihwYXJhbXMudDApID8gcGFyYW1zLnQwIDogMTAwO1xuICBjb25zdCBzID0gIWlzTmFOKHBhcmFtcy5zKSA/IHBhcmFtcy5zIDogRERNTWF0aC5zO1xuXG4gIGNvbnN0IHByZWRpY3RlZCA9IHtcbiAgICBhY2N1cmFjeTogRERNTWF0aC5henYycEMoYSwgeiwgdiksXG4gICAgY29ycmVjdE1lYW5SVDogRERNTWF0aC5henZ0MDJtQyhhLCB6LCB2LCB0MCksXG4gICAgZXJyb3JNZWFuUlQ6IERETU1hdGguYXp2dDAybUUoYSwgeiwgdiwgdDApLFxuICAgIG1lYW5SVDogRERNTWF0aC5henZ0MDJtKGEsIHosIHYsIHQwKSxcbiAgICBjb3JyZWN0U0RSVDogRERNTWF0aC5henYyc2RDKGEsIHosIHYpLFxuICAgIGVycm9yU0RSVDogRERNTWF0aC5henYyc2RFKGEsIHosIHYpLFxuICAgIHNkUlQ6IERETU1hdGguYXp2MnNkKGEsIHosIHYpLFxuICB9O1xuXG4gIHNlbGYucG9zdE1lc3NhZ2Uoe1xuICAgIHBhcmFtczoge1xuICAgICAgYSwgeiwgdiwgdDAsIHMsXG4gICAgfSxcbiAgICBwcmVkaWN0ZWQsXG4gIH0pO1xufTtcbiJdLCJuYW1lcyI6WyJERE1NYXRoIiwicyIsInRyaWFsczJzdGF0cyIsInRyaWFscyIsInN0YXRzIiwic3VtcyIsInJlZHVjZSIsImFjY3VtdWxhdG9yIiwidHJpYWwiLCJvdXRjb21lIiwiY29ycmVjdENvdW50IiwiY29ycmVjdFJUU3VtIiwicnQiLCJlcnJvckNvdW50IiwiZXJyb3JSVFN1bSIsIm5yQ291bnQiLCJhY2N1cmFjeSIsImNvcnJlY3RNZWFuUlQiLCJlcnJvck1lYW5SVCIsIm1lYW5SVCIsInN1bXMyIiwic3MiLCJjb3JyZWN0U1MiLCJlcnJvclNTIiwiY29ycmVjdFNEUlQiLCJNYXRoIiwic3FydCIsIk5hTiIsImVycm9yU0RSVCIsInNkUlQiLCJhenYycEUiLCJhIiwieiIsInYiLCJ6UHJpbWUiLCJBIiwiZXhwIiwiWiIsImF6djJwQyIsImF6dnQwMm0iLCJ0MCIsIm1lYW4iLCJhenYyc2QiLCJ2YXJpYW5jZSIsImF6dnQwMm1FIiwicGhpIiwieCIsInkiLCJhenYyc2RFIiwiYXp2dDAybUMiLCJhenYyc2RDIiwidGF6djJnRSIsInQiLCJiYXNlIiwiUEkiLCJrIiwidGVybSIsInN1bSIsInNpbiIsInRhenYyZ0MiLCJkYXRhMmV6IiwicEMiLCJzZCIsIm0iLCJzaWduIiwiciIsImxvZ2l0IiwicCIsImxvZyIsInZydCIsIm1ydCIsInMyIiwibCIsIm1kdCIsInQwUHJpbWUiLCJkYXRhMmV6MiIsIkVycm9yIiwic2VsZiIsIm9ubWVzc2FnZSIsImV2ZW50IiwicGFyYW1zIiwiZGF0YSIsImlzTmFOIiwicHJlZGljdGVkIiwicG9zdE1lc3NhZ2UiXSwibWFwcGluZ3MiOiI7OztFQUNBO0VBQ0E7QUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtBQUNBO0VBQ0E7QUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtBQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDZSxNQUFNQSxPQUFPLENBQUM7SUFDM0IsT0FBT0MsQ0FBQyxHQUFHLENBQUMsQ0FBQTs7RUFFWjtJQUNBLE9BQU9DLFlBQVlBLENBQUNDLE1BQU0sRUFBRTtNQUMxQixNQUFNQyxLQUFLLEdBQUcsRUFBRSxDQUFBOztFQUVoQjtNQUNBLE1BQU1DLElBQUksR0FBR0YsTUFBTSxDQUFDRyxNQUFNLENBQ3hCLENBQUNDLFdBQVcsRUFBRUMsS0FBSyxLQUFLO1FBQ3RCLFFBQVFBLEtBQUssQ0FBQ0MsT0FBTztFQUNuQixRQUFBLEtBQUss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');
 /* eslint-enable */
 
 /*
@@ -12145,25 +12316,29 @@ class DDMFit extends AccumulableElement {
   render() {
     return x$1`
       <div>
-        <div>Observed:
-          sd = ${this.observed.sdRT?.toFixed(0)},
-          sdC = ${this.observed.correctSDRT?.toFixed(0)},
-          pC = ${this.observed.accuracy?.toFixed(2)},
-          m = ${this.observed.meanRT?.toFixed(0)},
-          mC = ${this.observed.correctMeanRT?.toFixed(0)}
+        <div><b>Observed:</b>
+          <br/>Accuracy = ${this.observed.accuracy?.toFixed(2)},
+          <br/>Correct Mean RT = ${this.observed.correctMeanRT?.toFixed(0)},
+          Error Mean RT = ${this.observed.errorMeanRT?.toFixed(0)},
+          Mean RT = ${this.observed.meanRT?.toFixed(0)},
+          <br/>Correct SD RT = ${this.observed.correctSDRT?.toFixed(0)},
+          Error SD RT = ${this.observed.errorSDRT?.toFixed(0)},
+          SD RT = ${this.observed.sdRT?.toFixed(0)},
         </div>
-        <div>Current:
-          <var class="math-var a">a</var> = ${this.a.toFixed(2)},
+        <div><b>Parameters:</b>
+          <br/><var class="math-var a">a</var> = ${this.a.toFixed(2)},
           <var class="math-var z">z</var> = ${this.z.toFixed(2)},
           <var class="math-var v">v</var> = ${this.v.toFixed(2)},
           <var class="math-var t0">t0</var> = ${this.t0.toFixed(0)}
         </div>
-        <div>Predicted:
-          sd = ${this.predicted.sdRT?.toFixed(0)},
-          sdC = ${this.predicted.correctSDRT?.toFixed(0)},
-          pC = ${this.predicted.accuracy?.toFixed(2)},
-          m = ${this.predicted.meanRT?.toFixed(0)},
-          mC = ${this.predicted.correctMeanRT?.toFixed(0)}
+        <div><b>Predicted:</b>
+          <br/>Accuracy = ${this.predicted.accuracy?.toFixed(2)},
+          <br/>Correct Mean RT = ${this.predicted.correctMeanRT?.toFixed(0)},
+          Error Mean RT = ${this.predicted.errorMeanRT?.toFixed(0)},
+          Mean RT = ${this.predicted.meanRT?.toFixed(0)},
+          <br/>Correct SD RT = ${this.predicted.correctSDRT?.toFixed(0)},
+          Error SD RT = ${this.predicted.errorSDRT?.toFixed(0)},
+          SD RT = ${this.predicted.sdRT?.toFixed(0)},
         </div>
       </div>
     `;
@@ -12213,7 +12388,7 @@ class DDMParameters extends AccumulableElement {
     this.t0 = undefined;
   }
   setBoundarySeparation(e) {
-    this.a = e.target.value;
+    this.a = +e.target.value;
     this.dispatchEvent(new CustomEvent('ddm-parameters-a', {
       detail: {
         a: this.a
@@ -12222,7 +12397,7 @@ class DDMParameters extends AccumulableElement {
     }));
   }
   setStartingPoint(e) {
-    this.z = e.target.value;
+    this.z = +e.target.value;
     this.dispatchEvent(new CustomEvent('ddm-parameters-z', {
       detail: {
         z: this.z
@@ -12231,7 +12406,7 @@ class DDMParameters extends AccumulableElement {
     }));
   }
   setDriftRate(e) {
-    this.v = e.target.value;
+    this.v = +e.target.value;
     this.dispatchEvent(new CustomEvent('ddm-parameters-v', {
       detail: {
         v: this.v
@@ -12240,7 +12415,7 @@ class DDMParameters extends AccumulableElement {
     }));
   }
   setNondecisionTime(e) {
-    this.t0 = e.target.value;
+    this.t0 = +e.target.value;
     this.dispatchEvent(new CustomEvent('ddm-parameters-t0', {
       detail: {
         t0: this.t0
@@ -12263,15 +12438,6 @@ class DDMParameters extends AccumulableElement {
           justify-content: center;
         }
 
-        .buttons {
-          display: flex;
-
-          flex-direction: column;
-
-          align-items: stretch;
-          justify-content: center;
-        }
-
         decidables-slider {
           line-height: 1;
           text-align: center;
@@ -12285,202 +12451,14 @@ class DDMParameters extends AccumulableElement {
   render() {
     return x$1`
       <div class="holder">
-        ${this.a != null ? x$1`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="2" step=".01" .value=${this.a.toFixed(2)} @change=${this.setBoundarySeparation.bind(this)} @input=${this.setBoundarySeparation.bind(this)}><div>Boundary Separation<br><span class="math-var">a</span></div></decidables-slider>` : x$1``}
-        ${this.z != null ? x$1`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="0.99" step=".01" .value=${this.z.toFixed(2)} @change=${this.setStartingPoint.bind(this)} @input=${this.setStartingPoint.bind(this)}><div>Starting Point<br><span class="math-var">z</span></div></decidables-slider>` : x$1``}
-        ${this.v != null ? x$1`<decidables-slider ?disabled=${!this.interactive} min="0.01" max="5" step=".01" .value=${this.v.toFixed(2)} @change=${this.setDriftRate.bind(this)} @input=${this.setDriftRate.bind(this)}><div>Drift Rate<br><span class="math-var">v</span></div></decidables-slider>` : x$1``}
-        ${this.t0 != null ? x$1`<decidables-slider ?disabled=${!this.interactive} min="0" max="500" step="1" .value=${this.t0.toFixed(0)} @change=${this.setNondecisionTime.bind(this)} @input=${this.setNondecisionTime.bind(this)}><div>Nondecision Time<br><span class="math-var">t₀</span></div></decidables-slider>` : x$1``}
+        ${this.a != null ? x$1`<decidables-slider class="a" ?disabled=${!this.interactive} min="0.01" max="2" step="0.01" .value=${+this.a.toFixed(2)} @change=${this.setBoundarySeparation.bind(this)} @input=${this.setBoundarySeparation.bind(this)}><div>Boundary Separation<br><span class="math-var">a</span></div></decidables-slider>` : x$1``}
+        ${this.z != null ? x$1`<decidables-slider class="z" ?disabled=${!this.interactive} min="0.01" max="0.99" step="0.01" .value=${+this.z.toFixed(2)} @change=${this.setStartingPoint.bind(this)} @input=${this.setStartingPoint.bind(this)}><div>Starting Point<br><span class="math-var">z</span></div></decidables-slider>` : x$1``}
+        ${this.v != null ? x$1`<decidables-slider class="v" ?disabled=${!this.interactive} min="0.01" max="5" step="0.01" .value=${+this.v.toFixed(2)} @change=${this.setDriftRate.bind(this)} @input=${this.setDriftRate.bind(this)}><div>Drift Rate<br><span class="math-var">v</span></div></decidables-slider>` : x$1``}
+        ${this.t0 != null ? x$1`<decidables-slider class="t0" ?disabled=${!this.interactive} min="0" max="500" step="1" .value=${+this.t0.toFixed(0)} @change=${this.setNondecisionTime.bind(this)} @input=${this.setNondecisionTime.bind(this)}><div>Nondecision Time<br><span class="math-var">t₀</span></div></decidables-slider>` : x$1``}
       </div>`;
   }
 }
 customElements.define('ddm-parameters', DDMParameters);
-
-/*
-  DDMMath Static Class - Not intended for instantiation!
-
-  Model parameters:
-    a = boundary separation
-    z = starting point as a proportion of a
-    v = drift rate (per second)
-    t0 = non-decision time (in milliseconds)
-    s = within-trial variability in drift rate (s^2 = infinitesimal variance)
-
-    zPrime = starting point on a 0-to-a scale (typically used in published equations)
-
-  Behavioral variables:
-    pE = proportion of error trials
-    pC = proportion of correct trials
-    m = mean of overall RTs (in milliseconds)
-    mE = mean of error RTs (in milliseconds)
-    mC = mean correct RTs (in milliseconds)
-    sd = standard deviation of overall RTs (in milliseconds)
-    sdE = standard deviation of error RTs (in milliseconds)
-    sdC = standard deviation of correct RTs (in milliseconds)
-
-  Equations:
-    Probability of correct and error responses (Alexandrowicz, 2020)
-    Mean of overall, error, and correct RTs (Grasman et al., 2009)
-    Standard deviation of overall, error, and correct RTs (Grasman et al., 2009)
-    Density of error and correct RT distributions (Alexandrowicz, 2020)
-*/
-class DDMMath {
-  static s = 1;
-
-  // Calculate a bunch of statistics for an array of trials
-  static trials2stats(trials) {
-    const stats = trials.reduce((accumulator, trial) => {
-      switch (trial.outcome) {
-        case 'correct':
-          accumulator.trials.correct += 1;
-          accumulator.rts.correct += trial.rt;
-          break;
-        case 'error':
-          accumulator.trials.error += 1;
-          accumulator.rts.error += trial.rt;
-          break;
-        case 'nr':
-          accumulator.trials.nr += 1;
-          break;
-        // No-op
-      }
-      return accumulator;
-    }, {
-      trials: {
-        total: 0,
-        correct: 0,
-        error: 0,
-        nr: 0
-      },
-      rts: {
-        overall: 0,
-        correct: 0,
-        error: 0
-      },
-      sss: {
-        overall: 0,
-        correct: 0,
-        error: 0
-      }
-    });
-    stats.trials.total = stats.trials.correct + stats.trials.error + stats.trials.nr;
-    stats.rts.overall = stats.rts.correct + stats.rts.error;
-    stats.proportion = {
-      correct: stats.trials.correct / stats.trials.total,
-      error: stats.trials.error / stats.trials.total,
-      nr: stats.trials.nr / stats.trials.total
-    };
-    stats.meanRT = {
-      overall: stats.rts.overall / (stats.trials.correct + stats.trials.error),
-      correct: stats.rts.correct / stats.trials.correct,
-      error: stats.rts.error / stats.trials.error
-    };
-    trials.reduce((accumulator, trial) => {
-      accumulator.sss.overall += (trial.rt - accumulator.meanRT.overall) ** 2;
-      switch (trial.outcome) {
-        case 'correct':
-          accumulator.sss.correct += (trial.rt - accumulator.meanRT.correct) ** 2;
-          break;
-        case 'error':
-          accumulator.sss.error += (trial.rt - accumulator.meanRT.error) ** 2;
-          break;
-        // No-op
-      }
-      return accumulator;
-    }, stats);
-    stats.sdRT = {
-      overall: Math.sqrt(stats.sss.overall / (stats.trials.correct + stats.trials.error - 1)),
-      correct: Math.sqrt(stats.sss.correct / (stats.trials.correct - 1)),
-      error: Math.sqrt(stats.sss.error / (stats.trials.error - 1))
-    };
-    return stats;
-  }
-
-  // Probability of an Error Response
-  static azvs2pE(a, z, v, s = DDMMath.s) {
-    const zPrime = a * z;
-    const A = Math.exp(-2 * v * a / s ** 2);
-    const Z = Math.exp(-2 * v * zPrime / s ** 2);
-    return (A - Z) / (A - 1);
-  }
-
-  // Probability of a Correct Response
-  static azvs2pC(a, z, v, s = DDMMath.s) {
-    return DDMMath.azvs2pE(a, 1 - z, -v, s);
-  }
-
-  // Mean Overall RT
-  // Equation 5 (Grasman et al., 2009)
-  static azvt0s2m(a, z, v, t0, s = DDMMath.s) {
-    const zPrime = a * z;
-    const A = Math.exp(-2 * v * a / s ** 2) - 1;
-    const Z = Math.exp(-2 * v * zPrime / s ** 2) - 1;
-    const mean = -(zPrime / v) + a / v * (Z / A);
-    return t0 + mean * 1000;
-  }
-
-  // SD Overall RT
-  // Equation 6 (Grasman et al., 2009)
-  static azvs2sd(a, z, v, s = DDMMath.s) {
-    const zPrime = a * z;
-    const A = Math.exp(-2 * v * a / s ** 2) - 1;
-    const Z = Math.exp(-2 * v * zPrime / s ** 2) - 1;
-    const variance = (-v * a ** 2 * (Z + 4) * Z / A ** 2 + ((-3 * v * a ** 2 + 4 * v * zPrime * a + s ** 2 * a) * Z + 4 * v * zPrime * a) / A - s ** 2 * zPrime) / v ** 3;
-    return Math.sqrt(variance) * 1000;
-  }
-
-  // Mean Error RT
-  // Equation 13 (Grasman et al., 2009)
-  static azvt0s2mE(a, z, v, t0, s = DDMMath.s) {
-    function phi(x, y) {
-      return Math.exp(2 * v * y / s ** 2) - Math.exp(2 * v * x / s ** 2);
-    }
-    const zPrime = a * z;
-    const mean = (zPrime * (phi(zPrime - a, a) + phi(0, zPrime)) + 2 * a * phi(zPrime, 0)) / (v * phi(zPrime, a) * phi(-a, 0));
-    return t0 + mean * 1000;
-  }
-
-  // SD Error RT
-  // Equation 14 (Grasman et al., 2009)
-  static azvs2sdE(a, z, v, s = DDMMath.s) {
-    function phi(x, y) {
-      return Math.exp(2 * v * y / s ** 2) - Math.exp(2 * v * x / s ** 2);
-    }
-    const zPrime = a * z;
-    const variance = -2 * a * phi(0, zPrime) * (2 * v * a * phi(zPrime, 2 * a) + s ** 2 * phi(0, a) * phi(zPrime, a)) * Math.exp(2 * v * a / s ** 2) / (v ** 3 * phi(0, a) ** 2 * phi(zPrime, a) ** 2) + (4 * v * zPrime * (2 * a - zPrime) * Math.exp(2 * v * (zPrime + a) / s ** 2) + zPrime * s ** 2 * phi(2 * zPrime, 2 * a)) / (v ** 3 * phi(zPrime, a) ** 2);
-    return Math.sqrt(variance) * 1000;
-  }
-
-  // Mean Correct RT
-  static azvt0s2mC(a, z, v, t0, s = DDMMath.s) {
-    return DDMMath.azvt0s2mE(a, 1 - z, -v, t0, s);
-  }
-
-  // SD Correct RT
-  static azvs2sdC(a, z, v, s = DDMMath.s) {
-    return DDMMath.azvs2sdE(a, 1 - z, -v, s);
-  }
-
-  // Density of Error RT
-  static tazvs2gE(t, a, z, v, s = DDMMath.s) {
-    if (!t) return 0;
-    const zPrime = a * z;
-    const base = Math.PI * s ** 2 / a ** 2 * Math.exp(-zPrime * v / s ** 2);
-    let k = 0;
-    let term = 0;
-    let sum = 0;
-    do {
-      k += 1;
-      term = k * Math.sin(Math.PI * zPrime * k / a) * Math.exp(-0.5 * (v ** 2 / s ** 2 + Math.PI ** 2 * k ** 2 * s ** 2 / a ** 2) * t);
-      sum += term;
-    } while (k < 200); // ?? HACK
-
-    return base * sum;
-  }
-
-  // Density of Correct RT
-  static tazvs2gC(t, a, z, v, s = DDMMath.s) {
-    return DDMMath.tazvs2gE(t, a, 1 - z, -v, s);
-  }
-}
 
 /*
   DDMModel element
@@ -12684,7 +12662,7 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
     return path;
   }
   alignCorrectDistribution(a, z, v, t0) {
-    const proportionCorrect = DDMMath.azvs2pC(a, z, v);
+    const proportionCorrect = DDMMath.azv2pC(a, z, v);
     const dist = [{
       t: 0,
       d: 0
@@ -12696,14 +12674,14 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
       if (i > 0) {
         dist.push({
           t: t0 + i,
-          d: DDMMath.tazvs2gC(i / 1000, a, z, v) / proportionCorrect
+          d: DDMMath.tazv2gC(i / 1000, a, z, v) / proportionCorrect
         });
       }
     }
     return dist;
   }
   alignErrorDistribution(a, z, v, t0) {
-    const proportionError = DDMMath.azvs2pE(a, z, v);
+    const proportionError = DDMMath.azv2pE(a, z, v);
     const dist = [{
       t: 0,
       d: 0
@@ -12715,7 +12693,7 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
       if (i > 0) {
         dist.push({
           t: t0 + i,
-          d: DDMMath.tazvs2gE(i / 1000, a, z, v) / proportionError
+          d: DDMMath.tazv2gE(i / 1000, a, z, v) / proportionError
         });
       }
     }
@@ -12755,54 +12733,20 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
     }
 
     // Data Summary Stats
-    const trials = this.data.trials.filter(path => {
+    const dataStats = DDMMath.trials2stats(this.data.trials.filter(path => {
       return !path.animate;
-    }).reduce((stats, path) => {
-      stats.correct += path.outcome === 'correct' ? 1 : 0;
-      stats.error += path.outcome === 'error' ? 1 : 0;
-      return stats;
-    }, {
-      correct: 0,
-      error: 0
-    });
-    this.data.correctCount = trials.correct;
-    this.data.errorCount = trials.error;
-    this.data.accuracy = this.trials > 0 ? trials.correct / this.trials : NaN;
-    const rts = this.data.trials.filter(path => {
-      return !path.animate;
-    }).reduce((stats, path) => {
-      stats.correct += path.outcome === 'correct' ? path.rt : 0;
-      stats.error += path.outcome === 'error' ? path.rt : 0;
-      return stats;
-    }, {
-      correct: 0,
-      error: 0
-    });
-    this.data.correctMeanRT = trials.correct > 0 ? rts.correct / trials.correct : NaN;
-    this.data.errorMeanRT = trials.error > 0 ? rts.error / trials.error : NaN;
-    this.data.meanRT = this.trials > 0 ? (rts.correct + rts.error) / (trials.correct + trials.error) : NaN;
-    const sss = this.data.trials.filter(path => {
-      return !path.animate;
-    }).reduce((stats, path) => {
-      stats.correct += path.outcome === 'correct' ? (path.rt - this.data.correctMeanRT) ** 2 : 0;
-      stats.error += path.outcome === 'error' ? (path.rt - this.data.errorMeanRT) ** 2 : 0;
-      stats.overall += (path.rt - this.data.meanRT) ** 2;
-      return stats;
-    }, {
-      correct: 0,
-      error: 0,
-      overall: 0
-    });
-    this.data.correctSDRT = trials.correct > 1 ? Math.sqrt(sss.correct / (trials.correct - 1)) : NaN;
-    this.data.errorSDRT = trials.error > 1 ? Math.sqrt(sss.error / (trials.error - 1)) : NaN;
-    this.data.sdRT = this.trials > 1 ? Math.sqrt(sss.overall / (this.trials - 1)) : NaN;
+    }));
+    this.data = {
+      ...this.data,
+      ...dataStats
+    };
 
     // Model Summary Stats
-    this.model.accuracy = DDMMath.azvs2pC(this.a, this.z, this.v);
-    this.model.correctMeanRT = DDMMath.azvt0s2mC(this.a, this.z, this.v, this.t0);
-    this.model.errorMeanRT = DDMMath.azvt0s2mE(this.a, this.z, this.v, this.t0);
-    this.model.correctSDRT = DDMMath.azvs2sdC(this.a, this.z, this.v);
-    this.model.errorSDRT = DDMMath.azvs2sdE(this.a, this.z, this.v);
+    this.model.accuracy = DDMMath.azv2pC(this.a, this.z, this.v);
+    this.model.correctMeanRT = DDMMath.azvt02mC(this.a, this.z, this.v, this.t0);
+    this.model.errorMeanRT = DDMMath.azvt02mE(this.a, this.z, this.v, this.t0);
+    this.model.correctSDRT = DDMMath.azv2sdC(this.a, this.z, this.v);
+    this.model.errorSDRT = DDMMath.azv2sdE(this.a, this.z, this.v);
 
     // Model Distributions
     this.model.correctDist = this.alignCorrectDistribution(this.a, this.z, this.v, this.t0);
@@ -12890,11 +12834,11 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
         }
 
         .path.correct .curve {
-          stroke: var(---color-correct);
+          /* stroke: var(---color-correct); */
         }
 
         .path.error .curve {
-          stroke: var(---color-error);
+          /* stroke: var(---color-error); */
         }
 
         .stop-0 {
@@ -12921,13 +12865,7 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
           stroke: var(---color-error);
         }
 
-        .rt.correct .mark {
-          stroke: var(---color-correct);
-          stroke-width: 1;
-        }
-
-        .rt.error .mark {
-          stroke: var(---color-error);
+        .rt .mark {
           stroke-width: 1;
         }
 
@@ -13312,15 +13250,47 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
     const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`);
 
     // Plots
+    //  DATA-JOIN
+    const densityPlotUpdate = svgMerge.selectAll('.plot.density').data([{
+      outcome: 'correct',
+      data: {
+        meanRT: this.data.correctMeanRT,
+        sdRT: this.data.correctSDRT
+      },
+      model: {
+        meanRT: this.model.correctMeanRT,
+        sdRT: this.model.correctSDRT,
+        dist: this.model.correctDist
+      },
+      densityScale: correctDensityScale,
+      densityLine: correctDensityLine,
+      alignDistribution: this.alignCorrectDistribution.bind(this)
+    }, {
+      outcome: 'error',
+      data: {
+        meanRT: this.data.errorMeanRT,
+        sdRT: this.data.errorSDRT
+      },
+      model: {
+        meanRT: this.model.errorMeanRT,
+        sdRT: this.model.errorSDRT,
+        dist: this.model.errorDist
+      },
+      densityScale: errorDensityScale,
+      densityLine: errorDensityLine,
+      alignDistribution: this.alignErrorDistribution.bind(this)
+    }]);
     //  ENTER
     const evidencePlotEnter = svgEnter.append('g').classed('plot evidence', true);
-    const correctDensityPlotEnter = svgEnter.append('g').classed('plot density correct', true);
-    const errorDensityPlotEnter = svgEnter.append('g').classed('plot density error', true);
+    const densityPlotEnter = densityPlotUpdate.enter().append('g').attr('class', datum => {
+      return `plot density ${datum.outcome}`;
+    });
     const accuracyPlotEnter = svgEnter.append('g').classed('plot accuracy', true);
     //  MERGE
     const evidencePlotMerge = svgMerge.select('.plot.evidence').attr('transform', `translate(${margin.left}, ${margin.top + densityHeight + gapHeight})`);
-    const correctDensityPlotMerge = svgMerge.select('.plot.density.correct').attr('transform', `translate(${margin.left}, ${margin.top})`);
-    const errorDensityPlotMerge = svgMerge.select('.plot.density.error').attr('transform', `translate(${margin.left}, ${margin.top + densityHeight + evidenceHeight + 2 * gapHeight})`);
+    const densityPlotMerge = densityPlotEnter.merge(densityPlotUpdate).attr('transform', datum => {
+      return `translate(${margin.left}, ${datum.outcome === 'correct' ? margin.top : margin.top + densityHeight + evidenceHeight + 2 * gapHeight})`;
+    });
     const accuracyPlotMerge = svgMerge.select('.plot.accuracy').attr('transform', `translate(${margin.left + timeWidth + gapWidth}, ${margin.top})`);
 
     // Clippaths
@@ -13336,37 +13306,31 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
     // Underlayers
     //  ENTER
     const evidenceUnderlayerEnter = evidencePlotEnter.append('g').classed('underlayer', true);
-    const correctDensityUnderlayerEnter = correctDensityPlotEnter.append('g').classed('underlayer', true);
-    const errorDensityUnderlayerEnter = errorDensityPlotEnter.append('g').classed('underlayer', true);
+    const densityUnderlayerEnter = densityPlotEnter.append('g').classed('underlayer', true);
     const accuracyUnderlayerEnter = accuracyPlotEnter.append('g').classed('underlayer', true);
     //  MERGE
     const evidenceUnderlayerMerge = evidencePlotMerge.select('.underlayer');
-    const correctDensityUnderlayerMerge = correctDensityPlotMerge.select('.underlayer');
-    const errorDensityUnderlayerMerge = errorDensityPlotMerge.select('.underlayer');
+    const densityUnderlayerMerge = densityPlotMerge.select('.underlayer');
     const accuracyUnderlayerMerge = accuracyPlotMerge.select('.underlayer');
 
     // Contents
     //  ENTER
     evidencePlotEnter.append('g').classed('content', true).append('g').classed('paths', true);
-    correctDensityPlotEnter.append('g').classed('content', true);
-    errorDensityPlotEnter.append('g').classed('content', true);
+    const densityContentEnter = densityPlotEnter.append('g').classed('content', true);
     accuracyPlotEnter.append('g').classed('content', true);
     //  MERGE
     const evidenceContentMerge = evidencePlotMerge.select('.content');
-    const correctDensityContentMerge = correctDensityPlotMerge.select('.content');
-    const errorDensityContentMerge = errorDensityPlotMerge.select('.content');
+    const densityContentMerge = densityPlotMerge.select('.content');
     const accuracyContentMerge = accuracyPlotMerge.select('.content');
 
     // Overlayers
     //  ENTER
     evidencePlotEnter.append('g').classed('overlayer', true);
-    correctDensityPlotEnter.append('g').classed('overlayer', true);
-    errorDensityPlotEnter.append('g').classed('overlayer', true);
+    densityPlotEnter.append('g').classed('overlayer', true);
     accuracyPlotEnter.append('g').classed('overlayer', true);
     //  MERGE
     const evidenceOverlayerMerge = evidencePlotMerge.select('.overlayer');
-    const correctDensityOverlayerMerge = correctDensityPlotMerge.select('.overlayer');
-    const errorDensityOverlayerMerge = errorDensityPlotMerge.select('.overlayer');
+    const densityOverlayerMerge = densityPlotMerge.select('.overlayer');
     // const accuracyOverlayerMerge = accuracyPlotMerge.select('.overlayer');
 
     //
@@ -13376,62 +13340,67 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
     // Backgrounds
     //  ENTER
     evidenceUnderlayerEnter.append('rect').classed('background', true);
-    correctDensityUnderlayerEnter.append('rect').classed('background', true);
-    errorDensityUnderlayerEnter.append('rect').classed('background', true);
+    densityUnderlayerEnter.append('rect').classed('background', true);
     //  MERGE
     evidenceUnderlayerMerge.select('.background').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('y', evidenceScale(this.bounds.upper)).attr('height', evidenceScale(this.bounds.lower) - evidenceScale(this.bounds.upper)).attr('width', timeWidth);
-    correctDensityUnderlayerMerge.select('.background').transition().duration(transitionDuration).ease(cubicOut).attr('height', densityHeight).attr('width', timeWidth);
-    errorDensityUnderlayerMerge.select('.background').transition().duration(transitionDuration).ease(cubicOut).attr('height', densityHeight).attr('width', timeWidth);
+    densityUnderlayerMerge.select('.background').transition().duration(transitionDuration).ease(cubicOut).attr('height', densityHeight).attr('width', timeWidth);
 
     // X Axes (Time)
     //  ENTER
-    errorDensityUnderlayerEnter.append('g').classed('axis time', true);
+    densityUnderlayerEnter.filter(datum => {
+      return datum.outcome === 'error';
+    }).append('g').classed('axis time', true);
     //  MERGE
-    const timeScaleMerge = errorDensityUnderlayerMerge.select('.axis.time').attr('transform', `translate(0, ${densityHeight + 0.25 * this.rem})`);
+    const timeScaleMerge = densityUnderlayerMerge.filter(datum => {
+      return datum.outcome === 'error';
+    }).select('.axis.time').attr('transform', `translate(0, ${densityHeight + 0.25 * this.rem})`);
     const timeScaleTransition = timeScaleMerge.transition().duration(transitionDuration).ease(cubicOut).call(axisBottom(timeScale)).attr('font-size', null).attr('font-family', null);
     timeScaleTransition.selectAll('line, path').attr('stroke', null);
 
     // X Axes Titles
     //  ENTER
-    const timeTitleEnter = errorDensityUnderlayerEnter.append('text').classed('title time', true).attr('text-anchor', 'middle');
+    const timeTitleEnter = densityUnderlayerEnter.filter(datum => {
+      return datum.outcome === 'error';
+    }).append('text').classed('title time', true).attr('text-anchor', 'middle');
     timeTitleEnter.append('tspan').classed('name', true).text('Time (ms)');
     //  MERGE
-    errorDensityUnderlayerMerge.select('.title.time').transition().duration(transitionDuration).ease(cubicOut).attr('transform', `translate(${timeWidth / 2}, ${densityHeight + 2.5 * this.rem})`);
+    densityUnderlayerMerge.filter(datum => {
+      return datum.outcome === 'error';
+    }).select('.title.time').transition().duration(transitionDuration).ease(cubicOut).attr('transform', `translate(${timeWidth / 2}, ${densityHeight + 2.5 * this.rem})`);
 
     // Y Axes (Evidence, Density, Accuracy)
     //  ENTER
     evidenceUnderlayerEnter.append('g').classed('axis evidence', true);
-    correctDensityUnderlayerEnter.append('g').classed('axis density correct', true);
-    errorDensityUnderlayerEnter.append('g').classed('axis density error', true);
+    densityUnderlayerEnter.append('g').attr('class', datum => {
+      return `axis density ${datum.outcome}`;
+    });
     accuracyUnderlayerEnter.append('g').classed('axis accuracy', true);
     // MERGE
     const evidenceScaleMerge = evidenceUnderlayerMerge.select('.axis.evidence').attr('transform', `translate(${-0.25 * this.rem}, 0)`);
-    const correctDensityScaleMerge = correctDensityUnderlayerMerge.select('.axis.density.correct').attr('transform', `translate(${-0.25 * this.rem}, 0)`);
-    const errorDensityScaleMerge = errorDensityUnderlayerMerge.select('.axis.density.error').attr('transform', `translate(${-0.25 * this.rem}, 0)`);
+    const densityScaleMerge = densityUnderlayerMerge.select('.axis.density').attr('transform', `translate(${-0.25 * this.rem}, 0)`);
     const accuracyScaleMerge = accuracyUnderlayerMerge.select('.axis.accuracy').attr('transform', `translate(${accuracyWidth + 0.25 * this.rem}, 0)`);
     const evidenceScaleTransition = evidenceScaleMerge.transition().duration(transitionDuration).ease(cubicOut).call(axisLeft(evidenceScale)).attr('font-size', null).attr('font-family', null);
-    const correctDensityScaleTransition = correctDensityScaleMerge.transition().duration(transitionDuration).ease(cubicOut).call(axisLeft(correctDensityScale).ticks(2)).attr('font-size', null).attr('font-family', null);
-    const errorDensityScaleTransition = errorDensityScaleMerge.transition().duration(transitionDuration).ease(cubicOut).call(axisLeft(errorDensityScale).ticks(2)).attr('font-size', null).attr('font-family', null);
+    const densityScaleTransition = densityScaleMerge.transition().duration(transitionDuration).ease(cubicOut).each((datum, index, elements) => {
+      axisLeft(datum.densityScale).ticks(2)(select(elements[index]));
+    }).attr('font-size', null).attr('font-family', null);
     const accuracyScaleTransition = accuracyScaleMerge.transition().duration(transitionDuration).ease(cubicOut).call(axisRight(accuracyScale)).attr('font-size', null).attr('font-family', null);
     evidenceScaleTransition.selectAll('line, path').attr('stroke', null);
-    correctDensityScaleTransition.selectAll('line, path').attr('stroke', null);
-    errorDensityScaleTransition.selectAll('line, path').attr('stroke', null);
+    densityScaleTransition.selectAll('line, path').attr('stroke', null);
     accuracyScaleTransition.selectAll('line, path').attr('stroke', null);
 
     // Y Axes Titles (Evidence & Density)
     //  ENTER
     const evidenceTitleEnter = evidenceUnderlayerEnter.append('text').classed('title evidence', true).attr('text-anchor', 'middle');
-    const correctDensityTitleEnter = correctDensityUnderlayerEnter.append('text').classed('title density correct', true).attr('text-anchor', 'middle');
-    const errorDensityTitleEnter = errorDensityUnderlayerEnter.append('text').classed('title density error', true).attr('text-anchor', 'middle');
+    const densityTitleEnter = densityUnderlayerEnter.append('text').attr('class', datum => {
+      return `title density ${datum.outcome}`;
+    }).attr('text-anchor', 'middle');
     const accuracyTitleEnter = accuracyUnderlayerEnter.append('text').classed('title accuracy', true).attr('text-anchor', 'middle');
     evidenceTitleEnter.append('tspan').classed('name', true).text('Evidence');
-    correctDensityTitleEnter.append('tspan').classed('name', true).text('Density');
-    errorDensityTitleEnter.append('tspan').classed('name', true).text('Density');
+    densityTitleEnter.append('tspan').classed('name', true).text('Density');
     accuracyTitleEnter.append('tspan').classed('name', true).text('Accuracy');
     //  MERGE
     evidenceUnderlayerMerge.select('.title.evidence').transition().duration(transitionDuration).ease(cubicOut).attr('transform', `translate(${-2.5 * this.rem}, ${evidenceHeight / 2})rotate(-90)`);
-    correctDensityUnderlayerMerge.select('.title.density.correct').transition().duration(transitionDuration).ease(cubicOut).attr('transform', `translate(${-2.5 * this.rem}, ${densityHeight / 2})rotate(-90)`);
-    errorDensityUnderlayerMerge.select('.title.density.error').transition().duration(transitionDuration).ease(cubicOut).attr('transform', `translate(${-2.5 * this.rem}, ${densityHeight / 2})rotate(-90)`);
+    densityUnderlayerMerge.select('.title.density').transition().duration(transitionDuration).ease(cubicOut).attr('transform', `translate(${-2.5 * this.rem}, ${densityHeight / 2})rotate(-90)`);
     accuracyUnderlayerMerge.select('.title.accuracy').transition().duration(transitionDuration).ease(cubicOut).attr('transform', `translate(${accuracyWidth + 2.25 * this.rem}, ${height / 2})rotate(90)`);
 
     //
@@ -13467,7 +13436,9 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
     const pathMerge = pathEnter.merge(pathUpdate).attr('class', datum => {
       return `path ${datum.outcome}`;
     });
-    pathMerge.select('.curve').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+    pathMerge.select('.curve').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('stroke', datum => {
+      return this.getComputedStyleValue(`---color-${datum.outcome}`);
+    }).attrTween('d', (datum, index, elements) => {
       const element = elements[index];
       const interpolateA = interpolate$1(element.a !== undefined ? element.a : this.a, this.a);
       const interpolateZ = interpolate$1(element.z !== undefined ? element.z : this.z, this.z);
@@ -13482,7 +13453,6 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
         return evidenceLine(path);
       };
     });
-
     //  MERGE - Active Animate Paths
     const pathMergeNewActive = pathMerge.filter(datum => {
       return datum.animate && !this.paused;
@@ -13543,16 +13513,13 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
     pathUpdate.exit().remove();
 
     // Distributions
-    // DATA-JOIN
-    const correctDistUpdate = correctDensityContentMerge.selectAll('.dist.correct').data([this.model.correctDist]);
-    const errorDistUpdate = errorDensityContentMerge.selectAll('.dist.error').data([this.model.errorDist]);
     //  ENTER
-    const correctDistEnter = correctDistUpdate.enter().append('g').classed('dist correct', true);
-    const errorDistEnter = errorDistUpdate.enter().append('g').classed('dist error', true);
-    correctDistEnter.append('path').classed('curve', true);
-    errorDistEnter.append('path').classed('curve', true);
+    const distEnter = densityContentEnter.append('g').attr('class', datum => {
+      return `dist ${datum.outcome}`;
+    });
+    distEnter.append('path').classed('curve', true);
     //  MERGE
-    correctDistEnter.merge(correctDistUpdate).select('.curve').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+    densityContentMerge.select('.dist').select('.curve').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
       const element = elements[index];
       const interpolateA = interpolate$1(element.a !== undefined ? element.a : this.a, this.a);
       const interpolateZ = interpolate$1(element.z !== undefined ? element.z : this.z, this.z);
@@ -13563,64 +13530,44 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
         element.z = interpolateZ(time);
         element.v = interpolateV(time);
         element.t0 = interpolateT0(time);
-        const path = this.alignCorrectDistribution(element.a, element.z, element.v, element.t0);
-        return correctDensityLine(path);
+        const path = datum.alignDistribution(element.a, element.z, element.v, element.t0);
+        return datum.densityLine(path);
       };
     });
-    errorDistEnter.merge(errorDistUpdate).select('.curve').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
-      const element = elements[index];
-      const interpolateA = interpolate$1(element.a !== undefined ? element.a : this.a, this.a);
-      const interpolateZ = interpolate$1(element.z !== undefined ? element.z : this.z, this.z);
-      const interpolateV = interpolate$1(element.v !== undefined ? element.v : this.v, this.v);
-      const interpolateT0 = interpolate$1(element.t0 !== undefined ? element.t0 : this.t0, this.t0);
-      return time => {
-        element.a = interpolateA(time);
-        element.z = interpolateZ(time);
-        element.v = interpolateV(time);
-        element.t0 = interpolateT0(time);
-        const path = this.alignErrorDistribution(element.a, element.z, element.v, element.t0);
-        return errorDensityLine(path);
-      };
-    });
-    //  EXIT
-    correctDistUpdate.exit().remove();
-    errorDistUpdate.exit().remove();
 
     // RTs
     //  DATA-JOIN
-    const correctRTUpdate = correctDensityContentMerge.selectAll('.rt.correct').data(this.data.trials.filter(trial => {
-      return trial.outcome === 'correct' && trial.rt < this.scale.time.max;
-    }));
-    const errorRTUpdate = errorDensityContentMerge.selectAll('.rt.error').data(this.data.trials.filter(trial => {
-      return trial.outcome === 'error' && trial.rt < this.scale.time.max;
-    }));
+    const rtUpdate = evidenceContentMerge.selectAll('.rt').data(this.data.trials);
     //  ENTER
-    const correctRTEnter = correctRTUpdate.enter().append('g').classed('rt correct', true);
-    const errorRTEnter = errorRTUpdate.enter().append('g').classed('rt error', true);
-    correctRTEnter.append('line').classed('mark', true);
-    errorRTEnter.append('line').classed('mark', true);
+    const rtEnter = rtUpdate.enter().append('g');
+    rtEnter.append('line').classed('mark', true).attr('x1', datum => {
+      return timeScale(datum.rt);
+    }).attr('x2', datum => {
+      return timeScale(datum.rt);
+    }).attr('y1', datum => {
+      return datum.outcome === 'correct' ? evidenceScale(1) - 0.125 * this.rem : evidenceScale(-1) + 0.125 * this.rem;
+    }).attr('y2', datum => {
+      return datum.outcome === 'correct' ? evidenceScale(1) - 0.675 * this.rem : evidenceScale(-1) + 0.675 * this.rem;
+    });
     //  MERGE
-    correctRTEnter.merge(correctRTUpdate).filter(datum => {
+    const rtMerge = rtEnter.merge(rtUpdate).attr('class', datum => {
+      return `rt ${datum.outcome}`;
+    });
+    rtMerge.filter(datum => {
       return !datum.animate;
-    }).select('.mark').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut)
-    // ## Tween based on params, across correct and error?
-    .attr('x1', datum => {
+    }).select('.mark').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('stroke', datum => {
+      return this.getComputedStyleValue(`---color-${datum.outcome}`);
+    }).attr('x1', datum => {
       return timeScale(datum.rt);
     }).attr('x2', datum => {
       return timeScale(datum.rt);
-    }).attr('y1', correctDensityScale(0) + 0.125 * this.rem).attr('y2', correctDensityScale(0) + 0.675 * this.rem);
-    errorRTEnter.merge(errorRTUpdate).filter(datum => {
-      return !datum.animate;
-    }).select('.mark').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut)
-    // ## Tween based on params, across correct and error?
-    .attr('x1', datum => {
-      return timeScale(datum.rt);
-    }).attr('x2', datum => {
-      return timeScale(datum.rt);
-    }).attr('y1', errorDensityScale(0) - 0.125 * this.rem).attr('y2', errorDensityScale(0) - 0.675 * this.rem);
+    }).attr('y1', datum => {
+      return datum.outcome === 'correct' ? evidenceScale(1) - 0.125 * this.rem : evidenceScale(-1) + 0.125 * this.rem;
+    }).attr('y2', datum => {
+      return datum.outcome === 'correct' ? evidenceScale(1) - 0.675 * this.rem : evidenceScale(-1) + 0.675 * this.rem;
+    });
     //  EXIT
-    correctRTUpdate.exit().remove();
-    errorRTUpdate.exit().remove();
+    rtUpdate.exit().remove();
 
     // Model Accuracy
     //  DATA-JOIN
@@ -13936,119 +13883,111 @@ class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
 
     // Means
     // DATA-JOIN
-    const correctMeanUpdate = correctDensityOverlayerMerge.selectAll('.model.mean.correct').data(this.means ? [this.model.correctMeanRT] : []);
-    const errorMeanUpdate = errorDensityOverlayerMerge.selectAll('.model.mean.error').data(this.means ? [this.model.errorMeanRT] : []);
+    const meanUpdate = densityOverlayerMerge.selectAll('.model.mean').data(datum => {
+      return this.means ? [datum] : [];
+    });
     //  ENTER
-    const correctMeanEnter = correctMeanUpdate.enter().append('g').classed('model mean correct', true);
-    const errorMeanEnter = errorMeanUpdate.enter().append('g').classed('model mean error', true);
-    correctMeanEnter.append('line').classed('indicator', true);
-    errorMeanEnter.append('line').classed('indicator', true);
+    const meanEnter = meanUpdate.enter().append('g').attr('class', datum => {
+      return `model mean ${datum.outcome}`;
+    });
+    meanEnter.append('line').classed('indicator', true);
     //  MERGE
-    const correctMeanMerge = correctMeanEnter.merge(correctMeanUpdate);
-    correctMeanMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
-      return timeScale(datum);
+    const meanMerge = meanEnter.merge(meanUpdate);
+    meanMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
+      return timeScale(datum.model.meanRT);
     }).attr('x2', datum => {
-      return timeScale(datum);
-    }).attr('y1', correctDensityScale(this.scale.density.min)).attr('y2', correctDensityScale(this.scale.density.max));
-    const errorMeanMerge = errorMeanEnter.merge(errorMeanUpdate);
-    errorMeanMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
-      return timeScale(datum);
-    }).attr('x2', datum => {
-      return timeScale(datum);
-    }).attr('y1', errorDensityScale(this.scale.density.min)).attr('y2', errorDensityScale(this.scale.density.max));
+      return timeScale(datum.model.meanRT);
+    }).attr('y1', datum => {
+      return datum.densityScale(this.scale.density.min);
+    }).attr('y2', datum => {
+      return datum.densityScale(this.scale.density.max);
+    });
     //  EXIT
-    correctMeanUpdate.exit().remove();
-    errorMeanUpdate.exit().remove();
+    meanUpdate.exit().remove();
 
     // Data Means
     // DATA-JOIN
-    const correctDataMeanUpdate = correctDensityOverlayerMerge.selectAll('.data.mean.correct').data(this.means && !Number.isNaN(this.data.correctMeanRT) ? [this.data.correctMeanRT] : []);
-    const errorDataMeanUpdate = errorDensityOverlayerMerge.selectAll('.data.mean.error').data(this.means && !Number.isNaN(this.data.errorMeanRT) ? [this.data.errorMeanRT] : []);
+    const dataMeanUpdate = densityOverlayerMerge.selectAll('.data.mean').data(datum => {
+      return this.means && !Number.isNaN(datum.data.meanRT) ? [datum] : [];
+    });
     //  ENTER
-    const correctDataMeanEnter = correctDataMeanUpdate.enter().append('g').classed('data mean correct', true);
-    const errorDataMeanEnter = errorDataMeanUpdate.enter().append('g').classed('data mean error', true);
-    correctDataMeanEnter.append('line').classed('indicator', true);
-    errorDataMeanEnter.append('line').classed('indicator', true);
+    const dataMeanEnter = dataMeanUpdate.enter().append('g').attr('class', datum => {
+      return `data mean ${datum.outcome}`;
+    });
+    dataMeanEnter.append('line').classed('indicator', true).attr('y1', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.125 : -0.125) * this.rem;
+    }).attr('y2', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.675 : -0.675) * this.rem;
+    });
     //  MERGE
-    const correctDataMeanMerge = correctDataMeanEnter.merge(correctDataMeanUpdate);
-    correctDataMeanMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
-      return timeScale(datum);
+    const dataMeanMerge = dataMeanEnter.merge(dataMeanUpdate);
+    dataMeanMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
+      return timeScale(datum.data.meanRT);
     }).attr('x2', datum => {
-      return timeScale(datum);
-    }).attr('y1', correctDensityScale(0) + 0.125 * this.rem).attr('y2', correctDensityScale(0) + 0.675 * this.rem);
-    const errorDataMeanMerge = errorDataMeanEnter.merge(errorDataMeanUpdate);
-    errorDataMeanMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
-      return timeScale(datum);
-    }).attr('x2', datum => {
-      return timeScale(datum);
-    }).attr('y1', errorDensityScale(0) - 0.125 * this.rem).attr('y2', errorDensityScale(0) - 0.675 * this.rem);
+      return timeScale(datum.data.meanRT);
+    }).attr('y1', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.125 : -0.125) * this.rem;
+    }).attr('y2', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.675 : -0.675) * this.rem;
+    });
     //  EXIT
-    correctDataMeanUpdate.exit().remove();
-    errorDataMeanUpdate.exit().remove();
+    dataMeanUpdate.exit().select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', 0).attr('x2', 0).on('end', (datum, index, elements) => {
+      select(elements[index].parentElement).remove();
+    });
 
     // Standard Deviations
     // DATA-JOIN
-    const correctSDUpdate = correctDensityOverlayerMerge.selectAll('.model.sd.correct').data(this.sds ? [{
-      mean: this.model.correctMeanRT,
-      sd: this.model.correctSDRT
-    }] : []);
-    const errorSDUpdate = errorDensityOverlayerMerge.selectAll('.model.sd.error').data(this.sds ? [{
-      mean: this.model.errorMeanRT,
-      sd: this.model.errorSDRT
-    }] : []);
+    const sdUpdate = densityOverlayerMerge.selectAll('.model.sd').data(datum => {
+      return this.sds ? [datum] : [];
+    });
     //  ENTER
-    const correctSDEnter = correctSDUpdate.enter().append('g').classed('model sd correct', true);
-    const errorSDEnter = errorSDUpdate.enter().append('g').classed('model sd error', true);
-    correctSDEnter.append('line').classed('indicator', true).attr('marker-start', 'url(#model-sd-cap)').attr('marker-end', 'url(#model-sd-cap)');
-    errorSDEnter.append('line').classed('indicator', true).attr('marker-start', 'url(#model-sd-cap)').attr('marker-end', 'url(#model-sd-cap)');
+    const sdEnter = sdUpdate.enter().append('g').attr('class', datum => {
+      return `model sd ${datum.outcome}`;
+    });
+    sdEnter.append('line').classed('indicator', true).attr('marker-start', 'url(#model-sd-cap)').attr('marker-end', 'url(#model-sd-cap)');
     //  MERGE
-    const correctSDMerge = correctSDEnter.merge(correctSDUpdate);
-    correctSDMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
-      return timeScale(datum.mean - datum.sd / 2);
+    const sdMerge = sdEnter.merge(sdUpdate);
+    sdMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
+      return timeScale(datum.model.meanRT - datum.model.sdRT / 2);
     }).attr('x2', datum => {
-      return timeScale(datum.mean + datum.sd / 2);
-    }).attr('y1', correctDensityScale(5)).attr('y2', correctDensityScale(5));
-    const errorSDMerge = errorSDEnter.merge(errorSDUpdate);
-    errorSDMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
-      return timeScale(datum.mean - datum.sd / 2);
-    }).attr('x2', datum => {
-      return timeScale(datum.mean + datum.sd / 2);
-    }).attr('y1', errorDensityScale(5)).attr('y2', errorDensityScale(5));
+      return timeScale(datum.model.meanRT + datum.model.sdRT / 2);
+    }).attr('y1', datum => {
+      return datum.densityScale(5);
+    }).attr('y2', datum => {
+      return datum.densityScale(5);
+    });
     //  EXIT
-    correctSDUpdate.exit().remove();
-    errorSDUpdate.exit().remove();
+    sdUpdate.exit().remove();
 
     // Data Standard Deviation
     // DATA-JOIN
-    const correctDataSDUpdate = correctDensityOverlayerMerge.selectAll('.data.sd.correct').data(this.sds && !Number.isNaN(this.data.correctMeanRT) && !Number.isNaN(this.data.correctSDRT) ? [{
-      mean: this.data.correctMeanRT,
-      sd: this.data.correctSDRT
-    }] : []);
-    const errorDataSDUpdate = errorDensityOverlayerMerge.selectAll('.data.sd.error').data(this.sds && !Number.isNaN(this.data.erroMeanRT) && !Number.isNaN(this.data.errorSDRT) ? [{
-      mean: this.data.errorMeanRT,
-      sd: this.data.errorSDRT
-    }] : []);
+    const dataSDUpdate = densityOverlayerMerge.selectAll('.data.sd').data(datum => {
+      return this.sds && !Number.isNaN(datum.data.meanRT) && !Number.isNaN(datum.data.sdRT) ? [datum] : [];
+    });
     //  ENTER
-    const correctDataSDEnter = correctDataSDUpdate.enter().append('g').classed('data sd correct', true);
-    const errorDataSDEnter = errorDataSDUpdate.enter().append('g').classed('data sd error', true);
-    correctDataSDEnter.append('line').classed('indicator', true).attr('marker-start', 'url(#data-sd-cap)').attr('marker-end', 'url(#data-sd-cap)');
-    errorDataSDEnter.append('line').classed('indicator', true).attr('marker-start', 'url(#data-sd-cap)').attr('marker-end', 'url(#data-sd-cap)');
+    const dataSDEnter = dataSDUpdate.enter().append('g').attr('class', datum => {
+      return `data sd ${datum.outcome}`;
+    });
+    dataSDEnter.append('line').classed('indicator', true).attr('marker-start', 'url(#data-sd-cap)').attr('marker-end', 'url(#data-sd-cap)').attr('y1', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.375 : -0.375) * this.rem;
+    }).attr('y2', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.375 : -0.375) * this.rem;
+    });
     //  MERGE
-    const correctDataSDMerge = correctDataSDEnter.merge(correctDataSDUpdate);
-    correctDataSDMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
-      return timeScale(datum.mean - datum.sd / 2);
+    const dataSDMerge = dataSDEnter.merge(dataSDUpdate);
+    dataSDMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
+      return timeScale(datum.data.meanRT - datum.data.sdRT / 2);
     }).attr('x2', datum => {
-      return timeScale(datum.mean + datum.sd / 2);
-    }).attr('y1', correctDensityScale(0) + 0.375 * this.rem).attr('y2', correctDensityScale(0) + 0.375 * this.rem);
-    const errorDataSDMerge = errorDataSDEnter.merge(errorDataSDUpdate);
-    errorDataSDMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
-      return timeScale(datum.mean - datum.sd / 2);
-    }).attr('x2', datum => {
-      return timeScale(datum.mean + datum.sd / 2);
-    }).attr('y1', errorDensityScale(0) - 0.375 * this.rem).attr('y2', errorDensityScale(0) - 0.375 * this.rem);
+      return timeScale(datum.data.meanRT + datum.data.sdRT / 2);
+    }).attr('y1', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.375 : -0.375) * this.rem;
+    }).attr('y2', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.375 : -0.375) * this.rem;
+    });
     //  EXIT
-    correctDataSDUpdate.exit().remove();
-    errorDataSDUpdate.exit().remove();
+    dataSDUpdate.exit().select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', 0).attr('x2', 0).on('end', (datum, index, elements) => {
+      select(elements[index].parentElement).remove();
+    });
     this.firstUpdate = false;
   }
 }
@@ -14521,6 +14460,483 @@ class RDK2AFCTask extends DecidablesMixinResizeable(AccumulableElement) {
 customElements.define('rdk-2afc-task', RDK2AFCTask);
 
 /*
+  DDMEquation Base Class - Not intended for instantiation!
+*/
+class DDMEquation extends AccumulableElement {
+  static get properties() {
+    return {
+      numeric: {
+        attribute: 'numeric',
+        type: Boolean,
+        reflect: true
+      }
+    };
+  }
+  constructor() {
+    super();
+    this.numeric = false;
+  }
+  static get styles() {
+    return [super.styles, i$2`
+        :host {
+          display: block;
+
+          margin: 1rem;
+        }
+
+        /* Containing <div> */
+        .holder {
+          display: flex;
+
+          flex-direction: row;
+
+          justify-content: left;
+        }
+
+        /* Overall <table> */
+        .equation {
+          text-align: center;
+          white-space: nowrap;
+
+          border-collapse: collapse;
+
+          border: 0;
+        }
+
+        /* Modifies <td> */
+        .underline {
+          border-bottom: 1px solid var(---color-text);
+        }
+
+        /* Basic <span> and <var> w/modifiers */
+        span,
+        var {
+          padding: 0 0.25rem;
+
+          font-style: normal;
+        }
+
+        var {
+          border-radius: var(---border-radius);
+        }
+
+        .tight {
+          padding: 0;
+        }
+
+        .paren {
+          font-size: 150%;
+        }
+
+        .bracket {
+          font-size: 175%;
+        }
+
+        .brace {
+          font-size: 200%;
+        }
+
+        .addend {
+          position: relative;
+          display: inline-block;
+        }
+
+        .comparison {
+          position: relative;
+          display: inline-block;
+
+          font-size: 125%;
+          font-weight: 600;
+        }
+
+        .function {
+          display: inline-block;
+
+          border-radius: var(---border-radius);
+        }
+
+        :host([numeric]) .function {
+          padding: 0.25rem;
+        }
+
+        .exp {
+          display: inline-block;
+
+          font-size: 0.75rem;
+        }
+
+        .subscript {
+          display: inline-block;
+
+          font-size: 66.667%;
+        }
+
+        .summation {
+          display: flex;
+
+          flex-direction: column;
+
+          line-height: 0.8;
+        }
+
+        .sigma {
+          display: inline-block;
+
+          font-size: 200%;
+        }
+
+        /* Input wrapping <label> */
+        decidables-spinner {
+          --decidables-spinner-input-width: 4rem;
+
+          display: inline-block;
+
+          padding: 0.125rem 0.375rem 0.375rem;
+
+          line-height: 1.5;
+          vertical-align: middle;
+
+          border-radius: var(---border-radius);
+        }
+
+        .n {
+          --decidables-spinner-input-width: 2rem;
+        }
+
+        .left {
+          text-align: left;
+        }
+
+        .right {
+          text-align: right;
+        }
+
+        .bottom {
+          vertical-align: bottom;
+        }
+
+        .top {
+          vertical-align: top;
+        }
+
+        /* Color scheme */
+        .a {
+          background: var(---color-a-light);
+        }
+
+        .z {
+          background: var(---color-z-light);
+        }
+
+        .v {
+          background: var(---color-v-light);
+        }
+
+        .t0 {
+          background: var(---color-t0-light);
+        }
+
+        .s {
+          background: var(---color-s-light);
+        }
+      `];
+  }
+}
+
+/*
+  DDMEquationAZV2PC element
+  <ddm-equation-azv2pc>
+
+  Attributes:
+*/
+class DDMEquationAZV2PC extends DDMEquation {
+  static get properties() {
+    return {
+      a: {
+        attribute: 'boundary-separation',
+        type: Number,
+        reflect: true
+      },
+      z: {
+        attribute: 'starting-point',
+        type: Number,
+        reflect: true
+      },
+      v: {
+        attribute: 'drift-rate',
+        type: Number,
+        reflect: true
+      },
+      accuracy: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
+  }
+  constructor() {
+    super();
+    this.a = 1.5;
+    this.z = 0.5;
+    this.v = 0.1;
+    this.alignState();
+  }
+  alignState() {
+    this.accuracy = DDMMath.azv2pC(this.a, this.z, this.v);
+  }
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('ddm-equation-azv2pc-change', {
+      detail: {
+        a: this.a,
+        z: this.z,
+        v: this.v,
+        accuracy: this.accuracy
+      },
+      bubbles: true
+    }));
+  }
+  aInput(event) {
+    this.a = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+  zInput(event) {
+    this.z = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+  vInput(event) {
+    this.v = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+  willUpdate() {
+    this.alignState();
+  }
+  render() {
+    let a;
+    let z;
+    let v;
+    let s;
+    let accuracy;
+    if (this.numeric) {
+      a = x$1`<decidables-spinner class="a bottom" ?disabled=${!this.interactive} min="0.1" max="2" step="0.01" .value="${this.a}" @input=${this.aInput.bind(this)}>
+          <var class="math-var">a</var>
+        </decidables-spinner>`;
+      z = x$1`<decidables-spinner class="z bottom" ?disabled=${!this.interactive} min="0.01" max="0.99" step="0.01" .value="${this.z}" @input=${this.zInput.bind(this)}>
+          <var class="math-var">z</var>
+        </decidables-spinner>`;
+      v = x$1`<decidables-spinner class="v bottom" ?disabled=${!this.interactive} min="0.01" max="5" step="0.01" .value="${this.v}" @input=${this.vInput.bind(this)}>
+          <var class="math-var">v</var>
+        </decidables-spinner>`;
+      s = x$1`<decidables-spinner class="s bottom" disabled min="0.01" max="1" step="0.01" .value="${DDMMath.s}">
+          <var class="math-var">s</var>
+        </decidables-spinner>`;
+      accuracy = x$1`<decidables-spinner class="accuracy bottom" disabled min="0" max="1" step="0.01" .value="${+this.accuracy.toFixed(2)}">
+          <var>Accuracy</var>
+        </decidables-spinner>`;
+    } else {
+      a = x$1`<var class="math-var a">a</var>`;
+      z = x$1`<var class="math-var z">z</var>`;
+      v = x$1`<var class="math-var v">v</var>`;
+      s = x$1`<var class="math-var s">s</var>`;
+      accuracy = x$1`<var class="accuracy">Accuracy</var>`;
+    }
+    const equation = x$1`
+      <tr>
+        <td rowspan="2">
+          ${accuracy}<span class="equals">=</span>
+        </td>
+        <td class="underline">
+          <var class="math-greek e tight">e</var><sup class="exp"><span class="minus tight">−</span><span class="paren tight">(</span>2${v}${a} / ${s}<sup class="exp">2</sup><span class="paren tight">)</span></sup>
+          <span class="minus">−</span>
+          <var class="math-greek e tight">e</var><sup class="exp"><span class="minus tight">−</span><span class="paren tight">(</span>2${v}${z} / ${s}<sup class="exp">2</sup><span class="paren tight">)</span></sup>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <var class="math-greek e tight">e</var><sup class="exp"><span class="minus tight">−</span><span class="paren tight">(</span>2${v}${a} / ${s}<sup class="exp">2</sup><span class="paren tight">)</span></sup>
+            <span class="minus">−</span>
+          1
+        </td>
+      </tr>`;
+    return x$1`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            ${equation}
+          </tbody>
+        </table>
+      </div>`;
+  }
+}
+customElements.define('ddm-equation-azv2pc', DDMEquationAZV2PC);
+
+/*
+  DDMEquationAZVT02M element
+  <ddm-equation-azvt02m>
+
+  Attributes:
+*/
+class DDMEquationAZVT02M extends DDMEquation {
+  static get properties() {
+    return {
+      a: {
+        attribute: 'boundary-separation',
+        type: Number,
+        reflect: true
+      },
+      z: {
+        attribute: 'starting-point',
+        type: Number,
+        reflect: true
+      },
+      v: {
+        attribute: 'drift-rate',
+        type: Number,
+        reflect: true
+      },
+      t0: {
+        attribute: 'nondecision-time',
+        type: Number,
+        reflect: true
+      },
+      meanRT: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
+  }
+  constructor() {
+    super();
+    this.a = 1.5;
+    this.z = 0.5;
+    this.v = 0.1;
+    this.t0 = 200;
+    this.alignState();
+  }
+  alignState() {
+    this.meanRT = DDMMath.azvt02m(this.a, this.z, this.v, this.t0);
+  }
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('ddm-equation-azvt02m-change', {
+      detail: {
+        a: this.a,
+        z: this.z,
+        v: this.v,
+        t0: this.t0,
+        meanRT: this.meanRT
+      },
+      bubbles: true
+    }));
+  }
+  aInput(event) {
+    this.a = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+  zInput(event) {
+    this.z = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+  vInput(event) {
+    this.v = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+  t0Input(event) {
+    this.t0 = parseFloat(event.target.value);
+    this.alignState();
+    this.sendEvent();
+  }
+  willUpdate() {
+    this.alignState();
+  }
+  render() {
+    let a;
+    let z;
+    let v;
+    let t0;
+    let s;
+    let meanRT;
+    if (this.numeric) {
+      a = x$1`<decidables-spinner class="a bottom" ?disabled=${!this.interactive} min="0.1" max="2" step="0.01" .value="${this.a}" @input=${this.aInput.bind(this)}>
+          <var class="math-var">a</var>
+        </decidables-spinner>`;
+      z = x$1`<decidables-spinner class="z bottom" ?disabled=${!this.interactive} min="0.01" max="0.99" step="0.01" .value="${this.z}" @input=${this.zInput.bind(this)}>
+          <var class="math-var">z</var>
+        </decidables-spinner>`;
+      v = x$1`<decidables-spinner class="v bottom" ?disabled=${!this.interactive} min="0.01" max="5" step="0.01" .value="${this.v}" @input=${this.vInput.bind(this)}>
+          <var class="math-var">v</var>
+        </decidables-spinner>`;
+      t0 = x$1`<decidables-spinner class="t0 bottom" ?disabled=${!this.interactive} min="0" max="500" step="1" .value="${this.t0}" @input=${this.t0Input.bind(this)}>
+          <var class="math-var">t<sub>0</sub></var>
+        </decidables-spinner>`;
+      s = x$1`<decidables-spinner class="s bottom" disabled min="0.01" max="1" step="0.01" .value="${DDMMath.s}">
+          <var class="math-var">s</var>
+        </decidables-spinner>`;
+      meanRT = x$1`<decidables-spinner class="mean-rt bottom" disabled min="0" max="1" step="0.01" .value="${+this.meanRT.toFixed(0)}">
+          <var>Mean RT</var>
+        </decidables-spinner>`;
+    } else {
+      a = x$1`<var class="math-var a">a</var>`;
+      z = x$1`<var class="math-var z">z</var>`;
+      v = x$1`<var class="math-var v">v</var>`;
+      t0 = x$1`<var class="math-var t0">t<sub>0</sub></var>`;
+      s = x$1`<var class="math-var s">s</var>`;
+      meanRT = x$1`<var class="mean-rt">Mean RT</var>`;
+    }
+    const equation = x$1`
+      <tr>
+        <td rowspan="2">
+          ${meanRT}<span class="equals">=</span>
+          ${t0}
+          <span class="minus">−</span>
+        </td>
+        <td class="underline">
+          ${z}
+        </td>
+        <td rowspan="2">
+          <span class="plus">+</span>
+        </td>
+        <td class="underline">
+          ${a}
+        </td>
+        <td rowspan="2">&nbsp;</td>
+        <td class="underline">
+          <var class="math-greek e tight">e</var><sup class="exp"><span class="minus tight">−</span><span class="paren tight">(</span>2${v}${z} / ${s}<sup class="exp">2</sup><span class="paren tight">)</span></sup>
+          <span class="minus">−</span>
+          1
+        </td>
+      </tr>
+      <tr>
+        <td>
+          ${v}
+        </td>
+        <td>
+          ${v}
+        </td>
+        <td>
+          <var class="math-greek e tight">e</var><sup class="exp"><span class="minus tight">−</span><span class="paren tight">(</span>2${v}${a} / ${s}<sup class="exp">2</sup><span class="paren tight">)</span></sup>
+            <span class="minus">−</span>
+          1
+        </td>
+      </tr>`;
+    return x$1`
+      <div class="holder">
+        <table class="equation">
+          <tbody>
+            ${equation}
+          </tbody>
+        </table>
+      </div>`;
+  }
+}
+customElements.define('ddm-equation-azvt02m', DDMEquationAZVT02M);
+
+/*
   DDMExample Base Class - Not intended for instantiation!
 */
 class DDMExample extends AccumulableElement {
@@ -14670,6 +15086,7 @@ class DDMExampleHuman extends DDMExample {
           this.accumulableTable.correctCount = NaN;
           this.accumulableTable.errorCount = NaN;
           this.accumulableTable.nrCount = NaN;
+          this.accumulableTable.accuracy = NaN;
           this.accumulableTable.correctMeanRT = NaN;
           this.accumulableTable.errorMeanRT = NaN;
           this.accumulableTable.meanRT = NaN;
@@ -14723,6 +15140,7 @@ class DDMExampleHuman extends DDMExample {
           this.accumulableTable.correctCount = event.detail.correctCount;
           this.accumulableTable.errorCount = event.detail.errorCount;
           this.accumulableTable.nrCount = event.detail.nrCount;
+          this.accumulableTable.accuracy = event.detail.accuracy;
           this.accumulableTable.correctMeanRT = event.detail.correctMeanRT;
           this.accumulableTable.errorMeanRT = event.detail.errorMeanRT;
           this.accumulableTable.meanRT = event.detail.meanRT;
@@ -14739,9 +15157,13 @@ class DDMExampleHuman extends DDMExample {
         }
         if (this.ddmFit) {
           this.ddmFit.set({
+            accuracy: event.detail.accuracy,
+            correctMeanRT: event.detail.correctMeanRT,
+            errorMeanRT: event.detail.errorMeanRT,
             meanRT: event.detail.meanRT,
-            sdRT: event.detail.sdRT,
-            accuracy: event.detail.correctCount / (event.detail.correctCount + event.detail.errorCount + event.detail.nrCount)
+            correctSDRT: event.detail.correctSDRT,
+            errorSDRT: event.detail.errorSDRT,
+            sdRT: event.detail.sdRT
           });
         }
       });
@@ -14870,10 +15292,11 @@ class DDMExampleInteractive extends DDMExample {
     if (this.accumulableControl) {
       this.accumulableControl.trials = this.trials;
     }
-    if (this.accumulableTable) {
+    if (this.accumulableTable && this.data) {
       this.accumulableTable.correctCount = this.data.correctCount;
       this.accumulableTable.errorCount = this.data.errorCount;
-      this.accumulableTable.nrCount = 0;
+      this.accumulableTable.nrCount = this.data.nrCount;
+      this.accumulableTable.accuracy = this.data.accuracy;
       this.accumulableTable.correctMeanRT = this.data.correctMeanRT;
       this.accumulableTable.errorMeanRT = this.data.errorMeanRT;
       this.accumulableTable.meanRT = this.data.meanRT;
@@ -14990,6 +15413,11 @@ class DDMExampleModel extends DDMExample {
       if (this.accumulableControl.hasAttribute('duration')) {
         this.accumulableControl.addEventListener('accumulable-control-duration', event => {
           this.duration = event.detail.duration;
+        });
+      }
+      if (this.accumulableControl.hasAttribute('color')) {
+        this.accumulableControl.addEventListener('accumulable-control-color', event => {
+          this.color = event.detail.color;
         });
       }
       if (this.accumulableControl.hasAttribute('run')) {
@@ -15118,7 +15546,6 @@ class DDMExampleModel extends DDMExample {
       this.rdkTask.trials = this.trials;
       this.rdkTask.duration = this.duration;
       this.rdkTask.coherence = this.coherence;
-      this.rdkTask.color = this.color;
     }
     if (this.ddmParameters) {
       this.ddmParameters.a = this.a;
@@ -15137,9 +15564,13 @@ class DDMExampleModel extends DDMExample {
       this.accumulableResponse.trialTotal = this.trials;
     }
     if (this.accumulableTable) {
+      this.accumulableTable.color = this.color;
+    }
+    if (this.accumulableTable && this.data) {
       this.accumulableTable.correctCount = this.data.correctCount;
       this.accumulableTable.errorCount = this.data.errorCount;
-      this.accumulableTable.nrCount = 0;
+      this.accumulableTable.nrCount = this.data.nrCount;
+      this.accumulableTable.accuracy = this.data.accuracy;
       this.accumulableTable.correctMeanRT = this.data.correctMeanRT;
       this.accumulableTable.errorMeanRT = this.data.errorMeanRT;
       this.accumulableTable.meanRT = this.data.meanRT;

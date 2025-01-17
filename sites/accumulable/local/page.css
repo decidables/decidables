@@ -231,6 +231,9 @@
   --color-t0: #f781bf;
   --color-t0-light: #fbc0df;
   --color-t0-dark: #7c4160;
+  --color-s: #999999;
+  --color-s-light: #cccccc;
+  --color-s-dark: #4d4d4d;
   --color-left: #f032e6;
   --color-left-light: #f899f3;
   --color-left-dark: #781973;
@@ -8852,6 +8855,10 @@ progress {
   /* purgecss ignore current */
   background-color: #fbc0df;
 }
+.dec-content .key[class~=s] {
+  /* purgecss ignore current */
+  background-color: #cccccc;
+}
 .dec-content .key[class~="'left'"] {
   /* purgecss ignore current */
   background-color: #f899f3;
@@ -8886,6 +8893,10 @@ progress {
 .dec-legend .t0::before {
   background: #fbc0df;
   border-left-color: #f781bf;
+}
+.dec-legend .s::before {
+  background: #cccccc;
+  border-left-color: #999999;
 }
 .dec-legend .left::before {
   background: #f899f3;
