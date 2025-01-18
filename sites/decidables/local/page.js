@@ -7579,6 +7579,31 @@ function select (selector) {
   return typeof selector === "string" ? new Selection$1([[document.querySelector(selector)]], [document.documentElement]) : new Selection$1([[selector]], root);
 }
 
+var nextId = 0;
+function local() {
+  return new Local();
+}
+function Local() {
+  this._ = "@" + (++nextId).toString(36);
+}
+Local.prototype = local.prototype = {
+  constructor: Local,
+  get: function (node) {
+    var id = this._;
+    while (!(id in node)) if (!(node = node.parentNode)) return;
+    return node[id];
+  },
+  set: function (node, value) {
+    return node[this._] = value;
+  },
+  remove: function (node) {
+    return this._ in node && delete node[this._];
+  },
+  toString: function () {
+    return this._;
+  }
+};
+
 function sourceEvent (event) {
   let sourceEvent;
   while (sourceEvent = event.sourceEvent) event = sourceEvent;
@@ -11107,6 +11132,54 @@ function identity$2 () {
     return fitHeight(projection, height, object);
   };
   return projection;
+}
+
+var defaultSource = Math.random;
+
+var uniform = (function sourceRandomUniform(source) {
+  function randomUniform(min, max) {
+    min = min == null ? 0 : +min;
+    max = max == null ? 1 : +max;
+    if (arguments.length === 1) max = min, min = 0;else max -= min;
+    return function () {
+      return source() * max + min;
+    };
+  }
+  randomUniform.source = sourceRandomUniform;
+  return randomUniform;
+})(defaultSource);
+
+var normal = (function sourceRandomNormal(source) {
+  function randomNormal(mu, sigma) {
+    var x, r;
+    mu = mu == null ? 0 : +mu;
+    sigma = sigma == null ? 1 : +sigma;
+    return function () {
+      var y;
+
+      // If available, use the second previously-generated uniform random.
+      if (x != null) y = x, x = null;
+
+      // Otherwise, generate a new x and y.
+      else do {
+        x = source() * 2 - 1;
+        y = source() * 2 - 1;
+        r = x * x + y * y;
+      } while (!r || r > 1);
+      return mu + sigma * y * Math.sqrt(-2 * Math.log(r) / r);
+    };
+  }
+  randomNormal.source = sourceRandomNormal;
+  return randomNormal;
+})(defaultSource);
+
+// https://en.wikipedia.org/wiki/Linear_congruential_generator#Parameters_in_common_use
+const mul = 0x19660D;
+const inc = 0x3C6EF35F;
+const eps = 1 / 0x100000000;
+function lcg(seed = Math.random()) {
+  let state = (0 <= seed && seed < 1 ? seed / eps : Math.abs(seed)) | 0;
+  return () => (state = mul * state + inc | 0, eps * (state >>> 0));
 }
 
 function initRange(domain, range) {
@@ -25090,4 +25163,2784 @@ class ITCTask extends DiscountableElement {
   }
 }
 customElements.define('itc-task', ITCTask);
+
+/*
+  AccumulableElement Base Class - Not intended for instantiation!
+*/
+class AccumulableElement extends DecidablesElement {
+  static get properties() {
+    return {
+      interactive: {
+        attribute: 'interactive',
+        type: Boolean,
+        reflect: true
+      }
+    };
+  }
+  constructor() {
+    super();
+    this.interactive = false;
+  }
+  static get colors() {
+    return {
+      a: Set1[0],
+      z: Set1[1],
+      v: Set1[4],
+      t0: Set1[7],
+      s: Set1[8],
+      left: '#f032e6',
+      right: '#10dbc9',
+      correct: Set1[2],
+      error: Set1[3],
+      nr: '#cccccc'
+    };
+  }
+  static get lights() {
+    return Object.keys(AccumulableElement.colors).reduce((acc, cur) => {
+      acc[cur] = interpolateRgb(AccumulableElement.colors[cur], '#ffffff')(0.5);
+      return acc;
+    }, {});
+  }
+  static get darks() {
+    return Object.keys(AccumulableElement.colors).reduce((acc, cur) => {
+      acc[cur] = interpolateRgb(AccumulableElement.colors[cur], '#000000')(0.5);
+      return acc;
+    }, {});
+  }
+  static get styles() {
+    return [super.styles, i$2`
+        :host {
+          /* Declare base colors */
+          ${r$3(Object.keys(AccumulableElement.colors).map(color => {
+      return `---color-${color}: var(--color-${color}, ${this.colors[color]});`;
+    }).join('\n'))}
+
+          /* Declare light colors */
+          ${r$3(Object.keys(AccumulableElement.colors).map(color => {
+      return `---color-${color}-light: var(--color-${color}-light, ${this.lights[color]});`;
+    }).join('\n'))}
+
+          /* Declare dark colors */
+          ${r$3(Object.keys(AccumulableElement.colors).map(color => {
+      return `---color-${color}-dark: var(--color-${color}-dark, ${this.darks[color]});`;
+    }).join('\n'))}
+        }
+      `];
+  }
+}
+
+/*
+  AccumulableTable element
+  <accumulable-table>
+
+  Attributes:
+  ????Hit; Miss; FalseAlarm; CorrectRejection;
+*/
+class AccumulableTable extends AccumulableElement {
+  static get properties() {
+    return {
+      numeric: {
+        attribute: 'numeric',
+        type: Boolean,
+        reflect: true
+      },
+      summary: {
+        attribute: 'summary',
+        type: Boolean,
+        reflect: true
+      },
+      color: {
+        attribute: 'color',
+        type: String,
+        reflect: true
+      },
+      correctCount: {
+        attribute: 'correct-count',
+        type: Number,
+        reflect: true
+      },
+      errorCount: {
+        attribute: 'error-count',
+        type: Number,
+        reflect: true
+      },
+      nrCount: {
+        attribute: 'nr-count',
+        type: Number,
+        reflect: true
+      },
+      accuracy: {
+        attribute: 'accuracy',
+        type: Number,
+        reflect: true
+      },
+      correctMeanRT: {
+        attribute: 'correct-mean-rt',
+        type: Number,
+        reflect: true
+      },
+      errorMeanRT: {
+        attribute: 'error-mean-rt',
+        type: Number,
+        reflect: true
+      },
+      meanRT: {
+        attribute: 'mean-rt',
+        type: Number,
+        reflect: true
+      },
+      correctSDRT: {
+        attribute: 'correct-sd-rt',
+        type: Number,
+        reflect: true
+      },
+      errorSDRT: {
+        attribute: 'error-sd-rt',
+        type: Number,
+        reflect: true
+      },
+      sdRT: {
+        attribute: 'sd-rt',
+        type: Number,
+        reflect: true
+      },
+      payoff: {
+        attribute: 'payoff',
+        type: Boolean,
+        reflect: true
+      },
+      correctPayoff: {
+        attribute: 'correct-payoff',
+        type: Number,
+        reflect: true
+      },
+      errorPayoff: {
+        attribute: 'error-payoff',
+        type: Number,
+        reflect: true
+      },
+      nrPayoff: {
+        attribute: 'no-response-payoff',
+        type: Number,
+        reflect: true
+      }
+    };
+  }
+  constructor() {
+    super();
+    this.numeric = false;
+    this.summary = false;
+    this.colors = ['none', 'measure', 'outcome', 'all'];
+    this.color = 'all';
+    this.payoff = false;
+    this.correctPayoff = undefined; // Correct payoff
+    this.errorPayoff = undefined; // Error payoff
+    this.nrPayoff = undefined; // No Response payoff
+
+    this.correctCount = NaN;
+    this.errorCount = NaN;
+    this.nrCount = NaN;
+    this.accuracy = NaN;
+    this.correctMeanRT = NaN;
+    this.errorMeanRT = NaN;
+    this.meanRT = NaN;
+    this.correctSDRT = NaN;
+    this.errorSDRT = NaN;
+    this.sdRT = NaN;
+  }
+  sendEvent() {
+    this.dispatchEvent(new CustomEvent('accumulable-table-change', {
+      detail: {
+        correctCount: this.correctCount,
+        errorCount: this.errorCount,
+        nrCount: this.nrCount,
+        accuracy: this.accuracy,
+        correctMeanRT: this.correctMeanRT,
+        errorMeanRT: this.errorMeanRT,
+        meanRT: this.meanRT,
+        correctSDRT: this.correctSDRT,
+        errorSDRT: this.errorSDRT,
+        sdRT: this.sdRT
+      },
+      bubbles: true
+    }));
+  }
+  correctCountInput(e) {
+    this.correctCount = parseInt(e.target.value, 10);
+    this.sendEvent();
+  }
+  errorCountInput(e) {
+    this.errorCount = parseInt(e.target.value, 10);
+    this.sendEvent();
+  }
+  accuracyInput(e) {
+    this.accuracy = parseFloat(e.target.value);
+    this.sendEvent();
+  }
+  correctMeanRTInput(e) {
+    this.correctMeanRT = parseFloat(e.target.value);
+    this.sendEvent();
+  }
+  errorMeanRTInput(e) {
+    this.errorMeanRT = parseFloat(e.target.value);
+    this.sendEvent();
+  }
+  meanRTInput(e) {
+    this.meanRT = parseFloat(e.target.value);
+    this.sendEvent();
+  }
+  correctSDRTInput(e) {
+    this.correctSDRT = parseFloat(e.target.value);
+    this.sendEvent();
+  }
+  errorSDRTInput(e) {
+    this.errorSDRT = parseFloat(e.target.value);
+    this.sendEvent();
+  }
+  sdRTInput(e) {
+    this.sdRT = parseFloat(e.target.value);
+    this.sendEvent();
+  }
+  static get styles() {
+    return [super.styles, i$2`
+        :host {
+          display: inline-block;
+        }
+
+        /* Overall element */
+        table {
+          text-align: center;
+
+          border-collapse: collapse;
+
+          border: 0;
+        }
+
+        /* Headers */
+        .th-main {
+          padding: 0;
+
+          font-weight: bold;
+        }
+
+        .th-sub {
+          padding: 0 0.25rem;
+
+          font-weight: 600;
+        }
+
+        .th-left {
+          padding-left: 0;
+
+          text-align: right;
+        }
+
+        /* Cells */
+        .td {
+          width: 10rem;
+
+          padding: 0.25rem 0.25rem 0.375rem;
+
+          transition: all var(---transition-duration) ease;
+        }
+
+        .numeric .td {
+          width: 7rem;
+        }
+
+        /* Labels */
+        .payoff {
+          font-weight: 600;
+          line-height: 0.75rem;
+        }
+
+        /* User interaction <input> */
+        .td-data decidables-spinner {
+          --decidables-spinner-input-width: 3.5rem;
+        }
+
+        .td-summary decidables-spinner {
+          --decidables-spinner-input-width: 4.5rem;
+        }
+
+        /* Table emphasis */
+        .td-data.correct {
+          border-left: 2px solid var(---color-element-emphasis);
+        }
+
+        .td-data.error {
+          border-right: 2px solid var(---color-element-emphasis);
+        }
+
+        .td-data.count {
+          border-top: 2px solid var(---color-element-emphasis);
+        }
+
+        .td-data.sd-rt {
+          border-bottom: 2px solid var(---color-element-emphasis);
+        }
+
+        /* Color schemes */
+
+        /* (Default) All color scheme */
+        .correct.count {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        .error.count {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        .overall.proportion-correct {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        .correct.mean-rt {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        .error.mean-rt {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        .overall.mean-rt {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        .correct.sd-rt {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        .error.sd-rt {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        .overall.sd-rt {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        /* Outcome color scheme */
+        :host([color="outcome"]) .correct {
+          background: var(---color-correct-light);
+        }
+
+        :host([color="outcome"]) .error {
+          background: var(---color-error-light);
+        }
+
+        :host([color="outcome"]) .overall {
+          background: var(---color-element-background);
+        }
+
+        /* Measure color scheme */
+        :host([color="measure"]) .count,
+        :host([color="measure"]) .proportion-correct {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        :host([color="measure"]) .mean-rt {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        :host([color="measure"]) .sd-rt {
+          background: var(---color-element-background); /* ###### */
+        }
+
+        /* No color scheme */
+        :host([color="none"]) .td-data,
+        :host([color="none"]) .td-summary {
+          background: var(---color-element-background);
+        }
+      `];
+  }
+  render() {
+    const payoffFormatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
+    const payoffFormat = number => {
+      return payoffFormatter.formatToParts(number).map(({
+        type,
+        value
+      }) => {
+        if (type === 'minusSign') {
+          return '−';
+        }
+        return value;
+      }).reduce((string, part) => {
+        return string + part;
+      });
+    };
+    let correctCount;
+    let errorCount;
+    let accuracy;
+    let correctMeanRT;
+    let errorMeanRT;
+    let meanRT;
+    let correctSDRT;
+    let errorSDRT;
+    let sdRT;
+    if (this.numeric) {
+      correctCount = x$1`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.correctCount}" @input=${this.correctCountInput.bind(this)}>
+          <span>Correct Count</span>
+          ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.correctPayoff)}</span>` : x$1``}
+        </decidables-spinner>
+      `;
+      errorCount = x$1`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.errorCount}" @input=${this.errorCountInput.bind(this)}>
+          <span>Error Count</span>
+          ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.errorPayoff)}</span>` : x$1``}
+        </decidables-spinner>
+      `;
+      accuracy = x$1`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" max="1" step=".01" .value="${+this.accuracy.toFixed(2)}" @input=${this.accuracyInput.bind(this)}>
+          <span>Accuracy</span>
+        </decidables-spinner>
+        `;
+      correctMeanRT = x$1`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.correctMeanRT.toFixed(0)}" @input=${this.correctMeanRTInput.bind(this)}>
+          <span>Correct Mean RT</span>
+        </decidables-spinner>
+      `;
+      errorMeanRT = x$1`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.errorMeanRT.toFixed(0)}" @input=${this.errorMeanRTInput.bind(this)}>
+          <span>Error Mean RT</span>
+        </decidables-spinner>
+      `;
+      meanRT = x$1`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.meanRT.toFixed(0)}" @input=${this.meanRTInput.bind(this)}>
+          <span>Mean RT</span>
+        </decidables-spinner>
+      `;
+      correctSDRT = x$1`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.correctSDRT.toFixed(0)}" @input=${this.correctSDRTInput.bind(this)}>
+          <span>Correct SD RT</span>
+        </decidables-spinner>
+      `;
+      errorSDRT = x$1`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.errorSDRT.toFixed(0)}" @input=${this.errorSDRTInput.bind(this)}>
+          <span>Error SD RT</span>
+        </decidables-spinner>
+      `;
+      sdRT = x$1`
+        <decidables-spinner ?disabled=${!this.interactive} min="0" .value="${+this.sdRT.toFixed(0)}" @input=${this.sdRTInput.bind(this)}>
+          <span>SD RT</span>
+        </decidables-spinner>
+      `;
+    } else {
+      correctCount = x$1`<span>Correct Count</span>
+        ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.correctPayoff)}</span>` : x$1``}`;
+      errorCount = x$1`<span>Error Count</span>
+        ${this.payoff ? x$1`<span class="payoff">${payoffFormat(this.errorPayoff)}</span>` : x$1``}`;
+      accuracy = x$1`<span>Accuracy</span>`;
+      correctMeanRT = x$1`<span>Correct Mean RT</span>`;
+      errorMeanRT = x$1`<span>Error Mean RT</span>`;
+      meanRT = x$1`<span>Mean RT</span>`;
+      correctSDRT = x$1`<span>Correct SD RT</span>`;
+      errorSDRT = x$1`<span>Error SD RT</span>`;
+      sdRT = x$1`<span>SD RT</span>`;
+    }
+    return x$1`
+      <table class=${this.numeric ? 'numeric' : ''}>
+        <thead>
+          <tr>
+            <th rowspan="2"></th>
+            <th class="th th-main" colspan="2" scope="col">
+              Outcome
+            </th>
+          </tr>
+          <tr>
+            <th class="th th-sub" scope="col">
+              Correct
+            </th>
+            <th class="th th-sub" scope="col">
+              Error
+            </th>
+            ${this.summary ? x$1`
+                <th class="th th-main" scope="col">
+                  Overall
+                </th>` : x$1``}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="th th-sub th-left" scope="row">
+              Count
+            </th>
+            <td class="td td-data correct count">
+              ${correctCount}
+            </td>
+            <td class="td td-data error count">
+              ${errorCount}
+            </td>
+            ${this.summary ? x$1`
+                <td class="td td-summary overall proportion-correct">
+                  ${accuracy}
+                </td>` : x$1``}
+          </tr>
+          <tr>
+            <th class="th th-sub th-left" scope="row">
+              Mean RT
+            </th>
+            <td class="td td-data correct mean-rt">
+              ${correctMeanRT}
+            </td>
+            <td class="td td-data error mean-rt">
+              ${errorMeanRT}
+            </td>
+            ${this.summary ? x$1`
+                <td class="td td-summary overall mean-rt">
+                  ${meanRT}
+                </td>` : x$1``}
+          </tr>
+          <tr>
+            <th class="th th-sub th-left" scope="row">
+              SD RT
+            </th>
+            <td class="td td-data correct sd-rt">
+              ${correctSDRT}
+            </td>
+            <td class="td td-data error sd-rt">
+              ${errorSDRT}
+            </td>
+            ${this.summary ? x$1`
+                <td class="td td-summary overall sd-rt">
+                  ${sdRT}
+                </td>` : x$1``}
+          </tr>
+        </tbody>
+      </table>`;
+  }
+}
+customElements.define('accumulable-table', AccumulableTable);
+
+/*
+  DDMMath Static Class - Not intended for instantiation!
+
+  Model parameters:
+    a = boundary separation
+    z = starting point as a proportion of a
+    v = drift rate (per second)
+    t0 = non-decision time (in milliseconds)
+    s = within-trial variability in drift rate (s^2 = infinitesimal variance)
+
+    zPrime = starting point on a 0-to-a scale (typically used in published equations)
+
+  Behavioral variables:
+    pE = proportion of error trials
+    pC = proportion of correct trials
+    m = mean of overall RTs (in milliseconds)
+    mE = mean of error RTs (in milliseconds)
+    mC = mean correct RTs (in milliseconds)
+    sd = standard deviation of overall RTs (in milliseconds)
+    sdE = standard deviation of error RTs (in milliseconds)
+    sdC = standard deviation of correct RTs (in milliseconds)
+
+  Equations:
+    Probability of correct and error responses (Alexandrowicz, 2020)
+    Mean of overall, error, and correct RTs (Grasman et al., 2009)
+    Standard deviation of overall, error, and correct RTs (Grasman et al., 2009)
+    Density of error and correct RT distributions (Alexandrowicz, 2020)
+    EZ-diffusion model (Wagenmakers et al., 2007)
+*/
+class DDMMath {
+  static s = 1;
+
+  // Calculate a bunch of statistics for an array of trials
+  static trials2stats(trials) {
+    const stats = {};
+
+    // First-order sums
+    const sums = trials.reduce((accumulator, trial) => {
+      switch (trial.outcome) {
+        case 'correct':
+          accumulator.correctCount += 1;
+          accumulator.correctRTSum += trial.rt;
+          break;
+        case 'error':
+          accumulator.errorCount += 1;
+          accumulator.errorRTSum += trial.rt;
+          break;
+        case 'nr':
+          accumulator.nrCount += 1;
+          break;
+        // No-op
+      }
+      return accumulator;
+    }, {
+      correctCount: 0,
+      errorCount: 0,
+      nrCount: 0,
+      correctRTSum: 0,
+      errorRTSum: 0
+    });
+
+    // First-order stats
+    stats.correctCount = sums.correctCount;
+    stats.errorCount = sums.errorCount;
+    stats.nrCount = sums.nrCount;
+    stats.accuracy = sums.correctCount / (sums.correctCount + sums.errorCount + sums.nrCount);
+    stats.correctMeanRT = sums.correctRTSum / sums.correctCount;
+    stats.errorMeanRT = sums.errorRTSum / sums.errorCount;
+    stats.meanRT = (sums.correctRTSum + sums.errorRTSum) / (sums.correctCount + sums.errorCount);
+
+    // Second-order sums
+    const sums2 = trials.reduce((accumulator, trial) => {
+      switch (trial.outcome) {
+        case 'correct':
+          accumulator.ss += (trial.rt - stats.meanRT) ** 2;
+          accumulator.correctSS += (trial.rt - stats.correctMeanRT) ** 2;
+          break;
+        case 'error':
+          accumulator.ss += (trial.rt - stats.meanRT) ** 2;
+          accumulator.errorSS += (trial.rt - stats.errorMeanRT) ** 2;
+          break;
+        // No-op
+      }
+      return accumulator;
+    }, {
+      ss: 0,
+      correctSS: 0,
+      errorSS: 0
+    });
+
+    // Second-order stats
+    stats.correctSDRT = stats.correctCount > 1 ? Math.sqrt(sums2.correctSS / (stats.correctCount - 1)) : NaN;
+    stats.errorSDRT = stats.errorCount > 1 ? Math.sqrt(sums2.errorSS / (stats.errorCount - 1)) : NaN;
+    stats.sdRT = stats.correctCount + stats.errorCount > 1 ? Math.sqrt(sums2.ss / (stats.correctCount + stats.errorCount - 1)) : NaN;
+    return stats;
+  }
+
+  // Probability of an Error Response
+  static azv2pE(a, z, v, s = DDMMath.s) {
+    const zPrime = a * z;
+    const A = Math.exp(-2 * v * a / s ** 2);
+    const Z = Math.exp(-2 * v * zPrime / s ** 2);
+    return (A - Z) / (A - 1);
+  }
+
+  // Probability of a Correct Response
+  static azv2pC(a, z, v, s = DDMMath.s) {
+    return DDMMath.azv2pE(a, 1 - z, -v, s);
+  }
+
+  // Mean Overall RT
+  // Equation 5 (Grasman et al., 2009)
+  static azvt02m(a, z, v, t0, s = DDMMath.s) {
+    const zPrime = a * z;
+    const A = Math.exp(-2 * v * a / s ** 2) - 1;
+    const Z = Math.exp(-2 * v * zPrime / s ** 2) - 1;
+    const mean = -(zPrime / v) + a / v * (Z / A);
+    return t0 + mean * 1000;
+  }
+
+  // SD Overall RT
+  // Equation 6 (Grasman et al., 2009)
+  static azv2sd(a, z, v, s = DDMMath.s) {
+    const zPrime = a * z;
+    const A = Math.exp(-2 * v * a / s ** 2) - 1;
+    const Z = Math.exp(-2 * v * zPrime / s ** 2) - 1;
+    const variance = (-v * a ** 2 * (Z + 4) * Z / A ** 2 + ((-3 * v * a ** 2 + 4 * v * zPrime * a + s ** 2 * a) * Z + 4 * v * zPrime * a) / A - s ** 2 * zPrime) / v ** 3;
+    return Math.sqrt(variance) * 1000;
+  }
+
+  // Mean Error RT
+  // Equation 13 (Grasman et al., 2009)
+  static azvt02mE(a, z, v, t0, s = DDMMath.s) {
+    function phi(x, y) {
+      return Math.exp(2 * v * y / s ** 2) - Math.exp(2 * v * x / s ** 2);
+    }
+    const zPrime = a * z;
+    const mean = (zPrime * (phi(zPrime - a, a) + phi(0, zPrime)) + 2 * a * phi(zPrime, 0)) / (v * phi(zPrime, a) * phi(-a, 0));
+    return t0 + mean * 1000;
+  }
+
+  // SD Error RT
+  // Equation 14 (Grasman et al., 2009)
+  static azv2sdE(a, z, v, s = DDMMath.s) {
+    function phi(x, y) {
+      return Math.exp(2 * v * y / s ** 2) - Math.exp(2 * v * x / s ** 2);
+    }
+    const zPrime = a * z;
+    const variance = -2 * a * phi(0, zPrime) * (2 * v * a * phi(zPrime, 2 * a) + s ** 2 * phi(0, a) * phi(zPrime, a)) * Math.exp(2 * v * a / s ** 2) / (v ** 3 * phi(0, a) ** 2 * phi(zPrime, a) ** 2) + (4 * v * zPrime * (2 * a - zPrime) * Math.exp(2 * v * (zPrime + a) / s ** 2) + zPrime * s ** 2 * phi(2 * zPrime, 2 * a)) / (v ** 3 * phi(zPrime, a) ** 2);
+    return Math.sqrt(variance) * 1000;
+  }
+
+  // Mean Correct RT
+  static azvt02mC(a, z, v, t0, s = DDMMath.s) {
+    return DDMMath.azvt02mE(a, 1 - z, -v, t0, s);
+  }
+
+  // SD Correct RT
+  static azv2sdC(a, z, v, s = DDMMath.s) {
+    return DDMMath.azv2sdE(a, 1 - z, -v, s);
+  }
+
+  // Density of Error RT
+  static tazv2gE(t, a, z, v, s = DDMMath.s) {
+    if (!t) return 0;
+    const zPrime = a * z;
+    const base = Math.PI * s ** 2 / a ** 2 * Math.exp(-zPrime * v / s ** 2);
+    let k = 0;
+    let term = 0;
+    let sum = 0;
+    do {
+      k += 1;
+      term = k * Math.sin(Math.PI * zPrime * k / a) * Math.exp(-0.5 * (v ** 2 / s ** 2 + Math.PI ** 2 * k ** 2 * s ** 2 / a ** 2) * t);
+      sum += term;
+    } while (k < 200); // ?? HACK
+
+    return base * sum;
+  }
+
+  // Density of Correct RT
+  static tazv2gC(t, a, z, v, s = DDMMath.s) {
+    return DDMMath.tazv2gE(t, a, 1 - z, -v, s);
+  }
+
+  // Adapted from https://raoul.socsci.uva.nl/EZ2/EZ2_new.html
+  // EZ-function for starting values
+  // input: obj - Object with properties
+  //    pC - Proportion correct
+  //    sd - sample standard deviation of the RT's in ms
+  //    m - sample mean of the RT's in ms
+  //    s - diffusion standard deviation
+  // returns: Object with properties v, a, and t0, containing EZ-estimates of these parameters
+  static data2ez({
+    accuracy: pC,
+    sdRT: sd,
+    meanRT: m,
+    s
+  }) {
+    function sign(r) {
+      return r > 0 ? 1 : r === 0 ? 0 : -1;
+    }
+    function logit(p) {
+      return Math.log(p / (1 - p));
+    }
+    const vrt = (sd / 1000) ** 2;
+    const mrt = m / 1000;
+    const s2 = s ** 2;
+    const l = logit(pC);
+    const x = l * (l * pC ** 2 - l * pC + pC - 0.5) / vrt;
+    const v = sign(pC - 0.5) * s * x ** (1 / 4);
+    const a = s2 * logit(pC) / v;
+    const y = -v * a / s2;
+    const mdt = a / (2 * v) * (1 - Math.exp(y)) / (1 + Math.exp(y));
+    const t0 = mrt ? mrt - mdt : null; // compute Ter only if MRT was provided
+
+    const t0Prime = t0 * 1000;
+    return {
+      v,
+      a,
+      t0: t0Prime,
+      s
+    };
+  }
+  static data2ez2() {
+    throw new Error('data2ez2 is not implemented!');
+  }
+}
+
+/*
+  DDMModel element
+  <ddm-model>
+
+  Attributes:
+    interactive: true/false
+
+    measures: boolean
+    means: boolean
+
+    seed: numeric
+    trials: numeric
+
+    a: numeric
+    z: numeric
+    v: numeric
+    t0: numeric
+
+    // s: numeric
+    // sz: numeric
+    // eta: numeric
+    // st: numeric
+
+  Styles:
+    ??
+*/
+class DDMModel extends DecidablesMixinResizeable(AccumulableElement) {
+  static get properties() {
+    return {
+      measures: {
+        attribute: 'measures',
+        type: Boolean,
+        reflect: true
+      },
+      means: {
+        attribute: 'means',
+        type: Boolean,
+        reflect: true
+      },
+      sds: {
+        attribute: 'sds',
+        type: Boolean,
+        reflect: true
+      },
+      human: {
+        attribute: 'human',
+        type: Boolean,
+        reflect: true
+      },
+      trials: {
+        attribute: 'trials',
+        type: Number,
+        reflect: true
+      },
+      seed: {
+        attribute: 'seed',
+        type: Number,
+        reflect: true
+      },
+      a: {
+        attribute: 'boundary-separation',
+        type: Number,
+        reflect: true
+      },
+      z: {
+        attribute: 'starting-point',
+        type: Number,
+        reflect: true
+      },
+      v: {
+        attribute: 'drift-rate',
+        type: Number,
+        reflect: true
+      },
+      t0: {
+        attribute: 'nondecision-time',
+        type: Number,
+        reflect: true
+      }
+
+      // s: {
+      //   attribute: false, // within-trial variability in drift rate
+      //   type: Number,
+      //   reflect: false,
+      // },
+      // sz: {
+      //   attribute: false, // starting point range
+      //   type: Number,
+      //   reflect: false,
+      // },
+      // eta: {
+      //   attribute: false, // standard deviation for across-trial variability in drift rate
+      //   type: Number,
+      //   reflect: false,
+      // },
+      // st: {
+      //   attribute: false, // nondecision-time range
+      //   type: Number,
+      //   reflect: false,
+      // },
+    };
+  }
+  constructor() {
+    super();
+    this.firstUpdate = true;
+    this.drag = false;
+    this.scale = {
+      time: {
+        min: 0,
+        max: 1000,
+        step: 1,
+        round: Math.round
+      },
+      evidence: {
+        min: -1,
+        max: 1,
+        step: 0.01,
+        round: Math.round
+      },
+      density: {
+        min: 0,
+        max: 10,
+        step: 0.01,
+        round: Math.round
+      }
+    };
+    this.measures = false;
+    this.means = false;
+    this.sds = false;
+    this.resample();
+    this.human = false;
+    this.trials = 10;
+    this.a = 1.2;
+    this.z = 0.35;
+    this.v = 1.5;
+    this.t0 = 150;
+
+    // this.s = null;
+    // this.sz = null;
+    // this.eta = null;
+    // this.st = null;
+
+    this.precision = 0.005;
+    this.random = null;
+    this.bounds = null;
+    this.startingPoint = null;
+    this.data = {};
+    this.model = {};
+    this.animate = false;
+    this.paused = false;
+    this.alignState();
+  }
+  clear() {
+    this.trials = 0;
+    this.data.trials = [];
+  }
+  trial(trial = {}) {
+    this.trials += 1;
+    if (this.human) {
+      this.data.trials.push(trial);
+    } else {
+      this.animate = true;
+    }
+  }
+
+  // Called to pause trial animations!
+  pauseTrial() {
+    const pathNew = select(this.renderRoot).select('.path[data-new-trial-ease-time]');
+    pathNew.interrupt('new').select('.curve').interrupt('new');
+    this.paused = true;
+  }
+
+  // Called to resume trial animations!
+  resumeTrial() {
+    this.paused = false;
+    this.requestUpdate();
+  }
+  resample() {
+    this.seed = uniform(0, 1)();
+  }
+  alignPath(seed, a, z, v, t0) {
+    const random = normal.source(lcg(seed))(0, this.precision ** 0.5);
+    const bounds = {
+      lower: -a / 2,
+      upper: a / 2
+    };
+    const startingPoint = a * z - a / 2;
+    const drift = v * this.precision;
+    const path = [];
+    path.push({
+      t: t0,
+      e: startingPoint
+    });
+    while (path.at(-1).e > bounds.lower && path.at(-1).e < bounds.upper) {
+      path.push({
+        t: path.at(-1).t + this.precision * 1000,
+        e: path.at(-1).e + drift + DDMMath.s * random()
+      });
+    }
+    return path;
+  }
+  alignCorrectDistribution(a, z, v, t0) {
+    const proportionCorrect = DDMMath.azv2pC(a, z, v);
+    const dist = [{
+      t: 0,
+      d: 0
+    }, {
+      t: this.t0,
+      d: 0
+    }];
+    for (let i = this.scale.time.min; i <= this.scale.time.max - t0; i += this.scale.time.step) {
+      if (i > 0) {
+        dist.push({
+          t: t0 + i,
+          d: DDMMath.tazv2gC(i / 1000, a, z, v) / proportionCorrect
+        });
+      }
+    }
+    return dist;
+  }
+  alignErrorDistribution(a, z, v, t0) {
+    const proportionError = DDMMath.azv2pE(a, z, v);
+    const dist = [{
+      t: 0,
+      d: 0
+    }, {
+      t: this.t0,
+      d: 0
+    }];
+    for (let i = this.scale.time.min; i <= this.scale.time.max - t0; i += this.scale.time.step) {
+      if (i > 0) {
+        dist.push({
+          t: t0 + i,
+          d: DDMMath.tazv2gE(i / 1000, a, z, v) / proportionError
+        });
+      }
+    }
+    return dist;
+  }
+  alignState() {
+    this.random = uniform.source(lcg(this.seed))(0, 1);
+    this.bounds = {
+      lower: -this.a / 2,
+      upper: this.a / 2
+    };
+    this.startingPoint = this.a * this.z - this.a / 2;
+
+    // Data Trials
+    if (this.human) {
+      this.trials = this.data.trials.length;
+    } else {
+      this.data.trials = Array.from({
+        length: this.trials
+      }, (element, index) => {
+        const seed = this.random() / 1000 * 997; // HACK to avoid randomLcg repetition
+        const animate = this.animate && index === this.trials - 1;
+
+        // Sample Paths
+        const path = this.alignPath(seed, this.a, this.z, this.v, this.t0);
+        const outcome = path.at(-1).e <= this.bounds.lower ? 'error' : path.at(-1).e >= this.bounds.upper ? 'correct' : 'nr';
+        const rt = outcome === 'error' ? path.at(-2).t + (this.bounds.lower - path.at(-2).e) / (path.at(-1).e - path.at(-2).e) * (this.precision * 1000) : outcome === 'correct' ? path.at(-2).t + (this.bounds.upper - path.at(-2).e) / (path.at(-1).e - path.at(-2).e) * (this.precision * 1000) : null;
+        return {
+          index,
+          seed,
+          path,
+          rt,
+          outcome,
+          animate
+        };
+      });
+    }
+
+    // Data Summary Stats
+    const dataStats = DDMMath.trials2stats(this.data.trials.filter(path => {
+      return !path.animate;
+    }));
+    this.data = {
+      ...this.data,
+      ...dataStats
+    };
+
+    // Model Summary Stats
+    this.model.accuracy = DDMMath.azv2pC(this.a, this.z, this.v);
+    this.model.correctMeanRT = DDMMath.azvt02mC(this.a, this.z, this.v, this.t0);
+    this.model.errorMeanRT = DDMMath.azvt02mE(this.a, this.z, this.v, this.t0);
+    this.model.correctSDRT = DDMMath.azv2sdC(this.a, this.z, this.v);
+    this.model.errorSDRT = DDMMath.azv2sdE(this.a, this.z, this.v);
+
+    // Model Distributions
+    this.model.correctDist = this.alignCorrectDistribution(this.a, this.z, this.v, this.t0);
+    this.model.errorDist = this.alignErrorDistribution(this.a, this.z, this.v, this.t0);
+    this.dispatchEvent(new CustomEvent('ddm-model-output', {
+      detail: {
+        data: this.data,
+        model: this.model
+      },
+      bubbles: true
+    }));
+  }
+  static get styles() {
+    return [super.styles, i$2`
+        :host {
+          display: inline-block;
+
+          width: 27rem;
+          height: 18rem;
+        }
+
+        .main {
+          width: 100%;
+          height: 100%;
+        }
+
+        text {
+          /* stylelint-disable property-no-vendor-prefix */
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        /*  
+          UNDERLAYER
+        */
+        .background {
+          fill: var(---color-element-background);
+          stroke: none;
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+
+        .title {
+          font-weight: 600;
+
+          fill: currentColor;
+        }
+
+        .axis path,
+        .axis line {
+          stroke: var(---color-element-border);
+          /* shape-rendering: crispEdges; */
+        }
+
+        .tick {
+          font-size: 0.75rem;
+        }
+
+        /*  
+          CONTENT
+        */
+        .line {
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2;
+        }
+
+        .curve {
+          stroke-width: 2;
+        }
+
+        .path .curve {
+          opacity: 0.5;
+
+          fill: none;
+
+          transition: opacity 0.5s;
+        }
+
+        .path.highlight .curve {
+          filter: url("#shadow-2");
+          opacity: 1;
+        }
+
+        .path.correct .curve {
+          /* stroke: var(---color-correct); */
+        }
+
+        .path.error .curve {
+          /* stroke: var(---color-error); */
+        }
+
+        .stop-0 {
+          stop-color: var(---color-correct);
+        }
+
+        .stop-100 {
+          stop-color: var(---color-error);
+        }
+
+        .path.animate .curve {
+          opacity: 1;
+
+          stroke: url("#path-animate");
+        }
+
+        .dist.correct .curve {
+          fill: var(---color-correct-light);
+          stroke: var(---color-correct);
+        }
+
+        .dist.error .curve {
+          fill: var(---color-error-light);
+          stroke: var(---color-error);
+        }
+
+        .rt .mark {
+          stroke-width: 1;
+        }
+
+        .accuracy.model .bar {
+          stroke: none;
+        }
+
+        .accuracy.model.correct .bar {
+          fill: var(---color-correct);
+        }
+
+        .accuracy.model.error .bar {
+          fill: var(---color-error);
+        }
+
+        .accuracy.data .mark {
+          stroke-width: 2;
+        }
+
+        .accuracy.data.correct .mark {
+          stroke: var(---color-correct-light);
+        }
+
+        .accuracy.data.error .mark {
+          stroke: var(---color-error-light);
+        }
+
+        /*
+          OVERLAYER
+        */
+        .interactive {
+          filter: url("#shadow-2");
+          outline: none;
+        }
+
+        .interactive:hover {
+          filter: url("#shadow-4");
+        }
+
+        .interactive:active {
+          filter: url("#shadow-8");
+        }
+
+        :host(.keyboard) .interactive:focus {
+          filter: url("#shadow-8");
+        }
+
+        .boundary {
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2;
+        }
+
+        .boundary.interactive {
+          cursor: ns-resize;
+        }
+
+        .drift {
+          pointer-events: visible;
+
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-dasharray: 8 4;
+          stroke-width: 2;
+        }
+
+        .drift.interactive {
+          cursor: ns-resize;
+        }
+
+        .drift .arrow {
+          stroke-dasharray: none;
+        }
+
+        .t0z.interactive {
+          cursor: move;
+        }
+
+        .t0z .point {
+          fill: var(---color-element-emphasis);
+
+          r: 6px;
+        }
+
+        .measure {
+          stroke-width: 2;
+        }
+
+        .measure .label {
+          font-size: 0.75rem;
+
+          fill: currentColor;
+        }
+
+        .measure.a .line {
+          stroke: var(---color-a);
+        }
+
+        .measure.a .label {
+          dominant-baseline: auto;
+          text-anchor: end;
+        }
+
+        .measure.z .line {
+          stroke: var(---color-z);
+        }
+
+        .measure.z .label {
+          dominant-baseline: hanging;
+          text-anchor: start;
+        }
+
+        .measure.v .line {
+          stroke: var(---color-v);
+        }
+
+        .measure.v .label {
+          dominant-baseline: auto;
+          text-anchor: start;
+        }
+
+        .measure.t0 .line {
+          stroke: var(---color-t0);
+        }
+
+        .measure.t0 .label {
+          dominant-baseline: auto;
+          text-anchor: middle;
+        }
+
+        .sd .indicator,
+        .mean .indicator {
+          stroke-width: 2;
+        }
+
+        .sd.model .indicator,
+        .mean.model .indicator {
+          stroke-dasharray: 2 2;
+        }
+
+        .sd.data .indicator,
+        .mean.data .indicator {
+          stroke-dasharray: 1 1;
+        }
+
+        .sd.correct .indicator,
+        .mean.correct .indicator {
+          stroke: var(---color-correct-dark);
+        }
+
+        .sd.error .indicator,
+        .mean.error .indicator {
+          stroke: var(---color-error-dark);
+        }
+
+        .rt-label rect {
+          filter: url("#shadow-2");
+
+          fill: var(--color-background);
+          rx: 4;
+        }
+
+        .rt-label text {
+          font-size: 0.75rem;
+          
+          text-anchor: middle;
+        }
+
+        .rt-label.correct text {
+          dominant-baseline: auto;
+        }
+
+        .rt-label.error text {
+          dominant-baseline: hanging;
+        }
+      `];
+  }
+  render() {
+    /* eslint-disable-line class-methods-use-this */
+    return x$1``;
+  }
+  willUpdate() {
+    this.alignState();
+  }
+  update(changedProperties) {
+    super.update(changedProperties);
+
+    // Bail out if we can't get the width/height
+    if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
+      return;
+    }
+    const hostWidth = this.width;
+    const hostHeight = this.height;
+    const hostAspectRatio = hostWidth / hostHeight;
+    const elementAspectRatio = 1.5;
+    let elementWidth;
+    let elementHeight;
+    if (hostAspectRatio > elementAspectRatio) {
+      elementHeight = hostHeight;
+      elementWidth = elementHeight * elementAspectRatio;
+    } else {
+      elementWidth = hostWidth;
+      elementHeight = elementWidth / elementAspectRatio;
+    }
+    const margin = {
+      top: 1 * this.rem,
+      bottom: 3 * this.rem,
+      left: 3.75 * this.rem,
+      right: 3.25 * this.rem
+    };
+    const height = elementHeight - (margin.top + margin.bottom);
+    const width = elementWidth - (margin.left + margin.right);
+    const gapHeight = 0.75 * this.rem;
+    const evidenceHeight = height * 0.5;
+    const densityHeight = height * 0.25 - gapHeight;
+    const gapWidth = 0.75 * this.rem;
+    const timeWidth = width * 0.90;
+    const accuracyWidth = width * 0.10 - gapWidth;
+    const transitionDuration = parseInt(this.getComputedStyleValue('---transition-duration'), 10);
+
+    //
+    // SCALES
+    //
+
+    // Time Scale
+    const timeScale = linear().domain([this.scale.time.min, this.scale.time.max]).range([0, timeWidth]);
+
+    // Evidence Scale
+    const evidenceScale = linear().domain([this.scale.evidence.min, this.scale.evidence.max]).range([evidenceHeight, 0]);
+
+    // Correct Density Scale
+    const correctDensityScale = linear().domain([this.scale.density.min, this.scale.density.max]).range([densityHeight, 0]);
+
+    // Error Density Scale
+    const errorDensityScale = linear().domain([this.scale.density.min, this.scale.density.max]).range([0, densityHeight]);
+
+    // Accuracy Scale
+    const accuracyScale = linear().domain([0, 1]).range([0, height]);
+
+    //
+    // DRAG BEHAVIORS
+    //
+
+    // Nondecision Time/Starting Point Drag behavior
+    const dragT0z = drag().subject((event, datum) => {
+      return {
+        x: timeScale(datum.t0),
+        y: evidenceScale(datum.startingPoint)
+      };
+    }).on('start', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', true);
+    }).on('drag', event => {
+      this.drag = true;
+      const shift = event.sourceEvent.shiftKey ? Math.abs(event.x - event.subject.x) > Math.abs(event.y - event.subject.y) ? 't0' : 'z' : false;
+      let t0 = timeScale.invert(event.x);
+      let z = (evidenceScale.invert(event.y) + this.a / 2) / this.a;
+      // Clamp t0
+      t0 = shift === 'z' ? timeScale.invert(event.subject.x) : t0 < 0 ? 0 : t0 > 500 ? 500 : t0;
+      // Clamp z
+      z = shift === 't0' ? (evidenceScale.invert(event.subject.y) + this.a / 2) / this.a : z < 0.01 ? 0.01 : z > 0.99 ? 0.99 : z;
+      this.t0 = t0;
+      this.z = z;
+      this.alignState();
+      this.dispatchEvent(new CustomEvent('ddm-model-t0', {
+        detail: {
+          t0: this.t0
+        },
+        bubbles: true
+      }));
+      this.dispatchEvent(new CustomEvent('ddm-model-z', {
+        detail: {
+          z: this.z
+        },
+        bubbles: true
+      }));
+    }).on('end', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', false);
+      this.drag = false;
+    });
+
+    // Drift Rate Drag behavior
+    const dragDrift = drag().on('start', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', true);
+    }).on('drag', event => {
+      this.drag = true;
+      let v = (evidenceScale.invert(event.y) - this.startingPoint) / (timeScale.invert(event.x) - this.t0) * 1000;
+      // Clamp drift rate
+      v = v < 0.01 ? 0.01 : v > 5 ? 5 : v;
+      this.v = v;
+      this.alignState();
+      this.dispatchEvent(new CustomEvent('ddm-model-v', {
+        detail: {
+          v: this.v
+        },
+        bubbles: true
+      }));
+    }).on('end', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', false);
+      this.drag = false;
+    });
+
+    // Boundary Drag behavior
+    const dragBoundary = drag().subject((event, datum) => {
+      return {
+        x: 0,
+        y: evidenceScale(datum.value)
+      };
+    }).on('start', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', true);
+    }).on('drag', (event, datum) => {
+      this.drag = true;
+      let boundary = evidenceScale.invert(event.y);
+      // Clamp boundaries to visible evidence
+      boundary = boundary < this.scale.evidence.min ? this.scale.evidence.min : boundary > this.scale.evidence.max ? this.scale.evidence.max : datum.bound === 'upper' && boundary < 0.005 ? 0.005 : datum.bound === 'lower' && boundary > -0.005 ? -0.005 : boundary;
+      this.a = Math.abs(boundary * 2);
+      this.alignState();
+      this.dispatchEvent(new CustomEvent('ddm-model-a', {
+        detail: {
+          a: this.a
+        },
+        bubbles: true
+      }));
+    }).on('end', event => {
+      const element = event.currentTarget;
+      select(element).classed('dragging', false);
+      this.drag = false;
+    });
+
+    //
+    // LINES
+    //
+
+    // Line for time/evidence space
+    const evidenceLine = line().x(datum => {
+      return timeScale(datum.t);
+    }).y(datum => {
+      return evidenceScale(datum.e);
+    });
+
+    // Line for correct time/density space
+    const correctDensityLine = line().x(datum => {
+      return timeScale(datum.t);
+    }).y(datum => {
+      return correctDensityScale(datum.d);
+    });
+
+    // Line for error time/density space
+    const errorDensityLine = line().x(datum => {
+      return timeScale(datum.t);
+    }).y(datum => {
+      return errorDensityScale(datum.d);
+    });
+
+    //
+    // PLOTS
+    //
+
+    // Svg
+    //  DATA-JOIN
+    const svgUpdate = select(this.renderRoot).selectAll('.main').data([{
+      width: this.width,
+      height: this.height,
+      rem: this.rem
+    }]);
+    //  ENTER
+    const svgEnter = svgUpdate.enter().append('svg').classed('main', true).html(AccumulableElement.svgDefs);
+    const svgDefs = svgEnter.append('defs');
+    // Arrowhead marker for measures
+    svgDefs.append('marker').attr('id', 'measure-arrow').attr('orient', 'auto-start-reverse').attr('markerUnits', 'userSpaceOnUse').attr('viewBox', '-5 -5 10 10').attr('refX', '2').attr('refY', '0').attr('markerWidth', '10').attr('markerHeight', '10').append('path').attr('stroke', 'context-stroke').attr('fill', 'context-stroke').attr('d', 'M -3 -3 l 6 3 l -6 3 z');
+    // Flat markers for SDs
+    svgDefs.append('marker').attr('id', 'model-sd-cap').attr('orient', 'auto-start-reverse').attr('markerUnits', 'userSpaceOnUse').attr('viewBox', '-5 -5 10 10').attr('refX', '0').attr('refY', '0').attr('markerWidth', '10').attr('markerHeight', '10').append('path').attr('stroke', 'context-stroke').attr('fill', 'context-stroke').attr('stroke-width', '2').attr('d', 'M 0 -4 l 0 8');
+    svgDefs.append('marker').attr('id', 'data-sd-cap').attr('orient', 'auto-start-reverse').attr('markerUnits', 'userSpaceOnUse').attr('viewBox', '-5 -5 10 10').attr('refX', '0').attr('refY', '0').attr('markerWidth', '10').attr('markerHeight', '10').append('path').attr('stroke', 'context-stroke').attr('fill', 'context-stroke').attr('stroke-width', '2').attr('d', 'M 0 -3 l 0 6');
+    const gradient = svgDefs.append('linearGradient').attr('id', 'path-animate').attr('gradientUnits', 'userSpaceOnUse').attr('color-interpolation', 'linearRGB').attr('x1', '0').attr('x2', '0').attr('y1', evidenceScale(this.bounds.upper)).attr('y2', evidenceScale(this.bounds.lower));
+    gradient.append('stop').classed('stop-0', true).attr('offset', '0%');
+    gradient.append('stop').classed('stop-100', true).attr('offset', '100%');
+    //  MERGE
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`);
+
+    // Plots
+    //  DATA-JOIN
+    const densityPlotUpdate = svgMerge.selectAll('.plot.density').data([{
+      outcome: 'correct',
+      data: {
+        meanRT: this.data.correctMeanRT,
+        sdRT: this.data.correctSDRT
+      },
+      model: {
+        meanRT: this.model.correctMeanRT,
+        sdRT: this.model.correctSDRT,
+        dist: this.model.correctDist
+      },
+      densityScale: correctDensityScale,
+      densityLine: correctDensityLine,
+      alignDistribution: this.alignCorrectDistribution.bind(this)
+    }, {
+      outcome: 'error',
+      data: {
+        meanRT: this.data.errorMeanRT,
+        sdRT: this.data.errorSDRT
+      },
+      model: {
+        meanRT: this.model.errorMeanRT,
+        sdRT: this.model.errorSDRT,
+        dist: this.model.errorDist
+      },
+      densityScale: errorDensityScale,
+      densityLine: errorDensityLine,
+      alignDistribution: this.alignErrorDistribution.bind(this)
+    }]);
+    //  ENTER
+    const evidencePlotEnter = svgEnter.append('g').classed('plot evidence', true);
+    const densityPlotEnter = densityPlotUpdate.enter().append('g').attr('class', datum => {
+      return `plot density ${datum.outcome}`;
+    });
+    const accuracyPlotEnter = svgEnter.append('g').classed('plot accuracy', true);
+    //  MERGE
+    const evidencePlotMerge = svgMerge.select('.plot.evidence').attr('transform', `translate(${margin.left}, ${margin.top + densityHeight + gapHeight})`);
+    const densityPlotMerge = densityPlotEnter.merge(densityPlotUpdate).attr('transform', datum => {
+      return `translate(${margin.left}, ${datum.outcome === 'correct' ? margin.top : margin.top + densityHeight + evidenceHeight + 2 * gapHeight})`;
+    });
+    const accuracyPlotMerge = svgMerge.select('.plot.accuracy').attr('transform', `translate(${margin.left + timeWidth + gapWidth}, ${margin.top})`);
+
+    // Clippaths
+    //  ENTER
+    evidencePlotEnter.append('clipPath').attr('id', 'clip-evidence').append('rect');
+    //  MERGE
+    evidencePlotMerge.select('clipPath rect').attr('y', evidenceScale(this.bounds.upper)).attr('height', evidenceScale(this.bounds.lower) - evidenceScale(this.bounds.upper) + 1).attr('width', timeWidth + 1);
+
+    //
+    // LAYERS
+    //
+
+    // Underlayers
+    //  ENTER
+    const evidenceUnderlayerEnter = evidencePlotEnter.append('g').classed('underlayer', true);
+    const densityUnderlayerEnter = densityPlotEnter.append('g').classed('underlayer', true);
+    const accuracyUnderlayerEnter = accuracyPlotEnter.append('g').classed('underlayer', true);
+    //  MERGE
+    const evidenceUnderlayerMerge = evidencePlotMerge.select('.underlayer');
+    const densityUnderlayerMerge = densityPlotMerge.select('.underlayer');
+    const accuracyUnderlayerMerge = accuracyPlotMerge.select('.underlayer');
+
+    // Contents
+    //  ENTER
+    evidencePlotEnter.append('g').classed('content', true).append('g').classed('paths', true);
+    const densityContentEnter = densityPlotEnter.append('g').classed('content', true);
+    accuracyPlotEnter.append('g').classed('content', true);
+    //  MERGE
+    const evidenceContentMerge = evidencePlotMerge.select('.content');
+    const densityContentMerge = densityPlotMerge.select('.content');
+    const accuracyContentMerge = accuracyPlotMerge.select('.content');
+
+    // Overlayers
+    //  ENTER
+    evidencePlotEnter.append('g').classed('overlayer', true);
+    densityPlotEnter.append('g').classed('overlayer', true);
+    accuracyPlotEnter.append('g').classed('overlayer', true);
+    //  MERGE
+    const evidenceOverlayerMerge = evidencePlotMerge.select('.overlayer');
+    const densityOverlayerMerge = densityPlotMerge.select('.overlayer');
+    // const accuracyOverlayerMerge = accuracyPlotMerge.select('.overlayer');
+
+    //
+    // UNDERLAYERS
+    //
+
+    // Backgrounds
+    //  ENTER
+    evidenceUnderlayerEnter.append('rect').classed('background', true);
+    densityUnderlayerEnter.append('rect').classed('background', true);
+    //  MERGE
+    evidenceUnderlayerMerge.select('.background').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('y', evidenceScale(this.bounds.upper)).attr('height', evidenceScale(this.bounds.lower) - evidenceScale(this.bounds.upper)).attr('width', timeWidth);
+    densityUnderlayerMerge.select('.background').transition().duration(transitionDuration).ease(cubicOut).attr('height', densityHeight).attr('width', timeWidth);
+
+    // X Axes (Time)
+    //  ENTER
+    densityUnderlayerEnter.filter(datum => {
+      return datum.outcome === 'error';
+    }).append('g').classed('axis time', true);
+    //  MERGE
+    const timeScaleMerge = densityUnderlayerMerge.filter(datum => {
+      return datum.outcome === 'error';
+    }).select('.axis.time').attr('transform', `translate(0, ${densityHeight + 0.25 * this.rem})`);
+    const timeScaleTransition = timeScaleMerge.transition().duration(transitionDuration).ease(cubicOut).call(axisBottom(timeScale)).attr('font-size', null).attr('font-family', null);
+    timeScaleTransition.selectAll('line, path').attr('stroke', null);
+
+    // X Axes Titles
+    //  ENTER
+    const timeTitleEnter = densityUnderlayerEnter.filter(datum => {
+      return datum.outcome === 'error';
+    }).append('text').classed('title time', true).attr('text-anchor', 'middle');
+    timeTitleEnter.append('tspan').classed('name', true).text('Time (ms)');
+    //  MERGE
+    densityUnderlayerMerge.filter(datum => {
+      return datum.outcome === 'error';
+    }).select('.title.time').transition().duration(transitionDuration).ease(cubicOut).attr('transform', `translate(${timeWidth / 2}, ${densityHeight + 2.5 * this.rem})`);
+
+    // Y Axes (Evidence, Density, Accuracy)
+    //  ENTER
+    evidenceUnderlayerEnter.append('g').classed('axis evidence', true);
+    densityUnderlayerEnter.append('g').attr('class', datum => {
+      return `axis density ${datum.outcome}`;
+    });
+    accuracyUnderlayerEnter.append('g').classed('axis accuracy', true);
+    // MERGE
+    const evidenceScaleMerge = evidenceUnderlayerMerge.select('.axis.evidence').attr('transform', `translate(${-0.25 * this.rem}, 0)`);
+    const densityScaleMerge = densityUnderlayerMerge.select('.axis.density').attr('transform', `translate(${-0.25 * this.rem}, 0)`);
+    const accuracyScaleMerge = accuracyUnderlayerMerge.select('.axis.accuracy').attr('transform', `translate(${accuracyWidth + 0.25 * this.rem}, 0)`);
+    const evidenceScaleTransition = evidenceScaleMerge.transition().duration(transitionDuration).ease(cubicOut).call(axisLeft(evidenceScale)).attr('font-size', null).attr('font-family', null);
+    const densityScaleTransition = densityScaleMerge.transition().duration(transitionDuration).ease(cubicOut).each((datum, index, elements) => {
+      axisLeft(datum.densityScale).ticks(2)(select(elements[index]));
+    }).attr('font-size', null).attr('font-family', null);
+    const accuracyScaleTransition = accuracyScaleMerge.transition().duration(transitionDuration).ease(cubicOut).call(axisRight(accuracyScale)).attr('font-size', null).attr('font-family', null);
+    evidenceScaleTransition.selectAll('line, path').attr('stroke', null);
+    densityScaleTransition.selectAll('line, path').attr('stroke', null);
+    accuracyScaleTransition.selectAll('line, path').attr('stroke', null);
+
+    // Y Axes Titles (Evidence & Density)
+    //  ENTER
+    const evidenceTitleEnter = evidenceUnderlayerEnter.append('text').classed('title evidence', true).attr('text-anchor', 'middle');
+    const densityTitleEnter = densityUnderlayerEnter.append('text').attr('class', datum => {
+      return `title density ${datum.outcome}`;
+    }).attr('text-anchor', 'middle');
+    const accuracyTitleEnter = accuracyUnderlayerEnter.append('text').classed('title accuracy', true).attr('text-anchor', 'middle');
+    evidenceTitleEnter.append('tspan').classed('name', true).text('Evidence');
+    densityTitleEnter.append('tspan').classed('name', true).text('Density');
+    accuracyTitleEnter.append('tspan').classed('name', true).text('Accuracy');
+    //  MERGE
+    evidenceUnderlayerMerge.select('.title.evidence').transition().duration(transitionDuration).ease(cubicOut).attr('transform', `translate(${-2.5 * this.rem}, ${evidenceHeight / 2})rotate(-90)`);
+    densityUnderlayerMerge.select('.title.density').transition().duration(transitionDuration).ease(cubicOut).attr('transform', `translate(${-2.5 * this.rem}, ${densityHeight / 2})rotate(-90)`);
+    accuracyUnderlayerMerge.select('.title.accuracy').transition().duration(transitionDuration).ease(cubicOut).attr('transform', `translate(${accuracyWidth + 2.25 * this.rem}, ${height / 2})rotate(90)`);
+
+    //
+    // CONTENTS
+    //
+
+    // Paths
+    //  DATA-JOIN
+    const pathUpdate = evidenceContentMerge.select('.paths').selectAll('.path').data(this.data.trials.filter(trial => {
+      return trial.path !== undefined;
+    }));
+    //  ENTER
+    const rtLabel = local();
+    const pathEnter = pathUpdate.enter().append('g').classed('path', true).attr('data-new-trial-ease-time', 0).on('pointerenter', (event, datum) => {
+      if (!this.drag) {
+        select(event.currentTarget).classed('highlight', true).raise();
+        const myRtLabel = evidenceOverlayerMerge.append('g').classed(`rt-label ${datum.outcome}`, true);
+        const rect = myRtLabel.append('rect');
+        const text = myRtLabel.append('text').text(`RT = ${datum.rt.toFixed()}`).attr('x', timeScale(datum.rt)).attr('y', datum.outcome === 'correct' ? evidenceScale(this.bounds.upper) - this.rem * 0.25 : evidenceScale(this.bounds.lower) + this.rem * 0.125);
+        const bbox = text.node().getBBox();
+        rect.attr('x', bbox.x - this.rem * 0.125).attr('y', bbox.y + this.rem * 0.125).attr('width', bbox.width + this.rem * 0.25).attr('height', bbox.height - this.rem * 0.25);
+        rtLabel.set(event.currentTarget, myRtLabel);
+      }
+    }).on('pointerout', (event, datum) => {
+      if (!this.drag) {
+        select(event.currentTarget).classed('highlight', false).lower();
+        event.currentTarget.parentNode.insertBefore(event.currentTarget, event.currentTarget.parentNode.children[datum.index]);
+        rtLabel.get(event.currentTarget).remove();
+      }
+    });
+    pathEnter.append('path').classed('curve', true).attr('clip-path', 'url(#clip-evidence)').attr('pathLength', 1).attr('stroke-dashoffset', 1);
+    //  MERGE
+    const pathMerge = pathEnter.merge(pathUpdate).attr('class', datum => {
+      return `path ${datum.outcome}`;
+    });
+    pathMerge.select('.curve').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('stroke', datum => {
+      return this.getComputedStyleValue(`---color-${datum.outcome}`);
+    }).attrTween('d', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateA = interpolate$1(element.a !== undefined ? element.a : this.a, this.a);
+      const interpolateZ = interpolate$1(element.z !== undefined ? element.z : this.z, this.z);
+      const interpolateV = interpolate$1(element.v !== undefined ? element.v : this.v, this.v);
+      const interpolateT0 = interpolate$1(element.t0 !== undefined ? element.t0 : this.t0, this.t0);
+      return time => {
+        element.a = interpolateA(time);
+        element.z = interpolateZ(time);
+        element.v = interpolateV(time);
+        element.t0 = interpolateT0(time);
+        const path = this.alignPath(datum.seed, element.a, element.z, element.v, element.t0);
+        return evidenceLine(path);
+      };
+    });
+    //  MERGE - Active Animate Paths
+    const pathMergeNewActive = pathMerge.filter(datum => {
+      return datum.animate && !this.paused;
+    });
+    if (!pathMergeNewActive.empty()) {
+      const easeTime = pathMergeNewActive.attr('data-new-trial-ease-time');
+      const scaleIn = time => {
+        return linear().domain([0, 1]).range([easeTime, 1])(time);
+      };
+      const scaleOutGenerator = easeFunction => {
+        return time => {
+          return linear().domain([easeFunction(easeTime), 1]).range([0, 1])(easeFunction(time));
+        };
+      };
+      pathMergeNewActive.classed('animate', true).select('.curve').attr('stroke-dasharray', 1);
+      pathMergeNewActive.transition('new').duration(datum => {
+        // scale the RT for viewing pleasure
+        return Math.floor(datum.rt * 1.5 * (1 - easeTime));
+      }).ease(scaleIn).attr('data-new-trial-ease-time', 1).select('.curve').attrTween('stroke-dashoffset', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolator = interpolate$1(element.getAttribute('stroke-dashoffset'), 0);
+        return time => {
+          return interpolator(scaleOutGenerator(linear$1)(time));
+        };
+      }).on('end', (datum, index, elements) => {
+        const element = elements[index];
+        select(element.parentElement).classed('animate', false).attr('data-new-trial-ease-time', null);
+        datum.animate = false;
+        this.animate = false;
+        this.alignState();
+        this.requestUpdate();
+        this.dispatchEvent(new CustomEvent('accumulable-response', {
+          detail: {
+            outcome: datum.outcome,
+            data: this.data,
+            model: this.model
+          },
+          bubbles: true
+        }));
+      });
+    }
+    //  MERGE - Paused Animate Paths
+    const pathMergeNewPaused = pathMerge.filter(datum => {
+      return datum.animate && this.paused;
+    });
+    if (!pathMergeNewPaused.empty()) {
+      const easeTime = pathMergeNewPaused.attr('data-new-trial-ease-time');
+      pathMergeNewPaused.classed('animate', true).select('.curve').attr('stroke-dasharray', 1).attr('stroke-dashoffset', () => {
+        const interpolator = interpolate$1(1, 0);
+        return interpolator(linear$1(easeTime));
+      });
+    }
+    //  MERGE - Non-Animate Paths
+    pathMerge.filter(datum => {
+      return !datum.animate;
+    }).attr('data-new-trial-ease-time', null);
+    //  EXIT
+    pathUpdate.exit().remove();
+
+    // Distributions
+    //  ENTER
+    const distEnter = densityContentEnter.append('g').attr('class', datum => {
+      return `dist ${datum.outcome}`;
+    });
+    distEnter.append('path').classed('curve', true);
+    //  MERGE
+    densityContentMerge.select('.dist').select('.curve').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attrTween('d', (datum, index, elements) => {
+      const element = elements[index];
+      const interpolateA = interpolate$1(element.a !== undefined ? element.a : this.a, this.a);
+      const interpolateZ = interpolate$1(element.z !== undefined ? element.z : this.z, this.z);
+      const interpolateV = interpolate$1(element.v !== undefined ? element.v : this.v, this.v);
+      const interpolateT0 = interpolate$1(element.t0 !== undefined ? element.t0 : this.t0, this.t0);
+      return time => {
+        element.a = interpolateA(time);
+        element.z = interpolateZ(time);
+        element.v = interpolateV(time);
+        element.t0 = interpolateT0(time);
+        const path = datum.alignDistribution(element.a, element.z, element.v, element.t0);
+        return datum.densityLine(path);
+      };
+    });
+
+    // RTs
+    //  DATA-JOIN
+    const rtUpdate = evidenceContentMerge.selectAll('.rt').data(this.data.trials);
+    //  ENTER
+    const rtEnter = rtUpdate.enter().append('g');
+    rtEnter.append('line').classed('mark', true).attr('x1', datum => {
+      return timeScale(datum.rt);
+    }).attr('x2', datum => {
+      return timeScale(datum.rt);
+    }).attr('y1', datum => {
+      return datum.outcome === 'correct' ? evidenceScale(1) - 0.125 * this.rem : evidenceScale(-1) + 0.125 * this.rem;
+    }).attr('y2', datum => {
+      return datum.outcome === 'correct' ? evidenceScale(1) - 0.675 * this.rem : evidenceScale(-1) + 0.675 * this.rem;
+    });
+    //  MERGE
+    const rtMerge = rtEnter.merge(rtUpdate).attr('class', datum => {
+      return `rt ${datum.outcome}`;
+    });
+    rtMerge.filter(datum => {
+      return !datum.animate;
+    }).select('.mark').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('stroke', datum => {
+      return this.getComputedStyleValue(`---color-${datum.outcome}`);
+    }).attr('x1', datum => {
+      return timeScale(datum.rt);
+    }).attr('x2', datum => {
+      return timeScale(datum.rt);
+    }).attr('y1', datum => {
+      return datum.outcome === 'correct' ? evidenceScale(1) - 0.125 * this.rem : evidenceScale(-1) + 0.125 * this.rem;
+    }).attr('y2', datum => {
+      return datum.outcome === 'correct' ? evidenceScale(1) - 0.675 * this.rem : evidenceScale(-1) + 0.675 * this.rem;
+    });
+    //  EXIT
+    rtUpdate.exit().remove();
+
+    // Model Accuracy
+    //  DATA-JOIN
+    const accuracyUpdate = accuracyContentMerge.selectAll('.accuracy.model').data([this.model.accuracy, 1 - this.model.accuracy]);
+    //  ENTER
+    const accuracyEnter = accuracyUpdate.enter().append('g').attr('class', (_, index) => {
+      return `accuracy model ${index === 0 ? 'correct' : 'error'}`;
+    });
+    accuracyEnter.append('rect').classed('bar', true).attr('x', 0);
+    //  MERGE
+    accuracyEnter.merge(accuracyUpdate).select('rect').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut)
+    // ## Tween based on params?
+    .attr('y', (datum, index) => {
+      return index === 0 ? accuracyScale(0) : accuracyScale(1 - datum);
+    }).attr('width', accuracyWidth).attr('height', datum => {
+      return accuracyScale(datum);
+    });
+    //  EXIT
+    accuracyUpdate.exit().remove();
+
+    // Data Accuracy
+    //  DATA-JOIN
+    const dataAccuracyUpdate = accuracyContentMerge.selectAll('.accuracy.data').data(!Number.isNaN(this.data.accuracy) ? [this.data.accuracy] : []);
+    //  ENTER
+    const dataAccuracyEnter = dataAccuracyUpdate.enter().append('g').classed('accuracy data', true);
+    dataAccuracyEnter.append('line').classed('mark', true);
+    //  MERGE
+    const dataAccuracyMerge = dataAccuracyEnter.merge(dataAccuracyUpdate).attr('class', datum => {
+      return `accuracy data ${datum < this.model.accuracy.correct ? 'correct' : 'error'}`;
+    });
+    dataAccuracyMerge.select('.mark').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut)
+    // ## Tween based on params?
+    .attr('x1', 0 + 0.25 * this.rem).attr('x2', accuracyWidth - 0.25 * this.rem).attr('y1', datum => {
+      return accuracyScale(datum) - 1;
+    }).attr('y2', datum => {
+      return accuracyScale(datum) - 1;
+    });
+    //  EXIT
+    dataAccuracyUpdate.exit().remove();
+
+    //
+    // OVERLAYERS
+    //
+
+    // Boundaries
+    //  DATA-JOIN
+    const boundaryUpdate = evidenceOverlayerMerge.selectAll('.boundary').data([{
+      bound: 'upper',
+      value: this.bounds.upper
+    }, {
+      bound: 'lower',
+      value: this.bounds.lower
+    }]);
+    //  ENTER
+    const boundaryEnter = boundaryUpdate.enter().append('g').attr('class', (_, index) => {
+      return `boundary ${index === 0 ? 'correct' : 'error'}`;
+    });
+    boundaryEnter.append('line').classed('line', true);
+    //  MERGE
+    const boundaryMerge = boundaryEnter.merge(boundaryUpdate).attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive).on('keydown', this.interactive ? (event, datum) => {
+      if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
+        let a = this.a; /* eslint-disable-line prefer-destructuring */
+        switch (event.key) {
+          case 'ArrowUp':
+            a += datum.bound === 'upper' ? event.shiftKey ? 0.01 : 0.1 : event.shiftKey ? -0.01 : -0.1;
+            break;
+          case 'ArrowDown':
+            a += datum.bound === 'upper' ? event.shiftKey ? -0.01 : -0.1 : event.shiftKey ? 0.01 : 0.1;
+            break;
+        }
+        // Clamp boundaries to visible evidence
+        a = a < 0.01 ? 0.01 : a > this.scale.evidence.max * 2 ? this.scale.evidence.max * 2 : a;
+        this.a = a;
+        this.alignState();
+        this.dispatchEvent(new CustomEvent('ddm-model-a', {
+          detail: {
+            a: this.a
+          },
+          bubbles: true
+        }));
+        event.preventDefault();
+      }
+    } : null);
+    if (this.firstUpdate || changedProperties.has('interactive')) {
+      if (this.interactive) {
+        boundaryMerge.call(dragBoundary);
+      } else {
+        boundaryMerge.on('.drag', null);
+      }
+    }
+    boundaryMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', timeScale(this.scale.time.min)).attr('x2', timeScale(this.scale.time.max)).attr('y1', datum => {
+      return evidenceScale(datum.value);
+    }).attr('y2', datum => {
+      return evidenceScale(datum.value);
+    });
+    //  EXIT
+    boundaryUpdate.exit().remove();
+
+    // Drift Rate
+    //  DATA-JOIN
+    const driftUpdate = evidenceOverlayerMerge.selectAll('.drift').data([{
+      v: this.v,
+      t0: this.t0,
+      startingPoint: this.startingPoint
+    }]);
+    //  ENTER
+    const driftEnter = driftUpdate.enter().append('g').classed('drift', true);
+    driftEnter.append('line').classed('line', true);
+    driftEnter.append('path').classed('arrow', true);
+    //  MERGE
+    const driftMerge = driftEnter.merge(driftUpdate).attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive).on('keydown', this.interactive ? event => {
+      if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
+        let v = this.v; /* eslint-disable-line prefer-destructuring */
+        switch (event.key) {
+          case 'ArrowUp':
+            v += event.shiftKey ? 0.01 : 0.1;
+            break;
+          case 'ArrowDown':
+            v -= event.shiftKey ? 0.01 : 0.1;
+            break;
+        }
+        // Clamp z
+        v = v < 0.01 ? 0.01 : v > 5 ? 5 : v;
+        this.v = v;
+        this.alignState();
+        this.dispatchEvent(new CustomEvent('ddm-model-v', {
+          detail: {
+            v: this.v
+          },
+          bubbles: true
+        }));
+        event.preventDefault();
+      }
+    } : null);
+    if (this.firstUpdate || changedProperties.has('interactive')) {
+      if (this.interactive) {
+        driftMerge.call(dragDrift);
+      } else {
+        driftMerge.on('.drag', null);
+      }
+    }
+    const scaleRatio = (evidenceScale(0) - evidenceScale(1)) / (timeScale(1) - timeScale(0));
+    driftMerge.transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('transform', datum => {
+      return `translate(${timeScale(datum.t0)}, ${evidenceScale(datum.startingPoint)})
+          rotate(${-Math.atan(datum.v / 1000 * scaleRatio) * (180 / Math.PI)})`;
+    });
+    driftMerge.select('.line').attr('x2', timeScale(200));
+    driftMerge.select('.arrow').attr('d', `
+        M ${timeScale(200) - this.rem * 0.5},${-this.rem * 0.5}
+        l ${this.rem * 0.5},${this.rem * 0.5}
+        l ${-this.rem * 0.5},${this.rem * 0.5}
+      `);
+    //  EXIT
+    driftUpdate.exit().remove();
+
+    // Nondecision Time/Starting Point
+    //  DATA-JOIN
+    const t0zUpdate = evidenceOverlayerMerge.selectAll('.t0z').data([{
+      t0: this.t0,
+      startingPoint: this.startingPoint
+    }]);
+    //  ENTER
+    const t0zEnter = t0zUpdate.enter().append('g').classed('t0z', true);
+    t0zEnter.append('line').classed('line', true);
+    t0zEnter.append('circle').classed('point', true);
+    //  MERGE
+    const t0zMerge = t0zEnter.merge(t0zUpdate).attr('tabindex', this.interactive ? 0 : null).classed('interactive', this.interactive).on('keydown', this.interactive ? event => {
+      if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
+        let z = this.z; /* eslint-disable-line prefer-destructuring */
+        switch (event.key) {
+          case 'ArrowUp':
+            z += event.shiftKey ? 0.01 : 0.1;
+            break;
+          case 'ArrowDown':
+            z -= event.shiftKey ? 0.01 : 0.1;
+            break;
+        }
+        // Clamp z
+        z = z < 0.01 ? 0.01 : z > 0.99 ? 0.99 : z;
+        this.z = z;
+        this.alignState();
+        this.dispatchEvent(new CustomEvent('ddm-model-z', {
+          detail: {
+            z: this.z
+          },
+          bubbles: true
+        }));
+        event.preventDefault();
+      }
+      if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        let t0 = this.t0; /* eslint-disable-line prefer-destructuring */
+        switch (event.key) {
+          case 'ArrowRight':
+            t0 += event.shiftKey ? 1 : 10;
+            break;
+          case 'ArrowLeft':
+            t0 -= event.shiftKey ? 1 : 10;
+            break;
+        }
+        // Clamp t0
+        t0 = t0 < 0 ? 0 : t0 > 500 ? 500 : t0;
+        this.t0 = t0;
+        this.alignState();
+        this.dispatchEvent(new CustomEvent('ddm-model-t0', {
+          detail: {
+            t0: this.t0
+          },
+          bubbles: true
+        }));
+        event.preventDefault();
+      }
+    } : null);
+    if (this.firstUpdate || changedProperties.has('interactive')) {
+      if (this.interactive) {
+        t0zMerge.call(dragT0z);
+      } else {
+        t0zMerge.on('.drag', null);
+      }
+    }
+    t0zMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', timeScale(0)).attr('x2', datum => {
+      return timeScale(datum.t0);
+    }).attr('y1', datum => {
+      return evidenceScale(datum.startingPoint);
+    }).attr('y2', datum => {
+      return evidenceScale(datum.startingPoint);
+    });
+    t0zMerge.select('.point').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('cx', datum => {
+      return timeScale(datum.t0);
+    }).attr('cy', datum => {
+      return evidenceScale(datum.startingPoint);
+    });
+    //  EXIT
+    t0zUpdate.exit().remove();
+
+    // a Measure
+    //  DATA-JOIN
+    const aUpdate = evidenceOverlayerMerge.selectAll('.measure.a').data(this.measures ? [this.a] : []);
+    //  ENTER
+    const aEnter = aUpdate.enter().append('g').classed('measure a', true);
+    aEnter.append('line').classed('line', true).attr('marker-start', 'url(#measure-arrow)').attr('marker-end', 'url(#measure-arrow)');
+    const aLabel = aEnter.append('text').classed('label', true);
+    aLabel.append('tspan').classed('a math-var', true).text('a');
+    aLabel.append('tspan').classed('equals', true).text(' = ');
+    aLabel.append('tspan').classed('value', true);
+    //  MERGE
+    const aMerge = aEnter.merge(aUpdate);
+    aMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', timeScale(this.scale.time.max) - this.rem * 0.75).attr('y1', evidenceScale(this.bounds.upper) + 2).attr('x2', timeScale(this.scale.time.max) - this.rem * 0.75).attr('y2', evidenceScale(this.bounds.lower) - 2);
+    const aLabelMerge = aMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', timeScale(this.scale.time.max)).attr('y', evidenceScale(this.bounds.upper) - this.rem * 0.25);
+    aLabelMerge.select('.value').text(format('.2f')(this.a));
+    //  EXIT
+    aUpdate.exit().remove();
+
+    // z Measure
+    //  DATA-JOIN
+    const zUpdate = evidenceOverlayerMerge.selectAll('.measure.z').data(this.measures ? [this.z] : []);
+    //  ENTER
+    const zEnter = zUpdate.enter().append('g').classed('measure z', true);
+    zEnter.append('line').classed('line', true).attr('marker-start', 'url(#measure-arrow)').attr('marker-end', 'url(#measure-arrow)');
+    const zLabel = zEnter.append('text').classed('label', true);
+    zLabel.append('tspan').classed('z math-var', true).text('z');
+    zLabel.append('tspan').classed('equals', true).text(' = ');
+    zLabel.append('tspan').classed('value', true);
+    //  MERGE
+    const zMerge = zEnter.merge(zUpdate);
+    zMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', timeScale(this.scale.time.min) + this.rem * 0.75).attr('y1', evidenceScale(this.startingPoint) + 2).attr('x2', timeScale(this.scale.time.min) + this.rem * 0.75).attr('y2', evidenceScale(this.bounds.lower) - 2);
+    const zLabelMerge = zMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', timeScale(this.scale.time.min)).attr('y', evidenceScale(this.bounds.lower) + this.rem * 0.125);
+    zLabelMerge.select('.value').text(format('.0%')(this.z));
+    //  EXIT
+    zUpdate.exit().remove();
+
+    // v Measure
+    //  DATA-JOIN
+    const vUpdate = evidenceOverlayerMerge.selectAll('.measure.v').data(this.measures ? [this.v] : []);
+    //  ENTER
+    const vEnter = vUpdate.enter().append('g').classed('measure v', true);
+    vEnter.append('path').classed('line', true).attr('marker-start', 'url(#measure-arrow)').attr('marker-end', 'url(#measure-arrow)');
+    const vLabel = vEnter.append('text').classed('label', true);
+    vLabel.append('tspan').classed('v math-var', true).text('v');
+    vLabel.append('tspan').classed('equals', true).text(' = ');
+    vLabel.append('tspan').classed('value', true);
+    //  MERGE
+    const driftAngle = Math.atan(this.v / 1000 * scaleRatio);
+    const driftHypotenuse = timeScale(200) - timeScale(0) + this.rem * 0.75;
+    const driftX = Math.cos(driftAngle) * driftHypotenuse;
+    const driftY = Math.sin(driftAngle) * driftHypotenuse;
+    const vMerge = vEnter.merge(vUpdate);
+    vMerge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('d', `
+        M ${timeScale(this.t0 + 200) + this.rem * 0.75}, ${evidenceScale(this.startingPoint)}
+        A ${timeScale(200) - timeScale(0)} ${timeScale(200) - timeScale(0)} 0 0 0 ${timeScale(this.t0) + driftX} ${evidenceScale(this.startingPoint) - driftY}
+      `);
+    const vLabelMerge = vMerge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', timeScale(this.t0 + 200) + this.rem * 0.5).attr('y', evidenceScale(this.bounds.upper) - this.rem * 0.25);
+    vLabelMerge.select('.value').text(format('.2f')(this.v));
+    //  EXIT
+    vUpdate.exit().remove();
+
+    // t0 Measure
+    //  DATA-JOIN
+    const t0Update = evidenceOverlayerMerge.selectAll('.measure.t0').data(this.measures ? [this.t0] : []);
+    //  ENTER
+    const t0Enter = t0Update.enter().append('g').classed('measure t0', true);
+    t0Enter.append('line').classed('line', true).attr('marker-start', 'url(#measure-arrow)').attr('marker-end', 'url(#measure-arrow)');
+    const t0Label = t0Enter.append('text').classed('label', true);
+    t0Label.append('tspan').classed('t0 math-var', true).text('t₀');
+    t0Label.append('tspan').classed('equals', true).text(' = ');
+    t0Label.append('tspan').classed('value', true);
+    //  MERGE
+    const t0Merge = t0Enter.merge(t0Update);
+    t0Merge.select('.line').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', timeScale(0) + 2).attr('y1', evidenceScale(this.startingPoint) - this.rem * 0.75).attr('x2', timeScale(this.t0) - 2).attr('y2', evidenceScale(this.startingPoint) - this.rem * 0.75);
+    const t0LabelMerge = t0Merge.select('.label').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x', timeScale(this.t0) + this.rem * 0.25).attr('y', evidenceScale(this.bounds.upper) - this.rem * 0.25);
+    t0LabelMerge.select('.value').text(format('d')(this.t0));
+    //  EXIT
+    t0Update.exit().remove();
+
+    // Means
+    // DATA-JOIN
+    const meanUpdate = densityOverlayerMerge.selectAll('.model.mean').data(datum => {
+      return this.means ? [datum] : [];
+    });
+    //  ENTER
+    const meanEnter = meanUpdate.enter().append('g').attr('class', datum => {
+      return `model mean ${datum.outcome}`;
+    });
+    meanEnter.append('line').classed('indicator', true);
+    //  MERGE
+    const meanMerge = meanEnter.merge(meanUpdate);
+    meanMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
+      return timeScale(datum.model.meanRT);
+    }).attr('x2', datum => {
+      return timeScale(datum.model.meanRT);
+    }).attr('y1', datum => {
+      return datum.densityScale(this.scale.density.min);
+    }).attr('y2', datum => {
+      return datum.densityScale(this.scale.density.max);
+    });
+    //  EXIT
+    meanUpdate.exit().remove();
+
+    // Data Means
+    // DATA-JOIN
+    const dataMeanUpdate = densityOverlayerMerge.selectAll('.data.mean').data(datum => {
+      return this.means && !Number.isNaN(datum.data.meanRT) ? [datum] : [];
+    });
+    //  ENTER
+    const dataMeanEnter = dataMeanUpdate.enter().append('g').attr('class', datum => {
+      return `data mean ${datum.outcome}`;
+    });
+    dataMeanEnter.append('line').classed('indicator', true).attr('y1', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.125 : -0.125) * this.rem;
+    }).attr('y2', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.675 : -0.675) * this.rem;
+    });
+    //  MERGE
+    const dataMeanMerge = dataMeanEnter.merge(dataMeanUpdate);
+    dataMeanMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
+      return timeScale(datum.data.meanRT);
+    }).attr('x2', datum => {
+      return timeScale(datum.data.meanRT);
+    }).attr('y1', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.125 : -0.125) * this.rem;
+    }).attr('y2', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.675 : -0.675) * this.rem;
+    });
+    //  EXIT
+    dataMeanUpdate.exit().select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', 0).attr('x2', 0).on('end', (datum, index, elements) => {
+      select(elements[index].parentElement).remove();
+    });
+
+    // Standard Deviations
+    // DATA-JOIN
+    const sdUpdate = densityOverlayerMerge.selectAll('.model.sd').data(datum => {
+      return this.sds ? [datum] : [];
+    });
+    //  ENTER
+    const sdEnter = sdUpdate.enter().append('g').attr('class', datum => {
+      return `model sd ${datum.outcome}`;
+    });
+    sdEnter.append('line').classed('indicator', true).attr('marker-start', 'url(#model-sd-cap)').attr('marker-end', 'url(#model-sd-cap)');
+    //  MERGE
+    const sdMerge = sdEnter.merge(sdUpdate);
+    sdMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
+      return timeScale(datum.model.meanRT - datum.model.sdRT / 2);
+    }).attr('x2', datum => {
+      return timeScale(datum.model.meanRT + datum.model.sdRT / 2);
+    }).attr('y1', datum => {
+      return datum.densityScale(5);
+    }).attr('y2', datum => {
+      return datum.densityScale(5);
+    });
+    //  EXIT
+    sdUpdate.exit().remove();
+
+    // Data Standard Deviation
+    // DATA-JOIN
+    const dataSDUpdate = densityOverlayerMerge.selectAll('.data.sd').data(datum => {
+      return this.sds && !Number.isNaN(datum.data.meanRT) && !Number.isNaN(datum.data.sdRT) ? [datum] : [];
+    });
+    //  ENTER
+    const dataSDEnter = dataSDUpdate.enter().append('g').attr('class', datum => {
+      return `data sd ${datum.outcome}`;
+    });
+    dataSDEnter.append('line').classed('indicator', true).attr('marker-start', 'url(#data-sd-cap)').attr('marker-end', 'url(#data-sd-cap)').attr('y1', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.375 : -0.375) * this.rem;
+    }).attr('y2', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.375 : -0.375) * this.rem;
+    });
+    //  MERGE
+    const dataSDMerge = dataSDEnter.merge(dataSDUpdate);
+    dataSDMerge.select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', datum => {
+      return timeScale(datum.data.meanRT - datum.data.sdRT / 2);
+    }).attr('x2', datum => {
+      return timeScale(datum.data.meanRT + datum.data.sdRT / 2);
+    }).attr('y1', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.375 : -0.375) * this.rem;
+    }).attr('y2', datum => {
+      return datum.densityScale(0) + (datum.outcome === 'correct' ? 0.375 : -0.375) * this.rem;
+    });
+    //  EXIT
+    dataSDUpdate.exit().select('.indicator').transition().duration(this.drag ? 0 : transitionDuration).ease(cubicOut).attr('x1', 0).attr('x2', 0).on('end', (datum, index, elements) => {
+      select(elements[index].parentElement).remove();
+    });
+    this.firstUpdate = false;
+  }
+}
+customElements.define('ddm-model', DDMModel);
+
+/*
+  RDK2AFCTask element
+  <rdk-2afc-task>
+
+  Attributes:
+  Dots; Coherence;
+  # Direction, Speed, Lifetime
+*/
+class RDK2AFCTask extends DecidablesMixinResizeable(AccumulableElement) {
+  static get properties() {
+    return {
+      coherence: {
+        attribute: 'coherence',
+        type: Number,
+        reflect: true
+      },
+      count: {
+        attribute: 'count',
+        type: Number,
+        reflect: true
+      },
+      probability: {
+        attribute: 'probability',
+        type: Number,
+        reflect: true
+      },
+      duration: {
+        attribute: 'duration',
+        type: Number,
+        reflect: true
+      },
+      wait: {
+        attribute: 'wait',
+        type: Number,
+        reflect: true
+      },
+      iti: {
+        attribute: 'iti',
+        type: Number,
+        reflect: true
+      },
+      trials: {
+        attribute: 'trials',
+        type: Number,
+        reflect: true
+      },
+      running: {
+        attribute: 'running',
+        type: Boolean,
+        reflect: true
+      },
+      lifetime: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      },
+      speed: {
+        attribute: false,
+        type: Number,
+        reflect: false
+      }
+    };
+  }
+  constructor() {
+    super();
+
+    // Attributes
+    this.coherence = 0.5; // Proportion of dots moving coherently
+    this.count = 100; // Number of dots
+    this.probability = 0.5; // Probability of left (as opposed to right)
+    this.duration = 2000; // Duration of stimulus in milliseconds
+    this.wait = 2000; // Duration of wait period for response in milliseconds
+    this.iti = 2000; // Duration of inter-trial interval in milliseconds
+    this.trials = 5; // Number of trials per block
+    this.running = false; // Currently executing block of trials
+
+    // Properties
+    this.lifetime = 400; // Lifetime of each dot in milliseconds
+    this.speed = 50; // Rate of dot movement in pixels per second
+
+    // Private
+    this.firstUpdate = true;
+    this.COHERENT = 0; // "Constant" for index to coherent dots
+    this.RANDOM = 1; // "Constant" for index to random dots
+    this.dots = [[], []]; // Array of array of dots
+    this.trial = 0; // Count of current trial
+
+    this.states = ['resetted', 'iti', 'stimulus', 'wait', 'ended']; // Possible states of task
+    this.state = 'resetted'; // Current state of task
+
+    this.baseTime = 0; // Real time, in milliseconds, that the current block started
+    this.pauseTime = 0; // Real time, in milliseconds, that block was paused at
+    this.startTime = 0; // Virtual time, in milliseconds, that current stage of trial started
+    this.lastTime = 0; // Virtual time, in milliseconds, of the most recent frame
+
+    this.LEFT = 180; // "Constant" for left stimulus direction
+    this.RIGHT = 0; // "Constant" for right stimulus direction
+    this.currentDirection = undefined; // Direction in degrees for current trial
+
+    this.signals = ['left', 'right']; // Possible trial types
+    this.signal = undefined; // Current trial type
+
+    this.runner = undefined; // D3 Interval for frame timing
+    this.xScale = undefined; // D3 Scale for x-axis
+    this.yScale = undefined; // D3 Scale for y-axis
+  }
+  static get styles() {
+    return [super.styles, i$2`
+        :host {
+          display: inline-block;
+
+          width: 10rem;
+          height: 10rem;
+        }
+
+        .main {
+          width: 100%;
+          height: 100%;
+        }
+
+        .background {
+          fill: var(---color-element-disabled);
+          stroke: none;
+        }
+
+        .outline {
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2px;
+        }
+
+        .dot {
+          r: 2px;
+        }
+
+        .dots.coherent {
+          fill: var(---color-background);
+        }
+
+        .dots.random {
+          fill: var(---color-background);
+        }
+
+        .fixation {
+          stroke: var(---color-text);
+          stroke-width: 2px;
+        }
+
+        .query {
+          font-size: 1.75rem;
+          font-weight: 600;
+        }
+      `];
+  }
+  render() {
+    /* eslint-disable-line class-methods-use-this */
+    return x$1``;
+  }
+  update(changedProperties) {
+    super.update(changedProperties);
+
+    // Bail out if we can't get the width/height/rem
+    if (Number.isNaN(this.width) || Number.isNaN(this.height) || Number.isNaN(this.rem)) {
+      return;
+    }
+    const elementWidth = this.width;
+    const elementHeight = this.height;
+    const elementSize = Math.min(elementWidth, elementHeight);
+    const margin = {
+      top: 0.25 * this.rem,
+      bottom: 0.25 * this.rem,
+      left: 0.25 * this.rem,
+      right: 0.25 * this.rem
+    };
+    const height = elementSize - (margin.top + margin.bottom);
+    const width = elementSize - (margin.left + margin.right);
+
+    // X Scale
+    this.xScale = linear().domain([-1, 1]).range([0, width]);
+
+    // Y Scale
+    this.yScale = linear().domain([1, -1]).range([0, height]);
+
+    // Svg
+    //  DATA-JOIN
+    const svgUpdate = select(this.renderRoot).selectAll('.main').data([{
+      width: this.width,
+      height: this.height,
+      rem: this.rem
+    }]);
+    //  ENTER
+    const svgEnter = svgUpdate.enter().append('svg').classed('main', true);
+    //  MERGE
+    const svgMerge = svgEnter.merge(svgUpdate).attr('viewBox', `0 0 ${elementSize} ${elementSize}`);
+
+    // Clippath
+    //  ENTER
+    svgEnter.append('clipPath').attr('id', 'clip-rdk-task').append('circle');
+    //  MERGE
+    svgMerge.select('clipPath circle').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.xScale(0));
+
+    // Plot
+    //  ENTER
+    const plotEnter = svgEnter.append('g').classed('plot', true);
+    //  MERGE
+    const plotMerge = svgMerge.select('.plot').attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+    // Underlayer
+    //  ENTER
+    const underlayerEnter = plotEnter.append('g').classed('underlayer', true);
+    // MERGE
+    const underlayerMerge = plotMerge.select('.underlayer');
+
+    // Background
+    //  ENTER
+    underlayerEnter.append('circle').classed('background', true);
+    //  MERGE
+    underlayerMerge.select('.background').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.xScale(0));
+
+    // Content
+    //  ENTER
+    plotEnter.append('g').classed('content', true).attr('clip-path', 'url(#clip-rdk-task)');
+    //  MERGE
+    const contentMerge = plotMerge.select('.content');
+
+    // Dot Groups
+    //  DATA-JOIN
+    const dotsUpdate = contentMerge.selectAll('.dots').data([[], []]);
+    //  ENTER
+    dotsUpdate.enter().append('g').classed('dots', true).classed('coherent', (datum, index) => {
+      return index === this.COHERENT;
+    }).classed('random', (datum, index) => {
+      return index === this.RANDOM;
+    });
+
+    // Overlayer
+    //  ENTER
+    const overlayerEnter = plotEnter.append('g').classed('overlayer', true);
+    // MERGE
+    const overlayerMerge = plotMerge.select('.overlayer');
+
+    // Outline
+    //  ENTER
+    overlayerEnter.append('circle').classed('outline', true);
+    //  MERGE
+    overlayerMerge.select('.outline').attr('cx', this.xScale(0)).attr('cy', this.yScale(0)).attr('r', this.xScale(1) - this.yScale(0));
+
+    // Start or stop trial block
+    if (this.firstUpdate || changedProperties.has('running')) {
+      if (this.running) {
+        // (Re)Start
+        if (this.pauseTime) {
+          // Shift timeline forward as if paused time never happened
+          this.baseTime += now() - this.pauseTime;
+          this.pauseTime = 0;
+        }
+        this.runner = interval(this.run.bind(this), 20); // FIXME??
+      } else if (this.runner !== undefined) {
+        // Pause
+        this.runner.stop();
+        this.pauseTime = now();
+      }
+    }
+    this.firstUpdate = false;
+  }
+  reset() {
+    if (this.runner !== undefined) {
+      this.runner.stop();
+    }
+    this.running = false;
+    this.trial = 0;
+    this.state = 'resetted';
+    this.baseTime = 0;
+    this.pauseTime = 0;
+    this.startTime = 0;
+    this.lastTime = 0;
+    this.signal = undefined;
+    this.currentDirection = undefined;
+    const dotsUpdate = select(this.renderRoot).select('.content').selectAll('.dots').data([[], []]);
+    const dotUpdate = dotsUpdate.selectAll('.dot').data(datum => {
+      return datum;
+    });
+    dotUpdate.exit().remove();
+    const fixationUpdate = select(this.renderRoot).select('.content').selectAll('.fixation').data([]);
+    fixationUpdate.exit().remove();
+    const queryUpdate = select(this.renderRoot).select('.content').selectAll('.query').data([]);
+    queryUpdate.exit().remove();
+  }
+  run( /* elapsed */
+  ) {
+    const realTime = now();
+    const currentTime = this.baseTime ? realTime - this.baseTime : 0;
+    const elapsedTime = this.baseTime ? currentTime - this.startTime : 0;
+    const frameTime = this.baseTime ? currentTime - this.lastTime : 0;
+    this.lastTime = currentTime;
+    let newTrial = false;
+    if (this.state === 'resetted') {
+      // Start block with an ITI
+      this.state = 'iti';
+      this.baseTime = realTime;
+      this.startTime = 0;
+      this.dispatchEvent(new CustomEvent('rdk-block-start', {
+        detail: {
+          trials: this.trials
+        },
+        bubbles: true
+      }));
+    } else if (this.state === 'iti' && elapsedTime >= this.iti) {
+      // Start new trial with a stimulus
+      newTrial = true;
+      this.trial += 1;
+      this.state = 'stimulus';
+      this.startTime = currentTime;
+      this.signal = Math.random() < this.probability ? 'left' : 'right';
+      this.currentDirection = this.signal === 'left' ? this.LEFT : this.RIGHT;
+      this.dispatchEvent(new CustomEvent('rdk-trial-start', {
+        detail: {
+          trials: this.trials,
+          duration: this.duration,
+          wait: this.wait,
+          iti: this.iti,
+          trial: this.trial,
+          signal: this.signal
+        },
+        bubbles: true
+      }));
+    } else if (this.state === 'stimulus' && elapsedTime >= this.duration) {
+      // Stimulus is over, now wait
+      this.state = 'wait';
+      this.startTime = currentTime;
+      this.dispatchEvent(new CustomEvent('rdk-trial-middle', {
+        detail: {
+          trials: this.trials,
+          duration: this.duration,
+          wait: this.wait,
+          iti: this.iti,
+          trial: this.trial,
+          signal: this.signal
+        },
+        bubbles: true
+      }));
+    } else if (this.state === 'wait' && elapsedTime >= this.wait) {
+      // Wait is over, end of trial
+      this.dispatchEvent(new CustomEvent('rdk-trial-end', {
+        detail: {
+          trials: this.trials,
+          duration: this.duration,
+          wait: this.wait,
+          iti: this.iti,
+          trial: this.trial,
+          signal: this.signal
+        },
+        bubbles: true
+      }));
+      if (this.trial >= this.trials) {
+        // End of block
+        this.runner.stop();
+        this.running = false;
+        this.state = 'ended';
+        this.baseTime = 0;
+        this.pauseTime = 0;
+        this.startTime = 0;
+        this.lastTime = 0;
+        this.signal = undefined;
+        this.currentDirection = undefined;
+        this.dispatchEvent(new CustomEvent('rdk-block-end', {
+          detail: {
+            trials: this.trial
+          },
+          bubbles: true
+        }));
+      } else {
+        // ITI
+        this.state = 'iti';
+        this.startTime = currentTime;
+      }
+    }
+
+    // Dots
+    if (this.state === 'stimulus') {
+      this.dots[this.COHERENT].length = Math.round(this.count * this.coherence);
+      this.dots[this.RANDOM].length = this.count - this.dots[this.COHERENT].length;
+      for (let t = 0; t < this.dots.length; t += 1) {
+        for (let i = 0; i < this.dots[t].length; i += 1) {
+          const newDot = this.dots[t][i] === undefined;
+          if (newDot) {
+            this.dots[t][i] = {};
+          }
+          const dot = this.dots[t][i];
+          if (newTrial || newDot) {
+            dot.direction = t === this.RANDOM ? Math.random() * 360 : this.currentDirection;
+            dot.birth = currentTime - Math.floor(Math.random() * this.lifetime);
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = Math.sqrt(Math.random());
+            dot.x = this.xScale(radius * Math.cos(angle));
+            dot.y = this.yScale(radius * Math.sin(angle));
+          } else if (currentTime > dot.birth + this.lifetime) {
+            // Dot has died, so rebirth
+            dot.birth += this.lifetime;
+            dot.direction = t === this.RANDOM ? Math.random() * 360 : this.currentDirection;
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = Math.sqrt(Math.random());
+            dot.x = this.xScale(radius * Math.cos(angle));
+            dot.y = this.yScale(radius * Math.sin(angle));
+          } else {
+            if (t === this.COHERENT) {
+              dot.direction = this.currentDirection;
+            }
+            const directionR = dot.direction * (Math.PI / 180);
+            dot.dx = this.speed * (frameTime / 1000) * Math.cos(directionR);
+            dot.dy = this.speed * (frameTime / 1000) * Math.sin(directionR);
+            // Update position
+            dot.x += dot.dx;
+            dot.y += dot.dy;
+            // Calculate squared distance from center
+            const distance2 = (dot.x - this.xScale(0)) ** 2 + (dot.y - this.yScale(0)) ** 2;
+            const radius2 = (this.xScale(1) - this.xScale(0)) ** 2;
+            if (distance2 > radius2) {
+              // Dot has exited so move to other side
+              dot.x = -(dot.x - this.xScale(0)) + this.xScale(0);
+              dot.y = -(dot.y - this.yScale(0)) + this.yScale(0);
+            }
+          }
+        }
+      }
+    }
+
+    // Fixation
+    //  DATA-JOIN
+    const fixationUpdate = select(this.renderRoot).select('.content').selectAll('.fixation').data(this.state === 'iti' ? [true] : []);
+    //  ENTER
+    const fixationEnter = fixationUpdate.enter().append('g').classed('fixation', true);
+    fixationEnter.append('line').attr('x1', this.xScale(-0.1)).attr('y1', this.xScale(0)).attr('x2', this.xScale(0.1)).attr('y2', this.xScale(0));
+    fixationEnter.append('line').attr('x1', this.xScale(0)).attr('y1', this.xScale(-0.1)).attr('x2', this.xScale(0)).attr('y2', this.xScale(0.1));
+    //  EXIT
+    fixationUpdate.exit().remove();
+
+    // Dots
+    //  DATA-JOIN
+    const dotsUpdate = select(this.renderRoot).select('.content').selectAll('.dots').data(this.state === 'stimulus' ? this.dots : [[], []]);
+    const dotUpdate = dotsUpdate.selectAll('.dot').data(datum => {
+      return datum;
+    });
+    //  ENTER
+    const dotEnter = dotUpdate.enter().append('circle').classed('dot', true);
+    //  MERGE
+    dotEnter.merge(dotUpdate).attr('cx', datum => {
+      return datum.x;
+    }).attr('cy', datum => {
+      return datum.y;
+    });
+    //  EXIT
+    dotUpdate.exit().remove();
+
+    // Query
+    //  DATA-JOIN
+    const queryUpdate = select(this.renderRoot).select('.content').selectAll('.query').data(this.state === 'wait' ? [true] : []);
+    //  ENTER
+    const queryEnter = queryUpdate.enter().append('g').classed('query', true);
+    queryEnter.append('text').attr('x', this.xScale(0)).attr('y', this.xScale(0)).attr('text-anchor', 'middle').attr('alignment-baseline', 'middle').text('?');
+    //  EXIT
+    queryUpdate.exit().remove();
+  }
+}
+customElements.define('rdk-2afc-task', RDK2AFCTask);
 //# sourceMappingURL=page.js.map

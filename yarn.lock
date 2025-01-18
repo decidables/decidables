@@ -1633,12 +1633,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@decidables/accumulable-elements@npm:^0.0.1, @decidables/accumulable-elements@workspace:libraries/accumulable-elements":
+"@decidables/accumulable-elements@npm:^0.1.0, @decidables/accumulable-elements@workspace:libraries/accumulable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/accumulable-elements@workspace:libraries/accumulable-elements"
   dependencies:
-    "@decidables/accumulable-math": "npm:^0.0.1"
-    "@decidables/decidables-elements": "npm:^0.4.6"
+    "@decidables/accumulable-math": "npm:^0.1.0"
+    "@decidables/decidables-elements": "npm:^0.4.7"
     "@lit-labs/motion": "npm:^1.0.7"
     "@observablehq/plot": "npm:^0.6.14"
     bayes.js: "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f"
@@ -1649,7 +1649,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/accumulable-math@npm:^0.0.1, @decidables/accumulable-math@workspace:libraries/accumulable-math":
+"@decidables/accumulable-math@npm:^0.1.0, @decidables/accumulable-math@workspace:libraries/accumulable-math":
   version: 0.0.0-use.local
   resolution: "@decidables/accumulable-math@workspace:libraries/accumulable-math"
   dependencies:
@@ -1661,7 +1661,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/accumulable@workspace:sites/accumulable"
   dependencies:
-    "@decidables/accumulable-elements": "npm:^0.0.1"
+    "@decidables/accumulable-elements": "npm:^0.1.0"
     "@decidables/decidables-site": "npm:^0.1.2"
     bootstrap: "npm:^5.3.3"
     bootstrap-icons: "npm:^1.11.3"
@@ -1675,7 +1675,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/decidables-elements@npm:^0.4.6, @decidables/decidables-elements@workspace:libraries/decidables-elements":
+"@decidables/decidables-elements@npm:^0.4.7, @decidables/decidables-elements@workspace:libraries/decidables-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/decidables-elements@workspace:libraries/decidables-elements"
   dependencies:
@@ -1697,10 +1697,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/decidables@workspace:sites/decidables"
   dependencies:
+    "@decidables/accumulable-elements": "npm:^0.1.0"
     "@decidables/decidables-site": "npm:^0.1.2"
-    "@decidables/detectable-elements": "npm:^0.2.13"
-    "@decidables/discountable-elements": "npm:^0.3.6"
-    "@decidables/prospectable-elements": "npm:^0.2.13"
+    "@decidables/detectable-elements": "npm:^0.2.14"
+    "@decidables/discountable-elements": "npm:^0.3.7"
+    "@decidables/prospectable-elements": "npm:^0.2.14"
     bootstrap: "npm:^5.3.3"
     bootstrap-icons: "npm:^1.11.3"
     core-js: "npm:^3.37.0"
@@ -1713,11 +1714,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/detectable-elements@npm:^0.2.13, @decidables/detectable-elements@workspace:libraries/detectable-elements":
+"@decidables/detectable-elements@npm:^0.2.14, @decidables/detectable-elements@workspace:libraries/detectable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/detectable-elements@workspace:libraries/detectable-elements"
   dependencies:
-    "@decidables/decidables-elements": "npm:^0.4.6"
+    "@decidables/decidables-elements": "npm:^0.4.7"
     "@decidables/detectable-math": "npm:^0.1.11"
     d3: "npm:^7.9.0"
     gulp: "npm:^5.0.0"
@@ -1740,7 +1741,7 @@ __metadata:
   resolution: "@decidables/detectable@workspace:sites/detectable"
   dependencies:
     "@decidables/decidables-site": "npm:^0.1.2"
-    "@decidables/detectable-elements": "npm:^0.2.13"
+    "@decidables/detectable-elements": "npm:^0.2.14"
     bootstrap: "npm:^5.3.3"
     bootstrap-icons: "npm:^1.11.3"
     core-js: "npm:^3.37.0"
@@ -1753,11 +1754,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/discountable-elements@npm:^0.3.6, @decidables/discountable-elements@workspace:libraries/discountable-elements":
+"@decidables/discountable-elements@npm:^0.3.7, @decidables/discountable-elements@workspace:libraries/discountable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/discountable-elements@workspace:libraries/discountable-elements"
   dependencies:
-    "@decidables/decidables-elements": "npm:^0.4.6"
+    "@decidables/decidables-elements": "npm:^0.4.7"
     "@decidables/discountable-math": "npm:^0.1.7"
     "@lit-labs/motion": "npm:^1.0.7"
     "@observablehq/plot": "npm:^0.6.14"
@@ -1782,7 +1783,7 @@ __metadata:
   resolution: "@decidables/discountable@workspace:sites/discountable"
   dependencies:
     "@decidables/decidables-site": "npm:^0.1.2"
-    "@decidables/discountable-elements": "npm:^0.3.6"
+    "@decidables/discountable-elements": "npm:^0.3.7"
     bootstrap: "npm:^5.3.3"
     bootstrap-icons: "npm:^1.11.3"
     core-js: "npm:^3.37.0"
@@ -1795,11 +1796,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/prospectable-elements@npm:^0.2.13, @decidables/prospectable-elements@workspace:libraries/prospectable-elements":
+"@decidables/prospectable-elements@npm:^0.2.14, @decidables/prospectable-elements@workspace:libraries/prospectable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable-elements@workspace:libraries/prospectable-elements"
   dependencies:
-    "@decidables/decidables-elements": "npm:^0.4.6"
+    "@decidables/decidables-elements": "npm:^0.4.7"
     "@decidables/prospectable-math": "npm:^0.2.9"
     "@lit-labs/motion": "npm:^1.0.7"
     bayes.js: "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f"
@@ -1825,7 +1826,7 @@ __metadata:
   resolution: "@decidables/prospectable@workspace:sites/prospectable"
   dependencies:
     "@decidables/decidables-site": "npm:^0.1.2"
-    "@decidables/prospectable-elements": "npm:^0.2.13"
+    "@decidables/prospectable-elements": "npm:^0.2.14"
     bootstrap: "npm:^5.3.3"
     bootstrap-icons: "npm:^1.11.3"
     core-js: "npm:^3.37.0"

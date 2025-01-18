@@ -145,7 +145,7 @@
   <!-- PROSPECTABLE -->
     <div class="dec-site-wrapper">
       <header class="dec-site-header">
-        <div class="dec-site-intro dec-disabled">Coming soon...</div>
+        <div class="dec-site-intro dec-disabled">Under development...</div>
         <a class="dec-site-link dec-disabled" href="prospectable/">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
@@ -241,6 +241,61 @@
           <span class="visually-hidden">Previous</span>
         </button>
         <button class="dec-carousel-control carousel-control-next" type="button" data-bs-target="#discountable-carousel" data-bs-slide="next">
+          <span class="dec-carousel-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </section>
+  <section class="dec-site">
+  <!-- ACCUMULABLE -->
+    <div class="dec-site-wrapper">
+      <header class="dec-site-header">
+        <div class="dec-site-intro dec-disabled">Under development...</div>
+        <a class="dec-site-link dec-disabled" href="accumulable/">
+          <hgroup class="dec-site-titles">
+            <h2 class="dec-site-title">
+              <span class="accumulable"><span class="math-var a">a</span>ccumulable</span>
+            </h2>
+            <p class="dec-site-subtitle">An Explorable Explanation of the Diffusion Decision Model</p>
+          </hgroup>
+        </a>
+        <p class="dec-site-lead dec-disabled">
+          What determines the reaction time and accuracy of our perceptual decisions?<br>
+          DDM proposes a mathematical explanation in terms of <em>evidence accumulation</em>.
+        </p>
+      </header>
+      <div class="dec-carousel carousel slide" id="accumulable-carousel" data-bs-interval="false" data-bs-touch="false">
+        <div class="dec-carousel-indicators carousel-indicators">
+          <button type="button" data-bs-target="#accumulable-carousel" data-bs-slide-to="0" aria-label="Slide 1" class="active" aria-current="true"></button>
+          <button type="button" data-bs-target="#accumulable-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#accumulable-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="dec-carousel-items">
+          <div class="dec-carousel-item carousel-item active">
+            <figure class="dec-demo-figure">
+              <ddm-model class="dec-demo" interactive measures means sds trials="10" boundary-separation="1.2" starting-point="0.35" drift-rate="1.5" nondecision-time="150"></ddm-model>
+              <figcaption class="dec-demo-caption">Evidence accumulation.</figcaption>
+            </figure>
+          </div>
+          <div class="dec-carousel-item carousel-item">
+            <figure class="dec-demo-figure">
+              <accumulable-table class="dec-demo" numeric summary color="outcome" correct-count="14" error-count="6" nr-count="0" accuracy="0.7" correct-mean-rt="475" error-mean-rt="328" mean-rt="431" correct-sd-rt="395" error-sd-rt="227" sd-rt="354"></accumulable-table>
+              <figcaption class="dec-demo-caption">Accuracy and reaction times.</figcaption>
+            </figure>
+          </div>
+          <div class="dec-carousel-item carousel-item">
+            <figure class="dec-demo-figure">
+              <rdk-2afc-task class="dec-demo" running count="100" coherence="0.5" trials="Infinity" probability="0.5" duration="1000" wait="1000" iti="1000"></rdk-2afc-task>
+              <figcaption class="dec-demo-caption">Motion direction detection task.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <button class="dec-carousel-control carousel-control-prev" type="button" data-bs-target="#accumulable-carousel" data-bs-slide="prev">
+          <span class="dec-carousel-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="dec-carousel-control carousel-control-next" type="button" data-bs-target="#accumulable-carousel" data-bs-slide="next">
           <span class="dec-carousel-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
