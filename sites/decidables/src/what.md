@@ -12,7 +12,10 @@ psychology:
   c">c</span>table</span>**](detectable/): Signal detection theory
 - [**<span class="prospectable">prospect<span class="math-var">α</span>b<span
 class="math-var">λ</span>e</span>**](prospectable/): Cumulative prospect theory
-- [**<span class="discountable">dis<span class="math-var">k</span>ountable</span>**](discountable/): Hyperbolic temporal discounting
+- [**<span class="discountable">dis<span class="math-var">k</span>ountable</span>**](discountable/):
+  Hyperbolic temporal discounting
+- [**<span class="accumulable"><span class="math-var">a</span>ccumulable</span>**](accumulable/):
+  Diffusion decision model
 
 ## Explorable explanations
 
