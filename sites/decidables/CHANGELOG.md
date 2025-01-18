@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.8.5...@decidables/decidables@0.9.0) (2025-01-18)
+
+
+### Features
+
+* **decidables:** added accumulable ([6546567](https://github.com/decidables/decidables/commit/65465674d8996140999d9452aa03a6a15c69a65c))
+
+
+
 ## [0.8.5](https://github.com/decidables/decidables/compare/@decidables/decidables@0.8.4...@decidables/decidables@0.8.5) (2025-01-17)
 
 **Note:** Version bump only for package @decidables/decidables

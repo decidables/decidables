@@ -1,6 +1,6 @@
 {
   "name": "@decidables/accumulable-elements",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "accumulable-elements: Web Components for visualizing the Diffusion Decision Model",
   "keywords": [
     "web component",
@@ -52,7 +52,7 @@
     "gulp": "^5.0.0"
   },
   "dependencies": {
-    "@decidables/accumulable-math": "^0.1.0",
+    "@decidables/accumulable-math": "^0.1.1",
     "@decidables/decidables-elements": "^0.4.7",
     "@lit-labs/motion": "^1.0.7",
     "@observablehq/plot": "^0.6.14",

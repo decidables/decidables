@@ -1,6 +1,6 @@
 {
   "name": "@decidables/accumulable-math",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "accumulable-math: Equations for calculating the Diffusion Decision Model",
   "keywords": [
     "explorable explanation",
