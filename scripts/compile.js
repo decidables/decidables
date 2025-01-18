@@ -126,7 +126,7 @@ export async function compileMarkdown() {
   });
 
   // Serial execution so references are accumulated correctly
-  srcPaths.reduce(
+  await srcPaths.reduce(
     async (serial, srcPath) => {
       await serial;
 
