@@ -1,7 +1,6 @@
 ## Bugs
 
 - rationalize tazv2gE & tazv2gC
-- add to website
 
 ## Ideas
 
