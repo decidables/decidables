@@ -1,6 +1,6 @@
 {
   "name": "@decidables/accumulable",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "accumulable: An Explorable Explanation of the Diffusion Decision Model",
   "type": "module",
   "main": "./dist/index.html",

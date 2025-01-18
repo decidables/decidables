@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.1](https://github.com/decidables/decidables/compare/@decidables/decidables@0.9.0...@decidables/decidables@0.9.1) (2025-01-18)
+
+
+### Bug Fixes
+
+* **decidables:** add missing mention of accumulable ([3797153](https://github.com/decidables/decidables/commit/37971530346e6c38a6e62991b15905490bcdd56d))
+
+
+
 ## [0.9.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.8.5...@decidables/decidables@0.9.0) (2025-01-18)
 
 
