@@ -19,3 +19,7 @@ import '@decidables/prospectable-elements/components/risky-task';
 
 import '@decidables/discountable-elements/components/htd-curves';
 import '@decidables/discountable-elements/components/itc-task';
+
+import '@decidables/accumulable-elements/components/accumulable-table';
+import '@decidables/accumulable-elements/components/ddm-model';
+import '@decidables/accumulable-elements/components/rdk-2afc-task';

@@ -90,3 +90,12 @@ explores hyperbolic temporal discounting. The task is to choose between a smalle
 and a larger value in the future. Would you rather have less now or more later? <em>Hyperbolic
 discounting</em> describes how our subjective perception of value changes with time
 :cite[@ainslie_derivation_1991; @berns_intertemporal_2007].
+
+### **<span class="accumulable"><span class="math-var">a</span>ccumulable</span>**
+
+[**<span class="accumulable"><span class="math-var">a</span>ccumulable</span>**](accumulable/)
+explores the diffusion decision model (DDM). The task is to determine the direction of coherent
+motion in a random dot kinematogram. Is it to the left or the right? DDM models a process of
+<em>evidence accumulation</em> that accounts for both reaction time and accuracy, based on the <em>
+boundary separation</em>, <em>starting point</em>, <em>drift rate</em>, and <em>non-decision
+time</em> :cite[@Ratcliff2008; @ratcliff_diffusion_2016].

@@ -26,6 +26,7 @@
     "gulp": "^5.0.0"
   },
   "dependencies": {
+    "@decidables/accumulable-elements": "^0.1.0",
     "@decidables/decidables-site": "^0.1.2",
     "@decidables/detectable-elements": "^0.2.14",
     "@decidables/discountable-elements": "^0.3.7",
