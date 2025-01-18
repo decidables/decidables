@@ -26,12 +26,12 @@ thinking and explanation in scientific psychology :cite[@farrell_computational_2
 
 ## Why these theories?
 
-The project is currently focused on signal detection theory, cumulative prospect theory, and
-hyperbolic temporal discounting. Each of these theories provides a quantitative account for a core
-aspect of decision making. Psychological theories can take many different forms, and vary greatly in
-complexity. But each of the theories presented here can be expressed in terms of a small number of
-parameterized equations. They maximize explanatory power, while emphasizing simplicity and
-parsimony.
+The project is currently focused on signal detection theory, cumulative prospect theory, hyperbolic
+temporal discounting, and the diffusion decision model. Each of these theories provides a
+quantitative account for a core aspect of decision making. Psychological theories can take many
+different forms, and vary greatly in complexity. But each of the theories presented here can be
+expressed in terms of a small number of parameterized equations. They maximize explanatory power,
+while emphasizing simplicity and parsimony.
 
 ### Signal detection theory
 
@@ -62,6 +62,16 @@ economics, and has been used to understand behaviors including procrastination a
 :cite[@ainslie_cardinal_2016; @moreira_delay_2019; @steel_nature_2007]. It lends itself to visual
 representation in terms of discounting curves. We explore hyperbolic temporal discounting in
 [**<span class="discountable">dis<span class="math-var">k</span>ountable</span>**](discountable/).
+
+### Diffusion decision model
+
+The diffusion decision model (DDM) addresses how evidence accumulates over time towards a decision
+:cite[@Ratcliff2008]. This allows the theory to make detailed predictions about reaction time
+distributions as well as accuracy :cite[@ratcliff_diffusion_2016]. The theory has been applied to
+perception, attention, and memory, and has been linked to patterns of neural excitation
+:cite[@smith_introduction_2015; @Gold2001a]. It lends itself to visual representation in terms of a
+random walk towards boundaries. We explore the diffusion decision model in [**<span
+class="accumulable"><span class="math-var">a</span>ccumulable</span>**](accumulable/).
 
 ## Why explorable explanations?
 
