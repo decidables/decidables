@@ -64,6 +64,10 @@ export const watchLibraries = watches.watchLibrariesTask([
   'detectable-elements',
   'prospectable-math',
   'prospectable-elements',
+  'discountable-math',
+  'discountable-elements',
+  'accumulable-math',
+  'accumulable-elements',
 ]);
 
 export const watch = gulp.parallel(
