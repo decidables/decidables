@@ -81,7 +81,7 @@ process of engagement.
 
 This approach builds on the *constructionist* ideas that learning is best facilitated by an
 environment that supports open-ended exploration and that this approach can be a strong antidote to
-"mathphobia" :cite[@papert_mindstorms_1993; @papert_situating_1991]. This approach is succinctly
+"mathphobia" :cite[@papert_mindstorms_1980; @papert_situating_1991]. This approach is succinctly
 synthesized in [Papert's Eight Big Ideas](http://stager.org/articles/8bigideas.pdf)
 :cite[@papert_eight_1999].
 
