@@ -48,7 +48,7 @@
   ],
   "scripts": {
     "lint": "gulp lint",
-    "test": "gulp test",
+    "test": "gulp test -X \"$@\"",
     "build": "gulp build"
   },
   "devDependencies": {
