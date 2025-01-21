@@ -8,10 +8,11 @@
     "explorable",
     "decision making",
     "decidables",
-    "hyperbolic temporal discounting",
-    "temporal discounting",
-    "delay discounting",
-    "discountable"
+    "diffusion decision model",
+    "drift diffusion model",
+    "sequential sampling model",
+    "reaction time",
+    "accumulable"
   ],
   "type": "module",
   "main": "./lib/accumulableElements.umd.min.js",
