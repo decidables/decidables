@@ -99,10 +99,14 @@ and the non-decision time, `t0`, and outputs the probability correct, `pC`.
   - Lints markdown, scripts and styles
 - `yarn test`
   - Runs all tests and reports coverage in `test/coverage/`
-- `yarn test:watch`
+- `yarn test --watch`
+- `yarn test -w`
   - Runs all tests in watch mode and reports coverage in `test/coverage/`
-- `yarn test:file <filename>`
+- `yarn test <directory/filename>`
   - Runs tests for a single file and reports coverage in `test/coverage/`
+- `yarn test <directory/filename> --watch`
+- `yarn test <directory/filename> -w`
+  - Runs tests for a single file in watch mode and reports coverage in `test/coverage/`
 - `yarn build`
   - Builds bundles from `src/` to `lib/`
 

@@ -195,8 +195,14 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
   - Runs all tests for all libraries and reports coverage in `test/coverage/`
 - `yarn workspace @decidables/<library> test`
   - Runs all tests for a single library and reports coverage in `test/coverage/`
-- `yarn workspace @decidables/<library> test:file <filename>`
-  - Runs tests for a single file and reports coverage in `test/coverage/`
+- `yarn workspace @decidables/<library> test --watch`
+- `yarn workspace @decidables/<library> test -w`
+  - Runs all tests for a single library in watch mode and reports coverage in `test/coverage/`
+- `yarn workspace @decidables/<library> test <directory/filename>`
+  - Runs tests for a single library for a single file and reports coverage in `test/coverage/`
+- `yarn workspace @decidables/<library> test <directory/filename> --watch`
+- `yarn workspace @decidables/<library> test <directory/filename> -w`
+  - Runs tests for a single library for a single file in watch mode and reports coverage in `test/coverage/`
 
 #### Compile
 

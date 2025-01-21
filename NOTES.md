@@ -1,8 +1,8 @@
 ## Notes
 
+Add icons to homepages or menubars?
 Convert all code documentation to JSDoc format
   Use tool to extract docs from code files and add to README?
-Fix test:watch test:file test:file:watch & document syntax
 Use MathML with embedded elements for equations?
 Universal bounds and step sizes for each parameter?
 Separate Controls vs Parameters
