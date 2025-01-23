@@ -29,6 +29,10 @@ export function getPackageVersion() {
   return readPackageJson().version;
 }
 
+export function getPackageDirectory() {
+  return process.cwd();
+}
+
 export function getCurrentDate() {
   return (new Date()).toLocaleDateString('en-CA', {dateStyle: 'medium'});
 }
