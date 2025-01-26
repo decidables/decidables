@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/accumulable@0.1.2...@decidables/accumulable@0.2.0) (2025-01-26)
+
+
+### Features
+
+* **accumulable:** making icon w/boundaries square ([69b430b](https://github.com/decidables/decidables/commit/69b430bcf79b486e26f61c9ff30f0dd859c61c2e))
+
+
+### Bug Fixes
+
+* **accumulable:** remove tabindex from favicon ([915fd13](https://github.com/decidables/decidables/commit/915fd13b373db9d0c01dcb4945558769863258c1))
+
+
+
 ## [0.1.2](https://github.com/decidables/decidables/compare/@decidables/accumulable@0.1.1...@decidables/accumulable@0.1.2) (2025-01-18)
 
 **Note:** Version bump only for package @decidables/accumulable
