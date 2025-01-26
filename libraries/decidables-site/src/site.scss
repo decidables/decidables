@@ -85,7 +85,7 @@ $enable-dark-mode: false;
 // Sidebar
 .dec-sidebar {
   @include make-col-ready();
-  @include make-col(10, 10);
+  @include make-col(9, 9);
 
   display: flex;
 
@@ -95,7 +95,7 @@ $enable-dark-mode: false;
   border-bottom: $border;
 
   @include media-breakpoint-up(md) {
-    @include make-col(2, 10);
+    @include make-col(2, 9);
 
     flex-direction: column;
     
@@ -136,6 +136,12 @@ $enable-dark-mode: false;
   padding: 0.5rem;
   margin-right: calc($grid-gutter-width / -2);
   margin-left: calc($grid-gutter-width / -2);
+
+  @include media-breakpoint-up(md) {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
 }
 
 .dec-nav-toggler {
@@ -176,6 +182,10 @@ $enable-dark-mode: false;
 .dec-nav-brand {
   @extend .navbar-brand;
 
+  display: flex;
+
+  align-items: center;
+
   padding: 0 0.5rem;
   margin: 0;
 
@@ -205,6 +215,28 @@ $enable-dark-mode: false;
     color: $color-text;
     text-decoration: none;
   }
+
+  @include media-breakpoint-up(md) {
+    flex-direction: column;
+
+    padding: 0.5rem 0.5rem 0;
+  }
+}
+
+.dec-nav-brand svg {
+  width: 2rem;
+  height: 2rem;
+
+  margin: 0.1875rem 0.5rem 0.1875rem 0;
+
+  border-radius: $border-radius;
+
+  @include media-breakpoint-up(md) {
+    width: 4rem;
+    height: 4rem;
+
+    margin: 0;
+  }
 }
 
 .dec-nav-collapse {
@@ -215,7 +247,7 @@ $enable-dark-mode: false;
 
   @include media-breakpoint-up(md) {
     @supports (position: sticky) {
-      max-height: calc(100vh - 6.3125rem);
+      max-height: calc(100vh - 10.8125rem); // Top: 7.8125 + Bottom: 3
       overflow-y: auto;
     }
   }
@@ -297,7 +329,7 @@ $enable-dark-mode: false;
 }
 
 .dec-nav-bottom {
-  padding: 0.75rem 0.5rem;
+  padding: 0.6875rem 0.5rem;
   margin-right: calc($grid-gutter-width / -2);
   margin-left: calc($grid-gutter-width / -2);
 
@@ -306,13 +338,15 @@ $enable-dark-mode: false;
   background-color: $color-background-inverse;
 
   @include media-breakpoint-up(md) {
-    padding: 0.5625rem 0.5rem;
+    padding: 0.5rem;
   }
 }
 
 .dec-nav-decidables {
-  display: block;
+  display: flex;
 
+  align-items: center;
+  
   padding: 0 0.5rem;
   margin: 0;
 
@@ -325,16 +359,25 @@ $enable-dark-mode: false;
   }
 }
 
+.dec-nav-decidables svg {
+  width: 2rem;
+  height: 2rem;
+
+  margin-right: 0.5rem;
+
+  border-radius: $border-radius;
+}
+
 // Main
 .dec-main {
   @include make-col-ready();
-  @include make-col(10, 10);
+  @include make-col(9, 9);
 
   padding-top: 1rem;
   padding-bottom: 0.625rem;
 
   @include media-breakpoint-up(md) {
-    @include make-col(8, 10);
+    @include make-col(7, 9);
   }
 
   @include media-breakpoint-up(lg) {
