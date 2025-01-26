@@ -29,7 +29,10 @@ toc:
   <body class="dec-body <%- (file !== 'index') ? 'dec-page' : '' %>">
     <header class="dec-header">
       <nav class="dec-nav">
-        <a class="dec-nav-brand" href="./">decidables</a>
+        <a class="dec-nav-brand" href="./">
+          <%- include(`${utilities.getPackageDirectory()}/src/favicon.svg`) _%>
+          <span>decidables</span>
+        </a>
         <button class="dec-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dec-navbar" aria-controls="dec-navbar" aria-expanded="false" aria-label="Toggle navigation">
           <%- include(resolvePkg('bootstrap-icons/icons/list.svg')) %>
         </button>
@@ -62,7 +65,10 @@ toc:
       <nav class="dec-nav">
         <ul class="dec-nav-brand-list">
           <li class="dec-nav-item">
-            <a class="dec-nav-brand" href="./">decidables</a>
+            <a class="dec-nav-brand" href="./">
+              <%- include(`${utilities.getPackageDirectory()}/src/favicon.svg`) _%>
+              <span>decidables</span>
+            </a>
           </li>
           <li class="dec-nav-item">
             <a class="dec-nav-link" href="https://github.com/decidables/decidables/releases/tag/%40decidables%2Fdecidables%40<%- utilities.getPackageVersion() %>" target="_blank" rel="noopener">
