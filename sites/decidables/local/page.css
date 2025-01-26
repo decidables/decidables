@@ -2625,7 +2625,7 @@ progress {
   --bs-navbar-hover-color: rgba(var(--bs-emphasis-color-rgb), 0.8);
   --bs-navbar-disabled-color: rgba(var(--bs-emphasis-color-rgb), 0.3);
   --bs-navbar-active-color: rgba(var(--bs-emphasis-color-rgb), 1);
-  --bs-navbar-brand-padding-y: 0.40625rem;
+  --bs-navbar-brand-padding-y: 0.34375rem;
   --bs-navbar-brand-margin-end: 0;
   --bs-navbar-brand-font-size: 1.25rem;
   --bs-navbar-brand-color: rgba(var(--bs-emphasis-color-rgb), 1);
@@ -3920,7 +3920,7 @@ progress {
   display: inline-block !important;
 }
 
-.d-block, .dec-nav-text, .dec-nav-brand {
+.d-block, .dec-nav-text {
   display: block !important;
 }
 
@@ -3944,7 +3944,7 @@ progress {
   display: table-cell !important;
 }
 
-.d-flex, .dec-demo-figure, .dec-body {
+.d-flex, .dec-demo-figure, .dec-nav-brand, .dec-body {
   display: flex !important;
 }
 
@@ -4390,7 +4390,7 @@ progress {
   align-items: flex-end !important;
 }
 
-.align-items-center, .dec-demo-figure {
+.align-items-center, .dec-demo-figure, .dec-nav-brand {
   align-items: center !important;
 }
 
@@ -8568,6 +8568,13 @@ progress {
 
 .dec-nav-brand:hover {
   text-decoration: underline;
+}
+
+.dec-nav-brand svg {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.75rem;
+  border-radius: 0.25rem;
 }
 
 .dec-nav-toggler {

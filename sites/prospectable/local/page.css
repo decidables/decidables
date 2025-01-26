@@ -8415,7 +8415,7 @@ progress {
 @media (min-width: 768px) {
   .dec-sidebar {
     flex: 0 0 auto;
-    width: 20%;
+    width: 22.22222222%;
     flex-direction: column;
     align-items: stretch;
     min-height: 100vh;
@@ -8453,6 +8453,12 @@ progress {
   margin-right: -1rem;
   margin-left: -1rem;
 }
+@media (min-width: 768px) {
+  .dec-nav-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 
 .dec-nav-toggler {
   padding: 0.1875rem 0.5rem;
@@ -8480,6 +8486,8 @@ progress {
 }
 
 .dec-nav-brand {
+  display: flex;
+  align-items: center;
   padding: 0 0.5rem;
   margin: 0;
   font-size: 1.5rem;
@@ -8502,6 +8510,26 @@ progress {
   color: #262626;
   text-decoration: none;
 }
+@media (min-width: 768px) {
+  .dec-nav-brand {
+    flex-direction: column;
+    padding: 0.5rem 0.5rem 0;
+  }
+}
+
+.dec-nav-brand svg {
+  width: 2rem;
+  height: 2rem;
+  margin: 0.1875rem 0.5rem 0.1875rem 0;
+  border-radius: 0.25rem;
+}
+@media (min-width: 768px) {
+  .dec-nav-brand svg {
+    width: 4rem;
+    height: 4rem;
+    margin: 0;
+  }
+}
 
 .dec-nav-collapse {
   padding-top: 0.25rem;
@@ -8512,7 +8540,7 @@ progress {
 @media (min-width: 768px) {
   @supports (position: sticky) {
     .dec-nav-collapse {
-      max-height: calc(100vh - 6.3125rem);
+      max-height: calc(100vh - 10.8125rem);
       overflow-y: auto;
     }
   }
@@ -8579,7 +8607,7 @@ progress {
 }
 
 .dec-nav-bottom {
-  padding: 0.75rem 0.5rem;
+  padding: 0.6875rem 0.5rem;
   margin-right: -1rem;
   margin-left: -1rem;
   font-size: 1.5rem;
@@ -8587,12 +8615,13 @@ progress {
 }
 @media (min-width: 768px) {
   .dec-nav-bottom {
-    padding: 0.5625rem 0.5rem;
+    padding: 0.5rem;
   }
 }
 
 .dec-nav-decidables {
-  display: block;
+  display: flex;
+  align-items: center;
   padding: 0 0.5rem;
   margin: 0;
   font-size: 1.25rem;
@@ -8601,6 +8630,13 @@ progress {
 .dec-nav-decidables:hover {
   color: #ffffff;
   text-decoration: underline;
+}
+
+.dec-nav-decidables svg {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.5rem;
+  border-radius: 0.25rem;
 }
 
 .dec-main {
@@ -8618,7 +8654,7 @@ progress {
 @media (min-width: 768px) {
   .dec-main {
     flex: 0 0 auto;
-    width: 80%;
+    width: 77.77777778%;
   }
 }
 @media (min-width: 992px) {
