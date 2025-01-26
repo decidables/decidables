@@ -39,7 +39,10 @@
               <button class="dec-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dec-nav" aria-controls="dec-nav" aria-expanded="false" aria-label="Toggle table of contents">
                 <%- include(resolvePkg('bootstrap-icons/icons/list.svg')) %>
               </button>
-              <a class="dec-nav-brand" href="index.html"><span class="dec-site"><%- site.html %></span></a>
+              <a class="dec-nav-brand" href="index.html">
+                <%- include(`${utilities.getPackageDirectory()}/src/favicon.svg`) %>
+                <span class="dec-site"><%- site.html %></span>
+              </a>
            </div>
             <nav class="dec-nav-collapse collapse" id="dec-nav">
               <ol class="dec-toc">
@@ -92,7 +95,9 @@
             </nav>
           </div>
           <div class="dec-nav-bottom">
-            <a class="dec-nav-decidables" href="../"><span class="decidables">decidables</span></a>
+            <a class="dec-nav-decidables" href="../">
+              <%- include(`../../../sites/decidables/src/favicon.svg`) _%>
+              <span class="decidables">decidables</span></a>
           </div>
         </div>
 
