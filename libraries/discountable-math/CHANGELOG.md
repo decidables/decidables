@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.8](https://github.com/decidables/decidables/compare/@decidables/discountable-math@0.1.7...@decidables/discountable-math@0.1.8) (2025-01-26)
+
+**Note:** Version bump only for package @decidables/discountable-math
+
+
+
+
+
 ## [0.1.7](https://github.com/decidables/decidables/compare/@decidables/discountable-math@0.1.6...@decidables/discountable-math@0.1.7) (2024-05-04)
 
 **Note:** Version bump only for package @decidables/discountable-math

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.1.2...@decidables/decidables-site@0.2.0) (2025-01-26)
+
+
+### Features
+
+* **decidables-site:** add icons for individual sites and decidables ([ca30cd3](https://github.com/decidables/decidables/commit/ca30cd311114c9229e05498f414aad6698c5b741))
+
+
+
 ## [0.1.2](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.1.1...@decidables/decidables-site@0.1.2) (2024-05-04)
 
 **Note:** Version bump only for package @decidables/decidables-site

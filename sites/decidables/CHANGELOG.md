@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.9.1...@decidables/decidables@0.10.0) (2025-01-26)
+
+
+### Features
+
+* **decidables:** add icons for decidables ([4a5dc47](https://github.com/decidables/decidables/commit/4a5dc4706cd1a930fecb9650daf44dad1be53ed1))
+
+
+### Bug Fixes
+
+* **decidables:** update references ([e419ca1](https://github.com/decidables/decidables/commit/e419ca132886f7dad8a6dec2b65c7509c46325f8))
+
+
+
 ## [0.9.1](https://github.com/decidables/decidables/compare/@decidables/decidables@0.9.0...@decidables/decidables@0.9.1) (2025-01-18)
 
 
