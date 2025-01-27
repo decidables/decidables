@@ -201,8 +201,16 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
   @extend .row, .g-4, .justify-content-center;
 }
 
+.dec-main-icon {
+  width: 8rem;
+  height: 8rem;
+  padding: 0;
+
+  border-radius: $border-radius;
+}
+
 .dec-main-titles {
-  @extend .col-12;
+  @extend .col-12, .mt-3;
 }
 
 .dec-main-title {
@@ -264,15 +272,25 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
 }
 
 .dec-site-header {
-  @extend .card-body, .pb-0, .position-relative;
+  @extend .card-body, .text-center, .pb-0, .position-relative;
 }
 
 .dec-site-intro {
-  @extend .card-text, .text-center, .text-body, .fst-italic;
+  @extend .card-text, .text-center, .text-body, .fst-italic, .mb-2;
 }
 
 .dec-site-link {
   @extend .text-body, .stretched-link;
+}
+
+.dec-site-icon {
+  @extend .p-0, .mb-2;
+
+  width: 4rem;
+  height: 4rem;
+  // padding: 0;
+
+  border-radius: $border-radius;
 }
 
 // .dec-site-titles {
