@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.8.0...@decidables/prospectable@0.9.0) (2025-01-27)
+
+
+### Features
+
+* **sites:** use unicode characters in page titles ([29a40e2](https://github.com/decidables/decidables/commit/29a40e2a74929afc32ee6ed1e733fda2e5812647))
+
+
+
 ## [0.8.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.7.6...@decidables/prospectable@0.8.0) (2025-01-27)
 
 
