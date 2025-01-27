@@ -7,6 +7,7 @@ script: page
 <!--lint ignore first-heading-level-->
 
 <header class="dec-index-header">
+  <img class="dec-index-icon" src="favicon.svg">
   <hgroup class="dec-index-titles">
     <h1 class="dec-index-title">
       <span class="dec-site"><span class="math-var">d′</span>ete<span class="math-var">c</span>table</span>
