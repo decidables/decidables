@@ -4592,7 +4592,7 @@ progress {
   margin-top: 0.5rem !important;
 }
 
-.mt-3, .dec-main-lead {
+.mt-3, .dec-main-lead, .dec-main-titles {
   margin-top: 1rem !important;
 }
 
@@ -4644,7 +4644,7 @@ progress {
   margin-bottom: 0.25rem !important;
 }
 
-.mb-2, .dec-demo-caption {
+.mb-2, .dec-demo-caption, .dec-site-icon, .dec-site-intro {
   margin-bottom: 0.5rem !important;
 }
 
@@ -4692,7 +4692,7 @@ progress {
   margin-left: auto !important;
 }
 
-.p-0 {
+.p-0, .dec-site-icon {
   padding: 0 !important;
 }
 
@@ -5028,7 +5028,7 @@ progress {
   text-align: right !important;
 }
 
-.text-center, .dec-carousel-item, .dec-site-lead, .dec-site-subtitle, .dec-site-title, .dec-site-intro, .dec-main-lead, .dec-main-subtitle, .dec-main-title {
+.text-center, .dec-carousel-item, .dec-site-lead, .dec-site-subtitle, .dec-site-title, .dec-site-intro, .dec-site-header, .dec-main-lead, .dec-main-subtitle, .dec-main-title {
   text-align: center !important;
 }
 
@@ -8566,6 +8566,10 @@ progress {
   background-color: #e6e6e6;
 }
 
+.dec-nav-brand {
+  font-size: 1.5rem;
+  line-height: 1;
+}
 .dec-nav-brand:hover {
   text-decoration: underline;
 }
@@ -8607,6 +8611,13 @@ progress {
   --bs-gutter-y: 3rem;
 }
 
+.dec-main-icon {
+  width: 8rem;
+  height: 8rem;
+  padding: 0;
+  border-radius: 0.25rem;
+}
+
 .dec-page {
   background-color: #ffffff;
 }
@@ -8620,6 +8631,12 @@ progress {
 }
 .dec-site-wrapper:hover {
   box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.4), 2px 4px 5px 0px rgba(0, 0, 0, 0.34), 0.5px 1px 10px 0px rgba(0, 0, 0, 0.32);
+}
+
+.dec-site-icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.25rem;
 }
 
 .dec-carousel-items {
