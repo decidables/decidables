@@ -400,6 +400,14 @@ $enable-dark-mode: false;
   @extend .row, .g-4, .py-4, .justify-content-center;
 }
 
+.dec-index-icon {
+  width: 8rem;
+  height: 8rem;
+  padding: 0;
+
+  border-radius: $border-radius;
+}
+
 .dec-index-titles {
   @extend .col-11;
 }
