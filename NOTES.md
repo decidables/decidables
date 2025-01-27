@@ -1,6 +1,5 @@
 ## Notes
 
-Add icons for individual sites to decidables homepage?
 Convert all code documentation to JSDoc format
   Use tool to extract docs from code files and add to README?
 Use MathML with embedded elements for equations?

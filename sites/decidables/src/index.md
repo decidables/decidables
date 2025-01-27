@@ -7,6 +7,7 @@ script: page
 <!--lint ignore first-heading-level-->
 
 <header class="dec-main-header">
+  <img class="dec-main-icon" src="favicon.svg">
   <hgroup class="dec-main-titles">
     <h1 class="dec-main-title">decidables</h1>
     <p class="dec-main-subtitle">Explorable Explanations of Decision Making</p>
@@ -27,6 +28,7 @@ script: page
       <header class="dec-site-header">
         <div class="dec-site-intro">Draft available:</div>
         <a class="dec-site-link" href="detectable/">
+          <img class="dec-site-icon" src="detectable/favicon.svg">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
               <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
@@ -91,6 +93,7 @@ script: page
       <header class="dec-site-header">
         <div class="dec-site-intro dec-disabled">Under development...</div>
         <a class="dec-site-link dec-disabled" href="prospectable/">
+          <img class="dec-site-icon" src="prospectable/favicon.svg">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
               <span class="prospectable">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
@@ -148,7 +151,8 @@ script: page
     <div class="dec-site-wrapper">
       <header class="dec-site-header">
         <div class="dec-site-intro dec-disabled">Under development...</div>
-        <a class="dec-site-link dec-disabled"> <!-- href="discountable/" -->
+        <a class="dec-site-link dec-disabled" href="discountable/">
+          <img class="dec-site-icon" src="discountable/favicon.svg">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
               <span class="discountable">dis<span class="math-var">k</span>ountable</span>
@@ -199,6 +203,7 @@ script: page
       <header class="dec-site-header">
         <div class="dec-site-intro dec-disabled">Under development...</div>
         <a class="dec-site-link dec-disabled" href="accumulable/">
+          <img class="dec-site-icon" src="accumulable/favicon.svg">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
               <span class="accumulable"><span class="math-var a">a</span>ccumulable</span>
