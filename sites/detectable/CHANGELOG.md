@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.11.0...@decidables/detectable@0.12.0) (2025-01-27)
+
+
+### Features
+
+* **sites:** use unicode characters in page titles ([29a40e2](https://github.com/decidables/decidables/commit/29a40e2a74929afc32ee6ed1e733fda2e5812647))
+
+
+
 ## [0.11.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.10.6...@decidables/detectable@0.11.0) (2025-01-27)
 
 
