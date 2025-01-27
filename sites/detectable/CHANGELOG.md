@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.0](https://github.com/decidables/decidables/compare/@decidables/detectable@0.10.6...@decidables/detectable@0.11.0) (2025-01-27)
+
+
+### Features
+
+* **sites:** add site icons to index pages ([cb1e949](https://github.com/decidables/decidables/commit/cb1e949958111f50704cfd5fcc12a29cfdef663c))
+
+
+
 ## [0.10.6](https://github.com/decidables/decidables/compare/@decidables/detectable@0.10.5...@decidables/detectable@0.10.6) (2025-01-26)
 
 **Note:** Version bump only for package @decidables/detectable
