@@ -121,6 +121,9 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
 .dec-nav-brand {
   @extend .navbar-brand, .d-flex, .align-items-center, .align-self-start, .align-self-md-center, .fw-bold, .px-2;
 
+  font-size: 1.5rem;
+  line-height: 1;
+
   &:hover {
     text-decoration: $link-hover-decoration;
   }
