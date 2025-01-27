@@ -1,6 +1,6 @@
 {
   "name": "@decidables/prospectable",
-  "version": "0.7.6",
+  "version": "0.8.0",
   "description": "prospectable: An Explorable Explanation of Cumulative Prospect Theory",
   "type": "module",
   "main": "./dist/index.html",
@@ -26,7 +26,7 @@
     "gulp": "^5.0.0"
   },
   "dependencies": {
-    "@decidables/decidables-site": "^0.2.0",
+    "@decidables/decidables-site": "^0.3.0",
     "@decidables/prospectable-elements": "^0.2.15",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",

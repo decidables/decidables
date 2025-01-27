@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.10.0...@decidables/decidables@0.11.0) (2025-01-27)
+
+
+### Features
+
+* **decidables:** add icons for sites on index page ([b2827a2](https://github.com/decidables/decidables/commit/b2827a21757394e2b0445e51244f8be2ead41e4f))
+* **decidables:** increase navbar brand font size ([d913c37](https://github.com/decidables/decidables/commit/d913c378a846a0c07bb0a6bfb065f69d328fcc41))
+
+
+
 ## [0.10.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.9.1...@decidables/decidables@0.10.0) (2025-01-26)
 
 

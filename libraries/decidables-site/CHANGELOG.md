@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.2.0...@decidables/decidables-site@0.3.0) (2025-01-27)
+
+
+### Features
+
+* **decidables-site:** add icon to site index pages ([233e71d](https://github.com/decidables/decidables/commit/233e71d045cb395a6bf1f9a659e3eef658ff7836))
+
+
+### Bug Fixes
+
+* **decidables-site:** tweak index page icon spacing ([7cf98d3](https://github.com/decidables/decidables/commit/7cf98d3354a89747566907734bb2670844fd8c4b))
+
+
+
 ## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.1.2...@decidables/decidables-site@0.2.0) (2025-01-26)
 
 
