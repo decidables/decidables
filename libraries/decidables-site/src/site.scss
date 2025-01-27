@@ -409,7 +409,7 @@ $enable-dark-mode: false;
 }
 
 .dec-index-titles {
-  @extend .col-11;
+  @extend .col-11, .mt-3;
 }
 
 .dec-index-title {
@@ -417,7 +417,7 @@ $enable-dark-mode: false;
 }
 
 .dec-index-subtitle {
-  @extend .h2, .text-center, .fw-semibold, .font-serif;
+  @extend .h2, .pt-2, .text-center, .fw-semibold, .font-serif;
 }
 
 .dec-index-demo {
