@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.1](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.9.0...@decidables/prospectable@0.9.1) (2025-02-06)
+
+
+### Bug Fixes
+
+* **sites:** use <img> for internal icons instead of injecting SVG ([1e291fe](https://github.com/decidables/decidables/commit/1e291fe252d4decc7ddd1fb13056d311cb29c8ca))
+
+
+
 ## [0.9.0](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.8.0...@decidables/prospectable@0.9.0) (2025-01-27)
 
 

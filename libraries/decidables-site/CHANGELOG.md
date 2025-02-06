@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.3.0...@decidables/decidables-site@0.3.1) (2025-02-06)
+
+
+### Bug Fixes
+
+* **sites:** use <img> for internal icons instead of injecting SVG ([1e291fe](https://github.com/decidables/decidables/commit/1e291fe252d4decc7ddd1fb13056d311cb29c8ca))
+
+
+
 ## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.2.0...@decidables/decidables-site@0.3.0) (2025-01-27)
 
 
