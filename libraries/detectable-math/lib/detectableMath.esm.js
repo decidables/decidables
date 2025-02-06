@@ -1,17 +1,16 @@
-var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
 function getDefaultExportFromCjs (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
 }
 
-var jstat = {exports: {}};
+var jstat$1 = {exports: {}};
 
+var jstat = jstat$1.exports;
 (function (module, exports) {
   (function (window, factory) {
     {
       module.exports = factory();
     }
-  })(commonjsGlobal, function () {
+  })(jstat, function () {
     var jStat = function (Math, undefined$1) {
       // For quick reference.
       var concat = Array.prototype.concat;
@@ -1080,7 +1079,7 @@ var jstat = {exports: {}};
       // Log-gamma function
       jStat.gammaln = function gammaln(x) {
         var j = 0;
-        var cof = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+        var cof = [76.18009172947146, -86.50532032941678, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -5395239384953e-18];
         var ser = 1.000000000190015;
         var xx, y, tmp;
         tmp = (y = xx = x) + 5.5;
@@ -1097,7 +1096,7 @@ var jstat = {exports: {}};
       jStat.loggam = function loggam(x) {
         var x0, x2, xp, gl, gl0;
         var k, n;
-        var a = [8.333333333333333e-02, -2.777777777777778e-03, 7.936507936507937e-04, -5.952380952380952e-04, 8.417508417508418e-04, -1.917526917526918e-03, 6.410256410256410e-03, -2.955065359477124e-02, 1.796443723688307e-01, -1.39243221690590e+00];
+        var a = [8.333333333333333e-02, -0.002777777777777778, 7.936507936507937e-04, -5952380952380952e-19, 8.417508417508418e-04, -0.001917526917526918, 6.410256410256410e-03, -0.02955065359477124, 1.796443723688307e-01, -1.3924322169059];
         x0 = x;
         n = 0;
         if (x == 1.0 || x == 2.0) {
@@ -1322,7 +1321,7 @@ var jstat = {exports: {}};
 
       // Returns the error function erf(x)
       jStat.erf = function erf(x) {
-        var cof = [-1.3026537197817094, 6.4196979235649026e-1, 1.9476473204185836e-2, -9.561514786808631e-3, -9.46595344482036e-4, 3.66839497852761e-4, 4.2523324806907e-5, -2.0278578112534e-5, -1.624290004647e-6, 1.303655835580e-6, 1.5626441722e-8, -8.5238095915e-8, 6.529054439e-9, 5.059343495e-9, -9.91364156e-10, -2.27365122e-10, 9.6467911e-11, 2.394038e-12, -6.886027e-12, 8.94487e-13, 3.13092e-13, -1.12708e-13, 3.81e-16, 7.106e-15, -1.523e-15, -9.4e-17, 1.21e-16, -2.8e-17];
+        var cof = [-1.3026537197817094, 6.4196979235649026e-1, 1.9476473204185836e-2, -0.00956151478680863, -946595344482036e-18, 3.66839497852761e-4, 4.2523324806907e-5, -20278578112534e-18, -1624290004647e-18, 1.303655835580e-6, 1.5626441722e-8, -8.5238095915e-8, 6.529054439e-9, 5.059343495e-9, -991364156e-18, -227365122e-18, 9.6467911e-11, 2.394038e-12, -6886027e-18, 8.94487e-13, 3.13092e-13, -112708e-18, 3.81e-16, 7.106e-15, -1523e-18, -94e-18, 1.21e-16, -28e-18];
         var j = cof.length - 1;
         var isneg = false;
         var d = 0;
@@ -1698,7 +1697,7 @@ var jstat = {exports: {}};
         median: function (rate) {
           return 1 / rate * Math.log(2);
         },
-        mode: function mode( /*rate*/
+        mode: function mode(/*rate*/
         ) {
           return 0;
         },
@@ -1789,7 +1788,7 @@ var jstat = {exports: {}};
           if (!(alpha >= 1 && beta >= 1 && alpha !== 1 && beta !== 1)) return undefined;
           return Math.pow((alpha - 1) / (alpha * beta - 1), 1 / alpha);
         },
-        variance: function variance( /*alpha, beta*/
+        variance: function variance(/*alpha, beta*/
         ) {
           throw new Error('variance not yet implemented');
           // TODO: complete this
@@ -1807,7 +1806,7 @@ var jstat = {exports: {}};
           return 0.5 + 0.5 * jStat.erf((Math.log(x) - mu) / Math.sqrt(2 * sigma * sigma));
         },
         inv: function (p, mu, sigma) {
-          return Math.exp(-1.41421356237309505 * sigma * jStat.erfcinv(2 * p) + mu);
+          return Math.exp(-1.4142135623730951 * sigma * jStat.erfcinv(2 * p) + mu);
         },
         mean: function mean(mu, sigma) {
           return Math.exp(mu + sigma * sigma / 2);
@@ -1885,7 +1884,7 @@ var jstat = {exports: {}};
           return 0.5 * (1 + jStat.erf((x - mean) / Math.sqrt(2 * std * std)));
         },
         inv: function (p, mean, std) {
-          return -1.41421356237309505 * std * jStat.erfcinv(2 * p) + mean;
+          return -1.4142135623730951 * std * jStat.erfcinv(2 * p) + mean;
         },
         mean: function (mean /*, std*/) {
           return mean;
@@ -1951,11 +1950,11 @@ var jstat = {exports: {}};
         mean: function mean(dof) {
           return dof > 1 ? 0 : undefined;
         },
-        median: function median( /*dof*/
+        median: function median(/*dof*/
         ) {
           return 0;
         },
-        mode: function mode( /*dof*/
+        mode: function mode(/*dof*/
         ) {
           return 0;
         },
@@ -2015,7 +2014,7 @@ var jstat = {exports: {}};
         median: function median(a, b) {
           return jStat.mean(a, b);
         },
-        mode: function mode( /*a, b*/
+        mode: function mode(/*a, b*/
         ) {
           throw new Error('mode is not yet implemented');
         },
@@ -2412,7 +2411,7 @@ var jstat = {exports: {}};
           if (b <= a) return NaN;
           return (a + b) / 2;
         },
-        mode: function mode( /*a, b*/
+        mode: function mode(/*a, b*/
         ) {
           throw new Error('mode is not yet implemented');
         },
@@ -2560,17 +2559,16 @@ var jstat = {exports: {}};
       function tukeyQinv(p, c, v) {
         var p0 = 0.322232421088;
         var q0 = 0.993484626060e-01;
-        var p1 = -1.0;
+        var p1 = -1;
         var q1 = 0.588581570495;
         var p2 = -0.342242088547;
         var q2 = 0.531103462366;
         var p3 = -0.204231210125;
         var q3 = 0.103537752850;
-        var p4 = -0.453642210148e-04;
+        var p4 = -453642210148e-16;
         var q4 = 0.38560700634e-02;
         var c1 = 0.8832;
         var c2 = 0.2368;
-        var c3 = 1.214;
         var c4 = 1.208;
         var c5 = 1.4142;
         var vmax = 120.0;
@@ -2579,7 +2577,7 @@ var jstat = {exports: {}};
         var t = yi + ((((yi * p4 + p3) * yi + p2) * yi + p1) * yi + p0) / ((((yi * q4 + q3) * yi + q2) * yi + q1) * yi + q0);
         if (v < vmax) t += (t * t * t + t) / v / 4.0;
         var q = c1 - c2 * t;
-        if (v < vmax) q += -c3 / v + c4 * t / v;
+        if (v < vmax) q += -1.214 / v + c4 * t / v;
         return t * (q * Math.log(c - 1.0) + c5);
       }
       jStat.extend(jStat.tukey, {
@@ -2589,7 +2587,7 @@ var jstat = {exports: {}};
           var cc = nmeans;
           var nlegq = 16;
           var ihalfq = 8;
-          var eps1 = -30.0;
+          var eps1 = -30;
           var eps2 = 1.0e-14;
           var dhaf = 100.0;
           var dquar = 800.0;
@@ -4275,8 +4273,8 @@ var jstat = {exports: {}};
     jStat.jStat = jStat;
     return jStat;
   });
-})(jstat);
-var jstatExports = jstat.exports;
+})(jstat$1);
+var jstatExports = jstat$1.exports;
 var jStat = /*@__PURE__*/getDefaultExportFromCjs(jstatExports);
 
 /*

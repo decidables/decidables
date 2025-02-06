@@ -8517,14 +8517,14 @@ progress {
   }
 }
 
-.dec-nav-brand svg {
+.dec-nav-icon {
   width: 2rem;
   height: 2rem;
   margin: 0.1875rem 0.5rem 0.1875rem 0;
   border-radius: 0.25rem;
 }
 @media (min-width: 768px) {
-  .dec-nav-brand svg {
+  .dec-nav-icon {
     width: 4rem;
     height: 4rem;
     margin: 0;
@@ -8632,7 +8632,7 @@ progress {
   text-decoration: underline;
 }
 
-.dec-nav-decidables svg {
+.dec-nav-decidables-icon {
   width: 2rem;
   height: 2rem;
   margin-right: 0.5rem;
