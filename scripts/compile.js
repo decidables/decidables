@@ -150,8 +150,7 @@ export async function compileMarkdown() {
           ],
         })
         .use(remarkSmartypants, {dashes: 'oldschool'})
-        // Hack to avoid remark-rehype issue #35 (https://github.com/remarkjs/remark-rehype/issues/35)
-        .use((options, fileSet) => { return remarkRehype({}, options, fileSet); }, {
+        .use(remarkRehype, {
           allowDangerousHtml: true,
           handlers: {...defListHastHandlers},
         })
@@ -210,7 +209,12 @@ let rollupCache;
 const pluginNodeResolve = rollupPluginNodeResolve({
   preferBuiltins: false,
 });
-const pluginCommonjs = rollupPluginCommonjs();
+const pluginCommonjs = rollupPluginCommonjs({
+  strictRequires: 'auto',
+  // Hack to deal with unused dynamic require in Plotly
+  // https://github.com/plotly/plotly.js/blob/858c3a6ba88e06ba36a6f98a06dfa96e7ef150db/src/registry.js#L235
+  ignore: ['maplibre-gl/dist/maplibre-gl.css'],
+});
 const pluginWebWorkerLoader = rollupPluginWebWorkerLoader({
   targetPlatform: 'browser',
   sourcemap: true,
@@ -219,7 +223,7 @@ const pluginBabel = rollupPluginBabel.babel({
   presets: [['@babel/preset-env', {
     bugfixes: true,
     useBuiltIns: 'entry',
-    corejs: '3.37.0',
+    corejs: '3.40.0',
   }]],
   babelHelpers: 'bundled',
 });
