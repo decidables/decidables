@@ -31,9 +31,6 @@ const plotlyStyle = css`
   -o-user-select: none;
   user-select: none;
 }
-.js-plotly-plot .plotly svg {
-  overflow: hidden;
-}
 .js-plotly-plot .plotly svg a {
   fill: #447adb;
 }
