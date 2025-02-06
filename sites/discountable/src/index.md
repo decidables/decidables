@@ -7,7 +7,7 @@ script: page
 <!--lint ignore first-heading-level-->
 
 <header class="dec-index-header">
-  <img class="dec-index-icon" src="favicon.svg">
+  <img class="dec-index-icon" src="favicon.svg" alt="dis𝑘ountable icon">
   <hgroup class="dec-index-titles">
     <h1 class="dec-index-title">
       <span class="dec-site">dis<span class="math-var">k</span>ountable</span>

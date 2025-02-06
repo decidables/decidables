@@ -7,7 +7,7 @@ script: page
 <!--lint ignore first-heading-level-->
 
 <header class="dec-index-header">
-  <img class="dec-index-icon" src="favicon.svg">
+  <img class="dec-index-icon" src="favicon.svg" alt="prospect𝛼b𝜆e icon">
   <hgroup class="dec-index-titles">
     <h1 class="dec-index-title">
       <span class="dec-site">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>

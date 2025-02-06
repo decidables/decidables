@@ -40,7 +40,7 @@
                 <%- include(resolvePkg('bootstrap-icons/icons/list.svg')) %>
               </button>
               <a class="dec-nav-brand" href="index.html">
-                <%- include(`${utilities.getPackageDirectory()}/src/favicon.svg`) %>
+                <img class="dec-nav-icon" src="favicon.svg" alt="<%- site.text %> icon">
                 <span class="dec-site"><%- site.html %></span>
               </a>
            </div>
@@ -96,7 +96,7 @@
           </div>
           <div class="dec-nav-bottom">
             <a class="dec-nav-decidables" href="../">
-              <%- include(`../../../sites/decidables/src/favicon.svg`) _%>
+              <img class="dec-nav-decidables-icon" src="../favicon.svg" alt="decidables icon">
               <span class="decidables">decidables</span></a>
           </div>
         </div>

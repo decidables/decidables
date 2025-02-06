@@ -7,7 +7,7 @@ script: page
 <!--lint ignore first-heading-level-->
 
 <header class="dec-index-header">
-  <img class="dec-index-icon" src="favicon.svg">
+  <img class="dec-index-icon" src="favicon.svg" alt="𝑎ccumulable icon">
   <hgroup class="dec-index-titles">
     <h1 class="dec-index-title">
       <span class="dec-site"><span class="math-var">a</span>ccumulable</span>
