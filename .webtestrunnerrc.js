@@ -14,7 +14,7 @@ export default {
     reportDir: 'test/coverage',
   },
   plugins: [
-    commonjsPlugin(),
+    commonjsPlugin({strictRequires: 'auto'}),
   ],
   testFramework: {
     config: {

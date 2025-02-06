@@ -8,7 +8,7 @@ import cssnano from 'cssnano';
 import {globby} from 'globby';
 import htmlMinifier from 'html-minifier';
 import postcss from 'postcss';
-import postcssPurgecss from '@fullhuman/postcss-purgecss';
+import {purgeCSSPlugin as postcssPurgecss} from '@fullhuman/postcss-purgecss';
 import * as rollup from 'rollup';
 import * as rollupPluginBabel from '@rollup/plugin-babel';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
@@ -27,7 +27,12 @@ let rollupCache;
 const pluginNodeResolve = rollupPluginNodeResolve({
   preferBuiltins: false,
 });
-const pluginCommonjs = rollupPluginCommonjs();
+const pluginCommonjs = rollupPluginCommonjs({
+  strictRequires: 'auto',
+  // Hack to deal with unused dynamic require in Plotly
+  // https://github.com/plotly/plotly.js/blob/858c3a6ba88e06ba36a6f98a06dfa96e7ef150db/src/registry.js#L235
+  ignore: ['maplibre-gl/dist/maplibre-gl.css'],
+});
 const pluginWebWorkerLoader = rollupPluginWebWorkerLoader({
   targetPlatform: 'browser',
   sourcemap: true,
@@ -36,7 +41,7 @@ const pluginBabel = rollupPluginBabel.babel({
   presets: [['@babel/preset-env', {
     bugfixes: true,
     useBuiltIns: 'entry',
-    corejs: '3.37.0',
+    corejs: '3.40.0',
   }]],
   babelHelpers: 'bundled',
 });
