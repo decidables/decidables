@@ -23,35 +23,6 @@
 To trace deprecations:
   `process.traceDeprecation = true;`
 
-- Getting the following warning from `node`:
-
-  ```text
-  (node:12224) [DEP0040] DeprecationWarning: The `punycode` module is deprecated.
-  Please use a userland alternative instead.
-  ```
-
-  This is due to the following chain of transitive dependencies:
-
-  - @citation-js/core latest (0.7.1)
-  - fetch-ponyfill latest (7.1.0)
-  - node-fetch ~2.6.1 (used in 2.6.3 through 2.7.0)
-  - whatwg-url ^5.0.0
-  - punycode
-
-  The issue is that the latest `fetch-ponyfill` relies on an old version of `node-fetch`.
-  If `fetch-ponyfill` bumped to the latest (^3) `node-fetch` this would go away.
-
-- Getting the following warning from `node`:
-
-  ```text
-  (node:11992) [DEP0180] DeprecationWarning: fs.Stats constructor is deprecated.
-  ```
-
-  This is due to the following chain of transitive dependencies:
-  - stylelint latest (16.5.0)
-  - @dual-bundle/import-meta-resolve (4.0.0)
-  - fs.Stats()
-
 ## Waiting to upgrade
 
 - @commitlint/cli 18.6.1  19.7.1
