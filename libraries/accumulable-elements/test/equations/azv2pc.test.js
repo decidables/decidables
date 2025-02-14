@@ -37,7 +37,7 @@ describe('ddm-equation-azv2pc', () => {
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.a[disabled]').with.value(1.7);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.z[disabled]').with.value(0.3);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.v[disabled]').with.value(2.1);
-    expect(el.shadowRoot).to.have.descendant('decidables-spinner.s[disabled]').with.value(DDMMath.s);
+    expect(el.shadowRoot).to.have.descendant('decidables-spinner.s[disabled]').with.value(DDMMath.s.DEFAULT);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.accuracy[disabled]').with.value(0.88);
   });
 
@@ -48,7 +48,7 @@ describe('ddm-equation-azv2pc', () => {
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.a:not([disabled])').with.value(0.9);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.z:not([disabled])').with.value(0.8);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.v:not([disabled])').with.value(1.8);
-    expect(el.shadowRoot).to.have.descendant('decidables-spinner.s[disabled]').with.value(DDMMath.s);
+    expect(el.shadowRoot).to.have.descendant('decidables-spinner.s[disabled]').with.value(DDMMath.s.DEFAULT);
     expect(el.shadowRoot).to.have.descendant('decidables-spinner.accuracy[disabled]').with.value(0.96);
   });
 
@@ -66,7 +66,7 @@ describe('ddm-equation-azv2pc', () => {
     expect(detail.a).to.equal(2);
     expect(el.shadowRoot).to.have.descendant('.z').with.value(0.1);
     expect(el.shadowRoot).to.have.descendant('.v').with.value(3.2);
-    expect(el.shadowRoot).to.have.descendant('.s').with.value(DDMMath.s);
+    expect(el.shadowRoot).to.have.descendant('.s').with.value(DDMMath.s.DEFAULT);
     expect(el.shadowRoot).to.have.descendant('.accuracy').with.value(0.72);
   });
 
@@ -84,7 +84,7 @@ describe('ddm-equation-azv2pc', () => {
     expect(detail.z).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.a').with.value(1.2);
     expect(el.shadowRoot).to.have.descendant('.v').with.value(1.2);
-    expect(el.shadowRoot).to.have.descendant('.s').with.value(DDMMath.s);
+    expect(el.shadowRoot).to.have.descendant('.s').with.value(DDMMath.s.DEFAULT);
     expect(el.shadowRoot).to.have.descendant('.accuracy').with.value(1);
   });
 
@@ -102,7 +102,7 @@ describe('ddm-equation-azv2pc', () => {
     expect(detail.v).to.equal(2);
     expect(el.shadowRoot).to.have.descendant('.a').with.value(1.6);
     expect(el.shadowRoot).to.have.descendant('.z').with.value(0.54);
-    expect(el.shadowRoot).to.have.descendant('.s').with.value(DDMMath.s);
+    expect(el.shadowRoot).to.have.descendant('.s').with.value(DDMMath.s.DEFAULT);
     expect(el.shadowRoot).to.have.descendant('.accuracy').with.value(0.97);
   });
 });
