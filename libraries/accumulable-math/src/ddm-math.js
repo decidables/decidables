@@ -3,13 +3,13 @@
   DDMMath Static Class - Not intended for instantiation!
 
   Model parameters:
-    a = boundary separation
-    z = starting point as a proportion of a
-    v = drift rate (per second)
-    t0 = non-decision time (in milliseconds)
-    s = within-trial variability in drift rate (s^2 = infinitesimal variance)
+    a = boundary separation [0, Infinity)
+    z = starting point as a proportion of a (0, 1)
+    v = drift rate (per second) (-Infinity, Infinity)
+    t0 = non-decision time (in milliseconds) (0, Infinity)
+    s = within-trial variability in drift rate (s^2 = infinitesimal variance) [0, Infinity)
 
-    zPrime = starting point on a 0-to-a scale (typically used in published equations)
+    zPrime = starting point on a 0-to-a scale (typically used in published equations) [0, Infinity)
 
   Behavioral variables:
     pE = proportion of error trials
@@ -29,7 +29,41 @@
     EZ-diffusion model (Wagenmakers et al., 2007)
 */
 export default class DDMMath {
-  static s = 1;
+  static s = {
+    DEFAULT: 1,
+  };
+
+  static a = {
+    DEFAULT: 1.2,
+    MIN: 0.01,
+    MAX: 2.0,
+    STEP: 0.01,
+    JUMP: 0.1,
+  };
+
+  static z = {
+    DEFAULT: 0.55,
+    MIN: 0.01,
+    MAX: 0.99,
+    STEP: 0.01,
+    JUMP: 0.1,
+  };
+
+  static v = {
+    DEFAULT: 1.5,
+    MIN: 0.01,
+    MAX: 5.0,
+    STEP: 0.01,
+    JUMP: 0.1,
+  };
+
+  static t0 = {
+    DEFAULT: 150,
+    MIN: 0,
+    MAX: 500,
+    STEP: 1,
+    JUMP: 10,
+  };
 
   // Calculate a bunch of statistics for an array of trials
   static trials2stats(trials) {
@@ -114,7 +148,7 @@ export default class DDMMath {
   }
 
   // Probability of an Error Response
-  static azv2pE(a, z, v, s = DDMMath.s) {
+  static azv2pE(a, z, v, s = DDMMath.s.DEFAULT) {
     const zPrime = a * z;
 
     const A = Math.exp((-2 * v * a) / s ** 2);
@@ -124,13 +158,13 @@ export default class DDMMath {
   }
 
   // Probability of a Correct Response
-  static azv2pC(a, z, v, s = DDMMath.s) {
+  static azv2pC(a, z, v, s = DDMMath.s.DEFAULT) {
     return DDMMath.azv2pE(a, 1 - z, -v, s);
   }
 
   // Mean Overall RT
   // Equation 5 (Grasman et al., 2009)
-  static azvt02m(a, z, v, t0, s = DDMMath.s) {
+  static azvt02m(a, z, v, t0, s = DDMMath.s.DEFAULT) {
     const zPrime = a * z;
     const A = Math.exp((-2 * v * a) / s ** 2) - 1;
     const Z = Math.exp((-2 * v * zPrime) / s ** 2) - 1;
@@ -141,7 +175,7 @@ export default class DDMMath {
 
   // SD Overall RT
   // Equation 6 (Grasman et al., 2009)
-  static azv2sd(a, z, v, s = DDMMath.s) {
+  static azv2sd(a, z, v, s = DDMMath.s.DEFAULT) {
     const zPrime = a * z;
     const A = Math.exp((-2 * v * a) / s ** 2) - 1;
     const Z = Math.exp((-2 * v * zPrime) / s ** 2) - 1;
@@ -161,7 +195,7 @@ export default class DDMMath {
 
   // Mean Error RT
   // Equation 13 (Grasman et al., 2009)
-  static azvt02mE(a, z, v, t0, s = DDMMath.s) {
+  static azvt02mE(a, z, v, t0, s = DDMMath.s.DEFAULT) {
     function phi(x, y) {
       return Math.exp((2 * v * y) / (s ** 2)) - Math.exp((2 * v * x) / (s ** 2));
     }
@@ -174,7 +208,7 @@ export default class DDMMath {
 
   // SD Error RT
   // Equation 14 (Grasman et al., 2009)
-  static azv2sdE(a, z, v, s = DDMMath.s) {
+  static azv2sdE(a, z, v, s = DDMMath.s.DEFAULT) {
     function phi(x, y) {
       return Math.exp((2 * v * y) / (s ** 2)) - Math.exp((2 * v * x) / (s ** 2));
     }
@@ -201,17 +235,17 @@ export default class DDMMath {
   }
 
   // Mean Correct RT
-  static azvt02mC(a, z, v, t0, s = DDMMath.s) {
+  static azvt02mC(a, z, v, t0, s = DDMMath.s.DEFAULT) {
     return DDMMath.azvt02mE(a, 1 - z, -v, t0, s);
   }
 
   // SD Correct RT
-  static azv2sdC(a, z, v, s = DDMMath.s) {
+  static azv2sdC(a, z, v, s = DDMMath.s.DEFAULT) {
     return DDMMath.azv2sdE(a, 1 - z, -v, s);
   }
 
   // Density of Error RT
-  static tazv2gE(t, a, z, v, s = DDMMath.s) {
+  static tazv2gE(t, a, z, v, s = DDMMath.s.DEFAULT) {
     if (!t) return 0;
 
     const zPrime = a * z;
@@ -234,7 +268,7 @@ export default class DDMMath {
   }
 
   // Density of Correct RT
-  static tazv2gC(t, a, z, v, s = DDMMath.s) {
+  static tazv2gC(t, a, z, v, s = DDMMath.s.DEFAULT) {
     return DDMMath.tazv2gE(t, a, 1 - z, -v, s);
   }
 
