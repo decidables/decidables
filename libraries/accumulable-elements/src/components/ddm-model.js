@@ -147,10 +147,10 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     this.human = false;
     this.trials = 10;
 
-    this.a = 1.2;
-    this.z = 0.35;
-    this.v = 1.5;
-    this.t0 = 150;
+    this.a = DDMMath.a.DEFAULT;
+    this.z = DDMMath.z.DEFAULT;
+    this.v = DDMMath.v.DEFAULT;
+    this.t0 = DDMMath.t0.DEFAULT;
 
     // this.s = null;
     // this.sz = null;
@@ -218,7 +218,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     while ((path.at(-1).e > bounds.lower) && (path.at(-1).e < bounds.upper)) {
       path.push({
         t: path.at(-1).t + (this.precision * 1000),
-        e: path.at(-1).e + drift + DDMMath.s * random(),
+        e: path.at(-1).e + drift + DDMMath.s.DEFAULT * random(),
       });
     }
     return path;
@@ -731,18 +731,18 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         // Clamp t0
         t0 = (shift === 'z')
           ? timeScale.invert(event.subject.x)
-          : (t0 < 0)
-            ? 0
-            : (t0 > 500)
-              ? 500
+          : (t0 < DDMMath.t0.MIN)
+            ? DDMMath.t0.MIN
+            : (t0 > DDMMath.t0.MAX)
+              ? DDMMath.t0.MAX
               : t0;
         // Clamp z
         z = (shift === 't0')
           ? (evidenceScale.invert(event.subject.y) + (this.a / 2)) / this.a
-          : (z < 0.01)
-            ? 0.01
-            : (z > 0.99)
-              ? 0.99
+          : (z < DDMMath.z.MIN)
+            ? DDMMath.z.MIN
+            : (z > DDMMath.z.MAX)
+              ? DDMMath.z.MAX
               : z;
         this.t0 = t0;
         this.z = z;
@@ -777,10 +777,10 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         let v = ((evidenceScale.invert(event.y) - this.startingPoint)
           / (timeScale.invert(event.x) - this.t0)) * 1000;
         // Clamp drift rate
-        v = (v < 0.01)
-          ? 0.01
-          : (v > 5)
-            ? 5
+        v = (v < DDMMath.v.MIN)
+          ? DDMMath.v.MIN
+          : (v > DDMMath.v.MAX)
+            ? DDMMath.v.MAX
             : v;
         this.v = v;
         this.alignState();
@@ -806,20 +806,17 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         const element = event.currentTarget;
         d3.select(element).classed('dragging', true);
       })
-      .on('drag', (event, datum) => {
+      .on('drag', (event) => {
         this.drag = true;
-        let boundary = evidenceScale.invert(event.y);
-        // Clamp boundaries to visible evidence
-        boundary = (boundary < this.scale.evidence.min)
-          ? this.scale.evidence.min
-          : (boundary > this.scale.evidence.max)
-            ? this.scale.evidence.max
-            : (datum.bound === 'upper' && boundary < 0.005)
-              ? 0.005
-              : (datum.bound === 'lower' && boundary > -0.005)
-                ? -0.005
-                : boundary;
-        this.a = Math.abs(boundary * 2);
+        const boundary = evidenceScale.invert(event.y);
+        let a = Math.abs(boundary * 2);
+        // Clamp a
+        a = (a < DDMMath.a.MIN)
+          ? DDMMath.a.MIN
+          : (a > DDMMath.a.MAX)
+            ? DDMMath.a.MAX
+            : a;
+        this.a = a;
         this.alignState();
         this.dispatchEvent(new CustomEvent('ddm-model-a', {
           detail: {
@@ -1537,25 +1534,33 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .on('keydown', this.interactive
         ? (event, datum) => {
           if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-            let a = this.a; /* eslint-disable-line prefer-destructuring */
+            let {a} = this;
             switch (event.key) {
               case 'ArrowUp':
                 a += (datum.bound === 'upper')
-                  ? event.shiftKey ? 0.01 : 0.1
-                  : event.shiftKey ? -0.01 : -0.1;
+                  ? event.shiftKey
+                    ? DDMMath.a.STEP
+                    : DDMMath.a.JUMP
+                  : event.shiftKey
+                    ? -DDMMath.a.STEP
+                    : -DDMMath.a.JUMP;
                 break;
               case 'ArrowDown':
                 a += (datum.bound === 'upper')
-                  ? event.shiftKey ? -0.01 : -0.1
-                  : event.shiftKey ? 0.01 : 0.1;
+                  ? event.shiftKey
+                    ? -DDMMath.a.STEP
+                    : -DDMMath.a.JUMP
+                  : event.shiftKey
+                    ? DDMMath.a.STEP
+                    : DDMMath.a.JUMP;
                 break;
               default:
             }
-            // Clamp boundaries to visible evidence
-            a = (a < 0.01)
-              ? 0.01
-              : (a > this.scale.evidence.max * 2)
-                ? this.scale.evidence.max * 2
+            // Clamp a
+            a = (a < DDMMath.a.MIN)
+              ? DDMMath.a.MIN
+              : (a > DDMMath.a.MAX)
+                ? DDMMath.a.MAX
                 : a;
             this.a = a;
             this.alignState();
@@ -1614,21 +1619,25 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .on('keydown', this.interactive
         ? (event) => {
           if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-            let v = this.v; /* eslint-disable-line prefer-destructuring */
+            let {v} = this;
             switch (event.key) {
               case 'ArrowUp':
-                v += event.shiftKey ? 0.01 : 0.1;
+                v += event.shiftKey
+                  ? DDMMath.v.STEP
+                  : DDMMath.v.JUMP;
                 break;
               case 'ArrowDown':
-                v -= event.shiftKey ? 0.01 : 0.1;
+                v -= event.shiftKey
+                  ? DDMMath.v.STEP
+                  : DDMMath.v.JUMP;
                 break;
               default:
             }
             // Clamp z
-            v = (v < 0.01)
-              ? 0.01
-              : (v > 5)
-                ? 5
+            v = (v < DDMMath.v.MIN)
+              ? DDMMath.v.MIN
+              : (v > DDMMath.v.MAX)
+                ? DDMMath.v.MAX
                 : v;
             this.v = v;
             this.alignState();
@@ -1692,21 +1701,25 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .on('keydown', this.interactive
         ? (event) => {
           if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-            let z = this.z; /* eslint-disable-line prefer-destructuring */
+            let {z} = this;
             switch (event.key) {
               case 'ArrowUp':
-                z += event.shiftKey ? 0.01 : 0.1;
+                z += event.shiftKey
+                  ? DDMMath.z.STEP
+                  : DDMMath.z.JUMP;
                 break;
               case 'ArrowDown':
-                z -= event.shiftKey ? 0.01 : 0.1;
+                z -= event.shiftKey
+                  ? DDMMath.z.STEP
+                  : DDMMath.z.JUMP;
                 break;
               default:
             }
             // Clamp z
-            z = (z < 0.01)
-              ? 0.01
-              : (z > 0.99)
-                ? 0.99
+            z = (z < DDMMath.z.MIN)
+              ? DDMMath.z.MIN
+              : (z > DDMMath.z.MAX)
+                ? DDMMath.z.MAX
                 : z;
             this.z = z;
             this.alignState();
@@ -1722,18 +1735,22 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
             let t0 = this.t0; /* eslint-disable-line prefer-destructuring */
             switch (event.key) {
               case 'ArrowRight':
-                t0 += event.shiftKey ? 1 : 10;
+                t0 += event.shiftKey
+                  ? DDMMath.t0.STEP
+                  : DDMMath.t0.JUMP;
                 break;
               case 'ArrowLeft':
-                t0 -= event.shiftKey ? 1 : 10;
+                t0 -= event.shiftKey
+                  ? DDMMath.t0.STEP
+                  : DDMMath.t0.JUMP;
                 break;
               default:
             }
             // Clamp t0
-            t0 = (t0 < 0)
-              ? 0
-              : (t0 > 500)
-                ? 500
+            t0 = (t0 < DDMMath.t0.MIN)
+              ? DDMMath.t0.MIN
+              : (t0 > DDMMath.t0.MAX)
+                ? DDMMath.t0.MAX
                 : t0;
             this.t0 = t0;
             this.alignState();

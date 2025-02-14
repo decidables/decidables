@@ -1,6 +1,8 @@
 
 import {html, css} from 'lit';
 
+import DDMMath from '@decidables/accumulable-math';
+
 // Special Web Worker import for rollup-plugin-web-worker-loader
 import DDMFitWorker from 'web-worker:./ddm-fit-worker'; /* eslint-disable-line import/no-unresolved */
 
@@ -22,10 +24,10 @@ export default class DDMFit extends AccumulableElement {
   constructor() {
     super();
 
-    this.a = 1.2;
-    this.z = 0.35;
-    this.v = 1.5;
-    this.t0 = 150;
+    this.a = DDMMath.a.DEFAULT;
+    this.z = DDMMath.z.DEFAULT;
+    this.v = DDMMath.v.DEFAULT;
+    this.t0 = DDMMath.t0.DEFAULT;
 
     this.observed = {};
     this.predicted = {};

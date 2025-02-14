@@ -46,10 +46,10 @@ export default class DDMEquationAZVT02M extends DDMEquation {
 
   constructor() {
     super();
-    this.a = 1.5;
-    this.z = 0.5;
-    this.v = 0.1;
-    this.t0 = 200;
+    this.a = DDMMath.a.DEFAULT;
+    this.z = DDMMath.z.DEFAULT;
+    this.v = DDMMath.v.DEFAULT;
+    this.t0 = DDMMath.t0.DEFAULT;
     this.alignState();
   }
 
@@ -106,22 +106,56 @@ export default class DDMEquationAZVT02M extends DDMEquation {
     let s;
     let meanRT;
     if (this.numeric) {
-      a = html`<decidables-spinner class="a bottom" ?disabled=${!this.interactive} min="0.1" max="2" step="0.01" .value="${this.a}" @input=${this.aInput.bind(this)}>
+      a = html`<decidables-spinner class="a bottom"
+          ?disabled=${!this.interactive}
+          min=${DDMMath.a.MIN}
+          max=${DDMMath.a.MAX}
+          step=${DDMMath.a.STEP}
+          .value=${this.a}
+          @input=${this.aInput.bind(this)}
+        >
           <var class="math-var">a</var>
         </decidables-spinner>`;
-      z = html`<decidables-spinner class="z bottom" ?disabled=${!this.interactive} min="0.01" max="0.99" step="0.01" .value="${this.z}" @input=${this.zInput.bind(this)}>
+      z = html`<decidables-spinner class="z bottom"
+          ?disabled=${!this.interactive}
+          min=${DDMMath.z.MIN}
+          max=${DDMMath.z.MAX}
+          step=${DDMMath.z.STEP}
+          .value=${this.z}
+          @input=${this.zInput.bind(this)}
+        >
           <var class="math-var">z</var>
         </decidables-spinner>`;
-      v = html`<decidables-spinner class="v bottom" ?disabled=${!this.interactive} min="0.01" max="5" step="0.01" .value="${this.v}" @input=${this.vInput.bind(this)}>
+      v = html`<decidables-spinner class="v bottom"
+          ?disabled=${!this.interactive}
+          min=${DDMMath.v.MIN}
+          max=${DDMMath.v.MAX}
+          step=${DDMMath.v.STEP}
+          .value=${this.v}
+          @input=${this.vInput.bind(this)}
+        >
           <var class="math-var">v</var>
         </decidables-spinner>`;
-      t0 = html`<decidables-spinner class="t0 bottom" ?disabled=${!this.interactive} min="0" max="500" step="1" .value="${this.t0}" @input=${this.t0Input.bind(this)}>
+      t0 = html`<decidables-spinner class="t0 bottom"
+          ?disabled=${!this.interactive}
+          min=${DDMMath.t0.MIN}
+          max=${DDMMath.t0.MAX}
+          step=${DDMMath.t0.STEP}
+          .value=${this.t0}
+          @input=${this.t0Input.bind(this)}
+        >
           <var class="math-var">t<sub>0</sub></var>
         </decidables-spinner>`;
-      s = html`<decidables-spinner class="s bottom" disabled min="0.01" max="1" step="0.01" .value="${DDMMath.s}">
+      s = html`<decidables-spinner class="s bottom"
+          disabled
+          .value=${DDMMath.s.DEFAULT}
+        >
           <var class="math-var">s</var>
         </decidables-spinner>`;
-      meanRT = html`<decidables-spinner class="mean-rt bottom" disabled min="0" max="1" step="0.01" .value="${+this.meanRT.toFixed(0)}">
+      meanRT = html`<decidables-spinner class="mean-rt bottom"
+          disabled
+          .value=${+this.meanRT.toFixed(0)}
+        >
           <var>Mean RT</var>
         </decidables-spinner>`;
     } else {

@@ -1,5 +1,5 @@
 
-// import DDMMath from '@decidables/accumulable-math';
+import DDMMath from '@decidables/accumulable-math';
 
 import DDMExample from './ddm-example';
 
@@ -63,10 +63,10 @@ export default class DDMExampleModel extends DDMExample {
     this.colors = ['none', 'measure', 'outcome', 'all'];
     this.color = 'outcome';
 
-    this.a = 1.2;
-    this.z = 0.35;
-    this.v = 1.5;
-    this.t0 = 150;
+    this.a = DDMMath.a.DEFAULT;
+    this.z = DDMMath.z.DEFAULT;
+    this.v = DDMMath.v.DEFAULT;
+    this.t0 = DDMMath.t0.DEFAULT;
 
     this.accumulableControl = null;
     this.rdkTask = null;
