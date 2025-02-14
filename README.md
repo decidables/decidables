@@ -72,44 +72,6 @@ The libraries are published to *npm* in the
 
 Dependencies updated February 6, 2025.
 
-### Features/Bugs/Notes
-
-- Run axe DevTools to check for a11y
-  - Github links need title/text
-- Include a search function? 
-- Use localStorage or sessionStorage for maintaining page state?
-- Use prettier?
-- Better CSS linting - more stylistic rules?
-- Cleanup headers and comments in all *.js files!
-- Format negative numbers with true minus sign character?
-- Should decidables-elements have base classes for equations and examples?
-- Accessibility testing/auditing
-- Can we use *@testing-library/dom* for interface testing?
-- Use *eslint-plugin-lit*? (https://www.npmjs.com/package/eslint-plugin-lit)
-- Use *eslint-plugin-wc*? (https://github.com/43081j/eslint-plugin-wc)
-- Reducing bundle sizes
-  - Tighter *D3* imports?
-    - Tried this once and the bundle actually grew!
-  - Drop *regenerator-runtime* and/or *core-js*?
-    - Drop *Babel* entirely?
-- Libraries
-  - Revisit proper targets?
-  - How to create tree-shakable imports with web components
-    - Issue: classes aren't used in JS, but registered components *are* used!
-    - Maybe:
-      1. No sideEffects false
-      1. Always import needed classes
-      1. Always import from specific file?
-- Replace Plotly with something lighter? echarts & echarts-gl?
-- Linting and transpiling in tagged template literals?
-- Clean way for inter-page references?
-- Add "question" blocks for thoughts for readers to try - maybe with foldout answers?
-  ```markdown
-  :::question[Question?]
-  Answer
-  :::
-  ```
-
 ### Compatibility Goals
 
 In general, it should work with versions of any browsers using up-to-date WebKit/JavaScriptCore,

@@ -1,22 +1,76 @@
-## Notes
+## Ideas
 
-- Convert all code documentation to JSDoc format
-  - Use tool to extract docs from code files and add to README?
-- Use MathML with embedded elements for equations?
-- Universal bounds and step sizes for each parameter?
-- Separate Controls vs Parameters
-- Keyboard responses for all tasks
-- Rationalize all examples across all decidables
-- Larger drag targets for touch in all decidables
-- Create "quick take" pages for each model:
-  - exploration
-  - simulation
-  - fitting (enter own data?)
-  - Ideas:
+- Elements
+  - Parameters:
+    - Separate Controls vs Parameters
+    - Universal bounds and step sizes for each parameter?
+      - min, max, step, jump, upper, lower, default
+  - Tasks:
+    - Keyboard responses for all tasks
+  - Examples:
+    - Rationalize code organization across all examples across all decidables
+    - Should decidables-elements have base class for examples?
+  - Interactive diagrams:
+    - Larger drag targets for touch in all decidables
+  - Equations
+    - Use MathML with embedded elements for equations?
+    - Should decidables-elements have base class for equations?
+- Sites
+  - Quick Take
+    - Create "quick take" pages for each model:
+      - exploration
+      - simulation
+      - fitting (enter own data?)
     - This would be separate from in-depth explanations
     - Provide "early" access to web components
     - Maybe even a page that demonstrates usage of components
-- Move bugs from README into NOTES
+  - Search
+    - Include a search function?
+  - Persistence
+    - Use localStorage or sessionStorage for maintaining page state?
+    - Should this be done by elements? examples? pages?
+  - Pages
+    - Format negative numbers with true minus sign character?
+    - Clean way for inter-page references?
+    - Add "question" blocks for thoughts for readers to try - maybe with foldout answers?
+      ```markdown
+      :::question[Question?]
+      Answer
+      :::
+      ```
+- Development
+  - Documentation
+    - Cleanup headers and comments in all *.js files!
+    - Convert all code documentation to JSDoc format
+    - Use tool to extract docs from code files and add to README?
+  - Accessibility
+    - Run axe DevTools to check for a11y
+    - Github links need title/text
+    - Accessibility testing/auditing
+  - Linting
+    - Use prettier?
+    - Better CSS linting - more stylistic rules?
+    - Use *eslint-plugin-lit*? (https://www.npmjs.com/package/eslint-plugin-lit)
+    - Use *eslint-plugin-wc*? (https://github.com/43081j/eslint-plugin-wc)
+    - Linting and transpiling in tagged template literals?
+  - Testing
+    - Can we use *@testing-library/dom* for interface testing?
+  - Build
+    - Reducing bundle sizes
+      - Tighter *D3* imports?
+        - Tried this once and the bundle actually grew!
+      - Drop *regenerator-runtime* and/or *core-js*?
+      - Drop *Babel* entirely?
+  - Libraries
+    - Revisit proper targets?
+    - How to create tree-shakable imports with web components
+      - Issue: classes aren't used in JS, but registered components *are* used!
+      - Maybe:
+        1. No sideEffects false
+        1. Always import needed classes
+        1. Always import from specific file?
+  - Dependencies
+    - Replace Plotly with something lighter? echarts & echarts-gl?
 
 ## Debugging
 
