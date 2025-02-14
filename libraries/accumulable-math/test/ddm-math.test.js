@@ -88,12 +88,12 @@ describe('ddm-math', () => {
       accuracy: DDMMath.azv2pC(a, z, v),
       sdRT: DDMMath.azv2sd(a, z, v),
       meanRT: DDMMath.azvt02m(a, z, v, t0),
-      s: DDMMath.s,
+      s: DDMMath.s.DEFAULT,
     })).to.be.deep.almost({
       a: a,
       v: v,
       t0: t0,
-      s: DDMMath.s,
+      s: DDMMath.s.DEFAULT,
     });
   });
 
