@@ -11,7 +11,7 @@ considerations, we may want to simulate task performance in order to generate pr
 In other words, we can have our model perform the task *as if* it were a participant.
 
 <ddm-example-model>
-  <accumulable-control trials color run pause reset></accumulable-control>
+  <accumulable-control run pause reset></accumulable-control>
   <rdk-2afc-task></rdk-2afc-task>
   <ddm-parameters interactive></ddm-parameters>
   <ddm-model interactive measures means sds></ddm-model>
