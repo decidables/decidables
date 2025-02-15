@@ -15,6 +15,11 @@ export default class DDMExampleInteractive extends DDMExample {
         type: Number,
         reflect: true,
       },
+      color: {
+        attribute: 'color',
+        type: String,
+        reflect: true,
+      },
       a: {
         attribute: 'boundary-separation',
         type: Number,
@@ -42,6 +47,9 @@ export default class DDMExampleInteractive extends DDMExample {
     super();
 
     this.trials = 10;
+    this.colors = ['none', 'measure', 'outcome', 'all'];
+    this.color = 'outcome';
+
     this.a = DDMMath.a.DEFAULT;
     this.z = DDMMath.z.DEFAULT;
     this.v = DDMMath.v.DEFAULT;
@@ -71,6 +79,9 @@ export default class DDMExampleInteractive extends DDMExample {
       });
       this.accumulableControl.addEventListener('accumulable-control-trials', (event) => {
         this.trials = event.detail.trials;
+      });
+      this.accumulableControl.addEventListener('accumulable-control-color', (event) => {
+        this.color = event.detail.color;
       });
     }
 
@@ -117,6 +128,11 @@ export default class DDMExampleInteractive extends DDMExample {
 
     if (this.accumulableControl) {
       this.accumulableControl.trials = this.trials;
+      this.accumulableControl.color = this.color;
+    }
+
+    if (this.accumulableTable) {
+      this.accumulableTable.color = this.color;
     }
 
     if (this.accumulableTable && this.data) {

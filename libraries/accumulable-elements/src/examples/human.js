@@ -76,10 +76,7 @@ export default class DDMExampleHuman extends DDMExample {
     this.ddmModel = null;
     this.ddmFit = null;
 
-    this.signals = ['left', 'right']; // Possible values of 'signal'
-    this.signal = undefined; // Signal for current trial
     this.data = undefined;
-    this.model = undefined;
   }
 
   connectedCallback() {
@@ -96,47 +93,35 @@ export default class DDMExampleHuman extends DDMExample {
     // Initialize
     this.ddmModel.clear();
 
-    if (this.accumulableControl && this.accumulableControl.hasAttribute('trials')) {
+    if (this.accumulableControl) {
       this.accumulableControl.addEventListener('accumulable-control-trials', (event) => {
         this.trials = event.detail.trials;
       });
-    }
 
-    if (this.accumulableControl && this.accumulableControl.hasAttribute('duration')) {
       this.accumulableControl.addEventListener('accumulable-control-duration', (event) => {
         this.duration = event.detail.duration;
       });
-    }
 
-    if (this.accumulableControl && this.accumulableControl.hasAttribute('coherence')) {
       this.accumulableControl.addEventListener('accumulable-control-coherence', (event) => {
         this.coherence = event.detail.coherence;
       });
-    }
 
-    if (this.accumulableControl && this.accumulableControl.hasAttribute('color')) {
       this.accumulableControl.addEventListener('accumulable-control-color', (event) => {
         this.color = event.detail.color;
       });
-    }
 
-    if (this.accumulableControl && this.accumulableControl.hasAttribute('run')) {
       this.accumulableControl.addEventListener('accumulable-control-run', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.running = true;
         }
       });
-    }
 
-    if (this.accumulableControl && this.accumulableControl.hasAttribute('pause')) {
       this.accumulableControl.addEventListener('accumulable-control-pause', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.running = false;
         }
       });
-    }
 
-    if (this.accumulableControl && this.accumulableControl.hasAttribute('reset')) {
       this.accumulableControl.addEventListener('accumulable-control-reset', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.reset();

@@ -93,70 +93,58 @@ export default class DDMExampleModel extends DDMExample {
     this.accumulableTable = this.querySelector('accumulable-table');
 
     if (this.accumulableControl) {
-      if (this.accumulableControl.hasAttribute('trials')) {
-        this.accumulableControl.addEventListener('accumulable-control-trials', (event) => {
-          this.trials = event.detail.trials;
-        });
-      }
+      this.accumulableControl.addEventListener('accumulable-control-trials', (event) => {
+        this.trials = event.detail.trials;
+      });
 
-      if (this.accumulableControl.hasAttribute('duration')) {
-        this.accumulableControl.addEventListener('accumulable-control-duration', (event) => {
-          this.duration = event.detail.duration;
-        });
-      }
+      this.accumulableControl.addEventListener('accumulable-control-duration', (event) => {
+        this.duration = event.detail.duration;
+      });
 
-      if (this.accumulableControl.hasAttribute('color')) {
-        this.accumulableControl.addEventListener('accumulable-control-color', (event) => {
-          this.color = event.detail.color;
-        });
-      }
+      this.accumulableControl.addEventListener('accumulable-control-color', (event) => {
+        this.color = event.detail.color;
+      });
 
-      if (this.accumulableControl.hasAttribute('run')) {
-        this.accumulableControl.addEventListener('accumulable-control-run', (/* event */) => {
-          if (this.rdkTask) {
-            this.rdkTask.running = true;
-          }
+      this.accumulableControl.addEventListener('accumulable-control-run', (/* event */) => {
+        if (this.rdkTask) {
+          this.rdkTask.running = true;
+        }
 
-          if (this.ddmModel) {
-            this.ddmModel.resumeTrial();
-          }
-        });
-      }
+        if (this.ddmModel) {
+          this.ddmModel.resumeTrial();
+        }
+      });
 
-      if (this.accumulableControl.hasAttribute('pause')) {
-        this.accumulableControl.addEventListener('accumulable-control-pause', (/* event */) => {
-          if (this.rdkTask) {
-            this.rdkTask.running = false;
-          }
+      this.accumulableControl.addEventListener('accumulable-control-pause', (/* event */) => {
+        if (this.rdkTask) {
+          this.rdkTask.running = false;
+        }
 
-          if (this.ddmModel) {
-            this.ddmModel.pauseTrial();
-          }
-        });
-      }
+        if (this.ddmModel) {
+          this.ddmModel.pauseTrial();
+        }
+      });
 
-      if (this.accumulableControl.hasAttribute('reset')) {
-        this.accumulableControl.addEventListener('accumulable-control-reset', (/* event */) => {
-          this.trialCount = 0;
-          this.signal = undefined;
+      this.accumulableControl.addEventListener('accumulable-control-reset', (/* event */) => {
+        this.trialCount = 0;
+        this.signal = undefined;
 
-          if (this.rdkTask) {
-            this.rdkTask.reset();
-          }
+        if (this.rdkTask) {
+          this.rdkTask.reset();
+        }
 
-          if (this.ddmModel) {
-            this.ddmModel.trials = this.trialCount;
-          }
+        if (this.ddmModel) {
+          this.ddmModel.trials = this.trialCount;
+        }
 
-          if (this.accumulableResponse) {
-            this.accumulableResponse.reset();
-          }
+        if (this.accumulableResponse) {
+          this.accumulableResponse.reset();
+        }
 
-          if (this.accumulableTable) {
-            // this.accumulableTable.clear();
-          }
-        });
-      }
+        if (this.accumulableTable) {
+          // this.accumulableTable.clear();
+        }
+      });
     }
 
     if (this.rdkTask) {
@@ -225,22 +213,20 @@ export default class DDMExampleModel extends DDMExample {
         this.requestUpdate();
       });
 
-      if (this.ddmModel) {
-        this.ddmModel.addEventListener('accumulable-response', (event) => {
-          if (this.accumulableResponse) {
-            const response = (event.detail.outcome === 'correct')
-              ? this.signal
-              : (this.signal === 'left')
-                ? 'right'
-                : 'left';
-            this.accumulableResponse.responded(response);
-          }
+      this.ddmModel.addEventListener('accumulable-response', (event) => {
+        if (this.accumulableResponse) {
+          const response = (event.detail.outcome === 'correct')
+            ? this.signal
+            : (this.signal === 'left')
+              ? 'right'
+              : 'left';
+          this.accumulableResponse.responded(response);
+        }
 
-          this.data = event.detail.data;
-          this.model = event.detail.model;
-          this.requestUpdate();
-        });
-      }
+        this.data = event.detail.data;
+        this.model = event.detail.model;
+        this.requestUpdate();
+      });
     }
 
     this.requestUpdate();
