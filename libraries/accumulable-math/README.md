@@ -28,11 +28,12 @@ A class providing static functions for calculating Diffusion Decision Model equa
 
 ### `DDMMath`
 
-Single class exposing static functions for DDM calculations. Each function takes values for one or
-more variables and returns the value of another variable. The functions are named with a list of the
-input variables followed by a '2' followed by the output variable, in camelcase. For example,
-`azvs2pC` takes as input the boundary separation, `a`, the starting point, `z`, the drift rate, 'v',
-and the non-decision time, `t0`, and outputs the probability correct, `pC`.
+Single class exposing static values for DDM parameters and static functions for DDM calculations.
+Each function takes values for one or more variables and returns the value of another variable. The
+functions are named with a list of the input variables followed by a '2' followed by the output
+variable, in camelcase. For example, `azvs2pC` takes as input the boundary separation, `a`, the
+starting point, `z`, the drift rate, 'v', and the non-decision time, `t0`, and outputs the
+probability correct, `pC`.
 
 #### Variable names
 
@@ -67,27 +68,43 @@ and the non-decision time, `t0`, and outputs the probability correct, `pC`.
 - meanRT = overall mean reaction time
 - sdRT = overall standard deviation of reaction time
 
+#### Parameters
+
+- a = boundary separation
+- z = starting point
+- v = drift rate
+- t0 = non-decision time
+- s = within-trial variability in drift rate
+
+The values offered for parameters are:
+
+- DEFAULT = a recommended default value
+- MIN = the minimum value recommended for a UI (not necessarily the lower bound of its interval)
+- MAX = the maximum value recommended for a UI (not necessarily the upper bound of its interval)
+- STEP = a recommended step size for a UI
+- JUMP = a recommended "large" step size for a UI
+
 #### Methods w/sources
 
 - Basic stats
   - `trials2stats(trials)`
 - Probability of correct and error responses (Alexandrowicz, 2020)
-  - `azv2pE(a, z, v, s = DDMMath.s)` 
-  - `azv2pC(a, z, v, s = DDMMath.s)`
+  - `azv2pE(a, z, v, s = DDMMath.s.DEFAULT)` 
+  - `azv2pC(a, z, v, s = DDMMath.s.DEFAULT)`
 - Mean of overall, error, and correct RTs (Grasman et al., 2009)
-  - `azvt02m(a, z, v, t0, s = DDMMath.s)`
-  - `azvt02mE(a, z, v, t0, s = DDMMath.s)`
-  - `azvt02mC(a, z, v, t0, s = DDMMath.s)`
+  - `azvt02m(a, z, v, t0, s = DDMMath.s.DEFAULT)`
+  - `azvt02mE(a, z, v, t0, s = DDMMath.s.DEFAULT)`
+  - `azvt02mC(a, z, v, t0, s = DDMMath.s.DEFAULT)`
 - Standard deviation of overall, error, and correct RTs (Grasman et al., 2009)
-  - `azv2sd(a, z, v, s = DDMMath.s)`
-  - `azv2sdE(a, z, v, s = DDMMath.s)`
-  - `azv2sdC(a, z, v, s = DDMMath.s)`
+  - `azv2sd(a, z, v, s = DDMMath.s.DEFAULT)`
+  - `azv2sdE(a, z, v, s = DDMMath.s.DEFAULT)`
+  - `azv2sdC(a, z, v, s = DDMMath.s.DEFAULT)`
 - Density of error and correct RT distributions (Alexandrowicz, 2020)
-  - `tazv2gE(t, a, z, v, s = DDMMath.s)`
-  - `tazv2gC(t, a, z, v, s = DDMMath.s)`
+  - `tazv2gE(t, a, z, v, s = DDMMath.s.DEFAULT)`
+  - `tazv2gC(t, a, z, v, s = DDMMath.s.DEFAULT)`
 - EZ-diffusion model (Wagenmakers et al., 2007)
-  - `data2ez({accuracy, sdRT, meanRT, s})`
-  - `data2ez2()`
+  - `data2ez({accuracy, sdRT, meanRT, s = DDMMath.s.DEFAULT})`
+  - `data2ez2()` **NOT IMPLEMENTED**
 
 ## Development
 
