@@ -95,9 +95,7 @@ export default class AccumulableResponse extends AccumulableElement {
     this.startTime = undefined; // Start time of current trial
     this.rt = undefined; // RT for current trial
 
-    this.correctCount = 0; // Count of Correct Trials
-    this.errorCount = 0; // Count of Error Trials
-    this.nrCount = 0; // Count of No Response trials
+    this.data = {};
 
     this.trials = []; // Record of trials in block
     this.alignState();
@@ -117,14 +115,13 @@ export default class AccumulableResponse extends AccumulableElement {
   }
 
   get totalPayoff() {
-    return ((this.correctCount * this.correctPayoff)
-      + (this.errorCount * this.errorPayoff)
-      + (this.nrCount * this.nrPayoff));
+    return ((this.data.correctCount * this.correctPayoff)
+      + (this.data.errorCount * this.errorPayoff)
+      + (this.data.nrCount * this.nrPayoff));
   }
 
   alignState() {
-    const stats = DDMMath.trials2stats(this.trials);
-    Object.assign(this, stats);
+    this.data = DDMMath.trials2stats(this.trials);
   }
 
   start(signal, trial) {
@@ -141,7 +138,6 @@ export default class AccumulableResponse extends AccumulableElement {
     this.state = 'feedback';
     if (this.response === undefined) {
       this.outcome = 'nr';
-      this.nrCount += 1;
       this.rt = undefined;
 
       this.trials.push({
@@ -170,10 +166,8 @@ export default class AccumulableResponse extends AccumulableElement {
     this.response = response;
     if (this.signal === this.response) {
       this.outcome = 'correct';
-      this.correctCount += 1;
     } else if (this.signal !== this.response) {
       this.outcome = 'error';
-      this.errorCount += 1;
     }
     this.trials.push({
       trial: this.trialCount,
@@ -194,16 +188,7 @@ export default class AccumulableResponse extends AccumulableElement {
         outcome: this.outcome,
         payoff: this.trialPayoff,
 
-        correctCount: this.correctCount,
-        errorCount: this.errorCount,
-        nrCount: this.nrCount,
-        accuracy: this.accuracy,
-        meanRT: this.meanRT,
-        correctMeanRT: this.correctMeanRT,
-        errorMeanRT: this.errorMeanRT,
-        sdRT: this.sdRT,
-        correctSDRT: this.correctSDRT,
-        errorSDRT: this.errorSDRT,
+        data: this.data,
 
         totalPayoff: this.totalPayoff,
       },
@@ -218,9 +203,6 @@ export default class AccumulableResponse extends AccumulableElement {
     this.signal = undefined;
     this.response = undefined;
     this.outcome = undefined;
-    this.correctCount = 0;
-    this.errorCount = 0;
-    this.nrCount = 0;
 
     this.trials = [];
     this.alignState();
