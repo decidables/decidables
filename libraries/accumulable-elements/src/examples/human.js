@@ -1,5 +1,5 @@
 
-// import DDMMath from '@decidables/accumulable-math';
+import DDMMath from '@decidables/accumulable-math';
 
 import DDMExample from './ddm-example';
 
@@ -8,10 +8,78 @@ import DDMExample from './ddm-example';
   <ddm-example-human>
 */
 export default class DDMExampleHuman extends DDMExample {
+  static get properties() {
+    return {
+      trials: {
+        attribute: 'trials',
+        type: Number,
+        reflect: true,
+      },
+      duration: {
+        attribute: 'duration',
+        type: Number,
+        reflect: true,
+      },
+      coherence: {
+        attribute: 'coherence',
+        type: Number,
+        reflect: true,
+      },
+      color: {
+        attribute: 'color',
+        type: String,
+        reflect: true,
+      },
+
+      a: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+      z: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+      v: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+      t0: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+    };
+  }
+
   constructor() {
     super();
 
-    this.trialCount = 0;
+    this.trials = 10;
+    this.duration = 2000;
+    this.coherence = 0.5;
+    this.colors = ['none', 'measure', 'outcome', 'all'];
+    this.color = 'outcome';
+
+    this.a = DDMMath.a.DEFAULT;
+    this.z = DDMMath.z.DEFAULT;
+    this.v = DDMMath.v.DEFAULT;
+    this.t0 = DDMMath.t0.DEFAULT;
+
+    this.accumulableControl = null;
+    this.rdkTask = null;
+    this.accumulableResponse = null;
+    this.accumulableTable = null;
+    this.ddmParameters = null;
+    this.ddmModel = null;
+    this.ddmFit = null;
+
+    this.signals = ['left', 'right']; // Possible values of 'signal'
+    this.signal = undefined; // Signal for current trial
+    this.data = undefined;
+    this.model = undefined;
   }
 
   connectedCallback() {
@@ -30,39 +98,25 @@ export default class DDMExampleHuman extends DDMExample {
 
     if (this.accumulableControl && this.accumulableControl.hasAttribute('trials')) {
       this.accumulableControl.addEventListener('accumulable-control-trials', (event) => {
-        if (this.rdkTask) {
-          this.rdkTask.trials = event.detail.trials;
-        }
-
-        if (this.accumulableResponse) {
-          this.accumulableResponse.trialTotal = event.detail.trials;
-        }
+        this.trials = event.detail.trials;
       });
     }
 
     if (this.accumulableControl && this.accumulableControl.hasAttribute('duration')) {
       this.accumulableControl.addEventListener('accumulable-control-duration', (event) => {
-        if (this.rdkTask) {
-          this.rdkTask.duration = event.detail.duration;
-          this.rdkTask.wait = event.detail.duration;
-          this.rdkTask.iti = event.detail.duration;
-        }
+        this.duration = event.detail.duration;
       });
     }
 
     if (this.accumulableControl && this.accumulableControl.hasAttribute('coherence')) {
       this.accumulableControl.addEventListener('accumulable-control-coherence', (event) => {
-        if (this.rdkTask) {
-          this.rdkTask.coherence = event.detail.coherence;
-        }
+        this.coherence = event.detail.coherence;
       });
     }
 
     if (this.accumulableControl && this.accumulableControl.hasAttribute('color')) {
       this.accumulableControl.addEventListener('accumulable-control-color', (event) => {
-        if (this.accumulableTable) {
-          this.accumulableTable.color = event.detail.color;
-        }
+        this.color = event.detail.color;
       });
     }
 
@@ -119,12 +173,6 @@ export default class DDMExampleHuman extends DDMExample {
     }
 
     if (this.rdkTask) {
-      if (this.accumulableResponse) {
-        this.accumulableResponse.trialTotal = this.rdkTask.trials;
-      }
-    }
-
-    if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-trial-start', (event) => {
         if (this.accumulableResponse) {
           this.accumulableResponse.start(event.detail.signal, event.detail.trial);
@@ -150,18 +198,7 @@ export default class DDMExampleHuman extends DDMExample {
 
     if (this.accumulableResponse) {
       this.accumulableResponse.addEventListener('accumulable-response', (event) => {
-        if (this.accumulableTable) {
-          this.accumulableTable.correctCount = event.detail.correctCount;
-          this.accumulableTable.errorCount = event.detail.errorCount;
-          this.accumulableTable.nrCount = event.detail.nrCount;
-          this.accumulableTable.accuracy = event.detail.accuracy;
-          this.accumulableTable.correctMeanRT = event.detail.correctMeanRT;
-          this.accumulableTable.errorMeanRT = event.detail.errorMeanRT;
-          this.accumulableTable.meanRT = event.detail.meanRT;
-          this.accumulableTable.correctSDRT = event.detail.correctSDRT;
-          this.accumulableTable.errorSDRT = event.detail.errorSDRT;
-          this.accumulableTable.sdRT = event.detail.sdRT;
-        }
+        this.data = event.detail.data;
 
         if (this.ddmModel) {
           this.ddmModel.trial({
@@ -173,34 +210,81 @@ export default class DDMExampleHuman extends DDMExample {
 
         if (this.ddmFit) {
           this.ddmFit.set({
-            accuracy: event.detail.accuracy,
-            correctMeanRT: event.detail.correctMeanRT,
-            errorMeanRT: event.detail.errorMeanRT,
-            meanRT: event.detail.meanRT,
-            correctSDRT: event.detail.correctSDRT,
-            errorSDRT: event.detail.errorSDRT,
-            sdRT: event.detail.sdRT,
+            accuracy: event.detail.data.accuracy,
+            correctMeanRT: event.detail.data.correctMeanRT,
+            errorMeanRT: event.detail.data.errorMeanRT,
+            meanRT: event.detail.data.meanRT,
+            correctSDRT: event.detail.data.correctSDRT,
+            errorSDRT: event.detail.data.errorSDRT,
+            sdRT: event.detail.data.sdRT,
           });
         }
+
+        this.requestUpdate();
       });
     }
 
     if (this.ddmFit) {
       this.ddmFit.addEventListener('ddm-fit-update', (event) => {
-        if (this.ddmParameters) {
-          this.ddmParameters.a = event.detail.a;
-          this.ddmParameters.z = 0.5; // event.detail.z;
-          this.ddmParameters.v = event.detail.v;
-          this.ddmParameters.t0 = event.detail.t0;
-        }
-
-        if (this.ddmModel) {
-          this.ddmModel.a = event.detail.a;
-          this.ddmModel.z = 0.5; // event.detail.z;
-          this.ddmModel.v = event.detail.v;
-          this.ddmModel.t0 = event.detail.t0;
-        }
+        this.a = event.detail.a;
+        this.z = 0.5; // event.detail.z;
+        this.v = event.detail.v;
+        this.t0 = event.detail.t0;
       });
+    }
+  }
+
+  update(changedProperties) {
+    super.update(changedProperties);
+
+    if (this.accumulableControl) {
+      this.accumulableControl.trials = this.trials;
+      this.accumulableControl.duration = this.duration;
+      this.accumulableControl.coherence = this.coherence;
+      this.accumulableControl.color = this.color;
+    }
+
+    if (this.rdkTask) {
+      this.rdkTask.trials = this.trials;
+      this.rdkTask.duration = this.duration;
+      this.rdkTask.wait = this.duration;
+      this.rdkTask.iti = this.duration;
+      this.rdkTask.coherence = this.coherence;
+    }
+
+    if (this.ddmParameters) {
+      this.ddmParameters.a = this.a;
+      this.ddmParameters.z = this.z;
+      this.ddmParameters.v = this.v;
+      this.ddmParameters.t0 = this.t0;
+    }
+
+    if (this.ddmModel) {
+      this.ddmModel.a = +this.a;
+      this.ddmModel.z = +this.z;
+      this.ddmModel.v = +this.v;
+      this.ddmModel.t0 = +this.t0;
+    }
+
+    if (this.accumulableResponse) {
+      this.accumulableResponse.trialTotal = this.trials;
+    }
+
+    if (this.accumulableTable) {
+      this.accumulableTable.color = this.color;
+    }
+
+    if (this.accumulableTable && this.data) {
+      this.accumulableTable.correctCount = this.data.correctCount;
+      this.accumulableTable.errorCount = this.data.errorCount;
+      this.accumulableTable.nrCount = this.data.nrCount;
+      this.accumulableTable.accuracy = this.data.accuracy;
+      this.accumulableTable.correctMeanRT = this.data.correctMeanRT;
+      this.accumulableTable.errorMeanRT = this.data.errorMeanRT;
+      this.accumulableTable.meanRT = this.data.meanRT;
+      this.accumulableTable.correctSDRT = this.data.correctSDRT;
+      this.accumulableTable.errorSDRT = this.data.errorSDRT;
+      this.accumulableTable.sdRT = this.data.sdRT;
     }
   }
 }
