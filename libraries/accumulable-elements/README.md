@@ -191,28 +191,29 @@ the trials, display feedback on accuracy, and display the current trial and tota
       - The outcome of the trial as an `'error'` or `'correct'`
     - `payoff: number`
       - The payoff for this trial
-    - `correctCount: number`
-      - Number of correct trials
-    - `errorCount: number`
-      - Number of error trials
-    - `nrCount: number`
-      - Number of no-response trials
-    - `accuracy: number`
-      - Proportion of correct trials
-    - `meanRT: number`
-      - Overall mean reaction time
-    - `correctMeanRT: number`
-      - Mean reaction time on correct trials
-    - `errorMeanRT: number`
-      - Mean reaction time on error trials
-    - `sdRT: number`
-      - Overall standard deviation of reaction time
-    - `correctSDRT: number`
-      - Standard deviation of reaction time on correct trials
-    - `errorSDRT: number`
-      - Standard deviation of reaction time on error trials
     - `totalPayoff: number`
       - Total payoff for the block
+    - `data: object`
+      - `correctCount: number`
+        - Number of correct trials
+      - `errorCount: number`
+        - Number of error trials
+      - `nrCount: number`
+        - Number of no-response trials
+      - `accuracy: number`
+        - Proportion of correct trials
+      - `meanRT: number`
+        - Overall mean reaction time
+      - `correctMeanRT: number`
+        - Mean reaction time on correct trials
+      - `errorMeanRT: number`
+        - Mean reaction time on error trials
+      - `sdRT: number`
+        - Overall standard deviation of reaction time
+      - `correctSDRT: number`
+        - Standard deviation of reaction time on correct trials
+      - `errorSDRT: number`
+        - Standard deviation of reaction time on error trials
 
 ##### Example
 
@@ -565,7 +566,7 @@ The paths can be animated when added individually to the visualization.
 Control panel for DDM model parameters
 
 A configurable set of controls for user manipulation of DDM model parameters. Controls can be
-provided for the boundary separation, starting pointm, drift rate, and non-decision time.
+provided for the boundary separation, starting point, drift rate, and non-decision time.
 
 ##### Attributes
 
@@ -817,6 +818,30 @@ space, and a visual rendering of signal detection theory. The table of results, 
 SDT model should not be interactive, because their values are received from the user's task
 performance.
 
+##### Attributes
+
+**Note:** Since model parameter attributes are set on the example, they don't need to be set on the
+individual components, as they will be propagated and kept in sync.
+
+- `trials: number = 10`
+  - Number of sampled trials to display
+- `duration: number = 2000`
+  - The duration of the stimulus, wait, and inter-trial interval on each trial, initialized to the
+    value provided in milliseconds
+- `coherence: number = 0.5`
+  - The proportion of coherent dots in the visual stimulus
+- `color: string = outcome`
+  - How to color the cells in the results table
+  - Options
+    - `'none'`
+      - No use of color
+    - `'measure'`
+      - Color based on measure (*count/accuracy*, *mean RT*, *standard deviation RT*)
+    - `'outcome'`
+      - Color based on outcome (*correct*, *error*, *overall*)
+    - `'all'`
+      - Color based on measure and outcome
+
 ##### Slots
 
 - *unnamed*
@@ -840,11 +865,11 @@ performance.
 ##### Example
 
 ```html
-<ddm-example-human>
-  <accumulable-control trials="10" duration="1000" coherence="0.4" color="outcome" run pause reset></accumulable-control>
-  <rdk-2afc-task trials="10"></rdk-2afc-task>
+<ddm-example-human trials="10" duration="2000" coherence="0.5" color="outcome">
+  <accumulable-control run pause reset></accumulable-control>
+  <rdk-2afc-task></rdk-2afc-task>
   <accumulable-response interactive trial feedback></accumulable-response>
-  <accumulable-table numeric summary color="outcome"></accumulable-table>
+  <accumulable-table numeric summary></accumulable-table>
   <ddm-parameters></ddm-parameters>
   <ddm-model human measures means sds></ddm-model>
   <ddm-fit></ddm-fit>
@@ -865,6 +890,17 @@ components, as they will be propagated and kept in sync.
 
 - `trials: number = 10`
   - Number of sampled trials to display
+- `color: string = outcome`
+  - How to color the cells in the results table
+  - Options
+    - `'none'`
+      - No use of color
+    - `'measure'`
+      - Color based on measure (*count/accuracy*, *mean RT*, *standard deviation RT*)
+    - `'outcome'`
+      - Color based on outcome (*correct*, *error*, *overall*)
+    - `'all'`
+      - Color based on measure and outcome
 - `boundary-separation: number = 1.5`
   - Boundary separation, in units of evidence, *a*
 - `starting-point: number = 0.5`
@@ -892,11 +928,11 @@ components, as they will be propagated and kept in sync.
 ##### Example
 
 ```html
-<ddm-example-interactive trials="10" boundary-separation="1.2" starting-point="0.35" drift-rate="1.5" nondecision-time="150">
-  <accumulable-control trials="10" resample></accumulable-control>
+<ddm-example-interactive trials="10" color="outcome" boundary-separation="1.2" starting-point="0.35" drift-rate="1.5" nondecision-time="150">
+  <accumulable-control resample></accumulable-control>
   <ddm-parameters interactive></ddm-parameters>
   <ddm-model interactive measures means sds></ddm-model>
-  <accumulable-table numeric summary color="outcome"></accumulable-table>
+  <accumulable-table numeric summary></accumulable-table>
 </ddm-example-interactive>
 ```
 
@@ -963,7 +999,7 @@ individual components, as they will be propagated and kept in sync.
 
 ```html
 <ddm-example-model trials="10" duration="2000" coherence="0.5" color="outcome" boundary-separation="1.2" starting-point="0.35" drift-rate="1.5" nondecision-time="150">
-  <accumulable-control trials color run pause reset></accumulable-control>
+  <accumulable-control run pause reset></accumulable-control>
   <rdk-2afc-task></rdk-2afc-task>
   <ddm-parameters interactive></ddm-parameters>
   <ddm-model interactive measures means sds></ddm-model>
