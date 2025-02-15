@@ -57,7 +57,7 @@ describe('accumulable-response', () => {
     el.stop();
     await elementUpdated(el);
     expect(el.outcome).to.equal('nr');
-    expect(el.nrCount).to.equal(1);
+    expect(el.data.nrCount).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('NoResponse');
     expect(el.shadowRoot).to.have.descendant('.payoff').with.text('−$100');
   });
@@ -69,7 +69,7 @@ describe('accumulable-response', () => {
     el.left();
     await elementUpdated(el);
     expect(el.outcome).to.equal('correct');
-    expect(el.correctCount).to.equal(1);
+    expect(el.data.correctCount).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Correct');
     expect(el.shadowRoot).to.have.descendant('.payoff').with.text('$60');
   });
@@ -81,7 +81,7 @@ describe('accumulable-response', () => {
     el.right();
     await elementUpdated(el);
     expect(el.outcome).to.equal('error');
-    expect(el.errorCount).to.equal(1);
+    expect(el.data.errorCount).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Error');
     expect(el.shadowRoot).to.have.descendant('.payoff').with.text('−$60');
   });
@@ -93,13 +93,13 @@ describe('accumulable-response', () => {
     el.right();
     await elementUpdated(el);
     expect(el.outcome).to.equal('correct');
-    expect(el.correctCount).to.equal(1);
+    expect(el.data.correctCount).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Correct');
     expect(el.shadowRoot).to.have.descendant('.payoff').with.text('$60');
     el.reset();
     await elementUpdated(el);
     expect(el.outcome).to.equal(undefined);
-    expect(el.correctCount).to.equal(0);
+    expect(el.data.correctCount).to.equal(0);
     expect(el.shadowRoot).to.not.have.descendant('.outcome');
     expect(el.shadowRoot).to.not.have.descendant('.payoff');
   });
@@ -119,21 +119,23 @@ describe('accumulable-response', () => {
       response: 'left',
       outcome: 'correct',
       payoff: 60,
+      totalPayoff: 60,
+    });
+    expect(detail.data).to.include({
       correctCount: 1,
       errorCount: 0,
       nrCount: 0,
       accuracy: 1,
-      totalPayoff: 60,
     });
     expect(detail).to.have.property('rt');
-    expect(detail).to.have.property('meanRT');
-    expect(detail).to.have.property('correctMeanRT');
-    expect(detail).to.have.property('errorMeanRT');
-    expect(detail).to.have.property('sdRT');
-    expect(detail).to.have.property('correctSDRT');
-    expect(detail).to.have.property('errorSDRT');
+    expect(detail.data).to.have.property('meanRT');
+    expect(detail.data).to.have.property('correctMeanRT');
+    expect(detail.data).to.have.property('errorMeanRT');
+    expect(detail.data).to.have.property('sdRT');
+    expect(detail.data).to.have.property('correctSDRT');
+    expect(detail.data).to.have.property('errorSDRT');
     expect(el.outcome).to.equal('correct');
-    expect(el.correctCount).to.equal(1);
+    expect(el.data.correctCount).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Correct');
     expect(el.shadowRoot).to.have.descendant('.payoff').with.text('$60');
   });
@@ -153,21 +155,23 @@ describe('accumulable-response', () => {
       response: 'right',
       outcome: 'error',
       payoff: -60,
+      totalPayoff: -60,
+    });
+    expect(detail.data).to.include({
       correctCount: 0,
       errorCount: 1,
       nrCount: 0,
       accuracy: 0,
-      totalPayoff: -60,
     });
     expect(detail).to.have.property('rt');
-    expect(detail).to.have.property('meanRT');
-    expect(detail).to.have.property('correctMeanRT');
-    expect(detail).to.have.property('errorMeanRT');
-    expect(detail).to.have.property('sdRT');
-    expect(detail).to.have.property('correctSDRT');
-    expect(detail).to.have.property('errorSDRT');
+    expect(detail.data).to.have.property('meanRT');
+    expect(detail.data).to.have.property('correctMeanRT');
+    expect(detail.data).to.have.property('errorMeanRT');
+    expect(detail.data).to.have.property('sdRT');
+    expect(detail.data).to.have.property('correctSDRT');
+    expect(detail.data).to.have.property('errorSDRT');
     expect(el.outcome).to.equal('error');
-    expect(el.errorCount).to.equal(1);
+    expect(el.data.errorCount).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Error');
     expect(el.shadowRoot).to.have.descendant('.payoff').with.text('−$60');
   });
@@ -186,21 +190,23 @@ describe('accumulable-response', () => {
       response: 'left',
       outcome: 'correct',
       payoff: 60,
+      totalPayoff: 60,
+    });
+    expect(detail.data).to.include({
       correctCount: 1,
       errorCount: 0,
       nrCount: 0,
       accuracy: 1,
-      totalPayoff: 60,
     });
     expect(detail).to.have.property('rt');
-    expect(detail).to.have.property('meanRT');
-    expect(detail).to.have.property('correctMeanRT');
-    expect(detail).to.have.property('errorMeanRT');
-    expect(detail).to.have.property('sdRT');
-    expect(detail).to.have.property('correctSDRT');
-    expect(detail).to.have.property('errorSDRT');
+    expect(detail.data).to.have.property('meanRT');
+    expect(detail.data).to.have.property('correctMeanRT');
+    expect(detail.data).to.have.property('errorMeanRT');
+    expect(detail.data).to.have.property('sdRT');
+    expect(detail.data).to.have.property('correctSDRT');
+    expect(detail.data).to.have.property('errorSDRT');
     expect(el.outcome).to.equal('correct');
-    expect(el.correctCount).to.equal(1);
+    expect(el.data.correctCount).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Correct');
     expect(el.shadowRoot).to.have.descendant('.payoff').with.text('$60');
   });
@@ -219,21 +225,23 @@ describe('accumulable-response', () => {
       response: 'right',
       outcome: 'error',
       payoff: -60,
+      totalPayoff: -60,
+    });
+    expect(detail.data).to.include({
       correctCount: 0,
       errorCount: 1,
       nrCount: 0,
       accuracy: 0,
-      totalPayoff: -60,
     });
     expect(detail).to.have.property('rt');
-    expect(detail).to.have.property('meanRT');
-    expect(detail).to.have.property('correctMeanRT');
-    expect(detail).to.have.property('errorMeanRT');
-    expect(detail).to.have.property('sdRT');
-    expect(detail).to.have.property('correctSDRT');
-    expect(detail).to.have.property('errorSDRT');
+    expect(detail.data).to.have.property('meanRT');
+    expect(detail.data).to.have.property('correctMeanRT');
+    expect(detail.data).to.have.property('errorMeanRT');
+    expect(detail.data).to.have.property('sdRT');
+    expect(detail.data).to.have.property('correctSDRT');
+    expect(detail.data).to.have.property('errorSDRT');
     expect(el.outcome).to.equal('error');
-    expect(el.errorCount).to.equal(1);
+    expect(el.data.errorCount).to.equal(1);
     expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Error');
     expect(el.shadowRoot).to.have.descendant('.payoff').with.text('−$60');
   });

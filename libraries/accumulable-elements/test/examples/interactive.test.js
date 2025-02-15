@@ -18,10 +18,10 @@ describe('ddm-example-interactive', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <ddm-example-interactive>
-        <accumulable-control trials="10" resample></accumulable-control>
+        <accumulable-control resample></accumulable-control>
         <ddm-parameters interactive></ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
-        <accumulable-table numeric summary color="outcome"></accumulable-table>
+        <accumulable-table numeric summary></accumulable-table>
       </ddm-example-interactive>
     `);
     expect(el).shadowDom.to.equal(`
@@ -38,16 +38,16 @@ describe('ddm-example-interactive', () => {
   it('has a lightDom', async () => {
     const el = await fixture(html`
       <ddm-example-interactive>
-        <accumulable-control trials="10" resample></accumulable-control>
+        <accumulable-control resample></accumulable-control>
         <ddm-parameters interactive></ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
-        <accumulable-table numeric summary color="outcome"></accumulable-table>
+        <accumulable-table numeric summary></accumulable-table>
       </ddm-example-interactive>
     `);
     expect(el).lightDom.to.equal(`
-      <accumulable-control trials="10" resample class="keyboard"></accumulable-control>
-      <ddm-parameters interactive="" class="keyboard" boundary-separation="1.2" starting-point="0.35" drift-rate="1.5" nondecision-time="150"></ddm-parameters>
-      <ddm-model interactive measures means sds trials="10" boundary-separation="1.2" starting-point="0.35" drift-rate="1.5" nondecision-time="150" class="keyboard"></ddm-model>
+      <accumulable-control trials="10" resample color="outcome" class="keyboard"></accumulable-control>
+      <ddm-parameters interactive="" class="keyboard" boundary-separation="1.2" starting-point="0.55" drift-rate="1.5" nondecision-time="150"></ddm-parameters>
+      <ddm-model interactive measures means sds trials="10" boundary-separation="1.2" starting-point="0.55" drift-rate="1.5" nondecision-time="150" class="keyboard"></ddm-model>
       <accumulable-table numeric summary color="outcome" class="keyboard"></accumulable-table>
     `, {
       ignoreAttributes: [
@@ -62,11 +62,11 @@ describe('ddm-example-interactive', () => {
 
   it('can propagate a control interaction', async () => {
     const el = await fixture(html`
-      <ddm-example-interactive boundary-separation="0.5">
-        <accumulable-control trials="10" resample></accumulable-control>
+      <ddm-example-interactive trials="10">
+        <accumulable-control resample></accumulable-control>
         <ddm-parameters interactive></ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
-        <accumulable-table numeric summary color="outcome"></accumulable-table>
+        <accumulable-table numeric summary></accumulable-table>
       </ddm-example-interactive>
     `);
     // Check "before" state
@@ -85,10 +85,10 @@ describe('ddm-example-interactive', () => {
   it('can propagate a parameter interaction', async () => {
     const el = await fixture(html`
       <ddm-example-interactive boundary-separation="0.5">
-        <accumulable-control trials="10" resample></accumulable-control>
+        <accumulable-control resample></accumulable-control>
         <ddm-parameters interactive></ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
-        <accumulable-table numeric summary color="outcome"></accumulable-table>
+        <accumulable-table numeric summary></accumulable-table>
       </ddm-example-interactive>
     `);
     // Check "before" state
@@ -107,10 +107,10 @@ describe('ddm-example-interactive', () => {
   it('can propagate a model interaction', async () => {
     const el = await fixture(html`
       <ddm-example-interactive starting-point="0.3">
-        <accumulable-control trials="10" resample></accumulable-control>
+        <accumulable-control resample></accumulable-control>
         <ddm-parameters interactive></ddm-parameters>
         <ddm-model interactive measures means sds style="--transition-duration: 0;"></ddm-model>
-        <accumulable-table numeric summary color="outcome"></accumulable-table>
+        <accumulable-table numeric summary></accumulable-table>
       </ddm-example-interactive>
     `);
     // Wait for resize?

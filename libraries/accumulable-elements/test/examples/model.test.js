@@ -18,12 +18,12 @@ describe('ddm-example-model', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <ddm-example-model>
-        <accumulable-control trials="10" run pause reset></accumulable-control>
-        <rdk-2afc-task trials="10"></rdk-2afc-task>
+        <accumulable-control run pause reset></accumulable-control>
+        <rdk-2afc-task></rdk-2afc-task>
         <ddm-parameters interactive></ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
         <accumulable-response trial feedback></accumulable-response>
-        <accumulable-table numeric summary color="outcome"></accumulable-table>
+        <accumulable-table numeric summary></accumulable-table>
       </ddm-example-model>
     `);
     expect(el).shadowDom.to.equal(`
@@ -40,19 +40,19 @@ describe('ddm-example-model', () => {
   it('has a lightDom', async () => {
     const el = await fixture(html`
       <ddm-example-model>
-        <accumulable-control trials="10" run pause reset></accumulable-control>
-        <rdk-2afc-task trials="10"></rdk-2afc-task>
+        <accumulable-control run pause reset></accumulable-control>
+        <rdk-2afc-task ></rdk-2afc-task>
         <ddm-parameters interactive></ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
         <accumulable-response trial feedback></accumulable-response>
-        <accumulable-table numeric summary color="outcome"></accumulable-table>
+        <accumulable-table numeric summary></accumulable-table>
       </ddm-example-model>
     `);
     expect(el).lightDom.to.equal(`
       <accumulable-control trials="10" run pause reset class="keyboard" duration="2000" coherence="0.5" color="outcome"></accumulable-control>
       <rdk-2afc-task trials="10" coherence="0.5" count="100" probability="0.5" duration="2000" wait="2000" iti="2000" class="keyboard"></rdk-2afc-task>
-      <ddm-parameters interactive class="keyboard" boundary-separation="1.2" starting-point="0.35" drift-rate="1.5" nondecision-time="150"></ddm-parameters>
-      <ddm-model interactive measures means sds seed="0.1412855550639449" trials="0" boundary-separation="1.2" starting-point="0.35" drift-rate="1.5" nondecision-time="150" class="keyboard"></ddm-model>
+      <ddm-parameters interactive class="keyboard" boundary-separation="1.2" starting-point="0.55" drift-rate="1.5" nondecision-time="150"></ddm-parameters>
+      <ddm-model interactive measures means sds seed="0.1412855550639449" trials="0" boundary-separation="1.2" starting-point="0.55" drift-rate="1.5" nondecision-time="150" class="keyboard"></ddm-model>
       <accumulable-response trial feedback payoff="none" correct-payoff="0" error-payoff="0" no-response-payoff="0" class="keyboard"></accumulable-response>
       <accumulable-table numeric summary color="outcome" correct-count="0" error-count="0" nr-count="0" accuracy="NaN" correct-mean-rt="NaN" error-mean-rt="NaN" mean-rt="NaN" correct-sd-rt="NaN" error-sd-rt="NaN" sd-rt="NaN" class="keyboard"></accumulable-table>
     `, {ignoreAttributes: ['seed']});
@@ -61,12 +61,12 @@ describe('ddm-example-model', () => {
   it('can run a task', async () => {
     const el = await fixture(html`
       <ddm-example-model>
-      <accumulable-control trials="10" run pause reset></accumulable-control>
-        <rdk-2afc-task trials="10"></rdk-2afc-task>
+        <accumulable-control run pause reset></accumulable-control>
+        <rdk-2afc-task></rdk-2afc-task>
         <ddm-parameters interactive></ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
         <accumulable-response trial feedback></accumulable-response>
-        <accumulable-table numeric summary color="outcome"></accumulable-table>
+        <accumulable-table numeric summary></accumulable-table>
       </ddm-example-model>
     `);
     // Action: start task
