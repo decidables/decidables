@@ -527,6 +527,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
         .t0z .point {
           fill: var(---color-element-emphasis);
+          stroke-width: 0;
 
           r: 6px;
         }
@@ -534,14 +535,14 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         /* Make larger targets for touch users */
         .touch {
           stroke: #000000;
+          stroke-dasharray: none;
           stroke-opacity: 0;
-          stroke-width: 0;
         }
 
         @media (pointer: coarse) {
           .touch {
-            stroke-linecap: round;
-            stroke-width: 12;
+            stroke-linecap: round !important;
+            stroke-width: 12 !important;
           }
         }
 
@@ -1542,7 +1543,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     boundaryEnter.append('line')
       .classed('line', true);
     boundaryEnter.append('line')
-      .classed('touch', true);
+      .classed('line touch', true);
     //  MERGE
     const boundaryMerge = boundaryEnter.merge(boundaryUpdate)
       .attr('tabindex', this.interactive ? 0 : null)
@@ -1612,7 +1613,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('y2', (datum) => {
         return evidenceScale(datum.value);
       });
-    boundaryMerge.select('.touch')
+    boundaryMerge.select('.line.touch')
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
@@ -1639,11 +1640,11 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     driftEnter.append('line')
       .classed('line', true);
     driftEnter.append('line')
-      .classed('touch', true);
+      .classed('line touch', true);
     driftEnter.append('path')
       .classed('arrow', true);
     driftEnter.append('path')
-      .classed('touch', true);
+      .classed('arrow touch', true);
     //  MERGE
     const driftMerge = driftEnter.merge(driftUpdate)
       .attr('tabindex', this.interactive ? 0 : null)
@@ -1704,7 +1705,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       });
     driftMerge.select('.line')
       .attr('x2', timeScale(200));
-    driftMerge.select('line.touch')
+    driftMerge.select('.line.touch')
       .attr('x2', timeScale(200));
     driftMerge.select('.arrow')
       .attr('d', `
@@ -1712,7 +1713,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         l ${this.rem * 0.5},${this.rem * 0.5}
         l ${-this.rem * 0.5},${this.rem * 0.5}
       `);
-    driftMerge.select('path.touch')
+    driftMerge.select('.arrow.touch')
       .attr('d', `
         M ${timeScale(200) - this.rem * 0.5},${-this.rem * 0.5}
         l ${this.rem * 0.5},${this.rem * 0.5}
@@ -1733,7 +1734,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     t0zEnter.append('line')
       .classed('line', true);
     t0zEnter.append('line')
-      .classed('touch', true);
+      .classed('line touch', true);
     t0zEnter.append('circle')
       .classed('point touch', true);
     //  MERGE
@@ -1824,7 +1825,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('x2', (datum) => { return timeScale(datum.t0); })
       .attr('y1', (datum) => { return evidenceScale(datum.startingPoint); })
       .attr('y2', (datum) => { return evidenceScale(datum.startingPoint); });
-    t0zMerge.select('.touch')
+    t0zMerge.select('.line.touch')
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
