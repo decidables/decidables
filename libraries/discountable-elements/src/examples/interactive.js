@@ -1,4 +1,6 @@
 
+import HTDMath from '@decidables/discountable-math';
+
 import HTDExample from './htd-example';
 
 /*
@@ -44,7 +46,8 @@ export default class HTDExampleInteractive extends HTDExample {
     this.ds = 1;
     this.al = 50;
     this.dl = 40;
-    this.k = 0.05;
+
+    this.k = HTDMath.k.DEFAULT;
 
     this.htdCalculation = null;
     this.htdCurves = null;

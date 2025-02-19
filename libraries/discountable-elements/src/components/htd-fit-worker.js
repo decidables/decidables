@@ -10,7 +10,7 @@ import HTDMath from '@decidables/discountable-math';
 
 self.onmessage = (event) => {
   const params = {
-    k: {type: 'real', lower: 0, upper: 100},
+    k: {type: 'real', lower: HTDMath.k.MIN, upper: HTDMath.k.MAX},
     luce: {type: 'real', lower: 0, upper: 100},
   };
 

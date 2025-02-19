@@ -2,6 +2,8 @@
 import {html, css} from 'lit';
 import * as Plot from '@observablehq/plot';
 
+import HTDMath from '@decidables/discountable-math';
+
 // Special Web Worker import for rollup-plugin-web-worker-loader
 import HTDFitWorker from 'web-worker:./htd-fit-worker'; /* eslint-disable-line import/no-unresolved */
 
@@ -24,7 +26,7 @@ export default class HTDFit extends DiscountableElement {
   constructor() {
     super();
 
-    this.k = 0.05;
+    this.k = HTDMath.k.DEFAULT;
 
     this.choices = [];
     this.samples = null;
@@ -136,7 +138,7 @@ export default class HTDFit extends DiscountableElement {
       <div>
         <div>After ${this.choices.length} trials:</div>
         <div>Current:
-          <var class="math-var k">k</var> = ${this.k.toFixed(2)}
+          <var class="math-var k">k</var> = ${this.k.toFixed(3)}
         </div>
         <div class="param">
           <div class="trace k"></div>

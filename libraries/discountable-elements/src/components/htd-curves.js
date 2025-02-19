@@ -74,18 +74,12 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
         step: 1,
         round: Math.round,
       },
-      discount: {
-        min: 0,
-        max: 100,
-        step: 0.001,
-        round: (k) => { return +k.toFixed(3); },
-      },
     };
 
     this.a = null;
     this.d = null;
     this.label = '';
-    this.k = 0.1;
+    this.k = HTDMath.k.DEFAULT;
 
     this.options = [
       {
@@ -641,11 +635,11 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
               ? datum.a
               : dragV;
           const k = HTDMath.adv2k(datum.a, d, v);
-          this.k = (k < this.scale.discount.min)
-            ? this.scale.discount.min
-            : (k > this.scale.discount.max)
-              ? this.scale.discount.max
-              : this.scale.discount.round(k);
+          this.k = (k < HTDMath.k.MIN)
+            ? HTDMath.k.MIN
+            : (k > HTDMath.k.MAX)
+              ? HTDMath.k.MAX
+              : k;
           this.alignState();
           this.requestUpdate();
           this.dispatchEvent(new CustomEvent('htd-curves-change', {
@@ -666,26 +660,26 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
       // Keyboard interaction
       .on('keydown', (event, datum) => {
         if (['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].includes(event.key)) {
-          let keyK = this.k;
+          let {k} = this;
           switch (event.key) {
             case 'ArrowUp':
             case 'ArrowLeft':
-              keyK *= event.shiftKey ? 0.95 : 0.85;
+              k *= event.shiftKey ? 0.95 : 0.85;
               break;
             case 'ArrowDown':
             case 'ArrowRight':
-              keyK *= event.shiftKey ? 1.05 : 1.15;
+              k *= event.shiftKey ? (1 / 0.95) : (1 / 0.85);
               break;
             default:
               // no-op
           }
-          keyK = (keyK < this.scale.discount.min)
-            ? this.scale.discount.min
-            : (keyK > this.scale.discount.max)
-              ? this.scale.discount.max
-              : this.scale.discount.round(keyK);
-          if (keyK !== this.k) {
-            this.k = keyK;
+          k = (k < HTDMath.k.MIN)
+            ? HTDMath.k.MIN
+            : (k > HTDMath.k.MAX)
+              ? HTDMath.k.MAX
+              : k;
+          if (k !== this.k) {
+            this.k = k;
             this.alignState();
             this.requestUpdate();
             this.dispatchEvent(new CustomEvent('htd-curves-change', {

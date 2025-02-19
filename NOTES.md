@@ -4,38 +4,38 @@
   - Parameters:
     - Separate Controls vs Parameters
       - Sites:
-        - accumulable - complete
         - detectable
         - prospectable
         - discountable
+        - accumulable - complete
     - Universal bounds and step sizes for each parameter?
       - min, max, step, jump, default
       - Sites:
-        - accumulable - complete
         - detectable
         - prospectable
-        - discountable
+        - discountable - complete
+        - accumulable - complete
   - Tasks:
     - Keyboard responses for all tasks
-      - accumulable - complete
       - detectable
       - prospectable
       - discountable
+      - accumulable - complete
   - Examples:
     - Rationalize code organization across all examples across all decidables
       - Sites:
-        - accumulable - complete
         - detectable
         - prospectable
         - discountable
+        - accumulable - complete
     - Should decidables-elements have base class for examples?
   - Interactive diagrams:
     - Larger drag targets for touch in all decidables
       - Sites:
-        - accumulable - complete
         - detectable
         - prospectable
         - discountable
+        - accumulable - complete
   - Equations
     - Use MathML with embedded elements for equations?
     - Should decidables-elements have base class for equations?

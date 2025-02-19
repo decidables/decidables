@@ -21,7 +21,7 @@ export default class HTDExampleModel extends HTDExample {
   constructor() {
     super();
 
-    this.k = 0.2;
+    this.k = HTDMath.k.DEFAULT;
 
     this.discountableControl = null;
     this.discountableResponse = null;

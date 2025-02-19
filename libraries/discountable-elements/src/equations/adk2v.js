@@ -42,9 +42,12 @@ export default class HTDEquationADK2V extends HTDEquation {
 
   constructor() {
     super();
+
     this.a = 100;
     this.d = 30;
-    this.k = 0.05;
+
+    this.k = HTDMath.k.DEFAULT;
+
     this.alignState();
   }
 
@@ -92,16 +95,38 @@ export default class HTDEquationADK2V extends HTDEquation {
     let k;
     let v;
     if (this.numeric) {
-      a = html`<decidables-spinner class="a bottom" ?disabled=${!this.interactive} step="1" .value="${this.a}" @input=${this.aInput.bind(this)}>
+      a = html`<decidables-spinner class="a bottom"
+          ?disabled=${!this.interactive}
+          step="1"
+          .value=${this.a}
+          @input=${this.aInput.bind(this)}
+        >
           <var class="math-var">A</var>
         </decidables-spinner>`;
-      d = html`<decidables-spinner class="d bottom" ?disabled=${!this.interactive} min="0" step="1" .value="${this.d}" @input=${this.dInput.bind(this)}>
+      d = html`<decidables-spinner class="d bottom"
+          ?disabled=${!this.interactive}
+          min="0"
+          step="1"
+          .value=${this.d}
+          @input=${this.dInput.bind(this)}
+        >
           <var class="math-var">D</var>
         </decidables-spinner>`;
-      k = html`<decidables-spinner class="k bottom" ?disabled=${!this.interactive} min="0" max="100" step=".001" .value="${this.k}" @input=${this.kInput.bind(this)}>
+      k = html`<decidables-spinner class="k bottom"
+          ?disabled=${!this.interactive}
+          min=${HTDMath.k.MIN}
+          max=${HTDMath.k.MAX}
+          step=${HTDMath.k.STEP}
+          .value=${this.k}
+          @input=${this.kInput.bind(this)}
+        >
           <var class="math-var">k</var>
         </decidables-spinner>`;
-      v = html`<decidables-spinner class="v bottom" disabled step=".001" .value="${+this.v.toFixed(3)}">
+      v = html`<decidables-spinner class="v bottom"
+          disabled
+          step=".001"
+          .value=${+this.v.toFixed(3)}
+        >
           <var class="math-var">V</var>
         </decidables-spinner>`;
     } else {

@@ -48,7 +48,7 @@ describe('cpt-example-human', () => {
       <discountable-control class="keyboard" trials="10" run pause reset></discountable-control>
       <itc-task class="keyboard" trials="10" duration="2000" iti="2000"></itc-task>
       <discountable-response class="keyboard" interactive trial feedback></discountable-response>
-      <htd-curves class="keyboard" label="" k="0.1"></htd-curves>
+      <htd-curves class="keyboard" label="" k="0.05"></htd-curves>
     `);
   });
 

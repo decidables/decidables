@@ -59,7 +59,7 @@ export default class HTDCalculation extends HTDEquation {
     this.al = 50;
     this.dl = 40;
 
-    this.k = 0.1;
+    this.k = HTDMath.k.DEFAULT;
 
     this.alignState();
   }
@@ -149,26 +149,62 @@ export default class HTDCalculation extends HTDEquation {
     let vl;
     let vDiff;
     if (this.numeric) {
-      as = html`<decidables-spinner class="a as" ?disabled=${!this.interactive} step="1" .value="${this.as}" @input=${this.asInput.bind(this)}>
+      as = html`<decidables-spinner class="a as"
+          ?disabled=${!this.interactive}
+          step="1"
+          .value=${this.as}
+          @input=${this.asInput.bind(this)}
+        >
           <var class="math-var">A<sub class="subscript">ss</sub></var>
         </decidables-spinner>`;
-      ds = html`<decidables-spinner class="d ds" ?disabled=${!this.interactive} min="0" step="1" .value="${this.ds}" @input=${this.dsInput.bind(this)}>
+      ds = html`<decidables-spinner class="d ds"
+          ?disabled=${!this.interactive}
+          min="0"
+          step="1"
+          .value=${this.ds}
+          @input=${this.dsInput.bind(this)}
+        >
           <var class="math-var">D<sub class="subscript">ss</sub></var>
         </decidables-spinner>`;
-      al = html`<decidables-spinner class="a al" ?disabled=${!this.interactive} step="1" .value="${this.al}" @input=${this.alInput.bind(this)}>
+      al = html`<decidables-spinner class="a al"
+          ?disabled=${!this.interactive}
+          step="1"
+          .value=${this.al}
+          @input=${this.alInput.bind(this)}
+        >
           <var class="math-var">A<sub class="subscript">ll</sub></var>
         </decidables-spinner>`;
-      dl = html`<decidables-spinner class="d dl" ?disabled=${!this.interactive} min="0" step="1" .value="${this.dl}" @input=${this.dlInput.bind(this)}>
+      dl = html`<decidables-spinner class="d dl"
+          ?disabled=${!this.interactive}
+          min="0"
+          step="1"
+          .value=${this.dl}
+          @input=${this.dlInput.bind(this)}
+        >
           <var class="math-var">D<sub class="subscript">ll</sub></var>
         </decidables-spinner>`;
-      k = html`<decidables-spinner class="k" ?disabled=${!this.interactive} min="0" max="100" step=".001" .value="${this.k}" @input=${this.kInput.bind(this)}>
+
+      k = html`<decidables-spinner class="k"
+          ?disabled=${!this.interactive}
+          min=${HTDMath.k.MIN}
+          max=${HTDMath.k.MAX}
+          step=${HTDMath.k.STEP}
+          .value=${+this.k.toFixed(3)}
+          @input=${this.kInput.bind(this)}
+        >
           <var class="math-var">k</var>
         </decidables-spinner>`;
 
-      vs = html`<decidables-spinner class="v vs" disabled .value="${+this.vs.toFixed(2)}">
+      vs = html`<decidables-spinner class="v vs"
+          disabled
+          .value=${+this.vs.toFixed(2)}
+        >
           <var class="math-var">V<sub class="subscript">ss</sub></var>
         </decidables-spinner>`;
-      vl = html`<decidables-spinner class="v vl" disabled .value="${+this.vl.toFixed(2)}">
+      vl = html`<decidables-spinner class="v vl"
+          disabled
+          .value=${+this.vl.toFixed(2)}
+        >
           <var class="math-var">V<sub class="subscript">ll</sub></var>
         </decidables-spinner>`;
       vDiff = html`${(this.vDiff > 0)
