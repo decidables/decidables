@@ -41,6 +41,18 @@ the value, `v`.
 - v = subjective value
 - k = discounting factor
 
+#### Parameters
+
+- k = discount factor (0, Infinity)
+
+The values offered for parameters are:
+
+- DEFAULT = a recommended default value
+- MIN = the minimum value recommended for a UI (not necessarily the lower bound of its interval)
+- MAX = the maximum value recommended for a UI (not necessarily the upper bound of its interval)
+- STEP = a recommended step size for a UI
+- JUMP = a recommended "large" step size for a UI
+
 #### Methods w/implemented equations
 
 - `adk2v(a, d, k)`
