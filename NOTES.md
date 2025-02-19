@@ -19,7 +19,7 @@
     - Keyboard responses for all tasks
       - detectable
       - prospectable
-      - discountable
+      - discountable - complete
       - accumulable - complete
   - Examples:
     - Rationalize code organization across all examples across all decidables

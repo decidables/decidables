@@ -117,6 +117,30 @@ export default class DiscountableResponse extends DiscountableElement {
     this.response = undefined;
   }
 
+  keydown(event) {
+    if (this.state === 'waiting') {
+      if (event.key === 'ArrowLeft') {
+        this.responded('first');
+        event.preventDefault();
+      } else if (event.key === 'ArrowRight') {
+        this.responded('second');
+        event.preventDefault();
+      }
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    window.addEventListener('keydown', this.keydown.bind(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('keydown', this.keydown.bind(this));
+
+    super.disconnectedCallback();
+  }
+
   static get styles() {
     return [
       super.styles,

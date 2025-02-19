@@ -5,6 +5,7 @@ import {
   html,
   oneEvent,
   mouseClickElement,
+  sendKeys,
 } from '../../../../scripts/test-utility';
 
 import '../../src/components/discountable-response';
@@ -117,6 +118,46 @@ describe('discountable-response', () => {
       ds: 22,
       al: 33,
       dl: 44,
+      response: 'second',
+    });
+    expect(el.response).to.equal('second');
+    expect(el.shadowRoot).to.have.descendant('.feedback.second .response').with.text('Second');
+  });
+
+  it('can accept a "left arrow" key press', async () => {
+    const el = await fixture(html`<discountable-response interactive feedback trial></discountable-response>`);
+    el.start(22, 11, 44, 33, 1);
+    await elementUpdated(el);
+    // Action
+    setTimeout(() => { sendKeys({press: 'ArrowLeft'}); });
+    const {detail} = await oneEvent(el, 'discountable-response');
+    // Check
+    expect(detail).to.include({
+      trial: 1,
+      as: 22,
+      ds: 11,
+      al: 44,
+      dl: 33,
+      response: 'first',
+    });
+    expect(el.response).to.equal('first');
+    expect(el.shadowRoot).to.have.descendant('.feedback.first .response').with.text('First');
+  });
+
+  it('can accept a "right arrow" key press', async () => {
+    const el = await fixture(html`<discountable-response interactive feedback trial></discountable-response>`);
+    el.start(20, 10, 40, 30, 1);
+    await elementUpdated(el);
+    // Action
+    setTimeout(() => { sendKeys({press: 'ArrowRight'}); });
+    const {detail} = await oneEvent(el, 'discountable-response');
+    // Check
+    expect(detail).to.include({
+      trial: 1,
+      as: 20,
+      ds: 10,
+      al: 40,
+      dl: 30,
       response: 'second',
     });
     expect(el.response).to.equal('second');
