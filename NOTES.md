@@ -34,7 +34,7 @@
       - Sites:
         - detectable
         - prospectable
-        - discountable
+        - discountable - complete
         - accumulable - complete
   - Equations
     - Use MathML with embedded elements for equations?

@@ -347,6 +347,20 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           /* HACK: This gets Safari to correctly apply the filter! */
           stroke: #0000ff;
         }
+
+        /* Make larger targets for touch users */
+        .touch {
+          stroke: #000000;
+          stroke-dasharray: none;
+          stroke-opacity: 0.25;
+        }
+
+        @media (pointer: coarse) {
+          .touch {
+            stroke-linecap: round !important;
+            stroke-width: 12 !important;
+          }
+        }
       `,
     ];
   }
@@ -543,9 +557,33 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
     const optionEnter = optionUpdate.enter().append('g')
       .classed('option', true);
     // Curve
-    optionEnter.append('path')
+    const curveEnter = optionEnter.append('g')
       .classed('curve', true)
-      .attr('clip-path', 'url(#clip-htd-curves)')
+      .attr('clip-path', 'url(#clip-htd-curves)');
+    curveEnter.append('path')
+      .classed('path', true)
+      .attr('d', (datum) => {
+        const curve = d3.range(xScale(datum.d), xScale(0), -1).map((range) => {
+          return {
+            d: xScale.invert(range),
+            v: HTDMath.adk2v(
+              datum.a,
+              datum.d - xScale.invert(range),
+              this.k,
+            ),
+          };
+        });
+        return line(curve);
+      })
+      .attr('stroke-dasharray', (datum, index, nodes) => {
+        if (datum.trial) {
+          const length = nodes[index].getTotalLength();
+          return `0,${length}`;
+        }
+        return 'none';
+      });
+    curveEnter.append('path')
+      .classed('path touch', true)
       .attr('d', (datum) => {
         const curve = d3.range(xScale(datum.d), xScale(0), -1).map((range) => {
           return {
@@ -567,8 +605,23 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
         return 'none';
       });
     // Bar
-    optionEnter.append('line')
-      .classed('bar', true)
+    const barEnter = optionEnter.append('g')
+      .classed('bar', true);
+    barEnter.append('line')
+      .classed('line', true)
+      .attr('x1', (datum) => { return xScale(datum.d); })
+      .attr('x2', (datum) => { return xScale(datum.d); })
+      .attr('y1', yScale(0))
+      .attr('y2', (datum) => { return yScale(datum.a); })
+      .attr('stroke-dasharray', (datum, index, nodes) => {
+        if (datum.trial) {
+          const length = nodes[index].getTotalLength();
+          return `0,${length}`;
+        }
+        return 'none';
+      });
+    barEnter.append('line')
+      .classed('line touch', true)
       .attr('x1', (datum) => { return xScale(datum.d); })
       .attr('x2', (datum) => { return xScale(datum.d); })
       .attr('y1', yScale(0))
@@ -594,6 +647,8 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
       });
     pointEnter.append('circle')
       .classed('mark', true);
+    pointEnter.append('circle')
+      .classed('mark touch', true);
     pointEnter.append('text')
       .classed('label', true);
     //  MERGE
@@ -911,7 +966,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
       .filter((datum) => {
         return (datum.new);
       })
-      .select('.curve').transition()
+      .select('.curve .path').transition()
       .duration(transitionDuration)
       .delay(transitionDuration + transitionDuration / 10)
       .ease(d3.easeLinear)
@@ -933,12 +988,35 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           bubbles: true,
         }));
       });
+    optionMerge
+      .filter((datum) => {
+        return (datum.new);
+      })
+      .select('.curve .path.touch').transition()
+      .duration(transitionDuration)
+      .delay(transitionDuration + transitionDuration / 10)
+      .ease(d3.easeLinear)
+      .attrTween('stroke-dasharray', (datum, index, nodes) => {
+        const length = nodes[index].getTotalLength();
+        return d3.interpolate(`0,${length}`, `${length},${0}`);
+      });
     // Bar
     optionMerge
       .filter((datum) => {
         return (datum.new);
       })
-      .select('.bar').transition()
+      .select('.bar .line').transition()
+      .duration(transitionDuration)
+      .ease(d3.easeLinear)
+      .attrTween('stroke-dasharray', (datum, index, nodes) => {
+        const length = nodes[index].getTotalLength();
+        return d3.interpolate(`0,${length}`, `${length},${length}`);
+      });
+    optionMerge
+      .filter((datum) => {
+        return (datum.new);
+      })
+      .select('.bar .line.touch').transition()
       .duration(transitionDuration)
       .ease(d3.easeLinear)
       .attrTween('stroke-dasharray', (datum, index, nodes) => {
@@ -957,7 +1035,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
       .attrTween('opacity', () => { return d3.interpolate(0, 1); });
 
     // All options
-    optionUpdate.select('.curve').transition()
+    optionUpdate.select('.curve .path').transition()
       .duration(this.drag
         ? 0
         : (this.firstUpdate
@@ -990,7 +1068,80 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           return line(curve);
         };
       });
-    optionUpdate.select('.bar').transition()
+    optionUpdate.select('.curve .path.touch').transition()
+      .duration(this.drag
+        ? 0
+        : (this.firstUpdate
+          ? (transitionDuration * 2)
+          : transitionDuration))
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateA = d3.interpolate(
+          (element.a !== undefined) ? element.a : datum.a,
+          datum.a,
+        );
+        const interpolateD = d3.interpolate(
+          (element.d !== undefined) ? element.d : datum.d,
+          datum.d,
+        );
+        return (time) => {
+          element.a = interpolateA(time);
+          element.d = interpolateD(time);
+          const curve = d3.range(xScale(element.d), xScale(0), -1).map((range) => {
+            return {
+              d: xScale.invert(range),
+              v: HTDMath.adk2v(
+                element.a,
+                element.d - xScale.invert(range),
+                this.k,
+              ),
+            };
+          });
+          return line(curve);
+        };
+      });
+    optionUpdate.select('.bar .line').transition()
+      .duration(this.drag
+        ? 0
+        : (this.firstUpdate
+          ? (transitionDuration * 2)
+          : transitionDuration))
+      .ease(d3.easeCubicOut)
+      .attrTween('x1', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateD = d3.interpolate(
+          (element.d !== undefined) ? element.d : datum.d,
+          datum.d,
+        );
+        return (time) => {
+          element.d = interpolateD(time);
+          return `${xScale(element.d)}`;
+        };
+      })
+      .attrTween('x2', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateD = d3.interpolate(
+          (element.d !== undefined) ? element.d : datum.d,
+          datum.d,
+        );
+        return (time) => {
+          element.d = interpolateD(time);
+          return `${xScale(element.d)}`;
+        };
+      })
+      .attrTween('y2', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateA = d3.interpolate(
+          (element.a !== undefined) ? element.a : datum.a,
+          datum.a,
+        );
+        return (time) => {
+          element.a = interpolateA(time);
+          return `${yScale(element.a)}`;
+        };
+      });
+    optionUpdate.select('.bar .line.touch').transition()
       .duration(this.drag
         ? 0
         : (this.firstUpdate
