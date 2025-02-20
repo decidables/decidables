@@ -70,11 +70,11 @@ probability correct, `pC`.
 
 #### Parameters
 
-- a = boundary separation
-- z = starting point
-- v = drift rate
-- t0 = non-decision time
-- s = within-trial variability in drift rate
+- a = boundary separation [0, Infinity)
+- z = starting point as a proportion of a (0, 1)
+- v = drift rate (per second) (-Infinity, Infinity)
+- t0 = non-decision time (in milliseconds) (0, Infinity)
+- s = within-trial variability in drift rate (s^2 = infinitesimal variance) [0, Infinity)
 
 The values offered for parameters are:
 
