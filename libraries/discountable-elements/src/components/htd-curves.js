@@ -603,7 +603,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
     // Curve
     optionMerge
       .filter((datum, index, nodes) => {
-        return (this.interactive && !nodes[index].classList.contains('interactive'));
+        return (this.interactive && !d3.select(nodes[index]).select('.curve').classed('interactive'));
       })
       .select('.curve')
       .classed('interactive', true)
@@ -699,7 +699,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
     // Bar
     optionMerge
       .filter((datum, index, nodes) => {
-        return (this.interactive && !datum.trial && !nodes[index].classList.contains('interactive'));
+        return (this.interactive && !datum.trial && !d3.select(nodes[index]).select('.bar').classed('interactive'));
       })
       .select('.bar')
       .classed('interactive', true)
@@ -787,7 +787,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
     // Point
     optionMerge
       .filter((datum, index, nodes) => {
-        return (this.interactive && !datum.trial && !nodes[index].classList.contains('interactive'));
+        return (this.interactive && !datum.trial && !d3.select(nodes[index]).select('.point').classed('interactive'));
       })
       .select('.point')
       .classed('interactive', true)
@@ -877,7 +877,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
     // Curve
     optionMerge
       .filter((datum, index, nodes) => {
-        return (!this.interactive && nodes[index].classList.contains('interactive'));
+        return (!this.interactive && d3.select(nodes[index]).select('.curve').classed('interactive'));
       })
       .select('.curve')
       .classed('interactive', false)
@@ -887,7 +887,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
     // Bar
     optionMerge
       .filter((datum, index, nodes) => {
-        return ((!this.interactive || datum.trial) && nodes[index].classList.contains('interactive'));
+        return ((!this.interactive || datum.trial) && d3.select(nodes[index]).select('.bar').classed('interactive'));
       })
       .select('.bar')
       .classed('interactive', false)
@@ -897,7 +897,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
     // Point
     optionMerge
       .filter((datum, index, nodes) => {
-        return ((!this.interactive || datum.trial) && nodes[index].classList.contains('interactive'));
+        return ((!this.interactive || datum.trial) && d3.select(nodes[index]).select('.point').classed('interactive'));
       })
       .select('.point')
       .classed('interactive', false)
