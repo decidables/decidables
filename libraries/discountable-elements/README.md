@@ -396,6 +396,36 @@ be directly manipulated.
 <htd-curves interactive amount="60" delay="30" k="0.05" label="1"></htd-curves>
 ```
 
+#### `HTDParameters` / `<htd-parameters>`
+
+Control panel for HTD model parameters
+
+A configurable set of controls for user manipulation of HTD model parameters. Controls can be
+provided for the discounting factor.
+
+##### Attributes
+
+- `k: number = undefined`
+  - Show a slider for setting the discounting factor, initialized to the value provided
+  - Options
+    - `0` to `100` in steps of `0.001`
+
+##### Methods
+
+##### Custom Events
+
+- `ddm-parameters-k`
+  - Indicates an update to the discounting factor
+  - `detail`
+    - `k: number`
+      - New value for the discounting factor
+
+##### Example
+
+```html
+<htd-parameters interactive k="1.6"></htd-parameters>
+```
+
 #### `ITCChoice` / `<itc-choice>`
 
 A choice between two options at different times
