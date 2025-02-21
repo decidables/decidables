@@ -51,6 +51,7 @@ export default class HTDExampleInteractive extends HTDExample {
 
     this.htdCalculation = null;
     this.htdCurves = null;
+    this.htdParameters = null;
     this.itcChoice = null;
   }
 
@@ -59,6 +60,7 @@ export default class HTDExampleInteractive extends HTDExample {
 
     this.htdCalculation = this.querySelector('htd-calculation');
     this.htdCurves = this.querySelector('htd-curves');
+    this.htdParameters = this.querySelector('htd-parameters');
     this.itcChoice = this.querySelector('itc-choice');
 
     if (this.htdCalculation) {
@@ -82,6 +84,12 @@ export default class HTDExampleInteractive extends HTDExample {
           this.al = event.detail.a;
           this.dl = event.detail.d;
         }
+      });
+    }
+
+    if (this.htdParameters) {
+      this.htdParameters.addEventListener('htd-parameters-k', (event) => {
+        this.k = event.detail.k;
       });
     }
 
@@ -114,6 +122,10 @@ export default class HTDExampleInteractive extends HTDExample {
       this.htdCurves.setOption(this.al, this.dl, 'larger-later', 'l');
 
       this.htdCurves.k = this.k;
+    }
+
+    if (this.htdParameters) {
+      this.htdParameters.k = this.k;
     }
 
     if (this.itcChoice) {

@@ -9,16 +9,18 @@ import {
 import '../../src/components/discountable-control';
 import '../../src/components/discountable-response';
 import '../../src/components/htd-curves';
+import '../../src/components/htd-parameters';
 import '../../src/components/itc-task';
 import '../../src/examples/human';
 
-describe('cpt-example-human', () => {
+describe('htd-example-human', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <htd-example-human>
-        <discountable-control trials="10" run pause reset></discountable-control>
-        <itc-task trials="10"></itc-task>
+        <discountable-control run pause reset></discountable-control>
+        <itc-task></itc-task>
         <discountable-response interactive trial feedback></discountable-response>
+        <htd-parameters></htd-parameters>
         <htd-curves></htd-curves>
         <!-- <htd-fit></htd-fit> -->
       </htd-example-human>
@@ -37,17 +39,19 @@ describe('cpt-example-human', () => {
   it('has a lightDom', async () => {
     const el = await fixture(html`
       <htd-example-human>
-        <discountable-control trials="10" run pause reset></discountable-control>
-        <itc-task trials="10"></itc-task>
+        <discountable-control run pause reset></discountable-control>
+        <itc-task></itc-task>
         <discountable-response interactive trial feedback></discountable-response>
+        <htd-parameters></htd-parameters>
         <htd-curves></htd-curves>
         <!-- <htd-fit></htd-fit> -->
       </htd-example-human>
     `);
     expect(el).lightDom.to.equal(`
-      <discountable-control class="keyboard" trials="10" run pause reset></discountable-control>
+      <discountable-control class="keyboard" trials="10" duration="2000" run pause reset></discountable-control>
       <itc-task class="keyboard" trials="10" duration="2000" iti="2000"></itc-task>
       <discountable-response class="keyboard" interactive trial feedback></discountable-response>
+      <htd-parameters class="keyboard" k="0.05"></htd-parameters>
       <htd-curves class="keyboard" label="" k="0.05"></htd-curves>
     `);
   });
@@ -55,11 +59,12 @@ describe('cpt-example-human', () => {
   it('can run a task', async () => {
     const el = await fixture(html`
       <htd-example-human>
-        <discountable-control trials="10" run pause reset></discountable-control>
-        <itc-task trials="10"></itc-task>
+        <discountable-control run pause reset></discountable-control>
+        <itc-task></itc-task>
         <discountable-response interactive trial feedback></discountable-response>
-        <htd-curves></htd-curves>
         <!-- <htd-fit></htd-fit> -->
+        <htd-parameters></htd-parameters>
+        <htd-curves></htd-curves>
       </htd-example-human>
     `);
     // Action: start task

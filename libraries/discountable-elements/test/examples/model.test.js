@@ -10,15 +10,16 @@ import '../../src/components/discountable-control';
 import '../../src/components/discountable-response';
 // import '../../src/components/htd-calculation';
 import '../../src/components/htd-curves';
+import '../../src/components/htd-parameters';
 import '../../src/components/itc-task';
 import '../../src/examples/model';
 
 describe('htd-example-model', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
-      <htd-example-model k="0.2" >
-        <discountable-control trials="10" run pause reset></discountable-control>
-        <itc-task trials="10"></itc-task>
+      <htd-example-model>
+        <discountable-control run pause reset></discountable-control>
+        <itc-task></itc-task>
         <htd-curves interactive></htd-curves>
         <discountable-response trial feedback></discountable-response>
       </htd-example-model>
@@ -36,28 +37,26 @@ describe('htd-example-model', () => {
 
   it('has a lightDom', async () => {
     const el = await fixture(html`
-      <htd-example-model k="0.2" >
-        <discountable-control trials="10" run pause reset></discountable-control>
-        <itc-task trials="10"></itc-task>
+      <htd-example-model>
+        <discountable-control run pause reset></discountable-control>
+        <itc-task></itc-task>
         <htd-curves interactive></htd-curves>
         <discountable-response trial feedback></discountable-response>
       </htd-example-model>
     `);
     expect(el).lightDom.to.equal(`
-      <discountable-control class="keyboard" trials="10" run pause reset></discountable-control>
+      <discountable-control class="keyboard" trials="10" duration="2000" run pause reset></discountable-control>
       <itc-task class="keyboard" trials="10" duration="2000" iti="2000" ></itc-task>
-      <htd-curves class="keyboard" interactive label="" k="0.2"></htd-curves>
+      <htd-curves class="keyboard" interactive label="" k="0.05"></htd-curves>
       <discountable-response class="keyboard" trial feedback></discountable-response>
     `);
   });
 
-  it('connects the components properly');
-
   it('can run a task', async () => {
     const el = await fixture(html`
       <htd-example-model k="0.2" >
-        <discountable-control trials="10" run pause reset></discountable-control>
-        <itc-task trials="10"></itc-task>
+        <discountable-control run pause reset></discountable-control>
+        <itc-task></itc-task>
         <htd-curves interactive></htd-curves>
         <discountable-response trial feedback></discountable-response>
       </htd-example-model>
@@ -73,4 +72,6 @@ describe('htd-example-model', () => {
     expect(el.discountableResponse.response).to.be.oneOf(['first', 'second']);
     expect(detail.response).to.be.oneOf(['first', 'second']);
   });
+
+  it('connects the components properly');
 });

@@ -10,6 +10,17 @@ import HTDExample from './htd-example';
 export default class HTDExampleModel extends HTDExample {
   static get properties() {
     return {
+      trials: {
+        attribute: 'trials',
+        type: Number,
+        reflect: true,
+      },
+      duration: {
+        attribute: 'duration',
+        type: Number,
+        reflect: true,
+      },
+
       k: {
         attribute: 'k',
         type: Number,
@@ -21,12 +32,16 @@ export default class HTDExampleModel extends HTDExample {
   constructor() {
     super();
 
+    this.trials = 10;
+    this.duration = 2000;
+
     this.k = HTDMath.k.DEFAULT;
 
     this.discountableControl = null;
     this.discountableResponse = null;
     this.htdCalculation = null;
     this.htdCurves = null;
+    this.htdParameters = null;
     this.itcTask = null;
   }
 
@@ -37,69 +52,51 @@ export default class HTDExampleModel extends HTDExample {
     this.discountableResponse = this.querySelector('discountable-response');
     this.htdCalculation = this.querySelector('htd-calculation');
     this.htdCurves = this.querySelector('htd-curves');
+    this.htdParameters = this.querySelector('htd-parameters');
     this.itcTask = this.querySelector('itc-task');
 
     if (this.discountableControl) {
-      if (this.discountableControl.hasAttribute('trials')) {
-        this.discountableControl.addEventListener('discountable-control-trials', (event) => {
-          if (this.itcTask) {
-            this.itcTask.trials = event.detail.trials;
-          }
+      this.discountableControl.addEventListener('discountable-control-trials', (event) => {
+        this.trials = event.detail.trials;
+      });
 
-          if (this.discountableResponse) {
-            this.discountableResponse.trialTotal = event.detail.trials;
-          }
-        });
-      }
+      this.discountableControl.addEventListener('discountable-control-duration', (event) => {
+        this.duration = event.detail.duration;
+      });
 
-      if (this.discountableControl.hasAttribute('duration')) {
-        this.discountableControl.addEventListener('discountable-control-duration', (event) => {
-          if (this.itcTask) {
-            this.itcTask.duration = event.detail.duration;
-            this.itcTask.iti = event.detail.duration;
-          }
-        });
-      }
+      this.discountableControl.addEventListener('discountable-control-run', (/* event */) => {
+        if (this.htdCurves) {
+          this.htdCurves.resumeTrial();
+        }
 
-      if (this.discountableControl.hasAttribute('run')) {
-        this.discountableControl.addEventListener('discountable-control-run', (/* event */) => {
-          if (this.htdCurves) {
-            this.htdCurves.resumeTrial();
-          }
+        if (this.itcTask) {
+          this.itcTask.running = true;
+        }
+      });
 
-          if (this.itcTask) {
-            this.itcTask.running = true;
-          }
-        });
-      }
+      this.discountableControl.addEventListener('discountable-control-pause', (/* event */) => {
+        if (this.htdCurves) {
+          this.htdCurves.pauseTrial();
+        }
 
-      if (this.discountableControl.hasAttribute('pause')) {
-        this.discountableControl.addEventListener('discountable-control-pause', (/* event */) => {
-          if (this.htdCurves) {
-            this.htdCurves.pauseTrial();
-          }
+        if (this.itcTask) {
+          this.itcTask.running = false;
+        }
+      });
 
-          if (this.itcTask) {
-            this.itcTask.running = false;
-          }
-        });
-      }
+      this.discountableControl.addEventListener('discountable-control-reset', (/* event */) => {
+        if (this.discountableResponse) {
+          this.discountableResponse.reset();
+        }
 
-      if (this.discountableControl.hasAttribute('reset')) {
-        this.discountableControl.addEventListener('discountable-control-reset', (/* event */) => {
-          if (this.discountableResponse) {
-            this.discountableResponse.reset();
-          }
+        if (this.htdCurves) {
+          this.htdCurves.clearOptions();
+        }
 
-          if (this.htdCurves) {
-            this.htdCurves.clearOptions();
-          }
-
-          if (this.itcTask) {
-            this.itcTask.reset();
-          }
-        });
-      }
+        if (this.itcTask) {
+          this.itcTask.reset();
+        }
+      });
     }
 
     if (this.htdCurves) {
@@ -114,11 +111,13 @@ export default class HTDExampleModel extends HTDExample {
       });
     }
 
-    if (this.itcTask) {
-      if (this.discountableResponse) {
-        this.discountableResponse.trialTotal = this.itcTask.trials;
-      }
+    if (this.htdParameters) {
+      this.htdParameters.addEventListener('htd-parameters-k', (event) => {
+        this.k = event.detail.k;
+      });
+    }
 
+    if (this.itcTask) {
       this.itcTask.addEventListener('itc-trial-start', (event) => {
         if (this.discountableResponse) {
           this.discountableResponse.start(
@@ -168,12 +167,31 @@ export default class HTDExampleModel extends HTDExample {
   update(changedProperties) {
     super.update(changedProperties);
 
+    if (this.discountableControl) {
+      this.discountableControl.trials = this.trials;
+      this.discountableControl.duration = this.duration;
+    }
+
+    if (this.discountableResponse) {
+      this.discountableResponse.trialTotal = this.trials;
+    }
+
+    if (this.itcTask) {
+      this.itcTask.duration = this.duration;
+      this.itcTask.iti = this.duration;
+      this.itcTask.trials = this.trials;
+    }
+
     if (this.htdCalculation) {
       this.htdCalculation.k = this.k;
     }
 
     if (this.htdCurves) {
       this.htdCurves.k = this.k;
+    }
+
+    if (this.htdParameters) {
+      this.htdParameters.k = this.k;
     }
   }
 }

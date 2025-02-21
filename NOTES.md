@@ -1,12 +1,13 @@
 ## Ideas
 
+- Only interactive parts need touch sizing!
 - Elements
   - Parameters:
     - Separate Controls vs Parameters
       - Sites:
         - detectable
         - prospectable
-        - discountable
+        - discountable - complete
         - accumulable - complete
     - Universal bounds and step sizes for each parameter?
       - min, max, step, jump, default
@@ -26,7 +27,7 @@
       - Sites:
         - detectable
         - prospectable
-        - discountable
+        - discountable - complete
         - accumulable - complete
     - Should decidables-elements have base class for examples?
   - Interactive diagrams:

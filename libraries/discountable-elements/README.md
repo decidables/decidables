@@ -662,6 +662,19 @@ controls, the task itself, response buttons with feedback, HTD curves, and trace
 histograms for the parameters in the model fit. The HTD curves should not be interactive, because
 their rendering is determined by the user's task performance.
 
+##### Attributes
+
+**Note:** Since model parameter attributes are set on the example, they don't need to be set on the
+individual components, as they will be propagated and kept in sync.
+
+- `trials: number = 10`
+  - Number of trials to run
+- `duration: number = 2000`
+  - The duration of the stimulus, wait, and inter-trial interval on each trial, initialized to the
+    value provided in milliseconds
+- `k: number = 0.05`
+  - Parameter k (discounting factor)
+
 ##### Slots
 
 - *unnamed*
@@ -722,6 +735,10 @@ components, as they will be propagated and kept in sync.
   - Wired elements
     - `<htd-calculation>`
       - Display and change the value calculations
+    - `<htd-parameters>`
+      - Allows user to adjust model parameters with sliders
+    - `<htd-parameters>`
+      - Displays the model parameters for current fit
     - `<htd-curves>`
       - Displays the options as amounts with delays with discounting curves based on the current
         model parameters
@@ -731,8 +748,9 @@ components, as they will be propagated and kept in sync.
 ##### Example
 
 ```html
-<htd-example-interactive a1="5" d1="20" a2="30" d2="350" k="0.01">
+<htd-example-interactive amount-ss="5" delay-ss="1" amount-ll="30" delay-ll="50" k="0.01">
   <itc-choice interactive></itc-choice>
+  <htd-parameters interactive></htd-parameters>
   <htd-curves interactive></htd-curves>
   <htd-calculation numeric interactive></htd-calculation>
 </htd-example-interactive>
@@ -752,7 +770,12 @@ not be interactive, because their values are received from the model's task perf
 **Note:** Since model parameter attributes are set on the example, they don't need to be set on the
 individual components, as they will be propagated and kept in sync.
 
-- `k: number = 0.2`
+- `trials: number = 10`
+  - Number of trials to run
+- `duration: number = 2000`
+  - The duration of the stimulus, wait, and inter-trial interval on each trial, initialized to the
+    value provided in milliseconds
+- `k: number = 0.05`
   - Parameter k (discounting factor)
 
 ##### Slots
@@ -775,9 +798,10 @@ individual components, as they will be propagated and kept in sync.
 ##### Example
 
 ```html
-<htd-example-model k="0.2" >
-  <discountable-control trials="10" run pause reset></discountable-control>
-  <itc-task trials="10"></itc-task>
+<htd-example-model trials="10" duration="2000" k="0.05">
+  <discountable-control run pause reset></discountable-control>
+  <itc-task></itc-task>
+  <htd-parameters interactive></htd-parameters>
   <htd-curves interactive></htd-curves>
   <discountable-response trial feedback></discountable-response>
 </htd-example-model>

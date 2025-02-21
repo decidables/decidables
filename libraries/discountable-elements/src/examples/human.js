@@ -1,5 +1,5 @@
 
-// import HTDMath from '@decidables/discountable-math';
+import HTDMath from '@decidables/discountable-math';
 
 import HTDExample from './htd-example';
 
@@ -8,6 +8,43 @@ import HTDExample from './htd-example';
   <htd-example-human>
 */
 export default class HTDExampleHuman extends HTDExample {
+  static get properties() {
+    return {
+      trials: {
+        attribute: 'trials',
+        type: Number,
+        reflect: true,
+      },
+      duration: {
+        attribute: 'duration',
+        type: Number,
+        reflect: true,
+      },
+
+      k: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+    };
+  }
+
+  constructor() {
+    super();
+
+    this.trials = 10;
+    this.duration = 2000;
+
+    this.k = HTDMath.k.DEFAULT;
+
+    this.discountableControl = null;
+    this.itcTask = null;
+    this.discountableResponse = null;
+    this.htdFit = null;
+    this.htdParameters = null;
+    this.htdCurves = null;
+  }
+
   connectedCallback() {
     super.connectedCallback();
 
@@ -16,72 +53,50 @@ export default class HTDExampleHuman extends HTDExample {
     this.discountableResponse = this.querySelector('discountable-response');
 
     this.htdFit = this.querySelector('htd-fit');
+    this.htdParameters = this.querySelector('htd-parameters');
     this.htdCurves = this.querySelector('htd-curves');
 
     if (this.discountableControl) {
-      if (this.discountableControl.hasAttribute('trials')) {
-        this.discountableControl.addEventListener('discountable-control-trials', (event) => {
-          if (this.itcTask) {
-            this.itcTask.trials = event.detail.trials;
-          }
+      this.discountableControl.addEventListener('discountable-control-trials', (event) => {
+        this.trials = event.detail.trials;
+      });
 
-          if (this.discountableResponse) {
-            this.discountableResponse.trialTotal = event.detail.trials;
-          }
-        });
-      }
+      this.discountableControl.addEventListener('discountable-control-duration', (event) => {
+        this.duration = event.detail.duration;
+      });
 
-      if (this.discountableControl.hasAttribute('duration')) {
-        this.discountableControl.addEventListener('discountable-control-duration', (event) => {
-          if (this.itcTask) {
-            this.itcTask.duration = event.detail.duration;
-            this.itcTask.iti = event.detail.duration;
-          }
-        });
-      }
+      this.discountableControl.addEventListener('discountable-control-run', (/* event */) => {
+        if (this.itcTask) {
+          this.itcTask.running = true;
+        }
+      });
 
-      if (this.discountableControl.hasAttribute('run')) {
-        this.discountableControl.addEventListener('discountable-control-run', (/* event */) => {
-          if (this.itcTask) {
-            this.itcTask.running = true;
-          }
-        });
-      }
+      this.discountableControl.addEventListener('discountable-control-pause', (/* event */) => {
+        if (this.itcTask) {
+          this.itcTask.running = false;
+        }
+      });
 
-      if (this.discountableControl.hasAttribute('pause')) {
-        this.discountableControl.addEventListener('discountable-control-pause', (/* event */) => {
-          if (this.itcTask) {
-            this.itcTask.running = false;
-          }
-        });
-      }
+      this.discountableControl.addEventListener('discountable-control-reset', (/* event */) => {
+        if (this.itcTask) {
+          this.itcTask.reset();
+        }
 
-      if (this.discountableControl.hasAttribute('reset')) {
-        this.discountableControl.addEventListener('discountable-control-reset', (/* event */) => {
-          if (this.itcTask) {
-            this.itcTask.reset();
-          }
+        if (this.discountableResponse) {
+          this.discountableResponse.reset();
+        }
 
-          if (this.discountableResponse) {
-            this.discountableResponse.reset();
-          }
+        if (this.htdFit) {
+          this.htdFit.clear();
+        }
 
-          if (this.htdFit) {
-            this.htdFit.clear();
-          }
-
-          if (this.htdCurves) {
-            this.htdCurves.clearOptions();
-          }
-        });
-      }
+        if (this.htdCurves) {
+          this.htdCurves.clearOptions();
+        }
+      });
     }
 
     if (this.itcTask) {
-      if (this.discountableResponse) {
-        this.discountableResponse.trialTotal = this.itcTask.trials;
-      }
-
       this.itcTask.addEventListener('itc-trial-start', (event) => {
         if (this.discountableResponse) {
           this.discountableResponse.start(
@@ -145,10 +160,35 @@ export default class HTDExampleHuman extends HTDExample {
 
     if (this.htdFit) {
       this.htdFit.addEventListener('htd-fit-update', (event) => {
-        if (this.htdCurves) {
-          this.htdCurves.k = event.detail.k;
-        }
+        this.k = event.detail.k;
       });
+    }
+  }
+
+  update(changedProperties) {
+    super.update(changedProperties);
+
+    if (this.discountableControl) {
+      this.discountableControl.trials = this.trials;
+      this.discountableControl.duration = this.duration;
+    }
+
+    if (this.discountableResponse) {
+      this.discountableResponse.trialTotal = this.trials;
+    }
+
+    if (this.itcTask) {
+      this.itcTask.duration = this.duration;
+      this.itcTask.iti = this.duration;
+      this.itcTask.trials = this.trials;
+    }
+
+    if (this.htdCurves) {
+      this.htdCurves.k = this.k;
+    }
+
+    if (this.htdParameters) {
+      this.htdParameters.k = this.k;
     }
   }
 }
