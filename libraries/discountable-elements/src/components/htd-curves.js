@@ -349,16 +349,15 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
         }
 
         /* Make larger targets for touch users */
-        .touch {
+        .interactive .touch {
           stroke: #000000;
-          stroke-dasharray: none;
-          stroke-opacity: 0.25;
+          stroke-opacity: 0;
         }
 
         @media (pointer: coarse) {
-          .touch {
-            stroke-linecap: round !important;
-            stroke-width: 12 !important;
+          .interactive .touch {
+            stroke-linecap: round;
+            stroke-width: 12;
           }
         }
       `,
