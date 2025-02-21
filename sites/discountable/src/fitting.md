@@ -9,13 +9,11 @@ script: page
 Fitting the model to your performance.
 
 <htd-example-human>
-  <discountable-control trials="10" run pause reset></discountable-control>
-  <itc-task trials="10"></itc-task>
+  <discountable-control run pause reset></discountable-control>
+  <itc-task></itc-task>
   <discountable-response interactive trial feedback></discountable-response>
+  <htd-parameters></htd-parameters>
   <htd-curves></htd-curves>
+  <!-- <htd-calculation numeric></htd-calculation> -->
   <htd-fit></htd-fit>
-<!--
-  <cpt-calculation numeric interactive></cpt-calculation>
-  <cpt-space></cpt-space>
- -->
 </htd-example-human>

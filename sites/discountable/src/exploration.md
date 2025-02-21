@@ -8,8 +8,9 @@ script: page
 
 Exploring the relationship between model parameters and behavior.
 
-<htd-example-interactive a1="5" d1="20" a2="30" d2="350" k="0.01">
+<htd-example-interactive>
   <itc-choice interactive></itc-choice>
+  <htd-parameters interactive></htd-parameters>
   <htd-curves interactive></htd-curves>
   <htd-calculation numeric interactive></htd-calculation>
 </htd-example-interactive>

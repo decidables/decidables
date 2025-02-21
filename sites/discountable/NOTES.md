@@ -1,3 +1,8 @@
+## Ideas
+
+- How to integrate htd-calculation into human and model examples?
+  - Partial interaction for model example?
+
 ## Outline
 
 - *discountable*: Temporal discounting
