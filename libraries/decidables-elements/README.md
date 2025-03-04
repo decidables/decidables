@@ -44,6 +44,11 @@ Button for taking actions
 - `disabled: boolean = false`
   - In disabled state user can't interact
 
+##### CSS Custom Properties
+
+- `--decidables-button-background-color`
+  - Set the background color for the button
+
 ##### Example
 
 ```html
@@ -65,6 +70,8 @@ Slider w/spinner for selecting a numeric value from a range
 
 - `disabled: boolean = false`
   - In disabled state user can't interact
+- `scale: boolean = false`
+  - Show maximum and minimum values with ticks next to slider
 - `max: number = undefined`
   - Maximum value the slider can take
 - `min: number = undefined`
@@ -73,6 +80,32 @@ Slider w/spinner for selecting a numeric value from a range
   - Amount that value increments with smallest movement of the slider
 - `value: number = undefined`
   - Initial value of the slider
+
+##### Methods
+
+- `nonlinearRange(nonlinear, toRange, fromRange)`
+  - Set nonlinear scaling for the slider
+  - Parameters
+    - `nonlinear: boolean`
+      - Should the slider have nonlinear scaling
+    - `toRange: function(value)`
+      - Function defining transform from actual quantity to range position
+      - Parameters
+        - `value: number`
+        - The quantity to transform to range position
+    - `fromRange: function(value)`
+      - Function defining transform from range position back to actual quantity
+      - Parameters
+        - `value: number`
+        - The range position to transform back to an actual quantity
+
+##### CSS Custom Properties
+
+- `--decidables-slider-color`
+  - Set the color for the slider thumb if enabled
+- `--decidables-slider-background-color`
+  - Set the color for the slider track, the background-color for the spinner (and the color for the
+    slider thumb, if disabled)
 
 ##### Example
 
@@ -104,6 +137,19 @@ Text field w/spinner arrows for selecting a continuous numeric value
 - `value: number = undefined`
   - Initial value of the slider
 
+##### CSS Custom Properties
+
+- `--decidables-spinner-font-size`
+  - Set the font-size for the spinner
+- `--decidables-spinner-input-width`
+  - Set the width of the input area of the spinner
+- `--decidables-spinner-prefix`
+  - Set the prefixed text for the spinner (for example, '$')
+- `--decidables-spinner-postfix`
+  - Set the postfixed text for the spinner (for example, 'days')
+- `--decidables-spinner-postfix-padding`
+  - Set the width needed to fit the postfix into the spinner
+
 ##### Example
 
 ```html
@@ -129,6 +175,8 @@ Switch for turning an option on or off
   - In disabled state user can't interact
 - `checked: number = false`
   - Whether the switch is **on** (`true`) or **off** (`false`)
+
+##### CSS Custom Properties
 
 ##### Example
 
@@ -158,6 +206,8 @@ One option in a toggle set
   - An identifier to be shared by all options in a mutually exclusive group
 - `value: string = undefined`
   - An identifier specific to this option to uniquely identify it in the group
+
+##### CSS Custom Properties
 
 ##### Example
 
