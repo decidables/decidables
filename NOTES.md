@@ -1,9 +1,12 @@
 ## Ideas
 
-- Only interactive parts need touch sizing!
 - Elements
+  - decidables-slider
+    - use `writing-mode` for orientation?
+    - remove old `ms` customizations
   - Parameters:
     - Separate Controls vs Parameters
+      - Colored with scale! 
       - Sites:
         - detectable
         - prospectable
@@ -32,6 +35,7 @@
     - Should decidables-elements have base class for examples?
   - Interactive diagrams:
     - Larger drag targets for touch in all decidables
+      - Only interactive parts need touch sizing!
       - Sites:
         - detectable
         - prospectable
