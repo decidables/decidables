@@ -114,6 +114,26 @@ export default class DDMParameters extends AccumulableElement {
         decidables-slider  div {
           margin-bottom: 0.25rem;
         }
+
+        .a {
+          --decidables-slider-background-color: var(---color-a-light);
+          --decidables-slider-color: var(---color-a);
+        }
+
+        .z {
+          --decidables-slider-background-color: var(---color-z-light);
+          --decidables-slider-color: var(---color-z);
+        }
+
+        .v {
+          --decidables-slider-background-color: var(---color-v-light);
+          --decidables-slider-color: var(---color-v);
+        }
+
+        .t0 {
+          --decidables-slider-background-color: var(---color-t0-light);
+          --decidables-slider-color: var(---color-t0);
+        }
       `,
     ];
   }
@@ -124,6 +144,7 @@ export default class DDMParameters extends AccumulableElement {
         ${this.a != null
           ? html`<decidables-slider class="a"
             ?disabled=${!this.interactive}
+            scale
             min=${DDMMath.a.MIN}
             max=${DDMMath.a.MAX}
             step=${DDMMath.a.STEP}
@@ -135,6 +156,7 @@ export default class DDMParameters extends AccumulableElement {
         ${this.z != null
           ? html`<decidables-slider class="z"
             ?disabled=${!this.interactive}
+            scale
             min=${DDMMath.z.MIN}
             max=${DDMMath.z.MAX}
             step=${DDMMath.z.STEP}
@@ -146,6 +168,7 @@ export default class DDMParameters extends AccumulableElement {
         ${this.v != null
           ? html`<decidables-slider class="v"
             ?disabled=${!this.interactive}
+            scale
             min=${DDMMath.v.MIN}
             max=${DDMMath.v.MAX}
             step=${DDMMath.v.STEP}
@@ -157,6 +180,7 @@ export default class DDMParameters extends AccumulableElement {
         ${this.t0 != null
           ? html`<decidables-slider class="t0" 
             ?disabled=${!this.interactive}
+            scale
             min=${DDMMath.t0.MIN}
             max=${DDMMath.t0.MAX}
             step=${DDMMath.t0.STEP}
