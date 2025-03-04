@@ -26,6 +26,9 @@ export default class DecidablesButton extends DecidablesElement {
       super.styles,
       css`
         :host {
+          ---decidables-button-background-color-disabled: var(--decidables-button-background-color, var(---color-element-disabled));
+          ---decidables-button-background-color-enabled: var(--decidables-button-background-color, var(---color-element-enabled));
+
           margin: 0.25rem;
         }
 
@@ -45,7 +48,7 @@ export default class DecidablesButton extends DecidablesElement {
         }
 
         button:disabled {
-          background-color: var(--decidables-button-background-color, var(---color-element-disabled));
+          background-color: var(---decidables-button-background-color-disabled);
           outline: none;
           box-shadow: none;
         }
@@ -53,7 +56,7 @@ export default class DecidablesButton extends DecidablesElement {
         button:enabled {
           cursor: pointer;
 
-          background-color: var(--decidables-button-background-color, var(---color-element-enabled));
+          background-color: var(---decidables-button-background-color-enabled);
           outline: none;
           box-shadow: var(---shadow-2);
         }
