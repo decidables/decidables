@@ -12,6 +12,13 @@ export default class DecidablesSlider extends DecidablesElement {
         type: Boolean,
         reflect: true,
       },
+
+      scale: {
+        attribute: 'scale',
+        type: Boolean,
+        reflect: true,
+      },
+
       max: {
         attribute: 'max',
         type: Number,
@@ -32,6 +39,12 @@ export default class DecidablesSlider extends DecidablesElement {
         type: Number,
         reflect: true,
       },
+
+      nonlinear: {
+        attribute: false,
+        type: Boolean,
+        reflect: false,
+      },
     };
   }
 
@@ -40,14 +53,36 @@ export default class DecidablesSlider extends DecidablesElement {
 
     // Attributes
     this.disabled = false;
+
+    this.scale = false;
+
     this.max = undefined;
     this.min = undefined;
     this.step = undefined;
     this.value = undefined;
+
+    this.nonlinear = false;
+
+    // Properties
+    this.rangeMax = undefined;
+    this.rangeMin = undefined;
+    this.rangeStep = undefined;
+    this.rangeValue = undefined;
+
+    // Transform
+    this.toRange = undefined;
+    this.fromRange = undefined;
   }
 
-  changed(event) {
-    this.value = event.target.value;
+  nonlinearRange(nonlinear, toRange, fromRange) {
+    this.nonlinear = nonlinear;
+
+    this.toRange = nonlinear ? toRange : undefined;
+    this.fromRange = nonlinear ? fromRange : undefined;
+  }
+
+  rangeChanged(event) {
+    this.value = this.nonlinear ? this.fromRange(event.target.value) : event.target.value;
     this.dispatchEvent(new CustomEvent('change', {
       detail: {
         value: this.value,
@@ -56,8 +91,35 @@ export default class DecidablesSlider extends DecidablesElement {
     }));
   }
 
-  inputted(event) {
+  rangeInputted(event) {
+    this.value = this.nonlinear ? this.fromRange(event.target.value) : event.target.value;
+  }
+
+  spinnerInputted(event) {
     this.value = event.target.value;
+  }
+
+  willUpdate() {
+    this.rangeMax = (this.max === undefined)
+      ? undefined
+      : this.nonlinear
+        ? this.toRange(this.max)
+        : this.max;
+    this.rangeMin = (this.min === undefined)
+      ? undefined
+      : this.nonlinear
+        ? this.toRange(this.min)
+        : this.min;
+    this.rangeStep = (this.step === undefined)
+      ? undefined
+      : this.nonlinear
+        ? 'any'
+        : this.step;
+    this.rangeValue = (this.value === undefined)
+      ? undefined
+      : this.nonlinear
+        ? this.toRange(this.value)
+        : this.value;
   }
 
   static get styles() {
@@ -65,6 +127,10 @@ export default class DecidablesSlider extends DecidablesElement {
       super.styles,
       css`
         :host {
+          ---decidables-slider-background-color: var(--decidables-slider-background-color, var(---color-element-disabled));
+          ---decidables-slider-color: var(--decidables-slider-color, var(---color-element-enabled));
+          ---decidables-spinner-background-color: var(--decidables-slider-background-color, none);
+
           ---shadow-2-rotate: var(--shadow-2-rotate, ${unsafeCSS(this.cssBoxShadow(2, true, false))});
           ---shadow-4-rotate: var(--shadow-4-rotate, ${unsafeCSS(this.cssBoxShadow(4, true, false))});
           ---shadow-8-rotate: var(--shadow-8-rotate, ${unsafeCSS(this.cssBoxShadow(8, true, false))});
@@ -82,7 +148,10 @@ export default class DecidablesSlider extends DecidablesElement {
         }
 
         .range {
-          display: inline-block;
+          position: relative;
+          display: flex;
+
+          flex-direction: row;
 
           width: 3.5rem;
           height: 4.75rem;
@@ -93,6 +162,8 @@ export default class DecidablesSlider extends DecidablesElement {
           --decidables-spinner-input-width: 3.5rem;
 
           margin: 0 0.25rem 0.25rem;
+
+          background: var(---decidables-spinner-background-color);
         }
 
         /* Adapted from http://danielstern.ca/range.css/#/ */
@@ -131,14 +202,14 @@ export default class DecidablesSlider extends DecidablesElement {
           width: 100%;
           height: 4px;
 
-          background: var(---color-element-disabled);
+          background: var(---decidables-slider-background-color);
           border: 0;
           border-radius: 2px;
           box-shadow: none;
         }
 
         input[type=range]:focus::-webkit-slider-runnable-track {
-          background: var(---color-element-disabled);
+          background: var(---decidables-slider-background-color);
         }
 
         /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
@@ -146,7 +217,7 @@ export default class DecidablesSlider extends DecidablesElement {
           width: 100%;
           height: 4px;
 
-          background: var(---color-element-disabled);
+          background: var(---decidables-slider-background-color);
           border: 0;
           border-radius: 2px;
           box-shadow: none;
@@ -166,7 +237,7 @@ export default class DecidablesSlider extends DecidablesElement {
         /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]::-ms-fill-lower {
           background: #cccccc;
-          /* background: var(---color-element-disabled); */
+          /* background: var(---decidables-slider-background-color); */
           border: 0;
           border-radius: 2px;
           box-shadow: none;
@@ -175,7 +246,7 @@ export default class DecidablesSlider extends DecidablesElement {
         /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]::-ms-fill-upper {
           background: #cccccc;
-          /* background: var(---color-element-disabled); */
+          /* background: var(---decidables-slider-background-color); */
           border: 0;
           border-radius: 2px;
           box-shadow: none;
@@ -183,12 +254,12 @@ export default class DecidablesSlider extends DecidablesElement {
 
         /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:focus::-ms-fill-lower {
-          background: var(---color-element-disabled);
+          background: var(---decidables-slider-background-color);
         }
 
         /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:focus::-ms-fill-upper {
-          background: var(---color-element-disabled);
+          background: var(---decidables-slider-background-color);
         }
 
         /* Thumb */
@@ -206,12 +277,12 @@ export default class DecidablesSlider extends DecidablesElement {
         }
 
         input[type=range]:disabled::-webkit-slider-thumb {
-          background: var(---color-element-disabled);
+          background: var(---decidables-slider-background-color);
           box-shadow: none;
         }
 
         input[type=range]:enabled::-webkit-slider-thumb {
-          background: var(---color-element-enabled);
+          background: var(---decidables-slider-color);
           box-shadow: var(---shadow-2-rotate);
         }
 
@@ -242,13 +313,13 @@ export default class DecidablesSlider extends DecidablesElement {
 
         /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:disabled::-moz-range-thumb {
-          background: var(---color-element-disabled);
+          background: var(---decidables-slider-background-color);
           box-shadow: none;
         }
 
         /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:enabled::-moz-range-thumb {
-          background: var(---color-element-enabled);
+          background: var(---decidables-slider-color);
           box-shadow: var(---shadow-2-rotate);
         }
 
@@ -285,13 +356,13 @@ export default class DecidablesSlider extends DecidablesElement {
 
         /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:disabled::-ms-thumb {
-          background: var(---color-element-disabled);
+          background: var(---decidables-slider-background-color);
           box-shadow: none;
         }
 
         /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:enabled::-ms-thumb {
-          background: var(---color-element-enabled);
+          background: var(---decidables-slider-color);
           box-shadow: var(---shadow-2-rotate);
         }
 
@@ -313,6 +384,33 @@ export default class DecidablesSlider extends DecidablesElement {
         :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {
           box-shadow: var(---shadow-8-rotate);
         }
+
+        datalist {
+          position: absolute;
+          left: 2rem;
+          z-index: -1;
+          display: flex;
+
+          flex-direction: column;
+
+          align-items: flex-start;
+          justify-content: space-between;
+
+          height: 4.75rem;
+
+          font-size: 0.75rem;
+        }
+
+        option {
+          padding: 0;
+
+          line-height: 0.8;
+          min-block-size: 0;
+        }
+
+        option::before {
+          content: "– ";
+        }
       `,
     ];
   }
@@ -323,9 +421,18 @@ export default class DecidablesSlider extends DecidablesElement {
         <slot></slot>
       </label>
       <div class="range">
-        <input ?disabled=${this.disabled} type="range" id="slider" min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @change=${this.changed.bind(this)} @input=${this.inputted.bind(this)}>
+        <input ?disabled=${this.disabled} type="range" id="slider" min=${ifDefined(this.rangeMin)} max=${ifDefined(this.rangeMax)} step=${ifDefined(this.rangeStep)} .value=${this.rangeValue} @change=${this.rangeChanged.bind(this)} @input=${this.rangeInputted.bind(this)}>
+        ${this.scale
+          ? html`
+            <datalist id="ticks">
+              <option value=${ifDefined(this.rangeMax)} label=${ifDefined(this.max)}></option>
+              <option value=${ifDefined(this.rangeMin)} label=${ifDefined(this.min)}></option>
+            </datalist>
+          `
+          : html``
+        }
       </div>
-      <decidables-spinner ?disabled=${this.disabled} min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @input=${this.inputted.bind(this)}></decidables-spinner>
+      <decidables-spinner ?disabled=${this.disabled} min=${ifDefined(this.min)} max=${ifDefined(this.max)} step=${ifDefined(this.step)} .value=${this.value} @input=${this.spinnerInputted.bind(this)}></decidables-spinner>
     `;
   }
 }
