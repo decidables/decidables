@@ -31,6 +31,21 @@ export default class HTDParameters extends DiscountableElement {
     this.k = undefined;
   }
 
+  updated(changedProperties) {
+    super.updated(changedProperties);
+
+    if ((this.k !== undefined) && (this.kSlider === undefined)) {
+      this.kSlider = this.shadowRoot.querySelector('decidables-slider.k');
+      this.kSlider.nonlinearRange(
+        true,
+        (k) => { return k ** (1 / 2) / (k ** (1 / 2) + 1); },
+        (r) => { return (r / (1 - r)) ** 2; },
+      );
+    } else if ((this.k === undefined) && (this.kSlider !== undefined)) {
+      this.kSlider = undefined;
+    }
+  }
+
   setK(e) {
     this.k = +e.target.value;
     this.dispatchEvent(new CustomEvent('htd-parameters-k', {
@@ -66,6 +81,11 @@ export default class HTDParameters extends DiscountableElement {
         decidables-slider  div {
           margin-bottom: 0.25rem;
         }
+
+        .k {
+          --decidables-slider-background-color: var(---color-k-light);
+          --decidables-slider-color: var(---color-k);
+        }
       `,
     ];
   }
@@ -76,6 +96,7 @@ export default class HTDParameters extends DiscountableElement {
         ${this.k != null
           ? html`<decidables-slider class="k"
             ?disabled=${!this.interactive}
+            scale
             min=${HTDMath.k.MIN}
             max=${HTDMath.k.MAX}
             step=${HTDMath.k.STEP}
