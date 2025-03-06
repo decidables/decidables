@@ -45,6 +45,20 @@ rate, `HR`
 - l = λ (lambda, loss aversion)
 - g = γ (gamma, probability distortion)
 
+#### Parameters
+
+- a = α (alpha, diminishing marginal utility) [0, 1]
+- l = λ (lambda, loss aversion) [0, Infinity)
+- g = γ (gamma, probability distortion) [0, 1]
+
+The values offered for parameters are:
+
+- DEFAULT = a recommended default value
+- MIN = the minimum value recommended for a UI (not necessarily the lower bound of its interval)
+- MAX = the maximum value recommended for a UI (not necessarily the upper bound of its interval)
+- STEP = a recommended step size for a UI
+- JUMP = a recommended "large" step size for a UI
+
 #### Methods w/implemented equations
 
 - `xal2v(x, a, l)`

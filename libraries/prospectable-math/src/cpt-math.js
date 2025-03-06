@@ -2,16 +2,17 @@
 /*
   CPTMath Static Class - Not intended for instantiation!
 
+  Model Parameters:
+    a = alpha (curvature for value function)
+    l = lambda (loss aversion for value function)
+    g = gamma (sensitivity for decision weighting function)
+
   Variables:
     x = objective value
     v = subjective value
     p = objective probability
     w = subjective probability/decision weight
     u = subjective utility
-
-    a = alpha (curvature for value function)
-    l = lambda (loss aversion for value function)
-    g = gamma (sensitivity for decision weighting function)
 
   Equations:
     v = if (x >= 0) x^a; if (x < 0) -l * (-x)^a
@@ -23,6 +24,30 @@
     u = Sum_n(v_n * w_n)
 */
 export default class CPTMath {
+  static a = {
+    DEFAULT: 0.5,
+    MIN: 0.0,
+    MAX: 1.0,
+    STEP: 0.01,
+    JUMP: 0.05,
+  };
+
+  static l = {
+    DEFAULT: 2.0,
+    MIN: 0.0,
+    MAX: 100.0,
+    STEP: 0.01,
+    JUMP: 0.05,
+  };
+
+  static g = {
+    DEFAULT: 0.5,
+    MIN: 0.0,
+    MAX: 1.0,
+    STEP: 0.01,
+    JUMP: 0.05,
+  };
+
   static xal2v(x, a, l) {
     if (x >= 0) {
       return x ** a;
