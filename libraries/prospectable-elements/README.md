@@ -189,6 +189,48 @@ the alpha, lambda, gamma, and luce parameters. The model consists of the followi
 <cpt-fit></cpt-fit>
 ```
 
+#### `CPTParameters` / `<CPT-parameters>`
+
+Control panel for CPT model parameters
+
+A configurable set of controls for user manipulation of CPT model parameters. Controls can be
+provided for the alpha, lambda, and gamma parameters.
+
+##### Attributes
+
+- `alpha: number = undefined`
+  - Parameter α (diminishing marginal utility)
+- `lambda: number = undefined`
+  - Parameter λ (loss aversion)
+- `gamma: number = undefined`
+  - Parameter γ (probability distortion) 
+
+##### Methods
+
+##### Custom Events
+
+- `cpt-parameters-a`
+  - Indicates an update to α (diminishing marginal utility)
+  - `detail`
+    - `a: number`
+      - New value for alpha
+- `cpt-parameters-l`
+  - Indicates an update to λ (loss aversion)
+  - `detail`
+    - `l: number`
+      - New value for lambda
+- `cpt-parameters-g`
+  - Indicates an update to γ (probability distortion)
+  - `detail`
+    - `g: number`
+      - New value for gamma
+
+##### Example
+
+```html
+<cpt-parameters interactive alpha="0.75" lambda="1.5" gamma="0.25"></cpt-parameters>
+```
+
 #### `CPTProbability` / `<cpt-probability>`
 
 Decision weight function for CPT
