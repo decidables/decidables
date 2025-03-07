@@ -322,15 +322,6 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
           stroke-width: 0;
         }
 
-        /* Make a larger target for touch users */
-        @media (pointer: coarse) {
-          .point.interactive .circle {
-            stroke: #000000;
-            stroke-opacity: 0;
-            stroke-width: 12px;
-          }
-        }
-
         .point.interactive:hover {
           filter: url("#shadow-4");
 
@@ -423,6 +414,19 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
           text-anchor: middle;
 
           fill: var(---color-text-inverse);
+        }
+
+        /* Make larger targets for touch users */
+        .interactive .touch {
+          stroke: #000000;
+          stroke-opacity: 0.25;
+        }
+
+        @media (pointer: coarse) {
+          .interactive .touch {
+            stroke-linecap: round;
+            stroke-width: 12;
+          }
         }
       `,
     ];
@@ -1090,9 +1094,13 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
     const curvePUpdate = contentMerge.selectAll('.curve-p')
       .data(this.functions, (datum) => { return datum.name; });
     //  ENTER
-    const curvePEnter = curvePUpdate.enter().append('path')
+    const curvePEnter = curvePUpdate.enter().append('g')
       .classed('curve-p', true)
       .attr('clip-path', 'url(#clip-cpt-value)');
+    curvePEnter.append('path')
+      .classed('path-p', true);
+    curvePEnter.append('path')
+      .classed('path-p touch', true);
     //  MERGE
     const curvePMerge = curvePEnter.merge(curvePUpdate);
     if (this.firstUpdate || changedProperties.has('interactive')) {
@@ -1145,7 +1153,40 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
           .on('keydown', null);
       }
     }
-    curvePMerge.transition()
+    curvePMerge.select('.path-p').transition()
+      .duration(this.drag
+        ? 0
+        : (this.firstUpdate
+          ? (transitionDuration * 2)
+          : transitionDuration))
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateA = d3.interpolate(
+          (element.a !== undefined) ? element.a : datum.a,
+          datum.a,
+        );
+        const interpolateL = d3.interpolate(
+          (element.l !== undefined) ? element.l : datum.l,
+          datum.l,
+        );
+        return (time) => {
+          element.a = interpolateA(time);
+          element.l = interpolateL(time);
+          const curveP = d3.range(xScale(0), xScale.range()[1] + 1, 1).map((range) => {
+            return {
+              x: xScale.invert(range),
+              v: CPTMath.xal2v(
+                xScale.invert(range),
+                element.a,
+                element.l,
+              ),
+            };
+          });
+          return line(curveP);
+        };
+      });
+    curvePMerge.select('.path-p.touch').transition()
       .duration(this.drag
         ? 0
         : (this.firstUpdate
@@ -1187,9 +1228,13 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
     const curveNUpdate = contentMerge.selectAll('.curve-n')
       .data(this.functions, (datum) => { return datum.name; });
     //  ENTER
-    const curveNEnter = curveNUpdate.enter().append('path')
+    const curveNEnter = curveNUpdate.enter().append('g')
       .classed('curve-n', true)
       .attr('clip-path', 'url(#clip-cpt-value)');
+    curveNEnter.append('path')
+      .classed('path-n', true);
+    curveNEnter.append('path')
+      .classed('path-n touch', true);
     //  MERGE
     const curveNMerge = curveNEnter.merge(curveNUpdate);
     if (this.firstUpdate || changedProperties.has('interactive')) {
@@ -1242,7 +1287,40 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
           .on('keydown', null);
       }
     }
-    curveNMerge.transition()
+    curveNMerge.select('.path-n').transition()
+      .duration(this.drag
+        ? 0
+        : (this.firstUpdate
+          ? (transitionDuration * 2)
+          : transitionDuration))
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateA = d3.interpolate(
+          (element.a !== undefined) ? element.a : datum.a,
+          datum.a,
+        );
+        const interpolateL = d3.interpolate(
+          (element.l !== undefined) ? element.l : datum.l,
+          datum.l,
+        );
+        return (time) => {
+          element.a = interpolateA(time);
+          element.l = interpolateL(time);
+          const curveN = d3.range(xScale.range()[0], xScale(0) + 1, 1).map((range) => {
+            return {
+              x: xScale.invert(range),
+              v: CPTMath.xal2v(
+                xScale.invert(range),
+                element.a,
+                element.l,
+              ),
+            };
+          });
+          return line(curveN);
+        };
+      });
+    curveNMerge.select('.path-n.touch').transition()
       .duration(this.drag
         ? 0
         : (this.firstUpdate
@@ -1290,7 +1368,7 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
     const pointEnter = pointUpdate.enter().append('g')
       .classed('point', true);
     pointEnter.append('circle')
-      .classed('circle', true);
+      .classed('circle touch', true);
     pointEnter.append('text')
       .classed('label', true);
     //  MERGE

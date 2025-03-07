@@ -305,15 +305,6 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
           stroke-width: 0;
         }
 
-        /* Make a larger target for touch users */
-        @media (pointer: coarse) {
-          .point.interactive .circle {
-            stroke: #000000;
-            stroke-opacity: 0;
-            stroke-width: 12px;
-          }
-        }
-
         .point.interactive:hover {
           filter: url("#shadow-4");
 
@@ -399,6 +390,19 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
           text-anchor: middle;
 
           fill: var(---color-text-inverse);
+        }
+
+        /* Make a larger target for touch users */
+        .interactive .touch {
+          stroke: #000000;
+          stroke-opacity: 0.25;
+        }
+
+        @media (pointer: coarse) {
+          .interactive .touch {
+            stroke-linecap: round;
+            stroke-width: 12;
+          }
         }
       `,
     ];
@@ -980,9 +984,13 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
     const curveUpdate = contentMerge.selectAll('.curve')
       .data(this.functions, (datum) => { return datum.name; });
     //  ENTER
-    const curveEnter = curveUpdate.enter().append('path')
+    const curveEnter = curveUpdate.enter().append('g')
       .classed('curve', true)
       .attr('clip-path', 'url(#clip-cpt-value)');
+    curveEnter.append('path')
+      .classed('path', true);
+    curveEnter.append('path')
+      .classed('path touch', true);
     //  MERGE
     const curveMerge = curveEnter.merge(curveUpdate);
     if (this.firstUpdate || changedProperties.has('interactive')) {
@@ -1035,7 +1043,34 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
           .on('keydown', null);
       }
     }
-    curveMerge.transition()
+    curveMerge.select('.path').transition()
+      .duration(this.drag
+        ? 0
+        : (this.firstUpdate
+          ? (transitionDuration * 2)
+          : transitionDuration))
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateG = d3.interpolate(
+          (element.g !== undefined) ? element.g : datum.g,
+          datum.g,
+        );
+        return (time) => {
+          element.g = interpolateG(time);
+          const curve = d3.range(xScale.range()[0], xScale.range()[1] + 1, 1).map((range) => {
+            return {
+              p: xScale.invert(range),
+              w: CPTMath.pg2w(
+                xScale.invert(range),
+                element.g,
+              ),
+            };
+          });
+          return line(curve);
+        };
+      });
+    curveMerge.select('.path.touch').transition()
       .duration(this.drag
         ? 0
         : (this.firstUpdate
@@ -1077,7 +1112,7 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
     const pointEnter = pointUpdate.enter().append('g')
       .classed('point', true);
     pointEnter.append('circle')
-      .classed('circle', true);
+      .classed('circle touch', true);
     pointEnter.append('text')
       .classed('label', true);
     //  MERGE
