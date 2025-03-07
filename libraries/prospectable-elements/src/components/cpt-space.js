@@ -111,9 +111,9 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     this.NR = 0.25;
     this.DEFAULT = 0.75;
 
-    this.a = 0.8;
-    this.l = 1.2;
-    this.g = 0.8;
+    this.a = CPTMath.a.DEFAULT;
+    this.l = CPTMath.l.DEFAULT;
+    this.g = CPTMath.g.DEFAULT;
 
     this.xl = 0; // Gamble Loss Value
     this.xw = 20;

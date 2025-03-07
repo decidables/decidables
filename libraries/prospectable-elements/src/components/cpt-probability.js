@@ -56,7 +56,7 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
     this.firstUpdate = true;
     this.drag = false;
 
-    this.g = 0.5;
+    this.g = CPTMath.g.DEFAULT;
     this.p = null;
     this.label = '';
     this.function = 'default';
@@ -481,10 +481,10 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
             ? event.subject.g + distance
             : event.subject.g - distance);
         // Clamp g to legal values [0, 1]
-        datum.g = (g > 1)
-          ? 1
-          : ((g < 0)
-            ? 0
+        datum.g = (g > CPTMath.g.MAX)
+          ? CPTMath.g.MAX
+          : ((g < CPTMath.g.MIN)
+            ? CPTMath.g.MIN
             : g);
         if (datum.name === 'default') {
           this.g = datum.g;
@@ -997,20 +997,20 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
               switch (event.key) {
                 case 'ArrowUp':
                 case 'ArrowLeft':
-                  g += event.shiftKey ? 0.01 : 0.05;
+                  g += event.shiftKey ? CPTMath.g.STEP : CPTMath.g.JUMP;
                   break;
                 case 'ArrowDown':
                 case 'ArrowRight':
-                  g -= event.shiftKey ? 0.01 : 0.05;
+                  g -= event.shiftKey ? CPTMath.g.STEP : CPTMath.g.JUMP;
                   break;
                 default:
                   // no-op
               }
               // Clamp g to legal values [0, 1]
-              g = (g < 0)
-                ? 0
-                : ((g > 1)
-                  ? 1
+              g = (g < CPTMath.g.MIN)
+                ? CPTMath.g.MIN
+                : ((g > CPTMath.g.MAX)
+                  ? CPTMath.g.MAX
                   : g);
               if (g !== datum.g) {
                 datum.g = g;

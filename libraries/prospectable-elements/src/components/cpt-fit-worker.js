@@ -10,9 +10,9 @@ import CPTMath from '@decidables/prospectable-math';
 
 self.onmessage = (event) => {
   const params = {
-    alpha: {type: 'real', lower: 0, upper: 1},
-    lambda: {type: 'real', lower: 0, upper: 10},
-    gamma: {type: 'real', lower: 0, upper: 1},
+    alpha: {type: 'real', lower: CPTMath.a.MIN, upper: CPTMath.a.MAX},
+    lambda: {type: 'real', lower: CPTMath.l.MIN, upper: CPTMath.l.MAX},
+    gamma: {type: 'real', lower: CPTMath.g.MIN, upper: CPTMath.g.MAX},
     luce: {type: 'real', lower: 0, upper: 100},
   };
 

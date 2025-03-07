@@ -43,8 +43,8 @@ export default class CPTEquationXAL2V extends CPTEquation {
   constructor() {
     super();
     this.x = 10;
-    this.a = 0.5;
-    this.l = 2;
+    this.a = CPTMath.a.DEFAULT;
+    this.l = CPTMath.l.DEFAULT;
     this.alignState();
   }
 
@@ -92,13 +92,31 @@ export default class CPTEquationXAL2V extends CPTEquation {
     let l;
     let v;
     if (this.numeric) {
-      x = html`<decidables-spinner class="x bottom" ?disabled=${!this.interactive} step="1" .value="${this.x}" @input=${this.xInput.bind(this)}>
+      x = html`<decidables-spinner class="x bottom"
+          ?disabled=${!this.interactive}
+          step="1"
+          .value=${this.x}
+          @input=${this.xInput.bind(this)}
+        >
           <var class="math-var">x</var>
         </decidables-spinner>`;
-      a = html`<decidables-spinner class="a bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.a}" @input=${this.aInput.bind(this)}>
+      a = html`<decidables-spinner class="a bottom"
+          ?disabled=${!this.interactive}
+          min=${CPTMath.a.MIN}
+          max=${CPTMath.a.MAX}
+          step=${CPTMath.a.STEP}
+          .value=${this.a}
+          @input=${this.aInput.bind(this)}
+        >
           <var class="math-var">α</var>
         </decidables-spinner>`;
-      l = html`<decidables-spinner class="l bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.l}" @input=${this.lInput.bind(this)}>
+      l = html`<decidables-spinner class="l bottom"
+          ?disabled=${!this.interactive}
+          min=${CPTMath.l.MIN}
+          step=${CPTMath.l.STEP}
+          .value=${this.l}
+          @input=${this.lInput.bind(this)}
+        >
           <var class="math-var">λ</var>
         </decidables-spinner>`;
       v = html`<decidables-spinner class="v bottom" disabled step=".001" .value="${+this.v.toFixed(3)}">

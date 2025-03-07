@@ -62,8 +62,8 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
     this.firstUpdate = true;
     this.drag = false;
 
-    this.a = 0.5;
-    this.l = 2;
+    this.a = CPTMath.a.DEFAULT;
+    this.l = CPTMath.l.DEFAULT;
     this.x = null;
     this.label = '';
     this.function = 'default';
@@ -492,10 +492,16 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
         const v = this.yScale.invert(event.y);
         const a = CPTMath.xlv2a(x, datum.l, v);
         // Clamp a to legal values [0, 1]
-        datum.a = (Number.isNaN(a) || (a < 0) || (a > 1) || (x < 0) || (v < 0))
+        datum.a = (
+          Number.isNaN(a)
+          || (a < CPTMath.a.MIN)
+          || (a > CPTMath.a.MAX)
+          || (x < 0)
+          || (v < 0)
+        )
           ? ((x > v)
-            ? 0
-            : 1)
+            ? CPTMath.a.MIN
+            : CPTMath.a.MAX)
           : a;
 
         if (datum.name === 'default') {
@@ -530,10 +536,16 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
         const v = this.yScale.invert(event.y);
         const l = CPTMath.xav2l(x, datum.a, v);
         // Clamp l to legal values [0, ?
-        datum.l = (Number.isNaN(l) || (l < 0) || (l > 100) || (x > 0) || (v > 0))
+        datum.l = (
+          Number.isNaN(l)
+          || (l < CPTMath.l.MIN)
+          || (l > CPTMath.l.MAX)
+          || (x > 0)
+          || (v > 0)
+        )
           ? ((x > v)
-            ? 100
-            : 0)
+            ? CPTMath.l.MAX
+            : CPTMath.l.MIN)
           : l;
 
         if (datum.name === 'default') {
@@ -1095,20 +1107,20 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
               switch (event.key) {
                 case 'ArrowUp':
                 case 'ArrowLeft':
-                  a += event.shiftKey ? 0.01 : 0.05;
+                  a += event.shiftKey ? CPTMath.a.STEP : CPTMath.a.JUMP;
                   break;
                 case 'ArrowDown':
                 case 'ArrowRight':
-                  a -= event.shiftKey ? 0.01 : 0.05;
+                  a -= event.shiftKey ? CPTMath.a.STEP : CPTMath.a.JUMP;
                   break;
                 default:
                   // no-op
               }
               // Clamp a to legal values [0, 1]
-              a = (a < 0)
-                ? 0
-                : ((a > 1)
-                  ? 1
+              a = (a < CPTMath.a.MIN)
+                ? CPTMath.a.MIN
+                : ((a > CPTMath.a.MAX)
+                  ? CPTMath.a.MAX
                   : a);
               if (a !== datum.a) {
                 datum.a = a;
@@ -1192,20 +1204,20 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
               switch (event.key) {
                 case 'ArrowUp':
                 case 'ArrowLeft':
-                  l -= event.shiftKey ? 0.01 : 0.05;
+                  l -= event.shiftKey ? CPTMath.l.STEP : CPTMath.l.JUMP;
                   break;
                 case 'ArrowDown':
                 case 'ArrowRight':
-                  l += event.shiftKey ? 0.01 : 0.05;
+                  l += event.shiftKey ? CPTMath.l.STEP : CPTMath.l.JUMP;
                   break;
                 default:
                   // no-op
               }
               // Clamp l to legal values [0, ?
-              l = (l < 0)
-                ? 0
-                : ((l > 100)
-                  ? 100
+              l = (l < CPTMath.l.MIN)
+                ? CPTMath.l.MIN
+                : ((l > CPTMath.l.MAX)
+                  ? CPTMath.l.MAX
                   : l);
               if (l !== datum.l) {
                 datum.l = l;

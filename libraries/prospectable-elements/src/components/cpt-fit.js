@@ -3,6 +3,8 @@ import {html, css} from 'lit';
 import * as Plotly from 'plotly.js/lib/core';
 import * as PlotlyHistogram from 'plotly.js/lib/histogram';
 
+import CPTMath from '@decidables/prospectable-math';
+
 // Special Web Worker import for rollup-plugin-web-worker-loader
 import CPTFitWorker from 'web-worker:./cpt-fit-worker'; /* eslint-disable-line import/no-unresolved */
 
@@ -29,9 +31,9 @@ export default class CPTFit extends ProspectableElement {
   constructor() {
     super();
 
-    this.a = 1;
-    this.l = 1;
-    this.g = 1;
+    this.a = CPTMath.a.DEFAULT;
+    this.l = CPTMath.l.DEFAULT;
+    this.g = CPTMath.g.DEFAULT;
 
     this.choices = [];
     this.samples = null;

@@ -106,14 +106,15 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     this.point = 'first';
     this.updateable = false;
 
-    this.a = 0.8;
-    this.l = 1.2;
-    this.g = 0.8;
-    this.xl = 0;
+    this.a = CPTMath.a.DEFAULT;
+    this.l = CPTMath.l.DEFAULT;
+    this.g = CPTMath.g.DEFAULT;
 
+    this.xl = 0;
     this.xw = 20;
     this.pw = 0.5;
     this.xs = 10;
+
     this.response = '';
     this.label = '';
 

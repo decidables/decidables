@@ -38,7 +38,7 @@ export default class CPTEquationPG2W extends CPTEquation {
   constructor() {
     super();
     this.p = 0.75;
-    this.g = 0.5;
+    this.g = CPTMath.g.DEFAULT;
     this.alignState();
   }
 
@@ -78,13 +78,33 @@ export default class CPTEquationPG2W extends CPTEquation {
     let g;
     let w;
     if (this.numeric) {
-      p = html`<decidables-spinner class="p bottom" ?disabled=${!this.interactive} min="0" max="1" step="0.01" .value="${this.p}" @input=${this.pInput.bind(this)}>
+      p = html`<decidables-spinner class="p bottom"
+          ?disabled=${!this.interactive}
+          min="0"
+          max="1"
+          step="0.01"
+          .value=${this.p}
+          @input=${this.pInput.bind(this)}
+        >
           <var class="math-var">p</var>
         </decidables-spinner>`;
-      g = html`<decidables-spinner class="g bottom" ?disabled=${!this.interactive} min="0" max="1" step="0.01" .value="${this.g}" @input=${this.gInput.bind(this)}>
+      g = html`<decidables-spinner class="g bottom"
+          ?disabled=${!this.interactive}
+          min=${CPTMath.g.MIN}
+          max=${CPTMath.g.MAX}
+          step=${CPTMath.g.STEP}
+          .value=${this.g}
+          @input=${this.gInput.bind(this)}
+        >
           <var class="math-var">γ</var>
         </decidables-spinner>`;
-      w = html`<decidables-spinner class="w bottom" disabled min="0" max="1" step=".01" .value="${+this.w.toFixed(2)}">
+      w = html`<decidables-spinner class="w bottom"
+          disabled
+          min="0"
+          max="1"
+          step=".01"
+          .value=${+this.w.toFixed(2)}
+        >
           <var class="math-var">w</var>
         </decidables-spinner>`;
     } else {
