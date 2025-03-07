@@ -5,6 +5,7 @@ import {
   html,
   oneEvent,
   mouseClickElement,
+  sendKeys,
 } from '../../../../scripts/test-utility';
 
 import '../../src/components/prospectable-response';
@@ -216,6 +217,60 @@ describe('prospectable-response', () => {
     // Action
     const target = el.shadowRoot.querySelector('[name="sure"]');
     setTimeout(() => { mouseClickElement(target); });
+    const {detail} = await oneEvent(el, 'prospectable-response');
+    // Check
+    expect(detail).to.include({
+      trial: 1,
+      better: 'gamble',
+      gamblePayoff: 0,
+      surePayoff: 10,
+      xl: 0,
+      xw: 20,
+      pw: 0.75,
+      xs: 10,
+      response: 'sure',
+      outcome: 'worse',
+      payoff: 10,
+    });
+    expect(el.response).to.equal('sure');
+    expect(el.outcome).to.equal('worse');
+    expect(el.shadowRoot).to.have.descendant('.feedback.sure .outcome').with.text('Worse');
+    expect(el.shadowRoot).to.have.descendant('.feedback.sure .payoff').with.text('Win: $10');
+  });
+
+  it('can accept a "left arrow" key press', async () => {
+    const el = await fixture(html`<prospectable-response interactive feedback="outcome" trial payoff="selection"></prospectable-response>`);
+    el.start(0, 20, 0.75, 10, 0, 10, 'gamble', 1);
+    await elementUpdated(el);
+    // Action
+    setTimeout(() => { sendKeys({press: 'ArrowLeft'}); });
+    const {detail} = await oneEvent(el, 'prospectable-response');
+    // Check
+    expect(detail).to.include({
+      trial: 1,
+      better: 'gamble',
+      gamblePayoff: 0,
+      surePayoff: 10,
+      xl: 0,
+      xw: 20,
+      pw: 0.75,
+      xs: 10,
+      response: 'gamble',
+      outcome: 'better',
+      payoff: 0,
+    });
+    expect(el.response).to.equal('gamble');
+    expect(el.outcome).to.equal('better');
+    expect(el.shadowRoot).to.have.descendant('.feedback.gamble .outcome').with.text('Better');
+    expect(el.shadowRoot).to.have.descendant('.feedback.gamble .payoff').with.text('Win: $0');
+  });
+
+  it('can accept a "right arrow" key press', async () => {
+    const el = await fixture(html`<prospectable-response interactive feedback="outcome" trial payoff="selection"></prospectable-response>`);
+    el.start(0, 20, 0.75, 10, 0, 10, 'gamble', 1);
+    await elementUpdated(el);
+    // Action
+    setTimeout(() => { sendKeys({press: 'ArrowRight'}); });
     const {detail} = await oneEvent(el, 'prospectable-response');
     // Check
     expect(detail).to.include({
