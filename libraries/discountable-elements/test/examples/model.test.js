@@ -20,6 +20,7 @@ describe('htd-example-model', () => {
       <htd-example-model>
         <discountable-control run pause reset></discountable-control>
         <itc-task></itc-task>
+        <htd-parameters interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <discountable-response trial feedback></discountable-response>
       </htd-example-model>
@@ -40,6 +41,7 @@ describe('htd-example-model', () => {
       <htd-example-model>
         <discountable-control run pause reset></discountable-control>
         <itc-task></itc-task>
+        <htd-parameters interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <discountable-response trial feedback></discountable-response>
       </htd-example-model>
@@ -47,6 +49,7 @@ describe('htd-example-model', () => {
     expect(el).lightDom.to.equal(`
       <discountable-control class="keyboard" trials="10" duration="2000" run pause reset></discountable-control>
       <itc-task class="keyboard" trials="10" duration="2000" iti="2000" ></itc-task>
+      <htd-parameters class="keyboard" interactive k="0.05"></htd-parameters>
       <htd-curves class="keyboard" interactive label="" k="0.05"></htd-curves>
       <discountable-response class="keyboard" trial feedback></discountable-response>
     `);
@@ -57,6 +60,7 @@ describe('htd-example-model', () => {
       <htd-example-model k="0.2" >
         <discountable-control run pause reset></discountable-control>
         <itc-task></itc-task>
+        <htd-parameters interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <discountable-response trial feedback></discountable-response>
       </htd-example-model>
