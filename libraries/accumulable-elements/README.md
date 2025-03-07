@@ -126,6 +126,9 @@ Response buttons, feedback, and payoffs for two-alternative forced choice tasks
 This element provides 'left' and 'right' response buttons. It can also display a running count of
 the trials, display feedback on accuracy, and display the current trial and total payoff.
 
+Also accepts keyboard responses: <kbd>ArrowLeft</kbd> for 'left' button and <kbd>ArrowRight</kbd> for
+'right' button.
+
 ##### Attributes
 
 - `interactive: boolean = false`
@@ -570,19 +573,19 @@ provided for the boundary separation, starting point, drift rate, and non-decisi
 
 ##### Attributes
 
-- `a: number = undefined`
+- `boundary-separation: number = undefined`
   - Show a slider for setting the boundary separation, initialized to the value provided
   - Options
     - `0.01` to `2` in steps of `0.01`
-- `z: number = undefined`
+- `starting-point: number = undefined`
   - Show a slider for setting the starting point, initialized to the value provided
   - Options
     - `0.01` to `0.99` in steps of `0.01`
-- `z: number = undefined`
+- `drift-rate: number = undefined`
   - Show a slider for setting the drift rate, initialized to the value provided
   - Options
     - `0.01` to `5` in steps of `0.01`
-- `t0: number = undefined`
+- `nondecision-time: number = undefined`
   - Show a slider for setting the non-decision time, initialized to the value provided
   - Options
     - `0` to `500` in steps of `1`

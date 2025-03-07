@@ -96,6 +96,9 @@ Response buttons and feedback for inter-temporal choice tasks
 This element provides 'first' and 'second' response buttons. It can also display a running count
 of the trials and display response feedback.
 
+Also accepts keyboard responses: <kbd>ArrowLeft</kbd> for 'first' button and <kbd>ArrowRight</kbd> for
+'second' button.
+
 ##### Attributes
 
 - `interactive: boolean = false`
