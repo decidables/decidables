@@ -645,8 +645,6 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
         return 1;
       });
     pointEnter.append('circle')
-      .classed('mark', true);
-    pointEnter.append('circle')
       .classed('mark touch', true);
     pointEnter.append('text')
       .classed('label', true);
