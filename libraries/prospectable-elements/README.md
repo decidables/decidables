@@ -740,6 +740,9 @@ Response buttons, feedback, and payoffs for gambling decision tasks
 This element provides 'gamble' and 'sure' response buttons. It can also display a running count
 of the trials, display feedback in comparative terms, and payoff outcome.
 
+Also accepts keyboard responses: <kbd>ArrowLeft</kbd> for 'gamble' button and <kbd>ArrowRight</kbd> for
+'sure' button.
+
 ##### Attributes
 
 - `interactive: boolean = false`

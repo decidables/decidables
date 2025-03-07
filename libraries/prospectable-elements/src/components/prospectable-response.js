@@ -163,6 +163,30 @@ export default class ProspectableResponse extends ProspectableElement {
     this.outcome = undefined;
   }
 
+  keydown(event) {
+    if (this.state === 'waiting') {
+      if (event.key === 'ArrowLeft') {
+        this.responded('gamble');
+        event.preventDefault();
+      } else if (event.key === 'ArrowRight') {
+        this.responded('sure');
+        event.preventDefault();
+      }
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    window.addEventListener('keydown', this.keydown.bind(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('keydown', this.keydown.bind(this));
+
+    super.disconnectedCallback();
+  }
+
   static get styles() {
     return [
       super.styles,
