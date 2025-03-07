@@ -10,6 +10,17 @@ import CPTExample from './cpt-example';
 export default class CPTExampleModel extends CPTExample {
   static get properties() {
     return {
+      trials: {
+        attribute: 'trials',
+        type: Number,
+        reflect: true,
+      },
+      duration: {
+        attribute: 'duration',
+        type: Number,
+        reflect: true,
+      },
+
       a: {
         attribute: 'alpha',
         type: Number,
@@ -31,35 +42,55 @@ export default class CPTExampleModel extends CPTExample {
   constructor() {
     super();
 
-    this.a = 0.8;
-    this.l = 1.2;
-    this.g = 0.8;
+    this.trials = 10;
+    this.duration = 2000;
+
+    this.a = CPTMath.a.DEFAULT;
+    this.l = CPTMath.l.DEFAULT;
+    this.g = CPTMath.g.DEFAULT;
+
     this.xl = 0;
     this.xw = 20;
     this.pw = 0.5;
     this.xs = 10;
 
-    this.cptCalculation = null;
+    // this.cptCalculation = null;
+    this.cptParameters = null;
     this.cptProbability = null;
     // this.cptSpace = null;
     this.cptValue = null;
+    this.decisionSpace = null;
     this.prospectableControl = null;
     this.prospectableResponse = null;
-    this.decisionSpace = null;
     this.riskyTask = null;
   }
 
   connectedCallback() {
     super.connectedCallback();
 
-    this.cptCalculation = this.querySelector('cpt-calculation');
+    // this.cptCalculation = this.querySelector('cpt-calculation');
+    this.cptParameters = this.querySelector('cpt-parameters');
     this.cptProbability = this.querySelector('cpt-probability');
     // this.cptSpace = this.querySelector('cpt-space');
     this.cptValue = this.querySelector('cpt-value');
+    this.decisionSpace = this.querySelector('decision-space');
     this.prospectableControl = this.querySelector('prospectable-control');
     this.prospectableResponse = this.querySelector('prospectable-response');
-    this.decisionSpace = this.querySelector('decision-space');
     this.riskyTask = this.querySelector('risky-task');
+
+    if (this.cptParameters) {
+      this.cptParameters.addEventListener('cpt-parameters-a', (event) => {
+        this.a = event.detail.a;
+      });
+
+      this.cptParameters.addEventListener('cpt-parameters-l', (event) => {
+        this.l = event.detail.l;
+      });
+
+      this.cptParameters.addEventListener('cpt-parameters-g', (event) => {
+        this.g = event.detail.g;
+      });
+    }
 
     if (this.cptProbability) {
       this.cptProbability.addEventListener('cpt-probability-change', (event) => {
@@ -111,89 +142,66 @@ export default class CPTExampleModel extends CPTExample {
     }
 
     if (this.prospectableControl) {
-      if (this.prospectableControl.hasAttribute('trials')) {
-        this.prospectableControl.addEventListener('prospectable-control-trials', (event) => {
-          if (this.riskyTask) {
-            this.riskyTask.trials = event.detail.trials;
-          }
+      this.prospectableControl.addEventListener('prospectable-control-trials', (event) => {
+        this.trials = event.detail.trials;
+      });
 
-          if (this.prospectableResponse) {
-            this.prospectableResponse.trialTotal = event.detail.trials;
-          }
-        });
-      }
+      this.prospectableControl.addEventListener('prospectable-control-duration', (event) => {
+        this.duration = event.detail.duration;
+      });
 
-      if (this.prospectableControl.hasAttribute('duration')) {
-        this.prospectableControl.addEventListener('prospectable-control-duration', (event) => {
-          if (this.riskyTask) {
-            this.riskyTask.duration = event.detail.duration;
-            this.riskyTask.iti = event.detail.duration;
-          }
-        });
-      }
+      this.prospectableControl.addEventListener('prospectable-control-run', (/* event */) => {
+        if (this.cptProbability) {
+          this.cptProbability.resumeTrial();
+        }
 
-      if (this.prospectableControl.hasAttribute('run')) {
-        this.prospectableControl.addEventListener('prospectable-control-run', (/* event */) => {
-          if (this.cptProbability) {
-            this.cptProbability.resumeTrial();
-          }
+        if (this.cptValue) {
+          this.cptValue.resumeTrial();
+        }
 
-          if (this.cptValue) {
-            this.cptValue.resumeTrial();
-          }
+        if (this.riskyTask) {
+          this.riskyTask.running = true;
+        }
+      });
 
-          if (this.riskyTask) {
-            this.riskyTask.running = true;
-          }
-        });
-      }
+      this.prospectableControl.addEventListener('prospectable-control-pause', (/* event */) => {
+        if (this.cptProbability) {
+          this.cptProbability.pauseTrial();
+        }
 
-      if (this.prospectableControl.hasAttribute('pause')) {
-        this.prospectableControl.addEventListener('prospectable-control-pause', (/* event */) => {
-          if (this.cptProbability) {
-            this.cptProbability.pauseTrial();
-          }
+        if (this.cptValue) {
+          this.cptValue.pauseTrial();
+        }
 
-          if (this.cptValue) {
-            this.cptValue.pauseTrial();
-          }
+        if (this.riskyTask) {
+          this.riskyTask.running = false;
+        }
+      });
 
-          if (this.riskyTask) {
-            this.riskyTask.running = false;
-          }
-        });
-      }
+      this.prospectableControl.addEventListener('prospectable-control-reset', (/* event */) => {
+        if (this.cptProbability) {
+          this.cptProbability.clear();
+        }
 
-      if (this.prospectableControl.hasAttribute('reset')) {
-        this.prospectableControl.addEventListener('prospectable-control-reset', (/* event */) => {
-          if (this.cptProbability) {
-            this.cptProbability.clear();
-          }
+        if (this.cptValue) {
+          this.cptValue.clear();
+        }
 
-          if (this.cptValue) {
-            this.cptValue.clear();
-          }
+        if (this.riskyTask) {
+          this.riskyTask.reset();
+        }
 
-          if (this.riskyTask) {
-            this.riskyTask.reset();
-          }
+        if (this.prospectableResponse) {
+          this.prospectableResponse.reset();
+        }
 
-          if (this.prospectableResponse) {
-            this.prospectableResponse.reset();
-          }
-
-          if (this.decisionSpace) {
-            this.decisionSpace.clear();
-          }
-        });
-      }
+        if (this.decisionSpace) {
+          this.decisionSpace.clear();
+        }
+      });
     }
 
     if (this.riskyTask) {
-      if (this.prospectableResponse) {
-        this.prospectableResponse.trialTotal = this.riskyTask.trials;
-      }
-
       this.riskyTask.addEventListener('risky-trial-start', (event) => {
         if (this.prospectableResponse) {
           this.prospectableResponse.start(
@@ -271,10 +279,16 @@ export default class CPTExampleModel extends CPTExample {
   update(changedProperties) {
     super.update(changedProperties);
 
-    if (this.cptCalculation) {
-      this.cptCalculation.a = this.a;
-      this.cptCalculation.l = this.l;
-      this.cptCalculation.g = this.g;
+    // if (this.cptCalculation) {
+    //   this.cptCalculation.a = this.a;
+    //   this.cptCalculation.l = this.l;
+    //   this.cptCalculation.g = this.g;
+    // }
+
+    if (this.cptParameters) {
+      this.cptParameters.a = this.a;
+      this.cptParameters.l = this.l;
+      this.cptParameters.g = this.g;
     }
 
     if (this.cptProbability) {
@@ -296,6 +310,17 @@ export default class CPTExampleModel extends CPTExample {
       this.decisionSpace.a = this.a;
       this.decisionSpace.l = this.l;
       this.decisionSpace.g = this.g;
+    }
+
+    if (this.prospectableControl) {
+      this.prospectableControl.trials = this.trials;
+      this.prospectableControl.duration = this.duration;
+    }
+
+    if (this.riskyTask) {
+      this.riskyTask.trials = this.trials;
+      this.riskyTask.duration = this.duration;
+      this.riskyTask.iti = this.duration;
     }
   }
 }

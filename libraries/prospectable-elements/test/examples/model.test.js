@@ -6,6 +6,7 @@ import {
   mouseClickElement,
 } from '../../../../scripts/test-utility';
 
+import '../../src/components/cpt-parameters';
 import '../../src/components/cpt-probability';
 import '../../src/components/cpt-value';
 import '../../src/components/prospectable-control';
@@ -16,11 +17,12 @@ import '../../src/examples/model';
 describe('cpt-example-model', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
-      <cpt-example-model alpha="0.9" lambda="2" gamma="0.75">
-        <prospectable-control trials="10" run pause reset></prospectable-control>
-        <risky-task trials="10"></risky-task>
-        <cpt-probability interactive></cpt-probability>
+      <cpt-example-model>
+        <prospectable-control run pause reset></prospectable-control>
+        <risky-task></risky-task>
+        <cpt-parameters interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
+        <cpt-probability interactive></cpt-probability>
         <prospectable-response trial feedback="outcome" payoff="both"></prospectable-response>
         <!-- <decision-space updateable point="rest" alpha="1" lambda="1" gamma="1"></decision-space> -->
       </cpt-example-model>
@@ -38,31 +40,34 @@ describe('cpt-example-model', () => {
 
   it('has a lightDom', async () => {
     const el = await fixture(html`
-      <cpt-example-model alpha="0.9" lambda="2" gamma="0.75">
-        <prospectable-control trials="10" run pause reset></prospectable-control>
-        <risky-task trials="10"></risky-task>
-        <cpt-probability interactive></cpt-probability>
+      <cpt-example-model>
+        <prospectable-control run pause reset></prospectable-control>
+        <risky-task></risky-task>
+        <cpt-parameters interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
+        <cpt-probability interactive></cpt-probability>
         <prospectable-response trial feedback="outcome" payoff="both"></prospectable-response>
         <!-- <decision-space updateable point="rest" alpha="1" lambda="1" gamma="1"></decision-space> -->
       </cpt-example-model>
     `);
     expect(el).lightDom.to.equal(`
-      <prospectable-control class="keyboard" trials="10" run pause reset></prospectable-control>
+      <prospectable-control class="keyboard" trials="10" duration="2000" run pause reset></prospectable-control>
       <risky-task class="keyboard" trials="10" duration="2000" iti="2000"></risky-task>
-      <cpt-probability class="keyboard" interactive gamma="0.75" label=""></cpt-probability>
-      <cpt-value class="keyboard" interactive alpha="0.9" lambda="2" label=""></cpt-value>
+      <cpt-parameters class="keyboard" interactive alpha="0.5" lambda="2" gamma="0.5"></cpt-parameters>
+      <cpt-value class="keyboard" interactive alpha="0.5" lambda="2" label=""></cpt-value>
+      <cpt-probability class="keyboard" interactive gamma="0.5" label=""></cpt-probability>
       <prospectable-response class="keyboard" trial feedback="outcome" payoff="both"></prospectable-response>
     `);
   });
 
   it('can run a task', async () => {
     const el = await fixture(html`
-      <cpt-example-model alpha="0.9" lambda="2" gamma="0.75">
-        <prospectable-control trials="10" run pause reset></prospectable-control>
-        <risky-task trials="10" duration="200" iti="200"></risky-task>
-        <cpt-probability interactive></cpt-probability>
+      <cpt-example-model>
+        <prospectable-control run pause reset></prospectable-control>
+        <risky-task></risky-task>
+        <cpt-parameters interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
+        <cpt-probability interactive></cpt-probability>
         <prospectable-response trial feedback="outcome" payoff="both"></prospectable-response>
         <!-- <decision-space updateable point="rest" alpha="1" lambda="1" gamma="1"></decision-space> -->
       </cpt-example-model>

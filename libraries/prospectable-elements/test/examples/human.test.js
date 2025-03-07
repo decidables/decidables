@@ -6,6 +6,7 @@ import {
   mouseClickElement,
 } from '../../../../scripts/test-utility';
 
+import '../../src/components/cpt-parameters';
 import '../../src/components/cpt-probability';
 import '../../src/components/cpt-value';
 import '../../src/components/prospectable-control';
@@ -17,11 +18,12 @@ describe('cpt-example-human', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <cpt-example-human>
-        <prospectable-control trials="10" run pause reset></prospectable-control>
-        <risky-task trials="10"></risky-task>
+        <prospectable-control run pause reset></prospectable-control>
+        <risky-task></risky-task>
         <prospectable-response interactive trial feedback="outcome" payoff="both"></prospectable-response>
-        <cpt-probability></cpt-probability>
+        <cpt-parameters></cpt-parameters>
         <cpt-value></cpt-value>
+        <cpt-probability></cpt-probability>
         <!-- <decision-space point="rest" alpha="1" lambda="1" gamma="1"></decision-space> -->
         <!-- <cpt-fit></cpt-fit> -->
       </cpt-example-human>
@@ -40,30 +42,33 @@ describe('cpt-example-human', () => {
   it('has a lightDom', async () => {
     const el = await fixture(html`
       <cpt-example-human>
-        <prospectable-control trials="10" run pause reset></prospectable-control>
-        <risky-task trials="10"></risky-task>
+        <prospectable-control run pause reset></prospectable-control>
+        <risky-task></risky-task>
         <prospectable-response interactive trial feedback="outcome" payoff="both"></prospectable-response>
-        <cpt-probability></cpt-probability>
+        <cpt-parameters></cpt-parameters>
         <cpt-value></cpt-value>
+        <cpt-probability></cpt-probability>
         <!-- <decision-space point="rest" alpha="1" lambda="1" gamma="1"></decision-space> -->
         <!-- <cpt-fit></cpt-fit> -->
       </cpt-example-human>
     `);
     expect(el).lightDom.to.equal(`
-      <prospectable-control class="keyboard" trials="10" run pause reset></prospectable-control>
+      <prospectable-control class="keyboard" trials="10" duration="2000" run pause reset></prospectable-control>
       <risky-task class="keyboard" trials="10" duration="2000" iti="2000"></risky-task>
       <prospectable-response class="keyboard" interactive trial feedback="outcome" payoff="both"></prospectable-response>
-      <cpt-probability class="keyboard" gamma="0.5" label=""></cpt-probability>
+      <cpt-parameters class="keyboard" alpha="0.5" lambda="2" gamma="0.5"></cpt-parameters>
       <cpt-value class="keyboard" alpha="0.5" lambda="2" label=""></cpt-value>
+      <cpt-probability class="keyboard" gamma="0.5" label=""></cpt-probability>
     `);
   });
 
   it('can run a task', async () => {
     const el = await fixture(html`
       <cpt-example-human>
-        <prospectable-control trials="10" run pause reset></prospectable-control>
-        <risky-task trials="10" duration="100" iti="100"></risky-task>
+        <prospectable-control run pause reset></prospectable-control>
+        <risky-task></risky-task>
         <prospectable-response interactive trial feedback="outcome" payoff="both"></prospectable-response>
+        <cpt-parameters></cpt-parameters>
         <cpt-probability></cpt-probability>
         <cpt-value></cpt-value>
         <!-- <decision-space point="rest" alpha="1" lambda="1" gamma="1"></decision-space> -->

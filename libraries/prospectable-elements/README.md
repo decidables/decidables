@@ -1212,6 +1212,23 @@ and trace plots and histograms for the parameters in the model fit. The value fu
 probability function should not be interactive, because their rendering is determined by the user's
 task performance.
 
+##### Attributes
+
+**Note:** Since many attributes are set on the example, they don't need to be set on the individual
+components, as they will be propagated and kept in sync.
+
+- `trials: number = 10`
+  - Number of sampled trials to display
+- `duration: number = 2000`
+  - The duration of the stimulus, wait, and inter-trial interval on each trial, initialized to the
+    value provided in milliseconds
+- `alpha: number = 0.5`
+  - Parameter α (diminishing marginal utility)
+- `lambda: number = 2`
+  - Parameter λ (loss aversion)
+- `gamma: number = 0.5`
+  - Parameter γ (probability distortion)
+
 ##### Slots
 
 - *unnamed*
@@ -1219,6 +1236,8 @@ task performance.
   - Wired elements
     - `<cpt-fit>`
       - Fits the user's responses to CPT using a Bayesian model running in a Web Worker
+    - `<cpt-parameters>`
+      - Displays the model parameters for current fit
     - `<cpt-probability>`
       - Displays the probability function based on the current model parameters
     - `<cpt-value>`
@@ -1235,14 +1254,15 @@ task performance.
 ##### Example
 
 ```html
-<cpt-example-human>
+<cpt-example-human trials="10" duration="2000" alpha="0.5" lambda="2" gamma="0.5">
   <cpt-fit></cpt-fit>
-  <cpt-probability></cpt-probability>
+  <cpt-parameters></cpt-parameters>
   <cpt-value></cpt-value>
-  <prospectable-control trials="10" run pause reset></prospectable-control>
+  <cpt-probability></cpt-probability>
+  <prospectable-control run pause reset></prospectable-control>
   <prospectable-response interactive trial feedback="outcome" payoff="both"></prospectable-response>
   <decision-space point="rest" alpha="1" lambda="1" gamma="1"></decision-space>
-  <risky-task trials="10"></risky-task>
+  <risky-task></risky-task>
 </cpt-example-human>
 ```
 
@@ -1284,6 +1304,8 @@ components, as they will be propagated and kept in sync.
   - Wired elements
     - `<cpt-calculation>`
       - Display and change the utility calculations
+    - `<cpt-parameters>`
+      - Display and change model parameters
     - `<cpt-probability>`
       - Display and change the probability function and gamble decision weight
     - `<cpt-space>`
@@ -1299,10 +1321,11 @@ components, as they will be propagated and kept in sync.
 ##### Example
 
 ```html
-<cpt-example-interactive probability="0.75" win="20" loss="0" sure="10" alpha="0.9" lambda="2" gamma="0.75">
+<cpt-example-interactive probability="0.75" win="20" loss="0" sure="10" alpha="0.5" lambda="2" gamma="0.5">
   <risky-choice interactive></risky-choice>
-  <cpt-probability interactive></cpt-probability>
+  <cpt-parameters interactive></cpt-parameters>
   <cpt-value interactive></cpt-value>
+  <cpt-probability interactive></cpt-probability>
   <cpt-calculation numeric interactive></cpt-calculation>
   <cpt-space updateable></cpt-space>
   <decision-space updateable></decision-space>
@@ -1326,6 +1349,11 @@ are received from the model's task performance.
 **Note:** Since model parameter attributes are set on the example, they don't need to be set on the
 individual components, as they will be propagated and kept in sync.
 
+- `trials: number = 10`
+  - Number of sampled trials to display
+- `duration: number = 2000`
+  - The duration of the stimulus, wait, and inter-trial interval on each trial, initialized to the
+    value provided in milliseconds
 - `alpha: number = 0.8`
   - Parameter α (diminishing marginal utility)
 - `lambda: number = 1.2`
@@ -1340,6 +1368,8 @@ individual components, as they will be propagated and kept in sync.
   - Wired elements
     - `<cpt-calculation>`
       - Display the utility calculations
+    - `<cpt-parameters>`
+      - Display and change model parameters
     - `<cpt-probability>`
       - Display and change the probability function
     - `<cpt-value>`
@@ -1356,11 +1386,12 @@ individual components, as they will be propagated and kept in sync.
 ##### Example
 
 ```html
-<cpt-example-model alpha="0.9" lambda="2" gamma="0.75">
-  <prospectable-control trials="10" run pause reset></prospectable-control>
-  <risky-task trials="10"></risky-task>
-  <cpt-probability interactive></cpt-probability>
+<cpt-example-human trials="10" duration="2000" alpha="0.5" lambda="2" gamma="0.5">
+  <prospectable-control run pause reset></prospectable-control>
+  <risky-task></risky-task>
+  <cpt-parameters interactive></cpt-parameters>
   <cpt-value interactive></cpt-value>
+  <cpt-probability interactive></cpt-probability>
   <prospectable-response trial feedback="outcome" payoff="both"></prospectable-response>
   <decision-space updateable point="rest" alpha="1" lambda="1" gamma="1"></decision-space>
 </cpt-example-model>

@@ -1,5 +1,5 @@
 
-// import CPTMath from '@decidables/prospectable-math';
+import CPTMath from '@decidables/prospectable-math';
 
 import CPTExample from './cpt-example';
 
@@ -52,31 +52,34 @@ export default class CPTExampleInteractive extends CPTExample {
   constructor() {
     super();
 
-    this.a = 0.8;
-    this.l = 1.2;
-    this.g = 0.8;
+    this.a = CPTMath.a.DEFAULT;
+    this.l = CPTMath.l.DEFAULT;
+    this.g = CPTMath.g.DEFAULT;
+
     this.xl = 0;
     this.xw = 20;
     this.pw = 0.5;
     this.xs = 10;
 
     this.cptCalculation = null;
+    this.cptParameters = null;
     this.cptProbability = null;
     this.cptSpace = null;
     this.cptValue = null;
-    this.riskyChoice = null;
     this.decisionSpace = null;
+    this.riskyChoice = null;
   }
 
   connectedCallback() {
     super.connectedCallback();
 
     this.cptCalculation = this.querySelector('cpt-calculation');
+    this.cptParameters = this.querySelector('cpt-parameters');
     this.cptProbability = this.querySelector('cpt-probability');
     this.cptSpace = this.querySelector('cpt-space');
     this.cptValue = this.querySelector('cpt-value');
-    this.riskyChoice = this.querySelector('risky-choice');
     this.decisionSpace = this.querySelector('decision-space');
+    this.riskyChoice = this.querySelector('risky-choice');
 
     if (this.cptCalculation) {
       this.cptCalculation.addEventListener('cpt-calculation-change', (event) => {
@@ -91,13 +94,25 @@ export default class CPTExampleInteractive extends CPTExample {
       });
     }
 
+    if (this.cptParameters) {
+      this.cptParameters.addEventListener('cpt-parameters-a', (event) => {
+        this.a = event.detail.a;
+      });
+
+      this.cptParameters.addEventListener('cpt-parameters-l', (event) => {
+        this.l = event.detail.l;
+      });
+
+      this.cptParameters.addEventListener('cpt-parameters-g', (event) => {
+        this.g = event.detail.g;
+      });
+    }
+
     if (this.cptProbability) {
       this.cptProbability.addEventListener('cpt-probability-change', (event) => {
         this.g = event.detail.g;
         this.pw = event.detail.p;
       });
-
-      this.cptProbability.set(this.pw, this.g, 'default', '');
     }
 
     if (this.cptValue) {
@@ -110,9 +125,6 @@ export default class CPTExampleInteractive extends CPTExample {
           this.xw = event.detail.x;
         }
       });
-
-      this.cptValue.set(this.xs, this.a, this.l, 'default', 's');
-      this.cptValue.set(this.xw, this.a, this.l, 'gamble', 'g', 'default');
     }
 
     if (this.riskyChoice) {
@@ -141,6 +153,12 @@ export default class CPTExampleInteractive extends CPTExample {
       this.cptCalculation.xs = this.xs;
     }
 
+    if (this.cptParameters) {
+      this.cptParameters.a = this.a;
+      this.cptParameters.l = this.l;
+      this.cptParameters.g = this.g;
+    }
+
     if (this.cptProbability) {
       this.cptProbability.set(this.pw, this.g, 'default', '');
     }
@@ -161,13 +179,6 @@ export default class CPTExampleInteractive extends CPTExample {
       this.cptValue.set(this.xw, this.a, this.l, 'gamble', 'g', 'default');
     }
 
-    if (this.riskyChoice) {
-      this.riskyChoice.xl = this.xl;
-      this.riskyChoice.xw = this.xw;
-      this.riskyChoice.pw = this.pw;
-      this.riskyChoice.xs = this.xs;
-    }
-
     if (this.decisionSpace) {
       this.decisionSpace.a = this.a;
       this.decisionSpace.l = this.l;
@@ -177,6 +188,13 @@ export default class CPTExampleInteractive extends CPTExample {
       this.decisionSpace.xw = this.xw;
       this.decisionSpace.pw = this.pw;
       this.decisionSpace.xs = this.xs;
+    }
+
+    if (this.riskyChoice) {
+      this.riskyChoice.xl = this.xl;
+      this.riskyChoice.xw = this.xw;
+      this.riskyChoice.pw = this.pw;
+      this.riskyChoice.xs = this.xs;
     }
   }
 }
