@@ -1,3 +1,8 @@
+## Ideas
+
+- Fix feedback display and layout
+- Replace Plotly with something else
+
 ## Outline
 
 - *prospectable*: Cumulative Prospect Theory (versus Expected Value & Expected Utility)

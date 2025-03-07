@@ -9,36 +9,39 @@
       - Colored with scale! 
       - Sites:
         - detectable
-        - prospectable
+        - prospectable - complete
         - discountable - complete
         - accumulable - complete
     - Universal bounds and step sizes for each parameter?
       - min, max, step, jump, default
       - Sites:
         - detectable
-        - prospectable
+        - prospectable - complete
         - discountable - complete
         - accumulable - complete
   - Tasks:
     - Keyboard responses for all tasks
       - detectable
-      - prospectable
+      - prospectable - complete
       - discountable - complete
       - accumulable - complete
   - Examples:
     - Rationalize code organization across all examples across all decidables
       - Sites:
         - detectable
-        - prospectable
+        - prospectable - complete
         - discountable - complete
         - accumulable - complete
     - Should decidables-elements have base class for examples?
   - Interactive diagrams:
+    - Colored measurement lines to indicate parameters? (prospectable, discountable)
+    - Black plot lines w/colored measurement lines? (detectable)
     - Larger drag targets for touch in all decidables
       - Only interactive parts need touch sizing!
+      - Avoid repeat code for touch paths!
       - Sites:
         - detectable
-        - prospectable
+        - prospectable - complete
         - discountable - complete
         - accumulable - complete
   - Equations
