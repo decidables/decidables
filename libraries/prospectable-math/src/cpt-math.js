@@ -35,7 +35,7 @@ export default class CPTMath {
   static l = {
     DEFAULT: 2.0,
     MIN: 0.0,
-    MAX: 100.0,
+    MAX: 10.0,
     STEP: 0.01,
     JUMP: 0.05,
   };
