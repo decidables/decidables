@@ -163,7 +163,22 @@ export default class HTDFit extends DiscountableElement {
         marks: [
           Plot.rectY(
             this.samples[param],
-            Plot.binX({y: 'count'}, {x: Plot.identity}),
+            Plot.binX(
+              {y: 'count'},
+              {x: Plot.identity},
+            ),
+          ),
+          Plot.rectY(
+            this.samples[param],
+            Plot.pointerX(Plot.binX(
+              {y: 'count'},
+              {
+                x: Plot.identity,
+                stroke: 'black',
+                fill: 'white',
+                tip: true,
+              },
+            )),
           ),
         ],
       }),
@@ -172,7 +187,7 @@ export default class HTDFit extends DiscountableElement {
     this.shadowRoot.querySelector(`.trace.${param}`).replaceChildren(
       Plot.plot({
         title: `Traceplot of ${param}`,
-        x: {label: 'Samples'},
+        x: {label: 'Sample'},
         y: {label: `${param}`},
         width: 320,
         height: 240,
@@ -180,6 +195,17 @@ export default class HTDFit extends DiscountableElement {
         marks: [
           Plot.lineY(
             this.samples[param],
+          ),
+          Plot.dot(
+            this.samples[param],
+            Plot.pointer({
+              x: Plot.indexOf,
+              y: Plot.identity,
+              stroke: 'black',
+              fill: 'white',
+              r: 4,
+              tip: true,
+            }),
           ),
         ],
       }),
