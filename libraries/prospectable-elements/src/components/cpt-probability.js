@@ -395,7 +395,7 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
         /* Make a larger target for touch users */
         .interactive .touch {
           stroke: #000000;
-          stroke-opacity: 0.25;
+          stroke-opacity: 0;
         }
 
         @media (pointer: coarse) {

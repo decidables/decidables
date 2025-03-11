@@ -419,7 +419,7 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
         /* Make larger targets for touch users */
         .interactive .touch {
           stroke: #000000;
-          stroke-opacity: 0.25;
+          stroke-opacity: 0;
         }
 
         @media (pointer: coarse) {
