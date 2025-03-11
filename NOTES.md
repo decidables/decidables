@@ -102,7 +102,11 @@
         1. Always import needed classes
         1. Always import from specific file?
   - Dependencies
-    - Replace Plotly with something lighter? echarts & echarts-gl?
+    - Replace Plotly with something lighter?
+      - branch `echarts`: echarts & echarts-gl?
+        issues with interactions inside a web component (shadowRoot)
+      - branch `x3dom`:  d3-x3d & x3dom or x_ite?
+        issues working at all in a web component (shadowRoot)
 
 ## Debugging
 

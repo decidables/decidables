@@ -2,6 +2,10 @@
 
 - Fix feedback display and layout
 - Replace Plotly with something else
+  - branch `echarts`: echarts & echarts-gl?
+    issues with interactions inside a web component (shadowRoot)
+  - branch `x3dom`:  d3-x3d & x3dom or x_ite?
+    issues working at all in a web component (shadowRoot)
 
 ## Outline
 
