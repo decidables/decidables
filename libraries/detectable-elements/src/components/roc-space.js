@@ -261,15 +261,6 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
           stroke-width: 0;
         }
 
-        /* Make a larger target for touch users */
-        @media (pointer: coarse) {
-          .point.interactive .circle {
-            stroke: #000000;
-            stroke-opacity: 0;
-            stroke-width: 12px;
-          }
-        }
-
         .point.interactive:hover {
           filter: url("#shadow-4");
 
@@ -352,6 +343,19 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
           text-anchor: middle;
 
           fill: var(---color-text-inverse);
+        }
+
+        /* Make a larger target for touch users */
+        .interactive .touch {
+          stroke: #000000;
+          stroke-opacity: 0;
+        }
+
+        @media (pointer: coarse) {
+          .interactive .touch {
+            stroke-linecap: round;
+            stroke-width: 12;
+          }
         }
       `,
     ];
@@ -1012,7 +1016,7 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
     const pointEnter = pointUpdate.enter().append('g')
       .classed('point', true);
     pointEnter.append('circle')
-      .classed('circle', true);
+      .classed('circle touch', true);
     pointEnter.append('text')
       .classed('label', true);
     //  MERGE

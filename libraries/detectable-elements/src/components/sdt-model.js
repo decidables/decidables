@@ -399,15 +399,6 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
           r: 6px;
         }
 
-        /* Make a larger target for touch users */
-        @media (pointer: coarse) {
-          .threshold.interactive .handle {
-            stroke: #000000;
-            stroke-opacity: 0;
-            stroke-width: 12px;
-          }
-        }
-
         .measure-d .line,
         .measure-d .cap-left,
         .measure-d .cap-right {
@@ -449,6 +440,19 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
 
           text-anchor: middle;
           fill: currentColor;
+        }
+
+        /* Make a larger target for touch users */
+        .interactive .touch {
+          stroke: #000000;
+          stroke-opacity: 0;
+        }
+
+        @media (pointer: coarse) {
+          .interactive .touch {
+            stroke-linecap: round;
+            stroke-width: 12;
+          }
         }
       `,
     ];
@@ -1424,8 +1428,10 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
       .classed('threshold', true);
     thresholdEnter.append('line')
       .classed('line', true);
+    thresholdEnter.append('line')
+      .classed('line touch', true);
     thresholdEnter.append('circle')
-      .classed('handle', true);
+      .classed('handle touch', true);
     //  MERGE
     const thresholdMerge = thresholdEnter.merge(thresholdUpdate)
       .attr('tabindex', this.interactive ? 0 : null)
@@ -1470,6 +1476,13 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
       }
     }
     thresholdMerge.select('.line').transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      .attr('x1', xScale(this.l))
+      .attr('y1', yScale(0))
+      .attr('x2', xScale(this.l))
+      .attr('y2', yScale(0.54));
+    thresholdMerge.select('.line.touch').transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', xScale(this.l))
