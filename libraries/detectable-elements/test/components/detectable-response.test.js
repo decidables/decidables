@@ -5,6 +5,7 @@ import {
   html,
   oneEvent,
   mouseClickElement,
+  sendKeys,
 } from '../../../../scripts/test-utility';
 
 import '../../src/components/detectable-response';
@@ -164,6 +165,60 @@ describe('detectable-response', () => {
     // Action
     const target = el.shadowRoot.querySelector('[name="absent"]');
     setTimeout(() => { mouseClickElement(target); });
+    const {detail} = await oneEvent(el, 'detectable-response');
+    // Check
+    expect(detail).to.include({
+      trial: 1,
+      signal: 'present',
+      response: 'absent',
+      outcome: 'm',
+      payoff: -60,
+      h: 0,
+      m: 1,
+      fa: 0,
+      cr: 0,
+      nr: 0,
+      totalPayoff: -60,
+    });
+    expect(el.outcome).to.equal('m');
+    expect(el.m).to.equal(1);
+    expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Miss');
+    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('−$60');
+  });
+
+  it('can accept an "up arrow" key press', async () => {
+    const el = await fixture(html`<detectable-response interactive feedback="outcome" trial payoff="total" hit-payoff="60" miss-payoff="-60" false-alarm-payoff="-40" correct-rejection-payoff="40" no-response-payoff="-100"></detectable-response>`);
+    el.start('present', 1);
+    await elementUpdated(el);
+    // Action
+    setTimeout(() => { sendKeys({press: 'ArrowUp'}); });
+    const {detail} = await oneEvent(el, 'detectable-response');
+    // Check
+    expect(detail).to.include({
+      trial: 1,
+      signal: 'present',
+      response: 'present',
+      outcome: 'h',
+      payoff: 60,
+      h: 1,
+      m: 0,
+      fa: 0,
+      cr: 0,
+      nr: 0,
+      totalPayoff: 60,
+    });
+    expect(el.outcome).to.equal('h');
+    expect(el.h).to.equal(1);
+    expect(el.shadowRoot).to.have.descendant('.outcome').with.text('Hit');
+    expect(el.shadowRoot).to.have.descendant('.payoff').with.text('$60');
+  });
+
+  it('can accept an "down arrow" key press', async () => {
+    const el = await fixture(html`<detectable-response interactive feedback="outcome" trial payoff="total" hit-payoff="60" miss-payoff="-60" false-alarm-payoff="-40" correct-rejection-payoff="40" no-response-payoff="-100"></detectable-response>`);
+    el.start('present', 1);
+    await elementUpdated(el);
+    // Action
+    setTimeout(() => { sendKeys({press: 'ArrowDown'}); });
     const {detail} = await oneEvent(el, 'detectable-response');
     // Check
     expect(detail).to.include({

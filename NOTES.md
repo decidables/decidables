@@ -21,7 +21,7 @@
         - accumulable - complete
   - Tasks:
     - Keyboard responses for all tasks
-      - detectable
+      - detectable - complete
       - prospectable - complete
       - discountable - complete
       - accumulable - complete
@@ -40,7 +40,7 @@
       - Only interactive parts need touch sizing!
       - Avoid repeat code for touch paths!
       - Sites:
-        - detectable
+        - detectable - complete
         - prospectable - complete
         - discountable - complete
         - accumulable - complete

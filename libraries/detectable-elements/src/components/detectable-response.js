@@ -227,6 +227,30 @@ export default class DetectableResponse extends DetectableElement {
     this.e = 0;
   }
 
+  keydown(event) {
+    if (this.state === 'waiting') {
+      if (event.key === 'ArrowUp') {
+        this.responded('present');
+        event.preventDefault();
+      } else if (event.key === 'ArrowDown') {
+        this.responded('absent');
+        event.preventDefault();
+      }
+    }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    window.addEventListener('keydown', this.keydown.bind(this));
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('keydown', this.keydown.bind(this));
+
+    super.disconnectedCallback();
+  }
+
   static get styles() {
     return [
       super.styles,

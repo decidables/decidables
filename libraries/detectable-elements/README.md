@@ -146,6 +146,9 @@ This element provides 'present' and 'absent' response buttons. It can also displ
 of the trials, display feedback in terms of accuracy or SDT outcome, and display the current trial
 and total payoff.
 
+Also accepts keyboard responses: <kbd>ArrowUp</kbd> for 'Present' button and <kbd>ArrowDown</kbd> for
+'Absent' button.
+
 ##### Attributes
 
 - `interactive: boolean = false`
