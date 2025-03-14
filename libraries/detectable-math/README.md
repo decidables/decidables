@@ -61,6 +61,20 @@ rate, `HR`
 - Z = z-score
 - Z^-1 = inverse z-score
 
+#### Parameters
+
+- d = d′ (d-prime, sensitivity) (-Infinity, Infinity)
+- c = c (bias) (-Infinity, Infinity)
+- s = σ (variance) [0, Infinity)
+
+The values offered for parameters are:
+
+- DEFAULT = a recommended default value
+- MIN = the minimum value recommended for a UI (not necessarily the lower bound of its interval)
+- MAX = the maximum value recommended for a UI (not necessarily the upper bound of its interval)
+- STEP = a recommended step size for a UI
+- JUMP = a recommended "large" step size for a UI
+
 #### Methods w/implemented equations
 
 Many methods take an optional `s` for unequal variance. A different equation, marked with a * is

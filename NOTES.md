@@ -15,7 +15,7 @@
     - Universal bounds and step sizes for each parameter?
       - min, max, step, jump, default
       - Sites:
-        - detectable
+        - detectable - implemented, need to use
         - prospectable - complete
         - discountable - complete
         - accumulable - complete

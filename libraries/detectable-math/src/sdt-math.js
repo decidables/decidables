@@ -85,6 +85,30 @@ import jStat from 'jstat';
 
 */
 export default class SDTMath {
+  static d = {
+    DEFAULT: 1.0,
+    MIN: -6.0,
+    MAX: 6.0,
+    STEP: 0.01,
+    JUMP: 0.1,
+  };
+
+  static c = {
+    DEFAULT: 0,
+    MIN: -3.0,
+    MAX: 3.0,
+    STEP: 0.01,
+    JUMP: 0.1,
+  };
+
+  static s = {
+    DEFAULT: 1.0,
+    MIN: 0.8,
+    MAX: 40.0,
+    STEP: 0.01,
+    JUMP: 0.05,
+  };
+
   static hM2Hr(h, m) {
     if ((h === 0) && (m === 0)) {
       return 0;
