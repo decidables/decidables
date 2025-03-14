@@ -8,7 +8,7 @@
     - Separate Controls vs Parameters
       - Colored with scale! 
       - Sites:
-        - detectable
+        - detectable - complete
         - prospectable - complete
         - discountable - complete
         - accumulable - complete

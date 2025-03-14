@@ -655,6 +655,46 @@ responses, or the outcomes.
 <sdt-model interactive color="outcome" distributions threshold unequal sensitivity bias variance histogram d="2" c="1" s="1.5"></sdt-model>
 ```
 
+#### `SDTParameters` / `<sdt-parameters>`
+
+Control panel for SDT model parameters
+
+A configurable set of controls for user manipulation of SDT model parameters. Controls can be
+provided for the sensitivity (d'), bias (c), and variance (s) parameters.
+
+##### Attributes
+
+- `d: number = undefined`
+  - Parameter d′ (sensitivity)
+- `c: number = undefined`
+  - Parameter c (bias)
+- `s: number = undefined`
+  - Parameter σ (variance) 
+
+##### Custom Events
+
+- `sdt-parameters-d`
+  - Indicates an update to d′ (sensitivity)
+  - `detail`
+    - `d: number`
+      - New value for d′
+- `sdt-parameters-l`
+  - Indicates an update to c (bias)
+  - `detail`
+    - `c: number`
+      - New value for c
+- `sdt-parameters-s`
+  - Indicates an update to σ (variance)
+  - `detail`
+    - `s: number`
+      - New value for σ
+
+##### Example
+
+```html
+<sdt-parameters interactive d="1" c="0" s="1"></sdt-parameters>
+```
+
 ### Equations
 
 Interactive equations for SDT
