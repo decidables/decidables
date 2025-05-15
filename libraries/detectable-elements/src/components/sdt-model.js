@@ -109,8 +109,8 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
     super();
 
     // Attributes
-    this.colors = ['outcome', 'response', 'stimulus', 'none']; // Allowable values of 'color'
-    this.color = 'outcome'; // How to color distributions and trials
+    this.colors = ['all', 'outcome', 'response', 'stimulus', 'none']; // Allowable values of 'color'
+    this.color = 'all'; // How to color distributions and trials
     this.distributions = false; // Show distributions?
     this.threshold = false; // Show threshold?
     this.unequal = false; // Allow unequal variance?
@@ -1574,7 +1574,7 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
                   : this.getComputedStyleValue('---color-far')
                 : (this.color === 'response')
                   ? this.getComputedStyleValue(`---color-${datum.response}`)
-                  : (this.color === 'outcome')
+                  : (this.color === 'outcome') || (this.color === 'all')
                     ? this.getComputedStyleValue(`---color-${datum.outcome}`)
                     : this.getComputedStyleValue('---color-acc'),
             );
@@ -1590,7 +1590,7 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
                   : this.getComputedStyleValue('---color-far-light')
                 : (this.color === 'response')
                   ? this.getComputedStyleValue(`---color-${datum.response}-light`)
-                  : (this.color === 'outcome')
+                  : (this.color === 'outcome') || (this.color === 'all')
                     ? this.getComputedStyleValue(`---color-${datum.outcome}-light`)
                     : this.getComputedStyleValue('---color-acc-light'),
             );
@@ -1664,7 +1664,7 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
                   : this.getComputedStyleValue('---color-far')
                 : (this.color === 'response')
                   ? this.getComputedStyleValue(`---color-${datum.response}`)
-                  : (this.color === 'outcome')
+                  : (this.color === 'outcome') || (this.color === 'all')
                     ? this.getComputedStyleValue(`---color-${datum.outcome}`)
                     : this.getComputedStyleValue('---color-acc'),
             );
@@ -1679,7 +1679,7 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
                   : this.getComputedStyleValue('---color-far-light')
                 : (this.color === 'response')
                   ? this.getComputedStyleValue(`---color-${datum.response}-light`)
-                  : (this.color === 'outcome')
+                  : (this.color === 'outcome') || (this.color === 'all')
                     ? this.getComputedStyleValue(`---color-${datum.outcome}-light`)
                     : this.getComputedStyleValue('---color-acc-light'),
             );
@@ -1703,7 +1703,7 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
               : this.getComputedStyleValue('---color-far')
             : (this.color === 'response')
               ? this.getComputedStyleValue(`---color-${datum.response}`)
-              : (this.color === 'outcome')
+              : (this.color === 'outcome') || (this.color === 'all')
                 ? this.getComputedStyleValue(`---color-${datum.outcome}`)
                 : this.getComputedStyleValue('---color-acc');
         })
@@ -1714,7 +1714,7 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
               : this.getComputedStyleValue('---color-far-light')
             : (this.color === 'response')
               ? this.getComputedStyleValue(`---color-${datum.response}-light`)
-              : (this.color === 'outcome')
+              : (this.color === 'outcome') || (this.color === 'all')
                 ? this.getComputedStyleValue(`---color-${datum.outcome}-light`)
                 : this.getComputedStyleValue('---color-acc-light');
         });
