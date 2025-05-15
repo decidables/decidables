@@ -5,7 +5,7 @@ import SDTExample from './sdt-example';
 
 /*
   SDTExampleMulti element
-  <sdt-example-multi>
+  <sdt-example-multiple>
 */
 export default class SDTExampleMultiple extends SDTExample {
   static get properties() {
