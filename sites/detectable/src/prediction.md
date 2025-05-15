@@ -18,15 +18,13 @@ aggregate performance. ROC space will show an updating view of the relationship 
 theory. By observing and manipulating these relationships, you can gain a deeper appreciation for
 how the model parameters predict performance.
 
-<sdt-example-model>
-  <detectable-control run pause reset coherence=".5" trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model interactive threshold bias distributions sensitivity histogram
-    color="outcome" d="1" c=".5"></sdt-model>
+<sdt-example-model trials="10" duration="500" coherence=".5" color="all" d="1" c=".5">
+  <detectable-control trials duration coherence run pause reset></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model interactive threshold bias distributions sensitivity histogram></sdt-model>
   <detectable-response trial feedback="outcome"></detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </detectable-table>
-  <roc-space hr=".5" far=".5" point="all" iso-d="all" iso-c="all"></roc-space>
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
+  <roc-space point="all" iso-d="all" iso-c="all"></roc-space>
 </sdt-example-model>
 
 :::ui

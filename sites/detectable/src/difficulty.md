@@ -24,14 +24,13 @@ signal :key[absent] trials, then it will be *harder* to tell them apart.
 
 Give this example a try:
 
-<sdt-example-human>
+<sdt-example-human trials="10" duration="1000" coherence=".1">
   <detectable-control run pause reset></detectable-control>
-  <rdk-task coherence=".1" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </detectable-table>
-  <roc-space point="all" iso-d="all" iso-c="all" far=".5" hr=".5"></roc-space>
-  <sdt-model threshold bias distributions sensitivity color="outcome" d="0" c="0"></sdt-model>
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
+  <roc-space point="all" iso-d="all" iso-c="all"></roc-space>
+  <sdt-model threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-human>
 
 How did you do? If you're like me, you didn't do so well. We've increased the :term[difficulty].
@@ -46,14 +45,13 @@ are *easier* to tell apart.
 
 Try this:
 
-<sdt-example-human>
+<sdt-example-human trials="10" duration="1000" coherence=".9">
   <detectable-control run pause reset></detectable-control>
-  <rdk-task coherence=".9" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </detectable-table>
-  <roc-space point="all" iso-d="all" iso-c="all" far=".5" hr=".5"></roc-space>
-  <sdt-model threshold bias distributions sensitivity color="outcome" d="0" c="0"></sdt-model>
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
+  <roc-space point="all" iso-d="all" iso-c="all"></roc-space>
+  <sdt-model threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-human>
 
 How did you do this time? I know I did a lot better! We've decreased the difficulty. This time, the
@@ -72,14 +70,13 @@ block as a new point in ROC space. Then we can compare multiple performances in 
 Try this out below. If you have the time, increase the trials on each block to get a more reliable
 measure. Try a few different levels of coherence, from very low to very high:
 
-<sdt-example-human>
-  <detectable-control run pause reset coherence=".5" trials="10" duration="1000"></detectable-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+<sdt-example-human trials="10" duration="1000" coherence=".5">
+  <detectable-control trials duration coherence run pause reset></detectable-control>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </detectable-table>
-  <roc-space point="all" iso-d="all" iso-c="all" history far=".5" hr=".5"></roc-space>
-  <sdt-model threshold bias distributions sensitivity color="outcome" d="0" c="0"></sdt-model>
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
+  <roc-space point="all" iso-d="all" iso-c="all" history></roc-space>
+  <sdt-model threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-human>
 
 Your particular results may vary due to a wide variety of factors, but, in general, we find that as

@@ -25,9 +25,8 @@ measures and the model parameters is non-linear and surprisingly unintuitive, as
 :key[iso-sensitivity curve] and the :key[iso-bias curve]. Hopefully exploring their relationship
 through direct manipulation will help you gain a deeper understanding!
 
-<sdt-example-interactive>
-  <detectable-table numeric interactive summary="stimulusRates accuracy"
-    hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
+<sdt-example-interactive hits="80" misses="20" false-alarms="10" correct-rejections="90">
+  <detectable-table numeric interactive summary="stimulusRates accuracy"></detectable-table>
   <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>

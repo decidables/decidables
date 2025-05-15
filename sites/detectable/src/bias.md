@@ -10,12 +10,12 @@ On the previous page, we explored how :key[sensitivity] (:key[<span class="math-
 be determined from :key[hit rate] and :key[false alarm rate]. Now we will consider how to do the
 same for :key[bias] (:key[<span class="math-var">c</span>]).
 
-<sdt-example-interactive order="trm">
+<sdt-example-interactive>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
 
 Try moving the threshold around, and observe what effect this has on the proportion of :key[hits]
-for the key[signal-plus-noise distribution] and the proportion of :key[false alarms] for the
+for the :key[signal-plus-noise distribution] and the proportion of :key[false alarms] for the
 :key[noise distribution]. In general, as the threshold moves to the left, and a more liberal bias,
 we increase the :key[hits] and :key[false alarms]. As the threshold moves to the right, and a more
 conservative bias, we decrease both :key[hits] and :key[false alarms]. This helps develop our
@@ -55,9 +55,8 @@ the distributions or threshold in the model, or by directly moving the data poin
 of the other representations of performance change simultaneously. Observe how the :key[iso-bias
 curve] responds:
 
-<sdt-example-interactive>
-  <detectable-table interactive numeric summary="stimulusRates accuracy"
-    hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
+<sdt-example-interactive hits="80" misses="20" false-alarms="10" correct-rejections="90">
+  <detectable-table interactive numeric summary="stimulusRates accuracy"></detectable-table>
   <roc-space interactive point="all" iso-d="none" iso-c="all"></roc-space>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>

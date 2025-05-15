@@ -14,10 +14,9 @@ was it an :key[error]?
 
 Try a few trials of the task:
 
-<sdt-example-human>
-  <detectable-control trials="5" run pause reset duration="1000" coherence=".5"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="5" probability=".5"
-    duration="1000" wait="1000" iti="1000"></rdk-task>
+<sdt-example-human trials="5" duration="1000" coherence=".5">
+  <detectable-control trials duration coherence run pause reset></detectable-control>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="accuracy"></detectable-response>
 </sdt-example-human>
 
@@ -57,10 +56,9 @@ outcomes:
 Try a few more trials of the task, and this time the feedback will inform you of which of the four
 possible outcomes occurred:
 
-<sdt-example-human>
-  <detectable-control trials="5" run pause reset duration="1000" coherence=".5"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="5" probability=".5"
-    duration="1000" wait="1000" iti="1000"></rdk-task>
+<sdt-example-human trials="5" duration="1000" coherence=".5">
+  <detectable-control trials duration coherence run pause reset></detectable-control>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
 </sdt-example-human>
 

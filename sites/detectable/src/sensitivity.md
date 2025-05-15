@@ -15,7 +15,7 @@ class="math-var">d′</span>] and :key[<span class="math-var">c</span>], but we 
 direction as well, calculating the model parameters from the performance measures. Here we will
 focus on :key[sensitivity], and then on the next page we will focus on :key[bias].
 
-<sdt-example-interactive order="trm">
+<sdt-example-interactive>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
 
@@ -60,9 +60,8 @@ distributions or threshold in the model, or by directly moving the data point in
 the other representations of performance will change simultaneously. Observe how the
 :key[iso-sensitivity curve] responds:
 
-<sdt-example-interactive order="trm">
-  <detectable-table interactive numeric summary="stimulusRates accuracy" hits="80" misses="20"
-    false-alarms="10" correct-rejections="90"></detectable-table>
+<sdt-example-interactive hits="80" misses="20" false-alarms="10" correct-rejections="90">
+  <detectable-table interactive numeric summary="stimulusRates accuracy"></detectable-table>
   <roc-space interactive point="all" iso-d="all" iso-c="none"></roc-space>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>

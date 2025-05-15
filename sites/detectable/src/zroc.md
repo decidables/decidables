@@ -33,11 +33,10 @@ As a result, if we use <span class="math-var">z</span>-transformed :key[hit rate
 alarm rate], our :key[iso-sensitivity curve] and :key[iso-bias curve] are straight lines in what is
 called :term[<span class="math-var">z</span>ROC space]:
 
-<sdt-example-interactive>
+<sdt-example-interactive hits="80" misses="20" false-alarms="10" correct-rejections="90" z-roc>
   <detectable-control z-roc></detectable-control>
-  <roc-space interactive z-roc point="all" iso-d="all" iso-c="all"></roc-space>
-  <detectable-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20"
-    false-alarms="10" correct-rejections="90"></detectable-table>
+  <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
+  <detectable-table numeric interactive summary="stimulusRates accuracy"></detectable-table>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-interactive>
 
@@ -60,11 +59,11 @@ Another way to visualize the effect of the transformation is to look at the iso-
 iso-sensitivity, and iso-accuracy contours in <span class="math-var">z</span>ROC space as compared
 to ROC space:
 
-<sdt-example-interactive>
+<sdt-example-interactive z-roc>
   <detectable-control z-roc></detectable-control>
-  <roc-space z-roc contour="sensitivity" point="none" iso-d="none" iso-c="none"></roc-space>
-  <roc-space z-roc contour="bias" point="none" iso-d="none" iso-c="none"></roc-space>
-  <roc-space z-roc contour="accuracy" point="none" iso-d="none" iso-c="none"></roc-space>
+  <roc-space contour="sensitivity" point="none" iso-d="none" iso-c="none"></roc-space>
+  <roc-space contour="bias" point="none" iso-d="none" iso-c="none"></roc-space>
+  <roc-space contour="accuracy" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
 
 The utility of <span class="math-var">z</span>ROC space will be become clearer on the next page when

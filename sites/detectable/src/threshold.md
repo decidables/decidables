@@ -18,10 +18,10 @@ above the threshold respond :key['present'].
 Here, it is the *model* that is responding to the stimulus on each trial based on the evidence and
 the threshold, instead of you, our intrepid participant.
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model histogram threshold color="response" d="2.5" c="0"></sdt-model>
+<sdt-example-model trials="10" duration="500" coherence=".5" color="response" d="2.5" c="0">
+  <detectable-control trials duration run pause reset></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model histogram threshold></sdt-model>
   <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
@@ -42,10 +42,10 @@ The threshold can be set *higher*, so that stronger evidence must be measured fo
 respond :key['present']. In this case, the model will respond :key['present'] for a narrow range of
 values, and we say that the model has a :term[conservative bias]:
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model histogram threshold color="response" d="2.5" c="2"></sdt-model>
+<sdt-example-model trials="10" duration="500" coherence=".5" color="response" d="2.5" c="2">
+  <detectable-control trials duration run pause reset></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model histogram threshold></sdt-model>
   <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
@@ -53,10 +53,10 @@ Or the threshold can be set *lower*, so that even with weak evidence the model w
 :key['present']. In this case, the model will respond :key['present'] for a wider range of values,
 and we say that the model has a :term[liberal bias]:
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model histogram threshold color="response" d="2.5" c="-2"></sdt-model>
+<sdt-example-model trials="10" duration="500" coherence=".5" color="response" d="2.5" c="-2">
+  <detectable-control trials duration run pause reset></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model histogram threshold></sdt-model>
   <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
@@ -75,10 +75,10 @@ negative bias, the *less* evidence necessary to respond :key['present'].
 Explore how the :key[bias] determines how little or how much evidence is necessary to respond
 :key['present'] versus :key['absent']:
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model interactive threshold bias histogram color="response" d="2.5" c="1"></sdt-model>
+<sdt-example-model trials="10" duration="500" coherence=".5" color="response" d="2.5" c="1">
+  <detectable-control trials duration run pause reset></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model interactive threshold bias histogram></sdt-model>
   <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 

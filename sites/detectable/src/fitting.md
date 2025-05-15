@@ -17,15 +17,13 @@ reflect your current aggregate performance up until that point in the task. By o
 different representations present and interpret your data, you can gain a deeper appreciation for
 the relationship between performance, data and theory.
 
-<sdt-example-human>
-  <detectable-control coherence=".5" trials="10" duration="1000" run pause reset></detectable-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+<sdt-example-human trials="10" duration="1000" coherence=".5">
+  <detectable-control trials duration coherence run pause reset></detectable-control>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </detectable-table>
-  <roc-space point="all" iso-d="all" iso-c="all" far=".5" hr=".5"></roc-space>
-  <sdt-model threshold bias distributions sensitivity histogram color="outcome" d="0" c="0">
-    </sdt-model>
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
+  <roc-space point="all" iso-d="all" iso-c="all"></roc-space>
+  <sdt-model threshold bias distributions sensitivity histogram color="outcome"></sdt-model>
 </sdt-example-human>
 
 :::ui

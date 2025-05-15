@@ -13,11 +13,10 @@ relative to a threshold is used to determine if the model will respond :key['pre
 :key[sensitivity] (:key[<span class="math-var">d′</span>]) and :key[bias] (:key[<span
 class="math-var">c</span>]) determine our response:
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model interactive threshold bias distributions sensitivity histogram
-    color="response" d="2.5" c="1"></sdt-model>
+<sdt-example-model trials="10" duration="500" coherence=".5" color="response" d="2.5" c="1">
+  <detectable-control trials duration run pause reset></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model interactive threshold bias distributions sensitivity histogram></sdt-model>
   <detectable-response feedback="none"></detectable-response>
 </sdt-example-model>
 
@@ -42,15 +41,13 @@ based on the signal being :key[present] or :key[absent], and then also based on 
 
 Explore the model and how :key[sensitivity] and :key[bias] determine outcomes:
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="40" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="40" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model interactive threshold bias distributions sensitivity histogram
-    color="outcome" d="1.5" c="0"></sdt-model>
+<sdt-example-model trials="40" duration="500" coherence=".5" color="all" d="1.5" c="0">
+  <detectable-control trials duration run pause reset ></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model interactive threshold bias distributions sensitivity histogram></sdt-model>
   <detectable-response trial feedback="outcome"></detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </detectable-table>
-  <roc-space hr=".5" far=".5" point="all" iso-d="none" iso-c="none"></roc-space>
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
+  <roc-space point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-model>
 
 :::ui

@@ -8,11 +8,11 @@ script: page
 
 When we perform a block of trials, we can count up the occurrences of each of our four outcomes:
 
-<sdt-example-human>
-  <detectable-control coherence=".5" trials="10" run pause reset duration="1000"></detectable-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+<sdt-example-human trials="10" duration="1000" coherence=".5">
+  <detectable-control trials duration coherence run pause reset></detectable-control>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
-  <detectable-table numeric hits="0" misses="0" false-alarms="0" correct-rejections="0"></detectable-table>
+  <detectable-table numeric></detectable-table>
 </sdt-example-human>
 
 By counting our outcomes across all of the trials in the block we now have our first aggregate
@@ -84,12 +84,11 @@ performance when the signal was :key[absent], we can add them to the correspondi
 Run a block of trials, and see how the table of outcomes and rates provides a running overview of
 performance:
 
-<sdt-example-human>
-  <detectable-control coherence=".5" trials="10" run pause reset duration="1000"></detectable-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+<sdt-example-human trials="10" duration="1000" coherence=".5">
+  <detectable-control trials duration coherence run pause reset></detectable-control>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </detectable-table>
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
 </sdt-example-human>
 
 ## Exploring outcomes and rates
@@ -97,7 +96,7 @@ performance:
 Let's learn a little more about the relationships between our rates and measures by playing around
 with hypothetical values:
 
-<sdt-example-interactive>
+<sdt-example-interactive hits="40" misses="60" false-alarms="75" correct-rejections="25">
   <detectable-table interactive numeric summary="stimulusRates accuracy"></detectable-table>
 </sdt-example-interactive>
 
@@ -121,14 +120,14 @@ it is the great deceiver! Let us see why:
 
 Consider this table of outcomes:
 
-<sdt-example-interactive>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="100" misses="0" false-alarms="100" correct-rejections="0"></detectable-table>
+<sdt-example-interactive hits="100" misses="0" false-alarms="100" correct-rejections="0">
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
 </sdt-example-interactive>
 
 And now consider this table of outcomes:
 
-<sdt-example-interactive>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="100" false-alarms="0" correct-rejections="100"></detectable-table>
+<sdt-example-interactive hits="0" misses="100" false-alarms="0" correct-rejections="100">
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
 </sdt-example-interactive>
 
 First, note that the :key[accuracy] is *identical* in the two tables at 50%. But now note that the

@@ -16,10 +16,9 @@ thought of as a signal.
 Our :key[signal] will be :term[coherent motion] in a :term[random-dot kinematogram]
 (:term[RDK]). Go ahead and see what it looks like:
 
-<sdt-example-human>
+<sdt-example-human trials="1" duration="Infinity" coherence="1">
   <detectable-control run pause reset></detectable-control>
-  <rdk-task count="100" coherence="1" trials="1" probability="1" duration="Infinity"
-    wait="0" iti="0"></rdk-task>
+  <rdk-task probability="1"></rdk-task>
 </sdt-example-human>
 
 :::ui
@@ -52,10 +51,9 @@ interested in, but that are interfering with your ability to detect the signal.
 
 Our :key[noise] will be :term[random motion] of the dots. Give it a try:
 
-<sdt-example-human>
+<sdt-example-human trials="1" duration="Infinity" coherence="0">
   <detectable-control run pause reset></detectable-control>
-  <rdk-task count="100" coherence="0" trials="1" probability="1" duration="Infinity"
-    wait="0" iti="0"></rdk-task>
+  <rdk-task probability="1"></rdk-task>
 </sdt-example-human>
 
 Noise is incoherent or random motion. Every dot is moving in a *different* direction. When there is
@@ -70,10 +68,9 @@ is buried amongst many other stimuli, the noise.
 
 Our signal, coherent dot motion, is mixed with noise, random dot motion:
 
-<sdt-example-human>
+<sdt-example-human trials="1" duration="Infinity" coherence="0.5">
   <detectable-control run pause reset></detectable-control>
-  <rdk-task count="100" coherence="0.5" trials="1" probability="1" duration="Infinity"
-    wait="0" iti="0"></rdk-task>
+  <rdk-task  probability="1"></rdk-task>
 </sdt-example-human>
 
 Here, half the dots are moving coherently in the same direction --- the signal, and half the dots
@@ -87,10 +84,9 @@ stimuli: by varying the proportion of dots that are moving coherently between on
 zero (none of the dots), we can elegantly vary our stimulus from "pure" signal to "pure" noise, or
 anywhere in between:
 
-<sdt-example-human>
-  <detectable-control run pause reset coherence="0.5"></detectable-control>
-  <rdk-task count="100" coherence="0.5" trials="1" probability="1" duration="Infinity"
-    wait="0" iti="0"></rdk-task>
+<sdt-example-human trials="1" duration="Infinity" coherence="0.5">
+  <detectable-control show-coherence run pause reset></detectable-control>
+  <rdk-task probability="1"></rdk-task>
 </sdt-example-human>
 
 :::ui

@@ -15,9 +15,8 @@ signal and noise in the output of radar receivers used to detect enemy planes du
 
 A point in ROC space uniquely defines a combination of :key[HR] and :key[FAR]:
 
-<sdt-example-interactive>
-  <detectable-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20"
-    false-alarms="10" correct-rejections="90"></detectable-table>
+<sdt-example-interactive hits="80" misses="20" false-alarms="10" correct-rejections="90">
+  <detectable-table numeric interactive summary="stimulusRates accuracy"></detectable-table>
   <roc-space interactive point="all" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
 
@@ -89,13 +88,12 @@ trials, but when you reset and start a new block, the point will be left behind,
 will follow the next block of trials. Complete a few blocks of trials with the coherence set to
 different levels, including some levels that make the task a real challenge.
 
-<sdt-example-human>
-  <detectable-control duration="1000" coherence=".5" trials="10" run pause reset></detectable-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+<sdt-example-human trials="10" duration="1000" coherence=".5">
+  <detectable-control trials duration coherence run pause reset></detectable-control>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0">
-    </detectable-table>
-  <roc-space point="all" iso-d="none" iso-c="none" history far=".5" hr=".5"></roc-space>
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
+  <roc-space point="all" iso-d="none" iso-c="none" history></roc-space>
 </sdt-example-human>
 
 :::ui

@@ -29,10 +29,10 @@ measurement instead. Each trial will be displayed on the graph below, with the s
 plotted in *bins* along the horizontal x-axis and the count of trials stacked on the vertical
 y-axis, resulting in a :term[histogram] of evidence across trials.
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="10" duration="1000"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
-  <sdt-model histogram color="none" d="0" c="0"></sdt-model>
+<sdt-example-model trials="10" duration="1000" coherence="0.5" color="none" d="0" c="0">
+  <detectable-control trials duration run pause reset ></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model histogram></sdt-model>
 </sdt-example-model>
 
 :::ui
@@ -54,10 +54,10 @@ it has measured for the evidence!
 However, we, as the experimenters, are privy to more information. We know whether each trial was
 *actually* a :key[signal] or :key[noise] trial. So we can color each trial accordingly.
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="20" duration="750"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="750" wait="750" iti="750"></rdk-task>
-  <sdt-model histogram color="stimulus" d="2" c="0"></sdt-model>
+<sdt-example-model trials="20" duration="750" coherence=".5" color="stimulus" d="2" c="0">
+  <detectable-control trials duration run pause reset ></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model histogram></sdt-model>
 </sdt-example-model>
 
 :::ui
@@ -89,10 +89,10 @@ Try running the example below. The evidence measured on each trial will appear o
 the underlying distributions also shown. If we ran the simulation for enough trials, the histogram
 formed by the trial-by-trial data would match the underlying probability distributions. 
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model distributions histogram color="stimulus" d="2" c="0"></sdt-model>
+<sdt-example-model trials="20" duration="500" coherence=".5" color="stimulus" d="2" c="0">
+  <detectable-control trials duration run pause reset></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model distributions histogram></sdt-model>
 </sdt-example-model>
 
 :::ui
@@ -113,19 +113,19 @@ different the observations on :key[signal] and :key[noise] trials are. When the 
 similar means, we tend to make similar measurements of evidence whether the signal is :key[absent]
 or :key[present]:
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model distributions histogram color="stimulus" d=".5" c="0"></sdt-model>
+<sdt-example-model trials="20" duration="500" coherence=".5" color="stimulus" d=".5" c="0">
+  <detectable-control trials duration run pause reset></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model distributions histogram></sdt-model>
 </sdt-example-model>
 
 On the other hand, when the distributions have very different means, we tend to make distinct
 measurements of evidence on :key[absent] and :key[present] trials:
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model distributions histogram color="stimulus" d="5" c="0"></sdt-model>
+<sdt-example-model trials="20" duration="500" coherence=".5" color="stimulus" d="5" c="0">
+  <detectable-control trials duration run pause reset></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model distributions histogram></sdt-model>
 </sdt-example-model>
 
 :::ui
@@ -154,10 +154,10 @@ the participant is confused about the task or if they are intentionally respondi
 Explore how the :key[sensitivity] relates to the relative evidence on :key[signal] versus
 :key[noise] trials and the distance between the distributions:
 
-<sdt-example-model>
-  <detectable-control run pause reset trials="20" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="20" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model interactive distributions sensitivity histogram color="stimulus" d="1.5" c="0"></sdt-model>
+<sdt-example-model trials="20" duration="500" coherence=".5" color="stimulus" d="1.5" c="0">
+  <detectable-control trials duration run pause reset></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model interactive distributions sensitivity histogram></sdt-model>
 </sdt-example-model>
 
 :::ui

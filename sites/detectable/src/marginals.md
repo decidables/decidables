@@ -54,8 +54,8 @@ Let's add the new marginals to our table of outcomes and see how they all relate
 the rows (i.e. group by stimulus), the columns (i.e. group by responses), accuracy (i.e. group by
 correct versus error), or the full diversity of our measures:
 
-<sdt-example-interactive>
-  <detectable-control color="all"></detectable-control>
+<sdt-example-interactive color="all">
+  <detectable-control color></detectable-control>
   <detectable-table interactive numeric summary="stimulusRates responseRates accuracy"></detectable-table>
 </sdt-example-interactive>
 

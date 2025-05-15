@@ -32,18 +32,15 @@ First, let's consider a situation where the negative consequences of a :key[miss
 than those of a :key[false alarm]. (And the positive consequences of a :key[hit] are much better
 than those of a :key[correct rejection]). Give it a try:
 
-<sdt-example-human>
+<sdt-example-human trials="10" duration="1000" coherence=".2" payoff="90">
   <detectable-control run pause reset></detectable-control>
-  <rdk-task coherence=".2" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome" payoff="total" no-response-payoff="-100"
-    hit-payoff="90" miss-payoff="-90" correct-rejection-payoff="10" false-alarm-payoff="-10">
+    >
   </detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" payoff
-    hits="0" misses="0" false-alarms="0" correct-rejections="0"
-    hit-payoff="90" miss-payoff="-90" correct-rejection-payoff="10" false-alarm-payoff="-10">
-  </detectable-table>
-  <roc-space point="all" iso-d="all" iso-c="all" far=".5" hr=".5"></roc-space>
-  <sdt-model threshold bias distributions sensitivity color="outcome" d="0" c="0"></sdt-model>
+  <detectable-table numeric summary="stimulusRates accuracy" payoff></detectable-table>
+  <roc-space point="all" iso-d="all" iso-c="all"></roc-space>
+  <sdt-model threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-human>
 
 :::ui
@@ -68,18 +65,15 @@ Now, let's try out the opposite scenario, where the negative consequences of a :
 now much worse than those of a :key[miss]. (And the positive consequences of a :key[correct
 rejection] are much better than those of a :key[hit]). Give this version a try:
 
-<sdt-example-human>
+<sdt-example-human trials="10" duration="1000" coherence=".2" payoff="10">
   <detectable-control run pause reset></detectable-control>
-  <rdk-task coherence=".2" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome" payoff="total" no-response-payoff="-100"
-    hit-payoff="10" miss-payoff="-10" correct-rejection-payoff="90" false-alarm-payoff="-90">
+    >
   </detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" payoff
-    hits="0" misses="0" false-alarms="0" correct-rejections="0"
-    hit-payoff="10" miss-payoff="-10" correct-rejection-payoff="90" false-alarm-payoff="-90">
-  </detectable-table>
-  <roc-space point="all" iso-d="all" iso-c="all" far=".5" hr=".5"></roc-space>
-  <sdt-model threshold bias distributions sensitivity color="outcome" d="0" c="0"></sdt-model>
+  <detectable-table numeric summary="stimulusRates accuracy" payoff></detectable-table>
+  <roc-space point="all" iso-d="all" iso-c="all"></roc-space>
+  <sdt-model threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-human>
 
 How did you respond this time? The logical thing to do this time is to shift to lots of
@@ -96,18 +90,16 @@ in the same ROC space, for easier direct comparison.
 
 Try this out below. Run a few blocks, each time with a different balance of incentives:
 
-<sdt-example-human>
-  <detectable-control trials="10" duration="1000" coherence=".2" payoff="50" run pause reset ></detectable-control>
-  <rdk-task coherence=".2" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+<sdt-example-human trials="10" duration="1000" coherence=".2" payoff="50">
+  <detectable-control trials duration coherence payoff run pause reset></detectable-control>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome" payoff="total" no-response-payoff="-100"
-    hit-payoff="50" miss-payoff="-50" correct-rejection-payoff="50" false-alarm-payoff="-50">
+    >
   </detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" payoff
-    hits="0" misses="0" false-alarms="0" correct-rejections="0"
-    hit-payoff="50" miss-payoff="-50" correct-rejection-payoff="50" false-alarm-payoff="-50">
+  <detectable-table numeric summary="stimulusRates accuracy" payoff>
   </detectable-table>
-  <roc-space point="all" iso-d="all" iso-c="all" history far=".5" hr=".5"></roc-space>
-  <sdt-model threshold bias distributions sensitivity color="outcome" d="0" c="0"></sdt-model>
+  <roc-space point="all" iso-d="all" iso-c="all" history></roc-space>
+  <sdt-model threshold bias distributions sensitivity color="outcome"></sdt-model>
 </sdt-example-human>
 
 :::ui

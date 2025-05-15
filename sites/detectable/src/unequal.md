@@ -22,11 +22,10 @@ when it is larger than one, the :key[signal-plus-noise distribution] has a large
 
 You can explore this here:
 
-<sdt-example-interactive>
+<sdt-example-interactive hits="80" misses="20" false-alarms="10" correct-rejections="90" z-roc>
   <detectable-control z-roc></detectable-control>
-  <detectable-table numeric interactive summary="stimulusRates accuracy"
-    hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
-  <roc-space z-roc interactive point="all" iso-d="all" iso-c="all"></roc-space>
+  <detectable-table numeric interactive summary="stimulusRates accuracy"></detectable-table>
+  <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
   <sdt-model interactive unequal threshold distributions bias sensitivity variance color="outcome"></sdt-model>
 </sdt-example-interactive>
 
@@ -78,11 +77,11 @@ You can also get a sense of the effects of unequal variance on the relationship 
 and :key[bias] to :key[hit rate] and :key[false alarm rate] by looking at how the iso-sensitivity
 and iso-bias contours change as the :key[variance] is manipulated:
 
-<sdt-example-interactive>
+<sdt-example-interactive z-roc>
   <detectable-control z-roc></detectable-control>
   <sdt-model unequal threshold distributions variance color="outcome"></sdt-model>
-  <roc-space z-roc contour="sensitivity" point="none" iso-d="none" iso-c="none"></roc-space>
-  <roc-space z-roc contour="bias" point="none" iso-d="none" iso-c="none"></roc-space>
+  <roc-space contour="sensitivity" point="none" iso-d="none" iso-c="none"></roc-space>
+  <roc-space contour="bias" point="none" iso-d="none" iso-c="none"></roc-space>
 </sdt-example-interactive>
 
 :::ui

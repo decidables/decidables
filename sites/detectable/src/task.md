@@ -16,10 +16,9 @@ Your mission, should you choose to accept it, is to decide whether the signal is
 
 Go ahead and give it a go!
 
-<sdt-example-human>
+<sdt-example-human trials="1" duration="Infinity" coherence="1">
   <detectable-control run pause reset></detectable-control>
-  <rdk-task count="100" coherence="1" trials="1" probability=".5" duration="Infinity"
-    wait="0" iti="0"></rdk-task>
+  <rdk-task></rdk-task>
   <detectable-response interactive feedback="none"></detectable-response>
 </sdt-example-human>
 
@@ -43,10 +42,9 @@ time the stimulus is presented independently from the amount of time you have to
 respond at any time once the stimulus has begun. However, do not take too long, because once the
 question mark goes away, it is too late!
 
-<sdt-example-human>
+<sdt-example-human trials="1" duration="2000" coherence="1">
   <detectable-control run pause reset ></detectable-control>
-  <rdk-task count="100" coherence="1" trials="1" probability=".5" duration="2000"
-    wait="2000" iti="2000"></rdk-task>
+  <rdk-task></rdk-task>
   <detectable-response interactive feedback="none"></detectable-response>
 </sdt-example-human>
 
@@ -76,10 +74,9 @@ signal multiple times in a row. Conveniently, our trials lend themselves to bein
 after another, ad infinitum. Ok, ok, perhaps an infinite sequence of trials would get a bit boring,
 so lets try something a bit more manageable, say, a :term[block] of five trials:
 
-<sdt-example-human>
+<sdt-example-human trials="5" duration="2000" coherence="1">
   <detectable-control run pause reset></detectable-control>
-  <rdk-task count="100" coherence="1" trials="5" probability=".5" duration="2000"
-    wait="2000" iti="2000"></rdk-task>
+  <rdk-task></rdk-task>
   <detectable-response interactive feedback="none"></detectable-response>
 </sdt-example-human>
 
@@ -94,10 +91,9 @@ challenge? All right then...
 In this example, you can choose how many trials there will be in a block, the duration the stimulus
 is available, and the proportion of coherence for the signal. The power is in your hands.
 
-<sdt-example-human>
-  <detectable-control run pause reset coherence=".5" trials="5" duration="2000"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="5" probability=".5" duration="2000"
-    wait="2000" iti="2000"></rdk-task>
+<sdt-example-human trials="5" duration="2000" coherence=".5">
+  <detectable-control trials duration coherence run pause reset></detectable-control>
+  <rdk-task></rdk-task>
   <detectable-response  interactive feedback="none"></detectable-response>
 </sdt-example-human>
 
