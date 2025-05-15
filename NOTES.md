@@ -4,6 +4,8 @@
   - decidables-slider
     - use `writing-mode` for orientation?
     - remove old `ms` customizations
+  - Remove all hard-coded values?
+    - define central default, min, max, step, and jump for every variable?
   - Parameters:
     - Separate Controls vs Parameters
       - Colored with scale! 
@@ -15,7 +17,7 @@
     - Universal bounds and step sizes for each parameter?
       - min, max, step, jump, default
       - Sites:
-        - detectable - implemented, need to use
+        - detectable - complete
         - prospectable - complete
         - discountable - complete
         - accumulable - complete
@@ -28,7 +30,7 @@
   - Examples:
     - Rationalize code organization across all examples across all decidables
       - Sites:
-        - detectable
+        - detectable - complete
         - prospectable - complete
         - discountable - complete
         - accumulable - complete
@@ -62,6 +64,7 @@
     - Use localStorage or sessionStorage for maintaining page state?
     - Should this be done by elements? examples? pages?
   - Pages
+    - Fix `:::ui`?
     - Format negative numbers with true minus sign character?
     - Clean way for inter-page references?
     - Add "question" blocks for thoughts for readers to try - maybe with foldout answers?

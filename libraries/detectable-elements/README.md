@@ -1105,6 +1105,22 @@ space, and a visual rendering of signal detection theory. The table of results, 
 SDT model should not be interactive, because their values are received from the user's task
 performance.
 
+##### Attributes
+
+**Note:** Attribute values set on the example don't need to be set on the individual components
+as they will be propagated and kept in sync. However for detectable-control you will need to
+indicate control visibility (as shown in the example below).
+
+- `trials: number = 10`
+  - Number of sampled trials to display
+- `duration: number = 2000`
+  - The duration of the stimulus, wait, and inter-trial interval on each trial, initialized to the
+    value provided in milliseconds
+- `coherence: number = 0.5`
+  - The proportion of coherent dots in the visual stimulus
+- `payoff: number = 0`
+  - The relative dollar payoff for hits and misses compared to false alarms and correct rejections
+
 ##### Slots
 
 - *unnamed*
@@ -1126,13 +1142,13 @@ performance.
 ##### Example
 
 ```html
-<detectable-example-human>
-  <detectable-control coherence=".5" trials="10" duration="1000" run pause reset></detectable-control>
-  <rdk-task coherence=".5" trials="10" duration="1000" wait="1000" iti="1000"></rdk-task>
+<detectable-example-human trials="10" duration="1000" coherence=".5">
+  <detectable-control trials duration coherence run pause reset></detectable-control>
+  <rdk-task></rdk-task>
   <detectable-response interactive trial feedback="outcome"></detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></detectable-table>
-  <roc-space point="all" iso-d="all" iso-c="all" far=".5" hr=".5"></roc-space>
-  <sdt-model threshold bias distributions sensitivity histogram color="outcome" d="0" c="0"></sdt-model>
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
+  <roc-space point="all" iso-d="all" iso-c="all"></roc-space>
+  <sdt-model threshold bias distributions sensitivity histogram color="outcome"></sdt-model>
 </detectable-example-human>
 ```
 
@@ -1144,6 +1160,48 @@ Used to build examples where the user can explore the relationship between resul
 model parameters. Can include controls, a table of results, ROC space, and a visual rendering of
 signal detection theory. The table of results, ROC space, and the SDT model should be interactive,
 to allow the user to modify values and see the implications for the other components.
+
+##### Attributes
+
+**Note:** Attribute values set on the example don't need to be set on the individual components
+as they will be propagated and kept in sync. However for detectable-control you will need to
+indicate control visibility.
+
+- `color: string = 'all'`
+  - Select how to color the cells in the results table
+  - Options
+    - `'none'`
+      - No use of color
+    - `'accuracy'`
+      - Color based on accuracy of responses
+    - `'stimulus'`
+      - Color based on *signal* or *noise* stimulus
+    - `'response'`
+      - Color based on *'signal'* or *'noise'* response
+    - `'outcome'`
+      - Color based on outcome of *hit*, *miss*, *false alarm* or *correct rejection*
+    - `'all'`
+      - Color based on stimulus, response, and outcome
+- `zRoc: boolean = false`
+  - Whether to use z-transformed ROC coordinates (`true`) or ROC coordinates (`false`)
+- `hits: number = undefined`
+  - Number of hits
+- `misses: number = undefined`
+  - Number of misses
+- `false-alarms: number = undefined`
+  - Number of false alarms
+- `correct-rejections: number = undefined`
+  - Number of correct rejections
+- `far: number = undefined`
+  - False alarm rate for the first (`'default'`) *location*
+- `hr: number = undefined`
+  - Hit rate for the first (`'default'`) *location*
+- `d: number = 1`
+  - Set the sensitivity, *d`*
+- `c: number = 0`
+  - Set the bias, *c*
+- `s: number = 1`
+  - Set the variance of the *signal* distribution, *s*
 
 ##### Slots
 
@@ -1162,8 +1220,8 @@ to allow the user to modify values and see the implications for the other compon
 ##### Example
 
 ```html
-<detectable-example-interactive>
-  <detectable-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
+<detectable-example-interactive hits="80" misses="20" false-alarms="10" correct-rejections="90">
+  <detectable-table numeric interactive summary="stimulusRates accuracy" ></detectable-table>
   <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
   <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
 </detectable-example-interactive>
@@ -1210,6 +1268,41 @@ ROC space, and a visual rendering of signal detection theory. The SDT model shou
 so the user can modify the model. The table of results and ROC space should not be interactive,
 because their values are received from the model's task performance.
 
+##### Attributes
+
+**Note:** Attribute values set on the example don't need to be set on the individual components
+as they will be propagated and kept in sync. However for detectable-control you will need to
+indicate control visibility (as shown in the example below).
+
+- `trials: number = 10`
+  - Number of sampled trials to display
+- `duration: number = 2000`
+  - The duration of the stimulus, wait, and inter-trial interval on each trial, initialized to the
+    value provided in milliseconds
+- `coherence: number = 0.5`
+  - The proportion of coherent dots in the visual stimulus
+- `color: string = 'all'`
+  - Select how to color the cells in the results table
+  - Options
+    - `'none'`
+      - No use of color
+    - `'accuracy'`
+      - Color based on accuracy of responses
+    - `'stimulus'`
+      - Color based on *signal* or *noise* stimulus
+    - `'response'`
+      - Color based on *'signal'* or *'noise'* response
+    - `'outcome'`
+      - Color based on outcome of *hit*, *miss*, *false alarm* or *correct rejection*
+    - `'all'`
+      - Color based on stimulus, response, and outcome
+- `d: number = 1`
+  - Set the sensitivity, *d`*
+- `c: number = 0`
+  - Set the bias, *c*
+- `s: number = 1`
+  - Set the variance of the *signal* distribution, *s*
+
 ##### Slots
 
 - *unnamed*
@@ -1231,13 +1324,13 @@ because their values are received from the model's task performance.
 ##### Example
 
 ```html
-<detectable-example-model>
-  <detectable-control run pause reset coherence=".5" trials="10" duration="500"></detectable-control>
-  <rdk-task count="100" coherence=".5" trials="10" duration="500" wait="500" iti="500"></rdk-task>
-  <sdt-model interactive threshold bias distributions sensitivity histogram color="outcome" d="1" c=".5"></sdt-model>
+<detectable-example-model trials="10" duration="500" coherence=".5" color="all" d="1" c=".5">
+  <detectable-control trials duration coherence run pause reset></detectable-control>
+  <rdk-task></rdk-task>
+  <sdt-model interactive threshold bias distributions sensitivity histogram></sdt-model>
   <detectable-response trial feedback="outcome"></detectable-response>
-  <detectable-table numeric summary="stimulusRates accuracy" hits="0" misses="0" false-alarms="0" correct-rejections="0"></detectable-table>
-  <roc-space hr=".5" far=".5" point="all" iso-d="all" iso-c="all"></roc-space>
+  <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
+  <roc-space point="all" iso-d="all" iso-c="all"></roc-space>
 </detectable-example-model>
 ```
 
