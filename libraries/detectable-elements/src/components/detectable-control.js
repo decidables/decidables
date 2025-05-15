@@ -49,6 +49,7 @@ export default class DetectableControl extends DetectableElement {
         type: Boolean,
         reflect: true,
       },
+
       run: {
         attribute: 'run',
         type: Boolean,
@@ -84,6 +85,7 @@ export default class DetectableControl extends DetectableElement {
     this.colors = ['none', 'accuracy', 'stimulus', 'response', 'outcome', 'all'];
     this.color = undefined;
     this.zRoc = undefined;
+
     this.run = false;
     this.pause = false;
     this.reset = false;
@@ -218,19 +220,19 @@ export default class DetectableControl extends DetectableElement {
   render() {
     return html`
       <div class="holder">
-        ${this.trials
+        ${this.trials != null
           ? html`<decidables-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>`
           : html``}
-        ${this.duration
+        ${this.duration != null
           ? html`<decidables-slider min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>`
           : html``}
-        ${this.coherence
+        ${this.coherence != null
           ? html`<decidables-slider min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidables-slider>`
           : html``}
-        ${this.payoff
+        ${this.payoff != null
           ? html`<decidables-slider class="payoff" min="0" max="100" step="1" .value=${this.payoff} @change=${this.setPayoff.bind(this)} @input=${this.setPayoff.bind(this)}>Payoff</decidables-slider>`
           : html``}
-        ${this.color !== undefined
+        ${this.color != null
           ? html`
             <decidables-toggle @change=${this.chooseColor.bind(this)}>
               <span slot="label">Emphasis</span>
@@ -243,7 +245,7 @@ export default class DetectableControl extends DetectableElement {
             </decidables-toggle>
           `
           : html``}
-        ${this.zRoc !== undefined
+        ${this.zRoc != null
           ? html`
             <decidables-switch ?checked=${this.zRoc} @change=${this.flipZRoc.bind(this)}>
               <span class="math-var">z</span>ROC
