@@ -119,9 +119,9 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
     this.variance = false; // Show variance?
     this.histogram = false; // Show histogram?
 
-    this.d = 1; // Sensitivity
-    this.c = 0; // Bias
-    this.s = 1; // Variance
+    this.d = SDTMath.d.DEFAULT; // Sensitivity
+    this.c = SDTMath.c.DEFAULT; // Bias
+    this.s = SDTMath.s.DEFAULT; // Variance
 
     // Properties
     this.binWidth = 0.25; // Histogram bin width in units of evidence
@@ -548,14 +548,13 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
       })
       .on('drag', (event) => {
         this.drag = true;
-        let l = xScale.invert(event.x);
-        // Clamp lambda to stay visible
-        l = (l < xScale.domain()[0])
-          ? xScale.domain()[0]
-          : (l > xScale.domain()[1])
-            ? xScale.domain()[1]
-            : l;
-        this.c = SDTMath.l2C(l, this.s);
+        const l = xScale.invert(event.x);
+        const c = SDTMath.l2C(l, this.s);
+        this.c = (c < SDTMath.c.MIN)
+          ? SDTMath.c.MIN
+          : (c > SDTMath.c.MAX)
+            ? SDTMath.c.MAX
+            : c;
         this.alignState();
         this.sendEvent();
       })
@@ -575,14 +574,13 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
       })
       .on('drag', (event) => {
         this.drag = true;
-        let muN = xScale.invert(event.x);
-        // Clamp Noise Curve to stay visible
-        muN = (muN < xScale.domain()[0])
-          ? xScale.domain()[0]
-          : (muN > xScale.domain()[1])
-            ? xScale.domain()[1]
-            : muN;
-        this.d = SDTMath.muN2D(muN, this.s);
+        const muN = xScale.invert(event.x);
+        const d = SDTMath.muN2D(muN, this.s);
+        this.d = (d < SDTMath.d.MIN)
+          ? SDTMath.d.MIN
+          : (d > SDTMath.d.MAX)
+            ? SDTMath.d.MAX
+            : d;
         this.alignState();
         this.sendEvent();
       })
@@ -609,22 +607,10 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
         let muS = this.muS; /* eslint-disable-line prefer-destructuring */
         if (this.interactive) {
           muS = xScale.invert(event.x);
-          // Clamp Signal Curve to stay visible
-          muS = (muS < xScale.domain()[0])
-            ? xScale.domain()[0]
-            : (muS > xScale.domain()[1])
-              ? xScale.domain()[1]
-              : muS;
         }
         let hS = this.hS; /* eslint-disable-line prefer-destructuring */
         if (this.unequal) {
           hS = yScale.invert(event.y);
-          // Clamp Signal Curve to stay visible
-          hS = (hS < 0.01)
-            ? 0.01
-            : (hS > yScale.domain()[0])
-              ? yScale.domain()[0]
-              : hS;
         }
         if (this.interactive && this.unequal) {
           // Use shift key as modifier for single dimension
@@ -637,10 +623,25 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
           }
         }
         if (this.unequal) {
-          this.s = SDTMath.h2S(hS);
-          this.c = SDTMath.l2C(this.l, this.s);
+          const s = SDTMath.h2S(hS);
+          this.s = (s < SDTMath.s.MIN)
+            ? SDTMath.s.MIN
+            : (s > SDTMath.s.MAX)
+              ? SDTMath.s.MAX
+              : s;
+          const c = SDTMath.l2C(this.l, this.s);
+          this.c = (c < SDTMath.c.MIN)
+            ? SDTMath.c.MIN
+            : (c > SDTMath.c.MAX)
+              ? SDTMath.c.MAX
+              : c;
         }
-        this.d = SDTMath.muS2D(muS, this.s);
+        const d = SDTMath.muS2D(muS, this.s);
+        this.d = (d < SDTMath.d.MIN)
+          ? SDTMath.d.MIN
+          : (d > SDTMath.d.MAX)
+            ? SDTMath.d.MAX
+            : d;
         this.alignState();
         this.sendEvent();
       })
@@ -822,17 +823,14 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
                 break;
               default:
             }
-            // Clamp C to visible extent
-            muN = (muN < xScale.domain()[0])
-              ? xScale.domain()[0]
-              : (muN > xScale.domain()[1])
-                ? xScale.domain()[1]
-                : muN;
-            if (muN !== this.muN) {
-              this.d = SDTMath.muN2D(muN, this.s);
-              this.alignState();
-              this.sendEvent();
-            }
+            const d = SDTMath.muN2D(muN, this.s);
+            this.d = (d < SDTMath.d.MIN)
+              ? SDTMath.d.MIN
+              : (d > SDTMath.d.MAX)
+                ? SDTMath.d.MAX
+                : d;
+            this.alignState();
+            this.sendEvent();
             event.preventDefault();
           }
         }
@@ -1017,17 +1015,14 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
                 break;
               default:
             }
-            // Clamp C to visible extent
-            muS = (muS < xScale.domain()[0])
-              ? xScale.domain()[0]
-              : (muS > xScale.domain()[1])
-                ? xScale.domain()[1]
-                : muS;
-            if (muS !== this.muS) {
-              this.d = SDTMath.muS2D(muS, this.s);
-              this.alignState();
-              this.sendEvent();
-            }
+            const d = SDTMath.muS2D(muS, this.s);
+            this.d = (d < SDTMath.d.MIN)
+              ? SDTMath.d.MIN
+              : (d > SDTMath.d.MAX)
+                ? SDTMath.d.MAX
+                : d;
+            this.alignState();
+            this.sendEvent();
             event.preventDefault();
           }
         }
@@ -1045,19 +1040,17 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
                 break;
               default:
             }
-            // Clamp s so distribution stays visible
-            hS = (hS < 0.01)
-              ? 0.01
-              : (hS > yScale.domain()[0])
-                ? yScale.domain()[0]
-                : hS;
-            if (hS !== this.hS) {
-              this.s = SDTMath.h2S(hS);
-              this.d = SDTMath.muN2D(this.muN, this.s);
-              this.c = SDTMath.l2C(this.l, this.s);
-              this.alignState();
-              this.sendEvent();
-            }
+            hS = (hS < 0) ? 0 : hS;
+            const s = SDTMath.h2S(hS);
+            this.s = (s < SDTMath.s.MIN)
+              ? SDTMath.s.MIN
+              : (s > SDTMath.s.MAX)
+                ? SDTMath.s.MAX
+                : s;
+            this.d = SDTMath.muN2D(this.muN, this.s);
+            this.c = SDTMath.l2C(this.l, this.s);
+            this.alignState();
+            this.sendEvent();
             event.preventDefault();
           }
         }
@@ -1455,17 +1448,14 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
                   break;
                 default:
               }
-              // Clamp C to visible extent
-              l = (l < xScale.domain()[0])
-                ? xScale.domain()[0]
-                : (l > xScale.domain()[1])
-                  ? xScale.domain()[1]
-                  : l;
-              if (l !== this.l) {
-                this.c = SDTMath.l2C(l, this.s);
-                this.alignState();
-                this.sendEvent();
-              }
+              const c = SDTMath.l2C(l, this.s);
+              this.c = (c < SDTMath.c.MIN)
+                ? SDTMath.c.MIN
+                : (c > SDTMath.c.MAX)
+                  ? SDTMath.c.MAX
+                  : c;
+              this.alignState();
+              this.sendEvent();
               event.preventDefault();
             }
           });

@@ -104,7 +104,7 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
     this.far = 0.25;
     this.hr = 0.75;
 
-    this.s = 1;
+    this.s = SDTMath.s.DEFAULT;
 
     this.label = '';
 

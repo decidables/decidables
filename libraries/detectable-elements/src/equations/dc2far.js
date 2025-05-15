@@ -48,9 +48,9 @@ export default class SDTEquationDC2Far extends SDTEquation {
   constructor() {
     super();
     this.unequal = false;
-    this.d = 0;
-    this.c = 0;
-    this.s = 1;
+    this.d = SDTMath.d.DEFAULT;
+    this.c = SDTMath.c.DEFAULT;
+    this.s = SDTMath.s.DEFAULT;
     this.alignState();
   }
 
@@ -99,22 +99,43 @@ export default class SDTEquationDC2Far extends SDTEquation {
     let far;
     if (this.numeric) {
       d = html`
-        <decidables-spinner class="d bottom" ?disabled=${!this.interactive} step=".001" .value="${this.d}" @input=${this.dInput.bind(this)}>
+        <decidables-spinner class="d bottom" 
+          ?disabled=${!this.interactive}
+          step=${SDTMath.d.STEP}
+          .value=${this.d}
+          @input=${this.dInput.bind(this)}
+        >
           <var class="math-var">d′</var>
         </decidables-spinner>
       `;
       c = html`
-        <decidables-spinner class="c bottom" ?disabled=${!this.interactive} step=".001" .value="${this.c}" @input=${this.cInput.bind(this)}>
+        <decidables-spinner class="c bottom"
+          ?disabled=${!this.interactive}
+          step=${SDTMath.c.DEFAULT}
+          .value=${this.c}
+          @input=${this.cInput.bind(this)}
+        >
           <var class="math-var">c</var>
         </decidables-spinner>
       `;
       s = html`
-        <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
+        <decidables-spinner class="s bottom"
+          ?disabled=${!this.interactive}
+          min=${SDTMath.s.MIN}
+          step=${SDTMath.s.STEP}
+          .value=${this.s}
+          @input=${this.sInput.bind(this)}
+        >
           <var class="math-var">σ</var>
         </decidables-spinner>
       `;
       far = html`
-        <decidables-spinner class="far bottom" disabled min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}">
+        <decidables-spinner class="far bottom"
+          disabled min="0"
+          max="1"
+          step=".001"
+          .value=${+this.far.toFixed(3)}
+        >
           <var>False Alarm Rate</var>
         </decidables-spinner>
       `;
