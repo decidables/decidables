@@ -50,7 +50,7 @@ export default class SDTEquationHrFar2D extends SDTEquation {
     this.unequal = false;
     this.hr = 0;
     this.far = 0;
-    this.s = 1;
+    this.s = SDTMath.s.DEFAULT;
     this.alignState();
   }
 
@@ -99,22 +99,46 @@ export default class SDTEquationHrFar2D extends SDTEquation {
     let d;
     if (this.numeric) {
       hr = html`
-        <decidables-spinner class="hr bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.hr}" @input=${this.hrInput.bind(this)}>
+        <decidables-spinner class="hr bottom"
+          ?disabled=${!this.interactive}
+          min="0"
+          max="1"
+          step=".001"
+          .value=${this.hr}
+          @input=${this.hrInput.bind(this)}
+        >
           <var>Hit Rate</var>
         </decidables-spinner>
       `;
       far = html`
-        <decidables-spinner class="far bottom" ?disabled=${!this.interactive} min="0" max="1" step=".001" .value="${this.far}" @input=${this.farInput.bind(this)}>
+        <decidables-spinner class="far bottom"
+          ?disabled=${!this.interactive}
+          min="0"
+          max="1"
+          step=".001"
+          .value=${this.far}
+          @input=${this.farInput.bind(this)}
+        >
           <var>False Alarm Rate</var>
         </decidables-spinner>
       `;
       s = html`
-        <decidables-spinner class="s bottom" ?disabled=${!this.interactive} min="0" step=".001" .value="${this.s}" @input=${this.sInput.bind(this)}>
+        <decidables-spinner class="s bottom"
+          ?disabled=${!this.interactive}
+          min="0"
+          step=".001"
+          .value=${this.s}
+          @input=${this.sInput.bind(this)}
+        >
           <var class="math-var">σ</var>
         </decidables-spinner>
       `;
       d = html`
-        <decidables-spinner class="d bottom" disabled step=".001" .value="${+this.d.toFixed(3)}">
+        <decidables-spinner class="d bottom"
+          disabled
+          step=${SDTMath.d.STEP}
+          .value=${+this.d.toFixed(3)}
+        >
           <var class="math-var">d′</var>
         </decidables-spinner>
       `;

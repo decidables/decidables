@@ -78,17 +78,33 @@ export default class SDTEquationFaCr2Far extends SDTEquation {
     let far;
     if (this.numeric) {
       fa = html`
-        <decidables-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
+        <decidables-spinner class="fa"
+          ?disabled=${!this.interactive}
+          min="0"
+          .value=${this.fa}
+          @input=${this.faInput.bind(this)}
+        >
           <var>False Alarms</var>
         </decidables-spinner>
       `;
       cr = html`
-        <decidables-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
+        <decidables-spinner class="cr"
+          ?disabled=${!this.interactive}
+          min="0"
+          .value=${this.cr}
+          @input=${this.crInput.bind(this)}
+        >
           <var>Correct Rejections</var>
         </decidables-spinner>
       `;
       far = html`
-        <decidables-spinner class="far" disabled min="0" max="1" step=".001" .value="${+this.far.toFixed(3)}">
+        <decidables-spinner class="far"
+          disabled
+          min="0"
+          max="1"
+          step=".001"
+          .value=${+this.far.toFixed(3)}
+        >
           <var>False Alarm Rate</var>
         </decidables-spinner>
       `;

@@ -78,17 +78,33 @@ export default class SDTEquationHM2Hr extends SDTEquation {
     let hr;
     if (this.numeric) {
       h = html`
-        <decidables-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
+        <decidables-spinner class="h"
+          ?disabled=${!this.interactive}
+          min="0"
+          .value=${this.h}
+          @input=${this.hInput.bind(this)}
+        >
           <var>Hits</var>
         </decidables-spinner>
       `;
       m = html`
-        <decidables-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
+        <decidables-spinner class="m"
+          ?disabled=${!this.interactive}
+          min="0"
+          .value=${this.m}
+          @input=${this.mInput.bind(this)}
+        >
           <var>Misses</var>
         </decidables-spinner>
       `;
       hr = html`
-        <decidables-spinner class="hr" disabled min="0" max="1" step=".001" .value="${+this.hr.toFixed(3)}">
+        <decidables-spinner class="hr"
+          disabled
+          min="0"
+          max="1"
+          step=".001"
+          .value=${+this.hr.toFixed(3)}
+        >
           <var>Hit Rate</var>
         </decidables-spinner>
       `;

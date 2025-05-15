@@ -78,17 +78,33 @@ export default class SDTEquationHFa2Ppv extends SDTEquation {
     let ppv;
     if (this.numeric) {
       h = html`
-        <decidables-spinner class="h" ?disabled=${!this.interactive} min="0" .value="${this.h}" @input=${this.hInput.bind(this)}>
+        <decidables-spinner class="h"
+          ?disabled=${!this.interactive}
+          min="0"
+          .value=${this.h}
+          @input=${this.hInput.bind(this)}
+        >
           <var>Hits</var>
         </decidables-spinner>
       `;
       fa = html`
-        <decidables-spinner class="fa" ?disabled=${!this.interactive} min="0" .value="${this.fa}" @input=${this.faInput.bind(this)}>
+        <decidables-spinner class="fa"
+          ?disabled=${!this.interactive}
+          min="0"
+          .value=${this.fa}
+          @input=${this.faInput.bind(this)}
+        >
           <var>False Alarms</var>
         </decidables-spinner>
       `;
       ppv = html`
-        <decidables-spinner class="ppv" disabled min="0" max="1" step=".001" .value="${+this.ppv.toFixed(3)}">
+        <decidables-spinner class="ppv"
+          disabled
+          min="0"
+          max="1"
+          step=".001"
+          .value=${+this.ppv.toFixed(3)}
+        >
           <var>Positive Predictive Value</var>
         </decidables-spinner>
       `;

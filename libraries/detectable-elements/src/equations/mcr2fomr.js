@@ -78,17 +78,33 @@ export default class SDTEquationMCr2Fomr extends SDTEquation {
     let fomr;
     if (this.numeric) {
       m = html`
-        <decidables-spinner class="m" ?disabled=${!this.interactive} min="0" .value="${this.m}" @input=${this.mInput.bind(this)}>
+        <decidables-spinner class="m"
+          ?disabled=${!this.interactive}
+          min="0"
+          .value=${this.m}
+          @input=${this.mInput.bind(this)}
+        >
           <var>Misses</var>
         </decidables-spinner>
       `;
       cr = html`
-        <decidables-spinner class="cr" ?disabled=${!this.interactive} min="0" .value="${this.cr}" @input=${this.crInput.bind(this)}>
+        <decidables-spinner class="cr"
+          ?disabled=${!this.interactive}
+          min="0"
+          .value=${this.cr}
+          @input=${this.crInput.bind(this)}
+        >
           <var>Correct Rejections</var>
         </decidables-spinner>
       `;
       fomr = html`
-        <decidables-spinner class="fomr" disabled min="0" max="1" step=".001" .value="${+this.fomr.toFixed(3)}">
+        <decidables-spinner class="fomr"
+          disabled
+          min="0"
+          max="1"
+          step=".001"
+          .value=${+this.fomr.toFixed(3)}
+        >
           <var>False Omission Rate</var>
         </decidables-spinner>
       `;
