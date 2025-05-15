@@ -4,6 +4,11 @@ import jStat from 'jstat';
 /*
   SDTMath Static Class - Not intended for instantiation!
 
+  Model parameters:
+    d = sensitivity (d' for equal variance, d_a for unequal variance)
+    c = response bias (c for equal variance, c_a for unequal variance)
+    s = standard deviation of signal distribution, with standard deviation of noise distribution = 1
+
   Variables:
     H = hits
     M = misses
