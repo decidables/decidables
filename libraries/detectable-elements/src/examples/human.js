@@ -4,19 +4,122 @@ import SDTMath from '@decidables/detectable-math';
 import SDTExample from './sdt-example';
 
 /*
-  SDTExample_Human element
+  SDTExampleHuman element
   <sdt-example-human>
 */
 export default class SDTExampleHuman extends SDTExample {
+  static get properties() {
+    return {
+      trials: {
+        attribute: 'trials',
+        type: Number,
+        reflect: true,
+      },
+      duration: {
+        attribute: 'duration',
+        type: Number,
+        reflect: true,
+      },
+      coherence: {
+        attribute: 'coherence',
+        type: Number,
+        reflect: true,
+      },
+      payoff: {
+        attribute: 'payoff',
+        type: Number,
+        reflect: true,
+      },
+
+      h: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+      m: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+      fa: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+      cr: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+
+      hr: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+      far: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+
+      d: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+      c: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+      s: {
+        attribute: false,
+        type: Number,
+        reflect: false,
+      },
+    };
+  }
+
+  constructor() {
+    super();
+
+    this.trials = undefined;
+    this.duration = undefined;
+    this.coherence = undefined;
+    this.payoff = undefined;
+
+    this.h = 0;
+    this.m = 0;
+    this.fa = 0;
+    this.cr = 0;
+
+    this.hr = 0.5;
+    this.far = 0.5;
+
+    this.d = 0;
+    this.c = 0;
+    this.s = SDTMath.s.DEFAULT;
+
+    this.count = 0;
+
+    this.detectableControl = null;
+    this.detectableResponse = null;
+    this.detectableTable = null;
+    this.rdkTask = null;
+    this.rocSpace = null;
+    this.sdtModel = null;
+  }
+
   connectedCallback() {
     super.connectedCallback();
 
     this.count = 1;
 
     this.detectableControl = this.querySelector('detectable-control');
-    this.rdkTask = this.querySelector('rdk-task');
     this.detectableResponse = this.querySelector('detectable-response');
     this.detectableTable = this.querySelector('detectable-table');
+    this.rdkTask = this.querySelector('rdk-task');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
 
@@ -26,70 +129,35 @@ export default class SDTExampleHuman extends SDTExample {
       }
     }
 
-    if (this.detectableControl && this.detectableControl.hasAttribute('trials')) {
+    if (this.detectableControl) {
       this.detectableControl.addEventListener('detectable-control-trials', (event) => {
-        if (this.rdkTask) {
-          this.rdkTask.trials = event.detail.trials;
-        }
-
-        if (this.detectableResponse) {
-          this.detectableResponse.trialTotal = event.detail.trials;
-        }
+        this.trials = event.detail.trials;
       });
-    }
 
-    if (this.detectableControl && this.detectableControl.hasAttribute('duration')) {
       this.detectableControl.addEventListener('detectable-control-duration', (event) => {
-        if (this.rdkTask) {
-          this.rdkTask.duration = event.detail.duration;
-          this.rdkTask.wait = event.detail.duration;
-          this.rdkTask.iti = event.detail.duration;
-        }
+        this.duration = event.detail.duration;
       });
-    }
 
-    if (this.detectableControl && this.detectableControl.hasAttribute('coherence')) {
       this.detectableControl.addEventListener('detectable-control-coherence', (event) => {
-        if (this.rdkTask) {
-          this.rdkTask.coherence = event.detail.coherence;
-        }
+        this.coherence = event.detail.coherence;
       });
-    }
 
-    if (this.detectableControl && this.detectableControl.hasAttribute('payoff')) {
       this.detectableControl.addEventListener('detectable-control-payoff', (event) => {
-        if (this.detectableResponse) {
-          this.detectableResponse.hPayoff = event.detail.payoff;
-          this.detectableResponse.mPayoff = -event.detail.payoff + 0; // Get rid of -0
-          this.detectableResponse.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
-          this.detectableResponse.crPayoff = (100 - event.detail.payoff);
-        }
-        if (this.detectableTable) {
-          this.detectableTable.hPayoff = event.detail.payoff;
-          this.detectableTable.mPayoff = -event.detail.payoff + 0; // Get rid of -0
-          this.detectableTable.faPayoff = -(100 - event.detail.payoff) + 0; // Get rid of -0
-          this.detectableTable.crPayoff = (100 - event.detail.payoff);
-        }
+        this.payoff = event.detail.payoff;
       });
-    }
 
-    if (this.detectableControl && this.detectableControl.hasAttribute('run')) {
       this.detectableControl.addEventListener('detectable-control-run', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.running = true;
         }
       });
-    }
 
-    if (this.detectableControl && this.detectableControl.hasAttribute('pause')) {
       this.detectableControl.addEventListener('detectable-control-pause', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.running = false;
         }
       });
-    }
 
-    if (this.detectableControl && this.detectableControl.hasAttribute('reset')) {
       this.detectableControl.addEventListener('detectable-control-reset', (/* event */) => {
         if (this.rdkTask) {
           this.rdkTask.reset();
@@ -99,34 +167,22 @@ export default class SDTExampleHuman extends SDTExample {
           this.detectableResponse.reset();
         }
 
-        if (this.detectableTable) {
-          this.detectableTable.h = 0;
-          this.detectableTable.m = 0;
-          this.detectableTable.fa = 0;
-          this.detectableTable.cr = 0;
-        }
+        this.h = 0;
+        this.m = 0;
+        this.fa = 0;
+        this.cr = 0;
 
-        if (this.rocSpace) {
-          if (this.rocSpace.hasAttribute('history')) {
-            this.count += 1;
-            this.rocSpace.set(0.5, 0.5, `point${this.count}`, this.count);
-          } else {
-            this.rocSpace.hr = 0.5;
-            this.rocSpace.far = 0.5;
-          }
-        }
+        this.hr = 0.5;
+        this.far = 0.5;
 
-        if (this.sdtModel) {
-          this.sdtModel.d = 0;
-          this.sdtModel.c = 0;
+        this.d = 0;
+        this.c = 0;
+
+        if (this.rocSpace && this.rocSpace.hasAttribute('history')) {
+          this.count += 1;
+          this.rocSpace.set(0.5, 0.5, `point${this.count}`, this.count);
         }
       });
-    }
-
-    if (this.rdkTask) {
-      if (this.detectableResponse) {
-        this.detectableResponse.trialTotal = this.rdkTask.trials;
-      }
     }
 
     if (this.rdkTask) {
@@ -135,17 +191,13 @@ export default class SDTExampleHuman extends SDTExample {
           this.detectableResponse.start(event.detail.signal, event.detail.trial);
         }
       });
-    }
 
-    if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-trial-end', (/* event */) => {
         if (this.detectableResponse) {
           this.detectableResponse.stop();
         }
       });
-    }
 
-    if (this.rdkTask) {
       this.rdkTask.addEventListener('rdk-block-end', (/* event */) => {
         if (this.detectableControl) {
           this.detectableControl.complete();
@@ -155,30 +207,82 @@ export default class SDTExampleHuman extends SDTExample {
 
     if (this.detectableResponse) {
       this.detectableResponse.addEventListener('detectable-response', (event) => {
-        if (this.detectableTable) {
-          this.detectableTable.h = event.detail.h;
-          this.detectableTable.m = event.detail.m;
-          this.detectableTable.fa = event.detail.fa;
-          this.detectableTable.cr = event.detail.cr;
-        }
+        this.h = event.detail.h;
+        this.m = event.detail.m;
+        this.fa = event.detail.fa;
+        this.cr = event.detail.cr;
 
-        const newhr = SDTMath.hM2Hr((event.detail.h + 1), (event.detail.m + 1));
-        const newfar = SDTMath.faCr2Far((event.detail.fa + 1), (event.detail.cr + 1));
+        this.hr = SDTMath.hM2Hr((this.h + 1), (this.m + 1));
+        this.far = SDTMath.faCr2Far((this.fa + 1), (this.cr + 1));
 
-        if (this.rocSpace) {
-          if (this.rocSpace.hasAttribute('history')) {
-            this.rocSpace.set(newhr, newfar, (this.count === 1) ? 'default' : `point${this.count}`, this.count);
-          } else {
-            this.rocSpace.hr = newhr;
-            this.rocSpace.far = newfar;
-          }
-        }
+        this.d = SDTMath.hrFar2D(this.hr, this.far);
+        this.c = SDTMath.hrFar2C(this.hr, this.far);
 
-        if (this.sdtModel) {
-          this.sdtModel.d = SDTMath.hrFar2D(newhr, newfar);
-          this.sdtModel.c = SDTMath.hrFar2C(newhr, newfar);
+        if (this.rocSpace && this.rocSpace.hasAttribute('history')) {
+          this.rocSpace.set(this.hr, this.far, (this.count === 1) ? 'default' : `point${this.count}`, this.count);
         }
       });
+    }
+  }
+
+  update(changedProperties) {
+    super.update(changedProperties);
+
+    if (this.detectableControl) {
+      this.detectableControl.trials = (this.detectableControl.trials != null)
+        ? this.trials
+        : undefined;
+      this.detectableControl.duration = (this.detectableControl.duration != null)
+        ? this.duration
+        : undefined;
+      this.detectableControl.coherence = (this.detectableControl.coherence != null)
+        ? this.coherence
+        : undefined;
+      this.detectableControl.payoff = (this.detectableControl.payoff != null)
+        ? this.payoff
+        : undefined;
+    }
+
+    if (this.detectableResponse) {
+      this.detectableResponse.trialTotal = this.trials;
+
+      this.detectableResponse.hPayoff = this.payoff;
+      this.detectableResponse.mPayoff = -this.payoff + 0; // Get rid of -0
+      this.detectableResponse.faPayoff = -(100 - this.payoff) + 0; // Get rid of -0
+      this.detectableResponse.crPayoff = (100 - this.payoff);
+    }
+
+    if (this.detectableTable) {
+      this.detectableTable.h = this.h;
+      this.detectableTable.m = this.m;
+      this.detectableTable.cr = this.cr;
+      this.detectableTable.fa = this.fa;
+
+      this.detectableTable.hPayoff = this.payoff;
+      this.detectableTable.mPayoff = -this.payoff + 0; // Get rid of -0
+      this.detectableTable.faPayoff = -(100 - this.payoff) + 0; // Get rid of -0
+      this.detectableTable.crPayoff = (100 - this.payoff);
+    }
+
+    if (this.rdkTask) {
+      this.rdkTask.trials = this.trials;
+
+      this.rdkTask.duration = this.duration;
+      this.rdkTask.wait = (this.duration === Infinity) ? 0 : this.duration;
+      this.rdkTask.iti = (this.duration === Infinity) ? 0 : this.duration;
+
+      this.rdkTask.coherence = this.coherence;
+    }
+
+    if (this.rocSpace && !this.rocSpace.hasAttribute('history')) {
+      this.rocSpace.hr = this.hr;
+      this.rocSpace.far = this.far;
+    }
+
+    if (this.sdtModel) {
+      this.sdtModel.d = this.d;
+      this.sdtModel.c = this.c;
+      this.sdtModel.s = this.s;
     }
   }
 }

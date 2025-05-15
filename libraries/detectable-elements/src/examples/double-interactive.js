@@ -5,7 +5,7 @@ import SDTExample from './sdt-example';
 
 /*
   SDTExample_DoubleInteractive element
-  <sdt-example-interactive>
+  <sdt-example-double-interactive>
 */
 export default class SDTExampleDoubleInteractive extends SDTExample {
   connectedCallback() {
