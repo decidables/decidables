@@ -74,8 +74,8 @@ export default class SDTExampleInteractive extends SDTExample {
   constructor() {
     super();
 
-    this.color = undefined;
-    this.zRoc = undefined;
+    this.color = 'all';
+    this.zRoc = false;
 
     this.h = undefined;
     this.m = undefined;

@@ -84,10 +84,10 @@ export default class SDTExampleModel extends SDTExample {
   constructor() {
     super();
 
-    this.trials = undefined;
-    this.duration = undefined;
-    this.coherence = undefined;
-    this.color = undefined;
+    this.trials = 10;
+    this.duration = 2000;
+    this.coherence = 0.5;
+    this.color = 'all';
 
     this.d = SDTMath.s.DEFAULT;
     this.c = SDTMath.s.DEFAULT;

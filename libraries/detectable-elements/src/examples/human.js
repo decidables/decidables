@@ -84,10 +84,10 @@ export default class SDTExampleHuman extends SDTExample {
   constructor() {
     super();
 
-    this.trials = undefined;
-    this.duration = undefined;
-    this.coherence = undefined;
-    this.payoff = undefined;
+    this.trials = 10;
+    this.duration = 2000;
+    this.coherence = 0.5;
+    this.payoff = 0;
 
     this.h = 0;
     this.m = 0;
