@@ -40,7 +40,7 @@ describe('sdt-example-multiple', () => {
     `);
     expect(el).lightDom.to.equal(`
       <detectable-control class="keyboard" z-roc></detectable-control>
-      <sdt-model class="keyboard" interactive threshold bias color="outcome"></sdt-model>
+      <sdt-model class="keyboard" interactive threshold bias color="all"></sdt-model>
       <roc-space class="keyboard" iso-c="first" iso-d="rest" point="rest" z-roc></roc-space>
     `, {ignoreAttributes: ['hr', 'far', 'c', 'd', 's']});
   });

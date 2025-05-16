@@ -12,10 +12,10 @@ import '../../src/components';
 describe('sdt-example-interactive', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
-      <sdt-example-interactive>
-        <detectable-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
+      <sdt-example-interactive hits="80" misses="20" false-alarms="10" correct-rejections="90">
+        <detectable-table numeric interactive summary="stimulusRates accuracy"></detectable-table>
         <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
-        <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
+        <sdt-model interactive threshold bias distributions sensitivity></sdt-model>
       </sdt-example-interactive>
     `);
     expect(el).shadowDom.to.equal(`
@@ -31,25 +31,25 @@ describe('sdt-example-interactive', () => {
 
   it('has a lightDom', async () => {
     const el = await fixture(html`
-      <sdt-example-interactive>
-        <detectable-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
+      <sdt-example-interactive color="all" hits="80" misses="20" false-alarms="10" correct-rejections="90">
+        <detectable-table numeric interactive summary="stimulusRates accuracy"></detectable-table>
         <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
-        <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
+        <sdt-model interactive threshold bias distributions sensitivity></sdt-model>
       </sdt-example-interactive>
     `);
     expect(el).lightDom.to.equal(`
       <detectable-table class="keyboard" color="all" numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
       <roc-space class="keyboard" interactive iso-c="all" iso-d="all" point="all"></roc-space>
-      <sdt-model class="keyboard" interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
+      <sdt-model class="keyboard" interactive threshold bias distributions sensitivity color="all"></sdt-model>
     `, {ignoreAttributes: ['hr', 'far', 'c', 'd', 's']});
   });
 
   it('can propagate a table interaction', async () => {
     const el = await fixture(html`
-      <sdt-example-interactive>
-        <detectable-table numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
+      <sdt-example-interactive color="all" hits="80" misses="20" false-alarms="10" correct-rejections="90">
+        <detectable-table numeric interactive summary="stimulusRates accuracy"></detectable-table>
         <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
-        <sdt-model interactive threshold bias distributions sensitivity color="outcome"></sdt-model>
+        <sdt-model interactive threshold bias distributions sensitivity></sdt-model>
       </sdt-example-interactive>
     `);
     // Action
