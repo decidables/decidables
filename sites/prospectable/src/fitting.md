@@ -9,10 +9,10 @@ script: page
 Fitting the model to your performance.
 
 <cpt-example-human>
-  <prospectable-control run pause reset></prospectable-control>
+  <prospectable-control trials duration run pause reset></prospectable-control>
   <risky-task></risky-task>
   <prospectable-response interactive trial feedback="outcome" payoff="both"></prospectable-response>
-  <cpt-parameters></cpt-parameters>
+  <cpt-parameters alpha lambda gamma></cpt-parameters>
   <cpt-value></cpt-value>
   <cpt-probability></cpt-probability>
   <decision-space point="rest" alpha="1" lambda="1" gamma="1"></decision-space>

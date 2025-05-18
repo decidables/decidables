@@ -11,9 +11,9 @@ considerations, we may want to simulate task performance in order to generate pr
 In other words, we can have our model perform the task *as if* it were a participant.
 
 <htd-example-model>
-  <discountable-control run pause reset></discountable-control>
+  <discountable-control trials duration run pause reset></discountable-control>
   <itc-task></itc-task>
-  <htd-parameters interactive></htd-parameters>
+  <htd-parameters k interactive></htd-parameters>
   <htd-curves interactive></htd-curves>
   <!-- <htd-calculation numeric></htd-calculation> -->
   <discountable-response trial feedback></discountable-response>

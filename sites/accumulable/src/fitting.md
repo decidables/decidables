@@ -9,11 +9,11 @@ script: page
 Fitting the model to your performance.
 
 <ddm-example-human>
-  <accumulable-control run pause reset></accumulable-control>
+  <accumulable-control trials duration coherence color run pause reset></accumulable-control>
   <rdk-2afc-task></rdk-2afc-task>
   <accumulable-response interactive trial feedback></accumulable-response>
   <accumulable-table numeric summary></accumulable-table>
-  <ddm-parameters></ddm-parameters>
+  <ddm-parameters boundary-separation starting-point drift-rate nondecision-time></ddm-parameters>
   <ddm-model human measures means sds></ddm-model>
   <ddm-fit></ddm-fit>
 </ddm-example-human>

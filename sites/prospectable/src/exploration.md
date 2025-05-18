@@ -10,7 +10,7 @@ Exploring the relationship between model parameters and behavior.
 
 <cpt-example-interactive>
   <risky-choice interactive></risky-choice>
-  <cpt-parameters interactive></cpt-parameters>
+  <cpt-parameters alpha lambda gamma interactive></cpt-parameters>
   <cpt-value interactive></cpt-value>
   <cpt-probability interactive></cpt-probability>
   <cpt-calculation numeric interactive></cpt-calculation>

@@ -10,7 +10,7 @@ Exploring the relationship between model parameters and behavior.
 
 <htd-example-interactive>
   <itc-choice interactive></itc-choice>
-  <htd-parameters interactive></htd-parameters>
+  <htd-parameters k interactive></htd-parameters>
   <htd-curves interactive></htd-curves>
   <htd-calculation numeric interactive></htd-calculation>
 </htd-example-interactive>
