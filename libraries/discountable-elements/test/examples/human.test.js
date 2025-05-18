@@ -17,10 +17,10 @@ describe('htd-example-human', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <htd-example-human>
-        <discountable-control run pause reset></discountable-control>
+        <discountable-control trials duration run pause reset></discountable-control>
         <itc-task></itc-task>
         <discountable-response interactive trial feedback></discountable-response>
-        <htd-parameters></htd-parameters>
+        <htd-parameters k></htd-parameters>
         <htd-curves></htd-curves>
         <!-- <htd-fit></htd-fit> -->
       </htd-example-human>
@@ -39,10 +39,10 @@ describe('htd-example-human', () => {
   it('has a lightDom', async () => {
     const el = await fixture(html`
       <htd-example-human>
-        <discountable-control run pause reset></discountable-control>
+        <discountable-control trials duration run pause reset></discountable-control>
         <itc-task></itc-task>
         <discountable-response interactive trial feedback></discountable-response>
-        <htd-parameters></htd-parameters>
+        <htd-parameters k></htd-parameters>
         <htd-curves></htd-curves>
         <!-- <htd-fit></htd-fit> -->
       </htd-example-human>
@@ -59,12 +59,12 @@ describe('htd-example-human', () => {
   it('can run a task', async () => {
     const el = await fixture(html`
       <htd-example-human>
-        <discountable-control run pause reset></discountable-control>
+        <discountable-control trials duration run pause reset></discountable-control>
         <itc-task></itc-task>
         <discountable-response interactive trial feedback></discountable-response>
-        <!-- <htd-fit></htd-fit> -->
-        <htd-parameters></htd-parameters>
+        <htd-parameters k></htd-parameters>
         <htd-curves></htd-curves>
+        <!-- <htd-fit></htd-fit> -->
       </htd-example-human>
     `);
     // Action: start task

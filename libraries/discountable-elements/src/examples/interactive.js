@@ -125,7 +125,9 @@ export default class HTDExampleInteractive extends HTDExample {
     }
 
     if (this.htdParameters) {
-      this.htdParameters.k = this.k;
+      this.htdParameters.k = (this.htdParameters.k != null)
+        ? this.k
+        : undefined;
     }
 
     if (this.itcChoice) {

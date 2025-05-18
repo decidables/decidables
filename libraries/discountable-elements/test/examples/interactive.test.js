@@ -19,7 +19,7 @@ describe('htd-example-interactive', () => {
     const el = await fixture(html`
       <htd-example-interactive>
         <itc-choice interactive></itc-choice>
-        <htd-parameters interactive></htd-parameters>
+        <htd-parameters k interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <htd-calculation numeric interactive></htd-calculation>
       </htd-example-interactive>
@@ -39,7 +39,7 @@ describe('htd-example-interactive', () => {
     const el = await fixture(html`
       <htd-example-interactive>
         <itc-choice interactive></itc-choice>
-        <htd-parameters interactive></htd-parameters>
+        <htd-parameters k interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <htd-calculation numeric interactive></htd-calculation>
       </htd-example-interactive>
@@ -58,7 +58,7 @@ describe('htd-example-interactive', () => {
     const el = await fixture(html`
       <htd-example-interactive amount-ss="5">
         <itc-choice interactive></itc-choice>
-        <htd-parameters interactive></htd-parameters>
+        <htd-parameters k interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <htd-calculation numeric interactive></htd-calculation>
       </htd-example-interactive>
@@ -86,7 +86,7 @@ describe('htd-example-interactive', () => {
     const el = await fixture(html`
       <htd-example-interactive delay-ss="20">
         <itc-choice interactive></itc-choice>
-        <htd-parameters interactive></htd-parameters>
+        <htd-parameters k interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <htd-calculation numeric interactive></htd-calculation>
       </htd-example-interactive>
@@ -114,7 +114,7 @@ describe('htd-example-interactive', () => {
     const el = await fixture(html`
       <htd-example-interactive amount-ll="40">
         <itc-choice interactive></itc-choice>
-        <htd-parameters interactive></htd-parameters>
+        <htd-parameters k interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <htd-calculation numeric interactive></htd-calculation>
       </htd-example-interactive>
@@ -139,7 +139,7 @@ describe('htd-example-interactive', () => {
     const el = await fixture(html`
       <htd-example-interactive k="0.01">
         <itc-choice interactive></itc-choice>
-        <htd-parameters interactive></htd-parameters>
+        <htd-parameters k interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <htd-calculation numeric interactive></htd-calculation>
       </htd-example-interactive>

@@ -145,10 +145,10 @@ export default class DiscountableControl extends DiscountableElement {
   render() {
     return html`
       <div class="holder">
-        ${this.trials
+        ${this.trials != null
           ? html`<decidables-slider min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>`
           : html``}
-        ${this.duration
+        ${this.duration != null
           ? html`<decidables-slider min="10" max="4000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>`
           : html``}
         ${this.run || this.pause || this.reset

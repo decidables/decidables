@@ -168,8 +168,12 @@ export default class HTDExampleModel extends HTDExample {
     super.update(changedProperties);
 
     if (this.discountableControl) {
-      this.discountableControl.trials = this.trials;
-      this.discountableControl.duration = this.duration;
+      this.discountableControl.trials = (this.discountableControl.trials != null)
+        ? this.trials
+        : undefined;
+      this.discountableControl.duration = (this.discountableControl.duration != null)
+        ? this.duration
+        : undefined;
     }
 
     if (this.discountableResponse) {
@@ -191,7 +195,9 @@ export default class HTDExampleModel extends HTDExample {
     }
 
     if (this.htdParameters) {
-      this.htdParameters.k = this.k;
+      this.htdParameters.k = (this.htdParameters.k != null)
+        ? this.k
+        : undefined;
     }
   }
 }

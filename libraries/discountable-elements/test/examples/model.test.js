@@ -18,9 +18,9 @@ describe('htd-example-model', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <htd-example-model>
-        <discountable-control run pause reset></discountable-control>
+        <discountable-control trial duration run pause reset></discountable-control>
         <itc-task></itc-task>
-        <htd-parameters interactive></htd-parameters>
+        <htd-parameters k interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <discountable-response trial feedback></discountable-response>
       </htd-example-model>
@@ -39,9 +39,9 @@ describe('htd-example-model', () => {
   it('has a lightDom', async () => {
     const el = await fixture(html`
       <htd-example-model>
-        <discountable-control run pause reset></discountable-control>
+        <discountable-control trials duration run pause reset></discountable-control>
         <itc-task></itc-task>
-        <htd-parameters interactive></htd-parameters>
+        <htd-parameters k interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <discountable-response trial feedback></discountable-response>
       </htd-example-model>
@@ -58,9 +58,9 @@ describe('htd-example-model', () => {
   it('can run a task', async () => {
     const el = await fixture(html`
       <htd-example-model k="0.2" >
-        <discountable-control run pause reset></discountable-control>
+        <discountable-control trials duration run pause reset></discountable-control>
         <itc-task></itc-task>
-        <htd-parameters interactive></htd-parameters>
+        <htd-parameters k interactive></htd-parameters>
         <htd-curves interactive></htd-curves>
         <discountable-response trial feedback></discountable-response>
       </htd-example-model>
