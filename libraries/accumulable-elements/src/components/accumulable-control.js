@@ -198,7 +198,7 @@ export default class AccumulableControl extends AccumulableElement {
   render() {
     return html`
       <div class="holder">
-        ${this.trials
+        ${this.trials != null
           ? html`<decidables-slider class="trials" min="1" max="100" step="1" .value=${this.trials} @change=${this.setTrials.bind(this)} @input=${this.setTrials.bind(this)}>Trials</decidables-slider>`
           : html``}
         ${this.resample
@@ -210,13 +210,13 @@ export default class AccumulableControl extends AccumulableElement {
             </div>
           `
           : html``}
-        ${this.duration
+        ${this.duration != null
           ? html`<decidables-slider class="duration" min="10" max="2000" step="10" .value=${this.duration} @change=${this.setDuration.bind(this)} @input=${this.setDuration.bind(this)}>Duration</decidables-slider>`
           : html``}
-        ${this.coherence
+        ${this.coherence != null
           ? html`<decidables-slider class="coherence" min="0" max="1" step=".01" .value=${this.coherence} @change=${this.setCoherence.bind(this)} @input=${this.setCoherence.bind(this)}>Coherence</decidables-slider>`
           : html``}
-        ${this.color !== undefined
+        ${this.color != null
           ? html`
             <decidables-toggle class="color" @change=${this.chooseColor.bind(this)}>
               <span slot="label">Emphasis</span>

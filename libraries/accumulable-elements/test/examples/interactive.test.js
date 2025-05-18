@@ -18,8 +18,9 @@ describe('ddm-example-interactive', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <ddm-example-interactive>
-        <accumulable-control resample></accumulable-control>
-        <ddm-parameters interactive></ddm-parameters>
+        <accumulable-control trials resample color></accumulable-control>
+        <ddm-parameters boundary-separation drift-rate nondecision-time starting-point interactive>
+        </ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
         <accumulable-table numeric summary></accumulable-table>
       </ddm-example-interactive>
@@ -38,8 +39,9 @@ describe('ddm-example-interactive', () => {
   it('has a lightDom', async () => {
     const el = await fixture(html`
       <ddm-example-interactive>
-        <accumulable-control resample></accumulable-control>
-        <ddm-parameters interactive></ddm-parameters>
+        <accumulable-control trials resample color></accumulable-control>
+        <ddm-parameters boundary-separation drift-rate nondecision-time starting-point interactive>
+        </ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
         <accumulable-table numeric summary></accumulable-table>
       </ddm-example-interactive>
@@ -63,8 +65,9 @@ describe('ddm-example-interactive', () => {
   it('can propagate a control interaction', async () => {
     const el = await fixture(html`
       <ddm-example-interactive trials="10">
-        <accumulable-control resample></accumulable-control>
-        <ddm-parameters interactive></ddm-parameters>
+        <accumulable-control trials resample color></accumulable-control>
+        <ddm-parameters boundary-separation drift-rate nondecision-time starting-point interactive>
+        </ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
         <accumulable-table numeric summary></accumulable-table>
       </ddm-example-interactive>
@@ -85,8 +88,9 @@ describe('ddm-example-interactive', () => {
   it('can propagate a parameter interaction', async () => {
     const el = await fixture(html`
       <ddm-example-interactive boundary-separation="0.5">
-        <accumulable-control resample></accumulable-control>
-        <ddm-parameters interactive></ddm-parameters>
+        <accumulable-control trials resample color></accumulable-control>
+        <ddm-parameters boundary-separation drift-rate nondecision-time starting-point interactive>
+        </ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
         <accumulable-table numeric summary></accumulable-table>
       </ddm-example-interactive>
@@ -107,8 +111,9 @@ describe('ddm-example-interactive', () => {
   it('can propagate a model interaction', async () => {
     const el = await fixture(html`
       <ddm-example-interactive starting-point="0.3">
-        <accumulable-control resample></accumulable-control>
-        <ddm-parameters interactive></ddm-parameters>
+        <accumulable-control trials resample color></accumulable-control>
+        <ddm-parameters boundary-separation drift-rate nondecision-time starting-point interactive>
+        </ddm-parameters>
         <ddm-model interactive measures means sds style="--transition-duration: 0;"></ddm-model>
         <accumulable-table numeric summary></accumulable-table>
       </ddm-example-interactive>

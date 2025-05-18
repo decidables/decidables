@@ -18,11 +18,12 @@ describe('ddm-example-human', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <ddm-example-human>
-        <accumulable-control run pause reset></accumulable-control>
+        <accumulable-control trials duration coherence color run pause reset></accumulable-control>
         <rdk-2afc-task ></rdk-2afc-task>
         <accumulable-response interactive trial feedback></accumulable-response>
         <accumulable-table numeric summary></accumulable-table>
-        <ddm-parameters></ddm-parameters>
+        <ddm-parameters boundary-separation drift-rate nondecision-time starting-point>
+        </ddm-parameters>
         <ddm-model human measures means sds></ddm-model>
       </ddm-example-human>
     `);
@@ -40,11 +41,12 @@ describe('ddm-example-human', () => {
   it('has a lightDom', async () => {
     const el = await fixture(html`
       <ddm-example-human>
-        <accumulable-control run pause reset></accumulable-control>
+        <accumulable-control trials duration coherence color run pause reset></accumulable-control>
         <rdk-2afc-task></rdk-2afc-task>
         <accumulable-response interactive trial feedback></accumulable-response>
         <accumulable-table numeric summary></accumulable-table>
-        <ddm-parameters></ddm-parameters>
+        <ddm-parameters boundary-separation drift-rate nondecision-time starting-point>
+        </ddm-parameters>
         <ddm-model human measures means sds seed="0.12345"></ddm-model>
       </ddm-example-human>
     `);
@@ -61,11 +63,11 @@ describe('ddm-example-human', () => {
   it('can run a task', async () => {
     const el = await fixture(html`
       <ddm-example-human>
-        <accumulable-control run pause reset></accumulable-control>
+        <accumulable-control trials duration coherence color run pause reset></accumulable-control>
         <rdk-2afc-task></rdk-2afc-task>
         <accumulable-response interactive trial feedback></accumulable-response>
         <accumulable-table numeric summary></accumulable-table>
-        <ddm-parameters></ddm-parameters>
+        <ddm-parameters boundary-separation drift-rate nondecision-time starting-point></ddm-parameters>
         <ddm-model human measures means sds seed="0.12345"></ddm-model>
       </ddm-example-human>
     `);

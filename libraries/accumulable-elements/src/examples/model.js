@@ -240,10 +240,18 @@ export default class DDMExampleModel extends DDMExample {
     }
 
     if (this.accumulableControl) {
-      this.accumulableControl.trials = this.trials;
-      this.accumulableControl.duration = this.duration;
-      this.accumulableControl.coherence = this.coherence;
-      this.accumulableControl.color = this.color;
+      this.accumulableControl.trials = (this.accumulableControl.trials != null)
+        ? this.trials
+        : undefined;
+      this.accumulableControl.duration = (this.accumulableControl.duration != null)
+        ? this.duration
+        : undefined;
+      this.accumulableControl.coherence = (this.accumulableControl.coherence != null)
+        ? this.coherence
+        : undefined;
+      this.accumulableControl.color = (this.accumulableControl.color != null)
+        ? this.color
+        : undefined;
     }
 
     if (this.rdkTask) {
@@ -253,10 +261,18 @@ export default class DDMExampleModel extends DDMExample {
     }
 
     if (this.ddmParameters) {
-      this.ddmParameters.a = this.a;
-      this.ddmParameters.z = this.z;
-      this.ddmParameters.v = this.v;
-      this.ddmParameters.t0 = this.t0;
+      this.ddmParameters.a = (this.ddmParameters.a != null)
+        ? this.a
+        : undefined;
+      this.ddmParameters.z = (this.ddmParameters.z != null)
+        ? this.z
+        : undefined;
+      this.ddmParameters.v = (this.ddmParameters.a != null)
+        ? this.v
+        : undefined;
+      this.ddmParameters.t0 = (this.ddmParameters.t0 != null)
+        ? this.t0
+        : undefined;
     }
 
     if (this.ddmModel) {

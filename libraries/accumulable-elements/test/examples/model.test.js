@@ -18,9 +18,10 @@ describe('ddm-example-model', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <ddm-example-model>
-        <accumulable-control run pause reset></accumulable-control>
+        <accumulable-control trials duration coherence color run pause reset></accumulable-control>
         <rdk-2afc-task></rdk-2afc-task>
-        <ddm-parameters interactive></ddm-parameters>
+        <ddm-parameters boundary-separation drift-rate nondecision-time starting-point interactive>
+        </ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
         <accumulable-response trial feedback></accumulable-response>
         <accumulable-table numeric summary></accumulable-table>
@@ -40,9 +41,10 @@ describe('ddm-example-model', () => {
   it('has a lightDom', async () => {
     const el = await fixture(html`
       <ddm-example-model>
-        <accumulable-control run pause reset></accumulable-control>
+        <accumulable-control trials duration coherence color run pause reset></accumulable-control>
         <rdk-2afc-task ></rdk-2afc-task>
-        <ddm-parameters interactive></ddm-parameters>
+        <ddm-parameters boundary-separation drift-rate nondecision-time starting-point interactive>
+        </ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
         <accumulable-response trial feedback></accumulable-response>
         <accumulable-table numeric summary></accumulable-table>
@@ -61,9 +63,10 @@ describe('ddm-example-model', () => {
   it('can run a task', async () => {
     const el = await fixture(html`
       <ddm-example-model>
-        <accumulable-control run pause reset></accumulable-control>
+        <accumulable-control trials duration coherence color run pause reset></accumulable-control>
         <rdk-2afc-task></rdk-2afc-task>
-        <ddm-parameters interactive></ddm-parameters>
+        <ddm-parameters boundary-separation drift-rate nondecision-time starting-point interactive>
+        </ddm-parameters>
         <ddm-model interactive measures means sds></ddm-model>
         <accumulable-response trial feedback></accumulable-response>
         <accumulable-table numeric summary></accumulable-table>
