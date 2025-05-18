@@ -16,6 +16,7 @@ describe('sdt-example-interactive', () => {
         <detectable-table numeric interactive summary="stimulusRates accuracy"></detectable-table>
         <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
         <sdt-model interactive threshold bias distributions sensitivity></sdt-model>
+        <sdt-parameters interactive d c s></sdt-parameters>
       </sdt-example-interactive>
     `);
     expect(el).shadowDom.to.equal(`
@@ -35,12 +36,14 @@ describe('sdt-example-interactive', () => {
         <detectable-table numeric interactive summary="stimulusRates accuracy"></detectable-table>
         <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
         <sdt-model interactive threshold bias distributions sensitivity></sdt-model>
+        <sdt-parameters interactive d c s></sdt-parameters>
       </sdt-example-interactive>
     `);
     expect(el).lightDom.to.equal(`
       <detectable-table class="keyboard" color="all" numeric interactive summary="stimulusRates accuracy" hits="80" misses="20" false-alarms="10" correct-rejections="90"></detectable-table>
       <roc-space class="keyboard" interactive iso-c="all" iso-d="all" point="all"></roc-space>
       <sdt-model class="keyboard" interactive threshold bias distributions sensitivity color="all"></sdt-model>
+      <sdt-parameters class="keyboard" interactive></sdt-parameters>
     `, {ignoreAttributes: ['hr', 'far', 'c', 'd', 's']});
   });
 
@@ -50,6 +53,7 @@ describe('sdt-example-interactive', () => {
         <detectable-table numeric interactive summary="stimulusRates accuracy"></detectable-table>
         <roc-space interactive point="all" iso-d="all" iso-c="all"></roc-space>
         <sdt-model interactive threshold bias distributions sensitivity></sdt-model>
+        <sdt-parameters interactive d c s></sdt-parameters>
       </sdt-example-interactive>
     `);
     // Action
@@ -65,6 +69,7 @@ describe('sdt-example-interactive', () => {
     });
     expect(el.rocSpace.hr).to.be.almost(0.667, 0.001);
     expect(el.sdtModel.c).to.be.almost(0.425, 0.001);
+    expect(el.sdtParameters.c).to.be.almost(0.425, 0.001);
   });
 
   it('connects the components properly');

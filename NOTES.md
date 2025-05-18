@@ -34,6 +34,12 @@
         - prospectable - complete
         - discountable - complete
         - accumulable - complete
+    - Require existence for controls and parameters to appear
+      - Sites:
+        - detectable - complete
+        - prospectable - complete
+        - discountable - complete
+        - accumulable - complete
     - Should decidables-elements have base class for examples?
   - Interactive diagrams:
     - Colored measurement lines to indicate parameters? (prospectable, discountable)

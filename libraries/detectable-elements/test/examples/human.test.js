@@ -19,6 +19,7 @@ describe('sdt-example-human', () => {
         <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
         <roc-space point="all" iso-d="all" iso-c="all"></roc-space>
         <sdt-model threshold bias distributions sensitivity histogram color="outcome"></sdt-model>
+        <sdt-parameters d c s></sdt-parameters>
       </sdt-example-human>
     `);
     expect(el).shadowDom.to.equal(`
@@ -41,6 +42,7 @@ describe('sdt-example-human', () => {
         <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
         <roc-space point="all" iso-d="all" iso-c="all"></roc-space>
         <sdt-model threshold bias distributions sensitivity histogram color="outcome"></sdt-model>
+        <sdt-parameters d c s></sdt-parameters>
       </sdt-example-human>
     `);
     expect(el).lightDom.to.equal(`
@@ -50,6 +52,7 @@ describe('sdt-example-human', () => {
       <detectable-table class="keyboard" color="all" correct-rejection-payoff="100" correct-rejections="0" false-alarm-payoff="-100" false-alarms="0" hit-payoff="0" hits="0" miss-payoff="0" misses="0" numeric summary="stimulusRates accuracy"></detectable-table>
       <roc-space class="keyboard" far="0.5" hr="0.5" iso-c="all" iso-d="all" point="all"></roc-space>
       <sdt-model bias c="0" class="keyboard" color="outcome" d="0" distributions histogram s="1" sensitivity threshold></sdt-model>
+      <sdt-parameters class="keyboard" d c s="1"></sdt-parameters>
     `);
   });
 
@@ -62,6 +65,7 @@ describe('sdt-example-human', () => {
         <detectable-table numeric summary="stimulusRates accuracy"></detectable-table>
         <roc-space point="all" iso-d="all" iso-c="all"></roc-space>
         <sdt-model threshold bias distributions sensitivity histogram color="outcome"></sdt-model>
+        <sdt-parameters d c s></sdt-parameters>
       </sdt-example-human>
     `);
     // Action: start task
@@ -81,11 +85,13 @@ describe('sdt-example-human', () => {
       expect(el.rocSpace.hr).to.be.almost(0.667, 0.001);
       expect(el.rocSpace.far).to.be.almost(0.5, 0.001);
       expect(el.sdtModel.c).to.be.almost(-0.216, 0.001);
+      expect(el.sdtParameters.c).to.be.almost(-0.216, 0.001);
     } else {
       expect(el.detectableTable).to.include({h: 0, fa: 1});
       expect(el.rocSpace.hr).to.be.almost(0.5, 0.001);
       expect(el.rocSpace.far).to.be.almost(0.667, 0.001);
       expect(el.sdtModel.c).to.be.almost(-0.216, 0.001);
+      expect(el.sdtParameters.c).to.be.almost(-0.216, 0.001);
     }
   });
 

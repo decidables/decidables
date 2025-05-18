@@ -93,6 +93,7 @@ export default class SDTExampleInteractive extends SDTExample {
     this.detectableTable = null;
     this.rocSpace = null;
     this.sdtModel = null;
+    this.sdtParameters = null;
 
     this.rocSpaces = [];
   }
@@ -104,6 +105,7 @@ export default class SDTExampleInteractive extends SDTExample {
     this.detectableTable = this.querySelector('detectable-table');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
+    this.sdtParameters = this.querySelector('sdt-parameters');
 
     this.rocSpaces = this.querySelectorAll('roc-space');
 
@@ -196,6 +198,20 @@ export default class SDTExampleInteractive extends SDTExample {
         this.cr = newcr;
       });
     }
+
+    if (this.sdtParameters) {
+      this.sdtParameters.addEventListener('sdt-parameters-d', (event) => {
+        this.d = event.detail.d;
+      });
+
+      this.sdtParameters.addEventListener('sdt-parameters-c', (event) => {
+        this.c = event.detail.c;
+      });
+
+      this.sdtParameters.addEventListener('sdt-parameters-s', (event) => {
+        this.s = event.detail.s;
+      });
+    }
   }
 
   update(changedProperties) {
@@ -236,6 +252,18 @@ export default class SDTExampleInteractive extends SDTExample {
         rocSpace.zRoc = this.zRoc;
         rocSpace.setWithSDT(this.d, this.c, 'default', '', this.s);
       });
+    }
+
+    if (this.sdtParameters) {
+      this.sdtParameters.d = (this.sdtParameters.d != null)
+        ? this.d
+        : undefined;
+      this.sdtParameters.c = (this.sdtParameters.c != null)
+        ? this.c
+        : undefined;
+      this.sdtParameters.s = (this.sdtParameters.s != null)
+        ? this.s
+        : undefined;
     }
   }
 }

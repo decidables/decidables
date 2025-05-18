@@ -107,6 +107,7 @@ export default class SDTExampleModel extends SDTExample {
     this.rdkTask = null;
     this.rocSpace = null;
     this.sdtModel = null;
+    this.sdtParameters = null;
   }
 
   connectedCallback() {
@@ -118,6 +119,7 @@ export default class SDTExampleModel extends SDTExample {
     this.rdkTask = this.querySelector('rdk-task');
     this.rocSpace = this.querySelector('roc-space');
     this.sdtModel = this.querySelector('sdt-model');
+    this.sdtParameters = this.querySelector('sdt-parameters');
 
     if (this.detectableControl) {
       this.detectableControl.addEventListener('detectable-control-trials', (event) => {
@@ -241,6 +243,20 @@ export default class SDTExampleModel extends SDTExample {
         this.far = SDTMath.faCr2Far(this.fa, this.cr);
       });
     }
+
+    if (this.sdtParameters) {
+      this.sdtParameters.addEventListener('sdt-parameters-d', (event) => {
+        this.d = event.detail.d;
+      });
+
+      this.sdtParameters.addEventListener('sdt-parameters-c', (event) => {
+        this.c = event.detail.c;
+      });
+
+      this.sdtParameters.addEventListener('sdt-parameters-s', (event) => {
+        this.s = event.detail.s;
+      });
+    }
   }
 
   update(changedProperties) {
@@ -295,6 +311,18 @@ export default class SDTExampleModel extends SDTExample {
       this.sdtModel.d = this.d;
       this.sdtModel.c = this.c;
       this.sdtModel.s = this.s;
+    }
+
+    if (this.sdtParameters) {
+      this.sdtParameters.d = (this.sdtParameters.d != null)
+        ? this.d
+        : undefined;
+      this.sdtParameters.c = (this.sdtParameters.c != null)
+        ? this.c
+        : undefined;
+      this.sdtParameters.s = (this.sdtParameters.s != null)
+        ? this.s
+        : undefined;
     }
   }
 }
