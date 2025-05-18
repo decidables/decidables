@@ -18,9 +18,9 @@ describe('cpt-example-model', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`
       <cpt-example-model>
-        <prospectable-control run pause reset></prospectable-control>
+        <prospectable-control trials duration run pause reset></prospectable-control>
         <risky-task></risky-task>
-        <cpt-parameters interactive></cpt-parameters>
+        <cpt-parameters alpha lambda gamma interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
         <cpt-probability interactive></cpt-probability>
         <prospectable-response trial feedback="outcome" payoff="both"></prospectable-response>
@@ -41,9 +41,9 @@ describe('cpt-example-model', () => {
   it('has a lightDom', async () => {
     const el = await fixture(html`
       <cpt-example-model>
-        <prospectable-control run pause reset></prospectable-control>
+        <prospectable-control trials duration run pause reset></prospectable-control>
         <risky-task></risky-task>
-        <cpt-parameters interactive></cpt-parameters>
+        <cpt-parameters alpha lambda gamma interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
         <cpt-probability interactive></cpt-probability>
         <prospectable-response trial feedback="outcome" payoff="both"></prospectable-response>
@@ -63,9 +63,9 @@ describe('cpt-example-model', () => {
   it('can run a task', async () => {
     const el = await fixture(html`
       <cpt-example-model>
-        <prospectable-control run pause reset></prospectable-control>
+        <prospectable-control trials duration run pause reset></prospectable-control>
         <risky-task></risky-task>
-        <cpt-parameters interactive></cpt-parameters>
+        <cpt-parameters alpha lambda gamma interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
         <cpt-probability interactive></cpt-probability>
         <prospectable-response trial feedback="outcome" payoff="both"></prospectable-response>

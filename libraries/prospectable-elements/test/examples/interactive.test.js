@@ -20,7 +20,7 @@ describe('cpt-example-interactive', () => {
     const el = await fixture(html`
       <cpt-example-interactive>
         <risky-choice interactive></risky-choice>
-        <cpt-parameters interactive></cpt-parameters>
+        <cpt-parameters alpha lambda gamma interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
         <cpt-probability interactive></cpt-probability>
         <cpt-calculation numeric interactive></cpt-calculation>
@@ -43,7 +43,7 @@ describe('cpt-example-interactive', () => {
     const el = await fixture(html`
       <cpt-example-interactive>
         <risky-choice interactive></risky-choice>
-        <cpt-parameters interactive></cpt-parameters>
+        <cpt-parameters alpha lambda gamma interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
         <cpt-probability interactive></cpt-probability>
         <cpt-calculation numeric interactive></cpt-calculation>
@@ -64,7 +64,7 @@ describe('cpt-example-interactive', () => {
     const el = await fixture(html`
       <cpt-example-interactive sure="20">
         <risky-choice interactive></risky-choice>
-        <cpt-parameters interactive></cpt-parameters>
+        <cpt-parameters alpha lambda gamma interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
         <cpt-probability interactive></cpt-probability>
         <cpt-calculation numeric interactive></cpt-calculation>
@@ -97,7 +97,7 @@ describe('cpt-example-interactive', () => {
     const el = await fixture(html`
       <cpt-example-interactive sure="15">
         <risky-choice interactive></risky-choice>
-        <cpt-parameters interactive></cpt-parameters>
+        <cpt-parameters alpha lambda gamma interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
         <cpt-probability interactive></cpt-probability>
         <cpt-calculation numeric interactive></cpt-calculation>
@@ -126,7 +126,7 @@ describe('cpt-example-interactive', () => {
     const el = await fixture(html`
       <cpt-example-interactive probability="0.75">
         <risky-choice interactive></risky-choice>
-        <cpt-parameters interactive></cpt-parameters>
+        <cpt-parameters alpha lambda gamma interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
         <cpt-probability interactive></cpt-probability>
         <cpt-calculation numeric interactive></cpt-calculation>
@@ -155,7 +155,7 @@ describe('cpt-example-interactive', () => {
     const el = await fixture(html`
       <cpt-example-interactive win="100">
         <risky-choice interactive></risky-choice>
-        <cpt-parameters interactive></cpt-parameters>
+        <cpt-parameters alpha lambda gamma interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
         <cpt-probability interactive></cpt-probability>
         <cpt-calculation numeric interactive></cpt-calculation>
@@ -183,7 +183,7 @@ describe('cpt-example-interactive', () => {
     const el = await fixture(html`
       <cpt-example-interactive alpha="0.75">
         <risky-choice interactive></risky-choice>
-        <cpt-parameters interactive></cpt-parameters>
+        <cpt-parameters alpha lambda gamma interactive></cpt-parameters>
         <cpt-value interactive></cpt-value>
         <cpt-probability interactive></cpt-probability>
         <cpt-calculation numeric interactive></cpt-calculation>

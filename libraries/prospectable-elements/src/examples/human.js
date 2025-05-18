@@ -184,9 +184,15 @@ export default class CPTExampleHuman extends CPTExample {
     super.update(changedProperties);
 
     if (this.cptParameters) {
-      this.cptParameters.a = this.a;
-      this.cptParameters.l = this.l;
-      this.cptParameters.g = this.g;
+      this.cptParameters.a = (this.cptParameters.a != null)
+        ? this.a
+        : undefined;
+      this.cptParameters.l = (this.cptParameters.l != null)
+        ? this.l
+        : undefined;
+      this.cptParameters.g = (this.cptParameters.g != null)
+        ? this.g
+        : undefined;
     }
 
     if (this.cptProbability) {
@@ -205,8 +211,12 @@ export default class CPTExampleHuman extends CPTExample {
     }
 
     if (this.prospectableControl) {
-      this.prospectableControl.trials = this.trials;
-      this.prospectableControl.duration = this.duration;
+      this.prospectableControl.trials = (this.prospectableControl.trials != null)
+        ? this.trials
+        : undefined;
+      this.prospectableControl.duration = (this.prospectableControl.trials != null)
+        ? this.duration
+        : undefined;
     }
 
     if (this.prospectableResponse) {

@@ -154,9 +154,15 @@ export default class CPTExampleInteractive extends CPTExample {
     }
 
     if (this.cptParameters) {
-      this.cptParameters.a = this.a;
-      this.cptParameters.l = this.l;
-      this.cptParameters.g = this.g;
+      this.cptParameters.a = (this.cptParameters.a != null)
+        ? this.a
+        : undefined;
+      this.cptParameters.l = (this.cptParameters.l != null)
+        ? this.l
+        : undefined;
+      this.cptParameters.g = (this.cptParameters.g != null)
+        ? this.g
+        : undefined;
     }
 
     if (this.cptProbability) {
