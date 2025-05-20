@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/discountable-math@0.1.9...@decidables/discountable-math@0.2.0) (2025-05-20)
+
+
+### Features
+
+* **discountable-math:** add k parameter settings ([058117e](https://github.com/decidables/decidables/commit/058117edbfeab33773bcab61a774b9c24d0f134d))
+
+
+
 ## [0.1.9](https://github.com/decidables/decidables/compare/@decidables/discountable-math@0.1.8...@decidables/discountable-math@0.1.9) (2025-02-06)
 
 **Note:** Version bump only for package @decidables/discountable-math

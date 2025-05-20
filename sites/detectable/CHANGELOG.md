@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.2](https://github.com/decidables/decidables/compare/@decidables/detectable@0.12.1...@decidables/detectable@0.12.2) (2025-05-20)
+
+
+### Bug Fixes
+
+* **detectable:** update examples to use standardized interface ([993f9b4](https://github.com/decidables/decidables/commit/993f9b40de272945c3571143fd90ca3becc34c55))
+
+
+
 ## [0.12.1](https://github.com/decidables/decidables/compare/@decidables/detectable@0.12.0...@decidables/detectable@0.12.1) (2025-02-06)
 
 

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.2](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.9.1...@decidables/prospectable@0.9.2) (2025-05-20)
+
+
+### Bug Fixes
+
+* **prospectable:** update and normalize examples ([855d23a](https://github.com/decidables/decidables/commit/855d23a7e2e79dc9af8836c0e4aafb279e18ca67))
+* **sites:** update sites to explicitly include controls/parameters ([29999e9](https://github.com/decidables/decidables/commit/29999e96657e995c8c1ebb97623b55194886a465))
+
+
+
 ## [0.9.1](https://github.com/decidables/decidables/compare/@decidables/prospectable@0.9.0...@decidables/prospectable@0.9.1) (2025-02-06)
 
 

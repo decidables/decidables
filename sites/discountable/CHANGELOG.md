@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.2](https://github.com/decidables/decidables/compare/@decidables/discountable@0.5.1...@decidables/discountable@0.5.2) (2025-05-20)
+
+
+### Bug Fixes
+
+* **sites:** update sites to explicitly include controls/parameters ([29999e9](https://github.com/decidables/decidables/commit/29999e96657e995c8c1ebb97623b55194886a465))
+
+
+
 ## [0.5.1](https://github.com/decidables/decidables/compare/@decidables/discountable@0.5.0...@decidables/discountable@0.5.1) (2025-02-06)
 
 

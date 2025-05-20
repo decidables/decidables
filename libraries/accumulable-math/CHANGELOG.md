@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/accumulable-math@0.1.3...@decidables/accumulable-math@0.2.0) (2025-05-20)
+
+
+### Features
+
+* **accumulable-math:** added parameter settings ([ca3f006](https://github.com/decidables/decidables/commit/ca3f0068b304979013c2ce1b85ed79e59bc48eae))
+
+
+
 ## [0.1.3](https://github.com/decidables/decidables/compare/@decidables/accumulable-math@0.1.2...@decidables/accumulable-math@0.1.3) (2025-02-06)
 
 **Note:** Version bump only for package @decidables/accumulable-math

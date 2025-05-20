@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.3.9...@decidables/discountable-elements@0.4.0) (2025-05-20)
+
+
+### Features
+
+* **discountable-elements:** add larger touch targets to htd-curves ([0f57a3a](https://github.com/decidables/decidables/commit/0f57a3a1cc09bf63ee8cc4c50d08159c06daaad8))
+* **discountable-elements:** add parameter value controls as htd-parameters ([0b50fbf](https://github.com/decidables/decidables/commit/0b50fbf6bd5f76b11fdea7d01f8826f99d6184f9))
+* **discountable-elements:** colored nonlinear slider for k in htd-parameters ([59c670b](https://github.com/decidables/decidables/commit/59c670b8911ca7dd80a46c4f1a7b74681eb62ca1))
+* **discountable-elements:** controls/parameters must be explicitly included to be shown in examples ([3e41072](https://github.com/decidables/decidables/commit/3e41072b1934b33f5a1af849388c144a86372daf))
+* **discountable-elements:** htd-fit: tips and highlighting in fit plots ([a399e5f](https://github.com/decidables/decidables/commit/a399e5f877c22ca2ede74f28ef7b77025047b15f))
+* **discountable-elements:** key responses for discountable-response ([850dbf2](https://github.com/decidables/decidables/commit/850dbf2e61372ca5f2c2bd7c8f6bd89275cda7b2))
+* **discountable-elements:** use parameter settings throughout ([cc4c307](https://github.com/decidables/decidables/commit/cc4c307a618c8d65d8e317787c930145b0fb8a18))
+
+
+### Bug Fixes
+
+* **discountable-elements:** fix htd-curves touch drag ([cfc516f](https://github.com/decidables/decidables/commit/cfc516f1ae581c5001e8998a20ff7d6fccc92182))
+* **discountable-elements:** fix touch targets for htd-curves ([6b79be9](https://github.com/decidables/decidables/commit/6b79be97a782653bb2cc712005cdbe9efe0e6b94))
+* **discountable-elements:** htd curve - remove redundant SVG element ([002a529](https://github.com/decidables/decidables/commit/002a52921fabc3bc279922fd5ff8e173e12a727b))
+
+
+
 ## [0.3.9](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.3.8...@decidables/discountable-elements@0.3.9) (2025-02-06)
 
 **Note:** Version bump only for package @decidables/discountable-elements

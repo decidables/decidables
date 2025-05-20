@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.2.16...@decidables/detectable-elements@0.3.0) (2025-05-20)
+
+
+### Features
+
+* **detectable-elements:** add sdt-parameters to examples ([235b07e](https://github.com/decidables/decidables/commit/235b07ea503ffe7af831499cd09d63bb3c0281aa))
+* **detectable-elements:** added sdt-parameters for adjusting and showing parameters ([1d5f62a](https://github.com/decidables/decidables/commit/1d5f62a357de82ccb5584fad5283501a52dd8d4a))
+* **detectable-elements:** detectable-response accepts keyboard input ([d79b679](https://github.com/decidables/decidables/commit/d79b679ad73d1011729def549e9bc7c4c74ea546))
+* **detectable-elements:** for `sdt-model` use 'all' as an alias for 'outcome' color ([9b0a0e8](https://github.com/decidables/decidables/commit/9b0a0e87b7fec32a5f4c8579b210ea370e594bf8))
+* **detectable-elements:** standardized examples ([00743d5](https://github.com/decidables/decidables/commit/00743d53094bd7d1fe38a7a1ee2d0091f1d889fe))
+* **detectable-elements:** use default parameter values ([a89c321](https://github.com/decidables/decidables/commit/a89c32182e7293e94a3eeef96c873b2b58946ac6))
+
+
+### Bug Fixes
+
+* **detectable-elements:** allow controls to be shown or not in examples ([3d3fa61](https://github.com/decidables/decidables/commit/3d3fa614dc6396b5f6f4e18757816a6068f59827))
+* **detectable-elements:** sdt-model and roc-space improved touch targets ([4bef6ae](https://github.com/decidables/decidables/commit/4bef6aee6b95a9e92dee3902a449854d336956d6))
+* **detectable-elements:** set defaults for example attributes ([7057fb0](https://github.com/decidables/decidables/commit/7057fb0b1c9177bc45249ad483dbad8cd1e3406e))
+
+
+
 ## [0.2.16](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.2.15...@decidables/detectable-elements@0.2.16) (2025-02-06)
 
 **Note:** Version bump only for package @decidables/detectable-elements

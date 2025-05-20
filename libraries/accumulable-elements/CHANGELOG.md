@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.1.3...@decidables/accumulable-elements@0.2.0) (2025-05-20)
+
+
+### Features
+
+* **accumulable-elements:** add colored sliders to ddm-parameters ([eba01e5](https://github.com/decidables/decidables/commit/eba01e57279ac5df06f619a0f63e34c16e856656))
+* **accumulable-elements:** controls/parameters must be explicitly included to be shown in examples ([1dc025d](https://github.com/decidables/decidables/commit/1dc025d0919e8249f8447a5608a81d515e22ec08))
+* **accumulable-elements:** human example now has attributes shared to slotted children ([eb25a21](https://github.com/decidables/decidables/commit/eb25a21db6972731e4fec184ac7ff98c403e7d75))
+* **accumulable-elements:** use new parameter settings in DDMMath ([95ce71f](https://github.com/decidables/decidables/commit/95ce71fc6337ba0af73154135f3381d2092ca1e5))
+
+
+### Bug Fixes
+
+* **accumulable-elements:** add proper touch targets in ddm-model ([bb808d6](https://github.com/decidables/decidables/commit/bb808d6f5afc9ce78297f14071e9faab7634b205))
+* **accumulable-elements:** better target touch adjustments ([969aa65](https://github.com/decidables/decidables/commit/969aa65896a0fef1e0503b5e082db2f1ff740114))
+* **accumulable-elements:** clean-up examples to consistently handle events ([d6964d9](https://github.com/decidables/decidables/commit/d6964d91f692961323ccaa57dc6145f5b6aa9fa9))
+* **accumulable-elements:** tweak touch targets for ddm-model ([6bd2dd7](https://github.com/decidables/decidables/commit/6bd2dd73add80ba898d956b0042a02fd71509ed8))
+
+
+
 ## [0.1.3](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.1.2...@decidables/accumulable-elements@0.1.3) (2025-02-06)
 
 **Note:** Version bump only for package @decidables/accumulable-elements

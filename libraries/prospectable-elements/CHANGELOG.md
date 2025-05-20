@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.2.16...@decidables/prospectable-elements@0.3.0) (2025-05-20)
+
+
+### Features
+
+* **prospectable-elements:** add cpt-parameters component ([f696d98](https://github.com/decidables/decidables/commit/f696d985f2f12a36ceec6e858c9bf8670677d7be))
+* **prospectable-elements:** controls/parameters must be explicitly included to be shown in examples ([2689886](https://github.com/decidables/decidables/commit/26898869b73ea92100bed82275b328630e2b5a50))
+* **prospectable-elements:** improve touch targets in cpt-probability and cpt-value ([620f47e](https://github.com/decidables/decidables/commit/620f47e6a39a5194994c7842cf4df0848531e540))
+* **prospectable-elements:** normalize examples and add CPTParameters to them ([40294cc](https://github.com/decidables/decidables/commit/40294cc2c611445984a0d31eacb3e7661b8918bc))
+* **prospectable-elements:** prospectable-response accepts keyboard input ([6ceea67](https://github.com/decidables/decidables/commit/6ceea67ea51831f53bbe9e3103f72cee67b890e8))
+* **prospectable-elements:** use CPTMath parameter settings ([cf94caf](https://github.com/decidables/decidables/commit/cf94cafabcd824af0ce0b590d4cfcd0808ad331e))
+
+
+### Bug Fixes
+
+* **prospectable-elements:** hide touch interaction elements ([bd73ad2](https://github.com/decidables/decidables/commit/bd73ad2b0ffb40bee2b2c8b1fc63a39be8bcbd73))
+
+
+
 ## [0.2.16](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.2.15...@decidables/prospectable-elements@0.2.16) (2025-02-06)
 
 **Note:** Version bump only for package @decidables/prospectable-elements

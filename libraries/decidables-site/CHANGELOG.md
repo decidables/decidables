@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.3.1...@decidables/decidables-site@0.3.2) (2025-05-20)
+
+
+### Bug Fixes
+
+* **decidables-site:** fix css class for styling `ui` notes ([085d836](https://github.com/decidables/decidables/commit/085d836b44601ea573d5c990f1da0fe5f23df1bf))
+
+
+
 ## [0.3.1](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.3.0...@decidables/decidables-site@0.3.1) (2025-02-06)
 
 

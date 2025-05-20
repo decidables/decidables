@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.2](https://github.com/decidables/decidables/compare/@decidables/accumulable@0.4.1...@decidables/accumulable@0.4.2) (2025-05-20)
+
+
+### Bug Fixes
+
+* **accumulable:** fix fitting page to use new ddm-example-human interface ([0823921](https://github.com/decidables/decidables/commit/082392166d165b7941004845bbcc4579e97fe102))
+* **accumulable:** remove unneeded hardcoded value ([e35d00e](https://github.com/decidables/decidables/commit/e35d00e6aeca123b0c3fe92edeb3a125c5d84f30))
+* **sites:** update sites to explicitly include controls/parameters ([29999e9](https://github.com/decidables/decidables/commit/29999e96657e995c8c1ebb97623b55194886a465))
+
+
+
 ## [0.4.1](https://github.com/decidables/decidables/compare/@decidables/accumulable@0.4.0...@decidables/accumulable@0.4.1) (2025-02-06)
 
 

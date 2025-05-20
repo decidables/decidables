@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/prospectable-math@0.2.11...@decidables/prospectable-math@0.3.0) (2025-05-20)
+
+
+### Features
+
+* **prospectable-math:** parameter settings for alpha, lambda, and gamma ([fed4932](https://github.com/decidables/decidables/commit/fed4932dbedaf00dde72bea3266ce69d065de44e))
+
+
+### Bug Fixes
+
+* **prospectable-math:** improve lambda.MAX ([a824899](https://github.com/decidables/decidables/commit/a824899b2a40f4c9a72ebba030dfae6cc2ff838b))
+
+
+
 ## [0.2.11](https://github.com/decidables/decidables/compare/@decidables/prospectable-math@0.2.10...@decidables/prospectable-math@0.2.11) (2025-02-06)
 
 **Note:** Version bump only for package @decidables/prospectable-math
