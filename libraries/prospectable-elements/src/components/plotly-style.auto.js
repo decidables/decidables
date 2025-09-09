@@ -121,6 +121,9 @@ const plotlyStyle = css`
 .js-plotly-plot .plotly:hover .modebar--hover .modebar-group {
   opacity: 1;
 }
+.js-plotly-plot .plotly:focus-within .modebar--hover .modebar-group {
+  opacity: 1;
+}
 .js-plotly-plot .plotly .modebar-group {
   float: left;
   display: inline-block;
@@ -129,6 +132,10 @@ const plotlyStyle = css`
   position: relative;
   vertical-align: middle;
   white-space: nowrap;
+}
+.js-plotly-plot .plotly .modebar-group a {
+  display: grid;
+  place-content: center;
 }
 .js-plotly-plot .plotly .modebar-btn {
   position: relative;
@@ -139,10 +146,16 @@ const plotlyStyle = css`
   cursor: pointer;
   line-height: normal;
   box-sizing: border-box;
+  border: none;
+  background: transparent;
 }
 .js-plotly-plot .plotly .modebar-btn svg {
   position: relative;
-  top: 2px;
+}
+.js-plotly-plot .plotly .modebar-btn:focus-visible {
+  outline: 1px solid black;
+  outline-offset: 1px;
+  border-radius: 3px;
 }
 .js-plotly-plot .plotly .modebar.vertical {
   display: flex;
