@@ -260,6 +260,7 @@ export default class DecidablesElement extends LitElement {
         ---transition-duration: var(--transition-duration, 500ms);
 
         font-family: var(---font-family-base);
+        font-weight: normal;
       }
 
       :host,
