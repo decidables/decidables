@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.5.0...@decidables/decidables-elements@0.5.1) (2025-09-09)
+
+
+### Bug Fixes
+
+* **decidables-elements:** set font-weight in decidables-element to avoid accidentally inheritance ([533af1f](https://github.com/decidables/decidables/commit/533af1fe54b43003e80887a02a8ff92cb3ec3bf4))
+
+
+
 ## [0.5.0](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.4.9...@decidables/decidables-elements@0.5.0) (2025-05-20)
 
 

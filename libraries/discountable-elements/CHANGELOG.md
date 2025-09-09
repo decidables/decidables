@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.4.0...@decidables/discountable-elements@0.4.1) (2025-09-09)
+
+**Note:** Version bump only for package @decidables/discountable-elements
+
+
+
+
+
 ## [0.4.0](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.3.9...@decidables/discountable-elements@0.4.0) (2025-05-20)
 
 
