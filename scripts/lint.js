@@ -42,9 +42,9 @@ export async function lintMarkupLocal() {
   const vnuArgs = [
     '-Xss1024k',
     '-jar',
-    `"${vnuJar}"`,
+    `${vnuJar}`,
     '--format text',
-    ...srcPaths.map((srcPath) => { return `"${srcPath}"`; }),
+    ...srcPaths.map((srcPath) => { return `${srcPath}`; }),
   ];
 
   const format = {
@@ -57,7 +57,7 @@ export async function lintMarkupLocal() {
   // Run v.Nu on all files
   const execFile = util.promisify(childProcess.execFile);
   try {
-    await execFile('java', vnuArgs, {shell: true});
+    await execFile('java', vnuArgs);
   } catch (error) {
     console.group(`${format.bold}${format.red}lintMarkupLocal (v.Nu)${format.reset}`);
     console.error(`${format.yellow}${error.stderr}${format.reset}`);

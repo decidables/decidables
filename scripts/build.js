@@ -16,7 +16,7 @@ import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import rollupPluginTerser from '@rollup/plugin-terser';
 import {visualizer as rollupPluginVisualizer} from 'rollup-plugin-visualizer';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
-import svgo from 'svgo';
+import * as svgo from 'svgo';
 import * as terser from 'terser';
 
 // Local Dependencies
