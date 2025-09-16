@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.11.3...@decidables/decidables@0.12.0) (2025-09-16)
+
+
+### Features
+
+* **sites:** move icon next to name on index pages ([8645dd7](https://github.com/decidables/decidables/commit/8645dd7c11e7af973ee17544b49f55e92b84dc68))
+
+
+
 ## [0.11.3](https://github.com/decidables/decidables/compare/@decidables/decidables@0.11.2...@decidables/decidables@0.11.3) (2025-09-09)
 
 **Note:** Version bump only for package @decidables/decidables
