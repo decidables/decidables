@@ -59,6 +59,7 @@ export const compile = gulp.series(
 );
 
 export const watchLibraries = watches.watchLibrariesTask([
+  'decidables-site',
   'decidables-elements',
   'accumulable-math',
   'accumulable-elements',
