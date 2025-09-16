@@ -1309,6 +1309,9 @@ const o$2=t=>t??E;class DecidablesSlider extends DecidablesElement{static get pr
 .js-plotly-plot .plotly:hover .modebar--hover .modebar-group {
   opacity: 1;
 }
+.js-plotly-plot .plotly:focus-within .modebar--hover .modebar-group {
+  opacity: 1;
+}
 .js-plotly-plot .plotly .modebar-group {
   float: left;
   display: inline-block;
@@ -1317,6 +1320,10 @@ const o$2=t=>t??E;class DecidablesSlider extends DecidablesElement{static get pr
   position: relative;
   vertical-align: middle;
   white-space: nowrap;
+}
+.js-plotly-plot .plotly .modebar-group a {
+  display: grid;
+  place-content: center;
 }
 .js-plotly-plot .plotly .modebar-btn {
   position: relative;
@@ -1327,10 +1334,16 @@ const o$2=t=>t??E;class DecidablesSlider extends DecidablesElement{static get pr
   cursor: pointer;
   line-height: normal;
   box-sizing: border-box;
+  border: none;
+  background: transparent;
 }
 .js-plotly-plot .plotly .modebar-btn svg {
   position: relative;
-  top: 2px;
+}
+.js-plotly-plot .plotly .modebar-btn:focus-visible {
+  outline: 1px solid black;
+  outline-offset: 1px;
+  border-radius: 3px;
 }
 .js-plotly-plot .plotly .modebar.vertical {
   display: flex;
