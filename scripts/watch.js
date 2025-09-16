@@ -8,7 +8,9 @@ import * as compiles from './compile.js';
 // Tasks
 export function watchLibrariesTask(libraries) {
   return function watchLibraries() {
+    gulp.watch(libraries.map((library) => { return `../../libraries/${library}/src/**/*.{md,ejs}`; }), {ignoreInitial: true}, compiles.compileMarkdown);
     gulp.watch(libraries.map((library) => { return `../../libraries/${library}/src/**/*.js`; }), {ignoreInitial: true}, compiles.compileScripts);
+    gulp.watch(libraries.map((library) => { return `../../libraries/${library}/src/**/*.scss`; }), {ignoreInitial: true}, compiles.compileStyles);
   };
 }
 
