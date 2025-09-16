@@ -7,10 +7,10 @@ script: page
 <!--lint ignore first-heading-level-->
 
 <header class="dec-index-header">
-  <img class="dec-index-icon" src="favicon.svg" alt="prospect𝛼b𝜆e icon">
   <hgroup class="dec-index-titles">
     <h1 class="dec-index-title">
-      <span class="dec-site">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
+      <img class="dec-index-icon" src="favicon.svg" alt="prospect𝛼b𝜆e icon">
+      <span class="dec-name">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
     </h1>
     <p class="dec-index-subtitle">An Explorable Explanation of Cumulative Prospect Theory</p>
   </hgroup>

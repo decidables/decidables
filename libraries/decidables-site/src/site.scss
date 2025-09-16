@@ -400,20 +400,20 @@ $enable-dark-mode: false;
   @extend .row, .g-4, .py-4, .justify-content-center;
 }
 
+.dec-index-titles {
+  @extend .col-11, .mt-3;
+}
+
+.dec-index-title {
+  @extend .display-1, .d-flex, .flex-wrap, .justify-content-center, .align-items-center, .gap-4, .mb-3;
+}
+
 .dec-index-icon {
   width: 8rem;
   height: 8rem;
   padding: 0;
 
   border-radius: $border-radius;
-}
-
-.dec-index-titles {
-  @extend .col-11, .mt-3;
-}
-
-.dec-index-title {
-  @extend .display-1, .fw-bold, .text-center;
 }
 
 .dec-index-subtitle {

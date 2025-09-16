@@ -7,10 +7,10 @@ script: page
 <!--lint ignore first-heading-level-->
 
 <header class="dec-index-header">
-  <img class="dec-index-icon" src="favicon.svg" alt="𝑑′ete𝑐table icon">
   <hgroup class="dec-index-titles">
     <h1 class="dec-index-title">
-      <span class="dec-site"><span class="math-var">d′</span>ete<span class="math-var">c</span>table</span>
+      <img class="dec-index-icon" src="favicon.svg" alt="𝑑′ete𝑐table icon">
+      <span class="dec-name"><span class="math-var">d′</span>ete<span class="math-var">c</span>table</span>
     </h1>
     <p class="dec-index-subtitle">An Explorable Explanation of Signal Detection Theory</p>
   </hgroup>

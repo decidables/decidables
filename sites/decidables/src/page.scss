@@ -201,20 +201,20 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
   @extend .row, .g-4, .justify-content-center;
 }
 
+.dec-main-titles {
+  @extend .col-12, .mt-3;
+}
+
+.dec-main-title {
+  @extend .display-1, .d-flex, .justify-content-center, .align-items-center, .gap-3;
+}
+
 .dec-main-icon {
   width: 8rem;
   height: 8rem;
   padding: 0;
 
   border-radius: $border-radius;
-}
-
-.dec-main-titles {
-  @extend .col-12, .mt-3;
-}
-
-.dec-main-title {
-  @extend .display-1, .fw-bold, .text-center;
 }
 
 .dec-main-subtitle {
@@ -283,21 +283,24 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
   @extend .text-body, .stretched-link;
 }
 
-.dec-site-icon {
-  @extend .p-0, .mb-2;
-
-  width: 4rem;
-  height: 4rem;
-  // padding: 0;
-
-  border-radius: $border-radius;
-}
-
 // .dec-site-titles {
 // }
 
 .dec-site-title {
-  @extend .h3, .card-title, .fw-semibold, .text-center;
+  @extend .h3, .card-title, .d-flex, .justify-content-center, .align-items-center, .gap-3, .mb-3;
+}
+
+.dec-site-icon {
+  @extend .p-0;
+
+  width: 4rem;
+  height: 4rem;
+
+  border-radius: $border-radius;
+}
+
+.dec-name {
+  @extend .fw-semibold;
 }
 
 .dec-site-subtitle {

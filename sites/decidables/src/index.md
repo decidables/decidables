@@ -7,9 +7,11 @@ script: page
 <!--lint ignore first-heading-level-->
 
 <header class="dec-main-header">
-  <img class="dec-main-icon" src="favicon.svg" alt="decidables icon">
   <hgroup class="dec-main-titles">
-    <h1 class="dec-main-title">decidables</h1>
+    <h1 class="dec-main-title">
+      <img class="dec-main-icon" src="favicon.svg" alt="decidables icon">
+      <span class="decidables">decidables</span>
+    </h1>
     <p class="dec-main-subtitle">Explorable Explanations of Decision Making</p>
   </hgroup>
   <p class="dec-main-lead">
@@ -28,10 +30,10 @@ script: page
       <header class="dec-site-header">
         <div class="dec-site-intro">Draft available:</div>
         <a class="dec-site-link" href="detectable/">
-          <img class="dec-site-icon" src="detectable/favicon.svg" alt="𝑑′ete𝑐table icon">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
-              <span class="detectable"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+              <img class="dec-site-icon" src="detectable/favicon.svg" alt="𝑑′ete𝑐table icon">
+              <span class="dec-name"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
             </h2>
             <p class="dec-site-subtitle">An Explorable Explanation of Signal Detection Theory</p>
           </hgroup>
@@ -93,10 +95,10 @@ script: page
       <header class="dec-site-header">
         <div class="dec-site-intro dec-disabled">Under development...</div>
         <a class="dec-site-link dec-disabled" href="prospectable/">
-          <img class="dec-site-icon" src="prospectable/favicon.svg" alt="prospect𝛼b𝜆e icon">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
-              <span class="prospectable">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
+              <img class="dec-site-icon" src="prospectable/favicon.svg" alt="prospect𝛼b𝜆e icon">
+              <span class="dec-name">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
             </h2>
             <p class="dec-site-subtitle">An Explorable Explanation of Cumulative Prospect Theory</p>
           </hgroup>
@@ -152,10 +154,10 @@ script: page
       <header class="dec-site-header">
         <div class="dec-site-intro dec-disabled">Under development...</div>
         <a class="dec-site-link dec-disabled" href="discountable/">
-          <img class="dec-site-icon" src="discountable/favicon.svg" alt="dis𝑘ountable icon">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
-              <span class="discountable">dis<span class="math-var">k</span>ountable</span>
+              <img class="dec-site-icon" src="discountable/favicon.svg" alt="dis𝑘ountable icon">
+              <span class="dec-name">dis<span class="math-var">k</span>ountable</span>
             </h2>
             <p class="dec-site-subtitle">An Explorable Explanation of Hyperbolic Temporal Discounting</p>
           </hgroup>
@@ -203,10 +205,10 @@ script: page
       <header class="dec-site-header">
         <div class="dec-site-intro dec-disabled">Under development...</div>
         <a class="dec-site-link dec-disabled" href="accumulable/">
-          <img class="dec-site-icon" src="accumulable/favicon.svg" alt="𝑎ccumulable icon">
           <hgroup class="dec-site-titles">
             <h2 class="dec-site-title">
-              <span class="accumulable"><span class="math-var a">a</span>ccumulable</span>
+              <img class="dec-site-icon" src="accumulable/favicon.svg" alt="𝑎ccumulable icon">
+              <span class="dec-name"><span class="math-var a">a</span>ccumulable</span>
             </h2>
             <p class="dec-site-subtitle">An Explorable Explanation of the Diffusion Decision Model</p>
           </hgroup>
