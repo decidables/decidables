@@ -4,6 +4,7 @@
 - Elements
   - decidables-slider
     - use `writing-mode` for orientation?
+      https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_writing_modes/Vertical_controls
     - remove old `ms` customizations
   - Remove all hard-coded values?
     - define central default, min, max, step, and jump for every variable?
@@ -33,7 +34,6 @@
     - Use localStorage or sessionStorage for maintaining page state?
     - Should this be done by elements? examples? pages?
   - Pages
-    - Fix `:::ui`?
     - Format negative numbers with true minus sign character?
     - Clean way for inter-page references?
     - Add "question" blocks for thoughts for readers to try - maybe with foldout answers?
