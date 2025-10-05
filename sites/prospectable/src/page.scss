@@ -1,31 +1,8 @@
+// Prospectable Colors
+@use "@decidables/prospectable-elements/src/colors.yml" as *;
+
 // Decidables Module
-@use "@decidables/decidables-site/src/site" as * with (
-  // Custom Colors
-  // http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
-  $color-map: (
-    x: #e41a1c, // red (CB1)
-    a: #ff7f00, // orange (CB5)
-    l: #ffff33, // yellow (CB6)
-    v: #f781bf, // pink (CB8)
-
-    p: #377eb8, // blue (CB2)
-    g: #4daf4a, // green (CB3)
-    w: #984ea3, // purple (CB4)
-
-    u: #a65628, // brown (CB7)
-
-    chosen: #999999, // grey (CB9)
-
-    better: #4545d0, // violet
-    worse: #f032e6, // magenta
-    even: #10dbc9, // cyan
-
-    correct: #ffffff, // white
-    error: #000000, // black
-
-    nr: #cccccc, // grey-light50
-  )
-);
+@use "@decidables/decidables-site/src/site" as * with ($color-map: $colors);
 
 // Key Colors
 .dec-content {

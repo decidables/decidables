@@ -14,6 +14,7 @@ import frontMatter from 'front-matter';
 import {globby} from 'globby';
 import {fromHtmlIsomorphic as hastUtilFromHtmlIsomorphic} from 'hast-util-from-html-isomorphic';
 import nodeNotifier from 'node-notifier';
+import {yamlImporter as nodeSassYamlImporter} from 'node-sass-yaml-importer';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
@@ -29,6 +30,7 @@ import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import {visualizer as rollupPluginVisualizer} from 'rollup-plugin-visualizer';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
+import rollupPluginYaml from '@rollup/plugin-yaml';
 import * as sass from 'sass';
 import {unified} from 'unified';
 
@@ -227,6 +229,7 @@ const pluginBabel = rollupPluginBabel.babel({
   }]],
   babelHelpers: 'bundled',
 });
+const pluginYaml = rollupPluginYaml();
 const pluginVisualizer = rollupPluginVisualizer({
   filename: 'rollup-stats.html',
 });
@@ -242,6 +245,7 @@ export async function compileScripts() {
       pluginCommonjs,
       pluginWebWorkerLoader,
       pluginBabel,
+      pluginYaml,
       pluginVisualizer,
     ],
     // Hide warnings for circular dependencies, which are allowed in the ES6 spec
@@ -273,6 +277,25 @@ export async function compileStyles() {
   // Faster to use sync than async!?
   const compiler = sass.initCompiler();
 
+  // Wrap nodeSassYamlImporter to provide package resolution
+  function isValidDataFile(dataUrl) {
+    return /\.(ya?ml|json)$/.test(dataUrl);
+  }
+  const yamlImporter = {
+    canonicalize(dataUrl, context) {
+      if (!isValidDataFile(dataUrl)) return null;
+      if (context.containingUrl === null) return null;
+
+      const resolvedUrl = resolvePkg(dataUrl);
+
+      return nodeSassYamlImporter.canonicalize(
+        (resolvedUrl === undefined) ? dataUrl : resolvedUrl,
+        context,
+      );
+    },
+    load: nodeSassYamlImporter.load,
+  };
+
   await Promise.all(
     srcPaths.map(
       async (srcPath) => {
@@ -282,6 +305,7 @@ export async function compileStyles() {
         const mapName = `${destName}.map`;
 
         const result = compiler.compile(srcPath, {
+          importers: [yamlImporter],
           loadPaths: ['../../node_modules'],
           sourceMap: true,
           sourceMapIncludeSources: true,

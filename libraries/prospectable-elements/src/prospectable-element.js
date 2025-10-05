@@ -7,6 +7,8 @@ import * as d3 from 'd3';
 
 import {DecidablesElement} from '@decidables/decidables-elements';
 
+import {colors} from './colors.yml';
+
 /*
   ProspectableElement Base Class - Not intended for instantiation!
   <sdt-element>
@@ -28,23 +30,7 @@ export default class ProspectableElement extends DecidablesElement {
   }
 
   static get colors() {
-    return {
-      x: d3.schemeSet1[0],
-      a: d3.schemeSet1[4],
-      l: d3.schemeSet1[5],
-      v: d3.schemeSet1[7],
-      p: d3.schemeSet1[1],
-      g: d3.schemeSet1[2],
-      w: d3.schemeSet1[3],
-      u: d3.schemeSet1[6],
-      chosen: d3.schemeSet1[8],
-      better: '#4545d0',
-      worse: '#f032e6',
-      even: '#10dbc9',
-      correct: '#ffffff',
-      error: '#000000',
-      nr: '#cccccc',
-    };
+    return colors;
   }
 
   static get lights() {

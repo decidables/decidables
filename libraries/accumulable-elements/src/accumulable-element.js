@@ -7,6 +7,8 @@ import * as d3 from 'd3';
 
 import {DecidablesElement} from '@decidables/decidables-elements';
 
+import {colors} from './colors.yml';
+
 /*
   AccumulableElement Base Class - Not intended for instantiation!
 */
@@ -27,18 +29,7 @@ export default class AccumulableElement extends DecidablesElement {
   }
 
   static get colors() {
-    return {
-      a: d3.schemeSet1[0],
-      z: d3.schemeSet1[1],
-      v: d3.schemeSet1[4],
-      t0: d3.schemeSet1[7],
-      s: d3.schemeSet1[8],
-      left: '#f032e6',
-      right: '#10dbc9',
-      correct: d3.schemeSet1[2],
-      error: d3.schemeSet1[3],
-      nr: '#cccccc',
-    };
+    return colors;
   }
 
   static get lights() {

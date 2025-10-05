@@ -1,0 +1,23 @@
+# Custom Colors
+# http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
+colors:
+  h: '#4daf4a' # green (CB3)
+  m: '#ff7f00' # orange (CB5)
+  fa: '#377eb8' # blue (CB2)
+  cr: '#e41a1c' # red (CB1)
+
+  hr: '#ffff33' # yellow (CB6)
+  far: '#984ea3' # purple (CB4)
+  acc: '#999999' # grey (CB9)
+
+  d: '#f781bf' # pink (CB8)
+  c: '#a65628' # brown (CB7)
+  s: '#4545d0' # violet
+
+  present: '#f032e6' # magenta
+  absent: '#10dbc9' # cyan
+
+  correct: '#ffffff' # white
+  error: '#000000' # black
+
+  nr: '#cccccc' # grey-light50

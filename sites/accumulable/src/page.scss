@@ -1,27 +1,8 @@
+// Accumulable Colors
+@use "@decidables/accumulable-elements/src/colors.yml" as *;
+
 // Decidables Module
-@use "@decidables/decidables-site/src/site" as * with (
-  // Custom Colors
-  // http://colorbrewer2.org/#type=qualitative&scheme=Set1&n=9
-  $color-map: (
-    a: #e41a1c, // red (CB1)
-    z: #377eb8, // blue (CB2)
-    v: #ff7f00, // orange (CB5)
-    t0: #f781bf, // pink (CB8)
-    s: #999999, // gray (CB9)
-
-    left: #f032e6, // magenta
-    right: #10dbc9, // cyan
-
-    correct: #4daf4a, // green (CB3)
-    error: #984ea3, // purple (CB4)
-
-    nr: #cccccc, // grey-light50
-
-    // #ffff33, // yellow (CB6)
-    // #a65628, // brown (CB7)
-    // #4545d0, // violet
-  )
-);
+@use "@decidables/decidables-site/src/site" as * with ($color-map: $colors);
 
 // Key Colors
 .dec-content {

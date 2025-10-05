@@ -7,6 +7,8 @@ import * as d3 from 'd3';
 
 import {DecidablesElement} from '@decidables/decidables-elements';
 
+import {colors} from './colors.yml';
+
 /*
   DetectableElement Base Class - Not intended for instantiation!
   <detectable-element>
@@ -28,23 +30,7 @@ export default class DetectableElement extends DecidablesElement {
   }
 
   static get colors() {
-    return {
-      h: d3.schemeSet1[2],
-      m: d3.schemeSet1[4],
-      fa: d3.schemeSet1[1],
-      cr: d3.schemeSet1[0],
-      hr: d3.schemeSet1[5],
-      far: d3.schemeSet1[3],
-      acc: d3.schemeSet1[8],
-      d: d3.schemeSet1[7],
-      c: d3.schemeSet1[6],
-      s: '#4545d0',
-      present: '#f032e6',
-      absent: '#10dbc9',
-      correct: '#ffffff',
-      error: '#000000',
-      nr: '#cccccc',
-    };
+    return colors;
   }
 
   static get lights() {
