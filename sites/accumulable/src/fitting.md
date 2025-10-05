@@ -2,6 +2,7 @@
 title: 'Model Fitting: Fitting Human Performance with the Diffusion Decision Model'
 layout: page
 script: page
+style: page
 ---
 
 ## From human performance to model parameters

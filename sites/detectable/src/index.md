@@ -2,6 +2,7 @@
 title: 'An Explorable Explanation of Signal Detection Theory'
 layout: page
 script: page
+style: page
 ---
 
 <!--lint ignore first-heading-level-->

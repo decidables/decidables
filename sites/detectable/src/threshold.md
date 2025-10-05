@@ -2,6 +2,7 @@
 title: 'Threshold and Bias: Drawing a Line in the Sand'
 layout: page
 script: page
+style: page
 ---
 
 ## Making a decision

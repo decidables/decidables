@@ -2,6 +2,7 @@
 title: 'Model Exploration: Parameter and Decision Space'
 layout: page
 script: page
+style: page
 ---
 
 ## Visualizing the relationship between performance and model

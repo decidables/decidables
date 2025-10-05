@@ -2,6 +2,7 @@
 title: 'Conclusion'
 layout: page
 script: page
+style: page
 ---
 
 ## Wrapping up

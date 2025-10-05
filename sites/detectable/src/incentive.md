@@ -2,6 +2,7 @@
 title: 'Bias and Incentive: Influences on <span class="math-var">c</span>'
 layout: page
 script: page
+style: page
 ---
 
 ## Influencing bias

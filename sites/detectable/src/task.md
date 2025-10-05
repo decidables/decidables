@@ -2,6 +2,7 @@
 title: 'Task: Adding a response'
 layout: page
 script: page
+style: page
 ---
 
 ## A response

@@ -2,6 +2,7 @@
 title: 'Legend'
 layout: page
 script: page
+style: page
 ---
 
 ## Use of color

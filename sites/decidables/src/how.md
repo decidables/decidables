@@ -2,6 +2,7 @@
 title: 'How was <span class="decidables">decidables</span> made?'
 layout: page
 script: page
+style: page
 ---
 
 The [<span class="decidables">decidables</span>](./) project is a collection of explorable

@@ -2,6 +2,7 @@
 title: 'Credits'
 layout: page
 script: page
+style: page
 ---
 
 <!--lint ignore maximum-heading-length-->

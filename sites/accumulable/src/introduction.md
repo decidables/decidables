@@ -3,6 +3,7 @@ title: '<span class="accumulable"><span class="math-var">a</span>ccumulable</spa
   An Explorable Explanation of the Diffusion Decision Model'
 layout: page
 script: page
+style: page
 ---
 
 ## Introduction

@@ -2,6 +2,7 @@
 title: 'Introduction'
 layout: page
 script: page
+style: page
 ---
 
 ## An explorable explanation of Signal Detection Theory

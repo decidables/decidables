@@ -2,6 +2,7 @@
 title: 'An Explorable Explanation of the Diffusion Decision Model'
 layout: page
 script: page
+style: page
 ---
 
 <!--lint ignore first-heading-level-->

@@ -2,6 +2,7 @@
 title: 'Measurement and Sensitivity: Towards a Theory of Performance'
 layout: page
 script: page
+style: page
 ---
 
 ## Measuring stimuli

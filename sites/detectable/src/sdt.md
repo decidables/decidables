@@ -2,6 +2,7 @@
 title: 'Signal Detection Theory: Putting it Together'
 layout: page
 script: page
+style: page
 ---
 
 ## Bias (<span class="math-var">c</span>) and sensitivity (<span class="math-var">d'</span>)

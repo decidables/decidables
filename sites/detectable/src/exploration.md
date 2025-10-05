@@ -2,6 +2,7 @@
 title: 'Model Exploration: Sensitivity, Bias, Outcomes, and Rates'
 layout: page
 script: page
+style: page
 ---
 
 ## Exploring, fitting, & predicting

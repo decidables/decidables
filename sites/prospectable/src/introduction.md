@@ -4,6 +4,7 @@ title: '<span class="prospectable">
   An Explorable Explanation of Cumulative Prospect Theory'
 layout: page
 script: page
+style: page
 ---
 
 ## Introduction

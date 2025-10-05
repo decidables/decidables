@@ -2,6 +2,7 @@
 title: 'Equations'
 layout: page
 script: page
+style: page
 ---
 
 ## Summarizing outcomes

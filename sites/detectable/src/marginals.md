@@ -2,6 +2,7 @@
 title: 'Marginals: More Ways to Summarize Performance'
 layout: page
 script: page
+style: page
 ---
 
 ## Marginals

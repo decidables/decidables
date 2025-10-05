@@ -2,6 +2,7 @@
 title: 'Outcomes: Comparing Stimulus and Response'
 layout: page
 script: page
+style: page
 ---
 
 ## Was I right or wrong?

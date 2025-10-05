@@ -2,6 +2,7 @@
 title: 'Explorable Explanations of Decision Making'
 layout: page
 script: page
+style: page
 ---
 
 <!--lint ignore first-heading-level-->

@@ -2,6 +2,7 @@
 title: 'Model Prediction: Predicting Performance for Hyperbolic Temporal Discounting'
 layout: page
 script: page
+style: page
 ---
 
 ## From model parameters to predicted performance

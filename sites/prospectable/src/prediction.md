@@ -2,6 +2,7 @@
 title: 'Model Prediction: Predicting Performance with Cumulative Prospect Theory'
 layout: page
 script: page
+style: page
 ---
 
 ## From model parameters to predicted performance

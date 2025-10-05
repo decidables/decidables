@@ -2,6 +2,7 @@
 title: 'Glossary'
 layout: page
 script: page
+style: page
 ---
 
 ## Terminology

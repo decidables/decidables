@@ -2,6 +2,7 @@
 title: 'Unequal Variance: SDT Assumptions Revisited'
 layout: page
 script: page
+style: page
 ---
 
 ## Relaxing the equal variance assumption

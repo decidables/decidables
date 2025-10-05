@@ -2,6 +2,7 @@
 title: 'Signal and Noise: Stimuli'
 layout: page
 script: page
+style: page
 ---
 
 ## Signal

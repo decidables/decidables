@@ -2,6 +2,7 @@
 title: 'Sensitivity and Difficulty: Influences on <span class="math-var">d′</span>'
 layout: page
 script: page
+style: page
 ---
 
 ## Influencing sensitivity

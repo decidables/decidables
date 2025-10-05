@@ -2,6 +2,7 @@
 title: 'Model Prediction: Predicting Performance for the Diffusion Decision Model'
 layout: page
 script: page
+style: page
 ---
 
 ## From model parameters to predicted performance

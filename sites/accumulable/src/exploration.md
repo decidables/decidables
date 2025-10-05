@@ -2,6 +2,7 @@
 title: 'Model Exploration: Accuracy, Reaction Time, and Evidence Accumulation'
 layout: page
 script: page
+style: page
 ---
 
 ## Visualizing the relationship between performance and model

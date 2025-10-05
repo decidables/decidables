@@ -2,6 +2,7 @@
 title: 'Model Fitting: Fitting Human Performance to Cumulative Prospect Theory'
 layout: page
 script: page
+style: page
 ---
 
 ## From human performance to model parameters

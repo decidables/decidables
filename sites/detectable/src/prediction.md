@@ -2,6 +2,7 @@
 title: 'Model Prediction: Predicting Human Performance with Signal Detection Theory'
 layout: page
 script: page
+style: page
 ---
 
 ## From model parameters to predicted performance

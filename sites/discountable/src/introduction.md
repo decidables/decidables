@@ -3,6 +3,7 @@ title: '<span class="discountable">dis<span class="math-var">k</span>ountable</s
   An Explorable Explanation of Hyperbolic Temporal Discounting'
 layout: page
 script: page
+style: page
 ---
 
 ## Introduction

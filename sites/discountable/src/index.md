@@ -2,6 +2,7 @@
 title: 'An Explorable Explanation of Hyperbolic Temporal Discounting'
 layout: page
 script: page
+style: page
 ---
 
 <!--lint ignore first-heading-level-->
