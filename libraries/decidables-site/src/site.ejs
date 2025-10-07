@@ -10,7 +10,9 @@
           if (page.file === file) {
             activeSection = sectionIndex;
             activePage = pageIndex;
-            windowTitle = page.name.replace(/<[^>]+>/g, '');
+            const pageTitle = page.name.replace(/<[^>]+>/g, '');
+            const sectionTitle = (section.prepend) ? `${section.name.replace(/<[^>]+>/g, '')}: ` : '';
+            windowTitle = `${sectionTitle}${pageTitle}`;
           }
         }
       }
@@ -119,9 +121,12 @@
                 <% const previousPage = (activePage > 0)
                     ? toc[activeSection].pages[activePage - 1]
                     : toc[activeSection - 1].pages[toc[activeSection - 1].pages.length - 1]; %>
+                <% const previousSection = (activePage > 0)
+                    ? toc[activeSection]
+                    : toc[activeSection - 1]; %>
                 <a class="dec-toc-link" href="<%= previousPage.file %>.html">
                   <%- include(resolvePkg('bootstrap-icons/icons/arrow-left-short.svg')) %>
-                  <%- previousPage.name %>
+                  <%- `${(previousSection.prepend) ? `<span class="dec-footer-section-name">${previousSection.name}</span>: ` : ''}${previousPage.name}` %>
                 </a>
               <% } %>
             </div>
@@ -130,8 +135,11 @@
                 <% const nextPage = (activePage < (toc[activeSection].pages.length - 1))
                     ? toc[activeSection].pages[activePage + 1]
                     : toc[activeSection + 1].pages[0]; %>
+                <% const nextSection = (activePage < (toc[activeSection].pages.length - 1))
+                    ? toc[activeSection]
+                    : toc[activeSection + 1]; %>
                 <a class="dec-toc-link" href="<%= nextPage.file %>.html">
-                  <%- nextPage.name %>
+                  <%- `${(nextSection.prepend) ? `<span class="dec-footer-section-name">${nextSection.name}</span>: ` : ''}${nextPage.name}` %>
                   <%- include(resolvePkg('bootstrap-icons/icons/arrow-right-short.svg')) %>
                 </a>
               <% } %>
