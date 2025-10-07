@@ -1,0 +1,50 @@
+---
+site:
+  package: dable
+  text: dab’le
+  html: 'dab’le'
+toc:
+  - section: introduction
+    nav: true
+    pages:
+      - {file: index, name: 'Home'}
+      - {file: introduction, name: 'Introduction'}
+  - section: detectable
+    nav: true
+    name: '<span class="math-var">d′</span>ete<span class="math-var">c</span>table'
+    prepend: true
+    pages:
+      - {file: detectable-exploration, name: 'Exploration'}
+      - {file: detectable-fitting, name: 'Fitting'}
+      - {file: detectable-prediction, name: 'Predictions'}
+  - section: prospectable
+    nav: true
+    name: 'prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e'
+    prepend: true
+    pages:
+      - {file: prospectable-exploration, name: 'Exploration'}
+      - {file: prospectable-fitting, name: 'Fitting'}
+      - {file: prospectable-prediction, name: 'Predictions'}
+  - section: discountable
+    nav: true
+    name: 'dis<span class="math-var">k</span>ountable'
+    prepend: true
+    pages:
+      - {file: discountable-exploration, name: 'Exploration'}
+      - {file: discountable-fitting, name: 'Fitting'}
+      - {file: discountable-prediction, name: 'Predictions'}
+  - section: accumulable
+    nav: true
+    name: '<span class="math-var">a</span>ccumulable'
+    prepend: true
+    pages:
+      - {file: accumulable-exploration, name: 'Exploration'}
+      - {file: accumulable-fitting, name: 'Fitting'}
+      - {file: accumulable-prediction, name: 'Predictions'}
+  - section: resources
+    name: 'Resources'
+    pages:
+      - {file: references, name: 'References'}
+      - {file: credits, name: 'Credits'}
+---
+<%- include(resolvePkg('@decidables/decidables-site/src/site.ejs')) %>

@@ -1,0 +1,168 @@
+// Prospectable Colors
+@use "@decidables/prospectable-elements/src/colors.yml" as *;
+
+// Decidables Module
+@use "@decidables/decidables-site/src/site" as * with ($color-map: $colors);
+
+// Key Colors
+.dec-content {
+  // Keys: Objective
+  .key[class~="value"],
+  .key[class~="objectivevalue"] {
+    background-color: dec-color-light(x);
+  }
+
+  .key[class~="probability"] {
+    background-color: dec-color-light(p);
+  }
+
+  // Keys: Subjective
+  .key[class~="subjectivevalue"] {
+    background-color: dec-color-light(v);
+  }
+
+  .key[class~="decisionweight"] {
+    background-color: dec-color-light(w);
+  }
+
+  .key[class~="utility"],
+  .key[class~="subjectiveutility"] {
+    background-color: dec-color-light(u);
+  }
+
+  // Keys: Response
+  .key[class~="chosen"] {
+    background-color: dec-color-light(chosen);
+  }
+
+  // Keys: Parameters
+  .key[class~="α"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(a);
+  }
+
+  .key[class~="λ"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(l);
+  }
+
+  .key[class~="γ"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(g);
+  }
+
+  // Keys: Outcomes
+  .key[class~="better"] {
+    background-color: dec-color-light(better);
+  }
+
+  .key[class~="worse"] {
+    background-color: dec-color-light(worse);
+  }
+
+  .key[class~="even"] {
+    background-color: dec-color-light(even);
+  }
+
+  .key[class~="correct"],
+  .key[class~="error"],
+  .key[class~="noresponse"] {
+    border: 1px solid $color-element-emphasis;
+  }
+
+  .key[class~="correct"] {
+    background-color: dec-color-light(correct);
+  }
+
+  .key[class~="error"] {
+    color: $color-text-inverse;
+
+    background-color: dec-color-light(error);
+  }
+
+  .key[class~="noresponse"] {
+    background-color: dec-color-light(nr);
+  }
+}
+
+// Legend Colors
+.dec-legend {
+  .x::before {
+    background: dec-color-light(x);
+    border-left-color: dec-color(x);
+  }
+
+  .a::before {
+    background: dec-color-light(a);
+    border-left-color: dec-color(a);
+  }
+
+  .l::before {
+    background: dec-color-light(l);
+    border-left-color: dec-color(l);
+  }
+
+  .v::before {
+    background: dec-color-light(v);
+    border-left-color: dec-color(v);
+  }
+
+  .p::before {
+    background: dec-color-light(p);
+    border-left-color: dec-color(p);
+  }
+
+  .g::before {
+    background: dec-color-light(g);
+    border-left-color: dec-color(g);
+  }
+
+  .w::before {
+    background: dec-color-light(w);
+    border-left-color: dec-color(w);
+  }
+
+  .u::before {
+    background: dec-color-light(u);
+    border-left-color: dec-color(u);
+  }
+
+  .chosen::before {
+    background: dec-color-light(chosen);
+    border-left-color: dec-color(chosen);
+  }
+
+  .better::before {
+    background: dec-color-light(better);
+    border-left-color: dec-color(better);
+  }
+
+  .worse::before {
+    background: dec-color-light(worse);
+    border-left-color: dec-color(worse);
+  }
+
+  .even::before {
+    background: dec-color-light(even);
+    border-left-color: dec-color(even);
+  }
+
+  .correct::before {
+    padding-left: calc(1.5rem - 2px);
+
+    background: dec-color(correct);
+    border: 1px solid $color-element-border;
+  }
+
+  .error::before {
+    color: $color-text-inverse;
+
+    background: dec-color-light(error);
+    border-left-color: dec-color(error);
+  }
+
+  .nr::before {
+    background: dec-color-light(nr);
+    border-left-color: dec-color(nr);
+  }
+}

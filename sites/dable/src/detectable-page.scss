@@ -1,0 +1,233 @@
+// Detectable Colors
+@use "@decidables/detectable-elements/src/colors.yml" as *;
+
+// Decidables Module
+@use "@decidables/decidables-site/src/site" as * with ($color-map: $colors);
+
+// Key Colors
+.dec-content {
+  // Keys: Stimuli
+  .key[class~="signal"],
+  .key[class~="present"] {
+    background-color: dec-color-light(hr);
+  }
+
+  .key[class~="noise"],
+  .key[class~="absent"] {
+    background-color: dec-color-light(far);
+  }
+
+  // Keys: Responses
+  .key[class~="'present'"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(present);
+  }
+
+  .key[class~="'absent'"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(absent);
+  }
+
+  // Keys: Outcomes
+  .key[class~="hit"],
+  .key[class~="hits"] {
+    background-color: dec-color-light(h);
+  }
+
+  .key[class~="miss"],
+  .key[class~="misses"] {
+    background-color: dec-color-light(m);
+  }
+
+  .key[class~="correctrejection"],
+  .key[class~="correctrejections"] {
+    background-color: dec-color-light(cr);
+  }
+
+  .key[class~="falsealarm"],
+  .key[class~="falsealarms"] {
+    background-color: dec-color-light(fa);
+    border-color: dec-color(fa);
+  }
+
+  .key[class~="correct"],
+  .key[class~="error"],
+  .key[class~="noresponse"] {
+    border: 1px solid $color-element-emphasis;
+  }
+
+  .key[class~="correct"] {
+    background-color: dec-color-light(correct);
+  }
+
+  .key[class~="error"] {
+    color: $color-text-inverse;
+
+    background-color: dec-color-light(error);
+  }
+
+  .key[class~="noresponse"] {
+    background-color: dec-color-light(nr);
+  }
+  
+  // Keys: Rates
+  .key[class~="hitrate"],
+  .key[class~="hr"] {
+    background-color: dec-color-light(hr);
+  }
+
+  .key[class~="falsealarmrate"],
+  .key[class~="far"] {
+    background-color: dec-color-light(far);
+  }
+
+  .key[class~="positivepredictivevalue"],
+  .key[class~="ppv"] {
+    background-color: dec-color-light(present);
+  }
+
+  .key[class~="falseomissionrate"],
+  .key[class~="for"] {
+    background-color: dec-color-light(absent);
+  }
+
+  .key[class~="accuracy"] {
+    background-color: dec-color-light(acc);
+  }
+
+  // Keys: Distributions
+  .key[class~="signal-plus-noisedistribution"],
+  .key[class~="signal+noisedistribution"],
+  .key[class~="noisedistribution"] {
+    /* purgecss ignore current */
+    padding: 0 0.25rem;
+
+    border: 2px solid $color-element-emphasis;
+  }
+
+  .key[class~="signal-plus-noisedistribution"],
+  .key[class~="signal+noisedistribution"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(hr);
+  }
+
+  .key[class~="noisedistribution"] {
+    background-color: dec-color-light(far);
+  }
+
+  // Keys: Parameters
+  .key[class~="bias"],
+  .key[class~="c"] {
+    background-color: dec-color-light(c);
+  }
+
+  .key[class~="sensitivity"],
+  .key[class~="d′"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(d);
+  }
+
+  .key[class~="variance"],
+  .key[class~="σ"] {
+    /* purgecss ignore current */
+    background-color: dec-color-light(s);
+  }
+
+  // Keys: Iso-curves
+  .key[class~="iso-biascurve"],
+  .key[class~="iso-sensitivitycurve"] {
+    padding: 0 0.25rem;
+
+    border: 2px solid;
+  }
+
+  .key[class~="iso-biascurve"] {
+    border-color: dec-color(c);
+  }
+
+  .key[class~="iso-sensitivitycurve"] {
+    border-color: dec-color(d);
+  }
+}
+
+// Legend Colors
+.dec-legend {
+  .h::before {
+    background: dec-color-light(h);
+    border-left-color: dec-color(h);
+  }
+
+  .m::before {
+    background: dec-color-light(m);
+    border-left-color: dec-color(m);
+  }
+
+  .fa::before {
+    background: dec-color-light(fa);
+    border-left-color: dec-color(fa);
+  }
+
+  .cr::before {
+    background: dec-color-light(cr);
+    border-left-color: dec-color(cr);
+  }
+
+  .hr::before {
+    background: dec-color-light(hr);
+    border-left-color: dec-color(hr);
+  }
+
+  .far::before {
+    background: dec-color-light(far);
+    border-left-color: dec-color(far);
+  }
+
+  .acc::before {
+    background: dec-color-light(acc);
+    border-left-color: dec-color(acc);
+  }
+
+  .d::before {
+    background: dec-color-light(d);
+    border-left-color: dec-color(d);
+  }
+
+  .c::before {
+    background: dec-color-light(c);
+    border-left-color: dec-color(c);
+  }
+
+  .s::before {
+    background: dec-color-light(s);
+    border-left-color: dec-color(s);
+  }
+
+  .present::before {
+    background: dec-color-light(present);
+    border-left-color: dec-color(present);
+  }
+
+  .absent::before {
+    background: dec-color-light(absent);
+    border-left-color: dec-color(absent);
+  }
+
+  .correct::before {
+    padding-left: calc(1.5rem - 2px);
+
+    background: dec-color(correct);
+    border: 1px solid $color-element-border;
+  }
+
+  .error::before {
+    color: $color-text-inverse;
+
+    background: dec-color-light(error);
+    border-left-color: dec-color(error);
+  }
+
+  .nr::before {
+    background: dec-color-light(nr);
+    border-left-color: dec-color(nr);
+  }
+}
