@@ -86,7 +86,7 @@ zero (none of the dots), we can elegantly vary our stimulus from "pure" signal t
 anywhere in between:
 
 <sdt-example-human trials="1" duration="Infinity" coherence="0.5">
-  <detectable-control show-coherence run pause reset></detectable-control>
+  <detectable-control coherence run pause reset></detectable-control>
   <rdk-task probability="1"></rdk-task>
 </sdt-example-human>
 
