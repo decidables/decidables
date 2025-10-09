@@ -16,6 +16,7 @@ import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import rollupPluginTerser from '@rollup/plugin-terser';
 import {visualizer as rollupPluginVisualizer} from 'rollup-plugin-visualizer';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
+import rollupPluginYaml from '@rollup/plugin-yaml';
 import * as svgo from 'svgo';
 import * as terser from 'terser';
 
@@ -45,6 +46,7 @@ const pluginBabel = rollupPluginBabel.babel({
   }]],
   babelHelpers: 'bundled',
 });
+const pluginYaml = rollupPluginYaml();
 const pluginVisualizer = rollupPluginVisualizer({
   filename: 'rollup-stats.html',
 });
@@ -61,6 +63,7 @@ export async function buildLibrary() {
       pluginCommonjs,
       pluginWebWorkerLoader,
       pluginBabel,
+      pluginYaml,
       pluginVisualizer,
     ],
     // Hide warnings for circular dependencies, which are allowed in the ES6 spec
