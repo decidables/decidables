@@ -1,6 +1,7 @@
 ## Ideas
 
-- Incorporate Parameter controls into d'etectable
+- d'etectable: Incorporate Parameter controls
+- discountable: Use colored shading below discounting curves!
 - Elements
   - decidables-slider
     - use `writing-mode` for orientation?
