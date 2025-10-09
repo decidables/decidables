@@ -1,8 +1,10 @@
 
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
+import rollupPluginYaml from '@rollup/plugin-yaml';
 import { fromRollup } from '@web/dev-server-rollup';
 
 const commonjsPlugin = fromRollup(rollupPluginCommonjs);
+const yamlPlugin = fromRollup(rollupPluginYaml);
 
 export default {
   concurrency: 1,
@@ -13,8 +15,12 @@ export default {
     report: true,
     reportDir: 'test/coverage',
   },
+  mimeTypes: {
+    '**/*.yml': 'js',
+  },
   plugins: [
     commonjsPlugin({strictRequires: 'auto'}),
+    yamlPlugin(),
   ],
   testFramework: {
     config: {
