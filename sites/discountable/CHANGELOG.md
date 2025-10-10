@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/discountable@0.6.0...@decidables/discountable@0.7.0) (2025-10-10)
+
+
+### Features
+
+* **all:** put color themes in YAML files ([af954df](https://github.com/decidables/decidables/commit/af954df0809b09806976cb18953b75d5e3c1ca08))
+* **sites:** specify stylesheet in markdown frontmatter ([97a6c6b](https://github.com/decidables/decidables/commit/97a6c6bdc1e45bb2914ddcc02eec9e469455e6ca))
+
+
+
 ## [0.6.0](https://github.com/decidables/decidables/compare/@decidables/discountable@0.5.3...@decidables/discountable@0.6.0) (2025-09-16)
 
 

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.3.1...@decidables/prospectable-elements@0.4.0) (2025-10-10)
+
+
+### Features
+
+* **all:** put color themes in YAML files ([af954df](https://github.com/decidables/decidables/commit/af954df0809b09806976cb18953b75d5e3c1ca08))
+
+
+
 ## [0.3.1](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.3.0...@decidables/prospectable-elements@0.3.1) (2025-09-09)
 
 **Note:** Version bump only for package @decidables/prospectable-elements

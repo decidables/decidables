@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.4.0...@decidables/decidables-site@0.5.0) (2025-10-10)
+
+
+### Features
+
+* **decidables-site:** add support for prepending section name in title and nav ([36c1e14](https://github.com/decidables/decidables/commit/36c1e14ad04aaaedd70512e45f112175cb3b5d18))
+* **sites:** specify stylesheet in markdown frontmatter ([97a6c6b](https://github.com/decidables/decidables/commit/97a6c6bdc1e45bb2914ddcc02eec9e469455e6ca))
+
+
+
 ## [0.4.0](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.3.3...@decidables/decidables-site@0.4.0) (2025-09-16)
 
 

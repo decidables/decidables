@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.2.1...@decidables/accumulable-elements@0.3.0) (2025-10-10)
+
+
+### Features
+
+* **all:** put color themes in YAML files ([af954df](https://github.com/decidables/decidables/commit/af954df0809b09806976cb18953b75d5e3c1ca08))
+
+
+
 ## [0.2.1](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.2.0...@decidables/accumulable-elements@0.2.1) (2025-09-09)
 
 **Note:** Version bump only for package @decidables/accumulable-elements

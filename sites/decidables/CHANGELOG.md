@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.12.0...@decidables/decidables@0.13.0) (2025-10-10)
+
+
+### Features
+
+* **decidables:** colorize icon ([7d5c3e7](https://github.com/decidables/decidables/commit/7d5c3e7d7befb1a729aae504bea7a6b91d825bb1))
+* **sites:** specify stylesheet in markdown frontmatter ([97a6c6b](https://github.com/decidables/decidables/commit/97a6c6bdc1e45bb2914ddcc02eec9e469455e6ca))
+
+
+
 ## [0.12.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.11.3...@decidables/decidables@0.12.0) (2025-09-16)
 
 

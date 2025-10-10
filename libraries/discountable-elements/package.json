@@ -1,6 +1,6 @@
 {
   "name": "@decidables/discountable-elements",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "discountable-elements: Web Components for visualizing Hyperbolic Temporal Discounting",
   "keywords": [
     "web component",
