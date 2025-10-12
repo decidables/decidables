@@ -46,6 +46,11 @@ style: page
       </header>
       <ol class="dec-dable-list">
         <li class="dec-dable-item">
+          <a class="dec-dable-link" href="detectable-overview.html">
+            Overview
+          </a>
+        </li>
+        <li class="dec-dable-item">
           <a class="dec-dable-link" href="detectable-exploration.html">
             Exploration
           </a>
@@ -84,6 +89,11 @@ style: page
       </header>
       <ol class="dec-dable-list">
         <li class="dec-dable-item">
+          <a class="dec-dable-link" href="prospectable-overview.html">
+            Overview
+          </a>
+        </li>
+        <li class="dec-dable-item">
           <a class="dec-dable-link" href="prospectable-exploration.html">
             Exploration
           </a>
@@ -121,6 +131,11 @@ style: page
       </header>
       <ol class="dec-dable-list">
         <li class="dec-dable-item">
+          <a class="dec-dable-link" href="discountable-overview.html">
+            Overview
+          </a>
+        </li>
+        <li class="dec-dable-item">
           <a class="dec-dable-link" href="discountable-exploration.html">
             Exploration
           </a>
@@ -156,6 +171,11 @@ style: page
         </p>
       </header>
       <ol class="dec-dable-list">
+        <li class="dec-dable-item">
+          <a class="dec-dable-link" href="accumulable-overview.html">
+            Overview
+          </a>
+        </li>
         <li class="dec-dable-item">
           <a class="dec-dable-link" href="accumulable-exploration.html">
             Exploration
