@@ -32,7 +32,7 @@ style: page
         <hgroup class="dec-dable-titles">
           <h2 class="dec-dable-title">
             <img class="dec-dable-icon" src="../detectable/favicon.svg" alt="𝑑′ete𝑐table icon">
-            <span class="dec-name"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
+            <span class="dec-dable-name"><span class="math-var d">d′</span>ete<span class="math-var c">c</span>table</span>
           </h2>
           <p class="dec-dable-subtitle">An Explorable Explanation of Signal Detection Theory</p>
         </hgroup>
@@ -76,7 +76,7 @@ style: page
         <hgroup class="dec-dable-titles">
           <h2 class="dec-dable-title">
             <img class="dec-dable-icon" src="../prospectable/favicon.svg" alt="prospect𝛼b𝜆e icon">
-            <span class="dec-name">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
+            <span class="dec-dable-name">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>
           </h2>
           <p class="dec-dable-subtitle">An Explorable Explanation of Cumulative Prospect Theory</p>
         </hgroup>
@@ -119,7 +119,7 @@ style: page
         <hgroup class="dec-dable-titles">
           <h2 class="dec-dable-title">
             <img class="dec-dable-icon" src="../discountable/favicon.svg" alt="dis𝑘ountable icon">
-            <span class="dec-name">dis<span class="math-var">k</span>ountable</span>
+            <span class="dec-dable-name">dis<span class="math-var">k</span>ountable</span>
           </h2>
           <p class="dec-dable-subtitle">An Explorable Explanation of Hyperbolic Temporal Discounting</p>
         </hgroup>
@@ -161,7 +161,7 @@ style: page
         <hgroup class="dec-dable-titles">
           <h2 class="dec-dable-title">
             <img class="dec-dable-icon" src="../accumulable/favicon.svg" alt="𝑎ccumulable icon">
-            <span class="dec-name"><span class="math-var a">a</span>ccumulable</span>
+            <span class="dec-dable-name"><span class="math-var a">a</span>ccumulable</span>
           </h2>
           <p class="dec-dable-subtitle">An Explorable Explanation of the Diffusion Decision Model</p>
         </hgroup>
