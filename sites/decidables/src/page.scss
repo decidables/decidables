@@ -252,6 +252,21 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
   }
 }
 
+// Dable
+.dec-dable {
+  @extend .row, .g-4, .mt-0, .justify-content-center;
+}
+
+.dec-dable-site {
+  @extend .col-12, .col-sm-10, .col-md-8, .my-2;
+}
+
+.dec-dable-wrapper {
+  @extend .pb-3;
+
+  background-color: $color-element-background;
+}
+
 // Sites
 .dec-sites {
   @extend .row, .row-cols-1, .row-cols-lg-2, .g-4, .mt-0, .justify-content-center;

@@ -23,6 +23,30 @@ style: page
   </p>
 </header>
 
+<div class="dec-dable">
+  <section class="dec-dable-site">
+  <!-- DABLE -->
+    <div class="dec-dable-wrapper dec-site-wrapper">
+      <header class="dec-site-header">
+        <a class="dec-site-link" href="dable/">
+          <hgroup class="dec-site-titles">
+            <h2 class="dec-site-title">
+              <img class="dec-site-icon" src="dable/favicon.svg" alt="dab’le icon">
+              <span class="dec-name">dab’le</span>
+            </h2>
+            <p class="dec-site-subtitle">Dabble with Explorable Explanations of Decision Making</p>
+          </hgroup>
+        </a>
+        <p class="dec-site-lead">
+          Want to interact with responsive visuals for a variety of decision making theories, but don't
+          have time right now for detailed explanations?<br>
+          You can dabble instead!
+        </p>
+      </header>
+    </div>
+  </section>
+</div>
+
 <div class="dec-sites">
 
   <section class="dec-site">
