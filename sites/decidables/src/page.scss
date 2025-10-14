@@ -105,12 +105,16 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
 
 // Header
 .dec-header {
-  @extend .navbar, .navbar-expand-md, .navbar-dark, .bg-dark, .py-1;
+  @extend .navbar, .navbar-expand-md, .navbar-dark, .py-1;
+
+  background-color: $color-background-inverse;
 }
 
 // Footer
 .dec-footer {
-  @extend .navbar, .navbar-expand-md, .navbar-dark, .bg-dark, .py-1, .mt-auto;
+  @extend .navbar, .navbar-expand-md, .navbar-dark, .py-1, .mt-auto;
+
+  background-color: $color-background-inverse;
 }
 
 // Navigation
