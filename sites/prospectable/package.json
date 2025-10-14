@@ -30,7 +30,7 @@
     "@decidables/prospectable-elements": "^0.4.0",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
-    "core-js": "^3.45.1",
+    "core-js": "^3.46.0",
     "lit": "^3.3.1",
     "regenerator-runtime": "^0.14.1",
     "source-code-pro": "^2.38.0",
