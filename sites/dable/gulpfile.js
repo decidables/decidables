@@ -92,6 +92,6 @@ export const build = gulp.series(
 export const deploy = gulp.series(
   compiles.compileMarkdown,
   builds.buildMarkup,
-  cleans.cleanDeployRoot,
-  deploys.deployRoot,
+  cleans.cleanDeploySite,
+  deploys.deploySite,
 );
