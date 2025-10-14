@@ -2,6 +2,8 @@
 
 - d'etectable: Incorporate Parameter controls
 - discountable: Use colored shading below discounting curves!
+- dab'le: Flesh out descriptions
+- decidables: Include description of dable
 - Elements
   - decidables-slider
     - use `writing-mode` for orientation?
