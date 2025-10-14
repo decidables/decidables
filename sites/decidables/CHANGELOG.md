@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.13.0...@decidables/decidables@0.14.0) (2025-10-14)
+
+
+### Features
+
+* **decidables:** added entry point for dable ([327e538](https://github.com/decidables/decidables/commit/327e538b1ebcfc1faa9ec17731d85a0693b328af))
+* **decidables:** dable teaser in reverse colors ([f1a9f67](https://github.com/decidables/decidables/commit/f1a9f67bd32665402457df4b9a66fa72feb57e87))
+* **decidables:** indicate that dable is under development ([c1ec150](https://github.com/decidables/decidables/commit/c1ec150c4a9fc1d7c2852563a1db966427e79993))
+* **decidables:** update icon with smaller arrows ([8f184dc](https://github.com/decidables/decidables/commit/8f184dc90834b017307e3d709a5431e131a456c2))
+
+
+### Bug Fixes
+
+* **decidables:** fix background color for navbars ([b63ff44](https://github.com/decidables/decidables/commit/b63ff44c5082e7bb7a423f5536e0e8fdc45e04b3))
+
+
+
 ## [0.13.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.12.0...@decidables/decidables@0.13.0) (2025-10-10)
 
 
