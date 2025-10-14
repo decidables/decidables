@@ -1,5 +1,5 @@
 ---
-title: '<span class="dec-name">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span></span>: Exploration'
+title: '<span class="dec-name">prospect<span class="math-var">α</span>b<span class="math-var">λ</span>e</span>: Exploration'
 layout: page
 script: page
 style: prospectable-page
