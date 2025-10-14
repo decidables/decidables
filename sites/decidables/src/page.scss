@@ -70,7 +70,9 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
 }
 
 .dec-disabled {
-  @extend .text-opacity-50, .pe-none;
+  @extend .pe-none;
+
+  opacity: 0.5;
 }
 
 // Top-level
@@ -270,14 +272,14 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
 
   background-color: $color-background-inverse;
 
-  .dec-site-link:hover {
-    text-decoration-color: $color-text-inverse;
+  .dec-site-intro,
+  .dec-site-link,
+  .dec-site-lead {
+    color: $color-text-inverse !important;
   }
 
-  .dec-name,
-  .dec-site-subtitle,
-  .dec-site-lead {
-    color: $color-text-inverse;
+  .dec-site-link:hover {
+    text-decoration-color: $color-text-inverse;
   }
 }
 
