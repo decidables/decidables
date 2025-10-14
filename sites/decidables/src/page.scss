@@ -268,7 +268,17 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
 .dec-dable-wrapper {
   @extend .pb-3;
 
-  background-color: $color-element-background;
+  background-color: $color-background-inverse;
+
+  .dec-site-link:hover {
+    text-decoration-color: $color-text-inverse;
+  }
+
+  .dec-name,
+  .dec-site-subtitle,
+  .dec-site-lead {
+    color: $color-text-inverse;
+  }
 }
 
 // Sites
