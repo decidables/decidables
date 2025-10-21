@@ -6,8 +6,8 @@ colors:
   k: '#4daf4a' # green (CB3)
   v: '#984ea3' # purple (CB4)
 
-  sooner: '#ff7f00' # grey (CB5)
-  later: '#f781bf' # color (CB8)
+  sooner: '#ff7f00' # orange (CB5)
+  later: '#f781bf' # pink (CB8)
   
   larger: '#4545d0' # violet
   smaller: '#f032e6' # magenta
