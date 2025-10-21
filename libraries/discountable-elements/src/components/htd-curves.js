@@ -249,29 +249,78 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           /* shape-rendering: crispEdges; */
         }
 
-        .curve {
-          fill: none;
-          stroke: var(---color-element-emphasis);
-          stroke-width: 2;
-        }
-
-        .curve.interactive {
-          cursor: nwse-resize;
-          
+        .option .interactive {
           filter: url("#shadow-2");
-          outline: none;
         }
 
-        .curve.interactive:hover {
+        .option .interactive:hover {
           filter: url("#shadow-4");
         }
 
-        .curve.interactive:active {
+        .option .body.interactive:has(~ .point:hover) {
+          filter: url("#shadow-4");
+        }
+
+        .option .interactive:active {
           filter: url("#shadow-8");
         }
 
-        :host(.keyboard) .curve.interactive:focus {
+        .option .body.interactive:has(~ .point:active) {
           filter: url("#shadow-8");
+        }
+
+        :host(.keyboard) .option .interactive:focus-within {
+          filter: url("#shadow-8");
+        }
+
+        :host(.keyboard) .option .body.interactive:has(~ .point:focus-within) {
+          filter: url("#shadow-8");
+        }
+
+        .gradient.sooner stop {
+          stop-color: var(---color-sooner);
+        }
+
+        .gradient.later stop {
+          stop-color: var(---color-later);
+        }
+
+        .stop-0,
+        .stop-before {
+          stop-opacity: 0;
+        }
+
+        .stop-after,
+        .stop-100 {
+          stop-opacity: 1;
+        }
+
+        .fill {
+          fill: var(---color-element-enabled);
+          fill-opacity: 0.5;
+          stroke: none;
+        }
+
+        .interactive .fill {
+          cursor: move;
+
+          outline: none;
+        }
+
+        .sooner .fill {
+          fill: var(---color-sooner);
+        }
+
+        .later .fill {
+          fill: var(---color-later);
+        }
+
+        .trial.sooner .fill {
+          fill: url("#sooner-gradient");
+        }
+
+        .trial.later .fill {
+          fill: url("#later-gradient");
         }
 
         .bar {
@@ -280,23 +329,10 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           stroke-width: 2;
         }
 
-        .bar.interactive {
+        .interactive .bar {
           cursor: ew-resize;
-          
-          filter: url("#shadow-2");
+
           outline: none;
-        }
-
-        .bar.interactive:hover {
-          filter: url("#shadow-4");
-        }
-
-        .bar.interactive:active {
-          filter: url("#shadow-8");
-        }
-
-        :host(.keyboard) .bar.interactive:focus {
-          filter: url("#shadow-8");
         }
 
         .point .mark {
@@ -314,38 +350,22 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           fill: var(---color-text-inverse);
         }
 
-        .point.interactive {
+        .point.interact {
           cursor: ns-resize;
 
-          filter: url("#shadow-2");
           outline: none;
-
-          /* HACK: This gets Safari to correctly apply the filter! */
-          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
-          stroke: #000000;
-          stroke-opacity: 0;
-          stroke-width: 0;
         }
 
-        .point.interactive:hover {
-          filter: url("#shadow-4");
-
-          /* HACK: This gets Safari to correctly apply the filter! */
-          stroke: #ff0000;
+        .curve {
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2;
         }
 
-        .point.interactive:active {
-          filter: url("#shadow-8");
+        .curve.interactive {
+          cursor: nwse-resize;
 
-          /* HACK: This gets Safari to correctly apply the filter! */
-          stroke: #00ff00;
-        }
-
-        :host(.keyboard) .point.interactive:focus {
-          filter: url("#shadow-8");
-
-          /* HACK: This gets Safari to correctly apply the filter! */
-          stroke: #0000ff;
+          outline: none;
         }
 
         /* Make larger targets for touch users */
@@ -434,6 +454,38 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
     const svgEnter = svgUpdate.enter().append('svg')
       .classed('main', true);
     svgEnter.html(DiscountableElement.svgDefs);
+    // Gradients for fill animations
+    const svgDefs = svgEnter.append('defs');
+    const soonerGradient = svgDefs.append('linearGradient')
+      .classed('gradient sooner', true)
+      .attr('id', 'sooner-gradient');
+    soonerGradient.append('stop')
+      .classed('stop-0', true)
+      .attr('offset', '0');
+    soonerGradient.append('stop')
+      .classed('stop-before animation', true)
+      .attr('offset', '1');
+    soonerGradient.append('stop')
+      .classed('stop-after animation', true)
+      .attr('offset', '1');
+    soonerGradient.append('stop')
+      .classed('stop-100', true)
+      .attr('offset', '1');
+    const laterGradient = svgDefs.append('linearGradient')
+      .classed('gradient later', true)
+      .attr('id', 'later-gradient');
+    laterGradient.append('stop')
+      .classed('stop-0', true)
+      .attr('offset', '0');
+    laterGradient.append('stop')
+      .classed('stop-before animation', true)
+      .attr('offset', '1');
+    laterGradient.append('stop')
+      .classed('stop-after animation', true)
+      .attr('offset', '1');
+    laterGradient.append('stop')
+      .classed('stop-100', true)
+      .attr('offset', '1');
     //  MERGE
     const svgMerge = svgEnter.merge(svgUpdate)
       .attr('viewBox', `0 0 ${elementWidth} ${elementHeight}`);
@@ -554,35 +606,27 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
       );
     //  ENTER
     const optionEnter = optionUpdate.enter().append('g')
-      .classed('option', true);
-    // Curve
-    const curveEnter = optionEnter.append('g')
-      .classed('curve', true)
-      .attr('clip-path', 'url(#clip-htd-curves)');
-    curveEnter.append('path')
-      .classed('path', true)
-      .attr('d', (datum) => {
-        const curve = d3.range(xScale(datum.d), xScale(0), -1).map((range) => {
-          return {
-            d: xScale.invert(range),
-            v: HTDMath.adk2v(
-              datum.a,
-              datum.d - xScale.invert(range),
-              this.k,
-            ),
-          };
-        });
-        return line(curve);
-      })
-      .attr('stroke-dasharray', (datum, index, nodes) => {
-        if (datum.trial) {
-          const length = nodes[index].getTotalLength();
-          return `0,${length}`;
-        }
-        return 'none';
+      .attr('class', (datum) => {
+        const labelClass = datum.label === 's' ? 'sooner' : datum.label === 'l' ? 'later' : '';
+        const trialClass = datum.trial ? 'trial' : '';
+        return `option ${labelClass} ${trialClass}`;
       });
-    curveEnter.append('path')
-      .classed('path touch', true)
+    // Body (Fill, Bar, Point)
+    const bodyEnter = optionEnter.append('g')
+      .classed('body', true);
+    // Fill
+    const fillEnter = bodyEnter.append('g')
+      .classed('fill', true)
+      .attr('clip-path', 'url(#clip-htd-curves)')
+      .each((datum) => {
+        if (datum.trial) {
+          svgMerge
+            .selectAll('.gradient .animation')
+            .attr('offset', 1);
+        }
+      });
+    fillEnter.append('path')
+      .classed('region', true)
       .attr('d', (datum) => {
         const curve = d3.range(xScale(datum.d), xScale(0), -1).map((range) => {
           return {
@@ -594,33 +638,16 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
             ),
           };
         });
-        return line(curve);
-      })
-      .attr('stroke-dasharray', (datum, index, nodes) => {
-        if (datum.trial) {
-          const length = nodes[index].getTotalLength();
-          return `0,${length}`;
-        }
-        return 'none';
+        return line([...curve, {d: 0, v: 0}, {d: datum.d, v: 0}]);
       });
     // Bar
-    const barEnter = optionEnter.append('g')
+    const barEnter = bodyEnter.append('g')
       .classed('bar', true);
     barEnter.append('line')
-      .classed('line', true)
-      .attr('x1', (datum) => { return xScale(datum.d); })
-      .attr('x2', (datum) => { return xScale(datum.d); })
-      .attr('y1', yScale(0))
-      .attr('y2', (datum) => { return yScale(datum.a); })
-      .attr('stroke-dasharray', (datum, index, nodes) => {
-        if (datum.trial) {
-          const length = nodes[index].getTotalLength();
-          return `0,${length}`;
-        }
-        return 'none';
-      });
+      .classed('line', true);
     barEnter.append('line')
-      .classed('line touch', true)
+      .classed('line touch', true);
+    barEnter.selectAll('.line')
       .attr('x1', (datum) => { return xScale(datum.d); })
       .attr('x2', (datum) => { return xScale(datum.d); })
       .attr('y1', yScale(0))
@@ -633,8 +660,47 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
         return 'none';
       });
     // Point
-    const pointEnter = optionEnter.append('g')
-      .classed('point', true)
+    const pointEnter = bodyEnter.append('g')
+      .classed('point', true);
+    pointEnter.append('circle')
+      .classed('mark touch', true);
+    // Curve
+    const curveEnter = optionEnter.append('g')
+      .classed('curve', true)
+      .attr('clip-path', 'url(#clip-htd-curves)');
+    curveEnter.append('path')
+      .classed('path', true);
+    curveEnter.append('path')
+      .classed('path touch', true);
+    curveEnter.selectAll('.path')
+      .attr('d', (datum) => {
+        const curve = d3.range(xScale(datum.d), xScale(0), -1).map((range) => {
+          return {
+            d: xScale.invert(range),
+            v: HTDMath.adk2v(
+              datum.a,
+              datum.d - xScale.invert(range),
+              this.k,
+            ),
+          };
+        });
+        return line(curve);
+      })
+      .attr('stroke-dasharray', (datum, index, nodes) => {
+        if (datum.trial) {
+          const length = nodes[index].getTotalLength();
+          return `0,${length}`;
+        }
+        return 'none';
+      });
+    // Point (again)
+    const topPointEnter = optionEnter.append('g')
+      .classed('point top-point', true);
+    topPointEnter.append('circle')
+      .classed('mark touch', true);
+    topPointEnter.append('text')
+      .classed('label', true);
+    optionEnter.selectAll('.point')
       .attr('transform', (datum) => {
         return `translate(${xScale(datum.d)}, ${yScale(datum.a)})`;
       })
@@ -644,14 +710,291 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
         }
         return 1;
       });
-    pointEnter.append('circle')
-      .classed('mark touch', true);
-    pointEnter.append('text')
-      .classed('label', true);
+
     //  MERGE
     const optionMerge = optionEnter.merge(optionUpdate);
 
     // Interactive options
+    // Body (Fill, Bar, Point)
+    const bodyMergeInteractive = optionMerge
+      .filter((datum, index, nodes) => {
+        return (this.interactive && !datum.trial && !d3.select(nodes[index]).select('.body').classed('interactive'));
+      })
+      .select('.body');
+    bodyMergeInteractive.classed('interactive', true);
+    // Fill
+    bodyMergeInteractive.select('.fill')
+      .attr('tabindex', 0)
+      // Drag interaction
+      .call(d3.drag()
+        .subject((event, datum) => {
+          return {
+            x: xScale(datum.d),
+            y: yScale(datum.a),
+          };
+        })
+        .on('start', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', true);
+        })
+        .on('drag', (event, datum) => {
+          this.drag = true;
+          const d = xScale.invert(event.x);
+          const a = yScale.invert(event.y);
+          datum.d = (d < this.scale.time.min)
+            ? this.scale.time.min
+            : (d > this.scale.time.max)
+              ? this.scale.time.max
+              : this.scale.time.round(d);
+          datum.a = (a < this.scale.value.min)
+            ? this.scale.value.min
+            : (a > this.scale.value.max)
+              ? this.scale.value.max
+              : this.scale.value.round(a);
+          if (datum.name === 'default') {
+            this.d = datum.d;
+            this.a = datum.a;
+          }
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('htd-curves-change', {
+            detail: {
+              name: datum.name,
+              a: datum.a,
+              d: datum.d,
+              k: this.k,
+              label: datum.label,
+            },
+            bubbles: true,
+          }));
+        })
+        .on('end', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', false);
+        }))
+      // Keyboard interaction
+      .on('keydown', (event, datum) => {
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+          let keyA = datum.a;
+          let keyD = datum.d;
+          switch (event.key) {
+            case 'ArrowUp':
+              keyA += event.shiftKey ? 1 : 5;
+              break;
+            case 'ArrowDown':
+              keyA -= event.shiftKey ? 1 : 5;
+              break;
+            case 'ArrowRight':
+              keyD += event.shiftKey ? 1 : 5;
+              break;
+            case 'ArrowLeft':
+              keyD -= event.shiftKey ? 1 : 5;
+              break;
+            default:
+              // no-op
+          }
+          keyD = (keyD < this.scale.time.min)
+            ? this.scale.time.min
+            : ((keyD > this.scale.time.max)
+              ? this.scale.time.max
+              : keyD);
+          keyA = (keyA < this.scale.value.min)
+            ? this.scale.value.min
+            : ((keyA > this.scale.value.max)
+              ? this.scale.value.max
+              : keyA);
+          if ((keyD !== datum.d) || (keyA !== datum.a)) {
+            datum.d = keyD;
+            datum.a = keyA;
+            if (datum.name === 'default') {
+              this.d = datum.d;
+              this.a = datum.a;
+            }
+            this.alignState();
+            this.requestUpdate();
+            this.dispatchEvent(new CustomEvent('htd-curves-change', {
+              detail: {
+                name: datum.name,
+                a: datum.a,
+                d: datum.d,
+                k: this.k,
+                label: datum.label,
+              },
+              bubbles: true,
+            }));
+          }
+          event.preventDefault();
+        }
+      });
+    // Bar
+    bodyMergeInteractive.select('.bar')
+      // Drag interaction
+      .call(d3.drag()
+        .subject((event, datum) => {
+          return {
+            x: xScale(datum.d),
+            y: yScale(datum.a),
+          };
+        })
+        .on('start', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', true);
+        })
+        .on('drag', (event, datum) => {
+          this.drag = true;
+          const d = xScale.invert(event.x);
+          datum.d = (d < this.scale.time.min)
+            ? this.scale.time.min
+            : (d > this.scale.time.max)
+              ? this.scale.time.max
+              : this.scale.time.round(d);
+          if (datum.name === 'default') {
+            this.d = datum.d;
+          }
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('htd-curves-change', {
+            detail: {
+              name: datum.name,
+              a: datum.a,
+              d: datum.d,
+              k: this.k,
+              label: datum.label,
+            },
+            bubbles: true,
+          }));
+        })
+        .on('end', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', false);
+        }))
+      // Keyboard interaction
+      .on('keydown', (event, datum) => {
+        if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+          let keyD = datum.d;
+          switch (event.key) {
+            case 'ArrowRight':
+              keyD += event.shiftKey ? 1 : 5;
+              break;
+            case 'ArrowLeft':
+              keyD -= event.shiftKey ? 1 : 5;
+              break;
+            default:
+              // no-op
+          }
+          keyD = (keyD < this.scale.time.min)
+            ? this.scale.time.min
+            : ((keyD > this.scale.time.max)
+              ? this.scale.time.max
+              : keyD);
+          if (keyD !== datum.d) {
+            datum.d = keyD;
+            if (datum.name === 'default') {
+              this.d = datum.d;
+            }
+            this.alignState();
+            this.requestUpdate();
+            this.dispatchEvent(new CustomEvent('htd-curves-change', {
+              detail: {
+                name: datum.name,
+                a: datum.a,
+                d: datum.d,
+                k: this.k,
+                label: datum.label,
+              },
+              bubbles: true,
+            }));
+          }
+          event.preventDefault();
+        }
+      });
+    // Point
+    optionMerge
+      .filter((datum, index, nodes) => {
+        return (this.interactive && !datum.trial && !d3.select(nodes[index]).select('.top-point').classed('interact'));
+      })
+      .select('.top-point')
+      .classed('interact', true)
+      // Drag interaction
+      .call(d3.drag()
+        .subject((event, datum) => {
+          return {
+            x: xScale(datum.d),
+            y: yScale(datum.a),
+          };
+        })
+        .on('start', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', true);
+        })
+        .on('drag', (event, datum) => {
+          this.drag = true;
+          const a = yScale.invert(event.y);
+          datum.a = (a < this.scale.value.min)
+            ? this.scale.value.min
+            : (a > this.scale.value.max)
+              ? this.scale.value.max
+              : this.scale.value.round(a);
+          if (datum.name === 'default') {
+            this.a = datum.a;
+          }
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('htd-curves-change', {
+            detail: {
+              name: datum.name,
+              a: datum.a,
+              d: datum.d,
+              k: this.k,
+              label: datum.label,
+            },
+            bubbles: true,
+          }));
+        })
+        .on('end', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', false);
+        }))
+      // Keyboard interaction
+      .on('keydown', (event, datum) => {
+        if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
+          let keyA = datum.a;
+          switch (event.key) {
+            case 'ArrowUp':
+              keyA += event.shiftKey ? 1 : 5;
+              break;
+            case 'ArrowDown':
+              keyA -= event.shiftKey ? 1 : 5;
+              break;
+            default:
+              // no-op
+          }
+          keyA = (keyA < this.scale.value.min)
+            ? this.scale.value.min
+            : ((keyA > this.scale.value.max)
+              ? this.scale.value.max
+              : keyA);
+          if (keyA !== datum.a) {
+            datum.a = keyA;
+            if (datum.name === 'default') {
+              this.a = datum.a;
+            }
+            this.alignState();
+            this.requestUpdate();
+            this.dispatchEvent(new CustomEvent('htd-curves-change', {
+              detail: {
+                name: datum.name,
+                a: datum.a,
+                d: datum.d,
+                k: this.k,
+                label: datum.label,
+              },
+              bubbles: true,
+            }));
+          }
+          event.preventDefault();
+        }
+      });
     // Curve
     optionMerge
       .filter((datum, index, nodes) => {
@@ -748,184 +1091,34 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           event.preventDefault();
         }
       });
-    // Bar
-    optionMerge
+
+    // Non-interactive options
+    // Body (Fill, Bar, Point)
+    const bodyMergeNoninteractive = optionMerge
       .filter((datum, index, nodes) => {
-        return (this.interactive && !datum.trial && !d3.select(nodes[index]).select('.bar').classed('interactive'));
-      })
-      .select('.bar')
-      .classed('interactive', true)
-      .attr('tabindex', 0)
-      // Drag interaction
-      .call(d3.drag()
-        .subject((event, datum) => {
-          return {
-            x: xScale(datum.d),
-            y: yScale(datum.a),
-          };
-        })
-        .on('start', (event) => {
-          const element = event.currentTarget;
-          d3.select(element).classed('dragging', true);
-        })
-        .on('drag', (event, datum) => {
-          this.drag = true;
-          const d = xScale.invert(event.x);
-          datum.d = (d < this.scale.time.min)
-            ? this.scale.time.min
-            : (d > this.scale.time.max)
-              ? this.scale.time.max
-              : this.scale.time.round(d);
-          if (datum.name === 'default') {
-            this.d = datum.d;
-          }
-          this.alignState();
-          this.requestUpdate();
-          this.dispatchEvent(new CustomEvent('htd-curves-change', {
-            detail: {
-              name: datum.name,
-              a: datum.a,
-              d: datum.d,
-              k: this.k,
-              label: datum.label,
-            },
-            bubbles: true,
-          }));
-        })
-        .on('end', (event) => {
-          const element = event.currentTarget;
-          d3.select(element).classed('dragging', false);
-        }))
-      // Keyboard interaction
-      .on('keydown', (event, datum) => {
-        if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
-          let keyD = datum.d;
-          switch (event.key) {
-            case 'ArrowRight':
-              keyD += event.shiftKey ? 1 : 5;
-              break;
-            case 'ArrowLeft':
-              keyD -= event.shiftKey ? 1 : 5;
-              break;
-            default:
-              // no-op
-          }
-          keyD = (keyD < this.scale.time.min)
-            ? this.scale.time.min
-            : ((keyD > this.scale.time.max)
-              ? this.scale.time.max
-              : keyD);
-          if (keyD !== datum.d) {
-            datum.d = keyD;
-            if (datum.name === 'default') {
-              this.d = datum.d;
-            }
-            this.alignState();
-            this.requestUpdate();
-            this.dispatchEvent(new CustomEvent('htd-curves-change', {
-              detail: {
-                name: datum.name,
-                a: datum.a,
-                d: datum.d,
-                k: this.k,
-                label: datum.label,
-              },
-              bubbles: true,
-            }));
-          }
-          event.preventDefault();
-        }
+        return ((!this.interactive || datum.trial) && d3.select(nodes[index]).select('.body').classed('interactive'));
       });
+    bodyMergeNoninteractive.classed('interactive', false);
+    // Fill
+    bodyMergeNoninteractive
+      .select('.fill')
+      .attr('tabindex', null)
+      .on('drag', null)
+      .on('keydown', null);
+    // Bar
+    bodyMergeNoninteractive
+      .select('.bar')
+      .on('drag', null)
+      .on('keydown', null);
     // Point
     optionMerge
       .filter((datum, index, nodes) => {
-        return (this.interactive && !datum.trial && !d3.select(nodes[index]).select('.point').classed('interactive'));
+        return ((!this.interactive || datum.trial) && d3.select(nodes[index]).select('.top-point').classed('interact'));
       })
-      .select('.point')
-      .classed('interactive', true)
-      .attr('tabindex', 0)
-      // Drag interaction
-      .call(d3.drag()
-        .subject((event, datum) => {
-          return {
-            x: xScale(datum.d),
-            y: yScale(datum.a),
-          };
-        })
-        .on('start', (event) => {
-          const element = event.currentTarget;
-          d3.select(element).classed('dragging', true);
-        })
-        .on('drag', (event, datum) => {
-          this.drag = true;
-          const a = yScale.invert(event.y);
-          datum.a = (a < this.scale.value.min)
-            ? this.scale.value.min
-            : (a > this.scale.value.max)
-              ? this.scale.value.max
-              : this.scale.value.round(a);
-          if (datum.name === 'default') {
-            this.a = datum.a;
-          }
-          this.alignState();
-          this.requestUpdate();
-          this.dispatchEvent(new CustomEvent('htd-curves-change', {
-            detail: {
-              name: datum.name,
-              a: datum.a,
-              d: datum.d,
-              k: this.k,
-              label: datum.label,
-            },
-            bubbles: true,
-          }));
-        })
-        .on('end', (event) => {
-          const element = event.currentTarget;
-          d3.select(element).classed('dragging', false);
-        }))
-      // Keyboard interaction
-      .on('keydown', (event, datum) => {
-        if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-          let keyA = datum.a;
-          switch (event.key) {
-            case 'ArrowUp':
-              keyA += event.shiftKey ? 1 : 5;
-              break;
-            case 'ArrowDown':
-              keyA -= event.shiftKey ? 1 : 5;
-              break;
-            default:
-              // no-op
-          }
-          keyA = (keyA < this.scale.value.min)
-            ? this.scale.value.min
-            : ((keyA > this.scale.value.max)
-              ? this.scale.value.max
-              : keyA);
-          if (keyA !== datum.a) {
-            datum.a = keyA;
-            if (datum.name === 'default') {
-              this.a = datum.a;
-            }
-            this.alignState();
-            this.requestUpdate();
-            this.dispatchEvent(new CustomEvent('htd-curves-change', {
-              detail: {
-                name: datum.name,
-                a: datum.a,
-                d: datum.d,
-                k: this.k,
-                label: datum.label,
-              },
-              bubbles: true,
-            }));
-          }
-          event.preventDefault();
-        }
-      });
-
-    // Non-interactive options
+      .select('.top-point')
+      .classed('interact', false)
+      .on('drag', null)
+      .on('keydown', null);
     // Curve
     optionMerge
       .filter((datum, index, nodes) => {
@@ -936,34 +1129,49 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
       .attr('tabindex', null)
       .on('drag', null)
       .on('keydown', null);
-    // Bar
-    optionMerge
-      .filter((datum, index, nodes) => {
-        return ((!this.interactive || datum.trial) && d3.select(nodes[index]).select('.bar').classed('interactive'));
-      })
-      .select('.bar')
-      .classed('interactive', false)
-      .attr('tabindex', null)
-      .on('drag', null)
-      .on('keydown', null);
-    // Point
-    optionMerge
-      .filter((datum, index, nodes) => {
-        return ((!this.interactive || datum.trial) && d3.select(nodes[index]).select('.point').classed('interactive'));
-      })
-      .select('.point')
-      .classed('interactive', false)
-      .attr('tabindex', null)
-      .on('drag', null)
-      .on('keydown', null);
 
     // Trial Animation
+    // Fill
+    optionMerge
+      .filter((datum) => {
+        return (datum.new);
+      })
+      .each(() => {
+        svgMerge
+          .selectAll('.gradient .animation').transition()
+          .duration(transitionDuration)
+          .delay(transitionDuration + transitionDuration / 10)
+          .ease(d3.easeLinear)
+          .attrTween('offset', () => { return d3.interpolate(1, 0); });
+      });
+    // Bar
+    optionMerge
+      .filter((datum) => {
+        return (datum.new);
+      })
+      .selectAll('.bar .line').transition()
+      .duration(transitionDuration)
+      .ease(d3.easeLinear)
+      .attrTween('stroke-dasharray', (datum, index, nodes) => {
+        const length = nodes[index].getTotalLength();
+        return d3.interpolate(`0,${length}`, `${length},${length}`);
+      });
+    // Point
+    optionMerge
+      .filter((datum) => {
+        return (datum.new);
+      })
+      .selectAll('.point').transition()
+      .duration(transitionDuration / 10)
+      .delay(transitionDuration)
+      .ease(d3.easeLinear)
+      .attrTween('opacity', () => { return d3.interpolate(0, 1); });
     // Curve
     optionMerge
       .filter((datum) => {
         return (datum.new);
       })
-      .select('.curve .path').transition()
+      .selectAll('.curve .path').transition()
       .duration(transitionDuration)
       .delay(transitionDuration + transitionDuration / 10)
       .ease(d3.easeLinear)
@@ -985,54 +1193,14 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           bubbles: true,
         }));
       });
-    optionMerge
-      .filter((datum) => {
-        return (datum.new);
-      })
-      .select('.curve .path.touch').transition()
-      .duration(transitionDuration)
-      .delay(transitionDuration + transitionDuration / 10)
-      .ease(d3.easeLinear)
-      .attrTween('stroke-dasharray', (datum, index, nodes) => {
-        const length = nodes[index].getTotalLength();
-        return d3.interpolate(`0,${length}`, `${length},${0}`);
-      });
-    // Bar
-    optionMerge
-      .filter((datum) => {
-        return (datum.new);
-      })
-      .select('.bar .line').transition()
-      .duration(transitionDuration)
-      .ease(d3.easeLinear)
-      .attrTween('stroke-dasharray', (datum, index, nodes) => {
-        const length = nodes[index].getTotalLength();
-        return d3.interpolate(`0,${length}`, `${length},${length}`);
-      });
-    optionMerge
-      .filter((datum) => {
-        return (datum.new);
-      })
-      .select('.bar .line.touch').transition()
-      .duration(transitionDuration)
-      .ease(d3.easeLinear)
-      .attrTween('stroke-dasharray', (datum, index, nodes) => {
-        const length = nodes[index].getTotalLength();
-        return d3.interpolate(`0,${length}`, `${length},${length}`);
-      });
-    // Point
-    optionMerge
-      .filter((datum) => {
-        return (datum.new);
-      })
-      .select('.point').transition()
-      .duration(transitionDuration / 10)
-      .delay(transitionDuration)
-      .ease(d3.easeLinear)
-      .attrTween('opacity', () => { return d3.interpolate(0, 1); });
 
     // All options
-    optionUpdate.select('.curve .path').transition()
+    optionMerge.filter((datum) => { return datum.label === 's'; })
+      .raise();
+    optionMerge.filter((datum) => { return datum.label === 'l'; })
+      .lower();
+    // Fill
+    optionUpdate.select('.fill .region').transition()
       .duration(this.drag
         ? 0
         : (this.firstUpdate
@@ -1062,43 +1230,11 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
               ),
             };
           });
-          return line(curve);
+          return line([...curve, {d: 0, v: 0}, {d: element.d, v: 0}]);
         };
       });
-    optionUpdate.select('.curve .path.touch').transition()
-      .duration(this.drag
-        ? 0
-        : (this.firstUpdate
-          ? (transitionDuration * 2)
-          : transitionDuration))
-      .ease(d3.easeCubicOut)
-      .attrTween('d', (datum, index, elements) => {
-        const element = elements[index];
-        const interpolateA = d3.interpolate(
-          (element.a !== undefined) ? element.a : datum.a,
-          datum.a,
-        );
-        const interpolateD = d3.interpolate(
-          (element.d !== undefined) ? element.d : datum.d,
-          datum.d,
-        );
-        return (time) => {
-          element.a = interpolateA(time);
-          element.d = interpolateD(time);
-          const curve = d3.range(xScale(element.d), xScale(0), -1).map((range) => {
-            return {
-              d: xScale.invert(range),
-              v: HTDMath.adk2v(
-                element.a,
-                element.d - xScale.invert(range),
-                this.k,
-              ),
-            };
-          });
-          return line(curve);
-        };
-      });
-    optionUpdate.select('.bar .line').transition()
+    // Bar
+    optionUpdate.selectAll('.bar .line').transition()
       .duration(this.drag
         ? 0
         : (this.firstUpdate
@@ -1138,47 +1274,8 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           return `${yScale(element.a)}`;
         };
       });
-    optionUpdate.select('.bar .line.touch').transition()
-      .duration(this.drag
-        ? 0
-        : (this.firstUpdate
-          ? (transitionDuration * 2)
-          : transitionDuration))
-      .ease(d3.easeCubicOut)
-      .attrTween('x1', (datum, index, elements) => {
-        const element = elements[index];
-        const interpolateD = d3.interpolate(
-          (element.d !== undefined) ? element.d : datum.d,
-          datum.d,
-        );
-        return (time) => {
-          element.d = interpolateD(time);
-          return `${xScale(element.d)}`;
-        };
-      })
-      .attrTween('x2', (datum, index, elements) => {
-        const element = elements[index];
-        const interpolateD = d3.interpolate(
-          (element.d !== undefined) ? element.d : datum.d,
-          datum.d,
-        );
-        return (time) => {
-          element.d = interpolateD(time);
-          return `${xScale(element.d)}`;
-        };
-      })
-      .attrTween('y2', (datum, index, elements) => {
-        const element = elements[index];
-        const interpolateA = d3.interpolate(
-          (element.a !== undefined) ? element.a : datum.a,
-          datum.a,
-        );
-        return (time) => {
-          element.a = interpolateA(time);
-          return `${yScale(element.a)}`;
-        };
-      });
-    optionUpdate.select('.point').transition()
+    // Point
+    optionUpdate.selectAll('.point').transition()
       .duration(this.drag
         ? 0
         : (this.firstUpdate
@@ -1203,6 +1300,40 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
       });
     optionMerge.select('.point .label')
       .text((datum) => { return datum.label; });
+    // Curve
+    optionUpdate.selectAll('.curve .path').transition()
+      .duration(this.drag
+        ? 0
+        : (this.firstUpdate
+          ? (transitionDuration * 2)
+          : transitionDuration))
+      .ease(d3.easeCubicOut)
+      .attrTween('d', (datum, index, elements) => {
+        const element = elements[index];
+        const interpolateA = d3.interpolate(
+          (element.a !== undefined) ? element.a : datum.a,
+          datum.a,
+        );
+        const interpolateD = d3.interpolate(
+          (element.d !== undefined) ? element.d : datum.d,
+          datum.d,
+        );
+        return (time) => {
+          element.a = interpolateA(time);
+          element.d = interpolateD(time);
+          const curve = d3.range(xScale(element.d), xScale(0), -1).map((range) => {
+            return {
+              d: xScale.invert(range),
+              v: HTDMath.adk2v(
+                element.a,
+                element.d - xScale.invert(range),
+                this.k,
+              ),
+            };
+          });
+          return line(curve);
+        };
+      });
     //  EXIT
     // NOTE: Could add a transition here
     optionUpdate.exit().remove();
