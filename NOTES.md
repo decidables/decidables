@@ -2,7 +2,6 @@
 
 - Remove OTP from `yarn publish`? Now using token?
 - d'etectable: Incorporate Parameter controls
-- discountable: Use colored shading below discounting curves!
 - discountable: Pausing animations
 - dab'le: Flesh out descriptions
 - decidables: Include description of dable
