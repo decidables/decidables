@@ -152,8 +152,7 @@ describe('htd-curves', () => {
       'Element did not render children',
     );
     expect(el.shadowRoot).to.have.descendant('.curve').with.class('interactive');
-    expect(el.shadowRoot).to.have.descendant('.bar').with.class('interactive');
-    expect(el.shadowRoot).to.have.descendant('.point').with.class('interactive');
+    expect(el.shadowRoot).to.have.descendant('.body').with.class('interactive');
   });
 
   it('supports mouse manipulation of point', async () => {
@@ -165,29 +164,11 @@ describe('htd-curves', () => {
     // Get "before" state
     const {a} = el;
     // Action
-    const target = el.shadowRoot.querySelector('.point.interactive');
+    const target = el.shadowRoot.querySelector('.point.interact');
     setTimeout(() => { mouseDragElement(target, 0, -50); });
     const {detail} = await oneEvent(el, 'htd-curves-change');
     // Compare "after" state
     expect(el.a).to.be.above(a);
-    expect(detail.a).to.equal(el.a);
-  });
-
-  it('supports keyboard manipulation of point', async () => {
-    const el = await fixture(html`<htd-curves interactive amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
-    await waitUntil(
-      () => { return el.shadowRoot.querySelector('svg'); },
-      'Element did not render children',
-    );
-    // Get "before" state
-    const {a} = el;
-    // Action
-    const target = el.shadowRoot.querySelector('.point.interactive');
-    target.focus();
-    setTimeout(() => { sendKeys({press: 'ArrowDown'}); });
-    const {detail} = await oneEvent(el, 'htd-curves-change');
-    // Compare "after" state
-    expect(el.a).to.be.below(a);
     expect(detail.a).to.equal(el.a);
   });
 
@@ -200,7 +181,7 @@ describe('htd-curves', () => {
     // Get "before" state
     const {d} = el;
     // Action
-    const target = el.shadowRoot.querySelector('.bar.interactive');
+    const target = el.shadowRoot.querySelector('.interactive .bar');
     setTimeout(() => { mouseDragElement(target, 50, 0); });
     const {detail} = await oneEvent(el, 'htd-curves-change');
     // Compare "after" state
@@ -208,22 +189,42 @@ describe('htd-curves', () => {
     expect(detail.d).to.equal(el.d);
   });
 
-  it('supports keyboard manipulation of bar', async () => {
+  it('supports mouse manipulation of fill', async () => {
     const el = await fixture(html`<htd-curves interactive amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
     await waitUntil(
       () => { return el.shadowRoot.querySelector('svg'); },
       'Element did not render children',
     );
     // Get "before" state
+    const {a} = el;
     const {d} = el;
     // Action
-    const target = el.shadowRoot.querySelector('.bar.interactive');
-    target.focus();
-    setTimeout(() => { sendKeys({press: 'ArrowLeft'}); });
+    const target = el.shadowRoot.querySelector('.interactive .fill');
+    setTimeout(() => { mouseDragElement(target, -50, 50, 'bottom'); });
     const {detail} = await oneEvent(el, 'htd-curves-change');
     // Compare "after" state
+    expect(el.a).to.be.below(a);
+    expect(detail.a).to.equal(el.a);
     expect(el.d).to.be.below(d);
     expect(detail.d).to.equal(el.d);
+  });
+
+  it('supports keyboard manipulation of fill', async () => {
+    const el = await fixture(html`<htd-curves interactive amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
+    // Get "before" state
+    const {a} = el;
+    // Action
+    const target = el.shadowRoot.querySelector('.interactive .fill');
+    target.focus();
+    setTimeout(() => { sendKeys({press: 'ArrowUp'}); });
+    const {detail} = await oneEvent(el, 'htd-curves-change');
+    // Compare "after" state
+    expect(el.a).to.be.above(a);
+    expect(detail.a).to.equal(el.a);
   });
 
   it('supports mouse manipulation of curve', async () => {
