@@ -212,11 +212,12 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 
 #### Publish
 
-- `yarn publish ######`
+- `yarn publish`
+  - **Note:** to be run immediately after `yarn versions`
   - **Note:** you must be logged in to NPM with appropriate scope:
     `npm adduser <username> --scope=@decidables`
-  - **Note:** to be run immediately after `yarn versions`
-  - **Note:** `######` should be replaced with an actual one time passcode
+  - **Note:** requires a valid NPM granular access token be set to NPM_TOKEN environment variable
+    with read and write access to @decidables scope 
   - Publishes all new versions of *public* libraries to *npm*
 
 #### Deploy
