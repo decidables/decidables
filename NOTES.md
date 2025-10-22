@@ -1,6 +1,8 @@
 ## Ideas
 
+- discountable: Move keyboard from fill to body&top-point, remove from bar
 - Remove OTP from `yarn publish`? Now using token?
+- testing: use waitUntil (as in discountable) instead of aTimeout!
 - d'etectable: Incorporate Parameter controls
 - discountable: Pausing animations
 - dab'le: Flesh out descriptions
