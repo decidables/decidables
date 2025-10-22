@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/decidables/decidables/compare/@decidables/dable@0.1.0...@decidables/dable@0.1.1) (2025-10-22)
+
+
+### Bug Fixes
+
+* **dable:** fix `deploy` gulp script ([f5fdcbd](https://github.com/decidables/decidables/commit/f5fdcbdb60aee94337e8f19e2e73e3e2d311b5f6))
+
+
+
 ## 0.1.0 (2025-10-14)
 
 

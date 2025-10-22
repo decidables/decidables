@@ -1,6 +1,6 @@
 {
   "name": "@decidables/accumulable-elements",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "accumulable-elements: Web Components for visualizing the Diffusion Decision Model",
   "keywords": [
     "web component",

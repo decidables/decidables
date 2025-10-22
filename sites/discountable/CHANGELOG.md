@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.0](https://github.com/decidables/decidables/compare/@decidables/discountable@0.7.1...@decidables/discountable@0.8.0) (2025-10-22)
+
+
+### Features
+
+* **discountable:** add semi-transparent colored fill to curve in favicon ([8207216](https://github.com/decidables/decidables/commit/8207216b40b0844cb1a9ea26955dc6e51e542aa2))
+
+
+
 ## [0.7.1](https://github.com/decidables/decidables/compare/@decidables/discountable@0.7.0...@decidables/discountable@0.7.1) (2025-10-14)
 
 **Note:** Version bump only for package @decidables/discountable

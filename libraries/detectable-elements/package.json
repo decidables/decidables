@@ -1,6 +1,6 @@
 {
   "name": "@decidables/detectable-elements",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "detectable-elements: Web Components for visualizing Signal Detection Theory",
   "keywords": [
     "web component",

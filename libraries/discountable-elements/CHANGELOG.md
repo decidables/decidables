@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.5.1...@decidables/discountable-elements@0.6.0) (2025-10-22)
+
+
+### Features
+
+* **discountable-elements:** add colored fill to htd-curves ([8d13134](https://github.com/decidables/decidables/commit/8d13134b8847cc3e95cbc3df73479c54b9697cb9))
+
+
+
 ## [0.5.1](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.5.0...@decidables/discountable-elements@0.5.1) (2025-10-14)
 
 **Note:** Version bump only for package @decidables/discountable-elements
