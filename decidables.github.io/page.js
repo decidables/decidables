@@ -2196,29 +2196,78 @@ const o=t=>t??E;class DecidablesSlider extends DecidablesElement{static get prop
           /* shape-rendering: crispEdges; */
         }
 
-        .curve {
-          fill: none;
-          stroke: var(---color-element-emphasis);
-          stroke-width: 2;
-        }
-
-        .curve.interactive {
-          cursor: nwse-resize;
-          
+        .option .interactive {
           filter: url("#shadow-2");
-          outline: none;
         }
 
-        .curve.interactive:hover {
+        .option .interactive:hover {
           filter: url("#shadow-4");
         }
 
-        .curve.interactive:active {
+        .option .body.interactive:has(~ .point:hover) {
+          filter: url("#shadow-4");
+        }
+
+        .option .interactive:active {
           filter: url("#shadow-8");
         }
 
-        :host(.keyboard) .curve.interactive:focus {
+        .option .body.interactive:has(~ .point:active) {
           filter: url("#shadow-8");
+        }
+
+        :host(.keyboard) .option .interactive:focus-within {
+          filter: url("#shadow-8");
+        }
+
+        :host(.keyboard) .option .body.interactive:has(~ .point:focus-within) {
+          filter: url("#shadow-8");
+        }
+
+        .gradient.sooner stop {
+          stop-color: var(---color-sooner);
+        }
+
+        .gradient.later stop {
+          stop-color: var(---color-later);
+        }
+
+        .stop-0,
+        .stop-before {
+          stop-opacity: 0;
+        }
+
+        .stop-after,
+        .stop-100 {
+          stop-opacity: 1;
+        }
+
+        .fill {
+          fill: var(---color-element-enabled);
+          fill-opacity: 0.5;
+          stroke: none;
+        }
+
+        .interactive .fill {
+          cursor: move;
+
+          outline: none;
+        }
+
+        .sooner .fill {
+          fill: var(---color-sooner);
+        }
+
+        .later .fill {
+          fill: var(---color-later);
+        }
+
+        .trial.sooner .fill {
+          fill: url("#sooner-gradient");
+        }
+
+        .trial.later .fill {
+          fill: url("#later-gradient");
         }
 
         .bar {
@@ -2227,23 +2276,10 @@ const o=t=>t??E;class DecidablesSlider extends DecidablesElement{static get prop
           stroke-width: 2;
         }
 
-        .bar.interactive {
+        .interactive .bar {
           cursor: ew-resize;
-          
-          filter: url("#shadow-2");
+
           outline: none;
-        }
-
-        .bar.interactive:hover {
-          filter: url("#shadow-4");
-        }
-
-        .bar.interactive:active {
-          filter: url("#shadow-8");
-        }
-
-        :host(.keyboard) .bar.interactive:focus {
-          filter: url("#shadow-8");
         }
 
         .point .mark {
@@ -2261,38 +2297,22 @@ const o=t=>t??E;class DecidablesSlider extends DecidablesElement{static get prop
           fill: var(---color-text-inverse);
         }
 
-        .point.interactive {
+        .point.interact {
           cursor: ns-resize;
 
-          filter: url("#shadow-2");
           outline: none;
-
-          /* HACK: This gets Safari to correctly apply the filter! */
-          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
-          stroke: #000000;
-          stroke-opacity: 0;
-          stroke-width: 0;
         }
 
-        .point.interactive:hover {
-          filter: url("#shadow-4");
-
-          /* HACK: This gets Safari to correctly apply the filter! */
-          stroke: #ff0000;
+        .curve {
+          fill: none;
+          stroke: var(---color-element-emphasis);
+          stroke-width: 2;
         }
 
-        .point.interactive:active {
-          filter: url("#shadow-8");
+        .curve.interactive {
+          cursor: nwse-resize;
 
-          /* HACK: This gets Safari to correctly apply the filter! */
-          stroke: #00ff00;
-        }
-
-        :host(.keyboard) .point.interactive:focus {
-          filter: url("#shadow-8");
-
-          /* HACK: This gets Safari to correctly apply the filter! */
-          stroke: #0000ff;
+          outline: none;
         }
 
         /* Make larger targets for touch users */
@@ -2307,7 +2327,7 @@ const o=t=>t??E;class DecidablesSlider extends DecidablesElement{static get prop
             stroke-width: 12;
           }
         }
-      `]}render(){return x$1``}willUpdate(){this.alignState()}update(t){if(super.update(t),Number.isNaN(this.width)||Number.isNaN(this.height)||Number.isNaN(this.rem))return;const e=this.width,r=this.height;let n,a;e/r>1.8?(a=r,n=1.8*a):(n=e,a=n/1.8);const i=2*this.rem,o=3*this.rem,s=3*this.rem,l=a-(i+o),c=n-(s+2*this.rem),u=parseInt(this.getComputedStyleValue("---transition-duration"),10),h=linear().domain([this.scale.time.min,this.scale.time.max]).range([0,c]),d=linear().domain([this.scale.value.min,this.scale.value.max]).range([l,0]),p=line().x(t=>h(t.d)).y(t=>d(t.v)),f=select(this.renderRoot).selectAll(".main").data([{width:this.width,height:this.height,rem:this.rem}]),g=f.enter().append("svg").classed("main",!0);g.html(DiscountableElement.svgDefs);const m=g.merge(f).attr("viewBox",`0 0 ${n} ${a}`),$=g.append("g").classed("plot",!0),y=m.select(".plot").attr("transform",`translate(${s}, ${i})`);$.append("clipPath").attr("id","clip-htd-curves").append("rect"),y.select("clipPath rect").attr("height",l+1).attr("width",c+1);const b=$.append("g").classed("underlayer",!0),v=y.select(".underlayer");b.append("rect").classed("background",!0),v.select(".background").attr("height",l).attr("width",c),b.append("g").classed("axis-x",!0);v.select(".axis-x").attr("transform",`translate(0, ${d(0)})`).transition().duration(2*u).ease(cubicOut).call(axisBottom(h)).attr("font-size",null).attr("font-family",null).selectAll("line, path").attr("stroke",null);const E=b.append("text").classed("title-x",!0).attr("text-anchor","middle");E.append("tspan").classed("name",!0).text("Delay ("),E.append("tspan").classed("math-var d",!0).text("D"),E.append("tspan").classed("name",!0).text(")"),v.select(".title-x").attr("transform",`translate(${c/2}, ${l+2.25*this.rem})`),b.append("g").classed("axis-y",!0);v.select(".axis-y").transition().duration(2*u).ease(cubicOut).call(axisLeft(d)).attr("font-size",null).attr("font-family",null).selectAll("line, path").attr("stroke",null);const T=b.append("text").classed("title-y",!0).attr("text-anchor","middle");T.append("tspan").classed("name",!0).text("Value ("),T.append("tspan").classed("math-var v",!0).text("V"),T.append("tspan").classed("name",!0).text(")"),v.select(".title-y").attr("transform",`translate(${-2*this.rem}, ${l/2})rotate(-90)`),$.append("g").classed("content",!0);const S=y.select(".content").selectAll(".option").data(this.options.filter(t=>null!==t.a&&null!==t.d),t=>t.name),w=S.enter().append("g").classed("option",!0),x=w.append("g").classed("curve",!0).attr("clip-path","url(#clip-htd-curves)");x.append("path").classed("path",!0).attr("d",t=>{const e=range(h(t.d),h(0),-1).map(e=>({d:h.invert(e),v:HTDMath.adk2v(t.a,t.d-h.invert(e),this.k)}));return p(e)}).attr("stroke-dasharray",(t,e,r)=>{if(t.trial){return`0,${r[e].getTotalLength()}`}return"none"}),x.append("path").classed("path touch",!0).attr("d",t=>{const e=range(h(t.d),h(0),-1).map(e=>({d:h.invert(e),v:HTDMath.adk2v(t.a,t.d-h.invert(e),this.k)}));return p(e)}).attr("stroke-dasharray",(t,e,r)=>{if(t.trial){return`0,${r[e].getTotalLength()}`}return"none"});const A=w.append("g").classed("bar",!0);A.append("line").classed("line",!0).attr("x1",t=>h(t.d)).attr("x2",t=>h(t.d)).attr("y1",d(0)).attr("y2",t=>d(t.a)).attr("stroke-dasharray",(t,e,r)=>{if(t.trial){return`0,${r[e].getTotalLength()}`}return"none"}),A.append("line").classed("line touch",!0).attr("x1",t=>h(t.d)).attr("x2",t=>h(t.d)).attr("y1",d(0)).attr("y2",t=>d(t.a)).attr("stroke-dasharray",(t,e,r)=>{if(t.trial){return`0,${r[e].getTotalLength()}`}return"none"});const _=w.append("g").classed("point",!0).attr("transform",t=>`translate(${h(t.d)}, ${d(t.a)})`).attr("opacity",t=>t.trial?0:1);_.append("circle").classed("mark touch",!0),_.append("text").classed("label",!0);const I=w.merge(S);I.filter((t,e,r)=>this.interactive&&!select(r[e]).select(".curve").classed("interactive")).select(".curve").classed("interactive",!0).attr("tabindex",0).call(drag().subject(t=>({x:t.x,y:t.y})).on("start",t=>{select(t.currentTarget).classed("dragging",!0)}).on("drag",(t,e)=>{this.drag=!0;const r=e.d-h.invert(t.x),n=r<0?0:r>e.d?e.d:r,a=d.invert(t.y),i=a<=0?.001:a>e.a?e.a:a,o=HTDMath.adv2k(e.a,n,i);this.k=o<HTDMath.k.MIN?HTDMath.k.MIN:o>HTDMath.k.MAX?HTDMath.k.MAX:o,this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))}).on("end",t=>{select(t.currentTarget).classed("dragging",!1)})).on("keydown",(t,e)=>{if(["ArrowUp","ArrowDown","ArrowRight","ArrowLeft"].includes(t.key)){let{k:r}=this;switch(t.key){case"ArrowUp":case"ArrowLeft":r*=t.shiftKey?.95:.85;break;case"ArrowDown":case"ArrowRight":r*=t.shiftKey?1/.95:1/.85}r=r<HTDMath.k.MIN?HTDMath.k.MIN:r>HTDMath.k.MAX?HTDMath.k.MAX:r,r!==this.k&&(this.k=r,this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))),t.preventDefault()}}),I.filter((t,e,r)=>this.interactive&&!t.trial&&!select(r[e]).select(".bar").classed("interactive")).select(".bar").classed("interactive",!0).attr("tabindex",0).call(drag().subject((t,e)=>({x:h(e.d),y:d(e.a)})).on("start",t=>{select(t.currentTarget).classed("dragging",!0)}).on("drag",(t,e)=>{this.drag=!0;const r=h.invert(t.x);e.d=r<this.scale.time.min?this.scale.time.min:r>this.scale.time.max?this.scale.time.max:this.scale.time.round(r),"default"===e.name&&(this.d=e.d),this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))}).on("end",t=>{select(t.currentTarget).classed("dragging",!1)})).on("keydown",(t,e)=>{if(["ArrowLeft","ArrowRight"].includes(t.key)){let r=e.d;switch(t.key){case"ArrowRight":r+=t.shiftKey?1:5;break;case"ArrowLeft":r-=t.shiftKey?1:5}r=r<this.scale.time.min?this.scale.time.min:r>this.scale.time.max?this.scale.time.max:r,r!==e.d&&(e.d=r,"default"===e.name&&(this.d=e.d),this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))),t.preventDefault()}}),I.filter((t,e,r)=>this.interactive&&!t.trial&&!select(r[e]).select(".point").classed("interactive")).select(".point").classed("interactive",!0).attr("tabindex",0).call(drag().subject((t,e)=>({x:h(e.d),y:d(e.a)})).on("start",t=>{select(t.currentTarget).classed("dragging",!0)}).on("drag",(t,e)=>{this.drag=!0;const r=d.invert(t.y);e.a=r<this.scale.value.min?this.scale.value.min:r>this.scale.value.max?this.scale.value.max:this.scale.value.round(r),"default"===e.name&&(this.a=e.a),this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))}).on("end",t=>{select(t.currentTarget).classed("dragging",!1)})).on("keydown",(t,e)=>{if(["ArrowUp","ArrowDown"].includes(t.key)){let r=e.a;switch(t.key){case"ArrowUp":r+=t.shiftKey?1:5;break;case"ArrowDown":r-=t.shiftKey?1:5}r=r<this.scale.value.min?this.scale.value.min:r>this.scale.value.max?this.scale.value.max:r,r!==e.a&&(e.a=r,"default"===e.name&&(this.a=e.a),this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))),t.preventDefault()}}),I.filter((t,e,r)=>!this.interactive&&select(r[e]).select(".curve").classed("interactive")).select(".curve").classed("interactive",!1).attr("tabindex",null).on("drag",null).on("keydown",null),I.filter((t,e,r)=>(!this.interactive||t.trial)&&select(r[e]).select(".bar").classed("interactive")).select(".bar").classed("interactive",!1).attr("tabindex",null).on("drag",null).on("keydown",null),I.filter((t,e,r)=>(!this.interactive||t.trial)&&select(r[e]).select(".point").classed("interactive")).select(".point").classed("interactive",!1).attr("tabindex",null).on("drag",null).on("keydown",null),I.filter(t=>t.new).select(".curve .path").transition().duration(u).delay(u+u/10).ease(linear$1).attrTween("stroke-dasharray",(t,e,r)=>{const n=r[e].getTotalLength();return interpolate$1(`0,${n}`,`${n},0`)}).on("end",t=>{t.new=!1,this.dispatchEvent(new CustomEvent("discountable-response",{detail:{trial:this.trialCount,as:this.as,ds:this.ds,al:this.al,dl:this.dl,response:this.response},bubbles:!0}))}),I.filter(t=>t.new).select(".curve .path.touch").transition().duration(u).delay(u+u/10).ease(linear$1).attrTween("stroke-dasharray",(t,e,r)=>{const n=r[e].getTotalLength();return interpolate$1(`0,${n}`,`${n},0`)}),I.filter(t=>t.new).select(".bar .line").transition().duration(u).ease(linear$1).attrTween("stroke-dasharray",(t,e,r)=>{const n=r[e].getTotalLength();return interpolate$1(`0,${n}`,`${n},${n}`)}),I.filter(t=>t.new).select(".bar .line.touch").transition().duration(u).ease(linear$1).attrTween("stroke-dasharray",(t,e,r)=>{const n=r[e].getTotalLength();return interpolate$1(`0,${n}`,`${n},${n}`)}),I.filter(t=>t.new).select(".point").transition().duration(u/10).delay(u).ease(linear$1).attrTween("opacity",()=>interpolate$1(0,1)),S.select(".curve .path").transition().duration(this.drag?0:this.firstUpdate?2*u:u).ease(cubicOut).attrTween("d",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.a?n.a:t.a,t.a),i=interpolate$1(void 0!==n.d?n.d:t.d,t.d);return t=>{n.a=a(t),n.d=i(t);const e=range(h(n.d),h(0),-1).map(t=>({d:h.invert(t),v:HTDMath.adk2v(n.a,n.d-h.invert(t),this.k)}));return p(e)}}),S.select(".curve .path.touch").transition().duration(this.drag?0:this.firstUpdate?2*u:u).ease(cubicOut).attrTween("d",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.a?n.a:t.a,t.a),i=interpolate$1(void 0!==n.d?n.d:t.d,t.d);return t=>{n.a=a(t),n.d=i(t);const e=range(h(n.d),h(0),-1).map(t=>({d:h.invert(t),v:HTDMath.adk2v(n.a,n.d-h.invert(t),this.k)}));return p(e)}}),S.select(".bar .line").transition().duration(this.drag?0:this.firstUpdate?2*u:u).ease(cubicOut).attrTween("x1",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.d?n.d:t.d,t.d);return t=>(n.d=a(t),`${h(n.d)}`)}).attrTween("x2",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.d?n.d:t.d,t.d);return t=>(n.d=a(t),`${h(n.d)}`)}).attrTween("y2",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.a?n.a:t.a,t.a);return t=>(n.a=a(t),`${d(n.a)}`)}),S.select(".bar .line.touch").transition().duration(this.drag?0:this.firstUpdate?2*u:u).ease(cubicOut).attrTween("x1",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.d?n.d:t.d,t.d);return t=>(n.d=a(t),`${h(n.d)}`)}).attrTween("x2",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.d?n.d:t.d,t.d);return t=>(n.d=a(t),`${h(n.d)}`)}).attrTween("y2",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.a?n.a:t.a,t.a);return t=>(n.a=a(t),`${d(n.a)}`)}),S.select(".point").transition().duration(this.drag?0:this.firstUpdate?2*u:u).ease(cubicOut).attrTween("transform",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.d?n.d:t.d,t.d),i=interpolate$1(void 0!==n.a?n.a:t.a,t.a);return t=>(n.d=a(t),n.a=i(t),`translate(${h(n.d)}, ${d(n.a)})`)}),I.select(".point .label").text(t=>t.label),S.exit().remove(),this.drag=!1,this.firstUpdate=!1}}customElements.define("htd-curves",HTDCurves);class ITCOption extends DiscountableElement{static get properties(){return{state:{attribute:"state",type:String,reflect:!0},a:{attribute:"amount",type:Number,reflect:!0},d:{attribute:"delay",type:Number,reflect:!0}}}constructor(){super(),this.states=["choice","fixation","blank"],this.state="choice",this.a=0,this.d=0}static get styles(){return[super.styles,i$3`
+      `]}render(){return x$1``}willUpdate(){this.alignState()}update(t){if(super.update(t),Number.isNaN(this.width)||Number.isNaN(this.height)||Number.isNaN(this.rem))return;const e=this.width,r=this.height;let n,a;e/r>1.8?(a=r,n=1.8*a):(n=e,a=n/1.8);const i=2*this.rem,o=3*this.rem,s=3*this.rem,l=a-(i+o),c=n-(s+2*this.rem),u=parseInt(this.getComputedStyleValue("---transition-duration"),10),h=linear().domain([this.scale.time.min,this.scale.time.max]).range([0,c]),d=linear().domain([this.scale.value.min,this.scale.value.max]).range([l,0]),p=line().x(t=>h(t.d)).y(t=>d(t.v)),f=select(this.renderRoot).selectAll(".main").data([{width:this.width,height:this.height,rem:this.rem}]),g=f.enter().append("svg").classed("main",!0);g.html(DiscountableElement.svgDefs);const m=g.append("defs"),$=m.append("linearGradient").classed("gradient sooner",!0).attr("id","sooner-gradient");$.append("stop").classed("stop-0",!0).attr("offset","0"),$.append("stop").classed("stop-before animation",!0).attr("offset","1"),$.append("stop").classed("stop-after animation",!0).attr("offset","1"),$.append("stop").classed("stop-100",!0).attr("offset","1");const y=m.append("linearGradient").classed("gradient later",!0).attr("id","later-gradient");y.append("stop").classed("stop-0",!0).attr("offset","0"),y.append("stop").classed("stop-before animation",!0).attr("offset","1"),y.append("stop").classed("stop-after animation",!0).attr("offset","1"),y.append("stop").classed("stop-100",!0).attr("offset","1");const b=g.merge(f).attr("viewBox",`0 0 ${n} ${a}`),v=g.append("g").classed("plot",!0),E=b.select(".plot").attr("transform",`translate(${s}, ${i})`);v.append("clipPath").attr("id","clip-htd-curves").append("rect"),E.select("clipPath rect").attr("height",l+1).attr("width",c+1);const T=v.append("g").classed("underlayer",!0),S=E.select(".underlayer");T.append("rect").classed("background",!0),S.select(".background").attr("height",l).attr("width",c),T.append("g").classed("axis-x",!0);S.select(".axis-x").attr("transform",`translate(0, ${d(0)})`).transition().duration(2*u).ease(cubicOut).call(axisBottom(h)).attr("font-size",null).attr("font-family",null).selectAll("line, path").attr("stroke",null);const w=T.append("text").classed("title-x",!0).attr("text-anchor","middle");w.append("tspan").classed("name",!0).text("Delay ("),w.append("tspan").classed("math-var d",!0).text("D"),w.append("tspan").classed("name",!0).text(")"),S.select(".title-x").attr("transform",`translate(${c/2}, ${l+2.25*this.rem})`),T.append("g").classed("axis-y",!0);S.select(".axis-y").transition().duration(2*u).ease(cubicOut).call(axisLeft(d)).attr("font-size",null).attr("font-family",null).selectAll("line, path").attr("stroke",null);const x=T.append("text").classed("title-y",!0).attr("text-anchor","middle");x.append("tspan").classed("name",!0).text("Value ("),x.append("tspan").classed("math-var v",!0).text("V"),x.append("tspan").classed("name",!0).text(")"),S.select(".title-y").attr("transform",`translate(${-2*this.rem}, ${l/2})rotate(-90)`),v.append("g").classed("content",!0);const A=E.select(".content").selectAll(".option").data(this.options.filter(t=>null!==t.a&&null!==t.d),t=>t.name),_=A.enter().append("g").attr("class",t=>`option ${"s"===t.label?"sooner":"l"===t.label?"later":""} ${t.trial?"trial":""}`),I=_.append("g").classed("body",!0),O=I.append("g").classed("fill",!0).attr("clip-path","url(#clip-htd-curves)").each(t=>{t.trial&&b.selectAll(".gradient .animation").attr("offset",1)});O.append("path").classed("region",!0).attr("d",t=>{const e=range(h(t.d),h(0),-1).map(e=>({d:h.invert(e),v:HTDMath.adk2v(t.a,t.d-h.invert(e),this.k)}));return p([...e,{d:0,v:0},{d:t.d,v:0}])});const C=I.append("g").classed("bar",!0);C.append("line").classed("line",!0),C.append("line").classed("line touch",!0),C.selectAll(".line").attr("x1",t=>h(t.d)).attr("x2",t=>h(t.d)).attr("y1",d(0)).attr("y2",t=>d(t.a)).attr("stroke-dasharray",(t,e,r)=>{if(t.trial){return`0,${r[e].getTotalLength()}`}return"none"});I.append("g").classed("point",!0).append("circle").classed("mark touch",!0);const R=_.append("g").classed("curve",!0).attr("clip-path","url(#clip-htd-curves)");R.append("path").classed("path",!0),R.append("path").classed("path touch",!0),R.selectAll(".path").attr("d",t=>{const e=range(h(t.d),h(0),-1).map(e=>({d:h.invert(e),v:HTDMath.adk2v(t.a,t.d-h.invert(e),this.k)}));return p(e)}).attr("stroke-dasharray",(t,e,r)=>{if(t.trial){return`0,${r[e].getTotalLength()}`}return"none"});const M=_.append("g").classed("point top-point",!0);M.append("circle").classed("mark touch",!0),M.append("text").classed("label",!0),_.selectAll(".point").attr("transform",t=>`translate(${h(t.d)}, ${d(t.a)})`).attr("opacity",t=>t.trial?0:1);const N=_.merge(A),D=N.filter((t,e,r)=>this.interactive&&!t.trial&&!select(r[e]).select(".body").classed("interactive")).select(".body");D.classed("interactive",!0),D.select(".fill").attr("tabindex",0).call(drag().subject((t,e)=>({x:h(e.d),y:d(e.a)})).on("start",t=>{select(t.currentTarget).classed("dragging",!0)}).on("drag",(t,e)=>{this.drag=!0;const r=h.invert(t.x),n=d.invert(t.y);e.d=r<this.scale.time.min?this.scale.time.min:r>this.scale.time.max?this.scale.time.max:this.scale.time.round(r),e.a=n<this.scale.value.min?this.scale.value.min:n>this.scale.value.max?this.scale.value.max:this.scale.value.round(n),"default"===e.name&&(this.d=e.d,this.a=e.a),this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))}).on("end",t=>{select(t.currentTarget).classed("dragging",!1)})).on("keydown",(t,e)=>{if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(t.key)){let r=e.a,n=e.d;switch(t.key){case"ArrowUp":r+=t.shiftKey?1:5;break;case"ArrowDown":r-=t.shiftKey?1:5;break;case"ArrowRight":n+=t.shiftKey?1:5;break;case"ArrowLeft":n-=t.shiftKey?1:5}n=n<this.scale.time.min?this.scale.time.min:n>this.scale.time.max?this.scale.time.max:n,r=r<this.scale.value.min?this.scale.value.min:r>this.scale.value.max?this.scale.value.max:r,n===e.d&&r===e.a||(e.d=n,e.a=r,"default"===e.name&&(this.d=e.d,this.a=e.a),this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))),t.preventDefault()}}),D.select(".bar").call(drag().subject((t,e)=>({x:h(e.d),y:d(e.a)})).on("start",t=>{select(t.currentTarget).classed("dragging",!0)}).on("drag",(t,e)=>{this.drag=!0;const r=h.invert(t.x);e.d=r<this.scale.time.min?this.scale.time.min:r>this.scale.time.max?this.scale.time.max:this.scale.time.round(r),"default"===e.name&&(this.d=e.d),this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))}).on("end",t=>{select(t.currentTarget).classed("dragging",!1)})).on("keydown",(t,e)=>{if(["ArrowLeft","ArrowRight"].includes(t.key)){let r=e.d;switch(t.key){case"ArrowRight":r+=t.shiftKey?1:5;break;case"ArrowLeft":r-=t.shiftKey?1:5}r=r<this.scale.time.min?this.scale.time.min:r>this.scale.time.max?this.scale.time.max:r,r!==e.d&&(e.d=r,"default"===e.name&&(this.d=e.d),this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))),t.preventDefault()}}),N.filter((t,e,r)=>this.interactive&&!t.trial&&!select(r[e]).select(".top-point").classed("interact")).select(".top-point").classed("interact",!0).call(drag().subject((t,e)=>({x:h(e.d),y:d(e.a)})).on("start",t=>{select(t.currentTarget).classed("dragging",!0)}).on("drag",(t,e)=>{this.drag=!0;const r=d.invert(t.y);e.a=r<this.scale.value.min?this.scale.value.min:r>this.scale.value.max?this.scale.value.max:this.scale.value.round(r),"default"===e.name&&(this.a=e.a),this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))}).on("end",t=>{select(t.currentTarget).classed("dragging",!1)})).on("keydown",(t,e)=>{if(["ArrowUp","ArrowDown"].includes(t.key)){let r=e.a;switch(t.key){case"ArrowUp":r+=t.shiftKey?1:5;break;case"ArrowDown":r-=t.shiftKey?1:5}r=r<this.scale.value.min?this.scale.value.min:r>this.scale.value.max?this.scale.value.max:r,r!==e.a&&(e.a=r,"default"===e.name&&(this.a=e.a),this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))),t.preventDefault()}}),N.filter((t,e,r)=>this.interactive&&!select(r[e]).select(".curve").classed("interactive")).select(".curve").classed("interactive",!0).attr("tabindex",0).call(drag().subject(t=>({x:t.x,y:t.y})).on("start",t=>{select(t.currentTarget).classed("dragging",!0)}).on("drag",(t,e)=>{this.drag=!0;const r=e.d-h.invert(t.x),n=r<0?0:r>e.d?e.d:r,a=d.invert(t.y),i=a<=0?.001:a>e.a?e.a:a,o=HTDMath.adv2k(e.a,n,i);this.k=o<HTDMath.k.MIN?HTDMath.k.MIN:o>HTDMath.k.MAX?HTDMath.k.MAX:o,this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))}).on("end",t=>{select(t.currentTarget).classed("dragging",!1)})).on("keydown",(t,e)=>{if(["ArrowUp","ArrowDown","ArrowRight","ArrowLeft"].includes(t.key)){let{k:r}=this;switch(t.key){case"ArrowUp":case"ArrowLeft":r*=t.shiftKey?.95:.85;break;case"ArrowDown":case"ArrowRight":r*=t.shiftKey?1/.95:1/.85}r=r<HTDMath.k.MIN?HTDMath.k.MIN:r>HTDMath.k.MAX?HTDMath.k.MAX:r,r!==this.k&&(this.k=r,this.alignState(),this.requestUpdate(),this.dispatchEvent(new CustomEvent("htd-curves-change",{detail:{name:e.name,a:e.a,d:e.d,k:this.k,label:e.label},bubbles:!0}))),t.preventDefault()}});const k=N.filter((t,e,r)=>(!this.interactive||t.trial)&&select(r[e]).select(".body").classed("interactive"));k.classed("interactive",!1),k.select(".fill").attr("tabindex",null).on("drag",null).on("keydown",null),k.select(".bar").on("drag",null).on("keydown",null),N.filter((t,e,r)=>(!this.interactive||t.trial)&&select(r[e]).select(".top-point").classed("interact")).select(".top-point").classed("interact",!1).on("drag",null).on("keydown",null),N.filter((t,e,r)=>!this.interactive&&select(r[e]).select(".curve").classed("interactive")).select(".curve").classed("interactive",!1).attr("tabindex",null).on("drag",null).on("keydown",null),N.filter(t=>t.new).each(()=>{b.selectAll(".gradient .animation").transition().duration(u).delay(u+u/10).ease(linear$1).attrTween("offset",()=>interpolate$1(1,0))}),N.filter(t=>t.new).selectAll(".bar .line").transition().duration(u).ease(linear$1).attrTween("stroke-dasharray",(t,e,r)=>{const n=r[e].getTotalLength();return interpolate$1(`0,${n}`,`${n},${n}`)}),N.filter(t=>t.new).selectAll(".point").transition().duration(u/10).delay(u).ease(linear$1).attrTween("opacity",()=>interpolate$1(0,1)),N.filter(t=>t.new).selectAll(".curve .path").transition().duration(u).delay(u+u/10).ease(linear$1).attrTween("stroke-dasharray",(t,e,r)=>{const n=r[e].getTotalLength();return interpolate$1(`0,${n}`,`${n},0`)}).on("end",t=>{t.new=!1,this.dispatchEvent(new CustomEvent("discountable-response",{detail:{trial:this.trialCount,as:this.as,ds:this.ds,al:this.al,dl:this.dl,response:this.response},bubbles:!0}))}),N.filter(t=>"s"===t.label).raise(),N.filter(t=>"l"===t.label).lower(),A.select(".fill .region").transition().duration(this.drag?0:this.firstUpdate?2*u:u).ease(cubicOut).attrTween("d",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.a?n.a:t.a,t.a),i=interpolate$1(void 0!==n.d?n.d:t.d,t.d);return t=>{n.a=a(t),n.d=i(t);const e=range(h(n.d),h(0),-1).map(t=>({d:h.invert(t),v:HTDMath.adk2v(n.a,n.d-h.invert(t),this.k)}));return p([...e,{d:0,v:0},{d:n.d,v:0}])}}),A.selectAll(".bar .line").transition().duration(this.drag?0:this.firstUpdate?2*u:u).ease(cubicOut).attrTween("x1",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.d?n.d:t.d,t.d);return t=>(n.d=a(t),`${h(n.d)}`)}).attrTween("x2",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.d?n.d:t.d,t.d);return t=>(n.d=a(t),`${h(n.d)}`)}).attrTween("y2",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.a?n.a:t.a,t.a);return t=>(n.a=a(t),`${d(n.a)}`)}),A.selectAll(".point").transition().duration(this.drag?0:this.firstUpdate?2*u:u).ease(cubicOut).attrTween("transform",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.d?n.d:t.d,t.d),i=interpolate$1(void 0!==n.a?n.a:t.a,t.a);return t=>(n.d=a(t),n.a=i(t),`translate(${h(n.d)}, ${d(n.a)})`)}),N.select(".point .label").text(t=>t.label),A.selectAll(".curve .path").transition().duration(this.drag?0:this.firstUpdate?2*u:u).ease(cubicOut).attrTween("d",(t,e,r)=>{const n=r[e],a=interpolate$1(void 0!==n.a?n.a:t.a,t.a),i=interpolate$1(void 0!==n.d?n.d:t.d,t.d);return t=>{n.a=a(t),n.d=i(t);const e=range(h(n.d),h(0),-1).map(t=>({d:h.invert(t),v:HTDMath.adk2v(n.a,n.d-h.invert(t),this.k)}));return p(e)}}),A.exit().remove(),this.drag=!1,this.firstUpdate=!1}}customElements.define("htd-curves",HTDCurves);class ITCOption extends DiscountableElement{static get properties(){return{state:{attribute:"state",type:String,reflect:!0},a:{attribute:"amount",type:Number,reflect:!0},d:{attribute:"delay",type:Number,reflect:!0}}}constructor(){super(),this.states=["choice","fixation","blank"],this.state="choice",this.a=0,this.d=0}static get styles(){return[super.styles,i$3`
         :host {
           display: inline-block;
           
