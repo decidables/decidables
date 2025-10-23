@@ -251,13 +251,10 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
 
         .option .interactive {
           filter: url("#shadow-2");
+          outline: none;
         }
 
         .option .interactive:hover {
-          filter: url("#shadow-4");
-        }
-
-        .option .body.interactive:has(~ .point:hover) {
           filter: url("#shadow-4");
         }
 
@@ -265,11 +262,15 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           filter: url("#shadow-8");
         }
 
-        .option .body.interactive:has(~ .point:active) {
+        :host(.keyboard) .option .interactive:focus-within {
           filter: url("#shadow-8");
         }
 
-        :host(.keyboard) .option .interactive:focus-within {
+        .option .body.interactive:has(~ .point:hover) {
+          filter: url("#shadow-4");
+        }
+
+        .option .body.interactive:has(~ .point:active) {
           filter: url("#shadow-8");
         }
 
@@ -721,10 +722,64 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
         return (this.interactive && !datum.trial && !d3.select(nodes[index]).select('.body').classed('interactive'));
       })
       .select('.body');
-    bodyMergeInteractive.classed('interactive', true);
+    bodyMergeInteractive.classed('interactive', true)
+      .attr('tabindex', 0)
+      // Keyboard interaction
+      .on('keydown', (event, datum) => {
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+          let keyA = datum.a;
+          let keyD = datum.d;
+          switch (event.key) {
+            case 'ArrowUp':
+              keyA += event.shiftKey ? 1 : 5;
+              break;
+            case 'ArrowDown':
+              keyA -= event.shiftKey ? 1 : 5;
+              break;
+            case 'ArrowRight':
+              keyD += event.shiftKey ? 1 : 5;
+              break;
+            case 'ArrowLeft':
+              keyD -= event.shiftKey ? 1 : 5;
+              break;
+            default:
+              // no-op
+          }
+          keyD = (keyD < this.scale.time.min)
+            ? this.scale.time.min
+            : ((keyD > this.scale.time.max)
+              ? this.scale.time.max
+              : keyD);
+          keyA = (keyA < this.scale.value.min)
+            ? this.scale.value.min
+            : ((keyA > this.scale.value.max)
+              ? this.scale.value.max
+              : keyA);
+          if ((keyD !== datum.d) || (keyA !== datum.a)) {
+            datum.d = keyD;
+            datum.a = keyA;
+            if (datum.name === 'default') {
+              this.d = datum.d;
+              this.a = datum.a;
+            }
+            this.alignState();
+            this.requestUpdate();
+            this.dispatchEvent(new CustomEvent('htd-curves-change', {
+              detail: {
+                name: datum.name,
+                a: datum.a,
+                d: datum.d,
+                k: this.k,
+                label: datum.label,
+              },
+              bubbles: true,
+            }));
+          }
+          event.preventDefault();
+        }
+      });
     // Fill
     bodyMergeInteractive.select('.fill')
-      .attr('tabindex', 0)
       // Drag interaction
       .call(d3.drag()
         .subject((event, datum) => {
@@ -753,6 +808,96 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
               : this.scale.value.round(a);
           if (datum.name === 'default') {
             this.d = datum.d;
+            this.a = datum.a;
+          }
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('htd-curves-change', {
+            detail: {
+              name: datum.name,
+              a: datum.a,
+              d: datum.d,
+              k: this.k,
+              label: datum.label,
+            },
+            bubbles: true,
+          }));
+        })
+        .on('end', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', false);
+        }));
+    // Bar
+    bodyMergeInteractive.select('.bar')
+      // Drag interaction
+      .call(d3.drag()
+        .subject((event, datum) => {
+          return {
+            x: xScale(datum.d),
+            y: yScale(datum.a),
+          };
+        })
+        .on('start', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', true);
+        })
+        .on('drag', (event, datum) => {
+          this.drag = true;
+          const d = xScale.invert(event.x);
+          datum.d = (d < this.scale.time.min)
+            ? this.scale.time.min
+            : (d > this.scale.time.max)
+              ? this.scale.time.max
+              : this.scale.time.round(d);
+          if (datum.name === 'default') {
+            this.d = datum.d;
+          }
+          this.alignState();
+          this.requestUpdate();
+          this.dispatchEvent(new CustomEvent('htd-curves-change', {
+            detail: {
+              name: datum.name,
+              a: datum.a,
+              d: datum.d,
+              k: this.k,
+              label: datum.label,
+            },
+            bubbles: true,
+          }));
+        })
+        .on('end', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', false);
+        }));
+    // Point
+    optionMerge
+      .filter((datum, index, nodes) => {
+        return (this.interactive && !datum.trial && !d3.select(nodes[index]).select('.top-point').classed('interact'));
+      })
+      .select('.top-point')
+      .classed('interact', true)
+      .attr('tabindex', -1)
+      // Drag interaction
+      .call(d3.drag()
+        .subject((event, datum) => {
+          return {
+            x: xScale(datum.d),
+            y: yScale(datum.a),
+          };
+        })
+        .on('start', (event) => {
+          const element = event.currentTarget;
+          d3.select(element).classed('dragging', true);
+        })
+        .on('drag', (event, datum) => {
+          this.drag = true;
+          const a = yScale.invert(event.y);
+          datum.a = (a < this.scale.value.min)
+            ? this.scale.value.min
+            : (a > this.scale.value.max)
+              ? this.scale.value.max
+              : this.scale.value.round(a);
+          if (datum.name === 'default') {
             this.a = datum.a;
           }
           this.alignState();
@@ -808,175 +953,6 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
             datum.a = keyA;
             if (datum.name === 'default') {
               this.d = datum.d;
-              this.a = datum.a;
-            }
-            this.alignState();
-            this.requestUpdate();
-            this.dispatchEvent(new CustomEvent('htd-curves-change', {
-              detail: {
-                name: datum.name,
-                a: datum.a,
-                d: datum.d,
-                k: this.k,
-                label: datum.label,
-              },
-              bubbles: true,
-            }));
-          }
-          event.preventDefault();
-        }
-      });
-    // Bar
-    bodyMergeInteractive.select('.bar')
-      // Drag interaction
-      .call(d3.drag()
-        .subject((event, datum) => {
-          return {
-            x: xScale(datum.d),
-            y: yScale(datum.a),
-          };
-        })
-        .on('start', (event) => {
-          const element = event.currentTarget;
-          d3.select(element).classed('dragging', true);
-        })
-        .on('drag', (event, datum) => {
-          this.drag = true;
-          const d = xScale.invert(event.x);
-          datum.d = (d < this.scale.time.min)
-            ? this.scale.time.min
-            : (d > this.scale.time.max)
-              ? this.scale.time.max
-              : this.scale.time.round(d);
-          if (datum.name === 'default') {
-            this.d = datum.d;
-          }
-          this.alignState();
-          this.requestUpdate();
-          this.dispatchEvent(new CustomEvent('htd-curves-change', {
-            detail: {
-              name: datum.name,
-              a: datum.a,
-              d: datum.d,
-              k: this.k,
-              label: datum.label,
-            },
-            bubbles: true,
-          }));
-        })
-        .on('end', (event) => {
-          const element = event.currentTarget;
-          d3.select(element).classed('dragging', false);
-        }))
-      // Keyboard interaction
-      .on('keydown', (event, datum) => {
-        if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
-          let keyD = datum.d;
-          switch (event.key) {
-            case 'ArrowRight':
-              keyD += event.shiftKey ? 1 : 5;
-              break;
-            case 'ArrowLeft':
-              keyD -= event.shiftKey ? 1 : 5;
-              break;
-            default:
-              // no-op
-          }
-          keyD = (keyD < this.scale.time.min)
-            ? this.scale.time.min
-            : ((keyD > this.scale.time.max)
-              ? this.scale.time.max
-              : keyD);
-          if (keyD !== datum.d) {
-            datum.d = keyD;
-            if (datum.name === 'default') {
-              this.d = datum.d;
-            }
-            this.alignState();
-            this.requestUpdate();
-            this.dispatchEvent(new CustomEvent('htd-curves-change', {
-              detail: {
-                name: datum.name,
-                a: datum.a,
-                d: datum.d,
-                k: this.k,
-                label: datum.label,
-              },
-              bubbles: true,
-            }));
-          }
-          event.preventDefault();
-        }
-      });
-    // Point
-    optionMerge
-      .filter((datum, index, nodes) => {
-        return (this.interactive && !datum.trial && !d3.select(nodes[index]).select('.top-point').classed('interact'));
-      })
-      .select('.top-point')
-      .classed('interact', true)
-      // Drag interaction
-      .call(d3.drag()
-        .subject((event, datum) => {
-          return {
-            x: xScale(datum.d),
-            y: yScale(datum.a),
-          };
-        })
-        .on('start', (event) => {
-          const element = event.currentTarget;
-          d3.select(element).classed('dragging', true);
-        })
-        .on('drag', (event, datum) => {
-          this.drag = true;
-          const a = yScale.invert(event.y);
-          datum.a = (a < this.scale.value.min)
-            ? this.scale.value.min
-            : (a > this.scale.value.max)
-              ? this.scale.value.max
-              : this.scale.value.round(a);
-          if (datum.name === 'default') {
-            this.a = datum.a;
-          }
-          this.alignState();
-          this.requestUpdate();
-          this.dispatchEvent(new CustomEvent('htd-curves-change', {
-            detail: {
-              name: datum.name,
-              a: datum.a,
-              d: datum.d,
-              k: this.k,
-              label: datum.label,
-            },
-            bubbles: true,
-          }));
-        })
-        .on('end', (event) => {
-          const element = event.currentTarget;
-          d3.select(element).classed('dragging', false);
-        }))
-      // Keyboard interaction
-      .on('keydown', (event, datum) => {
-        if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-          let keyA = datum.a;
-          switch (event.key) {
-            case 'ArrowUp':
-              keyA += event.shiftKey ? 1 : 5;
-              break;
-            case 'ArrowDown':
-              keyA -= event.shiftKey ? 1 : 5;
-              break;
-            default:
-              // no-op
-          }
-          keyA = (keyA < this.scale.value.min)
-            ? this.scale.value.min
-            : ((keyA > this.scale.value.max)
-              ? this.scale.value.max
-              : keyA);
-          if (keyA !== datum.a) {
-            datum.a = keyA;
-            if (datum.name === 'default') {
               this.a = datum.a;
             }
             this.alignState();

@@ -1,6 +1,5 @@
 ## Ideas
 
-- discountable: Move keyboard from fill to body&top-point, remove from bar
 - testing: use waitUntil (as in discountable) instead of aTimeout!
 - d'etectable: Incorporate Parameter controls
 - discountable: Pausing animations
