@@ -303,7 +303,7 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
 }
 
 .dec-site-header {
-  @extend .card-body, .text-center, .pb-0, .position-relative;
+  @extend .card-body,  .d-flex, .flex-column, .text-center, .pb-0, .position-relative;
 }
 
 .dec-site-intro {
