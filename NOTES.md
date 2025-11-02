@@ -5,6 +5,8 @@
 - discountable: Pausing animations
 - dab'le: Flesh out descriptions
 - decidables: Include description of dable
+- Safari issues:
+  - markers don't pickup up current-color
 - Elements
   - decidables-slider
     - use `writing-mode` for orientation?
