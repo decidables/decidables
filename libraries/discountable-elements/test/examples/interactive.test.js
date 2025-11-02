@@ -92,7 +92,7 @@ describe('htd-example-interactive', () => {
       </htd-example-interactive>
     `);
     await waitUntil(
-      () => { return el.querySelector('htd-curves').shadowRoot.querySelector('.interactive .fill'); },
+      () => { return el.querySelector('htd-curves').shadowRoot.querySelector('svg'); },
       'Element did not render children',
     );
     // Check "before" state
@@ -100,7 +100,7 @@ describe('htd-example-interactive', () => {
     expect(el.htdCurves.d).to.equal(20);
     expect(el.htdCalculation.ds).to.equal(20);
     // Action
-    const target = el.querySelector('htd-curves').shadowRoot.querySelector('.sooner .interactive .fill');
+    const target = el.querySelector('htd-curves').shadowRoot.querySelector('.sooner .body.interactive');
     target.focus();
     setTimeout(() => { sendKeys({press: 'ArrowLeft'}); });
     await oneEvent(el, 'htd-curves-change');

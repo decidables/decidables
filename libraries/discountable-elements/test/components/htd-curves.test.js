@@ -209,7 +209,7 @@ describe('htd-curves', () => {
     expect(detail.d).to.equal(el.d);
   });
 
-  it('supports keyboard manipulation of fill', async () => {
+  it('supports keyboard manipulation of body', async () => {
     const el = await fixture(html`<htd-curves interactive amount="10" delay="20" label="test" k="0.5"></htd-curves>`);
     await waitUntil(
       () => { return el.shadowRoot.querySelector('svg'); },
@@ -218,7 +218,7 @@ describe('htd-curves', () => {
     // Get "before" state
     const {a} = el;
     // Action
-    const target = el.shadowRoot.querySelector('.interactive .fill');
+    const target = el.shadowRoot.querySelector('.body.interactive');
     target.focus();
     setTimeout(() => { sendKeys({press: 'ArrowUp'}); });
     const {detail} = await oneEvent(el, 'htd-curves-change');
