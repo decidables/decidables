@@ -126,6 +126,7 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 - `choco install nodejs` or `brew install node` then `brew install corepack`
 - `corepack enable`
   - This is currently needed to use yarn without a separate installation
+  - If `corepack` is not found, then run `npm install -g corepack` first
 
 #### Upgrade
 
