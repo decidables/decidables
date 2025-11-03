@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "gulp": "^5.0.1",
-    "sass": "^1.76.0"
+    "sass": "1.76.0"
   },
   "dependencies": {
     "@decidables/decidables-elements": "^0.5.2",
