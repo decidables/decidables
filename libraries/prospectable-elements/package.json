@@ -63,7 +63,7 @@
     "bayes.js": "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f",
     "d3": "^7.9.0",
     "lit": "^3.3.1",
-    "plotly.js": "^3.1.1",
+    "plotly.js": "^3.2.0",
     "regenerator-runtime": "^0.14.1"
   }
 }
