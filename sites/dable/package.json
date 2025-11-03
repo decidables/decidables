@@ -36,8 +36,8 @@
     "core-js": "^3.46.0",
     "lit": "^3.3.1",
     "regenerator-runtime": "^0.14.1",
-    "source-code-pro": "^2.38.0",
-    "source-sans": "^3.46.0",
-    "source-serif": "4.4.0"
+    "source-code-pro": "^2.42.0",
+    "source-sans": "^3.52.0",
+    "source-serif": "^4.5.1"
   }
 }

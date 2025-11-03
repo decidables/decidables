@@ -102,8 +102,6 @@ To trace deprecations:
   Waiting on eslint to go ESM
 - sass 1.76.0 1.84.0
   Waiting on bootstrap to stop using deprecated sass
-- source-serif  4.4.0 4.5.0
-  Waiting on font compatibility issues
 
 ## Write-up
 
