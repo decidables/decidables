@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.3](https://github.com/decidables/decidables/compare/@decidables/accumulable@0.6.2...@decidables/accumulable@0.6.3) (2025-11-03)
+
+
+### Bug Fixes
+
+* **sites:** upgrade all fonts to latest versions with renaming ([618cf21](https://github.com/decidables/decidables/commit/618cf21984825179882f08bbbde9b0f46c5e721b))
+
+
+
 ## [0.6.2](https://github.com/decidables/decidables/compare/@decidables/accumulable@0.6.1...@decidables/accumulable@0.6.2) (2025-10-22)
 
 **Note:** Version bump only for package @decidables/accumulable

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.2](https://github.com/decidables/decidables/compare/@decidables/decidables@0.14.1...@decidables/decidables@0.14.2) (2025-11-03)
+
+
+### Bug Fixes
+
+* **decidables:** fix disabled links in Safari ([c56946b](https://github.com/decidables/decidables/commit/c56946b993f6e21f07535fb58099976fd56dbb0e))
+* **sites:** upgrade all fonts to latest versions with renaming ([618cf21](https://github.com/decidables/decidables/commit/618cf21984825179882f08bbbde9b0f46c5e721b))
+
+
+
 ## [0.14.1](https://github.com/decidables/decidables/compare/@decidables/decidables@0.14.0...@decidables/decidables@0.14.1) (2025-10-22)
 
 **Note:** Version bump only for package @decidables/decidables

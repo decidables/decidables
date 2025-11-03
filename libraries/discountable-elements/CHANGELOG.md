@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.1](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.6.0...@decidables/discountable-elements@0.6.1) (2025-11-03)
+
+
+### Bug Fixes
+
+* **discountable-elements:** improve keyboard focus for htd-curves ([1f955f6](https://github.com/decidables/decidables/commit/1f955f6b2c8b3dbd931be2d5aa8663e99a4ce61b))
+
+
+
 ## [0.6.0](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.5.1...@decidables/discountable-elements@0.6.0) (2025-10-22)
 
 

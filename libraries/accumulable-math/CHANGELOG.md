@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/decidables/decidables/compare/@decidables/accumulable-math@0.2.2...@decidables/accumulable-math@0.2.3) (2025-11-03)
+
+**Note:** Version bump only for package @decidables/accumulable-math
+
+
+
+
+
 ## [0.2.2](https://github.com/decidables/decidables/compare/@decidables/accumulable-math@0.2.1...@decidables/accumulable-math@0.2.2) (2025-10-14)
 
 **Note:** Version bump only for package @decidables/accumulable-math
