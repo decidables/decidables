@@ -2,81 +2,136 @@
 
 // Built-in Modules
 @use "sass:list";
+@use "sass:map";
+@use "sass:meta";
 
-// Font Files
-$font-map: (
-  // filename: (family, style, weight, stretch)
-  SourceCodePro-Light: ("Source Code", normal, 300, normal),
-  SourceCodePro-LightIt: ("Source Code", italic, 300, normal),
-  SourceCodePro-Regular: ("Source Code", normal, 400, normal),
-  SourceCodePro-It: ("Source Code", italic, 400, normal),
-  SourceCodePro-Semibold: ("Source Code", normal, 600, normal),
-  SourceCodePro-SemiboldIt: ("Source Code", italic, 600, normal),
-  SourceCodePro-Bold: ("Source Code", normal, 700, normal),
-  SourceCodePro-BoldIt: ("Source Code", italic, 700, normal),
+// Decidables Modules
+@use "fonts.yml" as *;
 
-  SourceSans3-Light: ("Source Sans", normal, 300, normal),
-  SourceSans3-LightIt: ("Source Sans", italic, 300, normal),
-  SourceSans3-Regular: ("Source Sans", normal, 400, normal),
-  SourceSans3-It: ("Source Sans", italic, 400, normal),
-  SourceSans3-Semibold: ("Source Sans", normal, 600, normal),
-  SourceSans3-SemiboldIt: ("Source Sans", italic, 600, normal),
-  SourceSans3-Bold: ("Source Sans", normal, 700, normal),
-  SourceSans3-BoldIt: ("Source Sans", italic, 700, normal),
+// Default Params
+$font-map: $fonts !default;
 
-  SourceSerif4-Light: ("Source Serif", normal, 300, normal),
-  SourceSerif4-LightIt: ("Source Serif", italic, 300, normal),
-  SourceSerif4-Regular: ("Source Serif", normal, 400, normal),
-  SourceSerif4-It: ("Source Serif", italic, 400, normal),
-  SourceSerif4-Semibold: ("Source Serif", normal, 600, normal),
-  SourceSerif4-SemiboldIt: ("Source Serif", italic, 600, normal),
-  SourceSerif4-Bold: ("Source Serif", normal, 700, normal),
-  SourceSerif4-BoldIt: ("Source Serif", italic, 700, normal),
-
-  SourceCodeVF-Upright: ("Source Code Variable", normal, 200 900, normal),
-  SourceCodeVF-Italic: ("Source Code Variable", italic, 200 900, normal),
-
-  SourceSans3VF-Upright: ("Source Sans Variable", normal, 200 900, normal),
-  SourceSans3VF-Italic: ("Source Sans Variable", italic, 200 900, normal),
-
-  SourceSerif4Variable-Roman: ("Source Serif Variable", normal, 200 900, normal),
-  SourceSerif4Variable-Italic: ("Source Serif Variable", italic, 200 900, normal),
+$font-family-map: (
+  serif: (serif),
+  sans-serif: (sans-serif),
+  monospace: (monospace),
 );
 
-@each $file, $font-list in $font-map {
+$font-weight-catalog: (
+  100: thin,
+  200: extra-light,
+  300: light,
+  400: normal,
+  500: medium,
+  600: semibold,
+  700: bold,
+  800: extra-bold,
+  900: black,
+  950: extra-black,
+);
+$font-weight-thin: null;
+$font-weight-extra-light: null;
+$font-weight-light: null;
+$font-weight-normal: null;
+$font-weight-medium: null;
+$font-weight-semibold: null;
+$font-weight-bold: null;
+$font-weight-extra-bold: null;
+$font-weight-black: null;
+$font-weight-extra-black: null;
+$font-weight-map: ();
+
+// Process font map
+@each $file, $font in $font-map {
+  $category: map.get($font, "category");
+  $family: map.get($font, "family");
+  $style: map.get($font, "style");
+  $weight: map.get($font, "weight");
+  $stretch: map.get($font, "stretch");
+
+  // Font faces
   @font-face {
     src: url("fonts/#{$file}.otf.woff2") format("woff2"), url("fonts/#{$file}.otf.woff") format("woff");
-    font-family: list.nth($font-list, 1);
-    font-style: list.nth($font-list, 2);
-    font-weight: list.nth($font-list, 3);
-    font-stretch: list.nth($font-list, 4);
+    font-family: $family;
+    font-style: $style;
+    font-weight: #{$weight};
+    font-stretch: $stretch;
+  }
+
+  // Font families
+  $family-list: map.get($font-family-map, $category);
+
+  @if not list.index($family-list, $family) {
+    $font-family-map: map.set($font-family-map, $category, list.join($family, $family-list, $separator: comma));
+  }
+
+  // Font weights
+  $weight-name: map.get($font-weight-catalog, $weight);
+
+  @if $weight-name and not list.index(map.values($font-weight-map), $weight) {
+    $font-weight-map: map.set($font-weight-map, $weight-name, $weight);
+  }
+
+  @if $weight-name == thin {
+    $font-weight-thin: $weight;
+  }
+ 
+  @else if $weight-name == extra-light {
+    $font-weight-extra-light: $weight;
+  }
+ 
+  @else if $weight-name == light {
+    $font-weight-light: $weight;
+  }
+ 
+  @else if $weight-name == normal {
+    $font-weight-normal: $weight;
+  }
+ 
+  @else if $weight-name == medium {
+    $font-weight-medium: $weight;
+  }
+ 
+  @else if $weight-name == semibold {
+    $font-weight-semibold: $weight;
+  }
+ 
+  @else if $weight-name == bold {
+    $font-weight-bold: $weight;
+  }
+
+  @else if $weight-name == extra-bold {
+    $font-weight-extra-bold: $weight;
+  }
+
+  @else if $weight-name == black {
+    $font-weight-black: $weight;
+  }
+
+  @else if $weight-name == extra-black {
+    $font-weight-extra-black: $weight;
   }
 }
 
 // SASS Variables
-$font-family-serif: "Source Serif Variable", "Source Serif", serif; // Not in Bootstrap
-$font-family-sans-serif: "Source Sans Variable", "Source Sans", sans-serif;
-$font-family-monospace: "Source Code Variable", "Source Code", monospace;
+$font-family-serif: map.get($font-family-map, serif); // Not in Bootstrap
+$font-family-sans-serif: map.get($font-family-map, sans-serif);
+$font-family-monospace: map.get($font-family-map, monospace);
 
 $font-family-base: $font-family-sans-serif;
 $font-family-code: $font-family-monospace;
 $font-family-math: $font-family-serif; // Not in Bootstrap
 
-$font-weight-light: 300;
-$font-weight-normal: 400;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
-
 $font-size-main: 1.125rem; // Not in Bootstrap
 
 // CSS Variables
 :root { /* stylelint-disable-line no-duplicate-selectors */
-  --font-family-base: #{$font-family-base};
-  --font-family-math: #{$font-family-math};
-  --font-family-code: #{$font-family-code};
-  --font-family-serif: #{$font-family-serif};
-  --font-family-sans-serif: #{$font-family-sans-serif};
-  --font-family-monospace: #{$font-family-monospace};
+  --font-family-base: #{meta.inspect($font-family-base)};
+  --font-family-math: #{meta.inspect($font-family-math)};
+  --font-family-code: #{meta.inspect($font-family-code)};
+  --font-family-serif: #{meta.inspect($font-family-serif)};
+  --font-family-sans-serif: #{meta.inspect($font-family-sans-serif)};
+  --font-family-monospace: #{meta.inspect($font-family-monospace)};
 }
 
 // Bootstrap Utility
@@ -93,11 +148,6 @@ $utilities: (
   "font-weight": (
     property: font-weight,
     class: fw,
-    values: (
-      light: $font-weight-light,
-      normal: $font-weight-normal,
-      semibold: $font-weight-semibold,
-      bold: $font-weight-bold,
-    ),
+    values: $font-weight-map,
   ),
 );

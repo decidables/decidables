@@ -3,8 +3,16 @@
 @use "sass:list";
 @use "sass:map";
 
+// Decidables Fonts
+@use "@decidables/decidables-site/src/fonts.yml" as site;
+
+// Local Fonts
+@use "fonts.yml" as local;
+
+$fonts: map.merge(site.$fonts, local.$fonts);
+
 // Decidables modules
-@use "@decidables/decidables-site/src/fonts" as *;
+@use "@decidables/decidables-site/src/fonts" as * with ($font-map: $fonts);
 @use "@decidables/decidables-site/src/colors" as *;
 @use "@decidables/decidables-site/src/shadows" as *;
 @use "@decidables/decidables-site/src/decorations" as *;

@@ -1,5 +1,16 @@
+// Built-in Modules
+@use "sass:map";
+
+// Decidables Fonts
+@use "@decidables/decidables-site/src/fonts.yml" as site;
+
+// Local Fonts
+@use "fonts.yml" as local;
+
+$fonts: map.merge(site.$fonts, local.$fonts);
+
 // Decidables Module
-@use "@decidables/decidables-site/src/site" as * with ($color-map: ());
+@use "@decidables/decidables-site/src/site" as * with ($color-map: (), $font-map: $fonts);
 
 @import "bootstrap/scss/card";
 

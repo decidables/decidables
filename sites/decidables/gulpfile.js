@@ -3,6 +3,7 @@
 import gulp from 'gulp';
 
 // Local dependencies
+import * as utilities from '../../scripts/utility.js';
 import * as cleans from '../../scripts/clean.js';
 import * as lints from '../../scripts/lint.js';
 import * as compiles from '../../scripts/compile.js';
@@ -18,9 +19,6 @@ export * from '../../scripts/watch.js';
 export * from '../../scripts/build.js';
 export * from '../../scripts/deploy.js';
 export * from '../../scripts/serve.js';
-
-// Debug
-// .pipe(gulpDebug())
 
 // Tasks
 export const lint = gulp.parallel(
@@ -39,12 +37,8 @@ export const compileFavicons = compiles.compileFaviconsTask({
 });
 
 export const compileFonts = compiles.compileFontsTask([
-  'source-code-pro/WOFF{,2}/OTF/SourceCodePro-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
-  'source-sans/WOFF{,2}/OTF/SourceSans3-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
-  'source-serif/WOFF{,2}/OTF/SourceSerif4-{,Light,Regular,Semibold,Bold}{,It}.otf.woff{,2}',
-  'source-code-pro/WOFF{,2}/VF/SourceCodeVF-{Upright,Italic}.otf.woff{,2}',
-  'source-sans/WOFF{,2}/VF/SourceSans3VF-{Upright,Italic}.otf.woff{,2}',
-  'source-serif/WOFF{,2}/VAR/SourceSerif4Variable-{Roman,Italic}.otf.woff{,2}',
+  ...utilities.getFontGlobs(new URL(import.meta.resolve('@decidables/decidables-site/src/fonts.yml'))),
+  ...utilities.getFontGlobs('./src/fonts.yml'),
 ]);
 
 export const compile = gulp.series(

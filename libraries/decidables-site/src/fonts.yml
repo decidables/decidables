@@ -1,0 +1,32 @@
+# Fonts
+fonts:
+  # Filename: {category, package, path, family, style, weight, stretch}
+  SourceCodePro-Regular: {category: monospace, package: source-code-pro, path: "WOFF{,2}/OTF/", family: "Source Code", style: normal, weight-name: normal, weight: 400, stretch: normal}
+  SourceCodePro-It: {category: monospace, package: source-code-pro, path: "WOFF{,2}/OTF/", family: "Source Code", style: italic, weight-name: normal, weight: 400, stretch: normal}
+  SourceCodePro-Semibold: {category: monospace, package: source-code-pro, path: "WOFF{,2}/OTF/", family: "Source Code", style: normal, weight-name: semibold, weight: 600, stretch: normal}
+  SourceCodePro-SemiboldIt: {category: monospace, package: source-code-pro, path: "WOFF{,2}/OTF/", family: "Source Code", style: italic, weight-name: semibold, weight: 600, stretch: normal}
+  SourceCodePro-Bold: {category: monospace, package: source-code-pro, path: "WOFF{,2}/OTF/", family: "Source Code", style: normal, weight-name: bold, weight: 700, stretch: normal}
+  SourceCodePro-BoldIt: {category: monospace, package: source-code-pro, path: "WOFF{,2}/OTF/", family: "Source Code", style: italic, weight-name: bold, weight: 700, stretch: normal}
+
+  SourceSans3-Regular: {category: sans-serif, package: source-sans, path: "WOFF{,2}/OTF/", family: "Source Sans", style: normal, weight-name: normal, weight: 400, stretch: normal}
+  SourceSans3-It: {category: sans-serif, package: source-sans, path: "WOFF{,2}/OTF/", family: "Source Sans", style: italic, weight-name: normal, weight: 400, stretch: normal}
+  SourceSans3-Semibold: {category: sans-serif, package: source-sans, path: "WOFF{,2}/OTF/", family: "Source Sans", style: normal, weight-name: semibold, weight: 600, stretch: normal}
+  SourceSans3-SemiboldIt: {category: sans-serif, package: source-sans, path: "WOFF{,2}/OTF/", family: "Source Sans", style: italic, weight-name: semibold, weight: 600, stretch: normal}
+  SourceSans3-Bold: {category: sans-serif, package: source-sans, path: "WOFF{,2}/OTF/", family: "Source Sans", style: normal, weight-name: bold, weight: 700, stretch: normal}
+  SourceSans3-BoldIt: {category: sans-serif, package: source-sans, path: "WOFF{,2}/OTF/", family: "Source Sans", style: italic, weight-name: bold, weight: 700, stretch: normal}
+
+  SourceSerif4-Regular: {category: serif, package: source-serif, path: "WOFF{,2}/OTF/", family: "Source Serif", style: normal, weight-name: normal, weight: 400, stretch: normal}
+  SourceSerif4-It: {category: serif, package: source-serif, path: "WOFF{,2}/OTF/", family: "Source Serif", style: italic, weight-name: normal, weight: 400, stretch: normal}
+  SourceSerif4-Semibold: {category: serif, package: source-serif, path: "WOFF{,2}/OTF/", family: "Source Serif", style: normal, weight-name: semibold, weight: 600, stretch: normal}
+  SourceSerif4-SemiboldIt: {category: serif, package: source-serif, path: "WOFF{,2}/OTF/", family: "Source Serif", style: italic, weight-name: semibold, weight: 600, stretch: normal}
+  SourceSerif4-Bold: {category: serif, package: source-serif, path: "WOFF{,2}/OTF/", family: "Source Serif", style: normal, weight-name: bold, weight: 700, stretch: normal}
+  SourceSerif4-BoldIt: {category: serif, package: source-serif, path: "WOFF{,2}/OTF/", family: "Source Serif", style: italic, weight-name: bold, weight: 700, stretch: normal}
+
+  SourceCodeVF-Upright: {category: monospace, package: source-code-pro, path: "WOFF{,2}/VF/", family: "Source Code Variable", style: normal, weight-name: variable, weight: 200 900, stretch: normal}
+  SourceCodeVF-Italic: {category: monospace, package: source-code-pro, path: "WOFF{,2}/VF/", family: "Source Code Variable", style: italic, weight-name: variable, weight: 200 900, stretch: normal}
+
+  SourceSans3VF-Upright: {category: sans-serif, package: source-sans, path: "WOFF{,2}/VF/", family: "Source Sans Variable", style: normal, weight-name: variable, weight: 200 900, stretch: normal}
+  SourceSans3VF-Italic: {category: sans-serif, package: source-sans, path: "WOFF{,2}/VF/", family: "Source Sans Variable", style: italic, weight-name: variable, weight: 200 900, stretch: normal}
+
+  SourceSerif4Variable-Roman: {category: serif, package: source-serif, path: "WOFF{,2}/VAR/", family: "Source Serif Variable", style: normal, weight-name: variable, weight: 200 900, stretch: normal}
+  SourceSerif4Variable-Italic: {category: serif, package: source-serif, path: "WOFF{,2}/VAR/", family: "Source Serif Variable", style: italic, weight-name: variable, weight: 200 900, stretch: normal}

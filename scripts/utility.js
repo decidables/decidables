@@ -1,8 +1,10 @@
 
 // Node native modules
 import fs from 'node:fs';
+import path from 'node:path';
 
 // devDependencies
+import * as jsYaml from 'js-yaml';
 import camelcase from 'camelcase';
 
 function readPackageJson() {
@@ -35,4 +37,13 @@ export function getPackageDirectory() {
 
 export function getCurrentDate() {
   return (new Date()).toLocaleDateString('en-CA', {dateStyle: 'medium'});
+}
+
+export function getFontGlobs(fontsConfig) {
+  const fontsString = fs.readFileSync(fontsConfig).toString();
+  const {fonts: fontsObject} = jsYaml.load(fontsString);
+
+  return Object.entries(fontsObject).map(([file, font]) => {
+    return path.posix.join(font.package, font.path, `${file}.otf.woff{,2}`);
+  });
 }

@@ -1,0 +1,11 @@
+# Fonts
+fonts:
+  # Filename: {category, package, path, family, style, weight, stretch}
+  SourceCodePro-Light: {category: monospace, package: source-code-pro, path: "WOFF{,2}/OTF/", family: "Source Code", style: normal, weight: 300, stretch: normal}
+  SourceCodePro-LightIt: {category: monospace, package: source-code-pro, path: "WOFF{,2}/OTF/", family: "Source Code", style: italic, weight: 300, stretch: normal}
+
+  SourceSans3-Light: {category: sans-serif, package: source-sans, path: "WOFF{,2}/OTF/", family: "Source Sans", style: normal, weight: 300, stretch: normal}
+  SourceSans3-LightIt: {category: sans-serif, package: source-sans, path: "WOFF{,2}/OTF/", family: "Source Sans", style: italic, weight: 300, stretch: normal}
+
+  SourceSerif4-Light: {category: serif, package: source-serif, path: "WOFF{,2}/OTF/", family: "Source Serif", style: normal, weight: 300, stretch: normal}
+  SourceSerif4-LightIt: {category: serif, package: source-serif, path: "WOFF{,2}/OTF/", family: "Source Serif", style: italic, weight: 300, stretch: normal}
