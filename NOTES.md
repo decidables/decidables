@@ -1,5 +1,9 @@
 ## Ideas
 
+- build scripts: add encoding to readFile to go straight to string?
+- Sass: use `pkg:` URLs to load from packages
+- decidables-site: use exports field!
+- fonts: WOFF2 only?
 - testing: use waitUntil (as in discountable) instead of aTimeout!
 - d'etectable: Incorporate Parameter controls
 - discountable: Pausing animations
