@@ -97,9 +97,6 @@ To trace deprecations:
 
 ## Waiting to upgrade
 
-- @commitlint/cli 18.6.1  19.7.1
-- @commitlint/config-conventional 18.6.3  19.7.1
-  Waiting on VSCode plugin: @vivaxy/vscode-conventional-commits
 - eslint  8.57.0  9.19.0
   Waiting on airbnb/javascript
 - eslint-formatter-pretty 5.0.0 6.0.1
