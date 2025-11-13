@@ -9,8 +9,8 @@
 - discountable: Pausing animations
 - dab'le: Flesh out descriptions
 - decidables: Include description of dable
-- Safari issues:
-  - markers don't pickup up current-color
+- standardize arrows on "colored" lines
+- DecidablesElement svgDefs vs svgFilters?
 - Elements
   - decidables-slider
     - use `writing-mode` for orientation?
