@@ -565,13 +565,27 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           text-anchor: end;
         }
 
+        /* Hack to avoid lack of context-stroke and context-fill in Safari */
+        .measure-arrow.a {
+          fill: var(---color-a);
+          stroke: var(---color-a);
+        }
+
         .measure.z .line {
           stroke: var(---color-z);
         }
 
-        .measure.z .label {
+        .measure.z .label,
+        /* Hack to avoid Safari weirdness */
+        .measure.z .label tspan {
           dominant-baseline: hanging;
           text-anchor: start;
+        }
+
+        /* Hack to avoid lack of context-stroke and context-fill in Safari */
+        .measure-arrow.z {
+          fill: var(---color-z);
+          stroke: var(---color-z);
         }
 
         .measure.v .line {
@@ -583,6 +597,12 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           text-anchor: start;
         }
 
+        /* Hack to avoid lack of context-stroke and context-fill in Safari */
+        .measure-arrow.v {
+          fill: var(---color-v);
+          stroke: var(---color-v);
+        }
+
         .measure.t0 .line {
           stroke: var(---color-t0);
         }
@@ -590,6 +610,12 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         .measure.t0 .label {
           dominant-baseline: auto;
           text-anchor: middle;
+        }
+
+        /* Hack to avoid lack of context-stroke and context-fill in Safari */
+        .measure-arrow.t0 {
+          fill: var(---color-t0);
+          stroke: var(---color-t0);
         }
 
         .sd .indicator,
@@ -615,6 +641,20 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         .sd.error .indicator,
         .mean.error .indicator {
           stroke: var(---color-error-dark);
+        }
+
+        /* Hack to avoid lack of context-stroke and context-fill in Safari */
+        .cap.correct {
+          fill: var(---color-correct-dark);
+          stroke: var(---color-correct-dark);
+          stroke-dasharray: 100%;
+        }
+
+        /* Hack to avoid lack of context-stroke and context-fill in Safari */
+        .cap.error {
+          fill: var(---color-error-dark);
+          stroke: var(---color-error-dark);
+          stroke-dasharray: 100%;
         }
 
         .rt-label rect {
@@ -883,48 +923,88 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .html(AccumulableElement.svgDefs);
     const svgDefs = svgEnter.append('defs');
     // Arrowhead marker for measures
-    svgDefs.append('marker')
-      .attr('id', 'measure-arrow')
-      .attr('orient', 'auto-start-reverse')
-      .attr('markerUnits', 'userSpaceOnUse')
-      .attr('viewBox', '-5 -5 10 10')
-      .attr('refX', '2')
-      .attr('refY', '0')
-      .attr('markerWidth', '10')
-      .attr('markerHeight', '10')
-      .append('path')
-      .attr('stroke', 'context-stroke')
-      .attr('fill', 'context-stroke')
-      .attr('d', 'M -3 -3 l 6 3 l -6 3 z');
+    const measureArrow = (parameter) => {
+      /* Hack to avoid lack of context-stroke and context-fill in Safari */
+      svgDefs.append('marker')
+        .attr('id', `measure-arrow-${parameter}`)
+        .attr('class', `measure-arrow ${parameter}`)
+        .attr('orient', 'auto-start-reverse')
+        .attr('markerUnits', 'userSpaceOnUse')
+        .attr('viewBox', '-5 -5 10 10')
+        .attr('refX', '2')
+        .attr('refY', '0')
+        .attr('markerWidth', '10')
+        .attr('markerHeight', '10')
+        .append('path')
+        .attr('stroke', 'context-stroke')
+        .attr('fill', 'context-stroke')
+        .attr('d', 'M -3 -3 l 6 3 l -6 3 z');
+    };
+    const measureArrowCap = (parameter) => {
+      /* Hack to avoid lack of context-stroke and context-fill in Safari */
+      const marker = svgDefs.append('marker')
+        .attr('id', `measure-arrow-cap-${parameter}`)
+        .attr('class', `measure-arrow cap ${parameter}`)
+        .attr('orient', 'auto-start-reverse')
+        .attr('markerUnits', 'userSpaceOnUse')
+        .attr('viewBox', '-5 -5 10 10')
+        .attr('refX', '2')
+        .attr('refY', '0')
+        .attr('markerWidth', '10')
+        .attr('markerHeight', '10');
+      marker
+        .append('path')
+        .attr('stroke', 'context-stroke')
+        .attr('fill', 'context-stroke')
+        .attr('d', 'M -3 -3 l 6 3 l -6 3 z');
+      marker
+        .append('path')
+        .attr('stroke', 'context-stroke')
+        .attr('fill', 'context-stroke')
+        .attr('stroke-width', '2')
+        .attr('d', 'M 4 -4 l 0 8');
+    };
+    measureArrow('a');
+    measureArrow('z');
+    measureArrowCap('v');
+    measureArrow('t0');
+    measureArrowCap('t0');
     // Flat markers for SDs
-    svgDefs.append('marker')
-      .attr('id', 'model-sd-cap')
-      .attr('orient', 'auto-start-reverse')
-      .attr('markerUnits', 'userSpaceOnUse')
-      .attr('viewBox', '-5 -5 10 10')
-      .attr('refX', '0')
-      .attr('refY', '0')
-      .attr('markerWidth', '10')
-      .attr('markerHeight', '10')
-      .append('path')
-      .attr('stroke', 'context-stroke')
-      .attr('fill', 'context-stroke')
-      .attr('stroke-width', '2')
-      .attr('d', 'M 0 -4 l 0 8');
-    svgDefs.append('marker')
-      .attr('id', 'data-sd-cap')
-      .attr('orient', 'auto-start-reverse')
-      .attr('markerUnits', 'userSpaceOnUse')
-      .attr('viewBox', '-5 -5 10 10')
-      .attr('refX', '0')
-      .attr('refY', '0')
-      .attr('markerWidth', '10')
-      .attr('markerHeight', '10')
-      .append('path')
-      .attr('stroke', 'context-stroke')
-      .attr('fill', 'context-stroke')
-      .attr('stroke-width', '2')
-      .attr('d', 'M 0 -3 l 0 6');
+    const sdCap = (outcome) => {
+      /* Hack to avoid lack of context-stroke and context-fill in Safari */
+      svgDefs.append('marker')
+        .attr('id', `model-sd-cap-${outcome}`)
+        .attr('class', `model-sd cap ${outcome}`)
+        .attr('orient', 'auto-start-reverse')
+        .attr('markerUnits', 'userSpaceOnUse')
+        .attr('viewBox', '-5 -5 10 10')
+        .attr('refX', '0')
+        .attr('refY', '0')
+        .attr('markerWidth', '10')
+        .attr('markerHeight', '10')
+        .append('path')
+        .attr('stroke', 'context-stroke')
+        .attr('fill', 'context-stroke')
+        .attr('stroke-width', '2')
+        .attr('d', 'M 0 -4 l 0 8');
+      svgDefs.append('marker')
+        .attr('id', `data-sd-cap-${outcome}`)
+        .attr('class', `data-sd cap ${outcome}`)
+        .attr('orient', 'auto-start-reverse')
+        .attr('markerUnits', 'userSpaceOnUse')
+        .attr('viewBox', '-5 -5 10 10')
+        .attr('refX', '0')
+        .attr('refY', '0')
+        .attr('markerWidth', '10')
+        .attr('markerHeight', '10')
+        .append('path')
+        .attr('stroke', 'context-stroke')
+        .attr('fill', 'context-stroke')
+        .attr('stroke-width', '2')
+        .attr('d', 'M 0 -3 l 0 6');
+    };
+    sdCap('error');
+    sdCap('correct');
     const gradient = svgDefs.append('linearGradient')
       .attr('id', 'path-animate')
       .attr('gradientUnits', 'userSpaceOnUse')
@@ -1851,8 +1931,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .classed('measure a', true);
     aEnter.append('line')
       .classed('line', true)
-      .attr('marker-start', 'url(#measure-arrow)')
-      .attr('marker-end', 'url(#measure-arrow)');
+      /* Hack to avoid lack of context-stroke and context-fill in Safari */
+      .attr('marker-start', 'url(#measure-arrow-a)')
+      .attr('marker-end', 'url(#measure-arrow-a)');
     const aLabel = aEnter.append('text')
       .classed('label', true);
     aLabel.append('tspan')
@@ -1893,8 +1974,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .classed('measure z', true);
     zEnter.append('line')
       .classed('line', true)
-      .attr('marker-start', 'url(#measure-arrow)')
-      .attr('marker-end', 'url(#measure-arrow)');
+      /* Hack to avoid lack of context-stroke and context-fill in Safari */
+      .attr('marker-start', 'url(#measure-arrow-z)')
+      .attr('marker-end', 'url(#measure-arrow-z)');
     const zLabel = zEnter.append('text')
       .classed('label', true);
     zLabel.append('tspan')
@@ -1935,8 +2017,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .classed('measure v', true);
     vEnter.append('path')
       .classed('line', true)
-      .attr('marker-start', 'url(#measure-arrow)')
-      .attr('marker-end', 'url(#measure-arrow)');
+      /* Hack to avoid lack of context-stroke and context-fill in Safari */
+      .attr('marker-start', 'url(#measure-arrow-cap-v)')
+      .attr('marker-end', 'url(#measure-arrow-cap-v)');
     const vLabel = vEnter.append('text')
       .classed('label', true);
     vLabel.append('tspan')
@@ -1948,8 +2031,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     vLabel.append('tspan')
       .classed('value', true);
     //  MERGE
-    const driftAngle = Math.atan((this.v / 1000) * scaleRatio);
     const driftHypotenuse = timeScale(200) - timeScale(0) + this.rem * 0.75;
+    const driftCorrection = 2 / driftHypotenuse;
+    const driftAngle = Math.atan((this.v / 1000) * scaleRatio) - driftCorrection;
     const driftX = Math.cos(driftAngle) * driftHypotenuse;
     const driftY = Math.sin(driftAngle) * driftHypotenuse;
     const vMerge = vEnter.merge(vUpdate);
@@ -1958,7 +2042,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('d', `
-        M ${timeScale(this.t0 + 200) + this.rem * 0.75}, ${evidenceScale(this.startingPoint)}
+        M ${timeScale(this.t0 + 200) + this.rem * 0.75}, ${evidenceScale(this.startingPoint) - 2}
         A ${timeScale(200) - timeScale(0)} ${timeScale(200) - timeScale(0)} 0 0 0 ${timeScale(this.t0) + driftX} ${evidenceScale(this.startingPoint) - driftY}
       `);
     const vLabelMerge = vMerge.select('.label')
@@ -1981,8 +2065,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .classed('measure t0', true);
     t0Enter.append('line')
       .classed('line', true)
-      .attr('marker-start', 'url(#measure-arrow)')
-      .attr('marker-end', 'url(#measure-arrow)');
+      /* Hack to avoid lack of context-stroke and context-fill in Safari */
+      .attr('marker-start', 'url(#measure-arrow-t0)')
+      .attr('marker-end', 'url(#measure-arrow-cap-t0)');
     const t0Label = t0Enter.append('text')
       .classed('label', true);
     t0Label.append('tspan')
@@ -2091,8 +2176,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('class', (datum) => { return `model sd ${datum.outcome}`; });
     sdEnter.append('line')
       .classed('indicator', true)
-      .attr('marker-start', 'url(#model-sd-cap)')
-      .attr('marker-end', 'url(#model-sd-cap)');
+      /* Hack to avoid lack of context-stroke and context-fill in Safari */
+      .attr('marker-start', (datum) => { return `url(#model-sd-cap-${datum.outcome})`; })
+      .attr('marker-end', (datum) => { return `url(#model-sd-cap-${datum.outcome})`; });
     //  MERGE
     const sdMerge = sdEnter.merge(sdUpdate);
     sdMerge.select('.indicator')
@@ -2119,8 +2205,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .attr('class', (datum) => { return `data sd ${datum.outcome}`; });
     dataSDEnter.append('line')
       .classed('indicator', true)
-      .attr('marker-start', 'url(#data-sd-cap)')
-      .attr('marker-end', 'url(#data-sd-cap)')
+      /* Hack to avoid lack of context-stroke and context-fill in Safari */
+      .attr('marker-start', (datum) => { return `url(#data-sd-cap-${datum.outcome})`; })
+      .attr('marker-end', (datum) => { return `url(#data-sd-cap-${datum.outcome})`; })
       .attr('y1', (datum) => {
         return datum.densityScale(0) + ((datum.outcome === 'correct') ? 0.375 : -0.375) * this.rem;
       })
