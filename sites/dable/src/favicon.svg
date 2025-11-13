@@ -1,14 +1,23 @@
 <svg class="main" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
  <defs>
-    <marker id="arrow" viewBox="0 0 14 14" refX="10" refY="7" fill="context-stroke" markerWidth="7" markerHeight="7" orient="auto">
+    <marker id="arrow-green" viewBox="0 0 14 14" refX="10" refY="7" fill="#4daf4a" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 1 1 L 12 7 L 1 13 z" />
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 14 14" refX="10" refY="7" fill="#ff7f00" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 1 1 L 12 7 L 1 13 z" />
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 14 14" refX="10" refY="7" fill="#984ea3" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 1 1 L 12 7 L 1 13 z" />
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 14 14" refX="10" refY="7" fill="#377eb8" markerWidth="7" markerHeight="7" orient="auto">
       <path d="M 1 1 L 12 7 L 1 13 z" />
     </marker>
   </defs>
   <rect fill="rgb(230, 230, 230)" stroke="none" height="200" width="200"></rect>
-  <line stroke="#4daf4a" stroke-width="8" x1="100" y1="2" x2="100" y2="62" marker-end="url(#arrow)"></line>
-  <line stroke="#ff7f00" stroke-width="8" x1="2" y1="100" x2="62" y2="100" marker-end="url(#arrow)"></line>
-  <line stroke="#984ea3" stroke-width="8" x1="100" y1="198" x2="100" y2="138" marker-end="url(#arrow)"></line>
-  <line stroke="#377eb8" stroke-width="8" x1="198" y1="100" x2="138" y2="100" marker-end="url(#arrow)"></line>
+  <line stroke="#4daf4a" stroke-width="8" x1="100" y1="2" x2="100" y2="62" marker-end="url(#arrow-green)"></line>
+  <line stroke="#ff7f00" stroke-width="8" x1="2" y1="100" x2="62" y2="100" marker-end="url(#arrow-orange)"></line>
+  <line stroke="#984ea3" stroke-width="8" x1="100" y1="198" x2="100" y2="138" marker-end="url(#arrow-purple)"></line>
+  <line stroke="#377eb8" stroke-width="8" x1="198" y1="100" x2="138" y2="100" marker-end="url(#arrow-blue)"></line>
   <circle r="30" cx="100" cy="100" fill="rgb(38, 38, 38)"></circle>
   <text x="50%" y="50%" text-anchor="middle" dy="0.35em" fill="#ffffff"
   font-size="54" font-weight="bold" font-family="Century Gothic, sans-serif">?</text>
