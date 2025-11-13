@@ -119,19 +119,20 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 
 #### Install
 
-- Manually install *chocolatey* <https://chocolatey.org/install> (on Windows) 
+- Use *winget* or manually install *chocolatey* <https://chocolatey.org/install> (on Windows) 
   or *HomeBrew* <https://brew.sh/> (on MacOS)
-- `choco install openjdk` or `brew install openjdk`
-- `choco install git` or `brew install git`
-- `choco install nodejs` or `brew install node` then `brew install corepack`
+- `winget install EclipseAdoptium.Temurin.25.JDK`, `choco install temurin25`, or `brew install --cask temurin`
+- `winget install Git.Git`, `choco install git`, or `brew install git`
+- `winget install OpenJS.NodeJS`, `choco install nodejs`,
+  or `brew install node` then `brew install corepack`
 - `corepack enable`
   - This is currently needed to use yarn without a separate installation
   - If `corepack` is not found, then run `npm install -g corepack` first
 
 #### Upgrade
 
-- `choco outdated` or `brew outdated`
-- `choco upgrade all` or `brew update` then `brew upgrade`
+- `winget upgrade`, `choco outdated`, or `brew outdated`
+- `winget upgrade --all`, `choco upgrade all`, or `brew update` then `brew upgrade`
 - `yarn set version latest`
 
 ### Package Scripts
