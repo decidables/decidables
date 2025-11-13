@@ -74,41 +74,23 @@ $font-weight-map: ();
 
   @if $weight-name == thin {
     $font-weight-thin: $weight;
-  }
- 
-  @else if $weight-name == extra-light {
+  } @else if $weight-name == extra-light {
     $font-weight-extra-light: $weight;
-  }
- 
-  @else if $weight-name == light {
+  } @else if $weight-name == light {
     $font-weight-light: $weight;
-  }
- 
-  @else if $weight-name == normal {
+  } @else if $weight-name == normal {
     $font-weight-normal: $weight;
-  }
- 
-  @else if $weight-name == medium {
+  } @else if $weight-name == medium {
     $font-weight-medium: $weight;
-  }
- 
-  @else if $weight-name == semibold {
+  } @else if $weight-name == semibold {
     $font-weight-semibold: $weight;
-  }
- 
-  @else if $weight-name == bold {
+  } @else if $weight-name == bold {
     $font-weight-bold: $weight;
-  }
-
-  @else if $weight-name == extra-bold {
+  } @else if $weight-name == extra-bold {
     $font-weight-extra-bold: $weight;
-  }
-
-  @else if $weight-name == black {
+  } @else if $weight-name == black {
     $font-weight-black: $weight;
-  }
-
-  @else if $weight-name == extra-black {
+  } @else if $weight-name == extra-black {
     $font-weight-extra-black: $weight;
   }
 }
