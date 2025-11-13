@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.4](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.3.3...@decidables/accumulable-elements@0.3.4) (2025-11-13)
+
+
+### Bug Fixes
+
+* **accumulable-elements:** fix ddm-model line markers for Safari and add dimension lines ([3269ea1](https://github.com/decidables/decidables/commit/3269ea1066759376ec5fd3d1c88fef1065f83461))
+
+
+
 ## [0.3.3](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.3.2...@decidables/accumulable-elements@0.3.3) (2025-11-03)
 
 **Note:** Version bump only for package @decidables/accumulable-elements

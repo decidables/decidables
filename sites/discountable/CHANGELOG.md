@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.0](https://github.com/decidables/decidables/compare/@decidables/discountable@0.8.1...@decidables/discountable@0.9.0) (2025-11-13)
+
+
+### Features
+
+* **sites:** move font config to shared YAML in `decidables-site` ([a8f90d7](https://github.com/decidables/decidables/commit/a8f90d732d55505b0c07560e9557ca846d0c2d43))
+
+
+
 ## [0.8.1](https://github.com/decidables/decidables/compare/@decidables/discountable@0.8.0...@decidables/discountable@0.8.1) (2025-11-03)
 
 

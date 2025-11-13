@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/decidables/decidables/compare/@decidables/dable@0.1.2...@decidables/dable@0.2.0) (2025-11-13)
+
+
+### Features
+
+* **sites:** move font config to shared YAML in `decidables-site` ([a8f90d7](https://github.com/decidables/decidables/commit/a8f90d732d55505b0c07560e9557ca846d0c2d43))
+
+
+### Bug Fixes
+
+* **dable:** favicon - add marker for each color for Safari ([991f6bd](https://github.com/decidables/decidables/commit/991f6bd74532cc779c3b2c460d2f5cc52bdc2396))
+
+
+
 ## [0.1.2](https://github.com/decidables/decidables/compare/@decidables/dable@0.1.1...@decidables/dable@0.1.2) (2025-11-03)
 
 

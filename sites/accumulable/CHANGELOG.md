@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/accumulable@0.6.3...@decidables/accumulable@0.7.0) (2025-11-13)
+
+
+### Features
+
+* **accumulable:** tweak the accumulable favicon ([af5855f](https://github.com/decidables/decidables/commit/af5855f5a017e2f04c9d9930dd96f3f60a228906))
+* **sites:** move font config to shared YAML in `decidables-site` ([a8f90d7](https://github.com/decidables/decidables/commit/a8f90d732d55505b0c07560e9557ca846d0c2d43))
+
+
+
 ## [0.6.3](https://github.com/decidables/decidables/compare/@decidables/accumulable@0.6.2...@decidables/accumulable@0.6.3) (2025-11-03)
 
 
