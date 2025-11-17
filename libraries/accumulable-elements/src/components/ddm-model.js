@@ -546,8 +546,13 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           }
         }
 
-        .measure {
-          stroke-width: 2;
+        .measure .line.short {
+          stroke-width: 0;
+        }
+
+        .measure .markers {
+          fill: none;
+          stroke-width: 0;
         }
 
         .measure .label {
@@ -565,12 +570,6 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           text-anchor: end;
         }
 
-        /* Hack to avoid lack of context-stroke and context-fill in Safari */
-        .measure-arrow.a {
-          fill: var(---color-a);
-          stroke: var(---color-a);
-        }
-
         .measure.z .line {
           stroke: var(---color-z);
         }
@@ -582,12 +581,6 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           text-anchor: start;
         }
 
-        /* Hack to avoid lack of context-stroke and context-fill in Safari */
-        .measure-arrow.z {
-          fill: var(---color-z);
-          stroke: var(---color-z);
-        }
-
         .measure.v .line {
           stroke: var(---color-v);
         }
@@ -597,12 +590,6 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           text-anchor: start;
         }
 
-        /* Hack to avoid lack of context-stroke and context-fill in Safari */
-        .measure-arrow.v {
-          fill: var(---color-v);
-          stroke: var(---color-v);
-        }
-
         .measure.t0 .line {
           stroke: var(---color-t0);
         }
@@ -610,6 +597,37 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         .measure.t0 .label {
           dominant-baseline: auto;
           text-anchor: middle;
+        }
+
+        .measure-arrow {
+          fill: context-stroke;
+          stroke: context-stroke;
+        }
+
+        .measure-arrow .arrow {
+          stroke-width: 1;
+        }
+
+        .measure-arrow.capped .cap {
+          stroke-width: 2;
+        }
+
+        /* Hack to avoid lack of context-stroke and context-fill in Safari */
+        .measure-arrow.a {
+          fill: var(---color-a);
+          stroke: var(---color-a);
+        }
+
+        /* Hack to avoid lack of context-stroke and context-fill in Safari */
+        .measure-arrow.z {
+          fill: var(---color-z);
+          stroke: var(---color-z);
+        }
+
+        /* Hack to avoid lack of context-stroke and context-fill in Safari */
+        .measure-arrow.v {
+          fill: var(---color-v);
+          stroke: var(---color-v);
         }
 
         /* Hack to avoid lack of context-stroke and context-fill in Safari */
@@ -930,45 +948,41 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         .attr('class', `measure-arrow ${parameter}`)
         .attr('orient', 'auto-start-reverse')
         .attr('markerUnits', 'userSpaceOnUse')
-        .attr('viewBox', '-5 -5 10 10')
-        .attr('refX', '2')
+        .attr('viewBox', '-10 -6 12 12')
+        .attr('refX', '0')
         .attr('refY', '0')
-        .attr('markerWidth', '10')
-        .attr('markerHeight', '10')
+        .attr('markerWidth', '12')
+        .attr('markerHeight', '12')
         .append('path')
-        .attr('stroke', 'context-stroke')
-        .attr('fill', 'context-stroke')
-        .attr('d', 'M -3 -3 l 6 3 l -6 3 z');
+        .attr('class', 'arrow')
+        .attr('d', 'M -7 -3 l 6 3 l -6 3 z');
     };
-    const measureArrowCap = (parameter) => {
+    const measureCappedArrow = (parameter) => {
       /* Hack to avoid lack of context-stroke and context-fill in Safari */
       const marker = svgDefs.append('marker')
-        .attr('id', `measure-arrow-cap-${parameter}`)
-        .attr('class', `measure-arrow cap ${parameter}`)
+        .attr('id', `measure-capped-arrow-${parameter}`)
+        .attr('class', `measure-arrow capped ${parameter}`)
         .attr('orient', 'auto-start-reverse')
         .attr('markerUnits', 'userSpaceOnUse')
-        .attr('viewBox', '-5 -5 10 10')
-        .attr('refX', '2')
+        .attr('viewBox', '-10 -6 12 12')
+        .attr('refX', '0')
         .attr('refY', '0')
-        .attr('markerWidth', '10')
-        .attr('markerHeight', '10');
+        .attr('markerWidth', '12')
+        .attr('markerHeight', '12');
       marker
         .append('path')
-        .attr('stroke', 'context-stroke')
-        .attr('fill', 'context-stroke')
-        .attr('d', 'M -3 -3 l 6 3 l -6 3 z');
+        .attr('class', 'arrow')
+        .attr('d', 'M -7 -3 l 6 3 l -6 3 z');
       marker
         .append('path')
-        .attr('stroke', 'context-stroke')
-        .attr('fill', 'context-stroke')
-        .attr('stroke-width', '2')
-        .attr('d', 'M 4 -4 l 0 8');
+        .attr('class', 'cap')
+        .attr('d', 'M 0 -4 l 0 8');
     };
     measureArrow('a');
     measureArrow('z');
-    measureArrowCap('v');
+    measureCappedArrow('v');
     measureArrow('t0');
-    measureArrowCap('t0');
+    measureCappedArrow('t0');
     // Flat markers for SDs
     const sdCap = (outcome) => {
       /* Hack to avoid lack of context-stroke and context-fill in Safari */
@@ -1922,6 +1936,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  EXIT
     t0zUpdate.exit().remove();
 
+    // Measures
+    const markerCorrection = 2;
+
     // a Measure
     //  DATA-JOIN
     const aUpdate = evidenceOverlayerMerge.selectAll('.measure.a')
@@ -1930,7 +1947,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const aEnter = aUpdate.enter().append('g')
       .classed('measure a', true);
     aEnter.append('line')
-      .classed('line', true)
+      .classed('line', true);
+    aEnter.append('line')
+      .classed('markers', true)
       /* Hack to avoid lack of context-stroke and context-fill in Safari */
       .attr('marker-start', 'url(#measure-arrow-a)')
       .attr('marker-end', 'url(#measure-arrow-a)');
@@ -1945,15 +1964,26 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     aLabel.append('tspan')
       .classed('value', true);
     //  MERGE
+    const aLength = Math.abs(evidenceScale(this.bounds.upper) - evidenceScale(this.bounds.lower));
+    const aShort = aLength <= (markerCorrection * 2);
     const aMerge = aEnter.merge(aUpdate);
     aMerge.select('.line')
+      .classed('short', aShort)
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', timeScale(this.scale.time.max) - this.rem * 0.75)
-      .attr('y1', evidenceScale(this.bounds.upper) + 2)
+      .attr('y1', evidenceScale(this.bounds.upper) + markerCorrection)
       .attr('x2', timeScale(this.scale.time.max) - this.rem * 0.75)
-      .attr('y2', evidenceScale(this.bounds.lower) - 2);
+      .attr('y2', evidenceScale(this.bounds.lower) - markerCorrection);
+    aMerge.select('.markers')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      .attr('x1', timeScale(this.scale.time.max) - this.rem * 0.75)
+      .attr('y1', evidenceScale(this.bounds.upper))
+      .attr('x2', timeScale(this.scale.time.max) - this.rem * 0.75)
+      .attr('y2', evidenceScale(this.bounds.lower));
     const aLabelMerge = aMerge.select('.label')
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
@@ -1973,7 +2003,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const zEnter = zUpdate.enter().append('g')
       .classed('measure z', true);
     zEnter.append('line')
-      .classed('line', true)
+      .classed('line', true);
+    zEnter.append('line')
+      .classed('markers', true)
       /* Hack to avoid lack of context-stroke and context-fill in Safari */
       .attr('marker-start', 'url(#measure-arrow-z)')
       .attr('marker-end', 'url(#measure-arrow-z)');
@@ -1988,15 +2020,26 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     zLabel.append('tspan')
       .classed('value', true);
     //  MERGE
+    const zLength = Math.abs(evidenceScale(this.startingPoint) - evidenceScale(this.bounds.lower));
+    const zShort = zLength <= (markerCorrection * 2);
     const zMerge = zEnter.merge(zUpdate);
     zMerge.select('.line')
+      .classed('short', zShort)
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('x1', timeScale(this.scale.time.min) + this.rem * 0.75)
-      .attr('y1', evidenceScale(this.startingPoint) + 2)
+      .attr('y1', evidenceScale(this.startingPoint) + markerCorrection)
       .attr('x2', timeScale(this.scale.time.min) + this.rem * 0.75)
-      .attr('y2', evidenceScale(this.bounds.lower) - 2);
+      .attr('y2', evidenceScale(this.bounds.lower) - markerCorrection);
+    zMerge.select('.markers')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      .attr('x1', timeScale(this.scale.time.min) + this.rem * 0.75)
+      .attr('y1', evidenceScale(this.startingPoint))
+      .attr('x2', timeScale(this.scale.time.min) + this.rem * 0.75)
+      .attr('y2', evidenceScale(this.bounds.lower));
     const zLabelMerge = zMerge.select('.label')
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
@@ -2016,10 +2059,12 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const vEnter = vUpdate.enter().append('g')
       .classed('measure v', true);
     vEnter.append('path')
-      .classed('line', true)
+      .classed('line', true);
+    vEnter.append('path')
+      .classed('markers', true)
       /* Hack to avoid lack of context-stroke and context-fill in Safari */
-      .attr('marker-start', 'url(#measure-arrow-cap-v)')
-      .attr('marker-end', 'url(#measure-arrow-cap-v)');
+      .attr('marker-start', 'url(#measure-capped-arrow-v)')
+      .attr('marker-end', 'url(#measure-capped-arrow-v)');
     const vLabel = vEnter.append('text')
       .classed('label', true);
     vLabel.append('tspan')
@@ -2031,19 +2076,38 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     vLabel.append('tspan')
       .classed('value', true);
     //  MERGE
+    // Full path
     const driftHypotenuse = timeScale(200) - timeScale(0) + this.rem * 0.75;
-    const driftCorrection = 2 / driftHypotenuse;
-    const driftAngle = Math.atan((this.v / 1000) * scaleRatio) - driftCorrection;
+    const driftAngle = Math.atan((this.v / 1000) * scaleRatio);
     const driftX = Math.cos(driftAngle) * driftHypotenuse;
     const driftY = Math.sin(driftAngle) * driftHypotenuse;
+    // Corrected path
+    const driftCorrection = markerCorrection / driftHypotenuse;
+    const driftAngleCorrected = Math.atan((this.v / 1000) * scaleRatio) - driftCorrection;
+    const driftStartX = Math.cos(driftCorrection) * driftHypotenuse;
+    const driftStartY = Math.sin(driftCorrection) * driftHypotenuse;
+    const driftEndX = Math.cos(driftAngleCorrected) * driftHypotenuse;
+    const driftEndY = Math.sin(driftAngleCorrected) * driftHypotenuse;
+    // Short path?
+    const vLength = driftAngleCorrected * driftHypotenuse;
+    const vShort = vLength <= (markerCorrection * 2);
     const vMerge = vEnter.merge(vUpdate);
     vMerge.select('.line')
+      .classed('short', vShort)
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
       .attr('d', `
-        M ${timeScale(this.t0 + 200) + this.rem * 0.75}, ${evidenceScale(this.startingPoint) - 2}
-        A ${timeScale(200) - timeScale(0)} ${timeScale(200) - timeScale(0)} 0 0 0 ${timeScale(this.t0) + driftX} ${evidenceScale(this.startingPoint) - driftY}
+        M ${timeScale(this.t0) + driftStartX}, ${evidenceScale(this.startingPoint) - driftStartY}
+        A ${timeScale(200) - timeScale(0) + this.rem * 0.75} ${timeScale(200) - timeScale(0) + this.rem * 0.75} 0 0 0 ${timeScale(this.t0) + driftEndX} ${evidenceScale(this.startingPoint) - driftEndY}
+      `);
+    vMerge.select('.markers')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      .attr('d', `
+        M ${timeScale(this.t0 + 200) + this.rem * 0.75}, ${evidenceScale(this.startingPoint)}
+        A ${timeScale(200) - timeScale(0) + this.rem * 0.75} ${timeScale(200) - timeScale(0) + this.rem * 0.75} 0 0 0 ${timeScale(this.t0) + driftX} ${evidenceScale(this.startingPoint) - driftY}
       `);
     const vLabelMerge = vMerge.select('.label')
       .transition()
@@ -2064,10 +2128,12 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     const t0Enter = t0Update.enter().append('g')
       .classed('measure t0', true);
     t0Enter.append('line')
-      .classed('line', true)
+      .classed('line', true);
+    t0Enter.append('line')
+      .classed('markers', true)
       /* Hack to avoid lack of context-stroke and context-fill in Safari */
       .attr('marker-start', 'url(#measure-arrow-t0)')
-      .attr('marker-end', 'url(#measure-arrow-cap-t0)');
+      .attr('marker-end', 'url(#measure-capped-arrow-t0)');
     const t0Label = t0Enter.append('text')
       .classed('label', true);
     t0Label.append('tspan')
@@ -2079,14 +2145,25 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     t0Label.append('tspan')
       .classed('value', true);
     //  MERGE
+    const t0Length = Math.abs(timeScale(0) - timeScale(this.t0));
+    const t0Short = t0Length <= (markerCorrection * 2);
     const t0Merge = t0Enter.merge(t0Update);
     t0Merge.select('.line')
+      .classed('short', t0Short)
       .transition()
       .duration(this.drag ? 0 : transitionDuration)
       .ease(d3.easeCubicOut)
-      .attr('x1', timeScale(0) + 2)
+      .attr('x1', timeScale(0) + markerCorrection)
       .attr('y1', evidenceScale(this.startingPoint) - this.rem * 0.75)
-      .attr('x2', timeScale(this.t0) - 2)
+      .attr('x2', timeScale(this.t0) - markerCorrection)
+      .attr('y2', evidenceScale(this.startingPoint) - this.rem * 0.75);
+    t0Merge.select('.markers')
+      .transition()
+      .duration(this.drag ? 0 : transitionDuration)
+      .ease(d3.easeCubicOut)
+      .attr('x1', timeScale(0))
+      .attr('y1', evidenceScale(this.startingPoint) - this.rem * 0.75)
+      .attr('x2', timeScale(this.t0))
       .attr('y2', evidenceScale(this.startingPoint) - this.rem * 0.75);
     const t0LabelMerge = t0Merge.select('.label')
       .transition()
