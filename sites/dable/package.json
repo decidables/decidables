@@ -1,6 +1,6 @@
 {
   "name": "@decidables/dable",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "dable: Dabble with Explorable Explanations of Decision Making",
   "type": "module",
   "main": "./dist/index.html",
@@ -26,7 +26,7 @@
     "gulp": "^5.0.1"
   },
   "dependencies": {
-    "@decidables/accumulable-elements": "^0.3.4",
+    "@decidables/accumulable-elements": "^0.3.5",
     "@decidables/decidables-site": "^0.6.0",
     "@decidables/detectable-elements": "^0.4.4",
     "@decidables/discountable-elements": "^0.6.2",

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.5](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.3.4...@decidables/accumulable-elements@0.3.5) (2025-11-21)
+
+
+### Bug Fixes
+
+* **accumulable-elements:** in `ddm-model`, improved arrows on dimension lines for measures ([a3b8ac4](https://github.com/decidables/decidables/commit/a3b8ac462223960c9caa72a4c1f399e008b1c439))
+
+
+
 ## [0.3.4](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.3.3...@decidables/accumulable-elements@0.3.4) (2025-11-13)
 
 
