@@ -1,6 +1,5 @@
 ## Ideas
 
-- build: Stop committing `local/` and `dist/` and remove from history with `git-filter-repo`?
 - build: Move to `baseline widely available`?
 - build scripts: add encoding to readFile to go straight to string?
 - Sass: use `pkg:` URLs to load from packages

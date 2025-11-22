@@ -48,7 +48,7 @@ const pluginBabel = rollupPluginBabel.babel({
 });
 const pluginYaml = rollupPluginYaml();
 const pluginVisualizer = rollupPluginVisualizer({
-  filename: 'rollup-stats.html',
+  filename: 'rollup-stats.auto.html',
 });
 const pluginTerser = rollupPluginTerser();
 export async function buildLibrary() {
@@ -153,6 +153,7 @@ export async function buildMarkup() {
 
   const srcPaths = await globby(src);
 
+  await fs.promises.mkdir(dest, {recursive: true});
   return Promise.all(
     srcPaths.map(
       async (srcPath) => {
@@ -177,6 +178,7 @@ export async function buildScripts() {
 
   const srcPaths = await globby(src);
 
+  await fs.promises.mkdir(dest, {recursive: true});
   return Promise.all(
     srcPaths.map(
       async (srcPath) => {
@@ -208,6 +210,7 @@ export async function buildStyles() {
 
   const srcPaths = await globby(src);
 
+  await fs.promises.mkdir(dest, {recursive: true});
   return Promise.all(
     srcPaths.map(
       async (srcPath) => {

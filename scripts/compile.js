@@ -128,6 +128,7 @@ export async function compileMarkdown() {
   });
 
   // Serial execution so references are accumulated correctly
+  await fs.promises.mkdir(dest, {recursive: true});
   await srcPaths.reduce(
     async (serial, srcPath) => {
       await serial;
@@ -231,7 +232,7 @@ const pluginBabel = rollupPluginBabel.babel({
 });
 const pluginYaml = rollupPluginYaml();
 const pluginVisualizer = rollupPluginVisualizer({
-  filename: 'rollup-stats.html',
+  filename: 'rollup-stats.auto.html',
 });
 export async function compileScripts() {
   const src = 'src/page.js';
@@ -296,6 +297,7 @@ export async function compileStyles() {
     load: nodeSassYamlImporter.load,
   };
 
+  await fs.promises.mkdir(dest, {recursive: true});
   await Promise.all(
     srcPaths.map(
       async (srcPath) => {

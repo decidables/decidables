@@ -1432,7 +1432,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@decidables/accumulable-elements@npm:^0.3.4, @decidables/accumulable-elements@workspace:libraries/accumulable-elements":
+"@decidables/accumulable-elements@npm:^0.3.5, @decidables/accumulable-elements@workspace:libraries/accumulable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/accumulable-elements@workspace:libraries/accumulable-elements"
   dependencies:
@@ -1460,7 +1460,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/accumulable@workspace:sites/accumulable"
   dependencies:
-    "@decidables/accumulable-elements": "npm:^0.3.4"
+    "@decidables/accumulable-elements": "npm:^0.3.5"
     "@decidables/decidables-site": "npm:^0.6.0"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
@@ -1478,7 +1478,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/dable@workspace:sites/dable"
   dependencies:
-    "@decidables/accumulable-elements": "npm:^0.3.4"
+    "@decidables/accumulable-elements": "npm:^0.3.5"
     "@decidables/decidables-site": "npm:^0.6.0"
     "@decidables/detectable-elements": "npm:^0.4.4"
     "@decidables/discountable-elements": "npm:^0.6.2"
@@ -1517,7 +1517,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/decidables@workspace:sites/decidables"
   dependencies:
-    "@decidables/accumulable-elements": "npm:^0.3.4"
+    "@decidables/accumulable-elements": "npm:^0.3.5"
     "@decidables/decidables-site": "npm:^0.6.0"
     "@decidables/detectable-elements": "npm:^0.4.4"
     "@decidables/discountable-elements": "npm:^0.6.2"

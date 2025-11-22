@@ -1,5 +1,7 @@
+# Installed packages
 node_modules/
-**/test/coverage
+
+# Package Manager files
 yarn-error.log
 .pnp.*
 .yarn/*
@@ -8,3 +10,12 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Compile/Build outputs
+**/dist
+**/local
+**/lib
+**/*.auto.*
+
+# Test outputs
+**/test/coverage
