@@ -1444,7 +1444,6 @@ __metadata:
     d3: "npm:^7.9.0"
     gulp: "npm:^5.0.1"
     lit: "npm:^3.3.1"
-    regenerator-runtime: "npm:^0.14.1"
   languageName: unknown
   linkType: soft
 
