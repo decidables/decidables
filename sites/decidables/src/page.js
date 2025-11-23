@@ -1,6 +1,5 @@
 // Language polyfills
 import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 
 // External dependencies
 import 'bootstrap/js/src/button';

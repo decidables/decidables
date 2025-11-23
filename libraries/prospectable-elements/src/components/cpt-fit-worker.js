@@ -1,8 +1,5 @@
 /* eslint no-restricted-globals: ["off", "self"] */
 
-// Needed for d3 in WebWorker!
-import 'regenerator-runtime/runtime';
-
 import * as BayesDistributions from 'bayes.js/distributions';
 import * as BayesMcmc from 'bayes.js/mcmc';
 import * as d3 from 'd3';

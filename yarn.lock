@@ -1466,7 +1466,6 @@ __metadata:
     core-js: "npm:^3.46.0"
     gulp: "npm:^5.0.1"
     lit: "npm:^3.3.1"
-    regenerator-runtime: "npm:^0.14.1"
     source-code-pro: "npm:^2.42.0"
     source-sans: "npm:^3.52.0"
     source-serif: "npm:^4.5.1"
@@ -1487,7 +1486,6 @@ __metadata:
     core-js: "npm:^3.46.0"
     gulp: "npm:^5.0.1"
     lit: "npm:^3.3.1"
-    regenerator-runtime: "npm:^0.14.1"
     source-code-pro: "npm:^2.42.0"
     source-sans: "npm:^3.52.0"
     source-serif: "npm:^4.5.1"
@@ -1526,7 +1524,6 @@ __metadata:
     core-js: "npm:^3.46.0"
     gulp: "npm:^5.0.1"
     lit: "npm:^3.3.1"
-    regenerator-runtime: "npm:^0.14.1"
     source-code-pro: "npm:^2.42.0"
     source-sans: "npm:^3.52.0"
     source-serif: "npm:^4.5.1"
@@ -1566,7 +1563,6 @@ __metadata:
     core-js: "npm:^3.46.0"
     gulp: "npm:^5.0.1"
     lit: "npm:^3.3.1"
-    regenerator-runtime: "npm:^0.14.1"
     source-code-pro: "npm:^2.42.0"
     source-sans: "npm:^3.52.0"
     source-serif: "npm:^4.5.1"
@@ -1585,7 +1581,6 @@ __metadata:
     d3: "npm:^7.9.0"
     gulp: "npm:^5.0.1"
     lit: "npm:^3.3.1"
-    regenerator-runtime: "npm:^0.14.1"
   languageName: unknown
   linkType: soft
 
@@ -1608,7 +1603,6 @@ __metadata:
     core-js: "npm:^3.46.0"
     gulp: "npm:^5.0.1"
     lit: "npm:^3.3.1"
-    regenerator-runtime: "npm:^0.14.1"
     source-code-pro: "npm:^2.42.0"
     source-sans: "npm:^3.52.0"
     source-serif: "npm:^4.5.1"
@@ -1627,7 +1621,6 @@ __metadata:
     gulp: "npm:^5.0.1"
     lit: "npm:^3.3.1"
     plotly.js: "npm:^3.2.0"
-    regenerator-runtime: "npm:^0.14.1"
     sass: "npm:1.76.0"
   languageName: unknown
   linkType: soft
@@ -1651,7 +1644,6 @@ __metadata:
     core-js: "npm:^3.46.0"
     gulp: "npm:^5.0.1"
     lit: "npm:^3.3.1"
-    regenerator-runtime: "npm:^0.14.1"
     source-code-pro: "npm:^2.42.0"
     source-sans: "npm:^3.52.0"
     source-serif: "npm:^4.5.1"
@@ -16102,13 +16094,6 @@ __metadata:
   version: 1.4.2
   resolution: "regenerate@npm:1.4.2"
   checksum: 10/dc6c95ae4b3ba6adbd7687cafac260eee4640318c7a95239d5ce847d9b9263979758389e862fe9c93d633b5792ea4ada5708df75885dc5aa05a309fa18140a87
-  languageName: node
-  linkType: hard
-
-"regenerator-runtime@npm:^0.14.1":
-  version: 0.14.1
-  resolution: "regenerator-runtime@npm:0.14.1"
-  checksum: 10/5db3161abb311eef8c45bcf6565f4f378f785900ed3945acf740a9888c792f75b98ecb77f0775f3bf95502ff423529d23e94f41d80c8256e8fa05ed4b07cf471
   languageName: node
   linkType: hard
 
