@@ -37,7 +37,7 @@ export const compileFavicons = compiles.compileFaviconsTask({
 });
 
 export const compileFonts = compiles.compileFontsTask([
-  ...utilities.getFontGlobs(new URL(import.meta.resolve('@decidables/decidables-site/src/fonts.yml'))),
+  ...utilities.getFontGlobs(new URL(import.meta.resolve('@decidables/decidables-site/fonts.yml'))),
   ...utilities.getFontGlobs('./src/fonts.yml'),
 ]);
 
