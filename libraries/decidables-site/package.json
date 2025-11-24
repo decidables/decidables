@@ -11,6 +11,13 @@
     "decidables"
   ],
   "type": "module",
+  "main": "./src/site.scss",
+  "exports": {
+    ".": "./src/site.scss",
+    "./*": "./src/*.scss",
+    "./site.ejs": "./src/site.ejs",
+    "./fonts.yml": "./src/fonts.yml"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/decidables/decidables.git",
