@@ -24,7 +24,8 @@
     "./components": "./src/components/index.js",
     "./equations": "./src/equations/index.js",
     "./examples": "./src/examples/index.js",
-    "./*": "./src/*.js"
+    "./*": "./src/*.js",
+    "./colors.yml": "./src/colors.yml"
   },
   "repository": {
     "type": "git",
