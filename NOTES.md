@@ -1,9 +1,9 @@
 ## Ideas
 
-- build: Move to `baseline widely available`?
 - build scripts: add encoding to readFile to go straight to string?
 - Sass: use `pkg:` URLs to load from packages
 - decidables-site: use exports field!
+- *-element: add colors.yml to exports
 - fonts: WOFF2 only?
 - testing: use waitUntil (as in discountable) instead of aTimeout!
 - d'etectable: Incorporate Parameter controls

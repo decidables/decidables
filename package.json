@@ -33,7 +33,7 @@
   },
   "packageManager": "yarn@4.11.0",
   "browserslist": [
-    "> 0.5%, last 2 versions, Firefox ESR, not dead AND supports es6-module"
+    "baseline widely available with downstream"
   ],
   "resolutions": {
     "sharp": "0.34.4"
