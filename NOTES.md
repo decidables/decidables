@@ -97,9 +97,8 @@ To trace deprecations:
 ## Waiting to upgrade
 
 - eslint  8.57.0  9.39.1
-  Waiting on airbnb/javascript
 - eslint-formatter-pretty 5.0.0 7.0.0
-  Waiting on eslint to go ESM
+  Waiting on airbnb/javascript
 
 ## Write-up
 
