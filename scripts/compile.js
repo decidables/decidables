@@ -280,23 +280,15 @@ export async function compileStyles() {
   // Faster to use sync than async!?
   const compiler = sass.initCompiler();
 
-  // Wrap nodeSassYamlImporter to provide package resolution
+  // Wrap nodeSassYamlImporter to provide new Sass `pkg:` package resolution
   const yamlImporter = {
     canonicalize(dataUrl, context) {
+      // Only handle *.yaml, *.yml, and *.json files
       if (!/\.(ya?ml|json)$/.test(dataUrl)) return null;
-      if (context.containingUrl === null) return null;
 
-      let resolvedUrl;
-      try {
-        resolvedUrl = url.fileURLToPath(import.meta.resolve(dataUrl));
-      } catch {
-        resolvedUrl = null;
-      }
-
-      return nodeSassYamlImporter.canonicalize(
-        (resolvedUrl === null) ? dataUrl : resolvedUrl,
-        context,
-      );
+      return dataUrl.startsWith('pkg:')
+        ? new URL(import.meta.resolve(dataUrl.slice(4)))
+        : nodeSassYamlImporter.canonicalize(dataUrl, context);
     },
     load: nodeSassYamlImporter.load,
   };
@@ -311,8 +303,10 @@ export async function compileStyles() {
         const mapName = `${destName}.map`;
 
         const result = compiler.compile(srcPath, {
-          importers: [yamlImporter],
-          loadPaths: ['../../node_modules'],
+          importers: [
+            yamlImporter,
+            new sass.NodePackageImporter(),
+          ],
           sourceMap: true,
           sourceMapIncludeSources: true,
           quietDeps: true, // TEMPORARY: Silence Bootstrap deprecations!

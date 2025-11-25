@@ -2,7 +2,7 @@
 @use "sass:map";
 
 // Decidables Fonts
-@use "@decidables/decidables-site/fonts.yml" as site;
+@use "pkg:@decidables/decidables-site/fonts.yml" as site;
 
 // Local Fonts
 @use "fonts.yml" as local;
@@ -10,9 +10,9 @@
 $fonts: map.merge(site.$fonts, local.$fonts);
 
 // Decidables Module
-@use "@decidables/decidables-site/src/site" as * with ($color-map: (), $font-map: $fonts);
+@use "pkg:@decidables/decidables-site/site" as * with ($color-map: (), $font-map: $fonts);
 
-@import "bootstrap/scss/card";
+@import "pkg:bootstrap/scss/card";
 
 // Dables
 .dec-dables {

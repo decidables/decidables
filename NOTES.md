@@ -1,7 +1,7 @@
 ## Ideas
 
+- add scripts stubs for running gulp across sites/libraries/all
 - build scripts: add encoding to readFile to go straight to string?
-- Sass: use `pkg:` URLs to load from packages
 - fonts: WOFF2 only?
 - testing: use waitUntil (as in discountable) instead of aTimeout!
 - d'etectable: Incorporate Parameter controls

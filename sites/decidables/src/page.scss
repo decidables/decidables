@@ -4,7 +4,7 @@
 @use "sass:map";
 
 // Decidables Fonts
-@use "@decidables/decidables-site/fonts.yml" as site;
+@use "pkg:@decidables/decidables-site/fonts.yml" as site;
 
 // Local Fonts
 @use "fonts.yml" as local;
@@ -12,11 +12,11 @@
 $fonts: map.merge(site.$fonts, local.$fonts);
 
 // Decidables modules
-@use "@decidables/decidables-site/src/fonts" as * with ($font-map: $fonts);
-@use "@decidables/decidables-site/src/colors" as *;
-@use "@decidables/decidables-site/src/shadows" as *;
-@use "@decidables/decidables-site/src/decorations" as *;
-@use "@decidables/decidables-site/src/content" as *;
+@use "pkg:@decidables/decidables-site/src/fonts" as * with ($font-map: $fonts);
+@use "pkg:@decidables/decidables-site/src/colors" as *;
+@use "pkg:@decidables/decidables-site/src/shadows" as *;
+@use "pkg:@decidables/decidables-site/src/decorations" as *;
+@use "pkg:@decidables/decidables-site/src/content" as *;
 
 // BOOTSTRAP IMPORTS
 // Refer to: https://getbootstrap.com/docs/5.3/customize/sass/
@@ -26,10 +26,10 @@ $enable-rfs: false;
 $enable-dark-mode: false;
 
 // Bootstrap 5 Functions
-@import "bootstrap/scss/functions";
+@import "pkg:bootstrap/scss/functions";
 
 // Bootstrap 5 Variables
-@import "bootstrap/scss/variables";
+@import "pkg:bootstrap/scss/variables";
 
 // Colors Additions/Overrides
 $navbar-dark-color: $color-grey-light25;
@@ -46,29 +46,29 @@ $nav-link-height: $font-size-main * $line-height-base + $nav-link-padding-y * 2;
 $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
 
 // Bootstrap 5 Required
-@import "bootstrap/scss/maps";
-@import "bootstrap/scss/mixins";
-@import "bootstrap/scss/root";
+@import "pkg:bootstrap/scss/maps";
+@import "pkg:bootstrap/scss/mixins";
+@import "pkg:bootstrap/scss/root";
 
 // Bootstrap 5 Optional
-@import "bootstrap/scss/utilities";
-@import "bootstrap/scss/reboot";
-@import "bootstrap/scss/type";
-@import "bootstrap/scss/images";
-@import "bootstrap/scss/containers";
-@import "bootstrap/scss/grid";
-@import "bootstrap/scss/buttons";
-@import "bootstrap/scss/transitions";
-@import "bootstrap/scss/nav";
-@import "bootstrap/scss/navbar";
-@import "bootstrap/scss/card";
-@import "bootstrap/scss/carousel";
+@import "pkg:bootstrap/scss/utilities";
+@import "pkg:bootstrap/scss/reboot";
+@import "pkg:bootstrap/scss/type";
+@import "pkg:bootstrap/scss/images";
+@import "pkg:bootstrap/scss/containers";
+@import "pkg:bootstrap/scss/grid";
+@import "pkg:bootstrap/scss/buttons";
+@import "pkg:bootstrap/scss/transitions";
+@import "pkg:bootstrap/scss/nav";
+@import "pkg:bootstrap/scss/navbar";
+@import "pkg:bootstrap/scss/card";
+@import "pkg:bootstrap/scss/carousel";
 
 // Bootstrap 5 Helpers
-@import "bootstrap/scss/helpers";
+@import "pkg:bootstrap/scss/helpers";
 
 // Bootstrap 5 Utilities API
-@import "bootstrap/scss/utilities/api";
+@import "pkg:bootstrap/scss/utilities/api";
 
 // SEMANTIC BOOTSTRAP
 

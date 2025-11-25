@@ -1,8 +1,8 @@
 // Prospectable Colors
-@use "@decidables/prospectable-elements/colors.yml" as *;
+@use "pkg:@decidables/prospectable-elements/colors.yml" as *;
 
 // Decidables Module
-@use "@decidables/decidables-site/src/site" as * with ($color-map: $colors);
+@use "pkg:@decidables/decidables-site/site" as * with ($color-map: $colors);
 
 // Key Colors
 .dec-content {
