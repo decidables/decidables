@@ -315,6 +315,8 @@ export async function compileStyles() {
           loadPaths: ['../../node_modules'],
           sourceMap: true,
           sourceMapIncludeSources: true,
+          quietDeps: true, // TEMPORARY: Silence Bootstrap deprecations!
+          silenceDeprecations: ['import'], // TEMPORARY: Silence Bootstrap deprecations!
         });
 
         // Fix sourceMap sources

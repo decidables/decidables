@@ -100,8 +100,6 @@ To trace deprecations:
   Waiting on airbnb/javascript
 - eslint-formatter-pretty 5.0.0 7.0.0
   Waiting on eslint to go ESM
-- sass 1.76.0 1.94.0
-  Waiting on bootstrap to stop using deprecated sass
 
 ## Write-up
 
