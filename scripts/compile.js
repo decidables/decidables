@@ -1,6 +1,7 @@
 
 // Node native modules
 import fs from 'node:fs';
+import module from 'node:module';
 import path from 'node:path';
 import url from 'node:url';
 
@@ -23,7 +24,6 @@ import remarkDirective from 'remark-directive';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import remarkSmartypants from 'remark-smartypants';
-import resolvePkg from 'resolve-pkg';
 import * as rollup from 'rollup';
 import * as rollupPluginBabel from '@rollup/plugin-babel';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
@@ -96,7 +96,9 @@ export function compileFontsTask(fonts) {
   return async function compileFonts() {
     const srcPaths = (await Promise.all(
       fonts.map((font) => {
-        return globby(resolvePkg(font).split(path.sep).join(path.posix.sep));
+        return globby(
+          url.fileURLToPath(import.meta.resolve(font)).split(path.sep).join(path.posix.sep),
+        );
       }),
     )).flat();
     const dest = 'local/fonts';
@@ -118,7 +120,7 @@ export async function compileMarkdown() {
 
   const srcPaths = [...await globby(src), ...await globby(lastSrc)];
 
-  const linkIcon = (await fs.promises.readFile(resolvePkg('bootstrap-icons/icons/link-45deg.svg'))).toString();
+  const linkIcon = (await fs.promises.readFile(new URL(import.meta.resolve('bootstrap-icons/icons/link-45deg.svg')))).toString();
   remarkCiteproc({
     initialize: true,
     locale: citationJs.plugins.config.get('@csl').locales.get('en-US'),
@@ -182,7 +184,7 @@ export async function compileMarkdown() {
         {
           ...frontContent.attributes,
           ...frontLayout.attributes,
-          resolvePkg,
+          require: module.createRequire(import.meta.url),
           utilities,
           file: srcBase,
           contents: result.value,
@@ -279,18 +281,20 @@ export async function compileStyles() {
   const compiler = sass.initCompiler();
 
   // Wrap nodeSassYamlImporter to provide package resolution
-  function isValidDataFile(dataUrl) {
-    return /\.(ya?ml|json)$/.test(dataUrl);
-  }
   const yamlImporter = {
     canonicalize(dataUrl, context) {
-      if (!isValidDataFile(dataUrl)) return null;
+      if (!/\.(ya?ml|json)$/.test(dataUrl)) return null;
       if (context.containingUrl === null) return null;
 
-      const resolvedUrl = resolvePkg(dataUrl);
+      let resolvedUrl;
+      try {
+        resolvedUrl = url.fileURLToPath(import.meta.resolve(dataUrl));
+      } catch {
+        resolvedUrl = null;
+      }
 
       return nodeSassYamlImporter.canonicalize(
-        (resolvedUrl === undefined) ? dataUrl : resolvedUrl,
+        (resolvedUrl === null) ? dataUrl : resolvedUrl,
         context,
       );
     },

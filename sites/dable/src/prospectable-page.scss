@@ -1,5 +1,5 @@
 // Prospectable Colors
-@use "@decidables/prospectable-elements/src/colors.yml" as *;
+@use "@decidables/prospectable-elements/colors.yml" as *;
 
 // Decidables Module
 @use "@decidables/decidables-site/src/site" as * with ($color-map: $colors);

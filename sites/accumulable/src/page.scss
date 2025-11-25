@@ -1,5 +1,5 @@
 // Accumulable Colors
-@use "@decidables/accumulable-elements/src/colors.yml" as *;
+@use "@decidables/accumulable-elements/colors.yml" as *;
 
 // Decidables Module
 @use "@decidables/decidables-site/src/site" as * with ($color-map: $colors);

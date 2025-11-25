@@ -1,5 +1,5 @@
 // Detectable Colors
-@use "@decidables/detectable-elements/src/colors.yml" as *;
+@use "@decidables/detectable-elements/colors.yml" as *;
 
 // Decidables Module
 @use "@decidables/decidables-site/src/site" as * with ($color-map: $colors);

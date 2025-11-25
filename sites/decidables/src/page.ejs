@@ -34,7 +34,7 @@ toc:
           <span>decidables</span>
         </a>
         <button class="dec-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dec-navbar" aria-controls="dec-navbar" aria-expanded="false" aria-label="Toggle navigation">
-          <%- include(resolvePkg('bootstrap-icons/icons/list.svg')) %>
+          <%- include(require.resolve('bootstrap-icons/icons/list.svg')) %>
         </button>
         <div class="dec-nav-collapse collapse" id="dec-navbar">
           <ul class="dec-nav-list">
@@ -54,7 +54,7 @@ toc:
       <% if (file !== 'index') { %>
         <header class="dec-page-header">
           <h1 class="dec-page-title dec-heading">
-            <%- title %><a aria-hidden class="dec-heading-autolink" tabindex="-1" href=""><%- include(resolvePkg('bootstrap-icons/icons/link-45deg.svg')) %></a>
+            <%- title %><a aria-hidden class="dec-heading-autolink" tabindex="-1" href=""><%- include(require.resolve('bootstrap-icons/icons/link-45deg.svg')) %></a>
           </h1>
         </header>
       <% } %>
@@ -92,7 +92,7 @@ toc:
           </li>
           <li class="dec-nav-item">
             <a class="dec-nav-link" href="https://github.com/decidables/decidables/" target="_blank" rel="noopener">
-              <%- include(resolvePkg('bootstrap-icons/icons/github.svg')) %>
+              <%- include(require.resolve('bootstrap-icons/icons/github.svg')) %>
             </a>
           </li>
         </ul>

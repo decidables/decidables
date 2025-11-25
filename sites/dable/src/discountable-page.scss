@@ -1,5 +1,5 @@
 // Discountable Colors
-@use "@decidables/discountable-elements/src/colors.yml" as *;
+@use "@decidables/discountable-elements/colors.yml" as *;
 
 // Decidables Module
 @use "@decidables/decidables-site/src/site" as * with ($color-map: $colors);

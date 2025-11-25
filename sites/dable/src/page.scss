@@ -2,7 +2,7 @@
 @use "sass:map";
 
 // Decidables Fonts
-@use "@decidables/decidables-site/src/fonts.yml" as site;
+@use "@decidables/decidables-site/fonts.yml" as site;
 
 // Local Fonts
 @use "fonts.yml" as local;

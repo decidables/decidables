@@ -39,7 +39,7 @@
           <div class="dec-nav-group">
             <div class="dec-nav-top">
               <button class="dec-nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dec-nav" aria-controls="dec-nav" aria-expanded="false" aria-label="Toggle table of contents">
-                <%- include(resolvePkg('bootstrap-icons/icons/list.svg')) %>
+                <%- include(require.resolve('bootstrap-icons/icons/list.svg')) %>
               </button>
               <a class="dec-nav-brand" href="index.html">
                 <img class="dec-nav-icon" src="favicon.svg" alt="<%- site.text %> icon">
@@ -88,7 +88,7 @@
                     </li>
                     <li class="dec-toc-item">
                       <a class="dec-toc-link" href="https://github.com/decidables/decidables/tree/main/sites/<%- site.package %>" target="_blank" rel="noopener">
-                        <%- include(resolvePkg('bootstrap-icons/icons/github.svg')) %>
+                        <%- include(require.resolve('bootstrap-icons/icons/github.svg')) %>
                       </a>
                     </li>
                   </ol>
@@ -107,7 +107,7 @@
           <% if (file !== 'index') { %>
             <header class="dec-header">
               <h1 class="dec-title dec-heading">
-                <%- title %><a aria-hidden class="dec-heading-autolink" tabindex="-1" href=""><%- include(resolvePkg('bootstrap-icons/icons/link-45deg.svg')) %></a>
+                <%- title %><a aria-hidden class="dec-heading-autolink" tabindex="-1" href=""><%- include(require.resolve('bootstrap-icons/icons/link-45deg.svg')) %></a>
               </h1>
             </header>
           <% } %>
@@ -125,7 +125,7 @@
                     ? toc[activeSection]
                     : toc[activeSection - 1]; %>
                 <a class="dec-toc-link" href="<%= previousPage.file %>.html">
-                  <%- include(resolvePkg('bootstrap-icons/icons/arrow-left-short.svg')) %>
+                  <%- include(require.resolve('bootstrap-icons/icons/arrow-left-short.svg')) %>
                   <%- `${(previousSection.prepend) ? `<span class="dec-footer-section-name">${previousSection.name}</span>: ` : ''}${previousPage.name}` %>
                 </a>
               <% } %>
@@ -140,7 +140,7 @@
                     : toc[activeSection + 1]; %>
                 <a class="dec-toc-link" href="<%= nextPage.file %>.html">
                   <%- `${(nextSection.prepend) ? `<span class="dec-footer-section-name">${nextSection.name}</span>: ` : ''}${nextPage.name}` %>
-                  <%- include(resolvePkg('bootstrap-icons/icons/arrow-right-short.svg')) %>
+                  <%- include(require.resolve('bootstrap-icons/icons/arrow-right-short.svg')) %>
                 </a>
               <% } %>
             </div>
