@@ -4,6 +4,7 @@
 @use "sass:list";
 @use "sass:map";
 @use "sass:meta";
+@use "sass:string";
 
 // Decidables Modules
 @use "fonts.yml" as *;
@@ -42,16 +43,28 @@ $font-weight-extra-black: null;
 $font-weight-map: ();
 
 // Process font map
-@each $file, $font in $font-map {
+@each $filename, $font in $font-map {
   $category: map.get($font, "category");
   $family: map.get($font, "family");
   $style: map.get($font, "style");
   $weight: map.get($font, "weight");
   $stretch: map.get($font, "stretch");
+  $formats: map.get($font, "formats");
+  $src: "";
+
+  @each $formatname, $format in $formats {
+    $extension: map.get($format, "extension");
+
+    $src: '#{$src}url("fonts/#{$filename}.#{$extension}") format("#{$formatname}")';
+
+    @if list.index($formats, ($formatname $format)) != list.length($formats) {
+      $src: "#{$src}, ";
+    }
+  }
 
   // Font faces
   @font-face {
-    src: url("fonts/#{$file}.otf.woff2") format("woff2"), url("fonts/#{$file}.otf.woff") format("woff");
+    src: #{$src};
     font-family: $family;
     font-style: $style;
     font-weight: #{$weight};

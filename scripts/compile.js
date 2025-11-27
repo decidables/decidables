@@ -94,13 +94,11 @@ export function compileFaviconsTask(configuration) {
 
 export function compileFontsTask(fonts) {
   return async function compileFonts() {
-    const srcPaths = (await Promise.all(
-      fonts.map((font) => {
-        return globby(
-          url.fileURLToPath(import.meta.resolve(font)).split(path.sep).join(path.posix.sep),
-        );
-      }),
-    )).flat();
+    const srcPaths = fonts.map(
+      (font) => {
+        return url.fileURLToPath(import.meta.resolve(font)).split(path.sep).join(path.posix.sep);
+      },
+    );
     const dest = 'local/fonts';
 
     await Promise.all(

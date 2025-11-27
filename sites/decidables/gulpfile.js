@@ -37,8 +37,8 @@ export const compileFavicons = compiles.compileFaviconsTask({
 });
 
 export const compileFonts = compiles.compileFontsTask([
-  ...utilities.getFontGlobs(new URL(import.meta.resolve('@decidables/decidables-site/fonts.yml'))),
-  ...utilities.getFontGlobs('./src/fonts.yml'),
+  ...utilities.getFontImports(new URL(import.meta.resolve('@decidables/decidables-site/fonts.yml'))),
+  ...utilities.getFontImports('./src/fonts.yml'),
 ]);
 
 export const compile = gulp.series(
@@ -72,11 +72,16 @@ export const watch = gulp.parallel(
   watches.watchStyles,
 );
 
+export const buildFonts = builds.buildFontsTask([
+  ...utilities.getFontExtensions(new URL(import.meta.resolve('@decidables/decidables-site/fonts.yml'))),
+  ...utilities.getFontExtensions('./src/fonts.yml'),
+]);
+
 export const build = gulp.series(
   cleans.cleanDist,
   gulp.parallel(
     builds.buildFavicons,
-    builds.buildFonts,
+    buildFonts,
     builds.buildMarkup,
     builds.buildScripts,
     builds.buildStyles,

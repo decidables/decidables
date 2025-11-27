@@ -39,11 +39,27 @@ export function getCurrentDate() {
   return (new Date()).toLocaleDateString('en-CA', {dateStyle: 'medium'});
 }
 
-export function getFontGlobs(fontsConfig) {
+export function getFontImports(fontsConfig) {
   const fontsString = fs.readFileSync(fontsConfig).toString();
-  const {fonts: fontsObject} = jsYaml.load(fontsString);
+  const {fonts} = jsYaml.load(fontsString);
 
-  return Object.entries(fontsObject).map(([file, font]) => {
-    return path.posix.join(font.package, font.path, `${file}.otf.woff{,2}`);
+  return Object.entries(fonts).flatMap(([filename, font]) => {
+    return Object.entries(font.formats).map(([, format]) => {
+      return path.posix.join(font.package, format.path, `${filename}.${format.extension}`);
+    });
   });
+}
+
+export function getFontExtensions(fontsConfig) {
+  const fontsString = fs.readFileSync(fontsConfig).toString();
+  const {fonts} = jsYaml.load(fontsString);
+
+  const extensions = new Set();
+  Object.entries(fonts).forEach(([, font]) => {
+    Object.entries(font.formats).forEach(([, format]) => {
+      extensions.add(format.extension);
+    });
+  });
+
+  return [...extensions];
 }

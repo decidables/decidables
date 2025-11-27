@@ -132,19 +132,21 @@ export async function buildFavicons() {
   await fs.promises.writeFile(path.posix.join(dest, path.posix.basename(svgSrc)), svgResult.data);
 }
 
-export async function buildFonts() {
-  const src = 'local/fonts/*.{woff,woff2}';
-  const dest = 'dist/fonts';
+export function buildFontsTask(extensions) {
+  return async function buildFonts() {
+    const src = `local/fonts/*.{${extensions.join(',')}}`;
+    const dest = 'dist/fonts';
 
-  const srcPaths = await globby(src);
+    const srcPaths = await globby(src);
 
-  await Promise.all(
-    srcPaths.map(
-      async (srcPath) => {
-        await fs.promises.cp(srcPath, path.posix.join(dest, path.posix.basename(srcPath)));
-      },
-    ),
-  );
+    await Promise.all(
+      srcPaths.map(
+        async (srcPath) => {
+          await fs.promises.cp(srcPath, path.posix.join(dest, path.posix.basename(srcPath)));
+        },
+      ),
+    );
+  };
 }
 
 export async function buildMarkup() {
