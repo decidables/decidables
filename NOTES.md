@@ -1,8 +1,9 @@
 ## Ideas
 
+- fonts: WOFF2 only? variable only?
+- prospectable-elements: fix/remove `preparePlotly`
 - add scripts stubs for running gulp across sites/libraries/all
 - build scripts: add encoding to readFile to go straight to string?
-- fonts: WOFF2 only?
 - testing: use waitUntil (as in discountable) instead of aTimeout!
 - d'etectable: Incorporate Parameter controls
 - discountable: Pausing animations
