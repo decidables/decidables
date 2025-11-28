@@ -22,7 +22,10 @@
     "versions": "lerna version --conventional-commits --create-release github",
     "publish": "lerna publish from-git --no-private",
     "deploy": "yarn workspaces foreach -Apitv -j 2 run deploy",
-    "serve": "gulp serveAll"
+    "serve": "gulp serveAll",
+    "libraries": "yarn workspaces foreach -Apitv -j 2 --include \"libraries/*\" \"$@\"",
+    "sites": "yarn workspaces foreach -Apitv -j 2 --include \"sites/*\" \"$@\"",
+    "all": "yarn workspaces foreach -Apitv -j 2 -n \"$@\""
   },
   "workspaces": [
     "libraries/*",

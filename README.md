@@ -253,6 +253,18 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
 - `yarn dlx update-browserslist-db@latest`
   - Update `caniuse-lite` so the browser data is up-to-date
 
+#### Utilities
+
+- `yarn all run <package-script>`
+- `yarn all exec <shell-script>`
+  - Run a package.json script or execute a shell script for each library and site
+- `yarn libraries run <package-script>`
+- `yarn libraries exec <shell-script>`
+  - Run a package.json script or execute a shell script for each library
+- `yarn sites run <package-script>`
+- `yarn sites exec <shell-script>`
+  - Run a package.json script or execute a shell script for each site
+
 ### File Organization
 
 - `decidables/`
