@@ -4,13 +4,12 @@ import * as d3 from 'd3';
 import * as Plotly from 'plotly.js/lib/core';
 import * as PlotlyIsoSurface from 'plotly.js/lib/isosurface';
 import * as PlotlyScatter3d from 'plotly.js/lib/scatter3d';
-// import Plotly from 'plotly.js-dist';
+import plotlyStyle from 'plotly.js/src/css/style.scss';
 
 import CPTMath from '@decidables/prospectable-math';
 import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
 
 import ProspectableElement from '../prospectable-element';
-import plotlyStyle from './plotly-style.auto';
 
 // Load in the needed trace type
 Plotly.register([PlotlyIsoSurface, PlotlyScatter3d]);

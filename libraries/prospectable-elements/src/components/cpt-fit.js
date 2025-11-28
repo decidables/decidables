@@ -2,6 +2,7 @@
 import {html, css} from 'lit';
 import * as Plotly from 'plotly.js/lib/core';
 import * as PlotlyHistogram from 'plotly.js/lib/histogram';
+import plotlyStyle from 'plotly.js/src/css/style.scss';
 
 import CPTMath from '@decidables/prospectable-math';
 
@@ -9,7 +10,6 @@ import CPTMath from '@decidables/prospectable-math';
 import CPTFitWorker from 'web-worker:./cpt-fit-worker'; /* eslint-disable-line import/no-unresolved */
 
 import ProspectableElement from '../prospectable-element';
-import plotlyStyle from './plotly-style.auto';
 
 // Load in the needed trace types
 Plotly.register([PlotlyHistogram]);

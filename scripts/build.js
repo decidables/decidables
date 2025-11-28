@@ -2,6 +2,7 @@
 // Node native modules
 import fs from 'node:fs';
 import path from 'node:path';
+import url from 'node:url';
 
 // devDependencies
 import cssnano from 'cssnano';
@@ -12,11 +13,13 @@ import {purgeCSSPlugin as postcssPurgecss} from '@fullhuman/postcss-purgecss';
 import * as rollup from 'rollup';
 import * as rollupPluginBabel from '@rollup/plugin-babel';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
+import rollupPluginLitCss from 'rollup-plugin-lit-css';
 import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import rollupPluginTerser from '@rollup/plugin-terser';
 import {visualizer as rollupPluginVisualizer} from 'rollup-plugin-visualizer';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
 import rollupPluginYaml from '@rollup/plugin-yaml';
+import * as sass from 'sass';
 import * as svgo from 'svgo';
 import * as terser from 'terser';
 
@@ -46,11 +49,22 @@ const pluginBabel = rollupPluginBabel.babel({
   }]],
   babelHelpers: 'bundled',
 });
+const pluginLitCss = rollupPluginLitCss({
+  include: '**/*.scss',
+  transform: (data, {filePath}) => {
+    // Perhaps cssnano() should be running here?
+    return sass.compileString(data, {
+      url: url.pathToFileURL(filePath),
+      silenceDeprecations: ['import'], // TEMPORARY: Silence Plotly.js deprecations!
+    }).css;
+  },
+});
 const pluginYaml = rollupPluginYaml();
 const pluginVisualizer = rollupPluginVisualizer({
   filename: 'rollup-stats.auto.html',
 });
 const pluginTerser = rollupPluginTerser();
+
 export async function buildLibrary() {
   const src = 'src/index.js';
   const dest = 'lib';
@@ -63,6 +77,7 @@ export async function buildLibrary() {
       pluginCommonjs,
       pluginWebWorkerLoader,
       pluginBabel,
+      pluginLitCss,
       pluginYaml,
       pluginVisualizer,
     ],

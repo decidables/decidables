@@ -27,6 +27,7 @@ import remarkSmartypants from 'remark-smartypants';
 import * as rollup from 'rollup';
 import * as rollupPluginBabel from '@rollup/plugin-babel';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
+import rollupPluginLitCss from 'rollup-plugin-lit-css';
 import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
 import {visualizer as rollupPluginVisualizer} from 'rollup-plugin-visualizer';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
@@ -230,6 +231,15 @@ const pluginBabel = rollupPluginBabel.babel({
   }]],
   babelHelpers: 'bundled',
 });
+const pluginLitCss = rollupPluginLitCss({
+  include: '**/*.scss',
+  transform: (data, {filePath}) => {
+    return sass.compileString(data, {
+      url: url.pathToFileURL(filePath),
+      silenceDeprecations: ['import'], // TEMPORARY: Silence Plotly.js deprecations!
+    }).css;
+  },
+});
 const pluginYaml = rollupPluginYaml();
 const pluginVisualizer = rollupPluginVisualizer({
   filename: 'rollup-stats.auto.html',
@@ -246,6 +256,7 @@ export async function compileScripts() {
       pluginCommonjs,
       pluginWebWorkerLoader,
       pluginBabel,
+      pluginLitCss,
       pluginYaml,
       pluginVisualizer,
     ],

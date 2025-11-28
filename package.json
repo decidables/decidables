@@ -109,6 +109,7 @@
     "remark-rehype": "^11.1.2",
     "remark-smartypants": "^3.0.2",
     "rollup": "^4.53.2",
+    "rollup-plugin-lit-css": "^6.0.0",
     "rollup-plugin-visualizer": "^6.0.5",
     "rollup-plugin-web-worker-loader": "^1.7.0",
     "sass": "1.94.2",

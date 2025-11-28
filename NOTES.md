@@ -1,8 +1,6 @@
 ## Ideas
 
 - fonts: WOFF2 only? variable only?
-- prospectable-elements: fix/remove `preparePlotly`
-- build scripts: add encoding to readFile to go straight to string?
 - testing: use waitUntil (as in discountable) instead of aTimeout!
 - d'etectable: Incorporate Parameter controls
 - discountable: Pausing animations
