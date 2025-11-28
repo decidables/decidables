@@ -40,7 +40,7 @@ export async function preparePlotly() {
   const startTag = 'inject:start';
   const endTag = 'inject:end';
   const tagRegex = new RegExp(`(\\/\\*\\s*${startTag}\\s*\\*\\/\\s*$)\\s*(^\\s*\\/\\*\\s*${endTag}\\s*\\*\\/)`, 'm');
-  const templateContent = (await fs.readFile(templateSrc)).toString();
+  const templateContent = await fs.readFile(templateSrc, {encoding: 'utf8'});
   const finalResult = templateContent.replace(tagRegex, `$1\n${styleResult.css}\n$2`);
 
   await fs.writeFile(dest, finalResult);

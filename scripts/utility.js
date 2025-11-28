@@ -40,7 +40,7 @@ export function getCurrentDate() {
 }
 
 export function getFontImports(fontsConfig) {
-  const fontsString = fs.readFileSync(fontsConfig).toString();
+  const fontsString = fs.readFileSync(fontsConfig, {encoding: 'utf8'});
   const {fonts} = jsYaml.load(fontsString);
 
   return Object.entries(fonts).flatMap(([filename, font]) => {
@@ -51,7 +51,7 @@ export function getFontImports(fontsConfig) {
 }
 
 export function getFontExtensions(fontsConfig) {
-  const fontsString = fs.readFileSync(fontsConfig).toString();
+  const fontsString = fs.readFileSync(fontsConfig, {encoding: 'utf8'});
   const {fonts} = jsYaml.load(fontsString);
 
   const extensions = new Set();

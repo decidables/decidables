@@ -161,7 +161,7 @@ export async function buildMarkup() {
       async (srcPath) => {
         const srcName = path.posix.basename(srcPath);
 
-        const content = (await fs.promises.readFile(srcPath)).toString();
+        const content = await fs.promises.readFile(srcPath, {encoding: 'utf8'});
 
         const result = htmlMinifier.minify(content, {
           collapseWhitespace: true,
@@ -188,8 +188,8 @@ export async function buildScripts() {
         const mapPath = `${srcPath}.map`;
         const mapName = `${srcName}.map`;
 
-        const content = (await fs.promises.readFile(srcPath)).toString();
-        const map = (await fs.promises.readFile(mapPath)).toString();
+        const content = await fs.promises.readFile(srcPath, {encoding: 'utf8'});
+        const map = await fs.promises.readFile(mapPath, {encoding: 'utf8'});
 
         const result = await terser.minify(content, {
           sourceMap: {
@@ -219,7 +219,7 @@ export async function buildStyles() {
         const srcName = path.posix.basename(srcPath);
         const mapName = `${srcName}.map`;
 
-        const content = (await fs.promises.readFile(srcPath)).toString();
+        const content = await fs.promises.readFile(srcPath, {encoding: 'utf8'});
 
         const result = await postcss([
           postcssPurgecss({

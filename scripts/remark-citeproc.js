@@ -27,7 +27,7 @@ function initialize(options) {
     throw new Error('A _referencesLink_ must be provided to initialize _remark-citeproc_');
   }
   // Read in bibliography (stripping Mendeley "file" fields)
-  const bibtex = fs.readFileSync(options.bibliographyFile).toString().replace(/^file = {.*},$\n/gm, '');
+  const bibtex = fs.readFileSync(options.bibliographyFile, {encoding: 'utf8'}).replace(/^file = {.*},$\n/gm, '');
   // console.log(`bibtex:\n${bibtex}`);
 
   // Use citation.js to convert from bibtex to CSL-JSON (stripping citation.js "_graph" fields)

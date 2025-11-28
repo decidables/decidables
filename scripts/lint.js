@@ -68,7 +68,7 @@ export async function lintMarkupLocal() {
   return Promise.all(
     srcPaths.map(
       async (srcPath) => {
-        const content = (await fs.promises.readFile(srcPath)).toString();
+        const content = await fs.promises.readFile(srcPath, {encoding: 'utf8'});
 
         const result = htmlhint.verify(content);
 

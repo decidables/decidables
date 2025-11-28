@@ -118,7 +118,7 @@ export async function compileMarkdown() {
 
   const srcPaths = [...await globby(src), ...await globby(lastSrc)];
 
-  const linkIcon = (await fs.promises.readFile(new URL(import.meta.resolve('bootstrap-icons/icons/link-45deg.svg')))).toString();
+  const linkIcon = await fs.promises.readFile(new URL(import.meta.resolve('bootstrap-icons/icons/link-45deg.svg')), {encoding: 'utf8'});
   remarkCiteproc({
     initialize: true,
     locale: citationJs.plugins.config.get('@csl').locales.get('en-US'),
@@ -137,7 +137,7 @@ export async function compileMarkdown() {
       const destName = `${srcBase}.html`;
 
       // Process markdown
-      const content = (await fs.promises.readFile(srcPath)).toString();
+      const content = await fs.promises.readFile(srcPath, {encoding: 'utf8'});
       const frontContent = frontMatter(content);
       const result = await unified()
         .use(remarkParse)
@@ -175,7 +175,7 @@ export async function compileMarkdown() {
         .process(frontContent.body);
 
       // Process EJS
-      const layout = (await fs.promises.readFile(`src/${frontContent.attributes.layout}.ejs`)).toString();
+      const layout = await fs.promises.readFile(`src/${frontContent.attributes.layout}.ejs`, {encoding: 'utf8'});
       const frontLayout = frontMatter(layout);
       const finalResult = ejs.render(
         frontLayout.body,
