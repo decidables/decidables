@@ -53,6 +53,7 @@
   - Documentation
     - Cleanup headers and comments in all *.js files!
     - Convert all code documentation to JSDoc format
+      - Use Copilot to help generate these?
     - Use tool to extract docs from code files and add to README?
   - Accessibility
     - Run axe DevTools to check for a11y

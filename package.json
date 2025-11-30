@@ -34,7 +34,7 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "packageManager": "yarn@4.11.0",
+  "packageManager": "yarn@4.12.0",
   "browserslist": [
     "baseline widely available with downstream"
   ],
@@ -75,15 +75,15 @@
     "fancy-log": "^2.0.0",
     "favicons": "7.2.0",
     "front-matter": "^4.0.2",
-    "globby": "^15.0.0",
+    "globby": "^16.0.0",
     "gulp": "^5.0.1",
     "hast-util-from-html-isomorphic": "^2.0.0",
     "hastscript": "^9.0.1",
     "html-minifier": "^4.0.0",
-    "htmlhint": "^1.7.1",
+    "htmlhint": "^1.8.0",
     "husky": "^9.1.7",
     "js-yaml": "^4.1.1",
-    "lerna": "^9.0.0",
+    "lerna": "^9.0.3",
     "mdast-util-to-string": "^4.0.0",
     "node-notifier": "^10.0.1",
     "node-sass-yaml-importer": "^8.0.0",
@@ -108,12 +108,12 @@
     "remark-preset-lint-recommended": "^7.0.1",
     "remark-rehype": "^11.1.2",
     "remark-smartypants": "^3.0.2",
-    "rollup": "^4.53.2",
+    "rollup": "^4.53.3",
     "rollup-plugin-lit-css": "^6.0.0",
     "rollup-plugin-visualizer": "^6.0.5",
     "rollup-plugin-web-worker-loader": "^1.7.0",
     "sass": "1.94.2",
-    "stylelint": "^16.25.0",
+    "stylelint": "^16.26.1",
     "stylelint-config-recess-order": "^7.4.0",
     "stylelint-config-recommended-scss": "^16.0.2",
     "stylelint-config-sass-guidelines": "^12.1.0",
@@ -126,6 +126,6 @@
     "unified": "^11.0.5",
     "unified-engine": "^11.2.2",
     "unist-util-visit": "^5.0.0",
-    "vnu-jar": "^25.11.8"
+    "vnu-jar": "^25.11.29"
   }
 }
