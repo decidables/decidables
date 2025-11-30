@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.5](https://github.com/decidables/decidables/compare/@decidables/detectable-math@0.2.4...@decidables/detectable-math@0.2.5) (2025-11-30)
+
+**Note:** Version bump only for package @decidables/detectable-math
+
+
+
+
+
 ## [0.2.4](https://github.com/decidables/decidables/compare/@decidables/detectable-math@0.2.3...@decidables/detectable-math@0.2.4) (2025-11-13)
 
 **Note:** Version bump only for package @decidables/detectable-math
