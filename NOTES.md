@@ -1,6 +1,5 @@
 ## Ideas
 
-- fonts: WOFF2 only? variable only?
 - testing: use waitUntil (as in discountable) instead of aTimeout!
 - d'etectable: Incorporate Parameter controls
 - discountable: Pausing animations
@@ -82,6 +81,7 @@
         1. Always import needed classes
         1. Always import from specific file?
   - Dependencies
+    - Fonts: variable only?
     - Replace Plotly with something lighter?
       - branch `echarts`: echarts & echarts-gl?
         issues with interactions inside a web component (shadowRoot)

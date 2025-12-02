@@ -14,7 +14,6 @@ fonts:
     category: monospace, package: source-code-pro, family: Source Code,
     style: normal, weight-name: normal, weight: 400, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -22,7 +21,6 @@ fonts:
     category: monospace, package: source-code-pro, family: Source Code,
     style: italic, weight-name: normal, weight: 400, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -30,7 +28,6 @@ fonts:
     category: monospace, package: source-code-pro, family: Source Code,
     style: normal, weight-name: semibold, weight: 600, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -38,7 +35,6 @@ fonts:
     category: monospace, package: source-code-pro, family: Source Code,
     style: italic, weight-name: semibold, weight: 600, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -46,7 +42,6 @@ fonts:
     category: monospace, package: source-code-pro, family: Source Code,
     style: normal, weight-name: bold, weight: 700, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -54,7 +49,6 @@ fonts:
     category: monospace, package: source-code-pro, family: Source Code,
     style: italic, weight-name: bold, weight: 700, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -64,7 +58,6 @@ fonts:
     category: sans-serif, package: source-sans, family: Source Sans,
     style: normal, weight-name: normal, weight: 400, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -72,7 +65,6 @@ fonts:
     category: sans-serif, package: source-sans, family: Source Sans,
     style: italic, weight-name: normal, weight: 400, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -80,7 +72,6 @@ fonts:
     category: sans-serif, package: source-sans, family: Source Sans,
     style: normal, weight-name: semibold, weight: 600, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -88,7 +79,6 @@ fonts:
     category: sans-serif, package: source-sans, family: Source Sans,
     style: italic, weight-name: semibold, weight: 600, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -96,7 +86,6 @@ fonts:
     category: sans-serif, package: source-sans, family: Source Sans,
     style: normal, weight-name: bold, weight: 700, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -104,7 +93,6 @@ fonts:
     category: sans-serif, package: source-sans, family: Source Sans,
     style: italic, weight-name: bold, weight: 700, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -114,7 +102,6 @@ fonts:
     category: serif, package: source-serif, family: Source Serif,
     style: normal, weight-name: normal, weight: 400, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -122,7 +109,6 @@ fonts:
     category: serif, package: source-serif, family: Source Serif,
     style: italic, weight-name: normal, weight: 400, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -130,7 +116,6 @@ fonts:
     category: serif, package: source-serif, family: Source Serif,
     style: normal, weight-name: semibold, weight: 600, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -138,7 +123,6 @@ fonts:
     category: serif, package: source-serif, family: Source Serif,
     style: italic, weight-name: semibold, weight: 600, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -146,7 +130,6 @@ fonts:
     category: serif, package: source-serif, family: Source Serif,
     style: normal, weight-name: bold, weight: 700, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -154,7 +137,6 @@ fonts:
     category: serif, package: source-serif, family: Source Serif,
     style: italic, weight-name: bold, weight: 700, stretch: normal,
     formats: {
-      woff: {path: WOFF/OTF/, extension: otf.woff},
       woff2: {path: WOFF2/OTF/, extension: otf.woff2},
     },
   }
@@ -164,7 +146,6 @@ fonts:
     category: monospace, package: source-code-pro, family: Source Code Variable,
     style: normal, weight-name: variable, weight: 200 900, stretch: normal,
     formats: {
-      woff: {path: WOFF/VF/, extension: otf.woff},
       woff2: {path: WOFF2/VF/, extension: otf.woff2},
     },
   }
@@ -172,7 +153,6 @@ fonts:
     category: monospace, package: source-code-pro, family: Source Code Variable,
     style: italic, weight-name: variable, weight: 200 900, stretch: normal,
     formats: {
-      woff: {path: WOFF/VF/, extension: otf.woff},
       woff2: {path: WOFF2/VF/, extension: otf.woff2},
     },
   }
@@ -182,7 +162,6 @@ fonts:
     category: sans-serif, package: source-sans, family: Source Sans Variable,
     style: normal, weight-name: variable, weight: 200 900, stretch: normal,
     formats: {
-      woff: {path: WOFF/VF/, extension: otf.woff},
       woff2: {path: WOFF2/VF/, extension: otf.woff2},
     },
   }
@@ -190,7 +169,6 @@ fonts:
     category: sans-serif, package: source-sans, family: Source Sans Variable,
     style: italic, weight-name: variable, weight: 200 900, stretch: normal,
     formats: {
-      woff: {path: WOFF/VF/, extension: otf.woff},
       woff2: {path: WOFF2/VF/, extension: otf.woff2},
     },
   }
@@ -200,7 +178,6 @@ fonts:
     category: serif, package: source-serif, family: Source Serif Variable,
     style: normal, weight-name: variable, weight: 200 900, stretch: normal,
     formats: {
-      woff: {path: WOFF/VAR/, extension: otf.woff},
       woff2: {path: WOFF2/VAR/, extension: otf.woff2},
     },
   }
@@ -208,7 +185,6 @@ fonts:
     category: serif, package: source-serif, family: Source Serif Variable,
     style: italic, weight-name: variable, weight: 200 900, stretch: normal,
     formats: {
-      woff: {path: WOFF/VAR/, extension: otf.woff},
       woff2: {path: WOFF2/VAR/, extension: otf.woff2},
     },
   }
