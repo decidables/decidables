@@ -25,15 +25,14 @@
     - Use MathML with embedded elements for equations?
     - Should decidables-elements have base class for equations?
 - Sites
-  - Quick Take
-    - Separate sub-site with all quick takes! 
-    - Create "quick take" pages for each model:
-      - exploration
-      - simulation
-      - fitting (enter own data?)
-    - This would be separate from in-depth explanations
+  - dab'le
+    - Per model pages:
+      - Exploration
+      - Simulation
+      - Fitting
+        - Enter own data?
     - Provide "early" access to web components
-    - Maybe even a page that demonstrates usage of components
+    - Maybe even a page that demonstrates usage of components?
   - Search
     - Include a search function?
   - Persistence
