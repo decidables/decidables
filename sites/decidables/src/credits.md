@@ -17,6 +17,8 @@ Running in
 Compiled from
 : [YAML](https://yaml.org/)
   by [front-matter](https://github.com/jxson/front-matter),
+  [js-yaml](https://github.com/nodeca/js-yaml),
+  and [node-sass-yaml-importer](https://github.com/loilo/node-sass-yaml-importer),
   [Markdown](https://spec.commonmark.org/)
   by [remark](https://remark.js.org/)
   with [plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md),
@@ -68,6 +70,7 @@ Minified via
 : [cssnano](https://cssnano.co/),
   [htmlmin](https://htmlmin.readthedocs.io/),
   [PurgeCSS](https://purgecss.com/),
+  [svgo](https://svgo.dev/),
   and [terser](https://terser.org/)
 
 Built using
