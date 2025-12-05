@@ -4,7 +4,6 @@
 - d'etectable: Incorporate Parameter controls
 - discountable: Pausing animations
 - dab'le: Flesh out descriptions
-- decidables: Include description of dable
 - standardize arrows on "colored" lines
 - DecidablesElement svgDefs vs svgFilters?
 - Elements
