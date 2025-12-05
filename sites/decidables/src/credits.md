@@ -12,7 +12,7 @@ Running in
 : [HTML](https://html.spec.whatwg.org/),
   [SVG](https://www.w3.org/Graphics/SVG/),
   [CSS](https://www.w3.org/Style/CSS/),
-  and [JavaScript](https://262.ecma-international.org/5.1/)
+  and [JavaScript](https://262.ecma-international.org/6.0/)
 
 Compiled from
 : [YAML](https://yaml.org/)
@@ -30,14 +30,14 @@ Compiled from
   and [ES.NEXT](https://tc39.es/ecma262/)
   by [Babel](https://babeljs.io/)
   and [rollup](https://rollupjs.org/)
+  with [plugins](https://github.com/rollup/plugins)
 
 Depending on
 : [Bootstrap](https://getbootstrap.com/),
   [core-js](https://github.com/zloirock/core-js),
   [D3](https://d3js.org/),
   [jStat](https://github.com/jstat/jstat),
-  [Lit](https://lit.dev/),
-  and [regenerator-runtime](http://facebook.github.io/regenerator/)
+  and [Lit](https://lit.dev/)
 
 Decorated with
 : [APA 7th Edition](https://citation.js.org/api/0.7/module-@citation-js_plugin-csl.html) citation
@@ -49,8 +49,8 @@ Decorated with
   [icons](https://icons.getbootstrap.com/#icons)
   from [Bootstrap Icons](https://icons.getbootstrap.com/),
   and [Source Code Pro](https://fonts.adobe.com/fonts/source-code-pro),
-  [Source Sans](https://fonts.adobe.com/fonts/source-sans),
-  and [Source Serif](https://fonts.adobe.com/fonts/source-serif) fonts
+  [Source Sans 3](https://fonts.adobe.com/fonts/source-sans-3),
+  and [Source Serif 4](https://fonts.adobe.com/fonts/source-serif-4) fonts
   from [Adobe Originals](https://fonts.adobe.com/foundries/adobe)
 
 Linted through
@@ -78,7 +78,6 @@ Built using
   with [npm packages](https://www.npmjs.com/)
   via [Yarn](https://yarnpkg.com/),
   and [gulp](https://gulpjs.com/)
-  with [plugins](https://gulpjs.com/plugins/)
 
 Hosted at
 : [GitHub](https://github.com/)
