@@ -103,3 +103,9 @@ motion in a random dot kinematogram. Is it to the left or the right? DDM models 
 <em>evidence accumulation</em> that accounts for both reaction time and accuracy, based on the <em>
 boundary separation</em>, <em>starting point</em>, <em>drift rate</em>, and <em>non-decision
 time</em> :cite[@Ratcliff2008; @ratcliff_diffusion_2016].
+
+### **<span class="dable">d’able</span>**
+
+[**<span class="dable">d’able</span>**](dable/) provides quick access to the core interactive
+visualizations from each of the four sites described above. For each theory/site, there is a short
+overview followed by pages for model *exploration*, *fitting*, and *prediction*.
