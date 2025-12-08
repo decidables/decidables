@@ -1,5 +1,5 @@
 
-import {css, html} from 'lit';
+import {css, html, render} from 'lit';
 import * as d3 from 'd3';
 
 import DDMMath from '@decidables/accumulable-math';
@@ -938,12 +938,16 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     //  ENTER
     const svgEnter = svgUpdate.enter().append('svg')
       .classed('main', true)
-      .html(AccumulableElement.svgDefs);
-    const svgDefs = svgEnter.append('defs');
+      .each((datum, index, nodes) => {
+        // Filters for shadows
+        render(AccumulableElement.svgFilters, nodes[index]);
+      });
+    const svgMarkers = svgEnter.append('defs')
+      .classed('markers', true);
     // Arrowhead marker for measures
     const measureArrow = (parameter) => {
       /* Hack to avoid lack of context-stroke and context-fill in Safari */
-      svgDefs.append('marker')
+      svgMarkers.append('marker')
         .attr('id', `measure-arrow-${parameter}`)
         .attr('class', `measure-arrow ${parameter}`)
         .attr('orient', 'auto-start-reverse')
@@ -959,7 +963,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     };
     const measureCappedArrow = (parameter) => {
       /* Hack to avoid lack of context-stroke and context-fill in Safari */
-      const marker = svgDefs.append('marker')
+      const marker = svgMarkers.append('marker')
         .attr('id', `measure-capped-arrow-${parameter}`)
         .attr('class', `measure-arrow capped ${parameter}`)
         .attr('orient', 'auto-start-reverse')
@@ -986,7 +990,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     // Flat markers for SDs
     const sdCap = (outcome) => {
       /* Hack to avoid lack of context-stroke and context-fill in Safari */
-      svgDefs.append('marker')
+      svgMarkers.append('marker')
         .attr('id', `model-sd-cap-${outcome}`)
         .attr('class', `model-sd cap ${outcome}`)
         .attr('orient', 'auto-start-reverse')
@@ -1001,7 +1005,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         .attr('fill', 'context-stroke')
         .attr('stroke-width', '2')
         .attr('d', 'M 0 -4 l 0 8');
-      svgDefs.append('marker')
+      svgMarkers.append('marker')
         .attr('id', `data-sd-cap-${outcome}`)
         .attr('class', `data-sd cap ${outcome}`)
         .attr('orient', 'auto-start-reverse')
@@ -1019,7 +1023,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
     };
     sdCap('error');
     sdCap('correct');
-    const gradient = svgDefs.append('linearGradient')
+    const gradient = svgMarkers.append('linearGradient')
       .attr('id', 'path-animate')
       .attr('gradientUnits', 'userSpaceOnUse')
       .attr('color-interpolation', 'linearRGB')

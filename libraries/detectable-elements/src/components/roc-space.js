@@ -1,5 +1,5 @@
 
-import {html, css} from 'lit';
+import {css, html, render} from 'lit';
 import * as d3 from 'd3';
 
 import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
@@ -362,9 +362,7 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
   }
 
   render() { /* eslint-disable-line class-methods-use-this */
-    return html`
-      ${DetectableElement.svgFilters}
-    `;
+    return html``;
   }
 
   willUpdate() {
@@ -477,7 +475,11 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
       }]);
     //  ENTER
     const svgEnter = svgUpdate.enter().append('svg')
-      .classed('main', true);
+      .classed('main', true)
+      .each((datum, index, nodes) => {
+        // Filters for shadows
+        render(DetectableElement.svgFilters, nodes[index]);
+      });
     //  MERGE
     const svgMerge = svgEnter.merge(svgUpdate)
       .attr('viewBox', `0 0 ${elementSize} ${elementSize}`);

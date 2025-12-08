@@ -306,7 +306,6 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     return html`
       <div class="plotly"></div>
     `;
-    // ${ProspectableElement.svgFilters}
   }
 
   willUpdate() {

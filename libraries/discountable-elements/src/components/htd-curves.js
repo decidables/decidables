@@ -1,5 +1,5 @@
 
-import {html, css} from 'lit';
+import {css, html, render} from 'lit';
 import * as d3 from 'd3';
 
 import HTDMath from '@decidables/discountable-math';
@@ -453,11 +453,15 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
       }]);
     //  ENTER
     const svgEnter = svgUpdate.enter().append('svg')
-      .classed('main', true);
-    svgEnter.html(DiscountableElement.svgDefs);
+      .classed('main', true)
+      .each((datum, index, nodes) => {
+        // Filters for shadows
+        render(DiscountableElement.svgFilters, nodes[index]);
+      });
     // Gradients for fill animations
-    const svgDefs = svgEnter.append('defs');
-    const soonerGradient = svgDefs.append('linearGradient')
+    const svgGradients = svgEnter.append('defs')
+      .classed('gradients', true);
+    const soonerGradient = svgGradients.append('linearGradient')
       .classed('gradient sooner', true)
       .attr('id', 'sooner-gradient');
     soonerGradient.append('stop')
@@ -472,7 +476,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
     soonerGradient.append('stop')
       .classed('stop-100', true)
       .attr('offset', '1');
-    const laterGradient = svgDefs.append('linearGradient')
+    const laterGradient = svgGradients.append('linearGradient')
       .classed('gradient later', true)
       .attr('id', 'later-gradient');
     laterGradient.append('stop')

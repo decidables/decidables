@@ -209,7 +209,6 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     return html`
       <div class="plotly"></div>
     `;
-    // ${ProspectableElement.svgFilters}
   }
 
   willUpdate() {

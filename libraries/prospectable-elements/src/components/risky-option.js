@@ -1,5 +1,5 @@
 
-import {html, css} from 'lit';
+import {css, html, render} from 'lit';
 import * as d3 from 'd3';
 
 import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
@@ -116,7 +116,6 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
 
   render() { /* eslint-disable-line class-methods-use-this */
     return html`
-      ${ProspectableElement.svgFilters}
       <slot></slot>
     `;
   }
@@ -251,7 +250,11 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
       }]);
     //  ENTER
     const svgEnter = svgUpdate.enter().append('svg')
-      .classed('main', true);
+      .classed('main', true)
+      .each((datum, index, nodes) => {
+        // Filters for shadows
+        render(ProspectableElement.svgFilters, nodes[index]);
+      });
     //  MERGE
     const svgMerge = svgEnter.merge(svgUpdate)
       .attr('viewBox', `0 0 ${elementSize} ${elementSize}`);
