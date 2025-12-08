@@ -1,5 +1,5 @@
 
-import {html, css} from 'lit';
+import {css, html} from 'lit';
 import * as d3 from 'd3';
 
 import {DecidablesMixinResizeable} from '@decidables/decidables-elements';

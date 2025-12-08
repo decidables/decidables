@@ -1,6 +1,6 @@
 
 import {ifDefined} from 'lit/directives/if-defined.js'; /* eslint-disable-line import/extensions */
-import {html, css} from 'lit';
+import {css, html} from 'lit';
 
 import DecidablesElement from './decidables-element';
 

@@ -1,5 +1,5 @@
 
-import {html, css} from 'lit';
+import {css, html} from 'lit';
 
 import '@decidables/decidables-elements/spinner';
 import DecidablesConverterSet from '@decidables/decidables-elements/converter-set';

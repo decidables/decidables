@@ -1,5 +1,5 @@
 
-import {html, css} from 'lit';
+import {css, html} from 'lit';
 
 import AccumulableElement from '../accumulable-element';
 

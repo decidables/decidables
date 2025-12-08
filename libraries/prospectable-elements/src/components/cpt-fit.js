@@ -1,5 +1,5 @@
 
-import {html, css} from 'lit';
+import {css, html} from 'lit';
 import * as Plotly from 'plotly.js/lib/core';
 import * as PlotlyHistogram from 'plotly.js/lib/histogram';
 import plotlyStyle from 'plotly.js/src/css/style.scss';

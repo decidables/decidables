@@ -1,5 +1,5 @@
 
-import {html, css} from 'lit';
+import {css, html} from 'lit';
 import * as Plot from '@observablehq/plot';
 
 import HTDMath from '@decidables/discountable-math';

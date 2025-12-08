@@ -1,5 +1,5 @@
 
-import {html, css} from 'lit';
+import {css, html} from 'lit';
 
 import DetectableElement from '../detectable-element';
 

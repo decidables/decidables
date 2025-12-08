@@ -1,5 +1,5 @@
 
-import {html, css} from 'lit';
+import {css, html} from 'lit';
 import {animate, fadeIn} from '@lit-labs/motion';
 
 import '@decidables/decidables-elements/spinner';
