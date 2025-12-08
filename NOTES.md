@@ -5,7 +5,6 @@
 - discountable: Pausing animations
 - dab'le: Flesh out descriptions
 - standardize arrows on "colored" lines
-- DecidablesElement svgDefs vs svgFilters?
 - Elements
   - decidables-slider
     - use `writing-mode` for orientation?
@@ -51,6 +50,7 @@
     - Cleanup headers and comments in all *.js files!
     - Convert all code documentation to JSDoc format
       - Use Copilot to help generate these?
+      - Use for type checking as well?
     - Use tool to extract docs from code files and add to README?
   - Accessibility
     - Run axe DevTools to check for a11y
