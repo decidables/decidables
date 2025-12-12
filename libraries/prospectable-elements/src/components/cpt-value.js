@@ -297,16 +297,26 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
         .curve-p.interactive:hover,
         .curve-n.interactive:hover {
           filter: url("#shadow-4");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
+          transform: translateX(0);
         }
 
         .curve-p.interactive:active,
         .curve-n.interactive:active {
           filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateY(0);
         }
 
         :host(.keyboard) .curve-p.interactive:focus,
         :host(.keyboard) .curve-n.interactive:focus {
           filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateZ(0);
         }
 
         .point.interactive {
@@ -316,7 +326,6 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
           outline: none;
 
           /* HACK: This gets Safari to correctly apply the filter! */
-          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
           stroke: #000000;
           stroke-opacity: 0;
           stroke-width: 0;

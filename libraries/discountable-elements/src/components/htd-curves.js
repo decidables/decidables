@@ -256,26 +256,45 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
 
         .option .interactive:hover {
           filter: url("#shadow-4");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
+          transform: translateX(0);
         }
 
         .option .interactive:active {
           filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateY(0);
         }
 
         :host(.keyboard) .option .interactive:focus-within {
           filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateZ(0);
         }
 
         .option .body.interactive:has(~ .point:hover) {
           filter: url("#shadow-4");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateX(0);
         }
 
         .option .body.interactive:has(~ .point:active) {
           filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateY(0);
         }
 
         :host(.keyboard) .option .body.interactive:has(~ .point:focus-within) {
           filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateZ(0);
         }
 
         .gradient.sooner stop {

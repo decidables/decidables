@@ -477,31 +477,50 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         /*
           OVERLAYER
         */
-        .interactive {
+        .boundary.interactive {
+          cursor: ns-resize;
+        }
+
+        .t0z.interactive {
+          cursor: move;
+        }
+
+        .boundary.interactive,
+        .t0z.interactive {
           filter: url("#shadow-2");
           outline: none;
         }
 
-        .interactive:hover {
+        .boundary.interactive:hover,
+        .t0z.interactive:hover {
           filter: url("#shadow-4");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
+          transform: translateX(0);
         }
 
-        .interactive:active {
+        .boundary.interactive:active,
+        .t0z.interactive:active {
           filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateY(0);
         }
 
-        :host(.keyboard) .interactive:focus {
+        :host(.keyboard) .boundary.interactive:focus,
+        :host(.keyboard) .t0z.interactive:focus {
           filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          transform: translateZ(0);
         }
 
-        .boundary {
-          fill: none;
-          stroke: var(---color-element-emphasis);
-          stroke-width: 2;
-        }
+        .t0z .point {
+          fill: var(---color-element-emphasis);
+          stroke-width: 0;
 
-        .boundary.interactive {
-          cursor: ns-resize;
+          r: 6px;
         }
 
         .drift {
@@ -515,21 +534,38 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
         .drift.interactive {
           cursor: ns-resize;
+
+          filter: url("#shadow-2");
+          outline: none;
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          fill: #000000;
+          fill-opacity: 0;
+        }
+
+        .drift.interactive:hover {
+          filter: url("#shadow-4");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          fill: #ff0000;
+        }
+
+        .drift.interactive:active {
+          filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          fill: #00ff00;
+        }
+
+        :host(.keyboard) .drift.interactive:focus {
+          filter: url("#shadow-8");
+
+          /* HACK: This gets Safari to correctly apply the filter! */
+          fill: #0000ff;
         }
 
         .drift .arrow {
           stroke-dasharray: none;
-        }
-
-        .t0z.interactive {
-          cursor: move;
-        }
-
-        .t0z .point {
-          fill: var(---color-element-emphasis);
-          stroke-width: 0;
-
-          r: 6px;
         }
 
         /* Make larger targets for touch users */
