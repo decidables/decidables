@@ -1262,6 +1262,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           return `${xScale(element.d)}`;
         };
       })
+      .attr('y1', yScale(0))
       .attrTween('y2', (datum, index, elements) => {
         const element = elements[index];
         const interpolateA = d3.interpolate(
