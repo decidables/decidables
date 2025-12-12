@@ -269,6 +269,7 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
           filter: url("#shadow-4");
 
           /* HACK: This gets Safari to correctly apply the filter! */
+          /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
           transform: translateX(0);
         }
 
