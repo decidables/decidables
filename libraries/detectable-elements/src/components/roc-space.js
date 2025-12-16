@@ -1,6 +1,7 @@
 
 import {css, html, render} from 'lit';
 import * as d3 from 'd3';
+import color from 'color';
 
 import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
 import SDTMath from '@decidables/detectable-math';
@@ -560,23 +561,29 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
         const contours = d3.contours()
           .size([n, n])
           .thresholds(contourThresholds);
-        const contourColorStart = this.getComputedStyleValue((this.contour === 'bias')
-          ? '---color-element-background'
-          : (this.contour === 'sensitivity')
-            ? '---color-d'
-            : (this.contour === 'accuracy')
-              ? '---color-acc-dark'
-              : null);
-        const contourColorEnd = this.getComputedStyleValue((this.contour === 'bias')
-          ? '---color-c'
-          : (this.contour === 'sensitivity')
+        const contourColorStart = this.getComputedStyleValue(
+          (this.contour === 'bias')
             ? '---color-element-background'
-            : (this.contour === 'accuracy')
+            : (this.contour === 'sensitivity')
+              ? '---color-d'
+              : (this.contour === 'accuracy')
+                ? '---color-acc-dark'
+                : null,
+        );
+        const contourColorEnd = this.getComputedStyleValue(
+          (this.contour === 'bias')
+            ? '---color-c'
+            : (this.contour === 'sensitivity')
               ? '---color-element-background'
-              : null);
+              : (this.contour === 'accuracy')
+                ? '---color-element-background'
+                : null,
+        );
         const contourColor = d3.scaleLinear()
           .domain(d3.extent(contourThresholds))
-          .interpolate(() => { return d3.interpolateRgb(contourColorStart, contourColorEnd); });
+          .interpolate(() => {
+            return d3.interpolateRgb(color(contourColorStart).hex(), color(contourColorEnd).hex());
+          });
         //  DATA-JOIN
         const contourPlotUpdate = underlayerMerge.selectAll('.plot-contour')
           .data([this.contour]);
