@@ -1,20 +1,6 @@
-## Ideas
-
-- Fix feedback display and layout
-- Replace Plotly with something else
-  - branch `echarts`: echarts & echarts-gl?
-    issues with interactions inside a web component (shadowRoot)
-  - branch `x3dom`:  d3-x3d & x3dom or x_ite?
-    issues working at all in a web component (shadowRoot)
-
 ## Outline
 
-- *prospectable*: Cumulative Prospect Theory (versus Expected Value & Expected Utility)
-  - [Visualizations]
-    - Pie chart options? gamble vs sure
-    - Value function
-    - Probability function
-    - Marschak-Machina triangle?
+- *prospectable*: An Explorable Explanation of Cumulative Prospect Theory
   - Introduction
   - Risky decision making
     - Choosing between sure outcomes and gambles
@@ -44,3 +30,8 @@
   - Applications
     - Health message framing?
   - Conclusion
+
+## Ideas
+
+- Visualizations
+  - Marschak-Machina triangle?
