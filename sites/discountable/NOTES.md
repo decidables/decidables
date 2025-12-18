@@ -1,11 +1,6 @@
-## Ideas
-
-- How to integrate htd-calculation into human and model examples?
-  - Partial interaction for model example?
-
 ## Outline
 
-- *discountable*: Temporal discounting
+- **discountable**: An Explorable Explanation of Hyperbolic Temporal Discounting
   - Introduction
   - Behavior
     - Task: inter-temporal choice task
@@ -27,3 +22,16 @@
   - Applications
     - Drug addiction?
   - Conclusion
+
+## Ideas
+
+- How to integrate htd-calculation into human and model examples?
+  - Partial interaction for model example?
+- Possibilities...
+  - Ambiguity?
+    - Sure vs risky vs ambiguous options
+    - Models of ambiguity?
+  - Learning?
+    - IGT & BART
+  - Volatility?
+  - Bayesian inference?

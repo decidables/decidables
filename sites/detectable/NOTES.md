@@ -1,43 +1,40 @@
-## Introduction
-
-- [x] SDT as an example of applied cognitive science
-  - [x] History of SDT and radar
-  - [x] Other applications: memory, medicine, etc...
-- [x] SDT as an example of the decomposition of cognition
-  - [ ] Processes of perception, decision making, etc...
-- [x] SDT as an example of how we use formal models
-  - [x] Existence proofs of what is possible for a given conceptual framework/theory
-  - [x] A way to fit human data and test how well a theory can account for that data
-  - [x] A way to make quantitative predictions from theory for comparison to human data
-- [x] SDT as an example of the links between mind & brain & behavior
-  - [x] SDT as entry point into computational cognitive neuroscience
-  - [x] Evidence accumulation and the neural basis of perceptual decision making
-
 ## Outline
 
-- Detectable: Signal Detection Theory
+- **detectable**: An Explorable Explanation of Signal Detection Theory
   - Introduction
-  - Behavior: Yes/No RDK task
-    - Stimulus: signal & noise
-    - Response: present or absent
-    - Outcome: correct/error, hit/miss/FA/CR
-    - Tables & rates
-    - ROC space
-  - Model: SDT
-    - Measurement & sensitivity
-    - Threshold & bias
-    - SDT
-    - Iso-sensitivity curves
-    - Iso-bias curves
-    - Model exploration
-    - Model fitting
-    - Model predictions
-  - Advanced
-    - Sensitivity & difficulty
-    - Bias & incentive
-    - zROC space
-    - Unequal variance
+  - Behavior
+    - Signal and Noise: Stimuli
+    - Task: Adding a response
+    - Outcomes: Comparing Stimulus and Response
+    - Tables and Rates: Summarizing Task Performance
+    - Receiver Operating Characteristic Space: Visualizing Performance
+  - Theory
+    - Measurement and Sensitivity: Towards a Theory of Performance
+    - Threshold and Bias: Drawing a Line in the Sand
+    - Signal Detection Theory: Putting it Together
+    - Iso-Sensitivity Curves: Visualizing Detector Performance
+    - Iso-Bias Curves: Visualizing Decision Criteria
+  - Model
+    - Model Exploration: Sensitivity, Bias, Outcomes, and Rates
+    - Model Fitting: Fitting Human Performance to Signal Detection Theory
+    - Model Prediction: Predicting Human Performance with Signal Detection Theory
+  - Bonus
+    - Marginals: More Ways to Summarize Performance
+    - Sensitivity and Difficulty: Influences on d′
+    - Bias and Incentive: Influences on c
+    - zROC Space: Transforming ROC space
+    - Unequal Variance: SDT Assumptions Revisited
+  - Conclusion
+  - References
+    - Legend
+    - Glossary
+    - Equations
+    - References
+    - Credits
+
+## Ideas
+
+- Should there be an applications section that shows example applications to applied domains?
   - Applications?
     - Memory?
     - Medical diagnostics?
-  - Conclusion
