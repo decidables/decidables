@@ -1,22 +1,6 @@
-## Bugs
-
-- rationalize tazv2gE & tazv2gC
-
-## Ideas
-
-- add more equations?
-- simplify equations by assuming s = 1?
-- SDs -> height of line?
-- labels for model means & SDs?
-- Main pages
-  - Exploration
-  - Fitting
-    - full fitting process...
-  - Predictions
-
 ## Outline
 
-- *accumulable*: Drift-diffusion/race/LBA model of RT
+- **accumulable**: An Explorable Explanation of the Diffusion Decision Model
   - Introduction
   - Behavior: 2AFC RDK task
     - Stimulus: motion left or right?
@@ -41,3 +25,16 @@
   - Applications
     - ?Neural modeling?
   - Conclusion
+
+## Ideas
+
+- add more equations?
+- simplify equations by assuming s = 1?
+- SDs -> height of line?
+- labels for model means & SDs?
+- Main pages
+  - Exploration
+  - Fitting
+    - full fitting process...
+  - Predictions
+
