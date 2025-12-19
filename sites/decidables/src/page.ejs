@@ -1,13 +1,11 @@
 ---
 toc:
-  top:
-    - {file: index, name: 'Home'}
-    - {file: what, name: 'What'}
-    - {file: why, name: 'Why'}
-    - {file: how, name: 'How'}
-    - {file: references, name: 'References'}
-  bottom:
-    - {file: credits, name: 'Credits'}
+  - {file: index, name: 'Home'}
+  - {file: what, name: 'What'}
+  - {file: why, name: 'Why'}
+  - {file: how, name: 'How'}
+  - {file: references, name: 'References'}
+  - {file: credits, name: 'Credits'}
 ---
 <!doctype html>
 <html class="dec-html" lang="en">
@@ -22,8 +20,7 @@ toc:
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="manifest.webmanifest">
 
-    <title>decidables<%- (file !== 'index') ? `: ${[...toc.top, ...toc.bottom].find((page) => { return (page.file === file); }).name}` : '' %></title>
-
+    <title>decidables<%- (file !== 'index') ? `: ${toc.find((page) => { return (page.file === file); }).name}` : '' %></title>
     <link href="<%= style %>.css" rel="stylesheet">
   </head>
   <body class="dec-body <%- (file !== 'index') ? 'dec-page' : '' %>">
@@ -38,7 +35,7 @@ toc:
         </button>
         <div class="dec-nav-collapse collapse" id="dec-navbar">
           <ul class="dec-nav-list">
-            <% for (const page of toc.top) { %>
+            <% for (const page of toc) { %>
               <li class="dec-nav-item">
                 <a class="dec-nav-link <%- (page.file === file) ? 'active' : '' %>" href="<%= (page.file !== 'index') ? `${page.file}.html` : './' %>">
                     <%- page.name %>
@@ -75,13 +72,6 @@ toc:
               v<%- utilities.getPackageVersion() %>
             </a>
           </li>
-          <% for (const page of toc.bottom) { %>
-            <li class="dec-nav-item">
-              <a class="dec-nav-link <%- (page.file === file) ? 'active' : '' %>" href="<%= (page.file !== 'index') ? `${page.file}.html` : './' %>">
-                  <%- page.name %>
-              </a>
-            </li>
-          <% } %>
         </ul>
         <ul class="dec-nav-list">
           <li class="dec-nav-item">
