@@ -1,6 +1,7 @@
 
 import {css, html, render} from 'lit';
 import * as d3 from 'd3';
+import {interpolatePath} from 'd3-interpolate-path';
 import color from 'color';
 
 import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
@@ -604,8 +605,15 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
         contoursEnter.merge(contoursUpdate).transition()
           .duration(transitionDuration * 2) // Extra long transition!
           .ease(d3.easeCubicOut)
-          .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
+          // .attr('d', d3.geoPath(d3.geoIdentity().scale(width / n))) // ????
+          .attrTween('d', (datum, index, elements) => {
+            const element = elements[index];
+            const previous = d3.select(element).attr('d');
+            const current = d3.geoPath(d3.geoIdentity().scale(width / n))(datum);
+            return interpolatePath(previous, current);
+          })
           .attr('fill', (datum) => { return contourColor(datum.value); });
+
         //  EXIT
         contoursUpdate.exit().remove();
 
