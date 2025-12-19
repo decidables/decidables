@@ -220,7 +220,7 @@ $navbar-brand-padding-y: ($nav-link-height - 2rem) * 0.5;
 }
 
 .dec-main-title {
-  @extend .display-1, .d-flex, .justify-content-center, .align-items-center, .gap-3;
+  @extend .display-1, .d-flex, .flex-wrap, .justify-content-center, .align-items-center, .column-gap-3;
 }
 
 .dec-main-icon {
