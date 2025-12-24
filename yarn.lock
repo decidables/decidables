@@ -1618,6 +1618,7 @@ __metadata:
     "@lit-labs/motion": "npm:^1.0.9"
     bayes.js: "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f"
     d3: "npm:^7.9.0"
+    d3-3d: "npm:^1.0.0"
     gulp: "npm:^5.0.1"
     lit: "npm:^3.3.1"
     plotly.js: "npm:^3.3.0"
@@ -7133,6 +7134,13 @@ __metadata:
   dependencies:
     css-tree: "npm:~2.2.0"
   checksum: 10/4036fb2b9f8ed6b948349136b39e0b19ffb5edee934893a37b55e9a116186c4ae2a9d3ba66fbdbc07fa44a853fb478cd2d8733e4743473dcd364e7f21444ff34
+  languageName: node
+  linkType: hard
+
+"d3-3d@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "d3-3d@npm:1.0.0"
+  checksum: 10/6d488f99b30a71afa972630624cf3686ac3c571d74008b09ddb7a6c00d6d4e312454ee91a4e706bf86c325affc5ee00d15eac937d6a8bff498b6b74e40779cd1
   languageName: node
   linkType: hard
 

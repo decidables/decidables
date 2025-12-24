@@ -1,6 +1,7 @@
 
 import {css, html} from 'lit';
 import * as d3 from 'd3';
+import * as d33d from 'd3-3d';
 import * as Plotly from 'plotly.js/lib/core';
 import * as PlotlyIsoSurface from 'plotly.js/lib/isosurface';
 import * as PlotlyScatter3d from 'plotly.js/lib/scatter3d';
@@ -143,6 +144,15 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
     this.decisionSpace = [];
 
+
+    this.rotationX = 0;
+    this.rotationY = 0;
+    this.mx = 0;
+    this.my = 0;
+    this.mouseX = 0;
+    this.mouseY = 0;
+
+
     this.alignState();
   }
 
@@ -216,6 +226,34 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
               });
           });
       });
+
+    // /////////////////////////////
+    const xGrid = [];
+    const scatter = [];
+
+    const j = 10;
+    let cnt = 0;
+
+    for (let z = -j; z < j; z += 1) {
+      for (let x = -j; x < j; x += 1) {
+        xGrid.push({x: x, y: 1, z: z});
+        scatter.push({
+          x: x,
+          y: d3.randomUniform(0, -10)(),
+          z: z,
+          id: `point-${cnt}`,
+        });
+        cnt += 1;
+      }
+    }
+
+    this.data = {
+      xGrid,
+      scatter,
+      // grid3d(xGrid),
+      // points3d(scatter),
+      // yScale3d([yLine]),
+    };
   }
 
   clear() {
@@ -275,28 +313,45 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
           height: 20rem;
         }
 
-        .plotly {
+        .main {
+          width: 100%;
           height: 100%;
 
           cursor: grab;
         }
 
-        /* Plotly modebar styles */
-        /* Drawn from: https://github.com/plotly/plotly.js/blob/master/src/components/modebar/modebar.js */
-        .plotly:hover .modebar .modebar-group {
-          background-color: rgba(255, 255, 255, 0.5);
+        text {
+          /* stylelint-disable property-no-vendor-prefix */
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+
+          fill: var(---color-text);
         }
 
-        .modebar-btn .icon path {
-          fill: rgba(68, 68, 68, 0.3);
+        .axis {
+          stroke: var(---color-element-border);
+          stroke-width: 1;
         }
 
-        .modebar-btn:hover .icon path {
-          fill: rgba(68, 68, 68, 0.7);
+        .tick {
+          stroke: var(---color-element-border);
+          stroke-width: 1;
         }
 
-        .modebar-btn.active .icon path {
-          fill: rgba(68, 68, 68, 0.7);
+        .label {
+          font-size: 0.75rem;
+
+          alignment-baseline: middle;
+          text-anchor: end;
+        }
+
+        .title {
+          font-weight: 600;
+
+          alignment-baseline: middle;
+          text-anchor: middle;
         }
       `,
     ];
@@ -304,7 +359,8 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
   render() { /* eslint-disable-line class-methods-use-this */
     return html`
-      <div class="plotly"></div>
+      <!-- <div class="plotly"></div> -->
+      <!-- <svg></svg> -->
     `;
   }
 
@@ -320,209 +376,556 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       return;
     }
 
-    const colorText = this.getComputedStyleValue('---color-text');
-    const colorElementBorder = this.getComputedStyleValue('---color-element-border');
-    const colorElementBackground = this.getComputedStyleValue('---color-element-background');
-    const colorElementEmphasis = this.getComputedStyleValue('---color-element-emphasis');
-    const colorWorse = this.getComputedStyleValue('---color-worse');
-    const colorBetter = this.getComputedStyleValue('---color-better');
-    const colorNr = this.getComputedStyleValue('---color-nr');
+    const elementWidth = this.width;
+    const elementHeight = this.height;
+    const elementSize = Math.min(elementWidth, elementHeight);
 
-    const data = [];
+    const margin = {
+      top: 1 * this.rem,
+      bottom: 4 * this.rem,
+      left: 1 * this.rem,
+      right: 4 * this.rem,
+    };
+    const height = elementSize - (margin.top + margin.bottom);
+    const width = elementSize - (margin.left + margin.right);
 
-    if (this.surface) {
-      data.push(
-        {
-          name: 'Decision Boundary',
-          type: 'isosurface',
-          x: this.decisionSpace.xs,
-          y: this.decisionSpace.xw,
-          z: this.decisionSpace.pw,
-          value: this.decisionSpace.uDiff,
-          coloraxis: 'coloraxis',
-          isomin: 0,
-          isomax: 0,
-          opacity: 0.5,
-        },
-        {
-          name: 'Difference in Subjective Utility',
-          type: 'isosurface',
-          x: this.decisionSpace.xs,
-          y: this.decisionSpace.xw,
-          z: this.decisionSpace.pw,
-          value: this.decisionSpace.uDiff,
-          caps: {
-            x: {show: false},
-            y: {show: false},
-            z: {show: false},
-          },
-          coloraxis: 'coloraxis',
-          isomin: -30,
-          isomax: 30,
-          showscale: false,
-          slices: {
-            x: {show: true, locations: [this.range.xs.stop]},
-            y: {show: true, locations: [this.range.xw.stop]},
-            z: {show: true, locations: [this.range.pw.start]},
-          },
-          surface: {show: false},
-        },
-      );
-    }
+    // const transitionDuration = parseInt(
+    //   this.getComputedStyleValue('---transition-duration'),
+    //   10,
+    // );
 
-    data.push(
-      {
-        name: 'Current Decision',
-        type: 'scatter3d',
-        x: this.pointList.xs,
-        y: this.pointList.xw,
-        z: this.pointList.pw,
-        mode: 'markers',
-        marker: {
-          color: this.pointList.response,
-          coloraxis: 'coloraxis2',
-          line: {
-            color: colorElementEmphasis,
-            width: 2,
-          },
-          size: 6,
-        },
-      },
+    // const colorElementEmphasis = this.getComputedStyleValue('---color-element-emphasis');
+    // const colorWorse = this.getComputedStyleValue('---color-worse');
+    // const colorBetter = this.getComputedStyleValue('---color-better');
+    // const colorNr = this.getComputedStyleValue('---color-nr');
+
+    const startOrigin = {x: margin.left, y: elementSize - margin.bottom};
+    const startScale = 1;
+    // const key = (d) => { return d.id; };
+    const startRotationX = -Math.PI / 8;
+    const startRotationY = -Math.PI / 8;
+    const startRotationZ = 0;
+    // const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+
+    // function posPointX(d) {
+    //   return d.projected.x;
+    // }
+
+    // function posPointY(d) {
+    //   return d.projected.y;
+    // }
+
+    const lineStrips3D = d33d.lineStrips3D()
+      .origin(startOrigin)
+      .rotateX(startRotationX + this.rotationX)
+      .rotateY(startRotationY + this.rotationY)
+      .rotateZ(startRotationZ)
+      .scale(startScale);
+
+    // const grid3d = d33d.gridPlanes3D()
+    //   .rows(20)
+    //   .origin(origin)
+    //   .rotateY(startAngle)
+    //   .rotateX(-startAngle)
+    //   .scale(scale);
+
+    const points3d = d33d.points3D()
+      .origin(startOrigin)
+      .rotateX(startRotationX)
+      .rotateY(startRotationY)
+      .rotateZ(startRotationZ)
+      .scale(startScale);
+
+    // SVG Drag behaviors
+    const svgDrag = d3.drag()
+      .on('start', (event) => {
+        this.mx = event.x;
+        this.my = event.y;
+      })
+      .on('drag', (event) => {
+        this.rotationY = (event.x - this.mx + this.mouseX) * (Math.PI / 230);
+        this.rotationX = (event.y - this.my + this.mouseY) * (Math.PI / 230) * -1;
+
+        this.requestUpdate();
+      })
+      .on('end', (event) => {
+        this.mouseX = event.x - this.mx + this.mouseX;
+        this.mouseY = event.y - this.my + this.mouseY;
+      });
+
+    // SVG
+    //  DATA-JOIN
+    const svgUpdate = d3.select(this.renderRoot).selectAll('.main')
+      .data([{
+        width: this.width,
+        height: this.height,
+        rem: this.rem,
+      }]);
+    //  ENTER
+    const svgEnter = svgUpdate.enter().append('svg')
+      .classed('main', true);
+      // .each((datum, index, nodes) => {
+      //   // Filters for shadows
+      //   render(ProspectableElement.svgFilters, nodes[index]);
+      // });
+    //  MERGE
+    const svgMerge = svgEnter.merge(svgUpdate)
+      .attr('viewBox', `0 0 ${elementSize} ${elementSize}`)
+      .call(svgDrag);
+
+    // Scales
+    const xScale = d3.scaleLinear()
+      .domain([this.range.xs.start, this.range.xs.stop])
+      .range([0, width]);
+    this.xScale = xScale;
+    const yScale = d3.scaleLinear()
+      .domain([this.range.pw.start, this.range.pw.stop])
+      .range([0, -height]);
+    this.yScale = yScale;
+    const zScale = d3.scaleLinear()
+      .domain([this.range.xw.start, this.range.xw.stop])
+      .range([0, -height]);
+    this.zScale = zScale;
+
+    // Axis & Title Data
+    const xAxis = [[
+      {title: 'Sure Value', id: 'max', x: xScale.range()[1]},
+      {id: 'min', x: xScale.range()[0]},
+    ]];
+    const yAxis = [[
+      {title: 'Win Probability', id: 'max', y: yScale.range()[1]},
+      {id: 'min', y: yScale.range()[0]},
+    ]];
+    const zAxis = [[
+      {title: 'Win Value', id: 'max', z: zScale.range()[1]},
+      {id: 'min', z: zScale.range()[0]},
+    ]];
+
+    // Axes
+    //  DATA-JOIN
+    const axisXUpdate = svgMerge.selectAll('.axis-x').data(
+      lineStrips3D
+        .x((datum) => { return datum.x; })
+        .y(() => { return 0; })
+        .z(() => { return 0; })(xAxis),
     );
+    const axisYUpdate = svgMerge.selectAll('.axis-y').data(
+      lineStrips3D
+        .x(() => { return 0; })
+        .y((datum) => { return datum.y; })
+        .z(() => { return 0; })(yAxis),
+    );
+    const axisZUpdate = svgMerge.selectAll('.axis-z').data(
+      lineStrips3D
+        .x(() => { return 0; })
+        .y(() => { return 0; })
+        .z((datum) => { return datum.z; })(zAxis),
+    );
+    //  ENTER
+    const axisXEnter = axisXUpdate.enter().append('path')
+      .attr('class', 'd3-3d axis axis-x');
+    const axisYEnter = axisYUpdate.enter().append('path')
+      .attr('class', 'd3-3d axis axis-y');
+    const axisZEnter = axisZUpdate.enter().append('path')
+      .attr('class', 'd3-3d axis axis-z');
+    // MERGE
+    const axisXMerge = axisXEnter.merge(axisXUpdate)
+      .attr('d', lineStrips3D.draw);
+    const axisYMerge = axisYEnter.merge(axisYUpdate)
+      .attr('d', lineStrips3D.draw);
+    const axisZMerge = axisZEnter.merge(axisZUpdate)
+      .attr('d', lineStrips3D.draw);
+    // EXIT
+    axisXMerge.exit().remove();
+    axisYMerge.exit().remove();
+    axisZMerge.exit().remove();
 
-    const layout = {
-      coloraxis: {
-        cmin: -30,
-        cmax: 30,
-        colorbar: {
-          title: {
-            font: {
-              size: this.rem * 1.125,
-            },
-            text: 'Difference in Utility (Gamble - Sure)',
-            side: 'right',
-          },
-          thickness: 16,
-          ypad: 32,
-        },
-        colorscale: [
-          [0, 'rgb(35, 35, 104)'],
-          [0.35, 'rgb(69,69,208)'],
-          [0.5, 'rgb(190,190,190)'],
-          [0.65, 'rgb(240,50,230)'],
-          [1, 'rgb(120,25,115)'],
-        ],
-      },
-      coloraxis2: {
-        cmin: 0,
-        cmax: 1,
-        colorscale: [
-          [0, colorWorse],
-          [0.01, colorWorse],
-          [0.24, colorNr],
-          [0.26, colorNr],
-          [0.74, colorElementEmphasis],
-          [0.76, colorElementEmphasis],
-          [0.99, colorBetter],
-          [1, colorBetter],
-        ],
-        showscale: false,
-      },
-      font: {
-        family: '"Source Sans", sans-serif',
-        color: colorText,
-      },
-      margin: {t: 0, l: 0, b: 0},
-      scene: {
-        hovermode: false,
-        camera: {
-          center: {
-            x: 0,
-            y: 0.1,
-            z: -0.2,
-          },
-          eye: {
-            x: -2.5 * 0.8,
-            y: -1 * 0.8,
-            z: 1 * 0.8,
-          },
-        },
-        xaxis: {
-          mirror: true,
-          showbackground: true,
-          backgroundcolor: colorElementBackground,
-          showgrid: false,
-          showspikes: false,
-          ticks: 'outside',
-          tickcolor: colorElementBorder,
-          showline: true,
-          linecolor: colorElementBorder,
-          zeroline: false,
-          range: [this.range.xs.start, this.range.xs.stop],
-          title: {
-            text: 'Sure Value',
-            font: {
-              size: this.rem * 1.125,
-            },
-          },
-        },
-        yaxis: {
-          mirror: true,
-          showbackground: true,
-          backgroundcolor: colorElementBackground,
-          showgrid: false,
-          showspikes: false,
-          ticks: 'outside',
-          tickcolor: colorElementBorder,
-          showline: true,
-          linecolor: colorElementBorder,
-          zeroline: false,
-          range: [this.range.xw.start, this.range.xw.stop],
-          title: {
-            text: 'Win Value',
-            font: {
-              size: this.rem * 1.125,
-            },
-          },
-        },
-        zaxis: {
-          mirror: true,
-          showbackground: true,
-          backgroundcolor: colorElementBackground,
-          showgrid: false,
-          showspikes: false,
-          ticks: 'outside',
-          tickcolor: colorElementBorder,
-          showline: true,
-          linecolor: colorElementBorder,
-          zeroline: false,
-          range: [this.range.pw.start, this.range.pw.stop],
-          title: {
-            text: 'Win Probability',
-            font: {
-              size: this.rem * 1.125,
-            },
-          },
-        },
-      },
-      uirevision: true,
-    };
+    // Axis Titles
+    //  DATA-JOIN
+    const titlePathXUpdate = svgMerge.selectAll('.title-path-x').data(
+      lineStrips3D
+        .x((datum) => {
+          return datum.id === 'min' ? datum.x - this.rem * 20 : datum.x + this.rem * 20;
+        })
+        .y(() => { return this.rem * 1.75; })
+        .z(() => { return this.rem * 1.75; })(xAxis),
+    );
+    const titlePathYUpdate = svgMerge.selectAll('.title-path-y').data(
+      lineStrips3D
+        .x(() => { return -this.rem * 1.75; })
+        .y((datum) => {
+          return datum.id === 'min' ? datum.y + this.rem * 20 : datum.y - this.rem * 20;
+        })
+        .z(() => { return this.rem * 1.75; })(yAxis),
+    );
+    const titlePathZUpdate = svgMerge.selectAll('.title-path-z').data(
+      lineStrips3D
+        .x(() => { return -this.rem * 1.75; })
+        .y(() => { return this.rem * 1.75; })
+        .z((datum) => {
+          return datum.id === 'min' ? datum.z + this.rem * 20 : datum.z - this.rem * 20;
+        })(zAxis),
+    );
+    const titleXUpdate = svgMerge.selectAll('.title-x').data(
+      xAxis,
+      (datum) => { return datum[0].title; },
+    );
+    const titleYUpdate = svgMerge.selectAll('.title-y').data(
+      yAxis,
+      (datum) => { return datum[0].title; },
+    );
+    const titleZUpdate = svgMerge.selectAll('.title-z').data(
+      zAxis,
+      (datum) => { return datum[0].title; },
+    );
+    //  ENTER
+    const titlePathXEnter = titlePathXUpdate.enter().append('path')
+      .attr('class', 'd3-3d title-path title-path-x')
+      .attr('id', 'title-x');
+    const titlePathYEnter = titlePathYUpdate.enter().append('path')
+      .attr('class', 'd3-3d title-path title-path-y')
+      .attr('id', 'title-y');
+    const titlePathZEnter = titlePathZUpdate.enter().append('path')
+      .attr('class', 'd3-3d title-path title-path-z')
+      .attr('id', 'title-z');
+    const titleXEnter = titleXUpdate.enter().append('text').append('textPath')
+      .attr('class', 'title title-x')
+      .attr('href', '#title-x')
+      .attr('startOffset', '50%');
+    const titleYEnter = titleYUpdate.enter().append('text').append('textPath')
+      .attr('class', 'title title-y')
+      .attr('href', '#title-y')
+      .attr('startOffset', '50%');
+    const titleZEnter = titleZUpdate.enter().append('text').append('textPath')
+      .attr('class', 'title title-z')
+      .attr('href', '#title-z')
+      .attr('startOffset', '50%');
+    // MERGE
+    const titlePathXMerge = titlePathXEnter.merge(titlePathXUpdate)
+      .attr('d', lineStrips3D.draw);
+    const titlePathYMerge = titlePathYEnter.merge(titlePathYUpdate)
+      .attr('d', lineStrips3D.draw);
+    const titlePathZMerge = titlePathZEnter.merge(titlePathZUpdate)
+      .attr('d', lineStrips3D.draw);
+    const titleXMerge = titleXEnter.merge(titleXUpdate)
+      .text((datum) => { return datum[0].title; });
+    const titleYMerge = titleYEnter.merge(titleYUpdate)
+      .text((datum) => { return datum[0].title; });
+    const titleZMerge = titleZEnter.merge(titleZUpdate)
+      .text((datum) => { return datum[0].title; });
+    // EXIT
+    titlePathXMerge.exit().remove();
+    titlePathYMerge.exit().remove();
+    titlePathZMerge.exit().remove();
+    titleXMerge.exit().remove();
+    titleYMerge.exit().remove();
+    titleZMerge.exit().remove();
 
-    const config = {
-      displaylogo: false,
-      modeBarButtonsToRemove: [
-        'orbitRotation',
-        'resetCameraDefault3d',
-        'hoverClosest3d',
-        'toImage',
-      ],
-      responsive: true,
-    };
+    // Axis Tick & Label Data
+    const tickCount = 5;
+    const xTicks = xScale.ticks(tickCount).map((tick) => {
+      return [
+        {id: 'min', label: xScale.tickFormat()(tick), x: xScale(tick)},
+        {id: 'max', x: xScale(tick)},
+      ];
+    });
+    const yTicks = yScale.ticks(tickCount).map((tick) => {
+      return [
+        {id: 'min', label: yScale.tickFormat()(tick), y: yScale(tick)},
+        {id: 'max', y: yScale(tick)},
+      ];
+    });
+    const zTicks = zScale.ticks(tickCount).map((tick) => {
+      return [
+        {id: 'min', label: zScale.tickFormat()(tick), z: zScale(tick)},
+        {id: 'max', z: zScale(tick)},
+      ];
+    });
 
-    Plotly.react(this.shadowRoot.querySelector('.plotly'), data, layout, config);
+    // Axis Ticks
+    //  DATA-JOIN
+    const ticksXUpdate = svgMerge.selectAll('.tick-x').data(
+      lineStrips3D
+        .x((datum) => { return datum.x; })
+        .y((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })
+        .z((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })(xTicks),
+    );
+    const ticksYUpdate = svgMerge.selectAll('.tick-y').data(
+      lineStrips3D
+        .x((datum) => { return datum.id === 'min' ? 0 : -this.rem * 0.35; })
+        .y((datum) => { return datum.y; })
+        .z((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })(yTicks),
+    );
+    const ticksZUpdate = svgMerge.selectAll('.tick-z').data(
+      lineStrips3D
+        .x((datum) => { return datum.id === 'min' ? 0 : -this.rem * 0.35; })
+        .y((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })
+        .z((datum) => { return datum.z; })(zTicks),
+    );
+    //  ENTER
+    const ticksXEnter = ticksXUpdate.enter().append('path')
+      .attr('class', 'd3-3d tick tick-x');
+    const ticksYEnter = ticksYUpdate.enter().append('path')
+      .attr('class', 'd3-3d tick tick-y');
+    const ticksZEnter = ticksZUpdate.enter().append('path')
+      .attr('class', 'd3-3d tick tick-z');
+    // MERGE
+    const ticksXMerge = ticksXEnter.merge(ticksXUpdate)
+      .attr('d', lineStrips3D.draw);
+    const ticksYMerge = ticksYEnter.merge(ticksYUpdate)
+      .attr('d', lineStrips3D.draw);
+    const ticksZMerge = ticksZEnter.merge(ticksZUpdate)
+      .attr('d', lineStrips3D.draw);
+    // EXIT
+    ticksXMerge.exit().remove();
+    ticksYMerge.exit().remove();
+    ticksZMerge.exit().remove();
+
+    // Axis Tick Labels
+    //  DATA-JOIN
+    const labelPathsXUpdate = svgMerge.selectAll('.label-path-x').data(
+      lineStrips3D
+        .x((datum) => { return datum.x; })
+        .y((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })
+        .z((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })(xTicks),
+      (datum) => { return datum[0].label; },
+    );
+    const labelPathsYUpdate = svgMerge.selectAll('.label-path-y').data(
+      lineStrips3D
+        .x((datum) => { return datum.id === 'min' ? -this.rem * 0.5 : -this.rem * 4; })
+        .y((datum) => { return datum.y; })
+        .z((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })(yTicks),
+      (datum) => { return datum[0].label; },
+    );
+    const labelPathsZUpdate = svgMerge.selectAll('.label-path-z').data(
+      lineStrips3D
+        .x((datum) => { return datum.id === 'min' ? -this.rem * 0.5 : -this.rem * 4; })
+        .y((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })
+        .z((datum) => { return datum.z; })(zTicks),
+      (datum) => { return datum[0].label; },
+    );
+    const labelsXUpdate = svgMerge.selectAll('.label-x').data(
+      xTicks,
+      (datum) => { return datum[0].label; },
+    );
+    const labelsYUpdate = svgMerge.selectAll('.label-y').data(
+      yTicks,
+      (datum) => { return datum[0].label; },
+    );
+    const labelsZUpdate = svgMerge.selectAll('.label-z').data(
+      zTicks,
+      (datum) => { return datum[0].label; },
+    );
+    //  ENTER
+    const labelPathsXEnter = labelPathsXUpdate.enter().append('path')
+      .attr('class', 'd3-3d label-path label-path-x')
+      .attr('id', (datum, index) => { return `label-x-${index}`; });
+    const labelPathsYEnter = labelPathsYUpdate.enter().append('path')
+      .attr('class', 'd3-3d label-path label-path-y')
+      .attr('id', (datum, index) => { return `label-y-${index}`; });
+    const labelPathsZEnter = labelPathsZUpdate.enter().append('path')
+      .attr('class', 'd3-3d label-path label-path-z')
+      .attr('id', (datum, index) => { return `label-z-${index}`; });
+    const labelsXEnter = labelsXUpdate.enter().append('text').append('textPath')
+      .attr('class', 'label label-x')
+      .attr('href', (datum, index) => { return `#label-x-${index}`; })
+      .attr('startOffset', '100%');
+    const labelsYEnter = labelsYUpdate.enter().append('text').append('textPath')
+      .attr('class', 'label label-y')
+      .attr('href', (datum, index) => { return `#label-y-${index}`; })
+      .attr('startOffset', '100%');
+    const labelsZEnter = labelsZUpdate.enter().append('text').append('textPath')
+      .attr('class', 'label label-z')
+      .attr('href', (datum, index) => { return `#label-z-${index}`; })
+      .attr('startOffset', '100%');
+    //  MERGE
+    const labelPathsXMerge = labelPathsXEnter.merge(labelPathsXUpdate)
+      .attr('d', lineStrips3D.draw);
+    const labelPathsYMerge = labelPathsYEnter.merge(labelPathsYUpdate)
+      .attr('d', lineStrips3D.draw);
+    const labelPathsZMerge = labelPathsZEnter.merge(labelPathsZUpdate)
+      .attr('d', lineStrips3D.draw);
+    const labelsXMerge = labelsXEnter.merge(labelsXUpdate)
+      .text((datum) => { return datum[0].label; });
+    const labelsYMerge = labelsYEnter.merge(labelsYUpdate)
+      .text((datum) => { return datum[0].label; });
+    const labelsZMerge = labelsZEnter.merge(labelsZUpdate)
+      .text((datum) => { return datum[0].label; });
+    // EXIT
+    labelPathsXMerge.exit().remove();
+    labelPathsYMerge.exit().remove();
+    labelPathsZMerge.exit().remove();
+    labelsXMerge.exit().remove();
+    labelsYMerge.exit().remove();
+    labelsZMerge.exit().remove();
+
+    /* ----------- GRID ----------- */
+    // const xGrid = svg.selectAll('path.grid').data(data[0], key);
+    // xGrid
+    //   .enter()
+    //   .append('path')
+    //   .attr('class', 'd3-3d grid')
+    //   .merge(xGrid)
+    //   .attr('stroke', 'black')
+    //   .attr('stroke-width', 0.3)
+    //   .attr('fill', (d) => { return (d.ccw ? '#eee' : '#aaa'); })
+    //   .attr('fill-opacity', 0.9)
+    //   .attr('d', grid3d.draw);
+    // xGrid.exit().remove();
+
+    /* ----------- POINTS ----------- */
+    // const points = svg.selectAll('circle').data(data[1], key);
+    // points
+    //   .enter()
+    //   .append('circle')
+    //   .attr('class', 'd3-3d')
+    //   .attr('opacity', 0)
+    //   .attr('cx', posPointX)
+    //   .attr('cy', posPointY)
+    //   .merge(points)
+    //   .transition()
+    //   .duration(tt)
+    //   .attr('r', 3)
+    //   .attr('stroke', (d) => { return d3.color(colorScale(d.id)).darker(3); })
+    //   .attr('fill', (d) => { return colorScale(d.id); })
+    //   .attr('opacity', 1)
+    //   .attr('cx', posPointX)
+    //   .attr('cy', posPointY);
+    // points.exit().remove();
+
+    // Depth sorting
+    d3.select(this.renderRoot).selectAll('.d3-3d').sort(points3d.sort);
 
     this.firstUpdate = false;
   }
 }
 
 customElements.define('decision-space', DecisionSpace);
+
+
+// //////////////////////////////////////////////////////////////////
+// if (this.surface) {
+//   data.push(
+//     {
+//       name: 'Decision Boundary',
+//       type: 'isosurface',
+//       x: this.decisionSpace.xs,
+//       y: this.decisionSpace.xw,
+//       z: this.decisionSpace.pw,
+//       value: this.decisionSpace.uDiff,
+//       coloraxis: 'coloraxis',
+//       isomin: 0,
+//       isomax: 0,
+//       opacity: 0.5,
+//     },
+//     {
+//       name: 'Difference in Subjective Utility',
+//       type: 'isosurface',
+//       x: this.decisionSpace.xs,
+//       y: this.decisionSpace.xw,
+//       z: this.decisionSpace.pw,
+//       value: this.decisionSpace.uDiff,
+//       caps: {
+//         x: {show: false},
+//         y: {show: false},
+//         z: {show: false},
+//       },
+//       coloraxis: 'coloraxis',
+//       isomin: -30,
+//       isomax: 30,
+//       showscale: false,
+//       slices: {
+//         x: {show: true, locations: [this.range.xs.stop]},
+//         y: {show: true, locations: [this.range.xw.stop]},
+//         z: {show: true, locations: [this.range.pw.start]},
+//       },
+//       surface: {show: false},
+//     },
+//   );
+// }
+
+// data.push(
+//   {
+//     name: 'Current Decision',
+//     type: 'scatter3d',
+//     x: this.pointList.xs,
+//     y: this.pointList.xw,
+//     z: this.pointList.pw,
+//     mode: 'markers',
+//     marker: {
+//       color: this.pointList.response,
+//       coloraxis: 'coloraxis2',
+//       line: {
+//         color: colorElementEmphasis,
+//         width: 2,
+//       },
+//       size: 6,
+//     },
+//   },
+// );
+
+// const layout = {
+//   coloraxis: {
+//     cmin: -30,
+//     cmax: 30,
+//     colorbar: {
+//       title: {
+//         font: {
+//           size: this.rem * 1.125,
+//         },
+//         text: 'Difference in Utility (Gamble - Sure)',
+//         side: 'right',
+//       },
+//       thickness: 16,
+//       ypad: 32,
+//     },
+//     colorscale: [
+//       [0, 'rgb(35, 35, 104)'],
+//       [0.35, 'rgb(69,69,208)'],
+//       [0.5, 'rgb(190,190,190)'],
+//       [0.65, 'rgb(240,50,230)'],
+//       [1, 'rgb(120,25,115)'],
+//     ],
+//   },
+//   coloraxis2: {
+//     cmin: 0,
+//     cmax: 1,
+//     colorscale: [
+//       [0, colorWorse],
+//       [0.01, colorWorse],
+//       [0.24, colorNr],
+//       [0.26, colorNr],
+//       [0.74, colorElementEmphasis],
+//       [0.76, colorElementEmphasis],
+//       [0.99, colorBetter],
+//       [1, colorBetter],
+//     ],
+//     showscale: false,
+//   },
+//   margin: {t: 0, l: 0, b: 0},
+//   scene: {
+//     camera: {
+//       center: {
+//         x: 0,
+//         y: 0.1,
+//         z: -0.2,
+//       },
+//       eye: {
+//         x: -2.5 * 0.8,
+//         y: -1 * 0.8,
+//         z: 1 * 0.8,
+//       },
+//     },
+//     xaxis: {
+//       backgroundcolor: colorElementBackground,
+//     },
+//     yaxis: {
+//       backgroundcolor: colorElementBackground,
+//     },
+//     zaxis: {
+//       backgroundcolor: colorElementBackground,
+//     },
+//   },
+// };
+
+// //////////////////////////////////////////////////////////////////
