@@ -2,18 +2,11 @@
 import {css, html} from 'lit';
 import * as d3 from 'd3';
 import * as d33d from 'd3-3d';
-import * as Plotly from 'plotly.js/lib/core';
-import * as PlotlyIsoSurface from 'plotly.js/lib/isosurface';
-import * as PlotlyScatter3d from 'plotly.js/lib/scatter3d';
-import plotlyStyle from 'plotly.js/src/css/style.scss';
 
 import CPTMath from '@decidables/prospectable-math';
 import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
 
 import ProspectableElement from '../prospectable-element';
-
-// Load in the needed trace type
-Plotly.register([PlotlyIsoSurface, PlotlyScatter3d]);
 
 /*
   DecisionSpace element
@@ -129,14 +122,6 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       },
     ];
 
-    // Constants for categorical color codes
-    this.GAMBLE = 0;
-    this.SURE = 1;
-    this.NR = 0.25;
-    this.DEFAULT = 0.75;
-
-    this.pointList = [];
-
     this.range = {};
     this.range.xs = {start: 5, stop: 15, step: 0.5}; // Sure Value
     this.range.xw = {start: 10, stop: 30, step: 1}; // Gamble Win Value
@@ -176,32 +161,6 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       this.response = this.choices[0].response;
     }
 
-    this.pointList = {
-      xw: [],
-      pw: [],
-      xs: [],
-      response: [],
-      label: [],
-    };
-    this.choices.forEach((item, index) => {
-      if (((index === 0) && (this.point === 'first' || this.point === 'all'))
-        || ((index > 0) && (this.point === 'rest' || this.point === 'all'))) {
-        this.pointList.xw.push(item.xw);
-        this.pointList.pw.push(item.pw);
-        this.pointList.xs.push(item.xs);
-        this.pointList.response.push(
-          (item.response === 'gamble')
-            ? this.GAMBLE
-            : (item.response === 'sure')
-              ? this.SURE
-              : (item.response === 'nr')
-                ? this.NR
-                : this.DEFAULT,
-        );
-        this.pointList.label.push(item.label);
-      }
-    });
-
     this.decisionSpace = {
       xs: [],
       xw: [],
@@ -229,30 +188,17 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
     // /////////////////////////////
     const xGrid = [];
-    const scatter = [];
 
     const j = 10;
-    let cnt = 0;
 
     for (let z = -j; z < j; z += 1) {
       for (let x = -j; x < j; x += 1) {
         xGrid.push({x: x, y: 1, z: z});
-        scatter.push({
-          x: x,
-          y: d3.randomUniform(0, -10)(),
-          z: z,
-          id: `point-${cnt}`,
-        });
-        cnt += 1;
       }
     }
 
     this.data = {
       xGrid,
-      scatter,
-      // grid3d(xGrid),
-      // points3d(scatter),
-      // yScale3d([yLine]),
     };
   }
 
@@ -304,7 +250,6 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
   static get styles() {
     return [
       super.styles,
-      plotlyStyle,
       css`
         :host {
           display: inline-block;
@@ -353,14 +298,31 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
           alignment-baseline: middle;
           text-anchor: middle;
         }
+
+        .point {
+          fill: var(---color-better);
+          stroke: var(---color-element-emphasis);
+          stroke-width: 1;
+          r: 6px;
+        }
+
+        .point.sure {
+          fill: var(---color-better);
+        }
+
+        .point.gamble {
+          fill: var(---color-worse);
+        }
+
+        .point.nr {
+          fill: var(---color-nr);
+        }
       `,
     ];
   }
 
   render() { /* eslint-disable-line class-methods-use-this */
     return html`
-      <!-- <div class="plotly"></div> -->
-      <!-- <svg></svg> -->
     `;
   }
 
@@ -401,26 +363,23 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
     const startOrigin = {x: margin.left, y: elementSize - margin.bottom};
     const startScale = 1;
-    // const key = (d) => { return d.id; };
     const startRotationX = -Math.PI / 8;
     const startRotationY = -Math.PI / 8;
     const startRotationZ = 0;
-    // const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
-
-    // function posPointX(d) {
-    //   return d.projected.x;
-    // }
-
-    // function posPointY(d) {
-    //   return d.projected.y;
-    // }
 
     const lineStrips3D = d33d.lineStrips3D()
       .origin(startOrigin)
+      .scale(startScale)
       .rotateX(startRotationX + this.rotationX)
       .rotateY(startRotationY + this.rotationY)
-      .rotateZ(startRotationZ)
-      .scale(startScale);
+      .rotateZ(startRotationZ);
+
+    const points3d = d33d.points3D()
+      .origin(startOrigin)
+      .scale(startScale)
+      .rotateX(startRotationX + this.rotationX)
+      .rotateY(startRotationY + this.rotationY)
+      .rotateZ(startRotationZ);
 
     // const grid3d = d33d.gridPlanes3D()
     //   .rows(20)
@@ -428,13 +387,6 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     //   .rotateY(startAngle)
     //   .rotateX(-startAngle)
     //   .scale(scale);
-
-    const points3d = d33d.points3D()
-      .origin(startOrigin)
-      .rotateX(startRotationX)
-      .rotateY(startRotationY)
-      .rotateZ(startRotationZ)
-      .scale(startScale);
 
     // SVG Drag behaviors
     const svgDrag = d3.drag()
@@ -503,24 +455,27 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
     // Axes
     //  DATA-JOIN
-    const axisXUpdate = svgMerge.selectAll('.axis-x').data(
-      lineStrips3D
-        .x((datum) => { return datum.x; })
-        .y(() => { return 0; })
-        .z(() => { return 0; })(xAxis),
-    );
-    const axisYUpdate = svgMerge.selectAll('.axis-y').data(
-      lineStrips3D
-        .x(() => { return 0; })
-        .y((datum) => { return datum.y; })
-        .z(() => { return 0; })(yAxis),
-    );
-    const axisZUpdate = svgMerge.selectAll('.axis-z').data(
-      lineStrips3D
-        .x(() => { return 0; })
-        .y(() => { return 0; })
-        .z((datum) => { return datum.z; })(zAxis),
-    );
+    const axisXUpdate = svgMerge.selectAll('.axis-x')
+      .data(
+        lineStrips3D
+          .x((datum) => { return datum.x; })
+          .y(() => { return 0; })
+          .z(() => { return 0; })(xAxis),
+      );
+    const axisYUpdate = svgMerge.selectAll('.axis-y')
+      .data(
+        lineStrips3D
+          .x(() => { return 0; })
+          .y((datum) => { return datum.y; })
+          .z(() => { return 0; })(yAxis),
+      );
+    const axisZUpdate = svgMerge.selectAll('.axis-z')
+      .data(
+        lineStrips3D
+          .x(() => { return 0; })
+          .y(() => { return 0; })
+          .z((datum) => { return datum.z; })(zAxis),
+      );
     //  ENTER
     const axisXEnter = axisXUpdate.enter().append('path')
       .attr('class', 'd3-3d axis axis-x');
@@ -542,42 +497,48 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
     // Axis Titles
     //  DATA-JOIN
-    const titlePathXUpdate = svgMerge.selectAll('.title-path-x').data(
-      lineStrips3D
-        .x((datum) => {
-          return datum.id === 'min' ? datum.x - this.rem * 20 : datum.x + this.rem * 20;
-        })
-        .y(() => { return this.rem * 1.75; })
-        .z(() => { return this.rem * 1.75; })(xAxis),
-    );
-    const titlePathYUpdate = svgMerge.selectAll('.title-path-y').data(
-      lineStrips3D
-        .x(() => { return -this.rem * 1.75; })
-        .y((datum) => {
-          return datum.id === 'min' ? datum.y + this.rem * 20 : datum.y - this.rem * 20;
-        })
-        .z(() => { return this.rem * 1.75; })(yAxis),
-    );
-    const titlePathZUpdate = svgMerge.selectAll('.title-path-z').data(
-      lineStrips3D
-        .x(() => { return -this.rem * 1.75; })
-        .y(() => { return this.rem * 1.75; })
-        .z((datum) => {
-          return datum.id === 'min' ? datum.z + this.rem * 20 : datum.z - this.rem * 20;
-        })(zAxis),
-    );
-    const titleXUpdate = svgMerge.selectAll('.title-x').data(
-      xAxis,
-      (datum) => { return datum[0].title; },
-    );
-    const titleYUpdate = svgMerge.selectAll('.title-y').data(
-      yAxis,
-      (datum) => { return datum[0].title; },
-    );
-    const titleZUpdate = svgMerge.selectAll('.title-z').data(
-      zAxis,
-      (datum) => { return datum[0].title; },
-    );
+    const titlePathXUpdate = svgMerge.selectAll('.title-path-x')
+      .data(
+        lineStrips3D
+          .x((datum) => {
+            return datum.id === 'min' ? datum.x - this.rem * 20 : datum.x + this.rem * 20;
+          })
+          .y(() => { return this.rem * 1.75; })
+          .z(() => { return this.rem * 1.75; })(xAxis),
+      );
+    const titlePathYUpdate = svgMerge.selectAll('.title-path-y')
+      .data(
+        lineStrips3D
+          .x(() => { return -this.rem * 1.75; })
+          .y((datum) => {
+            return datum.id === 'min' ? datum.y + this.rem * 20 : datum.y - this.rem * 20;
+          })
+          .z(() => { return this.rem * 1.75; })(yAxis),
+      );
+    const titlePathZUpdate = svgMerge.selectAll('.title-path-z')
+      .data(
+        lineStrips3D
+          .x(() => { return -this.rem * 1.75; })
+          .y(() => { return this.rem * 1.75; })
+          .z((datum) => {
+            return datum.id === 'min' ? datum.z + this.rem * 20 : datum.z - this.rem * 20;
+          })(zAxis),
+      );
+    const titleXUpdate = svgMerge.selectAll('.title-x')
+      .data(
+        xAxis,
+        (datum) => { return datum[0].title; },
+      );
+    const titleYUpdate = svgMerge.selectAll('.title-y')
+      .data(
+        yAxis,
+        (datum) => { return datum[0].title; },
+      );
+    const titleZUpdate = svgMerge.selectAll('.title-z')
+      .data(
+        zAxis,
+        (datum) => { return datum[0].title; },
+      );
     //  ENTER
     const titlePathXEnter = titlePathXUpdate.enter().append('path')
       .attr('class', 'd3-3d title-path title-path-x')
@@ -644,24 +605,27 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
     // Axis Ticks
     //  DATA-JOIN
-    const ticksXUpdate = svgMerge.selectAll('.tick-x').data(
-      lineStrips3D
-        .x((datum) => { return datum.x; })
-        .y((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })
-        .z((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })(xTicks),
-    );
-    const ticksYUpdate = svgMerge.selectAll('.tick-y').data(
-      lineStrips3D
-        .x((datum) => { return datum.id === 'min' ? 0 : -this.rem * 0.35; })
-        .y((datum) => { return datum.y; })
-        .z((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })(yTicks),
-    );
-    const ticksZUpdate = svgMerge.selectAll('.tick-z').data(
-      lineStrips3D
-        .x((datum) => { return datum.id === 'min' ? 0 : -this.rem * 0.35; })
-        .y((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })
-        .z((datum) => { return datum.z; })(zTicks),
-    );
+    const ticksXUpdate = svgMerge.selectAll('.tick-x')
+      .data(
+        lineStrips3D
+          .x((datum) => { return datum.x; })
+          .y((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })
+          .z((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })(xTicks),
+      );
+    const ticksYUpdate = svgMerge.selectAll('.tick-y')
+      .data(
+        lineStrips3D
+          .x((datum) => { return datum.id === 'min' ? 0 : -this.rem * 0.35; })
+          .y((datum) => { return datum.y; })
+          .z((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })(yTicks),
+      );
+    const ticksZUpdate = svgMerge.selectAll('.tick-z')
+      .data(
+        lineStrips3D
+          .x((datum) => { return datum.id === 'min' ? 0 : -this.rem * 0.35; })
+          .y((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })
+          .z((datum) => { return datum.z; })(zTicks),
+      );
     //  ENTER
     const ticksXEnter = ticksXUpdate.enter().append('path')
       .attr('class', 'd3-3d tick tick-x');
@@ -683,39 +647,45 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
     // Axis Tick Labels
     //  DATA-JOIN
-    const labelPathsXUpdate = svgMerge.selectAll('.label-path-x').data(
-      lineStrips3D
-        .x((datum) => { return datum.x; })
-        .y((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })
-        .z((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })(xTicks),
-      (datum) => { return datum[0].label; },
-    );
-    const labelPathsYUpdate = svgMerge.selectAll('.label-path-y').data(
-      lineStrips3D
-        .x((datum) => { return datum.id === 'min' ? -this.rem * 0.5 : -this.rem * 4; })
-        .y((datum) => { return datum.y; })
-        .z((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })(yTicks),
-      (datum) => { return datum[0].label; },
-    );
-    const labelPathsZUpdate = svgMerge.selectAll('.label-path-z').data(
-      lineStrips3D
-        .x((datum) => { return datum.id === 'min' ? -this.rem * 0.5 : -this.rem * 4; })
-        .y((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })
-        .z((datum) => { return datum.z; })(zTicks),
-      (datum) => { return datum[0].label; },
-    );
-    const labelsXUpdate = svgMerge.selectAll('.label-x').data(
-      xTicks,
-      (datum) => { return datum[0].label; },
-    );
-    const labelsYUpdate = svgMerge.selectAll('.label-y').data(
-      yTicks,
-      (datum) => { return datum[0].label; },
-    );
-    const labelsZUpdate = svgMerge.selectAll('.label-z').data(
-      zTicks,
-      (datum) => { return datum[0].label; },
-    );
+    const labelPathsXUpdate = svgMerge.selectAll('.label-path-x')
+      .data(
+        lineStrips3D
+          .x((datum) => { return datum.x; })
+          .y((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })
+          .z((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })(xTicks),
+        (datum) => { return datum[0].label; },
+      );
+    const labelPathsYUpdate = svgMerge.selectAll('.label-path-y')
+      .data(
+        lineStrips3D
+          .x((datum) => { return datum.id === 'min' ? -this.rem * 0.5 : -this.rem * 4; })
+          .y((datum) => { return datum.y; })
+          .z((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })(yTicks),
+        (datum) => { return datum[0].label; },
+      );
+    const labelPathsZUpdate = svgMerge.selectAll('.label-path-z')
+      .data(
+        lineStrips3D
+          .x((datum) => { return datum.id === 'min' ? -this.rem * 0.5 : -this.rem * 4; })
+          .y((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })
+          .z((datum) => { return datum.z; })(zTicks),
+        (datum) => { return datum[0].label; },
+      );
+    const labelsXUpdate = svgMerge.selectAll('.label-x')
+      .data(
+        xTicks,
+        (datum) => { return datum[0].label; },
+      );
+    const labelsYUpdate = svgMerge.selectAll('.label-y')
+      .data(
+        yTicks,
+        (datum) => { return datum[0].label; },
+      );
+    const labelsZUpdate = svgMerge.selectAll('.label-z')
+      .data(
+        zTicks,
+        (datum) => { return datum[0].label; },
+      );
     //  ENTER
     const labelPathsXEnter = labelPathsXUpdate.enter().append('path')
       .attr('class', 'd3-3d label-path label-path-x')
@@ -773,25 +743,31 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     //   .attr('d', grid3d.draw);
     // xGrid.exit().remove();
 
-    /* ----------- POINTS ----------- */
-    // const points = svg.selectAll('circle').data(data[1], key);
-    // points
-    //   .enter()
-    //   .append('circle')
-    //   .attr('class', 'd3-3d')
-    //   .attr('opacity', 0)
-    //   .attr('cx', posPointX)
-    //   .attr('cy', posPointY)
-    //   .merge(points)
-    //   .transition()
-    //   .duration(tt)
-    //   .attr('r', 3)
-    //   .attr('stroke', (d) => { return d3.color(colorScale(d.id)).darker(3); })
-    //   .attr('fill', (d) => { return colorScale(d.id); })
-    //   .attr('opacity', 1)
-    //   .attr('cx', posPointX)
-    //   .attr('cy', posPointY);
-    // points.exit().remove();
+    // Points
+    //  DATA-JOIN
+    const pointsUpdate = svgMerge.selectAll('.point')
+      .data(
+        points3d
+          .x((datum) => { return xScale(datum.xs); })
+          .y((datum) => { return yScale(datum.pw); })
+          .z((datum) => { return zScale(datum.xw); })(
+            this.choices.slice(
+              this.point === 'rest' ? 1 : 0,
+              this.point === 'first' ? 1 : undefined,
+            ),
+          ),
+        (datum) => { return datum.name; },
+      );
+    //  ENTER
+    const pointsEnter = pointsUpdate.enter().append('circle')
+      .attr('class', 'd3-3d point');
+    //  MERGE
+    pointsEnter.merge(pointsUpdate)
+      .attr('class', (datum) => { return `d3-3d point ${datum.response}`; })
+      .attr('cx', (datum) => { return datum.projected.x; })
+      .attr('cy', (datum) => { return datum.projected.y; });
+    //  EXIT
+    pointsUpdate.exit().remove();
 
     // Depth sorting
     d3.select(this.renderRoot).selectAll('.d3-3d').sort(points3d.sort);
@@ -844,26 +820,6 @@ customElements.define('decision-space', DecisionSpace);
 //   );
 // }
 
-// data.push(
-//   {
-//     name: 'Current Decision',
-//     type: 'scatter3d',
-//     x: this.pointList.xs,
-//     y: this.pointList.xw,
-//     z: this.pointList.pw,
-//     mode: 'markers',
-//     marker: {
-//       color: this.pointList.response,
-//       coloraxis: 'coloraxis2',
-//       line: {
-//         color: colorElementEmphasis,
-//         width: 2,
-//       },
-//       size: 6,
-//     },
-//   },
-// );
-
 // const layout = {
 //   coloraxis: {
 //     cmin: -30,
@@ -886,21 +842,6 @@ customElements.define('decision-space', DecisionSpace);
 //       [0.65, 'rgb(240,50,230)'],
 //       [1, 'rgb(120,25,115)'],
 //     ],
-//   },
-//   coloraxis2: {
-//     cmin: 0,
-//     cmax: 1,
-//     colorscale: [
-//       [0, colorWorse],
-//       [0.01, colorWorse],
-//       [0.24, colorNr],
-//       [0.26, colorNr],
-//       [0.74, colorElementEmphasis],
-//       [0.76, colorElementEmphasis],
-//       [0.99, colorBetter],
-//       [1, colorBetter],
-//     ],
-//     showscale: false,
 //   },
 //   margin: {t: 0, l: 0, b: 0},
 //   scene: {
