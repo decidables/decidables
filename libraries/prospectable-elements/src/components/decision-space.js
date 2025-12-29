@@ -127,8 +127,10 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     this.range.xw = {start: 10, stop: 30, step: 1}; // Gamble Win Value
     this.range.pw = {start: 0, stop: 1, step: 0.05}; // Gamble Win Probability
 
-    this.decisionSpace = [];
-
+    this.boundary = [];
+    this.mapXY = [];
+    this.mapXZ = [];
+    this.mapYZ = [];
 
     this.rotationX = 0;
     this.rotationY = 0;
@@ -136,7 +138,6 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     this.my = 0;
     this.mouseX = 0;
     this.mouseY = 0;
-
 
     this.alignState();
   }
@@ -161,45 +162,88 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       this.response = this.choices[0].response;
     }
 
-    this.decisionSpace = {
-      xs: [],
-      xw: [],
-      pw: [],
-      uDiff: [],
-    };
-    d3.range(this.range.xs.start, this.range.xs.stop + 0.01, this.range.xs.step)
-      .forEach((xs) => {
-        d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step)
-          .forEach((xw) => {
-            d3.range(this.range.pw.start, this.range.pw.stop + 0.01, this.range.pw.step)
-              .forEach((pw) => {
-                this.decisionSpace.xs.push(xs);
-                this.decisionSpace.xw.push(xw);
-                this.decisionSpace.pw.push(pw);
+    function diff(xw, xl, pw, xs, a, l, g) {
+      return CPTMath.xal2v(xw, a, l) * CPTMath.pg2w(pw, g) // Win
+        + CPTMath.xal2v(xl, a, l) * (1 - CPTMath.pg2w(pw, g)) // Loss
+        - CPTMath.xal2v(xs, a, l); // Sure
+    }
 
-                const uDiff = CPTMath.xal2v(xw, this.a, this.l) * CPTMath.pg2w(pw, this.g) // Win
-                  + CPTMath.xal2v(this.xl, this.a, this.l) * (1 - CPTMath.pg2w(pw, this.g)) // Loss
-                  - CPTMath.xal2v(xs, this.a, this.l); // Sure
-
-                this.decisionSpace.uDiff.push(uDiff);
-              });
+    // For each combination of xs and xw, find the xp using bisection method
+    this.boundary = d3.range(this.range.xs.start, this.range.xs.stop + 0.01, this.range.xs.step)
+      .flatMap((xs) => {
+        return d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step)
+          .map((xw) => {
+            let lowP = 0;
+            let highP = 1;
+            let midP = 0.5;
+            const lowDiff = diff(xw, this.xl, lowP, xs, this.a, this.l, this.g);
+            const highDiff = diff(xw, this.xl, highP, xs, this.a, this.l, this.g);
+            let midDiff;
+            if (lowDiff > 0) {
+              midP = -0.1;
+            } else if (highDiff < 0) {
+              midP = 1.1;
+            } else {
+              d3.range(0, 10, 1)
+                .forEach(() => {
+                  midDiff = diff(xw, this.xl, midP, xs, this.a, this.l, this.g);
+                  if (midDiff < 0) {
+                    lowP = midP;
+                  } else {
+                    highP = midP;
+                  }
+                  midP = (highP - lowP) / 2 + lowP;
+                });
+            }
+            return {xw, xs, pw: midP};
+            // console.log(`xw: ${xw}, xs: ${xs}, pw: ${midP}, diff: ${midDiff}`);
           });
       });
 
-    // /////////////////////////////
-    const xGrid = [];
+    const xwConst = this.range.xw.stop;
+    this.mapXY = d3.range(this.range.xs.start, this.range.xs.stop + 0.01, this.range.xs.step)
+      .flatMap((xs) => {
+        return d3.range(this.range.pw.start, this.range.pw.stop + 0.01, this.range.pw.step)
+          .map((pw) => {
+            const uDiff = diff(xwConst, this.xl, pw, xs, this.a, this.l, this.g);
+            return {
+              xw: xwConst,
+              xs,
+              pw,
+              uDiff,
+            };
+          });
+      });
 
-    const j = 10;
+    const pwConst = this.range.pw.start;
+    this.mapXZ = d3.range(this.range.xs.start, this.range.xs.stop + 0.01, this.range.xs.step)
+      .flatMap((xs) => {
+        return d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step)
+          .map((xw) => {
+            const uDiff = diff(xw, this.xl, pwConst, xs, this.a, this.l, this.g);
+            return {
+              xw,
+              xs,
+              pw: pwConst,
+              uDiff,
+            };
+          });
+      });
 
-    for (let z = -j; z < j; z += 1) {
-      for (let x = -j; x < j; x += 1) {
-        xGrid.push({x: x, y: 1, z: z});
-      }
-    }
-
-    this.data = {
-      xGrid,
-    };
+    const xsConst = this.range.xs.start;
+    this.mapYZ = d3.range(this.range.pw.start, this.range.pw.stop + 0.01, this.range.pw.step)
+      .flatMap((pw) => {
+        return d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step)
+          .map((xw) => {
+            const uDiff = diff(xw, this.xl, pw, xsConst, this.a, this.l, this.g);
+            return {
+              xw,
+              xs: xsConst,
+              pw,
+              uDiff,
+            };
+          });
+      });
   }
 
   clear() {
@@ -280,27 +324,31 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
           stroke-width: 1;
         }
 
-        .tick {
-          stroke: var(---color-element-border);
-          stroke-width: 1;
-        }
-
-        .label {
-          font-size: 0.75rem;
-
-          alignment-baseline: middle;
-          text-anchor: end;
-        }
-
-        .title {
+        .title textPath {
           font-weight: 600;
 
           alignment-baseline: middle;
           text-anchor: middle;
         }
 
+        .tick {
+          stroke: var(---color-element-border);
+          stroke-width: 1;
+        }
+
+        .label textPath {
+          font-size: 0.75rem;
+
+          alignment-baseline: middle;
+          text-anchor: end;
+        }
+
+        .label-z textPath {
+          text-anchor: start;
+        }
+
         .point {
-          fill: var(---color-better);
+          fill: var(---color-element-background);
           stroke: var(---color-element-emphasis);
           stroke-width: 1;
           r: 6px;
@@ -316,6 +364,18 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
         .point.nr {
           fill: var(---color-nr);
+        }
+
+        .boundary {
+          fill: var(---color-element-background);
+          fill-opacity: 0.7;
+          stroke: var(---color-element-background);
+          stroke-opacity: 1;
+          stroke-width: 0.5;
+        }
+
+        .map {
+          stroke-width: 0.5;
         }
       `,
     ];
@@ -343,10 +403,10 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     const elementSize = Math.min(elementWidth, elementHeight);
 
     const margin = {
-      top: 1 * this.rem,
-      bottom: 4 * this.rem,
-      left: 1 * this.rem,
-      right: 4 * this.rem,
+      top: 3 * this.rem,
+      bottom: 5 * this.rem,
+      left: 2 * this.rem,
+      right: 6 * this.rem,
     };
     const height = elementSize - (margin.top + margin.bottom);
     const width = elementSize - (margin.left + margin.right);
@@ -356,13 +416,37 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     //   10,
     // );
 
-    // const colorElementEmphasis = this.getComputedStyleValue('---color-element-emphasis');
-    // const colorWorse = this.getComputedStyleValue('---color-worse');
-    // const colorBetter = this.getComputedStyleValue('---color-better');
-    // const colorNr = this.getComputedStyleValue('---color-nr');
+    // Scales
+    const xScale = d3.scaleLinear()
+      .domain([this.range.xs.start, this.range.xs.stop])
+      .range([0, width]);
+    this.xScale = xScale;
+    const yScale = d3.scaleLinear()
+      .domain([this.range.pw.start, this.range.pw.stop])
+      .range([0, -height]);
+    this.yScale = yScale;
+    const zScale = d3.scaleLinear()
+      .domain([this.range.xw.start, this.range.xw.stop])
+      .range([0, -height]);
+    this.zScale = zScale;
+    const colorBetterDark = this.getComputedStyleValue('---color-better-dark');
+    const colorBetter = this.getComputedStyleValue('---color-better');
+    const colorNr = this.getComputedStyleValue('---color-nr');
+    const colorWorse = this.getComputedStyleValue('---color-worse');
+    const colorWorseDark = this.getComputedStyleValue('---color-worse-dark');
+    const colorScale = d3.scaleDiverging(
+      [-30, 0, 30],
+      d3.piecewise([colorBetterDark, colorBetter, colorNr, colorWorse, colorWorseDark]),
+    );
 
+    // 3D Shapes
     const startOrigin = {x: margin.left, y: elementSize - margin.bottom};
     const startScale = 1;
+    const startRotationCenter = {
+      x: xScale((this.range.xs.start + this.range.xs.stop) / 2),
+      y: yScale((this.range.pw.start + this.range.pw.stop) / 2),
+      z: zScale((this.range.xw.start + this.range.xw.stop) / 2),
+    };
     const startRotationX = -Math.PI / 8;
     const startRotationY = -Math.PI / 8;
     const startRotationZ = 0;
@@ -370,6 +454,7 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     const lineStrips3D = d33d.lineStrips3D()
       .origin(startOrigin)
       .scale(startScale)
+      .rotationCenter(startRotationCenter)
       .rotateX(startRotationX + this.rotationX)
       .rotateY(startRotationY + this.rotationY)
       .rotateZ(startRotationZ);
@@ -377,16 +462,18 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     const points3d = d33d.points3D()
       .origin(startOrigin)
       .scale(startScale)
+      .rotationCenter(startRotationCenter)
       .rotateX(startRotationX + this.rotationX)
       .rotateY(startRotationY + this.rotationY)
       .rotateZ(startRotationZ);
 
-    // const grid3d = d33d.gridPlanes3D()
-    //   .rows(20)
-    //   .origin(origin)
-    //   .rotateY(startAngle)
-    //   .rotateX(-startAngle)
-    //   .scale(scale);
+    const grid3d = d33d.gridPlanes3D()
+      .origin(startOrigin)
+      .scale(startScale)
+      .rotationCenter(startRotationCenter)
+      .rotateX(startRotationX + this.rotationX)
+      .rotateY(startRotationY + this.rotationY)
+      .rotateZ(startRotationZ);
 
     // SVG Drag behaviors
     const svgDrag = d3.drag()
@@ -416,28 +503,10 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     //  ENTER
     const svgEnter = svgUpdate.enter().append('svg')
       .classed('main', true);
-      // .each((datum, index, nodes) => {
-      //   // Filters for shadows
-      //   render(ProspectableElement.svgFilters, nodes[index]);
-      // });
     //  MERGE
     const svgMerge = svgEnter.merge(svgUpdate)
       .attr('viewBox', `0 0 ${elementSize} ${elementSize}`)
       .call(svgDrag);
-
-    // Scales
-    const xScale = d3.scaleLinear()
-      .domain([this.range.xs.start, this.range.xs.stop])
-      .range([0, width]);
-    this.xScale = xScale;
-    const yScale = d3.scaleLinear()
-      .domain([this.range.pw.start, this.range.pw.stop])
-      .range([0, -height]);
-    this.yScale = yScale;
-    const zScale = d3.scaleLinear()
-      .domain([this.range.xw.start, this.range.xw.stop])
-      .range([0, -height]);
-    this.zScale = zScale;
 
     // Axis & Title Data
     const xAxis = [[
@@ -459,21 +528,21 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       .data(
         lineStrips3D
           .x((datum) => { return datum.x; })
-          .y(() => { return 0; })
-          .z(() => { return 0; })(xAxis),
+          .y(() => { return yScale.range()[0]; })
+          .z(() => { return zScale.range()[0]; })(xAxis),
       );
     const axisYUpdate = svgMerge.selectAll('.axis-y')
       .data(
         lineStrips3D
-          .x(() => { return 0; })
+          .x(() => { return xScale.range()[0]; })
           .y((datum) => { return datum.y; })
-          .z(() => { return 0; })(yAxis),
+          .z(() => { return zScale.range()[0]; })(yAxis),
       );
     const axisZUpdate = svgMerge.selectAll('.axis-z')
       .data(
         lineStrips3D
-          .x(() => { return 0; })
-          .y(() => { return 0; })
+          .x(() => { return xScale.range()[1]; })
+          .y(() => { return yScale.range()[0]; })
           .z((datum) => { return datum.z; })(zAxis),
       );
     //  ENTER
@@ -503,23 +572,23 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
           .x((datum) => {
             return datum.id === 'min' ? datum.x - this.rem * 20 : datum.x + this.rem * 20;
           })
-          .y(() => { return this.rem * 1.75; })
-          .z(() => { return this.rem * 1.75; })(xAxis),
+          .y(() => { return yScale.range()[0] + this.rem * 1.75; })
+          .z(() => { return zScale.range()[0] + this.rem * 1.75; })(xAxis),
       );
     const titlePathYUpdate = svgMerge.selectAll('.title-path-y')
       .data(
         lineStrips3D
-          .x(() => { return -this.rem * 1.75; })
+          .x(() => { return xScale.range()[0] - this.rem * 1.75; })
           .y((datum) => {
             return datum.id === 'min' ? datum.y + this.rem * 20 : datum.y - this.rem * 20;
           })
-          .z(() => { return this.rem * 1.75; })(yAxis),
+          .z(() => { return zScale.range()[0] + this.rem * 1.75; })(yAxis),
       );
     const titlePathZUpdate = svgMerge.selectAll('.title-path-z')
       .data(
         lineStrips3D
-          .x(() => { return -this.rem * 1.75; })
-          .y(() => { return this.rem * 1.75; })
+          .x(() => { return xScale.range()[1] + this.rem * 1.75; })
+          .y(() => { return yScale.range()[0] + this.rem * 1.75; })
           .z((datum) => {
             return datum.id === 'min' ? datum.z + this.rem * 20 : datum.z - this.rem * 20;
           })(zAxis),
@@ -549,16 +618,22 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     const titlePathZEnter = titlePathZUpdate.enter().append('path')
       .attr('class', 'd3-3d title-path title-path-z')
       .attr('id', 'title-z');
-    const titleXEnter = titleXUpdate.enter().append('text').append('textPath')
-      .attr('class', 'title title-x')
+    const titleXEnter = titleXUpdate.enter().append('text')
+      .attr('class', 'd3-3d title title-x');
+    titleXEnter
+      .append('textPath')
       .attr('href', '#title-x')
       .attr('startOffset', '50%');
-    const titleYEnter = titleYUpdate.enter().append('text').append('textPath')
-      .attr('class', 'title title-y')
+    const titleYEnter = titleYUpdate.enter().append('text')
+      .attr('class', 'd3-3d title title-y');
+    titleYEnter
+      .append('textPath')
       .attr('href', '#title-y')
       .attr('startOffset', '50%');
-    const titleZEnter = titleZUpdate.enter().append('text').append('textPath')
-      .attr('class', 'title title-z')
+    const titleZEnter = titleZUpdate.enter().append('text')
+      .attr('class', 'd3-3d title title-z');
+    titleZEnter
+      .append('textPath')
       .attr('href', '#title-z')
       .attr('startOffset', '50%');
     // MERGE
@@ -569,10 +644,13 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     const titlePathZMerge = titlePathZEnter.merge(titlePathZUpdate)
       .attr('d', lineStrips3D.draw);
     const titleXMerge = titleXEnter.merge(titleXUpdate)
+      .select('textPath')
       .text((datum) => { return datum[0].title; });
     const titleYMerge = titleYEnter.merge(titleYUpdate)
+      .select('textPath')
       .text((datum) => { return datum[0].title; });
     const titleZMerge = titleZEnter.merge(titleZUpdate)
+      .select('textPath')
       .text((datum) => { return datum[0].title; });
     // EXIT
     titlePathXMerge.exit().remove();
@@ -598,8 +676,8 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     });
     const zTicks = zScale.ticks(tickCount).map((tick) => {
       return [
-        {id: 'min', label: zScale.tickFormat()(tick), z: zScale(tick)},
-        {id: 'max', z: zScale(tick)},
+        {id: 'max', label: zScale.tickFormat()(tick), z: zScale(tick)},
+        {id: 'min', z: zScale(tick)},
       ];
     });
 
@@ -609,21 +687,33 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       .data(
         lineStrips3D
           .x((datum) => { return datum.x; })
-          .y((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })
-          .z((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })(xTicks),
+          .y((datum) => {
+            return datum.id === 'min' ? yScale.range()[0] : yScale.range()[0] + this.rem * 0.35;
+          })
+          .z((datum) => {
+            return datum.id === 'min' ? zScale.range()[0] : zScale.range()[0] + this.rem * 0.35;
+          })(xTicks),
       );
     const ticksYUpdate = svgMerge.selectAll('.tick-y')
       .data(
         lineStrips3D
-          .x((datum) => { return datum.id === 'min' ? 0 : -this.rem * 0.35; })
+          .x((datum) => {
+            return datum.id === 'min' ? xScale.range()[0] : xScale.range()[0] - this.rem * 0.35;
+          })
           .y((datum) => { return datum.y; })
-          .z((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })(yTicks),
+          .z((datum) => {
+            return datum.id === 'min' ? zScale.range()[0] : zScale.range()[0] + this.rem * 0.35;
+          })(yTicks),
       );
     const ticksZUpdate = svgMerge.selectAll('.tick-z')
       .data(
         lineStrips3D
-          .x((datum) => { return datum.id === 'min' ? 0 : -this.rem * 0.35; })
-          .y((datum) => { return datum.id === 'min' ? 0 : this.rem * 0.35; })
+          .x((datum) => {
+            return datum.id === 'min' ? xScale.range()[1] : xScale.range()[1] + this.rem * 0.35;
+          })
+          .y((datum) => {
+            return datum.id === 'min' ? yScale.range()[0] : yScale.range()[0] + this.rem * 0.35;
+          })
           .z((datum) => { return datum.z; })(zTicks),
       );
     //  ENTER
@@ -651,23 +741,47 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       .data(
         lineStrips3D
           .x((datum) => { return datum.x; })
-          .y((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })
-          .z((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })(xTicks),
+          .y((datum) => {
+            return datum.id === 'min'
+              ? yScale.range()[0] + this.rem * 0.5
+              : yScale.range()[0] + this.rem * 4;
+          })
+          .z((datum) => {
+            return datum.id === 'min'
+              ? zScale.range()[0] + this.rem * 0.5
+              : zScale.range()[0] + this.rem * 4;
+          })(xTicks),
         (datum) => { return datum[0].label; },
       );
     const labelPathsYUpdate = svgMerge.selectAll('.label-path-y')
       .data(
         lineStrips3D
-          .x((datum) => { return datum.id === 'min' ? -this.rem * 0.5 : -this.rem * 4; })
+          .x((datum) => {
+            return datum.id === 'min'
+              ? xScale.range()[0] - this.rem * 0.5
+              : xScale.range()[0] - this.rem * 4;
+          })
           .y((datum) => { return datum.y; })
-          .z((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })(yTicks),
+          .z((datum) => {
+            return datum.id === 'min'
+              ? zScale.range()[0] + this.rem * 0.5
+              : zScale.range()[0] + this.rem * 4;
+          })(yTicks),
         (datum) => { return datum[0].label; },
       );
     const labelPathsZUpdate = svgMerge.selectAll('.label-path-z')
       .data(
         lineStrips3D
-          .x((datum) => { return datum.id === 'min' ? -this.rem * 0.5 : -this.rem * 4; })
-          .y((datum) => { return datum.id === 'min' ? this.rem * 0.5 : this.rem * 4; })
+          .x((datum) => {
+            return datum.id === 'min'
+              ? xScale.range()[1] + this.rem * 0.5
+              : xScale.range()[1] + this.rem * 4;
+          })
+          .y((datum) => {
+            return datum.id === 'min'
+              ? yScale.range()[0] + this.rem * 0.5
+              : yScale.range()[0] + this.rem * 4;
+          })
           .z((datum) => { return datum.z; })(zTicks),
         (datum) => { return datum[0].label; },
       );
@@ -696,18 +810,24 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     const labelPathsZEnter = labelPathsZUpdate.enter().append('path')
       .attr('class', 'd3-3d label-path label-path-z')
       .attr('id', (datum, index) => { return `label-z-${index}`; });
-    const labelsXEnter = labelsXUpdate.enter().append('text').append('textPath')
-      .attr('class', 'label label-x')
+    const labelsXEnter = labelsXUpdate.enter().append('text')
+      .attr('class', 'd3-3d label label-x');
+    labelsXEnter
+      .append('textPath')
       .attr('href', (datum, index) => { return `#label-x-${index}`; })
       .attr('startOffset', '100%');
-    const labelsYEnter = labelsYUpdate.enter().append('text').append('textPath')
-      .attr('class', 'label label-y')
+    const labelsYEnter = labelsYUpdate.enter().append('text')
+      .attr('class', 'd3-3d label label-y');
+    labelsYEnter
+      .append('textPath')
       .attr('href', (datum, index) => { return `#label-y-${index}`; })
       .attr('startOffset', '100%');
-    const labelsZEnter = labelsZUpdate.enter().append('text').append('textPath')
-      .attr('class', 'label label-z')
+    const labelsZEnter = labelsZUpdate.enter().append('text')
+      .attr('class', 'd3-3d label label-z');
+    labelsZEnter
+      .append('textPath')
       .attr('href', (datum, index) => { return `#label-z-${index}`; })
-      .attr('startOffset', '100%');
+      .attr('startOffset', '0%');
     //  MERGE
     const labelPathsXMerge = labelPathsXEnter.merge(labelPathsXUpdate)
       .attr('d', lineStrips3D.draw);
@@ -716,10 +836,13 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     const labelPathsZMerge = labelPathsZEnter.merge(labelPathsZUpdate)
       .attr('d', lineStrips3D.draw);
     const labelsXMerge = labelsXEnter.merge(labelsXUpdate)
+      .select('textPath')
       .text((datum) => { return datum[0].label; });
     const labelsYMerge = labelsYEnter.merge(labelsYUpdate)
+      .select('textPath')
       .text((datum) => { return datum[0].label; });
     const labelsZMerge = labelsZEnter.merge(labelsZUpdate)
+      .select('textPath')
       .text((datum) => { return datum[0].label; });
     // EXIT
     labelPathsXMerge.exit().remove();
@@ -728,20 +851,6 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     labelsXMerge.exit().remove();
     labelsYMerge.exit().remove();
     labelsZMerge.exit().remove();
-
-    /* ----------- GRID ----------- */
-    // const xGrid = svg.selectAll('path.grid').data(data[0], key);
-    // xGrid
-    //   .enter()
-    //   .append('path')
-    //   .attr('class', 'd3-3d grid')
-    //   .merge(xGrid)
-    //   .attr('stroke', 'black')
-    //   .attr('stroke-width', 0.3)
-    //   .attr('fill', (d) => { return (d.ccw ? '#eee' : '#aaa'); })
-    //   .attr('fill-opacity', 0.9)
-    //   .attr('d', grid3d.draw);
-    // xGrid.exit().remove();
 
     // Points
     //  DATA-JOIN
@@ -769,6 +878,84 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     //  EXIT
     pointsUpdate.exit().remove();
 
+    // Decision Boundary
+    //  DATA-JOIN
+    const boundaryUpdate = svgMerge.selectAll('.boundary')
+      .data(
+        grid3d
+          .rows(d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step).length)
+          .x((datum) => { return xScale(datum.xs); })
+          .y((datum) => { return yScale(datum.pw); })
+          .z((datum) => { return zScale(datum.xw); })(this.boundary)
+          .filter((datum) => {
+            return (
+              (datum[0].pw >= 0 && datum[0].pw <= 1)
+              && (datum[1].pw >= 0 && datum[1].pw <= 1)
+              && (datum[2].pw >= 0 && datum[2].pw <= 1)
+              && (datum[3].pw >= 0 && datum[3].pw <= 1)
+            );
+          }),
+      );
+    //  ENTER
+    const boundaryEnter = boundaryUpdate.enter().append('path')
+      .attr('class', 'd3-3d boundary');
+    //  MERGE
+    boundaryEnter.merge(boundaryUpdate)
+      .attr('d', grid3d.draw);
+    //  EXIT
+    boundaryUpdate.exit().remove();
+
+    // Decision Maps
+    //  DATA-JOIN
+    const mapXYUpdate = svgMerge.selectAll('.map-xy')
+      .data(
+        grid3d
+          .rows(d3.range(this.range.pw.start, this.range.pw.stop + 0.01, this.range.pw.step).length)
+          .x((datum) => { return xScale(datum.xs); })
+          .y((datum) => { return yScale(datum.pw); })
+          .z((datum) => { return zScale(datum.xw); })(this.mapXY),
+      );
+    const mapXZUpdate = svgMerge.selectAll('.map-xz')
+      .data(
+        grid3d
+          .rows(d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step).length)
+          .x((datum) => { return xScale(datum.xs); })
+          .y((datum) => { return yScale(datum.pw); })
+          .z((datum) => { return zScale(datum.xw); })(this.mapXZ),
+      );
+    const mapYZUpdate = svgMerge.selectAll('.map-yz')
+      .data(
+        grid3d
+          .rows(d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step).length)
+          .x((datum) => { return xScale(datum.xs); })
+          .y((datum) => { return yScale(datum.pw); })
+          .z((datum) => { return zScale(datum.xw); })(this.mapYZ),
+      );
+    //  ENTER
+    const mapXYEnter = mapXYUpdate.enter().append('path')
+      .attr('class', 'd3-3d map map-xy');
+    const mapXZEnter = mapXZUpdate.enter().append('path')
+      .attr('class', 'd3-3d map map-xz');
+    const mapYZEnter = mapYZUpdate.enter().append('path')
+      .attr('class', 'd3-3d map map-yz');
+    //  MERGE
+    mapXYEnter.merge(mapXYUpdate)
+      .attr('d', grid3d.draw)
+      .attr('fill', (datum) => { return colorScale(datum[0].uDiff); })
+      .attr('stroke', (datum) => { return colorScale(datum[0].uDiff); });
+    mapXZEnter.merge(mapXZUpdate)
+      .attr('d', grid3d.draw)
+      .attr('fill', (datum) => { return colorScale(datum[0].uDiff); })
+      .attr('stroke', (datum) => { return colorScale(datum[0].uDiff); });
+    mapYZEnter.merge(mapYZUpdate)
+      .attr('d', grid3d.draw)
+      .attr('fill', (datum) => { return colorScale(datum[0].uDiff); })
+      .attr('stroke', (datum) => { return colorScale(datum[0].uDiff); });
+    //  EXIT
+    mapXYUpdate.exit().remove();
+    mapXZUpdate.exit().remove();
+    mapYZUpdate.exit().remove();
+
     // Depth sorting
     d3.select(this.renderRoot).selectAll('.d3-3d').sort(points3d.sort);
 
@@ -781,19 +968,6 @@ customElements.define('decision-space', DecisionSpace);
 
 // //////////////////////////////////////////////////////////////////
 // if (this.surface) {
-//   data.push(
-//     {
-//       name: 'Decision Boundary',
-//       type: 'isosurface',
-//       x: this.decisionSpace.xs,
-//       y: this.decisionSpace.xw,
-//       z: this.decisionSpace.pw,
-//       value: this.decisionSpace.uDiff,
-//       coloraxis: 'coloraxis',
-//       isomin: 0,
-//       isomax: 0,
-//       opacity: 0.5,
-//     },
 //     {
 //       name: 'Difference in Subjective Utility',
 //       type: 'isosurface',
@@ -819,7 +993,7 @@ customElements.define('decision-space', DecisionSpace);
 //     },
 //   );
 // }
-
+//
 // const layout = {
 //   coloraxis: {
 //     cmin: -30,
@@ -843,20 +1017,6 @@ customElements.define('decision-space', DecisionSpace);
 //       [1, 'rgb(120,25,115)'],
 //     ],
 //   },
-//   margin: {t: 0, l: 0, b: 0},
-//   scene: {
-//     camera: {
-//       center: {
-//         x: 0,
-//         y: 0.1,
-//         z: -0.2,
-//       },
-//       eye: {
-//         x: -2.5 * 0.8,
-//         y: -1 * 0.8,
-//         z: 1 * 0.8,
-//       },
-//     },
 //     xaxis: {
 //       backgroundcolor: colorElementBackground,
 //     },
@@ -868,5 +1028,4 @@ customElements.define('decision-space', DecisionSpace);
 //     },
 //   },
 // };
-
 // //////////////////////////////////////////////////////////////////
