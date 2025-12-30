@@ -122,10 +122,12 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       },
     ];
 
-    this.range = {};
-    this.range.xs = {start: 5, stop: 15, step: 0.5}; // Sure Value
-    this.range.xw = {start: 10, stop: 30, step: 1}; // Gamble Win Value
-    this.range.pw = {start: 0, stop: 1, step: 0.05}; // Gamble Win Probability
+    this.range = {
+      xs: {start: 5, stop: 15, step: 0.5}, // Sure Value
+      xw: {start: 10, stop: 30, step: 1}, // Gamble Win Value
+      pw: {start: 0, stop: 1, step: 0.05}, // Gamble Win Probability
+      uDiff: {start: -20, stop: 20}, // Difference in Utility (Gamble - Sure)
+    };
 
     this.boundary = [];
     this.mapXY = [];
@@ -173,9 +175,9 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       .flatMap((xs) => {
         return d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step)
           .map((xw) => {
-            let lowP = 0;
-            let highP = 1;
-            let midP = 0.5;
+            let lowP = this.range.pw.start;
+            let highP = this.range.pw.stop;
+            let midP = (highP - lowP) / 2 + lowP;
             const lowDiff = diff(xw, this.xl, lowP, xs, this.a, this.l, this.g);
             const highDiff = diff(xw, this.xl, highP, xs, this.a, this.l, this.g);
             let midDiff;
@@ -377,6 +379,20 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
         .map {
           stroke-width: 0.5;
         }
+
+        .legend .title {
+          font-weight: 600;
+
+          alignment-baseline: middle;
+          text-anchor: middle;
+        }
+
+        .legend .tick text {
+          font-size: 0.75rem;
+          font-weight: 400;
+
+          stroke: none;
+        }
       `,
     ];
   }
@@ -403,10 +419,10 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     const elementSize = Math.min(elementWidth, elementHeight);
 
     const margin = {
-      top: 3 * this.rem,
-      bottom: 5 * this.rem,
-      left: 2 * this.rem,
-      right: 6 * this.rem,
+      top: this.rem * 3,
+      bottom: this.rem * 5,
+      left: this.rem * 2,
+      right: this.rem * 6,
     };
     const height = elementSize - (margin.top + margin.bottom);
     const width = elementSize - (margin.left + margin.right);
@@ -420,24 +436,25 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     const xScale = d3.scaleLinear()
       .domain([this.range.xs.start, this.range.xs.stop])
       .range([0, width]);
-    this.xScale = xScale;
     const yScale = d3.scaleLinear()
       .domain([this.range.pw.start, this.range.pw.stop])
       .range([0, -height]);
-    this.yScale = yScale;
     const zScale = d3.scaleLinear()
       .domain([this.range.xw.start, this.range.xw.stop])
       .range([0, -height]);
-    this.zScale = zScale;
     const colorBetterDark = this.getComputedStyleValue('---color-better-dark');
     const colorBetter = this.getComputedStyleValue('---color-better');
     const colorNr = this.getComputedStyleValue('---color-nr');
     const colorWorse = this.getComputedStyleValue('---color-worse');
     const colorWorseDark = this.getComputedStyleValue('---color-worse-dark');
-    const colorScale = d3.scaleDiverging(
-      [-30, 0, 30],
-      d3.piecewise([colorBetterDark, colorBetter, colorNr, colorWorse, colorWorseDark]),
-    );
+    const colorScale = d3.scaleDiverging()
+      .domain([this.range.uDiff.start, 0, this.range.uDiff.stop])
+      .interpolator(
+        d3.piecewise([colorBetterDark, colorBetter, colorNr, colorWorse, colorWorseDark]),
+      );
+    const legendScale = d3.scaleLinear()
+      .domain([this.range.uDiff.start, this.range.uDiff.stop])
+      .range([0, -elementHeight + this.rem * 4]);
 
     // 3D Shapes
     const startOrigin = {x: margin.left, y: elementSize - margin.bottom};
@@ -507,6 +524,30 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     const svgMerge = svgEnter.merge(svgUpdate)
       .attr('viewBox', `0 0 ${elementSize} ${elementSize}`)
       .call(svgDrag);
+
+    // Gradient Def
+    const gradientEnter = svgEnter.append('defs').append('linearGradient')
+      .attr('id', 'gradient-legend')
+      // .attr('color-interpolation', 'linearRGB')
+      .attr('x1', 0)
+      .attr('x2', 0)
+      .attr('y1', 1)
+      .attr('y2', 0);
+    gradientEnter.append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', colorBetterDark);
+    gradientEnter.append('stop')
+      .attr('offset', '25%')
+      .attr('stop-color', colorBetter);
+    gradientEnter.append('stop')
+      .attr('offset', '50%')
+      .attr('stop-color', colorNr);
+    gradientEnter.append('stop')
+      .attr('offset', '75%')
+      .attr('stop-color', colorWorse);
+    gradientEnter.append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', colorWorseDark);
 
     // Axis & Title Data
     const xAxis = [[
@@ -958,6 +999,57 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
     // Depth sorting
     d3.select(this.renderRoot).selectAll('.d3-3d').sort(points3d.sort);
+
+    // Color Legend
+    //  DATA-JOIN
+    const legendUpdate = svgMerge.selectAll('.legend')
+      .data([{
+        x: elementSize + this.rem * 2,
+        y: elementSize - this.rem * 2,
+        rem: this.rem,
+      }]);
+    //  ENTER
+    const legendEnter = legendUpdate.enter().append('g')
+      .attr('class', 'legend');
+    //  MERGE
+    const legendMerge = legendEnter.merge(legendUpdate)
+      .attr('transform', (datum) => { return `translate(${datum.x} ${datum.y})`; });
+    //  EXIT
+    legendUpdate.exit().remove();
+
+    // Color Legend Axis
+    //  ENTER
+    legendEnter.append('g')
+      .attr('class', 'axis axis-legend');
+    //  MERGE
+    legendMerge.select('.axis-legend')
+      .call(d3.axisLeft(legendScale).ticks(7))
+      .attr('font-size', null)
+      .attr('font-family', null);
+
+    // Color Legend Title
+    //  ENTER
+    legendEnter.append('text')
+      .attr('class', 'title title-legend')
+      .text('Difference in Utility (Gamble - Sure)');
+    //  MERGE
+    legendMerge.select('.title-legend')
+      .attr(
+        'transform',
+        `translate(${-this.rem * 2.5},${(legendScale(this.range.uDiff.start) + legendScale(this.range.uDiff.stop)) / 2})rotate(-90)`,
+      );
+
+    // Color Legend Bar
+    //  ENTER
+    legendEnter.append('rect')
+      .attr('class', 'bar bar-legend')
+      .attr('fill', 'url("#gradient-legend")');
+    //  MERGE
+    legendMerge.select('.bar-legend')
+      .attr('x', 0)
+      .attr('y', legendScale(this.range.uDiff.stop))
+      .attr('width', this.rem)
+      .attr('height', legendScale(this.range.uDiff.start) - legendScale(this.range.uDiff.stop));
 
     this.firstUpdate = false;
   }
