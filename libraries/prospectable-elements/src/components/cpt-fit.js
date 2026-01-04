@@ -1,8 +1,6 @@
 
 import {css, html} from 'lit';
-import * as Plotly from 'plotly.js/lib/core';
-import * as PlotlyHistogram from 'plotly.js/lib/histogram';
-import plotlyStyle from 'plotly.js/src/css/style.scss';
+import * as Plot from '@observablehq/plot';
 
 import CPTMath from '@decidables/prospectable-math';
 
@@ -10,9 +8,6 @@ import CPTMath from '@decidables/prospectable-math';
 import CPTFitWorker from 'web-worker:./cpt-fit-worker'; /* eslint-disable-line import/no-unresolved */
 
 import ProspectableElement from '../prospectable-element';
-
-// Load in the needed trace types
-Plotly.register([PlotlyHistogram]);
 
 /*
   CPTFit element
@@ -120,18 +115,25 @@ export default class CPTFit extends ProspectableElement {
   static get styles() {
     return [
       super.styles,
-      plotlyStyle,
       css`
         /* :host {
           display: inline-block;
         } */
 
+        figure {
+          margin: 0.625rem;
+        }
+
+        figure h2 {
+          margin: 0.25rem 0;
+
+          font-size: 1.125rem;
+          font-weight: 600;
+        }
+
         .trace,
         .hist {
           display: inline-block;
-
-          width: 20rem;
-          height: 15rem;
         }
       `,
     ];
@@ -167,20 +169,62 @@ export default class CPTFit extends ProspectableElement {
   }
 
   plotParam(param) {
-    const plotMargins = {
-      l: 40, r: 10, b: 40, t: 40, pad: 4,
-    };
-
-    Plotly.react(
-      this.shadowRoot.querySelector(`.trace.${param}`),
-      [{y: this.samples[param]}],
-      {margin: plotMargins, title: `Traceplot of ${param}`},
+    this.shadowRoot.querySelector(`.hist.${param}`).replaceChildren(
+      Plot.plot({
+        title: `Posterior of ${param}`,
+        x: {label: `${param}`},
+        width: 320,
+        height: 240,
+        style: 'font-size: 0.75rem; font-family: var(---font-family-base);',
+        marks: [
+          Plot.rectY(
+            this.samples[param],
+            Plot.binX(
+              {y: 'count'},
+              {x: Plot.identity},
+            ),
+          ),
+          Plot.rectY(
+            this.samples[param],
+            Plot.pointerX(Plot.binX(
+              {y: 'count'},
+              {
+                x: Plot.identity,
+                stroke: 'black',
+                fill: 'white',
+                tip: true,
+              },
+            )),
+          ),
+        ],
+      }),
     );
 
-    Plotly.react(
-      this.shadowRoot.querySelector(`.hist.${param}`),
-      [{x: this.samples[param], type: 'histogram'}],
-      {margin: plotMargins, title: `Posterior of ${param}`},
+    this.shadowRoot.querySelector(`.trace.${param}`).replaceChildren(
+      Plot.plot({
+        title: `Traceplot of ${param}`,
+        x: {label: 'Sample'},
+        y: {label: `${param}`},
+        width: 320,
+        height: 240,
+        style: 'font-size: 0.75rem; font-family: var(---font-family-base);',
+        marks: [
+          Plot.lineY(
+            this.samples[param],
+          ),
+          Plot.dot(
+            this.samples[param],
+            Plot.pointer({
+              x: Plot.indexOf,
+              y: Plot.identity,
+              stroke: 'black',
+              fill: 'white',
+              r: 4,
+              tip: true,
+            }),
+          ),
+        ],
+      }),
     );
   }
 
