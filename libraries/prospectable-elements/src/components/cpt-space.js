@@ -207,7 +207,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           });
       });
 
-    const aConst = this.range.a.start;
+    const aConst = this.range.a.stop;
     this.mapYZ = d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step)
       .flatMap((g) => {
         return d3.range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step)
@@ -267,6 +267,13 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           alignment-baseline: middle;
         }
 
+        .title .subscript {
+          font-size: 66.667%;
+
+          alignment-baseline: initial;
+          baseline-shift: sub;
+        }
+
         .tick {
           stroke: var(---color-element-border);
           stroke-width: 1;
@@ -279,7 +286,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           text-anchor: end;
         }
 
-        .label-z textPath {
+        .label-x textPath {
           text-anchor: start;
         }
 
@@ -399,7 +406,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
       z: zScale((this.range.l.start + this.range.l.stop) / 2),
     };
     const startRotationX = -Math.PI / 8;
-    const startRotationY = -Math.PI / 8;
+    const startRotationY = Math.PI / 8;
     const startRotationZ = 0;
 
     const lineStrips3D = d33d.lineStrips3D()
@@ -511,12 +518,12 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
         lineStrips3D
           .x(() => { return xScale.range()[0]; })
           .y((datum) => { return datum.y; })
-          .z(() => { return zScale.range()[0]; })(yAxis),
+          .z(() => { return zScale.range()[1]; })(yAxis),
       );
     const axisZUpdate = svgMerge.selectAll('.axis-z')
       .data(
         lineStrips3D
-          .x(() => { return xScale.range()[1]; })
+          .x(() => { return xScale.range()[0]; })
           .y(() => { return yScale.range()[0]; })
           .z((datum) => { return datum.z; })(zAxis),
       );
@@ -557,15 +564,15 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           .y((datum) => {
             return datum.id === 'min' ? datum.y + this.rem * 20 : datum.y - this.rem * 20;
           })
-          .z(() => { return zScale.range()[0] + this.rem * 1.75; })(yAxis),
+          .z(() => { return zScale.range()[1] - this.rem * 1.75; })(yAxis),
       );
     const titlePathZUpdate = svgMerge.selectAll('.title-path-z')
       .data(
         lineStrips3D
-          .x(() => { return xScale.range()[1] + this.rem * 1.75; })
+          .x(() => { return xScale.range()[0] - this.rem * 1.75; })
           .y(() => { return yScale.range()[0] + this.rem * 1.75; })
           .z((datum) => {
-            return datum.id === 'min' ? datum.z + this.rem * 20 : datum.z - this.rem * 20;
+            return datum.id === 'min' ? datum.z - this.rem * 20 : datum.z + this.rem * 20;
           })(zAxis),
       );
     const titleXUpdate = svgMerge.selectAll('.title-x')
@@ -677,14 +684,14 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           })
           .y((datum) => { return datum.y; })
           .z((datum) => {
-            return datum.id === 'min' ? zScale.range()[0] : zScale.range()[0] + this.rem * 0.35;
+            return datum.id === 'min' ? zScale.range()[1] : zScale.range()[1] - this.rem * 0.35;
           })(yTicks),
       );
     const ticksZUpdate = svgMerge.selectAll('.tick-z')
       .data(
         lineStrips3D
           .x((datum) => {
-            return datum.id === 'min' ? xScale.range()[1] : xScale.range()[1] + this.rem * 0.35;
+            return datum.id === 'min' ? xScale.range()[0] : xScale.range()[0] - this.rem * 0.35;
           })
           .y((datum) => {
             return datum.id === 'min' ? yScale.range()[0] : yScale.range()[0] + this.rem * 0.35;
@@ -718,13 +725,13 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           .x((datum) => { return datum.x; })
           .y((datum) => {
             return datum.id === 'min'
-              ? yScale.range()[0] + this.rem * 0.5
-              : yScale.range()[0] + this.rem * 4;
+              ? yScale.range()[0] + this.rem * 4
+              : yScale.range()[0] + this.rem * 0.5;
           })
           .z((datum) => {
             return datum.id === 'min'
-              ? zScale.range()[0] + this.rem * 0.5
-              : zScale.range()[0] + this.rem * 4;
+              ? zScale.range()[0] + this.rem * 4
+              : zScale.range()[0] + this.rem * 0.5;
           })(xTicks),
         (datum) => { return datum[0].label; },
       );
@@ -739,8 +746,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           .y((datum) => { return datum.y; })
           .z((datum) => {
             return datum.id === 'min'
-              ? zScale.range()[0] + this.rem * 0.5
-              : zScale.range()[0] + this.rem * 4;
+              ? zScale.range()[1] - this.rem * 0.5
+              : zScale.range()[1] - this.rem * 4;
           })(yTicks),
         (datum) => { return datum[0].label; },
       );
@@ -749,13 +756,13 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
         lineStrips3D
           .x((datum) => {
             return datum.id === 'min'
-              ? xScale.range()[1] + this.rem * 0.5
-              : xScale.range()[1] + this.rem * 4;
+              ? xScale.range()[0] - this.rem * 4
+              : xScale.range()[0] - this.rem * 0.5;
           })
           .y((datum) => {
             return datum.id === 'min'
-              ? yScale.range()[0] + this.rem * 0.5
-              : yScale.range()[0] + this.rem * 4;
+              ? yScale.range()[0] + this.rem * 4
+              : yScale.range()[0] + this.rem * 0.5;
           })
           .z((datum) => { return datum.z; })(zTicks),
         (datum) => { return datum[0].label; },
@@ -790,7 +797,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     labelsXEnter
       .append('textPath')
       .attr('href', (datum, index) => { return `#label-x-${index}`; })
-      .attr('startOffset', '100%');
+      .attr('startOffset', '0%');
     const labelsYEnter = labelsYUpdate.enter().append('text')
       .attr('class', 'd3-3d label label-y');
     labelsYEnter
@@ -802,7 +809,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     labelsZEnter
       .append('textPath')
       .attr('href', (datum, index) => { return `#label-z-${index}`; })
-      .attr('startOffset', '0%');
+      .attr('startOffset', '100%');
     //  MERGE
     const labelPathsXMerge = labelPathsXEnter.merge(labelPathsXUpdate)
       .attr('d', lineStrips3D.draw);
@@ -860,19 +867,21 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     //  DATA-JOIN
     const boundaryUpdate = svgMerge.selectAll('.boundary')
       .data(
-        grid3d
-          .rows(d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step).length)
-          .x((datum) => { return xScale(datum.a); })
-          .y((datum) => { return yScale(datum.g); })
-          .z((datum) => { return zScale(datum.l); })(this.boundary)
-          .filter((datum) => {
-            return (
-              (datum[0].a >= 0 && datum[0].a <= 1)
-              && (datum[1].a >= 0 && datum[1].a <= 1)
-              && (datum[2].a >= 0 && datum[2].a <= 1)
-              && (datum[3].a >= 0 && datum[3].a <= 1)
-            );
-          }),
+        this.surface
+          ? grid3d
+            .rows(d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step).length)
+            .x((datum) => { return xScale(datum.a); })
+            .y((datum) => { return yScale(datum.g); })
+            .z((datum) => { return zScale(datum.l); })(this.boundary)
+            .filter((datum) => {
+              return (
+                (datum[0].a >= 0 && datum[0].a <= 1)
+                && (datum[1].a >= 0 && datum[1].a <= 1)
+                && (datum[2].a >= 0 && datum[2].a <= 1)
+                && (datum[3].a >= 0 && datum[3].a <= 1)
+              );
+            })
+          : [],
       );
     //  ENTER
     const boundaryEnter = boundaryUpdate.enter().append('path')
@@ -968,7 +977,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     //  ENTER
     legendEnter.append('text')
       .attr('class', 'title title-legend')
-      .text('Difference in Utility (Gamble - Sure)');
+      .html('Difference in Utility (<tspan class="math-var">U<tspan class="subscript">gamble</tspan></tspan> − <tspan class="math-var">U<tspan class="subscript">sure</tspan></tspan>)');
     //  MERGE
     legendMerge.select('.title-legend')
       .attr(
@@ -993,195 +1002,3 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
 }
 
 customElements.define('cpt-space', CPTSpace);
-
-
-// if (this.surface) {
-//   data.push(
-//     {
-//       name: 'Decision Boundary',
-//       type: 'isosurface',
-//       x: this.parameterSpace.a,
-//       y: this.parameterSpace.l,
-//       z: this.parameterSpace.g,
-//       value: this.parameterSpace.uDiff,
-//       coloraxis: 'coloraxis',
-//       isomin: 0,
-//       isomax: 0,
-//       opacity: 0.5,
-//     },
-//     {
-//       name: 'Difference in Subjective Utility',
-//       type: 'isosurface',
-//       x: this.parameterSpace.a,
-//       y: this.parameterSpace.l,
-//       z: this.parameterSpace.g,
-//       value: this.parameterSpace.uDiff,
-//       caps: {
-//         x: {show: false},
-//         y: {show: false},
-//         z: {show: false},
-//       },
-//       coloraxis: 'coloraxis',
-//       isomin: -30,
-//       isomax: 30,
-//       showscale: false,
-//       slices: {
-//         x: {show: true, locations: [this.range.a.stop]},
-//         y: {show: true, locations: [this.range.l.stop]},
-//         z: {show: true, locations: [this.range.g.start]},
-//       },
-//       surface: {show: false},
-//     },
-//   );
-// }
-
-// if (this.point) {
-//   data.push(
-//     {
-//       name: 'Current Decision',
-//       type: 'scatter3d',
-//       x: [this.a],
-//       y: [this.l],
-//       z: [this.g],
-//       mode: 'markers',
-//       marker: {
-//         color: [this.response],
-//         coloraxis: 'coloraxis2',
-//         line: {
-//           color: colorElementEmphasis,
-//           width: 2,
-//         },
-//         size: 6,
-//       },
-//     },
-//   );
-// }
-
-// const layout = {
-//   coloraxis: {
-//     cmin: -30,
-//     cmax: 30,
-//     colorbar: {
-//       title: {
-//         font: {
-//           size: this.rem * 1.125,
-//         },
-//         text: 'Difference in Utility (Gamble - Sure)',
-//         side: 'right',
-//       },
-//       thickness: 16,
-//       ypad: 32,
-//     },
-//     colorscale: [
-//       [0, 'rgb(35, 35, 104)'],
-//       [0.35, 'rgb(69,69,208)'],
-//       [0.5, 'rgb(190,190,190)'],
-//       [0.65, 'rgb(240,50,230)'],
-//       [1, 'rgb(120,25,115)'],
-//     ],
-//   },
-//   coloraxis2: {
-//     cmin: 0,
-//     cmax: 1,
-//     colorscale: [
-//       [0, colorWorse],
-//       [0.01, colorWorse],
-//       [0.24, colorNr],
-//       [0.26, colorNr],
-//       [0.74, colorElementEmphasis],
-//       [0.76, colorElementEmphasis],
-//       [0.99, colorBetter],
-//       [1, colorBetter],
-//     ],
-//     showscale: false,
-//   },
-//   font: {
-//     family: '"Source Sans", sans-serif',
-//     color: colorText,
-//   },
-//   margin: {t: 0, l: 0, b: 0},
-//   scene: {
-//     hovermode: false,
-//     camera: {
-//       center: {
-//         x: 0,
-//         y: 0.1,
-//         z: -0.2,
-//       },
-//       eye: {
-//         x: -2.5 * 0.8,
-//         y: -1 * 0.8,
-//         z: 1 * 0.8,
-//       },
-//     },
-//     xaxis: {
-//       mirror: true,
-//       showbackground: true,
-//       backgroundcolor: colorElementBackground,
-//       showgrid: false,
-//       showspikes: false,
-//       ticks: 'outside',
-//       tickcolor: colorElementBorder,
-//       showline: true,
-//       linecolor: colorElementBorder,
-//       zeroline: false,
-//       range: [Math.round(this.range.a.start), this.range.a.stop],
-//       title: {
-//         text: 'alpha',
-//         font: {
-//           size: this.rem * 1.125,
-//         },
-//       },
-//     },
-//     yaxis: {
-//       mirror: true,
-//       showbackground: true,
-//       backgroundcolor: colorElementBackground,
-//       showgrid: false,
-//       showspikes: false,
-//       ticks: 'outside',
-//       tickcolor: colorElementBorder,
-//       showline: true,
-//       linecolor: colorElementBorder,
-//       zeroline: false,
-//       range: [this.range.l.start, this.range.l.stop],
-//       title: {
-//         text: 'lambda',
-//         font: {
-//           size: this.rem * 1.125,
-//         },
-//       },
-//     },
-//     zaxis: {
-//       mirror: true,
-//       showbackground: true,
-//       backgroundcolor: colorElementBackground,
-//       showgrid: false,
-//       showspikes: false,
-//       ticks: 'outside',
-//       tickcolor: colorElementBorder,
-//       showline: true,
-//       linecolor: colorElementBorder,
-//       zeroline: false,
-//       range: [this.range.g.start, this.range.g.stop],
-//       title: {
-//         text: 'gamma',
-//         font: {
-//           size: this.rem * 1.125,
-//         },
-//       },
-//     },
-//   },
-//   uirevision: true,
-// };
-
-// const config = {
-//   displaylogo: false,
-//   modeBarButtonsToRemove: [
-//     'orbitRotation',
-//     'resetCameraDefault3d',
-//     'hoverClosest3d',
-//     'toImage',
-//   ],
-//   responsive: true,
-// };
