@@ -2,6 +2,7 @@
 import {css, html} from 'lit';
 import * as d3 from 'd3';
 import * as d33d from 'd3-3d';
+import color from 'color';
 
 import CPTMath from '@decidables/prospectable-math';
 import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
@@ -293,7 +294,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
         .point {
           fill: var(---color-element-background);
           stroke: var(---color-element-emphasis);
-          stroke-width: 1;
+          stroke-width: 1px;
           r: 6px;
         }
 
@@ -310,15 +311,13 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
         }
 
         .boundary {
-          fill: var(---color-element-background);
           fill-opacity: 0.7;
-          stroke: var(---color-element-background);
           stroke-opacity: 1;
-          stroke-width: 0.5;
+          stroke-width: 0.5px;
         }
 
         .map {
-          stroke-width: 0.5;
+          stroke-width: 1px;
         }
 
         .legend .title {
@@ -383,13 +382,15 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     const zScale = d3.scaleLinear()
       .domain([this.range.l.start, this.range.l.stop])
       .range([0, -height]);
-    const colorBetterDark = this.getComputedStyleValue('---color-better-dark');
-    const colorBetter = this.getComputedStyleValue('---color-better');
-    const colorNr = this.getComputedStyleValue('---color-nr');
-    const colorWorse = this.getComputedStyleValue('---color-worse');
-    const colorWorseDark = this.getComputedStyleValue('---color-worse-dark');
+    const colorElementBackground = color(this.getComputedStyleValue('---color-element-background')).hex();
+    const colorBetterDark = color(this.getComputedStyleValue('---color-better-dark')).hex();
+    const colorBetter = color(this.getComputedStyleValue('---color-better')).hex();
+    const colorNr = color(this.getComputedStyleValue('---color-nr')).hex();
+    const colorWorse = color(this.getComputedStyleValue('---color-worse')).hex();
+    const colorWorseDark = color(this.getComputedStyleValue('---color-worse-dark')).hex();
     const colorScale = d3.scaleDiverging()
       .domain([this.range.uDiff.start, 0, this.range.uDiff.stop])
+      .clamp(true)
       .interpolator(
         d3.piecewise([colorBetterDark, colorBetter, colorNr, colorWorse, colorWorseDark]),
       );
@@ -863,6 +864,54 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     //  EXIT
     pointsUpdate.exit().remove();
 
+    // Lighting!
+
+    // a, b: point
+    // return: vector
+    function points2vector(a, b) {
+      return {
+        x: b.x - a.x,
+        y: b.y - a.y,
+        z: b.z - a.z,
+      };
+    }
+
+    // a: vector
+    // return: scalar
+    function magnitude(a) {
+      return Math.sqrt((a.x * a.x) + (a.y * a.y) + (a.z * a.z));
+    }
+
+    // a, b: vector
+    // return: scalar
+    function dotProduct(a, b) {
+      return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+    }
+
+    // a, b: vector
+    // return: vector
+    function crossProduct(a, b) {
+      return {
+        x: (a.y * b.z) - (a.z * b.y),
+        y: (a.z * b.x) - (a.x * b.z),
+        z: (a.x * b.y) - (a.y * b.x),
+      };
+    }
+
+    // a, b, c: point
+    // return: vector
+    function points2surfaceNormal(a, b, c) {
+      return crossProduct(points2vector(a, b), points2vector(a, c));
+    }
+
+    // a, b: vector
+    // return: cosine angle
+    function cosineAngle(a, b) {
+      return dotProduct(a, b) / (magnitude(a) * magnitude(b));
+    }
+
+    const lightSource = {x: 0.5, y: 1, z: -1};
+
     // Decision Boundary
     //  DATA-JOIN
     const boundaryUpdate = svgMerge.selectAll('.boundary')
@@ -888,7 +937,16 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
       .attr('class', 'd3-3d boundary');
     //  MERGE
     boundaryEnter.merge(boundaryUpdate)
-      .attr('d', grid3d.draw);
+      .attr('d', grid3d.draw)
+      .each((datum) => {
+        const surface = datum.ccw
+          ? points2surfaceNormal(datum[0].rotated, datum[1].rotated, datum[2].rotated)
+          : points2surfaceNormal(datum[2].rotated, datum[1].rotated, datum[0].rotated);
+        datum.ratio = cosineAngle(surface, lightSource) - 0.5;
+        datum.color = d3.color(colorElementBackground).brighter(datum.ratio);
+      })
+      .attr('fill', (datum) => { return datum.color; })
+      .attr('stroke', (datum) => { return datum.color; });
     //  EXIT
     boundaryUpdate.exit().remove();
 
@@ -928,16 +986,37 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     //  MERGE
     mapXYEnter.merge(mapXYUpdate)
       .attr('d', grid3d.draw)
-      .attr('fill', (datum) => { return colorScale(datum[0].uDiff); })
-      .attr('stroke', (datum) => { return colorScale(datum[0].uDiff); });
+      .each((datum) => {
+        const surface = datum.ccw
+          ? points2surfaceNormal(datum[0].rotated, datum[1].rotated, datum[2].rotated)
+          : points2surfaceNormal(datum[2].rotated, datum[1].rotated, datum[0].rotated);
+        datum.ratio = cosineAngle(surface, lightSource) - 0.5;
+        datum.color = d3.color(colorScale(datum[0].uDiff)).brighter(datum.ratio);
+      })
+      .attr('fill', (datum) => { return datum.color; })
+      .attr('stroke', (datum) => { return datum.color; });
     mapXZEnter.merge(mapXZUpdate)
       .attr('d', grid3d.draw)
-      .attr('fill', (datum) => { return colorScale(datum[0].uDiff); })
-      .attr('stroke', (datum) => { return colorScale(datum[0].uDiff); });
+      .each((datum) => {
+        const surface = datum.ccw
+          ? points2surfaceNormal(datum[0].rotated, datum[1].rotated, datum[2].rotated)
+          : points2surfaceNormal(datum[2].rotated, datum[1].rotated, datum[0].rotated);
+        datum.ratio = cosineAngle(surface, lightSource) - 0.5;
+        datum.color = d3.color(colorScale(datum[0].uDiff)).brighter(datum.ratio);
+      })
+      .attr('fill', (datum) => { return datum.color; })
+      .attr('stroke', (datum) => { return datum.color; });
     mapYZEnter.merge(mapYZUpdate)
       .attr('d', grid3d.draw)
-      .attr('fill', (datum) => { return colorScale(datum[0].uDiff); })
-      .attr('stroke', (datum) => { return colorScale(datum[0].uDiff); });
+      .each((datum) => {
+        const surface = datum.ccw
+          ? points2surfaceNormal(datum[0].rotated, datum[1].rotated, datum[2].rotated)
+          : points2surfaceNormal(datum[2].rotated, datum[1].rotated, datum[0].rotated);
+        datum.ratio = cosineAngle(surface, lightSource) - 0.5;
+        datum.color = d3.color(colorScale(datum[0].uDiff)).brighter(datum.ratio);
+      })
+      .attr('fill', (datum) => { return datum.color; })
+      .attr('stroke', (datum) => { return datum.color; });
     //  EXIT
     mapXYUpdate.exit().remove();
     mapXZUpdate.exit().remove();
