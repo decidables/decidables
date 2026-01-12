@@ -140,11 +140,16 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
         : 'sure';
     }
 
-    function diff(xw, xl, pw, xs, a, l, g) {
-      return CPTMath.xal2v(xw, a, l) * CPTMath.pg2w(pw, g) // Win
-        + CPTMath.xal2v(xl, a, l) * (1 - CPTMath.pg2w(pw, g)) // Loss
+    const pg2wSafe = (p, g) => {
+      const w = CPTMath.pg2w(p, g);
+      return Number.isNaN(w) ? p : w;
+    };
+
+    const diff = (xw, xl, pw, xs, a, l, g) => {
+      return CPTMath.xal2v(xw, a, l) * pg2wSafe(pw, g) // Win
+        + CPTMath.xal2v(xl, a, l) * (1 - pg2wSafe(pw, g)) // Loss
         - CPTMath.xal2v(xs, a, l); // Sure
-    }
+    };
 
     // For each combination of l and g, find the a using bisection method
     this.boundary = d3.range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step)
@@ -152,17 +157,17 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
         return d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step)
           .map((g) => {
             let lowA = this.range.a.start;
-            let highA = this.range.a.stop;
-            let midA = (highA - lowA) / 2 + lowA;
+            let highA = 10; // this.range.a.stop;
+            let midA = (lowA + highA) / 2;
             const lowDiff = diff(this.xw, this.xl, this.pw, this.xs, lowA, l, g);
             const highDiff = diff(this.xw, this.xl, this.pw, this.xs, highA, l, g);
             let midDiff;
             if (lowDiff > 0) {
-              midA = -0.1;
+              midA = -Infinity;
             } else if (highDiff < 0) {
-              midA = 1.1;
+              midA = Infinity;
             } else {
-              d3.range(0, 10, 1)
+              d3.range(0, 15, 1)
                 .forEach(() => {
                   midDiff = diff(this.xw, this.xl, this.pw, this.xs, midA, l, g);
                   if (midDiff < 0) {
@@ -170,13 +175,74 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
                   } else {
                     highA = midA;
                   }
-                  midA = (highA - lowA) / 2 + lowA;
+                  midA = (lowA + highA) / 2;
                 });
             }
             return {a: midA, l, g};
-            // console.log(`a: ${midA}, l: ${l}, g: ${g}, diff: ${midDiff}`);
           });
       });
+
+    const aIn = (point) => {
+      return (point?.a >= this.range.a.start) && (point?.a <= this.range.a.stop);
+    };
+
+    // Interpolation where map goes off the plot
+    this.boundary = this.boundary.map((point, index, map) => {
+      // a is in bounds
+      if (aIn(point)) {
+        return point;
+      }
+
+      // sizes
+      const columns = d3
+        .range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step).length;
+      const rows = d3
+        .range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step).length;
+
+      // neighbours
+      const left = ((index % columns) === 0) ? null : map[index - 1];
+      const right = ((index % columns) === (columns - 1)) ? null : map[index + 1];
+      const top = (Math.trunc(index / columns) === 0) ? null : map[index - columns];
+      const bottom = (Math.trunc(index / columns) === (rows - 1)) ? null : map[index + columns];
+      const leftIn = aIn(left) ? 1 : 0;
+      const rightIn = aIn(right) ? 1 : 0;
+      const topIn = aIn(top) ? 1 : 0;
+      const bottomIn = aIn(bottom) ? 1 : 0;
+      const totalIn = leftIn + rightIn + topIn + bottomIn;
+
+      // consider neighbors
+      if (
+        (totalIn === 0)
+        || ((totalIn === 2) && ((leftIn + rightIn) !== 1))
+        || (totalIn === 3)
+        || (totalIn === 4)
+      ) {
+        return point;
+      }
+
+      // otherwise interpolate!
+      const newPoint = {
+        a: (point.a < this.range.a.start) ? this.range.a.start : this.range.a.stop,
+        g: point.g,
+        l: point.l,
+      };
+      let other;
+      if (totalIn === 1) {
+        other = leftIn ? left : rightIn ? right : topIn ? top : bottom;
+      } else {
+        const other1 = leftIn ? left : right;
+        const other2 = topIn ? top : bottom;
+        other = {
+          a: (other1.a + other2.a) / 2,
+          g: (other1.g + other2.g) / 2,
+          l: (other1.l + other2.l) / 2,
+        };
+      }
+      const ratio = (newPoint.a - other.a) / (point.a - other.a);
+      newPoint.g = other.g + (point.g - other.g) * ratio;
+      newPoint.l = other.l + (point.l - other.l) * ratio;
+      return newPoint;
+    });
 
     const lConst = this.range.l.stop;
     this.mapXY = d3.range(this.range.a.start, this.range.a.stop + 0.01, this.range.a.step)
@@ -406,8 +472,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
       y: yScale((this.range.g.start + this.range.g.stop) / 2),
       z: zScale((this.range.l.start + this.range.l.stop) / 2),
     };
-    const startRotationX = -Math.PI / 8;
-    const startRotationY = Math.PI / 8;
+    const startRotationX = (-0.85 * Math.PI) / 8;
+    const startRotationY = (3 * Math.PI) / 8;
     const startRotationZ = 0;
 
     const lineStrips3D = d33d.lineStrips3D()
@@ -910,7 +976,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
       return dotProduct(a, b) / (magnitude(a) * magnitude(b));
     }
 
-    const lightSource = {x: 0.5, y: 1, z: -1};
+    const lightSource = {x: -0.5, y: 1, z: -1};
 
     // Decision Boundary
     //  DATA-JOIN
@@ -924,10 +990,10 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
             .z((datum) => { return zScale(datum.l); })(this.boundary)
             .filter((datum) => {
               return (
-                (datum[0].a >= 0 && datum[0].a <= 1)
-                && (datum[1].a >= 0 && datum[1].a <= 1)
-                && (datum[2].a >= 0 && datum[2].a <= 1)
-                && (datum[3].a >= 0 && datum[3].a <= 1)
+                (datum[0].a >= this.range.a.start && datum[0].a <= this.range.a.stop)
+                && (datum[1].a >= this.range.a.start && datum[1].a <= this.range.a.stop)
+                && (datum[2].a >= this.range.a.start && datum[2].a <= this.range.a.stop)
+                && (datum[3].a >= this.range.a.start && datum[3].a <= this.range.a.stop)
               );
             })
           : [],
