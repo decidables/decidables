@@ -1,18 +1,13 @@
 
 import {css, html} from 'lit';
 import * as d3 from 'd3';
-import * as Plotly from 'plotly.js/lib/core';
-import * as PlotlyIsoSurface from 'plotly.js/lib/isosurface';
-import * as PlotlyScatter3d from 'plotly.js/lib/scatter3d';
-import plotlyStyle from 'plotly.js/src/css/style.scss';
+import * as d33d from 'd3-3d';
+import color from 'color';
 
 import CPTMath from '@decidables/prospectable-math';
 import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
 
 import ProspectableElement from '../prospectable-element';
-
-// Load in the needed trace type
-Plotly.register([PlotlyIsoSurface, PlotlyScatter3d]);
 
 /*
   CPTSpace element
@@ -104,12 +99,6 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     this.point = true;
     this.updateable = false;
 
-    // Constants for categorical color codes
-    this.GAMBLE = 0;
-    this.SURE = 1;
-    this.NR = 0.25;
-    this.DEFAULT = 0.75;
-
     this.a = CPTMath.a.DEFAULT;
     this.l = CPTMath.l.DEFAULT;
     this.g = CPTMath.g.DEFAULT;
@@ -120,12 +109,24 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     this.xs = 10;
     this.response = this.DEFAULT;
 
-    this.range = {};
-    this.range.a = {start: 0.0001, stop: 1, step: 0.05}; // Sure Value
-    this.range.l = {start: 0, stop: 10, step: 0.5}; // Gamble Win Value
-    this.range.g = {start: 0, stop: 1, step: 0.05}; // Gamble Win Probability
+    this.range = {
+      a: {start: 0.0001, stop: 1, step: 0.05}, // Sure Value
+      l: {start: 0, stop: 10, step: 0.5}, // Gamble Win Value
+      g: {start: 0, stop: 1, step: 0.05}, // Gamble Win Probability
+      uDiff: {start: -20, stop: 20}, // Difference in Utility (Gamble - Sure)
+    };
 
-    this.parameterSpace = [];
+    this.boundary = [];
+    this.mapXY = [];
+    this.mapXZ = [];
+    this.mapYZ = [];
+
+    this.rotationX = 0;
+    this.rotationY = 0;
+    this.mx = 0;
+    this.my = 0;
+    this.mouseX = 0;
+    this.mouseY = 0;
 
     this.alignState();
   }
@@ -133,35 +134,158 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
   alignState() {
     if (this.updateable) {
       this.response = ((CPTMath.xal2v(this.xw, this.a, this.l) * CPTMath.pg2w(this.pw, this.g))
-        + (CPTMath.xal2v(this.xl, this.a, this.l) * (1 - CPTMath.pg2w(this.pw, this.g))))
-      > CPTMath.xal2v(this.xs, this.a, this.l)
-        ? this.GAMBLE
-        : this.SURE;
+        + (CPTMath.xal2v(this.xl, this.a, this.l) * (1 - CPTMath.pg2w(this.pw, this.g)))
+      ) > CPTMath.xal2v(this.xs, this.a, this.l)
+        ? 'gamble'
+        : 'sure';
     }
 
-    this.parameterSpace = {
-      a: [],
-      l: [],
-      g: [],
-      uDiff: [],
+    const pg2wSafe = (p, g) => {
+      const w = CPTMath.pg2w(p, g);
+      return Number.isNaN(w) ? p : w;
     };
 
-    d3.range(this.range.a.start, this.range.a.stop + 0.01, this.range.a.step)
-      .forEach((a) => {
-        d3.range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step)
-          .forEach((l) => {
-            d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step)
-              .forEach((g) => {
-                this.parameterSpace.a.push(a);
-                this.parameterSpace.l.push(l);
-                this.parameterSpace.g.push(g);
+    const diff = (xw, xl, pw, xs, a, l, g) => {
+      return CPTMath.xal2v(xw, a, l) * pg2wSafe(pw, g) // Win
+        + CPTMath.xal2v(xl, a, l) * (1 - pg2wSafe(pw, g)) // Loss
+        - CPTMath.xal2v(xs, a, l); // Sure
+    };
 
-                const uDiff = CPTMath.xal2v(this.xw, a, l) * CPTMath.pg2w(this.pw, g) // Win
-                  + CPTMath.xal2v(this.xl, a, l) * (1 - CPTMath.pg2w(this.pw, g)) // Loss
-                  - CPTMath.xal2v(this.xs, a, l); // Sure
+    // For each combination of l and g, find the a using bisection method
+    this.boundary = d3.range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step)
+      .flatMap((l) => {
+        return d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step)
+          .map((g) => {
+            let lowA = this.range.a.start;
+            let highA = 10; // this.range.a.stop;
+            let midA = (lowA + highA) / 2;
+            const lowDiff = diff(this.xw, this.xl, this.pw, this.xs, lowA, l, g);
+            const highDiff = diff(this.xw, this.xl, this.pw, this.xs, highA, l, g);
+            let midDiff;
+            if (lowDiff > 0) {
+              midA = -Infinity;
+            } else if (highDiff < 0) {
+              midA = Infinity;
+            } else {
+              d3.range(0, 15, 1)
+                .forEach(() => {
+                  midDiff = diff(this.xw, this.xl, this.pw, this.xs, midA, l, g);
+                  if (midDiff < 0) {
+                    lowA = midA;
+                  } else {
+                    highA = midA;
+                  }
+                  midA = (lowA + highA) / 2;
+                });
+            }
+            return {a: midA, l, g};
+          });
+      });
 
-                this.parameterSpace.uDiff.push(uDiff);
-              });
+    const aIn = (point) => {
+      return (point?.a >= this.range.a.start) && (point?.a <= this.range.a.stop);
+    };
+
+    // Interpolation where map goes off the plot
+    this.boundary = this.boundary.map((point, index, map) => {
+      // a is in bounds
+      if (aIn(point)) {
+        return point;
+      }
+
+      // sizes
+      const columns = d3
+        .range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step).length;
+      const rows = d3
+        .range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step).length;
+
+      // neighbours
+      const left = ((index % columns) === 0) ? null : map[index - 1];
+      const right = ((index % columns) === (columns - 1)) ? null : map[index + 1];
+      const top = (Math.trunc(index / columns) === 0) ? null : map[index - columns];
+      const bottom = (Math.trunc(index / columns) === (rows - 1)) ? null : map[index + columns];
+      const leftIn = aIn(left) ? 1 : 0;
+      const rightIn = aIn(right) ? 1 : 0;
+      const topIn = aIn(top) ? 1 : 0;
+      const bottomIn = aIn(bottom) ? 1 : 0;
+      const totalIn = leftIn + rightIn + topIn + bottomIn;
+
+      // consider neighbors
+      if (
+        (totalIn === 0)
+        || ((totalIn === 2) && ((leftIn + rightIn) !== 1))
+        || (totalIn === 3)
+        || (totalIn === 4)
+      ) {
+        return point;
+      }
+
+      // otherwise interpolate!
+      const newPoint = {
+        a: (point.a < this.range.a.start) ? this.range.a.start : this.range.a.stop,
+        g: point.g,
+        l: point.l,
+      };
+      let other;
+      if (totalIn === 1) {
+        other = leftIn ? left : rightIn ? right : topIn ? top : bottom;
+      } else {
+        const other1 = leftIn ? left : right;
+        const other2 = topIn ? top : bottom;
+        other = {
+          a: (other1.a + other2.a) / 2,
+          g: (other1.g + other2.g) / 2,
+          l: (other1.l + other2.l) / 2,
+        };
+      }
+      const ratio = (newPoint.a - other.a) / (point.a - other.a);
+      newPoint.g = other.g + (point.g - other.g) * ratio;
+      newPoint.l = other.l + (point.l - other.l) * ratio;
+      return newPoint;
+    });
+
+    const lConst = this.range.l.stop;
+    this.mapXY = d3.range(this.range.a.start, this.range.a.stop + 0.01, this.range.a.step)
+      .flatMap((a) => {
+        return d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step)
+          .map((g) => {
+            const uDiff = diff(this.xw, this.xl, this.pw, this.xs, a, lConst, g);
+            return {
+              a,
+              l: lConst,
+              g,
+              uDiff,
+            };
+          });
+      });
+
+    const gConst = this.range.g.start;
+    this.mapXZ = d3.range(this.range.a.start, this.range.a.stop + 0.01, this.range.a.step)
+      .flatMap((a) => {
+        return d3.range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step)
+          .map((l) => {
+            const uDiff = diff(this.xw, this.xl, this.pw, this.xs, a, l, gConst);
+            return {
+              a,
+              l,
+              g: gConst,
+              uDiff,
+            };
+          });
+      });
+
+    const aConst = this.range.a.stop;
+    this.mapYZ = d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step)
+      .flatMap((g) => {
+        return d3.range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step)
+          .map((l) => {
+            const uDiff = diff(this.xw, this.xl, this.pw, this.xs, aConst, l, g);
+            return {
+              a: aConst,
+              l,
+              g,
+              uDiff,
+            };
           });
       });
   }
@@ -169,7 +293,6 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
   static get styles() {
     return [
       super.styles,
-      plotlyStyle,
       css`
         :host {
           display: inline-block;
@@ -178,28 +301,103 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           height: 20rem;
         }
 
-        .plotly {
+        .main {
+          width: 100%;
           height: 100%;
 
           cursor: grab;
         }
 
-        /* Plotly modebar styles */
-        /* Drawn from: https://github.com/plotly/plotly.js/blob/master/src/components/modebar/modebar.js */
-        .plotly:hover .modebar .modebar-group {
-          background-color: rgba(255, 255, 255, 0.5);
+        text {
+          /* stylelint-disable property-no-vendor-prefix */
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+
+          fill: var(---color-text);
         }
 
-        .modebar-btn .icon path {
-          fill: rgba(68, 68, 68, 0.3);
+        .axis {
+          stroke: var(---color-element-border);
+          stroke-width: 1;
         }
 
-        .modebar-btn:hover .icon path {
-          fill: rgba(68, 68, 68, 0.7);
+        .title textPath {
+          font-weight: 600;
+
+          alignment-baseline: middle;
+          text-anchor: middle;
         }
 
-        .modebar-btn.active .icon path {
-          fill: rgba(68, 68, 68, 0.7);
+        .title tspan {
+          alignment-baseline: middle;
+        }
+
+        .title .subscript {
+          font-size: 66.667%;
+
+          alignment-baseline: initial;
+          baseline-shift: sub;
+        }
+
+        .tick {
+          stroke: var(---color-element-border);
+          stroke-width: 1;
+        }
+
+        .label textPath {
+          font-size: 0.75rem;
+
+          alignment-baseline: middle;
+          text-anchor: end;
+        }
+
+        .label-x textPath {
+          text-anchor: start;
+        }
+
+        .point {
+          fill: var(---color-element-background);
+          stroke: var(---color-element-emphasis);
+          stroke-width: 1px;
+          r: 6px;
+        }
+
+        .point.sure {
+          fill: var(---color-better);
+        }
+
+        .point.gamble {
+          fill: var(---color-worse);
+        }
+
+        .point.nr {
+          fill: var(---color-nr);
+        }
+
+        .boundary {
+          fill-opacity: 0.7;
+          stroke-opacity: 1;
+          stroke-width: 0.5px;
+        }
+
+        .map {
+          stroke-width: 1px;
+        }
+
+        .legend .title {
+          font-weight: 600;
+
+          alignment-baseline: middle;
+          text-anchor: middle;
+        }
+
+        .legend .tick text {
+          font-size: 0.75rem;
+          font-weight: 400;
+
+          stroke: none;
         }
       `,
     ];
@@ -207,7 +405,6 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
 
   render() { /* eslint-disable-line class-methods-use-this */
     return html`
-      <div class="plotly"></div>
     `;
   }
 
@@ -223,208 +420,727 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
       return;
     }
 
-    const colorText = this.getComputedStyleValue('---color-text');
-    const colorElementBorder = this.getComputedStyleValue('---color-element-border');
-    const colorElementBackground = this.getComputedStyleValue('---color-element-background');
-    const colorElementEmphasis = this.getComputedStyleValue('---color-element-emphasis');
-    const colorWorse = this.getComputedStyleValue('---color-worse');
-    const colorBetter = this.getComputedStyleValue('---color-better');
-    const colorNr = this.getComputedStyleValue('---color-nr');
+    const elementWidth = this.width;
+    const elementHeight = this.height;
+    const elementSize = Math.min(elementWidth, elementHeight);
 
-    const data = [];
+    const margin = {
+      top: this.rem * 3,
+      bottom: this.rem * 5,
+      left: this.rem * 2,
+      right: this.rem * 6,
+    };
+    const height = elementSize - (margin.top + margin.bottom);
+    const width = elementSize - (margin.left + margin.right);
 
-    if (this.surface) {
-      data.push(
-        {
-          name: 'Decision Boundary',
-          type: 'isosurface',
-          x: this.parameterSpace.a,
-          y: this.parameterSpace.l,
-          z: this.parameterSpace.g,
-          value: this.parameterSpace.uDiff,
-          coloraxis: 'coloraxis',
-          isomin: 0,
-          isomax: 0,
-          opacity: 0.5,
-        },
-        {
-          name: 'Difference in Subjective Utility',
-          type: 'isosurface',
-          x: this.parameterSpace.a,
-          y: this.parameterSpace.l,
-          z: this.parameterSpace.g,
-          value: this.parameterSpace.uDiff,
-          caps: {
-            x: {show: false},
-            y: {show: false},
-            z: {show: false},
-          },
-          coloraxis: 'coloraxis',
-          isomin: -30,
-          isomax: 30,
-          showscale: false,
-          slices: {
-            x: {show: true, locations: [this.range.a.stop]},
-            y: {show: true, locations: [this.range.l.stop]},
-            z: {show: true, locations: [this.range.g.start]},
-          },
-          surface: {show: false},
-        },
+    // const transitionDuration = parseInt(
+    //   this.getComputedStyleValue('---transition-duration'),
+    //   10,
+    // );
+
+    // Scales
+    const xScale = d3.scaleLinear()
+      .domain([this.range.a.start, this.range.a.stop])
+      .range([0, width]);
+    const yScale = d3.scaleLinear()
+      .domain([this.range.g.start, this.range.g.stop])
+      .range([0, -height]);
+    const zScale = d3.scaleLinear()
+      .domain([this.range.l.start, this.range.l.stop])
+      .range([0, -height]);
+    const colorElementBackground = color(this.getComputedStyleValue('---color-element-background')).hex();
+    const colorBetterDark = color(this.getComputedStyleValue('---color-better-dark')).hex();
+    const colorBetter = color(this.getComputedStyleValue('---color-better')).hex();
+    const colorNr = color(this.getComputedStyleValue('---color-nr')).hex();
+    const colorWorse = color(this.getComputedStyleValue('---color-worse')).hex();
+    const colorWorseDark = color(this.getComputedStyleValue('---color-worse-dark')).hex();
+    const colorScale = d3.scaleDiverging()
+      .domain([this.range.uDiff.start, 0, this.range.uDiff.stop])
+      .clamp(true)
+      .interpolator(
+        d3.piecewise([colorBetterDark, colorBetter, colorNr, colorWorse, colorWorseDark]),
       );
+    const legendScale = d3.scaleLinear()
+      .domain([this.range.uDiff.start, this.range.uDiff.stop])
+      .range([0, -elementHeight + this.rem * 4]);
+
+    // 3D Shapes
+    const startOrigin = {x: margin.left, y: elementSize - margin.bottom};
+    const startScale = 1;
+    const startRotationCenter = {
+      x: xScale((this.range.a.start + this.range.a.stop) / 2),
+      y: yScale((this.range.g.start + this.range.g.stop) / 2),
+      z: zScale((this.range.l.start + this.range.l.stop) / 2),
+    };
+    const startRotationX = (-0.85 * Math.PI) / 8;
+    const startRotationY = (3 * Math.PI) / 8;
+    const startRotationZ = 0;
+
+    const lineStrips3D = d33d.lineStrips3D()
+      .origin(startOrigin)
+      .scale(startScale)
+      .rotationCenter(startRotationCenter)
+      .rotateX(startRotationX + this.rotationX)
+      .rotateY(startRotationY + this.rotationY)
+      .rotateZ(startRotationZ);
+
+    const points3d = d33d.points3D()
+      .origin(startOrigin)
+      .scale(startScale)
+      .rotationCenter(startRotationCenter)
+      .rotateX(startRotationX + this.rotationX)
+      .rotateY(startRotationY + this.rotationY)
+      .rotateZ(startRotationZ);
+
+    const grid3d = d33d.gridPlanes3D()
+      .origin(startOrigin)
+      .scale(startScale)
+      .rotationCenter(startRotationCenter)
+      .rotateX(startRotationX + this.rotationX)
+      .rotateY(startRotationY + this.rotationY)
+      .rotateZ(startRotationZ);
+
+    // SVG Drag behaviors
+    const svgDrag = d3.drag()
+      .on('start', (event) => {
+        this.mx = event.x;
+        this.my = event.y;
+      })
+      .on('drag', (event) => {
+        this.rotationY = (event.x - this.mx + this.mouseX) * (Math.PI / 230);
+        this.rotationX = (event.y - this.my + this.mouseY) * (Math.PI / 230) * -1;
+
+        this.requestUpdate();
+      })
+      .on('end', (event) => {
+        this.mouseX = event.x - this.mx + this.mouseX;
+        this.mouseY = event.y - this.my + this.mouseY;
+      });
+
+    // SVG
+    //  DATA-JOIN
+    const svgUpdate = d3.select(this.renderRoot).selectAll('.main')
+      .data([{
+        width: this.width,
+        height: this.height,
+        rem: this.rem,
+      }]);
+    //  ENTER
+    const svgEnter = svgUpdate.enter().append('svg')
+      .classed('main', true);
+    //  MERGE
+    const svgMerge = svgEnter.merge(svgUpdate)
+      .attr('viewBox', `0 0 ${elementSize} ${elementSize}`)
+      .call(svgDrag);
+
+    // Gradient Def
+    const gradientEnter = svgEnter.append('defs').append('linearGradient')
+      .attr('id', 'gradient-legend')
+      // .attr('color-interpolation', 'linearRGB')
+      .attr('x1', 0)
+      .attr('x2', 0)
+      .attr('y1', 1)
+      .attr('y2', 0);
+    gradientEnter.append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', colorBetterDark);
+    gradientEnter.append('stop')
+      .attr('offset', '25%')
+      .attr('stop-color', colorBetter);
+    gradientEnter.append('stop')
+      .attr('offset', '50%')
+      .attr('stop-color', colorNr);
+    gradientEnter.append('stop')
+      .attr('offset', '75%')
+      .attr('stop-color', colorWorse);
+    gradientEnter.append('stop')
+      .attr('offset', '100%')
+      .attr('stop-color', colorWorseDark);
+
+    // Axis & Title Data
+    const xAxis = [[
+      {title: 'Alpha (<tspan class="math-var">α</tspan>)', id: 'max', x: xScale.range()[1]},
+      {id: 'min', x: xScale.range()[0]},
+    ]];
+    const yAxis = [[
+      {title: 'Gamma (<tspan class="math-var">γ</tspan>)', id: 'max', y: yScale.range()[1]},
+      {id: 'min', y: yScale.range()[0]},
+    ]];
+    const zAxis = [[
+      {title: 'Lambda (<tspan class="math-var">λ</tspan>)', id: 'max', z: zScale.range()[1]},
+      {id: 'min', z: zScale.range()[0]},
+    ]];
+
+    // Axes
+    //  DATA-JOIN
+    const axisXUpdate = svgMerge.selectAll('.axis-x')
+      .data(
+        lineStrips3D
+          .x((datum) => { return datum.x; })
+          .y(() => { return yScale.range()[0]; })
+          .z(() => { return zScale.range()[0]; })(xAxis),
+      );
+    const axisYUpdate = svgMerge.selectAll('.axis-y')
+      .data(
+        lineStrips3D
+          .x(() => { return xScale.range()[0]; })
+          .y((datum) => { return datum.y; })
+          .z(() => { return zScale.range()[1]; })(yAxis),
+      );
+    const axisZUpdate = svgMerge.selectAll('.axis-z')
+      .data(
+        lineStrips3D
+          .x(() => { return xScale.range()[0]; })
+          .y(() => { return yScale.range()[0]; })
+          .z((datum) => { return datum.z; })(zAxis),
+      );
+    //  ENTER
+    const axisXEnter = axisXUpdate.enter().append('path')
+      .attr('class', 'd3-3d axis axis-x');
+    const axisYEnter = axisYUpdate.enter().append('path')
+      .attr('class', 'd3-3d axis axis-y');
+    const axisZEnter = axisZUpdate.enter().append('path')
+      .attr('class', 'd3-3d axis axis-z');
+    // MERGE
+    const axisXMerge = axisXEnter.merge(axisXUpdate)
+      .attr('d', lineStrips3D.draw);
+    const axisYMerge = axisYEnter.merge(axisYUpdate)
+      .attr('d', lineStrips3D.draw);
+    const axisZMerge = axisZEnter.merge(axisZUpdate)
+      .attr('d', lineStrips3D.draw);
+    // EXIT
+    axisXMerge.exit().remove();
+    axisYMerge.exit().remove();
+    axisZMerge.exit().remove();
+
+    // Axis Titles
+    //  DATA-JOIN
+    const titlePathXUpdate = svgMerge.selectAll('.title-path-x')
+      .data(
+        lineStrips3D
+          .x((datum) => {
+            return datum.id === 'min' ? datum.x - this.rem * 20 : datum.x + this.rem * 20;
+          })
+          .y(() => { return yScale.range()[0] + this.rem * 1.75; })
+          .z(() => { return zScale.range()[0] + this.rem * 1.75; })(xAxis),
+      );
+    const titlePathYUpdate = svgMerge.selectAll('.title-path-y')
+      .data(
+        lineStrips3D
+          .x(() => { return xScale.range()[0] - this.rem * 1.75; })
+          .y((datum) => {
+            return datum.id === 'min' ? datum.y + this.rem * 20 : datum.y - this.rem * 20;
+          })
+          .z(() => { return zScale.range()[1] - this.rem * 1.75; })(yAxis),
+      );
+    const titlePathZUpdate = svgMerge.selectAll('.title-path-z')
+      .data(
+        lineStrips3D
+          .x(() => { return xScale.range()[0] - this.rem * 1.75; })
+          .y(() => { return yScale.range()[0] + this.rem * 1.75; })
+          .z((datum) => {
+            return datum.id === 'min' ? datum.z - this.rem * 20 : datum.z + this.rem * 20;
+          })(zAxis),
+      );
+    const titleXUpdate = svgMerge.selectAll('.title-x')
+      .data(
+        xAxis,
+        (datum) => { return datum[0].title; },
+      );
+    const titleYUpdate = svgMerge.selectAll('.title-y')
+      .data(
+        yAxis,
+        (datum) => { return datum[0].title; },
+      );
+    const titleZUpdate = svgMerge.selectAll('.title-z')
+      .data(
+        zAxis,
+        (datum) => { return datum[0].title; },
+      );
+    //  ENTER
+    const titlePathXEnter = titlePathXUpdate.enter().append('path')
+      .attr('class', 'd3-3d title-path title-path-x')
+      .attr('id', 'title-x');
+    const titlePathYEnter = titlePathYUpdate.enter().append('path')
+      .attr('class', 'd3-3d title-path title-path-y')
+      .attr('id', 'title-y');
+    const titlePathZEnter = titlePathZUpdate.enter().append('path')
+      .attr('class', 'd3-3d title-path title-path-z')
+      .attr('id', 'title-z');
+    const titleXEnter = titleXUpdate.enter().append('text')
+      .attr('class', 'd3-3d title title-x');
+    titleXEnter
+      .append('textPath')
+      .attr('href', '#title-x')
+      .attr('startOffset', '50%');
+    const titleYEnter = titleYUpdate.enter().append('text')
+      .attr('class', 'd3-3d title title-y');
+    titleYEnter
+      .append('textPath')
+      .attr('href', '#title-y')
+      .attr('startOffset', '50%');
+    const titleZEnter = titleZUpdate.enter().append('text')
+      .attr('class', 'd3-3d title title-z');
+    titleZEnter
+      .append('textPath')
+      .attr('href', '#title-z')
+      .attr('startOffset', '50%');
+    // MERGE
+    const titlePathXMerge = titlePathXEnter.merge(titlePathXUpdate)
+      .attr('d', lineStrips3D.draw);
+    const titlePathYMerge = titlePathYEnter.merge(titlePathYUpdate)
+      .attr('d', lineStrips3D.draw);
+    const titlePathZMerge = titlePathZEnter.merge(titlePathZUpdate)
+      .attr('d', lineStrips3D.draw);
+    const titleXMerge = titleXEnter.merge(titleXUpdate)
+      .select('textPath')
+      .html((datum) => { return datum[0].title; });
+    const titleYMerge = titleYEnter.merge(titleYUpdate)
+      .select('textPath')
+      .html((datum) => { return datum[0].title; });
+    const titleZMerge = titleZEnter.merge(titleZUpdate)
+      .select('textPath')
+      .html((datum) => { return datum[0].title; });
+    // EXIT
+    titlePathXMerge.exit().remove();
+    titlePathYMerge.exit().remove();
+    titlePathZMerge.exit().remove();
+    titleXMerge.exit().remove();
+    titleYMerge.exit().remove();
+    titleZMerge.exit().remove();
+
+    // Axis Tick & Label Data
+    const tickCount = 5;
+    const xTicks = xScale.ticks(tickCount).map((tick) => {
+      return [
+        {id: 'min', label: xScale.tickFormat()(tick), x: xScale(tick)},
+        {id: 'max', x: xScale(tick)},
+      ];
+    });
+    const yTicks = yScale.ticks(tickCount).map((tick) => {
+      return [
+        {id: 'min', label: yScale.tickFormat()(tick), y: yScale(tick)},
+        {id: 'max', y: yScale(tick)},
+      ];
+    });
+    const zTicks = zScale.ticks(tickCount).map((tick) => {
+      return [
+        {id: 'max', label: zScale.tickFormat()(tick), z: zScale(tick)},
+        {id: 'min', z: zScale(tick)},
+      ];
+    });
+
+    // Axis Ticks
+    //  DATA-JOIN
+    const ticksXUpdate = svgMerge.selectAll('.tick-x')
+      .data(
+        lineStrips3D
+          .x((datum) => { return datum.x; })
+          .y((datum) => {
+            return datum.id === 'min' ? yScale.range()[0] : yScale.range()[0] + this.rem * 0.35;
+          })
+          .z((datum) => {
+            return datum.id === 'min' ? zScale.range()[0] : zScale.range()[0] + this.rem * 0.35;
+          })(xTicks),
+      );
+    const ticksYUpdate = svgMerge.selectAll('.tick-y')
+      .data(
+        lineStrips3D
+          .x((datum) => {
+            return datum.id === 'min' ? xScale.range()[0] : xScale.range()[0] - this.rem * 0.35;
+          })
+          .y((datum) => { return datum.y; })
+          .z((datum) => {
+            return datum.id === 'min' ? zScale.range()[1] : zScale.range()[1] - this.rem * 0.35;
+          })(yTicks),
+      );
+    const ticksZUpdate = svgMerge.selectAll('.tick-z')
+      .data(
+        lineStrips3D
+          .x((datum) => {
+            return datum.id === 'min' ? xScale.range()[0] : xScale.range()[0] - this.rem * 0.35;
+          })
+          .y((datum) => {
+            return datum.id === 'min' ? yScale.range()[0] : yScale.range()[0] + this.rem * 0.35;
+          })
+          .z((datum) => { return datum.z; })(zTicks),
+      );
+    //  ENTER
+    const ticksXEnter = ticksXUpdate.enter().append('path')
+      .attr('class', 'd3-3d tick tick-x');
+    const ticksYEnter = ticksYUpdate.enter().append('path')
+      .attr('class', 'd3-3d tick tick-y');
+    const ticksZEnter = ticksZUpdate.enter().append('path')
+      .attr('class', 'd3-3d tick tick-z');
+    // MERGE
+    const ticksXMerge = ticksXEnter.merge(ticksXUpdate)
+      .attr('d', lineStrips3D.draw);
+    const ticksYMerge = ticksYEnter.merge(ticksYUpdate)
+      .attr('d', lineStrips3D.draw);
+    const ticksZMerge = ticksZEnter.merge(ticksZUpdate)
+      .attr('d', lineStrips3D.draw);
+    // EXIT
+    ticksXMerge.exit().remove();
+    ticksYMerge.exit().remove();
+    ticksZMerge.exit().remove();
+
+    // Axis Tick Labels
+    //  DATA-JOIN
+    const labelPathsXUpdate = svgMerge.selectAll('.label-path-x')
+      .data(
+        lineStrips3D
+          .x((datum) => { return datum.x; })
+          .y((datum) => {
+            return datum.id === 'min'
+              ? yScale.range()[0] + this.rem * 4
+              : yScale.range()[0] + this.rem * 0.5;
+          })
+          .z((datum) => {
+            return datum.id === 'min'
+              ? zScale.range()[0] + this.rem * 4
+              : zScale.range()[0] + this.rem * 0.5;
+          })(xTicks),
+        (datum) => { return datum[0].label; },
+      );
+    const labelPathsYUpdate = svgMerge.selectAll('.label-path-y')
+      .data(
+        lineStrips3D
+          .x((datum) => {
+            return datum.id === 'min'
+              ? xScale.range()[0] - this.rem * 0.5
+              : xScale.range()[0] - this.rem * 4;
+          })
+          .y((datum) => { return datum.y; })
+          .z((datum) => {
+            return datum.id === 'min'
+              ? zScale.range()[1] - this.rem * 0.5
+              : zScale.range()[1] - this.rem * 4;
+          })(yTicks),
+        (datum) => { return datum[0].label; },
+      );
+    const labelPathsZUpdate = svgMerge.selectAll('.label-path-z')
+      .data(
+        lineStrips3D
+          .x((datum) => {
+            return datum.id === 'min'
+              ? xScale.range()[0] - this.rem * 4
+              : xScale.range()[0] - this.rem * 0.5;
+          })
+          .y((datum) => {
+            return datum.id === 'min'
+              ? yScale.range()[0] + this.rem * 4
+              : yScale.range()[0] + this.rem * 0.5;
+          })
+          .z((datum) => { return datum.z; })(zTicks),
+        (datum) => { return datum[0].label; },
+      );
+    const labelsXUpdate = svgMerge.selectAll('.label-x')
+      .data(
+        xTicks,
+        (datum) => { return datum[0].label; },
+      );
+    const labelsYUpdate = svgMerge.selectAll('.label-y')
+      .data(
+        yTicks,
+        (datum) => { return datum[0].label; },
+      );
+    const labelsZUpdate = svgMerge.selectAll('.label-z')
+      .data(
+        zTicks,
+        (datum) => { return datum[0].label; },
+      );
+    //  ENTER
+    const labelPathsXEnter = labelPathsXUpdate.enter().append('path')
+      .attr('class', 'd3-3d label-path label-path-x')
+      .attr('id', (datum, index) => { return `label-x-${index}`; });
+    const labelPathsYEnter = labelPathsYUpdate.enter().append('path')
+      .attr('class', 'd3-3d label-path label-path-y')
+      .attr('id', (datum, index) => { return `label-y-${index}`; });
+    const labelPathsZEnter = labelPathsZUpdate.enter().append('path')
+      .attr('class', 'd3-3d label-path label-path-z')
+      .attr('id', (datum, index) => { return `label-z-${index}`; });
+    const labelsXEnter = labelsXUpdate.enter().append('text')
+      .attr('class', 'd3-3d label label-x');
+    labelsXEnter
+      .append('textPath')
+      .attr('href', (datum, index) => { return `#label-x-${index}`; })
+      .attr('startOffset', '0%');
+    const labelsYEnter = labelsYUpdate.enter().append('text')
+      .attr('class', 'd3-3d label label-y');
+    labelsYEnter
+      .append('textPath')
+      .attr('href', (datum, index) => { return `#label-y-${index}`; })
+      .attr('startOffset', '100%');
+    const labelsZEnter = labelsZUpdate.enter().append('text')
+      .attr('class', 'd3-3d label label-z');
+    labelsZEnter
+      .append('textPath')
+      .attr('href', (datum, index) => { return `#label-z-${index}`; })
+      .attr('startOffset', '100%');
+    //  MERGE
+    const labelPathsXMerge = labelPathsXEnter.merge(labelPathsXUpdate)
+      .attr('d', lineStrips3D.draw);
+    const labelPathsYMerge = labelPathsYEnter.merge(labelPathsYUpdate)
+      .attr('d', lineStrips3D.draw);
+    const labelPathsZMerge = labelPathsZEnter.merge(labelPathsZUpdate)
+      .attr('d', lineStrips3D.draw);
+    const labelsXMerge = labelsXEnter.merge(labelsXUpdate)
+      .select('textPath')
+      .text((datum) => { return datum[0].label; });
+    const labelsYMerge = labelsYEnter.merge(labelsYUpdate)
+      .select('textPath')
+      .text((datum) => { return datum[0].label; });
+    const labelsZMerge = labelsZEnter.merge(labelsZUpdate)
+      .select('textPath')
+      .text((datum) => { return datum[0].label; });
+    // EXIT
+    labelPathsXMerge.exit().remove();
+    labelPathsYMerge.exit().remove();
+    labelPathsZMerge.exit().remove();
+    labelsXMerge.exit().remove();
+    labelsYMerge.exit().remove();
+    labelsZMerge.exit().remove();
+
+    // Points
+    //  DATA-JOIN
+    const pointsUpdate = svgMerge.selectAll('.point')
+      .data(
+        points3d
+          .x((datum) => { return xScale(datum.a); })
+          .y((datum) => { return yScale(datum.g); })
+          .z((datum) => { return zScale(datum.l); })(
+            this.point
+              ? [{
+                a: this.a,
+                g: this.g,
+                l: this.l,
+                response: this.response,
+              }]
+              : [],
+          ),
+      );
+    //  ENTER
+    const pointsEnter = pointsUpdate.enter().append('circle')
+      .attr('class', 'd3-3d point');
+    //  MERGE
+    pointsEnter.merge(pointsUpdate)
+      .attr('class', (datum) => { return `d3-3d point ${datum.response}`; })
+      .attr('cx', (datum) => { return datum.projected.x; })
+      .attr('cy', (datum) => { return datum.projected.y; });
+    //  EXIT
+    pointsUpdate.exit().remove();
+
+    // Lighting!
+
+    // a, b: point
+    // return: vector
+    function points2vector(a, b) {
+      return {
+        x: b.x - a.x,
+        y: b.y - a.y,
+        z: b.z - a.z,
+      };
     }
 
-    if (this.point) {
-      data.push(
-        {
-          name: 'Current Decision',
-          type: 'scatter3d',
-          x: [this.a],
-          y: [this.l],
-          z: [this.g],
-          mode: 'markers',
-          marker: {
-            color: [this.response],
-            coloraxis: 'coloraxis2',
-            line: {
-              color: colorElementEmphasis,
-              width: 2,
-            },
-            size: 6,
-          },
-        },
-      );
+    // a: vector
+    // return: scalar
+    function magnitude(a) {
+      return Math.sqrt((a.x * a.x) + (a.y * a.y) + (a.z * a.z));
     }
 
-    const layout = {
-      coloraxis: {
-        cmin: -30,
-        cmax: 30,
-        colorbar: {
-          title: {
-            font: {
-              size: this.rem * 1.125,
-            },
-            text: 'Difference in Utility (Gamble - Sure)',
-            side: 'right',
-          },
-          thickness: 16,
-          ypad: 32,
-        },
-        colorscale: [
-          [0, 'rgb(35, 35, 104)'],
-          [0.35, 'rgb(69,69,208)'],
-          [0.5, 'rgb(190,190,190)'],
-          [0.65, 'rgb(240,50,230)'],
-          [1, 'rgb(120,25,115)'],
-        ],
-      },
-      coloraxis2: {
-        cmin: 0,
-        cmax: 1,
-        colorscale: [
-          [0, colorWorse],
-          [0.01, colorWorse],
-          [0.24, colorNr],
-          [0.26, colorNr],
-          [0.74, colorElementEmphasis],
-          [0.76, colorElementEmphasis],
-          [0.99, colorBetter],
-          [1, colorBetter],
-        ],
-        showscale: false,
-      },
-      font: {
-        family: '"Source Sans", sans-serif',
-        color: colorText,
-      },
-      margin: {t: 0, l: 0, b: 0},
-      scene: {
-        hovermode: false,
-        camera: {
-          center: {
-            x: 0,
-            y: 0.1,
-            z: -0.2,
-          },
-          eye: {
-            x: -2.5 * 0.8,
-            y: -1 * 0.8,
-            z: 1 * 0.8,
-          },
-        },
-        xaxis: {
-          mirror: true,
-          showbackground: true,
-          backgroundcolor: colorElementBackground,
-          showgrid: false,
-          showspikes: false,
-          ticks: 'outside',
-          tickcolor: colorElementBorder,
-          showline: true,
-          linecolor: colorElementBorder,
-          zeroline: false,
-          range: [Math.round(this.range.a.start), this.range.a.stop],
-          title: {
-            text: 'alpha',
-            font: {
-              size: this.rem * 1.125,
-            },
-          },
-        },
-        yaxis: {
-          mirror: true,
-          showbackground: true,
-          backgroundcolor: colorElementBackground,
-          showgrid: false,
-          showspikes: false,
-          ticks: 'outside',
-          tickcolor: colorElementBorder,
-          showline: true,
-          linecolor: colorElementBorder,
-          zeroline: false,
-          range: [this.range.l.start, this.range.l.stop],
-          title: {
-            text: 'lambda',
-            font: {
-              size: this.rem * 1.125,
-            },
-          },
-        },
-        zaxis: {
-          mirror: true,
-          showbackground: true,
-          backgroundcolor: colorElementBackground,
-          showgrid: false,
-          showspikes: false,
-          ticks: 'outside',
-          tickcolor: colorElementBorder,
-          showline: true,
-          linecolor: colorElementBorder,
-          zeroline: false,
-          range: [this.range.g.start, this.range.g.stop],
-          title: {
-            text: 'gamma',
-            font: {
-              size: this.rem * 1.125,
-            },
-          },
-        },
-      },
-      uirevision: true,
-    };
+    // a, b: vector
+    // return: scalar
+    function dotProduct(a, b) {
+      return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+    }
 
-    const config = {
-      displaylogo: false,
-      modeBarButtonsToRemove: [
-        'orbitRotation',
-        'resetCameraDefault3d',
-        'hoverClosest3d',
-        'toImage',
-      ],
-      responsive: true,
-    };
+    // a, b: vector
+    // return: vector
+    function crossProduct(a, b) {
+      return {
+        x: (a.y * b.z) - (a.z * b.y),
+        y: (a.z * b.x) - (a.x * b.z),
+        z: (a.x * b.y) - (a.y * b.x),
+      };
+    }
 
-    Plotly.react(this.shadowRoot.querySelector('.plotly'), data, layout, config);
+    // a, b, c: point
+    // return: vector
+    function points2surfaceNormal(a, b, c) {
+      return crossProduct(points2vector(a, b), points2vector(a, c));
+    }
+
+    // a, b: vector
+    // return: cosine angle
+    function cosineAngle(a, b) {
+      return dotProduct(a, b) / (magnitude(a) * magnitude(b));
+    }
+
+    const lightSource = {x: -0.5, y: 1, z: -1};
+
+    // Decision Boundary
+    //  DATA-JOIN
+    const boundaryUpdate = svgMerge.selectAll('.boundary')
+      .data(
+        this.surface
+          ? grid3d
+            .rows(d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step).length)
+            .x((datum) => { return xScale(datum.a); })
+            .y((datum) => { return yScale(datum.g); })
+            .z((datum) => { return zScale(datum.l); })(this.boundary)
+            .filter((datum) => {
+              return (
+                (datum[0].a >= this.range.a.start && datum[0].a <= this.range.a.stop)
+                && (datum[1].a >= this.range.a.start && datum[1].a <= this.range.a.stop)
+                && (datum[2].a >= this.range.a.start && datum[2].a <= this.range.a.stop)
+                && (datum[3].a >= this.range.a.start && datum[3].a <= this.range.a.stop)
+              );
+            })
+          : [],
+      );
+    //  ENTER
+    const boundaryEnter = boundaryUpdate.enter().append('path')
+      .attr('class', 'd3-3d boundary');
+    //  MERGE
+    boundaryEnter.merge(boundaryUpdate)
+      .attr('d', grid3d.draw)
+      .each((datum) => {
+        const surface = datum.ccw
+          ? points2surfaceNormal(datum[0].rotated, datum[1].rotated, datum[2].rotated)
+          : points2surfaceNormal(datum[2].rotated, datum[1].rotated, datum[0].rotated);
+        datum.ratio = cosineAngle(surface, lightSource) - 0.5;
+        datum.color = d3.color(colorElementBackground).brighter(datum.ratio);
+      })
+      .attr('fill', (datum) => { return datum.color; })
+      .attr('stroke', (datum) => { return datum.color; });
+    //  EXIT
+    boundaryUpdate.exit().remove();
+
+    // Decision Maps
+    //  DATA-JOIN
+    const mapXYUpdate = svgMerge.selectAll('.map-xy')
+      .data(
+        grid3d
+          .rows(d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step).length)
+          .x((datum) => { return xScale(datum.a); })
+          .y((datum) => { return yScale(datum.g); })
+          .z((datum) => { return zScale(datum.l); })(this.mapXY),
+      );
+    const mapXZUpdate = svgMerge.selectAll('.map-xz')
+      .data(
+        grid3d
+          .rows(d3.range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step).length)
+          .x((datum) => { return xScale(datum.a); })
+          .y((datum) => { return yScale(datum.g); })
+          .z((datum) => { return zScale(datum.l); })(this.mapXZ),
+      );
+    const mapYZUpdate = svgMerge.selectAll('.map-yz')
+      .data(
+        grid3d
+          .rows(d3.range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step).length)
+          .x((datum) => { return xScale(datum.a); })
+          .y((datum) => { return yScale(datum.g); })
+          .z((datum) => { return zScale(datum.l); })(this.mapYZ),
+      );
+    //  ENTER
+    const mapXYEnter = mapXYUpdate.enter().append('path')
+      .attr('class', 'd3-3d map map-xy');
+    const mapXZEnter = mapXZUpdate.enter().append('path')
+      .attr('class', 'd3-3d map map-xz');
+    const mapYZEnter = mapYZUpdate.enter().append('path')
+      .attr('class', 'd3-3d map map-yz');
+    //  MERGE
+    mapXYEnter.merge(mapXYUpdate)
+      .attr('d', grid3d.draw)
+      .each((datum) => {
+        const surface = datum.ccw
+          ? points2surfaceNormal(datum[0].rotated, datum[1].rotated, datum[2].rotated)
+          : points2surfaceNormal(datum[2].rotated, datum[1].rotated, datum[0].rotated);
+        datum.ratio = cosineAngle(surface, lightSource) - 0.5;
+        datum.color = d3.color(colorScale(datum[0].uDiff)).brighter(datum.ratio);
+      })
+      .attr('fill', (datum) => { return datum.color; })
+      .attr('stroke', (datum) => { return datum.color; });
+    mapXZEnter.merge(mapXZUpdate)
+      .attr('d', grid3d.draw)
+      .each((datum) => {
+        const surface = datum.ccw
+          ? points2surfaceNormal(datum[0].rotated, datum[1].rotated, datum[2].rotated)
+          : points2surfaceNormal(datum[2].rotated, datum[1].rotated, datum[0].rotated);
+        datum.ratio = cosineAngle(surface, lightSource) - 0.5;
+        datum.color = d3.color(colorScale(datum[0].uDiff)).brighter(datum.ratio);
+      })
+      .attr('fill', (datum) => { return datum.color; })
+      .attr('stroke', (datum) => { return datum.color; });
+    mapYZEnter.merge(mapYZUpdate)
+      .attr('d', grid3d.draw)
+      .each((datum) => {
+        const surface = datum.ccw
+          ? points2surfaceNormal(datum[0].rotated, datum[1].rotated, datum[2].rotated)
+          : points2surfaceNormal(datum[2].rotated, datum[1].rotated, datum[0].rotated);
+        datum.ratio = cosineAngle(surface, lightSource) - 0.5;
+        datum.color = d3.color(colorScale(datum[0].uDiff)).brighter(datum.ratio);
+      })
+      .attr('fill', (datum) => { return datum.color; })
+      .attr('stroke', (datum) => { return datum.color; });
+    //  EXIT
+    mapXYUpdate.exit().remove();
+    mapXZUpdate.exit().remove();
+    mapYZUpdate.exit().remove();
+
+    // Depth sorting
+    d3.select(this.renderRoot).selectAll('.d3-3d').sort(points3d.sort);
+
+    // Color Legend
+    //  DATA-JOIN
+    const legendUpdate = svgMerge.selectAll('.legend')
+      .data([{
+        x: elementSize + this.rem * 2,
+        y: elementSize - this.rem * 2,
+        rem: this.rem,
+      }]);
+    //  ENTER
+    const legendEnter = legendUpdate.enter().append('g')
+      .attr('class', 'legend');
+    //  MERGE
+    const legendMerge = legendEnter.merge(legendUpdate)
+      .attr('transform', (datum) => { return `translate(${datum.x} ${datum.y})`; });
+    //  EXIT
+    legendUpdate.exit().remove();
+
+    // Color Legend Axis
+    //  ENTER
+    legendEnter.append('g')
+      .attr('class', 'axis axis-legend');
+    //  MERGE
+    legendMerge.select('.axis-legend')
+      .call(d3.axisLeft(legendScale).ticks(7))
+      .attr('font-size', null)
+      .attr('font-family', null);
+
+    // Color Legend Title
+    //  ENTER
+    legendEnter.append('text')
+      .attr('class', 'title title-legend')
+      .html('Difference in Utility (<tspan class="math-var">U<tspan class="subscript">gamble</tspan></tspan> − <tspan class="math-var">U<tspan class="subscript">sure</tspan></tspan>)');
+    //  MERGE
+    legendMerge.select('.title-legend')
+      .attr(
+        'transform',
+        `translate(${-this.rem * 2.5},${(legendScale(this.range.uDiff.start) + legendScale(this.range.uDiff.stop)) / 2})rotate(-90)`,
+      );
+
+    // Color Legend Bar
+    //  ENTER
+    legendEnter.append('rect')
+      .attr('class', 'bar bar-legend')
+      .attr('fill', 'url("#gradient-legend")');
+    //  MERGE
+    legendMerge.select('.bar-legend')
+      .attr('x', 0)
+      .attr('y', legendScale(this.range.uDiff.stop))
+      .attr('width', this.rem)
+      .attr('height', legendScale(this.range.uDiff.start) - legendScale(this.range.uDiff.stop));
 
     this.firstUpdate = false;
   }
