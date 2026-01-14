@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.4.5...@decidables/detectable-elements@0.5.0) (2026-01-14)
+
+
+### Features
+
+* **detectable-elements:** added `d3-interpolate-path` for smooth contour transitions in `roc-space` ([f651145](https://github.com/decidables/decidables/commit/f6511454cb2e6b97b13d04d78679be49d50a7cd0)), closes [#35](https://github.com/decidables/decidables/issues/35)
+
+
+### Bug Fixes
+
+* **detectable-elements:** fix iso-* contour gradients in `roc-space` ([aa97fc0](https://github.com/decidables/decidables/commit/aa97fc0877026734249c6ed0d54870d8a9778d30)), closes [#21](https://github.com/decidables/decidables/issues/21)
+* **libraries:** add hacks to get Safari to render shadows properly ([120b73c](https://github.com/decidables/decidables/commit/120b73c2e771d59cf43de8dbe8a064a4902b6bd4)), closes [#11](https://github.com/decidables/decidables/issues/11)
+
+
+
 ## [0.4.5](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.4.4...@decidables/detectable-elements@0.4.5) (2025-11-30)
 
 **Note:** Version bump only for package @decidables/detectable-elements

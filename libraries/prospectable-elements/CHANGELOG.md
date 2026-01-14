@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.4.5...@decidables/prospectable-elements@0.5.0) (2026-01-14)
+
+
+### Features
+
+* **prospectable-elements:** add color legend to `d3-3d` implementation ([306b182](https://github.com/decidables/decidables/commit/306b18256c5eb3a1cf57f38da2987c9912589328))
+* **prospectable-elements:** add decision boundary and axis surface maps to `d3-3d` implementation ([c2a80c1](https://github.com/decidables/decidables/commit/c2a80c1195587b95f68e7522a7031cc4a79437a1))
+* **prospectable-elements:** add interpolation to simulate boundary clipping ([f903fef](https://github.com/decidables/decidables/commit/f903fefc8c1dfb50b741c2e033ec8bb308e3e2d7))
+* **prospectable-elements:** add points to `d3-d3` implementation ([12f16b0](https://github.com/decidables/decidables/commit/12f16b0b63c99fb96ee900f5c577688c724b26ed))
+* **prospectable-elements:** add simple lighting model to `d3-3d` plots ([8eaeb4b](https://github.com/decidables/decidables/commit/8eaeb4bfdd523d73280039cd6e7ac65c492ff3ef))
+* **prospectable-elements:** adjust `d3-3d` axes, titles, and view ([96a8c25](https://github.com/decidables/decidables/commit/96a8c25ef367276c7e626859e900437028eb1947))
+* **prospectable-elements:** duplicate `d3-3d` usage from `decision-space` to `cpt-space` ([bfed3f3](https://github.com/decidables/decidables/commit/bfed3f3b967ea3c038358fa561f6372d56aa626a))
+* **prospectable-elements:** replace `plotly` with `d3-3d`, first step is axes ([3e15a27](https://github.com/decidables/decidables/commit/3e15a278ad7b4fdfdd064582c8de2fc70b460795))
+* **prospectable-elements:** swap `@observablehq/plot` for `Plotly` for `cpt-fit` diagnostics ([68401e9](https://github.com/decidables/decidables/commit/68401e92f586df710106edcc849cba7e8a811ac3))
+
+
+### Bug Fixes
+
+* **libraries:** add hacks to get Safari to render shadows properly ([120b73c](https://github.com/decidables/decidables/commit/120b73c2e771d59cf43de8dbe8a064a4902b6bd4)), closes [#11](https://github.com/decidables/decidables/issues/11)
+
+
+
 ## [0.4.5](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.4.4...@decidables/prospectable-elements@0.4.5) (2025-11-30)
 
 **Note:** Version bump only for package @decidables/prospectable-elements

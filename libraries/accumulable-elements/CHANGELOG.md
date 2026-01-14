@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.7](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.3.6...@decidables/accumulable-elements@0.3.7) (2026-01-14)
+
+
+### Bug Fixes
+
+* **libraries:** add hacks to get Safari to render shadows properly ([120b73c](https://github.com/decidables/decidables/commit/120b73c2e771d59cf43de8dbe8a064a4902b6bd4)), closes [#11](https://github.com/decidables/decidables/issues/11)
+
+
+
 ## [0.3.6](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.3.5...@decidables/accumulable-elements@0.3.6) (2025-11-30)
 
 **Note:** Version bump only for package @decidables/accumulable-elements

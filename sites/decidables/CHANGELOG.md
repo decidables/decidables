@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.0](https://github.com/decidables/decidables/compare/@decidables/decidables@0.15.2...@decidables/decidables@0.16.0) (2026-01-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **all:** WOFF fonts removed from all sites
+
+### Features
+
+* **all:** remove WOFF fonts ([32110fa](https://github.com/decidables/decidables/commit/32110fa86eaea8fe80abf0155484f5a9d99d7bed))
+* **decidables:** add `d'able` to "What" page ([ac44330](https://github.com/decidables/decidables/commit/ac443300f7f53cf83ff26b040c9da35494f3cd93))
+* **decidables:** move `Credits` to the top navbar ([a06eb79](https://github.com/decidables/decidables/commit/a06eb792e3b33ec5f2a9727788c9b810a5c99420)), closes [#43](https://github.com/decidables/decidables/issues/43)
+
+
+### Bug Fixes
+
+* **all:** moved all issues to GitHub and cleaned up all `NOTES.md` ([b3f4a09](https://github.com/decidables/decidables/commit/b3f4a09b5352c9e2cecb6c76d527bbfcb0921b20)), closes [#48](https://github.com/decidables/decidables/issues/48)
+* **decidables:** added wrap for icon on homepage ([0857694](https://github.com/decidables/decidables/commit/08576944835285b7e82ef12c21bb909983569547)), closes [#42](https://github.com/decidables/decidables/issues/42)
+* **decidables:** reformat and add `htmlhint` ezxception ([3d0eb34](https://github.com/decidables/decidables/commit/3d0eb3459a03c86bde5fb5c1da6bac68cd43e36a))
+* **sites:** add `YAML` processors to "Credits" ([d4cc942](https://github.com/decidables/decidables/commit/d4cc9425c3779300cc3ab7fa730a46270e144ff5))
+* **sites:** update `Credits` pages ([af35dda](https://github.com/decidables/decidables/commit/af35ddabdbe45fcd01dd5135f0f43122a8848404))
+
+
+
 ## [0.15.2](https://github.com/decidables/decidables/compare/@decidables/decidables@0.15.1...@decidables/decidables@0.15.2) (2025-11-30)
 
 **Note:** Version bump only for package @decidables/decidables

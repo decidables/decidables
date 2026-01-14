@@ -1,6 +1,6 @@
 {
   "name": "@decidables/accumulable",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "accumulable: An Explorable Explanation of the Diffusion Decision Model",
   "type": "module",
   "main": "./dist/index.html",
@@ -26,8 +26,8 @@
     "gulp": "^5.0.1"
   },
   "dependencies": {
-    "@decidables/accumulable-elements": "^0.3.6",
-    "@decidables/decidables-site": "^0.6.1",
+    "@decidables/accumulable-elements": "^0.3.7",
+    "@decidables/decidables-site": "^0.7.0",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "core-js": "^3.47.0",

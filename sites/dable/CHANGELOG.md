@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/decidables/decidables/compare/@decidables/dable@0.2.2...@decidables/dable@0.3.0) (2026-01-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **all:** WOFF fonts removed from all sites
+
+### Features
+
+* **all:** remove WOFF fonts ([32110fa](https://github.com/decidables/decidables/commit/32110fa86eaea8fe80abf0155484f5a9d99d7bed))
+
+
+### Bug Fixes
+
+* **all:** moved all issues to GitHub and cleaned up all `NOTES.md` ([b3f4a09](https://github.com/decidables/decidables/commit/b3f4a09b5352c9e2cecb6c76d527bbfcb0921b20)), closes [#48](https://github.com/decidables/decidables/issues/48)
+* **sites:** add `YAML` processors to "Credits" ([d4cc942](https://github.com/decidables/decidables/commit/d4cc9425c3779300cc3ab7fa730a46270e144ff5))
+* **sites:** update `Credits` pages ([af35dda](https://github.com/decidables/decidables/commit/af35ddabdbe45fcd01dd5135f0f43122a8848404))
+
+
+
 ## [0.2.2](https://github.com/decidables/decidables/compare/@decidables/dable@0.2.1...@decidables/dable@0.2.2) (2025-11-30)
 
 **Note:** Version bump only for package @decidables/dable

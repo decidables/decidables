@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.6.1...@decidables/decidables-site@0.7.0) (2026-01-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **all:** WOFF fonts removed from all sites
+
+### Features
+
+* **all:** remove WOFF fonts ([32110fa](https://github.com/decidables/decidables/commit/32110fa86eaea8fe80abf0155484f5a9d99d7bed))
+
+
+
 ## [0.6.1](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.6.0...@decidables/decidables-site@0.6.1) (2025-11-30)
 
 **Note:** Version bump only for package @decidables/decidables-site

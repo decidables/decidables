@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.2](https://github.com/decidables/decidables/compare/@decidables/detectable@0.15.1...@decidables/detectable@0.15.2) (2026-01-14)
+
+
+### Bug Fixes
+
+* **all:** moved all issues to GitHub and cleaned up all `NOTES.md` ([b3f4a09](https://github.com/decidables/decidables/commit/b3f4a09b5352c9e2cecb6c76d527bbfcb0921b20)), closes [#48](https://github.com/decidables/decidables/issues/48)
+* **sites:** add `YAML` processors to "Credits" ([d4cc942](https://github.com/decidables/decidables/commit/d4cc9425c3779300cc3ab7fa730a46270e144ff5))
+* **sites:** update `Credits` pages ([af35dda](https://github.com/decidables/decidables/commit/af35ddabdbe45fcd01dd5135f0f43122a8848404))
+
+
+
 ## [0.15.1](https://github.com/decidables/decidables/compare/@decidables/detectable@0.15.0...@decidables/detectable@0.15.1) (2025-11-30)
 
 **Note:** Version bump only for package @decidables/detectable

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.4](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.6.3...@decidables/discountable-elements@0.6.4) (2026-01-14)
+
+
+### Bug Fixes
+
+* **discountable-elements:** update starting location of bar in `htd-curves` ([983159c](https://github.com/decidables/decidables/commit/983159c3ddb76cfdff856ee7108d1840247001a6)), closes [#10](https://github.com/decidables/decidables/issues/10)
+* **libraries:** add hacks to get Safari to render shadows properly ([120b73c](https://github.com/decidables/decidables/commit/120b73c2e771d59cf43de8dbe8a064a4902b6bd4)), closes [#11](https://github.com/decidables/decidables/issues/11)
+
+
+
 ## [0.6.3](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.6.2...@decidables/discountable-elements@0.6.3) (2025-11-30)
 
 **Note:** Version bump only for package @decidables/discountable-elements
