@@ -149,7 +149,7 @@ export async function buildFavicons() {
 
 export function buildFontsTask(extensions) {
   return async function buildFonts() {
-    const src = `local/fonts/*.{${extensions.join(',')}}`;
+    const src = `local/fonts/*.{${extensions.join(',')},}`;
     const dest = 'dist/fonts';
 
     const srcPaths = await globby(src);
