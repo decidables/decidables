@@ -162,9 +162,14 @@ components](https://developer.mozilla.org/en-US/docs/Web/Web_Components), as opp
 proprietary components used in many frameworks. This means that they each define a [custom
 element](https://html.spec.whatwg.org/multipage/custom-elements.html) that can be used directly in
 HTML, once the appropriate library has been included (e.g. via a script tag). For example, an
-interactive rendering of ROC space can be used as easily as:<br>
+interactive rendering of ROC space can be used as easily as:
+
+<!-- htmlhint-disable spec-char-escape -->
+
 `<roc-space interactive hr="0.75" far="0.25"></roc-space>`<br>
 <roc-space interactive hr="0.75" far="0.25"></roc-space>
+
+<!-- htmlhint-enable spec-char-escape -->
 
 Our web components are implemented using [:tool[Lit]](https://lit.dev/), which facilitates a
 declarative reactive approach based on [tagged template
