@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.5.0...@decidables/prospectable-elements@0.5.1) (2026-01-16)
+
+
+### Bug Fixes
+
+* **prospectable-elements:** move 3d drag handlers from d3 `merge` to d3 `enter` ([5be1df7](https://github.com/decidables/decidables/commit/5be1df75769d4f997d843b905fc1111d21ff3756)), closes [#61](https://github.com/decidables/decidables/issues/61)
+
+
+
 ## [0.5.0](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.4.5...@decidables/prospectable-elements@0.5.0) (2026-01-14)
 
 
