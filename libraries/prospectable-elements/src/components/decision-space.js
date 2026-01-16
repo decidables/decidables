@@ -597,11 +597,11 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       }]);
     //  ENTER
     const svgEnter = svgUpdate.enter().append('svg')
-      .classed('main', true);
+      .classed('main', true)
+      .call(svgDrag);
     //  MERGE
     const svgMerge = svgEnter.merge(svgUpdate)
-      .attr('viewBox', `0 0 ${elementSize} ${elementSize}`)
-      .call(svgDrag);
+      .attr('viewBox', `0 0 ${elementSize} ${elementSize}`);
 
     // Gradient Def
     const gradientEnter = svgEnter.append('defs').append('linearGradient')
