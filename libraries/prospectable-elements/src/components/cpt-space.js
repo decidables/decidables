@@ -474,7 +474,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     };
     const startRotationX = (-0.85 * Math.PI) / 8;
     const startRotationY = (3 * Math.PI) / 8;
-    const startRotationZ = 0;
+    const startRotationZ = 0.0000001; // Avoid d3-3d bug
 
     const lineStrips3D = d33d.lineStrips3D()
       .origin(startOrigin)
@@ -578,21 +578,24 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
         lineStrips3D
           .x((datum) => { return datum.x; })
           .y(() => { return yScale.range()[0]; })
-          .z(() => { return zScale.range()[0]; })(xAxis),
+          .z(() => { return zScale.range()[0]; })
+          .data(xAxis),
       );
     const axisYUpdate = svgMerge.selectAll('.axis-y')
       .data(
         lineStrips3D
           .x(() => { return xScale.range()[0]; })
           .y((datum) => { return datum.y; })
-          .z(() => { return zScale.range()[1]; })(yAxis),
+          .z(() => { return zScale.range()[1]; })
+          .data(yAxis),
       );
     const axisZUpdate = svgMerge.selectAll('.axis-z')
       .data(
         lineStrips3D
           .x(() => { return xScale.range()[0]; })
           .y(() => { return yScale.range()[0]; })
-          .z((datum) => { return datum.z; })(zAxis),
+          .z((datum) => { return datum.z; })
+          .data(zAxis),
       );
     //  ENTER
     const axisXEnter = axisXUpdate.enter().append('path')
@@ -622,7 +625,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
             return datum.id === 'min' ? datum.x - this.rem * 20 : datum.x + this.rem * 20;
           })
           .y(() => { return yScale.range()[0] + this.rem * 1.75; })
-          .z(() => { return zScale.range()[0] + this.rem * 1.75; })(xAxis),
+          .z(() => { return zScale.range()[0] + this.rem * 1.75; })
+          .data(xAxis),
       );
     const titlePathYUpdate = svgMerge.selectAll('.title-path-y')
       .data(
@@ -631,7 +635,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           .y((datum) => {
             return datum.id === 'min' ? datum.y + this.rem * 20 : datum.y - this.rem * 20;
           })
-          .z(() => { return zScale.range()[1] - this.rem * 1.75; })(yAxis),
+          .z(() => { return zScale.range()[1] - this.rem * 1.75; })
+          .data(yAxis),
       );
     const titlePathZUpdate = svgMerge.selectAll('.title-path-z')
       .data(
@@ -640,21 +645,40 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           .y(() => { return yScale.range()[0] + this.rem * 1.75; })
           .z((datum) => {
             return datum.id === 'min' ? datum.z - this.rem * 20 : datum.z + this.rem * 20;
-          })(zAxis),
+          })
+          .data(zAxis),
       );
     const titleXUpdate = svgMerge.selectAll('.title-x')
       .data(
-        xAxis,
+        lineStrips3D
+          .x((datum) => {
+            return datum.id === 'min' ? datum.x - this.rem * 20 : datum.x + this.rem * 20;
+          })
+          .y(() => { return yScale.range()[0] + this.rem * 1.75; })
+          .z(() => { return zScale.range()[0] + this.rem * 1.75; })
+          .data(xAxis),
         (datum) => { return datum[0].title; },
       );
     const titleYUpdate = svgMerge.selectAll('.title-y')
       .data(
-        yAxis,
+        lineStrips3D
+          .x(() => { return xScale.range()[0] - this.rem * 1.75; })
+          .y((datum) => {
+            return datum.id === 'min' ? datum.y + this.rem * 20 : datum.y - this.rem * 20;
+          })
+          .z(() => { return zScale.range()[1] - this.rem * 1.75; })
+          .data(yAxis),
         (datum) => { return datum[0].title; },
       );
     const titleZUpdate = svgMerge.selectAll('.title-z')
       .data(
-        zAxis,
+        lineStrips3D
+          .x(() => { return xScale.range()[0] - this.rem * 1.75; })
+          .y(() => { return yScale.range()[0] + this.rem * 1.75; })
+          .z((datum) => {
+            return datum.id === 'min' ? datum.z - this.rem * 20 : datum.z + this.rem * 20;
+          })
+          .data(zAxis),
         (datum) => { return datum[0].title; },
       );
     //  ENTER
@@ -741,7 +765,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           })
           .z((datum) => {
             return datum.id === 'min' ? zScale.range()[0] : zScale.range()[0] + this.rem * 0.35;
-          })(xTicks),
+          })
+          .data(xTicks),
       );
     const ticksYUpdate = svgMerge.selectAll('.tick-y')
       .data(
@@ -752,7 +777,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           .y((datum) => { return datum.y; })
           .z((datum) => {
             return datum.id === 'min' ? zScale.range()[1] : zScale.range()[1] - this.rem * 0.35;
-          })(yTicks),
+          })
+          .data(yTicks),
       );
     const ticksZUpdate = svgMerge.selectAll('.tick-z')
       .data(
@@ -763,7 +789,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           .y((datum) => {
             return datum.id === 'min' ? yScale.range()[0] : yScale.range()[0] + this.rem * 0.35;
           })
-          .z((datum) => { return datum.z; })(zTicks),
+          .z((datum) => { return datum.z; })
+          .data(zTicks),
       );
     //  ENTER
     const ticksXEnter = ticksXUpdate.enter().append('path')
@@ -799,7 +826,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
             return datum.id === 'min'
               ? zScale.range()[0] + this.rem * 4
               : zScale.range()[0] + this.rem * 0.5;
-          })(xTicks),
+          })
+          .data(xTicks),
         (datum) => { return datum[0].label; },
       );
     const labelPathsYUpdate = svgMerge.selectAll('.label-path-y')
@@ -815,7 +843,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
             return datum.id === 'min'
               ? zScale.range()[1] - this.rem * 0.5
               : zScale.range()[1] - this.rem * 4;
-          })(yTicks),
+          })
+          .data(yTicks),
         (datum) => { return datum[0].label; },
       );
     const labelPathsZUpdate = svgMerge.selectAll('.label-path-z')
@@ -831,22 +860,59 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
               ? yScale.range()[0] + this.rem * 4
               : yScale.range()[0] + this.rem * 0.5;
           })
-          .z((datum) => { return datum.z; })(zTicks),
+          .z((datum) => { return datum.z; })
+          .data(zTicks),
         (datum) => { return datum[0].label; },
       );
     const labelsXUpdate = svgMerge.selectAll('.label-x')
       .data(
-        xTicks,
+        lineStrips3D
+          .x((datum) => { return datum.x; })
+          .y((datum) => {
+            return datum.id === 'min'
+              ? yScale.range()[0] + this.rem * 4
+              : yScale.range()[0] + this.rem * 0.5;
+          })
+          .z((datum) => {
+            return datum.id === 'min'
+              ? zScale.range()[0] + this.rem * 4
+              : zScale.range()[0] + this.rem * 0.5;
+          })
+          .data(xTicks),
         (datum) => { return datum[0].label; },
       );
     const labelsYUpdate = svgMerge.selectAll('.label-y')
       .data(
-        yTicks,
+        lineStrips3D
+          .x((datum) => {
+            return datum.id === 'min'
+              ? xScale.range()[0] - this.rem * 0.5
+              : xScale.range()[0] - this.rem * 4;
+          })
+          .y((datum) => { return datum.y; })
+          .z((datum) => {
+            return datum.id === 'min'
+              ? zScale.range()[1] - this.rem * 0.5
+              : zScale.range()[1] - this.rem * 4;
+          })
+          .data(yTicks),
         (datum) => { return datum[0].label; },
       );
     const labelsZUpdate = svgMerge.selectAll('.label-z')
       .data(
-        zTicks,
+        lineStrips3D
+          .x((datum) => {
+            return datum.id === 'min'
+              ? xScale.range()[0] - this.rem * 4
+              : xScale.range()[0] - this.rem * 0.5;
+          })
+          .y((datum) => {
+            return datum.id === 'min'
+              ? yScale.range()[0] + this.rem * 4
+              : yScale.range()[0] + this.rem * 0.5;
+          })
+          .z((datum) => { return datum.z; })
+          .data(zTicks),
         (datum) => { return datum[0].label; },
       );
     //  ENTER
@@ -908,7 +974,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
         points3d
           .x((datum) => { return xScale(datum.a); })
           .y((datum) => { return yScale(datum.g); })
-          .z((datum) => { return zScale(datum.l); })(
+          .z((datum) => { return zScale(datum.l); })
+          .data(
             this.point
               ? [{
                 a: this.a,
@@ -987,7 +1054,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
             .rows(d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step).length)
             .x((datum) => { return xScale(datum.a); })
             .y((datum) => { return yScale(datum.g); })
-            .z((datum) => { return zScale(datum.l); })(this.boundary)
+            .z((datum) => { return zScale(datum.l); })
+            .data(this.boundary)
             .filter((datum) => {
               return (
                 (datum[0].a >= this.range.a.start && datum[0].a <= this.range.a.stop)
@@ -1024,7 +1092,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           .rows(d3.range(this.range.g.start, this.range.g.stop + 0.01, this.range.g.step).length)
           .x((datum) => { return xScale(datum.a); })
           .y((datum) => { return yScale(datum.g); })
-          .z((datum) => { return zScale(datum.l); })(this.mapXY),
+          .z((datum) => { return zScale(datum.l); })
+          .data(this.mapXY),
       );
     const mapXZUpdate = svgMerge.selectAll('.map-xz')
       .data(
@@ -1032,7 +1101,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           .rows(d3.range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step).length)
           .x((datum) => { return xScale(datum.a); })
           .y((datum) => { return yScale(datum.g); })
-          .z((datum) => { return zScale(datum.l); })(this.mapXZ),
+          .z((datum) => { return zScale(datum.l); })
+          .data(this.mapXZ),
       );
     const mapYZUpdate = svgMerge.selectAll('.map-yz')
       .data(
@@ -1040,7 +1110,8 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           .rows(d3.range(this.range.l.start, this.range.l.stop + 0.01, this.range.l.step).length)
           .x((datum) => { return xScale(datum.a); })
           .y((datum) => { return yScale(datum.g); })
-          .z((datum) => { return zScale(datum.l); })(this.mapYZ),
+          .z((datum) => { return zScale(datum.l); })
+          .data(this.mapYZ),
       );
     //  ENTER
     const mapXYEnter = mapXYUpdate.enter().append('path')
@@ -1089,7 +1160,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
     mapYZUpdate.exit().remove();
 
     // Depth sorting
-    d3.select(this.renderRoot).selectAll('.d3-3d').sort(points3d.sort);
+    d3.select(this.renderRoot).selectAll('.d3-3d').sort(d33d.sort);
 
     // Color Legend
     //  DATA-JOIN

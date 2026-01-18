@@ -56,10 +56,10 @@
   "dependencies": {
     "@decidables/accumulable-math": "^0.2.5",
     "@decidables/decidables-elements": "^0.5.6",
-    "@lit-labs/motion": "^1.0.9",
+    "@lit-labs/motion": "^1.1.0",
     "@observablehq/plot": "^0.6.17",
     "bayes.js": "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f",
     "d3": "^7.9.0",
-    "lit": "^3.3.1"
+    "lit": "^3.3.2"
   }
 }
