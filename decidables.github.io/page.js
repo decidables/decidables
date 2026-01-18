@@ -2245,7 +2245,7 @@ const o=t=>t??E;class DecidablesSlider extends DecidablesElement{static get prop
           transform: translateY(0);
         }
 
-        :host(.keyboard) .option .body.interactive:has(~ .point:focus-within) {
+        :host(.keyboard) .body.interactive:has(~ .point:focus-within) {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
