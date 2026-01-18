@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.5](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.6.4...@decidables/discountable-elements@0.6.5) (2026-01-18)
+
+
+### Bug Fixes
+
+* **discountable-elements:** fix style in `htd-curves` due to `stylelint` changes ([2593dcb](https://github.com/decidables/decidables/commit/2593dcb432d21027ebc1dd65cc4f169cbae1fbec))
+
+
+
 ## [0.6.4](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.6.3...@decidables/discountable-elements@0.6.4) (2026-01-14)
 
 

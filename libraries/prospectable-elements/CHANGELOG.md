@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.2](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.5.1...@decidables/prospectable-elements@0.5.2) (2026-01-18)
+
+
+### Bug Fixes
+
+* **prospectable-elements:** update for `d3-3d` version 2 ([2b14e78](https://github.com/decidables/decidables/commit/2b14e78e6162d6af81d7e524bf3b32101343524b))
+
+
+
 ## [0.5.1](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.5.0...@decidables/prospectable-elements@0.5.1) (2026-01-16)
 
 

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.3.7...@decidables/accumulable-elements@0.3.8) (2026-01-18)
+
+**Note:** Version bump only for package @decidables/accumulable-elements
+
+
+
+
+
 ## [0.3.7](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.3.6...@decidables/accumulable-elements@0.3.7) (2026-01-14)
 
 
