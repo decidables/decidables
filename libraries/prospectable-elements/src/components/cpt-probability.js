@@ -295,7 +295,7 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
           transform: translateY(0);
         }
 
-        :host(.keyboard) .curve.interactive:focus {
+        .curve.interactive:focus-visible {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
@@ -328,7 +328,7 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
           stroke: #00ff00;
         }
 
-        :host(.keyboard) .point.interactive:focus {
+        .point.interactive:focus-visible {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */

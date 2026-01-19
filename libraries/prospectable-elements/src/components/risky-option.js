@@ -61,7 +61,7 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
           filter: url("#shadow-8");
         }
 
-        :host(.keyboard) .arc.interactive:focus {
+        .arc.interactive:focus-visible {
           filter: url("#shadow-8");
         }
 

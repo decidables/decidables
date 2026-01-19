@@ -311,8 +311,8 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
           transform: translateY(0);
         }
 
-        :host(.keyboard) .curve-p.interactive:focus,
-        :host(.keyboard) .curve-n.interactive:focus {
+        .curve-p.interactive:focus-visible,
+        .curve-n.interactive:focus-visible {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
@@ -345,7 +345,7 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
           stroke: #00ff00;
         }
 
-        :host(.keyboard) .point.interactive:focus {
+        .point.interactive:focus-visible {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */

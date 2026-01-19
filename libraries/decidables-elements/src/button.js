@@ -71,12 +71,12 @@ export default class DecidablesButton extends DecidablesElement {
           box-shadow: var(---shadow-8);
         }
 
-        :host(.keyboard) button:enabled:focus {
+        button:enabled:focus-visible {
           outline: none;
           box-shadow: var(---shadow-4);
         }
 
-        :host(.keyboard) button:enabled:focus:active {
+        button:enabled:focus-visible:active {
           outline: none;
           box-shadow: var(---shadow-8);
         }

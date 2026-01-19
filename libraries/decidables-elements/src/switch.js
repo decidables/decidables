@@ -148,17 +148,14 @@ export default class DecidablesSwitch extends DecidablesElement {
           box-shadow: var(---shadow-8);
         }
 
-        /* stylelint-disable-next-line selector-max-compound-selectors */
-        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label::after {
+        input[type=checkbox]:enabled:focus-visible + label + label::after {
           box-shadow: var(---shadow-4);
         }
 
-        /* stylelint-disable selector-max-compound-selectors */
-        :host(.keyboard) input[type=checkbox]:enabled:focus + label + label:active::after,
-        :host(.keyboard) input[type=checkbox]:enabled:focus:active + label + label::after {
+        input[type=checkbox]:enabled:focus-visible + label + label:active::after,
+        input[type=checkbox]:enabled:focus-visible:active + label + label::after {
           box-shadow: var(---shadow-8);
         }
-        /* stylelint-enable selector-max-compound-selectors */
         `,
     ];
   }

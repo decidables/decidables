@@ -277,7 +277,7 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
           stroke: #00ff00;
         }
 
-        :host(.keyboard) .point.interactive:focus {
+        .point.interactive:focus-visible {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */

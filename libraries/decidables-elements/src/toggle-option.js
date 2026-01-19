@@ -124,14 +124,14 @@ export default class DecidablesToggleOption extends DecidablesElement {
           border-bottom-left-radius: 0.25rem;
         }
 
-        :host(.keyboard) input[type=radio]:focus + label {
+        input[type=radio]:focus-visible + label {
           z-index: 1;
 
           outline: none;
           box-shadow: var(---shadow-4);
         }
 
-        :host(.keyboard) input[type=radio]:focus:checked + label {
+        input[type=radio]:focus-visible:checked + label {
           z-index: 1;
 
           background-color: var(---color-element-selected);
@@ -139,7 +139,7 @@ export default class DecidablesToggleOption extends DecidablesElement {
           box-shadow: var(---shadow-4);
         }
 
-        :host(.keyboard) input[type=radio]:focus + label:active {
+        input[type=radio]:focus-visible + label:active {
           z-index: 2;
 
           outline: none;

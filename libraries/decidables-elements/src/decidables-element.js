@@ -16,26 +16,6 @@ export default class DecidablesElement extends LitElement {
     return getComputedStyle(this).getPropertyValue(property).trim();
   }
 
-  firstUpdated(changedProperties) {
-    super.firstUpdated(changedProperties);
-
-    // Use focus highlighting if keyboard is used at all
-    d3.select(this.renderRoot.host)
-      .classed('keyboard', true)
-      .on('mousemove.keyboard touchstart.keyboard', (event) => {
-        const element = event.currentTarget;
-        d3.select(element.renderRoot.host)
-          .classed('keyboard', false)
-          .on('mousemove.keyboard touchstart.keyboard', null);
-      })
-      .on('keydown.keyboard', (event) => {
-        const element = event.currentTarget;
-        d3.select(element.renderRoot.host)
-          .classed('keyboard', true)
-          .on('keydown.keyboard mousemove.keyboard touchstart.keyboard', null);
-      });
-  }
-
   static get greys() {
     const grey = '#999999';
     const greys = {};
