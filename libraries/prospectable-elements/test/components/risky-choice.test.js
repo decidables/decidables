@@ -14,13 +14,13 @@ describe('risky-choice', () => {
     const el = await fixture(html`<risky-choice></risky-choice>`);
     expect(el).shadowDom.to.equal(`
       <div class="holder">
-        <risky-option class="gamble keyboard">
-          <risky-outcome class="keyboard" name="loss" probability="0.25" value="0"></risky-outcome>
-          <risky-outcome class="keyboard" name="win" probability="0.75" value="100"></risky-outcome>
+        <risky-option class="gamble">
+          <risky-outcome name="loss" probability="0.25" value="0"></risky-outcome>
+          <risky-outcome name="win" probability="0.75" value="100"></risky-outcome>
         </risky-option>
         <span class="query">?</span>
-        <risky-option class="sure keyboard">
-          <risky-outcome class="keyboard" name="sure" probability="1" value="50"></risky-outcome>
+        <risky-option class="sure">
+          <risky-outcome name="sure" probability="1" value="50"></risky-outcome>
         </risky-option>
       </div>
     `);

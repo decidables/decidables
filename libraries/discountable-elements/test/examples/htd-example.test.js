@@ -35,6 +35,6 @@ describe('htd-example', () => {
         <htd-calculation></htd-calculation>
       </htd-example>
     `);
-    expect(el).lightDom.to.equal('<htd-calculation class="keyboard" amount-ss="20" delay-ss="5" amount-ll="50" delay-ll="40" k="0.05"></htd-calculation>');
+    expect(el).lightDom.to.equal('<htd-calculation amount-ss="20" delay-ss="5" amount-ll="50" delay-ll="40" k="0.05"></htd-calculation>');
   });
 });

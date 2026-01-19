@@ -53,12 +53,12 @@ describe('cpt-example-human', () => {
       </cpt-example-human>
     `);
     expect(el).lightDom.to.equal(`
-      <prospectable-control class="keyboard" trials="10" duration="2000" run pause reset></prospectable-control>
-      <risky-task class="keyboard" trials="10" duration="2000" iti="2000"></risky-task>
-      <prospectable-response class="keyboard" interactive trial feedback="outcome" payoff="both"></prospectable-response>
-      <cpt-parameters class="keyboard" alpha="0.5" lambda="2" gamma="0.5"></cpt-parameters>
-      <cpt-value class="keyboard" alpha="0.5" lambda="2" label=""></cpt-value>
-      <cpt-probability class="keyboard" gamma="0.5" label=""></cpt-probability>
+      <prospectable-control trials="10" duration="2000" run pause reset></prospectable-control>
+      <risky-task trials="10" duration="2000" iti="2000"></risky-task>
+      <prospectable-response interactive trial feedback="outcome" payoff="both"></prospectable-response>
+      <cpt-parameters alpha="0.5" lambda="2" gamma="0.5"></cpt-parameters>
+      <cpt-value alpha="0.5" lambda="2" label=""></cpt-value>
+      <cpt-probability gamma="0.5" label=""></cpt-probability>
     `);
   });
 

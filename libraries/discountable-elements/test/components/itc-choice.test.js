@@ -13,10 +13,10 @@ describe('itc-choice', () => {
     const el = await fixture(html`<itc-choice></itc-choice>`);
     expect(el).shadowDom.to.equal(`
       <div class="holder">
-        <itc-option class="keyboard ss" state="choice" amount="10" delay="5" class="keyboard">
+        <itc-option class="ss" state="choice" amount="10" delay="5">
         </itc-option>
         <span class="query">?</span>
-        <itc-option class="keyboard ll" state="choice" amount="40" delay="30" class="keyboard">
+        <itc-option class="ll" state="choice" amount="40" delay="30">
         </itc-option>
       </div>
     `);

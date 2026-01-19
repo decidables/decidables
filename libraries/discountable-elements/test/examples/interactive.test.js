@@ -45,10 +45,10 @@ describe('htd-example-interactive', () => {
       </htd-example-interactive>
     `);
     expect(el).lightDom.to.equal(`
-      <itc-choice class="keyboard" interactive state="choice" amount-ss="10" delay-ss="1" amount-ll="50" delay-ll="40"></itc-choice>
-      <htd-parameters class="keyboard" interactive k="0.05"></htd-parameters>
-      <htd-curves class="keyboard" interactive label="s" k="0.05" class="" amount="10" delay="1"></htd-curves>
-      <htd-calculation class="keyboard" numeric interactive amount-ss="10" delay-ss="1" amount-ll="50" delay-ll="40" k="0.05"></htd-calculation>
+      <itc-choice interactive state="choice" amount-ss="10" delay-ss="1" amount-ll="50" delay-ll="40"></itc-choice>
+      <htd-parameters interactive k="0.05"></htd-parameters>
+      <htd-curves interactive label="s" k="0.05" amount="10" delay="1"></htd-curves>
+      <htd-calculation numeric interactive amount-ss="10" delay-ss="1" amount-ll="50" delay-ll="40" k="0.05"></htd-calculation>
     `);
   });
 

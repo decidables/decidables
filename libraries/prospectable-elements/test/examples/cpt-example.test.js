@@ -35,6 +35,6 @@ describe('cpt-example', () => {
         <cpt-calculation></cpt-calculation>
       </cpt-example>
     `);
-    expect(el).lightDom.to.equal('<cpt-calculation alpha="0.5" class="keyboard" gamma="0.5" lambda="2" loss="0" probability="0.75" sure="50" win="100"></cpt-calculation>');
+    expect(el).lightDom.to.equal('<cpt-calculation alpha="0.5" gamma="0.5" lambda="2" loss="0" probability="0.75" sure="50" win="100"></cpt-calculation>');
   });
 });

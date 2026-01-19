@@ -47,10 +47,10 @@ describe('ddm-example-interactive', () => {
       </ddm-example-interactive>
     `);
     expect(el).lightDom.to.equal(`
-      <accumulable-control trials="10" resample color="outcome" class="keyboard"></accumulable-control>
-      <ddm-parameters interactive="" class="keyboard" boundary-separation="1.2" starting-point="0.55" drift-rate="1.5" nondecision-time="150"></ddm-parameters>
-      <ddm-model interactive measures means sds trials="10" boundary-separation="1.2" starting-point="0.55" drift-rate="1.5" nondecision-time="150" class="keyboard"></ddm-model>
-      <accumulable-table numeric summary color="outcome" class="keyboard"></accumulable-table>
+      <accumulable-control trials="10" resample color="outcome"></accumulable-control>
+      <ddm-parameters interactive="" boundary-separation="1.2" starting-point="0.55" drift-rate="1.5" nondecision-time="150"></ddm-parameters>
+      <ddm-model interactive measures means sds trials="10" boundary-separation="1.2" starting-point="0.55" drift-rate="1.5" nondecision-time="150"></ddm-model>
+      <accumulable-table numeric summary color="outcome"></accumulable-table>
     `, {
       ignoreAttributes: [
         'seed',

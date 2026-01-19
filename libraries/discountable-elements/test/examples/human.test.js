@@ -48,11 +48,11 @@ describe('htd-example-human', () => {
       </htd-example-human>
     `);
     expect(el).lightDom.to.equal(`
-      <discountable-control class="keyboard" trials="10" duration="2000" run pause reset></discountable-control>
-      <itc-task class="keyboard" trials="10" duration="2000" iti="2000"></itc-task>
-      <discountable-response class="keyboard" interactive trial feedback></discountable-response>
-      <htd-parameters class="keyboard" k="0.05"></htd-parameters>
-      <htd-curves class="keyboard" label="" k="0.05"></htd-curves>
+      <discountable-control trials="10" duration="2000" run pause reset></discountable-control>
+      <itc-task trials="10" duration="2000" iti="2000"></itc-task>
+      <discountable-response interactive trial feedback></discountable-response>
+      <htd-parameters k="0.05"></htd-parameters>
+      <htd-curves label="" k="0.05"></htd-curves>
     `);
   });
 

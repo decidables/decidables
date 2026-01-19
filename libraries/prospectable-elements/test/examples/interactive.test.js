@@ -52,11 +52,11 @@ describe('cpt-example-interactive', () => {
       </cpt-example-interactive>
     `);
     expect(el).lightDom.to.equal(`
-      <risky-choice class="keyboard" interactive loss="0" win="20" probability="0.5" sure="10" state="choice"></risky-choice>
-      <cpt-parameters class="keyboard" interactive alpha="0.5" lambda="2" gamma="0.5"></cpt-parameters>
-      <cpt-value class="keyboard" interactive value="10" alpha="0.5" lambda="2" label="s"></cpt-value>
-      <cpt-probability class="keyboard" interactive probability="0.5" gamma="0.5" label=""></cpt-probability>
-      <cpt-calculation  class="keyboard" numeric interactive loss="0" win="20" probability="0.5" sure="10" alpha="0.5" lambda="2" gamma="0.5"></cpt-calculation>
+      <risky-choice interactive loss="0" win="20" probability="0.5" sure="10" state="choice"></risky-choice>
+      <cpt-parameters interactive alpha="0.5" lambda="2" gamma="0.5"></cpt-parameters>
+      <cpt-value interactive value="10" alpha="0.5" lambda="2" label="s"></cpt-value>
+      <cpt-probability interactive probability="0.5" gamma="0.5" label=""></cpt-probability>
+      <cpt-calculation  numeric interactive loss="0" win="20" probability="0.5" sure="10" alpha="0.5" lambda="2" gamma="0.5"></cpt-calculation>
     `);
   });
 
