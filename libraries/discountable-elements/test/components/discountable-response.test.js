@@ -16,8 +16,8 @@ describe('discountable-response', () => {
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="responses">
-          <decidables-button name="first" class="keyboard response" disabled>First</decidables-button>
-          <decidables-button name="second" class="keyboard response" disabled>Second</decidables-button>
+          <decidables-button name="first" class="response" disabled>First</decidables-button>
+          <decidables-button name="second" class="response" disabled>Second</decidables-button>
         </div>
       </div>
     `);

@@ -12,7 +12,7 @@ describe('itc-task', () => {
     const el = await fixture(html`<itc-task></itc-task>`);
     expect(el).shadowDom.to.equal(`
       <div class="holder">
-        <itc-choice class="keyboard" state="blank" amount-ss="0" delay-ss="0" amount-ll="0" delay-ll="0">
+        <itc-choice state="blank" amount-ss="0" delay-ss="0" amount-ll="0" delay-ll="0">
         </itc-choice>
       </div>
     `);

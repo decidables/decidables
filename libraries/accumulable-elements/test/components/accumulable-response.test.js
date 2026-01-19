@@ -16,8 +16,8 @@ describe('accumulable-response', () => {
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="responses">
-          <decidables-button name="left" class="response keyboard" disabled>Left</decidables-button>
-          <decidables-button name="right" class="response keyboard" disabled>Right</decidables-button>
+          <decidables-button name="left" class="response" disabled>Left</decidables-button>
+          <decidables-button name="right" class="response" disabled>Right</decidables-button>
         </div>
       </div>
     `);

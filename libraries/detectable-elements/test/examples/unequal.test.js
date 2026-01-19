@@ -39,9 +39,9 @@ describe('sdt-example-unequal', () => {
       </sdt-example-unequal>
     `);
     expect(el).lightDom.to.equal(`
-      <detectable-control class="keyboard" z-roc></detectable-control>
-      <sdt-model class="keyboard" interactive unequal distributions sensitivity variance color="stimulus"></sdt-model>
-      <roc-space class="keyboard" contour="sensitivity" iso-c="rest" iso-d="rest" point="rest" z-roc></roc-space>
+      <detectable-control z-roc></detectable-control>
+      <sdt-model interactive unequal distributions sensitivity variance color="stimulus"></sdt-model>
+      <roc-space contour="sensitivity" iso-c="rest" iso-d="rest" point="rest" z-roc></roc-space>
     `, {ignoreAttributes: ['hr', 'far', 'c', 'd', 's']});
   });
 

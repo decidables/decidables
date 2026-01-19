@@ -283,10 +283,10 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
           transform: translateY(0);
         }
 
-        :host(.keyboard) .noise.interactive:focus,
-        :host(.keyboard) .signal.interactive:focus,
-        :host(.keyboard) .signal.unequal:focus,
-        :host(.keyboard) .threshold.interactive:focus {
+        .noise.interactive:focus-visible,
+        .signal.interactive:focus-visible,
+        .signal.unequal:focus-visible,
+        .threshold.interactive:focus-visible {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */

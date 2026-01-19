@@ -191,13 +191,11 @@ export default class DecidablesSlider extends DecidablesElement {
           outline: none;
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]::-ms-tooltip {
           display: none;
         }
 
         /* Track */
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]::-webkit-slider-runnable-track {
           width: 100%;
           height: 4px;
@@ -212,7 +210,6 @@ export default class DecidablesSlider extends DecidablesElement {
           background: var(---decidables-slider-background-color);
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]::-moz-range-track {
           width: 100%;
           height: 4px;
@@ -223,7 +220,6 @@ export default class DecidablesSlider extends DecidablesElement {
           box-shadow: none;
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]::-ms-track {
           width: 100%;
           height: 4px;
@@ -234,7 +230,6 @@ export default class DecidablesSlider extends DecidablesElement {
           border-color: transparent;
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]::-ms-fill-lower {
           background: #cccccc;
           /* background: var(---decidables-slider-background-color); */
@@ -243,7 +238,6 @@ export default class DecidablesSlider extends DecidablesElement {
           box-shadow: none;
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]::-ms-fill-upper {
           background: #cccccc;
           /* background: var(---decidables-slider-background-color); */
@@ -252,18 +246,15 @@ export default class DecidablesSlider extends DecidablesElement {
           box-shadow: none;
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:focus::-ms-fill-lower {
           background: var(---decidables-slider-background-color);
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:focus::-ms-fill-upper {
           background: var(---decidables-slider-background-color);
         }
 
         /* Thumb */
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]::-webkit-slider-thumb {
           width: 10px;
           height: 20px;
@@ -294,15 +285,14 @@ export default class DecidablesSlider extends DecidablesElement {
           box-shadow: var(---shadow-8-rotate);
         }
 
-        :host(.keyboard) input[type=range]:enabled:focus::-webkit-slider-thumb {
+        input[type=range]:enabled:focus-visible::-webkit-slider-thumb {
           box-shadow: var(---shadow-4-rotate);
         }
 
-        :host(.keyboard) input[type=range]:focus:active::-webkit-slider-thumb {
+        input[type=range]:enabled:focus-visible:active::-webkit-slider-thumb {
           box-shadow: var(---shadow-8-rotate);
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]::-moz-range-thumb {
           width: 10px;
           height: 20px;
@@ -311,37 +301,32 @@ export default class DecidablesSlider extends DecidablesElement {
           border-radius: 4px;
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:disabled::-moz-range-thumb {
           background: var(---decidables-slider-background-color);
           box-shadow: none;
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:enabled::-moz-range-thumb {
           background: var(---decidables-slider-color);
           box-shadow: var(---shadow-2-rotate);
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:enabled:hover::-moz-range-thumb {
           box-shadow: var(---shadow-4-rotate);
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:enabled:active::-moz-range-thumb {
           box-shadow: var(---shadow-8-rotate);
         }
 
-        :host(.keyboard) input[type=range]:enabled:focus::-moz-range-thumb {
+        input[type=range]:enabled:focus-visible::-moz-range-thumb {
           box-shadow: var(---shadow-4-rotate);
         }
 
-        :host(.keyboard) input[type=range]:enabled:focus:active::-moz-range-thumb {
+        input[type=range]:enabled:focus-visible:active::-moz-range-thumb {
           box-shadow: var(---shadow-8-rotate);
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]::-ms-thumb {
           width: 10px;
           height: 20px;
@@ -354,34 +339,29 @@ export default class DecidablesSlider extends DecidablesElement {
           box-shadow: var(---shadow-2-rotate);
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:disabled::-ms-thumb {
           background: var(---decidables-slider-background-color);
           box-shadow: none;
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:enabled::-ms-thumb {
           background: var(---decidables-slider-color);
           box-shadow: var(---shadow-2-rotate);
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:enabled:hover::-ms-thumb {
           box-shadow: var(---shadow-4-rotate);
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
         input[type=range]:enabled:active::-ms-thumb {
           box-shadow: var(---shadow-8-rotate);
         }
 
-        /* stylelint-disable-next-line no-descending-specificity */ /* stylelint ERROR */
-        :host(.keyboard) input[type=range]:enabled:focus::-ms-thumb {
+        input[type=range]:enabled:focus-visible::-ms-thumb {
           box-shadow: var(---shadow-4-rotate);
         }
 
-        :host(.keyboard) input[type=range]:enabled:focus:active::-ms-thumb {
+        input[type=range]:enabled:focus-visible:active::-ms-thumb {
           box-shadow: var(---shadow-8-rotate);
         }
 

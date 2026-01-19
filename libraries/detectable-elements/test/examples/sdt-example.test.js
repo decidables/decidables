@@ -37,6 +37,6 @@ describe('sdt-example', () => {
         <roc-space></roc-space>
       </sdt-example>
     `);
-    expect(el).lightDom.to.equal('<roc-space class="keyboard" far="0.25" hr="0.75" iso-c="first" iso-d="first" point="all"></roc-space>');
+    expect(el).lightDom.to.equal('<roc-space far="0.25" hr="0.75" iso-c="first" iso-d="first" point="all"></roc-space>');
   });
 });

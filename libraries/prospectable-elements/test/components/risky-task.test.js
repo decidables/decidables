@@ -12,7 +12,7 @@ describe('risky-choice', () => {
     const el = await fixture(html`<risky-task></risky-task>`);
     expect(el).shadowDom.to.equal(`
       <div class="holder">
-        <risky-choice class="keyboard" loss="0" probability="0" state="blank" sure="0" win="0"></risky-choice>
+        <risky-choice loss="0" probability="0" state="blank" sure="0" win="0"></risky-choice>
       </div>
     `);
   });

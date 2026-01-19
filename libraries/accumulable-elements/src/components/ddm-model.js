@@ -508,8 +508,8 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           transform: translateY(0);
         }
 
-        :host(.keyboard) .boundary.interactive:focus,
-        :host(.keyboard) .t0z.interactive:focus {
+        .boundary.interactive:focus-visible,
+        .t0z.interactive:focus-visible {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
@@ -557,7 +557,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           fill: #00ff00;
         }
 
-        :host(.keyboard) .drift.interactive:focus {
+        .drift.interactive:focus-visible {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */

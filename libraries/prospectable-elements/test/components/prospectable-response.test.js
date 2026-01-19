@@ -16,8 +16,8 @@ describe('prospectable-response', () => {
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="responses">
-          <decidables-button name="gamble" class="keyboard response" disabled>Gamble</decidables-button>
-          <decidables-button name="sure" class="keyboard response" disabled>Sure</decidables-button>
+          <decidables-button name="gamble" class="response" disabled>Gamble</decidables-button>
+          <decidables-button name="sure" class="response" disabled>Sure</decidables-button>
         </div>
       </div>
     `);

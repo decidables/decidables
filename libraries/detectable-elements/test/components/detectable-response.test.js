@@ -16,8 +16,8 @@ describe('detectable-response', () => {
     expect(el).shadowDom.to.equal(`
       <div class="holder">
         <div class="responses">
-          <decidables-button name="present" class="keyboard" disabled>Present</decidables-button>
-          <decidables-button name="absent" class="keyboard" disabled>Absent</decidables-button>
+          <decidables-button name="present" disabled>Present</decidables-button>
+          <decidables-button name="absent" disabled>Absent</decidables-button>
         </div>
       </div>
     `);

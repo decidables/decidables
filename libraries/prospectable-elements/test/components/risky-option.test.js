@@ -32,8 +32,8 @@ describe('risky-option', () => {
       </risky-option>
     `);
     expect(el).lightDom.to.equal(`
-      <risky-outcome class="keyboard" value="20" probability="0.75" name="win"></risky-outcome>
-      <risky-outcome class="keyboard" value="0" probability="0.25" name="loss"></risky-outcome>
+      <risky-outcome value="20" probability="0.75" name="win"></risky-outcome>
+      <risky-outcome value="0" probability="0.25" name="loss"></risky-outcome>
     `);
   });
 

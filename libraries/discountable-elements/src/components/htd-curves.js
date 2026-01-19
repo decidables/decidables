@@ -269,7 +269,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           transform: translateY(0);
         }
 
-        :host(.keyboard) .option .interactive:focus-within {
+        .option .interactive:focus-visible {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
@@ -290,7 +290,7 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           transform: translateY(0);
         }
 
-        :host(.keyboard) .body.interactive:has(~ .point:focus-within) {
+        .body.interactive:has(~ .point:focus-visible) {
           filter: url("#shadow-8");
 
           /* HACK: This gets Safari to correctly apply the filter! */
