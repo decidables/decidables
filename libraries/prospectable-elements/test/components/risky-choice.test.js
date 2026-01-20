@@ -1,10 +1,10 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
   oneEvent,
   sendKeys,
+  waitUntil,
 } from '../../../../scripts/test-utility';
 
 import '../../src/components/risky-choice';
@@ -77,8 +77,10 @@ describe('risky-choice', () => {
     const el = await fixture(html`
       <risky-choice interactive loss="0" win="20" probability="0.6" sure="10" state="choice"></risky-choice>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('risky-option').shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Action
     const target = el.shadowRoot.querySelector('.sure').shadowRoot.querySelector('decidables-spinner').shadowRoot.querySelector('input');
     target.focus();
@@ -95,8 +97,10 @@ describe('risky-choice', () => {
     const el = await fixture(html`
       <risky-choice interactive loss="0" win="20" probability="0.6" sure="10" state="choice"></risky-choice>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('risky-option').shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Action
     const target = el.shadowRoot.querySelector('.gamble').shadowRoot.querySelector('decidables-spinner').shadowRoot.querySelector('input');
     target.focus();
@@ -113,8 +117,10 @@ describe('risky-choice', () => {
     const el = await fixture(html`
       <risky-choice interactive loss="0" win="20" probability="0.6" sure="10" state="choice"></risky-choice>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('risky-option').shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Action
     const target = el.shadowRoot.querySelector('.gamble').shadowRoot.querySelector('.arc.win.interactive');
     target.focus();
