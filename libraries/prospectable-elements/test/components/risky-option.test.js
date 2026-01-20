@@ -1,11 +1,11 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
   mouseDragElement,
   oneEvent,
   sendKeys,
+  waitUntil,
 } from '../../../../scripts/test-utility';
 
 import '../../src/components/risky-option';
@@ -44,8 +44,10 @@ describe('risky-option', () => {
         <risky-outcome value="0" probability="0.25" name="loss"></risky-outcome>
       </risky-option>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
 
     expect(el.shadowRoot).to.have.descendant('.pie');
     expect(el.shadowRoot).to.have.descendants('.arc').with.length(2);
@@ -61,8 +63,10 @@ describe('risky-option', () => {
         <risky-outcome value="0" probability="0.25" name="loss"></risky-outcome>
       </risky-option>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
 
     expect(el.shadowRoot).to.have.descendant('.pie');
     expect(el.shadowRoot).to.have.descendants('.arc').with.length(2);
@@ -79,8 +83,10 @@ describe('risky-option', () => {
         <risky-outcome value="0" probability="0.25" name="loss"></risky-outcome>
       </risky-option>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
 
     expect(el.shadowRoot).to.have.descendants('.label.interactive').with.length(1);
     expect(el.shadowRoot).to.have.descendant('.label.win decidables-spinner:not([disabled])').with.value(20);
@@ -105,8 +111,10 @@ describe('risky-option', () => {
         <risky-outcome value="0" probability="0.55" name="loss"></risky-outcome>
       </risky-option>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {p} = el.querySelector('risky-outcome[name="win"]');
     // Action
@@ -125,8 +133,10 @@ describe('risky-option', () => {
         <risky-outcome value="0" probability="0.55" name="loss"></risky-outcome>
       </risky-option>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {p} = el.querySelector('risky-outcome[name="win"]');
     // Action

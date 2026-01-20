@@ -1,10 +1,10 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
   oneEvent,
   sendKeys,
+  waitUntil,
 } from '../../../../scripts/test-utility';
 
 import '../../src/examples/unequal';
@@ -53,8 +53,10 @@ describe('sdt-example-unequal', () => {
         <roc-space z-roc contour="sensitivity" point="rest" iso-d="rest" iso-c="rest"></roc-space>
       </sdt-example-unequal>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.querySelector('sdt-model').shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {d, s} = el.sdtModel;
     const {hr, far} = el.rocSpace.locations[1];

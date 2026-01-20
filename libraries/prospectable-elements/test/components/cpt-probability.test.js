@@ -1,11 +1,11 @@
 import {
-  aTimeout,
   elementUpdated,
   expect,
   fixture,
   html,
-  oneEvent,
   mouseDragElement,
+  nextFrame,
+  oneEvent,
   sendKeys,
   waitUntil,
 } from '../../../../scripts/test-utility';
@@ -144,8 +144,7 @@ describe('cpt-probability', () => {
     expect(el.probabilities[1]).to.include({name: 'anotherProbability', p: 0.2});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // Wait for resize?
-    await aTimeout(200);
+    await nextFrame();
 
     el.removeProbability('anotherProbability');
     await elementUpdated(el);
@@ -164,8 +163,7 @@ describe('cpt-probability', () => {
     expect(el.probabilities[1]).to.include({name: 'new', p: 0.1});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // Wait for resize?
-    await aTimeout(200);
+    await nextFrame();
 
     el.remove('new');
     expect(el.functions).to.have.length(1);
@@ -188,8 +186,7 @@ describe('cpt-probability', () => {
     expect(el.probabilities[1]).to.include({name: 'anotherProbability', p: 0.2});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // Wait for resize?
-    await aTimeout(200);
+    await nextFrame();
 
     el.clearProbabilities();
     await elementUpdated(el);
@@ -208,8 +205,7 @@ describe('cpt-probability', () => {
     expect(el.probabilities[1]).to.include({name: 'new', p: 0.1});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // Wait for resize?
-    await aTimeout(200);
+    await nextFrame();
 
     el.clear();
     expect(el.functions).to.have.length(1);

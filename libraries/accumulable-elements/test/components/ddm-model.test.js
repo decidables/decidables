@@ -1,12 +1,13 @@
 import {
-  aTimeout,
   elementUpdated,
   expect,
   fixture,
   html,
-  oneEvent,
   mouseDragElement,
+  nextFrame,
+  oneEvent,
   sendKeys,
+  waitUntil,
 } from '../../../../scripts/test-utility';
 
 import '../../src/components/ddm-model';
@@ -14,8 +15,10 @@ import '../../src/components/ddm-model';
 describe('ddm-model', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<ddm-model></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendant('svg');
   });
 
@@ -26,8 +29,10 @@ describe('ddm-model', () => {
 
   it('can display model with sample paths, densities, and accuracy', async () => {
     const el = await fixture(html`<ddm-model></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendant('.t0z');
     expect(el.shadowRoot).to.have.descendant('.drift');
     expect(el.shadowRoot).to.have.descendant('.boundary.correct');
@@ -45,8 +50,10 @@ describe('ddm-model', () => {
 
   it('can display measures', async () => {
     const el = await fixture(html`<ddm-model measures></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendant('.measure.a');
     expect(el.shadowRoot).to.have.descendant('.measure.z');
     expect(el.shadowRoot).to.have.descendant('.measure.v');
@@ -55,8 +62,10 @@ describe('ddm-model', () => {
 
   it('can display means', async () => {
     const el = await fixture(html`<ddm-model trials="100" means></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendant('.model.mean.correct');
     expect(el.shadowRoot).to.have.descendant('.model.mean.error');
     expect(el.shadowRoot).to.have.descendant('.data.mean.correct');
@@ -65,8 +74,10 @@ describe('ddm-model', () => {
 
   it('can display sds', async () => {
     const el = await fixture(html`<ddm-model trials="100" sds></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendant('.model.sd.correct');
     expect(el.shadowRoot).to.have.descendant('.model.sd.error');
     expect(el.shadowRoot).to.have.descendant('.data.sd.correct');
@@ -75,16 +86,20 @@ describe('ddm-model', () => {
 
   it('has settable trials', async () => {
     const el = await fixture(html`<ddm-model trials="20"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendants('.path').with.length(20);
     expect(el.shadowRoot).to.have.descendants('.rt').with.length(20);
   });
 
   it('has settable seed', async () => {
     const el = await fixture(html`<ddm-model seed="0.5"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.seed).to.equal(0.5);
     const {rt} = el.data.trials[0];
 
@@ -99,8 +114,10 @@ describe('ddm-model', () => {
 
   it('has settable human', async () => {
     const el = await fixture(html`<ddm-model human></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.human).to.equal(true);
   });
 
@@ -114,8 +131,10 @@ describe('ddm-model', () => {
 
   it('can be interactive', async () => {
     const el = await fixture(html`<ddm-model interactive></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendant('.t0z').with.class('interactive');
     expect(el.shadowRoot).to.have.descendant('.drift').with.class('interactive');
     expect(el.shadowRoot).to.have.descendant('.boundary.correct').with.class('interactive');
@@ -124,8 +143,10 @@ describe('ddm-model', () => {
 
   it('supports mouse manipulation of boundary', async () => {
     const el = await fixture(html`<ddm-model interactive boundary-separation="1.6" style="--transition-duration: 0;"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {a} = el;
     // Action
@@ -139,8 +160,10 @@ describe('ddm-model', () => {
 
   it('supports keyboard manipulation of boundary', async () => {
     const el = await fixture(html`<ddm-model interactive boundary-separation="1.6" style="--transition-duration: 0;"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {a} = el;
     // Action
@@ -166,8 +189,10 @@ describe('ddm-model', () => {
 
   it('supports mouse manipulation of starting point', async () => {
     const el = await fixture(html`<ddm-model interactive starting-point="0.6" style="--transition-duration: 0;"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {z} = el;
     // Action
@@ -181,8 +206,10 @@ describe('ddm-model', () => {
 
   it('supports keyboard manipulation of starting point', async () => {
     const el = await fixture(html`<ddm-model interactive starting-point="0.6" style="--transition-duration: 0;"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {z} = el;
     // Action
@@ -208,8 +235,10 @@ describe('ddm-model', () => {
 
   it('supports mouse manipulation of nondecision time', async () => {
     const el = await fixture(html`<ddm-model interactive nondecision-time="80" style="--transition-duration: 0;"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {t0} = el;
     // Action
@@ -223,8 +252,10 @@ describe('ddm-model', () => {
 
   it('supports keyboard manipulation of nondecision time', async () => {
     const el = await fixture(html`<ddm-model interactive nondecision-time="80" style="--transition-duration: 0;"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {t0} = el;
     // Action
@@ -250,8 +281,10 @@ describe('ddm-model', () => {
 
   it('supports mouse manipulation of drift rate', async () => {
     const el = await fixture(html`<ddm-model interactive drift-rate="1.7" style="--transition-duration: 0;"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {v} = el;
     // Action
@@ -265,8 +298,10 @@ describe('ddm-model', () => {
 
   it('supports keyboard manipulation of drift rate', async () => {
     const el = await fixture(html`<ddm-model interactive drift-rate="1.7" style="--transition-duration: 0;"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {v} = el;
     // Action
@@ -292,8 +327,10 @@ describe('ddm-model', () => {
 
   it('can add a trial', async () => {
     const el = await fixture(html`<ddm-model trials="15" style="--transition-duration: 0;"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendants('.path').with.length(15);
     expect(el.shadowRoot).to.have.descendants('.rt').with.length(15);
 
@@ -305,15 +342,17 @@ describe('ddm-model', () => {
 
   it('can pause and resume a trial', async () => {
     const el = await fixture(html`<ddm-model trials="15" style="--transition-duration: 500;"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendants('.path').with.length(15);
     expect(el.shadowRoot).to.have.descendants('.rt').with.length(15);
 
     el.trial();
     el.pauseTrial();
     expect(el.paused).to.equal(true);
-    await aTimeout(600);
+    await nextFrame();
 
     el.resumeTrial();
     expect(el.paused).to.equal(false);
@@ -325,8 +364,10 @@ describe('ddm-model', () => {
 
   it('can clear trials', async () => {
     const el = await fixture(html`<ddm-model trials="15" style="--transition-duration: 0;"></ddm-model>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendants('.path').with.length(15);
     expect(el.shadowRoot).to.have.descendants('.rt').with.length(15);
 

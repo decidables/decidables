@@ -1,11 +1,11 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
   mouseClickElement,
   oneEvent,
   sendKeys,
+  waitUntil,
 } from '../../../../scripts/test-utility';
 
 import '../../src/components/cpt-parameters';
@@ -72,8 +72,10 @@ describe('cpt-example-interactive', () => {
         <!-- <decision-space updateable></decision-space> -->
       </cpt-example-interactive>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.querySelector('cpt-value').shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Check "before" state
     expect(el.riskyChoice.xs).to.equal(20);
     expect(el.cptValue.x).to.equal(20);
@@ -105,8 +107,10 @@ describe('cpt-example-interactive', () => {
         <!-- <decision-space updateable></decision-space> -->
       </cpt-example-interactive>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.querySelector('cpt-value').shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Check "before" state
     expect(el.riskyChoice.xs).to.equal(15);
     expect(el.cptValue.x).to.equal(15);
@@ -134,8 +138,10 @@ describe('cpt-example-interactive', () => {
         <!-- <decision-space updateable></decision-space> -->
       </cpt-example-interactive>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.querySelector('cpt-value').shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Check "before" state
     expect(el.cptProbability.p).to.equal(0.75);
     expect(el.riskyChoice.pw).to.equal(0.75);

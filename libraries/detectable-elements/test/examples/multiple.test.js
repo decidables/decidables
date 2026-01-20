@@ -1,10 +1,10 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
   oneEvent,
   sendKeys,
+  waitUntil,
 } from '../../../../scripts/test-utility';
 
 import '../../src/examples/multiple';
@@ -53,8 +53,10 @@ describe('sdt-example-multiple', () => {
         <roc-space z-roc point="rest" iso-d="rest" iso-c="first"></roc-space>
       </sdt-example-multiple>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.querySelector('sdt-model').shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {c} = el.sdtModel;
     const {hr, far} = el.rocSpace.locations[1];
@@ -77,8 +79,10 @@ describe('sdt-example-multiple', () => {
         <roc-space z-roc point="rest" iso-d="first" iso-c="rest"></roc-space>
       </sdt-example-multiple>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.querySelector('sdt-model').shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Get "before" state
     const {d} = el.sdtModel;
     const {hr, far} = el.rocSpace.locations[1];

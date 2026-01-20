@@ -1,9 +1,9 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
   oneEvent,
+  waitUntil,
 } from '../../../../scripts/test-utility';
 
 import '../../src/components/rdk-task';
@@ -11,8 +11,10 @@ import '../../src/components/rdk-task';
 describe('rdk-task', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<rdk-task></rdk-task>`);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     expect(el.shadowRoot).to.have.descendant('svg');
   });
 

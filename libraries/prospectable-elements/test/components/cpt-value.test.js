@@ -1,11 +1,11 @@
 import {
-  aTimeout,
   elementUpdated,
   expect,
   fixture,
   html,
-  oneEvent,
   mouseDragElement,
+  nextFrame,
+  oneEvent,
   sendKeys,
   waitUntil,
 } from '../../../../scripts/test-utility';
@@ -152,8 +152,7 @@ describe('cpt-value', () => {
     expect(el.values[1]).to.include({name: 'anotherValue', x: 20});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // Wait for resize?
-    await aTimeout(200);
+    await nextFrame();
 
     el.removeValue('anotherValue');
     await elementUpdated(el);
@@ -173,8 +172,7 @@ describe('cpt-value', () => {
     expect(el.values[1]).to.include({name: 'new', x: 30});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // Wait for resize?
-    await aTimeout(200);
+    await nextFrame();
 
     el.remove('new');
     expect(el.functions).to.have.length(1);
@@ -198,8 +196,7 @@ describe('cpt-value', () => {
     expect(el.values[1]).to.include({name: 'anotherValue', x: 20});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // Wait for resize?
-    await aTimeout(200);
+    await nextFrame();
 
     el.clearValues();
     await elementUpdated(el);
@@ -219,8 +216,7 @@ describe('cpt-value', () => {
     expect(el.values[1]).to.include({name: 'new', x: 30});
     expect(el.shadowRoot).to.have.descendants('.point').with.length(2);
 
-    // Wait for resize?
-    await aTimeout(200);
+    await nextFrame();
 
     el.clear();
     expect(el.functions).to.have.length(1);

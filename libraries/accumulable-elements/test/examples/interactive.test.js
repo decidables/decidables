@@ -1,11 +1,11 @@
 import {
-  aTimeout,
   expect,
   fixture,
   html,
   oneEvent,
   mouseClickElement,
   mouseDragElement,
+  waitUntil,
 } from '../../../../scripts/test-utility';
 
 import '../../src/components/accumulable-control';
@@ -118,8 +118,10 @@ describe('ddm-example-interactive', () => {
         <accumulable-table numeric summary></accumulable-table>
       </ddm-example-interactive>
     `);
-    // Wait for resize?
-    await aTimeout(200);
+    await waitUntil(
+      () => { return el.querySelector('ddm-model').shadowRoot.querySelector('svg'); },
+      'Element did not render children',
+    );
     // Check "before" state
     expect(el.ddmModel.z).to.equal(0.3);
     expect(el.ddmParameters.z).to.equal(el.ddmModel.z);
