@@ -72,7 +72,7 @@ export default class DecidablesElement extends LitElement {
     /* eslint-enable key-spacing, object-curly-newline */
   }
 
-  static cssBoxShadow(elevation, rotate = false, inverse = false) {
+  static cssBoxShadow(elevation, inverse = false) {
     const umbraO = this.shadows.opacityUmbra + this.shadows.opacityBoost;
     const penumbraO = this.shadows.opacityPenumbra + this.shadows.opacityBoost;
     const ambientO = this.shadows.opacityAmbient + this.shadows.opacityBoost;
@@ -91,15 +91,9 @@ export default class DecidablesElement extends LitElement {
     const penumbraM = this.shadows.mapPenumbra[elevation];
     const ambientM = this.shadows.mapAmbient[elevation];
 
-    const umbraS = (rotate)
-      ? `${-umbraM.y}px ${umbraM.y / 2}px ${umbraM.b}px ${umbraM.s}px`
-      : `${umbraM.y / 2}px ${umbraM.y}px ${umbraM.b}px ${umbraM.s}px`;
-    const penumbraS = (rotate)
-      ? `${-penumbraM.y}px ${penumbraM.y / 2}px ${penumbraM.b}px ${penumbraM.s}px`
-      : `${penumbraM.y / 2}px ${penumbraM.y}px ${penumbraM.b}px ${penumbraM.s}px`;
-    const ambientS = (rotate)
-      ? `${-ambientM.y}px ${ambientM.y / 2}px ${ambientM.b}px ${ambientM.s}px`
-      : `${ambientM.y / 2}px ${ambientM.y}px ${ambientM.b}px ${ambientM.s}px`;
+    const umbraS = `${umbraM.y / 2}px ${umbraM.y}px ${umbraM.b}px ${umbraM.s}px`;
+    const penumbraS = `${penumbraM.y / 2}px ${penumbraM.y}px ${penumbraM.b}px ${penumbraM.s}px`;
+    const ambientS = `${ambientM.y / 2}px ${ambientM.y}px ${ambientM.b}px ${ambientM.s}px`;
 
     return `${umbraS} ${umbraC}, ${penumbraS} ${penumbraC}, ${ambientS} ${ambientC}`;
   }

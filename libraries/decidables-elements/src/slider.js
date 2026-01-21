@@ -1,6 +1,6 @@
 
 import {ifDefined} from 'lit/directives/if-defined.js'; /* eslint-disable-line import/extensions */
-import {html, css, unsafeCSS} from 'lit';
+import {css, html} from 'lit';
 
 import DecidablesElement from './decidables-element';
 
@@ -131,10 +131,6 @@ export default class DecidablesSlider extends DecidablesElement {
           ---decidables-slider-color: var(--decidables-slider-color, var(---color-element-enabled));
           ---decidables-spinner-background-color: var(--decidables-slider-background-color, none);
 
-          ---shadow-2-rotate: var(--shadow-2-rotate, ${unsafeCSS(this.cssBoxShadow(2, true, false))});
-          ---shadow-4-rotate: var(--shadow-4-rotate, ${unsafeCSS(this.cssBoxShadow(4, true, false))});
-          ---shadow-8-rotate: var(--shadow-8-rotate, ${unsafeCSS(this.cssBoxShadow(8, true, false))});
-
           display: flex;
 
           flex-direction: column;
@@ -166,21 +162,18 @@ export default class DecidablesSlider extends DecidablesElement {
           background: var(---decidables-spinner-background-color);
         }
 
-        /* Adapted from http://danielstern.ca/range.css/#/ */
         /* Overall */
         input[type=range] {
-          width: 4.75rem;
-          height: 3.5rem;
+          width: 3.5rem;
+          height: 4.75rem;
           padding: 0;
           margin: 0;
-
+          
           background-color: unset;
-
-          transform: rotate(-90deg);
-          transform-origin: 2.375rem 2.375rem;
-
-          /* stylelint-disable-next-line property-no-vendor-prefix */
-          -webkit-appearance: none;
+          
+          writing-mode: vertical-lr;
+          appearance: none;
+          direction: rtl;
         }
 
         input[type=range]:enabled {
@@ -191,14 +184,10 @@ export default class DecidablesSlider extends DecidablesElement {
           outline: none;
         }
 
-        input[type=range]::-ms-tooltip {
-          display: none;
-        }
-
         /* Track */
         input[type=range]::-webkit-slider-runnable-track {
-          width: 100%;
-          height: 4px;
+          width: 4px;
+          height: 100%;
 
           background: var(---decidables-slider-background-color);
           border: 0;
@@ -211,60 +200,25 @@ export default class DecidablesSlider extends DecidablesElement {
         }
 
         input[type=range]::-moz-range-track {
-          width: 100%;
-          height: 4px;
+          width: 4px;
+          height: 100%;
 
           background: var(---decidables-slider-background-color);
           border: 0;
           border-radius: 2px;
           box-shadow: none;
-        }
-
-        input[type=range]::-ms-track {
-          width: 100%;
-          height: 4px;
-
-          color: transparent;
-
-          background: transparent;
-          border-color: transparent;
-        }
-
-        input[type=range]::-ms-fill-lower {
-          background: #cccccc;
-          /* background: var(---decidables-slider-background-color); */
-          border: 0;
-          border-radius: 2px;
-          box-shadow: none;
-        }
-
-        input[type=range]::-ms-fill-upper {
-          background: #cccccc;
-          /* background: var(---decidables-slider-background-color); */
-          border: 0;
-          border-radius: 2px;
-          box-shadow: none;
-        }
-
-        input[type=range]:focus::-ms-fill-lower {
-          background: var(---decidables-slider-background-color);
-        }
-
-        input[type=range]:focus::-ms-fill-upper {
-          background: var(---decidables-slider-background-color);
         }
 
         /* Thumb */
         input[type=range]::-webkit-slider-thumb {
-          width: 10px;
-          height: 20px;
-          margin-top: -8px;
+          width: 20px;
+          height: 10px;
+          margin-left: -8px;
 
           border: 0;
           border-radius: 4px;
 
-          /* stylelint-disable-next-line property-no-vendor-prefix */
-          -webkit-appearance: none;
+          appearance: none;
         }
 
         input[type=range]:disabled::-webkit-slider-thumb {
@@ -274,28 +228,28 @@ export default class DecidablesSlider extends DecidablesElement {
 
         input[type=range]:enabled::-webkit-slider-thumb {
           background: var(---decidables-slider-color);
-          box-shadow: var(---shadow-2-rotate);
+          box-shadow: var(---shadow-2);
         }
 
         input[type=range]:enabled:hover::-webkit-slider-thumb {
-          box-shadow: var(---shadow-4-rotate);
+          box-shadow: var(---shadow-4);
         }
 
         input[type=range]:enabled:active::-webkit-slider-thumb {
-          box-shadow: var(---shadow-8-rotate);
+          box-shadow: var(---shadow-8);
         }
 
         input[type=range]:enabled:focus-visible::-webkit-slider-thumb {
-          box-shadow: var(---shadow-4-rotate);
+          box-shadow: var(---shadow-4);
         }
 
         input[type=range]:enabled:focus-visible:active::-webkit-slider-thumb {
-          box-shadow: var(---shadow-8-rotate);
+          box-shadow: var(---shadow-8);
         }
 
         input[type=range]::-moz-range-thumb {
-          width: 10px;
-          height: 20px;
+          width: 20px;
+          height: 10px;
 
           border: 0;
           border-radius: 4px;
@@ -308,64 +262,27 @@ export default class DecidablesSlider extends DecidablesElement {
 
         input[type=range]:enabled::-moz-range-thumb {
           background: var(---decidables-slider-color);
-          box-shadow: var(---shadow-2-rotate);
+          box-shadow: var(---shadow-2);
         }
 
         input[type=range]:enabled:hover::-moz-range-thumb {
-          box-shadow: var(---shadow-4-rotate);
+          box-shadow: var(---shadow-4);
         }
 
         input[type=range]:enabled:active::-moz-range-thumb {
-          box-shadow: var(---shadow-8-rotate);
+          box-shadow: var(---shadow-8);
         }
 
         input[type=range]:enabled:focus-visible::-moz-range-thumb {
-          box-shadow: var(---shadow-4-rotate);
+          box-shadow: var(---shadow-4);
         }
 
         input[type=range]:enabled:focus-visible:active::-moz-range-thumb {
-          box-shadow: var(---shadow-8-rotate);
+          box-shadow: var(---shadow-8);
         }
 
-        input[type=range]::-ms-thumb {
-          width: 10px;
-          height: 20px;
-          margin-top: 0;
-
-          background: #999999;
-          /* background: var(---color-element-enabled); */
-          border: 0;
-          border-radius: 4px;
-          box-shadow: var(---shadow-2-rotate);
-        }
-
-        input[type=range]:disabled::-ms-thumb {
-          background: var(---decidables-slider-background-color);
-          box-shadow: none;
-        }
-
-        input[type=range]:enabled::-ms-thumb {
-          background: var(---decidables-slider-color);
-          box-shadow: var(---shadow-2-rotate);
-        }
-
-        input[type=range]:enabled:hover::-ms-thumb {
-          box-shadow: var(---shadow-4-rotate);
-        }
-
-        input[type=range]:enabled:active::-ms-thumb {
-          box-shadow: var(---shadow-8-rotate);
-        }
-
-        input[type=range]:enabled:focus-visible::-ms-thumb {
-          box-shadow: var(---shadow-4-rotate);
-        }
-
-        input[type=range]:enabled:focus-visible:active::-ms-thumb {
-          box-shadow: var(---shadow-8-rotate);
-        }
-
-        datalist {
+        /* Tick marks */
+        .datalist {
           position: absolute;
           left: 2rem;
           z-index: -1;
@@ -381,14 +298,12 @@ export default class DecidablesSlider extends DecidablesElement {
           font-size: 0.75rem;
         }
 
-        option {
-          padding: 0;
-
+        .option {
           line-height: 0.8;
-          min-block-size: 0;
+          white-space: nowrap;
         }
 
-        option::before {
+        .option::before {
           content: "– ";
         }
       `,
@@ -404,10 +319,10 @@ export default class DecidablesSlider extends DecidablesElement {
         <input ?disabled=${this.disabled} type="range" id="slider" min=${ifDefined(this.rangeMin)} max=${ifDefined(this.rangeMax)} step=${ifDefined(this.rangeStep)} .value=${this.rangeValue} @change=${this.rangeChanged.bind(this)} @input=${this.rangeInputted.bind(this)}>
         ${this.scale
           ? html`
-            <datalist id="ticks">
-              <option value=${ifDefined(this.rangeMax)} label=${ifDefined(this.max)}></option>
-              <option value=${ifDefined(this.rangeMin)} label=${ifDefined(this.min)}></option>
-            </datalist>
+            <div class="datalist">
+              <div class="option">${ifDefined(this.max)}</div>
+              <div class="option">${ifDefined(this.min)}</div>
+            </div>
           `
           : html``
         }
