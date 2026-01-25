@@ -60,7 +60,7 @@ export default class DecidablesSpinner extends DecidablesElement {
           ---decidables-spinner-prefix: var(--decidables-spinner-prefix, "");
 
           ---decidables-spinner-postfix: var(--decidables-spinner-postfix, "");
-          ---decidables-spinner-postfix-padding: var(--decidables-spinner-postfix-padding, 0);
+          ---decidables-spinner-postfix-padding: var(--decidables-spinner-postfix-padding, 0rem);
 
           display: block;
         }
@@ -102,7 +102,8 @@ export default class DecidablesSpinner extends DecidablesElement {
 
         input[type=number] {
           width: var(---decidables-spinner-input-width);
-          padding-right: var(---decidables-spinner-postfix-padding);
+          padding: 1px var(---decidables-spinner-postfix-padding) 1px 2px;
+          margin: 0;
 
           font-family: var(---font-family-base);
           font-size: var(---decidables-spinner-font-size);
@@ -115,7 +116,7 @@ export default class DecidablesSpinner extends DecidablesElement {
           outline: none;
           box-shadow: var(---shadow-2);
 
-          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+          appearance: none;
         }
 
         input[type=number]:hover {
@@ -132,20 +133,54 @@ export default class DecidablesSpinner extends DecidablesElement {
 
           border: 0;
           box-shadow: none;
-
-          /* HACK: Use correct text color in Safari */
-          -webkit-opacity: 1;
-          /* HACK: Hide spinners in disabled input for Firefox and Safari */
-          -moz-appearance: textfield; /* stylelint-disable-line property-no-vendor-prefix */
-          /* HACK: Use correct text color in Safari */
-          -webkit-text-fill-color: var(---color-text);
         }
 
-        /* HACK: Hide spinners in disabled input for Firefox and Safari */
-        input[type=number]:disabled::-webkit-outer-spin-button,
+        /* HACK: Manage spinners in Firefox */
+        @supports (-moz-appearance: textfield) {
+          input[type=number] {
+            padding-right: calc(18px + var(---decidables-spinner-postfix-padding));
+
+            appearance: textfield;
+          }
+
+          input[type=number]:hover,
+          input[type=number]:focus,
+          input[type=number]:active {
+            padding-right: var(---decidables-spinner-postfix-padding);
+
+            appearance: none;
+          }
+
+          input[type=number]:disabled {
+            padding-right: calc(18px + var(---decidables-spinner-postfix-padding));
+
+            appearance: textfield;
+          }
+        }
+
+        /* HACK: Manage spinners in Chrome/Edge/Safari */
+        input[type=number]::-webkit-inner-spin-button {
+          /* Avoid oversized spinners in Safari */
+          font-size: 1.125rem;
+
+          opacity: 0;
+        }
+
+        input[type=number]:hover::-webkit-inner-spin-button,
+        input[type=number]:focus::-webkit-inner-spin-button,
+        input[type=number]:active::-webkit-inner-spin-button {
+          opacity: 1;
+        }
+
         input[type=number]:disabled::-webkit-inner-spin-button {
-          margin: 0;
-          -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+          opacity: 0;
+        }
+
+        /* HACK: Adjust padding on mobile w/o spinners */
+        @media only screen and (hover: none) and (pointer: coarse) {
+          input[type=number] {
+            padding-right: calc(1.125rem + var(---decidables-spinner-postfix-padding));
+          }
         }
       `,
     ];
