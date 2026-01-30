@@ -23,6 +23,7 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
           --decidables-spinner-input-width: 4rem;
           --decidables-spinner-prefix: "$";
 
+          position: relative;
           display: inline-block;
 
           width: 10rem;
@@ -87,16 +88,11 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
         }
 
         .label.interactive {
+          position: absolute;
+
           width: var(--decidables-spinner-input-width);
           height: calc(var(--decidables-spinner-font-size) * 1.5);
           overflow: visible;
-        }
-
-        /* HACK: Get Safari to work with SVG foreignObject */
-        /* https://stackoverflow.com/questions/51313873/svg-foreignobject-not-working-properly-on-safari */
-        /* https://bugs.webkit.org/show_bug.cgi?id=23113 */
-        .label.interactive decidables-spinner {
-          position: fixed;
         }
 
         .label.interactive.win decidables-spinner {
@@ -332,12 +328,12 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
     //  DATA-JOIN
     const labelStaticUpdate = pieMerge.selectAll('.label.static')
       .data(arcsStatic);
-    const labelInteractiveUpdate = pieMerge.selectAll('.label.interactive')
+    const labelInteractiveUpdate = d3.select(this.renderRoot).selectAll('.label.interactive')
       .data(arcsInteractive);
     //  ENTER
     const labelStaticEnter = labelStaticUpdate.enter().append('text');
-    const labelInteractiveEnter = labelInteractiveUpdate.enter().append('foreignObject');
-    labelInteractiveEnter.append('xhtml:decidables-spinner')
+    const labelInteractiveEnter = labelInteractiveUpdate.enter().append('xhtml:div');
+    labelInteractiveEnter.append('decidables-spinner')
       .on('input', (event, datum) => {
         datum.data.x = parseFloat(event.target.value);
 
@@ -364,22 +360,19 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
       .text((datum) => { return `$${datum.data.x.toFixed(0)}`; });
     const labelInteractiveMerge = labelInteractiveEnter.merge(labelInteractiveUpdate)
       .attr('class', (datum) => { return `label interactive ${datum.data.name}`; })
-      .attr('transform', (datum) => {
-        // HACK: Center spinner here instead of CSS for Safari SVG foreignObject
-        // x: calc(var(--decidables-spinner-input-width) / -2);
-        // y: calc(var(--decidables-spinner-font-size) * 1.5 / -2);
+      .attr('style', (datum) => {
         const inputWidth = parseFloat(this.getComputedStyleValue('--decidables-spinner-input-width'));
         const fontSize = parseFloat(this.getComputedStyleValue('--decidables-spinner-font-size'));
         const rem = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('font-size'), 10);
-        const x = (inputWidth * rem) / -2;
-        const y = (fontSize * rem * 1.5) / -2;
+        const x = (width / 2) + (inputWidth * rem) / -2;
+        const y = (height / 2) + (fontSize * rem * 1.5) / -2;
 
         if (arcs.length === 1) {
-          return `translate(${x}, ${y})`;
+          return `left: ${x}px; top: ${y}px;`;
         }
         const radius = (Math.min(width, height) / 2) * 0.6;
         const arcLabel = d3.arc().innerRadius(radius).outerRadius(radius);
-        return `translate(${arcLabel.centroid(datum)[0] + x}, ${arcLabel.centroid(datum)[1] + y})`;
+        return `left: ${arcLabel.centroid(datum)[0] + x}px; top: ${arcLabel.centroid(datum)[1] + y}px;`;
       });
     labelInteractiveMerge.select('decidables-spinner')
       .attr('value', (datum) => { return `${datum.data.x.toFixed(0)}`; });
