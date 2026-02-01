@@ -87,11 +87,13 @@ export default class HTDEquation extends DiscountableElement {
 
         .addend {
           position: relative;
+
           display: inline-block;
         }
 
         .comparison {
           position: relative;
+
           display: inline-block;
 
           font-size: 125%;

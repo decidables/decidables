@@ -304,6 +304,7 @@ export default class DetectableTable extends DetectableElement {
         /* Labels */
         .payoff {
           font-weight: 600;
+
           line-height: 0.75rem;
         }
 

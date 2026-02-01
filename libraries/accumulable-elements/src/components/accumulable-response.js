@@ -304,6 +304,7 @@ export default class AccumulableResponse extends AccumulableElement {
 
           width: 6rem;
           height: 3.5rem;
+
           padding: 0.375rem 0.75rem;
           margin: 0.25rem;
 
@@ -332,6 +333,7 @@ export default class AccumulableResponse extends AccumulableElement {
 
         .feedback .outcome {
           font-weight: 600;
+
           line-height: 1.15;
         }
 

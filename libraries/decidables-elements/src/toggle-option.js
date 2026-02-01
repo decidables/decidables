@@ -64,39 +64,46 @@ export default class DecidablesToggleOption extends DecidablesElement {
 
           width: 1px;
           height: 1px;
+
           padding: 0;
           margin: -1px;
+
           overflow: hidden;
 
           white-space: nowrap;
 
           border: 0;
+
           clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */
         }
 
         input[type=radio] + label {
           width: 100%;
+
           padding: 0.375rem 0.75rem;
 
           font-family: var(---font-family-base);
           font-size: 1.125rem;
+
           line-height: 1.5;
+
           color: var(---color-text-inverse);
+
           text-align: center;
 
           cursor: pointer;
+          outline: none;
 
           background-color: var(---color-element-enabled);
           border: 0;
           border-radius: 0;
-          outline: none;
-
           box-shadow: var(---shadow-2);
         }
 
         input[type=radio]:checked + label {
-          background-color: var(---color-element-selected);
           outline: none;
+
+          background-color: var(---color-element-selected);
           box-shadow: var(---shadow-2);
         }
 
@@ -104,6 +111,7 @@ export default class DecidablesToggleOption extends DecidablesElement {
           z-index: 1;
 
           outline: none;
+
           box-shadow: var(---shadow-4);
         }
 
@@ -111,6 +119,7 @@ export default class DecidablesToggleOption extends DecidablesElement {
           z-index: 2;
 
           outline: none;
+
           box-shadow: var(---shadow-8);
         }
 
@@ -128,14 +137,16 @@ export default class DecidablesToggleOption extends DecidablesElement {
           z-index: 1;
 
           outline: none;
+
           box-shadow: var(---shadow-4);
         }
 
         input[type=radio]:focus-visible:checked + label {
           z-index: 1;
 
-          background-color: var(---color-element-selected);
           outline: none;
+
+          background-color: var(---color-element-selected);
           box-shadow: var(---shadow-4);
         }
 
@@ -143,6 +154,7 @@ export default class DecidablesToggleOption extends DecidablesElement {
           z-index: 2;
 
           outline: none;
+
           box-shadow: var(---shadow-8);
         }
       `,

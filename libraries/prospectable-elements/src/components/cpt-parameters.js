@@ -92,6 +92,7 @@ export default class CPTParameters extends ProspectableElement {
 
         decidables-slider {
           line-height: 1;
+
           text-align: center;
         }
 

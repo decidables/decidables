@@ -86,11 +86,13 @@ export default class DDMEquation extends AccumulableElement {
 
         .addend {
           position: relative;
+
           display: inline-block;
         }
 
         .comparison {
           position: relative;
+
           display: inline-block;
 
           font-size: 125%;

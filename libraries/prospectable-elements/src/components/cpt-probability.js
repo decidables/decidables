@@ -275,9 +275,9 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
 
         .curve.interactive {
           cursor: nwse-resize;
+          outline: none;
 
           filter: url("#shadow-2");
-          outline: none;
         }
 
         .curve.interactive:hover {
@@ -304,9 +304,9 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
 
         .point.interactive {
           cursor: nesw-resize;
+          outline: none;
 
           filter: url("#shadow-2");
-          outline: none;
 
           /* HACK: This gets Safari to correctly apply the filter! */
           stroke: #000000;
@@ -362,8 +362,8 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
 
         .diagonal {
           stroke: var(---color-element-border);
-          stroke-dasharray: 4;
           stroke-width: 1;
+          stroke-dasharray: 4;
         }
 
         .curve {
@@ -396,8 +396,8 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
           font-size: 0.75rem;
 
           dominant-baseline: middle;
-          text-anchor: middle;
 
+          text-anchor: middle;
           fill: var(---color-text-inverse);
         }
 
@@ -409,8 +409,8 @@ export default class CPTProbability extends DecidablesMixinResizeable(Prospectab
 
         @media (pointer: coarse) {
           .interactive .touch {
-            stroke-linecap: round;
             stroke-width: 12;
+            stroke-linecap: round;
           }
         }
       `,

@@ -75,6 +75,7 @@ export default class HTDParameters extends DiscountableElement {
 
         decidables-slider {
           line-height: 1;
+
           text-align: center;
         }
 

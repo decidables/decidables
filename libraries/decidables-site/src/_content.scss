@@ -61,11 +61,11 @@
   .dec-heading {
     /* stylelint-disable-next-line max-nesting-depth */
     .dec-heading-autolink {
+      visibility: hidden;
+
       padding-left: 0.25rem;
 
       color: $color-text;
-
-      visibility: hidden;
     }
 
     &:hover .dec-heading-autolink {

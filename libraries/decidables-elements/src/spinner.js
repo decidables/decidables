@@ -67,6 +67,7 @@ export default class DecidablesSpinner extends DecidablesElement {
 
         label {
           position: relative;
+
           display: flex;
 
           flex-direction: column;
@@ -84,6 +85,7 @@ export default class DecidablesSpinner extends DecidablesElement {
           left: calc(50% - var(---decidables-spinner-input-width) / 2 + 0.25rem);
 
           font-size: var(---decidables-spinner-font-size);
+
           line-height: normal;
 
           content: var(---decidables-spinner-prefix);
@@ -95,6 +97,7 @@ export default class DecidablesSpinner extends DecidablesElement {
           bottom: 1px;
 
           font-size: var(---decidables-spinner-font-size);
+
           line-height: normal;
 
           content: var(---decidables-spinner-postfix);
@@ -102,21 +105,24 @@ export default class DecidablesSpinner extends DecidablesElement {
 
         input[type=number] {
           width: var(---decidables-spinner-input-width);
+
           padding: 1px var(---decidables-spinner-postfix-padding) 1px 2px;
           margin: 0;
 
           font-family: var(---font-family-base);
           font-size: var(---decidables-spinner-font-size);
+
           color: inherit;
+
           text-align: right;
+
+          appearance: none;
+          outline: none;
 
           background: none;
           border: 0;
           border-radius: 0;
-          outline: none;
           box-shadow: var(---shadow-2);
-
-          appearance: none;
         }
 
         input[type=number]:hover {

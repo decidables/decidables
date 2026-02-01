@@ -64,8 +64,8 @@ export default class ITCOption extends DiscountableElement {
 
           width: 100%;
           height: 100%;
+
           overflow: visible;
-          
 
           background: var(---color-element-background);
           border: 2px solid var(---color-element-emphasis);

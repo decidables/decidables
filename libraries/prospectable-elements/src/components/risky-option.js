@@ -24,6 +24,7 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
           --decidables-spinner-prefix: "$";
 
           position: relative;
+
           display: inline-block;
 
           width: 10rem;
@@ -33,6 +34,7 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
         .main {
           width: 100%;
           height: 100%;
+
           overflow: visible;
         }
 
@@ -49,9 +51,9 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
 
         .arc.interactive {
           cursor: ns-resize;
+          outline: none;
 
           filter: url("#shadow-2");
-          outline: none;
         }
 
         .arc.interactive:hover {
@@ -81,9 +83,10 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
         .label.static {
           font-size: 1.75rem;
 
+          dominant-baseline: middle;
+
           user-select: none;
 
-          dominant-baseline: middle;
           text-anchor: middle;
         }
 
@@ -92,6 +95,7 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
 
           width: var(--decidables-spinner-input-width);
           height: calc(var(--decidables-spinner-font-size) * 1.5);
+
           overflow: visible;
         }
 

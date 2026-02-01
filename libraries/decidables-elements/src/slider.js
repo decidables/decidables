@@ -145,12 +145,14 @@ export default class DecidablesSlider extends DecidablesElement {
 
         .range {
           position: relative;
+
           display: flex;
 
           flex-direction: row;
 
           width: 3.5rem;
           height: 4.75rem;
+
           margin: 0 0.25rem 0.25rem;
         }
 
@@ -166,14 +168,16 @@ export default class DecidablesSlider extends DecidablesElement {
         input[type=range] {
           width: 3.5rem;
           height: 4.75rem;
+
           padding: 0;
           margin: 0;
           
-          background-color: unset;
-          
-          writing-mode: vertical-lr;
           appearance: none;
+
+          background-color: unset;
+
           direction: rtl;
+          writing-mode: vertical-lr;
         }
 
         input[type=range]:enabled {
@@ -213,12 +217,13 @@ export default class DecidablesSlider extends DecidablesElement {
         input[type=range]::-webkit-slider-thumb {
           width: 20px;
           height: 10px;
+
           margin-left: -8px;
+
+          appearance: none;
 
           border: 0;
           border-radius: 4px;
-
-          appearance: none;
         }
 
         input[type=range]:disabled::-webkit-slider-thumb {
@@ -286,6 +291,7 @@ export default class DecidablesSlider extends DecidablesElement {
           position: absolute;
           left: 2rem;
           z-index: -1;
+
           display: flex;
 
           flex-direction: column;
@@ -300,6 +306,7 @@ export default class DecidablesSlider extends DecidablesElement {
 
         .option {
           line-height: 0.8;
+
           white-space: nowrap;
         }
 

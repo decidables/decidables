@@ -77,16 +77,20 @@ $fonts: map.merge(site.$fonts, local.$fonts);
 
   font-size: 1rem;
   font-weight: $font-weight-semibold;
+
   line-height: 1;
+
   color: $color-link;
 
-  border-radius: $border-radius;
   outline: none;
+
+  border-radius: $border-radius;
 
   &:hover {
     @include shadow(2);
 
     color: $color-text;
+
     text-decoration: none;
   }
 
@@ -94,6 +98,7 @@ $fonts: map.merge(site.$fonts, local.$fonts);
     @include shadow(2);
 
     color: $color-text;
+
     text-decoration: none;
   }
 
@@ -101,6 +106,7 @@ $fonts: map.merge(site.$fonts, local.$fonts);
     @include shadow(4);
 
     color: $color-text;
+
     text-decoration: none;
   }
 }

@@ -410,8 +410,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         }
 
         .path.highlight .curve {
-          filter: url("#shadow-2");
           opacity: 1;
+
+          filter: url("#shadow-2");
         }
 
         .path.correct .curve {
@@ -487,8 +488,9 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
         .boundary.interactive,
         .t0z.interactive {
-          filter: url("#shadow-2");
           outline: none;
+
+          filter: url("#shadow-2");
         }
 
         .boundary.interactive:hover,
@@ -528,15 +530,15 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
           fill: none;
           stroke: var(---color-element-emphasis);
-          stroke-dasharray: 8 4;
           stroke-width: 2;
+          stroke-dasharray: 8 4;
         }
 
         .drift.interactive {
           cursor: ns-resize;
+          outline: none;
 
           filter: url("#shadow-2");
-          outline: none;
 
           /* HACK: This gets Safari to correctly apply the filter! */
           fill: #000000;
@@ -571,14 +573,14 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         /* Make larger targets for touch users */
         .interactive .touch {
           stroke: #000000;
-          stroke-dasharray: none;
           stroke-opacity: 0;
+          stroke-dasharray: none;
         }
 
         @media (pointer: coarse) {
           .interactive .touch {
-            stroke-linecap: round;
             stroke-width: 12;
+            stroke-linecap: round;
           }
         }
 
@@ -603,6 +605,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
         .measure.a .label {
           dominant-baseline: auto;
+
           text-anchor: end;
         }
 
@@ -614,6 +617,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
         /* Hack to avoid Safari weirdness */
         .measure.z .label tspan {
           dominant-baseline: hanging;
+
           text-anchor: start;
         }
 
@@ -623,6 +627,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
         .measure.v .label {
           dominant-baseline: auto;
+
           text-anchor: start;
         }
 
@@ -632,6 +637,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
 
         .measure.t0 .label {
           dominant-baseline: auto;
+
           text-anchor: middle;
         }
 

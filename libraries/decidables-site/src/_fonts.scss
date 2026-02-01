@@ -64,11 +64,12 @@ $font-weight-map: ();
 
   // Font faces
   @font-face {
-    src: #{$src};
     font-family: $family;
     font-style: $style;
     font-weight: #{$weight};
     font-stretch: $stretch;
+
+    src: #{$src};
   }
 
   // Font families
