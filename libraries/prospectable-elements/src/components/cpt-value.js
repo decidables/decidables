@@ -289,9 +289,9 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
         .curve-p.interactive,
         .curve-n.interactive {
           cursor: nwse-resize;
+          outline: none;
 
           filter: url("#shadow-2");
-          outline: none;
         }
 
         .curve-p.interactive:hover,
@@ -321,9 +321,9 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
 
         .point.interactive {
           cursor: nesw-resize;
+          outline: none;
 
           filter: url("#shadow-2");
-          outline: none;
 
           /* HACK: This gets Safari to correctly apply the filter! */
           stroke: #000000;
@@ -385,8 +385,8 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
 
         .diagonal {
           stroke: var(---color-element-border);
-          stroke-dasharray: 4;
           stroke-width: 1;
+          stroke-dasharray: 4;
         }
 
         .curve-p,
@@ -420,8 +420,8 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
           font-size: 0.75rem;
 
           dominant-baseline: middle;
-          text-anchor: middle;
 
+          text-anchor: middle;
           fill: var(---color-text-inverse);
         }
 
@@ -433,8 +433,8 @@ export default class CPTValue extends DecidablesMixinResizeable(ProspectableElem
 
         @media (pointer: coarse) {
           .interactive .touch {
-            stroke-linecap: round;
             stroke-width: 12;
+            stroke-linecap: round;
           }
         }
       `,

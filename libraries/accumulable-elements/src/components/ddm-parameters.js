@@ -108,6 +108,7 @@ export default class DDMParameters extends AccumulableElement {
 
         decidables-slider {
           line-height: 1;
+
           text-align: center;
         }
 

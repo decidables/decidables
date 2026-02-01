@@ -87,11 +87,13 @@ export default class CPTEquation extends ProspectableElement {
 
         .addend {
           position: relative;
+
           display: inline-block;
         }
 
         .comparison {
           position: relative;
+
           display: inline-block;
 
           font-size: 125%;

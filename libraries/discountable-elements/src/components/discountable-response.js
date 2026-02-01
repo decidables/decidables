@@ -219,6 +219,7 @@ export default class DiscountableResponse extends DiscountableElement {
 
           width: 5.25rem;
           height: 3.5rem;
+
           padding: 0.375rem 0.75rem;
           margin: 0.25rem;
 

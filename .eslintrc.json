@@ -54,7 +54,8 @@
     {
       "files": [
         "scripts/**",
-        "**/gulpfile.js"
+        "**/gulpfile.js",
+        "**/*.config.js"
       ],
       "env": {
         "browser": false,

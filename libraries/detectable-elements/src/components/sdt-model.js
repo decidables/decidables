@@ -246,16 +246,16 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
         .signal.interactive,
         .threshold.interactive {
           cursor: ew-resize;
+          outline: none;
 
           filter: url("#shadow-2");
-          outline: none;
         }
 
         .signal.unequal {
           cursor: ns-resize;
+          outline: none;
 
           filter: url("#shadow-2");
-          outline: none;
         }
 
         .signal.interactive.unequal {
@@ -451,8 +451,8 @@ export default class SDTModel extends DecidablesMixinResizeable(DetectableElemen
 
         @media (pointer: coarse) {
           .interactive .touch {
-            stroke-linecap: round;
             stroke-width: 12;
+            stroke-linecap: round;
           }
         }
       `,

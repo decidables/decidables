@@ -327,6 +327,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           font-weight: 600;
 
           alignment-baseline: middle;
+
           text-anchor: middle;
         }
 
@@ -350,6 +351,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           font-size: 0.75rem;
 
           alignment-baseline: middle;
+
           text-anchor: end;
         }
 
@@ -390,6 +392,7 @@ export default class CPTSpace extends DecidablesMixinResizeable(ProspectableElem
           font-weight: 600;
 
           alignment-baseline: middle;
+
           text-anchor: middle;
         }
 

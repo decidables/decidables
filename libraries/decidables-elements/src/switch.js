@@ -57,13 +57,16 @@ export default class DecidablesSwitch extends DecidablesElement {
 
           width: 1px;
           height: 1px;
+
           padding: 0;
           margin: -1px;
+
           overflow: hidden;
 
           white-space: nowrap;
 
           border: 0;
+
           clip-path: inset(100%); /* May cause a performance issue: https://github.com/h5bp/html5-boilerplate/issues/2021 */
         }
 
@@ -79,6 +82,7 @@ export default class DecidablesSwitch extends DecidablesElement {
           position: relative;
 
           min-width: 24px;
+
           padding: 0 0 36px;
           margin: 0.25rem 0.25rem 0;
 
@@ -90,17 +94,17 @@ export default class DecidablesSwitch extends DecidablesElement {
         input[type=checkbox] + label + label::before,
         input[type=checkbox] + label + label::after {
           position: absolute;
-
           left: 50%;
 
           margin: 0;
 
-          content: "";
-
           outline: 0;
 
-          transition: all var(---transition-duration) ease;
+          content: "";
+          
           transform: translate(-50%, 0);
+
+          transition: all var(---transition-duration) ease;
         }
 
         input[type=checkbox] + label + label::before {

@@ -250,8 +250,9 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
         }
 
         .option .interactive {
-          filter: url("#shadow-2");
           outline: none;
+
+          filter: url("#shadow-2");
         }
 
         .option .interactive:hover {
@@ -323,7 +324,6 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
 
         .interactive .fill {
           cursor: move;
-
           outline: none;
         }
 
@@ -351,7 +351,6 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
 
         .interactive .bar {
           cursor: ew-resize;
-
           outline: none;
         }
 
@@ -365,14 +364,13 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
           font-size: 0.75rem;
 
           dominant-baseline: middle;
-          text-anchor: middle;
 
+          text-anchor: middle;
           fill: var(---color-text-inverse);
         }
 
         .point.interact {
           cursor: ns-resize;
-
           outline: none;
         }
 
@@ -384,7 +382,6 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
 
         .curve.interactive {
           cursor: nwse-resize;
-
           outline: none;
         }
 
@@ -396,8 +393,8 @@ export default class HTDCurves extends DecidablesMixinResizeable(DiscountableEle
 
         @media (pointer: coarse) {
           .interactive .touch {
-            stroke-linecap: round;
             stroke-width: 12;
+            stroke-linecap: round;
           }
         }
       `,

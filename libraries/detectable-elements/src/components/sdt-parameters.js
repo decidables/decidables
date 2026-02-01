@@ -8,7 +8,7 @@ import DetectableElement from '../detectable-element';
 
 /*
   SDTParameters element
-  <sdt-paramters>
+  <sdt-parameters>
 
   Attributes:
 
@@ -92,6 +92,7 @@ export default class SDTParameters extends DetectableElement {
 
         decidables-slider {
           line-height: 1;
+
           text-align: center;
         }
 

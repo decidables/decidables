@@ -252,9 +252,9 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
 
         .point.interactive {
           cursor: move;
+          outline: none;
 
           filter: url("#shadow-2");
-          outline: none;
 
           /* HACK: This gets Safari to correctly apply the filter! */
           /* https://github.com/emilbjorklund/svg-weirdness/issues/27 */
@@ -316,8 +316,8 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
 
         .diagonal {
           stroke: var(---color-element-border);
-          stroke-dasharray: 4;
           stroke-width: 1;
+          stroke-dasharray: 4;
         }
 
         .curve-iso-d {
@@ -342,8 +342,8 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
           font-size: 0.75rem;
 
           dominant-baseline: central;
-          text-anchor: middle;
 
+          text-anchor: middle;
           fill: var(---color-text-inverse);
         }
 
@@ -355,8 +355,8 @@ export default class ROCSpace extends DecidablesMixinResizeable(DetectableElemen
 
         @media (pointer: coarse) {
           .interactive .touch {
-            stroke-linecap: round;
             stroke-width: 12;
+            stroke-linecap: round;
           }
         }
       `,
