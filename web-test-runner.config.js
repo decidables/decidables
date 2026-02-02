@@ -1,7 +1,7 @@
 
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 import rollupPluginYaml from '@rollup/plugin-yaml';
-import { fromRollup } from '@web/dev-server-rollup';
+import {fromRollup} from '@web/dev-server-rollup';
 
 const commonjsPlugin = fromRollup(rollupPluginCommonjs);
 const yamlPlugin = fromRollup(rollupPluginYaml);
