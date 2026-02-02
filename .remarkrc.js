@@ -1,0 +1,22 @@
+export default {
+  frail: true,
+  plugins: [
+    'frontmatter',
+    'preset-lint-consistent',
+    'preset-lint-markdown-style-guide',
+    'preset-lint-recommended',
+    ['lint-first-heading-level', 2],
+    ['lint-linebreak-style', 'unix'],
+    ['lint-list-item-indent', 'one'],
+    ['lint-list-item-spacing', {checkBlanks: true}],
+    ['lint-maximum-heading-length', 100],
+    ['lint-maximum-line-length', 100],
+    ['lint-no-duplicate-headings', false],
+    'lint-no-duplicate-headings-in-section',
+    ['lint-no-missing-blank-lines', {exceptTightLists: true}],
+    ['lint-no-shortcut-reference-link', false],
+    'lint-no-tabs',
+    ['lint-no-undefined-references', false],
+  ],
+  quiet: true,
+};

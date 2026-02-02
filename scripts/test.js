@@ -19,6 +19,6 @@ export async function testScripts() {
 
   return startTestRunner({
     readCliArgs: true,
-    argv: ['node', 'web-test-runner.js', src, '--config', '../../.webtestrunnerrc.js', ...(watch ? ['--watch'] : [])],
+    argv: ['node', 'web-test-runner.js', src, '--config', '../../web-test-runner.config.js', ...(watch ? ['--watch'] : [])],
   });
 }

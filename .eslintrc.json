@@ -1,4 +1,7 @@
 {
+  "ignorePatterns": [
+    "!**/.*.js"
+  ],
   "env": {
     "browser": true
   },
@@ -55,7 +58,8 @@
       "files": [
         "scripts/**",
         "**/gulpfile.js",
-        "**/*.config.js"
+        "**/*.config.js",
+        "**/.*.js"
       ],
       "env": {
         "browser": false,
