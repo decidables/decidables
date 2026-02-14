@@ -6,25 +6,26 @@ import fs from 'node:fs';
 import {globby} from 'globby';
 
 // Local Dependencies
+import {DIR, PATH} from './config.js';
 import * as utilities from './utility.js';
 
 // Tasks
-export async function cleanLib() {
-  const dir = 'lib';
+export async function cleanDevelop() {
+  const dir = PATH.DEVELOP;
 
   await fs.promises.rm(dir, {recursive: true, force: true});
   await fs.promises.mkdir(dir);
 }
 
-export async function cleanLocal() {
-  const dir = 'local';
+export async function cleanBuild() {
+  const dir = PATH.BUILD;
 
   await fs.promises.rm(dir, {recursive: true, force: true});
   await fs.promises.mkdir(dir);
 }
 
-export async function cleanDist() {
-  const dir = 'dist';
+export async function cleanLibrary() {
+  const dir = PATH.LIBRARY;
 
   await fs.promises.rm(dir, {recursive: true, force: true});
   await fs.promises.mkdir(dir);
@@ -32,14 +33,14 @@ export async function cleanDist() {
 
 export async function cleanDeploySite() {
   const packageName = utilities.getPackageName();
-  const dir = `../../decidables.github.io/${packageName}`;
+  const dir = `${PATH.DEPLOY}/${packageName}`;
 
   await fs.promises.rm(dir, {recursive: true, force: true});
   await fs.promises.mkdir(dir);
 }
 
 export async function cleanDeployRoot() {
-  const glob = '../../decidables.github.io/{*.*,.*,fonts}';
+  const glob = `${PATH.DEPLOY}/{*.*,.*,${DIR.FONTS}}`;
 
   const globPaths = await globby(glob, {onlyFiles: false});
 

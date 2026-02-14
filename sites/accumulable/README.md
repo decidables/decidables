@@ -20,16 +20,18 @@ calculations.
 
 ### Package Scripts
 
+- `yarn clean`
+  - Cleans site by deleting `local/`, `dist/`, and associated directory in `decidables.github.io`
 - `yarn lint`
   - Lints markdown, scripts, and styles in `src/`
-- `yarn compile`
-  - Compiles/preprocesses files from `src/` to `local/` while pulling in dependencies
+- `yarn develop`
+  - Makes project from `src/` to `local/` while pulling in dependencies
 - `yarn watch`
-  - Executes `compile` on file changes in `src/` or local package dependencies `../<library>/src/`
+  - Executes `develop` on file changes in `src/` or local package dependencies `../<library>/src/`
 - `yarn build`
-  - Builds optimized project from `local/` to `dist/`
+  - Makes optimized project from `src/` to `dist/`
 - `yarn deploy`
-  - Re-compile and build markdown (to grab new version) then copies files from `dist/` to top level
+  - Re-build markdown (to grab new version) then copies files from `dist/` to top level
     server directory `decidables.github.io`
 - `yarn serve`
   - Runs a basic http server, to serve `accumulable/` (e.g. <http://localhost:8000/local/> or

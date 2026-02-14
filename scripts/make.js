@@ -8,14 +8,18 @@ import url from 'node:url';
 // devDependencies
 import citationJs from '@citation-js/core';
 import '@citation-js/plugin-csl';
+import cssnano from 'cssnano';
 import ejs from 'ejs';
 import fancyLog from 'fancy-log';
 import favicons from 'favicons';
 import frontMatter from 'front-matter';
 import {globby} from 'globby';
 import {fromHtmlIsomorphic as hastUtilFromHtmlIsomorphic} from 'hast-util-from-html-isomorphic';
+import htmlMinifier from 'html-minifier';
 import nodeNotifier from 'node-notifier';
 import {yamlImporter as nodeSassYamlImporter} from 'node-sass-yaml-importer';
+import postcss from 'postcss';
+import {purgeCSSPlugin as postcssPurgecss} from '@fullhuman/postcss-purgecss';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
@@ -27,15 +31,17 @@ import remarkSmartypants from 'remark-smartypants';
 import * as rollup from 'rollup';
 import * as rollupPluginBabel from '@rollup/plugin-babel';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
-import rollupPluginLitCss from 'rollup-plugin-lit-css';
 import rollupPluginNodeResolve from '@rollup/plugin-node-resolve';
+import rollupPluginTerser from '@rollup/plugin-terser';
 import {visualizer as rollupPluginVisualizer} from 'rollup-plugin-visualizer';
 import rollupPluginWebWorkerLoader from 'rollup-plugin-web-worker-loader';
 import rollupPluginYaml from '@rollup/plugin-yaml';
 import * as sass from 'sass';
+import * as svgo from 'svgo';
 import {unified} from 'unified';
 
 // Local Dependencies
+import {DIR, PATH} from './config.js';
 import remarkCiteproc from './remark-citeproc.js';
 import remarkDiv from './remark-div.js';
 import {remarkGlossary, extraEntries, extraTerms} from './remark-glossary.js';
@@ -43,88 +49,112 @@ import remarkSpan from './remark-span.js';
 import * as utilities from './utility.js';
 
 // Tasks
-export function compileFaviconsTask(configuration) {
-  return async function compileFavicons() {
-    const src = 'src/favicon.svg';
-    const dest = './local';
 
-    const result = await favicons(
-      src,
-      {
-        path: '/',
-        display: 'browser',
-        orientation: 'any',
-        scope: './',
-        start_url: './',
-        icons: {
-          android: [
-            'android-chrome-192x192.png',
-            'android-chrome-512x512.png',
-          ],
-          appleIcon: [
-            'apple-touch-icon.png',
-          ],
-          appleStartup: false,
-          favicons: [
-            'favicon.ico',
-          ],
-          windows: false,
-          yandex: false,
-        },
-        output: {
-          images: true,
-          files: true,
-          html: false,
-        },
-        ...configuration,
-      },
-    );
+// Favicons
+export function makeFaviconsTask(configuration, {isProduction = true} = {}) {
+  return Object.defineProperty(
+    async () => {
+      const src = `${PATH.SOURCE}/favicon.svg`;
+      const dest = isProduction ? PATH.BUILD : PATH.DEVELOP;
 
-    await fs.promises.mkdir(dest, {recursive: true});
-    await Promise.all(
-      [...result.images, ...result.files].map(
-        async (item) => {
-          await fs.promises.writeFile(path.posix.join(dest, item.name), item.contents);
+      const result = await favicons(
+        src,
+        {
+          path: '/',
+          display: 'browser',
+          orientation: 'any',
+          scope: './',
+          start_url: './',
+          icons: {
+            android: [
+              'android-chrome-192x192.png',
+              'android-chrome-512x512.png',
+            ],
+            appleIcon: [
+              'apple-touch-icon.png',
+            ],
+            appleStartup: false,
+            favicons: [
+              'favicon.ico',
+            ],
+            windows: false,
+            yandex: false,
+          },
+          output: {
+            images: true,
+            files: true,
+            html: false,
+          },
+          ...configuration,
         },
-      ),
-    );
+      );
 
-    await fs.promises.cp(src, path.posix.join(dest, path.posix.basename(src)));
-  };
+      await fs.promises.mkdir(dest, {recursive: true});
+      await Promise.all(
+        [...result.images, ...result.files].map(
+          async (item) => {
+            await fs.promises.writeFile(path.posix.join(dest, item.name), item.contents);
+          },
+        ),
+      );
+
+      if (isProduction) {
+        const svg = await fs.promises.readFile(src);
+        const svgResult = svgo.optimize(svg);
+        await fs.promises.writeFile(
+          path.posix.join(dest, path.posix.basename(src)),
+          svgResult.data,
+        );
+      } else {
+        await fs.promises.cp(src, path.posix.join(dest, path.posix.basename(src)));
+      }
+    },
+    'name',
+    {value: isProduction ? 'buildFavicons' : 'developFavicons'},
+  );
 }
 
-export function compileFontsTask(fonts) {
-  return async function compileFonts() {
-    const srcPaths = fonts.map(
-      (font) => {
-        return url.fileURLToPath(import.meta.resolve(font)).split(path.sep).join(path.posix.sep);
-      },
-    );
-    const dest = 'local/fonts';
-
-    await Promise.all(
-      srcPaths.map(
-        async (srcPath) => {
-          await fs.promises.cp(srcPath, path.posix.join(dest, path.posix.basename(srcPath)));
+// Fonts
+export function makeFontsTask(fonts, {isProduction = true} = {}) {
+  return Object.defineProperty(
+    async () => {
+      const srcPaths = fonts.map(
+        (font) => {
+          return url.fileURLToPath(import.meta.resolve(font)).split(path.sep).join(path.posix.sep);
         },
-      ),
-    );
-  };
+      );
+      const dest = `${isProduction ? PATH.BUILD : PATH.DEVELOP}/${DIR.FONTS}`;
+
+      await Promise.all(
+        srcPaths.map(
+          async (srcPath) => {
+            await fs.promises.cp(srcPath, path.posix.join(dest, path.posix.basename(srcPath)));
+          },
+        ),
+      );
+    },
+    'name',
+    {value: isProduction ? 'buildFonts' : 'developFonts'},
+  );
 }
 
-export async function compileMarkdown() {
-  const src = ['src/!(references).md'];
-  const lastSrc = ['src/references.md'];
-  const dest = 'local';
+// Markdown
+export async function makeMarkdown({isProduction = true} = {}) {
+  const src = [`${PATH.SOURCE}/!(references).md`];
+  const lastSrc = [`${PATH.SOURCE}/references.md`];
+  const dest = isProduction ? PATH.BUILD : PATH.DEVELOP;
 
   const srcPaths = [...await globby(src), ...await globby(lastSrc)];
 
-  const linkIcon = await fs.promises.readFile(new URL(import.meta.resolve('bootstrap-icons/icons/link-45deg.svg')), {encoding: 'utf8'});
+  const linkIcon = await fs.promises.readFile(
+    new URL(import.meta.resolve('bootstrap-icons/icons/link-45deg.svg')),
+    {encoding: 'utf8'},
+  );
   remarkCiteproc({
     initialize: true,
     locale: citationJs.plugins.config.get('@csl').locales.get('en-US'),
     style: citationJs.plugins.config.get('@csl').templates.get('apa'),
-    bibliographyFile: './src/references.bib',
+    bibliographyFile: `${PATH.SOURCE}/references.bib`,
     referencesLink: 'references.html',
   });
 
@@ -140,7 +170,7 @@ export async function compileMarkdown() {
       // Process markdown
       const content = await fs.promises.readFile(srcPath, {encoding: 'utf8'});
       const frontContent = frontMatter(content);
-      const result = await unified()
+      const mdResult = await unified()
         .use(remarkParse)
         .use(remarkDefinitionList)
         .use(remarkDirective)
@@ -176,9 +206,12 @@ export async function compileMarkdown() {
         .process(frontContent.body);
 
       // Process EJS
-      const layout = await fs.promises.readFile(`src/${frontContent.attributes.layout}.ejs`, {encoding: 'utf8'});
+      const layout = await fs.promises.readFile(
+        `${PATH.SOURCE}/${frontContent.attributes.layout}.ejs`,
+        {encoding: 'utf8'},
+      );
       const frontLayout = frontMatter(layout);
-      const finalResult = ejs.render(
+      const ejsResult = ejs.render(
         frontLayout.body,
         {
           ...frontContent.attributes,
@@ -186,16 +219,26 @@ export async function compileMarkdown() {
           require: module.createRequire(import.meta.url),
           utilities,
           file: srcBase,
-          contents: result.value,
+          contents: mdResult.value,
         },
       );
+
+      const finalResult = isProduction
+        ? htmlMinifier.minify(ejsResult, {
+          collapseWhitespace: true,
+          removeComments: true,
+        })
+        : ejsResult;
 
       await fs.promises.writeFile(path.posix.join(dest, destName), finalResult);
     },
     Promise.resolve(),
   );
 
-  nodeNotifier.notify({title: 'compileMarkdown done!', message: ' '});
+  nodeNotifier.notify({
+    title: `${isProduction ? 'buildMarkdown' : 'developMarkdown'} done!`,
+    message: ' ',
+  });
 
   const entries = extraEntries();
   if (entries.size) {
@@ -209,15 +252,13 @@ export async function compileMarkdown() {
   }
 }
 
+// Scripts
 let rollupCache;
 const pluginNodeResolve = rollupPluginNodeResolve({
   preferBuiltins: false,
 });
 const pluginCommonjs = rollupPluginCommonjs({
   strictRequires: 'auto',
-  // Hack to deal with unused dynamic require in Plotly
-  // https://github.com/plotly/plotly.js/blob/858c3a6ba88e06ba36a6f98a06dfa96e7ef150db/src/registry.js#L235
-  ignore: ['maplibre-gl/dist/maplibre-gl.css'],
 });
 const pluginWebWorkerLoader = rollupPluginWebWorkerLoader({
   targetPlatform: 'browser',
@@ -231,22 +272,15 @@ const pluginBabel = rollupPluginBabel.babel({
   }]],
   babelHelpers: 'bundled',
 });
-const pluginLitCss = rollupPluginLitCss({
-  include: '**/*.scss',
-  transform: (data, {filePath}) => {
-    return sass.compileString(data, {
-      url: url.pathToFileURL(filePath),
-      silenceDeprecations: ['import'], // TEMPORARY: Silence Plotly.js deprecations!
-    }).css;
-  },
-});
 const pluginYaml = rollupPluginYaml();
 const pluginVisualizer = rollupPluginVisualizer({
   filename: 'rollup-stats.auto.html',
 });
-export async function compileScripts() {
-  const src = 'src/page.js';
-  const dest = 'local';
+const pluginTerser = rollupPluginTerser();
+
+export async function makeScripts({isProduction = true} = {}) {
+  const src = `${PATH.SOURCE}/page.js`;
+  const dest = isProduction ? PATH.BUILD : PATH.DEVELOP;
 
   const bundle = await rollup.rollup({
     cache: rollupCache,
@@ -256,7 +290,6 @@ export async function compileScripts() {
       pluginCommonjs,
       pluginWebWorkerLoader,
       pluginBabel,
-      pluginLitCss,
       pluginYaml,
       pluginVisualizer,
     ],
@@ -274,15 +307,82 @@ export async function compileScripts() {
     dir: dest,
     format: 'module',
     sourcemap: true,
+    plugins: isProduction ? [pluginTerser] : [],
   });
   await bundle.close();
 
-  nodeNotifier.notify({title: 'compileScripts done!', message: ' '});
+  nodeNotifier.notify({
+    title: `${isProduction ? 'buildScripts' : 'developScripts'} done!`,
+    message: ' ',
+  });
 }
 
-export async function compileStyles() {
-  const src = 'src/*.scss';
-  const dest = 'local';
+export async function makeLibrary() {
+  const src = `${PATH.SOURCE}/index.js`;
+  const dest = PATH.LIBRARY;
+
+  const bundle = await rollup.rollup({
+    cache: rollupCache,
+    input: src,
+    plugins: [
+      pluginNodeResolve,
+      pluginCommonjs,
+      pluginWebWorkerLoader,
+      pluginBabel,
+      pluginYaml,
+      pluginVisualizer,
+    ],
+    // Hide warnings for circular dependencies, which are allowed in the ES6 spec
+    // https://github.com/rollup/rollup/issues/2271#issuecomment-475540827
+    onwarn: (warning, warn) => {
+      if (warning.code !== 'CIRCULAR_DEPENDENCY') {
+        warn(warning);
+      }
+    },
+  });
+  rollupCache = bundle.cache;
+
+  const packageName = utilities.getPackageNameCamelCase();
+
+  // UMD
+  await bundle.write({
+    name: packageName,
+    file: path.posix.join(dest, `${packageName}.umd.js`),
+    format: 'umd',
+    sourcemap: true,
+  });
+
+  // Minified UMD
+  await bundle.write({
+    name: packageName,
+    file: path.posix.join(dest, `${packageName}.umd.min.js`),
+    format: 'umd',
+    sourcemap: true,
+    plugins: [pluginTerser],
+  });
+
+  // ESM
+  await bundle.write({
+    name: packageName,
+    file: path.posix.join(dest, `${packageName}.esm.js`),
+    format: 'esm',
+    sourcemap: true,
+  });
+
+  // Minified ESM
+  await bundle.write({
+    name: packageName,
+    file: path.posix.join(dest, `${packageName}.esm.min.js`),
+    format: 'esm',
+    sourcemap: true,
+    plugins: [pluginTerser],
+  });
+}
+
+// Styles
+export async function makeStyles({isProduction = true} = {}) {
+  const src = `${PATH.SOURCE}/*.scss`;
+  const dest = isProduction ? PATH.BUILD : PATH.DEVELOP;
 
   const srcPaths = await globby(src);
 
@@ -311,7 +411,7 @@ export async function compileStyles() {
         const destName = `${srcBase}.css`;
         const mapName = `${destName}.map`;
 
-        const result = compiler.compile(srcPath, {
+        const sassResult = compiler.compile(srcPath, {
           importers: [
             yamlImporter,
             new sass.NodePackageImporter(),
@@ -323,20 +423,37 @@ export async function compileStyles() {
         });
 
         // Fix sourceMap sources
-        result.sourceMap.file = destName;
-        result.sourceMap.sources = result.sourceMap.sources.map((source) => {
+        sassResult.sourceMap.file = destName;
+        sassResult.sourceMap.sources = sassResult.sourceMap.sources.map((source) => {
           return path.relative(srcDir, url.fileURLToPath(source))
             .split(path.sep)
             .join(path.posix.sep);
         });
+        sassResult.css = `${sassResult.css}\n/*# sourceMappingURL=${mapName} */`;
+
+        const finalResult = isProduction
+          ? await postcss([
+            postcssPurgecss({
+              content: [`${dest}/*.{html,js}`],
+            }),
+            cssnano(),
+          ]).process(sassResult.css, {
+            from: destName,
+            // For sourcemaps, this makes it act as if src and dest files are in the same directory
+            to: destName,
+            map: {
+              prev: sassResult.sourceMap,
+            },
+          })
+          : sassResult;
 
         await fs.promises.writeFile(
           path.posix.join(dest, destName),
-          `${result.css}\n/*# sourceMappingURL=${mapName} */`,
+          finalResult.css,
         );
         await fs.promises.writeFile(
           path.posix.join(dest, mapName),
-          JSON.stringify(result.sourceMap),
+          isProduction ? finalResult.map.toString() : JSON.stringify(finalResult.sourceMap),
         );
       },
     ),
@@ -344,5 +461,8 @@ export async function compileStyles() {
 
   await compiler.dispose();
 
-  nodeNotifier.notify({title: 'compileStyles done!', message: ' '});
+  nodeNotifier.notify({
+    title: `${isProduction ? 'buildStyles' : 'developStyles'} done!`,
+    message: ' ',
+  });
 }

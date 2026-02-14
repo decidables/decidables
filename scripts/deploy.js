@@ -3,19 +3,20 @@
 import fs from 'node:fs';
 
 // Local Dependencies
+import {PATH} from './config.js';
 import * as utilities from './utility.js';
 
 // Tasks
 export async function deploySite() {
-  const src = 'dist';
-  const dest = `../../decidables.github.io/${utilities.getPackageName()}`;
+  const src = PATH.BUILD;
+  const dest = `${PATH.DEPLOY}/${utilities.getPackageName()}`;
 
   await fs.promises.cp(src, dest, {recursive: true});
 }
 
 export async function deployRoot() {
-  const src = 'dist';
-  const dest = '../../decidables.github.io';
+  const src = PATH.BUILD;
+  const dest = PATH.DEPLOY;
 
   await fs.promises.cp(src, dest, {recursive: true});
 }

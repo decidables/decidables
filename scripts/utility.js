@@ -49,17 +49,3 @@ export function getFontImports(fontsConfig) {
     });
   });
 }
-
-export function getFontExtensions(fontsConfig) {
-  const fontsString = fs.readFileSync(fontsConfig, {encoding: 'utf8'});
-  const {fonts} = jsYaml.load(fontsString);
-
-  const extensions = new Set();
-  Object.entries(fonts).forEach(([, font]) => {
-    Object.entries(font.formats).forEach(([, format]) => {
-      extensions.add(format.extension);
-    });
-  });
-
-  return [...extensions];
-}

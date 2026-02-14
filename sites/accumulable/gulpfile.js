@@ -6,7 +6,7 @@ import gulp from 'gulp';
 import * as utilities from '../../scripts/utility.js';
 import * as cleans from '../../scripts/clean.js';
 import * as lints from '../../scripts/lint.js';
-import * as compiles from '../../scripts/compile.js';
+import * as develops from '../../scripts/develop.js';
 import * as watches from '../../scripts/watch.js';
 import * as builds from '../../scripts/build.js';
 import * as deploys from '../../scripts/deploy.js';
@@ -14,40 +14,48 @@ import * as deploys from '../../scripts/deploy.js';
 // Re-export
 export * from '../../scripts/clean.js';
 export * from '../../scripts/lint.js';
-export * from '../../scripts/compile.js';
+export * from '../../scripts/develop.js';
 export * from '../../scripts/watch.js';
 export * from '../../scripts/build.js';
 export * from '../../scripts/deploy.js';
 export * from '../../scripts/serve.js';
 
 // Tasks
+export const clean = gulp.parallel(
+  cleans.cleanDevelop,
+  cleans.cleanBuild,
+  cleans.cleanDeploySite,
+);
+
 export const lint = gulp.parallel(
   lints.lintMarkdown,
-  gulp.series(compiles.compileMarkdown, lints.lintMarkupLocal),
+  gulp.series(develops.developMarkdown, lints.lintDevelopMarkup),
   lints.lintScripts,
   lints.lintStyles,
 );
 
-export const compileFavicons = compiles.compileFaviconsTask({
+const configFavicons = {
   appName: 'accumulable',
   appShortName: 'accumulable',
   appDescription: 'An Explorable Explanation of the Diffusion Decision Model',
   background: '#e6e6e6',
   theme_color: '#e6e6e6',
-});
+};
 
-export const compileFonts = compiles.compileFontsTask(
+export const developFavicons = develops.developFaviconsTask(configFavicons);
+
+export const developFonts = develops.developFontsTask(
   utilities.getFontImports(new URL(import.meta.resolve('@decidables/decidables-site/fonts.yml'))),
 );
 
-export const compile = gulp.series(
-  cleans.cleanLocal,
+export const develop = gulp.series(
+  cleans.cleanDevelop,
   gulp.parallel(
-    compileFavicons,
-    compileFonts,
-    compiles.compileMarkdown,
-    compiles.compileScripts,
-    compiles.compileStyles,
+    developFavicons,
+    developFonts,
+    develops.developMarkdown,
+    develops.developScripts,
+    develops.developStyles,
   ),
 );
 
@@ -65,24 +73,26 @@ export const watch = gulp.parallel(
   watches.watchStyles,
 );
 
+export const buildFavicons = builds.buildFaviconsTask(configFavicons);
+
 export const buildFonts = builds.buildFontsTask(
-  utilities.getFontExtensions(new URL(import.meta.resolve('@decidables/decidables-site/fonts.yml'))),
+  utilities.getFontImports(new URL(import.meta.resolve('@decidables/decidables-site/fonts.yml'))),
 );
 
 export const build = gulp.series(
-  cleans.cleanDist,
+  cleans.cleanBuild,
   gulp.parallel(
-    builds.buildFavicons,
+    buildFavicons,
     buildFonts,
-    builds.buildMarkup,
+    builds.buildMarkdown,
     builds.buildScripts,
-    builds.buildStyles,
   ),
+  // So that Purgecss accounts for html and js
+  builds.buildStyles,
 );
 
 export const deploy = gulp.series(
-  compiles.compileMarkdown,
-  builds.buildMarkup,
+  builds.buildMarkdown,
   cleans.cleanDeploySite,
   deploys.deploySite,
 );

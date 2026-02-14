@@ -14,9 +14,12 @@ import stylelintFormatterPretty from 'stylelint-formatter-pretty';
 import {engine as unifiedEngine} from 'unified-engine';
 import vnuJar from 'vnu-jar';
 
+// Local Dependencies
+import {PATH} from './config.js';
+
 // Tasks
 export function lintMarkdown(callback) {
-  const src = ['*.md', 'src/**/*.md'];
+  const src = ['*.md', `${PATH.SOURCE}/**/*.md`];
 
   unifiedEngine(
     {
@@ -34,8 +37,8 @@ export function lintMarkdown(callback) {
   );
 }
 
-export async function lintMarkupLocal() {
-  const src = 'local/**/*.html';
+export async function lintDevelopMarkup() {
+  const src = `${PATH.DEVELOP}/**/*.html`;
 
   const srcPaths = await globby(src);
 
@@ -59,7 +62,7 @@ export async function lintMarkupLocal() {
   try {
     await execFile('java', vnuArgs);
   } catch (error) {
-    console.group(`${format.bold}${format.red}lintMarkupLocal (v.Nu)${format.reset}`);
+    console.group(`${format.bold}${format.red}lintMarkupDevelop (v.Nu)${format.reset}`);
     console.error(`${format.yellow}${error.stderr}${format.reset}`);
     console.groupEnd();
   }
@@ -73,7 +76,7 @@ export async function lintMarkupLocal() {
         const result = htmlhint.verify(content);
 
         if (result.length) {
-          console.group(`${format.bold}${format.red}lintMarkupLocal (HTMLHint)${format.reset}`);
+          console.group(`${format.bold}${format.red}lintMarkupDevelop (HTMLHint)${format.reset}`);
           console.error(`${format.yellow}${srcPath}${format.reset}`);
           console.error(htmlhint.format(result, {colors: true, indent: 2}).join('\n'));
           console.groupEnd();
@@ -84,7 +87,7 @@ export async function lintMarkupLocal() {
 }
 
 export async function lintScripts() {
-  const src = ['*.js', 'scripts/**/*.js', 'src/**/*.js', '!src/**/*.auto.js', 'test/**/*.js'];
+  const src = ['*.js', `${PATH.SCRIPTS}/**/*.js`, `${PATH.SOURCE}/**/*.js`, `${PATH.TEST}/**/*.js`];
 
   const linter = new eslint.ESLint({errorOnUnmatchedPattern: false});
   const formatter = await linter.loadFormatter('pretty');
@@ -97,7 +100,7 @@ export async function lintScripts() {
 }
 
 export async function lintStyles() {
-  const src = ['src/**/*.{scss,js}', '!src/**/*.auto.js'];
+  const src = [`${PATH.SOURCE}/**/*.{scss,js}`];
 
   const result = await stylelint.lint({
     files: src,
