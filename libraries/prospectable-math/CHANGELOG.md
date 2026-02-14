@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.6](https://github.com/decidables/decidables/compare/@decidables/prospectable-math@0.3.5...@decidables/prospectable-math@0.3.6) (2026-02-14)
+
+**Note:** Version bump only for package @decidables/prospectable-math
+
+
+
+
+
 ## [0.3.5](https://github.com/decidables/decidables/compare/@decidables/prospectable-math@0.3.4...@decidables/prospectable-math@0.3.5) (2025-11-30)
 
 **Note:** Version bump only for package @decidables/prospectable-math

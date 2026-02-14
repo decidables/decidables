@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.7.0...@decidables/decidables-site@0.7.1) (2026-02-14)
+
+**Note:** Version bump only for package @decidables/decidables-site
+
+
+
+
+
 ## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.6.1...@decidables/decidables-site@0.7.0) (2026-01-14)
 
 

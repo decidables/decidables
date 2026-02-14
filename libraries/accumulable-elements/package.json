@@ -1,6 +1,6 @@
 {
   "name": "@decidables/accumulable-elements",
-  "version": "0.3.8",
+  "version": "0.4.0",
   "description": "accumulable-elements: Web Components for visualizing the Diffusion Decision Model",
   "keywords": [
     "web component",
@@ -55,8 +55,8 @@
     "gulp": "^5.0.1"
   },
   "dependencies": {
-    "@decidables/accumulable-math": "^0.2.5",
-    "@decidables/decidables-elements": "^0.5.7",
+    "@decidables/accumulable-math": "^0.2.6",
+    "@decidables/decidables-elements": "^0.6.0",
     "@lit-labs/motion": "^1.1.0",
     "@observablehq/plot": "^0.6.17",
     "bayes.js": "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f",

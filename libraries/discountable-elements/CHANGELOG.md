@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.6.5...@decidables/discountable-elements@0.7.0) (2026-02-14)
+
+
+### Features
+
+* **libraries:** replace `keyboard` class with `:focus-visible` ([00889d2](https://github.com/decidables/decidables/commit/00889d2c720098ce6e194f884a8cd46fdfdb5c4e)), closes [#9](https://github.com/decidables/decidables/issues/9)
+
+
+
 ## [0.6.5](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.6.4...@decidables/discountable-elements@0.6.5) (2026-01-18)
 
 

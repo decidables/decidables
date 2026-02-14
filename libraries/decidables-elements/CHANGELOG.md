@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.5.7...@decidables/decidables-elements@0.6.0) (2026-02-14)
+
+
+### Features
+
+* **libraries:** replace `keyboard` class with `:focus-visible` ([00889d2](https://github.com/decidables/decidables/commit/00889d2c720098ce6e194f884a8cd46fdfdb5c4e)), closes [#9](https://github.com/decidables/decidables/issues/9)
+
+
+### Bug Fixes
+
+* **decidables-elements:** updated number input `spinner` across browsers ([3810874](https://github.com/decidables/decidables/commit/3810874105b05c275dfaa1ecc4ec42c5ab9c0a96)), closes [#67](https://github.com/decidables/decidables/issues/67)
+
+
+
 ## [0.5.7](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.5.6...@decidables/decidables-elements@0.5.7) (2026-01-18)
 
 **Note:** Version bump only for package @decidables/decidables-elements

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.3.8...@decidables/accumulable-elements@0.4.0) (2026-02-14)
+
+
+### Features
+
+* **libraries:** replace `keyboard` class with `:focus-visible` ([00889d2](https://github.com/decidables/decidables/commit/00889d2c720098ce6e194f884a8cd46fdfdb5c4e)), closes [#9](https://github.com/decidables/decidables/issues/9)
+
+
+
 ## [0.3.8](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.3.7...@decidables/accumulable-elements@0.3.8) (2026-01-18)
 
 **Note:** Version bump only for package @decidables/accumulable-elements
