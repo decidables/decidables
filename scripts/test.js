@@ -2,6 +2,9 @@
 // devDependencies
 import {startTestRunner} from '@web/test-runner';
 
+// Local Dependencies
+import {PATH} from './config.js';
+
 /* eslint-disable-next-line import/prefer-default-export */
 export async function testScripts() {
   const argv = process.argv.slice(4);
@@ -12,10 +15,10 @@ export async function testScripts() {
   const watch = (argv[0] === '-w' || argv[0] === '--watch' || argv[1] === '-w' || argv[1] === '--watch');
 
   const src = (argv[0] !== undefined && argv[0] !== '-w' && argv[0] !== '--watch')
-    ? `test/${argv[0]}.test.js`
+    ? `${PATH.TEST}/${argv[0]}.test.js`
     : (argv[1] !== undefined)
-      ? `test/${argv[1]}.test.js`
-      : 'test/**/*.test.js';
+      ? `${PATH.TEST}/${argv[1]}.test.js`
+      : `${PATH.TEST}/**/*.test.js`;
 
   return startTestRunner({
     readCliArgs: true,

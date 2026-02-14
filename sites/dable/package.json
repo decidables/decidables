@@ -15,9 +15,10 @@
   "license": "CC-BY-SA-4.0 AND GPL-3.0-or-later",
   "private": true,
   "scripts": {
-    "compile": "gulp compile",
-    "watch": "gulp watch",
+    "clean": "gulp clean",
     "lint": "gulp lint",
+    "develop": "gulp develop",
+    "watch": "gulp watch",
     "build": "gulp build",
     "deploy": "gulp deploy",
     "serve": "gulp serve"

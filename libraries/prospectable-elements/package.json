@@ -49,6 +49,7 @@
     "lib"
   ],
   "scripts": {
+    "clean": "gulp clean",
     "lint": "gulp lint",
     "test": "gulp test -X \"$@\"",
     "build": "gulp build"

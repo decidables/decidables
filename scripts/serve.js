@@ -3,6 +3,9 @@
 import express from 'express';
 import {globby} from 'globby';
 
+// Local Dependencies
+import {DIR, PATH, URL} from './config.js';
+
 // Tasks
 export function serve() {
   const app = express();
@@ -12,26 +15,26 @@ export function serve() {
 
 export async function serveAll() {
   const sites = await globby(['*', '!decidables'], {
-    cwd: 'sites/',
+    cwd: PATH.SITES,
     onlyFiles: false,
     onlyDirectories: true,
   });
   const app = express();
 
-  // local
-  app.use('/local', express.static('sites/decidables/local'));
+  // Develop
+  app.use(URL.DEVELOP, express.static(`${PATH.SITES}/decidables/${DIR.DEVELOP}`));
   sites.forEach((site) => {
-    app.use(`/local/${site}`, express.static(`sites/${site}/local`));
+    app.use(`${URL.DEVELOP}/${site}`, express.static(`${PATH.SITES}/${site}/${DIR.DEVELOP}`));
   });
 
-  // dist
-  app.use('/dist', express.static('sites/decidables/dist'));
+  // Build
+  app.use(URL.BUILD, express.static(`${PATH.SITES}/decidables/${DIR.BUILD}`));
   sites.forEach((site) => {
-    app.use(`/dist/${site}`, express.static(`sites/${site}/dist`));
+    app.use(`${URL.BUILD}/${site}`, express.static(`${PATH.SITES}/${site}/${DIR.BUILD}`));
   });
 
-  // deploy
-  app.use('/deploy', express.static('decidables.github.io'));
+  // Deploy
+  app.use(URL.DEPLOY, express.static(DIR.DEPLOY));
 
   app.listen(8000);
 }

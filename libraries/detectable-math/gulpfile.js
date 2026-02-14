@@ -15,6 +15,8 @@ export * from '../../scripts/test.js';
 export * from '../../scripts/build.js';
 
 // Tasks
+export const clean = cleans.cleanLibrary;
+
 export const lint = gulp.parallel(
   lints.lintMarkdown,
   lints.lintScripts,
@@ -24,6 +26,6 @@ export const lint = gulp.parallel(
 export const test = tests.testScripts;
 
 export const build = gulp.series(
-  cleans.cleanLib,
+  cleans.cleanLibrary,
   builds.buildLibrary,
 );

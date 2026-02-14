@@ -3,25 +3,38 @@
 import gulp from 'gulp';
 
 // Local dependencies
-import * as compiles from './compile.js';
+import {DIR, PATH} from './config.js';
+import * as makes from './make.js';
 
 // Tasks
 export function watchLibrariesTask(libraries) {
   return function watchLibraries() {
-    gulp.watch(libraries.map((library) => { return `../../libraries/${library}/src/**/*.{md,ejs}`; }), {ignoreInitial: true}, compiles.compileMarkdown);
-    gulp.watch(libraries.map((library) => { return `../../libraries/${library}/src/**/*.js`; }), {ignoreInitial: true}, compiles.compileScripts);
-    gulp.watch(libraries.map((library) => { return `../../libraries/${library}/src/**/*.scss`; }), {ignoreInitial: true}, compiles.compileStyles);
+    gulp.watch(
+      libraries.map((library) => { return `${PATH.LIBRARIES}/${library}/${DIR.SOURCE}/**/*.{md,ejs}`; }),
+      {ignoreInitial: true},
+      makes.developMarkdown,
+    );
+    gulp.watch(
+      libraries.map((library) => { return `${PATH.LIBRARIES}/${library}/${DIR.SOURCE}/**/*.js`; }),
+      {ignoreInitial: true},
+      makes.developScripts,
+    );
+    gulp.watch(
+      libraries.map((library) => { return `${PATH.LIBRARIES}/${library}/${DIR.SOURCE}/**/*.scss`; }),
+      {ignoreInitial: true},
+      makes.developStyles,
+    );
   };
 }
 
 export function watchMarkdown() {
-  gulp.watch('src/**/*.{md,ejs}', {ignoreInitial: false}, compiles.compileMarkdown);
+  gulp.watch(`${PATH.SOURCE}/**/*.{md,ejs}`, {ignoreInitial: false}, makes.developMarkdown);
 }
 
 export function watchScripts() {
-  gulp.watch('src/**/*.js', {ignoreInitial: false}, compiles.compileScripts);
+  gulp.watch(`${PATH.SOURCE}/**/*.js`, {ignoreInitial: false}, makes.developScripts);
 }
 
 export function watchStyles() {
-  gulp.watch('src/**/*.scss', {ignoreInitial: false}, compiles.compileStyles);
+  gulp.watch(`${PATH.SOURCE}/**/*.scss`, {ignoreInitial: false}, makes.developStyles);
 }

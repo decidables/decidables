@@ -3543,15 +3543,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pwrs/lit-css@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@pwrs/lit-css@npm:4.0.0"
-  dependencies:
-    cssnano: "npm:^7.0.7"
-  checksum: 10/e201f81ec6310c49a11ab1cd65f2f9f0e8159bc15acfade33263375a8ac5e7a119ec044a70c506187049f04e072955bd992f5eb44e86ca6ca26cdddac0bce243
-  languageName: node
-  linkType: hard
-
 "@rollup/plugin-babel@npm:^6.1.0":
   version: 6.1.0
   resolution: "@rollup/plugin-babel@npm:6.1.0"
@@ -3659,7 +3650,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^5.0.1, @rollup/pluginutils@npm:^5.1.4":
+"@rollup/pluginutils@npm:^5.0.1":
   version: 5.3.0
   resolution: "@rollup/pluginutils@npm:5.3.0"
   dependencies:
@@ -6757,7 +6748,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssnano@npm:^7.0.7, cssnano@npm:^7.1.2":
+"cssnano@npm:^7.1.2":
   version: 7.1.2
   resolution: "cssnano@npm:7.1.2"
   dependencies:
@@ -7296,7 +7287,6 @@ __metadata:
     remark-rehype: "npm:^11.1.2"
     remark-smartypants: "npm:^3.0.2"
     rollup: "npm:^4.55.1"
-    rollup-plugin-lit-css: "npm:^6.0.0"
     rollup-plugin-visualizer: "npm:^6.0.5"
     rollup-plugin-web-worker-loader: "npm:^1.7.0"
     sass: "npm:1.97.2"
@@ -7308,7 +7298,6 @@ __metadata:
     stylelint-order: "npm:^7.0.1"
     stylelint-scss: "npm:^7.0.0"
     svgo: "npm:^4.0.0"
-    terser: "npm:^5.46.0"
     type-detect: "npm:^4.1.0"
     unified: "npm:^11.0.5"
     unified-engine: "npm:^11.2.2"
@@ -16175,16 +16164,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-lit-css@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "rollup-plugin-lit-css@npm:6.0.0"
-  dependencies:
-    "@pwrs/lit-css": "npm:^4.0.0"
-    "@rollup/pluginutils": "npm:^5.1.4"
-  checksum: 10/2dcc45283c4760f50ac3534aaf2483184c8b6fa61094662862f9aac1e084f1834a4d4aac924c91ab2a5ac6fc7f19713f767bf8f43fd830f401d22a900ba269b7
-  languageName: node
-  linkType: hard
-
 "rollup-plugin-visualizer@npm:^6.0.5":
   version: 6.0.5
   resolution: "rollup-plugin-visualizer@npm:6.0.5"
@@ -17688,20 +17667,6 @@ __metadata:
   bin:
     terser: bin/terser
   checksum: 10/e094a905016b00dd665a71f47311826618ea67f2d9f5aec37834114f9d27ed0de47e18a4b3bc2421b274bbf3028ac2b082e2d20f0e3b9f24d912ea126c9da4bf
-  languageName: node
-  linkType: hard
-
-"terser@npm:^5.46.0":
-  version: 5.46.0
-  resolution: "terser@npm:5.46.0"
-  dependencies:
-    "@jridgewell/source-map": "npm:^0.3.3"
-    acorn: "npm:^8.15.0"
-    commander: "npm:^2.20.0"
-    source-map-support: "npm:~0.5.20"
-  bin:
-    terser: bin/terser
-  checksum: 10/331e4f5a165d91d16ac6a95b510d4f5ef24679e4bc9e1b4e4182e89b7245f614d24ce0def583e2ca3ca45f82ba810991e0c5b66dd4353a6e0b7082786af6bd35
   languageName: node
   linkType: hard
 
