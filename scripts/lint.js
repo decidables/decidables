@@ -7,7 +7,7 @@ import util from 'node:util';
 // devDependencies
 import eslint from 'eslint';
 import {globby} from 'globby';
-import {HTMLHint as htmlhint} from 'htmlhint';
+import htmlhint from 'htmlhint';
 import {remark} from 'remark';
 import stylelint from 'stylelint';
 import stylelintFormatterPretty from 'stylelint-formatter-pretty';
@@ -73,12 +73,12 @@ export async function lintDevelopMarkup() {
       async (srcPath) => {
         const content = await fs.promises.readFile(srcPath, {encoding: 'utf8'});
 
-        const result = htmlhint.verify(content);
+        const result = htmlhint.HTMLHint.verify(content);
 
         if (result.length) {
           console.group(`${format.bold}${format.red}lintMarkupDevelop (HTMLHint)${format.reset}`);
           console.error(`${format.yellow}${srcPath}${format.reset}`);
-          console.error(htmlhint.format(result, {colors: true, indent: 2}).join('\n'));
+          console.error(htmlhint.HTMLHint.format(result, {colors: true, indent: 2}).join('\n'));
           console.groupEnd();
         }
       },

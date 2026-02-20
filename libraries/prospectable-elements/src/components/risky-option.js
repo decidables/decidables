@@ -285,7 +285,7 @@ export default class RiskyOption extends DecidablesMixinResizeable(ProspectableE
       .on('keydown', (event, datum) => {
         if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
           const startP = datum.data.p;
-          let proposedP = datum.data.p; /* eslint-disable-line prefer-destructuring */
+          let proposedP = datum.data.p;
           switch (event.key) {
             case 'ArrowUp':
               proposedP -= event.shiftKey ? 0.01 : 0.05;
