@@ -55,7 +55,7 @@ function initialize(options) {
   citationsPre = [];
 
   // Define location to use for links from citations to references
-  referencesLink = options.referencesLink; /* eslint-disable-line prefer-destructuring */
+  referencesLink = options.referencesLink;
 }
 
 export default function remarkCiteproc(options = {}) {

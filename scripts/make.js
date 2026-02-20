@@ -19,7 +19,7 @@ import htmlMinifier from 'html-minifier';
 import nodeNotifier from 'node-notifier';
 import {yamlImporter as nodeSassYamlImporter} from 'node-sass-yaml-importer';
 import postcss from 'postcss';
-import {purgeCSSPlugin as postcssPurgecss} from '@fullhuman/postcss-purgecss';
+import postcssPurgecss from '@fullhuman/postcss-purgecss';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
@@ -268,7 +268,7 @@ const pluginBabel = rollupPluginBabel.babel({
   presets: [['@babel/preset-env', {
     bugfixes: true,
     useBuiltIns: 'entry',
-    corejs: '3.46.0',
+    corejs: '3.48.0',
   }]],
   babelHelpers: 'bundled',
 });

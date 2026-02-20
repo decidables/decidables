@@ -252,12 +252,11 @@ export default class DDMMath {
     const base = ((Math.PI * s ** 2) / a ** 2) * Math.exp((-zPrime * v) / s ** 2);
 
     let k = 0;
-    let term = 0;
     let sum = 0;
     do {
       k += 1;
 
-      term = k
+      const term = k
         * Math.sin((Math.PI * zPrime * k) / a)
         * Math.exp(-0.5 * ((v ** 2 / s ** 2) + ((Math.PI ** 2 * k ** 2 * s ** 2) / a ** 2)) * t);
 

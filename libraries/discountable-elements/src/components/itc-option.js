@@ -129,7 +129,7 @@ export default class ITCOption extends DiscountableElement {
     this.sendEvent();
   }
 
-  render() { /* eslint-disable-line class-methods-use-this */
+  render() {
     return html`
       <div class="holder">
         ${(this.state === 'choice')
