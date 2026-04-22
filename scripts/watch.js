@@ -4,7 +4,7 @@ import gulp from 'gulp';
 
 // Local dependencies
 import {DIR, PATH} from './config.js';
-import * as makes from './make.js';
+import * as develops from './develop.js';
 
 // Tasks
 export function watchLibrariesTask(libraries) {
@@ -12,29 +12,29 @@ export function watchLibrariesTask(libraries) {
     gulp.watch(
       libraries.map((library) => { return `${PATH.LIBRARIES}/${library}/${DIR.SOURCE}/**/*.{md,ejs}`; }),
       {ignoreInitial: true},
-      makes.developMarkdown,
+      develops.developMarkdown,
     );
     gulp.watch(
       libraries.map((library) => { return `${PATH.LIBRARIES}/${library}/${DIR.SOURCE}/**/*.js`; }),
       {ignoreInitial: true},
-      makes.developScripts,
+      develops.developScripts,
     );
     gulp.watch(
       libraries.map((library) => { return `${PATH.LIBRARIES}/${library}/${DIR.SOURCE}/**/*.scss`; }),
       {ignoreInitial: true},
-      makes.developStyles,
+      develops.developStyles,
     );
   };
 }
 
 export function watchMarkdown() {
-  gulp.watch(`${PATH.SOURCE}/**/*.{md,ejs}`, {ignoreInitial: false}, makes.developMarkdown);
+  gulp.watch(`${PATH.SOURCE}/**/*.{md,ejs}`, {ignoreInitial: false}, develops.developMarkdown);
 }
 
 export function watchScripts() {
-  gulp.watch(`${PATH.SOURCE}/**/*.js`, {ignoreInitial: false}, makes.developScripts);
+  gulp.watch(`${PATH.SOURCE}/**/*.js`, {ignoreInitial: false}, develops.developScripts);
 }
 
 export function watchStyles() {
-  gulp.watch(`${PATH.SOURCE}/**/*.scss`, {ignoreInitial: false}, makes.developStyles);
+  gulp.watch(`${PATH.SOURCE}/**/*.scss`, {ignoreInitial: false}, develops.developStyles);
 }
