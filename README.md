@@ -123,6 +123,8 @@ Blink/V8, or Gecko/SpiderMonkey on desktop or mobile.
   or *HomeBrew* <https://brew.sh/> (on MacOS)
 - `winget install EclipseAdoptium.Temurin.25.JDK`, `choco install temurin25`, or `brew install --cask temurin`
 - `winget install Git.Git`, `choco install git`, or `brew install git`
+  - `git config --global user.name "Name"`
+  - `git config --global user.email "email@example.org"`
 - `winget install OpenJS.NodeJS`, `choco install nodejs`,
   or `brew install node` then `brew install corepack`
 - `corepack enable`
