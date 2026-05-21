@@ -9,6 +9,15 @@ fonts:
   #   },
   # }
 
+  # DejaVu Math
+  dejavu-math-latin-400-normal: {
+    category: math, package: '@fontsource/dejavu-math', family: DejaVu Math,
+    style: normal, weight-name: normal, weight: 400, stretch: normal,
+    formats: {
+      woff2: {path: files/, extension: woff2},
+    },
+  }
+
   # Source Code Pro
   SourceCodePro-Regular: {
     category: monospace, package: source-code-pro, family: Source Code,
