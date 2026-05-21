@@ -149,6 +149,16 @@ export default class DecidablesSpinner extends DecidablesElement {
             appearance: textfield;
           }
 
+          /* HACK: Avoid elements shifting due to box-shadow! */
+          :host(.math) input[type=number]:hover {
+            box-shadow: var(---shadow-2);
+          }
+
+          :host(.math) input[type=number]:focus,
+          :host(.math) input[type=number]:active {
+            box-shadow: var(---shadow-8);
+          }
+
           input[type=number]:hover,
           input[type=number]:focus,
           input[type=number]:active {

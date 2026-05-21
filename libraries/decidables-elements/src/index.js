@@ -15,4 +15,5 @@ export {default as DecidablesConverterArray} from './converter-array';
 export {default as DecidablesConverterSet} from './converter-set';
 
 // Mixins
+export {default as DecidablesMixinEquation} from './mixin-equation';
 export {default as DecidablesMixinResizeable} from './mixin-resizeable';

@@ -172,7 +172,7 @@ export default class DecidablesElement extends LitElement {
         ---color-element-emphasis: var(--color-element-emphasis, ${unsafeCSS(this.greys.dark75)});
 
         ---font-family-base: var(--font-family-base, "Source Sans", sans-serif);
-        ---font-family-math: var(--font-family-math, "Source Serif", serif);
+        ---font-family-symbol: var(--font-family-symbol, "Source Serif", serif);
 
         ---border: var(--border, 1px solid var(---color-border));
         ---border-radius: var(--border-radius, 0.25rem);
@@ -190,7 +190,7 @@ export default class DecidablesElement extends LitElement {
       }
 
       .math-greek {
-        font-family: var(---font-family-math);
+        font-family: var(---font-family-symbol);
         font-style: normal;
       }
 
@@ -199,8 +199,13 @@ export default class DecidablesElement extends LitElement {
         font-style: normal;
       }
 
+      .math-text {
+        font-family: var(---font-family-base);
+        font-style: normal;
+      }
+
       .math-var {
-        font-family: var(---font-family-math);
+        font-family: var(---font-family-symbol);
         font-style: italic;
       }
 
