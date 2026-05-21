@@ -1,5 +1,5 @@
 
-import {html} from 'lit';
+import {html, mathml} from 'lit';
 
 import '@decidables/decidables-elements/spinner';
 import CPTMath from '@decidables/prospectable-math';
@@ -74,66 +74,128 @@ export default class CPTEquationPG2W extends CPTEquation {
   }
 
   render() {
+    // Hacks for Firefox:
+    // * Wrap <mtext> with HTML in an <mtable><mtr><mtd> to get vertical alignment correct
+    // * <mi> requires `mathvariant="normal"` in addition to `text-transform: none;` in CSS
+    // * Wrap <mn> in <mrow> within <msub> and <msup> to get font-size correct with `font-family`
     let p;
     let g;
     let w;
     if (this.numeric) {
-      p = html`<decidables-spinner class="p bottom"
-          ?disabled=${!this.interactive}
-          min="0"
-          max="1"
-          step="0.01"
-          .value=${this.p}
-          @input=${this.pInput.bind(this)}
-        >
-          <var class="math-var">p</var>
-        </decidables-spinner>`;
-      g = html`<decidables-spinner class="g bottom"
-          ?disabled=${!this.interactive}
-          min=${CPTMath.g.MIN}
-          max=${CPTMath.g.MAX}
-          step=${CPTMath.g.STEP}
-          .value=${this.g}
-          @input=${this.gInput.bind(this)}
-        >
-          <var class="math-var">γ</var>
-        </decidables-spinner>`;
-      w = html`<decidables-spinner class="w bottom"
-          disabled
-          min="0"
-          max="1"
-          step=".01"
-          .value=${+this.w.toFixed(2)}
-        >
-          <var class="math-var">w</var>
-        </decidables-spinner>`;
+      p = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math p"
+            ?disabled=${!this.interactive}
+            min="0"
+            max="1"
+            step="0.01"
+            .value=${this.p}
+            @input=${this.pInput.bind(this)}
+          >
+            <var class="math-var">p</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      g = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math g"
+            ?disabled=${!this.interactive}
+            min=${CPTMath.g.MIN}
+            max=${CPTMath.g.MAX}
+            step=${CPTMath.g.STEP}
+            .value=${this.g}
+            @input=${this.gInput.bind(this)}
+          >
+            <var class="math-var">γ</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      w = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math w"
+            disabled
+            min="0"
+            max="1"
+            step=".01"
+            .value=${+this.w.toFixed(2)}
+          >
+            <var class="math-var">w</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
     } else {
-      p = html`<var class="math-var p">p</var>`;
-      g = html`<var class="math-var g">γ</var>`;
-      w = html`<var class="math-var w">w</var>`;
+      p = mathml`<mi mathvariant="normal" class="math-id p">p</mi>`;
+      g = mathml`<mi mathvariant="normal" class="math-id g">γ</mi>`;
+      w = mathml`<mi mathvariant="normal" class="math-id w">w</mi>`;
     }
-    const equation = html`
-      <tr>
-        <td rowspan="2">
-          ${w}<span class="equals">=</span>
-        </td>
-        <td class="underline">
-          ${p}<sup class="exp">${g}</sup>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span class="bracket tight">[</span>${p}<sup class="exp">${g}</sup><span class="plus">+</span><span class="paren tight">(</span>1<span class="minus">−</span>${p}<span class="paren tight">)</span><sup class="exp">${g}</sup><span class="bracket tight">]</span><sup class="exp">1/${g}</sup>
-        </td>
-      </tr>`;
-    return html`
-      <div class="holder">
-        <table class="equation">
-          <tbody>
-            ${equation}
-          </tbody>
-        </table>
-      </div>`;
+    return html`<div class="holder">
+      <math display="block">
+        <semantics>
+          <mrow>
+            ${w}
+            <mo>=</mo>
+            <mfrac>
+              <mrow>
+                <msup>
+                  <mrow>
+                    ${p}
+                  </mrow>
+                  <mrow>
+                    ${g}
+                  </mrow>
+                </msup>
+              </mrow>
+              <mrow>
+                <msup>
+                  <mrow>
+                    <mo symmetric="false">[</mo>
+                    <mrow>
+                      <msup>
+                        <mrow>
+                          ${p}
+                        </mrow>
+                        <mrow>
+                          ${g}
+                        </mrow>
+                      </msup>
+                      <mo>+</mo>
+                      <msup>
+                        <mrow>
+                          <mo symmetric="false">(</mo>
+                          <mrow>
+                            <mn>1</mn>
+                            <mo>−</mo>
+                            ${p}
+                          </mrow>
+                          <mo symmetric="false">)</mo>
+                        </mrow>
+                        <mrow>
+                          ${g}
+                        </mrow>
+                      </msup>
+                    </mrow>
+                    <mo symmetric="false">]</mo>
+                  </mrow>
+                  <mrow>
+                    <mfrac>
+                      <mrow>
+                        <mn>1</mn>
+                      </mrow>
+                      <mrow>
+                        ${g}
+                      </mrow>
+                    </mfrac>
+                    <!-- <mn>1</mn>
+                    <mo stretchy="true">⁄</mo>
+                    ${g} -->
+                  </mrow>
+                </msup>
+              </mrow>
+            </mfrac>
+          </mrow>
+          <annotation encoding="application/x-tex">
+            w = \\frac{p^\\gamma}{[p^\\gamma + (1 - p)^\\gamma]^{1 / \\gamma}}
+          </annotation>
+          <annotation encoding="application/x-asciimath">
+            w = p^gamma / [p^gamma + (1 - p)^gamma] ^ (1 // gamma)
+          </annotation>
+        </semantics>
+      </math>
+    </div>`;
   }
 }
 

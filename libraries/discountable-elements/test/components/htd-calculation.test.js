@@ -11,7 +11,7 @@ import '../../src/components/htd-calculation';
 describe('htd-calculation', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<htd-calculation></htd-calculation>`);
-    expect(el.shadowRoot).to.have.descendant('.equation');
+    expect(el.shadowRoot).to.have.descendant('math');
   });
 
   it('has an empty lightDom', async () => {

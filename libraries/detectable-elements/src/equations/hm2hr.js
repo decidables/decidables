@@ -1,5 +1,5 @@
 
-import {html} from 'lit';
+import {html, mathml} from 'lit';
 
 import '@decidables/decidables-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
@@ -77,63 +77,68 @@ export default class SDTEquationHM2Hr extends SDTEquation {
     let m;
     let hr;
     if (this.numeric) {
-      h = html`
-        <decidables-spinner class="h"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.h}
-          @input=${this.hInput.bind(this)}
-        >
-          <var>Hits</var>
-        </decidables-spinner>
-      `;
-      m = html`
-        <decidables-spinner class="m"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.m}
-          @input=${this.mInput.bind(this)}
-        >
-          <var>Misses</var>
-        </decidables-spinner>
-      `;
-      hr = html`
-        <decidables-spinner class="hr"
-          disabled
-          min="0"
-          max="1"
-          step=".001"
-          .value=${+this.hr.toFixed(3)}
-        >
-          <var>Hit Rate</var>
-        </decidables-spinner>
-      `;
+      h = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math h"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.h}
+            @input=${this.hInput.bind(this)}
+          >
+            <var>Hits</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      m = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math m"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.m}
+            @input=${this.mInput.bind(this)}
+          >
+            <var>Misses</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      hr = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math hr"
+            disabled
+            min="0"
+            max="1"
+            step=".001"
+            .value=${+this.hr.toFixed(3)}
+          >
+            <var>Hit Rate</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
     } else {
-      h = html`<var class="h">Hits</var>`;
-      m = html`<var class="m">Misses</var>`;
-      hr = html`<var class="hr">Hit Rate</var>`;
+      h = mathml`<mtext class="math-id h">Hits</mtext>`;
+      m = mathml`<mtext class="math-id m">Misses</mtext>`;
+      hr = mathml`<mtext class="math-id hr">Hit Rate</mtext>`;
     }
-    return html`
-      <div class="holder">
-        <table class="equation">
-          <tbody>
-            <tr>
-              <td rowspan="2">
-                ${hr}<span class="equals">=</span>
-              </td>
-              <td class="underline">
+    return html`<div class="holder">
+      <math display="block">
+        <semantics>
+          <mrow>
+            ${hr}
+            <mo>=</mo>
+            <mfrac>
+              <mrow>
                 ${h}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                ${h}<span class="plus">+</span>${m}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    `;
+              </mrow>
+              <mrow>
+                ${h}
+                <mo>+</mo>
+                ${m}
+              </mrow>
+            </mfrac>
+          </mrow>
+          <annotation encoding="application/x-tex">
+            \\text{Hit Rate} = \\frac{\\text{Hits}}{\\text{Hits} + \\text{Misses}}
+          </annotation>
+          <annotation encoding="application/x-asciimath">
+            "Hit Rate" = "Hits" / ("Hits" + "Misses")
+          </annotation>
+        </semantics>
+      </math>
+    </div>`;
   }
 }
 

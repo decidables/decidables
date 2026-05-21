@@ -11,7 +11,7 @@ import '../../src/equations/dc2hr';
 describe('sdt-equation-dc2hr', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-equation-dc2hr></sdt-equation-dc2hr>`);
-    expect(el.shadowRoot).to.have.descendant('.equation');
+    expect(el.shadowRoot).to.have.descendant('math');
   });
 
   it('has an empty lightDom', async () => {

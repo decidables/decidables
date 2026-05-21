@@ -1,5 +1,5 @@
 
-import {css, html} from 'lit';
+import {html, mathml} from 'lit';
 import {animate, fadeIn} from '@lit-labs/motion';
 
 import '@decidables/decidables-elements/spinner';
@@ -116,25 +116,6 @@ export default class HTDCalculation extends HTDEquation {
     this.sendEvent();
   }
 
-  static get styles() {
-    return [
-      super.styles,
-      css`
-        /* :host {
-          display: inline-block;
-        } */
-
-        var {
-          border-radius: var(---border-radius);
-        }
-
-        decidables-spinner {
-          border-radius: var(---border-radius);
-        }
-      `,
-    ];
-  }
-
   willUpdate() {
     this.alignState();
   }
@@ -149,120 +130,154 @@ export default class HTDCalculation extends HTDEquation {
     let vl;
     let vDiff;
     if (this.numeric) {
-      as = html`<decidables-spinner class="a as"
-          ?disabled=${!this.interactive}
-          step="1"
-          .value=${this.as}
-          @input=${this.asInput.bind(this)}
-        >
-          <var class="math-var">A<sub class="subscript">ss</sub></var>
-        </decidables-spinner>`;
-      ds = html`<decidables-spinner class="d ds"
-          ?disabled=${!this.interactive}
-          min="0"
-          step="1"
-          .value=${this.ds}
-          @input=${this.dsInput.bind(this)}
-        >
-          <var class="math-var">D<sub class="subscript">ss</sub></var>
-        </decidables-spinner>`;
-      al = html`<decidables-spinner class="a al"
-          ?disabled=${!this.interactive}
-          step="1"
-          .value=${this.al}
-          @input=${this.alInput.bind(this)}
-        >
-          <var class="math-var">A<sub class="subscript">ll</sub></var>
-        </decidables-spinner>`;
-      dl = html`<decidables-spinner class="d dl"
-          ?disabled=${!this.interactive}
-          min="0"
-          step="1"
-          .value=${this.dl}
-          @input=${this.dlInput.bind(this)}
-        >
-          <var class="math-var">D<sub class="subscript">ll</sub></var>
-        </decidables-spinner>`;
+      as = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math a as"
+            ?disabled=${!this.interactive}
+            step="1"
+            .value=${this.as}
+            @input=${this.asInput.bind(this)}
+          >
+            <var class="math-var">A<sub class="math-text">ss</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      ds = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math d ds"
+            ?disabled=${!this.interactive}
+            min="0"
+            step="1"
+            .value=${this.ds}
+            @input=${this.dsInput.bind(this)}
+          >
+            <var class="math-var">D<sub class="math-text">ss</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      al = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math a al"
+            ?disabled=${!this.interactive}
+            step="1"
+            .value=${this.al}
+            @input=${this.alInput.bind(this)}
+          >
+            <var class="math-var">A<sub class="math-text">ll</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      dl = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math d dl"
+            ?disabled=${!this.interactive}
+            min="0"
+            step="1"
+            .value=${this.dl}
+            @input=${this.dlInput.bind(this)}
+          >
+            <var class="math-var">D<sub class="math-text">ll</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
 
-      k = html`<decidables-spinner class="k"
-          ?disabled=${!this.interactive}
-          min=${HTDMath.k.MIN}
-          max=${HTDMath.k.MAX}
-          step=${HTDMath.k.STEP}
-          .value=${+this.k.toFixed(3)}
-          @input=${this.kInput.bind(this)}
-        >
-          <var class="math-var">k</var>
-        </decidables-spinner>`;
+      k = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math k"
+            ?disabled=${!this.interactive}
+            min=${HTDMath.k.MIN}
+            max=${HTDMath.k.MAX}
+            step=${HTDMath.k.STEP}
+            .value=${this.k}
+            @input=${this.kInput.bind(this)}
+          >
+            <var class="math-var">k</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
 
-      vs = html`<decidables-spinner class="v vs"
-          disabled
-          .value=${+this.vs.toFixed(2)}
-        >
-          <var class="math-var">V<sub class="subscript">ss</sub></var>
-        </decidables-spinner>`;
-      vl = html`<decidables-spinner class="v vl"
-          disabled
-          .value=${+this.vl.toFixed(2)}
-        >
-          <var class="math-var">V<sub class="subscript">ll</sub></var>
-        </decidables-spinner>`;
-      vDiff = html`${(this.vDiff > 0)
-        ? html`<span class="comparison" ${animate({in: fadeIn})}>&gt;</span>`
+      vs = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math v vs"
+            disabled
+            .value=${+this.vs.toFixed(3)}
+          >
+            <var class="math-var">V<sub class="math-text">ss</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      vl = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math v vl"
+            disabled
+            .value=${+this.vl.toFixed(3)}
+          >
+            <var class="math-var">V<sub class="math-text">ll</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      vDiff = (this.vDiff > 0)
+        ? mathml`<mo ${animate({in: fadeIn})}>&gt;</mo>`
         : (this.vDiff < 0)
-          ? html`<span class="comparison" ${animate({in: fadeIn})}>&lt;</span>`
-          : html`<span class="comparison" ${animate({in: fadeIn})}>=</span>`}`;
+          ? mathml`<mo ${animate({in: fadeIn})}>&lt;</mo>`
+          : mathml`<mo ${animate({in: fadeIn})}>=</mo>`;
     } else {
-      as = html`<var class="math-var a as">A<sub class="subscript">ss</sub></var>`;
-      ds = html`<var class="math-var d ds">D<sub class="subscript">ss</sub></var>`;
-      al = html`<var class="math-var a al">A<sub class="subscript">ll</sub></var>`;
-      dl = html`<var class="math-var d dl">D<sub class="subscript">ll</sub></var>`;
+      as = mathml`<msub class="math-id a as"><mi mathvariant="normal">A</mi><mrow><mtext>ss</mtext></mrow></msub>`;
+      ds = mathml`<msub class="math-id d ds"><mi mathvariant="normal">D</mi><mrow><mtext>ss</mtext></mrow></msub>`;
+      al = mathml`<msub class="math-id a al"><mi mathvariant="normal">A</mi><mrow><mtext>ll</mtext></mrow></msub>`;
+      dl = mathml`<msub class="math-id d dl"><mi mathvariant="normal">D</mi><mrow><mtext>ll</mtext></mrow></msub>`;
 
-      k = html`<var class="math-var k">k</var>`;
+      k = mathml`<mi mathvariant="normal" class="math-id k">k</mi>`;
 
-      vs = html`<var class="math-var v vs">V<sub class="subscript">ss</sub></var>`;
-      vl = html`<var class="math-var v vl">V<sub class="subscript">ll</sub></var>`;
-      vDiff = html`<span class="comparison">≟</span>`;
+      vs = mathml`<msub class="math-id v vs"><mi mathvariant="normal">V</mi><mrow><mtext>ss</mtext></mrow></msub>`;
+      vl = mathml`<msub class="math-id v vl"><mi mathvariant="normal">V</mi><mrow><mtext>ll</mtext></mrow></msub>`;
+      vDiff = mathml`<mo>≟</mo>`;
     }
-    const equation = html`
-      <tr>
-        <td class="underline">
-          ${as}
-        </td>
-        <td rowspan="2">
-          ${vDiff}
-        </td>
-        <td class="underline">
-          ${al}
-        </td>
-      </tr>
-      <tr>
-        <td class="">
-          <span class="paren tight">(</span>1<span class="plus">+</span>${k}${ds}<span class="paren tight">)</span>
-        </td>
-        <td class="">
-          <span class="paren tight">(</span>1<span class="plus">+</span>${k}${dl}<span class="paren tight">)</span>
-        </td>
-      </tr>
-      <tr>
-        <td class="right">
-          ${vs}
-        </td>
-        <td>
-          ${vDiff}
-        </td>
-        <td class="left">
-          ${vl}
-        </td>
-      </tr>`;
-    return html`
-      <div class="holder">
-        <table class="equation">
-          <tbody>
-            ${equation}
-          </tbody>
-        </table>
-      </div>`;
+    return html`<div class="holder">
+      <math display="block">
+        <semantics>
+          <mtable class="layout">
+            <mtr>
+              <mtd class="leftside">
+                <mfrac>
+                  <mrow>
+                    ${as}
+                  </mrow>
+                  <mrow>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    ${k}
+                    ${ds}
+                  </mrow>
+                </mfrac>
+              </mtd>
+              <mtd>
+                ${vDiff}
+              </mtd>
+              <mtd class="rightside">
+                <mfrac>
+                  <mrow>
+                    ${al}
+                  </mrow>
+                  <mrow>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    ${k}
+                    ${dl}
+                  </mrow>
+                </mfrac>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd class="leftside">
+                ${vs}
+              </mtd>
+              <mtd>
+                ${vDiff}
+              </mtd>
+              <mtd class="rightside">
+                ${vl}
+              </mtd>
+            </mtr>
+          </mtable>
+          <annotation encoding="application/x-tex">
+            \\begin{array}{rcl}
+            \\frac{A_{ss}}{1 + kD_{ss}} & ≟ & \\frac{A_{ll}}{1 + kD_{ll}} \\\\
+            V_{ss} & ≟ & V_{ll}
+            \\end{array}
+          </annotation>
+          <annotation encoding="application/x-asciimath">
+            {: [A_(ss)/(1 + kD_(ss)), ≟, A_(ll)/(1 + kD_(ll))], [V_(ss), ≟, V_(ll)] :}
+          </annotation>
+        </semantics>
+      </math>
+    </div>`;
   }
 }
 

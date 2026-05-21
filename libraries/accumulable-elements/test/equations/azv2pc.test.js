@@ -13,7 +13,7 @@ import '../../src/equations/azv2pc';
 describe('ddm-equation-azv2pc', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<ddm-equation-azv2pc></ddm-equation-azv2pc>`);
-    expect(el.shadowRoot).to.have.descendant('.equation');
+    expect(el.shadowRoot).to.have.descendant('math');
   });
 
   it('has an empty lightDom', async () => {

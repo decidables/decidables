@@ -11,7 +11,7 @@ import '../../src/equations/dc2far';
 describe('sdt-equation-dc2far', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-equation-dc2far></sdt-equation-dc2far>`);
-    expect(el.shadowRoot).to.have.descendant('.equation');
+    expect(el.shadowRoot).to.have.descendant('math');
   });
 
   it('has an empty lightDom', async () => {

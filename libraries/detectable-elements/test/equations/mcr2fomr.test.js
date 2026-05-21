@@ -11,7 +11,7 @@ import '../../src/equations/mcr2fomr';
 describe('sdt-equation-mcr2fomr', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-equation-mcr2fomr></sdt-equation-mcr2fomr>`);
-    expect(el.shadowRoot).to.have.descendant('.equation');
+    expect(el.shadowRoot).to.have.descendant('math');
   });
 
   it('has an empty lightDom', async () => {
