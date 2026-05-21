@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.6.0...@decidables/detectable-elements@0.7.0) (2026-05-21)
+
+### Features
+
+* **libraries:** convert all equations to MathML
+
+
 ## [0.6.0](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.5.1...@decidables/detectable-elements@0.6.0) (2026-02-14)
 
 

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.4.0...@decidables/accumulable-elements@0.5.0) (2026-05-21)
+
+### Features
+
+* **libraries:** convert all equations to MathML
+
+
 ## [0.4.0](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.3.8...@decidables/accumulable-elements@0.4.0) (2026-02-14)
 
 

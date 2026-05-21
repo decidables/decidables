@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.6.0...@decidables/decidables-elements@0.7.0) (2026-05-21)
+
+### ⚠ BREAKING CHANGES
+
+* **decidables-elements:** `mixin-equation` to use as base for all equations
+
+### Features
+
+* **decidables-elements:** add mixin for equations
+
+
 ## [0.6.0](https://github.com/decidables/decidables/compare/@decidables/decidables-elements@0.5.7...@decidables/decidables-elements@0.6.0) (2026-02-14)
 
 
