@@ -11,7 +11,7 @@ import '../../src/equations/vw2u';
 describe('cpt-equation-vw2u', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<cpt-equation-vw2u></cpt-equation-vw2u>`);
-    expect(el.shadowRoot).to.have.descendant('.equation');
+    expect(el.shadowRoot).to.have.descendant('math');
   });
 
   it('has an empty lightDom', async () => {

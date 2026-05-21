@@ -13,9 +13,10 @@
 $font-map: $fonts !default;
 
 $font-family-map: (
-  serif: (serif),
-  sans-serif: (sans-serif),
+  math: (math),
   monospace: (monospace),
+  sans-serif: (sans-serif),
+  serif: (serif),
 );
 
 $font-weight-catalog: (
@@ -110,24 +111,26 @@ $font-weight-map: ();
 }
 
 // SASS Variables
-$font-family-serif: map.get($font-family-map, serif); // Not in Bootstrap
-$font-family-sans-serif: map.get($font-family-map, sans-serif);
+$font-family-math: map.get($font-family-map, math); // Not in Bootstrap
 $font-family-monospace: map.get($font-family-map, monospace);
+$font-family-sans-serif: map.get($font-family-map, sans-serif);
+$font-family-serif: map.get($font-family-map, serif); // Not in Bootstrap
 
 $font-family-base: $font-family-sans-serif;
 $font-family-code: $font-family-monospace;
-$font-family-math: $font-family-serif; // Not in Bootstrap
+$font-family-symbol: $font-family-serif;
 
 $font-size-main: 1.125rem; // Not in Bootstrap
 
 // CSS Variables
 :root { /* stylelint-disable-line no-duplicate-selectors */
   --font-family-base: #{meta.inspect($font-family-base)};
-  --font-family-math: #{meta.inspect($font-family-math)};
   --font-family-code: #{meta.inspect($font-family-code)};
-  --font-family-serif: #{meta.inspect($font-family-serif)};
-  --font-family-sans-serif: #{meta.inspect($font-family-sans-serif)};
+  --font-family-math: #{meta.inspect($font-family-math)};
   --font-family-monospace: #{meta.inspect($font-family-monospace)};
+  --font-family-sans-serif: #{meta.inspect($font-family-sans-serif)};
+  --font-family-serif: #{meta.inspect($font-family-serif)};
+  --font-family-symbol: #{meta.inspect($font-family-symbol)};
 }
 
 // Bootstrap Utility
@@ -136,9 +139,10 @@ $utilities: (
     property: font-family,
     class: font,
     values: (
-      serif: var(--font-family-serif),
-      sans-serif: var(--font-family-sans-serif),
+      math: var(--font-family-math),
       monospace: var(--font-family-monospace),
+      sans-serif: var(--font-family-sans-serif),
+      serif: var(--font-family-serif),
     ),
   ),
   "font-weight": (

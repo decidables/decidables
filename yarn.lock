@@ -1456,6 +1456,7 @@ __metadata:
   dependencies:
     "@decidables/accumulable-elements": "npm:^0.4.0"
     "@decidables/decidables-site": "npm:^0.7.1"
+    "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
     core-js: "npm:^3.48.0"
@@ -1476,6 +1477,7 @@ __metadata:
     "@decidables/detectable-elements": "npm:^0.6.0"
     "@decidables/discountable-elements": "npm:^0.7.0"
     "@decidables/prospectable-elements": "npm:^0.6.0"
+    "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
     core-js: "npm:^3.48.0"
@@ -1514,6 +1516,7 @@ __metadata:
     "@decidables/detectable-elements": "npm:^0.6.0"
     "@decidables/discountable-elements": "npm:^0.7.0"
     "@decidables/prospectable-elements": "npm:^0.6.0"
+    "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
     core-js: "npm:^3.48.0"
@@ -1555,6 +1558,7 @@ __metadata:
   dependencies:
     "@decidables/decidables-site": "npm:^0.7.1"
     "@decidables/detectable-elements": "npm:^0.6.0"
+    "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
     core-js: "npm:^3.48.0"
@@ -1595,6 +1599,7 @@ __metadata:
   dependencies:
     "@decidables/decidables-site": "npm:^0.7.1"
     "@decidables/discountable-elements": "npm:^0.7.0"
+    "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
     core-js: "npm:^3.48.0"
@@ -1637,6 +1642,7 @@ __metadata:
   dependencies:
     "@decidables/decidables-site": "npm:^0.7.1"
     "@decidables/prospectable-elements": "npm:^0.6.0"
+    "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
     core-js: "npm:^3.48.0"
@@ -1758,6 +1764,13 @@ __metadata:
   dependencies:
     "@types/chai": "npm:^4.2.12"
   checksum: 10/d8571030a5869a3c2d148390a0f66e9ea0cb3740f423acbe9cdd4c95514e7e9a26d50957c9410088f471c75107980e0ba51dd9e3bde2f4fc269e26a4220fa005
+  languageName: node
+  linkType: hard
+
+"@fontsource/dejavu-math@npm:^5.2.5":
+  version: 5.2.5
+  resolution: "@fontsource/dejavu-math@npm:5.2.5"
+  checksum: 10/b7928dcaccdafd52a29e282792346eca14d2e1b6890c504d739f317d680677a0701ef6fbf7252df9c43dfd9d54949da09be23a31fcfa32705da999d43bcbb7d4
   languageName: node
   linkType: hard
 

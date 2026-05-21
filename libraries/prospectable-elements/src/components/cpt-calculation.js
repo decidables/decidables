@@ -1,5 +1,5 @@
 
-import {css, html} from 'lit';
+import {html, mathml} from 'lit';
 import {animate, fadeIn} from '@lit-labs/motion';
 
 import '@decidables/decidables-elements/spinner';
@@ -124,43 +124,6 @@ export default class CPTCalculation extends CPTEquation {
     this.sendEvent();
   }
 
-  // aInput(e) {
-  //   this.a = parseFloat(e.target.value);
-  //   this.alignState();
-  //   this.sendEvent();
-  // }
-
-  // lInput(e) {
-  //   this.l = parseFloat(e.target.value);
-  //   this.alignState();
-  //   this.sendEvent();
-  // }
-
-  // gInput(e) {
-  //   this.g = parseFloat(e.target.value);
-  //   this.alignState();
-  //   this.sendEvent();
-  // }
-
-  static get styles() {
-    return [
-      super.styles,
-      css`
-        /* :host {
-          display: inline-block;
-        } */
-
-        var {
-          border-radius: var(---border-radius);
-        }
-
-        decidables-spinner {
-          border-radius: var(---border-radius);
-        }
-      `,
-    ];
-  }
-
   willUpdate() {
     this.alignState();
   }
@@ -170,184 +133,235 @@ export default class CPTCalculation extends CPTEquation {
     let xl;
     let pw;
     let xs;
-    // let a;
-    // let l;
-    // let g;
+
     let vw;
     let vl;
     let ww;
     let wl;
     let vs;
+
     let ug;
     let us;
     let uDiff;
+
     if (this.numeric) {
-      xw = html`<decidables-spinner class="x xw"
-          ?disabled=${!this.interactive}
-          .value=${this.xw}
-          @input=${this.xwInput.bind(this)}
-        >
-          <var class="math-var">x<sub class="subscript win">win</sub></var>
-        </decidables-spinner>`;
-      xl = html`<decidables-spinner class="x xl"
-          disabled
-          .value=${this.xl}
-        >
-          <var class="math-var">x<sub class="subscript loss">loss</sub></var>
-        </decidables-spinner>`;
-      pw = html`<decidables-spinner class="p pw"
-          ?disabled=${!this.interactive}
-          min="0"
-          max="1"
-          step=".01"
-          .value=${+this.pw.toFixed(2)}
-          @input=${this.pwInput.bind(this)}
-        >
-          <var class="math-var">p<sub class="subscript win">win</sub></var>
-        </decidables-spinner>`;
-      xs = html`<decidables-spinner class="x xs"
-          ?disabled=${!this.interactive}
-          .value=${this.xs}
-          @input=${this.xsInput.bind(this)}
-        >
-          <var class="math-var">x<sub class="subscript sure">sure</sub></var>
-        </decidables-spinner>`;
-      // a = html`<decidables-spinner class="a"
-      //     ?disabled=${!this.interactive}
-      //     min=${CPTMath.a.MIN}
-      //     max=${CPTMath.a.MAX}
-      //     step=${CPTMath.a.STEP}
-      //     .value=${+this.a.toFixed(3)}
-      //     @input=${this.aInput.bind(this)}
-      //   >
-      //     <var class="math-var">α</var>
-      //   </decidables-spinner>`;
-      // l = html`<decidables-spinner class="l"
-      //     ?disabled=${!this.interactive}
-      //     min=${CPTMath.l.MIN}
-      //     max=${CPTMath.l.MAX}
-      //     step=${CPTMath.l.STEP}
-      //     .value=${+this.l.toFixed(3)}
-      //     @input=${this.lInput.bind(this)}
-      //   >
-      //     <var class="math-var">λ</var>
-      //   </decidables-spinner>`;
-      // g = html`<decidables-spinner class="g"
-      //     ?disabled=${!this.interactive}
-      //     min=${CPTMath.g.MIN}
-      //     max=${CPTMath.g.MAX}
-      //     step=${CPTMath.g.STEP}
-      //     .value=${+this.g.toFixed(3)}
-      //     @input=${this.gInput.bind(this)}
-      //   >
-      //     <var class="math-var">γ</var>
-      //   </decidables-spinner>`;
-      vw = html`<decidables-spinner class="v vw"
-          disabled
-          .value=${+this.vw.toFixed(1)}
-        >
-          <var class="math-var">v<sub class="subscript win">win</sub></var>
-        </decidables-spinner>`;
-      vl = html`<decidables-spinner class="v vl"
-          disabled
-          .value=${+this.vl.toFixed(1)}
-        >
-          <var class="math-var">v<sub class="subscript loss">loss</sub></var>
-        </decidables-spinner>`;
-      ww = html`<decidables-spinner class="w ww"
-          disabled
-          .value=${+this.ww.toFixed(2)}
-        >
-          <var class="math-var">w<sub class="subscript win">win</sub></var>
-        </decidables-spinner>`;
-      wl = html`<decidables-spinner class="w wl"
-          disabled
-          .value=${+this.wl.toFixed(2)}
-        >
-          <var class="math-var">w<sub class="subscript loss">loss</sub></var>
-        </decidables-spinner>`;
-      vs = html`<decidables-spinner class="v vs"
-          disabled
-          .value=${+this.vs.toFixed(1)}
-        >
-          <var class="math-var">v<sub class="subscript sure">sure</sub></var>
-        </decidables-spinner>`;
-      ug = html`<decidables-spinner class="u ug"
-          disabled
-          .value=${+this.ug.toFixed(1)}
-        >
-          <var class="math-var">U<sub class="subscript gamble">gamble</sub></var>
-        </decidables-spinner>`;
-      us = html`<decidables-spinner class="u us"
-          disabled
-          .value=${+this.us.toFixed(1)}
-        >
-          <var class="math-var">U<sub class="subscript sure">sure</sub></var>
-        </decidables-spinner>`;
-      uDiff = html`${(this.uDiff > 0)
-        ? html`<span class="comparison" ${animate({in: fadeIn})}>&gt;</span>`
+      xw = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math x xw"
+            ?disabled=${!this.interactive}
+            .value=${this.xw}
+            @input=${this.xwInput.bind(this)}
+          >
+            <var class="math-var">x<sub class="math-text">win</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      xl = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math x xl"
+            disabled
+            .value=${this.xl}
+          >
+            <var class="math-var">x<sub class="math-text">loss</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      pw = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math p pw"
+            ?disabled=${!this.interactive}
+            min="0"
+            max="1"
+            step=".01"
+            .value=${+this.pw.toFixed(2)}
+            @input=${this.pwInput.bind(this)}
+          >
+            <var class="math-var">p<sub class="math-text">win</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      xs = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math x xs"
+            ?disabled=${!this.interactive}
+            .value=${this.xs}
+            @input=${this.xsInput.bind(this)}
+          >
+            <var class="math-var">x<sub class="math-text">sure</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+
+      vw = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math v vw"
+            disabled
+            .value=${+this.vw.toFixed(1)}
+          >
+            <var class="math-var">v<sub class="math-text">win</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      vl = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math v vl"
+            disabled
+            .value=${+this.vl.toFixed(1)}
+          >
+            <var class="math-var">v<sub class="math-text">loss</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      ww = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math w ww"
+            disabled
+            .value=${+this.ww.toFixed(2)}
+          >
+            <var class="math-var">w<sub class="math-text">win</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      wl = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math w wl"
+            disabled
+            .value=${+this.wl.toFixed(2)}
+          >
+            <var class="math-var">w<sub class="math-text">loss</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      vs = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math v vs"
+            disabled
+            .value=${+this.vs.toFixed(1)}
+          >
+            <var class="math-var">v<sub class="math-text">sure</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+
+      ug = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math u ug"
+            disabled
+            .value=${+this.ug.toFixed(1)}
+          >
+            <var class="math-var">U<sub class="math-text">gamble</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      us = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math u us"
+            disabled
+            .value=${+this.us.toFixed(1)}
+          >
+            <var class="math-var">U<sub class="math-text">sure</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      uDiff = (this.uDiff > 0)
+        ? mathml`<mo ${animate({in: fadeIn})}>&gt;</mo>`
         : (this.uDiff < 0)
-          ? html`<span class="comparison" ${animate({in: fadeIn})}>&lt;</span>`
-          : html`<span class="comparison" ${animate({in: fadeIn})}>=</span>`}`;
+          ? mathml`<mo ${animate({in: fadeIn})}>&lt;</mo>`
+          : mathml`<mo ${animate({in: fadeIn})}>=</mo>`;
     } else {
-      xw = html`<var class="math-var x xw">x<sub class="subscript win">win</sub></var>`;
-      xl = html`<var class="math-var x xl">x<sub class="subscript loss">loss</sub></var>`;
-      pw = html`<var class="math-var p pw">p<sub class="subscript win">win</sub></var>`;
-      xs = html`<var class="math-var x xs">x<sub class="subscript sure">sure</sub></var>`;
-      // a = html`<var class="math-var a">α</var>`;
-      // l = html`<var class="math-var l">λ</var>`;
-      // g = html`<var class="math-var g">γ</var>`;
-      vw = html`<var class="math-var v vw">v<sub class="subscript win">win</sub></var>`;
-      vl = html`<var class="math-var v vl">v<sub class="subscript loss">loss</sub></var>`;
-      ww = html`<var class="math-var w ww">w<sub class="subscript win">win</sub></var>`;
-      wl = html`<var class="math-var w wl">w<sub class="subscript loss">loss</sub></var>`;
-      vs = html`<var class="math-var v vs">v<sub class="subscript sure">sure</sub></var>`;
-      ug = html`<var class="math-var u ug">U<sub class="subscript gamble">gamble</sub></var>`;
-      us = html`<var class="math-var u us">U<sub class="subscript sure">sure</sub></var>`;
-      uDiff = html`<span class="comparison">≟</span>`;
+      xw = mathml`<msub class="math-id x xw"><mi mathvariant="normal">x</mi><mrow><mtext>win</mtext></mrow></msub>`;
+      xl = mathml`<msub class="math-id x xl"><mi mathvariant="normal">x</mi><mrow><mtext>loss</mtext></mrow></msub>`;
+      pw = mathml`<msub class="math-id p pw"><mi mathvariant="normal">p</mi><mrow><mtext>win</mtext></mrow></msub>`;
+      xs = mathml`<msub class="math-id x xs"><mi mathvariant="normal">x</mi><mrow><mtext>sure</mtext></mrow></msub>`;
+
+      vw = mathml`<msub class="math-id v vw"><mi mathvariant="normal">v</mi><mrow><mtext>win</mtext></mrow></msub>`;
+      vl = mathml`<msub class="math-id v vl"><mi mathvariant="normal">v</mi><mrow><mtext>loss</mtext></mrow></msub>`;
+      ww = mathml`<msub class="math-id w ww"><mi mathvariant="normal">w</mi><mrow><mtext>win</mtext></mrow></msub>`;
+      wl = mathml`<msub class="math-id w wl"><mi mathvariant="normal">w</mi><mrow><mtext>loss</mtext></mrow></msub>`;
+      vs = mathml`<msub class="math-id v vs"><mi mathvariant="normal">v</mi><mrow><mtext>sure</mtext></mrow></msub>`;
+
+      ug = mathml`<msub class="math-id u ug"><mi mathvariant="normal">u</mi><mrow><mtext>gamble</mtext></mrow></msub>`;
+      us = mathml`<msub class="math-id u us"><mi mathvariant="normal">u</mi><mrow><mtext>sure</mtext></mrow></msub>`;
+      uDiff = mathml`<mo>≟</mo>`;
     }
-    const equation = html`
-      <tr>
-        <td class="right">
-          <span class="function v"><var class="math-var v tight">v</var><span class="paren tight">(</span>${xw}<span class="paren tight">)</span></span>&nbsp;<span class="function w"><var class="math-var w tight">w</var><span class="paren tight">(</span>${pw}<span class="paren tight">)</span></span><span class="plus">+</span><span class="function v"><var class="math-var v tight">v</var><span class="paren tight">(</span>${xl}<span class="paren tight">)</span></span>&nbsp;<span class="bracket tight">[</span><span class="tight">1</span><span class="minus">−</span><span class="function w"><var class="math-var w">w</var><span class="paren tight">(</span>${pw}<span class="paren tight">)</span></span><span class="bracket tight">]</span>
-        </td>
-        <td>
-          ${uDiff}
-        </td>
-        <td class="left">
-          <span class="function v"><var class="math-var v tight">v</var><span class="paren tight">(</span>${xs}<span class="paren tight">)</span></span>
-        </td>
-      </tr>
-      <tr>
-        <td class="right">
-          ${vw}&nbsp;${ww}<span class="plus">+</span>${vl}&nbsp;${wl}
-        </td>
-        <td>
-          ${uDiff}
-        </td>
-        <td class="left">
-          ${vs}
-        </td>
-      </tr>
-      <tr>
-        <td class="right">
-          ${ug}
-        </td>
-        <td>
-          ${uDiff}
-        </td>
-        <td class="left">
-          ${us}
-        </td>
-      </tr>`;
-    return html`
-      <div class="holder">
-        <table class="equation">
-          <tbody>
-            ${equation}
-          </tbody>
-        </table>
-      </div>`;
+    return html`<div class="holder">
+      <math display="block">
+        <semantics>
+          <mtable class="layout">
+            <mtr>
+              <mtd class="leftside">
+                <mrow>
+                  <mrow class="math-id v">
+                    <mi mathvariant="normal">v</mi>
+                    <mo>(</mo>
+                    ${xw}
+                    <mo>)</mo>
+                  </mrow>
+                  <mrow class="math-id w">
+                    <mi mathvariant="normal">w</mi>
+                    <mo>(</mo>
+                    ${pw}
+                    <mo>)</mo>
+                  </mrow>
+                  <mo>+</mo>
+                  <mrow class="math-id v">
+                    <mi mathvariant="normal">v</mi>
+                    <mo>(</mo>
+                    ${xl}
+                    <mo>)</mo>
+                  </mrow>
+                  <mrow>
+                    <mo>[</mo>
+                    <mrow>
+                      <mn>1</mn>
+                      <mo>−</mo>
+                      <mrow class="math-id w">
+                        <mi mathvariant="normal">w</mi>
+                        <mo>(</mo>
+                        ${pw}
+                        <mo>)</mo>
+                      </mrow>
+                    </mrow>
+                    <mo>]</mo>
+                  </mrow>
+                </mrow>
+              </mtd>
+              <mtd>
+                ${uDiff}
+              </mtd>
+              <mtd class="rightside">
+                <mrow class="math-id v">
+                  <mi mathvariant="normal">v</mi>
+                  <mo>(</mo>
+                  ${xs}
+                  <mo>)</mo>
+                </mrow>
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd class="leftside">
+                <mrow>
+                  ${vw}
+                  ${ww}
+                  <mo>+</mo>
+                  ${vl}
+                  ${wl}
+                </mrow>
+              </mtd>
+              <mtd>
+                ${uDiff}
+              </mtd>
+              <mtd class="rightside">
+                ${vs}
+              </mtd>
+            </mtr>
+            <mtr>
+              <mtd class="leftside">
+                ${ug}
+              </mtd>
+              <mtd>
+                ${uDiff}
+              </mtd>
+              <mtd class="rightside">
+                ${us}
+              </mtd>
+            </mtr>
+          </mtable>
+          <annotation encoding="application/x-tex">
+            \\begin{array}{rcl}
+            v(x_{\\text{win}})w(p_{\\text{win}}) + v(x_{\\text{loss}})[1 - w(p_{\\text{loss}})] & ≟ & v(x_{\\text{sure}}) \\\\
+            v_{\\text{win}}w_{\\text{win}} + v_{\\text{loss}}w_{\\text{loss}} & ≟ & v_{\\text{sure}} \\\\
+            U_{\\text{gamble}} & ≟ & U_{\\text{sure}}
+            \\end{array}
+          </annotation>
+          <annotation encoding="application/x-asciimath">
+            {:
+            [v(x_("win"))w(p_("win")) + v(x_("loss"))w(p_("loss")), ≟, v(x_("sure"))],
+            [v_("win")w_("win") + v_("loss")w_("loss"), ≟, v_("sure")],
+            [U_("gamble"), ≟, U_("sure")]
+            :}
+          </annotation>
+        </semantics>
+      </math>
+    </div>`;
   }
 }
 

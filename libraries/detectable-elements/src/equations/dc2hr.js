@@ -1,5 +1,5 @@
 
-import {html} from 'lit';
+import {html, mathml} from 'lit';
 
 import '@decidables/decidables-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
@@ -98,118 +98,156 @@ export default class SDTEquationDC2Hr extends SDTEquation {
     let s;
     let hr;
     if (this.numeric) {
-      d = html`
-        <decidables-spinner class="d bottom"
-          ?disabled=${!this.interactive}
-          step=${SDTMath.d.STEP}
-          .value=${this.d}
-          @input=${this.dInput.bind(this)}
-        >
-          <var class="math-var">d′</var>
-        </decidables-spinner>
-      `;
-      c = html`
-        <decidables-spinner class="c bottom"
-          ?disabled=${!this.interactive}
-          step=${SDTMath.c.STEP}
-          .value=${this.c}
-          @input=${this.cInput.bind(this)}
-        >
-          <var class="math-var">c</var>
-        </decidables-spinner>
-      `;
-      s = html`
-        <decidables-spinner class="s bottom"
-          ?disabled=${!this.interactive}
-          min=${SDTMath.s.MIN}
-          step=${SDTMath.s.STEP}
-          .value=${this.s}
-          @input=${this.sInput.bind(this)}
-        >
-          <var class="math-var">σ</var>
-        </decidables-spinner>
-      `;
-      hr = html`
-        <decidables-spinner class="hr bottom"
-          disabled
-          min="0"
-          max="1"
-          step=".001"
-          .value=${+this.hr.toFixed(3)}
-        >
-          <var>Hit Rate</var>
-        </decidables-spinner>
-      `;
+      d = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math d"
+            ?disabled=${!this.interactive}
+            step=${SDTMath.d.STEP}
+            .value=${this.d}
+            @input=${this.dInput.bind(this)}
+          >
+            <var class="math-var">d′</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      c = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math c"
+            ?disabled=${!this.interactive}
+            step=${SDTMath.c.STEP}
+            .value=${this.c}
+            @input=${this.cInput.bind(this)}
+          >
+            <var class="math-var">c</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      s = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math s"
+            ?disabled=${!this.interactive}
+            min=${SDTMath.s.MIN}
+            step=${SDTMath.s.STEP}
+            .value=${this.s}
+            @input=${this.sInput.bind(this)}
+          >
+            <var class="math-var">σ</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      hr = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math hr"
+            disabled
+            min="0"
+            max="1"
+            step=".001"
+            .value=${+this.hr.toFixed(3)}
+          >
+            <var>Hit Rate</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
     } else {
-      d = html`<var class="math-var d">d′</var>`;
-      c = html`<var class="math-var c">c</var>`;
-      s = html`<var class="math-var s">σ</var>`;
-      hr = html`<var class="hr">Hit Rate</var>`;
+      d = mathml`<mi mathvariant="normal" class="math-id d">d′</mi>`;
+      c = mathml`<mi mathvariant="normal" class="math-id c">c</mi>`;
+      s = mathml`<mi mathvariant="normal" class="math-id s">σ</mi>`;
+      hr = mathml`<mtext class="math-id hr">Hit Rate</mtext>`;
     }
-    let equation;
-    if (this.unequal) {
-      equation = html`
-        <tr>
-          <td rowspan="2">
-            ${hr}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span><span class="bracket tight">[</span>
-          </td>
-          <td class="underline bottom">
-            <span>1</span><span class="plus tight">+</span><span>${s}<sup class="exp">2</sup></span>
-          </td>
-          <td rowspan="2">
-            <span class="bracket tight">]<sup class="exp">½</sup></span><span class="bracket tight">[</span>
-          </td>
-          <td class="underline">
-            ${d}
-          </td>
-          <td rowspan="2">
-            <span class="minus">−</span>
-          </td>
-          <td class="underline">
-            ${c}
-          </td>
-          <td rowspan="2">
-            <span class="bracket tight">]</span><span class="paren tight">)</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>2</span>
-          </td>
-          <td>
-            <span><span>1</span><span class="plus">+</span>${s}</span>
-          </td>
-          <td>
-            ${s}
-          </td>
-        </tr>`;
-    } else {
-      equation = html`
-        <tr>
-          <td rowspan="2">
-            ${hr}<span class="equals">=</span><var class="math-greek phi tight">Φ</var><span class="paren tight">(</span>
-          </td>
-          <td class="underline">
-            ${d}
-          </td>
-          <td rowspan="2">
-            <span class="minus">−</span>${c}<span class="paren tight">)</span>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <span>2</span>
-          </td>
-        </tr>`;
-    }
-    return html`
-      <div class="holder">
-        <table class="equation">
-          <tbody>
-            ${equation}
-          </tbody>
-        </table>
-      </div>`;
+    return html`<div class="holder">
+      <math display="block">
+        <semantics>
+          <mrow>
+            ${hr}
+            <mo>=</mo>
+            <mi mathvariant="normal" class="math-greek phi">Φ</mi>
+            <mrow>
+              <mo symmetric="false">(</mo>
+              <mrow>
+                ${this.unequal
+                  ? mathml`
+                    <msup>
+                      <mrow>
+                        <mo symmetric="true">[</mo>
+                        <mfrac>
+                          <mrow>
+                            <mn>1</mn>
+                            <mo>+</mo>
+                            <msup>
+                              <mrow>
+                                ${s}
+                              </mrow>
+                              <mrow>
+                                <mn>2</mn>
+                              </mrow>
+                            </msup>
+                          </mrow>
+                          <mrow>
+                            <mn>2</mn>
+                          </mrow>
+                        </mfrac>
+                        <mo symmetric="true">]</mo>
+                      </mrow>
+                      <mfrac>
+                        <mrow>
+                          <mn>1</mn>
+                        </mrow>
+                        <mrow>
+                          <mn>2</mn>
+                        </mrow>
+                      </mfrac>
+                    </msup>
+                    <mrow>
+                      <mo symmetric="true">[</mo>
+                      <mrow>
+                        <mfrac>
+                          <mrow>
+                            ${d}
+                          </mrow>
+                          <mrow>
+                              <mn>1</mn>
+                              <mo>+</mo>
+                              ${s}
+                          </mrow>
+                        </mfrac>
+                        <mo>−</mo>
+                        <mfrac>
+                          <mrow>
+                            ${c}
+                          </mrow>
+                          <mrow>
+                            ${s}
+                          </mrow>
+                        </mfrac>
+                      </mrow>
+                      <mo symmetric="true">]</mo>
+                    </mrow>
+                  `
+                  : mathml`
+                    <mfrac>
+                      <mrow>
+                        ${d}
+                      </mrow>
+                      <mrow>
+                        <mn>2</mn>
+                      </mrow>
+                    </mfrac>
+                    <mo>−</mo>
+                    ${c}
+                  `
+                }
+              </mrow>
+              <mo symmetric="false">)</mo>
+            </mrow>
+          </mrow>
+          <annotation encoding="application/x-tex">
+            ${this.unequal
+              ? mathml`\\text{Hit Rate} = \\Phi{\\left({\\left[\\frac{1 + \\sigma^2}{2}\\right]}^{\\frac{1}{2}}
+                  {\\left[\\frac{d'}{1 + \\sigma} - \\frac{c}{\\sigma}\\right]}\\right)}`
+              : mathml`\\text{Hit Rate} = \\Phi(\\frac{d'}{2} - c)`
+            }
+          </annotation>
+          <annotation encoding="application/x-asciimath">
+            ${this.unequal
+              ? mathml`"Hit Rate" = Phi([(1 + sigma^2) / 2]^(1/2)[(d') / (1 + sigma) - c / sigma])`
+              : mathml`"Hit Rate" = Phi((d') / 2 - c)`
+            }
+          </annotation>
+        </semantics>
+      </math>
+    </div>`;
   }
 }
 

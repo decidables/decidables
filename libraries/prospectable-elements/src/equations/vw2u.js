@@ -1,5 +1,5 @@
 
-import {html} from 'lit';
+import {html, mathml} from 'lit';
 import {animate, flyLeft} from '@lit-labs/motion';
 
 import '@decidables/decidables-elements/spinner';
@@ -107,39 +107,57 @@ export default class CPTEquationVW2U extends CPTEquation {
     this.sendEvent();
   }
 
-  vTemplate(subscript = '', className = '', numeric = false) {
+  vTemplate(subscript = '', symbolic = true, numeric = false) {
     let v;
     if (numeric) {
       const index = Number.parseInt(subscript, 10) - 1;
-      v = html`<decidables-spinner class="v"
-          ?disabled=${!this.interactive}
-          .value=${this.v[index]}
-          @input=${this.vInput.bind(this, index)}
-        >
-          <var class="math-var">v<sub class="subscript ${className}">${subscript}</sub></var>
-        </decidables-spinner>`;
+      v = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math v"
+            ?disabled=${!this.interactive}
+            .value=${this.v[index]}
+            @input=${this.vInput.bind(this, index)}
+          >
+            <var class="math-var">v<sub class="${symbolic ? 'math-var' : 'math-num'}">${subscript}</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
     } else {
-      v = html`<var class="math-var v">v<sub class="subscript ${className}">${subscript}</sub></var>`;
+      v = mathml`<msub class="math-id v">
+          <mi mathvariant="normal">v</mi>
+          <mrow>
+            ${symbolic
+              ? mathml`<mi mathvariant="normal">${subscript}</mi>`
+              : mathml`<mn>${subscript}</mn>`}
+          </mrow>
+        </msub>`;
     }
     return v;
   }
 
-  wTemplate(subscript = '', className = '', numeric = false) {
+  wTemplate(subscript = '', symbolic = true, numeric = false) {
     let w;
     if (numeric) {
       const index = Number.parseInt(subscript, 10) - 1;
-      w = html`<decidables-spinner class="w"
-          ?disabled=${!this.interactive}
-          min="0"
-          max="1"
-          step=".001"
-          .value=${this.w[index]}
-          @input=${this.wInput.bind(this, index)}
-        >
-          <var class="math-var">w<sub class="subscript ${className}">${subscript}</sub></var>
-        </decidables-spinner>`;
+      w = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math w"
+            ?disabled=${!this.interactive}
+            min="0"
+            max="1"
+            step=".001"
+            .value=${this.w[index]}
+            @input=${this.wInput.bind(this, index)}
+          >
+            <var class="math-var">w<sub class="${symbolic ? 'math-var' : 'math-num'}">${subscript}</sub></var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
     } else {
-      w = html`<var class="math-var w">w<sub class="subscript ${className}">${subscript}</sub></var>`;
+      w = mathml`<msub class="math-id w">
+          <mi mathvariant="normal">w</mi>
+          <mrow>
+            ${symbolic
+              ? mathml`<mi mathvariant="normal">${subscript}</mi>`
+              : mathml`<mn>${subscript}</mn>`}
+          </mrow>
+        </msub>`;
     }
     return w;
   }
@@ -152,80 +170,84 @@ export default class CPTEquationVW2U extends CPTEquation {
     let u;
     let n;
     if (this.numeric) {
-      u = html`<decidables-spinner class="u"
-          disabled
-          .value=${+this.u.toFixed(3)}
-        >
-          <var class="math-var">U</var>
-        </decidables-spinner>`;
-      n = html`<decidables-spinner class="n"
-          ?disabled=${!this.interactive}
-          min="1"
-          max="4"
-          step="1"
-          .value=${this.n}
-          @input=${this.nInput.bind(this)}
-        >
-          <var class="math-var">n</var>
-        </decidables-spinner>`;
+      u = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math u"
+            disabled
+            .value=${+this.u.toFixed(3)}
+          >
+            <var class="math-var">U</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      n = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math n sum-over"
+            ?disabled=${!this.interactive}
+            min="1"
+            max="4"
+            step="1"
+            .value=${this.n}
+            @input=${this.nInput.bind(this)}
+          >
+            <var class="math-var">n</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
     } else {
-      u = html`<var class="math-var u">U</var>`;
-      n = html`<var class="math-var subscript">n</var>`;
+      u = mathml`<mi mathvariant="normal" class="math-id u">U</mi>`;
+      n = mathml`<mi mathvariant="normal" class="math-id n">n</mi>`;
     }
-    const equation = html`
-      <tr>
-        <td>
-          ${u}<span class="equals">=</span>
-        </td>
-        <td>
-          <div class="summation">
-            <span class="tight">${n}</span>
-            <span class="tight"><var class="math-greek sigma">Σ</var></span>
-            <span class="tight"><var class="math-var subscript tight">i</var><span class="equals subscript">=</span><span class="subscript tight">1</span></span>
-          </div>
-        </td>
-        <td>
-          ${
-            this.vTemplate('i', 'math-var', false)
-          }&nbsp;${
-            this.wTemplate('i', 'math-var', false)
-          }<span class="equals">=</span>
-        </td>
-        <td>
-          ${this.numeric
-            ? Array(this.nMax).fill().map((_, index) => {
-              return (index < this.n)
-                ? html`<span class="addend tight" ${animate({in: flyLeft, out: flyLeft})}>${
-                  (index !== 0)
-                    ? html`<span class="plus">+</span>`
-                    : html``
-                  }${
-                    this.vTemplate(index + 1, 'math-num', true)
-                  }&nbsp;${
-                    this.wTemplate(index + 1, 'math-num', true)
-                  }</span>`
-                : null;
-            })
-            : html`${
-              this.vTemplate('1', 'math-num', false)
-            }&nbsp;${
-              this.wTemplate('1', 'math-num', false)
-            }<span class="plus">+</span><span class="ellipsis">…</span><span class="plus">+</span>${
-              this.vTemplate('n', 'math-var', false)
-            }&nbsp;${
-              this.wTemplate('n', 'math-var', false)
-            }`
-          }
-        </td>
-      </tr>`;
-    return html`
-      <div class="holder">
-        <table class="equation">
-          <tbody>
-            ${equation}
-          </tbody>
-        </table>
-      </div>`;
+    return html`<div class="holder">
+      <math display="block">
+        <semantics>
+          <mrow>
+            ${u}
+            <mo>=</mo>
+            <munderover>
+              <mo>∑</mo>
+              <mrow>
+                <mi mathvariant="normal">i</mi>
+                <mo>=</mo>
+                <mn>1</mn>
+              </mrow>
+              <mrow>
+                ${n}
+              </mrow>
+            </munderover>
+            ${this.vTemplate('i', true, false)}
+            ${this.wTemplate('i', true, false)}
+            <mo>=</mo>
+            ${this.numeric
+              ? Array(this.nMax).fill().map((_, index) => {
+                return (index < this.n)
+                  ? mathml`
+                    <mrow ${animate({in: flyLeft, out: flyLeft})}>
+                    ${(index !== 0)
+                      ? mathml`<mo>+</mo>`
+                      : mathml``
+                    }
+                    ${this.vTemplate(index + 1, false, true)}
+                    ${this.wTemplate(index + 1, false, true)}
+                  </mrow>`
+                  : null;
+              })
+              : mathml`
+                ${this.vTemplate('1', false, false)}
+                ${this.wTemplate('1', false, false)}
+                <mo>+</mo>
+                <mo>⋯</mo>
+                <mo>+</mo>
+                ${this.vTemplate('n', true, false)}
+                ${this.wTemplate('n', true, false)}
+              `
+            }
+          </mrow>
+          <annotation encoding="application/x-tex">
+            U = \\sum_{i=1}^{n} {v_i w_i} = v_1 w_1 + \\cdots + v_n w_n
+          </annotation>
+          <annotation encoding="application/x-asciimath">
+            U = sum_(i=1)^n v_i w_i = v_1 w_1 + cdots + v_n w_n
+          </annotation>
+        </semantics>
+      </math>
+    </div>`;
   }
 }
 

@@ -11,7 +11,7 @@ import '../../src/equations/hrfar2d';
 describe('sdt-equation-hrfar2d', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-equation-hrfar2d></sdt-equation-hrfar2d>`);
-    expect(el.shadowRoot).to.have.descendant('.equation');
+    expect(el.shadowRoot).to.have.descendant('math');
   });
 
   it('has an empty lightDom', async () => {

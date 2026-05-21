@@ -11,7 +11,7 @@ import '../../src/equations/hfa2ppv';
 describe('sdt-equation-hfa2ppv', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<sdt-equation-hfa2ppv></sdt-equation-hfa2ppv>`);
-    expect(el.shadowRoot).to.have.descendant('.equation');
+    expect(el.shadowRoot).to.have.descendant('math');
   });
 
   it('has an empty lightDom', async () => {

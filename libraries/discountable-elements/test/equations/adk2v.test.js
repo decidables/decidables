@@ -11,7 +11,7 @@ import '../../src/equations/adk2v';
 describe('htd-equation-adk2v', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<htd-equation-adk2v></htd-equation-adk2v>`);
-    expect(el.shadowRoot).to.have.descendant('.equation');
+    expect(el.shadowRoot).to.have.descendant('math');
   });
 
   it('has an empty lightDom', async () => {

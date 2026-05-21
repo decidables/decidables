@@ -1,5 +1,5 @@
 
-import {html} from 'lit';
+import {html, mathml} from 'lit';
 
 import '@decidables/decidables-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
@@ -77,62 +77,69 @@ export default class SDTEquationFaCr2Far extends SDTEquation {
     let cr;
     let far;
     if (this.numeric) {
-      fa = html`
-        <decidables-spinner class="fa"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.fa}
-          @input=${this.faInput.bind(this)}
-        >
-          <var>False Alarms</var>
-        </decidables-spinner>
-      `;
-      cr = html`
-        <decidables-spinner class="cr"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.cr}
-          @input=${this.crInput.bind(this)}
-        >
-          <var>Correct Rejections</var>
-        </decidables-spinner>
-      `;
-      far = html`
-        <decidables-spinner class="far"
-          disabled
-          min="0"
-          max="1"
-          step=".001"
-          .value=${+this.far.toFixed(3)}
-        >
-          <var>False Alarm Rate</var>
-        </decidables-spinner>
-      `;
+      fa = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math fa"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.fa}
+            @input=${this.faInput.bind(this)}
+          >
+            <var>False Alarms</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      cr = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math cr"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.cr}
+            @input=${this.crInput.bind(this)}
+          >
+            <var>Correct Rejections</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      far = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math far"
+            disabled
+            min="0"
+            max="1"
+            step=".001"
+            .value=${+this.far.toFixed(3)}
+          >
+            <var>False Alarm Rate</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
     } else {
-      fa = html`<var class="fa">False Alarms</var>`;
-      cr = html`<var class="cr">Correct Rejections</var>`;
-      far = html`<var class="far">False Alarm Rate</var>`;
+      fa = mathml`<mtext class="math-id fa">False Alarms</mtext>`;
+      cr = mathml`<mtext class="math-id cr">Correct Rejections</mtext>`;
+      far = mathml`<mtext class="math-id far">False Alarm Rate</mtext>`;
     }
-    return html`
-      <div class="holder">
-        <table class="equation">
-          <tbody>
-            <tr>
-              <td rowspan="2">
-                ${far}<span class="equals">=</span>
-              </td>
-              <td class="underline">
+    return html`<div class="holder">
+      <math display="block">
+        <semantics>
+          <mrow>
+            ${far}
+            <mo>=</mo>
+            <mfrac>
+              <mrow>
                 ${fa}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                ${fa}<span class="plus">+</span>${cr}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>`;
+              </mrow>
+              <mrow>
+                ${fa}
+                <mo>+</mo>
+                ${cr}
+              </mrow>
+            </mfrac>
+          </mrow>
+          <annotation encoding="application/x-tex">
+            \\text{False Alarm Rate} = \\frac{\\text{False Alarms}}
+              {\\text{False Alarms} + \\text{Correct Rejections}}
+          </annotation>
+          <annotation encoding="application/x-asciimath">
+            "False Alarm Rate" = "False Alarms" / ("False Alarms" + "Correct Rejections")
+          </annotation>
+        </semantics>
+      </math>
+    </div>`;
   }
 }
 

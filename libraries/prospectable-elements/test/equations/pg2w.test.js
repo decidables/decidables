@@ -11,7 +11,7 @@ import '../../src/equations/pg2w';
 describe('cpt-equation-pg2w', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<cpt-equation-pg2w></cpt-equation-pg2w>`);
-    expect(el.shadowRoot).to.have.descendant('.equation');
+    expect(el.shadowRoot).to.have.descendant('math');
   });
 
   it('has an empty lightDom', async () => {

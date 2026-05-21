@@ -1,5 +1,5 @@
 
-import {html} from 'lit';
+import {html, mathml} from 'lit';
 
 import '@decidables/decidables-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
@@ -77,63 +77,69 @@ export default class SDTEquationMCr2Fomr extends SDTEquation {
     let cr;
     let fomr;
     if (this.numeric) {
-      m = html`
-        <decidables-spinner class="m"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.m}
-          @input=${this.mInput.bind(this)}
-        >
-          <var>Misses</var>
-        </decidables-spinner>
-      `;
-      cr = html`
-        <decidables-spinner class="cr"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.cr}
-          @input=${this.crInput.bind(this)}
-        >
-          <var>Correct Rejections</var>
-        </decidables-spinner>
-      `;
-      fomr = html`
-        <decidables-spinner class="fomr"
-          disabled
-          min="0"
-          max="1"
-          step=".001"
-          .value=${+this.fomr.toFixed(3)}
-        >
-          <var>False Omission Rate</var>
-        </decidables-spinner>
-      `;
+      m = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math m"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.m}
+            @input=${this.mInput.bind(this)}
+          >
+            <var>Misses</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      cr = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math cr"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.cr}
+            @input=${this.crInput.bind(this)}
+          >
+            <var>Correct Rejections</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      fomr = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math fomr"
+            disabled
+            min="0"
+            max="1"
+            step=".001"
+            .value=${+this.fomr.toFixed(3)}
+          >
+            <var>False Omission Rate</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
     } else {
-      m = html`<var class="m">Misses</var>`;
-      cr = html`<var class="cr">Correct Rejections</var>`;
-      fomr = html`<var class="fomr">False Omission Rate</var>`;
+      m = mathml`<mtext class="math-id m">Misses</mtext>`;
+      cr = mathml`<mtext class="math-id cr">Correct Rejections</mtext>`;
+      fomr = mathml`<mtext class="math-id fomr">False Omission Rate</mtext>`;
     }
-    return html`
-      <div class="holder">
-        <table class="equation">
-          <tbody>
-            <tr>
-              <td rowspan="2">
-                ${fomr}<span class="equals">=</span>
-              </td>
-              <td class="underline">
+    return html`<div class="holder">
+      <math display="block">
+        <semantics>
+          <mrow>
+            ${fomr}
+            <mo>=</mo>
+            <mfrac>
+              <mrow>
                 ${m}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                ${m}<span class="plus">+</span>${cr}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    `;
+              </mrow>
+              <mrow>
+                ${m}
+                <mo>+</mo>
+                ${cr}
+              </mrow>
+            </mfrac>
+          </mrow>
+          <annotation encoding="application/x-tex">
+            \\text{False Omission Rate} = \\frac{\\text{Misses}}
+              {\\text{Misses} + \\text{Correct Rejections}}
+          </annotation>
+          <annotation encoding="application/x-asciimath">
+            "False Omission Rate" = "Misses" / ("Misses" + "Correct Rejections")
+          </annotation>
+        </semantics>
+      </math>
+    </div>`;
   }
 }
 

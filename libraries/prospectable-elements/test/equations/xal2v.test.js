@@ -11,7 +11,7 @@ import '../../src/equations/xal2v';
 describe('cpt-equation-xal2v', () => {
   it('has a shadowDom', async () => {
     const el = await fixture(html`<cpt-equation-xal2v></cpt-equation-xal2v>`);
-    expect(el.shadowRoot).to.have.descendant('.equation');
+    expect(el.shadowRoot).to.have.descendant('math');
   });
 
   it('has an empty lightDom', async () => {

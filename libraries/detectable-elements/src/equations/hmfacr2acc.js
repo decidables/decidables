@@ -1,5 +1,5 @@
 
-import {html} from 'lit';
+import {html, mathml} from 'lit';
 
 import '@decidables/decidables-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
@@ -106,84 +106,98 @@ export default class SDTEquationHMFaCr2Acc extends SDTEquation {
     let acc;
 
     if (this.numeric) {
-      h = html`
-        <decidables-spinner class="h"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.h}
-          @input=${this.hInput.bind(this)}
-        >
-          <var>Hits</var>
-        </decidables-spinner>
-      `;
-      m = html`
-        <decidables-spinner class="m"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.m}
-          @input=${this.mInput.bind(this)}
-        >
-          <var>Misses</var>
-        </decidables-spinner>
-      `;
-      fa = html`
-        <decidables-spinner class="fa"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.fa}
-          @input=${this.faInput.bind(this)}
-        >
-          <var>False Alarms</var>
-        </decidables-spinner>
-      `;
-      cr = html`
-        <decidables-spinner class="cr"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.cr}
-          @input=${this.crInput.bind(this)}
-        >
-          <var>Correct Rejections</var>
-        </decidables-spinner>
-      `;
-      acc = html`
-        <decidables-spinner class="acc"
-          disabled
-          min="0"
-          max="1"
-          step=".001"
-          .value=${+this.acc.toFixed(3)}
-        >
-          <var>Accuracy</var>
-        </decidables-spinner>
-      `;
+      h = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math h"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.h}
+            @input=${this.hInput.bind(this)}
+          >
+            <var>Hits</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      m = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math m"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.m}
+            @input=${this.mInput.bind(this)}
+          >
+            <var>Misses</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      fa = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math fa"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.fa}
+            @input=${this.faInput.bind(this)}
+          >
+            <var>False Alarms</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      cr = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math cr"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.cr}
+            @input=${this.crInput.bind(this)}
+          >
+            <var>Correct Rejections</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      acc = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math acc"
+            disabled
+            min="0"
+            max="1"
+            step=".001"
+            .value=${+this.acc.toFixed(3)}
+          >
+            <var>Accuracy</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
     } else {
-      h = html`<var class="h">Hits</var>`;
-      m = html`<var class="m">Misses</var>`;
-      fa = html`<var class="fa">False Alarms</var>`;
-      cr = html`<var class="cr">Correct Rejections</var>`;
-      acc = html`<var class="acc">Accuracy</var>`;
+      h = mathml`<mtext class="math-id h">Hits</mtext>`;
+      m = mathml`<mtext class="math-id m">Misses</mtext>`;
+      fa = mathml`<mtext class="math-id fa">False Alarms</mtext>`;
+      cr = mathml`<mtext class="math-id cr">Correct Rejections</mtext>`;
+      acc = mathml`<mtext class="math-id acc">Accuracy</mtext>`;
     }
-    return html`
-      <div class="holder">
-        <table class="equation">
-          <tbody>
-            <tr>
-              <td rowspan="2">
-                ${acc}<span class="equals">=</span>
-              </td>
-              <td class="underline">
-                ${h}<span class="plus">+</span>${cr}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                ${h}<span class="plus">+</span>${cr}<span class="plus">+</span>${m}<span class="plus">+</span>${fa}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>`;
+    return html`<div class="holder">
+      <math display="block">
+        <semantics>
+          <mrow>
+            ${acc}
+            <mo>=</mo>
+            <mfrac>
+              <mrow>
+                ${h}
+                <mo>+</mo>
+                ${cr}
+              </mrow>
+              <mrow>
+                ${h}
+                <mo>+</mo>
+                ${cr}
+                <mo>+</mo>
+                ${m}
+                <mo>+</mo>
+                ${fa}
+              </mrow>
+            </mfrac>
+          </mrow>
+          <annotation encoding="application/x-tex">
+            \\text{Accuracy} = \\frac{\\text{Hits} + \\text{Correct Rejections}}
+              {\\text{Hits} + \\text{Correct Rejections} + \\text{Misses} + \\text{False Alarms}}
+          </annotation>
+          <annotation encoding="application/x-asciimath">
+            "Accuracy" = ("Hits" + "Correct Rejections") / 
+              ("Hits" + "Correct Rejections" + "Misses" + "False Alarms")
+          </annotation>
+        </semantics>
+      </math>
+    </div>`;
   }
 }
 

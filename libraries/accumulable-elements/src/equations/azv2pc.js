@@ -1,5 +1,5 @@
 
-import {html} from 'lit';
+import {html, mathml} from 'lit';
 
 import '@decidables/decidables-elements/spinner';
 import DDMMath from '@decidables/accumulable-math';
@@ -86,87 +86,176 @@ export default class DDMEquationAZV2PC extends DDMEquation {
   }
 
   render() {
+    // Hacks for Firefox:
+    // * Wrap <mtext> with HTML in an <mtable><mtr><mtd> to get vertical alignment correct
+    // * <mi> requires `mathvariant="normal"` in addition to `text-transform: none;` in CSS
+    // * Wrap <mn> in <mrow> within <msub> and <msup> to get font-size correct with `font-family`
     let a;
     let z;
     let v;
     let s;
     let accuracy;
     if (this.numeric) {
-      a = html`<decidables-spinner class="a bottom"
-          ?disabled=${!this.interactive}
-          min=${DDMMath.a.MIN}
-          max=${DDMMath.a.MAX}
-          step=${DDMMath.a.STEP}
-          .value=${this.a}
-          @input=${this.aInput.bind(this)}
-        >
-          <var class="math-var">a</var>
-        </decidables-spinner>`;
-      z = html`<decidables-spinner class="z bottom"
-          ?disabled=${!this.interactive}
-          min=${DDMMath.z.MIN}
-          max=${DDMMath.z.MAX}
-          step=${DDMMath.z.STEP}
-          .value=${this.z}
-          @input=${this.zInput.bind(this)}
-        >
-          <var class="math-var">z</var>
-        </decidables-spinner>`;
-      v = html`<decidables-spinner class="v bottom"
-          ?disabled=${!this.interactive}
-          min=${DDMMath.v.MIN}
-          max=${DDMMath.v.MAX}
-          step=${DDMMath.v.STEP}
-          .value=${this.v}
-          @input=${this.vInput.bind(this)}
-        >
-          <var class="math-var">v</var>
-        </decidables-spinner>`;
-      s = html`<decidables-spinner class="s bottom"
-          disabled
-          .value=${DDMMath.s.DEFAULT}
-        >
-          <var class="math-var">s</var>
-        </decidables-spinner>`;
-      accuracy = html`<decidables-spinner class="accuracy bottom"
-          disabled
-          .value=${+this.accuracy.toFixed(2)}
-        >
-          <var>Accuracy</var>
-        </decidables-spinner>`;
+      a = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math a"
+            ?disabled=${!this.interactive}
+            min=${DDMMath.a.MIN}
+            max=${DDMMath.a.MAX}
+            step=${DDMMath.a.STEP}
+            .value=${this.a}
+            @input=${this.aInput.bind(this)}
+          >
+            <var class="math-var">a</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      z = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math z"
+            ?disabled=${!this.interactive}
+            min=${DDMMath.z.MIN}
+            max=${DDMMath.z.MAX}
+            step=${DDMMath.z.STEP}
+            .value=${this.z}
+            @input=${this.zInput.bind(this)}
+          >
+            <var class="math-var">z</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      v = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math v"
+            ?disabled=${!this.interactive}
+            min=${DDMMath.v.MIN}
+            max=${DDMMath.v.MAX}
+            step=${DDMMath.v.STEP}
+            .value=${this.v}
+            @input=${this.vInput.bind(this)}
+          >
+            <var class="math-var">v</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      s = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math s"
+            disabled
+            .value=${DDMMath.s.DEFAULT}
+          >
+            <var class="math-var">s</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      accuracy = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math accuracy"
+            disabled
+            .value=${+this.accuracy.toFixed(2)}
+          >
+            <var>Accuracy</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
     } else {
-      a = html`<var class="math-var a">a</var>`;
-      z = html`<var class="math-var z">z</var>`;
-      v = html`<var class="math-var v">v</var>`;
-      s = html`<var class="math-var s">s</var>`;
-      accuracy = html`<var class="accuracy">Accuracy</var>`;
+      a = mathml`<mi mathvariant="normal" class="math-id a">a</mi>`;
+      z = mathml`<mi mathvariant="normal" class="math-id z">z</mi>`;
+      v = mathml`<mi mathvariant="normal" class="math-id v">v</mi>`;
+      s = mathml`<mi mathvariant="normal" class="math-id s">s</mi>`;
+      accuracy = mathml`<mtext class="accuracy">Accuracy</mtext>`;
     }
-    const equation = html`
-      <tr>
-        <td rowspan="2">
-          ${accuracy}<span class="equals">=</span>
-        </td>
-        <td class="underline">
-          <var class="math-greek e tight">e</var><sup class="exp"><span class="minus tight">−</span><span class="paren tight">(</span>2${v}${a} / ${s}<sup class="exp">2</sup><span class="paren tight">)</span></sup>
-          <span class="minus">−</span>
-          <var class="math-greek e tight">e</var><sup class="exp"><span class="minus tight">−</span><span class="paren tight">(</span>2${v}${z} / ${s}<sup class="exp">2</sup><span class="paren tight">)</span></sup>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <var class="math-greek e tight">e</var><sup class="exp"><span class="minus tight">−</span><span class="paren tight">(</span>2${v}${a} / ${s}<sup class="exp">2</sup><span class="paren tight">)</span></sup>
-            <span class="minus">−</span>
-          1
-        </td>
-      </tr>`;
-    return html`
-      <div class="holder">
-        <table class="equation">
-          <tbody>
-            ${equation}
-          </tbody>
-        </table>
-      </div>`;
+    return html`<div class="holder">
+      <math display="block">
+        <semantics>
+          <mrow>
+            ${accuracy}
+            <mo>=</mo>
+            <mfrac>
+              <mrow>
+                <msup>
+                  <mrow>
+                    <mi mathvariant="normal">e</mi>
+                  </mrow>
+                  <mrow>
+                    <mo form="prefix">−</mo>
+                    <mrow>
+                      <mo symmetric="false">(</mo>
+                      <mrow>
+                        <mn>2</mn>
+                        ${v}
+                        ${a}
+                        <mo stretchy="true">⁄</mo>
+                        <msup>
+                          <mrow>
+                            ${s}
+                          </mrow>
+                          <mrow>
+                            <mn>2</mn>
+                          </mrow>
+                        </msup>
+                      </mrow>
+                      <mo symmetric="false">)</mo>
+                    </mrow>
+                  </mrow>
+                </msup>
+                <mo>−</mo>
+                <msup>
+                  <mrow>
+                    <mi mathvariant="normal">e</mi>
+                  </mrow>
+                  <mrow>
+                    <mo form="prefix">−</mo>
+                    <mrow>
+                      <mo symmetric="false">(</mo>
+                      <mrow>
+                        <mn>2</mn>
+                          ${v}
+                          ${z}
+                        <mo stretchy="true">⁄</mo>
+                        <msup>
+                          <mrow>
+                            ${s}
+                          </mrow>
+                          <mrow>
+                            <mn>2</mn>
+                          </mrow>
+                        </msup>
+                      </mrow>
+                      <mo symmetric="false">)</mo>
+                    </mrow>
+                  </mrow>
+                </msup>
+              </mrow>
+              <mrow>
+                <msup>
+                  <mi mathvariant="normal">e</mi>
+                  <mrow>
+                    <mo form="prefix">−</mo>
+                    <mrow>
+                      <mo symmetric="false">(</mo>
+                      <mrow>
+                        <mn>2</mn>
+                        ${v}
+                        ${a}
+                        <mo stretchy="true">⁄</mo>
+                        <msup>
+                          <mrow>
+                            ${s}
+                          </mrow>
+                          <mrow>
+                            <mn>2</mn>
+                          </mrow>
+                        </msup>
+                      </mrow>
+                      <mo symmetric="false">)</mo>
+                    </mrow>
+                  </mrow>
+                </msup>
+                <mo>−</mo>
+                <mn>1</mn>
+              </mrow>
+            </mfrac>
+          </mrow>
+          <annotation encoding="application/x-tex">
+            \\text{Accuracy} = \\frac{e^{-(2va / s^2)} - e^{-(2vz / s^2)}}{e^{-(2va / s^2)} - 1}
+          </annotation>
+          <annotation encoding="application/x-asciimath">
+            "Accuracy" = (e^-(2va // s^2) - e^-(2vz // s^2)) / (e^-(2va // s^2) - 1)
+          </annotation>
+        </semantics>
+      </math>
+    </div>`;
   }
 }
 

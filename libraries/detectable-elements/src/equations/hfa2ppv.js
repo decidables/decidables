@@ -1,5 +1,5 @@
 
-import {html} from 'lit';
+import {html, mathml} from 'lit';
 
 import '@decidables/decidables-elements/spinner';
 import SDTMath from '@decidables/detectable-math';
@@ -77,63 +77,69 @@ export default class SDTEquationHFa2Ppv extends SDTEquation {
     let fa;
     let ppv;
     if (this.numeric) {
-      h = html`
-        <decidables-spinner class="h"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.h}
-          @input=${this.hInput.bind(this)}
-        >
-          <var>Hits</var>
-        </decidables-spinner>
-      `;
-      fa = html`
-        <decidables-spinner class="fa"
-          ?disabled=${!this.interactive}
-          min="0"
-          .value=${this.fa}
-          @input=${this.faInput.bind(this)}
-        >
-          <var>False Alarms</var>
-        </decidables-spinner>
-      `;
-      ppv = html`
-        <decidables-spinner class="ppv"
-          disabled
-          min="0"
-          max="1"
-          step=".001"
-          .value=${+this.ppv.toFixed(3)}
-        >
-          <var>Positive Predictive Value</var>
-        </decidables-spinner>
-      `;
+      h = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math h"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.h}
+            @input=${this.hInput.bind(this)}
+          >
+            <var>Hits</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      fa = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math fa"
+            ?disabled=${!this.interactive}
+            min="0"
+            .value=${this.fa}
+            @input=${this.faInput.bind(this)}
+          >
+            <var>False Alarms</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
+      ppv = mathml`<mtable><mtr><mtd><mtext>
+          <decidables-spinner class="math ppv"
+            disabled
+            min="0"
+            max="1"
+            step=".001"
+            .value=${+this.ppv.toFixed(3)}
+          >
+            <var>Positive Predictive Value</var>
+          </decidables-spinner>
+        </mtext></mtd></mtr></mtable>`;
     } else {
-      h = html`<var class="h">Hits</var>`;
-      fa = html`<var class="fa">False Alarms</var>`;
-      ppv = html`<var class="ppv">Positive Predictive Value</var>`;
+      h = mathml`<mtext class="math-id h">Hits</mtext>`;
+      fa = mathml`<mtext class="math-id fa">False Alarms</mtext>`;
+      ppv = mathml`<mtext class="math-id ppv">Positive Predictive Value</mtext>`;
     }
-    return html`
-      <div class="holder">
-        <table class="equation">
-          <tbody>
-            <tr>
-              <td rowspan="2">
-                ${ppv}<span class="equals">=</span>
-              </td>
-              <td class="underline">
+    return html`<div class="holder">
+      <math display="block">
+        <semantics>
+          <mrow>
+            ${ppv}
+            <mo>=</mo>
+            <mfrac>
+              <mrow>
                 ${h}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                ${h}<span class="plus">+</span>${fa}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    `;
+              </mrow>
+              <mrow>
+                ${h}
+                <mo>+</mo>
+                ${fa}
+              </mrow>
+            </mfrac>
+          </mrow>
+          <annotation encoding="application/x-tex">
+            \\text{Positive Predictive Value} = \\frac{\\text{Hits}}
+              {\\text{Hits} + \\text{False Alarms}}
+          </annotation>
+          <annotation encoding="application/x-asciimath">
+            "Positive Predictive Value" = "Hits" / ("Hits" + "False Alarms")
+          </annotation>
+        </semantics>
+      </math>
+    </div>`;
   }
 }
 
