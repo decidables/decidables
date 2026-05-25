@@ -131,7 +131,7 @@ export default class CPTParameters extends ProspectableElement {
             .value=${+this.a.toFixed(2)}
             @change=${this.setAlpha.bind(this)}
             @input=${this.setAlpha.bind(this)}
-          ><div>Alpha<br><span class="math-var">α</span></div></decidables-slider>`
+          ><div>Marginal Utility<br><span class="math-var">α</span></div></decidables-slider>`
           : html``}
         ${this.l != null
           ? html`<decidables-slider class="l"
@@ -143,7 +143,7 @@ export default class CPTParameters extends ProspectableElement {
             .value=${+this.l.toFixed(2)}
             @change=${this.setLambda.bind(this)}
             @input=${this.setLambda.bind(this)}
-          ><div>Lambda<br><span class="math-var">λ</span></div></decidables-slider>`
+          ><div>Loss Aversion<br><span class="math-var">λ</span></div></decidables-slider>`
           : html``}
         ${this.g != null
           ? html`<decidables-slider class="g"
@@ -155,7 +155,7 @@ export default class CPTParameters extends ProspectableElement {
             .value=${+this.g.toFixed(2)}
             @change=${this.setGamma.bind(this)}
             @input=${this.setGamma.bind(this)}
-          ><div>Gamma<br><span class="math-var">γ</span></div></decidables-slider>`
+          ><div>Probability Weighting<br><span class="math-var">γ</span></div></decidables-slider>`
           : html``}
       </div>`;
   }

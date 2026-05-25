@@ -69,13 +69,16 @@ style: page
 
 <ul class="dec-legend">
   <li class="a">
-    <span class="key α">α</span>
+    <span class="key α">Marginal Utility</span>
+    (<span class="key α"><var class="math-var">α</var></span>)
   </li>
   <li class="l">
-    <span class="key λ">λ</span>
+    <span class="key λ">Loss Aversion</span>
+    (<span class="key λ"><var class="math-var">λ</var></span>)
   </li>
   <li class="g">
-    <span class="key γ">γ</span>
+    <span class="key γ">Probability Weighting</span>
+    (<span class="key γ"><var class="math-var">γ</var></span>)
   </li>
 </ul>
 
