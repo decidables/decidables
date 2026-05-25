@@ -188,7 +188,7 @@ export default class DDMParameters extends AccumulableElement {
             .value=${+this.t0.toFixed(0)}
             @change=${this.setNondecisionTime.bind(this)}
             @input=${this.setNondecisionTime.bind(this)}
-          ><div>Nondecision Time<br><span class="math-var">t₀</span></div></decidables-slider>`
+          ><div>Nondecision Time<br><span class="math-var">t<span class="math-num">₀</span></span></div></decidables-slider>`
           : html``}
       </div>`;
   }

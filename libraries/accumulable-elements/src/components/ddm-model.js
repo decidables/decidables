@@ -2184,7 +2184,10 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
       .classed('label', true);
     t0Label.append('tspan')
       .classed('t0 math-var', true)
-      .text('t₀');
+      .text('t')
+      .append('tspan')
+      .classed('math-num', true)
+      .text('₀');
     t0Label.append('tspan')
       .classed('equals', true)
       .text(' = ');
