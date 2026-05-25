@@ -25,16 +25,20 @@ style: page
 
 <ul class="dec-legend">
   <li class="a">
-    <span class="key a">a</span>
+    <span class="key a">Boundary Separation</span>
+    (<span class="key a"><var class="math-var">a</var></span>)
   </li>
   <li class="z">
-    <span class="key z">z</span>
+    <span class="key z">Starting Point</span>
+    (<span class="key z"><var class="math-var">z</var></span>)
   </li>
   <li class="v">
-    <span class="key v">v</span>
+    <span class="key v">Drift Rate</span>
+    (<span class="key v"><var class="math-var">v</var></span>)
   </li>
   <li class="t0">
-    <span class="key t0">t0</span>
+    <span class="key t0">Nondecision Time</span>
+    (<span class="key a"><var class="math-var">t<span class="math-num">₀</span></var></span>)
   </li>
 </ul>
 

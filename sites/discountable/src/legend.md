@@ -60,7 +60,8 @@ style: page
 
 <ul class="dec-legend">
   <li class="k">
-    <span class="key k">k</span>
+    <span class="key k">Discounting Factor</span>
+    (<span class="key k"><var class="math-var">k</var></span>)
   </li>
 </ul>
 

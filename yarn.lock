@@ -1472,12 +1472,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@decidables/accumulable-elements@npm:^0.4.0, @decidables/accumulable-elements@workspace:libraries/accumulable-elements":
+"@decidables/accumulable-elements@npm:^0.5.0, @decidables/accumulable-elements@workspace:libraries/accumulable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/accumulable-elements@workspace:libraries/accumulable-elements"
   dependencies:
-    "@decidables/accumulable-math": "npm:^0.2.6"
-    "@decidables/decidables-elements": "npm:^0.6.0"
+    "@decidables/accumulable-math": "npm:^0.2.7"
+    "@decidables/decidables-elements": "npm:^0.7.0"
     "@lit-labs/motion": "npm:^1.1.0"
     "@observablehq/plot": "npm:^0.6.17"
     bayes.js: "https://github.com/akrawitz/bayes.js.git#commit=c7b091b75f85a86b6a3965a983b31e23d9ef456f"
@@ -1487,7 +1487,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/accumulable-math@npm:^0.2.6, @decidables/accumulable-math@workspace:libraries/accumulable-math":
+"@decidables/accumulable-math@npm:^0.2.7, @decidables/accumulable-math@workspace:libraries/accumulable-math":
   version: 0.0.0-use.local
   resolution: "@decidables/accumulable-math@workspace:libraries/accumulable-math"
   dependencies:
@@ -1499,8 +1499,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/accumulable@workspace:sites/accumulable"
   dependencies:
-    "@decidables/accumulable-elements": "npm:^0.4.0"
-    "@decidables/decidables-site": "npm:^0.7.1"
+    "@decidables/accumulable-elements": "npm:^0.5.0"
+    "@decidables/decidables-site": "npm:^0.8.0"
     "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
@@ -1517,11 +1517,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/dable@workspace:sites/dable"
   dependencies:
-    "@decidables/accumulable-elements": "npm:^0.4.0"
-    "@decidables/decidables-site": "npm:^0.7.1"
-    "@decidables/detectable-elements": "npm:^0.6.0"
-    "@decidables/discountable-elements": "npm:^0.7.0"
-    "@decidables/prospectable-elements": "npm:^0.6.0"
+    "@decidables/accumulable-elements": "npm:^0.5.0"
+    "@decidables/decidables-site": "npm:^0.8.0"
+    "@decidables/detectable-elements": "npm:^0.7.0"
+    "@decidables/discountable-elements": "npm:^0.8.0"
+    "@decidables/prospectable-elements": "npm:^0.7.0"
     "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
@@ -1534,7 +1534,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/decidables-elements@npm:^0.6.0, @decidables/decidables-elements@workspace:libraries/decidables-elements":
+"@decidables/decidables-elements@npm:^0.7.0, @decidables/decidables-elements@workspace:libraries/decidables-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/decidables-elements@workspace:libraries/decidables-elements"
   dependencies:
@@ -1544,7 +1544,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/decidables-site@npm:^0.7.1, @decidables/decidables-site@workspace:libraries/decidables-site":
+"@decidables/decidables-site@npm:^0.8.0, @decidables/decidables-site@workspace:libraries/decidables-site":
   version: 0.0.0-use.local
   resolution: "@decidables/decidables-site@workspace:libraries/decidables-site"
   dependencies:
@@ -1556,11 +1556,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/decidables@workspace:sites/decidables"
   dependencies:
-    "@decidables/accumulable-elements": "npm:^0.4.0"
-    "@decidables/decidables-site": "npm:^0.7.1"
-    "@decidables/detectable-elements": "npm:^0.6.0"
-    "@decidables/discountable-elements": "npm:^0.7.0"
-    "@decidables/prospectable-elements": "npm:^0.6.0"
+    "@decidables/accumulable-elements": "npm:^0.5.0"
+    "@decidables/decidables-site": "npm:^0.8.0"
+    "@decidables/detectable-elements": "npm:^0.7.0"
+    "@decidables/discountable-elements": "npm:^0.8.0"
+    "@decidables/prospectable-elements": "npm:^0.7.0"
     "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
@@ -1573,11 +1573,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/detectable-elements@npm:^0.6.0, @decidables/detectable-elements@workspace:libraries/detectable-elements":
+"@decidables/detectable-elements@npm:^0.7.0, @decidables/detectable-elements@workspace:libraries/detectable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/detectable-elements@workspace:libraries/detectable-elements"
   dependencies:
-    "@decidables/decidables-elements": "npm:^0.6.0"
+    "@decidables/decidables-elements": "npm:^0.7.0"
     "@decidables/detectable-math": "npm:^0.2.6"
     color: "npm:^5.0.3"
     d3: "npm:^7.9.0"
@@ -1601,8 +1601,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/detectable@workspace:sites/detectable"
   dependencies:
-    "@decidables/decidables-site": "npm:^0.7.1"
-    "@decidables/detectable-elements": "npm:^0.6.0"
+    "@decidables/decidables-site": "npm:^0.8.0"
+    "@decidables/detectable-elements": "npm:^0.7.0"
     "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
@@ -1615,11 +1615,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/discountable-elements@npm:^0.7.0, @decidables/discountable-elements@workspace:libraries/discountable-elements":
+"@decidables/discountable-elements@npm:^0.8.0, @decidables/discountable-elements@workspace:libraries/discountable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/discountable-elements@workspace:libraries/discountable-elements"
   dependencies:
-    "@decidables/decidables-elements": "npm:^0.6.0"
+    "@decidables/decidables-elements": "npm:^0.7.0"
     "@decidables/discountable-math": "npm:^0.2.6"
     "@lit-labs/motion": "npm:^1.1.0"
     "@observablehq/plot": "npm:^0.6.17"
@@ -1642,8 +1642,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/discountable@workspace:sites/discountable"
   dependencies:
-    "@decidables/decidables-site": "npm:^0.7.1"
-    "@decidables/discountable-elements": "npm:^0.7.0"
+    "@decidables/decidables-site": "npm:^0.8.0"
+    "@decidables/discountable-elements": "npm:^0.8.0"
     "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
@@ -1656,11 +1656,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@decidables/prospectable-elements@npm:^0.6.0, @decidables/prospectable-elements@workspace:libraries/prospectable-elements":
+"@decidables/prospectable-elements@npm:^0.7.0, @decidables/prospectable-elements@workspace:libraries/prospectable-elements":
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable-elements@workspace:libraries/prospectable-elements"
   dependencies:
-    "@decidables/decidables-elements": "npm:^0.6.0"
+    "@decidables/decidables-elements": "npm:^0.7.0"
     "@decidables/prospectable-math": "npm:^0.3.6"
     "@lit-labs/motion": "npm:^1.1.0"
     "@observablehq/plot": "npm:^0.6.17"
@@ -1685,8 +1685,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@decidables/prospectable@workspace:sites/prospectable"
   dependencies:
-    "@decidables/decidables-site": "npm:^0.7.1"
-    "@decidables/prospectable-elements": "npm:^0.6.0"
+    "@decidables/decidables-site": "npm:^0.8.0"
+    "@decidables/prospectable-elements": "npm:^0.7.0"
     "@fontsource/dejavu-math": "npm:^5.2.5"
     bootstrap: "npm:^5.3.8"
     bootstrap-icons: "npm:^1.13.1"
@@ -17083,11 +17083,11 @@ __metadata:
   linkType: hard
 
 "semver@npm:^7.5.2":
-  version: 7.8.0
-  resolution: "semver@npm:7.8.0"
+  version: 7.8.1
+  resolution: "semver@npm:7.8.1"
   bin:
     semver: bin/semver.js
-  checksum: 10/039a8f68a581c03c1ac17c990316da57a79a93af9b109b712739c50cd4d464079f7e3fee31c008b472e390c7ba48a11ed2b86e91d8602bf06059d4a266db1426
+  checksum: 10/3244f6c4cb3f8126fea0426d353829ed4967e41e1f4696337c6fdcad87426466fe2badaf49d7dc85849acfc496ea0599432a4aecc33802d2d774e723acfa30e6
   languageName: node
   linkType: hard
 
