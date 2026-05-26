@@ -1360,25 +1360,27 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
           d3.select(event.currentTarget)
             .classed('highlight', true)
             .raise();
-          const myRtLabel = evidenceOverlayerMerge.append('g')
-            .classed(`rt-label ${datum.outcome}`, true);
-          const rect = myRtLabel.append('rect');
-          const text = myRtLabel.append('text')
-            .text(`RT = ${datum.rt.toFixed()}`)
-            .attr('x', timeScale(datum.rt))
-            .attr('y', datum.outcome === 'correct'
-              ? evidenceScale(this.bounds.upper) - this.rem * 0.25
-              : evidenceScale(this.bounds.lower) + this.rem * 0.125);
-          const bbox = text.node().getBBox();
-          rect
-            .attr('x', bbox.x - this.rem * 0.125)
-            .attr('y', bbox.y + this.rem * 0.125)
-            .attr('width', bbox.width + this.rem * 0.25)
-            .attr('height', bbox.height - this.rem * 0.25);
-          rtLabel.set(event.currentTarget, myRtLabel);
+          if (!rtLabel.get(event.currentTarget)) {
+            const myRtLabel = evidenceOverlayerMerge.append('g')
+              .classed(`rt-label ${datum.outcome}`, true);
+            const rect = myRtLabel.append('rect');
+            const text = myRtLabel.append('text')
+              .text(`RT = ${datum.rt.toFixed()}`)
+              .attr('x', timeScale(datum.rt))
+              .attr('y', datum.outcome === 'correct'
+                ? evidenceScale(this.bounds.upper) - this.rem * 0.25
+                : evidenceScale(this.bounds.lower) + this.rem * 0.125);
+            const bbox = text.node().getBBox();
+            rect
+              .attr('x', bbox.x - this.rem * 0.125)
+              .attr('y', bbox.y + this.rem * 0.125)
+              .attr('width', bbox.width + this.rem * 0.25)
+              .attr('height', bbox.height - this.rem * 0.25);
+            rtLabel.set(event.currentTarget, myRtLabel);
+          }
         }
       })
-      .on('pointerout', (event, datum) => {
+      .on('pointerleave', (event, datum) => {
         if (!this.drag) {
           d3.select(event.currentTarget)
             .classed('highlight', false)
@@ -1388,6 +1390,7 @@ export default class DDMModel extends DecidablesMixinResizeable(AccumulableEleme
             event.currentTarget.parentNode.children[datum.index],
           );
           rtLabel.get(event.currentTarget).remove();
+          rtLabel.remove(event.currentTarget);
         }
       });
     pathEnter.append('path')
