@@ -1,6 +1,6 @@
-import {expect} from '../../../scripts/test-utility';
+import {expect} from '../../../../scripts/test-utility';
 
-import DecidablesConvertArray from '../src/converter-array';
+import DecidablesConvertArray from '../../src/utilities/converter-array';
 
 describe('decidables-converter-array', () => {
   it('converts from attribute to property', () => {

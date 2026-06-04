@@ -1,7 +1,7 @@
 
 import {css, html} from 'lit';
 
-import DecidablesElement from './decidables-element';
+import DecidablesElement from '../decidables-element';
 
 export default class DecidablesToggle extends DecidablesElement {
   static get properties() {
