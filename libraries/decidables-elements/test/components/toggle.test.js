@@ -1,6 +1,6 @@
-import {expect, fixture, html} from '../../../scripts/test-utility';
+import {expect, fixture, html} from '../../../../scripts/test-utility';
 
-import '../src/toggle';
+import '../../src/components/toggle';
 
 describe('decidables-toggle', () => {
   it('has a shadowDom', async () => {

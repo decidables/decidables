@@ -16,6 +16,9 @@
   "exports": {
     "./lib/*.js": "./lib/*.js",
     ".": "./src/index.js",
+    "./components": "./src/components/index.js",
+    "./mixins": "./src/mixins/index.js",
+    "./utilities": "./src/utilities/index.js",
     "./*": "./src/*.js"
   },
   "repository": {

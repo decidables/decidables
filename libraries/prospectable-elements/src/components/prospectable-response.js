@@ -1,7 +1,7 @@
 
 import {css, html} from 'lit';
 
-import '@decidables/decidables-elements/button';
+import '@decidables/decidables-elements/components/button';
 
 import ProspectableElement from '../prospectable-element';
 

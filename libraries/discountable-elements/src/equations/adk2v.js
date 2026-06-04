@@ -1,7 +1,7 @@
 
 import {html, mathml} from 'lit';
 
-import '@decidables/decidables-elements/spinner';
+import '@decidables/decidables-elements/components/spinner';
 import HTDMath from '@decidables/discountable-math';
 
 import HTDEquation from './htd-equation';

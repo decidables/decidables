@@ -1,6 +1,6 @@
-import {expect, fixture, html} from '../../../scripts/test-utility';
+import {expect, fixture, html} from '../../../../scripts/test-utility';
 
-import '../src/slider';
+import '../../src/components/slider';
 
 describe('decidables-slider', () => {
   it('has a shadowDom', async () => {

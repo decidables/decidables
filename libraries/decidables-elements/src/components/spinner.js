@@ -2,7 +2,7 @@
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {css, html} from 'lit';
 
-import DecidablesElement from './decidables-element';
+import DecidablesElement from '../decidables-element';
 
 export default class DecidablesSpinner extends DecidablesElement {
   static get properties() {

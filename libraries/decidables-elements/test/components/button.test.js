@@ -1,6 +1,6 @@
-import {expect, fixture, html} from '../../../scripts/test-utility';
+import {expect, fixture, html} from '../../../../scripts/test-utility';
 
-import '../src/button';
+import '../../src/components/button';
 
 describe('decidables-button', () => {
   it('has a shadowDom', async () => {

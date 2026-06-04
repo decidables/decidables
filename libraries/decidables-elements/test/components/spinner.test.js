@@ -1,6 +1,6 @@
-import {expect, fixture, html} from '../../../scripts/test-utility';
+import {expect, fixture, html} from '../../../../scripts/test-utility';
 
-import '../src/spinner';
+import '../../src/components/spinner';
 
 describe('decidables-spinner', () => {
   it('has a shadowDom', async () => {

@@ -2,7 +2,7 @@
 import {css, html} from 'lit';
 
 import DDMMath from '@decidables/accumulable-math';
-import '@decidables/decidables-elements/button';
+import '@decidables/decidables-elements/components/button';
 
 import AccumulableElement from '../accumulable-element';
 

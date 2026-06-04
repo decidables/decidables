@@ -2,7 +2,7 @@
 import {html, mathml} from 'lit';
 import {animate, fadeIn} from '@lit-labs/motion';
 
-import '@decidables/decidables-elements/spinner';
+import '@decidables/decidables-elements/components/spinner';
 import CPTMath from '@decidables/prospectable-math';
 
 import CPTEquation from '../equations/cpt-equation';

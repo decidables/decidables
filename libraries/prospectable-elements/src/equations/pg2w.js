@@ -1,7 +1,7 @@
 
 import {html, mathml} from 'lit';
 
-import '@decidables/decidables-elements/spinner';
+import '@decidables/decidables-elements/components/spinner';
 import CPTMath from '@decidables/prospectable-math';
 
 import CPTEquation from './cpt-equation';
