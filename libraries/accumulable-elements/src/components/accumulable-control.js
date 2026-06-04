@@ -1,11 +1,11 @@
 
 import {css, html} from 'lit';
 
-import '@decidables/decidables-elements/button';
-import '@decidables/decidables-elements/slider';
-import '@decidables/decidables-elements/switch';
-import '@decidables/decidables-elements/toggle';
-import '@decidables/decidables-elements/toggle-option';
+import '@decidables/decidables-elements/components/button';
+import '@decidables/decidables-elements/components/slider';
+import '@decidables/decidables-elements/components/switch';
+import '@decidables/decidables-elements/components/toggle';
+import '@decidables/decidables-elements/components/toggle-option';
 
 import AccumulableElement from '../accumulable-element';
 

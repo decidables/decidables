@@ -1,7 +1,7 @@
 
 import {css, html} from 'lit';
 
-import '@decidables/decidables-elements/spinner';
+import '@decidables/decidables-elements/components/spinner';
 
 import AccumulableElement from '../accumulable-element';
 

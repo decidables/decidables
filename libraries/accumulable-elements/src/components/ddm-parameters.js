@@ -1,7 +1,7 @@
 
 import {css, html} from 'lit';
 
-import '@decidables/decidables-elements/slider';
+import '@decidables/decidables-elements/components/slider';
 import DDMMath from '@decidables/accumulable-math';
 
 import AccumulableElement from '../accumulable-element';

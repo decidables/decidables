@@ -1,7 +1,7 @@
 
 import {css, html} from 'lit';
 
-import '@decidables/decidables-elements/slider';
+import '@decidables/decidables-elements/components/slider';
 import HTDMath from '@decidables/discountable-math';
 
 import DiscountableElement from '../discountable-element';

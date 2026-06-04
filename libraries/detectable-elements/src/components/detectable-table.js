@@ -1,8 +1,8 @@
 
 import {css, html} from 'lit';
 
-import '@decidables/decidables-elements/spinner';
-import DecidablesConverterSet from '@decidables/decidables-elements/converter-set';
+import '@decidables/decidables-elements/components/spinner';
+import {DecidablesConverterSet} from '@decidables/decidables-elements';
 import SDTMath from '@decidables/detectable-math';
 
 import DetectableElement from '../detectable-element';
