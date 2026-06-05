@@ -2,7 +2,7 @@
 import {css, html} from 'lit';
 import * as d3 from 'd3';
 
-import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
+import DecidablesMixinResizeable from '@decidables/decidables-elements/mixins/mixin-resizeable';
 
 import AccumulableElement from '../accumulable-element';
 

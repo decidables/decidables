@@ -1,5 +1,5 @@
 
-import {DecidablesConverterArray} from '@decidables/decidables-elements';
+import DecidablesConverterArray from '@decidables/decidables-elements/utilities/converter-array';
 
 import SDTExample from './sdt-example';
 

@@ -3,7 +3,7 @@ import {html, mathml} from 'lit';
 import {animate, flyLeft} from '@lit-labs/motion';
 
 import '@decidables/decidables-elements/components/spinner';
-import {DecidablesConverterArray} from '@decidables/decidables-elements';
+import DecidablesConverterArray from '@decidables/decidables-elements/utilities/converter-array';
 
 import CPTEquation from './cpt-equation';
 

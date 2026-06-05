@@ -5,7 +5,7 @@ import {
 } from 'lit';
 import * as d3 from 'd3';
 
-import {DecidablesElement} from '@decidables/decidables-elements';
+import DecidablesElement from '@decidables/decidables-elements/decidables-element';
 
 import {colors} from './colors.yml';
 

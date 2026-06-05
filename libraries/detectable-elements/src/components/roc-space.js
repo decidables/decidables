@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import {interpolatePath} from 'd3-interpolate-path';
 import color from 'color';
 
-import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
+import DecidablesMixinResizeable from '@decidables/decidables-elements/mixins/mixin-resizeable';
 import SDTMath from '@decidables/detectable-math';
 
 import DetectableElement from '../detectable-element';
