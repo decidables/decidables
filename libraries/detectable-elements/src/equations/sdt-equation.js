@@ -1,7 +1,7 @@
 
 import {css} from 'lit';
 
-import {DecidablesMixinEquation} from '@decidables/decidables-elements';
+import DecidablesMixinEquation from '@decidables/decidables-elements/mixins/mixin-equation';
 
 import DetectableElement from '../detectable-element';
 

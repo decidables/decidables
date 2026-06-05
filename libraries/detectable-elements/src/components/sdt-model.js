@@ -3,7 +3,7 @@ import {css, html, render} from 'lit';
 import * as d3 from 'd3';
 import jStat from 'jstat';
 
-import {DecidablesMixinResizeable} from '@decidables/decidables-elements';
+import DecidablesMixinResizeable from '@decidables/decidables-elements/mixins/mixin-resizeable';
 import SDTMath from '@decidables/detectable-math';
 
 import DetectableElement from '../detectable-element';
