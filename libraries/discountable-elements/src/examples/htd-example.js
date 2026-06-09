@@ -1,72 +1,27 @@
+import {css} from 'lit';
 
-import {css, html} from 'lit';
+import DecidablesMixinExample from '@decidables/decidables-elements/mixins/mixin-example';
 
 import DiscountableElement from '../discountable-element';
 
 /*
   CPTExample Base Class - Not intended for instantiation!
-  <sdt-example>
+  <htd-example>
 */
-export default class HTDExample extends DiscountableElement {
+export default class HTDExample extends DecidablesMixinExample(DiscountableElement) {
   static get styles() {
     return [
       super.styles,
       css`
-        :host {
-          ---border: var(--border, 1px solid var(---color-border));
-          display: inline-block;
-
-          margin-bottom: 1rem;
-        }
-
-        .holder {
-          display: flex;
-        }
-
-        .body {
-          display: flex;
-
-          flex-wrap: wrap;
-
-          align-items: center;
-          justify-content: left;
-
-          padding: 0.625rem;
-
-          border: var(---border);
-          border-radius: 0.25rem;
-        }
-
-        .body ::slotted(*) {
-          margin: 0.625rem;
-        }
-
         /* HACK: Sibling selectors not working with ::slotted */
-        /* .body > rdk-task + sdt-response,
-        ::slotted(rdk-task) + ::slotted(sdt-response) { */
-        /* .body ::slotted(sdt-response) {
+        /* .body ::slotted(discountable-control) + ::slotted(itc-task),
+           .body ::slotted(itc-task) + ::slotted(discountable-response) { */
+        .body ::slotted(itc-task),
+        .body ::slotted(discountable-response) {
           margin-left: 0;
-        } */
-
-        /* HACK: Sibling selectors not working with ::slotted */
-        /* .body > sdt-control + rdk-task,
-        ::slotted(sdt-control) + ::slotted(rdk-task) {
-          margin-left: 0;
-        } */
-        /* .body ::slotted(rdk-task) {
-          margin-left: 0;
-        } */
+        }
       `,
     ];
-  }
-
-  render() { /* eslint-disable-line class-methods-use-this */
-    return html`
-      <div class="holder">
-        <div class="body">
-          <slot>Empty!</slot>
-        </div>
-      </div>`;
   }
 }
 
