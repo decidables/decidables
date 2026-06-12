@@ -230,7 +230,7 @@ export default class ProspectableResponse extends ProspectableElement {
         }
 
         .response {
-          width: 5.25rem;
+          width: 6rem;
         }
 
         .waiting[disabled] {
@@ -262,8 +262,8 @@ export default class ProspectableResponse extends ProspectableElement {
 
           align-items: center;
           justify-content: center;
-
-          width: 5.25rem;
+          /* Increase width, maintain padding */
+          width: 6rem;
           height: 3.5rem;
 
           padding: 0.375rem 0.75rem;
@@ -345,7 +345,7 @@ export default class ProspectableResponse extends ProspectableElement {
                         ? html`<span class="outcome">Even</span>`
                         : html`<span class="outcome">No<br>Response</span>`
                   : ''}
-                ${((this.payoff === 'both') || ((this.payoff === 'selection') && (this.response === 'gamble')))
+                ${((this.state === 'feedback') && ((this.payoff === 'both') || ((this.payoff === 'selection') && (this.response === 'gamble'))))
                   ? html`<span class="payoff">${(this.response === 'gamble') ? 'Win:' : 'Miss:'} $${this.gamblePayoff}</span>`
                   : html``}
               </div>
@@ -362,7 +362,7 @@ export default class ProspectableResponse extends ProspectableElement {
                         ? html`<span class="outcome">Even</span>`
                         : html`<span class="outcome">No<br>Response</span>`
                   : ''}
-                ${((this.payoff === 'both') || ((this.payoff === 'selection') && (this.response === 'sure')))
+                ${((this.state === 'feedback') && ((this.payoff === 'both') || ((this.payoff === 'selection') && (this.response === 'sure'))))
                   ? html`<span class="payoff">${(this.response === 'sure') ? 'Win:' : 'Miss:'} $${this.surePayoff}</span>`
                   : html``}
               </div>
