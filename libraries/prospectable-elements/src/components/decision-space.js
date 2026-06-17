@@ -276,6 +276,7 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
           .map((pw) => {
             const uDiff = diff(xwConst, this.xl, pw, xs, this.a, this.l, this.g);
             return {
+              class: 'map-xy',
               xw: xwConst,
               xs,
               pw,
@@ -291,6 +292,7 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
           .map((xw) => {
             const uDiff = diff(xw, this.xl, pwConst, xs, this.a, this.l, this.g);
             return {
+              class: 'map-xz',
               xw,
               xs,
               pw: pwConst,
@@ -306,6 +308,7 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
           .map((xw) => {
             const uDiff = diff(xw, this.xl, pw, xsConst, this.a, this.l, this.g);
             return {
+              class: 'map-yz',
               xw,
               xs: xsConst,
               pw,
@@ -393,7 +396,7 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
           stroke-width: 1;
         }
 
-        .title textPath {
+        .title {
           font-weight: 600;
 
           alignment-baseline: middle;
@@ -417,16 +420,18 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
           stroke-width: 1;
         }
 
-        .label textPath {
+        .label {
           font-size: 0.75rem;
 
-          alignment-baseline: middle;
+          alignment-baseline: hanging;
 
-          text-anchor: end;
+          text-anchor: middle;
         }
 
-        .label-x textPath {
-          text-anchor: start;
+        .label-y {
+          alignment-baseline: central;
+
+          text-anchor: end;
         }
 
         .point {
@@ -630,415 +635,235 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       .attr('offset', '100%')
       .attr('stop-color', colorWorseDark);
 
-    // Axis & Title Data
-    const xAxis = [[
-      {title: 'Sure Value (<tspan class="math-var">x<tspan class="subscript">sure</tspan></tspan>)', id: 'max', x: xScale.range()[1]},
-      {id: 'min', x: xScale.range()[0]},
-    ]];
-    const yAxis = [[
-      {title: 'Win Probability (<tspan class="math-var">p<tspan class="subscript">win</tspan></tspan>)', id: 'max', y: yScale.range()[1]},
-      {id: 'min', y: yScale.range()[0]},
-    ]];
-    const zAxis = [[
-      {title: 'Win Value (<tspan class="math-var">x<tspan class="subscript">win</tspan></tspan>)', id: 'max', z: zScale.range()[1]},
-      {id: 'min', z: zScale.range()[0]},
-    ]];
-
     // Axes
     //  DATA-JOIN
-    const axisXUpdate = svgMerge.selectAll('.axis-x')
-      .data(
-        lineStrips3D
-          .x((datum) => { return datum.x; })
-          .y(() => { return yScale.range()[0]; })
-          .z(() => { return zScale.range()[0]; })
-          .data(xAxis),
-      );
-    const axisYUpdate = svgMerge.selectAll('.axis-y')
-      .data(
-        lineStrips3D
-          .x(() => { return xScale.range()[0]; })
-          .y((datum) => { return datum.y; })
-          .z(() => { return zScale.range()[1]; })
-          .data(yAxis),
-      );
-    const axisZUpdate = svgMerge.selectAll('.axis-z')
-      .data(
-        lineStrips3D
-          .x(() => { return xScale.range()[0]; })
-          .y(() => { return yScale.range()[0]; })
-          .z((datum) => { return datum.z; })
-          .data(zAxis),
-      );
+    const axesUpdate = svgMerge.selectAll('.axis')
+      .data(lineStrips3D.data([
+        [
+          {
+            class: 'axis-x',
+            x: xScale.range()[0],
+            y: yScale.range()[0],
+            z: zScale.range()[0],
+          },
+          {
+            class: 'axis-x',
+            x: xScale.range()[1],
+            y: yScale.range()[0],
+            z: zScale.range()[0],
+          },
+        ],
+        [
+          {
+            class: 'axis-y',
+            x: xScale.range()[0],
+            y: yScale.range()[0],
+            z: zScale.range()[1],
+          },
+          {
+            class: 'axis-y',
+            x: xScale.range()[0],
+            y: yScale.range()[1],
+            z: zScale.range()[1],
+          },
+        ],
+        [
+          {
+            class: 'axis-z',
+            x: xScale.range()[0],
+            y: yScale.range()[0],
+            z: zScale.range()[0],
+          },
+          {
+            class: 'axis-z',
+            x: xScale.range()[0],
+            y: yScale.range()[0],
+            z: zScale.range()[1],
+          },
+        ],
+      ]));
     //  ENTER
-    const axisXEnter = axisXUpdate.enter().append('path')
-      .attr('class', 'd3-3d axis axis-x');
-    const axisYEnter = axisYUpdate.enter().append('path')
-      .attr('class', 'd3-3d axis axis-y');
-    const axisZEnter = axisZUpdate.enter().append('path')
-      .attr('class', 'd3-3d axis axis-z');
-    // MERGE
-    const axisXMerge = axisXEnter.merge(axisXUpdate)
+    const axesEnter = axesUpdate.enter().append('path')
+      .attr('class', (datum) => { return `d3-3d axis ${datum[0].class}`; });
+    //  MERGE
+    const axesMerge = axesEnter.merge(axesUpdate)
       .attr('d', lineStrips3D.draw);
-    const axisYMerge = axisYEnter.merge(axisYUpdate)
-      .attr('d', lineStrips3D.draw);
-    const axisZMerge = axisZEnter.merge(axisZUpdate)
-      .attr('d', lineStrips3D.draw);
-    // EXIT
-    axisXMerge.exit().remove();
-    axisYMerge.exit().remove();
-    axisZMerge.exit().remove();
+    //  EXIT
+    axesMerge.exit().remove();
 
     // Axis Titles
+    const titleOffset = this.rem * 1.5;
     //  DATA-JOIN
-    const titlePathXUpdate = svgMerge.selectAll('.title-path-x')
-      .data(
-        lineStrips3D
-          .x((datum) => {
-            return datum.id === 'min' ? datum.x - this.rem * 20 : datum.x + this.rem * 20;
-          })
-          .y(() => { return yScale.range()[0] + this.rem * 1.75; })
-          .z(() => { return zScale.range()[0] + this.rem * 1.75; })
-          .data(xAxis),
-      );
-    const titlePathYUpdate = svgMerge.selectAll('.title-path-y')
-      .data(
-        lineStrips3D
-          .x(() => { return xScale.range()[0] - this.rem * 1.75; })
-          .y((datum) => {
-            return datum.id === 'min' ? datum.y + this.rem * 20 : datum.y - this.rem * 20;
-          })
-          .z(() => { return zScale.range()[1] - this.rem * 1.75; })
-          .data(yAxis),
-      );
-    const titlePathZUpdate = svgMerge.selectAll('.title-path-z')
-      .data(
-        lineStrips3D
-          .x(() => { return xScale.range()[0] - this.rem * 1.75; })
-          .y(() => { return yScale.range()[0] + this.rem * 1.75; })
-          .z((datum) => {
-            return datum.id === 'min' ? datum.z - this.rem * 20 : datum.z + this.rem * 20;
-          })
-          .data(zAxis),
-      );
-    const titleXUpdate = svgMerge.selectAll('.title-x')
-      .data(
-        lineStrips3D
-          .x((datum) => {
-            return datum.id === 'min' ? datum.x - this.rem * 20 : datum.x + this.rem * 20;
-          })
-          .y(() => { return yScale.range()[0] + this.rem * 1.75; })
-          .z(() => { return zScale.range()[0] + this.rem * 1.75; })
-          .data(xAxis),
-        (datum) => { return datum[0].title; },
-      );
-    const titleYUpdate = svgMerge.selectAll('.title-y')
-      .data(
-        lineStrips3D
-          .x(() => { return xScale.range()[0] - this.rem * 1.75; })
-          .y((datum) => {
-            return datum.id === 'min' ? datum.y + this.rem * 20 : datum.y - this.rem * 20;
-          })
-          .z(() => { return zScale.range()[1] - this.rem * 1.75; })
-          .data(yAxis),
-        (datum) => { return datum[0].title; },
-      );
-    const titleZUpdate = svgMerge.selectAll('.title-z')
-      .data(
-        lineStrips3D
-          .x(() => { return xScale.range()[0] - this.rem * 1.75; })
-          .y(() => { return yScale.range()[0] + this.rem * 1.75; })
-          .z((datum) => {
-            return datum.id === 'min' ? datum.z - this.rem * 20 : datum.z + this.rem * 20;
-          })
-          .data(zAxis),
-        (datum) => { return datum[0].title; },
-      );
+    const titlesUpdate = svgMerge.selectAll('.title')
+      .data(points3d.data([
+        {
+          class: 'title-x',
+          title: 'Sure Value (<tspan class="math-var">x<tspan class="subscript">sure</tspan></tspan>)',
+          x: xScale.range()[0] + (xScale.range()[1] - xScale.range()[0]) / 2,
+          y: yScale.range()[0] + titleOffset,
+          z: zScale.range()[0] + titleOffset,
+          transform: 'rotateX(45deg)',
+        },
+        {
+          class: 'title-y',
+          title: 'Win Probability (<tspan class="math-var">p<tspan class="subscript">win</tspan></tspan>)',
+          x: xScale.range()[0] - titleOffset,
+          y: yScale.range()[0] + (yScale.range()[1] - yScale.range()[0]) / 2,
+          z: zScale.range()[1] - titleOffset,
+          transform: 'rotateZ(-90deg) rotateX(45deg)',
+        },
+        {
+          class: 'title-z',
+          title: 'Win Value (<tspan class="math-var">x<tspan class="subscript">win</tspan></tspan>)',
+          x: xScale.range()[0] - titleOffset,
+          y: yScale.range()[0] + titleOffset,
+          z: zScale.range()[0] + (zScale.range()[1] - zScale.range()[0]) / 2,
+          transform: 'rotateY(-90deg) rotateX(45deg)',
+        },
+      ]));
     //  ENTER
-    const titlePathXEnter = titlePathXUpdate.enter().append('path')
-      .attr('class', 'd3-3d title-path title-path-x')
-      .attr('id', 'title-x');
-    const titlePathYEnter = titlePathYUpdate.enter().append('path')
-      .attr('class', 'd3-3d title-path title-path-y')
-      .attr('id', 'title-y');
-    const titlePathZEnter = titlePathZUpdate.enter().append('path')
-      .attr('class', 'd3-3d title-path title-path-z')
-      .attr('id', 'title-z');
-    const titleXEnter = titleXUpdate.enter().append('text')
-      .attr('class', 'd3-3d title title-x');
-    titleXEnter
-      .append('textPath')
-      .attr('href', '#title-x')
-      .attr('startOffset', '50%');
-    const titleYEnter = titleYUpdate.enter().append('text')
-      .attr('class', 'd3-3d title title-y');
-    titleYEnter
-      .append('textPath')
-      .attr('href', '#title-y')
-      .attr('startOffset', '50%');
-    const titleZEnter = titleZUpdate.enter().append('text')
-      .attr('class', 'd3-3d title title-z');
-    titleZEnter
-      .append('textPath')
-      .attr('href', '#title-z')
-      .attr('startOffset', '50%');
-    // MERGE
-    const titlePathXMerge = titlePathXEnter.merge(titlePathXUpdate)
-      .attr('d', lineStrips3D.draw);
-    const titlePathYMerge = titlePathYEnter.merge(titlePathYUpdate)
-      .attr('d', lineStrips3D.draw);
-    const titlePathZMerge = titlePathZEnter.merge(titlePathZUpdate)
-      .attr('d', lineStrips3D.draw);
-    const titleXMerge = titleXEnter.merge(titleXUpdate)
-      .select('textPath')
-      .html((datum) => { return datum[0].title; });
-    const titleYMerge = titleYEnter.merge(titleYUpdate)
-      .select('textPath')
-      .html((datum) => { return datum[0].title; });
-    const titleZMerge = titleZEnter.merge(titleZUpdate)
-      .select('textPath')
-      .html((datum) => { return datum[0].title; });
-    // EXIT
-    titlePathXMerge.exit().remove();
-    titlePathYMerge.exit().remove();
-    titlePathZMerge.exit().remove();
-    titleXMerge.exit().remove();
-    titleYMerge.exit().remove();
-    titleZMerge.exit().remove();
-
-    // Axis Tick & Label Data
-    const tickCount = 5;
-    const xTicks = xScale.ticks(tickCount).map((tick) => {
-      return [
-        {id: 'min', label: xScale.tickFormat()(tick), x: xScale(tick)},
-        {id: 'max', x: xScale(tick)},
-      ];
-    });
-    const yTicks = yScale.ticks(tickCount).map((tick) => {
-      return [
-        {id: 'min', label: yScale.tickFormat()(tick), y: yScale(tick)},
-        {id: 'max', y: yScale(tick)},
-      ];
-    });
-    const zTicks = zScale.ticks(tickCount).map((tick) => {
-      return [
-        {id: 'max', label: zScale.tickFormat()(tick), z: zScale(tick)},
-        {id: 'min', z: zScale(tick)},
-      ];
-    });
+    const titlesEnter = titlesUpdate.enter().append('text')
+      .attr('class', (datum) => { return `d3-3d title ${datum.class}`; });
+    //  MERGE
+    const titlesMerge = titlesEnter.merge(titlesUpdate)
+      .style('transform', (datum) => {
+        return `
+          translate3D(${startOrigin.x + startRotationCenter.x}px, ${startOrigin.y + startRotationCenter.y}px, ${startRotationCenter.z}px)
+          rotateX(${startRotationX + this.rotationX}rad)
+          rotateY(${startRotationY + this.rotationY}rad)
+          rotateZ(${startRotationZ}rad)
+          translate3D(${-(startOrigin.x + startRotationCenter.x)}px, ${-(startOrigin.y + startRotationCenter.y)}px, ${-(startRotationCenter.z)}px)
+          translate3D(${startOrigin.x + datum.x}px, ${startOrigin.y + datum.y}px, ${datum.z}px)
+          ${datum.transform}
+        `;
+      })
+      .html((datum) => { return datum.title; });
+    //  EXIT
+    titlesMerge.exit().remove();
 
     // Axis Ticks
+    const tickCount = 5;
+    const tickLength = this.rem * 0.25;
     //  DATA-JOIN
-    const ticksXUpdate = svgMerge.selectAll('.tick-x')
-      .data(
-        lineStrips3D
-          .x((datum) => { return datum.x; })
-          .y((datum) => {
-            return datum.id === 'min' ? yScale.range()[0] : yScale.range()[0] + this.rem * 0.35;
-          })
-          .z((datum) => {
-            return datum.id === 'min' ? zScale.range()[0] : zScale.range()[0] + this.rem * 0.35;
-          })
-          .data(xTicks),
-      );
-    const ticksYUpdate = svgMerge.selectAll('.tick-y')
-      .data(
-        lineStrips3D
-          .x((datum) => {
-            return datum.id === 'min' ? xScale.range()[0] : xScale.range()[0] - this.rem * 0.35;
-          })
-          .y((datum) => { return datum.y; })
-          .z((datum) => {
-            return datum.id === 'min' ? zScale.range()[1] : zScale.range()[1] - this.rem * 0.35;
-          })
-          .data(yTicks),
-      );
-    const ticksZUpdate = svgMerge.selectAll('.tick-z')
-      .data(
-        lineStrips3D
-          .x((datum) => {
-            return datum.id === 'min' ? xScale.range()[0] : xScale.range()[0] - this.rem * 0.35;
-          })
-          .y((datum) => {
-            return datum.id === 'min' ? yScale.range()[0] : yScale.range()[0] + this.rem * 0.35;
-          })
-          .z((datum) => { return datum.z; })
-          .data(zTicks),
-      );
+    const ticksUpdate = svgMerge.selectAll('.tick')
+      .data(lineStrips3D.data([
+        ...xScale.ticks(tickCount).map((tick) => {
+          return [
+            {
+              class: 'tick-x',
+              x: xScale(tick),
+              y: yScale.range()[0],
+              z: zScale.range()[0],
+            },
+            {
+              class: 'tick-x',
+              x: xScale(tick),
+              y: yScale.range()[0] + tickLength,
+              z: zScale.range()[0] + tickLength,
+            },
+          ];
+        }),
+        ...yScale.ticks(tickCount).map((tick) => {
+          return [
+            {
+              class: 'tick-y',
+              x: xScale.range()[0],
+              y: yScale(tick),
+              z: zScale.range()[1],
+            },
+            {
+              class: 'tick-y',
+              x: xScale.range()[0] - tickLength,
+              y: yScale(tick),
+              z: zScale.range()[1] - tickLength,
+            },
+          ];
+        }),
+        ...zScale.ticks(tickCount).map((tick) => {
+          return [
+            {
+              class: 'tick-z',
+              x: xScale.range()[0],
+              y: yScale.range()[0],
+              z: zScale(tick),
+            },
+            {
+              class: 'tick-z',
+              x: xScale.range()[0] - tickLength,
+              y: yScale.range()[0] + tickLength,
+              z: zScale(tick),
+            },
+          ];
+        }),
+      ]));
     //  ENTER
-    const ticksXEnter = ticksXUpdate.enter().append('path')
-      .attr('class', 'd3-3d tick tick-x');
-    const ticksYEnter = ticksYUpdate.enter().append('path')
-      .attr('class', 'd3-3d tick tick-y');
-    const ticksZEnter = ticksZUpdate.enter().append('path')
-      .attr('class', 'd3-3d tick tick-z');
-    // MERGE
-    const ticksXMerge = ticksXEnter.merge(ticksXUpdate)
+    const ticksEnter = ticksUpdate.enter().append('path')
+      .attr('class', (datum) => { return `d3-3d tick ${datum.class}`; });
+    //  MERGE
+    const ticksMerge = ticksEnter.merge(ticksUpdate)
       .attr('d', lineStrips3D.draw);
-    const ticksYMerge = ticksYEnter.merge(ticksYUpdate)
-      .attr('d', lineStrips3D.draw);
-    const ticksZMerge = ticksZEnter.merge(ticksZUpdate)
-      .attr('d', lineStrips3D.draw);
-    // EXIT
-    ticksXMerge.exit().remove();
-    ticksYMerge.exit().remove();
-    ticksZMerge.exit().remove();
+    //  EXIT
+    ticksMerge.exit().remove();
 
     // Axis Tick Labels
+    const labelCount = 5;
+    const labelOffset = this.rem * 0.375;
     //  DATA-JOIN
-    const labelPathsXUpdate = svgMerge.selectAll('.label-path-x')
+    const labelsUpdate = svgMerge.selectAll('.label')
       .data(
-        lineStrips3D
-          .x((datum) => { return datum.x; })
-          .y((datum) => {
-            return datum.id === 'min'
-              ? yScale.range()[0] + this.rem * 4
-              : yScale.range()[0] + this.rem * 0.5;
-          })
-          .z((datum) => {
-            return datum.id === 'min'
-              ? zScale.range()[0] + this.rem * 4
-              : zScale.range()[0] + this.rem * 0.5;
-          })
-          .data(xTicks),
-        (datum) => { return datum[0].label; },
-      );
-    const labelPathsYUpdate = svgMerge.selectAll('.label-path-y')
-      .data(
-        lineStrips3D
-          .x((datum) => {
-            return datum.id === 'min'
-              ? xScale.range()[0] - this.rem * 0.5
-              : xScale.range()[0] - this.rem * 4;
-          })
-          .y((datum) => { return datum.y; })
-          .z((datum) => {
-            return datum.id === 'min'
-              ? zScale.range()[1] - this.rem * 0.5
-              : zScale.range()[1] - this.rem * 4;
-          })
-          .data(yTicks),
-        (datum) => { return datum[0].label; },
-      );
-    const labelPathsZUpdate = svgMerge.selectAll('.label-path-z')
-      .data(
-        lineStrips3D
-          .x((datum) => {
-            return datum.id === 'min'
-              ? xScale.range()[0] - this.rem * 4
-              : xScale.range()[0] - this.rem * 0.5;
-          })
-          .y((datum) => {
-            return datum.id === 'min'
-              ? yScale.range()[0] + this.rem * 4
-              : yScale.range()[0] + this.rem * 0.5;
-          })
-          .z((datum) => { return datum.z; })
-          .data(zTicks),
-        (datum) => { return datum[0].label; },
-      );
-    const labelsXUpdate = svgMerge.selectAll('.label-x')
-      .data(
-        lineStrips3D
-          .x((datum) => { return datum.x; })
-          .y((datum) => {
-            return datum.id === 'min'
-              ? yScale.range()[0] + this.rem * 4
-              : yScale.range()[0] + this.rem * 0.5;
-          })
-          .z((datum) => {
-            return datum.id === 'min'
-              ? zScale.range()[0] + this.rem * 4
-              : zScale.range()[0] + this.rem * 0.5;
-          })
-          .data(xTicks),
-        (datum) => { return datum[0].label; },
-      );
-    const labelsYUpdate = svgMerge.selectAll('.label-y')
-      .data(
-        lineStrips3D
-          .x((datum) => {
-            return datum.id === 'min'
-              ? xScale.range()[0] - this.rem * 0.5
-              : xScale.range()[0] - this.rem * 4;
-          })
-          .y((datum) => { return datum.y; })
-          .z((datum) => {
-            return datum.id === 'min'
-              ? zScale.range()[1] - this.rem * 0.5
-              : zScale.range()[1] - this.rem * 4;
-          })
-          .data(yTicks),
-        (datum) => { return datum[0].label; },
-      );
-    const labelsZUpdate = svgMerge.selectAll('.label-z')
-      .data(
-        lineStrips3D
-          .x((datum) => {
-            return datum.id === 'min'
-              ? xScale.range()[0] - this.rem * 4
-              : xScale.range()[0] - this.rem * 0.5;
-          })
-          .y((datum) => {
-            return datum.id === 'min'
-              ? yScale.range()[0] + this.rem * 4
-              : yScale.range()[0] + this.rem * 0.5;
-          })
-          .z((datum) => { return datum.z; })
-          .data(zTicks),
-        (datum) => { return datum[0].label; },
+        points3d.data([
+          ...xScale.ticks(labelCount).map((tick) => {
+            return {
+              class: 'label-x',
+              label: xScale.tickFormat()(tick),
+              x: xScale(tick),
+              y: yScale.range()[0] + labelOffset,
+              z: zScale.range()[0] + labelOffset,
+              transform: 'rotateX(45deg)',
+            };
+          }),
+          ...yScale.ticks(labelCount).map((tick) => {
+            return {
+              class: 'label-y',
+              label: yScale.tickFormat()(tick),
+              x: xScale.range()[0] - labelOffset,
+              y: yScale(tick),
+              z: zScale.range()[1] - labelOffset,
+              transform: 'rotateY(-45deg)',
+            };
+          }),
+          ...zScale.ticks(labelCount).map((tick) => {
+            return {
+              class: 'label-z',
+              label: zScale.tickFormat()(tick),
+              x: xScale.range()[0] - labelOffset,
+              y: yScale.range()[0] + labelOffset,
+              z: zScale(tick),
+              transform: 'rotateY(-90deg) rotateX(45deg)',
+            };
+          }),
+        ]),
+        (datum) => { return `${datum.class}: ${datum.label}`; },
       );
     //  ENTER
-    const labelPathsXEnter = labelPathsXUpdate.enter().append('path')
-      .attr('class', 'd3-3d label-path label-path-x')
-      .attr('id', (datum, index) => { return `label-x-${index}`; });
-    const labelPathsYEnter = labelPathsYUpdate.enter().append('path')
-      .attr('class', 'd3-3d label-path label-path-y')
-      .attr('id', (datum, index) => { return `label-y-${index}`; });
-    const labelPathsZEnter = labelPathsZUpdate.enter().append('path')
-      .attr('class', 'd3-3d label-path label-path-z')
-      .attr('id', (datum, index) => { return `label-z-${index}`; });
-    const labelsXEnter = labelsXUpdate.enter().append('text')
-      .attr('class', 'd3-3d label label-x');
-    labelsXEnter
-      .append('textPath')
-      .attr('href', (datum, index) => { return `#label-x-${index}`; })
-      .attr('startOffset', '0%');
-    const labelsYEnter = labelsYUpdate.enter().append('text')
-      .attr('class', 'd3-3d label label-y');
-    labelsYEnter
-      .append('textPath')
-      .attr('href', (datum, index) => { return `#label-y-${index}`; })
-      .attr('startOffset', '100%');
-    const labelsZEnter = labelsZUpdate.enter().append('text')
-      .attr('class', 'd3-3d label label-z');
-    labelsZEnter
-      .append('textPath')
-      .attr('href', (datum, index) => { return `#label-z-${index}`; })
-      .attr('startOffset', '100%');
+    const labelsEnter = labelsUpdate.enter().append('text')
+      .attr('class', (datum) => { return `d3-3d label ${datum.class}`; });
     //  MERGE
-    const labelPathsXMerge = labelPathsXEnter.merge(labelPathsXUpdate)
-      .attr('d', lineStrips3D.draw);
-    const labelPathsYMerge = labelPathsYEnter.merge(labelPathsYUpdate)
-      .attr('d', lineStrips3D.draw);
-    const labelPathsZMerge = labelPathsZEnter.merge(labelPathsZUpdate)
-      .attr('d', lineStrips3D.draw);
-    const labelsXMerge = labelsXEnter.merge(labelsXUpdate)
-      .select('textPath')
-      .text((datum) => { return datum[0].label; });
-    const labelsYMerge = labelsYEnter.merge(labelsYUpdate)
-      .select('textPath')
-      .text((datum) => { return datum[0].label; });
-    const labelsZMerge = labelsZEnter.merge(labelsZUpdate)
-      .select('textPath')
-      .text((datum) => { return datum[0].label; });
-    // EXIT
-    labelPathsXMerge.exit().remove();
-    labelPathsYMerge.exit().remove();
-    labelPathsZMerge.exit().remove();
-    labelsXMerge.exit().remove();
-    labelsYMerge.exit().remove();
-    labelsZMerge.exit().remove();
+    const labelsMerge = labelsEnter.merge(labelsUpdate)
+      .style('transform', (datum) => {
+        return `
+          translate3D(${startOrigin.x + startRotationCenter.x}px, ${startOrigin.y + startRotationCenter.y}px, ${startRotationCenter.z}px)
+          rotateX(${startRotationX + this.rotationX}rad)
+          rotateY(${startRotationY + this.rotationY}rad)
+          rotateZ(${startRotationZ}rad)
+          translate3D(${-(startOrigin.x + startRotationCenter.x)}px, ${-(startOrigin.y + startRotationCenter.y)}px, ${-(startRotationCenter.z)}px)
+          translate3D(${startOrigin.x + datum.x}px, ${startOrigin.y + datum.y}px, ${datum.z}px)
+          ${datum.transform}
+        `;
+      })
+      .text((datum) => { return datum.label; });
+    //  EXIT
+    labelsMerge.exit().remove();
 
     // Points
     //  DATA-JOIN
@@ -1158,64 +983,32 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
     // Decision Maps
     //  DATA-JOIN
-    const mapXYUpdate = svgMerge.selectAll('.map-xy')
-      .data(
-        grid3d
+    const mapsUpdate = svgMerge.selectAll('.map')
+      .data([
+        ...grid3d
           .rows(d3.range(this.range.pw.start, this.range.pw.stop + 0.01, this.range.pw.step).length)
           .x((datum) => { return xScale(datum.xs); })
           .y((datum) => { return yScale(datum.pw); })
           .z((datum) => { return zScale(datum.xw); })
           .data(this.mapXY),
-      );
-    const mapXZUpdate = svgMerge.selectAll('.map-xz')
-      .data(
-        grid3d
+        ...grid3d
           .rows(d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step).length)
           .x((datum) => { return xScale(datum.xs); })
           .y((datum) => { return yScale(datum.pw); })
           .z((datum) => { return zScale(datum.xw); })
           .data(this.mapXZ),
-      );
-    const mapYZUpdate = svgMerge.selectAll('.map-yz')
-      .data(
-        grid3d
+        ...grid3d
           .rows(d3.range(this.range.xw.start, this.range.xw.stop + 0.01, this.range.xw.step).length)
           .x((datum) => { return xScale(datum.xs); })
           .y((datum) => { return yScale(datum.pw); })
           .z((datum) => { return zScale(datum.xw); })
           .data(this.mapYZ),
-      );
+      ]);
     //  ENTER
-    const mapXYEnter = mapXYUpdate.enter().append('path')
-      .attr('class', 'd3-3d map map-xy');
-    const mapXZEnter = mapXZUpdate.enter().append('path')
-      .attr('class', 'd3-3d map map-xz');
-    const mapYZEnter = mapYZUpdate.enter().append('path')
-      .attr('class', 'd3-3d map map-yz');
+    const mapsEnter = mapsUpdate.enter().append('path')
+      .attr('class', (datum) => { return `d3-3d map ${datum.class}`; });
     //  MERGE
-    mapXYEnter.merge(mapXYUpdate)
-      .attr('d', grid3d.draw)
-      .each((datum) => {
-        const surface = datum.ccw
-          ? points2surfaceNormal(datum[0].rotated, datum[1].rotated, datum[2].rotated)
-          : points2surfaceNormal(datum[2].rotated, datum[1].rotated, datum[0].rotated);
-        datum.ratio = cosineAngle(surface, lightSource) - 0.5;
-        datum.color = d3.color(colorScale(datum[0].uDiff)).brighter(datum.ratio);
-      })
-      .attr('fill', (datum) => { return datum.color; })
-      .attr('stroke', (datum) => { return datum.color; });
-    mapXZEnter.merge(mapXZUpdate)
-      .attr('d', grid3d.draw)
-      .each((datum) => {
-        const surface = datum.ccw
-          ? points2surfaceNormal(datum[0].rotated, datum[1].rotated, datum[2].rotated)
-          : points2surfaceNormal(datum[2].rotated, datum[1].rotated, datum[0].rotated);
-        datum.ratio = cosineAngle(surface, lightSource) - 0.5;
-        datum.color = d3.color(colorScale(datum[0].uDiff)).brighter(datum.ratio);
-      })
-      .attr('fill', (datum) => { return datum.color; })
-      .attr('stroke', (datum) => { return datum.color; });
-    mapYZEnter.merge(mapYZUpdate)
+    mapsEnter.merge(mapsUpdate)
       .attr('d', grid3d.draw)
       .each((datum) => {
         const surface = datum.ccw
@@ -1227,9 +1020,7 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
       .attr('fill', (datum) => { return datum.color; })
       .attr('stroke', (datum) => { return datum.color; });
     //  EXIT
-    mapXYUpdate.exit().remove();
-    mapXZUpdate.exit().remove();
-    mapYZUpdate.exit().remove();
+    mapsUpdate.exit().remove();
 
     // Depth sorting
     d3.select(this.renderRoot).selectAll('.d3-3d').sort(d33d.sort);
