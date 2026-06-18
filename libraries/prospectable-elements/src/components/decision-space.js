@@ -399,20 +399,13 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
         .title {
           font-weight: 600;
 
-          alignment-baseline: middle;
-
           text-anchor: middle;
-        }
-
-        .title tspan {
-          alignment-baseline: middle;
         }
 
         .title .subscript {
           font-size: 66.667%;
 
-          alignment-baseline: initial;
-          baseline-shift: sub;
+          baseline-shift: -25%;
         }
 
         .tick {
@@ -423,15 +416,11 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
         .label {
           font-size: 0.75rem;
 
-          alignment-baseline: hanging;
-
           text-anchor: middle;
         }
 
         .label-y {
-          alignment-baseline: central;
-
-          text-anchor: end;
+          dominant-baseline: central;
         }
 
         .point {
@@ -465,8 +454,6 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
         .legend .title {
           font-weight: 600;
-
-          alignment-baseline: middle;
 
           text-anchor: middle;
         }
@@ -807,7 +794,7 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
 
     // Axis Tick Labels
     const labelCount = 5;
-    const labelOffset = this.rem * 0.375;
+    const labelOffset = this.rem * 0.75;
     //  DATA-JOIN
     const labelsUpdate = svgMerge.selectAll('.label')
       .data(
@@ -1061,7 +1048,7 @@ export default class DecisionSpace extends DecidablesMixinResizeable(Prospectabl
     legendMerge.select('.title-legend')
       .attr(
         'transform',
-        `translate(${-this.rem * 2.5},${(legendScale(this.range.uDiff.start) + legendScale(this.range.uDiff.stop)) / 2})rotate(-90)`,
+        `translate(${-this.rem * 2.25},${(legendScale(this.range.uDiff.start) + legendScale(this.range.uDiff.stop)) / 2})rotate(-90)`,
       );
 
     // Color Legend Bar
