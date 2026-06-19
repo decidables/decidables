@@ -5,6 +5,7 @@ import {
   mouseClickElement,
   oneEvent,
   sendKeys,
+  setViewport,
   waitUntil,
 } from '../../../../scripts/test-utility';
 
@@ -186,6 +187,7 @@ describe('cpt-example-interactive', () => {
   });
 
   it('can propagate a cpt-parameters interaction', async () => {
+    await setViewport({width: 1280, height: 1600});
     const el = await fixture(html`
       <cpt-example-interactive alpha="0.75">
         <risky-choice interactive></risky-choice>
