@@ -2,6 +2,7 @@
 import {css, html, render} from 'lit';
 import * as d3 from 'd3';
 
+import '@decidables/decidables-elements/components/spinner';
 import DecidablesMixinResizeable from '@decidables/decidables-elements/mixins/mixin-resizeable';
 
 import ProspectableElement from '../prospectable-element';
