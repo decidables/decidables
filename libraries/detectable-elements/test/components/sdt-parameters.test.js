@@ -60,16 +60,16 @@ describe('sdt-parameters', () => {
   });
 
   it('can have an interactive variance slider', async () => {
-    const el = await fixture(html`<sdt-parameters interactive s="30"></sdt-parameters>`);
+    const el = await fixture(html`<sdt-parameters interactive s="35"></sdt-parameters>`);
     // Check "before" state
-    expect(el.s).to.equal(30);
+    expect(el.s).to.equal(35);
     expect(el.shadowRoot).to.have.descendant('decidables-slider');
     // Action
     const target = el.shadowRoot.querySelector('decidables-slider');
     setTimeout(() => { mouseClickElement(target); });
     const {detail} = await oneEvent(el, 'sdt-parameters-s');
     // Check "after" state
-    expect(+detail.s).to.be.below(30);
-    expect(el.s).to.be.below(30);
+    expect(+detail.s).to.be.below(35);
+    expect(el.s).to.be.below(35);
   });
 });
