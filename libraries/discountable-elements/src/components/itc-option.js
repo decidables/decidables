@@ -1,6 +1,8 @@
 
 import {css, html} from 'lit';
 
+import '@decidables/decidables-elements/components/spinner';
+
 import DiscountableElement from '../discountable-element';
 
 /*
