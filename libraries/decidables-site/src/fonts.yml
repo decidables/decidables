@@ -1,199 +1,202 @@
-# Fonts
-fonts:
-  # filename: {
-  #   category, package, family,
-  #   style, weight-name, weight, stretch
-  #   formats: {
-  #     format: {path, extension},
-  #     ...
-  #   },
-  # }
+{
+  # Fonts
+  fonts: {
+    # filename: {
+    #   category, package, family,
+    #   style, weight-name, weight, stretch,
+    #   formats: {
+    #     format: {path, extension},
+    #     ...
+    #   },
+    # },
 
-  # DejaVu Math
-  dejavu-math-latin-400-normal: {
-    category: math, package: '@fontsource/dejavu-math', family: DejaVu Math,
-    style: normal, weight-name: normal, weight: 400, stretch: normal,
-    formats: {
-      woff2: {path: files/, extension: woff2},
+    # DejaVu Math
+    dejavu-math-latin-400-normal: {
+      category: math, package: '@fontsource/dejavu-math', family: DejaVu Math,
+      style: normal, weight-name: normal, weight: 400, stretch: normal,
+      formats: {
+        woff2: {path: files/, extension: woff2},
+      },
     },
-  }
 
-  # Source Code Pro
-  SourceCodePro-Regular: {
-    category: monospace, package: source-code-pro, family: Source Code,
-    style: normal, weight-name: normal, weight: 400, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    # Source Code Pro
+    SourceCodePro-Regular: {
+      category: monospace, package: source-code-pro, family: Source Code,
+      style: normal, weight-name: normal, weight: 400, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceCodePro-It: {
-    category: monospace, package: source-code-pro, family: Source Code,
-    style: italic, weight-name: normal, weight: 400, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceCodePro-It: {
+      category: monospace, package: source-code-pro, family: Source Code,
+      style: italic, weight-name: normal, weight: 400, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceCodePro-Semibold: {
-    category: monospace, package: source-code-pro, family: Source Code,
-    style: normal, weight-name: semibold, weight: 600, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceCodePro-Semibold: {
+      category: monospace, package: source-code-pro, family: Source Code,
+      style: normal, weight-name: semibold, weight: 600, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceCodePro-SemiboldIt: {
-    category: monospace, package: source-code-pro, family: Source Code,
-    style: italic, weight-name: semibold, weight: 600, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceCodePro-SemiboldIt: {
+      category: monospace, package: source-code-pro, family: Source Code,
+      style: italic, weight-name: semibold, weight: 600, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceCodePro-Bold: {
-    category: monospace, package: source-code-pro, family: Source Code,
-    style: normal, weight-name: bold, weight: 700, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceCodePro-Bold: {
+      category: monospace, package: source-code-pro, family: Source Code,
+      style: normal, weight-name: bold, weight: 700, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceCodePro-BoldIt: {
-    category: monospace, package: source-code-pro, family: Source Code,
-    style: italic, weight-name: bold, weight: 700, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceCodePro-BoldIt: {
+      category: monospace, package: source-code-pro, family: Source Code,
+      style: italic, weight-name: bold, weight: 700, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
 
-  # Source Sans 3
-  SourceSans3-Regular: {
-    category: sans-serif, package: source-sans, family: Source Sans,
-    style: normal, weight-name: normal, weight: 400, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    # Source Sans 3
+    SourceSans3-Regular: {
+      category: sans-serif, package: source-sans, family: Source Sans,
+      style: normal, weight-name: normal, weight: 400, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSans3-It: {
-    category: sans-serif, package: source-sans, family: Source Sans,
-    style: italic, weight-name: normal, weight: 400, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceSans3-It: {
+      category: sans-serif, package: source-sans, family: Source Sans,
+      style: italic, weight-name: normal, weight: 400, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSans3-Semibold: {
-    category: sans-serif, package: source-sans, family: Source Sans,
-    style: normal, weight-name: semibold, weight: 600, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceSans3-Semibold: {
+      category: sans-serif, package: source-sans, family: Source Sans,
+      style: normal, weight-name: semibold, weight: 600, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSans3-SemiboldIt: {
-    category: sans-serif, package: source-sans, family: Source Sans,
-    style: italic, weight-name: semibold, weight: 600, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceSans3-SemiboldIt: {
+      category: sans-serif, package: source-sans, family: Source Sans,
+      style: italic, weight-name: semibold, weight: 600, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSans3-Bold: {
-    category: sans-serif, package: source-sans, family: Source Sans,
-    style: normal, weight-name: bold, weight: 700, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceSans3-Bold: {
+      category: sans-serif, package: source-sans, family: Source Sans,
+      style: normal, weight-name: bold, weight: 700, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSans3-BoldIt: {
-    category: sans-serif, package: source-sans, family: Source Sans,
-    style: italic, weight-name: bold, weight: 700, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceSans3-BoldIt: {
+      category: sans-serif, package: source-sans, family: Source Sans,
+      style: italic, weight-name: bold, weight: 700, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
 
-  # Source Serif 4
-  SourceSerif4-Regular: {
-    category: serif, package: source-serif, family: Source Serif,
-    style: normal, weight-name: normal, weight: 400, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    # Source Serif 4
+    SourceSerif4-Regular: {
+      category: serif, package: source-serif, family: Source Serif,
+      style: normal, weight-name: normal, weight: 400, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSerif4-It: {
-    category: serif, package: source-serif, family: Source Serif,
-    style: italic, weight-name: normal, weight: 400, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceSerif4-It: {
+      category: serif, package: source-serif, family: Source Serif,
+      style: italic, weight-name: normal, weight: 400, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSerif4-Semibold: {
-    category: serif, package: source-serif, family: Source Serif,
-    style: normal, weight-name: semibold, weight: 600, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceSerif4-Semibold: {
+      category: serif, package: source-serif, family: Source Serif,
+      style: normal, weight-name: semibold, weight: 600, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSerif4-SemiboldIt: {
-    category: serif, package: source-serif, family: Source Serif,
-    style: italic, weight-name: semibold, weight: 600, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceSerif4-SemiboldIt: {
+      category: serif, package: source-serif, family: Source Serif,
+      style: italic, weight-name: semibold, weight: 600, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSerif4-Bold: {
-    category: serif, package: source-serif, family: Source Serif,
-    style: normal, weight-name: bold, weight: 700, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceSerif4-Bold: {
+      category: serif, package: source-serif, family: Source Serif,
+      style: normal, weight-name: bold, weight: 700, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSerif4-BoldIt: {
-    category: serif, package: source-serif, family: Source Serif,
-    style: italic, weight-name: bold, weight: 700, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+    SourceSerif4-BoldIt: {
+      category: serif, package: source-serif, family: Source Serif,
+      style: italic, weight-name: bold, weight: 700, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/OTF/, extension: otf.woff2},
+      },
     },
-  }
 
-  # Source Code Pro Variable
-  SourceCodeVF-Upright: {
-    category: monospace, package: source-code-pro, family: Source Code Variable,
-    style: normal, weight-name: variable, weight: 200 900, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/VF/, extension: otf.woff2},
+    # Source Code Pro Variable
+    SourceCodeVF-Upright: {
+      category: monospace, package: source-code-pro, family: Source Code Variable,
+      style: normal, weight-name: variable, weight: 200 900, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/VF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceCodeVF-Italic: {
-    category: monospace, package: source-code-pro, family: Source Code Variable,
-    style: italic, weight-name: variable, weight: 200 900, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/VF/, extension: otf.woff2},
+    SourceCodeVF-Italic: {
+      category: monospace, package: source-code-pro, family: Source Code Variable,
+      style: italic, weight-name: variable, weight: 200 900, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/VF/, extension: otf.woff2},
+      },
     },
-  }
 
-  # Source Sans 3 Variable
-  SourceSans3VF-Upright: {
-    category: sans-serif, package: source-sans, family: Source Sans Variable,
-    style: normal, weight-name: variable, weight: 200 900, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/VF/, extension: otf.woff2},
+    # Source Sans 3 Variable
+    SourceSans3VF-Upright: {
+      category: sans-serif, package: source-sans, family: Source Sans Variable,
+      style: normal, weight-name: variable, weight: 200 900, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/VF/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSans3VF-Italic: {
-    category: sans-serif, package: source-sans, family: Source Sans Variable,
-    style: italic, weight-name: variable, weight: 200 900, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/VF/, extension: otf.woff2},
+    SourceSans3VF-Italic: {
+      category: sans-serif, package: source-sans, family: Source Sans Variable,
+      style: italic, weight-name: variable, weight: 200 900, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/VF/, extension: otf.woff2},
+      },
     },
-  }
 
-  # Source Serif 4 Variable
-  SourceSerif4Variable-Roman: {
-    category: serif, package: source-serif, family: Source Serif Variable,
-    style: normal, weight-name: variable, weight: 200 900, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/VAR/, extension: otf.woff2},
+    # Source Serif 4 Variable
+    SourceSerif4Variable-Roman: {
+      category: serif, package: source-serif, family: Source Serif Variable,
+      style: normal, weight-name: variable, weight: 200 900, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/VAR/, extension: otf.woff2},
+      },
     },
-  }
-  SourceSerif4Variable-Italic: {
-    category: serif, package: source-serif, family: Source Serif Variable,
-    style: italic, weight-name: variable, weight: 200 900, stretch: normal,
-    formats: {
-      woff2: {path: WOFF2/VAR/, extension: otf.woff2},
+    SourceSerif4Variable-Italic: {
+      category: serif, package: source-serif, family: Source Serif Variable,
+      style: italic, weight-name: variable, weight: 200 900, stretch: normal,
+      formats: {
+        woff2: {path: WOFF2/VAR/, extension: otf.woff2},
+      },
     },
-  }
+  },
+}
