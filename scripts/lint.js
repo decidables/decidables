@@ -30,7 +30,7 @@ export function lintMarkdown(callback) {
       pluginPrefix: 'remark',
       processor: remark,
       quiet: true,
-      rcName: '.remarkrc.json',
+      rcName: '.remarkrc.js',
       silentlyIgnore: true,
     },
     callback,

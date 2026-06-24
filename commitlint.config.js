@@ -1,0 +1,32 @@
+export default {
+  extends: [
+    '@commitlint/config-conventional',
+  ],
+  rules: {
+    'scope-empty': [2, 'never'],
+    'scope-enum': [2, 'always', [
+      'root',
+      'all',
+      'libraries',
+      'decidables-site',
+      'math',
+      'detectable-math',
+      'prospectable-math',
+      'discountable-math',
+      'accumulable-math',
+      'elements',
+      'decidables-elements',
+      'detectable-elements',
+      'prospectable-elements',
+      'discountable-elements',
+      'accumulable-elements',
+      'sites',
+      'decidables',
+      'dable',
+      'detectable',
+      'prospectable',
+      'discountable',
+      'accumulable',
+    ]],
+  },
+};
