@@ -8,6 +8,7 @@ import url from 'node:url';
 // devDependencies
 import citationJs from '@citation-js/core';
 import '@citation-js/plugin-csl';
+import coreJsPackageJson from 'core-js/package.json' with { type: 'json' };
 import cssnano from 'cssnano';
 import ejs from 'ejs';
 import fancyLog from 'fancy-log';
@@ -265,12 +266,13 @@ const pluginWebWorkerLoader = rollupPluginWebWorkerLoader({
   sourcemap: true,
 });
 const pluginBabel = rollupPluginBabel.babel({
-  presets: [['@babel/preset-env', {
-    bugfixes: true,
-    useBuiltIns: 'entry',
-    corejs: '3.48.0',
-  }]],
   babelHelpers: 'bundled',
+  plugins: [['polyfill-corejs3', {
+    method: 'entry-global',
+    version: coreJsPackageJson.version,
+  }]],
+  presets: [['@babel/preset-env', {
+  }]],
 });
 const pluginYaml = rollupPluginYaml();
 const pluginVisualizer = rollupPluginVisualizer({
