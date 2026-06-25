@@ -193,6 +193,7 @@ describe('ddm-model', () => {
       () => { return el.shadowRoot.querySelector('svg'); },
       'Element did not render children',
     );
+    await nextFrame();
     // Get "before" state
     const {z} = el;
     // Action
