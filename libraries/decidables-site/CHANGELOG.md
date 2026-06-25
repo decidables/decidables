@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.0](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.8.0...@decidables/decidables-site@0.9.0) (2026-06-25)
+
+### Features
+
+* **all:** make parameter naming cleaner and more consistent
+
+### Bug Fixes
+
+* **sites:** add `title` and `aria-label` to non-text menu links, closes [#27](https://github.com/decidables/decidables/issues/27)
+
+
 ## [0.8.0](https://github.com/decidables/decidables/compare/@decidables/decidables-site@0.7.1...@decidables/decidables-site@0.8.0) (2026-05-21)
 
 ### ⚠ BREAKING CHANGES

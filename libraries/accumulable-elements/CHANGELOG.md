@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.5.0...@decidables/accumulable-elements@0.6.0) (2026-06-25)
+
+### Features
+
+* **elements:** upgraded all `*-example` base classes with new `mixin-example`
+
+### Bug Fixes
+
+* **accumulable-elements:** fix formatting of subscript `0` in `t_0`, closes [#80](https://github.com/decidables/decidables/issues/80)
+* **accumulable-elements:** fix RT label event handling in `ddm-model`, closes [#85](https://github.com/decidables/decidables/issues/85)
+
+
 ## [0.5.0](https://github.com/decidables/decidables/compare/@decidables/accumulable-elements@0.4.0...@decidables/accumulable-elements@0.5.0) (2026-05-21)
 
 ### Features

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.0](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.8.0...@decidables/discountable-elements@0.9.0) (2026-06-25)
+
+### Features
+
+* **elements:** upgraded all `*-example` base classes with new `mixin-example`
+
+### Bug Fixes
+
+* **discountable-elements:** add `decidables-spinner` import to `itc-option`
+
+
 ## [0.8.0](https://github.com/decidables/decidables/compare/@decidables/discountable-elements@0.7.0...@decidables/discountable-elements@0.8.0) (2026-05-21)
 
 ### Features

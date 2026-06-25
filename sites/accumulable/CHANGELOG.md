@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.0](https://github.com/decidables/decidables/compare/@decidables/accumulable@0.7.6...@decidables/accumulable@0.8.0) (2026-06-25)
+
+### Features
+
+* **all:** make parameter naming cleaner and more consistent
+
+
 ## [0.7.6](https://github.com/decidables/decidables/compare/@decidables/accumulable@0.7.5...@decidables/accumulable@0.7.6) (2026-05-21)
 
 **Note:** Version bump only for package @decidables/accumulable

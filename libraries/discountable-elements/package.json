@@ -1,6 +1,6 @@
 {
   "name": "@decidables/discountable-elements",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "discountable-elements: Web Components for visualizing Hyperbolic Temporal Discounting",
   "keywords": [
     "web component",
@@ -54,7 +54,7 @@
     "gulp": "^5.0.1"
   },
   "dependencies": {
-    "@decidables/decidables-elements": "^0.7.0",
+    "@decidables/decidables-elements": "^0.8.0",
     "@decidables/discountable-math": "^0.2.6",
     "@lit-labs/motion": "^1.1.0",
     "@observablehq/plot": "^0.6.17",

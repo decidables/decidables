@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.5](https://github.com/decidables/decidables/compare/@decidables/dable@0.3.4...@decidables/dable@0.3.5) (2026-06-25)
+
+**Note:** Version bump only for package @decidables/dable
+
+
+
+
+
 ## [0.3.4](https://github.com/decidables/decidables/compare/@decidables/dable@0.3.3...@decidables/dable@0.3.4) (2026-05-21)
 
 **Note:** Version bump only for package @decidables/dable

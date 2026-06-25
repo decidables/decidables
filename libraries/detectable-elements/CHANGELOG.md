@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.0](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.7.0...@decidables/detectable-elements@0.8.0) (2026-06-25)
+
+### Features
+
+* **elements:** upgraded all `*-example` base classes with new `mixin-example`
+
+
 ## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/detectable-elements@0.6.0...@decidables/detectable-elements@0.7.0) (2026-05-21)
 
 ### Features

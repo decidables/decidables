@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.5](https://github.com/decidables/decidables/compare/@decidables/decidables@0.16.4...@decidables/decidables@0.16.5) (2026-06-25)
+
+### Bug Fixes
+
+* **sites:** add `title` and `aria-label` to non-text menu links, closes [#27](https://github.com/decidables/decidables/issues/27)
+
+
 ## [0.16.4](https://github.com/decidables/decidables/compare/@decidables/decidables@0.16.3...@decidables/decidables@0.16.4) (2026-05-21)
 
 **Note:** Version bump only for package @decidables/decidables

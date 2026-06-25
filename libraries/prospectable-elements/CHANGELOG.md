@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.0](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.7.0...@decidables/prospectable-elements@0.8.0) (2026-06-25)
+
+### Features
+
+* **all:** make parameter naming cleaner and more consistent
+* **elements:** upgraded all `*-example` base classes with new `mixin-example`
+* **prospectable-elements:** make text "visually stable" in 3D plots, closes [#92](https://github.com/decidables/decidables/issues/92)
+
+### Bug Fixes
+
+* **prospectable-elements:** correct text alignment for axis titles and tick labels, closes [#95](https://github.com/decidables/decidables/issues/95)
+* **prospectable-elements:** fix failing tests in `risky-choice` and `cpt-example-interactive`, closes [#97](https://github.com/decidables/decidables/issues/97)
+* **prospectable-elements:** increase width of `prospectable-response` feedback to avoid wrapping, closes [#46](https://github.com/decidables/decidables/issues/46)
+
+
 ## [0.7.0](https://github.com/decidables/decidables/compare/@decidables/prospectable-elements@0.6.0...@decidables/prospectable-elements@0.7.0) (2026-05-21)
 
 ### Features
