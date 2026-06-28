@@ -8,6 +8,7 @@ import util from 'node:util';
 import eslint from 'eslint';
 import {globby} from 'globby';
 import htmlhint from 'htmlhint';
+import * as jsYaml from 'js-yaml';
 import {remark} from 'remark';
 import stylelint from 'stylelint';
 import stylelintFormatterPretty from 'stylelint-formatter-pretty';
@@ -18,6 +19,36 @@ import vnuJar from 'vnu-jar';
 import {PATH} from './config.js';
 
 // Tasks
+export async function lintResources() {
+  const src = ['*.yml', `${PATH.SOURCE}/**/*.yml`];
+
+  const srcPaths = await globby(src);
+
+  const format = {
+    reset: '\x1b[0m',
+    bold: '\x1b[1m',
+    red: '\x1b[31m',
+    yellow: '\x1b[33m',
+  };
+
+  return Promise.all(
+    srcPaths.map(
+      async (srcPath) => {
+        try {
+          const content = await fs.promises.readFile(srcPath, {encoding: 'utf8'});
+          jsYaml.load(content);
+        } catch (error) {
+          console.group(`${format.bold}${format.red}lintResources${format.reset} ${format.red}(js-yaml)${format.reset}`);
+          console.group(`${format.yellow}${srcPath}${format.reset}`);
+          console.error(`${format.bold}${error.name}:${format.reset} ${error.message}`);
+          console.groupEnd();
+          console.groupEnd();
+        }
+      },
+    ),
+  );
+}
+
 export function lintMarkdown(callback) {
   const src = ['*.md', `${PATH.SOURCE}/**/*.md`];
 
