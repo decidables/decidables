@@ -18,6 +18,7 @@ export * from '../../scripts/build.js';
 export const clean = cleans.cleanLibrary;
 
 export const lint = gulp.parallel(
+  lints.lintResources,
   lints.lintMarkdown,
   lints.lintScripts,
   lints.lintStyles,

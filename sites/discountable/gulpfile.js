@@ -28,6 +28,7 @@ export const clean = gulp.parallel(
 );
 
 export const lint = gulp.parallel(
+  lints.lintResources,
   lints.lintMarkdown,
   gulp.series(develops.developMarkdown, lints.lintDevelopMarkup),
   lints.lintScripts,

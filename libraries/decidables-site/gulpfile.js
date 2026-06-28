@@ -10,6 +10,7 @@ export * from '../../scripts/lint.js';
 
 // Tasks
 export const lint = gulp.parallel(
+  lints.lintResources,
   lints.lintMarkdown,
   lints.lintScripts,
   lints.lintStyles,
